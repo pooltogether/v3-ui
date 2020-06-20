@@ -1,8 +1,6 @@
-# PoolTogether v3 - Reference Frontend.
+# PoolTogether Private App - v3
 
-The newest UI for communicating with the (unreleased) v3 PoolTogether protocol. 
-
-A demo of this app is live [here](https://reference-app.pooltogether.com).
+This is the private PoolTogether Inc. app for v3.
 
 To run the project against a local node you can use the [pooltogether-contracts](https://github.com/pooltogether/pooltogether-contracts/tree/version-3). With those contracts you can bootstrap a local Buidler EVM instance with test data so that you can develop the app locally.
 

@@ -51,15 +51,8 @@ export const Layout = (props) => {
               <div
                 className='text-blue-400 title text-base sm:text-3xl'
               >
-                v3.0 - Reference Pool Frontend
+                PoolTogether!
               </div>
-
-              <a
-                href='https://docs.pooltogether.com/contracts/prize-pool'
-                className='trans'
-              >
-                View documentation
-              </a>
             </div>
             
             <div
