@@ -1,0 +1,2 @@
+/pools/:networkName/:prizePoolAddress /pools/[networkName]/[prizePoolAddress].html 200
+/pools/:networkName                   /pools/[networkName].html               200
