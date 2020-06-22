@@ -19,6 +19,7 @@ export const NewApolloWrapper = (props) => {
         }
 
         const _client = await clientPromise
+        console.log(_client)
         setClient(_client)
       }
     }

@@ -9,11 +9,28 @@ export const PoolDataPoller = (
 ) => {
   const { children, client } = props
 
-  if (!client) {
+  console.log('found!')
+  console.log(client)
+
+  if (Object.keys(client).length === 0 && client.constructor === Object) {
+    console.log('always here')
     return null
   }
+  console.log('hi!')
 
-  const { loading, error, data } = useQuery(staticPoolQuery)
+  const { loading, error, data } = useQuery(staticPoolQuery, {
+    variables: {
+      poolAddress: '0x59A0ED7BE8117369BDd1cd2C4e3C35958C5149f1'.toLowerCase()
+    }
+  })
+  console.log('data', data)
+
+  // if (loading) return <p>Loading...</p>;
+  if (error) {
+    console.error(error)
+  } 
+
+  console.log( data)
 
   // const res = await fetch('https://api.thegraph.com/subgraphs/name/pooltogether/v3-kovan')
   // const poolData = await res.json()
