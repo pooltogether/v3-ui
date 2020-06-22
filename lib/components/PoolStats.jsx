@@ -8,27 +8,17 @@ import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const PoolStats = (props) => {
   const {
-    genericChainValues,
+    // genericChainValues,
   } = props
 
-  const [mountedAt, setMountedAt] = useState(0)
-  const [secondsToPrizeAtMount, setSecondsToPrizeAtMount] = useState(0)
-  const [secondsRemainingNow, setSecondsRemainingNow] = useState('--')
+  // const [secondsRemainingNow, setSecondsRemainingNow] = useState('--')
 
   useEffect(() => {
-    const set = () => {
-      setSecondsToPrizeAtMount(
-        parseInt(genericChainValues.prizePeriodRemainingSeconds.toString(), 10)
-      )
-      setMountedAt(parseInt(Date.now() / 1000, 10))
-    }
-    set()
-  }, [genericChainValues.canCompleteAward])
+    
+  }, [/*didUpdateVar?*/])
 
   useInterval(() => {
-    const diffInSeconds = parseInt(Date.now() / 1000, 10) - mountedAt
-    const remaining = secondsToPrizeAtMount - diffInSeconds
-    setSecondsRemainingNow(remaining <= 0 ? 0 : remaining)
+    
   }, 1000)
 
   return <>

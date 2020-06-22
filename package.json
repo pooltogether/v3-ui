@@ -10,6 +10,7 @@
     "distrelease": "yarn build"
   },
   "dependencies": {
+    "@apollo/client": "3.0.0-rc.0",
     "@pooltogether/etherplex": "^0.2.0",
     "@pooltogether/pooltogether-contracts": "3.0.0-alpha.22",
     "autoprefixer": "^9.8.1",
@@ -18,6 +19,7 @@
     "classnames": "^2.2.6",
     "ethers": "^4.0.47",
     "feather-icons-react": "^0.4.1",
+    "graphql": "^15.1.0",
     "js-cookie": "^2.2.1",
     "next": "9.4.4",
     "next-images": "^1.4.0",

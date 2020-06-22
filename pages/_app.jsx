@@ -2,6 +2,7 @@ import React from 'react'
 import dynamic from 'next/dynamic'
 
 import { Layout } from 'lib/components/Layout'
+import { PoolDataPoller } from 'lib/components/PoolDataPoller'
 
 import 'react-toastify/dist/ReactToastify.css'
 import 'assets/styles/index.css'
@@ -21,11 +22,16 @@ const DynamicWalletContextProvider = dynamic(() =>
 function MyApp({ Component, pageProps }) {
   return <>
     <DynamicWalletContextProvider>
-      <Layout>
-        <Component
-          {...pageProps}
-        />
-      </Layout>
+      <PoolDataPoller>
+        {(poolData) => {
+          return <Layout>
+            <Component
+              {...pageProps}
+              poolData={poolData}
+            />
+          </Layout>
+        }}
+      </PoolDataPoller>
     </DynamicWalletContextProvider>
   </>
 }
