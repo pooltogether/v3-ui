@@ -18,12 +18,18 @@ export const PoolDataPoller = (
   }
   console.log('hi!')
 
+  // combine more prize pool queries here?
   const { loading, error, data } = useQuery(staticPoolQuery, {
     variables: {
       poolAddress: '0x59A0ED7BE8117369BDd1cd2C4e3C35958C5149f1'.toLowerCase()
     }
   })
+
   console.log('data', data)
+  let daiPool
+  if (data && data.prizePools && data.prizePools.length > 0) {
+    daiPool = data.prizePools[0]
+  }
 
   // if (loading) return <p>Loading...</p>;
   if (error) {
@@ -34,7 +40,9 @@ export const PoolDataPoller = (
 
   // const res = await fetch('https://api.thegraph.com/subgraphs/name/pooltogether/v3-kovan')
   // const poolData = await res.json()
-  const poolData = {}
+  const poolData = {
+    daiPool
+  }
 
   return <>
     {children(poolData)}

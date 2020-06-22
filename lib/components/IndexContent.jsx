@@ -11,12 +11,24 @@ import UsdtSvg from 'assets/images/usdt.svg'
 export const IndexContent = (
   props,
 ) => {
+  const { poolData } = props
+  console.log({ poolData })
+  const { daiPool } = poolData || {}
+  console.log({ daiPool })
+
   const walletContext = useContext(WalletContext)
   const walletNetwork = walletContext._onboard.getState().network
 
   const kovanDaiPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'dai')
   const kovanUsdcPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'usdc')
   const kovanUsdtPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'usdt')
+
+  let dynamicallyLoadedContent
+  if (daiPool) {
+    dynamicallyLoadedContent = <>
+      Prize period in seconds: {daiPool.prizePeriodSeconds}
+    </>
+  }
 
   return <>
     <Link
@@ -30,6 +42,7 @@ export const IndexContent = (
         }}
       >
         <div className='flex items-center'>
+          {dynamicallyLoadedContent}
           <img src={DaiSvg} className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2' />
 
           <div>

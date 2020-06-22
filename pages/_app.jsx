@@ -29,6 +29,7 @@ function MyApp({ Component, pageProps }) {
             client={client}
           >
             {(poolData) => {
+              console.log({ poolData})
               return <Layout>
                 <Component
                   {...pageProps}
