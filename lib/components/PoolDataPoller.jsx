@@ -1,48 +1,60 @@
-import React, { useEffect } from 'react'
-import { useQuery, gql } from '@apollo/client'
+import React from 'react'
+import { useQuery } from '@apollo/client'
 
-import { staticPoolQuery } from 'lib/queries/staticPoolQuery'
-import { useInterval } from 'lib/hooks/useInterval'
+import {
+  CONTRACT_ADDRESSES,
+  MAINNET_POLLING_INTERVAL
+} from 'lib/constants'
+import { staticPrizePoolsQuery } from 'lib/queries/staticPrizePoolsQuery'
+import { nameToChainId } from 'lib/utils/nameToChainId'
 
 export const PoolDataPoller = (
   props,
 ) => {
+  let { chainId } = props
   const { children, client } = props
 
-  console.log('found!')
-  console.log(client)
+  let daiPool,
+    usdcPool,
+    usdtPool
 
+  // check if client is ready
   if (Object.keys(client).length === 0 && client.constructor === Object) {
-    console.log('always here')
     return null
   }
-  console.log('hi!')
+
+  if (!chainId) {
+    chainId = nameToChainId(process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME)
+  }
+  
+  const daiPoolAddress = CONTRACT_ADDRESSES[chainId].DAI_PRIZE_POOL_CONTRACT_ADDRESS.toLowerCase()
+  const usdcPoolAddress = CONTRACT_ADDRESSES[chainId].USDC_PRIZE_POOL_CONTRACT_ADDRESS.toLowerCase()
+  const usdtPoolAddress = CONTRACT_ADDRESSES[chainId].USDT_PRIZE_POOL_CONTRACT_ADDRESS.toLowerCase()
 
   // combine more prize pool queries here?
-  const { loading, error, data } = useQuery(staticPoolQuery, {
-    variables: {
-      poolAddress: '0x59A0ED7BE8117369BDd1cd2C4e3C35958C5149f1'.toLowerCase()
-    }
+  const { loading, error, data } = useQuery(staticPrizePoolsQuery, {
+    fetchPolicy: 'network-only',
+    pollInterval: MAINNET_POLLING_INTERVAL
   })
 
-  console.log('data', data)
-  let daiPool
   if (data && data.prizePools && data.prizePools.length > 0) {
-    daiPool = data.prizePools[0]
+    daiPool = data.prizePools.find(prizePool => daiPoolAddress === prizePool.id)
+    usdcPool = data.prizePools.find(prizePool => usdcPoolAddress === prizePool.id)
+    usdtPool = data.prizePools.find(prizePool => usdtPoolAddress === prizePool.id)
   }
 
-  // if (loading) return <p>Loading...</p>;
   if (error) {
     console.error(error)
-  } 
-
-  console.log( data)
-
-  // const res = await fetch('https://api.thegraph.com/subgraphs/name/pooltogether/v3-kovan')
-  // const poolData = await res.json()
-  const poolData = {
-    daiPool
   }
+
+  const poolData = {
+    daiPool,
+    usdcPool,
+    usdtPool,
+  }
+
+  console.log({poolData});
+  
 
   return <>
     {children(poolData)}

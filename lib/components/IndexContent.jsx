@@ -12,9 +12,7 @@ export const IndexContent = (
   props,
 ) => {
   const { poolData } = props
-  console.log({ poolData })
   const { daiPool } = poolData || {}
-  console.log({ daiPool })
 
   const walletContext = useContext(WalletContext)
   const walletNetwork = walletContext._onboard.getState().network

@@ -1,5 +1,7 @@
 export const SUPPORTED_NETWORKS = [3, 42, 31337, 1234]
 
+export const MAINNET_POLLING_INTERVAL = 15000
+
 export const CONTRACT_ADDRESSES = {
   1: {
     PRIZE_POOL_CONTRACT_ADDRESS: ''
