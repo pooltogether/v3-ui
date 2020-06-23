@@ -31,10 +31,9 @@ export const PoolDataPoller = (
   const usdcPoolAddress = CONTRACT_ADDRESSES[chainId].USDC_PRIZE_POOL_CONTRACT_ADDRESS.toLowerCase()
   const usdtPoolAddress = CONTRACT_ADDRESSES[chainId].USDT_PRIZE_POOL_CONTRACT_ADDRESS.toLowerCase()
 
-  // combine more prize pool queries here?
   const { loading, error, data } = useQuery(staticPrizePoolsQuery, {
     fetchPolicy: 'network-only',
-    pollInterval: MAINNET_POLLING_INTERVAL
+    // pollInterval: MAINNET_POLLING_INTERVAL
   })
 
   if (data && data.prizePools && data.prizePools.length > 0) {
@@ -52,9 +51,6 @@ export const PoolDataPoller = (
     usdcPool,
     usdtPool,
   }
-
-  console.log({poolData});
-  
 
   return <>
     {children(poolData)}

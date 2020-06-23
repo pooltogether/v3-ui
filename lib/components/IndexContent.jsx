@@ -12,7 +12,11 @@ export const IndexContent = (
   props,
 ) => {
   const { poolData } = props
-  const { daiPool } = poolData || {}
+  const {
+    daiPool,
+    usdcPool,
+    usdtPool,
+  } = poolData || {}
 
   const walletContext = useContext(WalletContext)
   const walletNetwork = walletContext._onboard.getState().network
@@ -21,10 +25,25 @@ export const IndexContent = (
   const kovanUsdcPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'usdc')
   const kovanUsdtPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'usdt')
 
-  let dynamicallyLoadedContent
+  let daiContent
   if (daiPool) {
-    dynamicallyLoadedContent = <>
-      Prize period in seconds: {daiPool.prizePeriodSeconds}
+    daiContent = <>
+      <h1>Static fragment</h1>
+      <p><span className='text-white'>Prize period in seconds:</span> {daiPool.prizePeriodSeconds}</p>
+      <p><span className='text-white'>RNG:</span> {daiPool.rng}</p>
+      <p><span className='text-white'>Ticket:</span> {daiPool.ticket}</p>
+      <p><span className='text-white'>Sponsorship:</span> {daiPool.sponsorship}</p>
+      <p><span className='text-white'>Creator:</span> {daiPool.creator}</p>
+      <p><span className='text-white'>Prize strategy:</span> {daiPool.prizeStrategy}</p>
+
+      <hr/>
+
+      <h1>Dynamic fragment</h1>
+      <p><span className='text-white'>Current Prize ID:</span> {daiPool.currentPrizeId}</p>
+      <p><span className='text-white'>Current State:</span> {daiPool.currentState}</p>
+      <p><span className='text-white'>Prize Period Started At:</span> {daiPool.prizePeriodStartedAt}</p>
+      <p><span className='text-white'>Previous Prize:</span> {daiPool.previousPrize}</p>
+      <p><span className='text-white'>Previous Prize Avg Tickets:</span> {daiPool.previousPrizeAverageTickets}</p>
     </>
   }
 
@@ -40,13 +59,14 @@ export const IndexContent = (
         }}
       >
         <div className='flex items-center'>
-          {dynamicallyLoadedContent}
           <img src={DaiSvg} className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2' />
 
           <div>
             <span className='text-blue-200 text-base'>Weekly DAI Pool</span>
           </div>
         </div>
+
+        {daiContent}
       </a>
     </Link>
 
