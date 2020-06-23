@@ -7,7 +7,7 @@ fs.copyFile('_redirects', './out/_redirects', err => {
   console.log('_redirects was copied to ./out/_redirects')
 })
 
-// fs.copyFile('robots.txt', './out/robots.txt', err => {
-//   if (err) throw err
-//   console.log('_redirects was copied to ./out/robots.txt')
-// })
+fs.copyFile('robots.txt', './out/robots.txt', err => {
+  if (err) throw err
+  console.log('_redirects was copied to ./out/robots.txt')
+})

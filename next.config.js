@@ -23,6 +23,7 @@ const allConfig =
         config.optimization.minimizer = []
 
         config.mode = isProduction ? 'production' : 'development'
+        config.devtool = isProduction ? 'hidden-source-map' : 'eval-source-map'
 
         var appVars = _.keys(process.env).filter(key => key.startsWith('NEXT_JS_'))
 

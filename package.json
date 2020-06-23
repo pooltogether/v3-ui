@@ -1,13 +1,48 @@
 {
-  "name": "ripcord",
-  "version": "0.1.0",
+  "name": "pool-app-v3",
+  "version": "3.0.0",
   "private": true,
+  "author": "PoolTogether Inc.",
+  "repository": "git@github.com:pooltogether/pool-app.git",
   "scripts": {
-    "dev": "next dev",
+    "compile-translations": "node ./scripts/compile-translations",
+    "dev": "NODE_ENV=dev yarn compile-translations && npm-run-all --parallel start:app start:server",
+    "distrelease": "yarn run test && yarn build && yarn dist && yarn release",
+    "start:app": "PORT=3000 node server.js",
+    "start:server": "netlify-lambda serve functions",
+    "postinstall": "netlify-lambda install",
     "build": "next build && next export && yarn postexport",
-    "start": "next start",
+    "dist": "yarn compile-translations && yarn build && netlify-lambda build functions",
+    "export": "next export",
     "postexport": "node post-export.js",
-    "distrelease": "yarn build"
+    "start": "NODE_ENV=production PORT=80 node server.js",
+    "test": "node post-export.js",
+    "testcov": "jest --coverage --coverageDirectory=coverage && open ./coverage/index.html",
+    "watch": "yarn run test --watch"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "lib/**/*.{ts,js}"
+    ],
+    "coverageReporters": [
+      "text",
+      "html"
+    ],
+    "moduleNameMapper": {
+      "^lib/(.*)$": "<rootDir>/lib/$1",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
+    "verbose": true
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "^9.4.4",
+    "babel-jest": "^26.1.0",
+    "colors": "^1.4.0",
+    "csvtojson": "^2.0.10",
+    "express": "^4.17.1",
+    "netlify-lambda": "^1.6.3",
+    "npm-run-all": "^4.1.5"
   },
   "dependencies": {
     "@apollo/client": "3.0.0-rc.0",
@@ -20,8 +55,10 @@
     "ethers": "^4.0.47",
     "feather-icons-react": "^0.4.1",
     "graphql": "^15.1.0",
+    "http-proxy-middleware": "^1.0.4",
     "js-cookie": "^2.2.1",
     "next": "9.4.4",
+    "next-i18next": "^4.5.0",
     "next-images": "^1.4.0",
     "postcss-easy-import": "^3.0.0",
     "react": "16.13.1",
@@ -32,8 +69,5 @@
     "rollup": "2.17.1",
     "tailwindcss": "^1.4.6",
     "webpack": "4"
-  },
-  "devDependencies": {
-    "@next/bundle-analyzer": "^9.4.4"
   }
 }
