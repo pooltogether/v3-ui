@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import {
   CONTRACT_ADDRESSES,
-  MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
 import { DynamicPrizePoolsQuery } from 'lib/components/queryComponents/dynamicPrizePoolsQuery'
 import { StaticPrizePoolsQuery } from 'lib/components/queryComponents/staticPrizePoolsQuery'
+import { WalletContext } from 'lib/components/WalletContextProvider'
 import { isEmptyObject } from 'lib/utils/isEmptyObject'
 import { nameToChainId } from 'lib/utils/nameToChainId'
 
@@ -25,7 +25,8 @@ export const PoolDataPoller = (
     usdtPool: {},
   }
 
-  let { chainId } = props
+  const walletContext = useContext(WalletContext)
+  let chainId = walletContext._onboard.getState().appNetworkId
   if (!chainId) {
     chainId = nameToChainId(process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME)
   }

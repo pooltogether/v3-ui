@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Link from 'next/link'
 
-import { WalletContext } from 'lib/components/WalletContextProvider'
 import { getDemoPoolContractAddress } from 'lib/utils/getDemoPoolContractAddress'
 
 import DaiSvg from 'assets/images/dai.svg'
@@ -17,9 +16,6 @@ export const IndexContent = (
     usdcPool,
     usdtPool,
   } = poolData || {}
-
-  const walletContext = useContext(WalletContext)
-  const walletNetwork = walletContext._onboard.getState().network
 
   const kovanDaiPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'dai')
   const kovanUsdcPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'usdc')
@@ -70,89 +66,87 @@ export const IndexContent = (
       </a>
     </Link>
 
-    {walletNetwork === 42 && <>
-      <div
-        className='flex -mx-2 justify-between text-xs sm:text-lg lg:text-xl'
-      >
-        <div className='w-full sm:w-1/3 px-2'>
-          <Link
-            href='/pools/[networkName]/[prizePoolAddress]'
-            as={`/pools/kovan/${kovanDaiPrizePoolContractAddress}`}
+    <div
+      className='flex -mx-2 justify-between text-xs sm:text-lg lg:text-xl'
+    >
+      <div className='w-full sm:w-1/3 px-2'>
+        <Link
+          href='/pools/[networkName]/[prizePoolAddress]'
+          as={`/pools/kovan/${kovanDaiPrizePoolContractAddress}`}
+        >
+          <a
+            className='w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 rounded-lg hover:border-purple-500'
           >
-            <a
-              className='w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 rounded-lg hover:border-purple-500'
-            >
-              <div className='flex items-center mt-2'>
-                <img src={DaiSvg} className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2' />
+            <div className='flex items-center mt-2'>
+              <img src={DaiSvg} className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2' />
 
-                <div>
-                  <span className='text-blue-200 text-base'>Weekly DAI Pool</span>
+              <div>
+                <span className='text-blue-200 text-base'>Weekly DAI Pool</span>
 
-                </div>
               </div>
+            </div>
 
-              {daiPool.ticket && <>
-                <p
-                  className='text-xs'
-                ><span className='m-0 text-white'>Ticket:</span><br/> {daiPool.ticket}</p>
-              </>}
-            </a>
-          </Link>
-        </div>
-
-        <div className='w-full sm:w-1/3 px-2'>
-          <Link
-            href='/pools/[networkName]/[prizePoolAddress]'
-            as={`/pools/kovan/${kovanUsdcPrizePoolContractAddress}`}
-          >
-            <a
-              className='w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 rounded-lg hover:border-purple-500'
-            >
-              <div className='flex items-center mt-2'>
-                <img src={UsdcSvg} className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2' />
-
-                <div>
-                  <span className='text-blue-200 text-base'>Daily USDC Pool</span>
-
-                </div>
-              </div>
-
-              {usdcPool.ticket && <>
-                <p
-                  className='text-xs'
-                ><span className='m-0 text-white'>Ticket:</span><br/> {usdcPool.ticket}</p>
-              </>}
-            </a>
-          </Link>
-        </div>
-
-        <div className='w-full sm:w-1/3 px-2'>
-          <Link
-            href='/pools/[networkName]/[prizePoolAddress]'
-            as={`/pools/kovan/${kovanUsdtPrizePoolContractAddress}`}
-          >
-            <a
-              className='w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 rounded-lg hover:border-purple-500'
-            >
-              <div className='flex items-center mt-2'>
-                <img src={UsdtSvg} className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2' />
-
-                <div>
-                  <span className='text-blue-200 text-base'>Monthly Tether Pool</span>
-                </div>
-              </div>
-
-              {usdtPool.ticket && <>
-                <p
-                  className='text-xs'
-                ><span className='m-0 text-white'>Ticket:</span><br/> {usdtPool.ticket}</p>
-              </>}
-            </a>
-          </Link>
-        </div>
-        
+            {daiPool.ticket && <>
+              <p
+                className='text-xs'
+              ><span className='m-0 text-white'>Ticket:</span><br/> {daiPool.ticket}</p>
+            </>}
+          </a>
+        </Link>
       </div>
-    </>}
+
+      <div className='w-full sm:w-1/3 px-2'>
+        <Link
+          href='/pools/[networkName]/[prizePoolAddress]'
+          as={`/pools/kovan/${kovanUsdcPrizePoolContractAddress}`}
+        >
+          <a
+            className='w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 rounded-lg hover:border-purple-500'
+          >
+            <div className='flex items-center mt-2'>
+              <img src={UsdcSvg} className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2' />
+
+              <div>
+                <span className='text-blue-200 text-base'>Daily USDC Pool</span>
+
+              </div>
+            </div>
+
+            {usdcPool.ticket && <>
+              <p
+                className='text-xs'
+              ><span className='m-0 text-white'>Ticket:</span><br/> {usdcPool.ticket}</p>
+            </>}
+          </a>
+        </Link>
+      </div>
+
+      <div className='w-full sm:w-1/3 px-2'>
+        <Link
+          href='/pools/[networkName]/[prizePoolAddress]'
+          as={`/pools/kovan/${kovanUsdtPrizePoolContractAddress}`}
+        >
+          <a
+            className='w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 rounded-lg hover:border-purple-500'
+          >
+            <div className='flex items-center mt-2'>
+              <img src={UsdtSvg} className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2' />
+
+              <div>
+                <span className='text-blue-200 text-base'>Monthly Tether Pool</span>
+              </div>
+            </div>
+
+            {usdtPool.ticket && <>
+              <p
+                className='text-xs'
+              ><span className='m-0 text-white'>Ticket:</span><br/> {usdtPool.ticket}</p>
+            </>}
+          </a>
+        </Link>
+      </div>
+      
+    </div>
   
   </>
 }
