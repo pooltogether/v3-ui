@@ -16,7 +16,7 @@
     "export": "next export",
     "postexport": "node post-export.js",
     "start": "NODE_ENV=production PORT=80 node server.js",
-    "test": "node post-export.js",
+    "test": "jest",
     "testcov": "jest --coverage --coverageDirectory=coverage && open ./coverage/index.html",
     "watch": "yarn run test --watch"
   },
@@ -41,6 +41,7 @@
     "colors": "^1.4.0",
     "csvtojson": "^2.0.10",
     "express": "^4.17.1",
+    "jest": "^26.1.0",
     "netlify-lambda": "^1.6.3",
     "npm-run-all": "^4.1.5"
   },
