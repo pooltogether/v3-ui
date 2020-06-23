@@ -7,7 +7,7 @@ import { staticPrizePoolFragment } from 'lib/fragments/staticPrizePoolFragment'
 // This could be a huge performance hit if there are tons of prizePools
 
 export const staticPrizePoolsQuery = gql`
-  query prizePoolsQuery {
+  query staticPrizePoolsQuery {
     prizePools {
       ...staticPrizePoolFragment
     }

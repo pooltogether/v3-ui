@@ -28,7 +28,7 @@ export const IndexContent = (
   let daiContent
   if (daiPool) {
     daiContent = <>
-      <h1>Static fragment</h1>
+      <h1 className='text-blue-500'>Static fragment</h1>
       <p><span className='text-white'>Prize period in seconds:</span> {daiPool.prizePeriodSeconds}</p>
       <p><span className='text-white'>RNG:</span> {daiPool.rng}</p>
       <p><span className='text-white'>Ticket:</span> {daiPool.ticket}</p>
@@ -38,7 +38,7 @@ export const IndexContent = (
 
       <hr/>
 
-      <h1>Dynamic fragment</h1>
+      <h1 className='text-blue-500'>Dynamic fragment</h1>
       <p><span className='text-white'>Current Prize ID:</span> {daiPool.currentPrizeId}</p>
       <p><span className='text-white'>Current State:</span> {daiPool.currentState}</p>
       <p><span className='text-white'>Prize Period Started At:</span> {daiPool.prizePeriodStartedAt}</p>
@@ -58,7 +58,7 @@ export const IndexContent = (
           minHeight: 600
         }}
       >
-        <div className='flex items-center'>
+        <div className='flex items-center mt-2'>
           <img src={DaiSvg} className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2' />
 
           <div>
@@ -82,7 +82,7 @@ export const IndexContent = (
             <a
               className='w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 rounded-lg hover:border-purple-500'
             >
-              <div className='flex items-center'>
+              <div className='flex items-center mt-2'>
                 <img src={DaiSvg} className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2' />
 
                 <div>
@@ -90,6 +90,12 @@ export const IndexContent = (
 
                 </div>
               </div>
+
+              {daiPool.ticket && <>
+                <p
+                  className='text-xs'
+                ><span className='m-0 text-white'>Ticket:</span><br/> {daiPool.ticket}</p>
+              </>}
             </a>
           </Link>
         </div>
@@ -102,7 +108,7 @@ export const IndexContent = (
             <a
               className='w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 rounded-lg hover:border-purple-500'
             >
-              <div className='flex items-center'>
+              <div className='flex items-center mt-2'>
                 <img src={UsdcSvg} className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2' />
 
                 <div>
@@ -110,6 +116,12 @@ export const IndexContent = (
 
                 </div>
               </div>
+
+              {usdcPool.ticket && <>
+                <p
+                  className='text-xs'
+                ><span className='m-0 text-white'>Ticket:</span><br/> {usdcPool.ticket}</p>
+              </>}
             </a>
           </Link>
         </div>
@@ -122,14 +134,19 @@ export const IndexContent = (
             <a
               className='w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 rounded-lg hover:border-purple-500'
             >
-              <div className='flex items-center'>
+              <div className='flex items-center mt-2'>
                 <img src={UsdtSvg} className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2' />
 
                 <div>
                   <span className='text-blue-200 text-base'>Monthly Tether Pool</span>
-
                 </div>
               </div>
+
+              {usdtPool.ticket && <>
+                <p
+                  className='text-xs'
+                ><span className='m-0 text-white'>Ticket:</span><br/> {usdtPool.ticket}</p>
+              </>}
             </a>
           </Link>
         </div>

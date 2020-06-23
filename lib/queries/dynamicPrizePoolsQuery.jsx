@@ -7,7 +7,7 @@ import { dynamicPrizePoolFragment } from 'lib/fragments/dynamicPrizePoolFragment
 // This could be a huge performance hit if there are tons of prizePools
 
 export const dynamicPrizePoolsQuery = gql`
-  query prizePoolsQuery {
+  query dynamicPrizePoolsQuery {
     prizePools {
       ...dynamicPrizePoolFragment
     }

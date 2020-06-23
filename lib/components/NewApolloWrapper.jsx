@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-// import { ApolloProvider } from 'react-apollo'
 import { ApolloProvider } from '@apollo/client'
+// import { ApolloProvider } from 'react-apollo'
 
 import { newApolloClient } from 'lib/apollo/newApolloClient'
 // import { ProviderManager } from 'lib/apollo/ProviderManager'
