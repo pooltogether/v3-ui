@@ -4,7 +4,7 @@ import CompoundPeriodicPrizePoolAbi from '@pooltogether/pooltogether-contracts/a
 
 import { Button } from 'lib/components/Button'
 import { TxMessage } from 'lib/components/TxMessage'
-import { WalletContext } from 'lib/components/WalletContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { sendTx } from 'lib/utils/sendTx'
 
 const handleStartAwardSubmit = async (

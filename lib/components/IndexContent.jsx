@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Link from 'next/link'
 
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { getDemoPoolContractAddress } from 'lib/utils/getDemoPoolContractAddress'
 
 import DaiSvg from 'assets/images/dai.svg'
@@ -10,19 +11,25 @@ import UsdtSvg from 'assets/images/usdt.svg'
 export const IndexContent = (
   props,
 ) => {
-  const { poolData } = props
-  const {
+  const poolDataContext = useContext(PoolDataContext)
+  let poolData,
     daiPool,
     usdcPool,
-    usdtPool,
-  } = poolData || {}
+    usdtPool
+
+  if (poolDataContext && poolDataContext.poolData) {
+    poolData = poolDataContext.poolData
+    daiPool = poolData.daiPool
+    usdcPool = poolData.usdcPool
+    usdtPool = poolData.usdtPool
+  }
 
   const kovanDaiPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'dai')
   const kovanUsdcPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'usdc')
   const kovanUsdtPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'usdt')
 
   let daiContent
-  if (daiPool) {
+  if (daiPool && daiPool.ticket) {
     daiContent = <>
       <h1 className='text-blue-500'>Static fragment</h1>
       <p><span className='text-white'>Prize period in seconds:</span> {daiPool.prizePeriodSeconds}</p>
@@ -86,7 +93,7 @@ export const IndexContent = (
               </div>
             </div>
 
-            {daiPool.ticket && <>
+            {daiPool && daiPool.ticket && <>
               <p
                 className='text-xs'
               ><span className='m-0 text-white'>Ticket:</span><br/> {daiPool.ticket}</p>
@@ -112,7 +119,7 @@ export const IndexContent = (
               </div>
             </div>
 
-            {usdcPool.ticket && <>
+            {usdcPool && usdcPool.ticket && <>
               <p
                 className='text-xs'
               ><span className='m-0 text-white'>Ticket:</span><br/> {usdcPool.ticket}</p>
@@ -137,7 +144,7 @@ export const IndexContent = (
               </div>
             </div>
 
-            {usdtPool.ticket && <>
+            {usdtPool && usdtPool.ticket && <>
               <p
                 className='text-xs'
               ><span className='m-0 text-white'>Ticket:</span><br/> {usdtPool.ticket}</p>

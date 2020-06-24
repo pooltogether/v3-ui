@@ -5,7 +5,7 @@ import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 
 import { DepositForm } from 'lib/components/DepositForm'
 import { TxMessage } from 'lib/components/TxMessage'
-import { WalletContext } from 'lib/components/WalletContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { sendTx } from 'lib/utils/sendTx'
 
 const handleUnlockSubmit = async (

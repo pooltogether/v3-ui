@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { LoadingDots } from 'lib/components/LoadingDots'
 import { shortenAddress } from 'lib/utils/shortenAddress'
-import { WalletContext } from 'lib/components/WalletContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 
 export const TxMessage = (props) => {
   const walletContext = useContext(WalletContext)

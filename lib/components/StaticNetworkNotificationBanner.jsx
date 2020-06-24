@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 
 import { SUPPORTED_NETWORKS } from 'lib/constants'
-import { WalletContext } from 'lib/components/WalletContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { chainIdToName } from 'lib/utils/chainIdToName'
 
 export const StaticNetworkNotificationBanner = ({

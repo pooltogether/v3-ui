@@ -5,7 +5,7 @@ import {
 } from 'lib/constants'
 import { DynamicPrizePoolsQuery } from 'lib/components/queryComponents/dynamicPrizePoolsQuery'
 import { StaticPrizePoolsQuery } from 'lib/components/queryComponents/staticPrizePoolsQuery'
-import { WalletContext } from 'lib/components/WalletContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { isEmptyObject } from 'lib/utils/isEmptyObject'
 import { nameToChainId } from 'lib/utils/nameToChainId'
 
@@ -44,7 +44,6 @@ export const PoolDataPoller = (
       poolData={poolData}
     >
       {(poolData) => {
-        console.log({ poolData})
         return <StaticPrizePoolsQuery
           {...props}
           addresses={addresses}

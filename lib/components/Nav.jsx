@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import Link from 'next/link'
 
-import { WalletContext } from 'lib/components/WalletContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { WalletInfo } from 'lib/components/WalletInfo'
 
 import PoolLogo from 'assets/images/pooltogether-white-wordmark.svg'

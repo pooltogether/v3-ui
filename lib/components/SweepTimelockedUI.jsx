@@ -4,7 +4,7 @@ import CompoundPeriodicPrizePoolAbi from '@pooltogether/pooltogether-contracts/a
 
 import { SweepTimelockedForm } from 'lib/components/SweepTimelockedForm'
 import { TxMessage } from 'lib/components/TxMessage'
-import { WalletContext } from 'lib/components/WalletContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { sendTx } from 'lib/utils/sendTx'
 
 const handleSweepTimelockedSubmit = async (

@@ -7,7 +7,7 @@ import CompoundPeriodicPrizePoolAbi from '@pooltogether/pooltogether-contracts/a
 import { useDebounce } from 'lib/hooks/useDebounce'
 import { WithdrawForm } from 'lib/components/WithdrawForm'
 import { TxMessage } from 'lib/components/TxMessage'
-import { WalletContext } from 'lib/components/WalletContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { fetchExitFee } from 'lib/utils/fetchExitFee'
 import { poolToast } from 'lib/utils/poolToast'
 import { sendTx } from 'lib/utils/sendTx'

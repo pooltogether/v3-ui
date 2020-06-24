@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 
-import { WalletContext } from 'lib/components/WalletContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { networkColorClassname } from 'lib/utils/networkColorClassname'
 import { chainIdToName } from 'lib/utils/chainIdToName'
 import { shortenAddress } from 'lib/utils/shortenAddress'

@@ -2,8 +2,7 @@ import React from 'react'
 import dynamic from 'next/dynamic'
 
 import { Layout } from 'lib/components/Layout'
-import { NewApolloWrapper } from 'lib/components/NewApolloWrapper'
-import { PoolDataPoller } from 'lib/components/PoolDataPoller'
+import { PoolDataContextProvider } from 'lib/components/contextProviders/PoolDataContextProvider'
 
 import 'react-toastify/dist/ReactToastify.css'
 import 'assets/styles/index.css'
@@ -16,30 +15,20 @@ import 'assets/styles/animations.css'
 import 'assets/styles/transitions.css'
 
 const DynamicWalletContextProvider = dynamic(() =>
-  import('lib/components/WalletContextProvider').then(mod => mod.WalletContextProvider),
+  import('lib/components/contextProviders/WalletContextProvider').then(mod => mod.WalletContextProvider),
   { ssr: false }
 )
 
 function MyApp({ Component, pageProps }) {
   return <>
     <DynamicWalletContextProvider>
-      <NewApolloWrapper>
-        {(client) => {
-          return <PoolDataPoller
-            client={client}
-          >
-            {(poolData) => {
-              return <Layout>
-                <Component
-                  {...pageProps}
-                  client={client}
-                  poolData={poolData}
-                />
-              </Layout>
-            }}
-          </PoolDataPoller>
-        }}
-      </NewApolloWrapper>
+      <PoolDataContextProvider>
+        <Layout>
+          <Component
+            {...pageProps}
+          />
+        </Layout>
+      </PoolDataContextProvider>
     </DynamicWalletContextProvider>
   </>
 }
