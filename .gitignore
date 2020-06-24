@@ -32,3 +32,10 @@ yarn-error.log*
 
 # VSCode
 .history
+.vscode
+
+dist
+out
+functions-out
+public/static/locales/*
+public/static/locales
