@@ -1,8 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { getDemoPoolContractAddress } from 'lib/utils/getDemoPoolContractAddress'
 
 import DaiSvg from 'assets/images/dai.svg'
@@ -54,9 +53,11 @@ export const PoolRow = (
   //     <V3LoadingDots />
   //   </div>
   // }
+  console.log('row with id', `pool-container-${pool.id}`)
 
   return <>
     <motion.div
+      layoutId={`pool-container-${pool.id}`}
       variants={{
         enter: {
           scale: 1,
@@ -64,12 +65,12 @@ export const PoolRow = (
             duration: 0.1
           }
         },
-        exit: {
-          scale: 0.9,
-          transition: {
-            duration: 0.1
-          }
-        },
+        // exit: {
+        //   scale: 0.9,
+        //   transition: {
+        //     duration: 0.1
+        //   }
+        // },
       }}
       whileHover={{
         scale: 1.02
@@ -82,7 +83,7 @@ export const PoolRow = (
         scroll={false}
       >
         <motion.a
-          className='w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 hover:border-purple-500 rounded-lg'
+          className='cursor-pointer w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 hover:border-purple-500 rounded-lg'
           style={{
             minHeight: 120
           }}
@@ -94,7 +95,7 @@ export const PoolRow = (
             />
 
             <div>
-              <span className='text-green-200 text-base'>Daily {name} Pool</span>
+              <span className=' text-base'>Daily {name} Pool</span>
             </div>
           </div>
 

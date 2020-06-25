@@ -1,7 +1,7 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimateSharedLayout, AnimatePresence, motion } from 'framer-motion'
 
 import { Layout } from 'lib/components/Layout'
 import { PoolDataContextProvider } from 'lib/components/contextProviders/PoolDataContextProvider'
@@ -35,10 +35,10 @@ function MyApp({ Component, pageProps }) {
       <PoolDataContextProvider>
         <Layout>
           {/* <AnimateSharedLayout transition={{ duration: 2 }}> */}
-          {/* <AnimateSharedLayout type='crossfade'> */}
+          <AnimateSharedLayout type='crossfade'>
             <AnimatePresence
-              exitBeforeEnter
-              onExitComplete={handleExitComplete}
+              // exitBeforeEnter
+              // onExitComplete={handleExitComplete}
             >
               {console.log('rendering:', router.asPath)}
               <Component
@@ -46,7 +46,7 @@ function MyApp({ Component, pageProps }) {
                 key={router.asPath}
               />
             </AnimatePresence>
-          {/* </AnimateSharedLayout> */}
+          </AnimateSharedLayout>
         </Layout>
       </PoolDataContextProvider>
     </DynamicWalletContextProvider>

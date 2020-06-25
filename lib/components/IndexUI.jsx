@@ -1,19 +1,15 @@
 import React, { useContext } from 'react'
-import Link from 'next/link'
-import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { PoolRow } from 'lib/components/PoolRow'
-import { V3LoadingDots } from 'lib/components/V3LoadingDots'
+import { PoolList } from 'lib/components/PoolList'
+import { PoolShow } from 'lib/components/PoolShow'
 
 export const IndexUI = (
   props,
 ) => {
-  console.log('at useRouter')
   const router = useRouter()
 
-  console.log('at useContext')
   const poolDataContext = useContext(PoolDataContext)
   let poolData,
     daiPool,
@@ -26,58 +22,25 @@ export const IndexUI = (
     usdcPool = poolData.usdcPool
     usdtPool = poolData.usdtPool
   }
-  
+
   return <>
-    
-      <motion.div
-        layoutId={router.asPath}
-        className='flex flex-col -mx-2 text-xs sm:text-lg lg:text-xl'
-        initial='initial'
-        animate='enter'
-        exit='exit'
-        variants={{
-          exit: {
-            // scale: 0.6,
-            // y: 100,
-            opacity: 0,
-            transition: {
-              duration: 0.5,
-              staggerChildren: 0.1 
-            } 
-          },
-          enter: {
-            transition: {
-              duration: 0.5,
-              staggerChildren: 0.1
-            }
-          },
-          initial: {
-            y: 0,
-            opacity: 1,
-            transition: {
-              duration: 0.2
-            }
-          }
-        }}
-      >
-        <h1
-          className='px-3 text-purple-500'
-        >
-          Pools
-        </h1>
-        <PoolRow
-          pool={poolData.daiPool}
-        />
+    <h1
+      className='px-3 text-purple-500'
+    >
+      Pools
+    </h1>
 
-        <PoolRow
-          pool={poolData.usdcPool}
-        />
+    {daiPool.id && <>
+      <PoolList
+        pools={[
+          daiPool,
+          usdcPool,
+          usdtPool,
+        ]}
+      />
+    </>}
 
-        <PoolRow
-          pool={poolData.usdtPool}
-        />
-      </motion.div>
-  
+    <PoolShow />
   </>
 }
 

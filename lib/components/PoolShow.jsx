@@ -29,11 +29,12 @@ const renderErrorMessage = (
   poolToast.error(errorMsg)
 }
 
-export const PoolUI = (
+export const PoolShow = (
   props,
 ) => {
   let error
   const router = useRouter()
+  const poolId = router.query.prizePoolAddress
   
   const networkName = router.query.networkName
   const prizePool = router.query.prizePoolAddress
@@ -129,8 +130,11 @@ export const PoolUI = (
       UsdcSvg :
       UsdtSvg
 
+  console.log('show with id', `pool-container-${poolId}`)
+
   return <>
     <motion.div
+      layoutId={`pool-container-${poolId}`}
       initial='initial'
       animate='enter'
       exit='exit'
@@ -161,15 +165,15 @@ export const PoolUI = (
     >
       {error}
       
-        {genericChainValues.loading ?
+        {/* {genericChainValues.loading ?
           <div
             className='text-center text-xl'
           >
             <LoadingDots />
             <br/>
             Fetching chain values ...
-          </div>
-        : <>
+          </div> */}
+        <>
           <div className='px-4 sm:px-8 lg:px-10 py-4 sm:py-6 text-center rounded-lg'>
             <img
               src={tokenSvg}
@@ -249,7 +253,8 @@ export const PoolUI = (
               usersChainValues={usersChainValues}
             />
           </div>
-        </>}
+        </>
+        {/* } */}
       </motion.div>
   </>
 }

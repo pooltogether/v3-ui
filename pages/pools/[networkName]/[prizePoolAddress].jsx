@@ -1,7 +1,7 @@
-import { PoolUI } from 'lib/components/PoolUI'
+import { IndexUI } from 'lib/components/IndexUI'
 
 export default function IndexPage() {
   return <>
-    <PoolUI />
+    <IndexUI />
   </>
 }

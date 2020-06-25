@@ -373,3 +373,11 @@ input[type="text"] {
     width: 100%;
   }
 }
+
+.bn-onboard-modal {
+  z-index: 100000;
+}
+
+.bn-onboard-modal-custom {
+  z-index: 200000;
+}
