@@ -1,8 +1,8 @@
-import { IndexContent } from 'lib/components/IndexContent'
+import { IndexUI } from 'lib/components/IndexUI'
 
 export default function IndexPage(props) {
   return <>
-    <IndexContent
+    <IndexUI
       {...props}
     />
   </>

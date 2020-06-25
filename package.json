@@ -55,6 +55,7 @@
     "classnames": "^2.2.6",
     "ethers": "^4.0.47",
     "feather-icons-react": "^0.4.1",
+    "framer-motion": "^1.11.1",
     "graphql": "^15.1.0",
     "http-proxy-middleware": "^1.0.4",
     "js-cookie": "^2.2.1",
