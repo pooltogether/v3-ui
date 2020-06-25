@@ -27,6 +27,7 @@ export const Nav = (props) => {
           <Link
             href='/'
             as='/'
+            scroll={false}
           >
             <a
               title={'Back to home'}

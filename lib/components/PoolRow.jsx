@@ -57,12 +57,18 @@ export const PoolRow = (
 
   return <>
     <motion.div
-      // initial='hidden'
-      // animate='visible'
       variants={{
-        hidden: { scale: 0.7 },
-        visible: {
+        enter: {
           scale: 1,
+          transition: {
+            duration: 0.1
+          }
+        },
+        exit: {
+          scale: 0.9,
+          transition: {
+            duration: 0.1
+          }
         },
       }}
       whileHover={{
@@ -73,6 +79,7 @@ export const PoolRow = (
       <Link
         href='/pools/[networkName]/[prizePoolAddress]'
         as={`/pools/kovan/${pool.id}`}
+        scroll={false}
       >
         <motion.a
           className='w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 hover:border-purple-500 rounded-lg'

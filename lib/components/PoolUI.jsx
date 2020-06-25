@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
+import { motion } from 'framer-motion'
 
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { FormLockedOverlay } from 'lib/components/FormLockedOverlay'
@@ -31,14 +32,16 @@ const renderErrorMessage = (
 export const PoolUI = (
   props,
 ) => {
+  let error
   const router = useRouter()
+  
   const networkName = router.query.networkName
   const prizePool = router.query.prizePoolAddress
 
   const walletContext = useContext(WalletContext)
   const provider = walletContext.state.provider
   const usersAddress = walletContext._onboard.getState().address
-
+  
   const [ethBalance, setEthBalance] = useState(ethers.utils.bigNumberify(0))
   const [poolAddresses, setPoolAddresses] = useState({
     prizePool
@@ -59,7 +62,7 @@ export const PoolUI = (
   try {
     ethers.utils.getAddress(prizePool)
   } catch (e) {
-    return 'Incorrectly formatted Ethereum address!'
+    error = 'Incorrectly formatted Ethereum address!'
   }
 
 
@@ -112,8 +115,6 @@ export const PoolUI = (
     //     shallow: true
     //   }
     // )
-
-    return null
   }
 
   const handleConnect = (e) => {
@@ -129,94 +130,126 @@ export const PoolUI = (
       UsdtSvg
 
   return <>
-    {genericChainValues.loading ?
-      <div
-        className='text-center text-xl'
-      >
-        <LoadingDots />
-        <br/>
-        Fetching chain values ...
-      </div>
-    : <>
-      <div className='px-4 sm:px-8 lg:px-10 py-4 sm:py-6 text-center rounded-lg'>
-        <img
-          src={tokenSvg}
-          className='inline-block w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mb-2'
-        />
-        
-        <div
-          className='mb-6'
-        >
-          Prize Pool contract address:
-          <br /> <EtherscanAddressLink
-            address={poolAddresses.prizePool}
-            networkName={networkName}
+    <motion.div
+      initial='initial'
+      animate='enter'
+      exit='exit'
+      variants={{
+        exit: {
+          scale: 0.9,
+          y: 10,
+          opacity: 0,
+          transition: {
+            duration: 0.5,
+            staggerChildren: 0.1
+          }
+        },
+        enter: {
+          transition: {
+            duration: 0.5,
+            staggerChildren: 0.1
+          }
+        },
+        initial: {
+          y: 0,
+          opacity: 1,
+          transition: {
+            duration: 0.2
+          }
+        }
+      }}
+    >
+      {error}
+      
+        {genericChainValues.loading ?
+          <div
+            className='text-center text-xl'
           >
-            {poolAddresses.prizePool}
-          </EtherscanAddressLink>
-        </div>
-
-        <PoolActionsUI
-          genericChainValues={genericChainValues}
-          networkName={networkName}
-          poolAddresses={poolAddresses}
-          usersAddress={usersAddress}
-        />
-      </div>
-
-      <hr />
-
-      <div
-        className='relative py-4 sm:py-6 text-center rounded-lg'
-      >
-        {ethBalance && ethBalance.eq(0) && <>
-          <FormLockedOverlay
-            flexColJustifyClass='justify-start'
-            title={`Deposit & Withdraw`}
-            zLayerClass='z-30'
-          >
-            <>
-              Your ETH balance is 0.
-              <br />To interact with the contracts you will need ETH.
-            </>
-          </FormLockedOverlay>
-        </>}
-
-
-        {!usersAddress && <FormLockedOverlay
-          flexColJustifyClass='justify-start'
-          title={`Deposit & Withdraw`}
-          zLayerClass='z-30'
-        >
-          <>
-            <div>
-              To interact with the contracts first connect your wallet:
-            </div>
-
+            <LoadingDots />
+            <br/>
+            Fetching chain values ...
+          </div>
+        : <>
+          <div className='px-4 sm:px-8 lg:px-10 py-4 sm:py-6 text-center rounded-lg'>
+            <img
+              src={tokenSvg}
+              className='inline-block w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mb-2'
+            />
+            
             <div
-              className='mt-3 sm:mt-5 mb-5'
+              className='mb-6'
             >
-              <button
-                className='font-bold rounded-full text-green-300 border-2 sm:border-4 border-green-300 hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
-                onClick={handleConnect}
+              Prize Pool contract address:
+              <br /> <EtherscanAddressLink
+                address={poolAddresses.prizePool}
+                networkName={networkName}
               >
-                Connect Wallet
-              </button>
+                {poolAddresses.prizePool}
+              </EtherscanAddressLink>
             </div>
-          </>
-        </FormLockedOverlay>}
-        
-        <UserStats
-          genericChainValues={genericChainValues}
-          usersChainValues={usersChainValues}
-        />
 
-        <UserActionsUI
-          genericChainValues={genericChainValues}
-          poolAddresses={poolAddresses}
-          usersChainValues={usersChainValues}
-        />
-      </div>
-    </>}
+            <PoolActionsUI
+              genericChainValues={genericChainValues}
+              networkName={networkName}
+              poolAddresses={poolAddresses}
+              usersAddress={usersAddress}
+            />
+          </div>
+
+          <hr />
+
+          <div
+            className='relative py-4 sm:py-6 text-center rounded-lg'
+          >
+            {ethBalance && ethBalance.eq(0) && <>
+              <FormLockedOverlay
+                flexColJustifyClass='justify-start'
+                title={`Deposit & Withdraw`}
+                zLayerClass='z-30'
+              >
+                <>
+                  Your ETH balance is 0.
+                  <br />To interact with the contracts you will need ETH.
+                </>
+              </FormLockedOverlay>
+            </>}
+
+
+            {!usersAddress && <FormLockedOverlay
+              flexColJustifyClass='justify-start'
+              title={`Deposit & Withdraw`}
+              zLayerClass='z-30'
+            >
+              <>
+                <div>
+                  To interact with the contracts first connect your wallet:
+                </div>
+
+                <div
+                  className='mt-3 sm:mt-5 mb-5'
+                >
+                  <button
+                    className='font-bold rounded-full text-green-300 border-2 sm:border-4 border-green-300 hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
+                    onClick={handleConnect}
+                  >
+                    Connect Wallet
+                  </button>
+                </div>
+              </>
+            </FormLockedOverlay>}
+            
+            <UserStats
+              genericChainValues={genericChainValues}
+              usersChainValues={usersChainValues}
+            />
+
+            <UserActionsUI
+              genericChainValues={genericChainValues}
+              poolAddresses={poolAddresses}
+              usersChainValues={usersChainValues}
+            />
+          </div>
+        </>}
+      </motion.div>
   </>
 }

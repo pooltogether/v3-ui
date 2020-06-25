@@ -13,7 +13,6 @@ export const PoolDataContextProvider = (props) => {
           client={client}
         >
           {(poolData) => {
-            console.log({ poolData })   
             return <PoolDataContext.Provider
               value={{
                 poolData

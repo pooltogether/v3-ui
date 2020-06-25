@@ -221,6 +221,7 @@ export const Button = (props) => {
     return <Link
       href={href}
       as={as}
+      scroll={false}
     >
       <a
         {...linkProps}

@@ -25,7 +25,8 @@ export const Layout = (props) => {
       {/* <StaticNetworkNotificationBanner /> */}
 
       <div
-        className='pool-container flex flex-grow relative z-30 h-full page fadeIn animated'
+        className='pool-container flex flex-grow relative z-30 h-full page'
+        // className='pool-container flex flex-grow relative z-30 h-full page fadeIn animated'
       >
         <div
           className='flex flex-col flex-grow'
