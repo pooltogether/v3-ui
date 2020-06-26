@@ -24,6 +24,7 @@ export const IndexUI = (
   const [delay, setDelay] = useState(300)
 
   useEffect(() => {
+    console.log("1st")
     function tick() {
       if (poolDataContext && poolDataContext.poolData) {
         poolData = poolDataContext.poolData
@@ -50,6 +51,8 @@ export const IndexUI = (
 
   // Move the selected pool to the top
   useInterval(() => {
+    console.log("2nd")
+
     if (pools.length > 0) {
       pools.forEach(function (pool, i) {
         if (pool.id === poolId) {

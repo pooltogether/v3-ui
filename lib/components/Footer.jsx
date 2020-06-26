@@ -11,7 +11,7 @@ export const Footer = () => {
   let twitterHref = 'https://twitter.com/PoolTogether_'
   
   return <footer
-    className='footer w-full text-purple-600 text-sm'
+    className='footer w-full text-default text-sm'
   >
     <div className='nav-and-footer-container'>
       <div
@@ -127,7 +127,7 @@ export const Footer = () => {
             </a>
 
             <a
-              className='inline-block trans lg:ml-4 w-5 h-5 '
+              className='inline-block trans lg:ml-4 w-5 h-5 hover:no-underline'
               href={mailHref}
               target='_blank'
               rel='noreferrer noopener'

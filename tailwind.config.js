@@ -21,19 +21,6 @@ module.exports = {
       default: "var(--color-bg-default)",
       inverse: "var(--color-bg-inverse)"
     },
-    fontFamily: {
-      display: "var(--font-display)",
-      body: "var(--font-body)"
-    },
-    fontWeights: {
-      normal: "var(--font-weight-normal)",
-      display: "var(--font-weight-display)",
-      btn: "var(--font-weight-btn)"
-    },
-    borderRadius: {
-      none: "0",
-      btn: "var(--rounded-btn)"
-    },
     // this gives us regular (mobile), sm (641px - 1281px) and lg (1281px+)
     screens: {
       'sm': '801px',

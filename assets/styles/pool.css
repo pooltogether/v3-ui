@@ -350,12 +350,13 @@ input[type="text"] {
 
 .footer a {
   /* @apply text-purple-500 no-underline border-0; */
-  @apply no-underline border-0;
+  @apply text-default border-0;
 }
 
 .footer a:hover {
   /* @apply text-cyan-400 border-b-2 border-purple-700; */
-  @apply border-b-2 border-purple-700;
+  /* @apply text-secondary fill-secondary; */
+  @apply text-secondary;
 }
 
 .footer .img-link:hover {

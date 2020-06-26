@@ -54,14 +54,8 @@ export const PoolRow = (
   //     <V3LoadingDots />
   //   </div>
   // }
-  const spring = {
-    type: "spring",
-    damping: 20,
-    stiffness: 300
-  }
 
-
-  return <>
+return <>
     {/* <AnimatePresence
     // onExitComplete={handleExitComplete}
     > */}
@@ -71,7 +65,7 @@ export const PoolRow = (
           as={`/pools/kovan/${pool.id}`}
         >
           <motion.a
-            className='cursor-pointer w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 hover:border-purple-500 rounded-lg'
+            className='cursor-pointer w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-secondary hover:bg-default trans border-2 border-purple-700 hover:border-purple-500 rounded-lg'
             style={{
               minHeight: 120
             }}

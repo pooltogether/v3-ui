@@ -33,5 +33,42 @@ export const ThemeSwitcher = (props) => {
     }
   }
 
-  return <button onClick={toggleTheme} type='button'>Dark/Light</button>
+  return <label
+    onClick={toggleTheme}
+    className='theme-toggler m-0 relative'
+  >
+    <div className='toggle'></div>
+    <div
+      className='theme-toggler--names relative z-10 flex items-center justify-between'
+    >
+      <span
+        className='theme-toggler--light font-bold text-xxxs ml-4'
+      >
+        <span
+          className='sm:hidden'
+        >
+          &nbsp;
+        </span>
+        <span
+          className='hidden sm:block'
+        >
+          Light
+        </span>
+      </span>
+      <span
+        className='theme-toggler--dark font-bold text-xxxs mr-4'
+      >
+        <span
+          className='sm:hidden'
+        >
+          &nbsp;
+        </span>
+        <span
+          className='hidden sm:block'
+        >
+          Dark
+        </span>
+      </span>
+    </div>
+  </label>
 }

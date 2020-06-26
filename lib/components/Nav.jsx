@@ -37,11 +37,7 @@ export const Nav = (props) => {
           >
             <a
               title={'Back to home'}
-              className='pool-logo border-0 mr-auto trans block'
-              style={{
-                height: 60,
-                width: 151
-              }}
+              className='pool-logo border-0 trans block w-full'
             >
               {/* <img
                 alt={`PoolTogether Logo`}
@@ -60,17 +56,22 @@ export const Nav = (props) => {
         <div
           className='w-2/5 lg:w-3/5 flex justify-end h-full items-center text-right'
         >
-          <ThemeSwitcher />
+          <div className='mr-4'>
+            <ThemeSwitcher />
+          </div>
 
           <div
             className='mt-0 sm:mt-0 text-xxs sm:text-sm tracking-wide text-right spinner-hidden'
+            style={{
+              minWidth: 70
+            }}
           >
             {usersAddress ?
               <WalletInfo
                 {...props}
               /> :
               <button
-                className='rounded-full text-green-300 border-2 border-green-300 hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
+                className='rounded-full text-secondary border-2 border-green-300 hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans'
                 onClick={handleConnect}
               >
                 Sign in
