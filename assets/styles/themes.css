@@ -1,5 +1,5 @@
 .theme-dark {
-  --color-bg-primary: #10032A;
+  --color-bg-primary: #210a45;
   --color-bg-secondary: #27094C;
   --color-bg-default: #2c1259;
 
@@ -83,7 +83,7 @@
 
 .theme-dark .toggle {
   transform: translateX(100%);
-  background-color: #1C073A;
+  background-color: #451ba7;
   /* background-color: #34323D; */
 }
 
@@ -136,6 +136,7 @@
 
 .theme-dark .theme-toggler .theme-toggler--light {
   @apply text-primary;
+  opacity: 0.7;
 }
 
 .theme-dark .theme-toggler .theme-toggler--dark {
@@ -152,6 +153,7 @@
 
 .theme-dark .theme-toggler:hover .theme-toggler--light {
   @apply text-secondary;
+  opacity: 1;
 }
 
 .theme-dark .theme-toggler:hover .theme-toggler--dark {

@@ -350,7 +350,7 @@ input[type="text"] {
 
 .footer a {
   /* @apply text-purple-500 no-underline border-0; */
-  @apply text-default border-0;
+  @apply text-primary border-0;
 }
 
 .footer a:hover {

@@ -1,13 +1,11 @@
 import React, { useContext } from 'react'
 
-import {
-  CONTRACT_ADDRESSES,
-} from 'lib/constants'
 import { DynamicPrizePoolsQuery } from 'lib/components/queryComponents/dynamicPrizePoolsQuery'
 import { StaticPrizePoolsQuery } from 'lib/components/queryComponents/staticPrizePoolsQuery'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
+import { getChainId } from 'lib/services/getChainId'
+import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { isEmptyObject } from 'lib/utils/isEmptyObject'
-import { nameToChainId } from 'lib/utils/nameToChainId'
 import { poolToast } from 'lib/utils/poolToast'
 
 export const PoolDataPoller = (
@@ -27,25 +25,14 @@ export const PoolDataPoller = (
   }
 
   const walletContext = useContext(WalletContext)
-  let chainId = walletContext._onboard.getState().appNetworkId
-  if (!chainId) {
-    chainId = nameToChainId(process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME)
-  }
+  const chainId = getChainId(walletContext)
 
-  const daiPrizePoolAddress = CONTRACT_ADDRESSES[chainId].DAI_PRIZE_POOL_CONTRACT_ADDRESS
-  const usdcPrizePoolAddress = CONTRACT_ADDRESSES[chainId].USDC_PRIZE_POOL_CONTRACT_ADDRESS
-  const usdtPrizePoolAddress = CONTRACT_ADDRESSES[chainId].USDT_PRIZE_POOL_CONTRACT_ADDRESS
-
-  if (!daiPrizePoolAddress) {
-    console.error(`Unable to find DAI prize pool contract for chainId: ${chainId}`)
-    poolToast.error(`Unable to find DAI prize pool contract for chainId: ${chainId}`)
-    return null
-  }
-
-  const addresses = {
-    daiPrizePool: daiPrizePoolAddress.toLowerCase(),
-    usdcPrizePool: usdcPrizePoolAddress.toLowerCase(),
-    usdtPrizePool: usdtPrizePoolAddress.toLowerCase(),
+  let addresses
+  try {
+    addresses = getContractAddresses(chainId)
+  } catch (e) {
+    poolToast.error(e)
+    console.error(e)
   }
 
   return <>
@@ -61,6 +48,7 @@ export const PoolDataPoller = (
           poolData={poolData}
         >
           {(poolData) => {
+            console.log({ poolData})
             return children(poolData)
           }}
         </StaticPrizePoolsQuery>
