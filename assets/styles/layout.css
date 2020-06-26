@@ -131,10 +131,6 @@ body {
   width: 100%;
 }
 
-.page-bg {
-  @apply bg-lightPurple-1000;
-}
-
 .section-min-height {
   min-height: 70vh;
 }

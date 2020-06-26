@@ -4,9 +4,6 @@ import { Slide, ToastContainer } from 'react-toastify'
 import { Footer } from 'lib/components/Footer'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
-import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNotificationBanner'
-
-import PoolIcon from 'assets/images/holidays.svg'
 
 export const Layout = (props) => {
   const {
@@ -46,7 +43,7 @@ export const Layout = (props) => {
             }}
           >
             <div
-              className='px-4 sm:px-8 lg:px-12 my-4'
+              className='px-2 lg:px-12 my-4'
             >
               {React.cloneElement(children, {
                 ...props,

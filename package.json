@@ -49,6 +49,7 @@
     "@apollo/client": "3.0.0-rc.0",
     "@pooltogether/etherplex": "^0.2.0",
     "@pooltogether/pooltogether-contracts": "3.0.0-alpha.22",
+    "add": "^2.0.6",
     "autoprefixer": "^9.8.1",
     "bn.js": "4.11.0",
     "bnc-onboard": "^1.9.6",

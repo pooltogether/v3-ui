@@ -1,0 +1,85 @@
+.theme-dark {
+  --color-bg-primary: #10032A;
+  --color-bg-secondary: #6f72b9;
+  --color-bg-default: #fff;
+  --color-bg-inverse: #5255ac;
+
+  --color-text-primary: #9f7aea;
+  --color-text-secondary: #72FAE3;
+  --color-text-default: #373737;
+  --color-text-default-soft: #6a6a6a;
+  --color-text-inverse: #fff;
+  --color-text-inverse-soft: rgba(255, 255, 255, 0.7);
+
+  --font-display: Futura, Trebuchet MS, Arial, sans-serif;
+  --font-body: Futura, Trebuchet MS, Arial, sans-serif;
+
+  --font-weight-normal: 400;
+  --font-weight-display: 600;
+  --font-weight-btn: 600;
+
+  --rounded-btn: 9999px;
+}
+
+.theme-light {
+  --color-bg-primary: #fff;
+  --color-bg-secondary: #ffc402;
+  --color-bg-default: #fff;
+  --color-bg-inverse: #fff;
+
+  --color-text-primary: #3c1a79;
+  --color-text-secondary: #33DEC3;
+  --color-text-default: #444;
+  --color-text-default-soft: #999;
+  --color-text-inverse: #444;
+  --color-text-inverse-soft: #999;
+
+  --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --font-weight-normal: 400;
+  --font-weight-display: 400;
+  --font-weight-btn: 600;
+
+  --rounded-btn: 0.25rem;
+}
+
+/* 
+.theme-dark .pool-logo-dark {
+  opacity: 0;
+}
+
+.theme-light .pool-logo {
+  opacity: 0;
+} */
+
+.theme-dark {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2340298B' fill-opacity='0.08'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-position: fixed;
+}
+
+.pool-logo {
+  position: relative;
+  z-index: 1;
+}
+ 
+.pool-logo:after {
+  content: '';
+  background-size: cover;
+  bottom: 0;
+  position: absolute;
+  height: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.theme-dark .pool-logo:after {
+  background-image: url('/pooltogether-logo.svg');
+}
+
+.theme-light .pool-logo:after {
+  background-image: url('/pooltogether-logo-black.svg');
+}

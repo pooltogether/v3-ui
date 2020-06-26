@@ -39,7 +39,7 @@
 }
 
 .pool-toast .Toastify__toast {
-  @apply rounded-lg;
+  /* @apply rounded-lg; */
   color: white;
   font-family: inherit;
   font-weight: 400;
@@ -71,35 +71,35 @@
 }
 
 .pool-toast .Toastify__toast--success {
-  @apply bg-black text-green-400;
+  /* @apply bg-black text-green-400; */
 }
 
 .Toastify__progress-bar--success {
-  @apply bg-green-500;
+  /* @apply bg-green-500; */
 }
 
 .pool-toast .Toastify__toast--info {
-  @apply bg-blue-500 text-white;
+  /* @apply bg-blue-500 text-white; */
 }
 
 .Toastify__progress-bar--info {
-  @apply bg-blue-500;
+  /* @apply bg-blue-500; */
 }
 
 .pool-toast .Toastify__toast--error {
-  @apply bg-black text-red-500;
+  /* @apply bg-black text-red-500; */
 }
 
 .Toastify__progress-bar--error {
-  @apply bg-red-500;
+  /* @apply bg-red-500; */
 }
 
 .pool-toast .Toastify__toast--warning {
-  @apply bg-black text-orange-500;
+  /* @apply bg-black text-orange-500; */
 }
 
 .Toastify__progress-bar--warning {
-  @apply bg-orange-500;
+  /* @apply bg-orange-500; */
 }
 
 .pool-toast .Toastify__toast-body {

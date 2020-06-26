@@ -54,16 +54,18 @@ h3 {
 }
 
 a {
-  @apply text-purple-500 no-underline border-b-2 border-purple-800;
+  /* @apply no-underline border-b-2 border-purple-800; */
+  @apply text-primary no-underline border-b-2 border-purple-800;
 }
 
 a:hover {
-  @apply text-cyan-400 border-purple-700;
+  /* @apply border-purple-700; */
+  @apply text-secondary border-purple-700;
 }
 
 a[disabled],
 a[disabled]:hover {
-  @apply text-blue-800;
+  /* @apply text-blue-800; */
 }
 
 blockquote,
@@ -118,19 +120,23 @@ button[disabled] {
 
 input:not([type='submit'])[disabled],
 textarea[disabled] {
-  @apply border-transparent bg-purple-1100 text-purple-400 opacity-50 cursor-not-allowed !important;
+  /* @apply border-transparent bg-purple-1100 text-purple-400 opacity-50 cursor-not-allowed !important; */
+  @apply border-transparent opacity-50 cursor-not-allowed !important;
 } 
 
 input[type='submit'][disabled] {
-  @apply border-transparent bg-purple-200 text-white cursor-not-allowed;
+  /* @apply border-transparent bg-purple-200 text-white cursor-not-allowed; */
+  @apply border-transparent cursor-not-allowed;
 }
 
 input:not([type='submit'])[readOnly] {
-  @apply text-lightPurple-600 cursor-not-allowed !important;
+  /* @apply text-lightPurple-600 cursor-not-allowed !important; */
+  @apply cursor-not-allowed !important;
 } 
 
 input[type='submit'][disabled] {
-  @apply border-transparent bg-purple-200 text-white cursor-not-allowed;
+  /* @apply border-transparent bg-purple-200 text-white cursor-not-allowed; */
+  @apply border-transparent cursor-not-allowed;
 }
 
 .is-etherscan-arrow {
@@ -343,11 +349,13 @@ input[type="text"] {
 }
 
 .footer a {
-  @apply text-purple-500 no-underline border-0;
+  /* @apply text-purple-500 no-underline border-0; */
+  @apply no-underline border-0;
 }
 
 .footer a:hover {
-  @apply text-cyan-400 border-b-2 border-purple-700;
+  /* @apply text-cyan-400 border-b-2 border-purple-700; */
+  @apply border-b-2 border-purple-700;
 }
 
 .footer .img-link:hover {

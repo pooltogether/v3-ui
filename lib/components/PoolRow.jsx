@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 
+import { PoolShow } from 'lib/components/PoolShow'
 import { getDemoPoolContractAddress } from 'lib/utils/getDemoPoolContractAddress'
 
 import DaiSvg from 'assets/images/dai.svg'
@@ -53,59 +54,47 @@ export const PoolRow = (
   //     <V3LoadingDots />
   //   </div>
   // }
-  console.log('row with id', `pool-container-${pool.id}`)
+  const spring = {
+    type: "spring",
+    damping: 20,
+    stiffness: 300
+  }
+
 
   return <>
-    <motion.div
-      layoutId={`pool-container-${pool.id}`}
-      variants={{
-        enter: {
-          scale: 1,
-          transition: {
-            duration: 0.1
-          }
-        },
-        // exit: {
-        //   scale: 0.9,
-        //   transition: {
-        //     duration: 0.1
-        //   }
-        // },
-      }}
-      whileHover={{
-        scale: 1.02
-      }}
-      className='relative w-full px-2'
-    >
-      <Link
-        href='/pools/[networkName]/[prizePoolAddress]'
-        as={`/pools/kovan/${pool.id}`}
-        scroll={false}
-      >
-        <motion.a
-          className='cursor-pointer w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 hover:border-purple-500 rounded-lg'
-          style={{
-            minHeight: 120
-          }}
+    {/* <AnimatePresence
+    // onExitComplete={handleExitComplete}
+    > */}
+
+        <Link
+          href='/pools/[networkName]/[prizePoolAddress]'
+          as={`/pools/kovan/${pool.id}`}
         >
-          <div className='flex items-center mt-2'>
-            <img
-              src={currencyIcon}
-              className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2'
-            />
+          <motion.a
+            className='cursor-pointer w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-purple-1100 hover:bg-purple-1000 trans border-2 border-purple-700 hover:border-purple-500 rounded-lg'
+            style={{
+              minHeight: 120
+            }}
+          >
+            <div className='flex items-center mt-2'>
+              <img
+                src={currencyIcon}
+                className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2'
+              />
 
-            <div>
-              <span className=' text-base'>Daily {name} Pool</span>
+              <div>
+                <span className='text-base'>Daily {name} Pool</span>
+              </div>
             </div>
-          </div>
 
-          {pool && pool.currentState && <>
-            <p
-              className='text-xs'
-            ><span className='m-0 text-white'>Status:</span><br /> {pool.currentState}</p>
-          </>}
-        </motion.a>
-      </Link>
-    </motion.div>  
+            {pool && pool.currentState && <>
+              <p
+                className='text-xs'
+              ><span className='m-0 text-secondary'>Status:</span><br /> {pool.currentState}</p>
+            </>}
+          </motion.a>
+        </Link>
+
+    {/* </AnimatePresence> */}
   </>
 }

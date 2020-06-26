@@ -1,7 +1,9 @@
 import { IndexUI } from 'lib/components/IndexUI'
 
-export default function IndexPage() {
+export default function IndexPage(props) {
   return <>
-    <IndexUI />
+    <IndexUI
+      {...props}
+    />
   </>
 }

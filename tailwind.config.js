@@ -7,6 +7,33 @@ module.exports = {
     container: true
   },
   theme: {
+    textColor: {
+      primary: "var(--color-text-primary)",
+      secondary: "var(--color-text-secondary)",
+      default: "var(--color-text-default)",
+      "default-soft": "var(--color-text-default-soft)",
+      inverse: "var(--color-text-inverse)",
+      "inverse-soft": "var(--color-text-inverse-soft)"
+    },
+    backgroundColor: {
+      primary: "var(--color-bg-primary)",
+      secondary: "var(--color-bg-secondary)",
+      default: "var(--color-bg-default)",
+      inverse: "var(--color-bg-inverse)"
+    },
+    fontFamily: {
+      display: "var(--font-display)",
+      body: "var(--font-body)"
+    },
+    fontWeights: {
+      normal: "var(--font-weight-normal)",
+      display: "var(--font-weight-display)",
+      btn: "var(--font-weight-btn)"
+    },
+    borderRadius: {
+      none: "0",
+      btn: "var(--rounded-btn)"
+    },
     // this gives us regular (mobile), sm (641px - 1281px) and lg (1281px+)
     screens: {
       'sm': '801px',
@@ -60,21 +87,29 @@ module.exports = {
         relaxed: 1.75
       },
       fontSize: {
-        'xxxs': '0.5rem',
-        'xxs': '0.65rem',
-        'md': '1.075rem',
-        '4xl': '2rem',
-        '5xl': '2.5rem',
-        '6xl': '3rem',
-        '7xl': '4rem',
-        '7.5xl': '4.5rem',
-        '8xl': '5rem',
-        '9xl': '6rem',
-        '10xl': '7rem',
-        '12xl': '8.5rem'
+        // sm: ['14px', '20px'],
+        // base: ['16px', '24px'],
+        // lg: ['20px', '28px'], // line height!
+        // xl: ['24px', '32px'],
+        'xxxs': '0.75rem',
+        'xxs': '0.875rem',
+        'xs': '1rem',
+        'sm': '1.125rem',
+        'base': '1.25rem',
+        'lg': '1.25rem',
+        'xl': '1.5rem',
+        '2xl': '1.75rem',
+        '3xl': '2rem',
+        '4xl': '2.5rem',
+        '5xl': '3rem',
+        '6xl': '4rem',
+        '7xl': '5rem',
+        '8xl': '6rem',
+        '9xl': '7rem',
+        '10xl': '8rem'
       },
       fontFamily: {
-        'sans-regular': ['Soleil', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
+        'sans-regular': ['Cairo', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
         'headline': ['omnes-pro', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
         'sans': ['Roboto', 'Helvetica', 'Arial', 'sans-serif'],
       },

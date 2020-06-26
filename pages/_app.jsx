@@ -1,7 +1,6 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { AnimateSharedLayout, AnimatePresence, motion } from 'framer-motion'
 
 import { Layout } from 'lib/components/Layout'
 import { PoolDataContextProvider } from 'lib/components/contextProviders/PoolDataContextProvider'
@@ -10,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import 'assets/styles/index.css'
 import 'assets/styles/layout.css'
 import 'assets/styles/loader.css'
+import 'assets/styles/themes.css'
 import 'assets/styles/pool.css'
 import 'assets/styles/pool-toast.css'
 import 'assets/styles/utils.css'
@@ -34,19 +34,9 @@ function MyApp({ Component, pageProps }) {
     <DynamicWalletContextProvider>
       <PoolDataContextProvider>
         <Layout>
-          {/* <AnimateSharedLayout transition={{ duration: 2 }}> */}
-          <AnimateSharedLayout type='crossfade'>
-            <AnimatePresence
-              // exitBeforeEnter
-              // onExitComplete={handleExitComplete}
-            >
-              {console.log('rendering:', router.asPath)}
-              <Component
-                {...pageProps}
-                key={router.asPath}
-              />
-            </AnimatePresence>
-          </AnimateSharedLayout>
+          <Component
+            {...pageProps}
+          />
         </Layout>
       </PoolDataContextProvider>
     </DynamicWalletContextProvider>

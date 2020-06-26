@@ -1,14 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
+import { useInterval } from 'lib/hooks/useInterval'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolList } from 'lib/components/PoolList'
-import { PoolShow } from 'lib/components/PoolShow'
+import { isEmptyObject } from 'lib/utils/isEmptyObject'
+import { isTypeSystemDefinitionNode } from 'graphql'
 
 export const IndexUI = (
   props,
 ) => {
   const router = useRouter()
+  const poolId = router.query.prizePoolAddress
 
   const poolDataContext = useContext(PoolDataContext)
   let poolData,
@@ -16,31 +19,67 @@ export const IndexUI = (
     usdcPool,
     usdtPool
 
-  if (poolDataContext && poolDataContext.poolData) {
-    poolData = poolDataContext.poolData
-    daiPool = poolData.daiPool
-    usdcPool = poolData.usdcPool
-    usdtPool = poolData.usdtPool
-  }
+  const [done, setDone] = useState(false)
+  const [pools, setPools] = useState([])
+  const [delay, setDelay] = useState(300)
 
-  return <>
-    <h1
-      className='px-3 text-purple-500'
-    >
-      Pools
-    </h1>
+  useEffect(() => {
+    function tick() {
+      if (poolDataContext && poolDataContext.poolData) {
+        poolData = poolDataContext.poolData
 
-    {daiPool.id && <>
-      <PoolList
-        pools={[
+        daiPool = poolData.daiPool
+        usdcPool = poolData.usdcPool
+        usdtPool = poolData.usdtPool
+
+        setPools([
           daiPool,
           usdcPool,
           usdtPool,
-        ]}
-      />
-    </>}
+        ])
+      }  
 
-    <PoolShow />
+      setDelay(null)
+    }
+
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay])
+
+  // Move the selected pool to the top
+  useInterval(() => {
+    if (pools.length > 0) {
+      pools.forEach(function (pool, i) {
+        if (pool.id === poolId) {
+          let otherPools = [].concat(pools)
+          otherPools.unshift(i)
+          otherPools = otherPools.slice(0, pools.length)
+          
+          setPools([
+            pool,
+            ...otherPools
+          ])
+          setDone(true)
+        }
+      })
+    }
+  }, done ? null : 300)
+
+  return <>
+    <PoolList
+      selectedId={poolId}
+      pools={pools}
+    />
+
+
+{/* 
+    {poolId && <PoolShow
+      pool={{
+        id: poolId
+      }}
+    />} */}
   </>
 }
 
