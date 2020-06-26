@@ -42,7 +42,7 @@ export const ThemeSwitcher = (props) => {
       className='theme-toggler--names relative z-10 flex items-center justify-between'
     >
       <span
-        className='theme-toggler--light font-bold text-xxxs ml-4'
+        className='theme-toggler--light font-bold text-xxs ml-4'
       >
         <span
           className='sm:hidden'
@@ -56,7 +56,7 @@ export const ThemeSwitcher = (props) => {
         </span>
       </span>
       <span
-        className='theme-toggler--dark font-bold text-xxxs mr-4'
+        className='theme-toggler--dark font-bold text-xxs mr-4'
       >
         <span
           className='sm:hidden'

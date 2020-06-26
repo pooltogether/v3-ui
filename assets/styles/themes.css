@@ -29,39 +29,6 @@
   background-position: fixed;
 }
 
-.pool-logo {
-  height: 40px;
-  position: relative;
-  z-index: 1;
-  width: 150px;
-}
-
-@screen sm {
-  .pool-logo {
-    height: 60px;
-  }
-}
- 
-.pool-logo:after {
-  content: '';
-  background-size: cover;
-  bottom: 0;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 40px;
-  width: 100px;
-  z-index: 2;
-}
-
-@screen sm {
-  .pool-logo:after {
-    height: 60px;
-    width: 151px;
-  }
-}
-
 .theme-dark .pool-logo:after {
   background-image: url('/pooltogether-logo.svg');
 }
@@ -101,7 +68,7 @@
 @screen sm {
   .theme-toggler,
   .toggle {
-    height: 2rem;
+    height: 2.5rem;
   }
 }
 
@@ -118,7 +85,7 @@
 
 @screen sm {
   .theme-toggler {
-    width: 116px;
+    width: 136px;
   }
 }
 
@@ -161,5 +128,6 @@
 }
 
 .theme-toggler--names {
-  padding-top: 7px;
+  margin: 0 3px 0 2px;
+  padding-top: 9px;
 }

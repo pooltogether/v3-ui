@@ -88,7 +88,8 @@ p {
 }
 
 label {
-  @apply font-headline block cursor-pointer mt-6 mb-1;
+  /* @apply font-headline block cursor-pointer mt-6 mb-1; */
+  @apply block cursor-pointer mt-6 mb-1;
 }
 
 form:after {
@@ -389,4 +390,38 @@ input[type="text"] {
 
 .bn-onboard-modal-custom {
   z-index: 200000;
+}
+
+
+.pool-logo {
+  height: 40px;
+  position: relative;
+  z-index: 1;
+  width: 150px;
+}
+
+@screen sm {
+  .pool-logo {
+    height: 60px;
+  }
+}
+ 
+.pool-logo:after {
+  content: '';
+  background-size: cover;
+  bottom: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 40px;
+  width: 100px;
+  z-index: 2;
+}
+
+@screen sm {
+  .pool-logo:after {
+    height: 60px;
+    width: 151px;
+  }
 }
