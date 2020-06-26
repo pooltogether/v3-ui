@@ -52,26 +52,25 @@ export const PoolList = (
             key={`pool-${pool.id}`}
             sharedId={`pool-${pool.id}`}
             animate
-            transition={{ duration: 2, ease: "easeInOut" }}
             // positionTransition
             // layoutTransition={spring}
-            // variants={{
-            //   enter: {
-            //     scale: 1,
-            //     transition: {
-            //       duration: 0.1
-            //     }
-            //   },
-            //   // exit: {
-            //   //   scale: 0.9,
-            //   //   transition: {
-            //   //     duration: 0.1
-            //   //   }
-            //   // },
-            // }}
-            // whileHover={{
-            //   scale: 1.02
-            // }}
+            variants={{
+              enter: {
+                scale: 1,
+                transition: {
+                  duration: 0.1
+                }
+              },
+              // exit: {
+              //   scale: 0.9,
+              //   transition: {
+              //     duration: 0.1
+              //   }
+              // },
+            }}
+            whileHover={{
+              scale: 1.01
+            }}
             className='relative w-full'
           >
             <PoolRow

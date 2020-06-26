@@ -65,7 +65,7 @@ return <>
           as={`/pools/kovan/${pool.id}`}
         >
           <motion.a
-            className='cursor-pointer w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-secondary hover:bg-default trans border-2 border-purple-700 hover:border-purple-500 rounded-lg'
+            className='shadow-md hover:shadow-xl cursor-pointer w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-secondary hover:bg-primary trans border-2 border-purple-700 hover:border-purple-500 rounded-lg'
             style={{
               minHeight: 120
             }}

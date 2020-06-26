@@ -38,9 +38,9 @@ export const WalletInfo = () => {
 
   if (address && walletName) {
     innerContent = <>
-      <div className='leading-snug text-purple-500 trans'>
+      <div className='text-xxs leading-snug text-default trans'>
         <span
-          className='text-purple-500 hover:text-purple-300 overflow-ellipsis block w-full no-underline'
+          className='overflow-ellipsis block w-full no-underline'
         >
           {shortenAddress(address)}
         </span>
