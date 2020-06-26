@@ -4,8 +4,6 @@ import { useRouter } from 'next/router'
 import { useInterval } from 'lib/hooks/useInterval'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolList } from 'lib/components/PoolList'
-import { isEmptyObject } from 'lib/utils/isEmptyObject'
-import { isTypeSystemDefinitionNode } from 'graphql'
 
 export const IndexUI = (
   props,
@@ -13,62 +11,80 @@ export const IndexUI = (
   const router = useRouter()
   const poolId = router.query.prizePoolAddress
 
-  const poolDataContext = useContext(PoolDataContext)
-  let poolData,
-    daiPool,
-    usdcPool,
-    usdtPool
+  let pools = []
+  const poolData = useContext(PoolDataContext)
+  console.log({poolData})
+  pools = [
+    {
+      ...poolData.dynamicPoolData.daiPool,
+      ...poolData.staticPoolData.daiPool,
+    },
+    {
+      ...poolData.dynamicPoolData.usdcPool,
+      ...poolData.staticPoolData.usdcPool,
+    },
+    {
+      ...poolData.dynamicPoolData.usdtPool,
+      ...poolData.staticPoolData.usdtPool,
+    },
+  ]
+  console.log(pools);
+  
+  // let poolData,
+  //   daiPool,
+  //   usdcPool,
+  //   usdtPool
 
-  const [done, setDone] = useState(false)
-  const [pools, setPools] = useState([])
-  const [delay, setDelay] = useState(300)
+  // const [done, setDone] = useState(false)
+  // const [pools, setPools] = useState([])
+  // const [delay, setDelay] = useState(300)
 
-  useEffect(() => {
-    console.log("1st")
-    function tick() {
-      if (poolDataContext && poolDataContext.poolData) {
-        poolData = poolDataContext.poolData
+  // useEffect(() => {
+  //   console.log("1st")
+  //   function tick() {
+  //     if (poolDataContext && poolDataContext.poolData) {
+  //       poolData = poolDataContext.poolData
 
-        daiPool = poolData.daiPool
-        usdcPool = poolData.usdcPool
-        usdtPool = poolData.usdtPool
+  //       daiPool = poolData.daiPool
+  //       usdcPool = poolData.usdcPool
+  //       usdtPool = poolData.usdtPool
 
-        setPools([
-          daiPool,
-          usdcPool,
-          usdtPool,
-        ])
-      }  
+  //       setPools([
+  //         daiPool,
+  //         usdcPool,
+  //         usdtPool,
+  //       ])
+  //     }  
 
-      setDelay(null)
-    }
+  //     setDelay(null)
+  //   }
 
-    if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay])
+  //   if (delay !== null) {
+  //     let id = setInterval(tick, delay);
+  //     return () => clearInterval(id);
+  //   }
+  // }, [delay])
 
-  // Move the selected pool to the top
-  useInterval(() => {
-    console.log("2nd")
+  // // Move the selected pool to the top
+  // useInterval(() => {
+  //   console.log("2nd")
 
-    if (pools.length > 0) {
-      pools.forEach(function (pool, i) {
-        if (pool.id === poolId) {
-          let otherPools = [].concat(pools)
-          otherPools.unshift(i)
-          otherPools = otherPools.slice(0, pools.length)
+  //   if (pools.length > 0) {
+  //     pools.forEach(function (pool, i) {
+  //       if (pool.id === poolId) {
+  //         let otherPools = [].concat(pools)
+  //         otherPools.unshift(i)
+  //         otherPools = otherPools.slice(0, pools.length)
           
-          setPools([
-            pool,
-            ...otherPools
-          ])
-          setDone(true)
-        }
-      })
-    }
-  }, done ? null : 300)
+  //         setPools([
+  //           pool,
+  //           ...otherPools
+  //         ])
+  //         setDone(true)
+  //       }
+  //     })
+  //   }
+  // }, done ? null : 300)
 
   return <>
     <PoolList

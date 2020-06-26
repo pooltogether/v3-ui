@@ -1,33 +1,27 @@
-import React from 'react'
 import { useQuery } from '@apollo/client'
 
 import { staticPrizePoolsQuery } from 'lib/queries/staticPrizePoolsQuery'
+import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
+import { poolToast } from 'lib/utils/poolToast'
 
 export const StaticPrizePoolsQuery = (
   props,
 ) => {
-  const { addresses, children, poolData } = props
+  const { addresses, children } = props
+
+  let poolData
 
   // this should only run once:
   const { loading, error, data } = useQuery(staticPrizePoolsQuery, {
     fetchPolicy: 'network-only',
   })
 
-  if (data && data.prizePools && data.prizePools.length > 0) {
-    const staticDaiData = data.prizePools.find(prizePool => addresses.daiPrizePool === prizePool.id)
-    const staticUsdcData = data.prizePools.find(prizePool => addresses.usdcPrizePool === prizePool.id)
-    const staticUsdtData = data.prizePools.find(prizePool => addresses.usdtPrizePool === prizePool.id)
-
-    poolData.daiPool = { ...poolData.daiPool, ...staticDaiData }
-    poolData.usdcPool = { ...poolData.usdcPool, ...staticUsdcData }
-    poolData.usdtPool = { ...poolData.usdtPool, ...staticUsdtData }
-  }
-
+  poolData = getPoolDataFromQueryResult(addresses, data)
+  
   if (error) {
+    poolToast.error(error)
     console.error(error)
   }
   
-  return <>
-    {children(poolData)}
-  </>
+  return children(poolData)
 }
