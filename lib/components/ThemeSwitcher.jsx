@@ -1,4 +1,15 @@
 import React, { useEffect } from 'react'
+import Cookies from 'js-cookie'
+
+const THEME = 'theme'
+
+let cookieOptions = { sameSite: 'strict' }
+if (process.env.NEXT_JS_DOMAIN_NAME) {
+  cookieOptions = {
+    ...cookieOptions,
+    domain: `.${process.env.NEXT_JS_DOMAIN_NAME}`
+  }
+}
 
 export const ThemeSwitcher = (props) => {
   if (!window) {
@@ -6,14 +17,35 @@ export const ThemeSwitcher = (props) => {
   }
 
   useEffect(() => {
-    var body = document.body,
-      currentValue = localStorage.getItem('theme')
-
+    let stored = Cookies.get(THEME)
+    
+    const body = document.body
     body.classList.add('theme-light')
 
-    if (currentValue == 'dark') {
-      body.classList.add('theme-dark')
-      body.classList.remove('theme-dark')
+    if (window && window.matchMedia) {
+      const setThemeAutomatically = (newValue) => {
+        if (newValue === 'theme-dark') {
+          body.classList.add('theme-dark')
+          body.classList.remove('theme-light')
+        } else if (newValue === 'theme-light') {
+          body.classList.add('theme-light')
+          body.classList.remove('theme-dark')
+        }
+      }
+
+      // register an onChange listener if we don't have a cookie set
+      if (!stored && window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+          const newValue = e.matches ? 'theme-dark' : 'theme-light'
+          setThemeAutomatically(newValue)
+        })
+
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        stored = prefersDark ? 'theme-dark' : 'theme-light'
+      }
+
+      // onLoad
+      setThemeAutomatically(stored)
     }
   }, [])
 
@@ -23,13 +55,23 @@ export const ThemeSwitcher = (props) => {
     const body = document.body
 
     if (body.classList.contains('theme-dark')) {
+      Cookies.set(
+        THEME,
+        'light',
+        cookieOptions
+      )
+
       body.classList.remove('theme-dark')
       body.classList.add('theme-light')
-      localStorage.removeItem('theme')
     } else {
       body.classList.remove('theme-light')
       body.classList.add('theme-dark')
-      localStorage.setItem('theme', 'dark')
+
+      Cookies.set(
+        THEME,
+        'dark',
+        cookieOptions
+      )
     }
   }
 

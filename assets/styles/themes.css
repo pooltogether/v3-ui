@@ -9,6 +9,11 @@
   --color-text-default-soft: #E5C2FF;
   --color-text-inverse: #fff; /*
   --color-text-inverse-soft: rgba(255, 255, 255, 0.7); */
+
+  --color-border-primary: #3c1a79;
+  --color-border-secondary: #33DEC3;
+  --color-border-default: #4c249f;
+  --color-border-transparent: rgba(0,0,0,0);
 }
 
 .theme-light {
@@ -22,6 +27,11 @@
   --color-text-default: #4c249f;
   --color-text-default-soft: #D6B2FF;
   --color-text-inverse: #000;
+
+  --color-border-primary: #3c1a79;
+  --color-border-secondary: #33DEC3;
+  --color-border-default: #f7f7f7;
+  --color-border-transparent: rgba(0,0,0,0);
 }
 
 .theme-dark {

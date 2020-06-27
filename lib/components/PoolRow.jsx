@@ -65,26 +65,30 @@ return <>
           as={`/pools/kovan/${pool.id}`}
         >
           <motion.a
-            className='shadow-md hover:shadow-xl cursor-pointer w-full px-6 sm:px-4 mb-2 py-2 inline-block bg-secondary hover:bg-primary trans border-2 border-purple-700 hover:border-purple-500 rounded-lg'
+            animate
+            className='shadow-md hover:shadow-xl cursor-pointer w-full px-6 sm:px-4 mb-3 py-2 inline-block bg-secondary hover:bg-primary trans border border-default rounded-lg'
             style={{
               minHeight: 120
             }}
           >
-            <div className='flex items-center mt-2'>
+            <div className='flex justify-between items-center'>
+              <div>
+                <span className='text-xl font-bold'>Weekly Pool</span>
+                {/* <span className='text-base'>Daily {name} Pool</span> */}
+              </div>
               <img
                 src={currencyIcon}
-                className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2'
+                className='inline-block w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8'
               />
-
-              <div>
-                <span className='text-base'>Daily {name} Pool</span>
-              </div>
             </div>
 
             {pool && pool.currentState && <>
-              <p
-                className='text-xs'
-              ><span className='m-0 text-secondary'>Status:</span><br /> {pool.currentState}</p>
+              <div
+                className='mt-5'
+              >
+                <div className='uppercase text-xxs font-bold'>Status</div>
+                <div className='text-lg'>{pool.currentState}</div>
+              </div>
             </>}
           </motion.a>
         </Link>

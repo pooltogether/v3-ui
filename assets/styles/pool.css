@@ -55,12 +55,15 @@ h3 {
 
 a {
   /* @apply no-underline border-b-2 border-purple-800; */
-  @apply text-primary no-underline border-b-2 border-purple-800;
+  /* @apply text-primary no-underline border-b-2 border-purple-800; */
+  @apply text-primary no-underline border-b-2;
 }
 
 a:hover {
   /* @apply border-purple-700; */
-  @apply text-secondary border-purple-700;
+  /* @apply text-secondary border-purple-700; */
+  /* @apply text-secondary border-primary; */
+  @apply text-secondary;
 }
 
 a[disabled],
