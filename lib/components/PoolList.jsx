@@ -51,12 +51,12 @@ export const PoolList = (
           return <motion.li
             key={`pool-${pool.id}`}
             sharedId={`pool-${pool.id}`}
-            animate
+            animate='enter'
             // positionTransition
             // layoutTransition={spring}
             variants={{
               enter: {
-                scale: 1,
+                y: 0,
                 transition: {
                   duration: 0.1
                 }
@@ -69,7 +69,7 @@ export const PoolList = (
               // },
             }}
             whileHover={{
-              scale: 1.01
+              y: -6
             }}
             className='relative w-full'
           >

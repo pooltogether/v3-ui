@@ -26,7 +26,10 @@ module.exports = {
       primary: "var(--color-bg-primary)",
       secondary: "var(--color-bg-secondary)",
       default: "var(--color-bg-default)",
-      inverse: "var(--color-bg-inverse)"
+      inverse: "var(--color-bg-inverse)",
+      red: "var(--color-bg-red)",
+      green: "var(--color-bg-green)",
+      yellow: "var(--color-bg-yellow)",
     },
     // this gives us regular (mobile), sm (641px - 1281px) and lg (1281px+)
     screens: {

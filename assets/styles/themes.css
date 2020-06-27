@@ -2,11 +2,15 @@
   --color-bg-primary: #210a45;
   --color-bg-secondary: #2c1259;
   --color-bg-default: #27094C;
+  --color-bg-inverse: #000;
+  --color-bg-red: #F56565;
+  --color-bg-green: #3EF3D4;
+  --color-bg-yellow: #FF9303;
 
   --color-text-primary: #9f7aea;
   --color-text-secondary: #72FAE3;
   --color-text-default: #a472f7;
-  --color-text-default-soft: #E5C2FF;
+  --color-text-default-soft: #b488ff;
   --color-text-inverse: #fff; /*
   --color-text-inverse-soft: rgba(255, 255, 255, 0.7); */
 
@@ -20,7 +24,10 @@
   --color-bg-primary: #fff;
   --color-bg-secondary: #fff;
   --color-bg-default: #FAEFFF;
-  /* --color-bg-inverse: #fff; */
+  --color-bg-inverse: #000;
+  --color-bg-red: #F56565;
+  --color-bg-green: #3EF3D4;
+  --color-bg-yellow: #FF9303;
 
   --color-text-primary: #3c1a79;
   --color-text-secondary: #33DEC3;

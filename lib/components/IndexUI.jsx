@@ -18,14 +18,26 @@ export const IndexUI = (
     {
       ...poolData.dynamicPoolData.daiPool,
       ...poolData.staticPoolData.daiPool,
+      prize: 26591,
+      risk: 5,
+      yieldSource: 'Balancer',
+      frequency: 'Weekly',
     },
     {
       ...poolData.dynamicPoolData.usdcPool,
       ...poolData.staticPoolData.usdcPool,
+      prize: (11239 / 7),
+      risk: 3,
+      yieldSource: 'AAVE',
+      frequency: 'Daily',
     },
     {
       ...poolData.dynamicPoolData.usdtPool,
       ...poolData.staticPoolData.usdtPool,
+      prize: 7001,
+      risk: 2,
+      yieldSource: 'Compound',
+      frequency: 'Weekly',
     },
   ]
   console.log(pools);
