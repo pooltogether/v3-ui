@@ -28,6 +28,7 @@ module.exports = {
       secondary: "var(--color-bg-secondary)",
       default: "var(--color-bg-default)",
       inverse: "var(--color-bg-inverse)",
+      overlay: "var(--color-bg-overlay)",
       red: "var(--color-bg-red)",
       green: "var(--color-bg-green)",
       yellow: "var(--color-bg-yellow)",

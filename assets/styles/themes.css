@@ -4,6 +4,7 @@
   --color-bg-secondary: #300e69;
   --color-bg-default: #27094C;
   --color-bg-inverse: #000;
+  --color-bg-overlay: rgba(48, 14, 105, 0.97);
   --color-bg-red: #F56565;
   --color-bg-green: #3EF3D4;
   --color-bg-yellow: #FF9303;
@@ -25,9 +26,10 @@
   --color-bg-body: #fff;
   --color-bg-primary: #fff;
   --color-bg-secondary: #fff;
-  --color-bg-default: #FAEFFF;
+  --color-bg-default: #f7f7f7;
   --color-bg-inverse: #000;
-  --color-bg-red: #F56565;
+  --color-bg-overlay: rgba(48, 14, 105, 0.97);
+  --color-bg-red: #f56565;
   --color-bg-green: #3EF3D4;
   --color-bg-yellow: #FF9303;
 
