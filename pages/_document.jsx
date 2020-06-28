@@ -20,7 +20,7 @@ class MyDocument extends Document {
         <Head />
         <Meta />
         <body
-          className='bg-primary'
+          className='bg-body'
         >
           <Main />
           <NextScript />

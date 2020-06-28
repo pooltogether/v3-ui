@@ -32,6 +32,7 @@ const renderErrorMessage = (
 export const PoolShow = (
   props,
 ) => {
+  const router = useRouter()
   const { pool } = props
 
   let error
@@ -178,7 +179,7 @@ export const PoolShow = (
               className='inline-block w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mb-2'
             />
             
-            <div
+            {/* <div
               className='mb-6'
             >
               Prize Pool contract address:
@@ -188,7 +189,7 @@ export const PoolShow = (
               >
                 {poolAddresses.prizePool}
               </EtherscanAddressLink>
-            </div>
+            </div> */}
 
             <PoolActionsUI
               genericChainValues={genericChainValues}
@@ -197,8 +198,6 @@ export const PoolShow = (
               usersAddress={usersAddress}
             />
           </div>
-
-          <hr />
 
           <div
             className='relative py-4 sm:py-6 text-center rounded-lg'
@@ -231,7 +230,7 @@ export const PoolShow = (
                   className='mt-3 sm:mt-5 mb-5'
                 >
                   <button
-                    className='rounded-full text-green-300 border-2 sm:border-4 border-green-300 hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
+                  className='rounded-full text-secondary border sm:border-2 border-secondary hover:text-white hover:bg-secondary text-xxs sm:text-base py-2 px-3 sm:px-6 trans'
                     onClick={handleConnect}
                   >
                     Sign in

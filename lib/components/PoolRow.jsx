@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import FeatherIcon from 'feather-icons-react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import { PoolShow } from 'lib/components/PoolShow'
@@ -69,30 +70,53 @@ return <>
         >
           <motion.a
             animate
-            className='shadow-md hover:shadow-xl cursor-pointer w-full px-3 sm:px-4 sm:px-4 mb-3 py-3 sm:py-4 inline-block bg-secondary hover:bg-primary trans rounded-lg border-0'
+            className='shadow-md hover:shadow-xl cursor-pointer w-full px-3 sm:px-4 sm:px-4 mb-3 py-3 sm:py-4 inline-block bg-primary hover:bg-secondary trans rounded-lg border-0 text-inverse hover:text-primary'
             style={{
               minHeight: 120
             }}
           >
             <div className='flex justify-between items-center'>
-              <div>
-                <span className='text-lg sm:text-xl font-bold'>{pool.frequency} Pool</span>
+              <div
+                className='flex'
+              >
+                <div
+                  className='text-lg sm:text-xl font-bold'
+                  style={{
+                    minWidth: 110
+                  }}
+                >
+                  {pool.frequency} Pool
+                </div>
+
+                <div
+                  className='flex items-center ml-4'
+                >
+                  <img
+                    src={currencyIcon}
+                    className='inline-block w-6 h-6 lg:w-8 lg:h-8 mr-2'
+                  />
+                  <div
+                    className='bg-primary rounded-full px-2 uppercase text-xxs sm:text-sm font-bold mr-1'
+                  >
+                    {pool.yieldSource}
+                  </div>
+                </div>
               </div>
+
 
               <div
                 className='flex items-center'
               >
-                <div className='bg-primary rounded-full px-2 uppercase text-xxs sm:text-sm font-bold mr-1'>{pool.yieldSource}</div>
-                <img
-                  src={currencyIcon}
-                  className='inline-block w-6 h-6 lg:w-8 lg:h-8'
+                <FeatherIcon
+                  icon='arrow-right-circle'
+                  className='stroke-current'
                 />
               </div>
             </div>
 
             <div className='mt-5 flex justify-between items-center'>
               {/* <div
-                className='w-3/12 sm:w-40'
+                className='w-3/12'
               > 
                 <div className='uppercase text-xxxs sm:text-xxs font-bold'>Status</div>
                 <div className='text-xxs sm:text-lg'>
@@ -101,7 +125,7 @@ return <>
               </div> */}
 
               <div
-                className='w-6/12 sm:w-40'
+                className='w-6/12 sm:w-3/12'
               >
                 <div className='uppercase text-xxxs sm:text-xxs font-bold'>Prize</div>
                 <div className='text-sm sm:text-xl text-inverse'>
@@ -110,12 +134,13 @@ return <>
               </div>
 
               <div
-                className='w-3/12 sm:w-40'
+                className='w-6/12 sm:w-3/12'
               >
                 <div className='mt-1 uppercase text-xxxs sm:text-xxs font-bold'>Risk factor</div>
                 <div className='flex w-20 sm:w-24'
                   style={{
-                    height: 27
+                    height: 27,
+                    marginTop: 1,
                   }}
                 >
                   {pool.risk && range1(pool.risk).map(r => {

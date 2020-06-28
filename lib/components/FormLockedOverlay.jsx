@@ -19,7 +19,7 @@ export const FormLockedOverlay = ({
         `flex flex-col items-center absolute text-center p-4 lg:p-10 rounded-lg`
       )}
       style={{
-        backgroundColor: 'rgba(39, 18, 75, 0.97)',
+        backgroundColor: 'rgba(255, 255, 255, 0.97)',
         top: 0,
         right: 0,
         bottom: 0,
@@ -27,10 +27,7 @@ export const FormLockedOverlay = ({
       }}
     >
       <div
-        className={`${topMarginClass} rounded-lg text-center mx-auto px-3 sm:px-6 py-4 sm:py-6 text-base sm:text-lg text-purple-200 w-10/12 sm:w-3/4`}
-        style={{
-          backgroundColor: 'rgba(70, 30, 125, 1)'
-        }}
+        className={`${topMarginClass} bg-primary rounded-lg text-center mx-auto px-3 sm:px-6 py-4 sm:py-6 text-base sm:text-lg text-purple-200 w-10/12 sm:w-3/4`}
       >
         <div
           className='text-sm sm:text-base lg:text-lg uppercase text-lightPurple-600 font-bold mb-2'

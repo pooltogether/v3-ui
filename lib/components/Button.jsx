@@ -13,43 +13,10 @@ const getBorderClasses = (borderClasses, color, isText) => {
   }
 
   if (!color) {
-    color = 'blue'
+    color = 'primary'
   }
 
   return `border-0`
-}
-
-const getBackgroundColorClasses = (backgroundColorClasses, color, isText) => {
-  if (!color) {
-    color = 'blue'
-  }
-
-  if (backgroundColorClasses) {
-    return backgroundColorClasses
-  }
-
-  if (isText) {
-    return 'bg-transparent hover:bg-transparent'
-  }
-
-  switch (color) {
-    case 'white':
-      return 'bg-white hover:bg-gray-100 active:bg-gray-200'
-    case 'black':
-      return 'bg-black hover:bg-gray-800 active:bg-gray-700'
-    case 'orange':
-      return 'bg-orange-600 hover:bg-orange-500 active:bg-orange-700'
-    case 'green':
-      return 'bg-green-500 hover:bg-green-400 active:bg-green-400'
-    case 'pink':
-      return 'bg-pink-400 hover:bg-pink-300 active:bg-pink-300'
-    case 'blue':
-      return 'bg-blue-600 hover:bg-blue-500 active:bg-blue-700'
-    case 'purple':
-      return 'bg-purple-600 hover:bg-purple-500 active:bg-purple-700'
-    default:
-      return 'bg-white'
-  }
 }
 
 const getPaddingClasses = (paddingClasses, isText) => {
@@ -62,19 +29,6 @@ const getPaddingClasses = (paddingClasses, isText) => {
   }
 
   return 'px-1 py-2 sm:py-3 lg:py-4'
-}
-
-const getTextColorClasses = (textColorClasses, color) => {
-  if (textColorClasses) {
-    return textColorClasses
-  }
-
-  switch (color) {
-    case 'white':
-      return 'text-black hover:text-black focus:text-black active:text-black'
-    default:
-      return 'text-white hover:text-white focus:text-white active:text-white'
-  }
 }
 
 const getTextSizeClasses = (textSizeClasses, isText, size) => {
@@ -176,11 +130,11 @@ export const Button = (props) => {
     defaultClasses += ' min-width-auto'
   }
 
-  backgroundColorClasses = getBackgroundColorClasses(backgroundColorClasses, color, isText)
+  // backgroundColorClasses = getBackgroundColorClasses(backgroundColorClasses, color, isText)
   borderClasses = getBorderClasses(borderClasses, color, isText)
   paddingClasses = getPaddingClasses(paddingClasses, isText)
   roundedClasses = getRoundedClasses(roundedClasses)
-  textColorClasses = getTextColorClasses(textColorClasses, color)
+  // textColorClasses = getTextColorClasses(textColorClasses, color)
   textSizeClasses = getTextSizeClasses(textSizeClasses, isText, size)
   transitionClasses = getTransitionClasses(transitionClasses)
 

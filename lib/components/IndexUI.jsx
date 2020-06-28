@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useInterval } from 'lib/hooks/useInterval'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolList } from 'lib/components/PoolList'
+import { PoolShow } from 'lib/components/PoolShow'
 
 export const IndexUI = (
   props,
@@ -40,7 +41,6 @@ export const IndexUI = (
       frequency: 'Weekly',
     },
   ]
-  console.log(pools);
   
   // let poolData,
   //   daiPool,
@@ -99,18 +99,16 @@ export const IndexUI = (
   // }, done ? null : 300)
 
   return <>
-    <PoolList
-      selectedId={poolId}
-      pools={pools}
-    />
-
-
-{/* 
     {poolId && <PoolShow
       pool={{
         id: poolId
       }}
-    />} */}
+    />}
+    
+    <PoolList
+      selectedId={poolId}
+      pools={pools}
+    />
   </>
 }
 
