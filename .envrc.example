@@ -2,7 +2,14 @@
 # Note: this is passed directly to ethers.js so you'll want to make sure ethers understand the name.
 export NEXT_JS_FORTMATIC_API_KEY=<YOUR_FORTMATIC_API_KEY>
 export NEXT_JS_FORTMATIC_PRODUCTION_API_KEY=<YOUR_FORTMATIC_PRODUCTION_API_KEY>
+
+export NEXT_JS_SUBGRAPH_URI_KOVAN=https://api.thegraph.com/subgraphs/name/pooltogether/v3-kovan
+
 export NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME=homestead
 
 export NEXT_JS_INFURA_KEY=<YOUR_INFURA_KEY>
 export NEXT_JS_DOMAIN_NAME=pooltogether.com
+
+export MAGIC_ENCRYPTION_SECRET=<whatever-unique-string-you-want>
+export MAGIC_SECRET_KEY=<YOUR_MAGIC_SECRET_KEY>
+export NEXT_JS_MAGIC_PUB_KEY=<YOUR_MAGIC_PUBLIC_KEY>

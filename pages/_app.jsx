@@ -1,7 +1,7 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
 
+import { AutoLogin } from 'lib/components/AutoLogin'
 import { Layout } from 'lib/components/Layout'
 import { PoolDataContextProvider } from 'lib/components/contextProviders/PoolDataContextProvider'
 
@@ -29,6 +29,8 @@ function handleExitComplete() {
 
 function MyApp({ Component, pageProps }) {
   return <>
+    <AutoLogin />
+
     <DynamicWalletContextProvider>
       <Layout>
         <PoolDataContextProvider>

@@ -1,7 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import Link from 'next/link'
+import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
+import { MAGIC_IS_LOGGED_IN } from 'lib/constants'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
 import { WalletInfo } from 'lib/components/WalletInfo'
@@ -18,6 +20,22 @@ export const Nav = (props) => {
   const router = useRouter()
   const walletContext = useContext(WalletContext)
   const usersAddress = walletContext._onboard.getState().address
+
+  const [magicSignedIn, setMagicSignedIn] = useState(false)
+  
+  useEffect(() => {
+    const magicIsLoggedIn = Cookies.get(MAGIC_IS_LOGGED_IN)
+    console.log({ magicIsLoggedIn})
+    if (magicIsLoggedIn === 'true') {
+      setMagicSignedIn(true)
+    }
+  })
+
+  const handleShowDashboard = (e) => {
+    e.preventDefault()
+
+    router.push('/dashboard')
+  }
 
   const handleConnect = (e) => {
     e.preventDefault()
@@ -79,17 +97,24 @@ export const Nav = (props) => {
               minWidth: 70
             }}
           >
-            {usersAddress ?
-              <WalletInfo
-                {...props}
-              /> :
+            {magicSignedIn ?
               <button
                 className='rounded-full text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider'
-                // onClick={handleConnect}
-                onClick={handleSignIn}
+                onClick={handleShowDashboard}
               >
-                Sign in
-              </button>
+                Account
+              </button> :
+              usersAddress ?
+                <WalletInfo
+                  {...props}
+                /> :
+                <button
+                  className='rounded-full text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider'
+                  // onClick={handleConnect}
+                  onClick={handleSignIn}
+                >
+                  Sign in
+                </button>
             }
           </div>
         </div>

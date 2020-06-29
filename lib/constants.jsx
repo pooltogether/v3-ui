@@ -2,6 +2,19 @@ export const SUPPORTED_NETWORKS = [3, 42, 31337, 1234]
 
 export const MAINNET_POLLING_INTERVAL = 15000
 
+export const MAGIC_EMAIL = 'magic-email'
+export const MAGIC_IS_LOGGED_IN = 'magic-signed-in'
+
+let cookieOptions = { sameSite: 'strict' }
+if (process.env.NEXT_JS_DOMAIN_NAME) {
+  cookieOptions = {
+    ...cookieOptions,
+    domain: `.${process.env.NEXT_JS_DOMAIN_NAME}`
+  }
+}
+
+export const COOKIE_OPTIONS = cookieOptions
+
 export const CONTRACT_ADDRESSES = {
   1: {
     PRIZE_POOL_CONTRACT_ADDRESS: ''

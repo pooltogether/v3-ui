@@ -1,15 +1,9 @@
 import React, { useEffect } from 'react'
 import Cookies from 'js-cookie'
 
-const THEME = 'theme'
+import { COOKIE_OPTIONS } from 'lib/constants'
 
-let cookieOptions = { sameSite: 'strict' }
-if (process.env.NEXT_JS_DOMAIN_NAME) {
-  cookieOptions = {
-    ...cookieOptions,
-    domain: `.${process.env.NEXT_JS_DOMAIN_NAME}`
-  }
-}
+const THEME = 'theme'
 
 export const ThemeSwitcher = (props) => {
   if (!window) {
@@ -58,7 +52,7 @@ export const ThemeSwitcher = (props) => {
       Cookies.set(
         THEME,
         'light',
-        cookieOptions
+        COOKIE_OPTIONS
       )
 
       body.classList.remove('theme-dark')
@@ -70,7 +64,7 @@ export const ThemeSwitcher = (props) => {
       Cookies.set(
         THEME,
         'dark',
-        cookieOptions
+        COOKIE_OPTIONS
       )
     }
   }
