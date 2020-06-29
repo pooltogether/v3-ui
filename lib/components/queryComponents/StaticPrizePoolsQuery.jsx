@@ -16,12 +16,12 @@ export const StaticPrizePoolsQuery = (
     fetchPolicy: 'network-only',
   })
 
-  poolData = getPoolDataFromQueryResult(addresses, data)
-  
   if (error) {
     poolToast.error(error)
     console.error(error)
   }
+  
+  poolData = getPoolDataFromQueryResult(addresses, data)
   
   return children(poolData)
 }

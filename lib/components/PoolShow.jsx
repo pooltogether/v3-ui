@@ -6,6 +6,8 @@ import { motion } from 'framer-motion'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { FormLockedOverlay } from 'lib/components/FormLockedOverlay'
 import { LoadingDots } from 'lib/components/LoadingDots'
+import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
+import { DepositUI } from 'lib/components/DepositUI'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { UserActionsUI } from 'lib/components/UserActionsUI'
 import { UserStats } from 'lib/components/UserStats'
@@ -13,10 +15,6 @@ import { WalletContext } from 'lib/components/contextProviders/WalletContextProv
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchChainData } from 'lib/utils/fetchChainData'
 import { poolToast } from 'lib/utils/poolToast'
-
-import DaiSvg from 'assets/images/dai.svg'
-import UsdcSvg from 'assets/images/usdc.svg'
-import UsdtSvg from 'assets/images/usdt.svg'
 
 const renderErrorMessage = (
   address,
@@ -125,11 +123,18 @@ export const PoolShow = (
     walletContext.handleConnectWallet()
   }
 
-  const tokenSvg = genericChainValues.tokenSymbol === 'DAI' ?
-    DaiSvg :
-    genericChainValues.tokenSymbol === 'USDC' ?
-      UsdcSvg :
-      UsdtSvg
+  // const tokenSvg = genericChainValues.tokenSymbol === 'DAI' ?
+  //   DaiSvg :
+  //   genericChainValues.tokenSymbol === 'USDC' ?
+  //     UsdcSvg :
+  //     UsdtSvg
+
+  console.log({pool})
+
+  if (!pool) {
+    console.warn("don't do this!")
+    return null
+  }
 
   return <>
     <motion.div
@@ -173,11 +178,44 @@ export const PoolShow = (
             Fetching chain values ...
           </div> */}
         <>
-          <div className='px-4 lg:px-10 py-4 sm:py-6 text-center rounded-lg'>
-            <img
+          <div
+            className='px-4 lg:px-10 py-4 sm:py-6 text-center rounded-lg'
+          >
+
+            <div className='flex justify-between items-center'>
+              <div
+                className='flex items-center w-5/12 sm:w-1/2'
+              >
+                <div
+                  className='inline-block text-left text-lg sm:text-xl font-bold'
+                >
+                  {pool.frequency} Pool
+                </div>
+
+                <div
+                  className='inline-flex items-center ml-4'
+                >
+                  <CurrencyAndYieldSource
+                    {...props}
+                  />
+                </div>
+              </div>
+
+              <div
+                className='w-5/12 sm:w-1/2'
+              >
+                <DepositUI
+                  {...props}
+                  genericChainValues={genericChainValues}
+                />
+              </div>
+
+            </div>
+
+            {/* <img
               src={tokenSvg}
               className='inline-block w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mb-2'
-            />
+            /> */}
             
             {/* <div
               className='mb-6'
@@ -230,7 +268,7 @@ export const PoolShow = (
                   className='mt-3 sm:mt-5 mb-5'
                 >
                   <button
-                  className='rounded-full text-secondary border sm:border-2 border-secondary hover:text-white hover:bg-secondary text-xxs sm:text-base py-2 px-3 sm:px-6 trans'
+                  className='rounded-full text-secondary border sm:border-2 border-secondary hover:text-white hover:bg-secondary text-xxs sm:text-base py-2 px-3 sm:px-6 trans  tracking-wider'
                     onClick={handleConnect}
                   >
                     Sign in
@@ -243,12 +281,12 @@ export const PoolShow = (
               genericChainValues={genericChainValues}
               usersChainValues={usersChainValues}
             />
-
+{/* 
             <UserActionsUI
               genericChainValues={genericChainValues}
               poolAddresses={poolAddresses}
               usersChainValues={usersChainValues}
-            />
+            /> */}
           </div>
         </>
         {/* } */}

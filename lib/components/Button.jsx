@@ -56,7 +56,7 @@ const getTextSizeClasses = (textSizeClasses, isText, size) => {
     case '2xl':
       return `text-2xl sm:text-3xl lg:text-4xl`
     default:
-      return `text-base sm:text-lg lg:text-xl`
+      return `text-xs sm:text-sm lg:text-base`
   }
 }
 
@@ -65,7 +65,7 @@ const getTransitionClasses = (transitionClasses) => {
 }
 
 const getRoundedClasses = (roundedClasses) => {
-  return roundedClasses || 'rounded-full'
+  return roundedClasses || 'rounded-lg'
 }
 
 export const Button = (props) => {
@@ -114,7 +114,7 @@ export const Button = (props) => {
     transitionClasses,
   } = props
 
-  let defaultClasses = 'pt-button inline-block text-center leading-snug tracking-wide cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
+  let defaultClasses = 'pt-button inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
 
   if (isBold !== false) {
     defaultClasses += ' font-bold'
@@ -130,10 +130,12 @@ export const Button = (props) => {
     defaultClasses += ' min-width-auto'
   }
 
+  backgroundColorClasses = 'bg-inverse hover:bg-green'
   // backgroundColorClasses = getBackgroundColorClasses(backgroundColorClasses, color, isText)
   borderClasses = getBorderClasses(borderClasses, color, isText)
   paddingClasses = getPaddingClasses(paddingClasses, isText)
   roundedClasses = getRoundedClasses(roundedClasses)
+  textColorClasses = 'text-match'
   // textColorClasses = getTextColorClasses(textColorClasses, color)
   textSizeClasses = getTextSizeClasses(textSizeClasses, isText, size)
   transitionClasses = getTransitionClasses(transitionClasses)

@@ -28,17 +28,15 @@ function handleExitComplete() {
 }
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter()
-
   return <>
     <DynamicWalletContextProvider>
-      <PoolDataContextProvider>
-        <Layout>
+      <Layout>
+        <PoolDataContextProvider>
           <Component
             {...pageProps}
           />
-        </Layout>
-      </PoolDataContextProvider>
+        </PoolDataContextProvider>
+      </Layout>
     </DynamicWalletContextProvider>
   </>
 }

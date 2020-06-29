@@ -21,11 +21,16 @@ export const DepositForm = (props) => {
   } = usersChainValues || {}
 
   const {
+    isRngRequested,
     tokenDecimals,
   } = genericChainValues || {}
 
-  const poolIsLocked = genericChainValues.isRngRequested
-  const tokenSymbol = genericChainValues.tokenSymbol || 'TOKEN'
+  let {
+    tokenSymbol,
+  } = genericChainValues || {}
+
+  const poolIsLocked = isRngRequested
+  tokenSymbol = tokenSymbol || 'TOKEN'
 
   let depositAmount, setDepositAmount
   if (vars && stateSetters) {
@@ -61,9 +66,7 @@ export const DepositForm = (props) => {
           <div
             className='mt-3 sm:mt-5 mb-5'
           >
-            <Button
-              color='green'
-            >
+            <Button>
               Unlock Deposits
             </Button>
           </div>

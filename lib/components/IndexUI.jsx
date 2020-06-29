@@ -100,11 +100,12 @@ export const IndexUI = (
 
   return <>
     {poolId && <PoolShow
-      pool={{
-        id: poolId
-      }}
+      // pool={{
+      //   id: poolId
+      // }}
+      pool={pools.find(pool => pool.id === poolId)}
     />}
-    
+
     <PoolList
       selectedId={poolId}
       pools={pools}

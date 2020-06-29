@@ -45,21 +45,21 @@ export const UserStats = (props) => {
       <StatContainer>
         <BlueLineStat
           title={`Your ${genericChainValues.tokenSymbol || 'TOKEN'} balance`}
-          value={displayAmountInEther(usersTokenBalance, { precision: 2, decimals })}
+          value={`$${displayAmountInEther(usersTokenBalance, { precision: 2, decimals })}`}
         />
       </StatContainer>
 
       <StatContainer>
         <BlueLineStat
           title={`${genericChainValues.tokenSymbol || 'TOKEN'} Allowance`}
-          value={displayAmountInEther(usersTokenAllowance, { precision: 0, decimals })}
+          value={`$${displayAmountInEther(usersTokenAllowance, { precision: 0, decimals })}`}
         />
       </StatContainer>
 
       <StatContainer>
         <BlueLineStat
           title={`Your ticket balance`}
-          value={displayAmountInEther(usersTicketBalance, { precision: 2, decimals })}
+          value={`$${displayAmountInEther(usersTicketBalance, { precision: 0, decimals })}`}
         />
       </StatContainer>
 

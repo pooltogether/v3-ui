@@ -8,10 +8,10 @@ import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const PoolStats = (props) => {
   const {
-    // genericChainValues,
+    genericChainValues,
   } = props
 
-  // const [secondsRemainingNow, setSecondsRemainingNow] = useState('--')
+  const [secondsRemainingNow, setSecondsRemainingNow] = useState('--')
 
   useEffect(() => {
     
@@ -30,8 +30,8 @@ export const PoolStats = (props) => {
     >
       <StatContainer>
         <BlueLineStat
-          title='Total ticket supply'
-          value={`${displayAmountInEther(genericChainValues.ticketTotalSupply, { precision: 2 })} ${genericChainValues.tokenSymbol || 'TOKEN'}`}
+          title='Total tickets'
+          value={`$${displayAmountInEther(genericChainValues.ticketTotalSupply, { precision: 2 })} ${genericChainValues.tokenSymbol || 'TOKEN'}`}
         />
       </StatContainer>
 
@@ -45,14 +45,14 @@ export const PoolStats = (props) => {
           value={`$${displayAmountInEther(genericChainValues.estimateRemainingPrize, { precision: 0 })} ${genericChainValues.tokenSymbol || 'TOKEN'}`}
         />
       </StatContainer>
-
+{/* 
       <StatContainer>
         <BlueLineStat
           title='Seconds until rewardable'
           value={secondsRemainingNow}
         />
-      </StatContainer>
-
+      </StatContainer> */}
+{/* 
       <StatContainer>
         <BlueLineStat
           title='Ticket Name &amp; Symbol'
@@ -65,7 +65,7 @@ export const PoolStats = (props) => {
           title='Sponsorship Name &amp; Symbol'
           value={`${genericChainValues.sponsorshipSymbol}: ${genericChainValues.sponsorshipName}`}
         />
-      </StatContainer>
+      </StatContainer> */}
 
     </div>
     

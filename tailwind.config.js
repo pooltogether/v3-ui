@@ -20,7 +20,8 @@ module.exports = {
       default: "var(--color-text-default)",
       "default-soft": "var(--color-text-default-soft)",
       inverse: "var(--color-text-inverse)",
-      "inverse-soft": "var(--color-text-inverse-soft)"
+      "inverse-soft": "var(--color-text-inverse-soft)",
+      match: "var(--color-text-match)",
     },
     backgroundColor: {
       body: "var(--color-bg-body)",
@@ -112,10 +113,11 @@ module.exports = {
         '10xl': '8rem'
       },
       fontFamily: {
-        'sans-regular': ['Titillium Web', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
         // 'sans-regular': ['FF Tisa Sans', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
         // 'sans-regular': ['Comfortaa', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
         // 'sans-regular': ['Cairo', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
+        'sans-regular': ['Titillium Web', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
+        'number': ['Relative', 'Courier', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
         'headline': ['omnes-pro', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
         'sans': ['Roboto', 'Helvetica', 'Arial', 'sans-serif'],
       },

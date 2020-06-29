@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import FeatherIcon from 'feather-icons-react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 
-import { PoolShow } from 'lib/components/PoolShow'
+import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
+import { PrizeAmount } from 'lib/components/PrizeAmount'
+import { RiskFactor } from 'lib/components/RiskFactor'
 import { getDemoPoolContractAddress } from 'lib/utils/getDemoPoolContractAddress'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
-
-import DaiSvg from 'assets/images/dai.svg'
-import UsdcSvg from 'assets/images/usdc.svg'
-import UsdtSvg from 'assets/images/usdt.svg'
-
-function range1(i) { return i ? range1(i - 1).concat(i) : [] }
 
 export const PoolRow = (
   props,
@@ -26,19 +21,15 @@ export const PoolRow = (
 
   let ticker = 'loading'
   let name = 'Loading'
-  let currencyIcon = 'circle'
   if (kovanDaiPrizePoolContractAddress.toLowerCase() === pool.id) {
     ticker = 'dai'
     name = 'DAI'
-    currencyIcon = DaiSvg
   } else if (kovanUsdcPrizePoolContractAddress.toLowerCase() === pool.id) {
     ticker = 'usdc'
     name = 'USDC'
-    currencyIcon = UsdcSvg
   } else if (kovanUsdtPrizePoolContractAddress.toLowerCase() === pool.id) {
     ticker = 'usdt'
     name = 'Tether'
-    currencyIcon = UsdtSvg
   }
 
   // let featuredPoolContent
@@ -77,44 +68,30 @@ return <>
           >
             <div className='flex justify-between items-center'>
               <div
-                className='flex'
+                className='text-lg sm:text-xl font-bold w-5/12 sm:w-3/12'
               >
-                <div
-                  className='text-lg sm:text-xl font-bold'
-                  style={{
-                    minWidth: 110
-                  }}
-                >
-                  {pool.frequency} Pool
-                </div>
-
-                <div
-                  className='flex items-center ml-4'
-                >
-                  <img
-                    src={currencyIcon}
-                    className='inline-block w-6 h-6 lg:w-8 lg:h-8 mr-2'
-                  />
-                  <div
-                    className='bg-default rounded-full px-2 uppercase text-xxs sm:text-sm font-bold mr-1'
-                  >
-                    {pool.yieldSource}
-                  </div>
-                </div>
+                {pool.frequency} Pool
               </div>
 
+              <div
+                className='flex items-center ml-4 w-6/12 sm:w-3/12 lg:w-1/3'
+              >
+                <CurrencyAndYieldSource
+                  {...props}
+                />
+              </div>
 
               <div
-                className='flex items-center'
+                className='flex items-center w-1/12'
               >
                 <FeatherIcon
                   icon='arrow-right-circle'
-                  className='stroke-current'
+                  className='stroke-current w-6 h-6 sm:w-8 sm:h-8'
                 />
               </div>
             </div>
 
-            <div className='mt-5 flex justify-between items-center'>
+            <div className='mt-5 flex items-center'>
               {/* <div
                 className='w-3/12'
               > 
@@ -125,35 +102,19 @@ return <>
               </div> */}
 
               <div
-                className='w-6/12 sm:w-3/12'
+                className='w-6/12 sm:w-10/12 lg:w-11/12'
               >
-                <div className='uppercase text-xxxs sm:text-xxs font-bold'>Prize</div>
-                <div className='text-sm sm:text-xl text-inverse'>
-                  ${numberWithCommas(pool.prize)} <span className='uppercase text-xxxs sm:text-xxs font-bold text-primary'> / {pool.frequency === 'Weekly' ? 'week' : 'day'}</span>
-                </div>
+                <PrizeAmount
+                  {...props}
+                />
               </div>
 
               <div
-                className='w-6/12 sm:w-3/12'
+                className='w-6/12 sm:w-2/12 lg:w-1/12'
               >
-                <div className='mt-1 uppercase text-xxxs sm:text-xxs font-bold'>Risk factor</div>
-                <div className='flex w-20 sm:w-24'
-                  style={{
-                    height: 27,
-                    marginTop: 1,
-                  }}
-                >
-                  {pool.risk && range1(pool.risk).map(r => {
-                    const color = pool.risk >= 4 ?
-                      'red' : 
-                      pool.risk <= 2 ? 
-                        'green' :
-                        'yellow'
-                    return <div className={`mt-1 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-${color} mr-1`}>
-                      &nbsp;
-                    </div>
-                  })}
-                </div>
+                <RiskFactor
+                  {...props}
+                />
               </div>
             </div>
           </motion.a>

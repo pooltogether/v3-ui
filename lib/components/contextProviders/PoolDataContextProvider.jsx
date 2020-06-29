@@ -18,10 +18,14 @@ export const PoolDataContextProvider = (props) => {
   let addresses
   try {
     addresses = getContractAddresses(chainId)
+    console.log({ chainId})
   } catch (e) {
+    console.log('hi')
     poolToast.error(e)
     console.error(e)
   }
+
+  console.log({ addresses })
   
   return <>
     <V3ApolloWrapper>

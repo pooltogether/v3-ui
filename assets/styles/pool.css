@@ -27,7 +27,7 @@ html {
 }
 
 body {
-  @apply font-sans-regular;
+  @apply font-sans-regular tracking-wider;
   overflow-x: hidden;
 }
 
@@ -87,7 +87,7 @@ pre {
 }
 
 p {
-  @apply tracking-wider;
+  
 }
 
 label {
@@ -368,7 +368,7 @@ input[type="text"] {
 }
 
 .glow {
-  text-shadow: 0 0 2px rgba(6, 255, 150, 0.15), 0 0 4px rgba(14, 207, 216, 0.23)
+  /* text-shadow: 0 0 2px rgba(30, 30, 30, 0.1) */
 }
 
 .pt-panel {
