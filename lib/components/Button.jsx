@@ -4,17 +4,17 @@ import { omit } from 'lodash'
 import Link from 'next/link'
 
 
-const getPaddingClasses = (paddingClasses, isText) => {
-  if (paddingClasses) {
-    return paddingClasses
-  }
+// const getPaddingClasses = (paddingClasses, isText) => {
+//   if (paddingClasses) {
+//     return paddingClasses
+//   }
 
-  if (isText) {
-    return 'px-1 py-1'
-  }
+//   if (isText) {
+//     return 'px-1 py-1'
+//   }
 
-  return 'px-1 py-2 sm:py-3 lg:py-4'
-}
+//   return 'px-1 py-2 sm:py-3 lg:py-4'
+// }
 
 const getTextSizeClasses = (textSizeClasses, isText, size) => {
   if (textSizeClasses) {
@@ -98,6 +98,7 @@ export const Button = (props) => {
     textColorClasses,
     textSizeClasses,
     transitionClasses,
+    wide,
   } = props
 
   let defaultClasses = 'pt-button inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
@@ -116,20 +117,33 @@ export const Button = (props) => {
     defaultClasses += ' min-width-auto'
   }
 
-  if (inversed) {
-    backgroundColorClasses = 'bg-primary hover:bg-inverse'
-  } else {
-    backgroundColorClasses = 'bg-inverse hover:bg-green'
+  backgroundColorClasses = 'bg-inverse'
+  if (!disabled) {
+    if (inversed) {
+      backgroundColorClasses = 'bg-transparent hover:bg-inverse'
+    } else {
+      backgroundColorClasses = 'bg-inverse hover:bg-green'
+    }
   }
 
-  if (inversed) {
-    borderClasses = `border-2 border-inverse hover:border-default`
-  } else {
-    borderClasses = `border-2 border-primary hover:border-default`
+  borderClasses = `border-2 border-inverse`
+  if (!disabled) {
+    if (inversed) {
+      borderClasses = `border-2 border-inverse hover:border-default`
+    } else {
+      borderClasses = `border-2 border-inverse hover:border-secondary`
+    }
   }
   
-  paddingClasses = getPaddingClasses(paddingClasses, isText)
+  // paddingClasses = getPaddingClasses(paddingClasses, isText)
+  if (wide) {
+    paddingClasses = 'px-12 py-2 sm:py-3 lg:py-4'
+  } else {
+    paddingClasses = 'px-1 py-2 sm:py-3 lg:py-4'
+  }
+
   roundedClasses = getRoundedClasses(roundedClasses)
+
   if (inversed) {
     textColorClasses = 'text-inverse hover:text-match'
   } else {
@@ -165,6 +179,7 @@ export const Button = (props) => {
     'textColorClasses',
     'textSizeClasses',
     'transitionClasses',
+    'wide',
   ])
 
   if (href && as) {

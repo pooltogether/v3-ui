@@ -31,18 +31,18 @@
   --color-bg-inverse: #000;
   --color-bg-overlay: rgba(248, 248, 248, 0.97);
   --color-bg-red: #f56565;
-  --color-bg-green: #3EF3D4;
+  --color-bg-green: #1ef7d6;
   --color-bg-yellow: #FF9303;
 
   --color-text-primary: #401C94;
-  --color-text-secondary: #33DEC3;
+  --color-text-secondary: #1ef7d6;
   --color-text-default: #4c249f;
   --color-text-default-soft: #946fdf;
   --color-text-inverse: #000;
   --color-text-match: #fff;
 
   --color-border-primary: #3c1a79;
-  --color-border-secondary: #33DEC3;
+  --color-border-secondary: #1ef7d6;
   --color-border-default: #f7f7f7;
   --color-border-inverse: #000;
   --color-border-transparent: rgba(0,0,0,0);
@@ -61,9 +61,17 @@
   background-image: url('/pooltogether-logo-black.svg');
 }
 
+.theme-light ::placeholder,
+.theme-light .input::placeholder,
+.theme-light .textarea::placeholder {
+  color: #946fdf;
+}
 
-
-
+.theme-dark ::placeholder,
+.theme-dark .input::placeholder,
+.theme-dark .textarea::placeholder {
+  color: #7458df;
+}
 
 
 

@@ -207,13 +207,13 @@ export const PoolShow = (
               <div
                 className='flex sm:justify-end items-center w-full sm:w-1/2 mt-4 sm:mt-0'
               >
-                <Button>
+                <Button wide>
                   Get tickets
                 </Button>
                 <div
                   className='ml-2'
                 >
-                  <Button inversed short>
+                  <Button inversed>
                     Withdraw
                   </Button>
                 </div>

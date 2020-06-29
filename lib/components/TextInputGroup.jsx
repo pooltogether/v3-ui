@@ -12,7 +12,9 @@ export const TextInputGroup = (
     required,
     disabled,
     type,
+    onBlur,
     pattern,
+    placeholder,
     onChange,
     value
   } = props
@@ -35,11 +37,13 @@ export const TextInputGroup = (
       </label>
       <Input
         id={id}
+        placeholder={placeholder}
         required={required}
         disabled={disabled}
         type={type || 'text'}
         pattern={pattern}
         onChange={onChange}
+        onBlur={onBlur}
         value={value}
       />
     </div>

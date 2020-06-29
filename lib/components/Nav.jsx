@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
@@ -14,6 +15,7 @@ import PoolLogo from 'assets/images/pooltogether-logo.svg'
 // import PoolLogo from 'assets/images/trophy.svg'
 
 export const Nav = (props) => {
+  const router = useRouter()
   const walletContext = useContext(WalletContext)
   const usersAddress = walletContext._onboard.getState().address
 
@@ -21,6 +23,17 @@ export const Nav = (props) => {
     e.preventDefault()
 
     walletContext.handleConnectWallet()
+  }
+
+  const handleSignIn = (e) => {
+    e.preventDefault()
+
+    router.push(
+      `${router.pathname}?signIn=1`,
+      `${router.asPath}?signIn=1`, {
+        shallow: true
+      }
+    )
   }
   
   return <>
@@ -71,8 +84,9 @@ export const Nav = (props) => {
                 {...props}
               /> :
               <button
-                className='rounded-lg text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider'
-                onClick={handleConnect}
+                className='rounded-full text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider'
+                // onClick={handleConnect}
+                onClick={handleSignIn}
               >
                 Sign in
               </button>

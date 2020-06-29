@@ -2,12 +2,6 @@ html, body, table {
   font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 0, "lnum" 0, "dlig" 0;
 }
 
-::placeholder,
-.input::placeholder,
-.textarea::placeholder {
-  color: rgb(235, 203, 253);
-}
-
 input:-internal-autofill-previewed,
 input:-internal-autofill-selected,
 textarea:-internal-autofill-previewed,
@@ -108,7 +102,7 @@ form:after {
 
 @media screen and (min-width: 640px) {
   .pt-button {
-    min-width: 170px;
+    /* min-width: 170px; */
   }
 }
 
@@ -119,7 +113,7 @@ form:after {
 }
 
 button[disabled] {
-  @apply opacity-30 cursor-not-allowed !important;
+  @apply opacity-20 cursor-not-allowed !important;
 }
 
 input:not([type='submit'])[disabled],
