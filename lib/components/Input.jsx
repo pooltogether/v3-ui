@@ -57,7 +57,7 @@ export function Input(props) {
       value={value}
       className={classnames(
         className,
-        'bg-default text-inverse w-full sm:w-10/12 rounded-lg focus:outline-none leading-none pl-6',
+        'bg-secondary text-inverse w-full sm:w-10/12 rounded-lg focus:outline-none leading-none pl-6',
         {
           // 'text-red-400': this.props.inputHigherThanBalance,
           // 'text-white': !this.props.inputHigherThanBalance,
