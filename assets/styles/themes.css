@@ -19,6 +19,7 @@
   --color-border-primary: #3c1a79;
   --color-border-secondary: #33DEC3;
   --color-border-default: #4c249f;
+  --color-border-inverse: #fff;
   --color-border-transparent: rgba(0,0,0,0);
 }
 
@@ -43,6 +44,7 @@
   --color-border-primary: #3c1a79;
   --color-border-secondary: #33DEC3;
   --color-border-default: #f7f7f7;
+  --color-border-inverse: #000;
   --color-border-transparent: rgba(0,0,0,0);
 }
 

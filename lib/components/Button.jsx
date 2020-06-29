@@ -123,7 +123,7 @@ export const Button = (props) => {
   }
 
   if (inversed) {
-    borderClasses = `border-2 border-secondary hover:border-default`
+    borderClasses = `border-2 border-inverse hover:border-default`
   } else {
     borderClasses = `border-2 border-primary hover:border-default`
   }

@@ -12,7 +12,7 @@ module.exports = {
       secondary: "var(--color-border-secondary)",
       default: "var(--color-border-default)",
       transparent: "var(--color-border-transparent)",
-      // inverse: "var(--color-border-inverse)",
+      inverse: "var(--color-border-inverse)",
     },
     textColor: {
       primary: "var(--color-text-primary)",

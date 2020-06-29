@@ -20,7 +20,7 @@ export const IndexUI = (
       ...poolData.staticPoolData.daiPool,
       prize: 26591,
       risk: 5,
-      yieldSource: 'Balancer',
+      yieldSource: 'mStable',
       frequency: 'Weekly',
     },
     {
