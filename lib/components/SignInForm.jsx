@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Link from 'next/link'
 
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { Button } from 'lib/components/Button'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 
@@ -9,6 +10,14 @@ const validator = require('email-validator')
 export const SignInForm = (props) => {
   const [email, setEmail] = useState('')
   const [isValid, setIsValid] = useState(null)
+
+  const walletContext = useContext(WalletContext)
+
+  const handleConnect = (e) => {
+    e.preventDefault()
+
+    walletContext.handleConnectWallet()
+  }
 
   const signIn = () => {
 
@@ -73,7 +82,7 @@ export const SignInForm = (props) => {
           </div>
 
           <div
-            className='font-bold mb-2 py-2 text-sm sm:text-base text-default-soft'
+            className='mb-2 py-2 text-sm sm:text-base text-default-soft'
           >
             Enter your email address to continue:
           </div>
@@ -81,7 +90,7 @@ export const SignInForm = (props) => {
           <TextInputGroup
             id='email'
             label={''}
-            placeholder='Enter your email address'
+            placeholder='Your email'
             required
             type='email'
             onChange={handleEmailChange}
@@ -101,6 +110,16 @@ export const SignInForm = (props) => {
             </Button>
           </div>
         </form>
+
+        <div>
+          <button
+            onClick={handleConnect}
+            className='font-bold inline mb-2 py-2 text-sm sm:text-base text-primary-soft hover:text-primary trans border-b-2 border-transparent hover:border-secondary'
+          >
+            or connect to MetaMask, etc.
+          </button>
+        </div>
+
       </div>
     </div>
   </>

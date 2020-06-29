@@ -12,8 +12,8 @@ select:-internal-autofill-selected {
 }
 
 ::selection {
-  background-color: rgb(76, 185, 249);
-  color: white;
+  background-color: #79FFE1;
+  color: var(--color-text-inverse);
 }
 
 html {
