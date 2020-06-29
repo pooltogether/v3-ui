@@ -251,7 +251,13 @@ module.exports = {
       'disabled'
     ]
   },
-  plugins: []
+  plugins: [],
+  purge: [
+    './components/**/*.jsx',
+    './components/**/*.js',
+    './pages/**/*.jsx',
+    './pages/**/*.js'
+  ],
 }
 
 

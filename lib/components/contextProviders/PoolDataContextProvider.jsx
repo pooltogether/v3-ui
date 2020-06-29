@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
-import { DynamicPrizePoolsQuery } from 'lib/components/queryComponents/dynamicPrizePoolsQuery'
-import { StaticPrizePoolsQuery } from 'lib/components/queryComponents/staticPrizePoolsQuery'
+import { DynamicPrizePoolsQuery } from 'lib/components/queryComponents/DynamicPrizePoolsQuery'
+import { StaticPrizePoolsQuery } from 'lib/components/queryComponents/StaticPrizePoolsQuery'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { getChainId } from 'lib/services/getChainId'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
