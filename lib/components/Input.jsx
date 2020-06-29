@@ -14,7 +14,7 @@ export function Input(props) {
     value,
   } = props
 
-  const defaultClasses = 'text-white border-2 border-transparent bg-purple-1000 hover:bg-purple-900 active:bg-purple-900 focus:bg-purple-900 trans rounded-full focus:outline-none focus:outline-none leading-none px-6 py-2 lg:py-2'
+  const defaultClasses = 'text-white border-2 border-transparent bg-purple-1000 hover:bg-purple-900 active:bg-purple-900 focus:bg-purple-900 trans rounded-lg focus:outline-none focus:outline-none leading-none px-6 py-2 lg:py-2'
 
   if (roundedClasses === undefined) {
     roundedClasses = 'rounded'
@@ -56,7 +56,7 @@ export function Input(props) {
       value={value}
       className={classnames(
         className,
-        'w-full sm:w-10/12 rounded-full focus:outline-none leading-none pl-6',
+        'bg-default w-full sm:w-10/12 rounded-lg focus:outline-none leading-none pl-6',
         {
           // 'text-red-400': this.props.inputHigherThanBalance,
           // 'text-white': !this.props.inputHigherThanBalance,

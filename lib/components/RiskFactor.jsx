@@ -23,7 +23,7 @@ export const RiskFactor = (
             pool.risk <= 2 ?
               'green' :
               'yellow'
-          return <div className={`mt-1 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-${color} mr-1`}>
+          return <div className={`mt-1 w-3 h-3 sm:w-4 sm:h-4 rounded-lg bg-${color} mr-1`}>
             &nbsp;
           </div>
         })}

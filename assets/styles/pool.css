@@ -102,19 +102,19 @@ form:after {
 }
 
 .pt-button {
-  min-width: 180px;
+  min-width: 120px;
   max-width: 340px;
 }
 
 @media screen and (min-width: 640px) {
   .pt-button {
-    min-width: 200px;
+    min-width: 170px;
   }
 }
 
 @media screen and (min-width: 1280px) {
   .pt-button {
-    min-width: 220px;
+    /* min-width: 220px; */
   }
 }
 

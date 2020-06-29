@@ -14,7 +14,6 @@ export const IndexUI = (
 
   let pools = []
   const poolData = useContext(PoolDataContext)
-  console.log({poolData})
   pools = [
     {
       ...poolData.dynamicPoolData.daiPool,

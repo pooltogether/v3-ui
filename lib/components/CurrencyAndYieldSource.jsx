@@ -32,7 +32,7 @@ export const CurrencyAndYieldSource = (
       className='inline-block w-6 h-6 lg:w-8 lg:h-8 mr-2'
     />
     <div
-      className='bg-default rounded-full px-2 uppercase text-xxs sm:text-sm font-bold mr-1'
+      className='bg-default rounded-lg px-2 uppercase text-xxs sm:text-sm font-bold mr-1'
     >
       {pool.yieldSource}
     </div>

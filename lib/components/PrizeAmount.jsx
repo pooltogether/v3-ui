@@ -6,13 +6,24 @@ export const PrizeAmount = (
   props,
 ) => {
   const {
+    big,
     pool
   } = props
 
+  let labelSize = 'text-xxxs sm:text-xxs'
+  let amountSize = 'text-sm sm:text-xl'
+
+  if (big) {
+    labelSize = 'text-xs sm:text-xs lg:text-base'
+    amountSize = 'text-3xl sm:text-3xl lg:text-5xl font-bold'
+  }
+
   return <>
-    <div className='uppercase text-xxxs sm:text-xxs font-bold'>Prize</div>
-    <div className='text-sm sm:text-xl text-inverse'>
-      ${numberWithCommas(pool.prize)} <span className='uppercase text-xxxs sm:text-xxs font-bold text-primary'> / {pool.frequency === 'Weekly' ? 'week' : 'day'}</span>
+    <div className={`${labelSize} uppercase font-bold`}>Prize estimate</div>
+    <div className={`${amountSize} text-inverse`}>
+      <span className='font-number'>${numberWithCommas(pool.prize)}</span> <span
+        className={`${labelSize} uppercase font-bold text-primary`}
+      > / {pool.frequency === 'Weekly' ? 'week' : 'day'}</span>
     </div>
   </>
 }

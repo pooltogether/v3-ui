@@ -71,7 +71,7 @@ export const Nav = (props) => {
                 {...props}
               /> :
               <button
-                className='rounded-full text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider'
+                className='rounded-lg text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider'
                 onClick={handleConnect}
               >
                 Sign in

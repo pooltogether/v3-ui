@@ -3,12 +3,14 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
+import { Button } from 'lib/components/Button'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { FormLockedOverlay } from 'lib/components/FormLockedOverlay'
 import { LoadingDots } from 'lib/components/LoadingDots'
 import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
 import { DepositUI } from 'lib/components/DepositUI'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
+import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { UserActionsUI } from 'lib/components/UserActionsUI'
 import { UserStats } from 'lib/components/UserStats'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
@@ -179,12 +181,13 @@ export const PoolShow = (
           </div> */}
         <>
           <div
-            className='px-4 lg:px-10 py-4 sm:py-6 text-center rounded-lg'
+            className='px-2 py-4 sm:py-2 text-center rounded-lg'
           >
-
-            <div className='flex justify-between items-center'>
+            <div
+              className='flex flex-col sm:flex-row justify-between items-center'
+            >
               <div
-                className='flex items-center w-5/12 sm:w-1/2'
+                className='flex items-center w-full sm:w-1/2'
               >
                 <div
                   className='inline-block text-left text-lg sm:text-xl font-bold'
@@ -202,12 +205,22 @@ export const PoolShow = (
               </div>
 
               <div
-                className='w-5/12 sm:w-1/2'
+                className='flex sm:justify-end items-center w-full sm:w-1/2 mt-4 sm:mt-0'
               >
-                <DepositUI
+                <Button>
+                  Get tickets
+                </Button>
+                <div
+                  className='ml-2'
+                >
+                  <Button inversed short>
+                    Withdraw
+                  </Button>
+                </div>
+                {/* <DepositUI
                   {...props}
                   genericChainValues={genericChainValues}
-                />
+                /> */}
               </div>
 
             </div>
@@ -229,16 +242,25 @@ export const PoolShow = (
               </EtherscanAddressLink>
             </div> */}
 
-            <PoolActionsUI
-              genericChainValues={genericChainValues}
-              networkName={networkName}
-              poolAddresses={poolAddresses}
-              usersAddress={usersAddress}
-            />
+            <div className='text-left mt-10'>
+              <PrizeAmount
+                {...props}
+                big
+              />
+            </div>
+
+            <div className='mt-10'>
+              <PoolActionsUI
+                genericChainValues={genericChainValues}
+                networkName={networkName}
+                poolAddresses={poolAddresses}
+                usersAddress={usersAddress}
+              />
+            </div>
           </div>
 
           <div
-            className='relative py-4 sm:py-6 text-center rounded-lg'
+            className='relative py-4 sm:py-2 text-center rounded-lg'
           >
             {/* {ethBalance && ethBalance.eq(0) && <>
               <FormLockedOverlay
@@ -268,7 +290,7 @@ export const PoolShow = (
                   className='mt-3 sm:mt-5 mb-5'
                 >
                   <button
-                  className='rounded-full text-secondary border sm:border-2 border-secondary hover:text-white hover:bg-secondary text-xxs sm:text-base py-2 px-3 sm:px-6 trans  tracking-wider'
+                  className='rounded-lg text-secondary border sm:border-2 border-secondary hover:text-white hover:bg-secondary text-xxs sm:text-base py-2 px-3 sm:px-6 trans  tracking-wider'
                     onClick={handleConnect}
                   >
                     Sign in
@@ -277,10 +299,11 @@ export const PoolShow = (
               </>
             </FormLockedOverlay>} */}
             
-            <UserStats
+
+            {usersAddress && <UserStats
               genericChainValues={genericChainValues}
               usersChainValues={usersChainValues}
-            />
+            />}
 {/* 
             <UserActionsUI
               genericChainValues={genericChainValues}

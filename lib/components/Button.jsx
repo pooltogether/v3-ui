@@ -3,21 +3,6 @@ import classnames from 'classnames'
 import { omit } from 'lodash'
 import Link from 'next/link'
 
-const getBorderClasses = (borderClasses, color, isText) => {
-  if (borderClasses) {
-    return borderClasses
-  }
-
-  if (isText) {
-    return 'border-transparent'
-  }
-
-  if (!color) {
-    color = 'primary'
-  }
-
-  return `border-0`
-}
 
 const getPaddingClasses = (paddingClasses, isText) => {
   if (paddingClasses) {
@@ -94,6 +79,7 @@ export const Button = (props) => {
   })
   
   let {
+    as,
     backgroundColorClasses,
     borderClasses,
     children,
@@ -101,7 +87,7 @@ export const Button = (props) => {
     className,
     disabled,
     href,
-    as,
+    inversed,
     noAnim,
     isBold,
     isText,
@@ -130,13 +116,25 @@ export const Button = (props) => {
     defaultClasses += ' min-width-auto'
   }
 
-  backgroundColorClasses = 'bg-inverse hover:bg-green'
-  // backgroundColorClasses = getBackgroundColorClasses(backgroundColorClasses, color, isText)
-  borderClasses = getBorderClasses(borderClasses, color, isText)
+  if (inversed) {
+    backgroundColorClasses = 'bg-primary hover:bg-inverse'
+  } else {
+    backgroundColorClasses = 'bg-inverse hover:bg-green'
+  }
+
+  if (inversed) {
+    borderClasses = `border-2 border-secondary hover:border-default`
+  } else {
+    borderClasses = `border-2 border-primary hover:border-default`
+  }
+  
   paddingClasses = getPaddingClasses(paddingClasses, isText)
   roundedClasses = getRoundedClasses(roundedClasses)
-  textColorClasses = 'text-match'
-  // textColorClasses = getTextColorClasses(textColorClasses, color)
+  if (inversed) {
+    textColorClasses = 'text-inverse hover:text-match'
+  } else {
+    textColorClasses = 'text-match'
+  }
   textSizeClasses = getTextSizeClasses(textSizeClasses, isText, size)
   transitionClasses = getTransitionClasses(transitionClasses)
 
@@ -154,6 +152,7 @@ export const Button = (props) => {
   )
 
   const newProps = omit(props, [
+    'inversed',
     'backgroundColorClasses',
     'borderClasses',
     'noAnim',

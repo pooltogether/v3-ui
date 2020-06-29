@@ -33,7 +33,7 @@ export const TxMessage = (props) => {
         className='pt-10 sm:pt-3 pb-3 px-2 sm:px-4  text-center text-white text-xs sm:text-sm lg:text-base'
       >
         <div
-          className='font-bold rounded-full mb-4 text-white text-sm sm:text-base uppercase px-2 py-1 bg-purple-900'
+          className='font-bold rounded-lg mb-4 text-white text-sm sm:text-base uppercase px-2 py-1 bg-purple-900'
         >
           Transaction status
         </div>
@@ -120,7 +120,7 @@ export const TxMessage = (props) => {
         {handleReset && txCompleted && <>
           <div className='mt-10 text-center'>
             <button
-              className='font-bold rounded-full text-secondary border-2 sm:border-4 border-secondary hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
+              className='font-bold rounded-lg text-secondary border-2 sm:border-4 border-secondary hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
               onClick={handleReset}
             >
               {resetButtonText || 'Reset form'}

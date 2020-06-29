@@ -83,6 +83,7 @@
 
 .theme-toggler,
 .toggle {
+  color: #999;
   height: 1.25rem;
   border-radius: 100px;
 }
