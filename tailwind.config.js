@@ -252,12 +252,11 @@ module.exports = {
     ]
   },
   plugins: [],
-  purge: [
-    './components/**/*.jsx',
-    './components/**/*.js',
-    './pages/**/*.jsx',
-    './pages/**/*.js'
-  ],
+  purge: false
+  // purge: [
+  //   './components/**/*.jsx',
+  //   './components/**/*.js',
+  //   './pages/**/*.jsx',
+  //   './pages/**/*.js'
+  // ],
 }
-
-
