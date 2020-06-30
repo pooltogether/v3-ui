@@ -7,7 +7,7 @@
   "scripts": {
     "compile-translations": "node ./scripts/compile-translations",
     "dev": "NODE_ENV=dev yarn compile-translations && npm-run-all --parallel start:app start:server",
-    "distrelease": "yarn build && yarn dist",
+    "distrelease": "yarn dist",
     "start:app": "PORT=3000 node server.js",
     "start:server": "netlify-lambda serve functions",
     "postinstall": "netlify-lambda install",

@@ -29,13 +29,30 @@ export const ThemeSwitcher = (props) => {
 
       // register an onChange listener if we don't have a cookie set
       if (!stored && window.matchMedia) {
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-          const newValue = e.matches ? 'theme-dark' : 'theme-light'
-          setThemeAutomatically(newValue)
-        })
+        const mm = window.matchMedia('(prefers-color-scheme: dark)')
 
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-        stored = prefersDark ? 'theme-dark' : 'theme-light'
+        const prefersDark = mm.matches
+        stored = prefersDark ? 'dark' : 'light'
+
+        try {
+          mm.addListener(e => {
+            const newValue = e.matches ? 'theme-dark' : 'theme-light'
+            setThemeAutomatically(newValue)
+          })
+        } catch (e) {
+          // console.warn(e)
+          // console.warn('swallowing matchmediaquery addListener call')
+        }
+        
+        try {
+          mm.addEventListener('change', e => {
+            const newValue = e.matches ? 'theme-dark' : 'theme-light'
+            setThemeAutomatically(newValue)
+          })
+        } catch (e) {
+          // console.warn(e)
+          // console.warn('swallowing matchmediaquery addEventListener call')
+        }
       }
 
       // onLoad

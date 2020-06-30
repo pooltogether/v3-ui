@@ -62,7 +62,7 @@ export default function Dashboard(props) {
 
       {magic && signedIn && <>
         <button
-          className='mt-16 rounded-full text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+          className='mt-16 rounded-full text-secondary border-2 font-bold border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
           onClick={signOut}
         >
           Sign out
