@@ -18,10 +18,10 @@ export const ThemeSwitcher = (props) => {
 
     if (window && window.matchMedia) {
       const setThemeAutomatically = (newValue) => {
-        if (newValue === 'theme-dark') {
+        if (newValue === 'dark') {
           body.classList.add('theme-dark')
           body.classList.remove('theme-light')
-        } else if (newValue === 'theme-light') {
+        } else if (newValue === 'light') {
           body.classList.add('theme-light')
           body.classList.remove('theme-dark')
         }
@@ -71,7 +71,7 @@ export const ThemeSwitcher = (props) => {
 
   return <label
     onClick={toggleTheme}
-    className='theme-toggler m-0 relative'
+    className='theme-toggler m-0 relative select-none'
   >
     <div className='toggle'></div>
     <div
