@@ -1,107 +1,24 @@
 import React, { useContext, useState } from 'react'
 import Link from 'next/link'
-import Cookies from 'js-cookie'
-import { useRouter } from 'next/router'
-import { Magic, RPCError, RPCErrorCode } from 'magic-sdk'
 
-import {
-  COOKIE_OPTIONS,
-  MAGIC_EMAIL,
-  MAGIC_IS_LOGGED_IN
-} from 'lib/constants'
+import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { Button } from 'lib/components/Button'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
-import { poolToast } from 'lib/utils/poolToast'
 
 const validator = require('email-validator')
 
 export const SignInForm = (props) => {
-  const router = useRouter()
   const [email, setEmail] = useState('')
   const [isValid, setIsValid] = useState(null)
 
+  const magicContext = useContext(MagicContext)
   const walletContext = useContext(WalletContext)
 
   const handleConnect = (e) => {
     e.preventDefault()
 
     walletContext.handleConnectWallet()
-  }
-
-  const signIn = async (e) => {
-    // const { elements } = event.target
-
-    // const magic = new Magic('API_KEY', {
-    //   network: { rpcUrl: 'https://...' }
-    // });
-    const networkName = process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
-
-    const magic = new Magic(
-      process.env.NEXT_JS_MAGIC_PUB_KEY,
-      { network: networkName === 'homestead' ? 'mainnet' : networkName }
-    )
-
-    console.log({ email})
-
-    let did
-    try {
-      did = await magic
-        .auth
-        .loginWithMagicLink({ email })
-
-
-      // magic.user.updateEmail({ email, showUI?= true })
-      // console.log(magic.user)
-      // console.log(await magic.user.getIdToken())
-      // console.log(magic.user.generateIdToken)
-
-      // const { email, publicAddress } = await magic.user.getMetadata()
-      // console.log(email, publicAddress)
-
-      console.log('isLoggedIn', await magic.user.isLoggedIn())
-      // console.log(await magic.user.logout())
-
-      
-      const web3 = new Web3(magic.rpcProvider)
-      console.log({ web3 })
-
-      Cookies.set(
-        MAGIC_EMAIL,
-        email,
-        COOKIE_OPTIONS
-      )
-
-      Cookies.set(
-        MAGIC_IS_LOGGED_IN,
-        true,
-        COOKIE_OPTIONS
-      )
-
-      router.push(
-        `${router.pathname}`,
-        `${router.asPath}`, {
-          shallow: true
-        }
-      )
-    } catch (err) {
-      console.error(err)
-      poolToast.error(err.message)
-
-      if (err instanceof RPCError) {
-        switch (err.code) {
-          case RPCErrorCode.MagicLinkFailedVerification:
-            break
-          case RPCErrorCode.MagicLinkExpired:
-            break
-          case RPCErrorCode.MagicLinkRateLimited:
-            break
-          case RPCErrorCode.UserAlreadyLoggedIn:
-            break
-        }
-      }
-    }
-
   }
 
   const testEmail = () => {
@@ -114,7 +31,7 @@ export const SignInForm = (props) => {
     testEmail()
 
     if (isValid) {
-      signIn()
+      magicContext.signIn(email)
     }
   }
 

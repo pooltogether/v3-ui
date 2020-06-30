@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
+import { useRouter } from 'next/router'
 import classnames from 'classnames'
-import FeatherIcon from 'feather-icons-react'
 
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { networkColorClassname } from 'lib/utils/networkColorClassname'
 import { chainIdToName } from 'lib/utils/chainIdToName'
-import { shortenAddress } from 'lib/utils/shortenAddress'
 
 export const WalletInfo = () => {
+  const router = useRouter()
   const walletContext = useContext(WalletContext)
   const { _onboard } = walletContext || {}
   const currentState = _onboard.getState()
@@ -38,42 +38,46 @@ export const WalletInfo = () => {
 
   if (address && walletName) {
     innerContent = <>
-      <div className='text-xxs leading-snug text-default trans'>
-        <span
-          className='overflow-ellipsis block w-full no-underline'
+      <div className='text-base sm:text-lg lg:text-xl leading-snug text-default trans'>
+        <h2
+          className='text-default-soft mt-10'
         >
-          {shortenAddress(address)}
-        </span>
+          ETH Address:
+        </h2>
+        <div
+          className='overflow-ellipsis w-full no-underline'
+        >
+          {address}
+        </div>
 
-        <span
-          className='block sm:inline-block rounded-lg sm:text-purple-500 capitalize'
+        <h2
+          className='text-default-soft mt-10'
+        >
+          Network info:
+        </h2>
+        <div
+          className='rounded-lg sm:text-purple-500 capitalize'
         >
           {walletName} {networkName}
-        </span>
+        </div>
       </div>
 
       <button
-        onClick={() => _onboard.walletReset()}
-        className={classnames(
-          'text-inverse hover:text-secondary trans ml-2 outline-none focus:outline-none',
-          'block border rounded-full w-4 h-4 sm:w-5 sm:h-5 text-center text-lg',
-          'border-primary hover:border-secondary hover:bg-secondary',
-          'trans'
-        )}
+        className='mt-16 rounded-full text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+        onClick={(e) => {
+          e.preventDefault()
+          _onboard.walletReset()
+          router.push('/?signIn=1', '/?signIn=1')
+        }}
       >
-        <FeatherIcon
-          icon='x'
-          className={classnames(
-            'w-3 h-3 hover:text-white m-auto'
-          )}
-        />
+        Sign out
       </button>
     </>
   }
 
   return <>
     <div
-      className='relative flex justify-end items-center'
+      className='relative flex flex-col justify-center items-center'
     > 
       {innerContent}
     </div>

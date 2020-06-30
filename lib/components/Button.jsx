@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react'
 import classnames from 'classnames'
-import { omit } from 'lodash'
 import Link from 'next/link'
-
+import { omit } from 'lodash'
+import { motion } from 'framer-motion'
 
 // const getPaddingClasses = (paddingClasses, isText) => {
 //   if (paddingClasses) {
@@ -165,7 +165,7 @@ export const Button = (props) => {
     transitionClasses,
   )
 
-  const newProps = omit(props, [
+  let newProps = omit(props, [
     'inversed',
     'backgroundColorClasses',
     'borderClasses',
@@ -182,6 +182,35 @@ export const Button = (props) => {
     'wide',
   ])
 
+  if (!disabled) {
+    newProps = {
+      ...newProps,
+      animate: 'enter',
+      variants: {
+        enter: {
+          y: 0,
+          transition: {
+            duration: 0.1
+          }
+        },
+      },
+      whileHover: {
+        scale: 1.03,
+        y: -3,
+        transition: {
+          duration: 0.1
+        }
+      },
+      whileTap: {
+        scale: 0.97,
+        y: 2,
+        transition: {
+          duration: 0.1
+        }
+      }
+    }
+  }
+
   if (href && as) {
     const linkProps = omit(newProps, [
       'children',
@@ -193,17 +222,17 @@ export const Button = (props) => {
       as={as}
       scroll={false}
     >
-      <a
+      <motion.a
         {...linkProps}
         ref={buttonRef}
         anim={disabled || noAnim ? '' : 'ripple'}
         className={className}
       >
         {children}
-      </a>
+      </motion.a>
     </Link>
   } else {
-    return <button
+    return <motion.button
       {...newProps}
       ref={buttonRef}
       anim={disabled || noAnim ? '' : 'ripple'}

@@ -1,12 +1,10 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import Link from 'next/link'
-import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
-import { MAGIC_IS_LOGGED_IN } from 'lib/constants'
+import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
-import { WalletInfo } from 'lib/components/WalletInfo'
 
 // import PoolLogo from 'assets/images/pooltogether-white-wordmark.svg'
 
@@ -20,16 +18,8 @@ export const Nav = (props) => {
   const router = useRouter()
   const walletContext = useContext(WalletContext)
   const usersAddress = walletContext._onboard.getState().address
-
-  const [magicSignedIn, setMagicSignedIn] = useState(false)
-  
-  useEffect(() => {
-    const magicIsLoggedIn = Cookies.get(MAGIC_IS_LOGGED_IN)
-    console.log({ magicIsLoggedIn})
-    if (magicIsLoggedIn === 'true') {
-      setMagicSignedIn(true)
-    }
-  })
+  const magicContext = useContext(MagicContext)
+  const { magic, signedIn } = magicContext
 
   const handleShowDashboard = (e) => {
     e.preventDefault()
@@ -37,13 +27,7 @@ export const Nav = (props) => {
     router.push('/dashboard')
   }
 
-  const handleConnect = (e) => {
-    e.preventDefault()
-
-    walletContext.handleConnectWallet()
-  }
-
-  const handleSignIn = (e) => {
+  const handleShowSignIn = (e) => {
     e.preventDefault()
 
     router.push(
@@ -53,7 +37,7 @@ export const Nav = (props) => {
       }
     )
   }
-  
+
   return <>
     <div className='nav-and-footer-container'>
       <nav
@@ -69,18 +53,7 @@ export const Nav = (props) => {
             <a
               title={'Back to home'}
               className='pool-logo border-0 trans block w-full'
-            >
-              {/* <img
-                alt={`PoolTogether Logo`}
-                src={PoolLogoDark}
-                className='pool-logo-dark mr-auto w-32 trans'
-              />
-              <img
-                alt={`PoolTogether Logo`}
-                src={PoolLogo}
-                className='pool-logo mr-auto w-32 trans'
-              /> */}
-            </a>
+            >&nbsp;</a>
           </Link>
         </div>
 
@@ -97,24 +70,19 @@ export const Nav = (props) => {
               minWidth: 70
             }}
           >
-            {magicSignedIn ?
+            {(magic && signedIn) || usersAddress ?
               <button
-                className='rounded-full text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider'
+                className='rounded-full text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
                 onClick={handleShowDashboard}
               >
                 Account
               </button> :
-              usersAddress ?
-                <WalletInfo
-                  {...props}
-                /> :
-                <button
-                  className='rounded-full text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider'
-                  // onClick={handleConnect}
-                  onClick={handleSignIn}
-                >
-                  Sign in
-                </button>
+              <button
+                className='rounded-full text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+                onClick={handleShowSignIn}
+              >
+                Sign in
+              </button>
             }
           </div>
         </div>

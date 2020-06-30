@@ -2326,16 +2326,6 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-5.15.0.tgz#870524ade408b50ce74971509aa170e9d85c0575"
   integrity sha512-QuAva3K3YFDtQidi8xAfOQcb+aExJus3p0GhPNscOE+r152klBdiZUHLp818zEeQZT7PRSm83gEknmeUYjGU9A==
 
-"@magic-sdk/admin@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@magic-sdk/admin/-/admin-1.2.2.tgz#941897f2b53d277f13282649b0c30cbd1020fd08"
-  integrity sha512-cbSxfDp74U3vI4L2k8V8bRChrVWmB4XjclXg/cIEN3bJvBJnXmHn39aGEBXB8LeLpf14g5F5w5zMimG/JehKMg==
-  dependencies:
-    eth-sig-util "2.1.2"
-    ethereumjs-util "^6.2.0"
-    express "^4.17.1"
-    node-fetch "^2.6.0"
-
 "@magic-sdk/provider@^2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@magic-sdk/provider/-/provider-2.2.0.tgz#69699d77e802b727e89a0d3d475b88b20ca49a06"
@@ -7389,18 +7379,6 @@ eth-query@^2.0.2, eth-query@^2.1.0, eth-query@^2.1.2:
   dependencies:
     json-rpc-random-id "^1.0.0"
     xtend "^4.0.1"
-
-eth-sig-util@2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/eth-sig-util/-/eth-sig-util-2.1.2.tgz#9b357395b5ca07fae6b430d3e534cf0a0f1df118"
-  integrity sha512-bNgt7txkEmaNlLf+PrbwYIdp4KRkB3E7hW0/QwlBpgv920pVVyQnF0evoovfiRveNKM4OrtPYZTojjmsfuCUOw==
-  dependencies:
-    buffer "^5.2.1"
-    elliptic "^6.4.0"
-    ethereumjs-abi "0.6.5"
-    ethereumjs-util "^5.1.1"
-    tweetnacl "^1.0.0"
-    tweetnacl-util "^0.15.0"
 
 eth-sig-util@2.3.0:
   version "2.3.0"

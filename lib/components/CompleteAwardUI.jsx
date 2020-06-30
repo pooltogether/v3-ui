@@ -2,9 +2,10 @@ import React, { useContext, useState } from 'react'
 
 import CompoundPeriodicPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPeriodicPrizePool'
 
+import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { Button } from 'lib/components/Button'
 import { TxMessage } from 'lib/components/TxMessage'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { sendTx } from 'lib/utils/sendTx'
 
 const handleCompleteAwardSubmit = async (
@@ -34,8 +35,13 @@ export const CompleteAwardUI = (props) => {
     genericChainValues
   } = props
 
+  const magicContext = useContext(MagicContext)
   const walletContext = useContext(WalletContext)
-  const provider = walletContext.state.provider
+
+  let provider = walletContext.state.provider
+  if (!provider) {
+    provider = magicContext.provider
+  }
   
   const [tx, setTx] = useState({})
 

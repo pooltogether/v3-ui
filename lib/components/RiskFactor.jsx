@@ -17,13 +17,16 @@ export const RiskFactor = (
           marginTop: 1,
         }}
       >
-        {pool.risk && range1(pool.risk).map(r => {
+        {pool.risk && range1(pool.risk).map((r, index) => {
           const color = pool.risk >= 4 ?
             'red' :
             pool.risk <= 2 ?
               'green' :
               'yellow'
-          return <div className={`mt-1 w-3 h-3 sm:w-4 sm:h-4 rounded-lg bg-${color} mr-1`}>
+          return <div
+            key={`${pool.id}-${index}`}
+            className={`mt-1 w-3 h-3 sm:w-4 sm:h-4 rounded-lg bg-${color} mr-1`}
+          >
             &nbsp;
           </div>
         })}

@@ -1,7 +1,6 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
 
-import { AutoLogin } from 'lib/components/AutoLogin'
 import { Layout } from 'lib/components/Layout'
 import { PoolDataContextProvider } from 'lib/components/contextProviders/PoolDataContextProvider'
 
@@ -16,6 +15,11 @@ import 'assets/styles/utils.css'
 import 'assets/styles/animations.css'
 import 'assets/styles/transitions.css'
 
+const DynamicMagicContextProvider = dynamic(() =>
+  import('lib/components/contextProviders/MagicContextProvider').then(mod => mod.MagicContextProvider),
+  { ssr: false }
+)
+
 const DynamicWalletContextProvider = dynamic(() =>
   import('lib/components/contextProviders/WalletContextProvider').then(mod => mod.WalletContextProvider),
   { ssr: false }
@@ -29,17 +33,17 @@ function handleExitComplete() {
 
 function MyApp({ Component, pageProps }) {
   return <>
-    <AutoLogin />
-
-    <DynamicWalletContextProvider>
-      <Layout>
-        <PoolDataContextProvider>
-          <Component
-            {...pageProps}
-          />
-        </PoolDataContextProvider>
-      </Layout>
-    </DynamicWalletContextProvider>
+    <DynamicMagicContextProvider>
+      <DynamicWalletContextProvider>
+        <Layout>
+          <PoolDataContextProvider>
+            <Component
+              {...pageProps}
+            />
+          </PoolDataContextProvider>
+        </Layout>
+      </DynamicWalletContextProvider>
+    </DynamicMagicContextProvider>
   </>
 }
 
