@@ -29,6 +29,7 @@ module.exports = {
       primary: 'var(--color-bg-primary)',
       secondary: 'var(--color-bg-secondary)',
       default: 'var(--color-bg-default)',
+      darkened: 'var(--color-bg-darkened)',
       inverse: 'var(--color-bg-inverse)',
       overlay: 'var(--color-bg-overlay)',
       red: 'var(--color-bg-red)',

@@ -56,7 +56,7 @@ export const TxMessage = (props) => {
           <div
             className='mb-2 text-yellow-400 text-base sm:text-lg lg:text-xl'
           >
-            Waiting for confirmations ...
+            Transactions may take a few minutes to complete ...
           </div>
 
           <div className='my-3'>

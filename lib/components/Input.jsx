@@ -34,9 +34,11 @@ export function Input(props) {
     marginClasses,
     textClasses,
     roundedClasses,
-    props.className, {
-    'text-red-500': isError,
-  }
+    props.className, 
+    {
+      'text-red-500': isError,
+      'font-number': props.type === 'number'
+    }
   )
 
   const newProps = omit(props, [

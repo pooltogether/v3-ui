@@ -3,6 +3,7 @@
   --color-bg-primary: #290b5a;
   --color-bg-secondary: #300e69;
   --color-bg-default: #27094C;
+  --color-bg-darkened: #1a083a;
   --color-bg-inverse: #fff;
   --color-bg-overlay: rgba(48, 14, 105, 0.97);
   --color-bg-red: #F56565;
@@ -29,6 +30,7 @@
   --color-bg-primary: #fff;
   --color-bg-secondary: #fff;
   --color-bg-default: #f7f7f7;
+  --color-bg-darkened: #e9e9e9;
   --color-bg-inverse: #000;
   --color-bg-overlay: rgba(248, 248, 248, 0.97);
   --color-bg-red: #f56565;

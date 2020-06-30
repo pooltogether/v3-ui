@@ -13,6 +13,7 @@ import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { UserActionsUI } from 'lib/components/UserActionsUI'
 import { UserStats } from 'lib/components/UserStats'
+import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchChainData } from 'lib/utils/fetchChainData'
@@ -40,9 +41,19 @@ export const PoolShow = (
   const networkName = router.query.networkName
   const prizePool = router.query.prizePoolAddress
 
+  const magicContext = useContext(MagicContext)
   const walletContext = useContext(WalletContext)
-  const provider = walletContext.state.provider
-  const usersAddress = walletContext._onboard.getState().address
+
+  // const provider = walletContext.state.provider
+  let usersAddress = walletContext._onboard.getState().address
+  if (!usersAddress) {
+    usersAddress = magicContext.address
+  }
+
+  let provider = walletContext.state.provider
+  if (!provider) {
+    provider = magicContext.provider
+  }
   
   const [ethBalance, setEthBalance] = useState(ethers.utils.bigNumberify(0))
   const [poolAddresses, setPoolAddresses] = useState({
@@ -131,12 +142,23 @@ export const PoolShow = (
   //     UsdcSvg :
   //     UsdtSvg
 
-  console.log({pool})
-
   if (!pool) {
     console.warn("don't do this!")
     return null
   }
+
+  const handleShowGetTickets = (e) => {
+    e.preventDefault()
+
+    router.push(
+      `${router.pathname}?getTickets=1`,
+      `${router.asPath}?getTickets=1`, {
+        shallow: true
+      }
+    )
+  }
+
+  const getTickets = router.query.getTickets
 
   return <>
     <motion.div
@@ -170,6 +192,12 @@ export const PoolShow = (
       }}
     >
       {error}
+
+      {getTickets && <DepositUI
+        {...props}
+        genericChainValues={genericChainValues}
+        poolAddresses={poolAddresses}
+      />}
       
         {/* {genericChainValues.loading ?
           <div
@@ -207,7 +235,10 @@ export const PoolShow = (
               <div
                 className='flex sm:justify-end items-center w-full sm:w-1/2 mt-4 sm:mt-0'
               >
-                <Button wide>
+                <Button
+                  onClick={handleShowGetTickets}
+                  wide
+                >
                   Get tickets
                 </Button>
                 <div

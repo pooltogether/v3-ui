@@ -71,20 +71,11 @@ export const MagicContextProvider = (props) => {
   }, [magic])
 
   useEffect(() => {
-    console.log({ magic})
     if (magic) {
       const emailFromCookies = Cookies.get(MAGIC_EMAIL)
-      console.log({ emailFromCookies })
 
       const autoSignIn = async () => {
-        console.log('in autosignin');
-
-        console.log('###################')
-        console.log(await magic.user.isLoggedIn())
-        console.log('###################')
-        
         if (await magic.user.isLoggedIn()) {
-          console.log('set auto-signin')
           setSignedIn(true)
         }
       }
@@ -93,7 +84,6 @@ export const MagicContextProvider = (props) => {
         autoSignIn()
       }
 
-      console.log({alreadyExecuted})
       setAlreadyExecuted(true)
     }
     

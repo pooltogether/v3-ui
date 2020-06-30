@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react'
+import Link from 'next/link'
 import { ethers } from 'ethers'
 
 import CompoundPeriodicPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPeriodicPrizePool'
 
 import { DepositForm } from 'lib/components/DepositForm'
 import { TxMessage } from 'lib/components/TxMessage'
+import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { poolToast } from 'lib/utils/poolToast'
 import { sendTx } from 'lib/utils/sendTx'
@@ -45,13 +47,25 @@ const handleDepositSubmit = async (
 }
 
 export const DepositUI = (props) => {
+  const magicContext = useContext(MagicContext)
   const walletContext = useContext(WalletContext)
-  const provider = walletContext.state.provider
-  const usersAddress = walletContext._onboard.getState().address
 
   const [depositAmount, setDepositAmount] = useState('')
 
   const [tx, setTx] = useState({})
+
+  // const walletContext = useContext(WalletContext)
+  // const provider = walletContext.state.provider
+  // const usersAddress = walletContext._onboard.getState().address
+  let usersAddress = walletContext._onboard.getState().address
+  if (!usersAddress) {
+    usersAddress = magicContext.address
+  }
+
+  let provider = walletContext.state.provider
+  if (!provider) {
+    provider = magicContext.provider
+  }
 
   const txInFlight = tx.inWallet || tx.sent
 
@@ -62,36 +76,41 @@ export const DepositUI = (props) => {
   }
 
   return <>
-    {!txInFlight ? <>
-      <DepositForm
-        {...props}
-        genericChainValues={props.genericChainValues}
-        handleSubmit={(e) => {
-          e.preventDefault()
-          handleDepositSubmit(
-            setTx,
-            provider,
-            usersAddress,
-            props.poolAddresses.prizePool,
-            depositAmount,
-            props.genericChainValues.tokenDecimals
-          )
-        }}
-        vars={{
-          depositAmount,
-        }}
-        stateSetters={{
-          setDepositAmount,
-        }}
-      />
-    </> : <>
-      <TxMessage
-        txType='Deposit to Pool'
-        tx={tx}
-        handleReset={resetState}
-      />
-    </>}
-    
+    <div
+      className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 bg-primary'
+    >
+      <div className='h-full flex flex-col justify-center p-4 sm:p-32 lg:p-64 text-center'>
+          {!txInFlight ? <>
+            <DepositForm
+              {...props}
+              genericChainValues={props.genericChainValues}
+              handleSubmit={(e) => {
+                e.preventDefault()
+                handleDepositSubmit(
+                  setTx,
+                  provider,
+                  usersAddress,
+                  props.poolAddresses.prizePool,
+                  depositAmount,
+                  props.genericChainValues.tokenDecimals
+                )
+              }}
+              vars={{
+                depositAmount,
+              }}
+              stateSetters={{
+                setDepositAmount,
+              }}
+            />
+          </> : <>
+            <TxMessage
+              txType='Deposit to Pool'
+              tx={tx}
+              handleReset={resetState}
+            />
+          </>}
+      </div>
+    </div>
   </>
 }
 

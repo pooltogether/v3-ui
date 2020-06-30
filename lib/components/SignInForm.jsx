@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import Link from 'next/link'
 
+import { useInterval } from 'lib/hooks/useInterval'
 import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { Button } from 'lib/components/Button'
@@ -24,6 +25,11 @@ export const SignInForm = (props) => {
   const testEmail = () => {
     setIsValid(validator.validate(email))
   }
+
+  // This catches autofill clicks in various browsers
+  useInterval(() => {
+    testEmail()
+  }, 1000)
 
   const handleSubmit = (e) => {
     e.preventDefault()
