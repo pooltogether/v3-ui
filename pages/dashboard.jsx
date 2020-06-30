@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react'
 import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletInfo } from 'lib/components/WalletInfo'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { shortenAddress } from 'lib/utils/shortenAddress'
 
 export default function Dashboard(props) {
   const magicContext = useContext(MagicContext)
@@ -44,7 +45,7 @@ export default function Dashboard(props) {
         <h2
           className='text-secondary'
         >
-          {address}
+          {shortenAddress(address)}
         </h2>
 
         {/* <h2
