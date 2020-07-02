@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
 import {
-  COOKIE_OPTIONS,
+  SELECTED_WALLET_COOKIE_KEY,
   MAGIC_EMAIL,
 } from 'lib/constants'
 import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
@@ -23,15 +23,13 @@ export const AuthControllerContextProvider = (props) => {
   const [walletAutoSignInAlreadyExecuted, setWalletAutoSignInAlreadyExecuted] = useState(false)
 
   const walletContext = useContext(WalletContext)
-  const { onboard, doConnectWallet, handleShowOnboard } = walletContext
+  const { _onboard, doConnectWallet, handleShowOnboard } = walletContext
   
   const magicContext = useContext(MagicContext)
   const { magic } = magicContext
 
 
   const postConnectRedirect = () => {
-    console.log('in postCOnnectRedirect')
-    
     router.push(
       `${router.pathname}`,
       `${router.asPath}`,
@@ -40,16 +38,34 @@ export const AuthControllerContextProvider = (props) => {
       }
     )
   }
+  
 
+  const postDisconnectRedirect = () => {
+    router.push(
+      `${router.pathname}?signIn=1`,
+      `${router.asPath}?signIn=1`,
+      {
+        shallow: true
+      }
+    )
+  }
+
+  const signOut = async (e) => {
+    if (e) {
+      e.preventDefault()
+    }
+
+    magicContext.signOut()
+    walletContext.disconnectWallet()
+    postDisconnectRedirect()
+  }
 
   const signInMagic = async (formEmail) => {
     magicContext.signIn(formEmail)
     walletContext.disconnectWallet()
-    postConnectRedirect()
   }
 
-  const signInWallet = async () => {
-    console.log('in signInWallet')
+  const signInWallet = async (previouslySelectedWallet) => {
     doConnectWallet(previouslySelectedWallet)
     postConnectRedirect()
   }
@@ -74,12 +90,11 @@ export const AuthControllerContextProvider = (props) => {
   }, [magic])
 
   useEffect(() => {
-    if (onboard) {
+    if (_onboard) {
       const autoSignInWallet = async () => {
         const previouslySelectedWallet = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
 
         if (previouslySelectedWallet !== undefined) {
-          console.log('auto signin, using onboard wallet cookie')
           signInWallet(previouslySelectedWallet)
         }
       }
@@ -90,11 +105,12 @@ export const AuthControllerContextProvider = (props) => {
 
       setWalletAutoSignInAlreadyExecuted(true)
     }
-  }, [onboard])
+  }, [_onboard])
 
   return <AuthControllerContext.Provider
     value={{
-      signInWallet,
+      // signInWallet,
+      signOut,
       signInMagic,
       handleShowOnboard,
     }}

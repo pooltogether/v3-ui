@@ -1,12 +1,14 @@
 import React, { useState, useContext } from 'react'
 
 import { Button } from 'lib/components/Button'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletInfo } from 'lib/components/WalletInfo'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { shortenAddress } from 'lib/utils/shortenAddress'
 
 export default function Dashboard(props) {
+  const authControllerContext = useContext(AuthControllerContext)
   const magicContext = useContext(MagicContext)
   const { signOut, signedIn, magic, address, email } = magicContext
 
@@ -63,7 +65,7 @@ export default function Dashboard(props) {
         <div className='mt-16'>
           <Button
             outline
-            onClick={signOut}
+            onClick={authControllerContext.signOut}
           >
             Sign out
           </Button>

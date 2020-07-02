@@ -68,11 +68,6 @@ export const MagicContextProvider = (props) => {
     }
   }, [magic])
 
-  const showLogin = () => {
-    console.log('magicCOntextProv')
-    router.push('/?signIn=1', '/?signIn=1')
-  }
-
   const signOut = async (e) => {
     if (e) {
       e.preventDefault()
@@ -81,8 +76,6 @@ export const MagicContextProvider = (props) => {
     const logout = await magic.user.logout()
     if (logout) {
       setSignedIn(false)
-      // console.log('in logout')
-      // showLogin()
     }
   }
 
@@ -92,12 +85,9 @@ export const MagicContextProvider = (props) => {
         .auth
         .loginWithMagicLink({ email: formEmail })
 
-      console.log({did})
       const isLoggedIn = await magic.user.isLoggedIn()
 
-      console.log('isLoggedIn', isLoggedIn)
       // magic.user.updateEmail({ email, showUI?= true })
-      // console.log(await magic.user.logout())
 
       if (isLoggedIn) {
         updateStateVars()

@@ -25,8 +25,6 @@ export const AllContextProviders = (props) => {
       postDisconnectCallback={() => {
       }}
       postConnectCallback={async () => {
-        // await magic.user.logout()
-
         router.push(
           `${router.pathname}`,
           `${router.asPath}`,

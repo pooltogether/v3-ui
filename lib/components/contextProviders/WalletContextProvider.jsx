@@ -8,11 +8,16 @@ import { MagicContext } from 'lib/components/contextProviders/MagicContextProvid
 
 import { nameToChainId } from 'lib/utils/nameToChainId'
 
+import {
+  SELECTED_WALLET_COOKIE_KEY
+} from 'lib/constants'
+
 const debug = require('debug')('WalletContextProvider')
 
 const INFURA_KEY = process.env.NEXT_JS_INFURA_KEY
 const FORTMATIC_KEY = process.env.NEXT_JS_FORTMATIC_API_KEY
-const SELECTED_WALLET_COOKIE_KEY = 'selectedWallet'
+
+
 // let networkName = 'mainnet'
 let networkName = 'kovan'
 const RPC_URL = (networkName && INFURA_KEY) ?
@@ -205,19 +210,23 @@ export const WalletContextProvider = (props) => {
   }
   
   const disconnectWallet = () => {
-    Cookies.remove(
-      SELECTED_WALLET_COOKIE_KEY,
-      cookieOptions
-    )
-    console.log('removing onboard cookie')
+    const currentState = _onboard.getState()
 
-    setOnboardState(previousState => ({
-      ...previousState,
-      address: undefined,
-      wallet: undefined,
-      provider: undefined,
-    }))
-    console.log('setting onboard state to null?')
+    if (currentState.address) {
+      _onboard.walletReset()
+      
+      Cookies.remove(
+        SELECTED_WALLET_COOKIE_KEY,
+        cookieOptions
+      )
+
+      setOnboardState(previousState => ({
+        ...previousState,
+        address: undefined,
+        wallet: undefined,
+        provider: undefined,
+      }))
+    }
   }
 
   if (!onboardState) {

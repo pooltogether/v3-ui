@@ -1,14 +1,15 @@
 import React, { useContext } from 'react'
-import { useRouter } from 'next/router'
 import classnames from 'classnames'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { Button } from 'lib/components/Button'
 import { networkColorClassname } from 'lib/utils/networkColorClassname'
 import { chainIdToName } from 'lib/utils/chainIdToName'
 
 export const WalletInfo = () => {
-  const router = useRouter()
+  const authControllerContext = useContext(AuthControllerContext)
+
   const walletContext = useContext(WalletContext)
   const { _onboard } = walletContext || {}
   const currentState = _onboard.getState()
@@ -66,11 +67,7 @@ export const WalletInfo = () => {
       <div className='mt-16'>
         <Button 
           outline
-          onClick={(e) => {
-            e.preventDefault()
-            _onboard.walletReset()
-            router.push('/?signIn=1', '/?signIn=1')
-          }}
+          onClick={authControllerContext.signOut}
         >
           Sign out
         </Button>

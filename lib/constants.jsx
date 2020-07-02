@@ -2,10 +2,11 @@ export const SUPPORTED_NETWORKS = [3, 42, 31337, 1234]
 
 export const MAINNET_POLLING_INTERVAL = 15000
 
+// cookie names
 export const MAGIC_EMAIL = 'magic-email'
+export const SELECTED_WALLET_COOKIE_KEY = 'selectedWallet'
 
 const domain = process.env.NEXT_JS_DOMAIN_NAME && `.${process.env.NEXT_JS_DOMAIN_NAME}`
-console.log({ domain});
 
 export const COOKIE_OPTIONS = {
   sameSite: 'strict',
