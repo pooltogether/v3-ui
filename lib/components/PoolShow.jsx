@@ -130,12 +130,6 @@ export const PoolShow = (
     // )
   }
 
-  const handleConnect = (e) => {
-    e.preventDefault()
-
-    walletContext.handleConnectWallet()
-  }
-
   // const tokenSvg = genericChainValues.tokenSymbol === 'DAI' ?
   //   DaiSvg :
   //   genericChainValues.tokenSymbol === 'USDC' ?

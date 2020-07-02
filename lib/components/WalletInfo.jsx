@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import classnames from 'classnames'
 
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
+import { Button } from 'lib/components/Button'
 import { networkColorClassname } from 'lib/utils/networkColorClassname'
 import { chainIdToName } from 'lib/utils/chainIdToName'
 
@@ -62,16 +63,18 @@ export const WalletInfo = () => {
         </div>
       </div>
 
-      <button
-        className='mt-16 rounded-full text-secondary border-2 font-bold border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
-        onClick={(e) => {
-          e.preventDefault()
-          _onboard.walletReset()
-          router.push('/?signIn=1', '/?signIn=1')
-        }}
-      >
-        Sign out
-      </button>
+      <div className='mt-16'>
+        <Button 
+          outline
+          onClick={(e) => {
+            e.preventDefault()
+            _onboard.walletReset()
+            router.push('/?signIn=1', '/?signIn=1')
+          }}
+        >
+          Sign out
+        </Button>
+      </div>
     </>
   }
 

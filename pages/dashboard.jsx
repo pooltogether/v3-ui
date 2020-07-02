@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 
+import { Button } from 'lib/components/Button'
 import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletInfo } from 'lib/components/WalletInfo'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
@@ -8,8 +9,6 @@ import { shortenAddress } from 'lib/utils/shortenAddress'
 export default function Dashboard(props) {
   const magicContext = useContext(MagicContext)
   const { signOut, signedIn, magic, address, email } = magicContext
-
-  // router.push('/?signIn=1', '/?signIn=1')
 
   return <>
     <div
@@ -61,12 +60,14 @@ export default function Dashboard(props) {
       </>}
 
       {magic && signedIn && <>
-        <button
-          className='mt-16 rounded-full text-secondary border-2 font-bold border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
-          onClick={signOut}
-        >
-          Sign out
-        </button>
+        <div className='mt-16'>
+          <Button
+            outline
+            onClick={signOut}
+          >
+            Sign out
+          </Button>
+        </div>
       </>}
     </div>
   </>

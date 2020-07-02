@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 
 import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
+import { Button } from 'lib/components/Button'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
 
 // import PoolLogo from 'assets/images/pooltogether-white-wordmark.svg'
@@ -71,19 +72,25 @@ export const Nav = (props) => {
             }}
           >
             {(magic && signedIn) || usersAddress ?
-              <button
-                className='rounded-full text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+              <Button
+                outline
                 onClick={handleShowDashboard}
               >
                 Account
-              </button> :
-              <button
-                className='rounded-full text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+              </Button> :
+              <Button
+                outline
                 onClick={handleShowSignIn}
               >
                 Sign in
-              </button>
+              </Button>
             }
+            <Button
+              outline
+              onClick={handleShowSignIn}
+            >
+              Sign in
+              </Button>
           </div>
         </div>
       </nav>

@@ -1,15 +1,14 @@
-// import App from 'next/app'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { Magic, RPCError, RPCErrorCode } from 'magic-sdk'
-import { poolToast } from 'lib/utils/poolToast'
 
 import {
   COOKIE_OPTIONS,
   MAGIC_EMAIL,
 } from 'lib/constants'
+import { poolToast } from 'lib/utils/poolToast'
 
 export const MagicContext = React.createContext()
 
@@ -20,7 +19,6 @@ export const MagicContextProvider = (props) => {
   const [provider, setProvider] = useState()
   const [email, setEmail] = useState()
   const [address, setAddress] = useState()
-  const [alreadyExecuted, setAlreadyExecuted] = useState(false)
   const [signedIn, setSignedIn] = useState(false)
 
   const networkName = process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
@@ -70,26 +68,8 @@ export const MagicContextProvider = (props) => {
     }
   }, [magic])
 
-  useEffect(() => {
-    if (magic) {
-      const emailFromCookies = Cookies.get(MAGIC_EMAIL)
-
-      const autoSignIn = async () => {
-        if (await magic.user.isLoggedIn()) {
-          setSignedIn(true)
-        }
-      }
-
-      if (emailFromCookies && !alreadyExecuted) {
-        autoSignIn()
-      }
-
-      setAlreadyExecuted(true)
-    }
-    
-  }, [magic])
-
   const showLogin = () => {
+    console.log('magicCOntextProv')
     router.push('/?signIn=1', '/?signIn=1')
   }
 
@@ -101,7 +81,8 @@ export const MagicContextProvider = (props) => {
     const logout = await magic.user.logout()
     if (logout) {
       setSignedIn(false)
-      showLogin()
+      // console.log('in logout')
+      // showLogin()
     }
   }
 

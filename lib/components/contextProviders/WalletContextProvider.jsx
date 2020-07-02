@@ -1,8 +1,10 @@
 // import App from 'next/app'
-import React, { useState } from 'react'
-import { ethers } from 'ethers'
+import React, { useContext, useState } from 'react'
 import Onboard from 'bnc-onboard'
 import Cookies from 'js-cookie'
+import { ethers } from 'ethers'
+
+import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 
 import { nameToChainId } from 'lib/utils/nameToChainId'
 
@@ -74,7 +76,12 @@ export const WalletContext = React.createContext()
 
 let _onboard
 
-const initializeOnboard = (setOnboardState) => {
+const initializeOnboard = (
+  setOnboardState,
+  disconnectWallet,
+  postConnectCallback,
+  postDisconnectCallback,
+) => {
   _onboard = Onboard({
     networkId: nameToChainId(networkName),
     darkMode: true,
@@ -106,35 +113,16 @@ const initializeOnboard = (setOnboardState) => {
       wallet: w => {
         debug({ w })
         if (!w.name) {
-          disconnectWallet(setOnboardState)
+          disconnectWallet()
+          postDisconnectCallback()
         } else {
           connectWallet(w, setOnboardState)
-
           setAddress(setOnboardState)
+          postConnectCallback()
         }
       }
     }
   })
-}
-
-// walletType is optional here:
-const doConnectWallet = async (walletType, setOnboardState) => {
-  await _onboard.walletSelect(walletType)
-  const currentState = _onboard.getState()
-  debug({ currentState })
-
-  if (currentState.wallet.type) {
-    debug("run walletCheck")
-    await _onboard.walletCheck()
-    debug("walletCheck done")
-    debug({ currentState: _onboard.getState() })
-
-    // trigger re-render
-    setOnboardState(previousState => ({
-      ...previousState,
-      timestamp: Date.now()
-    }))
-  }
 }
 
 const connectWallet = (w, setOnboardState) => {
@@ -150,29 +138,6 @@ const connectWallet = (w, setOnboardState) => {
     wallet: w,
     provider: new ethers.providers.Web3Provider(w.provider)
   }))
-}
-
-const disconnectWallet = (setOnboardState) => {
-  Cookies.remove(
-    SELECTED_WALLET_COOKIE_KEY,
-    cookieOptions
-  )
-
-  setOnboardState(previousState => ({
-    ...previousState,
-    address: undefined,
-    wallet: undefined,
-    provider: undefined,
-  }))
-}
-
-const onPageLoad = async (setOnboardState) => {
-  const previouslySelectedWallet = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
-
-  if (previouslySelectedWallet !== undefined) {
-    debug('using cookie')
-    doConnectWallet(previouslySelectedWallet, setOnboardState)
-  }
 }
 
 const setAddress = (setOnboardState) => {
@@ -202,12 +167,66 @@ const setAddress = (setOnboardState) => {
 }
 
 export const WalletContextProvider = (props) => {
+  const {
+    children,
+    postDisconnectCallback,
+    postConnectCallback,
+  } = props
   const [onboardState, setOnboardState] = useState()
 
-  if (!onboardState) {
-    initializeOnboard(setOnboardState)
+  const magicContext = useContext(MagicContext)
+  const { magic } = magicContext
 
-    onPageLoad(setOnboardState)
+  const afterConnect = () => {
+    postConnectCallback()
+    magicContext.signOut()
+  }
+
+  // walletType is optional here:
+  const doConnectWallet = async (
+    walletType,
+  ) => {
+    await _onboard.walletSelect(walletType)
+    const currentState = _onboard.getState()
+    debug({ currentState })
+
+    if (currentState.wallet.type) {
+      debug("run walletCheck")
+      await _onboard.walletCheck()
+      debug("walletCheck done")
+      debug({ currentState: _onboard.getState() })
+
+      // trigger re-render
+      setOnboardState(previousState => ({
+        ...previousState,
+        timestamp: Date.now()
+      }))
+    }
+  }
+  
+  const disconnectWallet = () => {
+    Cookies.remove(
+      SELECTED_WALLET_COOKIE_KEY,
+      cookieOptions
+    )
+    console.log('removing onboard cookie')
+
+    setOnboardState(previousState => ({
+      ...previousState,
+      address: undefined,
+      wallet: undefined,
+      provider: undefined,
+    }))
+    console.log('setting onboard state to null?')
+  }
+
+  if (!onboardState) {
+    initializeOnboard(
+      setOnboardState,
+      disconnectWallet,
+      afterConnect,
+      afterConnect,
+    )
 
     setOnboardState(previousState => ({
       ...previousState,
@@ -215,9 +234,9 @@ export const WalletContextProvider = (props) => {
     }))
   }
 
-  const handleConnectWallet = () => {
+  const handleShowOnboard = () => {
     if (onboardState) {
-      doConnectWallet(null, setOnboardState)
+      doConnectWallet(null)
     }
   }
 
@@ -225,11 +244,13 @@ export const WalletContextProvider = (props) => {
 
   return <WalletContext.Provider
     value={{
-      handleConnectWallet,
+      handleShowOnboard,
+      disconnectWallet,
+      doConnectWallet,
       state: onboardState,
       _onboard
     }}
   >
-    {props.children}
+    {children}
   </WalletContext.Provider>
 }

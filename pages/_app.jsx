@@ -1,8 +1,8 @@
 import React from 'react'
-import dynamic from 'next/dynamic'
 
+import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
+import { Chart } from 'lib/components/Chart'
 import { Layout } from 'lib/components/Layout'
-import { PoolDataContextProvider } from 'lib/components/contextProviders/PoolDataContextProvider'
 
 import 'react-toastify/dist/ReactToastify.css'
 import 'assets/styles/index.css'
@@ -15,16 +15,6 @@ import 'assets/styles/utils.css'
 import 'assets/styles/animations.css'
 import 'assets/styles/transitions.css'
 
-const DynamicMagicContextProvider = dynamic(() =>
-  import('lib/components/contextProviders/MagicContextProvider').then(mod => mod.MagicContextProvider),
-  { ssr: false }
-)
-
-const DynamicWalletContextProvider = dynamic(() =>
-  import('lib/components/contextProviders/WalletContextProvider').then(mod => mod.WalletContextProvider),
-  { ssr: false }
-)
-
 function handleExitComplete() {
   if (typeof window !== 'undefined') {
     window.scrollTo({ top: 0 })
@@ -33,17 +23,15 @@ function handleExitComplete() {
 
 function MyApp({ Component, pageProps }) {
   return <>
-    <DynamicMagicContextProvider>
-      <DynamicWalletContextProvider>
-        <Layout>
-          <PoolDataContextProvider>
-            <Component
-              {...pageProps}
-            />
-          </PoolDataContextProvider>
-        </Layout>
-      </DynamicWalletContextProvider>
-    </DynamicMagicContextProvider>
+    <Chart />
+
+    <AllContextProviders>
+      <Layout>
+        <Component
+          {...pageProps}
+        />
+      </Layout>
+    </AllContextProviders>
   </>
 }
 

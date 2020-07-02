@@ -4,12 +4,13 @@ export const MAINNET_POLLING_INTERVAL = 15000
 
 export const MAGIC_EMAIL = 'magic-email'
 
+const domain = process.env.NEXT_JS_DOMAIN_NAME && `.${process.env.NEXT_JS_DOMAIN_NAME}`
+console.log({ domain});
+
 export const COOKIE_OPTIONS = {
   sameSite: 'strict',
   secure: process.env.NEXT_JS_DOMAIN_NAME === 'pooltogether.com',
-  domain: process.env.NEXT_JS_DOMAIN_NAME === 'pooltogether.com' ?
-    `.${process.env.NEXT_JS_DOMAIN_NAME}` :
-    process.env.NEXT_JS_DOMAIN_NAME
+  domain
 }
 
 export const CONTRACT_ADDRESSES = {

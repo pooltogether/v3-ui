@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react'
 import Link from 'next/link'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
-import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { Button } from 'lib/components/Button'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 
@@ -13,14 +12,7 @@ export const SignInForm = (props) => {
   const [email, setEmail] = useState('')
   const [isValid, setIsValid] = useState(null)
 
-  const magicContext = useContext(MagicContext)
-  const walletContext = useContext(WalletContext)
-
-  const handleConnect = (e) => {
-    e.preventDefault()
-
-    walletContext.handleConnectWallet()
-  }
+  const authControllerContext = useContext(AuthControllerContext)
 
   const testEmail = () => {
     setIsValid(validator.validate(email))
@@ -37,7 +29,7 @@ export const SignInForm = (props) => {
     testEmail()
 
     if (isValid) {
-      magicContext.signIn(email)
+      authControllerContext.signInMagic(email)
     }
   }
 
@@ -117,7 +109,7 @@ export const SignInForm = (props) => {
 
         <div>
           <button
-            onClick={handleConnect}
+            onClick={authControllerContext.handleShowOnboard}
             className='font-bold inline mb-2 py-2 text-sm sm:text-base text-primary-soft hover:text-primary trans border-b-2 border-transparent hover:border-secondary'
           >
             or connect to MetaMask, etc.
