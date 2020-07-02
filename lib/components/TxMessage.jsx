@@ -1,14 +1,13 @@
 import React, { useContext } from 'react'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { LoadingDots } from 'lib/components/LoadingDots'
 import { shortenAddress } from 'lib/utils/shortenAddress'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 
 export const TxMessage = (props) => {
-  const walletContext = useContext(WalletContext)
-  const { _onboard } = walletContext || {}
-  const chainId = _onboard.getState().appNetworkId
+  const authControllerContext = useContext(AuthControllerContext)
+  const { chainId } = authControllerContext
 
   const {
     tx,

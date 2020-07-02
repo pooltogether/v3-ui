@@ -6,7 +6,7 @@ import { ethers } from 'ethers'
 
 import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 
-import { nameToChainId } from 'lib/utils/nameToChainId'
+import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
 
 import {
   SELECTED_WALLET_COOKIE_KEY
@@ -88,7 +88,7 @@ const initializeOnboard = (
   postDisconnectCallback,
 ) => {
   _onboard = Onboard({
-    networkId: nameToChainId(networkName),
+    networkId: networkNameToChainId(networkName),
     darkMode: true,
     walletSelect: {
       wallets: WALLETS_CONFIG,

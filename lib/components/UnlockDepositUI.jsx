@@ -3,9 +3,9 @@ import { ethers } from 'ethers'
 
 import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { DepositForm } from 'lib/components/DepositForm'
 import { TxMessage } from 'lib/components/TxMessage'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { sendTx } from 'lib/utils/sendTx'
 
 const handleUnlockSubmit = async (
@@ -35,8 +35,8 @@ const handleUnlockSubmit = async (
 }
 
 export const UnlockDepositUI = (props) => {
-  const walletContext = useContext(WalletContext)
-  const provider = walletContext.state.provider
+  const authControllerContext = useContext(AuthControllerContext)
+  const { provider } = authControllerContext
 
   const [tx, setTx] = useState({})
 

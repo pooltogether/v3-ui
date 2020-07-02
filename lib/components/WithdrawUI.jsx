@@ -4,10 +4,10 @@ import { useRouter } from 'next/router'
 
 import CompoundPeriodicPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPeriodicPrizePool'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useDebounce } from 'lib/hooks/useDebounce'
 import { WithdrawForm } from 'lib/components/WithdrawForm'
 import { TxMessage } from 'lib/components/TxMessage'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { fetchExitFee } from 'lib/utils/fetchExitFee'
 import { poolToast } from 'lib/utils/poolToast'
 import { sendTx } from 'lib/utils/sendTx'
@@ -52,12 +52,12 @@ const handleWithdrawSubmit = async (
 
 export const WithdrawUI = (props) => {
   const router = useRouter()
+
+  const authControllerContext = useContext(AuthControllerContext)
+  const { usersAddress, provider } = authControllerContext
+  
   const networkName = router.query.networkName
   const prizePool = props.poolAddresses.prizePool
-
-  const walletContext = useContext(WalletContext)
-  const provider = walletContext.state.provider
-  const usersAddress = walletContext._onboard.getState().address
 
   const [exitFee, setExitFee] = useState('')
   const [withdrawAmount, setWithdrawAmount] = useState('')

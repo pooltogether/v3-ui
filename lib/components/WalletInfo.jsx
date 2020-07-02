@@ -2,27 +2,13 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { Button } from 'lib/components/Button'
 import { networkColorClassname } from 'lib/utils/networkColorClassname'
 import { chainIdToName } from 'lib/utils/chainIdToName'
 
 export const WalletInfo = () => {
   const authControllerContext = useContext(AuthControllerContext)
-
-  const walletContext = useContext(WalletContext)
-  const { _onboard } = walletContext || {}
-  const currentState = _onboard.getState()
-
-  let address
-  let walletName
-  let chainId = 1
-
-  if (currentState) {
-    address = currentState.address
-    walletName = currentState.wallet.name
-    chainId = currentState.appNetworkId
-  }
+  const { usersAddress, chainId, walletName } = authControllerContext
 
   let innerContent = null
   let networkName = null
@@ -38,7 +24,7 @@ export const WalletInfo = () => {
     </span>
   }
 
-  if (address && walletName) {
+  if (usersAddress && walletName) {
     innerContent = <>
       <div className='text-base sm:text-lg lg:text-xl leading-snug text-default trans'>
         <h2
@@ -49,7 +35,7 @@ export const WalletInfo = () => {
         <div
           className='overflow-ellipsis w-full no-underline'
         >
-          {address}
+          {usersAddress}
         </div>
 
         <h2

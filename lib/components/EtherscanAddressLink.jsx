@@ -2,7 +2,7 @@ import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 
 import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
-import { nameToChainId } from 'lib/utils/nameToChainId'
+import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
 
 export const EtherscanAddressLink = (props) => {
   const {
@@ -13,7 +13,7 @@ export const EtherscanAddressLink = (props) => {
     size,
   } = props
 
-  const chainId = nameToChainId(networkName)
+  const chainId = networkNameToChainId(networkName)
   const url = formatEtherscanAddressUrl(address, chainId)
 
   let textSizeClasses = 'text-xs sm:text-base lg:text-lg'

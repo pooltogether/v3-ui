@@ -1,10 +1,9 @@
 import React, { useContext } from 'react'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 import { DynamicPrizePoolsQuery } from 'lib/components/queryComponents/DynamicPrizePoolsQuery'
 import { StaticPrizePoolsQuery } from 'lib/components/queryComponents/StaticPrizePoolsQuery'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
-import { getChainId } from 'lib/services/getChainId'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { isEmptyObject } from 'lib/utils/isEmptyObject'
 import { poolToast } from 'lib/utils/poolToast'
@@ -12,8 +11,8 @@ import { poolToast } from 'lib/utils/poolToast'
 export const PoolDataContext = React.createContext()
 
 export const PoolDataContextProvider = (props) => {
-  const walletContext = useContext(WalletContext)
-  const chainId = getChainId(walletContext)
+  const authControllerContext = useContext(AuthControllerContext)
+  const { chainId } = authControllerContext
 
   let addresses
   try {

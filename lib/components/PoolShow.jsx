@@ -3,6 +3,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { FormLockedOverlay } from 'lib/components/FormLockedOverlay'
@@ -13,8 +14,6 @@ import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { UserActionsUI } from 'lib/components/UserActionsUI'
 import { UserStats } from 'lib/components/UserStats'
-import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchChainData } from 'lib/utils/fetchChainData'
 import { poolToast } from 'lib/utils/poolToast'
@@ -36,24 +35,13 @@ export const PoolShow = (
   const router = useRouter()
   const { pool } = props
 
+  const authControllerContext = useContext(AuthControllerContext)
+  const { provider } = authControllerContext
+  
   let error
   
   const networkName = router.query.networkName
   const prizePool = router.query.prizePoolAddress
-
-  const magicContext = useContext(MagicContext)
-  const walletContext = useContext(WalletContext)
-
-  // const provider = walletContext.state.provider
-  let usersAddress = walletContext._onboard.getState().address
-  if (!usersAddress) {
-    usersAddress = magicContext.address
-  }
-
-  let provider = walletContext.state.provider
-  if (!provider) {
-    provider = magicContext.provider
-  }
   
   const [ethBalance, setEthBalance] = useState(ethers.utils.bigNumberify(0))
   const [poolAddresses, setPoolAddresses] = useState({

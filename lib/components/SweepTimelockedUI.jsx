@@ -2,9 +2,9 @@ import React, { useContext, useState } from 'react'
 
 import CompoundPeriodicPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPeriodicPrizePool'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { SweepTimelockedForm } from 'lib/components/SweepTimelockedForm'
 import { TxMessage } from 'lib/components/TxMessage'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { sendTx } from 'lib/utils/sendTx'
 
 const handleSweepTimelockedSubmit = async (
@@ -36,9 +36,8 @@ export const SweepTimelockedUI = (props) => {
     usersChainValues,
   } = props
 
-  const walletContext = useContext(WalletContext)
-  const provider = walletContext.state.provider
-  const usersAddress = walletContext._onboard.getState().address
+  const authControllerContext = useContext(AuthControllerContext)
+  const { usersAddress, provider } = authControllerContext
 
   const [tx, setTx] = useState({
     inWallet: false,

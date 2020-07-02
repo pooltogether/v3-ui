@@ -2,21 +2,16 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 
 import { SUPPORTED_NETWORKS } from 'lib/constants'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
-import { chainIdToName } from 'lib/utils/chainIdToName'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 
 export const StaticNetworkNotificationBanner = ({
 }) => {
-  let chainId
-  const walletContext = useContext(WalletContext)
-  const { _onboard } = walletContext || {}
+  const authControllerContext = useContext(AuthControllerContext)
+  const { usersAddress, chainId } = authControllerContext
 
-  if (!_onboard.getState().wallet.name) {
+  if (!usersAddress) {
     return null
   }
-
-  chainId = _onboard.getState().appNetworkId
-  const networkName = chainIdToName(chainId)
 
   const networkSupported = SUPPORTED_NETWORKS.includes(chainId)
 

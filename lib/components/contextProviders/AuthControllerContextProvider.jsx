@@ -8,12 +8,16 @@ import {
 } from 'lib/constants'
 import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
+import { getChainId } from 'lib/utils/getChainId'
 
 export const AuthControllerContext = React.createContext()
 
 // This AuthController allows us to have one place to interface with both the Magic context and
 // the Onboardjs/Wallet context - this provides us with more control of what happens to
 // both when one is signed in / signed out of and avoids circular dependencies
+//
+// This also provides a unified authentication pattern to get the usersAddress
+// and ethers provider for transactions
 export const AuthControllerContextProvider = (props) => {
   const { children } = props
 
@@ -107,9 +111,31 @@ export const AuthControllerContextProvider = (props) => {
     }
   }, [_onboard])
 
+  // useState
+
+  const chainId = getChainId(walletContext)
+
+  let usersAddress = walletContext._onboard.getState().address
+  if (!usersAddress) {
+    usersAddress = magicContext.address
+  }
+
+  let provider = walletContext.state.provider
+  if (!provider) {
+    provider = magicContext.provider
+  }
+
+  let walletName = 'Unknown'
+  if (currentState && currentState.wallet) {
+    walletName = currentState.wallet.name
+  }
+
   return <AuthControllerContext.Provider
     value={{
-      // signInWallet,
+      chainId,
+      provider,
+      usersAddress,
+      walletName,
       signOut,
       signInMagic,
       handleShowOnboard,

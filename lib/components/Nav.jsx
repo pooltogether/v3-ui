@@ -2,8 +2,7 @@ import React, { useContext } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
 
@@ -17,10 +16,9 @@ import PoolLogo from 'assets/images/pooltogether-logo.svg'
 
 export const Nav = (props) => {
   const router = useRouter()
-  const walletContext = useContext(WalletContext)
-  const usersAddress = walletContext._onboard.getState().address
-  const magicContext = useContext(MagicContext)
-  const { magic, signedIn } = magicContext
+
+  const authControllerContext = useContext(AuthControllerContext)
+  const { usersAddress } = authControllerContext
 
   const handleShowDashboard = (e) => {
     e.preventDefault()
@@ -71,7 +69,7 @@ export const Nav = (props) => {
               minWidth: 70
             }}
           >
-            {(magic && signedIn) || usersAddress ?
+            {usersAddress ?
               <Button
                 outline
                 onClick={handleShowDashboard}
@@ -85,12 +83,6 @@ export const Nav = (props) => {
                 Sign in
               </Button>
             }
-            <Button
-              outline
-              onClick={handleShowSignIn}
-            >
-              Sign in
-              </Button>
           </div>
         </div>
       </nav>
