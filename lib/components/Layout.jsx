@@ -2,6 +2,7 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import { Slide, ToastContainer } from 'react-toastify'
 
+import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNotificationBanner'
 import { Footer } from 'lib/components/Footer'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
@@ -14,6 +15,7 @@ export const Layout = (props) => {
 
   const router = useRouter()
   const signIn = router.query.signIn
+  console.log({ StaticNetworkNotificationBanner})
 
   return <>
     <Meta />
@@ -26,6 +28,8 @@ export const Layout = (props) => {
         minHeight: '100vh'
       }}
     >
+      <StaticNetworkNotificationBanner />
+
       <div
         className='pool-container flex flex-grow relative z-30 h-full page'
         // className='pool-container flex flex-grow relative z-30 h-full page fadeIn animated'

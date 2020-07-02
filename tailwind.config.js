@@ -35,6 +35,9 @@ module.exports = {
       red: 'var(--color-bg-red)',
       green: 'var(--color-bg-green)',
       yellow: 'var(--color-bg-yellow)',
+      blue: 'var(--color-bg-blue)',
+      teal: 'var(--color-bg-teal)',
+      purple: 'var(--color-bg-purple)',
     },
     // this gives us regular (mobile), sm (641px - 1281px) and lg (1281px+)
     screens: {

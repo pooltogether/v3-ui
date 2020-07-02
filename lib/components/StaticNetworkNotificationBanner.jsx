@@ -3,9 +3,10 @@ import classnames from 'classnames'
 
 import { SUPPORTED_NETWORKS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { chainIdToName } from 'lib/utils/chainIdToName'
+import { networkColorClassname } from 'lib/utils/networkColorClassname'
 
-export const StaticNetworkNotificationBanner = ({
-}) => {
+export const StaticNetworkNotificationBanner = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress, chainId } = authControllerContext
 
@@ -15,25 +16,35 @@ export const StaticNetworkNotificationBanner = ({
 
   const networkSupported = SUPPORTED_NETWORKS.includes(chainId)
 
-  let networkWords = 'mainnet 🥵'
-  if (networkSupported) {
-    networkWords = `the ${networkName} testnet 👍`
+  let networkName = null
+  if (chainId && chainId !== 1) {
+    networkName = <span
+      className={classnames(
+        networkColorClassname(chainId),
+        'inline-block'
+      )}
+    >
+      {chainIdToName(chainId)}
+    </span>
   }
+
+
+  const unsupportedNetworkClasses = `block bg-${networkColorClassname(chainId)}`
 
   return <div
     className={classnames(
-      'text-sm sm:text-base lg:text-lg sm:px-6 py-2 sm:py-3',
+      'text-sm sm:text-base lg:text-lg sm:px-6 py-4',
       {
-        'text-white bg-red-800': !networkSupported,
-        'text-purple-400 bg-purple-1000': networkSupported,
+        'block bg-red': !networkSupported,
+        [unsupportedNetworkClasses]: networkSupported && chainId !== 1,
+        'hidden': chainId === 1,
       }
     )}
   >
     <div
-      className='text-center'
+      className='text-center text-inverse'
     >
-      This works on Ropsten, Kovan and localhost.
-      Your wallet is currently set to <span className='font-bold'>{networkWords}</span>
+      You are connected to the {!networkSupported && 'unsupported network'} <span className='font-bold'>{networkName}</span> Testnet.
     </div>
   </div>
 }

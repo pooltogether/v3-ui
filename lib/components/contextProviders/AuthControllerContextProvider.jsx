@@ -126,6 +126,7 @@ export const AuthControllerContextProvider = (props) => {
   }
 
   let walletName = 'Unknown'
+  let currentState = _onboard && _onboard.getState()
   if (currentState && currentState.wallet) {
     walletName = currentState.wallet.name
   }
