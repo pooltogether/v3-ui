@@ -24,7 +24,7 @@ function handleExitComplete() {
 
 function MyApp({ Component, pageProps }) {
   return <>
-    <Chart />
+    {/* <Chart /> */}
 
     <AllContextProviders>
       <Layout>
