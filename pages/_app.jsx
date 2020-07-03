@@ -1,4 +1,5 @@
 import React from 'react'
+import { Slide, ToastContainer } from 'react-toastify'
 
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { Chart } from 'lib/components/Chart'
@@ -32,6 +33,13 @@ function MyApp({ Component, pageProps }) {
         />
       </Layout>
     </AllContextProviders>
+
+    <ToastContainer
+      className='pool-toast'
+      position='top-center'
+      autoClose={6000}
+      transition={Slide}
+    />
   </>
 }
 

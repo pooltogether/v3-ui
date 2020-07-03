@@ -27,7 +27,6 @@ export const MagicContextProvider = (props) => {
     const { email, publicAddress } = await magic.user.getMetadata()
 
     setSignedIn(true)
-
     setEmail(email)
     setAddress(publicAddress)
     // const [ethBalance, setEthBalance] = useState('')
@@ -75,7 +74,11 @@ export const MagicContextProvider = (props) => {
     
     const logout = await magic.user.logout()
     if (logout) {
+      Cookies.remove(MAGIC_EMAIL)
+
       setSignedIn(false)
+      setEmail(undefined)
+      setAddress(undefined)
     }
   }
 
@@ -106,12 +109,16 @@ export const MagicContextProvider = (props) => {
       if (err instanceof RPCError) {
         switch (err.code) {
           case RPCErrorCode.MagicLinkFailedVerification:
+            console.log('MagicLinkFailedVerification')
             break
           case RPCErrorCode.MagicLinkExpired:
+            console.log('MagicLinkExpired')
             break
           case RPCErrorCode.MagicLinkRateLimited:
+            console.log('MagicLinkRateLimited')
             break
           case RPCErrorCode.UserAlreadyLoggedIn:
+            console.log('UserAlreadyLoggedIn')
             break
         }
       }

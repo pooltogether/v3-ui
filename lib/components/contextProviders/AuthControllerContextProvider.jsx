@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Cookies from 'js-cookie'
+import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
 import {
@@ -23,15 +24,69 @@ export const AuthControllerContextProvider = (props) => {
 
   const router = useRouter()
 
+  const walletContext = useContext(WalletContext)
+  const { _onboard, doConnectWallet, handleShowOnboard } = walletContext
+
+  const magicContext = useContext(MagicContext)
+  const { magic } = magicContext
+  
+  const currentState = _onboard && _onboard.getState()
+  // TODO: extend this to also pull the eth balance from the magic session
+  // may need state / ethereum event listener
+  const ethBalance = currentState && currentState.balance ?
+    currentState.balance :
+    ethers.utils.bigNumberify(0)
+  // const [ethBalance, setEthBalance] = useState(ethers.utils.bigNumberify(0))
+  // useEffect(() => {
+  //   if (ethBalance) {
+  //     setEthBalance(ethers.utils.bigNumberify(ethBalance))
+  //   }
+  // }, [authControllerContext])
+
+  const walletName = currentState && currentState.wallet ?
+    currentState.wallet.name :
+    'Unknown'
+  
+  const [chainId, setChainId] = useState(getChainId(currentState))
+  const [provider, setProvider] = useState()
+  const [usersAddress, setUsersAddress] = useState()
+  // const [onboardCurrentState, setOnboardCurrentState] = useState()
   const [magicAutoSignInAlreadyExecuted, setMagicAutoSignInAlreadyExecuted] = useState(false)
   const [walletAutoSignInAlreadyExecuted, setWalletAutoSignInAlreadyExecuted] = useState(false)
 
-  const walletContext = useContext(WalletContext)
-  const { _onboard, doConnectWallet, handleShowOnboard } = walletContext
-  
-  const magicContext = useContext(MagicContext)
-  const { magic } = magicContext
+  useEffect(() => {
+    console.log('running provider update!')
+    let provider = currentState.provider 
+    if (!provider && magicContext.signedIn) {
+      provider = magicContext.provider
+    }
+    setProvider(provider)
+  }, [currentState, magicContext.signedIn])
 
+  useEffect(() => {
+    const cID = getChainId(currentState)
+    if (cID) {
+      console.log('updating chainId: ', cID)
+      setChainId(cID)
+    }
+  }, [currentState])
+
+  useEffect(() => {
+    let usersAddress
+
+    if (currentState && currentState.address) {
+      usersAddress = currentState.address
+      console.log('wallet usersAddress', usersAddress)
+    }
+
+    if (!usersAddress && magicContext.address) {
+      usersAddress = magicContext.address
+      console.log('magicContext.address', magicContext.address)
+    }
+
+    console.log('setting usersAddress: ', usersAddress)
+    setUsersAddress(usersAddress)
+  }, [magicContext.address, currentState])
 
   const postConnectRedirect = () => {
     router.push(
@@ -111,28 +166,9 @@ export const AuthControllerContextProvider = (props) => {
     }
   }, [_onboard])
 
-  // useState
-
-  const chainId = getChainId(walletContext)
-
-  let usersAddress = walletContext._onboard.getState().address
-  if (!usersAddress) {
-    usersAddress = magicContext.address
-  }
-
-  let provider = walletContext.state.provider
-  if (!provider) {
-    provider = magicContext.provider
-  }
-
-  let walletName = 'Unknown'
-  let currentState = _onboard && _onboard.getState()
-  if (currentState && currentState.wallet) {
-    walletName = currentState.wallet.name
-  }
-
   return <AuthControllerContext.Provider
     value={{
+      ethBalance,
       chainId,
       provider,
       usersAddress,

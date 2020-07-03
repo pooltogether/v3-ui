@@ -1,6 +1,5 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import { Slide, ToastContainer } from 'react-toastify'
 
 import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNotificationBanner'
 import { Footer } from 'lib/components/Footer'
@@ -15,7 +14,6 @@ export const Layout = (props) => {
 
   const router = useRouter()
   const signIn = router.query.signIn
-  console.log({ StaticNetworkNotificationBanner})
 
   return <>
     <Meta />
@@ -69,12 +67,5 @@ export const Layout = (props) => {
 
       </div>
     </div>
-    
-    <ToastContainer
-      className='pool-toast'
-      position='top-center'
-      autoClose={6000}
-      transition={Slide}
-    />
   </>
 }

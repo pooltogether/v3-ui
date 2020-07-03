@@ -42,7 +42,7 @@ export const StaticNetworkNotificationBanner = (props) => {
     )}
   >
     <div
-      className='text-center text-inverse'
+      className='text-center text-white'
     >
       You are connected to the {!networkSupported && 'unsupported network'} <span className='font-bold'>{networkName}</span> Testnet.
     </div>

@@ -36,14 +36,13 @@ export const PoolShow = (
   const { pool } = props
 
   const authControllerContext = useContext(AuthControllerContext)
-  const { provider } = authControllerContext
+  const { ethBalance, usersAddress, provider } = authControllerContext
   
   let error
   
   const networkName = router.query.networkName
   const prizePool = router.query.prizePoolAddress
   
-  const [ethBalance, setEthBalance] = useState(ethers.utils.bigNumberify(0))
   const [poolAddresses, setPoolAddresses] = useState({
     prizePool
   })
@@ -89,12 +88,11 @@ export const PoolShow = (
     )
   }, [provider, usersAddress, poolAddresses])
 
-  useEffect(() => {
-    const balance = walletContext.state.onboard.getState().balance
-    if (balance) {
-      setEthBalance(ethers.utils.bigNumberify(balance))
-    }
-  }, [walletContext])
+  // useEffect(() => {
+  //   if (ethBalance) {
+  //     setEthBalance(ethers.utils.bigNumberify(ethBalance))
+  //   }
+  // }, [authControllerContext])
 
   if (poolAddresses.error || genericChainValues.error || usersChainValues.error) {
     if (poolAddresses.error) {

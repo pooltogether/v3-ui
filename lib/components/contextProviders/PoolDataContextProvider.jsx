@@ -25,11 +25,9 @@ export const PoolDataContextProvider = (props) => {
   return <>
     <V3ApolloWrapper>
       {(client) => {
-
-
         // check if client is ready
         if (isEmptyObject(client)) {
-          console.log('client not ready')
+          // console.log('client not ready')
           return null
         } else {
           return <StaticPrizePoolsQuery

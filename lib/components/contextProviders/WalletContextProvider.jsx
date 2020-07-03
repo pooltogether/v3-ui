@@ -137,11 +137,15 @@ const connectWallet = (w, setOnboardState) => {
     cookieOptions
   )
 
+  const provider = new ethers.providers.Web3Provider(w.provider)
+  console.log('setting provider')
+  console.log(provider)
+
   setOnboardState(previousState => ({
     ...previousState,
     address: undefined,
     wallet: w,
-    provider: new ethers.providers.Web3Provider(w.provider)
+    provider
   }))
 }
 
