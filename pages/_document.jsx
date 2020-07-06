@@ -13,27 +13,9 @@ class MyDocument extends Document {
   }
 
   render() {
-    const locizeApiKey = process.env.NEXT_JS_LOCIZE_DEV_API_KEY
-    let locizeProps = {}
-    if (locizeApiKey) {
-      locizeProps = {
-        apikey: locizeApiKey,
-        saveMissing: 'true'
-      }
-    }
-
     return (
       <Html>
         <Head />
-        {/* <script
-          {...locizeProps}
-          id='locizify'
-          projectid='4436efaa-7b18-4332-a5e2-57437e041619'
-          debug='false'
-          referencelng='es'
-          fallbacklng='es'
-          src='https://unpkg.com/locizify@^4.0.7'
-        /> */}
         <Meta />
         <body
           className='bg-body'

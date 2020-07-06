@@ -16,6 +16,7 @@ const nextI18NextInstance = new NextI18Next({
     apiKey: locizeApiKey,
     version: locizeVersion || 'latest',
     referenceLng: 'en',
+    debug: true
   },
   defaultLanguage: 'en',
   fallbackLng: 'en',

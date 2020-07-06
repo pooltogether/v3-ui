@@ -20,9 +20,6 @@ export const Footer = () => {
   // const locize = new Locize(options)
   useEffect(() => {
     const runGetLangs = async () => {
-      console.log(i18n.services)
-      console.log(i18n.services.backendConnector)
-      console.log(i18n.services.backendConnector.backend)
       await i18n.services.backendConnector.backend.getLanguages((err, result) => {
         console.log({err})
         console.log({result})
@@ -31,11 +28,6 @@ export const Footer = () => {
     runGetLangs()
   })
   
-  console.log({i18n})
-  console.log({t})
-  console.log(t('help'))
-  console.log(i18n.language)
-
   return <footer
     className='footer w-full text-default text-sm'
   >
@@ -171,7 +163,7 @@ export const Footer = () => {
         </div>
       </div>
     </div>
-    {t('help')}
+    {/* {t('help')}
 
     <button onClick={(e) => {
       i18n.changeLanguage("en")
@@ -179,6 +171,6 @@ export const Footer = () => {
     }}>English</button>
     <button onClick={(e) => {
       i18n.changeLanguage("es")
-    }}>Spanish</button>
+    }}>Spanish</button> */}
   </footer>
 }
