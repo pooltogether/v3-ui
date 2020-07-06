@@ -1,4 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+
+// import Locize from "i18next-locize-backend"
+
+import { useTranslation } from 'lib/../i18n'
+// import { useTranslation } from 'react-i18next'
 
 import MailFooterIcon from 'assets/images/mail-footer.svg'
 import MediumFooterLogo from 'assets/images/medium-footer.svg'
@@ -7,9 +12,30 @@ import DiscordLogo from 'assets/images/discord-footer.svg'
 import TwitterFooterLogo from 'assets/images/twitter-footer.svg'
 
 export const Footer = () => {
+  const { t, i18n } = useTranslation()
+
   let mailHref = 'mailto:hello@pooltogether.com'
   let twitterHref = 'https://twitter.com/PoolTogether_'
+
+  // const locize = new Locize(options)
+  useEffect(() => {
+    const runGetLangs = async () => {
+      console.log(i18n.services)
+      console.log(i18n.services.backendConnector)
+      console.log(i18n.services.backendConnector.backend)
+      await i18n.services.backendConnector.backend.getLanguages((err, result) => {
+        console.log({err})
+        console.log({result})
+      })
+    }
+    runGetLangs()
+  })
   
+  console.log({i18n})
+  console.log({t})
+  console.log(t('help'))
+  console.log(i18n.language)
+
   return <footer
     className='footer w-full text-default text-sm'
   >
@@ -145,5 +171,14 @@ export const Footer = () => {
         </div>
       </div>
     </div>
+    {t('help')}
+
+    <button onClick={(e) => {
+      i18n.changeLanguage("en")
+      // window.location.reload()
+    }}>English</button>
+    <button onClick={(e) => {
+      i18n.changeLanguage("es")
+    }}>Spanish</button>
   </footer>
 }

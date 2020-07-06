@@ -19,6 +19,11 @@ const allConfig =
   withImages(
     {
       ...nextConfig,
+      publicRuntimeConfig: {
+        locizeProjectId: process.env.NEXT_JS_LOCIZE_PROJECT_ID,
+        locizeApiKey: process.env.NEXT_JS_LOCIZE_DEV_API_KEY,
+        locizeVersion: process.env.NEXT_JS_LOCIZE_VERSION
+      },
       webpack(config, options) {
         // config.optimization.minimizer = []
 

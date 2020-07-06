@@ -55,7 +55,7 @@ export const AuthControllerContextProvider = (props) => {
   const [walletAutoSignInAlreadyExecuted, setWalletAutoSignInAlreadyExecuted] = useState(false)
 
   useEffect(() => {
-    console.log('running provider update!')
+    // console.log('running provider update!')
     let provider = currentState.provider 
     if (!provider && magicContext.signedIn) {
       provider = magicContext.provider
@@ -66,7 +66,7 @@ export const AuthControllerContextProvider = (props) => {
   useEffect(() => {
     const cID = getChainId(currentState)
     if (cID) {
-      console.log('updating chainId: ', cID)
+      // console.log('updating chainId: ', cID)
       setChainId(cID)
     }
   }, [currentState])
@@ -76,15 +76,15 @@ export const AuthControllerContextProvider = (props) => {
 
     if (currentState && currentState.address) {
       usersAddress = currentState.address
-      console.log('wallet usersAddress', usersAddress)
+      // console.log('wallet usersAddress', usersAddress)
     }
 
     if (!usersAddress && magicContext.address) {
       usersAddress = magicContext.address
-      console.log('magicContext.address', magicContext.address)
+      // console.log('magicContext.address', magicContext.address)
     }
 
-    console.log('setting usersAddress: ', usersAddress)
+    // console.log('setting usersAddress: ', usersAddress)
     setUsersAddress(usersAddress)
   }, [magicContext.address, currentState])
 

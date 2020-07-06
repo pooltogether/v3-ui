@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import i18next from "../i18n"
 import { Slide, ToastContainer } from 'react-toastify'
 
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
@@ -16,6 +17,7 @@ import 'assets/styles/utils.css'
 import 'assets/styles/animations.css'
 import 'assets/styles/transitions.css'
 
+
 function handleExitComplete() {
   if (typeof window !== 'undefined') {
     window.scrollTo({ top: 0 })
@@ -23,6 +25,24 @@ function handleExitComplete() {
 }
 
 function MyApp({ Component, pageProps }) {
+  const [initialized, setInitialized] = useState(false)
+
+  useEffect(() => {
+    const initi18next = async () => {
+      console.log({ i18next})
+      await i18next.initPromise.then((a, b, c) => {
+        console.log(a, b, c)
+        console.log(i18next.i18n.language)
+        setInitialized(true)
+      })
+    }
+    initi18next()
+  }, [])
+
+  if (!initialized) {
+    return null // could show loader ...
+  }
+  
   return <>
     {/* <Chart /> */}
 

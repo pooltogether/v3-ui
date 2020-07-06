@@ -21,23 +21,19 @@ class MyDocument extends Document {
         saveMissing: 'true'
       }
     }
-      
-
 
     return (
-      <Html
-        
-      >
+      <Html>
         <Head />
-        <script
+        {/* <script
           {...locizeProps}
           id='locizify'
           projectid='4436efaa-7b18-4332-a5e2-57437e041619'
           debug='false'
-          referencelng='en'
-          fallbacklng='en'
+          referencelng='es'
+          fallbacklng='es'
           src='https://unpkg.com/locizify@^4.0.7'
-        />
+        /> */}
         <Meta />
         <body
           className='bg-body'

@@ -2,12 +2,11 @@ const chalk = require("chalk")
 const express = require("express")
 const next = require("next")
 
-const nextI18NextMiddleware = require('next-i18next/middleware').default
-const NextI18Next = require('next-i18next').default
-
-const nextI18NextOptions = require('./lib/nextI18NextOptions').nextI18NextOptions
-
-const nextI18next = new NextI18Next(nextI18NextOptions)
+const i18next = require("./i18n/server")
+const nextI18NextMiddleware = require("next-i18next/middleware").default
+// const NextI18Next = require('next-i18next').default
+// const nextI18NextOptions = require('./lib/nextI18NextOptions').nextI18NextOptions
+// const nextI18next = new NextI18Next(nextI18NextOptions)
 
 var os = require('os');
 var ifaces = os.networkInterfaces();
@@ -55,7 +54,7 @@ const handle = app.getRequestHandler()
 let server
 app
   .prepare()
-  .then(() => {
+  .then(async () => {
     server = express()
 
     // Set up the proxy for Netlify lambda functions
@@ -67,7 +66,10 @@ app
       })
     }
 
-    server.use(nextI18NextMiddleware(nextI18next))
+    await i18next.initPromise
+    server.use(nextI18NextMiddleware(i18next))
+
+    // server.use(nextI18NextMiddleware(nextI18next))
 
     // Default catch-all handler to allow Next.js to handle all other routes
     server.all("*", (req, res) => handle(req, res))

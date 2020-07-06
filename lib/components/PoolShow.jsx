@@ -123,7 +123,7 @@ export const PoolShow = (
   //     UsdtSvg
 
   if (!pool) {
-    console.warn("don't do this!")
+    // console.warn("don't do this!")
     return null
   }
 
