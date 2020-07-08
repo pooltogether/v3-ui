@@ -1,21 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
-import { FormLockedOverlay } from 'lib/components/FormLockedOverlay'
-import { LoadingDots } from 'lib/components/LoadingDots'
 import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
 import { DepositWizard } from 'lib/components/DepositWizard'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
-import { UserActionsUI } from 'lib/components/UserActionsUI'
-import { UserStats } from 'lib/components/UserStats'
-import { useInterval } from 'lib/hooks/useInterval'
-import { fetchChainData } from 'lib/utils/fetchChainData'
 import { poolToast } from 'lib/utils/poolToast'
 
 const renderErrorMessage = (
@@ -36,7 +30,10 @@ export const PoolShow = (
   const { pool } = props
 
   const authControllerContext = useContext(AuthControllerContext)
-  const { ethBalance, usersAddress, provider } = authControllerContext
+  const { ethBalance, usersAddress } = authControllerContext
+
+  const poolDataContext = useContext(PoolDataContext)
+  const { poolAddresses } = poolDataContext
   
   let error
   
@@ -46,73 +43,6 @@ export const PoolShow = (
     error = 'Incorrectly formatted Ethereum address!'
   }
   
-  const networkName = router.query.networkName
-
-  const [poolAddresses, setPoolAddresses] = useState({})
-  const [genericChainValues, setGenericChainValues] = useState({
-    loading: true,
-    tokenSymbol: 'TOKEN',
-    poolTotalSupply: '1234',
-  })
-
-  const [usersChainValues, setUsersChainValues] = useState({
-    loading: true,
-    usersTicketBalance: ethers.utils.bigNumberify(0),
-    usersTokenAllowance: ethers.utils.bigNumberify(0),
-    usersTokenBalance: ethers.utils.bigNumberify(0),
-  })
-
-
-  useInterval(() => {
-    fetchChainData(
-      networkName,
-      usersAddress,
-      poolAddresses,
-      setPoolAddresses,
-      setGenericChainValues,
-      setUsersChainValues,
-    )
-  }, 7777)
-
-  useEffect(() => {
-    fetchChainData(
-      networkName,
-      usersAddress,
-      poolAddresses,
-      setPoolAddresses,
-      setGenericChainValues,
-      setUsersChainValues,
-    )
-  }, [provider, usersAddress, poolAddresses])
-
-  // useEffect(() => {
-  //   if (ethBalance) {
-  //     setEthBalance(ethers.utils.bigNumberify(ethBalance))
-  //   }
-  // }, [authControllerContext])
-
-  if (poolAddresses.error || genericChainValues.error || usersChainValues.error) {
-    if (poolAddresses.error) {
-      renderErrorMessage(prizePool, 'pool addresses', poolAddresses.errorMessage)
-    }
-
-    if (genericChainValues.error) {
-      renderErrorMessage(prizePool, 'generic chain values', genericChainValues.errorMessage)
-    }
-
-    if (usersChainValues.error) {
-      renderErrorMessage(prizePool, `user's chain values`, usersChainValues.errorMessage)
-    }
-
-    // router.push(
-    //   `/`,
-    //   `/`,
-    //   {
-    //     shallow: true
-    //   }
-    // )
-  }
-
   // const tokenSvg = genericChainValues.tokenSymbol === 'DAI' ?
   //   DaiSvg :
   //   genericChainValues.tokenSymbol === 'USDC' ?
@@ -172,9 +102,6 @@ export const PoolShow = (
 
       {getTickets && <DepositWizard
         {...props}
-        genericChainValues={genericChainValues}
-        usersChainValues={usersChainValues}
-        poolAddresses={poolAddresses}
       />}
       
         {/* {genericChainValues.loading ?
@@ -259,8 +186,6 @@ export const PoolShow = (
             </div>
 
             <PoolActionsUI
-              genericChainValues={genericChainValues}
-              networkName={networkName}
               poolAddresses={poolAddresses}
               usersAddress={usersAddress}
             />

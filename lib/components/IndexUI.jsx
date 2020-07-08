@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import React, { useContext } from 'react'
 
-import { useInterval } from 'lib/hooks/useInterval'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolList } from 'lib/components/PoolList'
 import { PoolShow } from 'lib/components/PoolShow'
@@ -9,53 +7,15 @@ import { PoolShow } from 'lib/components/PoolShow'
 export const IndexUI = (
   props,
 ) => {
-  const router = useRouter()
-  const ticker = router.query.prizePoolTicker && router.query.prizePoolTicker.toLowerCase()
-
   const poolDataContext = useContext(PoolDataContext)
   const {
-    dynamicPoolData,
-    staticPoolData,
     loading,
+    pools,
+    pool,
   } = poolDataContext
 
   if (loading) {
     return null
-  }
-
-  let pools = []
-  pools = [
-    {
-      ...dynamicPoolData.daiPool,
-      ...staticPoolData.daiPool,
-      prize: 9591,
-      risk: 5,
-      yieldSource: 'mStable',
-      frequency: 'Weekly',
-    },
-    {
-      ...dynamicPoolData.usdcPool,
-      ...staticPoolData.usdcPool,
-      prize: (11239 / 7),
-      risk: 3,
-      yieldSource: 'AAVE',
-      frequency: 'Daily',
-    },
-    {
-      ...dynamicPoolData.usdtPool,
-      ...staticPoolData.usdtPool,
-      prize: 7001,
-      risk: 2,
-      yieldSource: 'Compound',
-      frequency: 'Weekly',
-    },
-  ]
-
-  let pool
-  if (ticker) {
-    pool = pools.find(pool => (
-      pool.underlyingCollateralSymbol.toLowerCase() === ticker
-    ))
   }
 
   // let poolData,

@@ -138,8 +138,8 @@ const connectWallet = (w, setOnboardState) => {
   )
 
   const provider = new ethers.providers.Web3Provider(w.provider)
-  console.log('setting provider')
-  console.log(provider)
+  // console.log('setting provider')
+  // console.log(provider)
 
   setOnboardState(previousState => ({
     ...previousState,

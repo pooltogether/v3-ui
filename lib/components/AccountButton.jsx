@@ -44,13 +44,13 @@ export const AccountButton = (props) => {
     onClick={handleShowDashboard}
   >
     <div className='flex items-center'>
-    {(profile && isValidImage(profile.image)) && <>
-      <img
-        alt='profile avatar'
-        src={`https://ipfs.infura.io/ipfs/${profile.image[0].contentUrl['/']}`}
-        className='inline-block rounded-full w-6 h-6 mr-1'
-      />
-    </>} {(profile && profile.name) ? profile.name : 'Account'}
+      {(profile && isValidImage(profile.image)) && <>
+        <img
+          alt='profile avatar'
+          src={`https://ipfs.infura.io/ipfs/${profile.image[0].contentUrl['/']}`}
+          className='inline-block rounded-full w-6 h-6 mr-1'
+        />
+      </>} {(profile && profile.name) ? profile.name : 'Account'}
     </div>
   </Button>
 }

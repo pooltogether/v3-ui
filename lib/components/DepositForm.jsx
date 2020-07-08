@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ethers } from 'ethers'
 
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
 import { FormLockedOverlay } from 'lib/components/FormLockedOverlay'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
@@ -8,13 +9,14 @@ import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const DepositForm = (props) => {
   const {
-    genericChainValues,
     handleSubmit,
     vars,
     stateSetters,
     disabled,
-    usersChainValues,
   } = props
+
+  const poolData = useContext(PoolDataContext)
+  const { usersChainValues, genericChainValues } = poolData
 
   const {
     usersTokenBalance,
@@ -78,14 +80,6 @@ export const DepositForm = (props) => {
       >
         Deposit:
       </div>
-
-      <span
-        class="input"
-        role="textbox"
-        contenteditable
-      >
-              
-      </span>
 
       <TextInputGroup
         id='depositAmount'

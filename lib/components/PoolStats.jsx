@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import classnames from 'classnames'
 
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
 import { BlueLineStat } from 'lib/components/BlueLineStat'
 import { StatContainer } from 'lib/components/StatContainer'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const PoolStats = (props) => {
-  const {
-    genericChainValues,
-  } = props
+  const poolDataContext = useContext(PoolDataContext)
+  const { genericChainValues } = poolDataContext
 
   const [secondsRemainingNow, setSecondsRemainingNow] = useState('--')
 
@@ -21,12 +21,10 @@ export const PoolStats = (props) => {
     
   }, 1000)
 
-  console.log({genericChainValues})
-
   return <>
     <div
       className={classnames(
-        'flex flex-col sm:flex-row sm:flex-wrap justify-center',
+        'flex flex-col justify-center items-start',
         'mt-2 mb-4 rounded-xl text-base sm:text-lg',
       )}
     >

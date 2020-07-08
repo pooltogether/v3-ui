@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 import CompoundPeriodicPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPeriodicPrizePool'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { DepositForm } from 'lib/components/DepositForm'
 import { TxMessage } from 'lib/components/TxMessage'
 import { poolToast } from 'lib/utils/poolToast'
@@ -48,6 +49,9 @@ export const DepositWizard = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress, provider } = authControllerContext
 
+  const poolDataContext = useContext(PoolDataContext)
+  const { genericChainValues, usersChainValues, poolAddresses } = poolDataContext
+
   const [depositAmount, setDepositAmount] = useState('')
 
   const [tx, setTx] = useState({})
@@ -65,7 +69,7 @@ export const DepositWizard = (props) => {
     <div
       className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 bg-primary'
     >
-      {props.usersChainValues.usersTokenAllowance.gt(0) ?
+      {/* {props.usersChainValues.usersTokenAllowance.gt(0) ?
         <DepositUI
           {...props}
         /> :
@@ -73,12 +77,11 @@ export const DepositWizard = (props) => {
           {...props}
         />
       }
-      
+       */}
       <div className='h-full flex flex-col justify-center p-4 sm:p-32 lg:p-64 text-center'>
         {!txInFlight ? <>
           <DepositForm
             {...props}
-            genericChainValues={props.genericChainValues}
             handleSubmit={(e) => {
               e.preventDefault()
               handleDepositSubmit(
