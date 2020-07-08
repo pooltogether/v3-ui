@@ -45,14 +45,14 @@
 
   --color-text-primary: #401C94;
   --color-text-primary-soft: #d9d9d9;
-  --color-text-secondary: #1ef7d6;
+  --color-text-secondary: #05e6c4;
   --color-text-default: #4c249f;
   --color-text-default-soft: #946fdf;
   --color-text-inverse: #000;
   --color-text-match: #fff;
 
   --color-border-primary: #3c1a79;
-  --color-border-secondary: #1ef7d6;
+  --color-border-secondary: #05e6c4;
   --color-border-default: #f7f7f7;
   --color-border-inverse: #000;
   --color-border-transparent: rgba(0,0,0,0);

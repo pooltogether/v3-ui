@@ -18,15 +18,15 @@ export const Footer = () => {
   let twitterHref = 'https://twitter.com/PoolTogether_'
 
   // const locize = new Locize(options)
-  useEffect(() => {
-    const runGetLangs = async () => {
-      await i18n.services.backendConnector.backend.getLanguages((err, result) => {
-        console.log({err})
-        console.log({result})
-      })
-    }
-    runGetLangs()
-  })
+  // useEffect(() => {
+  //   const runGetLangs = async () => {
+  //     await i18n.services.backendConnector.backend.getLanguages((err, result) => {
+  //       console.log({err})
+  //       console.log({result})
+  //     })
+  //   }
+  //   runGetLangs()
+  // })
   
   return <footer
     className='footer w-full text-default text-sm'

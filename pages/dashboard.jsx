@@ -19,7 +19,7 @@ export default function Dashboard(props) {
       <h1
         className='text-inverse mb-10'
       >
-        Dashboard
+        Account Dashboard
       </h1>
 
       <WalletInfo

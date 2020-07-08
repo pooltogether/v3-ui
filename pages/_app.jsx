@@ -29,10 +29,10 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     const initi18next = async () => {
-      console.log({ i18next})
-      await i18next.initPromise.then((a, b, c) => {
-        console.log(a, b, c)
-        console.log(i18next.i18n.language)
+      // console.log({ i18next})
+      await i18next.initPromise.then(() => {
+        // console.log(a)
+        // console.log(i18next.i18n.language)
         setInitialized(true)
       })
     }

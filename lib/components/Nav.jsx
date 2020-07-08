@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
+import { AccountButton } from 'lib/components/AccountButton'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
@@ -19,12 +20,6 @@ export const Nav = (props) => {
 
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress } = authControllerContext
-
-  const handleShowDashboard = (e) => {
-    e.preventDefault()
-
-    router.push('/dashboard')
-  }
 
   const handleShowSignIn = (e) => {
     e.preventDefault()
@@ -70,12 +65,9 @@ export const Nav = (props) => {
             }}
           >
             {usersAddress ?
-              <Button
-                outline
-                onClick={handleShowDashboard}
-              >
-                Account
-              </Button> :
+              <AccountButton
+                usersAddress={usersAddress}
+              /> :
               <Button
                 outline
                 onClick={handleShowSignIn}
