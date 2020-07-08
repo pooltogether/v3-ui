@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { FormPanel } from 'lib/components/FormPanel'
-import { DepositUI } from 'lib/components/DepositUI'
+// import { DepositUI } from 'lib/components/DepositUI'
 import { SweepTimelockedUI } from 'lib/components/SweepTimelockedUI'
 import { UnlockDepositUI } from 'lib/components/UnlockDepositUI'
 import { WithdrawUI } from 'lib/components/WithdrawUI'

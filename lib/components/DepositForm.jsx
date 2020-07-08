@@ -79,6 +79,14 @@ export const DepositForm = (props) => {
         Deposit:
       </div>
 
+      <span
+        class="input"
+        role="textbox"
+        contenteditable
+      >
+              
+      </span>
+
       <TextInputGroup
         id='depositAmount'
         label={<>

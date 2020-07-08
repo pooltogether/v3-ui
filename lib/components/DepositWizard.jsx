@@ -44,7 +44,7 @@ const handleDepositSubmit = async (
   )
 }
 
-export const DepositUI = (props) => {
+export const DepositWizard = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress, provider } = authControllerContext
 
@@ -65,6 +65,15 @@ export const DepositUI = (props) => {
     <div
       className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 bg-primary'
     >
+      {props.usersChainValues.usersTokenAllowance.gt(0) ?
+        <DepositUI
+          {...props}
+        /> :
+        <UnlockDepositUI
+          {...props}
+        />
+      }
+      
       <div className='h-full flex flex-col justify-center p-4 sm:p-32 lg:p-64 text-center'>
         {!txInFlight ? <>
           <DepositForm

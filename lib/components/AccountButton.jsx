@@ -28,7 +28,6 @@ export const AccountButton = (props) => {
   useEffect(() => {
     const get3BoxProfile = async () => {
       const boxProfile = await getProfile(usersAddress)
-      console.log({ boxProfile })
 
       if (!isEmptyObject(boxProfile)) {
         setProfile(boxProfile)

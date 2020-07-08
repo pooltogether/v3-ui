@@ -4,16 +4,18 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { FormLockedOverlay } from 'lib/components/FormLockedOverlay'
 import { LoadingDots } from 'lib/components/LoadingDots'
 import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
-import { DepositUI } from 'lib/components/DepositUI'
+import { DepositWizard } from 'lib/components/DepositWizard'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { UserActionsUI } from 'lib/components/UserActionsUI'
 import { UserStats } from 'lib/components/UserStats'
+import { getPrizePoolAddressByTicker } from 'lib/services/getPrizePoolAddressByTicker'
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchChainData } from 'lib/utils/fetchChainData'
 import { poolToast } from 'lib/utils/poolToast'
@@ -32,16 +34,25 @@ const renderErrorMessage = (
 export const PoolShow = (
   props,
 ) => {
+  console.log('in poolshow')
   const router = useRouter()
   const { pool } = props
 
+  const poolDataContext = useContext(PoolDataContext)
+  
   const authControllerContext = useContext(AuthControllerContext)
   const { ethBalance, usersAddress, provider } = authControllerContext
   
   let error
   
   const networkName = router.query.networkName
-  const prizePool = router.query.prizePoolAddress
+  const ticker = router.query.prizePoolTicker
+
+  const prizePool = getPrizePoolAddressByTicker(ticker, poolDataContext.addresses)
+  // let poolId
+  // if (ticker) {
+  //   poolId = getPrizePoolAddressByTicker(ticker, addresses)
+  // }
   
   const [poolAddresses, setPoolAddresses] = useState({
     prizePool
@@ -173,9 +184,10 @@ export const PoolShow = (
     >
       {error}
 
-      {getTickets && <DepositUI
+      {getTickets && <DepositWizard
         {...props}
         genericChainValues={genericChainValues}
+        usersChainValues={usersChainValues}
         poolAddresses={poolAddresses}
       />}
       

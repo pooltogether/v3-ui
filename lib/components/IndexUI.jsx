@@ -5,35 +5,47 @@ import { useInterval } from 'lib/hooks/useInterval'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolList } from 'lib/components/PoolList'
 import { PoolShow } from 'lib/components/PoolShow'
+import { getPrizePoolAddressByTicker } from 'lib/services/getPrizePoolAddressByTicker'
 
 export const IndexUI = (
   props,
 ) => {
   const router = useRouter()
-  const poolId = router.query.prizePoolAddress
+  const ticker = router.query.prizePoolTicker
+
+  const poolDataContext = useContext(PoolDataContext)
+  const {
+    addresses,
+    dynamicPoolData,
+    staticPoolData,
+  } = poolDataContext
+
+  let poolId
+  if (ticker) {
+    poolId = getPrizePoolAddressByTicker(ticker, addresses)
+  }
 
   let pools = []
-  const poolData = useContext(PoolDataContext)
   pools = [
     {
-      ...poolData.dynamicPoolData.daiPool,
-      ...poolData.staticPoolData.daiPool,
+      ...dynamicPoolData.daiPool,
+      ...staticPoolData.daiPool,
       prize: 9591,
       risk: 5,
       yieldSource: 'mStable',
       frequency: 'Weekly',
     },
     {
-      ...poolData.dynamicPoolData.usdcPool,
-      ...poolData.staticPoolData.usdcPool,
+      ...dynamicPoolData.usdcPool,
+      ...staticPoolData.usdcPool,
       prize: (11239 / 7),
       risk: 3,
       yieldSource: 'AAVE',
       frequency: 'Daily',
     },
     {
-      ...poolData.dynamicPoolData.usdtPool,
-      ...poolData.staticPoolData.usdtPool,
+      ...dynamicPoolData.usdtPool,
+      ...staticPoolData.usdtPool,
       prize: 7001,
       risk: 2,
       yieldSource: 'Compound',
@@ -114,7 +126,7 @@ export const IndexUI = (
 
 
 {/* <Link
-      href='/pools/[networkName]/[prizePoolAddress]'
+      href='/pools/[networkName]/[prizePoolTicker]'
       as={`/pools/kovan/${kovanDaiPrizePoolContractAddress}`}
       scroll={false}
     >

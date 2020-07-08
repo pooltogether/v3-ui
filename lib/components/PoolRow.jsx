@@ -49,14 +49,15 @@ export const PoolRow = (
   //     <V3LoadingDots />
   //   </div>
   // }
+  console.log({pool})
 
-return <>
+  return <>
     {/* <AnimatePresence
     // onExitComplete={handleExitComplete}
     > */}
 
         <Link
-          href='/pools/[networkName]/[prizePoolAddress]'
+          href='/pools/[networkName]/[prizePoolTicker]'
           as={`/pools/kovan/${pool.id}`}
         >
           <motion.a

@@ -4,6 +4,14 @@ export const staticPrizePoolFragment = gql`
   fragment staticPrizePoolFragment on PrizePool {
     id
 
+    underlyingCollateralToken
+    underlyingCollateralName
+    underlyingCollateralSymbol
+    
+    yieldToken
+    yieldTokenName
+    yieldTokenSymbol
+
     creator
     prizeStrategy
 

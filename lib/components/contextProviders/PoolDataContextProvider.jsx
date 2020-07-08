@@ -43,6 +43,7 @@ export const PoolDataContextProvider = (props) => {
                 {(dynamicPoolData) => {
                   return <PoolDataContext.Provider
                     value={{
+                      addresses,
                       dynamicPoolData,
                       staticPoolData,
                     }}
