@@ -4,8 +4,7 @@ import { useRouter } from 'next/router'
 import { Button } from 'lib/components/Button'
 import { isEmptyObject } from 'lib/utils/isEmptyObject'
 
-const Box = require('3box')
-// const { profileGraphQL, getProfile, getProfiles, getVerifiedAccounts } = require('3box/lib/api')
+const { getProfile } = require('3box/lib/api')
 
 const isValidImage = (image) => {
   if (image && image[0] && image[0].contentUrl) {
@@ -27,8 +26,8 @@ export const AccountButton = (props) => {
   }
 
   useEffect(() => {
-    const getProfile = async () => {
-      const boxProfile = await Box.getProfile(usersAddress)
+    const get3BoxProfile = async () => {
+      const boxProfile = await getProfile(usersAddress)
       console.log({ boxProfile })
 
       if (!isEmptyObject(boxProfile)) {
@@ -37,7 +36,7 @@ export const AccountButton = (props) => {
     }
 
     if (usersAddress) {
-      getProfile()
+      get3BoxProfile()
     }
   }, [usersAddress])
 
