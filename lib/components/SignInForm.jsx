@@ -1,5 +1,7 @@
 import React, { useContext, useState } from 'react'
 import Link from 'next/link'
+import FeatherIcon from 'feather-icons-react'
+import { useRouter } from 'next/router'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
@@ -9,6 +11,8 @@ import { TextInputGroup } from 'lib/components/TextInputGroup'
 const validator = require('email-validator')
 
 export const SignInForm = (props) => {
+  const router = useRouter()
+
   const [email, setEmail] = useState('')
   const [isValid, setIsValid] = useState(null)
 
@@ -39,6 +43,25 @@ export const SignInForm = (props) => {
     testEmail()
   }
 
+
+  const handleCloseSignIn = () => {
+    let pathname = router.pathname
+    let asPath = router.asPath
+
+    if (/signIn/.test(router.asPath)) {
+      pathname = '/'
+      asPath = '/'
+    }
+
+    router.push(
+      `${pathname}`,
+      `${asPath}`,
+      {
+        shallow: true
+      }
+    )
+  }
+
   return <>
     <div
       id='signin-container'
@@ -49,7 +72,7 @@ export const SignInForm = (props) => {
           className='sm:px-4 lg:px-0 pt-4 nav-min-height flex items-center h-full justify-between flex-wrap'
         >
           <div
-            className='w-3/5 lg:w-2/5 justify-start h-full flex items-center truncate'
+            className='w-3/5 sm:w-2/5 justify-start h-full flex items-center truncate'
           >
             <Link
               href='/'
@@ -62,6 +85,19 @@ export const SignInForm = (props) => {
                 
               </a>
             </Link>
+          </div>
+          <div
+            className='w-2/5 sm:w-3/5 justify-end h-full flex items-center text-inverse'
+          >
+            <button
+              type='button'
+              onClick={handleCloseSignIn}
+            >
+            <FeatherIcon
+              icon='x-circle'
+              className='w-8 h-8 sm:w-16 sm:h-16'
+            />
+            </button>
           </div>
         </nav>
       </div>

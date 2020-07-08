@@ -5,6 +5,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { Button } from 'lib/components/Button'
 import { networkColorClassname } from 'lib/utils/networkColorClassname'
 import { chainIdToName } from 'lib/utils/chainIdToName'
+import { shortenAddress } from 'lib/utils/shortenAddress'
 
 export const WalletInfo = () => {
   const authControllerContext = useContext(AuthControllerContext)
@@ -33,21 +34,43 @@ export const WalletInfo = () => {
           ETH Address:
         </h2>
         <div
-          className='overflow-ellipsis w-full no-underline'
+          className='overflow-ellipsis w-full no-underline text-secondary'
         >
-          {usersAddress}
+          {shortenAddress(usersAddress)}
         </div>
 
         <h2
           className='text-default-soft mt-10'
         >
-          Network info:
+          Wallet:
         </h2>
         <div
-          className='rounded-lg sm:text-purple-500 capitalize'
+          className='rounded-lg capitalize text-secondary'
         >
-          {walletName} {networkName}
+          {walletName}
         </div>
+
+        <h2
+          className='text-default-soft mt-10'
+        >
+          Network:
+        </h2>
+        <div
+          className='rounded-lg capitalize text-secondary'
+        >
+          {networkName}
+        </div>
+{/* 
+        {magic && signedIn && <>
+          <div className='mt-16'>
+            <Button
+              outline
+              onClick={authControllerContext.signOut}
+            >
+              Sign out
+          </Button>
+          </div>
+        </>} */}
       </div>
 
       <div className='mt-16'>

@@ -22,6 +22,8 @@ export const Nav = (props) => {
   const { usersAddress } = authControllerContext
 
   const handleShowSignIn = (e) => {
+    console.log('showSignin')
+
     e.preventDefault()
 
     router.push(

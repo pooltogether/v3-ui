@@ -4,8 +4,6 @@ import { Button } from 'lib/components/Button'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletInfo } from 'lib/components/WalletInfo'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { shortenAddress } from 'lib/utils/shortenAddress'
 
 export default function Dashboard(props) {
   const authControllerContext = useContext(AuthControllerContext)
@@ -26,51 +24,6 @@ export default function Dashboard(props) {
         {...props}
       />
 
-      {magic && signedIn && <>
-        <h2
-          className='text-default-soft'
-        >
-          Magic Email:
-        </h2>
-        <h2
-          className='text-secondary'
-        >
-          {email}
-        </h2>
-
-        <h2
-          className='text-default-soft mt-10'
-        >
-          Magic ETH Address:
-        </h2>
-        <h2
-          className='text-secondary'
-        >
-          {shortenAddress(address)}
-        </h2>
-
-        {/* <h2
-          className='text-default-soft mt-10'
-        >
-          Magic ETH Balance:
-        </h2>
-        <h2
-          className='text-secondary'
-        >
-          {displayAmountInEther(ethBalance)}
-        </h2> */}
-      </>}
-
-      {magic && signedIn && <>
-        <div className='mt-16'>
-          <Button
-            outline
-            onClick={authControllerContext.signOut}
-          >
-            Sign out
-          </Button>
-        </div>
-      </>}
     </div>
   </>
 }

@@ -43,10 +43,13 @@ export const AuthControllerContextProvider = (props) => {
   //   }
   // }, [authControllerContext])
 
-  const walletName = currentState && currentState.wallet ?
-    currentState.wallet.name :
-    'Unknown'
-  
+  let walletName = 'Unknown'
+  if (magic && magicContext.signedIn) {
+    walletName = 'Magic'
+  } else if (currentState && currentState.wallet) {
+    walletName = currentState.wallet.name
+  }
+
   const [chainId, setChainId] = useState(getChainId(currentState))
   const [provider, setProvider] = useState()
   const [usersAddress, setUsersAddress] = useState()
@@ -100,6 +103,7 @@ export const AuthControllerContextProvider = (props) => {
   
 
   const postDisconnectRedirect = () => {
+    console.log('postDisconnectRedirect')
     router.push(
       `${router.pathname}?signIn=1`,
       `${router.asPath}?signIn=1`,
