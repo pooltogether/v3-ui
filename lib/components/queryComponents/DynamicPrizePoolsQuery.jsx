@@ -15,6 +15,7 @@ export const DynamicPrizePoolsQuery = (
   let poolData
 
   const { loading, error, data } = useQuery(dynamicPrizePoolsQuery, {
+    fetchPolicy: 'network-only',
     pollInterval: MAINNET_POLLING_INTERVAL
   })
 
@@ -24,6 +25,6 @@ export const DynamicPrizePoolsQuery = (
   }
 
   poolData = getPoolDataFromQueryResult(addresses, data)
-
-  return children(poolData)
+  
+  return children({ loading, poolData })
 }

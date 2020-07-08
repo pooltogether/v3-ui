@@ -23,5 +23,5 @@ export const StaticPrizePoolsQuery = (
   
   poolData = getPoolDataFromQueryResult(addresses, data)
   
-  return children(poolData)
+  return children({ poolData, loading })
 }

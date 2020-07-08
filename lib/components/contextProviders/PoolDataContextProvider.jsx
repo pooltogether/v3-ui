@@ -34,16 +34,18 @@ export const PoolDataContextProvider = (props) => {
             {...props}
             addresses={addresses}
           >
-            {(staticPoolData) => {
-
+            {(staticResult) => {
+              const staticPoolData = staticResult.poolData
               return <DynamicPrizePoolsQuery
                 {...props}
                 addresses={addresses}
               >
-                {(dynamicPoolData) => {
+                {(dynamicResult) => {
+                  const dynamicPoolData = dynamicResult.poolData
                   return <PoolDataContext.Provider
                     value={{
-                      addresses,
+                      loading: staticResult.loading || dynamicResult.loading ||
+                        !staticPoolData || !dynamicPoolData,
                       dynamicPoolData,
                       staticPoolData,
                     }}

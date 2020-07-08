@@ -49,7 +49,6 @@ export const PoolRow = (
   //     <V3LoadingDots />
   //   </div>
   // }
-  console.log({pool})
 
   return <>
     {/* <AnimatePresence
@@ -58,7 +57,7 @@ export const PoolRow = (
 
         <Link
           href='/pools/[networkName]/[prizePoolTicker]'
-          as={`/pools/kovan/${pool.id}`}
+          as={`/pools/kovan/${pool.underlyingCollateralSymbol}`}
         >
           <motion.a
             animate
@@ -109,14 +108,14 @@ export const PoolRow = (
                   {...props}
                 />
               </div>
-
+{/* 
               <div
                 className='w-6/12 sm:w-2/12 lg:w-1/12'
               >
                 <RiskFactor
                   {...props}
                 />
-              </div>
+              </div> */}
             </div>
           </motion.a>
         </Link>

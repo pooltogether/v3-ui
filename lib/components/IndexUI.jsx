@@ -5,24 +5,22 @@ import { useInterval } from 'lib/hooks/useInterval'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolList } from 'lib/components/PoolList'
 import { PoolShow } from 'lib/components/PoolShow'
-import { getPrizePoolAddressByTicker } from 'lib/services/getPrizePoolAddressByTicker'
 
 export const IndexUI = (
   props,
 ) => {
   const router = useRouter()
-  const ticker = router.query.prizePoolTicker
+  const ticker = router.query.prizePoolTicker && router.query.prizePoolTicker.toLowerCase()
 
   const poolDataContext = useContext(PoolDataContext)
   const {
-    addresses,
     dynamicPoolData,
     staticPoolData,
+    loading,
   } = poolDataContext
 
-  let poolId
-  if (ticker) {
-    poolId = getPrizePoolAddressByTicker(ticker, addresses)
+  if (loading) {
+    return null
   }
 
   let pools = []
@@ -52,7 +50,14 @@ export const IndexUI = (
       frequency: 'Weekly',
     },
   ]
-  
+
+  let pool
+  if (ticker) {
+    pool = pools.find(pool => (
+      pool.underlyingCollateralSymbol.toLowerCase() === ticker
+    ))
+  }
+
   // let poolData,
   //   daiPool,
   //   usdcPool,
@@ -110,15 +115,12 @@ export const IndexUI = (
   // }, done ? null : 300)
 
   return <>
-    {poolId && <PoolShow
-      // pool={{
-      //   id: poolId
-      // }}
-      pool={pools.find(pool => pool.id === poolId)}
+    {pool && <PoolShow
+      pool={pool}
     />}
 
     <PoolList
-      selectedId={poolId}
+      selectedId={pool && pool.id}
       pools={pools}
     />
   </>
