@@ -258,14 +258,12 @@ export const PoolShow = (
               />
             </div>
 
-            <div className='mt-10'>
-              <PoolActionsUI
-                genericChainValues={genericChainValues}
-                networkName={networkName}
-                poolAddresses={poolAddresses}
-                usersAddress={usersAddress}
-              />
-            </div>
+            <PoolActionsUI
+              genericChainValues={genericChainValues}
+              networkName={networkName}
+              poolAddresses={poolAddresses}
+              usersAddress={usersAddress}
+            />
           </div>
 
           <div
@@ -309,10 +307,10 @@ export const PoolShow = (
             </FormLockedOverlay>} */}
             
 
-            {usersAddress && <UserStats
+            {/* {usersAddress && <UserStats
               genericChainValues={genericChainValues}
               usersChainValues={usersChainValues}
-            />}
+            />} */}
 {/* 
             <UserActionsUI
               genericChainValues={genericChainValues}

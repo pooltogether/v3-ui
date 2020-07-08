@@ -21,30 +21,30 @@ export const PoolStats = (props) => {
     
   }, 1000)
 
+  console.log({genericChainValues})
+
   return <>
     <div
       className={classnames(
-        'flex flex-col sm:flex-row sm:flex-wrap justify-center items-center',
+        'flex flex-col sm:flex-row sm:flex-wrap justify-center',
         'mt-2 mb-4 rounded-xl text-base sm:text-lg',
       )}
     >
-      <StatContainer>
-        <BlueLineStat
-          title='Total tickets'
-          value={`$${displayAmountInEther(genericChainValues.ticketTotalSupply, { precision: 2 })} ${genericChainValues.tokenSymbol || 'TOKEN'}`}
-        />
-      </StatContainer>
+      <div className='text-left mt-10'>
+        <div className={`text-xs sm:text-xs lg:text-base uppercase font-bold`}># of Tickets Sold</div>
+        <div className={`text-3xl sm:text-3xl lg:text-5xl font-bold text-inverse`}>
+          <span className='font-number'>${displayAmountInEther(genericChainValues.ticketTotalSupply, { precision: 2 })} ${genericChainValues.tokenSymbol || 'TOKEN'}</span>
+        </div>
+      </div>
 
-      <StatContainer>
-        <BlueLineStat
-          title={<div className='flex flex-col leading-tight'>
-            next prize
-            <span className='text-purple-700 italic'>
-              (estimate)
-            </span></div>}
-          value={`$${displayAmountInEther(genericChainValues.estimateRemainingPrize, { precision: 0 })} ${genericChainValues.tokenSymbol || 'TOKEN'}`}
-        />
-      </StatContainer>
+      <div className='text-left mt-10'>
+        <div className={`text-xs sm:text-xs lg:text-base uppercase font-bold`}># of Players</div>
+        <div className={`text-3xl sm:text-3xl lg:text-5xl font-bold text-inverse`}>
+          <span className='font-number'>num players</span>
+        </div>
+      </div>
+
+
 {/* 
       <StatContainer>
         <BlueLineStat
