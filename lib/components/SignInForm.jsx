@@ -113,7 +113,7 @@ export const SignInForm = (props) => {
           </button>
         </nav>
 
-        <div className='h-full flex flex-col justify-center p-4 sm:p-32 lg:p-64 text-center'>
+        <div className='h-full flex flex-col justify-center px-4 lg:px-64 text-center'>
           <form
             onSubmit={handleSubmit}
             className='-mt-48'
