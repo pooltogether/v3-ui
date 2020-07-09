@@ -125,7 +125,7 @@ export const SignInForm = (props) => {
             </div>
 
             <div
-              className='mb-2 py-2 text-sm sm:text-base text-default-soft'
+              className='pb-1 text-sm sm:text-base text-default-soft'
             >
               Enter your email address to continue:
             </div>
