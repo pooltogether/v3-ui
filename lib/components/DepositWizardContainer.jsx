@@ -56,6 +56,7 @@ export const DepositWizardContainer = (props) => {
           return <DepositWizardLayout
             currentWizardStep={activeStepIndex + 1}
             handlePreviousStep={previousStep}
+            totalWizardSteps={4}
           >
             <WizardStep>
               {

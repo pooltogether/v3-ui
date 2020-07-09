@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+import { AnimatePresence } from 'framer-motion'
 
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNotificationBanner'
@@ -20,11 +21,15 @@ export const Layout = (props) => {
   return <>
     <Meta />
 
-    {signIn && <SignInForm />}
+    <AnimatePresence>
+      {signIn && <SignInForm />}
+    </AnimatePresence>
 
-    {deposit && <DepositWizardContainer
-      {...props}
-    />}
+    <AnimatePresence>
+      {deposit && <DepositWizardContainer
+        {...props}
+      />}
+    </AnimatePresence>
     
     <div
       className='flex flex-col w-full'
