@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
+import { DepositWizard } from 'lib/components/DepositWizard'
 import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNotificationBanner'
 import { Footer } from 'lib/components/Footer'
 import { Meta } from 'lib/components/Meta'
@@ -14,11 +15,16 @@ export const Layout = (props) => {
 
   const router = useRouter()
   const signIn = router.query.signIn
+  const deposit = /deposit/.test(router.asPath)
 
   return <>
     <Meta />
 
     {signIn && <SignInForm />}
+
+    {deposit && <DepositWizard
+      {...props}
+    />}
     
     <div
       className='flex flex-col w-full'

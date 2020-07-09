@@ -74,17 +74,12 @@ export const DepositForm = (props) => {
           </div>
         </>
       </FormLockedOverlay>}
-      
-      <div
-        className='font-bold mb-2 py-2 text-lg sm:text-xl lg:text-2xl'
-      >
-        Deposit:
-      </div>
 
       <TextInputGroup
+        large
         id='depositAmount'
         label={<>
-          Deposit amount <span className='text-purple-600 italic'> (in {genericChainValues.tokenSymbol || 'TOKEN'})</span>
+          Quantity <span className='text-purple-600 italic'></span>
         </>}
         required
         disabled={disabled}
@@ -94,21 +89,22 @@ export const DepositForm = (props) => {
         value={depositAmount}
       />
 
-      {overBalance && <>
+      {/* {overBalance && <>
         <div className='text-yellow-400'>
           You only have {displayAmountInEther(usersTokenBalance, { decimals: tokenDecimals })} {tokenSymbol}.
           <br />The maximum you can deposit is {displayAmountInEther(usersTokenBalance, { precision: 2, decimals: tokenDecimals })}.
         </div>
-      </>}
+      </>} */}
 
       <div
         className='my-5'
       >
         <Button
-          disabled={overBalance}
+          disabled={depositAmount.length === 0 || parseInt(depositAmount, 10) <= 0}
+          // disabled={overBalance}
           color='green'
         >
-          Deposit
+          Continue
         </Button>
       </div>
     </form>

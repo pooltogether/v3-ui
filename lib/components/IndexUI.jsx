@@ -76,6 +76,7 @@ export const IndexUI = (
 
   return <>
     {pool && <PoolShow
+      {...props}
       pool={pool}
     />}
 

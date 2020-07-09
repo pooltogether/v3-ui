@@ -16,7 +16,8 @@ export const TextInputGroup = (
     pattern,
     placeholder,
     onChange,
-    value
+    value,
+    large,
   } = props
 
   return <>
@@ -26,10 +27,10 @@ export const TextInputGroup = (
       <label
         htmlFor={id}
         className={classnames(
-          'mt-0 trans',
+          'mt-0 pb-1 trans',
           {
-            'text-purple-700 cursor-not-allowed': disabled,
-            'text-purple-300 hover:text-white': !disabled,
+            'text-primary cursor-not-allowed': disabled,
+            'text-primary hover:text-inverse': !disabled,
           }
         )}
       >
@@ -45,6 +46,7 @@ export const TextInputGroup = (
         onChange={onChange}
         onBlur={onBlur}
         value={value}
+        large={large}
       />
     </div>
   </>

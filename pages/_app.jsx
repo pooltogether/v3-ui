@@ -42,12 +42,15 @@ function MyApp({ Component, pageProps }) {
   if (!initialized) {
     return null // could show loader ...
   }
+  console.log({pageProps})
   
   return <>
     {/* <Chart /> */}
 
     <AllContextProviders>
-      <Layout>
+      <Layout
+        props={pageProps}
+      >
         <Component
           {...pageProps}
         />

@@ -50,7 +50,7 @@ const getTransitionClasses = (transitionClasses) => {
 }
 
 const getRoundedClasses = (roundedClasses) => {
-  return roundedClasses || 'rounded-lg'
+  return roundedClasses || 'rounded-xl'
 }
 
 export const Button = (props) => {
@@ -127,12 +127,12 @@ export const Button = (props) => {
     }
   }
 
-  borderClasses = `border-2 border-inverse`
+  borderClasses = `border-4 border-inverse`
   if (!disabled) {
     if (inversed) {
-      borderClasses = `border-2 border-inverse hover:border-default`
+      borderClasses = `border-4 border-inverse hover:border-default`
     } else {
-      borderClasses = `border-2 border-inverse hover:border-secondary`
+      borderClasses = `border-4 border-inverse hover:border-secondary`
     }
   }
   
@@ -167,7 +167,7 @@ export const Button = (props) => {
   )
 
   if (outline) {
-    className = 'rounded-full text-secondary border-2 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+    className = 'rounded-full text-secondary border-4 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
   }
 
   let newProps = omit(props, [

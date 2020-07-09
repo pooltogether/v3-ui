@@ -7,7 +7,6 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
 import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
-import { DepositWizard } from 'lib/components/DepositWizard'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { poolToast } from 'lib/utils/poolToast'
@@ -54,18 +53,16 @@ export const PoolShow = (
     return null
   }
 
-  const handleShowGetTickets = (e) => {
+  const handleShowDeposit = (e) => {
     e.preventDefault()
 
     router.push(
-      `${router.pathname}?getTickets=1`,
-      `${router.asPath}?getTickets=1`, {
+      `${router.pathname}/deposit`,
+      `${router.asPath}/deposit`, {
         shallow: true
       }
     )
   }
-
-  const getTickets = router.query.getTickets
 
   return <>
     <motion.div
@@ -99,10 +96,6 @@ export const PoolShow = (
       }}
     >
       {error}
-
-      {getTickets && <DepositWizard
-        {...props}
-      />}
       
         {/* {genericChainValues.loading ?
           <div
@@ -141,7 +134,7 @@ export const PoolShow = (
                 className='flex sm:justify-end items-center w-full sm:w-1/2 mt-4 sm:mt-0'
               >
                 <Button
-                  onClick={handleShowGetTickets}
+                  onClick={handleShowDeposit}
                   wide
                 >
                   Get tickets
