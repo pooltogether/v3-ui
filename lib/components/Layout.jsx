@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
-import { DepositWizard } from 'lib/components/DepositWizard'
+import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNotificationBanner'
 import { Footer } from 'lib/components/Footer'
 import { Meta } from 'lib/components/Meta'
@@ -22,7 +22,7 @@ export const Layout = (props) => {
 
     {signIn && <SignInForm />}
 
-    {deposit && <DepositWizard
+    {deposit && <DepositWizardContainer
       {...props}
     />}
     

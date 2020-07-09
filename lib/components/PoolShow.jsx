@@ -56,9 +56,18 @@ export const PoolShow = (
   const handleShowDeposit = (e) => {
     e.preventDefault()
 
+    let pathname = router.pathname
+    let asPath = router.asPath
+
+    if (!/deposit/.test(asPath)) {
+      pathname = `${router.pathname}/deposit`
+      asPath = `${router.asPath}/deposit`
+    }
+
     router.push(
-      `${router.pathname}/deposit`,
-      `${router.asPath}/deposit`, {
+      pathname,
+      asPath,
+      {
         shallow: true
       }
     )

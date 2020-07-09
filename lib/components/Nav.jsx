@@ -47,7 +47,7 @@ export const Nav = (props) => {
             <a
               title={'Back to home'}
               className='pool-logo border-0 trans block w-full'
-            >&nbsp;</a>
+            />
           </Link>
         </div>
 

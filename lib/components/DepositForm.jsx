@@ -7,6 +7,41 @@ import { FormLockedOverlay } from 'lib/components/FormLockedOverlay'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
+const handleDepositSubmit = async (
+  setTx,
+  provider,
+  usersAddress,
+  contractAddress,
+  depositAmount,
+  decimals
+) => {
+  if (
+    !depositAmount
+  ) {
+    poolToast.error(`Deposit Amount needs to be filled in`)
+    return
+  }
+
+  const params = [
+    usersAddress,
+    ethers.utils.parseUnits(depositAmount, decimals),
+    [], // bytes calldata
+    {
+      gasLimit: 700000
+    }
+  ]
+
+  await sendTx(
+    setTx,
+    provider,
+    contractAddress,
+    CompoundPeriodicPrizePoolAbi,
+    'mintTickets',
+    params,
+    'Deposit',
+  )
+}
+
 export const DepositForm = (props) => {
   const {
     handleSubmit,
@@ -75,19 +110,21 @@ export const DepositForm = (props) => {
         </>
       </FormLockedOverlay>}
 
-      <TextInputGroup
-        large
-        id='depositAmount'
-        label={<>
-          Quantity <span className='text-purple-600 italic'></span>
-        </>}
-        required
-        disabled={disabled}
-        type='number'
-        pattern='\d+'
-        onChange={(e) => setDepositAmount(e.target.value)}
-        value={depositAmount}
-      />
+      <div className='w-full sm:w-2/3 mx-auto'>
+        <TextInputGroup
+          large
+          id='depositAmount'
+          label={<>
+            Quantity <span className='text-purple-600 italic'></span>
+          </>}
+          required
+          disabled={disabled}
+          type='number'
+          pattern='\d+'
+          onChange={(e) => setDepositAmount(e.target.value)}
+          value={depositAmount}
+        />
+      </div>
 
       {/* {overBalance && <>
         <div className='text-yellow-400'>

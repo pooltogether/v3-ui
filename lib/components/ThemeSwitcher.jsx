@@ -100,7 +100,6 @@ export const ThemeSwitcher = (props) => {
         <span
           className='sm:hidden'
         >
-          &nbsp;
         </span>
         <span
           className='hidden sm:block'
@@ -114,7 +113,6 @@ export const ThemeSwitcher = (props) => {
         <span
           className='sm:hidden'
         >
-          &nbsp;
         </span>
         <span
           className='hidden sm:block'

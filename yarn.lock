@@ -17830,6 +17830,11 @@ react-transition-group@^4.4.1:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
+react-wizard-primitive@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-wizard-primitive/-/react-wizard-primitive-2.4.0.tgz#dc52284dc5627ab7e2f7209b2040c8329bc5ab6a"
+  integrity sha512-c7zYQYC5e0+tyI+b7ngFdRJNmhfwGmTLucU8W/R+dHt8XsLuB0Tjg1JKhAm8lH5QGruBSx06PG5KhCrl8V0Y+A==
+
 react@16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"

@@ -72,9 +72,7 @@ export const SignInForm = (props) => {
         animate={{ scale: 1 }}
         exit={{ scale: 0 }}
         transition={{ duration: 0.1 }}
-      >
-        &nbsp;
-      </motion.div>
+      />
 
       <motion.div
         key='sign-in-pane'

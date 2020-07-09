@@ -28,7 +28,7 @@ export function Input(props) {
   }
 
   if (textClasses === undefined) {
-    textClasses = large ? 'text-3xl sm:text-5xl' : 'text-xl sm:text-2xl'
+    textClasses = large ? 'font-bold text-3xl sm:text-5xl' : 'text-xl sm:text-2xl'
   }
 
   const className = classnames(
@@ -44,6 +44,7 @@ export function Input(props) {
   )
 
   const newProps = omit(props, [
+    'large',
     'marginClasses',
     'roundedClasses',
     'textClasses',

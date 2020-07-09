@@ -19,6 +19,7 @@ module.exports = {
         default: 'var(--color-border-default)',
         transparent: 'var(--color-border-transparent)',
         inverse: 'var(--color-border-inverse)',
+        green: 'var(--color-border-green)',
       },
       textColor: {
         primary: 'var(--color-text-primary)',
