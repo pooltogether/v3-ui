@@ -14,12 +14,11 @@ const FirstStep = (props) => {
 
   // console.log({ isActive: step.isActive })
   // console.log({ index: step.index })
-  return step.isActive ? <>
+  return step.isActive && <>
       <TicketQuantityForm
         nextStep={step.nextStep}
       />
-    </> :
-    null
+    </>
 }
 
 const SecondStep = (props) => {
@@ -39,23 +38,26 @@ const SecondStep = (props) => {
 
   // console.log('++++++++++++++++');
 
-  return step.isActive ? <div onClick={step.nextStep}>Second Step</div> : null
+  return step.isActive && <>
+      <div className='text-inverse'>Step 2, how do you want to buy?</div>
+    </>
 }
 
 export const DepositWizardContainer = (props) => {
   return <>
     <Wizard
-      onChange={({ newStepIndex, previousStepIndex }) => {
-        console.log(`I moved from step ${previousStepIndex} to ${newStepIndex}`);
-      }}
+      // onChange={({ newStepIndex, previousStepIndex }) => {
+      //   console.log(`I moved from step ${previousStepIndex} to ${newStepIndex}`);
+      // }}
     >
       {
         (wizard) => {
-          const { activeStepIndex, previousStep } = wizard
+          const { activeStepIndex, previousStep, moveToStep } = wizard
 
           return <DepositWizardLayout
             currentWizardStep={activeStepIndex + 1}
             handlePreviousStep={previousStep}
+            moveToStep={moveToStep}
             totalWizardSteps={4}
           >
             <WizardStep>

@@ -8,13 +8,13 @@ function range1(i) { return i ? range1(i - 1).concat(i) : [] }
 
 export const DepositWizardLayout = (props) => {
   const {
-    totalWizardSteps,
     currentWizardStep,
     handlePreviousStep,
+    moveToStep,
+    totalWizardSteps,
     children
   } = props
-  console.log('wtf', currentWizardStep)
-  
+
   const router = useRouter()
 
   const handleCloseDeposit = () => {
@@ -72,8 +72,17 @@ export const DepositWizardLayout = (props) => {
           {range1(totalWizardSteps).map((stepNum, index) => {
             return <motion.div
               // animate={}
+              onClick={(e) => {
+                e.preventDefault()
+
+                if (currentWizardStep < index + 1) {
+                  return
+                }
+
+                moveToStep(index)
+              }}
               className={classnames(
-                'w-8 h-2 rounded-sm mx-1',
+                'cursor-pointer w-8 h-2 rounded-sm mx-1',
                 {
                   'bg-purple': currentWizardStep < index + 1,
                   'bg-inverse': currentWizardStep >= index + 1,
