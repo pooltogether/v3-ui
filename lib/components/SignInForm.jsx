@@ -8,6 +8,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { useInterval } from 'lib/hooks/useInterval'
 import { Button } from 'lib/components/Button'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
+import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 const validator = require('email-validator')
 

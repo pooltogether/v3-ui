@@ -1,39 +1,28 @@
-import React, { useContext, useState } from 'react'
-import classnames from 'classnames'
-import FeatherIcon from 'feather-icons-react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ethers } from 'ethers'
 
-import CompoundPeriodicPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPeriodicPrizePool'
-
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { DepositForm } from 'lib/components/DepositForm'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
-import { TxMessage } from 'lib/components/TxMessage'
-import { poolToast } from 'lib/utils/poolToast'
-import { sendTx } from 'lib/utils/sendTx'
+import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const TicketQuantityForm = (props) => {
   const { nextStep } = props
 
   const router = useRouter()
 
-  const poolDataContext = useContext(PoolDataContext)
-
+  // TODO: Consider using a regex to filter only unsigned whole numbers
   const [depositAmount, setDepositAmount] = useState('')
 
   const disabled = depositAmount.length === 0 || parseInt(depositAmount, 10) <= 0
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    queryParamUpdater.add(router, { quantity: depositAmount })
+
     nextStep()
   }
-
-  console.log('TicketQuantityForm')
 
   return <>
     <PaneTitle>

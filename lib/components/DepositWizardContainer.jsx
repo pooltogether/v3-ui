@@ -2,27 +2,8 @@ import React from 'react'
 import { Wizard, WizardStep, useWizardStep } from 'react-wizard-primitive'
 
 import { DepositWizardLayout } from 'lib/components/DepositWizardLayout'
+import { FiatOrCryptoForm } from 'lib/components/FiatOrCryptoForm'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
-
-const FirstStep = (props) => {
-  const { step } = props
-  // const { isActive, nextStep } = useWizardStep()
-
-  return step.isActive && <>
-      <TicketQuantityForm
-        nextStep={step.nextStep}
-      />
-    </>
-}
-
-const SecondStep = (props) => {
-  const { step } = props
-  // const { isActive, nextStep } = useWizardStep()
-
-  return step.isActive && <>
-      <div className='text-inverse'>Step 2, how do you want to buy?</div>
-    </>
-}
 
 export const DepositWizardContainer = (props) => {
   return <>
@@ -44,14 +25,22 @@ export const DepositWizardContainer = (props) => {
             <WizardStep>
               {
                 (step) => {
-                  return <FirstStep step={step} />
+                  return step.isActive && <>
+                    <TicketQuantityForm
+                      nextStep={step.nextStep}
+                    />
+                  </>
                 }
               }
             </WizardStep>
             <WizardStep>
               {
                 (step) => {
-                  return <SecondStep step={step} />
+                  return step.isActive && <>
+                    <FiatOrCryptoForm
+                      nextStep={step.nextStep}
+                    />
+                  </>
                 }
               }
             </WizardStep>

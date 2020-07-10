@@ -6,6 +6,7 @@ import { AccountButton } from 'lib/components/AccountButton'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
+import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 // import PoolLogo from 'assets/images/pooltogether-white-wordmark.svg'
 
@@ -24,12 +25,19 @@ export const Nav = (props) => {
   const handleShowSignIn = (e) => {
     e.preventDefault()
 
-    router.push(
-      `${router.pathname}?signIn=1`,
-      `${router.asPath}?signIn=1`, {
-        shallow: true
-      }
-    )
+    queryParamUpdater.add(router, { signIn: 1 })
+
+    // console.log('pushing');
+    // console.log(`${router.pathname}?signIn=1`);
+    // console.log(`${router.asPath}?signIn=1`);
+    // console.log('with shallow true');
+    
+    // router.push(
+    //   `${router.pathname}?signIn=1`,
+    //   `${router.asPath}?signIn=1`, {
+    //     shallow: true
+    //   }
+    // )
   }
 
   return <>

@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
+
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 
 function range1(i) { return i ? range1(i - 1).concat(i) : [] }
 
@@ -14,6 +16,8 @@ export const DepositWizardLayout = (props) => {
     totalWizardSteps,
     children
   } = props
+
+  const poolData = useContext(PoolDataContext)
 
   const router = useRouter()
 
@@ -71,6 +75,7 @@ export const DepositWizardLayout = (props) => {
         >
           {range1(totalWizardSteps).map((stepNum, index) => {
             return <motion.div
+              key={`step-counter-${index+1}`}
               // animate={}
               onClick={(e) => {
                 e.preventDefault()
@@ -115,6 +120,16 @@ export const DepositWizardLayout = (props) => {
       <div className='h-full flex flex-col justify-center px-4 sm:px-32 lg:px-64 text-center'>
         {children}
       </div>
+
+      <nav
+        className='fixed b-0 l-0 r-0 w-full px-4 pb-4 flex items-center justify-center flex-wrap h-20'
+      >
+        <div className='text-inverse'>
+          {poolData.pool && <>
+            {poolData.pool.yieldSource} {poolData.pool.frequency} {poolData.pool.underlyingCollateralSymbol} Pool
+          </>}
+        </div>
+      </nav>
     </motion.div>
   </>
 }
