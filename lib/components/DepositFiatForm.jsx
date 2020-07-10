@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { Button } from 'lib/components/Button'
@@ -10,6 +10,8 @@ export const DepositFiatForm = (props) => {
 
   const router = useRouter()
   const quantity = router.query.quantity
+
+  const [creditCardNumber, setCreditCardNumber] = useState('')
 
   const handleContinueClick = (e) => {
     e.preventDefault()
@@ -29,15 +31,15 @@ export const DepositFiatForm = (props) => {
       <div className='w-full sm:w-2/3 mx-auto'>
         <TextInputGroup
           large
-          id='quantity'
+          id='creditCardNumber'
           label={<>
             Credit Card #: <span className='text-purple-600 italic'></span>
           </>}
           required
           type='number'
           pattern='\d+'
-          onChange={(e) => setQuantity(e.target.value)}
-          value={quantity}
+          onChange={(e) => setCreditCardNumber(e.target.value)}
+          value={creditCardNumber}
         />
       </div>
 
