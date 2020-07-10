@@ -34,7 +34,7 @@ export const Nav = (props) => {
         className='sm:px-4 lg:px-0 nav-min-height flex items-center h-full justify-between flex-wrap'
       >
         <div
-          className='w-3/5 sm:w-2/5 lg:w-2/5 justify-start h-full flex items-center truncate'
+          className='w-2/5 justify-start h-full flex items-center truncate'
         >
           <Link
             href='/'
@@ -48,7 +48,7 @@ export const Nav = (props) => {
         </div>
 
         <div
-          className='w-2/5 sm:w-3/5 lg:w-3/5 flex justify-end h-full items-center text-right'
+          className='w-3/5 flex justify-end h-full items-center text-right'
         >
           <div className='mr-4'>
             <ThemeSwitcher />

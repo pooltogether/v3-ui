@@ -9,6 +9,7 @@ export const FiatOrCryptoForm = (props) => {
   const { nextStep } = props
 
   const router = useRouter()
+  const quantity = router.query.quantity
 
   const handleFiatClick = (e) => {
     e.preventDefault()
@@ -27,6 +28,10 @@ export const FiatOrCryptoForm = (props) => {
   }
 
   return <>
+    <PaneTitle small>
+      {quantity} tickets
+    </PaneTitle>
+
     <PaneTitle>
       How would you like to deposit?
     </PaneTitle>

@@ -188,7 +188,10 @@ export const WalletContextProvider = (props) => {
 
   const afterConnect = () => {
     postConnectCallback()
-    magicContext.signOut()
+
+    if (magic) {
+      magicContext.signOut()
+    }
   }
 
   // walletType is optional here:

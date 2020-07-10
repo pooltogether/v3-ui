@@ -7,7 +7,7 @@ import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNot
 import { Footer } from 'lib/components/Footer'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
-import { SignInForm } from 'lib/components/SignInForm'
+import { SignInFormContainer } from 'lib/components/SignInFormContainer'
 
 export const Layout = (props) => {
   const {
@@ -22,7 +22,7 @@ export const Layout = (props) => {
     <Meta />
 
     <AnimatePresence>
-      {signIn && <SignInForm />}
+      {signIn && <SignInFormContainer />}
     </AnimatePresence>
 
     <AnimatePresence>

@@ -91,9 +91,12 @@ export const PoolDataContextProvider = (props) => {
 
                   let pool
                   if (ticker) {
-                    pool = pools.find(pool => (
-                      pool.underlyingCollateralSymbol.toLowerCase() === ticker
-                    ))
+                    console.log({pools})
+                    pool = pools.find(_pool => {
+                      if (_pool && _pool.underlyingCollateralSymbol) {
+                        return _pool.underlyingCollateralSymbol.toLowerCase() === ticker
+                      }
+                    })
                   }
 
 
