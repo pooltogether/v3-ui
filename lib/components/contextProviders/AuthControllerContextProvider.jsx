@@ -10,6 +10,7 @@ import {
 import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { getChainId } from 'lib/utils/getChainId'
+import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const AuthControllerContext = React.createContext()
 

@@ -11,12 +11,12 @@ export const PaneTitle = (props) => {
 
   if (small) {
     fontClasses = 'text-lg sm:text-2xl lg:text-3xl text-primary'
-    spacingClasses = 'mb-0 pb-0'
+    spacingClasses = 'pb-2'
   }
 
   return <>
     <div
-      className={`font-bold ${fontClasses} ${spacingClasses}`}
+      className={`leading-tight font-bold ${fontClasses} ${spacingClasses}`}
     >
       {children}
     </div>

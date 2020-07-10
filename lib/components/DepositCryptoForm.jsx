@@ -30,7 +30,7 @@ export const DepositCryptoForm = (props) => {
       Pay with ${ticker.toUpperCase()}
     </PaneTitle>
 
-    <div className='flex flex-col mx-auto'>
+    <div className='flex flex-col mx-auto w-full'>
       <div className='w-full sm:w-2/3 mx-auto'>
         <TextInputGroup
           large

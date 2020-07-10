@@ -41,24 +41,11 @@ export const SignInForm = (props) => {
   return <>
     <form
       onSubmit={handleSubmit}
-      className='-mt-48'
     >
-      <div
-        className='font-bold mb-2 py-2 text-xl sm:text-3xl lg:text-5xl text-inverse'
-      >
-        Sign in
-      </div>
-
-      <div
-        className='pb-1 text-sm sm:text-base text-default-soft'
-      >
-        Enter your email address to continue:
-      </div>
-
-      <div className='w-full sm:w-2/3 mx-auto'>
+      <div className='mx-auto'>
         <TextInputGroup
           id='email'
-          label={''}
+          label={'Email address:'}
           placeholder='Your email'
           required
           type='email'
@@ -76,7 +63,7 @@ export const SignInForm = (props) => {
           wide
           disabled={!isValid}
         >
-          Sign in
+          Continue
         </Button>
       </div>
     </form>

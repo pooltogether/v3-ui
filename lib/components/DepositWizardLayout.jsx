@@ -124,9 +124,12 @@ export const DepositWizardLayout = (props) => {
       <nav
         className='fixed b-0 l-0 r-0 w-full px-4 pb-4 flex items-center justify-center flex-wrap h-20'
       >
-        <div className='text-inverse'>
+        <div
+          className='text-inverse bg-primary rounded-lg px-2 uppercase text-xxs sm:text-sm font-bold'
+        >
+          {/* {poolData.pool.yieldSource}*/}
           {poolData.pool && <>
-            {poolData.pool.yieldSource} {poolData.pool.frequency} {poolData.pool.underlyingCollateralSymbol} Pool
+             {poolData.pool.frequency} {poolData.pool.underlyingCollateralSymbol} Pool
           </>}
         </div>
       </nav>

@@ -24,10 +24,10 @@ export const DepositFiatForm = (props) => {
     </PaneTitle>
 
     <PaneTitle>
-      Please enter your credit or debit card details:
+      Enter your creds.
     </PaneTitle>
 
-    <div className='flex flex-col mx-auto'>
+    <div className='flex flex-col mx-auto w-full'>
       <div className='w-full sm:w-2/3 mx-auto'>
         <TextInputGroup
           large
@@ -41,15 +41,14 @@ export const DepositFiatForm = (props) => {
           onChange={(e) => setCreditCardNumber(e.target.value)}
           value={creditCardNumber}
         />
-      </div>
 
-      <Button
-        onClick={handleContinueClick}
-        color='white'
-        className='my-2 w-64'
-      >
-        Continue
-      </Button>
+        <Button
+          onClick={handleContinueClick}
+          className='my-2 w-full'
+        >
+          Continue
+        </Button>
+      </div>
     </div>
   </>
 }
