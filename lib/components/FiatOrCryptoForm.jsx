@@ -31,18 +31,22 @@ export const FiatOrCryptoForm = (props) => {
       How would you like to deposit?
     </PaneTitle>
 
-    <Button
-      onClick={handleFiatClick}
-      color='green'
-    >
-      Fiat Currency
-    </Button>
+    <div className='flex flex-col mx-auto'>
+      <Button
+        onClick={handleFiatClick}
+        color='green'
+        className='my-2 w-64'
+      >
+        Fiat Currency
+      </Button>
 
-    <Button
-      onClick={handleCryptoClick}
-      color='white'
-    >
-      Crypto
-    </Button>
+      <Button
+        onClick={handleCryptoClick}
+        color='white'
+        className='my-2 w-64'
+      >
+        Crypto
+      </Button>
+    </div>
   </>
 }

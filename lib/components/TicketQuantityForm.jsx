@@ -12,14 +12,14 @@ export const TicketQuantityForm = (props) => {
   const router = useRouter()
 
   // TODO: Consider using a regex to filter only unsigned whole numbers
-  const [depositAmount, setDepositAmount] = useState('')
+  const [quantity, setQuantity] = useState('')
 
-  const disabled = depositAmount.length === 0 || parseInt(depositAmount, 10) <= 0
+  const disabled = quantity.length === 0 || parseInt(quantity, 10) <= 0
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    queryParamUpdater.add(router, { quantity: depositAmount })
+    queryParamUpdater.add(router, { quantity: quantity })
 
     nextStep()
   }
@@ -35,15 +35,15 @@ export const TicketQuantityForm = (props) => {
       <div className='w-full sm:w-2/3 mx-auto'>
         <TextInputGroup
           large
-          id='depositAmount'
+          id='quantity'
           label={<>
             Quantity <span className='text-purple-600 italic'></span>
           </>}
           required
           type='number'
           pattern='\d+'
-          onChange={(e) => setDepositAmount(e.target.value)}
-          value={depositAmount}
+          onChange={(e) => setQuantity(e.target.value)}
+          value={quantity}
         />
       </div>
 

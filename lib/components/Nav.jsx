@@ -26,18 +26,6 @@ export const Nav = (props) => {
     e.preventDefault()
 
     queryParamUpdater.add(router, { signIn: 1 })
-
-    // console.log('pushing');
-    // console.log(`${router.pathname}?signIn=1`);
-    // console.log(`${router.asPath}?signIn=1`);
-    // console.log('with shallow true');
-    
-    // router.push(
-    //   `${router.pathname}?signIn=1`,
-    //   `${router.asPath}?signIn=1`, {
-    //     shallow: true
-    //   }
-    // )
   }
 
   return <>

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { ethers } from 'ethers'
+import { useRouter } from 'next/router'
 
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
@@ -12,19 +13,19 @@ const handleDepositSubmit = async (
   provider,
   usersAddress,
   contractAddress,
-  depositAmount,
+  quantity,
   decimals
 ) => {
   if (
-    !depositAmount
+    !quantity
   ) {
-    poolToast.error(`Deposit Amount needs to be filled in`)
+    poolToast.error(`Deposit Quantity needs to be filled in`)
     return
   }
 
   const params = [
     usersAddress,
-    ethers.utils.parseUnits(depositAmount, decimals),
+    ethers.utils.parseUnits(quantity, decimals),
     [], // bytes calldata
     {
       gasLimit: 700000
@@ -43,12 +44,16 @@ const handleDepositSubmit = async (
 }
 
 export const DepositForm = (props) => {
+  const router = useRouter()
+
   const {
     handleSubmit,
     vars,
     stateSetters,
     disabled,
   } = props
+
+  const quantity = router.query.quantity
 
   const poolData = useContext(PoolDataContext)
   const { usersChainValues, genericChainValues } = poolData
@@ -69,14 +74,8 @@ export const DepositForm = (props) => {
   const poolIsLocked = isRngRequested
   tokenSymbol = tokenSymbol || 'TOKEN'
 
-  let depositAmount, setDepositAmount
-  if (vars && stateSetters) {
-    depositAmount = vars.depositAmount
-    setDepositAmount = stateSetters.setDepositAmount
-  }
-
-  const overBalance = depositAmount && usersTokenBalance && usersTokenBalance.lt(
-    ethers.utils.parseUnits(depositAmount, tokenDecimals)
+  const overBalance = quantity && usersTokenBalance && usersTokenBalance.lt(
+    ethers.utils.parseUnits(quantity, tokenDecimals)
   )
 
   return <>
@@ -110,22 +109,6 @@ export const DepositForm = (props) => {
         </>
       </FormLockedOverlay>}
 
-      <div className='w-full sm:w-2/3 mx-auto'>
-        <TextInputGroup
-          large
-          id='depositAmount'
-          label={<>
-            Quantity <span className='text-purple-600 italic'></span>
-          </>}
-          required
-          disabled={disabled}
-          type='number'
-          pattern='\d+'
-          onChange={(e) => setDepositAmount(e.target.value)}
-          value={depositAmount}
-        />
-      </div>
-
       {/* {overBalance && <>
         <div className='text-yellow-400'>
           You only have {displayAmountInEther(usersTokenBalance, { decimals: tokenDecimals })} {tokenSymbol}.
@@ -137,7 +120,7 @@ export const DepositForm = (props) => {
         className='my-5'
       >
         <Button
-          disabled={depositAmount.length === 0 || parseInt(depositAmount, 10) <= 0}
+          disabled={quantity.length === 0 || parseInt(quantity, 10) <= 0}
           // disabled={overBalance}
           color='green'
         >
