@@ -3,11 +3,13 @@ import { useRouter } from 'next/router'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { ConfirmDeposit } from 'lib/components/ConfirmDeposit'
 import { DepositWizardLayout } from 'lib/components/DepositWizardLayout'
 import { DepositCryptoForm } from 'lib/components/DepositCryptoForm'
 import { DepositFiatForm } from 'lib/components/DepositFiatForm'
 import { DepositWizardSignIn } from 'lib/components/DepositWizardSignIn'
 import { FiatOrCryptoForm } from 'lib/components/FiatOrCryptoForm'
+import { OrderComplete } from 'lib/components/OrderComplete'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 
 export const DepositWizardContainer = (props) => {
@@ -71,6 +73,22 @@ export const DepositWizardContainer = (props) => {
                       nextStep={step.nextStep}
                     />
                   }
+                </>
+              }}
+            </WizardStep>
+            <WizardStep>
+              {(step) => {
+                return step.isActive && <>
+                  <ConfirmDeposit
+                    nextStep={step.nextStep}
+                  />
+                </>
+              }}
+            </WizardStep>
+            <WizardStep>
+              {(step) => {
+                return step.isActive && <>
+                  <OrderComplete />
                 </>
               }}
             </WizardStep>

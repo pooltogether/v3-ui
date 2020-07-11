@@ -46,7 +46,7 @@ export const DepositFiatForm = (props) => {
           onClick={handleContinueClick}
           className='my-2 w-full'
         >
-          Continue
+          Confirm deposit
         </Button>
       </div>
     </div>
