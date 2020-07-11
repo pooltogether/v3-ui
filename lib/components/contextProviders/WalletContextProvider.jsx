@@ -84,8 +84,8 @@ let _onboard
 const initializeOnboard = (
   setOnboardState,
   disconnectWallet,
-  postConnectCallback,
   postDisconnectCallback,
+  // postDisconnectCallback,
 ) => {
   _onboard = Onboard({
     networkId: networkNameToChainId(networkName),
@@ -123,7 +123,7 @@ const initializeOnboard = (
         } else {
           connectWallet(w, setOnboardState)
           setAddress(setOnboardState)
-          postConnectCallback()
+          // postConnectCallback()
         }
       }
     }
@@ -179,15 +179,17 @@ export const WalletContextProvider = (props) => {
   const {
     children,
     postDisconnectCallback,
-    postConnectCallback,
+    // postConnectCallback,
   } = props
+
   const [onboardState, setOnboardState] = useState()
 
   const magicContext = useContext(MagicContext)
   const { magic } = magicContext
 
   const afterConnect = () => {
-    postConnectCallback()
+    // postConnectCallback()
+    postDisconnectCallback()
 
     if (magic) {
       magicContext.signOut()
@@ -197,6 +199,7 @@ export const WalletContextProvider = (props) => {
   // walletType is optional here:
   const doConnectWallet = async (
     walletType,
+    postSignInCallback
   ) => {
     await _onboard.walletSelect(walletType)
     const currentState = _onboard.getState()
@@ -213,6 +216,10 @@ export const WalletContextProvider = (props) => {
         ...previousState,
         timestamp: Date.now()
       }))
+
+      if (postSignInCallback) {
+        postSignInCallback()
+      }
     }
   }
   
@@ -241,7 +248,7 @@ export const WalletContextProvider = (props) => {
       setOnboardState,
       disconnectWallet,
       afterConnect,
-      afterConnect,
+      // afterConnect,
     )
 
     setOnboardState(previousState => ({
@@ -250,9 +257,9 @@ export const WalletContextProvider = (props) => {
     }))
   }
 
-  const handleShowOnboard = () => {
+  const handleShowOnboard = (postSignInCallback) => {
     if (onboardState) {
-      doConnectWallet(null)
+      doConnectWallet(null, postSignInCallback)
     }
   }
 

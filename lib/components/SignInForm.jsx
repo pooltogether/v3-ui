@@ -8,6 +8,8 @@ import { TextInputGroup } from 'lib/components/TextInputGroup'
 const validator = require('email-validator')
 
 export const SignInForm = (props) => {
+  const { postSignInCallback } = props
+
   const [email, setEmail] = useState('')
   const [isValid, setIsValid] = useState(null)
 
@@ -28,7 +30,7 @@ export const SignInForm = (props) => {
     testEmail()
 
     if (isValid) {
-      authControllerContext.signInMagic(email)
+      authControllerContext.signInMagic(email, postSignInCallback)
     }
   }
 
@@ -70,7 +72,10 @@ export const SignInForm = (props) => {
 
     <div>
       <button
-        onClick={authControllerContext.handleShowOnboard}
+        onClick={(e) => {
+          e.preventDefault()
+          authControllerContext.handleShowOnboard(postSignInCallback)
+        }}
         className='font-bold inline mb-2 py-2 text-sm sm:text-base text-primary-soft hover:text-primary trans border-b-2 border-transparent hover:border-secondary'
       >
         or connect to MetaMask, etc.

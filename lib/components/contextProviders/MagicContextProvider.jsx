@@ -82,7 +82,7 @@ export const MagicContextProvider = (props) => {
     }
   }
 
-  const signIn = async (formEmail) => {
+  const signIn = async (formEmail, postSignInCallback) => {
     try {
       const did = await magic
         .auth
@@ -95,12 +95,9 @@ export const MagicContextProvider = (props) => {
       if (isLoggedIn) {
         updateStateVars()
         
-        router.push(
-          `${router.pathname}`,
-          `${router.asPath}`, {
-            shallow: true
-          }
-        )
+        if (postSignInCallback) {
+          postSignInCallback()
+        }
       }
     } catch (err) {
       console.error(err)

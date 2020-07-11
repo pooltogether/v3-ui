@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 
@@ -70,32 +70,50 @@ export const DepositWizardLayout = (props) => {
             className='w-8 h-8 sm:w-16 sm:h-16'
           />
         </button>
-        <div
+      
+      <AnimatePresence exitBeforeEnter>
+        <motion.div
+          key='wizard-step-count-parent'
           className='flex'
+          variants={{
+            enter: {
+              y: 0,
+              transition: {
+                when: 'beforeChildren',
+                staggerChildren: 0.4,
+              },
+            },
+            exit: { y: -70},
+          }}
+          initial='exit'
+          exit='exit'
+          animate='enter'
         >
-          {range1(totalWizardSteps).map((stepNum, index) => {
-            return <motion.div
-              key={`step-counter-${index+1}`}
-              // animate={}
-              onClick={(e) => {
-                e.preventDefault()
+            {range1(totalWizardSteps).map((stepNum, index) => {
+              return <motion.div
+                key={`step-counter-${index+1}`}
+                exit={{ scaleX: 0, transition: { duration: 1 } }}
+                onClick={(e) => {
+                  e.preventDefault()
 
-                if (currentWizardStep < index + 1) {
-                  return
-                }
+                  if (currentWizardStep < index + 1) {
+                    return
+                  }
 
-                moveToStep(index)
-              }}
-              className={classnames(
-                'cursor-pointer w-8 h-2 rounded-sm mx-1',
-                {
-                  'bg-purple': currentWizardStep < index + 1,
-                  'bg-inverse': currentWizardStep >= index + 1,
-                }
-              )}
-            />
-          })}
-        </div>
+                  moveToStep(index)
+                }}
+                className={classnames(
+                  'cursor-pointer w-8 h-2 rounded-sm mx-1',
+                  {
+                    'bg-purple': currentWizardStep < index + 1,
+                    'bg-inverse': currentWizardStep >= index + 1,
+                  }
+                )}
+              />
+            })}
+          </motion.div>
+        </AnimatePresence>
+
         <button
           type='button'
           onClick={handleCloseDeposit}

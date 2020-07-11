@@ -104,8 +104,10 @@ export const AuthControllerContextProvider = (props) => {
   
 
   const postDisconnectRedirect = () => {
-    // console.log('postDisconnectRedirect')
+    console.log('postDisconnectRedirect')
+    console.log('adding signIn 1')
     queryParamUpdater.add(router, { signIn: '1' })
+    console.log(router.query)
   }
 
   const signOut = async (e) => {
@@ -118,8 +120,8 @@ export const AuthControllerContextProvider = (props) => {
     postDisconnectRedirect()
   }
 
-  const signInMagic = async (formEmail) => {
-    magicContext.signIn(formEmail)
+  const signInMagic = async (formEmail, postSignInCallback) => {
+    magicContext.signIn(formEmail, postSignInCallback)
     walletContext.disconnectWallet()
   }
 

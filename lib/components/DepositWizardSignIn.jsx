@@ -10,11 +10,6 @@ export const DepositWizardSignIn = (props) => {
   const router = useRouter()
   const quantity = router.query.quantity
 
-  const handleContinueClick = (e) => {
-    e.preventDefault()
-    nextStep()
-  }
-
   return <>
     <PaneTitle small>
       {quantity} tickets
@@ -25,7 +20,9 @@ export const DepositWizardSignIn = (props) => {
     </PaneTitle>
 
     <div className='flex flex-col mx-auto w-full'>
-      <SignInForm />
+      <SignInForm
+        postSignInCallback={nextStep}
+      />
     </div>
   </>
 }
