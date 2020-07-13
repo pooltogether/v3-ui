@@ -18,8 +18,6 @@ export const PoolActionsUI = (props) => {
       {...props}
     /> */}
 
-
-
     {/* <PoolRelatedAddressesUI
       {...props}
     /> */}

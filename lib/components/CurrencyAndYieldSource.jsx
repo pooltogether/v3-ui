@@ -34,7 +34,12 @@ export const CurrencyAndYieldSource = (
     <div
       className='bg-darkened rounded-lg px-2 uppercase text-xxs sm:text-sm font-bold mr-1'
     >
-      {pool.yieldSource}
+      {pool.underlyingCollateralSymbol}
     </div>
+    {/* <div
+      className='bg-darkened rounded-lg px-2 uppercase text-xxs sm:text-sm font-bold mr-1'
+    >
+      {pool.yieldSource}
+    </div> */}
   </>
 }
