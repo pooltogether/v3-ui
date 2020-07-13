@@ -8,7 +8,7 @@ import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const TicketQuantityForm = (props) => {
-  const { handleSubmit, register, errors, formState } = useForm({ mode: 'onBlur' })
+  const { handleSubmit, register, errors, formState } = useForm({ mode: 'all' })
 
   const { nextStep } = props
 
@@ -21,8 +21,6 @@ export const TicketQuantityForm = (props) => {
       nextStep()
     }
   }
-
-  console.log({errors})
 
   return <>
     <PaneTitle>
