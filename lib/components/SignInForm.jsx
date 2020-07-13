@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
@@ -8,6 +9,8 @@ import { TextInputGroup } from 'lib/components/TextInputGroup'
 const validator = require('email-validator')
 
 export const SignInForm = (props) => {
+  const { handleSubmit, register, errors } = useForm()
+
   const { postSignInCallback } = props
 
   const [email, setEmail] = useState('')
@@ -24,8 +27,11 @@ export const SignInForm = (props) => {
     testEmail()
   }, 1000)
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const onSubmit = (values) => {
+    // e.preventDefault()
+    console.log(values)
+    // const onSubmit = values => console.log(values)
+    // handleSubmit
 
     testEmail()
 
@@ -42,10 +48,18 @@ export const SignInForm = (props) => {
 
   return <>
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <div className='mx-auto'>
         <TextInputGroup
+          ref={register({
+            required: "Required",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "invalid email address"
+            }
+          })}
+
           id='email'
           label={'Email address:'}
           placeholder='Your email'
@@ -56,6 +70,7 @@ export const SignInForm = (props) => {
           onBlur={testEmail}
         />
       </div>
+      {errors.email && errors.email.message}
 
       <div
         className='my-5'
@@ -64,6 +79,7 @@ export const SignInForm = (props) => {
         <Button
           wide
           disabled={!isValid}
+          // type='submit'
         >
           Continue
         </Button>
