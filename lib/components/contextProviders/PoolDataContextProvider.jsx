@@ -51,7 +51,6 @@ export const PoolDataContextProvider = (props) => {
                 addresses={poolAddresses}
               >
                 {(dynamicResult) => {
-                  console.log({ dynamicResult})
                   const dynamicPoolData = dynamicResult.poolData
 
                   const loading = staticResult.loading || dynamicResult.loading ||
