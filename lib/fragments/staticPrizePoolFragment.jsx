@@ -5,12 +5,14 @@ export const staticPrizePoolFragment = gql`
     id
 
     underlyingCollateralToken
+    underlyingCollateralDecimals
     underlyingCollateralName
     underlyingCollateralSymbol
     
     yieldToken
-    yieldTokenName
-    yieldTokenSymbol
+    yieldDecimals
+    yieldName
+    yieldSymbol
 
     creator
     prizeStrategy

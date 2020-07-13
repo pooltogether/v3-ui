@@ -162,13 +162,13 @@ export const PoolShow = (
                 >
                   Get tickets
                 </Button>
-                <div
+                {/* <div
                   className='ml-2'
                 >
                   <Button inversed>
                     Withdraw
                   </Button>
-                </div>
+                </div> */}
                 {/* <DepositUI
                   {...props}
                   genericChainValues={genericChainValues}

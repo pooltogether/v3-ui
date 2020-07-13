@@ -9,7 +9,7 @@ import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const PoolStats = (props) => {
   const poolDataContext = useContext(PoolDataContext)
-  const { genericChainValues } = poolDataContext
+  const { pool } = poolDataContext
 
   const [secondsRemainingNow, setSecondsRemainingNow] = useState('--')
 
@@ -31,14 +31,17 @@ export const PoolStats = (props) => {
       <div className='text-left mt-10'>
         <div className={`text-xs sm:text-xs lg:text-base uppercase font-bold`}># of Tickets Sold</div>
         <div className={`text-3xl sm:text-3xl lg:text-5xl font-bold text-inverse`}>
-          <span className='font-number'>${displayAmountInEther(genericChainValues.ticketTotalSupply, { precision: 2 })} ${genericChainValues.tokenSymbol || 'TOKEN'}</span>
+          <span className='font-number'>${displayAmountInEther(pool.totalSupply, {
+            precision: 2,
+            decimals: pool.underlyingCollateralDecimals
+          })} {pool.underlyingCollateralSymbol}</span>
         </div>
       </div>
 
       <div className='text-left mt-10'>
         <div className={`text-xs sm:text-xs lg:text-base uppercase font-bold`}># of Players</div>
         <div className={`text-3xl sm:text-3xl lg:text-5xl font-bold text-inverse`}>
-          <span className='font-number'>num players</span>
+          <span className='font-number'>{pool.playerCount}</span>
         </div>
       </div>
 
