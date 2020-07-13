@@ -105,8 +105,8 @@ export const DepositWizardLayout = (props) => {
                 className={classnames(
                   'cursor-pointer w-8 h-2 rounded-sm mx-1',
                   {
-                    'bg-purple': currentWizardStep < index + 1,
-                    'bg-inverse': currentWizardStep >= index + 1,
+                    'bg-default': currentWizardStep < index + 1,
+                    'bg-purple': currentWizardStep >= index + 1,
                   }
                 )}
               />

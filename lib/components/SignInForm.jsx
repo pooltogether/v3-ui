@@ -1,49 +1,21 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { useInterval } from 'lib/hooks/useInterval'
 import { Button } from 'lib/components/Button'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 
-const validator = require('email-validator')
-
 export const SignInForm = (props) => {
-  const { handleSubmit, register, errors } = useForm()
+  const { handleSubmit, register, errors, formState } = useForm({ mode: 'onBlur' })
 
   const { postSignInCallback } = props
 
-  const [email, setEmail] = useState('')
-  const [isValid, setIsValid] = useState(null)
-
   const authControllerContext = useContext(AuthControllerContext)
 
-  const testEmail = () => {
-    setIsValid(validator.validate(email))
-  }
-
-  // This catches autofill clicks in various browsers
-  useInterval(() => {
-    testEmail()
-  }, 1000)
-
   const onSubmit = (values) => {
-    // e.preventDefault()
-    console.log(values)
-    // const onSubmit = values => console.log(values)
-    // handleSubmit
-
-    testEmail()
-
-    if (isValid) {
-      authControllerContext.signInMagic(email, postSignInCallback)
+    if (formState.isValid) {
+      authControllerContext.signInMagic(values.email, postSignInCallback)
     }
-  }
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value)
-
-    testEmail()
   }
 
   return <>
@@ -52,33 +24,25 @@ export const SignInForm = (props) => {
     >
       <div className='mx-auto'>
         <TextInputGroup
-          ref={register({
-            required: "Required",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "invalid email address"
-            }
-          })}
-
           id='email'
+          name='email'
+          type='email'
+          register={register}
           label={'Email address:'}
           placeholder='Your email'
-          required
-          type='email'
-          onChange={handleEmailChange}
-          value={email}
-          onBlur={testEmail}
+          required='Email address required'
         />
       </div>
-      {errors.email && errors.email.message}
+      <div className='text-red'>
+        {errors.email && errors.email.message}
+      </div>
 
       <div
         className='my-5'
-        disabled={!email}
       >
         <Button
           wide
-          disabled={!isValid}
+          disabled={!formState.isValid}
           // type='submit'
         >
           Continue

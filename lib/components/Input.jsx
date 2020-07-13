@@ -5,15 +5,18 @@ import { isBrowser } from 'react-device-detect'
 
 export function Input(props) {
   let {
-    autoFocus,
+    // autoFocus,
+    // placeholder,
+    // handleChange,
+    // value,
     marginClasses,
     large,
-    handleChange,
     textClasses,
     roundedClasses,
-    placeholder,
+    pattern,
     isError,
-    value,
+    required,
+    register,
   } = props
 
   const defaultClasses = 'text-white bg-purple trans rounded-lg focus:outline-none focus:outline-none leading-none px-6 py-2 lg:py-2'
@@ -49,17 +52,26 @@ export function Input(props) {
     'roundedClasses',
     'textClasses',
     'isError',
-    'isLight'
+    'isLight',
+    'register',
+    'required', // required is consumed by the register func but we don't want it on the <input />
+    'pattern',
+    'unsignedWholeNumber',
   ])
 
   return <>
     <input
       {...newProps}
-      autoFocus={autoFocus && isBrowser}
+      ref={register({
+        required,
+        pattern
+      })}
+
+      // autoFocus={autoFocus && isBrowser}
       // readOnly={this.props.readOnly}
       // onFocus={(e) => { this.setState({ inputFocused: true }) }}
       // onBlur={(e) => { this.setState({ inputFocused: false }) }}
-      value={value}
+      // value={value}
       className={classnames(
         className,
         'bg-primary hover:bg-secondary focus:bg-secondary active:bg-secondary text-inverse w-full sm:w-10/12 rounded-full focus:outline-none leading-none pl-6',

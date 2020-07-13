@@ -20,6 +20,7 @@
   --color-text-default-soft: #7458df;
   --color-text-inverse: #fff;
   --color-text-match: #000;
+  --color-text-red: #F56565;
 
   --color-border-primary: #3c1a79;
   --color-border-secondary: #33DEC3;
@@ -51,6 +52,7 @@
   --color-text-default-soft: #946fdf;
   --color-text-inverse: #000;
   --color-text-match: #fff;
+  --color-text-red: #f56565;
 
   --color-border-primary: #3c1a79;
   --color-border-secondary: #05e6c4;

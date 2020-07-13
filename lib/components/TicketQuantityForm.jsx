@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
 import { Button } from 'lib/components/Button'
@@ -7,22 +8,21 @@ import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const TicketQuantityForm = (props) => {
+  const { handleSubmit, register, errors, formState } = useForm({ mode: 'onBlur' })
+
   const { nextStep } = props
 
   const router = useRouter()
 
-  // TODO: Consider using a regex to filter only unsigned whole numbers
-  const [quantity, setQuantity] = useState('')
+  const onSubmit = (values) => {
+    if (formState.isValid) {
+      queryParamUpdater.add(router, { quantity: values.quantity })
 
-  const disabled = quantity.length === 0 || parseInt(quantity, 10) <= 0
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    queryParamUpdater.add(router, { quantity: quantity })
-
-    nextStep()
+      nextStep()
+    }
   }
+
+  console.log({errors})
 
   return <>
     <PaneTitle>
@@ -30,21 +30,23 @@ export const TicketQuantityForm = (props) => {
     </PaneTitle>
 
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <div className='w-full sm:w-2/3 mx-auto'>
         <TextInputGroup
           large
+          unsignedWholeNumber
           id='quantity'
+          name='quantity'
+          register={register}
           label={<>
             Quantity <span className='text-purple-600 italic'></span>
           </>}
-          required
-          type='number'
-          pattern='\d+'
-          onChange={(e) => setQuantity(e.target.value)}
-          value={quantity}
+          required='ticket quantity required'
         />
+      </div>
+      <div className='text-red'>
+        {errors.quantity && errors.quantity.message}
       </div>
 
       {/* {overBalance && <>
@@ -58,7 +60,7 @@ export const TicketQuantityForm = (props) => {
         className='my-5'
       >
         <Button
-          disabled={disabled}
+          disabled={!formState.isValid}
           // disabled={overBalance}
           color='green'
         >

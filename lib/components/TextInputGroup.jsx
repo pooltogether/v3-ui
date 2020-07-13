@@ -9,16 +9,26 @@ export const TextInputGroup = (
   const {
     id,
     label,
-    required,
     disabled,
     type,
-    onBlur,
-    pattern,
-    placeholder,
-    onChange,
-    value,
-    large,
+    unsignedWholeNumber,
   } = props
+
+  let pattern = {}
+
+  if (type === 'email') {
+    pattern = {
+      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+      message: "invalid email address"
+    }
+  }
+
+  if (unsignedWholeNumber) {
+    pattern = { 
+      value: /^\d+$/,
+      message: 'please enter a number'
+    }
+  }
 
   return <>
     <div
@@ -37,16 +47,9 @@ export const TextInputGroup = (
         {label}
       </label>
       <Input
-        id={id}
-        placeholder={placeholder}
-        required={required}
-        disabled={disabled}
-        type={type || 'text'}
+        {...props}
         pattern={pattern}
-        onChange={onChange}
-        onBlur={onBlur}
-        value={value}
-        large={large}
+        type={type || 'text'}
       />
     </div>
   </>

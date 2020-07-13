@@ -30,6 +30,7 @@ module.exports = {
         inverse: 'var(--color-text-inverse)',
         'inverse-soft': 'var(--color-text-inverse-soft)',
         match: 'var(--color-text-match)',
+        red: 'var(--color-text-red)',
       },
       backgroundColor: {
         body: 'var(--color-bg-body)',
