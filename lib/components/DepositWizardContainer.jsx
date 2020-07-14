@@ -53,7 +53,7 @@ export const DepositWizardContainer = (props) => {
                 </>
               }}
             </WizardStep>
-            {!usersAddress && <>}
+            {!usersAddress && <>
               <WizardStep>
                 {(step) => {
                   return step.isActive && <>

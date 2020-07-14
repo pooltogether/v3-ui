@@ -24,7 +24,7 @@ export const TicketQuantityForm = (props) => {
 
   return <>
     <PaneTitle>
-      Get Tickets
+      Get tickets
     </PaneTitle>
 
     <form

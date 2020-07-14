@@ -19,10 +19,10 @@ export const AccountButton = (props) => {
   const { usersAddress } = props
   const [profile, setProfile] = useState()
 
-  const handleShowDashboard = (e) => {
+  const handleShowAccount = (e) => {
     e.preventDefault()
 
-    router.push('/dashboard')
+    router.push('/account', '/account', { shallow: true })
   }
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export const AccountButton = (props) => {
 
   return <Button
     outline
-    onClick={handleShowDashboard}
+    onClick={handleShowAccount}
   >
     <div className='flex items-center'>
       {(profile && isValidImage(profile.image)) && <>
