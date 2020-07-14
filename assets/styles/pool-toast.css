@@ -39,7 +39,7 @@
 }
 
 .pool-toast .Toastify__toast {
-  /* @apply rounded-lg; */
+  @apply rounded-lg;
   color: white;
   font-family: inherit;
   font-weight: 400;
@@ -71,39 +71,39 @@
 }
 
 .pool-toast .Toastify__toast--success {
-  /* @apply bg-black text-green-400; */
+  @apply bg-black text-green;
 }
 
 .Toastify__progress-bar--success {
-  /* @apply bg-green-500; */
+  @apply bg-green;
 }
 
 .pool-toast .Toastify__toast--info {
-  /* @apply bg-blue-500 text-white; */
+  @apply bg-black text-white;
 }
 
 .Toastify__progress-bar--info {
-  /* @apply bg-blue-500; */
+  @apply bg-white;
 }
 
 .pool-toast .Toastify__toast--error {
-  /* @apply bg-black text-red-500; */
+  @apply bg-black text-red;
 }
 
 .Toastify__progress-bar--error {
-  /* @apply bg-red-500; */
+  @apply bg-red;
 }
 
 .pool-toast .Toastify__toast--warning {
-  /* @apply bg-black text-orange-500; */
+  @apply bg-black text-yellow;
 }
 
 .Toastify__progress-bar--warning {
-  /* @apply bg-orange-500; */
+  @apply bg-yellow;
 }
 
 .pool-toast .Toastify__toast-body {
-  font-size: 0.825rem;
+  font-size: 1.125rem;
   margin: 0.5rem;
   padding: 0.5rem 1rem;
 }

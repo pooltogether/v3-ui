@@ -17,10 +17,12 @@ const handleUnlockSubmit = async (
   contractAddress,
   prizePoolAddress,
   decimals,
+  quantity,
 ) => {
   const params = [
     prizePoolAddress,
-    ethers.utils.parseUnits('1000000000', decimals),
+    // ethers.utils.parseUnits('1000000000', decimals),
+    ethers.utils.parseUnits(quantity, decimals),
     {
       gasLimit: 200000
     }
@@ -73,6 +75,7 @@ export const DepositCryptoForm = (props) => {
       pool.underlyingCollateralToken,
       pool.id,
       pool.underlyingCollateralDecimals,
+      quantity,
     )
   }
 
@@ -93,8 +96,10 @@ export const DepositCryptoForm = (props) => {
     <div className='flex flex-col mx-auto'>
 
       {disabled && <>
-        <div className='w-full sm:w-2/3 mx-auto text-inverse mb-4 px-4 text-lg'>
-          <div>
+        <div className='w-full sm:w-2/3 mx-auto text-inverse mb-4 text-lg'>
+          <div
+            className='px-6 sm:px-10'
+          >
             <div className='font-bold my-2'>Your approval is needed.</div>
             Unlock this deposit by allowing the pool's ticket contract to have a <span className='font-bold'>{quantity} {ticker.toUpperCase()}</span> allowance.
           </div>
