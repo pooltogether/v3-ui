@@ -4,36 +4,40 @@ import {
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
 import { useInterval } from 'lib/hooks/useInterval'
-import { fetchGenericChainData } from 'lib/utils/fetchChainData'
+import { fetchGenericChainData } from 'lib/utils/fetchGenericChainData'
 
 export const FetchGenericChainData = (props) => {
   const {
+    children,
     pool,
-    networkName,
+    provider,
   } = props
 
   const poolAddress = pool && pool.id
-  console.log({ poolAddress})
 
   const [genericChainData, setGenericChainData] = useState({
-    loading: true,
     // tokenSymbol: 'TOKEN',
     // poolTotalSupply: '1234',
   })
 
-  const fetchDataFromInfura = () => {
-    console.log('run fetch generic')
-    return fetchGenericChainData(
-      networkName,
-      pool,
-    )
+  const fetchDataFromInfura = async () => {
+    try {
+      const data = await fetchGenericChainData(
+        provider,
+        pool,
+      )
+
+      return data
+    } catch (e) {
+      // error while fetching from infura?
+      return {}
+    }
   }
 
   const updateGenericChainData = (genericData) => {
     setGenericChainData(existingData => ({
       ...existingData,
       ...genericData,
-      loading: false,
     }))
   }
 
@@ -45,18 +49,16 @@ export const FetchGenericChainData = (props) => {
   }, MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {
-    if (poolAddress && genericChainData.loading) {
-      console.log('pool is: ', pool)
-      console.log('genericChainData.loading is: ', genericChainData.loading)
-      const genericData = fetchInfura()
-      setGenericChainData(genericData)
-    } else {
-      console.log(' COULD DELETE DATA HERE ! ')
-      setGenericChainData({
-        loading: true,
-      })
+    const updateOrDelete = async () => {
+      if (poolAddress) {
+        const genericData = await fetchDataFromInfura()
+        setGenericChainData(genericData)
+      } else {
+        setGenericChainData({})
+      }
     }
+    updateOrDelete()
   }, [poolAddress])
 
-  return children({ genericChainData, loading })
+  return children({ genericChainData })
 }

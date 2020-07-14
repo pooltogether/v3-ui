@@ -12,7 +12,7 @@ export const Tabs = ({ children }) => {
 export const Tab = ({ isSelected, onClick, children }) => {
   return <a
     className={classnames(
-      'relative border-b-2 cursor-pointer text-xs sm:text-sm text-inverse mx-1 sm:mx-2 mb-1',
+      'relative border-b-2 cursor-pointer text-xs sm:text-sm text-inverse mx-2 sm:mx-3 mb-1',
       {
         'border-transparent text-default hover:text-secondary': !isSelected,
         'border-green text-inverse hover:text-secondary': isSelected,

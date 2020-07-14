@@ -4,7 +4,6 @@ export default function IndexPage(props) {
   return <>
     <IndexUI
       {...props}
-      isDeposit
     />
   </>
 }

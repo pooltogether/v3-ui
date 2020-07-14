@@ -6,12 +6,13 @@ import {
 } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
+import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
+import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { DynamicPrizePoolsQuery } from 'lib/components/queryComponents/DynamicPrizePoolsQuery'
 import { StaticPrizePoolsQuery } from 'lib/components/queryComponents/StaticPrizePoolsQuery'
 import { useInterval } from 'lib/hooks/useInterval'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { isEmptyObject } from 'lib/utils/isEmptyObject'
-import { fetchChainData } from 'lib/utils/fetchChainData'
 import { poolToast } from 'lib/utils/poolToast'
 import { readProvider } from 'lib/utils/readProvider'
 
@@ -24,7 +25,7 @@ export const PoolDataContextProvider = (props) => {
   const ticker = router.query.prizePoolTicker && router.query.prizePoolTicker.toLowerCase()
   
   const authControllerContext = useContext(AuthControllerContext)
-  const { chainId, usersAddress, provider } = authControllerContext
+  const { chainId, usersAddress } = authControllerContext
 
   let poolAddresses
   try {
@@ -56,11 +57,11 @@ export const PoolDataContextProvider = (props) => {
                 {(dynamicResult) => {
                   const dynamicPoolData = dynamicResult.poolData
 
-                  const loading = staticResult.loading || dynamicResult.loading ||
+                  const graphDataLoading = staticResult.loading || dynamicResult.loading ||
                     !staticPoolData || !dynamicPoolData
 
                   let pools = []
-                  if (!loading) {
+                  if (!graphDataLoading) {
                     pools = [
                       {
                         ...dynamicPoolData.daiPool,
@@ -123,8 +124,15 @@ export const PoolDataContextProvider = (props) => {
                       const defaultReadProvider = await readProvider(networkName)
                       setDefaultReadProvider(defaultReadProvider)
                     }
-                    await getReadProvider()
+                    getReadProvider()
                   }, [networkName])
+
+                  
+                  if (pool) {
+                    console.log({ pool: pool.id })
+                  } else {
+                    console.log('pool', pool)
+                  }
 
 
                   return <FetchGenericChainData
@@ -145,7 +153,7 @@ export const PoolDataContextProvider = (props) => {
 
                           return <PoolDataContext.Provider
                             value={{
-                              loading,
+                              // loading: graphDataLoading,
                               pool,
                               pools,
                               poolAddresses,
@@ -159,9 +167,9 @@ export const PoolDataContextProvider = (props) => {
                           </PoolDataContext.Provider>
 
 
-                        }
+                        }}
                       </FetchUsersChainData>
-                    }
+                    }}
                   </FetchGenericChainData>
 
 
