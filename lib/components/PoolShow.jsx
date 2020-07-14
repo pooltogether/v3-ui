@@ -12,16 +12,16 @@ import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { poolToast } from 'lib/utils/poolToast'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
-const renderErrorMessage = (
-  address,
-  type,
-  message
-) => {
-  const errorMsg = `Error fetching ${type} for prize pool with address: ${address}: ${message}. (maybe wrong Ethereum network?)`
+// const renderErrorMessage = (
+//   address,
+//   type,
+//   message
+// ) => {
+//   const errorMsg = `Error fetching ${type} for prize pool with address: ${address}: ${message}. (maybe wrong Ethereum network?)`
 
-  console.error(errorMsg)
-  poolToast.error(errorMsg)
-}
+//   console.error(errorMsg)
+//   poolToast.error(errorMsg)
+// }
 
 export const PoolShow = (
   props,
@@ -60,22 +60,22 @@ export const PoolShow = (
     let pathname = router.pathname
     let asPath = router.asPath
 
-    console.log('******************************');
+    // console.log('******************************');
     
-    console.log({pathname})
-    console.log({asPath})
+    // console.log({pathname})
+    // console.log({asPath})
 
     if (!/deposit/.test(asPath)) {
-      console.log('not on deposit so adding deposit to url')
+      // console.log('not on deposit so adding deposit to url')
 
       queryParamUpdater.removeAll(router)
       pathname = `${router.pathname}/deposit`
       asPath = `${router.asPath}/deposit`
     }
 
-    console.log('pushing to')
-    console.log({ pathname});
-    console.log({ asPath});
+    // console.log('pushing to')
+    // console.log({ pathname});
+    // console.log({ asPath});
     
 
     router.push(
@@ -120,14 +120,6 @@ export const PoolShow = (
     >
       {error}
       
-        {/* {genericChainValues.loading ?
-          <div
-            className='text-center text-xl'
-          >
-            <LoadingDots />
-            <br/>
-            Fetching chain values ...
-          </div> */}
         <>
           <div
             className='px-2 py-4 sm:py-2 text-center rounded-lg'
@@ -162,37 +154,9 @@ export const PoolShow = (
                 >
                   Get tickets
                 </Button>
-                {/* <div
-                  className='ml-2'
-                >
-                  <Button inversed>
-                    Withdraw
-                  </Button>
-                </div> */}
-                {/* <DepositUI
-                  {...props}
-                  genericChainValues={genericChainValues}
-                /> */}
               </div>
 
             </div>
-
-            {/* <img
-              src={tokenSvg}
-              className='inline-block w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mb-2'
-            /> */}
-            
-            {/* <div
-              className='mb-6'
-            >
-              Prize Pool contract address:
-              <br /> <EtherscanAddressLink
-                address={poolAddresses.prizePool}
-                networkName={networkName}
-              >
-                {poolAddresses.prizePool}
-              </EtherscanAddressLink>
-            </div> */}
 
             <div className='text-left mt-10'>
               <PrizeAmount
@@ -222,42 +186,6 @@ export const PoolShow = (
                 </>
               </FormLockedOverlay>
             </>} */}
-
-
-            {/* {!usersAddress && <FormLockedOverlay
-              flexColJustifyClass='justify-start'
-              title={`Deposit & Withdraw`}
-              zLayerClass='z-30'
-            >
-              <>
-                <div>
-                  To interact with the contracts first connect your wallet:
-                </div>
-
-                <div
-                  className='mt-3 sm:mt-5 mb-5'
-                >
-                  <button
-                  className='rounded-lg text-secondary border sm:border-2 border-secondary hover:text-white hover:bg-secondary text-xxs sm:text-base py-2 px-3 sm:px-6 trans  tracking-wider'
-                    onClick={handleConnect}
-                  >
-                    Sign in
-                  </button>
-                </div>
-              </>
-            </FormLockedOverlay>} */}
-            
-
-            {/* {usersAddress && <UserStats
-              genericChainValues={genericChainValues}
-              usersChainValues={usersChainValues}
-            />} */}
-{/* 
-            <UserActionsUI
-              genericChainValues={genericChainValues}
-              poolAddresses={poolAddresses}
-              usersChainValues={usersChainValues}
-            /> */}
           </div>
         </>
         {/* } */}

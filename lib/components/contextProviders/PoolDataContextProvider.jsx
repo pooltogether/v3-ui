@@ -1,16 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import {
-  MAINNET_POLLING_INTERVAL
-} from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { DynamicPrizePoolsQuery } from 'lib/components/queryComponents/DynamicPrizePoolsQuery'
 import { StaticPrizePoolsQuery } from 'lib/components/queryComponents/StaticPrizePoolsQuery'
-import { useInterval } from 'lib/hooks/useInterval'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { isEmptyObject } from 'lib/utils/isEmptyObject'
 import { poolToast } from 'lib/utils/poolToast'
@@ -149,8 +145,6 @@ export const PoolDataContextProvider = (props) => {
                       >
                         {(usersChainData) => {
                           
-                          
-
                           return <PoolDataContext.Provider
                             value={{
                               // loading: graphDataLoading,
@@ -171,112 +165,6 @@ export const PoolDataContextProvider = (props) => {
                       </FetchUsersChainData>
                     }}
                   </FetchGenericChainData>
-
-
-
-
-                  // const [poolAddresses, setPoolAddresses] = useState({})
-                  const [genericChainValues, setGenericChainValues] = useState({
-                    loading: true,
-                    // tokenSymbol: 'TOKEN',
-                    // poolTotalSupply: '1234',
-                  })
-
-                  const [usersChainValues, setUsersChainValues] = useState({
-                    loading: true,
-                    // usersTicketBalance: ethers.utils.bigNumberify(0),
-                    // usersTokenAllowance: ethers.utils.bigNumberify(0),
-                    // usersTokenBalance: ethers.utils.bigNumberify(0),
-                  })
-
-                  const fetchInfura = () => {
-                    return fetchChainData(
-                      networkName,
-                      usersAddress,
-                      pool,
-                    )
-                  }
-
-                  useInterval(() => {
-                    if (pool) {
-                      // console.log('run int')
-                      fetchInfura()
-                    }
-                  }, MAINNET_POLLING_INTERVAL)
-
-                  useEffect(() => {
-                    if (pool && genericChainValues.loading) {
-                      // console.log('run for generic')
-                      const genericValues = fetchInfura()
-
-                      setGenericChainValues(existingValues => ({
-                        ...existingValues,
-                        ...genericValues,
-                        loading: false,
-                      }))
-                    }
-                  }, [pool])
-
-                  useEffect(() => {
-                    if (pool && usersAddress && usersChainValues.loading) {
-                      // console.log('run for users values')
-                      const usersValues = fetchInfura()
-
-                      setUsersChainValues(existingValues => ({
-                        ...existingValues,
-                        ...usersValues,
-                        loading: false,
-                      }))
-                    }
-                  }, [pool && pool.id, usersAddress])
-
-                  useEffect(() => {
-                    // console.log('resetting users chain values')
-                    setUsersChainValues({
-                      loading: true,
-                    })
-                  }, [pool && pool.id, usersAddress])
-
-                  useEffect(() => {
-                    // console.log('resetting generic chain values')
-                    setGenericChainValues({
-                      loading: true,
-                    })
-                  }, [pool && pool.id])
-
-
-
-
-                  // useEffect(() => {
-                  //   if (ethBalance) {
-                  //     setEthBalance(ethers.utils.bigNumberify(ethBalance))
-                  //   }
-                  // }, [authControllerContext])
-
-                  // if (poolAddresses.error || genericChainValues.error || usersChainValues.error) {
-                  //   if (poolAddresses.error) {
-                  //     renderErrorMessage(prizePool, 'pool addresses', poolAddresses.errorMessage)
-                  //   }
-
-                  //   if (genericChainValues.error) {
-                  //     renderErrorMessage(prizePool, 'generic chain values', genericChainValues.errorMessage)
-                  //   }
-
-                  //   if (usersChainValues.error) {
-                  //     renderErrorMessage(prizePool, `user's chain values`, usersChainValues.errorMessage)
-                  //   }
-
-                  //   // router.push(
-                  //   //   `/`,
-                  //   //   `/`,
-                  //   //   {
-                  //   //     shallow: true
-                  //   //   }
-                  //   // )
-                  // }
-
-
-
 
                   
                 }}
