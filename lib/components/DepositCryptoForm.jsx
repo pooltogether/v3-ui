@@ -79,8 +79,12 @@ export const DepositCryptoForm = (props) => {
     )
   }
 
-  console.log({usersChainValues})
-  console.log(usersChainValues.usersTokenAllowance)
+  // console.log(usersChainValues.usersTokenAllowance)
+  if (usersChainValues.usersTokenAllowance) {
+    console.log(usersChainValues.usersTokenAllowance.toString())
+  } else {
+    console.log({usersChainValues})
+  }
   const disabled = !usersChainValues.usersTokenAllowance ||
     usersChainValues.usersTokenAllowance.lte(0)
 

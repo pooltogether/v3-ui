@@ -28,10 +28,10 @@ export const AllContextProviders = (props) => {
         <MagicContextProviderDynamic>
           <WalletContextProviderDynamic
             postDisconnectCallback={async () => {
-              console.log({postDisconnectCallback: 'postDis'});
-              console.log({ router });
+              // console.log({postDisconnectCallback: 'postDis'});
+              // console.log({ router });
 
-              console.log(router.query)
+              // console.log(router.query)
               router.push(
                 `${router.pathname}`,
                 `${router.asPath}`,

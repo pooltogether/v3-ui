@@ -1,6 +1,7 @@
 export const SUPPORTED_NETWORKS = [1, 3, 42, 31337, 1234]
 
-export const MAINNET_POLLING_INTERVAL = 15000
+export const MAINNET_POLLING_INTERVAL = 5000
+// export const MAINNET_POLLING_INTERVAL = 15000
 
 // cookie names
 export const MAGIC_EMAIL = 'magic-email'

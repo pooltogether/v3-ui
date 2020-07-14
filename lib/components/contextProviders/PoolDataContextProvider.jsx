@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
 import {
@@ -104,14 +103,14 @@ export const PoolDataContextProvider = (props) => {
                     })
                   }
 
-                  if (pool) {
-                    console.log({
-                      poolAddress: pool.id,
-                      underlyingCollateralSymbol: pool.underlyingCollateralSymbol,
-                      underlyingCollateralToken: pool.underlyingCollateralToken,
-                      usersAddress: usersAddress,
-                    })
-                  }
+                  // if (pool) {
+                  //   console.log({
+                  //     poolAddress: pool.id,
+                  //     underlyingCollateralSymbol: pool.underlyingCollateralSymbol,
+                  //     underlyingCollateralToken: pool.underlyingCollateralToken,
+                  //     usersAddress: usersAddress,
+                  //   })
+                  // }
 
 
                   const networkName = router.query.networkName ?
@@ -132,29 +131,62 @@ export const PoolDataContextProvider = (props) => {
                     // usersTokenBalance: ethers.utils.bigNumberify(0),
                   })
 
+                  const fetchInfura = () => {
+                    return fetchChainData(
+                      networkName,
+                      usersAddress,
+                      pool,
+                    )
+                  }
+
                   useInterval(() => {
                     if (pool) {
-                      fetchChainData(
-                        networkName,
-                        usersAddress,
-                        pool,
-                        setGenericChainValues,
-                        setUsersChainValues,
-                      )
+                      // console.log('run int')
+                      fetchInfura()
                     }
                   }, MAINNET_POLLING_INTERVAL)
 
                   useEffect(() => {
-                    if (pool) {
-                      fetchChainData(
-                        networkName,
-                        usersAddress,
-                        pool,
-                        setGenericChainValues,
-                        setUsersChainValues,
-                      )
+                    if (pool && genericChainValues.loading) {
+                      // console.log('run for generic')
+                      const genericValues = fetchInfura()
+
+                      setGenericChainValues(existingValues => ({
+                        ...existingValues,
+                        ...genericValues,
+                        loading: false,
+                      }))
                     }
-                  }, [usersAddress]) //, pool
+                  }, [pool])
+
+                  useEffect(() => {
+                    if (pool && usersAddress && usersChainValues.loading) {
+                      // console.log('run for users values')
+                      const usersValues = fetchInfura()
+
+                      setUsersChainValues(existingValues => ({
+                        ...existingValues,
+                        ...usersValues,
+                        loading: false,
+                      }))
+                    }
+                  }, [pool && pool.id, usersAddress])
+
+                  useEffect(() => {
+                    // console.log('resetting users chain values')
+                    setUsersChainValues({
+                      loading: true,
+                    })
+                  }, [pool && pool.id, usersAddress])
+
+                  useEffect(() => {
+                    // console.log('resetting generic chain values')
+                    setGenericChainValues({
+                      loading: true,
+                    })
+                  }, [pool && pool.id])
+
+
 
 
                   // useEffect(() => {

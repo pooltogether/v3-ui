@@ -102,10 +102,10 @@ export const AuthControllerContextProvider = (props) => {
   
 
   const postDisconnectRedirect = () => {
-    console.log('postDisconnectRedirect')
-    console.log('adding signIn 1')
+    // console.log('postDisconnectRedirect')
+    // console.log('adding signIn 1')
     queryParamUpdater.add(router, { signIn: '1' })
-    console.log(router.query)
+    // console.log(router.query)
   }
 
   const signOut = async (e) => {
