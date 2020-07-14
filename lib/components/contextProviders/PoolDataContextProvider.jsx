@@ -46,6 +46,7 @@ export const PoolDataContextProvider = (props) => {
           >
             {(staticResult) => {
               const staticPoolData = staticResult.poolData
+
               return <DynamicPrizePoolsQuery
                 {...props}
                 addresses={poolAddresses}
@@ -92,55 +93,60 @@ export const PoolDataContextProvider = (props) => {
                   let pool
                   if (ticker) {
                     pool = pools.find(_pool => {
+                      let symbol
                       if (_pool && _pool.underlyingCollateralSymbol) {
-                        return _pool.underlyingCollateralSymbol.toLowerCase() === ticker
+                        symbol = _pool.underlyingCollateralSymbol.toLowerCase()
+                      }
+
+                      if (_pool && symbol) {
+                        return symbol === ticker
                       }
                     })
                   }
-
-
 
 
                   const networkName = router.query.networkName ?
                     router.query.networkName :
                     'mainnet'
 
-                  const [poolAddresses, setPoolAddresses] = useState({})
+                  // const [poolAddresses, setPoolAddresses] = useState({})
                   const [genericChainValues, setGenericChainValues] = useState({
                     loading: true,
-                    tokenSymbol: 'TOKEN',
-                    poolTotalSupply: '1234',
+                    // tokenSymbol: 'TOKEN',
+                    // poolTotalSupply: '1234',
                   })
 
                   const [usersChainValues, setUsersChainValues] = useState({
                     loading: true,
-                    usersTicketBalance: ethers.utils.bigNumberify(0),
-                    usersTokenAllowance: ethers.utils.bigNumberify(0),
-                    usersTokenBalance: ethers.utils.bigNumberify(0),
+                    // usersTicketBalance: ethers.utils.bigNumberify(0),
+                    // usersTokenAllowance: ethers.utils.bigNumberify(0),
+                    // usersTokenBalance: ethers.utils.bigNumberify(0),
                   })
 
-
                   useInterval(() => {
-                    fetchChainData(
-                      networkName,
-                      usersAddress,
-                      poolAddresses,
-                      setPoolAddresses,
-                      setGenericChainValues,
-                      setUsersChainValues,
-                    )
+                    if (pool) {
+                      fetchChainData(
+                        networkName,
+                        usersAddress,
+                        pool,
+                        setGenericChainValues,
+                        setUsersChainValues,
+                      )
+                    }
                   }, MAINNET_POLLING_INTERVAL)
 
                   useEffect(() => {
-                    fetchChainData(
-                      networkName,
-                      usersAddress,
-                      poolAddresses,
-                      setPoolAddresses,
-                      setGenericChainValues,
-                      setUsersChainValues,
-                    )
-                  }, [provider, usersAddress, poolAddresses])
+                    if (pool) {
+                      fetchChainData(
+                        networkName,
+                        usersAddress,
+                        pool,
+                        setGenericChainValues,
+                        setUsersChainValues,
+                      )
+                    }
+                  }, [usersAddress]) //, pool
+
 
                   // useEffect(() => {
                   //   if (ethBalance) {

@@ -270,7 +270,7 @@ export const WalletContextProvider = (props) => {
       handleShowOnboard,
       disconnectWallet,
       doConnectWallet,
-      state: onboardState,
+      onboardState,
       _onboard
     }}
   >

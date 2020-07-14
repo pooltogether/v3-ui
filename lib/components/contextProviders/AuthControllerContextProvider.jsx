@@ -26,7 +26,7 @@ export const AuthControllerContextProvider = (props) => {
   const router = useRouter()
 
   const walletContext = useContext(WalletContext)
-  const { _onboard, doConnectWallet, handleShowOnboard } = walletContext
+  const { _onboard, doConnectWallet, handleShowOnboard, onboardState } = walletContext
 
   const magicContext = useContext(MagicContext)
   const { magic } = magicContext
@@ -54,13 +54,11 @@ export const AuthControllerContextProvider = (props) => {
   const [chainId, setChainId] = useState(getChainId(currentState))
   const [provider, setProvider] = useState()
   const [usersAddress, setUsersAddress] = useState()
-  // const [onboardCurrentState, setOnboardCurrentState] = useState()
   const [magicAutoSignInAlreadyExecuted, setMagicAutoSignInAlreadyExecuted] = useState(false)
   const [walletAutoSignInAlreadyExecuted, setWalletAutoSignInAlreadyExecuted] = useState(false)
 
   useEffect(() => {
-    // console.log('running provider update!')
-    let provider = currentState.provider 
+    let provider = onboardState && onboardState.provider
     if (!provider && magicContext.signedIn) {
       provider = magicContext.provider
     }

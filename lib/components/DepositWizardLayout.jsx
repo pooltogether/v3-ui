@@ -126,15 +126,6 @@ export const DepositWizardLayout = (props) => {
         </button>
       </nav>
 
-      {/* {props.usersChainValues.usersTokenAllowance.gt(0) ?
-        <DepositUI
-          {...props}
-        /> :
-        <UnlockDepositUI
-          {...props}
-        />
-      }
-      */}
       <div className='h-full flex flex-col justify-center px-4 sm:px-32 lg:px-64 text-center'>
         {children}
       </div>

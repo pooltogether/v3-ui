@@ -1,4 +1,5 @@
 import React from 'react'
+import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
 
 import { Button } from 'lib/components/Button'
@@ -10,6 +11,8 @@ import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const WithdrawForm = (props) => {
+  const { handleSubmit, register, errors, formState, getValues } = useForm({ mode: 'all' })
+
   const {
     exitFee,
     genericChainValues,
@@ -24,11 +27,9 @@ export const WithdrawForm = (props) => {
   } = usersChainValues || {}
 
   const {
-    withdrawAmount,
     withdrawType,
   } = vars
   const {
-    setWithdrawAmount,
     setWithdrawType,
   } = stateSetters
 
@@ -44,6 +45,10 @@ export const WithdrawForm = (props) => {
   const tokenSymbol = genericChainValues.tokenSymbol || 'TOKEN'
 
   let instantTotal = ethers.utils.bigNumberify(0)
+
+  const values = getValues()
+  const { withdrawAmount } = values
+
   if (withdrawAmount && exitFee && withdrawType === 'instant') {
     instantTotal = ethers.utils.parseUnits(withdrawAmount, tokenDecimals).sub(exitFee)
   }
@@ -54,7 +59,7 @@ export const WithdrawForm = (props) => {
   
   return <>
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
     >
       {poolIsLocked && <FormLockedOverlay
         title='Withdrawal'
@@ -99,18 +104,19 @@ export const WithdrawForm = (props) => {
         ]}
       />
 
-
-      <TextInputGroup
-        id='withdrawAmount'
-        label={<>
-          Withdraw amount <span className='text-purple-600 italic'> (in {genericChainValues.tokenSymbol || 'TOKEN'})</span>
-        </>}
-        required
-        type='number'
-        pattern='\d+'
-        onChange={(e) => setWithdrawAmount(e.target.value)}
-        value={withdrawAmount}
-      />
+      <div className='w-full sm:w-2/3 mx-auto'>
+        <TextInputGroup
+          large
+          id='withdrawAmount'
+          name='withdrawAmount'
+          register={register}
+          label={<>
+            Withdraw amount <span className='text-purple-600 italic'> (in {pool.tokenSymbol})</span>
+          </>}
+          required='withdraw amount required'
+          type='number'
+        />
+      </div>
 
       {exitFee && withdrawType === 'instant' && <>
         <div className='text-yellow-400'>

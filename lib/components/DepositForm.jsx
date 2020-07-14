@@ -102,7 +102,8 @@ export const DepositForm = (props) => {
           <div
             className='mt-3 sm:mt-5 mb-5'
           >
-            <Button>
+            <Button
+            >
               Unlock Deposits
             </Button>
           </div>
