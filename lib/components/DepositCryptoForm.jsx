@@ -72,8 +72,8 @@ export const DepositCryptoForm = (props) => {
     )
   }
 
-  console.log({ usersChainValues})
-  const disabled = usersChainValues.usersTokenAllowance.lte(0)
+  const disabled = usersChainValues.usersTokenAllowance &&
+    usersChainValues.usersTokenAllowance.lte(0)
 
   return <>
     <PaneTitle small>

@@ -1,23 +1,30 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
+import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
 
 export const OrderComplete = (props) => {
   const router = useRouter()
   const quantity = router.query.quantity
 
+  const confettiContext = useContext(ConfettiContext)
+  const { confetti } = confettiContext
+
+  useEffect(() => {
+    setTimeout(() => {
+      window.confettiContext = confetti
+      confetti.start(setTimeout, setInterval)
+    }, 300)
+  })
+
   return <>
     <PaneTitle small>
-      You got {quantity} tickets!
+      Deposit complete
     </PaneTitle>
 
     <PaneTitle>
-      Deposit complete!
-    </PaneTitle>
-
-    <PaneTitle small>
-      cue confetti
+      You got {quantity} tickets!
     </PaneTitle>
   </>
 }

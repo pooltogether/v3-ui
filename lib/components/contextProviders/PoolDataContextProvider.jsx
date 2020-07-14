@@ -154,27 +154,27 @@ export const PoolDataContextProvider = (props) => {
                   //   }
                   // }, [authControllerContext])
 
-                  if (poolAddresses.error || genericChainValues.error || usersChainValues.error) {
-                    if (poolAddresses.error) {
-                      renderErrorMessage(prizePool, 'pool addresses', poolAddresses.errorMessage)
-                    }
+                  // if (poolAddresses.error || genericChainValues.error || usersChainValues.error) {
+                  //   if (poolAddresses.error) {
+                  //     renderErrorMessage(prizePool, 'pool addresses', poolAddresses.errorMessage)
+                  //   }
 
-                    if (genericChainValues.error) {
-                      renderErrorMessage(prizePool, 'generic chain values', genericChainValues.errorMessage)
-                    }
+                  //   if (genericChainValues.error) {
+                  //     renderErrorMessage(prizePool, 'generic chain values', genericChainValues.errorMessage)
+                  //   }
 
-                    if (usersChainValues.error) {
-                      renderErrorMessage(prizePool, `user's chain values`, usersChainValues.errorMessage)
-                    }
+                  //   if (usersChainValues.error) {
+                  //     renderErrorMessage(prizePool, `user's chain values`, usersChainValues.errorMessage)
+                  //   }
 
-                    // router.push(
-                    //   `/`,
-                    //   `/`,
-                    //   {
-                    //     shallow: true
-                    //   }
-                    // )
-                  }
+                  //   // router.push(
+                  //   //   `/`,
+                  //   //   `/`,
+                  //   //   {
+                  //   //     shallow: true
+                  //   //   }
+                  //   // )
+                  // }
 
 
 

@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
 import { AuthControllerContextProvider } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { ConfettiContextProvider } from 'lib/components/contextProviders/ConfettiContextProvider'
 import { PoolDataContextProvider } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ThemeContextProvider } from 'lib/components/contextProviders/ThemeContextProvider'
 
@@ -23,32 +24,34 @@ export const AllContextProviders = (props) => {
   
   return <>
     <ThemeContextProvider>
-      <MagicContextProviderDynamic>
-        <WalletContextProviderDynamic
-          postDisconnectCallback={async () => {
-            console.log({postDisconnectCallback: 'postDis'});
-            console.log({ router });
+      <ConfettiContextProvider>
+        <MagicContextProviderDynamic>
+          <WalletContextProviderDynamic
+            postDisconnectCallback={async () => {
+              console.log({postDisconnectCallback: 'postDis'});
+              console.log({ router });
 
-            console.log(router.query)
-            router.push(
-              `${router.pathname}`,
-              `${router.asPath}`,
-              {
-                shallow: true
-              }
-            )
-          }}
-          // postConnectCallback={async () => {
-          
-          // }}
-        >
-          <AuthControllerContextProvider>
-            <PoolDataContextProvider>
-              {children}
-            </PoolDataContextProvider>
-          </AuthControllerContextProvider>
-        </WalletContextProviderDynamic>
-      </MagicContextProviderDynamic>
+              console.log(router.query)
+              router.push(
+                `${router.pathname}`,
+                `${router.asPath}`,
+                {
+                  shallow: true
+                }
+              )
+            }}
+            // postConnectCallback={async () => {
+            
+            // }}
+          >
+            <AuthControllerContextProvider>
+              <PoolDataContextProvider>
+                {children}
+              </PoolDataContextProvider>
+            </AuthControllerContextProvider>
+          </WalletContextProviderDynamic>
+        </MagicContextProviderDynamic>
+      </ConfettiContextProvider>
     </ThemeContextProvider>
   </>
 }

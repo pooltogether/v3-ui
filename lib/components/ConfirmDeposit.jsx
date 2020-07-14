@@ -10,7 +10,7 @@ export const ConfirmDeposit = (props) => {
   if (window) {
     setTimeout(() => {
       nextStep()
-    }, 4200)
+    }, 1200)
   }
 
   const router = useRouter()

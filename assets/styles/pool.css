@@ -451,3 +451,22 @@ input[type="text"] {
     width: 151px;
   }
 }
+
+
+.confettiCanvas {
+  bottom: 0;
+  pointer-events: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 4000ms;
+  z-index: 1000000;
+}
+
+.confettiCanvas.active {
+  opacity: 1;
+}

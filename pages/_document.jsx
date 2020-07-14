@@ -20,6 +20,14 @@ class MyDocument extends Document {
         <body
           className='bg-body'
         >
+          <script src='/confetti.js'></script>
+
+          <canvas
+            className='confettiCanvas'
+            width='1'
+            height='1'
+          />
+          
           <Main />
           <NextScript />
         </body>
