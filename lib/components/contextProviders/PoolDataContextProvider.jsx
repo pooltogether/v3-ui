@@ -13,10 +13,13 @@ import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { isEmptyObject } from 'lib/utils/isEmptyObject'
 import { fetchChainData } from 'lib/utils/fetchChainData'
 import { poolToast } from 'lib/utils/poolToast'
+import { readProvider } from 'lib/utils/readProvider'
 
 export const PoolDataContext = React.createContext()
 
 export const PoolDataContextProvider = (props) => {
+  const [defaultReadProvider, setDefaultReadProvider] = useState({})
+
   const router = useRouter()
   const ticker = router.query.prizePoolTicker && router.query.prizePoolTicker.toLowerCase()
   
@@ -55,8 +58,6 @@ export const PoolDataContextProvider = (props) => {
 
                   const loading = staticResult.loading || dynamicResult.loading ||
                     !staticPoolData || !dynamicPoolData
-
-
 
                   let pools = []
                   if (!loading) {
@@ -116,6 +117,55 @@ export const PoolDataContextProvider = (props) => {
                   const networkName = router.query.networkName ?
                     router.query.networkName :
                     'mainnet'
+
+                  useEffect(() => {
+                    const getReadProvider = async () => {
+                      const defaultReadProvider = await readProvider(networkName)
+                      setDefaultReadProvider(defaultReadProvider)
+                    }
+                    await getReadProvider()
+                  }, [networkName])
+
+
+                  return <FetchGenericChainData
+                    {...props}
+                    provider={defaultReadProvider}
+                    pool={pool}
+                  >
+                    {(genericChainData) => {
+                      return <FetchUsersChainData
+                        {...props}
+                        provider={defaultReadProvider}
+                        pool={pool}
+                        usersAddress={usersAddress}
+                      >
+                        {(usersChainData) => {
+                          
+                          
+
+                          return <PoolDataContext.Provider
+                            value={{
+                              loading,
+                              pool,
+                              pools,
+                              poolAddresses,
+                              dynamicPoolData,
+                              staticPoolData,
+                              genericChainData,
+                              usersChainData,
+                            }}
+                          >
+                            {props.children}
+                          </PoolDataContext.Provider>
+
+
+                        }
+                      </FetchUsersChainData>
+                    }
+                  </FetchGenericChainData>
+
+
+
 
                   // const [poolAddresses, setPoolAddresses] = useState({})
                   const [genericChainValues, setGenericChainValues] = useState({
@@ -220,20 +270,7 @@ export const PoolDataContextProvider = (props) => {
 
 
 
-                  return <PoolDataContext.Provider
-                    value={{
-                      loading,
-                      dynamicPoolData,
-                      genericChainValues,
-                      pools,
-                      pool,
-                      poolAddresses,
-                      staticPoolData,
-                      usersChainValues,
-                    }}
-                  >
-                    {props.children}
-                  </PoolDataContext.Provider>
+                  
                 }}
               </DynamicPrizePoolsQuery>
 

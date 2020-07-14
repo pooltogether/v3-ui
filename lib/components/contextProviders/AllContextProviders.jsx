@@ -28,10 +28,6 @@ export const AllContextProviders = (props) => {
         <MagicContextProviderDynamic>
           <WalletContextProviderDynamic
             postDisconnectCallback={async () => {
-              // console.log({postDisconnectCallback: 'postDis'});
-              // console.log({ router });
-
-              // console.log(router.query)
               router.push(
                 `${router.pathname}`,
                 `${router.asPath}`,
@@ -40,9 +36,6 @@ export const AllContextProviders = (props) => {
                 }
               )
             }}
-            // postConnectCallback={async () => {
-            
-            // }}
           >
             <AuthControllerContextProvider>
               <PoolDataContextProvider>
