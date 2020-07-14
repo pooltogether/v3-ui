@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { Button } from 'lib/components/Button'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { LoadingDots } from 'lib/components/LoadingDots'
 import { shortenAddress } from 'lib/utils/shortenAddress'
@@ -78,7 +79,7 @@ export const TxMessage = (props) => {
             There was an error with the transaction
           </div>
 
-          <div className='my-3 text-match'>
+          <div className='my-3 text-inverse'>
             {tx && tx.hash ? <>
               {<EtherscanTxLink
                 chainId={chainId}
@@ -87,47 +88,47 @@ export const TxMessage = (props) => {
                 See the result on Etherscan
               </EtherscanTxLink>} or check the JS console.
             </> : <>
-              Transaction Signature Denied
+              Transaction signature denied
             </>}
           </div>
+
+
+          {handleReset && <>
+            <div className='mt-10 text-center'>
+              <Button
+                onClick={handleReset}
+              >
+                {resetButtonText || 'Try again'}
+              </Button>
+            </div>
+          </>}
         </>}
 
-
-
-        <div
-          className='mt-6 font-bold uppercase text-default-soft text-xs sm:text-sm lg:text-base'
-        >
-          {tx.hash && <>
-            Tx Hash
-          </>}
-        </div>
-
-        <div
-          className='uppercase text-default-soft text-sm sm:text-base'
-        >
-          {tx.hash && <>
-            {<EtherscanTxLink
+        {tx.hash && <>
+          <div
+            className='uppercase text-default-soft text-sm sm:text-base'
+          >
+            Transaction ID: {<EtherscanTxLink
               chainId={chainId}
               hash={tx.hash}
             >
               {shortenAddress(tx.hash)}
             </EtherscanTxLink>}
-          </>}
-        </div>
+          </div>
 
-
-        {handleReset && txCompleted && <>
-          <div className='mt-10 text-center'>
-            <button
-              className='font-bold rounded-lg text-secondary border-2 sm:border-4 border-secondary hover:text-white hover:bg-lightPurple-1000 text-xxs sm:text-base pt-2 pb-2 px-3 sm:px-6 trans'
-              onClick={handleReset}
+          <div
+            className='text-xs sm:text-sm'
+          >
+            <EtherscanTxLink
+              noIcon
+              chainId={chainId}
+              hash={tx.hash}
             >
-              {resetButtonText || 'Reset form'}
-            </button>
+              View transaction
+            </EtherscanTxLink>
           </div>
         </>}
 
-        
 
       </div>
     </>}

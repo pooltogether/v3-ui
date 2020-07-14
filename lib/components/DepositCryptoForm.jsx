@@ -53,6 +53,12 @@ export const DepositCryptoForm = (props) => {
   const router = useRouter()
   const quantity = router.query.quantity
 
+  const handleResetState = (e) => {
+    e.preventDefault()
+
+    setTx({})
+  }
+
   const handleContinueClick = (e) => {
     e.preventDefault()
     nextStep()
@@ -72,7 +78,7 @@ export const DepositCryptoForm = (props) => {
 
   console.log({usersChainValues})
   console.log(usersChainValues.usersTokenAllowance)
-  const disabled = usersChainValues.usersTokenAllowance &&
+  const disabled = !usersChainValues.usersTokenAllowance ||
     usersChainValues.usersTokenAllowance.lte(0)
 
   return <>
@@ -111,7 +117,7 @@ export const DepositCryptoForm = (props) => {
         <TxMessage
           txType={`Unlock ${quantity} ${ticker.toUpperCase()} deposit`}
           tx={tx}
-          // handleReset={resetState}
+          handleReset={handleResetState}
         />
       </>}
 

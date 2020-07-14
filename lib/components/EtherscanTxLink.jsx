@@ -9,6 +9,7 @@ export const EtherscanTxLink = (props) => {
     className,
     hash,
     chainId,
+    noIcon,
   } = props
 
   const url = formatEtherscanTxUrl(hash, chainId)
@@ -16,15 +17,15 @@ export const EtherscanTxLink = (props) => {
   return <>
     <a
       href={url}
-      className={`no-underline ${className} text-blue`}
+      className={`no-underline ${className} text-default`}
       target='_blank'
       rel='noopener noreferrer'
       title='View on Etherscan'
     >
-      {children} <FeatherIcon
+      {children} {!noIcon && <FeatherIcon
         icon='external-link'
         className='is-etherscan-arrow inline-block'
-      />
+      />}
     </a>
   </>
 }
