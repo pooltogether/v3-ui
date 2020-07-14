@@ -20,7 +20,12 @@
   --color-text-default-soft: #7458df;
   --color-text-inverse: #fff;
   --color-text-match: #000;
-  --color-text-red: #F56565;
+  --color-text-red: #f56565;
+  --color-text-green: #05e6c4;
+  --color-text-yellow: #ffc403;
+  --color-text-blue: #3857ee;
+  --color-text-teal: #049c9c;
+  --color-text-purple: #401C94;
 
   --color-border-primary: #3c1a79;
   --color-border-secondary: #33DEC3;
@@ -53,6 +58,11 @@
   --color-text-inverse: #000;
   --color-text-match: #fff;
   --color-text-red: #f56565;
+  --color-text-green: #05e6c4;
+  --color-text-yellow: #ffc403;
+  --color-text-blue: #3857ee;
+  --color-text-teal: #049c9c;
+  --color-text-purple: #401C94;
 
   --color-border-primary: #3c1a79;
   --color-border-secondary: #05e6c4;

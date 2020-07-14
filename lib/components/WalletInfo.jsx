@@ -14,7 +14,7 @@ export const WalletInfo = () => {
   let innerContent = null
   let networkName = null
 
-  if (chainId && chainId !== 1) {
+  if (chainId) {
     networkName = <span
       className={classnames(
         networkColorClassname(chainId),
@@ -27,38 +27,50 @@ export const WalletInfo = () => {
 
   if (usersAddress && walletName) {
     innerContent = <>
-      <div className='text-base sm:text-lg lg:text-xl leading-snug text-default trans'>
-        <h2
-          className='text-default-soft mt-10'
-        >
-          ETH Address:
-        </h2>
+      <div className='flex flex-col sm:flex-row text-base sm:text-lg lg:text-xl leading-snug text-default trans'>
         <div
-          className='overflow-ellipsis w-full no-underline text-secondary'
+          className='mx-6'
         >
-          {shortenAddress(usersAddress)}
+          <h2
+            className='text-default-soft mt-6'
+          >
+            ETH Address
+          </h2>
+          <div
+            className='overflow-ellipsis w-full no-underline text-secondary'
+          >
+            {shortenAddress(usersAddress)}
+          </div>
         </div>
 
-        <h2
-          className='text-default-soft mt-10'
-        >
-          Wallet:
-        </h2>
         <div
-          className='rounded-lg capitalize text-secondary'
+          className='mx-6'
         >
-          {walletName}
+          <h2
+            className='text-default-soft mt-6'
+          >
+            Connected to
+          </h2>
+          <div
+            className='rounded-lg capitalize text-secondary'
+          >
+            {walletName}
+          </div>
         </div>
 
-        <h2
-          className='text-default-soft mt-10'
-        >
-          Network:
-        </h2>
         <div
-          className='rounded-lg capitalize text-secondary'
+          className='mx-6'
         >
-          {networkName}
+          <h2
+            className='text-default-soft mt-6'
+          >
+            Network
+          </h2>
+          <div
+            className='rounded-lg capitalize text-secondary'
+          >
+            {networkName}
+          </div>
         </div>
 {/* 
         {magic && signedIn && <>

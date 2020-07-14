@@ -31,6 +31,11 @@ module.exports = {
         'inverse-soft': 'var(--color-text-inverse-soft)',
         match: 'var(--color-text-match)',
         red: 'var(--color-text-red)',
+        green: 'var(--color-text-green)',
+        yellow: 'var(--color-text-yellow)',
+        blue: 'var(--color-text-blue)',
+        teal: 'var(--color-text-teal)',
+        purple: 'var(--color-text-purple)',
       },
       backgroundColor: {
         body: 'var(--color-bg-body)',

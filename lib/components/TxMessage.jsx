@@ -29,23 +29,23 @@ export const TxMessage = (props) => {
   return <>
     {txInFlight && <>
       <div
-        className='pt-10 sm:pt-3 pb-3 px-2 sm:px-4  text-center text-white text-xs sm:text-sm lg:text-base'
+        className='pt-10 sm:pt-3 pb-3 px-2 sm:px-4 text-center text-xs sm:text-sm lg:text-base'
       >
         <div
-          className='font-bold rounded-lg mb-4 text-white text-sm sm:text-base uppercase px-2 py-1 bg-purple-900'
+          className='font-bold rounded-lg mb-4 text-default text-xs sm:text-sm uppercase px-2 py-1 bg-purple-900'
         >
           Transaction status
         </div>
 
         <div
-          className='mb-4 text-white text-base sm:text-xl lg:text-2xl'
+          className='font-bold mb-4 text-inverse text-base sm:text-xl lg:text-2xl'
         >
           {txType}
         </div>
 
         {txInWallet && <>
           <div
-            className='mb-2 text-yellow-400 text-base sm:text-lg lg:text-xl'
+            className='font-bold mb-2 text-yellow text-base sm:text-lg lg:text-xl'
           >
             Please confirm the transaction in your wallet ...
           </div>
@@ -53,7 +53,7 @@ export const TxMessage = (props) => {
 
         {txSent && <>
           <div
-            className='mb-2 text-yellow-400 text-base sm:text-lg lg:text-xl'
+            className='font-bold mb-2 text-yellow text-base sm:text-lg lg:text-xl'
           >
             Transactions may take a few minutes to complete ...
           </div>
@@ -65,7 +65,7 @@ export const TxMessage = (props) => {
 
         {txCompleted && !txError && <>
           <div
-            className='mb-2 text-green-300 text-base sm:text-lg lg:text-xl'
+            className='font-bold mb-2 text-green text-base sm:text-lg lg:text-xl'
           >
             Transaction successful!
           </div>
@@ -73,12 +73,12 @@ export const TxMessage = (props) => {
 
         {txError && <>
           <div
-            className='mb-2 text-red-500 text-base sm:text-lg lg:text-xl'
+            className='font-bold mb-2 text-red text-base sm:text-lg lg:text-xl'
           >
             There was an error with the transaction
           </div>
 
-          <div className='my-3 text-purple-400'>
+          <div className='my-3 text-match'>
             {tx && tx.hash ? <>
               {<EtherscanTxLink
                 chainId={chainId}
@@ -95,7 +95,7 @@ export const TxMessage = (props) => {
 
 
         <div
-          className='mt-6 font-bold uppercase text-lightPurple-600 text-xs sm:text-sm lg:text-base'
+          className='mt-6 font-bold uppercase text-default-soft text-xs sm:text-sm lg:text-base'
         >
           {tx.hash && <>
             Tx Hash
@@ -103,7 +103,7 @@ export const TxMessage = (props) => {
         </div>
 
         <div
-          className='uppercase text-lightPurple-600 text-sm sm:text-base'
+          className='uppercase text-default-soft text-sm sm:text-base'
         >
           {tx.hash && <>
             {<EtherscanTxLink

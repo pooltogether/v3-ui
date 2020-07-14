@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 
-export const ConfirmDeposit = (props) => {
+export const ConfirmFiatDeposit = (props) => {
   const { nextStep } = props
 
   if (window) {

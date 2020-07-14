@@ -104,6 +104,15 @@ export const PoolDataContextProvider = (props) => {
                     })
                   }
 
+                  if (pool) {
+                    console.log({
+                      poolAddress: pool.id,
+                      underlyingCollateralSymbol: pool.underlyingCollateralSymbol,
+                      underlyingCollateralToken: pool.underlyingCollateralToken,
+                      usersAddress: usersAddress,
+                    })
+                  }
+
 
                   const networkName = router.query.networkName ?
                     router.query.networkName :

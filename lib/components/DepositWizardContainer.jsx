@@ -3,7 +3,8 @@ import { useRouter } from 'next/router'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { ConfirmDeposit } from 'lib/components/ConfirmDeposit'
+import { ConfirmCryptoDeposit } from 'lib/components/ConfirmCryptoDeposit'
+import { ConfirmFiatDeposit } from 'lib/components/ConfirmFiatDeposit'
 import { DepositWizardLayout } from 'lib/components/DepositWizardLayout'
 import { DepositCryptoForm } from 'lib/components/DepositCryptoForm'
 import { DepositFiatForm } from 'lib/components/DepositFiatForm'
@@ -79,9 +80,14 @@ export const DepositWizardContainer = (props) => {
             <WizardStep>
               {(step) => {
                 return step.isActive && <>
-                  <ConfirmDeposit
-                    nextStep={step.nextStep}
-                  />
+                  {method === 'fiat' ?
+                    <ConfirmFiatDeposit
+                      nextStep={step.nextStep}
+                    /> :
+                    <ConfirmCryptoDeposit
+                      nextStep={step.nextStep}
+                    />
+                  }
                 </>
               }}
             </WizardStep>

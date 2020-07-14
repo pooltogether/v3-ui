@@ -60,8 +60,6 @@ export const DepositCryptoForm = (props) => {
 
   const ticker = pool && pool.underlyingCollateralSymbol
 
-  console.log('token', pool.underlyingCollateralToken)
-  console.log('pool', pool.id)
   const handleUnlockClick = (e) => {
     handleUnlockSubmit(
       setTx,
@@ -72,6 +70,8 @@ export const DepositCryptoForm = (props) => {
     )
   }
 
+  console.log({usersChainValues})
+  console.log(usersChainValues.usersTokenAllowance)
   const disabled = usersChainValues.usersTokenAllowance &&
     usersChainValues.usersTokenAllowance.lte(0)
 
@@ -85,26 +85,31 @@ export const DepositCryptoForm = (props) => {
     </PaneTitle>
 
     <div className='flex flex-col mx-auto'>
-      <div className='w-full sm:w-2/3 mx-auto text-inverse mb-10'>
-        <div>
-          <span className='font-bold'>Your approval is needed.</span>
-          <br /><br /> Unlock this deposit by allowing the pool's ticket contract to have a {quantity} {ticker.toUpperCase()} allowance.
-        </div>
 
-        <div
-          className='mt-3 sm:mt-5 mb-5'
-        >
-          <Button
-            onClick={handleUnlockClick}
-            className='my-4 w-64'
+      {disabled && <>
+        <div className='w-full sm:w-2/3 mx-auto text-inverse mb-4 px-4 text-lg'>
+          <div>
+            <div className='font-bold my-2'>Your approval is needed.</div>
+            Unlock this deposit by allowing the pool's ticket contract to have a <span className='font-bold'>{quantity} {ticker.toUpperCase()}</span> allowance.
+          </div>
+
+          <div
+            className='mt-3 sm:mt-5 mb-5'
           >
-            Unlock deposit
-          </Button>
+            <Button
+              onClick={handleUnlockClick}
+              className='my-4 w-64'
+              disabled={txInFlight}
+            >
+              Unlock deposit
+            </Button>
+          </div>
         </div>
-      </div>
+      </>}
+
       {txInFlight && <>
         <TxMessage
-          txType='Unlock Token Deposits'
+          txType={`Unlock ${quantity} ${ticker.toUpperCase()} deposit`}
           tx={tx}
           // handleReset={resetState}
         />
@@ -114,7 +119,7 @@ export const DepositCryptoForm = (props) => {
         <Button
           onClick={handleContinueClick}
           color='white'
-          className='my-2 w-64 mx-auto'
+          className='mt-6 w-64 mx-auto'
           disabled={disabled}
         >
           Continue
