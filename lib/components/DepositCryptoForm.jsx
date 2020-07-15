@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
@@ -8,6 +8,8 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolCountUp } from 'lib/components/PoolCountUp'
+import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { TxMessage } from 'lib/components/TxMessage'
 import { sendTx } from 'lib/utils/sendTx'
 
@@ -42,18 +44,42 @@ const handleUnlockSubmit = async (
 export const DepositCryptoForm = (props) => {
   const { nextStep } = props
 
-  const [tx, setTx] = useState({})
-
   const authControllerContext = useContext(AuthControllerContext)
   const { provider } = authControllerContext
-
-  const txInFlight = tx.inWallet || tx.sent
 
   const poolData = useContext(PoolDataContext)
   const { pool, usersChainData } = poolData
 
   const router = useRouter()
   const quantity = router.query.quantity
+
+  const quantityBN = ethers.utils.parseUnits(
+    quantity,
+    pool.underlyingCollateralDecimals
+  )
+
+  const ticker = pool && pool.underlyingCollateralSymbol
+
+  const haveTokenAllowance = usersChainData && usersChainData.usersTokenAllowance
+
+  const usersBalanceBN = haveTokenAllowance ?
+    usersChainData && usersChainData.usersTokenBalance :
+    ethers.utils.bigNumberify(0)
+
+  const usersBalance = Number(
+    ethers.utils.formatUnits(
+      usersBalanceBN,
+      pool.underlyingCollateralDecimals 
+    )
+  )
+
+  const disabled = !haveTokenAllowance ||
+    quantityBN.gt(usersChainData.usersTokenAllowance)
+
+  const [tx, setTx] = useState({})
+  const [cachedUsersBalance, setCachedUsersBalance] = useState(usersBalance)
+
+  const txInFlight = tx.inWallet || tx.sent
 
   const handleResetState = (e) => {
     e.preventDefault()
@@ -66,8 +92,6 @@ export const DepositCryptoForm = (props) => {
     nextStep()
   }
 
-  const ticker = pool && pool.underlyingCollateralSymbol
-
   const handleUnlockClick = (e) => {
     handleUnlockSubmit(
       setTx,
@@ -79,29 +103,15 @@ export const DepositCryptoForm = (props) => {
     )
   }
 
+  useEffect(() => {
+    setCachedUsersBalance(usersBalance)
+  }, [usersBalance])
+
   // console.log(usersChainData)
   // console.log(usersChainData.usersTokenAllowance)
   // if (usersChainData && usersChainData.usersTokenAllowance) {
   //   console.log(usersChainData.usersTokenAllowance.toString())
   // }
-
-  const quantityBN = ethers.utils.parseUnits(
-    quantity,
-    pool.underlyingCollateralDecimals
-  )
-
-  
-
-  const haveTokenAllowance = usersChainData && usersChainData.usersTokenAllowance
-
-  // if (haveTokenAllowance) {
-  //   console.log({ usersTokenAllowance: usersChainData.usersTokenAllowance.toString() })
-  //   console.log(quantityBN.gt(usersChainData.usersTokenAllowance))
-  // }
-
-  
-  const disabled = !haveTokenAllowance ||
-    quantityBN.gt(usersChainData.usersTokenAllowance)
 
   return <>
     <PaneTitle small>
@@ -109,8 +119,22 @@ export const DepositCryptoForm = (props) => {
     </PaneTitle>
 
     <PaneTitle>
-      Pay with {ticker.toUpperCase()}
+      Deposit using {ticker.toUpperCase()} <PoolCurrencyIcon
+        pool={pool}
+      />
     </PaneTitle>
+
+    <div
+      className='flex items-center justify-between'
+    >
+      <div>
+        Your {ticker.toUpperCase()} balance: 
+      </div>
+      <PoolCountUp
+        start={cachedUsersBalance || usersBalance}
+        end={usersBalance}
+      />
+    </div>
 
     <div className='flex flex-col mx-auto'>
 

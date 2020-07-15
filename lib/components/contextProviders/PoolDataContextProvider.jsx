@@ -109,11 +109,11 @@ export const PoolDataContextProvider = (props) => {
                   //     usersAddress: usersAddress,
                   //   })
                   // }
-                  if (pool) {
-                    console.log({ pool: pool.id })
-                  } else {
-                    console.log('pool', pool)
-                  }
+                  // if (pool) {
+                  //   console.log({ pool: pool.id })
+                  // } else {
+                  //   console.log('pool', pool)
+                  // }
 
 
                   const networkName = router.query.networkName ?
