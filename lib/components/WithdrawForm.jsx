@@ -15,16 +15,16 @@ export const WithdrawForm = (props) => {
 
   const {
     exitFee,
-    genericChainValues,
+    genericChainData,
     handleSubmit,
     vars,
     stateSetters,
-    usersChainValues,
+    usersChainData,
   } = props
 
   const {
     usersTicketBalance,
-  } = usersChainValues || {}
+  } = usersChainData || {}
 
   const {
     withdrawType,
@@ -38,11 +38,11 @@ export const WithdrawForm = (props) => {
   }
 
   const {
-    tokenDecimals,
-  } = genericChainValues || {}
+    underlyingCollateralDecimals,
+  } = genericChainData || {}
   
-  const poolIsLocked = genericChainValues.isRngRequested
-  const tokenSymbol = genericChainValues.tokenSymbol || 'TOKEN'
+  const poolIsLocked = genericChainData.isRngRequested
+  const underlyingCollateralSymbol = genericChainData.underlyingCollateralSymbol || 'TOKEN'
 
   let instantTotal = ethers.utils.bigNumberify(0)
 
@@ -50,11 +50,11 @@ export const WithdrawForm = (props) => {
   const { withdrawAmount } = values
 
   if (withdrawAmount && exitFee && withdrawType === 'instant') {
-    instantTotal = ethers.utils.parseUnits(withdrawAmount, tokenDecimals).sub(exitFee)
+    instantTotal = ethers.utils.parseUnits(withdrawAmount, underlyingCollateralDecimals).sub(exitFee)
   }
 
   const overBalance = withdrawAmount && usersTicketBalance && usersTicketBalance.lt(
-    ethers.utils.parseUnits(withdrawAmount, tokenDecimals)
+    ethers.utils.parseUnits(withdrawAmount, underlyingCollateralDecimals)
   )
   
   return <>
@@ -72,7 +72,7 @@ export const WithdrawForm = (props) => {
       {!poolIsLocked && usersTicketBalance && usersTicketBalance.lte(0) && <FormLockedOverlay
         title='Withdraw'
       >
-        You have no tickets to withdraw. Deposit some {genericChainValues.tokenSymbol || 'TOKEN'} first!
+        You have no tickets to withdraw. Deposit some {genericChainData.underlyingCollateralSymbol || 'TOKEN'} first!
       </FormLockedOverlay>}
 
       <div
@@ -111,7 +111,7 @@ export const WithdrawForm = (props) => {
           name='withdrawAmount'
           register={register}
           label={<>
-            Withdraw amount <span className='text-purple-600 italic'> (in {pool.tokenSymbol})</span>
+            Withdraw amount <span className='text-purple-600 italic'> (in {pool.underlyingCollateralSymbol})</span>
           </>}
           required='withdraw amount required'
           type='number'
@@ -121,8 +121,8 @@ export const WithdrawForm = (props) => {
       {exitFee && withdrawType === 'instant' && <>
         <div className='text-yellow-400'>
           You will receive {displayAmountInEther(
-            instantTotal, { decimals: tokenDecimals }
-          )} {tokenSymbol} now and forfeit {displayAmountInEther(exitFee)} as interest
+            instantTotal, { decimals: underlyingCollateralDecimals }
+          )} {underlyingCollateralSymbol} now and forfeit {displayAmountInEther(exitFee)} as interest
         </div>
 
         {exitFee.eq(0) && <>
@@ -136,8 +136,8 @@ export const WithdrawForm = (props) => {
 
       {overBalance && <>
         <div className='text-yellow-400'>
-          You only have {displayAmountInEther(usersTicketBalance, { decimals: tokenDecimals })} tickets.
-          <br />The maximum you can withdraw is {displayAmountInEther(usersTicketBalance, { precision: 2, decimals: tokenDecimals })} {tokenSymbol}.
+          You only have {displayAmountInEther(usersTicketBalance, { decimals: underlyingCollateralDecimals })} tickets.
+          <br />The maximum you can withdraw is {displayAmountInEther(usersTicketBalance, { precision: 2, decimals: underlyingCollateralDecimals })} {underlyingCollateralSymbol}.
         </div>
       </>}
 

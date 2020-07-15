@@ -60,7 +60,7 @@ export const UnlockDepositUI = (props) => {
             provider,
             props.poolAddresses.token,
             props.poolAddresses.prizePool,
-            props.genericChainValues.tokenDecimals,
+            props.genericChainData.underlyingCollateralDecimals
           )
         }}
       />

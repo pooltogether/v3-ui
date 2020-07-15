@@ -50,7 +50,7 @@ export const DepositCryptoForm = (props) => {
   const txInFlight = tx.inWallet || tx.sent
 
   const poolData = useContext(PoolDataContext)
-  const { pool, usersChainValues } = poolData
+  const { pool, usersChainData } = poolData
 
   const router = useRouter()
   const quantity = router.query.quantity
@@ -79,14 +79,14 @@ export const DepositCryptoForm = (props) => {
     )
   }
 
-  // console.log(usersChainValues.usersTokenAllowance)
-  if (usersChainValues.usersTokenAllowance) {
-    console.log(usersChainValues.usersTokenAllowance.toString())
+  if (usersChainData && usersChainData.usersTokenAllowance) {
+    console.log(usersChainData.usersTokenAllowance.toString())
   } else {
-    console.log({usersChainValues})
+    console.log({usersChainData})
   }
-  const disabled = !usersChainValues.usersTokenAllowance ||
-    usersChainValues.usersTokenAllowance.lte(0)
+  const disabled = !usersChainData || 
+    !usersChainData.usersTokenAllowance ||
+    usersChainData.usersTokenAllowance.lte(0)
 
   return <>
     <PaneTitle small>

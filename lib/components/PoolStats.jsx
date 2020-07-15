@@ -53,20 +53,6 @@ export const PoolStats = (props) => {
           value={secondsRemainingNow}
         />
       </StatContainer> */}
-{/* 
-      <StatContainer>
-        <BlueLineStat
-          title='Ticket Name &amp; Symbol'
-          value={`${genericChainValues.ticketSymbol}: ${genericChainValues.ticketName}`}
-        />
-      </StatContainer>
-
-      <StatContainer>
-        <BlueLineStat
-          title='Sponsorship Name &amp; Symbol'
-          value={`${genericChainValues.sponsorshipSymbol}: ${genericChainValues.sponsorshipName}`}
-        />
-      </StatContainer> */}
 
     </div>
     

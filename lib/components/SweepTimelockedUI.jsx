@@ -33,7 +33,7 @@ const handleSweepTimelockedSubmit = async (
 
 export const SweepTimelockedUI = (props) => {
   const {
-    usersChainValues,
+    usersChainData,
   } = props
 
   const authControllerContext = useContext(AuthControllerContext)
@@ -48,7 +48,7 @@ export const SweepTimelockedUI = (props) => {
   const {
     usersTimelockBalance,
     usersTimelockBalanceAvailableAt
-  } = usersChainValues || {}
+  } = usersChainData || {}
 
   const userHasTimelockedFunds = usersTimelockBalance && usersTimelockBalance.gt(0)
   const txInFlight = tx.inWallet || tx.sent

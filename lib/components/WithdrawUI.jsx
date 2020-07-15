@@ -112,7 +112,7 @@ export const WithdrawUI = (props) => {
             props.poolAddresses.prizePool,
             withdrawAmount,
             withdrawType,
-            props.genericChainValues.tokenDecimals
+            props.genericChainData.underlyingCollateralDecimals
           )
         }}
         vars={{

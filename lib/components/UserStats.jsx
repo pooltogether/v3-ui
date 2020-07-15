@@ -8,21 +8,21 @@ import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 export const UserStats = (props) => {
   const {
     ethBalance,
-    genericChainValues,
-    usersChainValues,
+    genericChainData,
+    usersChainData,
   } = props
   
   const {
-    tokenDecimals,
-  } = genericChainValues
+    underlyingCollateralDecimals,
+  } = genericChainData
 
   const {
     usersTokenBalance,
     usersTokenAllowance,
     usersTicketBalance,
-  } = usersChainValues
+  } = usersChainData
 
-  const decimals = tokenDecimals
+  const decimals = underlyingCollateralDecimals
 
   return <>
     <div
@@ -44,14 +44,14 @@ export const UserStats = (props) => {
 
       <StatContainer>
         <BlueLineStat
-          title={`Your ${genericChainValues.tokenSymbol || 'TOKEN'} balance`}
+          title={`Your ${genericChainData.underlyingCollateralSymbol || 'TOKEN'} balance`}
           value={`$${displayAmountInEther(usersTokenBalance, { precision: 2, decimals })}`}
         />
       </StatContainer>
 
       <StatContainer>
         <BlueLineStat
-          title={`${genericChainValues.tokenSymbol || 'TOKEN'} Allowance`}
+          title={`${genericChainData.underlyingCollateralSymbol || 'TOKEN'} Allowance`}
           value={`$${displayAmountInEther(usersTokenAllowance, { precision: 0, decimals })}`}
         />
       </StatContainer>

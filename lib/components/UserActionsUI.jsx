@@ -12,7 +12,7 @@ export const UserActionsUI = (props) => {
       className='flex flex-col sm:flex-row'
     >
       <FormPanel>
-        {props.usersChainValues.usersTokenAllowance.gt(0) ?
+        {props.usersChainData.usersTokenAllowance.gt(0) ?
           <DepositUI
             {...props}
           /> :

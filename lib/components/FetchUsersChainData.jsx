@@ -17,7 +17,7 @@ export const FetchUsersChainData = (props) => {
   const poolAddress = pool && pool.id
 
   const [usersChainData, setUsersChainData] = useState({
-    // tokenSymbol: 'TOKEN',
+    // underlyingCollateralSymbol: 'TOKEN',
     // poolTotalSupply: '1234',
   })
 

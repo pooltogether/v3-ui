@@ -7,21 +7,21 @@ import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 export const SweepTimelockedForm = (props) => {
   const {
     hasFundsToSweep,
-    genericChainValues,
+    genericChainData,
     handleSubmit,
     usersTimelockBalance,
     usersTimelockBalanceAvailableAt,
   } = props
 
   const {
-    tokenDecimals
-  } = genericChainValues
+    underlyingCollateralDecimals
+  } = genericChainData
   
   const now = parseInt(Date.now() / 1000, 10)
   const fundsReadyInSeconds = (usersTimelockBalanceAvailableAt - now)
   const buttonDisabled = fundsReadyInSeconds > 0
 
-  const tokenSymbol = genericChainValues.tokenSymbol || 'TOKEN'
+  const underlyingCollateralSymbol = genericChainData.underlyingCollateralSymbol || 'TOKEN'
 
   return <>
     <form
@@ -44,7 +44,7 @@ export const SweepTimelockedForm = (props) => {
 
       {!hasFundsToSweep && <>
         <div className='text-yellow-400'>
-          You have {displayAmountInEther(usersTimelockBalance, { decimals: tokenDecimals })} {tokenSymbol} scheduled for withdrawal after the interest has matured.
+          You have {displayAmountInEther(usersTimelockBalance, { decimals: underlyingCollateralDecimals })} {underlyingCollateralSymbol} scheduled for withdrawal after the interest has matured.
         </div>
       </>}
 

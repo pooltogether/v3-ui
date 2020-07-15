@@ -16,7 +16,7 @@ export const FetchGenericChainData = (props) => {
   const poolAddress = pool && pool.id
 
   const [genericChainData, setGenericChainData] = useState({
-    // tokenSymbol: 'TOKEN',
+    // underlyingCollateralSymbol: 'TOKEN',
     // poolTotalSupply: '1234',
   })
 

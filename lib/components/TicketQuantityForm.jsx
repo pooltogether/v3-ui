@@ -49,8 +49,8 @@ export const TicketQuantityForm = (props) => {
 
       {/* {overBalance && <>
               <div className='text-yellow-400'>
-                You only have {displayAmountInEther(usersTokenBalance, { decimals: tokenDecimals })} {tokenSymbol}.
-                <br />The maximum you can deposit is {displayAmountInEther(usersTokenBalance, { precision: 2, decimals: tokenDecimals })}.
+                You only have {displayAmountInEther(usersTokenBalance, { decimals: underlyingCollateralDecimals })} {underlyingCollateralSymbol}.
+                <br />The maximum you can deposit is {displayAmountInEther(usersTokenBalance, { precision: 2, decimals: underlyingCollateralDecimals })}.
               </div>
             </>} */}
 

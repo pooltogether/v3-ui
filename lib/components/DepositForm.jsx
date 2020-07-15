@@ -56,26 +56,26 @@ export const DepositForm = (props) => {
   const quantity = router.query.quantity
 
   const poolData = useContext(PoolDataContext)
-  const { usersChainValues, genericChainValues } = poolData
+  const { usersChainData, genericChainData } = poolData
 
   const {
     usersTokenBalance,
-  } = usersChainValues || {}
+  } = usersChainData || {}
 
   const {
     isRngRequested,
-    tokenDecimals,
-  } = genericChainValues || {}
+    underlyingCollateralDecimals,
+  } = genericChainData || {}
 
   let {
-    tokenSymbol,
-  } = genericChainValues || {}
+    underlyingCollateralSymbol,
+  } = genericChainData || {}
 
   const poolIsLocked = isRngRequested
-  tokenSymbol = tokenSymbol || 'TOKEN'
+  underlyingCollateralSymbol = underlyingCollateralSymbol || 'TOKEN'
 
   const overBalance = quantity && usersTokenBalance && usersTokenBalance.lt(
-    ethers.utils.parseUnits(quantity, tokenDecimals)
+    ethers.utils.parseUnits(quantity, underlyingCollateralDecimals)
   )
 
   return <>
@@ -112,8 +112,8 @@ export const DepositForm = (props) => {
 
       {/* {overBalance && <>
         <div className='text-yellow-400'>
-          You only have {displayAmountInEther(usersTokenBalance, { decimals: tokenDecimals })} {tokenSymbol}.
-          <br />The maximum you can deposit is {displayAmountInEther(usersTokenBalance, { precision: 2, decimals: tokenDecimals })}.
+          You only have {displayAmountInEther(usersTokenBalance, { decimals: underlyingCollateralDecimals })} {underlyingCollateralSymbol}.
+          <br />The maximum you can deposit is {displayAmountInEther(usersTokenBalance, { precision: 2, decimals: underlyingCollateralDecimals })}.
         </div>
       </>} */}
 

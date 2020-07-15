@@ -31,7 +31,7 @@ const handleStartAwardSubmit = async (
 
 export const StartAwardUI = (props) => {
   const {
-    genericChainValues
+    genericChainData
   } = props
 
   const authControllerContext = useContext(AuthControllerContext)
@@ -58,7 +58,7 @@ export const StartAwardUI = (props) => {
 
   return <>
     {!txInFlight ? <>
-      {genericChainValues.canStartAward && <>
+      {genericChainData.canStartAward && <>
         <Button
           onClick={handleClick}
         >
