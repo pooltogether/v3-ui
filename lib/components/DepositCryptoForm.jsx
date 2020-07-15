@@ -137,7 +137,7 @@ export const DepositCryptoForm = (props) => {
     </PaneTitle>
 
     <div
-      className='flex items-center justify-between w-9/12 sm:w-7/12 lg:w-1/3 mx-auto border-2 p-3'
+      className='flex text-inverse items-center justify-between w-9/12 sm:w-7/12 lg:w-1/3 mx-auto border-2 p-3'
     >
       <div>
         Your balance: 
@@ -149,7 +149,7 @@ export const DepositCryptoForm = (props) => {
     </div>
 
     <div
-      className='flex items-center justify-between w-9/12 sm:w-7/12 lg:w-1/3 mx-auto border-l-2 border-r-2 border-b-2 p-3 font-bold'
+      className='flex text-inverse items-center justify-between w-9/12 sm:w-7/12 lg:w-1/3 mx-auto border-l-2 border-r-2 border-b-2 p-3 font-bold'
     >
       <div>
         Total:

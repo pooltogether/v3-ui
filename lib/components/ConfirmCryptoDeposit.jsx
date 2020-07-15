@@ -124,7 +124,9 @@ export const ConfirmCryptoDeposit = (props) => {
         Transactions may take a few minutes!
       </PaneTitle>
 
-      <div>
+      <div
+        className='text-inverse'
+      >
         <span
           className='font-bold'
         >
