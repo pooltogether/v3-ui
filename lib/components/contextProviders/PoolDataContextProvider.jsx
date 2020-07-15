@@ -109,6 +109,11 @@ export const PoolDataContextProvider = (props) => {
                   //     usersAddress: usersAddress,
                   //   })
                   // }
+                  if (pool) {
+                    console.log({ pool: pool.id })
+                  } else {
+                    console.log('pool', pool)
+                  }
 
 
                   const networkName = router.query.networkName ?
@@ -124,11 +129,6 @@ export const PoolDataContextProvider = (props) => {
                   }, [networkName])
 
                   
-                  if (pool) {
-                    console.log({ pool: pool.id })
-                  } else {
-                    console.log('pool', pool)
-                  }
 
 
                   return <FetchGenericChainData
@@ -136,14 +136,14 @@ export const PoolDataContextProvider = (props) => {
                     provider={defaultReadProvider}
                     pool={pool}
                   >
-                    {(genericChainData) => {
+                    {({ genericChainData }) => {
                       return <FetchUsersChainData
                         {...props}
                         provider={defaultReadProvider}
                         pool={pool}
                         usersAddress={usersAddress}
                       >
-                        {(usersChainData) => {
+                        {({ usersChainData }) => {
                           
                           return <PoolDataContext.Provider
                             value={{

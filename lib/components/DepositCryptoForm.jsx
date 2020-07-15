@@ -79,14 +79,17 @@ export const DepositCryptoForm = (props) => {
     )
   }
 
-  if (usersChainData && usersChainData.usersTokenAllowance) {
-    console.log(usersChainData.usersTokenAllowance.toString())
-  } else {
-    console.log({usersChainData})
-  }
+  // console.log(usersChainData)
+  // console.log(usersChainData.usersTokenAllowance)
+  // if (usersChainData && usersChainData.usersTokenAllowance) {
+  //   console.log(usersChainData.usersTokenAllowance.toString())
+  // }
   const disabled = !usersChainData || 
     !usersChainData.usersTokenAllowance ||
-    usersChainData.usersTokenAllowance.lte(0)
+    ethers.utils.parseUnits(
+      quantity,
+      pool.underlyingCollateralDecimals
+    ).gt(usersChainData.usersTokenAllowance)
 
   return <>
     <PaneTitle small>

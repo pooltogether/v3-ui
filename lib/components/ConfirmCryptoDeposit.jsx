@@ -7,6 +7,13 @@ import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 export const ConfirmCryptoDeposit = (props) => {
   const { nextStep } = props
 
+  if (window) {
+    setTimeout(() => {
+      nextStep()
+    }, 3200)
+  }
+
+
   const router = useRouter()
   const quantity = router.query.quantity
 
