@@ -90,17 +90,17 @@ export const DepositCryptoForm = (props) => {
     pool.underlyingCollateralDecimals
   )
 
-  // console.log(usersChainData)
-  // console.log(usersChainData.usersTokenAllowance)
-  // console.log({quantityBN: quantityBN.toString()})
-  // console.log({ usersTokenAllowance: usersChainData.usersTokenAllowance.toString() })
-
-  console.log(!usersChainData)
-  console.log(!usersChainData.usersTokenAllowance)
-  console.log(quantityBN.gt(usersChainData.usersTokenAllowance))
   
-  const disabled = !usersChainData || 
-    !usersChainData.usersTokenAllowance ||
+
+  const haveTokenAllowance = usersChainData && usersChainData.usersTokenAllowance
+
+  // if (haveTokenAllowance) {
+  //   console.log({ usersTokenAllowance: usersChainData.usersTokenAllowance.toString() })
+  //   console.log(quantityBN.gt(usersChainData.usersTokenAllowance))
+  // }
+
+  
+  const disabled = !haveTokenAllowance ||
     quantityBN.gt(usersChainData.usersTokenAllowance)
 
   return <>

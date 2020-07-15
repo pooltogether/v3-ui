@@ -144,7 +144,6 @@ export const PoolDataContextProvider = (props) => {
                         usersAddress={usersAddress}
                       >
                         {({ usersChainData }) => {
-                          
                           return <PoolDataContext.Provider
                             value={{
                               // loading: graphDataLoading,

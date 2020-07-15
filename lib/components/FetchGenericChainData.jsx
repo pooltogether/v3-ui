@@ -41,23 +41,29 @@ export const FetchGenericChainData = (props) => {
     }))
   }
 
-  useInterval(() => {
-    if (pool) {
-      const genericData = fetchDataFromInfura()
+  const updateOrDelete = async () => {
+    if (poolAddress) {
+      const genericData = await fetchDataFromInfura()
+      // setGenericChainData(genericData)
       updateGenericChainData(genericData)
+    } else {
+      setGenericChainData({})
     }
+  }
+
+  useInterval(() => {
+    // console.log('interval updateOrDelete')
+    updateOrDelete()
+    // if (pool) {
+    //   const genericData = await fetchDataFromInfura()
+    //   updateGenericChainData(genericData)
+    // }
   }, MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {
-    const updateOrDelete = async () => {
-      if (poolAddress) {
-        const genericData = await fetchDataFromInfura()
-        setGenericChainData(genericData)
-      } else {
-        setGenericChainData({})
-      }
-    }
+    // console.log('pool address change updateOrDelete')
     updateOrDelete()
+    // OPTIMIZE: Could reset the interval loop here since we just grabbed fresh data!
   }, [poolAddress])
 
   return children({ genericChainData })
