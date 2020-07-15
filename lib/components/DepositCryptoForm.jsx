@@ -35,7 +35,7 @@ const handleUnlockSubmit = async (
     IERC20Abi,
     'approve',
     params,
-    'Unlock Deposits',
+    'Unlock deposit',
   )
 }
 
@@ -84,12 +84,24 @@ export const DepositCryptoForm = (props) => {
   // if (usersChainData && usersChainData.usersTokenAllowance) {
   //   console.log(usersChainData.usersTokenAllowance.toString())
   // }
+
+  const quantityBN = ethers.utils.parseUnits(
+    quantity,
+    pool.underlyingCollateralDecimals
+  )
+
+  // console.log(usersChainData)
+  // console.log(usersChainData.usersTokenAllowance)
+  // console.log({quantityBN: quantityBN.toString()})
+  // console.log({ usersTokenAllowance: usersChainData.usersTokenAllowance.toString() })
+
+  console.log(!usersChainData)
+  console.log(!usersChainData.usersTokenAllowance)
+  console.log(quantityBN.gt(usersChainData.usersTokenAllowance))
+  
   const disabled = !usersChainData || 
     !usersChainData.usersTokenAllowance ||
-    ethers.utils.parseUnits(
-      quantity,
-      pool.underlyingCollateralDecimals
-    ).gt(usersChainData.usersTokenAllowance)
+    quantityBN.gt(usersChainData.usersTokenAllowance)
 
   return <>
     <PaneTitle small>

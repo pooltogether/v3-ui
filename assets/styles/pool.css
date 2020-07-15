@@ -470,3 +470,7 @@ input[type="text"] {
 .confettiCanvas.active {
   opacity: 1;
 }
+
+.bn-onboard-clickable {
+  border: 0; 
+}
