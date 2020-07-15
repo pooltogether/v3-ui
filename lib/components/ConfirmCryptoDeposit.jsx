@@ -50,7 +50,7 @@ const handleDeposit = async (
 }
 
 export const ConfirmCryptoDeposit = (props) => {
-  const { nextStep } = props
+  const { nextStep, previousStep } = props
 
   const router = useRouter()
   const quantity = router.query.quantity
@@ -59,7 +59,7 @@ export const ConfirmCryptoDeposit = (props) => {
   const { usersAddress, provider } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
-  const { pool, genericChainData } = poolData
+  const { pool } = poolData
 
   const {
     id,
@@ -77,7 +77,6 @@ export const ConfirmCryptoDeposit = (props) => {
   const txError = tx.error
 
   const ready = txCompleted && !txError
-  console.log('re-render')
 
   useEffect(() => {
     const runAsyncTx = () => {
@@ -92,6 +91,18 @@ export const ConfirmCryptoDeposit = (props) => {
     }
     runAsyncTx()
   }, [])
+
+  useEffect(() => {
+    if (tx.error) {
+      previousStep()
+    }
+  }, [tx])
+
+  useEffect(() => {
+    if (ready) {
+      nextStep()
+    }
+  }, [ready])
 
   const handleResetState = (e) => {
     e.preventDefault()
@@ -110,8 +121,16 @@ export const ConfirmCryptoDeposit = (props) => {
 
     {txSent && <>
       <PaneTitle small>
-        Transactions may take a few minutes! Estimated wait time: 4 seconds
+        Transactions may take a few minutes!
       </PaneTitle>
+
+      <div>
+        <span
+          className='font-bold'
+        >
+          Estimated wait time:
+        </span> 4 seconds
+      </div>
 
       <div className='mx-auto'>
         <V3LoadingDots />
@@ -122,20 +141,6 @@ export const ConfirmCryptoDeposit = (props) => {
         tx={tx}
         handleReset={handleResetState}
       />
-    </>}
-
-    {ready && <>
-      <PaneTitle small>
-        Transaction complete!
-      </PaneTitle>
-
-      <Button
-        onClick={handleContinueClick}
-        color='white'
-        className='mt-6 w-64 mx-auto'
-      >
-        Continue
-      </Button>
     </>}
   </>
 }

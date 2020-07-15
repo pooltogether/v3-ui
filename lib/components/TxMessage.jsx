@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
-import { LoadingDots } from 'lib/components/LoadingDots'
+import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { shortenAddress } from 'lib/utils/shortenAddress'
 
 export const TxMessage = (props) => {
@@ -60,7 +60,7 @@ export const TxMessage = (props) => {
           </div>
 
           <div className='my-3'>
-            <LoadingDots />
+            <V3LoadingDots />
           </div>
         </>}
 

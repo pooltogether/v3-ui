@@ -112,8 +112,8 @@
 
 @screen sm {
   .pool-toast .Toastify__toast-body {
-    font-size: 1.25rem;
-    padding: 0 1rem;
+    font-weight: bold;
+    padding: 0 2rem;
     margin: 1rem auto;
   }
 }

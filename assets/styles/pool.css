@@ -173,10 +173,6 @@ input[type='submit'][disabled] {
   width: 1em;
 }
 
-input[type="text"] {
-  caret-color: white !important;
-}
-
 [anim="ripple"] {
   position: relative;
   overflow: hidden;

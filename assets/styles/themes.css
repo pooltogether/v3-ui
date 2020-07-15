@@ -1,3 +1,7 @@
+* {
+  caret-color: #05e6c4;
+}
+
 .theme-dark {
   --color-bg-body: #210a45;
   --color-bg-primary: #290b5a;
@@ -43,7 +47,7 @@
   --color-bg-darkened: #e9e9e9;
   --color-bg-inverse: #000;
   --color-bg-overlay: rgba(248, 248, 248, 0.97);
-  --color-bg-red: #f56565;
+  --color-bg-red: #e61b1b;
   --color-bg-green: #1ef7d6;
   --color-bg-yellow: #FF9303;
   --color-bg-blue: #4565FF;
@@ -57,7 +61,7 @@
   --color-text-default-soft: #946fdf;
   --color-text-inverse: #000;
   --color-text-match: #fff;
-  --color-text-red: #f56565;
+  --color-text-red: #e61b1b;
   --color-text-green: #05e6c4;
   --color-text-yellow: #eba308;
   --color-text-blue: #3857ee;
@@ -88,7 +92,7 @@
 .theme-light ::placeholder,
 .theme-light .input::placeholder,
 .theme-light .textarea::placeholder {
-  color: #946fdf;
+  color: #ded4f2;
 }
 
 .theme-dark ::placeholder,

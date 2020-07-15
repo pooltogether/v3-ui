@@ -41,12 +41,13 @@ export function Input(props) {
     roundedClasses,
     props.className, 
     {
-      'text-red-500': isError,
+      'text-red': isError,
       'font-number': props.type === 'number'
     }
   )
 
   const newProps = omit(props, [
+    'label',
     'large',
     'marginClasses',
     'roundedClasses',
@@ -67,19 +68,9 @@ export function Input(props) {
         pattern
       })}
 
-      // autoFocus={autoFocus && isBrowser}
-      // readOnly={this.props.readOnly}
-      // onFocus={(e) => { this.setState({ inputFocused: true }) }}
-      // onBlur={(e) => { this.setState({ inputFocused: false }) }}
-      // value={value}
       className={classnames(
         className,
         'bg-primary hover:bg-secondary focus:bg-secondary active:bg-secondary text-inverse w-full sm:w-10/12 rounded-full focus:outline-none leading-none pl-6',
-        {
-          // 'text-red-400': this.props.inputHigherThanBalance,
-          // 'text-white': !this.props.inputHigherThanBalance,
-          // 'opacity-50': this.props.disabled
-        }
       )}
     />
 

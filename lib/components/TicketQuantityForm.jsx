@@ -1,17 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
-import { useInterval } from 'lib/hooks/useInterval'
 import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
-// import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const TicketQuantityForm = (props) => {
-  const { getValues, handleSubmit, register, errors, formState } = useForm({ mode: 'all' })
-  // const [qty, setQty] = useState(0)
+  const { handleSubmit, register, errors, formState } = useForm({ mode: 'all' })
 
   const { nextStep } = props
 
@@ -24,11 +21,6 @@ export const TicketQuantityForm = (props) => {
       nextStep()
     }
   }
-
-  // useInterval(() => {
-  //   setQty(Math.random() * 100000)
-  // }, 2000)
-  
 
   return <>
     <PaneTitle>
@@ -45,37 +37,21 @@ export const TicketQuantityForm = (props) => {
           id='quantity'
           name='quantity'
           register={register}
-          label={<>
-            Quantity <span className='text-purple-600 italic'></span>
-          </>}
+          label={'Quantity'}
           required='ticket quantity required'
+          autocomplete='off'
+          // placeholder={'# of tickets'}
         />
       </div>
       <div className='text-red'>
         {errors.quantity && errors.quantity.message}
       </div>
 
-      {/* <div className='font-number font-bold'>
-        <PoolCountUp
-          start={0}
-          end={qty}
-          duration={1.8}
-        />
-      </div> */}
-
-      {/* {overBalance && <>
-              <div className='text-yellow-400'>
-                You only have {displayAmountInEther(usersTokenBalance, { decimals: underlyingCollateralDecimals })} {underlyingCollateralSymbol}.
-                <br />The maximum you can deposit is {displayAmountInEther(usersTokenBalance, { precision: 2, decimals: underlyingCollateralDecimals })}.
-              </div>
-            </>} */}
-
       <div
         className='my-5'
       >
         <Button
           disabled={!formState.isValid}
-          // disabled={overBalance}
           color='green'
         >
           Continue
