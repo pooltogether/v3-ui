@@ -167,7 +167,8 @@ export const Button = (props) => {
   )
 
   if (outline) {
-    className = 'rounded-full text-secondary border-4 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+    className = 'rounded-xl text-secondary border-4 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+    // className = 'rounded-full text-secondary border-4 border-secondary hover:text-inverse hover:bg-primary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
   }
 
   let newProps = omit(props, [

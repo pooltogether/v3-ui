@@ -38,7 +38,7 @@ export const TicketQuantityForm = (props) => {
     <form
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className='w-full sm:w-2/3 mx-auto'>
+      <div className='w-10/12 sm:w-2/3 mx-auto'>
         <TextInputGroup
           large
           unsignedWholeNumber

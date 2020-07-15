@@ -44,14 +44,18 @@ const handleUnlockSubmit = async (
 export const DepositCryptoForm = (props) => {
   const { nextStep } = props
 
+  const router = useRouter()
+  const quantity = router.query.quantity
+  
   const authControllerContext = useContext(AuthControllerContext)
   const { provider } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
   const { pool, usersChainData } = poolData
 
-  const router = useRouter()
-  const quantity = router.query.quantity
+  const {
+    underlyingCollateralDecimals
+  } = pool
 
   const quantityBN = ethers.utils.parseUnits(
     quantity,
@@ -83,7 +87,6 @@ export const DepositCryptoForm = (props) => {
 
   const handleResetState = (e) => {
     e.preventDefault()
-
     setTx({})
   }
 
@@ -113,6 +116,10 @@ export const DepositCryptoForm = (props) => {
   //   console.log(usersChainData.usersTokenAllowance.toString())
   // }
 
+  const overBalance = quantity && usersBalanceBN.lt(
+    ethers.utils.parseUnits(quantity, underlyingCollateralDecimals)
+  )
+
   return <>
     <PaneTitle small>
       {quantity} tickets
@@ -125,10 +132,10 @@ export const DepositCryptoForm = (props) => {
     </PaneTitle>
 
     <div
-      className='flex items-center justify-between'
+      className='flex items-center justify-between w-9/12 sm:w-7/12 lg:w-1/3 mx-auto border-2 p-3'
     >
       <div>
-        Your {ticker.toUpperCase()} balance: 
+        Your balance: 
       </div>
       <PoolCountUp
         start={cachedUsersBalance || usersBalance}
@@ -136,29 +143,69 @@ export const DepositCryptoForm = (props) => {
       />
     </div>
 
+    <div
+      className='flex items-center justify-between w-9/12 sm:w-7/12 lg:w-1/3 mx-auto border-l-2 border-r-2 border-b-2 p-3 font-bold'
+    >
+      <div>
+        Total:
+      </div>
+      <div>
+        <span
+          className='font-number'
+        >
+          {quantity}
+        </span> {ticker.toUpperCase()}
+      </div>
+    </div>
+
     <div className='flex flex-col mx-auto'>
-
-      {disabled && <>
-        <div className='w-full sm:w-2/3 mx-auto text-inverse mb-4 text-lg'>
+      
+      {overBalance ? <>
+        <div className='text-yellow my-6 flex flex-col'>
           <div
-            className='px-6 sm:px-10'
+            className='font-bold'
           >
-            <div className='font-bold my-2'>Your approval is needed.</div>
-            Unlock this deposit by allowing the pool's ticket contract to have a <span className='font-bold'>{quantity} {ticker.toUpperCase()}</span> allowance.
+            You don't have enough {ticker.toUpperCase()}.
           </div>
-
+          
           <div
-            className='mt-3 sm:mt-5 mb-5'
+            className='mt-2 text-default-soft'
           >
             <Button
-              onClick={handleUnlockClick}
-              className='my-4 w-64'
-              disabled={txInFlight}
+              outline
             >
-              Unlock deposit
+              Top up your balance
             </Button>
+            <br/> (feature not done yet)
           </div>
         </div>
+      </> : <>
+          {disabled && <>
+            <div className='w-full sm:w-2/3 mx-auto text-inverse mb-4 text-lg'>
+              <div
+                className='px-6 sm:px-10'
+              >
+                <div
+                  className='font-bold my-2'
+                >
+                  Your approval is needed.
+                </div>
+                  Unlock this deposit by allowing the pool's ticket contract to have a <span className='font-bold'>{quantity} {ticker.toUpperCase()}</span> allowance.
+                </div>
+
+                <div
+                  className='mt-3 sm:mt-5 mb-5'
+                >
+                <Button
+                  onClick={handleUnlockClick}
+                  className='my-4 w-64'
+                  disabled={txInFlight}
+                >
+                  Unlock deposit
+                </Button>
+              </div>
+            </div>
+          </>}
       </>}
 
       {txInFlight && <>

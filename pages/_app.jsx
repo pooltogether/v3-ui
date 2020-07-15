@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import i18next from "../i18n"
-import { Slide, ToastContainer } from 'react-toastify'
+import { cssTransition, ToastContainer } from 'react-toastify'
 
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { Chart } from 'lib/components/Chart'
@@ -8,6 +8,7 @@ import { Layout } from 'lib/components/Layout'
 
 import 'react-toastify/dist/ReactToastify.css'
 import 'assets/styles/index.css'
+import 'assets/styles/toast-blur.css'
 import 'assets/styles/layout.css'
 import 'assets/styles/loader.css'
 import 'assets/styles/themes.css'
@@ -60,7 +61,6 @@ function MyApp({ Component, pageProps }) {
       className='pool-toast'
       position='top-center'
       autoClose={6000}
-      transition={Slide}
     />
   </>
 }
