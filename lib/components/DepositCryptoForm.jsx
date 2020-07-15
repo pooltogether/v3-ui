@@ -51,11 +51,16 @@ export const DepositCryptoForm = (props) => {
   const { provider } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
-  const { pool, usersChainData } = poolData
+  const { pool, genericChainData, usersChainData } = poolData
 
   const {
     underlyingCollateralDecimals
   } = pool
+
+  const {
+    isRngRequested,
+  } = genericChainData || {}
+  const poolIsLocked = isRngRequested
 
   const quantityBN = ethers.utils.parseUnits(
     quantity,
@@ -90,7 +95,7 @@ export const DepositCryptoForm = (props) => {
     setTx({})
   }
 
-  const handleContinueClick = (e) => {
+  const handleDepositClick = (e) => {
     e.preventDefault()
     nextStep()
   }
@@ -158,6 +163,15 @@ export const DepositCryptoForm = (props) => {
       </div>
     </div>
 
+    {poolIsLocked && <FormLockedOverlay
+      title='Deposit'
+    >
+      <div>
+        The Pool is currently being awarded. No deposits or withdrawals can be processed until it's complete in:
+{/* locked         */} (You do not need to refresh the page)
+      </div>
+    </FormLockedOverlay>}
+
     <div className='flex flex-col mx-auto'>
       
       {overBalance ? <>
@@ -218,12 +232,12 @@ export const DepositCryptoForm = (props) => {
 
       {!disabled && <>
         <Button
-          onClick={handleContinueClick}
+          onClick={handleDepositClick}
           color='white'
           className='mt-6 w-64 mx-auto'
           disabled={disabled}
         >
-          Continue
+          Deposit
         </Button>
       </>}
     </div>

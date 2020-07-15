@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
@@ -59,12 +59,7 @@ export const ConfirmCryptoDeposit = (props) => {
   const { usersAddress, provider } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
-  const { pool, usersChainData, genericChainData } = poolData
-
-  const {
-    isRngRequested,
-  } = genericChainData || {}
-  const poolIsLocked = isRngRequested
+  const { pool, genericChainData } = poolData
 
   const {
     id,
@@ -76,22 +71,27 @@ export const ConfirmCryptoDeposit = (props) => {
 
   const [tx, setTx] = useState({})
 
-  const txInFlight = tx.inWallet || tx.sent && !tx.completed
+  const txInWallet = tx.inWallet && !tx.sent
+  const txSent = tx.sent && !tx.completed
   const txCompleted = tx.completed
   const txError = tx.error
 
   const ready = txCompleted && !txError
+  console.log('re-render')
 
-  const handleDepositClick = (e) => {
-    handleDeposit(
-      setTx,
-      provider,
-      usersAddress,
-      poolAddress,
-      quantity,
-      underlyingCollateralDecimals,
-    )
-  }
+  useEffect(() => {
+    const runAsyncTx = () => {
+      handleDeposit(
+        setTx,
+        provider,
+        usersAddress,
+        poolAddress,
+        quantity,
+        underlyingCollateralDecimals,
+      )
+    }
+    runAsyncTx()
+  }, [])
 
   const handleResetState = (e) => {
     e.preventDefault()
@@ -104,34 +104,11 @@ export const ConfirmCryptoDeposit = (props) => {
     </PaneTitle>
 
     <PaneTitle>
-      {txInFlight ? 'Deposit confirming ...' : 'Confirm deposit'}
+      {txSent && 'Deposit confirming ...'}
+      {txInWallet && 'Confirm deposit'}
     </PaneTitle>
 
-    {poolIsLocked && <FormLockedOverlay
-      title='Deposit'
-    >
-      <div>
-        The Pool is currently being awarded. No deposits or withdrawals can be processed until it's complete in:
-{/* locked         */} (You do not need to refresh the page)
-      </div>
-    </FormLockedOverlay>}
-
-    {(!txInFlight && !ready) && <>
-      <div
-        className='mt-3 sm:mt-5 mb-5'
-      >
-        <Button
-          onClick={handleDepositClick}
-          className='my-4 w-64'
-          disabled={txInFlight}
-        >
-          Make deposit
-        </Button>
-      </div>
-    </>}
-
-
-    {txInFlight && <>
+    {txSent && <>
       <PaneTitle small>
         Transactions may take a few minutes! Estimated wait time: 4 seconds
       </PaneTitle>
