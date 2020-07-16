@@ -51,6 +51,9 @@ export const PoolDataContextProvider = (props) => {
           // console.log('client not ready')
           return null
         } else {
+          // OPTIMIZE: This is causing double renders, I believe each polling
+          // query causes a re-render it should wait until all the data is ready
+          // before re-rendering
           return <GraphDataQueries
             {...props}
             poolAddresses={poolAddresses}

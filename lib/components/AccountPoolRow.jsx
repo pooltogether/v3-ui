@@ -5,6 +5,7 @@ import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
 
 import { PrizeAmount } from 'lib/components/PrizeAmount'
+import { PrizePoolCountdown } from 'lib/components/PrizePoolCountdown'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 
@@ -65,7 +66,7 @@ export const AccountPoolRow = (
                 <div
                   className='sm:my-1'
                 >
-                  Odds: <PoolCountUp
+                  Odds of winning: <PoolCountUp
                     end={1}
                     decimals={null}
                   /> in <PoolCountUp
@@ -81,10 +82,7 @@ export const AccountPoolRow = (
                 <div
                   className='flex items-center sm:my-1'
                 >
-                  <FeatherIcon
-                    icon='clock'
-                    className='stroke-current w-4 h-4 sm:w-6 sm:h-6 inline-block mr-1'
-                  /> 15hr 22mins
+                  <PrizePoolCountdown />
                 </div>
 
                 <div

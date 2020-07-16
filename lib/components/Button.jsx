@@ -138,9 +138,9 @@ export const Button = (props) => {
   
   // paddingClasses = getPaddingClasses(paddingClasses, isText)
   if (wide) {
-    paddingClasses = 'px-12 py-2 sm:py-3 lg:py-4'
+    paddingClasses = 'px-12 py-2 sm:py-2'
   } else {
-    paddingClasses = 'px-1 py-2 sm:py-3 lg:py-4'
+    paddingClasses = 'px-1 py-2 sm:py-2'
   }
 
   roundedClasses = getRoundedClasses(roundedClasses)

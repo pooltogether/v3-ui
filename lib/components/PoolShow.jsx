@@ -60,23 +60,12 @@ export const PoolShow = (
     let pathname = router.pathname
     let asPath = router.asPath
 
-    // console.log('******************************');
-    
-    // console.log({pathname})
-    // console.log({asPath})
-
     if (!/deposit/.test(asPath)) {
       // console.log('not on deposit so adding deposit to url')
-
       queryParamUpdater.removeAll(router)
       pathname = `${router.pathname}/deposit`
       asPath = `${router.asPath}/deposit`
     }
-
-    // console.log('pushing to')
-    // console.log({ pathname});
-    // console.log({ asPath});
-    
 
     router.push(
       pathname,
