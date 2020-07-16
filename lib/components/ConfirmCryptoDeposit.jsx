@@ -5,11 +5,9 @@ import { useRouter } from 'next/router'
 import CompoundPeriodicPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPeriodicPrizePool'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { Button } from 'lib/components/Button'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
-import { FormLockedOverlay } from 'lib/components/FormLockedOverlay'
 import { TxMessage } from 'lib/components/TxMessage'
 import { sendTx } from 'lib/utils/sendTx'
 

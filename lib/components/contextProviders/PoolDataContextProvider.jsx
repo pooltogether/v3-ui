@@ -5,8 +5,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
-import { DynamicPrizePoolsQuery } from 'lib/components/queryComponents/DynamicPrizePoolsQuery'
-import { StaticPrizePoolsQuery } from 'lib/components/queryComponents/StaticPrizePoolsQuery'
+import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { isEmptyObject } from 'lib/utils/isEmptyObject'
 import { poolToast } from 'lib/utils/poolToast'
@@ -30,148 +29,132 @@ export const PoolDataContextProvider = (props) => {
     poolToast.error(e)
     console.error(e)
   }
+
+  const networkName = router.query.networkName ?
+    router.query.networkName :
+    'mainnet'
+
+  useEffect(() => {
+    const getReadProvider = async () => {
+      const defaultReadProvider = await readProvider(networkName)
+      setDefaultReadProvider(defaultReadProvider)
+    }
+    getReadProvider()
+  }, [networkName])
   
   return <>
     <V3ApolloWrapper>
       {(client) => {
+
         // check if client is ready
         if (isEmptyObject(client)) {
           // console.log('client not ready')
           return null
         } else {
-          return <StaticPrizePoolsQuery
+          return <GraphDataQueries
             {...props}
-            addresses={poolAddresses}
+            poolAddresses={poolAddresses}
+            usersAddress={usersAddress}
           >
-            {(staticResult) => {
-              const staticPoolData = staticResult.poolData
-
-              return <DynamicPrizePoolsQuery
-                {...props}
-                addresses={poolAddresses}
-              >
-                {(dynamicResult) => {
-                  const dynamicPoolData = dynamicResult.poolData
-
-                  const graphDataLoading = staticResult.loading || dynamicResult.loading ||
-                    !staticPoolData || !dynamicPoolData
-
-                  let pools = []
-                  if (!graphDataLoading) {
-                    pools = [
-                      {
-                        ...dynamicPoolData.daiPool,
-                        ...staticPoolData.daiPool,
-                        prize: 9591,
-                        risk: 5,
-                        yieldSource: 'mStable',
-                        frequency: 'Weekly',
-                      },
-                      {
-                        ...dynamicPoolData.usdcPool,
-                        ...staticPoolData.usdcPool,
-                        prize: (11239 / 7),
-                        risk: 3,
-                        yieldSource: 'AAVE',
-                        frequency: 'Daily',
-                      },
-                      {
-                        ...dynamicPoolData.usdtPool,
-                        ...staticPoolData.usdtPool,
-                        prize: 7001,
-                        risk: 2,
-                        yieldSource: 'Compound',
-                        frequency: 'Weekly',
-                      },
-                    ]
-                  }  
+            {({ graphDataLoading, staticPoolData, dynamicPoolData, dynamicPlayerData }) => {
+              let pools = []
+              if (!graphDataLoading) {
+                pools = [
+                  {
+                    ...dynamicPoolData.daiPool,
+                    ...staticPoolData.daiPool,
+                    prize: 9591,
+                    risk: 5,
+                    yieldSource: 'mStable',
+                    frequency: 'Weekly',
+                  },
+                  {
+                    ...dynamicPoolData.usdcPool,
+                    ...staticPoolData.usdcPool,
+                    prize: (11239 / 7),
+                    risk: 3,
+                    yieldSource: 'AAVE',
+                    frequency: 'Daily',
+                  },
+                  {
+                    ...dynamicPoolData.usdtPool,
+                    ...staticPoolData.usdtPool,
+                    prize: 7001,
+                    risk: 2,
+                    yieldSource: 'Compound',
+                    frequency: 'Weekly',
+                  },
+                ]
+              }
 
 
-                  let pool
-                  if (ticker) {
-                    pool = pools.find(_pool => {
-                      let symbol
-                      if (_pool && _pool.underlyingCollateralSymbol) {
-                        symbol = _pool.underlyingCollateralSymbol.toLowerCase()
-                      }
-
-                      if (_pool && symbol) {
-                        return symbol === ticker
-                      }
-                    })
+              let pool
+              if (ticker) {
+                pool = pools.find(_pool => {
+                  let symbol
+                  if (_pool && _pool.underlyingCollateralSymbol) {
+                    symbol = _pool.underlyingCollateralSymbol.toLowerCase()
                   }
 
-                  // if (pool) {
-                  //   console.log({
-                  //     poolAddress: pool.id,
-                  //     underlyingCollateralSymbol: pool.underlyingCollateralSymbol,
-                  //     underlyingCollateralToken: pool.underlyingCollateralToken,
-                  //     usersAddress: usersAddress,
-                  //   })
-                  // }
-                  // if (pool) {
-                  //   console.log({ pool: pool.id })
-                  // } else {
-                  //   console.log('pool', pool)
-                  // }
+                  if (_pool && symbol) {
+                    return symbol === ticker
+                  }
+                })
+              }
+
+              // if (pool) {
+              //   console.log({
+              //     poolAddress: pool.id,
+              //     underlyingCollateralSymbol: pool.underlyingCollateralSymbol,
+              //     underlyingCollateralToken: pool.underlyingCollateralToken,
+              //     usersAddress: usersAddress,
+              //   })
+              // }
+              // if (pool) {
+              //   console.log({ pool: pool.id })
+              // } else {
+              //   console.log('pool', pool)
+              // }
 
 
-                  const networkName = router.query.networkName ?
-                    router.query.networkName :
-                    'mainnet'
-
-                  useEffect(() => {
-                    const getReadProvider = async () => {
-                      const defaultReadProvider = await readProvider(networkName)
-                      setDefaultReadProvider(defaultReadProvider)
-                    }
-                    getReadProvider()
-                  }, [networkName])
-
-                  
 
 
-                  return <FetchGenericChainData
+
+              return <FetchGenericChainData
+                {...props}
+                provider={defaultReadProvider}
+                pool={pool}
+              >
+                {({ genericChainData }) => {
+                  return <FetchUsersChainData
                     {...props}
                     provider={defaultReadProvider}
                     pool={pool}
+                    usersAddress={usersAddress}
                   >
-                    {({ genericChainData }) => {
-                      return <FetchUsersChainData
-                        {...props}
-                        provider={defaultReadProvider}
-                        pool={pool}
-                        usersAddress={usersAddress}
-                      >
-                        {({ usersChainData }) => {
-                          return <PoolDataContext.Provider
-                            value={{
-                              // loading: graphDataLoading,
-                              pool,
-                              pools,
-                              poolAddresses,
-                              dynamicPoolData,
-                              staticPoolData,
-                              genericChainData,
-                              usersChainData,
-                            }}
-                          >
-                            {props.children}
-                          </PoolDataContext.Provider>
-
-
+                    {({ usersChainData }) => {
+                      return <PoolDataContext.Provider
+                        value={{
+                          pool,
+                          pools,
+                          poolAddresses,
+                          dynamicPoolData,
+                          dynamicPlayerData,
+                          staticPoolData,
+                          genericChainData,
+                          usersChainData,
                         }}
-                      </FetchUsersChainData>
+                      >
+                        {props.children}
+                      </PoolDataContext.Provider>
+
+
                     }}
-                  </FetchGenericChainData>
-
-                  
+                  </FetchUsersChainData>
                 }}
-              </DynamicPrizePoolsQuery>
-
-
+              </FetchGenericChainData>
             }}
-          </StaticPrizePoolsQuery>
+          </GraphDataQueries>
         }
 
         

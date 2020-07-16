@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
+import { AccountPoolRow } from 'lib/components/AccountPoolRow'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { Tab, Tabs, Content, ContentPane } from 'lib/components/Tabs'
 import { WalletInfo } from 'lib/components/WalletInfo'
 
@@ -21,6 +24,9 @@ export default function Account(props) {
     setVisible(HOLDINGS)
   }
 
+  const poolData = useContext(PoolDataContext)
+  const { pools, dynamicPlayerData } = poolData
+  
   return <>
     <div
       className='px-2 py-4 sm:py-2 text-center rounded-lg'
@@ -51,15 +57,25 @@ export default function Account(props) {
         <Content>
 
           <ContentPane isSelected={visible === HOLDINGS}>
-            <div
-              className='flex flex-col sm:flex-wrap sm:flex-row items-center justify-center text-center text-xl mx-2 sm:mx-10'
-            >
-              <div
-                className='flex flex-col items-center justify-center text-center mx-2 sm:mx-10 px-10 py-10 text-xs sm:text-sm w-7/2'
-              >
+            {!dynamicPlayerData || dynamicPlayerData.length === 0 ? <>
+              <BlankStateMessage>
                 You currently have no tickets. Deposit in a pool now to get tickets!
-              </div>
-            </div>
+              </BlankStateMessage>
+            </> : <>
+              {dynamicPlayerData.map(playerData => {
+                // console.log({playerData})
+                // const pool = playerData.prizePool
+                const pool = pools.find(pool => pool.id === playerData.prizePool.id)
+                // console.log({ ppid: playerData.prizePool.id })
+                // console.log({ pools })
+
+                return <AccountPoolRow
+                  key={`account-pool-row-${pool.id}`}
+                  pool={pool}
+                  player={playerData}
+                />
+              })}
+            </>}
           </ContentPane>
 
           <ContentPane
