@@ -5,6 +5,7 @@ https://app.pooltogether.com https://app.pooltogether.com/ja  301!  Language=ja
 https://app.pooltogether.com https://app.pooltogether.com/zh  301!  Language=zh
 https://app.pooltogether.com https://app.pooltogether.com/hr  301!  Language=hr
 https://app.pooltogether.com https://app.pooltogether.com/ko  301!  Language=ko
+
 https://app.pooltogether.us https://app.pooltogether.com/en  301!  Language=en
 https://app.pooltogether.us https://app.pooltogether.com/es  301!  Language=es
 https://app.pooltogether.us https://app.pooltogether.com/it  301!  Language=it
@@ -15,68 +16,15 @@ https://app.pooltogether.us https://app.pooltogether.com/ko  301!  Language=ko
 
 https://app.pooltogether.us/*     https://app.pooltogether.com 301!
 
-https://staging.pooltogether.com https://staging.pooltogether.com/en  301!  Language=en
-https://staging.pooltogether.com https://staging.pooltogether.com/es  301!  Language=es
-https://staging.pooltogether.com https://staging.pooltogether.com/it  301!  Language=it
-https://staging.pooltogether.com https://staging.pooltogether.com/ja  301!  Language=ja
-https://staging.pooltogether.com https://staging.pooltogether.com/zh  301!  Language=zh
-https://staging.pooltogether.com https://staging.pooltogether.com/hr  301!  Language=hr
-https://staging.pooltogether.com https://staging.pooltogether.com/ko  301!  Language=ko
-https://staging.pooltogether.us https://staging.pooltogether.com/en  301!  Language=en
-https://staging.pooltogether.us https://staging.pooltogether.com/es  301!  Language=es
-https://staging.pooltogether.us https://staging.pooltogether.com/it  301!  Language=it
-https://staging.pooltogether.us https://staging.pooltogether.com/ja  301!  Language=ja
-https://staging.pooltogether.us https://staging.pooltogether.com/zh  301!  Language=zh
-https://staging.pooltogether.us https://staging.pooltogether.com/hr  301!  Language=hr
-https://staging.pooltogether.us https://staging.pooltogether.com/ko  301!  Language=ko
-
-https://staging.pooltogether.us/*     https://staging.pooltogether.com 301!
-
-https://es-app.pooltogether.com/* https://app.pooltogether.com/es 301!
-https://zh-app.pooltogether.com/* https://app.pooltogether.com/zh 301!
-https://es-app.pooltogether.us/* https://app.pooltogether.com/es 301!
-https://zh-app.pooltogether.us/* https://app.pooltogether.com/zh 301!
-
 /_next/static/:buildId/pages/* /_next/static/:buildId/pages/[lang]/:splat 200
 
-/pools/* / 200!
+/account                                 /account.html                          200
+/account/pools/:network/:ticker          /account/pools/[network]/[ticker].html 200
+/account/pools/:network/:ticker/withdraw /account/pools/[network]/[ticker]/withdraw.html 200
+/pools/:network/:ticker                  /pools/[network]/[ticker].html         200
+/pools/:network/:ticker/deposit          /pools/[network]/[ticker]/deposit.html 200
 
-/:lang/account                  /[lang]/account.html                     200
-/:lang/account/:ticker          /[lang]/account/[ticker].html            200
-/:lang/account/:ticker/deposit  /[lang]/account/[ticker]/deposit.html    200
-/:lang/account/:ticker/pod      /[lang]/account/[ticker]/pod.html        200
-/:lang/account/:ticker/sponsor  /[lang]/account/[ticker]/sponsor.html    200
-/:lang/account/:ticker/transfer /[lang]/account/[ticker]/transfer.html   200
-/:lang/account/:ticker/withdraw /[lang]/account/[ticker]/withdraw.html   200
-/:lang/admin                    /[lang]/admin.html                       200
-/:lang/deposit/:ticker          /[lang]/account/[ticker]/deposit.html    200
-/:lang/deposit                  /[lang]/account/Dai/deposit.html         200
-/:lang/depositComplete          /[lang]/depositComplete.html             200
-/:lang/pool/:ticker/deposit     /[lang]/pool/[ticker]/deposit.html       200
-/:lang/prizes/:ticker/:prizeId  /[lang]/prizes/[ticker]/[prizeId].html   200
-/:lang/prizes/:ticker           /[lang]/prizes/[ticker].html             200
-/:lang/prizes                   /[lang]/prizes/dai.html                  200
-/:lang/sponsor/:ticker          /[lang]/account/[ticker]/sponsor.html    200
-/:lang/sponsor                  /[lang]/account/Dai/sponsor.html         200
-/:lang/winners/:ticker/:prizeId /[lang]/winners/[ticker]/[prizeId].html  200
-/:lang/linkdrop                 /[lang]/linkdrop.html                    200
-/:lang                          /[lang].html                             200
-
-/account                    /[lang]/account.html                     200
-/account/:ticker            /[lang]/account/[ticker].html            200
-/account/:ticker/deposit    /[lang]/account/[ticker]/deposit.html    200
-/account/:ticker/pod        /[lang]/account/[ticker]/pod.html        200
-/account/:ticker/transfer   /[lang]/account/[ticker]/transfer.html   200
-/account/:ticker/withdraw   /[lang]/account/[ticker]/withdraw.html   200
-/admin                      /[lang]/admin.html                       200
-/deposit/:ticker            /[lang]/account/[ticker]/deposit.html    200
-/deposit                    /[lang]/account/Dai/deposit.html         200
-/depositComplete            /[lang]/depositComplete.html             200
-/pool/:ticker/deposit       /[lang]/pool/[ticker]/deposit.html       200
-/prizes/:ticker/:prizeId    /[lang]/prizes/[ticker]/[prizeId].html   200
-/prizes/:ticker             /[lang]/prizes/[ticker].html             200
-/prizes                     /[lang]/prizes/dai.html                  200
-/sponsor                    /[lang]/account/Dai/sponsor.html         200
-/linkdrop                   /[lang]/linkdrop.html                    200
-/                           /[lang].html                             200
-
+/prizes/:ticker/:prizeId  /prizes/[ticker]/[prizeId].html   200
+/prizes/:ticker           /prizes/[ticker].html             200
+/prizes                   /prizes/dai.html                  200
+/sponsor                  /sponsor.html                     200
