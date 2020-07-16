@@ -11,7 +11,7 @@ export const PrizeAmount = (
   } = props
 
   let labelSize = 'text-xxxs sm:text-xxs'
-  let amountSize = 'text-sm sm:text-xl'
+  let amountSize = 'text-sm sm:text-lg'
 
   if (big) {
     labelSize = 'text-xs sm:text-xs lg:text-base'

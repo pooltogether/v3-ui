@@ -11,7 +11,7 @@ export const WalletInfo = () => {
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress, chainId, walletName } = authControllerContext
 
-  let innerContent = null
+  let content = null
   let networkName = null
 
   if (chainId) {
@@ -26,82 +26,85 @@ export const WalletInfo = () => {
   }
 
   if (usersAddress && walletName) {
-    innerContent = <>
-      <div className='flex flex-col sm:flex-row text-base sm:text-lg lg:text-xl leading-snug text-default trans'>
-        <div
-          className='mx-6'
-        >
-          <h2
-            className='text-default-soft mt-6'
-          >
-            ETH Address
-          </h2>
+    content = <>
+      <div
+        className='flex flex-col sm:flex-row w-full sm:items-center justify-between'
+      > 
+        <div className='flex flex-col sm:flex-row text-base sm:text-lg lg:text-xl leading-snug text-default trans justify-start items-start text-left '>
           <div
-            className='overflow-ellipsis w-full no-underline text-secondary'
+            className='sm:mr-10 lg:mr-20'
           >
-            {shortenAddress(usersAddress)}
-          </div>
-        </div>
-
-        <div
-          className='mx-6'
-        >
-          <h2
-            className='text-default-soft mt-6'
-          >
-            Connected to
-          </h2>
-          <div
-            className='rounded-lg capitalize text-secondary'
-          >
-            {walletName}
-          </div>
-        </div>
-
-        <div
-          className='mx-6'
-        >
-          <h2
-            className='text-default-soft mt-6'
-          >
-            Network
-          </h2>
-          <div
-            className='rounded-lg capitalize text-secondary'
-          >
-            {networkName}
-          </div>
-        </div>
-{/* 
-        {magic && signedIn && <>
-          <div className='mt-16'>
-            <Button
-              outline
-              onClick={authControllerContext.signOut}
+            <h2
+              className='text-default-soft'
             >
-              Sign out
-          </Button>
+              ETH Address
+            </h2>
+            <div
+              className='overflow-ellipsis w-full no-underline lg:text-sm text-secondary mb-6 sm:mb-0'
+            >
+              <div className='block lg:hidden'>
+                {shortenAddress(usersAddress)}
+              </div>
+              <div className='hidden lg:block'>
+                {usersAddress}
+              </div>
+            </div>
           </div>
-        </>} */}
-      </div>
 
-      <div className='mt-16'>
-        <Button 
-          outline
-          onClick={authControllerContext.signOut}
-        >
-          Sign out
-        </Button>
+          <div
+            className='sm:mr-10 lg:mr-20'
+          >
+            <h2
+              className='text-default-soft'
+            >
+              Connected to
+            </h2>
+            <div
+              className='rounded-lg capitalize lg:text-sm text-secondary mb-6 sm:mb-0'
+            >
+              {walletName}
+            </div>
+          </div>
+
+          <div
+            className='sm:mr-10 lg:mr-20'
+          >
+            <h2
+              className='text-default-soft'
+            >
+              Network
+            </h2>
+            <div
+              className='rounded-lg capitalize lg:text-sm text-secondary mb-6 sm:mb-0'
+            >
+              {networkName}
+            </div>
+          </div>
+  {/* 
+          {magic && signedIn && <>
+            <div className='mt-16'>
+              <Button
+                outline
+                onClick={authControllerContext.signOut}
+              >
+                Sign out
+            </Button>
+            </div>
+          </>} */}
+        </div>
+
+        <div className='mt-16 sm:mt-0'>
+          <Button 
+            outline
+            onClick={authControllerContext.signOut}
+          >
+            Sign out
+          </Button>
+        </div>
       </div>
     </>
   }
 
-  return <>
-    <div
-      className='relative flex flex-col justify-center items-center'
-    > 
-      {innerContent}
-    </div>
-  </>
+  return content
 
 }

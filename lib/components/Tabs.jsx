@@ -3,7 +3,7 @@ import classnames from 'classnames'
 
 export const Tabs = ({ children }) => {
   return <nav
-    className='flex items-end justify-between mt-2 mb-10 mx-auto text-center border-b-2 pb-1'
+    className='flex items-end justify-between mt-2 mb-6 mx-auto text-center border-b-2 pb-1'
   >
     {children}
   </nav>

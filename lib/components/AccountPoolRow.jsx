@@ -4,17 +4,19 @@ import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
 
-import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { getDemoPoolContractAddress } from 'lib/utils/getDemoPoolContractAddress'
+import { PoolCountUp } from 'lib/components/PoolCountUp'
 
 export const AccountPoolRow = (
   props,
 ) => {
   const { pool, player } = props
-  // const poolAddress = pool.id
-  // const fakeFreq = 'Monthly'
+
+  const usersBalance = Number(ethers.utils.formatUnits(
+    player.balance,
+    pool.underlyingCollateralDecimals
+  ))
   
   return <>
     <Link
@@ -28,57 +30,90 @@ export const AccountPoolRow = (
           minHeight: 120
         }}
       >
-        <div className='flex justify-between items-center'>
-          <div
-            className='text-lg sm:text-xl font-bold w-5/12 sm:w-3/12'
-          >
-            {pool.frequency} Pool
-          </div>
+        <div className='flex flex-row justify-between items-center'>
+          <div className='flex flex-col justify-center items-start w-10/12'>
+            <div className='flex flex-row justify-between items-start w-full'>
+              <div
+                className='flex items-start w-2/12 sm:w-1/12'
+              >
+                <PoolCurrencyIcon
+                  pool={pool}
+                  className='inline-block w-12 h-12'
+                />
+              </div>
 
-          <div
-            className='flex items-center ml-4 w-6/12 sm:w-3/12 lg:w-1/3'
-          >
-            <PoolCurrencyIcon
-              pool={pool}
-            />
-          </div>
-
-          <div
-            className='flex items-center w-1/12'
-          >
-            <FeatherIcon
-              icon='arrow-right-circle'
-              className='stroke-current w-6 h-6 sm:w-8 sm:h-8'
-            />
-          </div>
-        </div>
-
-        <div className='mt-5 flex items-center'>
-          {/* <div
-            className='w-3/12'
-          > 
-            <div className='uppercase text-xxxs sm:text-xxs font-bold'>Status</div>
-            <div className='text-xxs sm:text-lg'>
-              {pool.currentState}
+              <div
+                className='w-10/12 sm:w-11/12 text-left ml-2'
+              >
+                <PrizeAmount
+                  {...props}
+                />
+              </div>
             </div>
-          </div> */}
 
-          <div
-            className='w-6/12 sm:w-10/12 lg:w-11/12'
-          >
-            <PrizeAmount
-              {...props}
-            />
+
+            <div className='flex flex-row justify-between items-start w-full text-left mt-2'>
+              <div className='flex flex-col justify-between items-start sm:w-5/12'>
+                <div
+                  className='sm:my-1'
+                >
+                  Tickets: <PoolCountUp
+                    end={usersBalance}
+                    decimals={null}
+                  />
+                </div>
+                <div
+                  className='sm:my-1'
+                >
+                  Odds: <PoolCountUp
+                    end={1}
+                    decimals={null}
+                  /> in <PoolCountUp
+                    end={1234}
+                    decimals={null}
+                  />
+                </div>
+              </div>
+
+              <div
+                className='flex flex-col w-6/12 sm:w-10/12 lg:w-11/12 flex items-start sm:w-5/12'
+              >
+                <div
+                  className='flex items-center sm:my-1'
+                >
+                  <FeatherIcon
+                    icon='clock'
+                    className='stroke-current w-4 h-4 sm:w-6 sm:h-6 inline-block mr-1'
+                  /> 15hr 22mins
+                </div>
+
+                <div
+                  className='sm:my-1'
+                >
+                  {pool.frequency} Pool
+                </div>
+              </div>
+            </div>
           </div>
-          <div
-            className='w-6/12 sm:w-2/12 lg:w-1/12'
-          >
-            {ethers.utils.formatUnits(
-              player.balance,
-              pool.underlyingCollateralDecimals
-            )}
+
+          <div className='flex flex-col justify-center items-center w-2/12 sm:w-1/12'>
+            <div
+              className='mb-1'
+            >
+              <FeatherIcon
+                icon='arrow-right-circle'
+                className='stroke-current w-6 h-6 sm:w-8 sm:h-8'
+              />
+            </div>
+            
+            <div
+              className='mt-1'
+            >
+              View
+            </div>
           </div>
         </div>
+
       </motion.a>
     </Link>
   </>
