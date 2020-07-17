@@ -20,11 +20,13 @@ export const WizardLayout = (props) => {
   const poolData = useContext(PoolDataContext)
 
   const router = useRouter()
-  const action = router.pathname.includes('withdraw') ? 'withdraw' : 'deposit'
+  const action = router.asPath.match('withdraw') ? 'withdraw' : 'deposit'
 
   const handleClose = () => {
     const pathname = router.pathname.split(`/${action}`).shift()
     const asPath = router.asPath.split(`/${action}`).shift()
+
+    console.log({pathname})
 
     router.push(
       `${pathname}`,

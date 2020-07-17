@@ -108,13 +108,13 @@ export const AccountPoolShowUI = (props) => {
           <div
             className='mt-2 text-sm'
           >
-            Odds of winning: <span className='font-bold'> <PoolCountUp
+            Odds of winning: <PoolCountUp
               end={1}
               decimals={null}
             /> in <PoolCountUp
               end={1234}
               decimals={null}
-            /></span>
+            />
           </div>
 
           <div

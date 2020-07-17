@@ -63,7 +63,7 @@ export const DepositCryptoForm = (props) => {
   const poolIsLocked = isRngRequested
 
   const quantityBN = ethers.utils.parseUnits(
-    quantity,
+    quantity || '0',
     pool.underlyingCollateralDecimals
   )
 

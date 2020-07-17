@@ -16,8 +16,6 @@ https://app.pooltogether.us https://app.pooltogether.com/ko  301!  Language=ko
 
 https://app.pooltogether.us/*     https://app.pooltogether.com 301!
 
-/_next/static/:buildId/pages/* /_next/static/:buildId/pages/[lang]/:splat 200
-
 /account                                 /account.html                          200
 /account/pools/:network/:ticker          /account/pools/[network]/[ticker].html 200
 /account/pools/:network/:ticker/withdraw /account/pools/[network]/[ticker]/withdraw.html 200

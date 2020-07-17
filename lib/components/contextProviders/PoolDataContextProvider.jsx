@@ -127,11 +127,13 @@ export const PoolDataContextProvider = (props) => {
                 const poolAddress = pool && pool.id
                 const player = dynamicPlayerData.find(data => data.prizePool.id === poolAddress)
 
-                usersTicketBalance = Number(ethers.utils.formatUnits(
-                  player.balance,
-                  pool.underlyingCollateralDecimals
-                ))
-                usersTicketBalanceBN = ethers.utils.bigNumberify(player.balance)
+                if (player) {
+                  usersTicketBalance = Number(ethers.utils.formatUnits(
+                    player.balance,
+                    pool.underlyingCollateralDecimals
+                  ))
+                  usersTicketBalanceBN = ethers.utils.bigNumberify(player.balance)
+                }
               }
 
 

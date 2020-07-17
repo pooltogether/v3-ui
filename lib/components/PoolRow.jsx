@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import classnames from 'classnames'
 import Link from 'next/link'
 import FeatherIcon from 'feather-icons-react'
 import { motion } from 'framer-motion'
@@ -13,30 +14,14 @@ export const PoolRow = (
   props,
 ) => {
   const {
-    pool
+    pool,
+    selected,
   } = props
 
   const authDataContext = useContext(AuthControllerContext)
   const { networkName } = authDataContext
 
-
-  // to be replaced by GraphQL data:
-  const kovanDaiPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'dai')
-  const kovanUsdcPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'usdc')
-  const kovanUsdtPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'usdt')
-
-  let ticker
-  let name = 'Loading'
-  if (kovanDaiPrizePoolContractAddress.toLowerCase() === pool.id) {
-    ticker = 'dai'
-    name = 'DAI'
-  } else if (kovanUsdcPrizePoolContractAddress.toLowerCase() === pool.id) {
-    ticker = 'usdc'
-    name = 'USDC'
-  } else if (kovanUsdtPrizePoolContractAddress.toLowerCase() === pool.id) {
-    ticker = 'usdt'
-    name = 'Tether'
-  }
+  const ticker = pool.underlyingCollateralSymbol.toLowerCase()
 
   // let featuredPoolContent
   // if (daiPool && daiPool.ticket && daiPool.currentPrizeId) {
@@ -67,7 +52,13 @@ export const PoolRow = (
         >
           <motion.a
             animate
-            className='shadow-md hover:shadow-xl cursor-pointer w-full px-3 sm:px-4 sm:px-4 mb-3 py-3 sm:py-4 inline-block bg-primary hover:bg-secondary trans rounded-lg border-0 text-inverse hover:text-primary'
+            className={classnames(
+              'w-full px-3 sm:px-4 sm:px-4 mb-3 py-3 sm:py-4 inline-block  trans rounded-lg border-0 text-inverse',
+              {
+                'bg-primary hover:bg-secondary hover:text-primary cursor-pointer shadow-md hover:shadow-xl': !selected,
+                'bg-default hover:bg-default hover:text-inverse': selected,
+              }
+            )}
             style={{
               minHeight: 120
             }}

@@ -66,19 +66,19 @@ export const NoFeeInstantWithdrawal = (props) => {
   const ticker = pool && underlyingCollateralSymbol
 
   const [tx, setTx] = useState({})
+  const [txExecuted, setTxExecuted] = useState(false)
 
   const txInWallet = tx.inWallet && !tx.sent
   const txSent = tx.sent && !tx.completed
   const txCompleted = tx.completed
   const txError = tx.error
 
-  let txExecuted = false
-
   const ready = txCompleted && !txError
 
   useEffect(() => {
     const runAsyncTx = () => {
-      txExecuted = true
+      setTxExecuted(true)
+
       handleWithdraw(
         setTx,
         provider,
@@ -88,6 +88,7 @@ export const NoFeeInstantWithdrawal = (props) => {
         underlyingCollateralDecimals,
       )
     }
+
     if (!txExecuted && quantity) {
       runAsyncTx()
     }

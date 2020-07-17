@@ -58,7 +58,7 @@ export const AccountPoolRow = (
 
 
             <div className='flex flex-row justify-between items-start w-full text-left mt-2'>
-              <div className='flex flex-col justify-between items-start sm:w-1/2'>
+              <div className='flex flex-col justify-between items-start sm:w-2/3'>
                 <div
                   className='sm:my-1'
                 >
@@ -81,7 +81,7 @@ export const AccountPoolRow = (
               </div>
 
               <div
-                className='flex flex-col w-6/12 sm:w-10/12 lg:w-11/12 flex items-start sm:w-1/22'
+                className='flex flex-col w-6/12 sm:w-10/12 lg:w-11/12 flex items-start sm:w-1/3'
               >
                 <div
                   className='flex items-center sm:my-1'

@@ -47,6 +47,8 @@ export const PoolList = (
               return null
             }
 
+            const selected = selectedId === pool.id
+
             return <motion.li
               key={`pool-${pool.id}`}
               sharedId={`pool-${pool.id}`}
@@ -68,13 +70,13 @@ export const PoolList = (
                 // },
               }}
               whileHover={{
-                y: -6
+                y: selected ? 0 : -6
               }}
               className='relative w-full'
             >
               <PoolRow
                 pool={pool}
-                selected={selectedId === pool.id}
+                selected={selected}
               />
             </motion.li>
           })}

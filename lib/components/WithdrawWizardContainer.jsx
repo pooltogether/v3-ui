@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
 
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
 import { NoFeeInstantWithdrawal } from 'lib/components/NoFeeInstantWithdrawal'
@@ -11,9 +10,6 @@ import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 import { WizardLayout } from 'lib/components/WizardLayout'
 
 export const WithdrawWizardContainer = (props) => {
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress } = authControllerContext
-
   const poolData = useContext(PoolDataContext)
   const { pool, usersTicketBalance } = poolData
 
@@ -45,7 +41,7 @@ export const WithdrawWizardContainer = (props) => {
             currentWizardStep={activeStepIndex + 1}
             handlePreviousStep={previousStep}
             moveToStep={moveToStep}
-            totalWizardSteps={usersAddress ? 5 : 6}
+            totalWizardSteps={3}
           >
             <WizardStep>
               {(step) => {
