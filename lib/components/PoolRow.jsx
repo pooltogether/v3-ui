@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Link from 'next/link'
 import FeatherIcon from 'feather-icons-react'
 import { motion } from 'framer-motion'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { RiskFactor } from 'lib/components/RiskFactor'
@@ -15,11 +16,16 @@ export const PoolRow = (
     pool
   } = props
 
+  const authDataContext = useContext(AuthControllerContext)
+  const { networkName } = authDataContext
+
+
+  // to be replaced by GraphQL data:
   const kovanDaiPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'dai')
   const kovanUsdcPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'usdc')
   const kovanUsdtPrizePoolContractAddress = getDemoPoolContractAddress('kovan', 'usdt')
 
-  let ticker = 'loading'
+  let ticker
   let name = 'Loading'
   if (kovanDaiPrizePoolContractAddress.toLowerCase() === pool.id) {
     ticker = 'dai'
@@ -57,7 +63,7 @@ export const PoolRow = (
 
         <Link
           href='/pools/[networkName]/[prizePoolTicker]'
-          as={`/pools/kovan/${pool.underlyingCollateralSymbol}`}
+          as={`/pools/${networkName}/${ticker}`}
         >
           <motion.a
             animate

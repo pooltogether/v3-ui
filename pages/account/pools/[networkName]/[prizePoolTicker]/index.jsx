@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { Button } from 'lib/components/Button'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
@@ -12,6 +13,9 @@ import { PrizePoolCountdown } from 'lib/components/PrizePoolCountdown'
 
 export default function AccountPrizePoolShow(props) {
   const router = useRouter()
+
+  const authDataContext = useContext(AuthControllerContext)
+  const { networkName } = authDataContext
 
   const poolData = useContext(PoolDataContext)
   const { pool, dynamicPlayerData } = poolData
@@ -41,7 +45,7 @@ export default function AccountPrizePoolShow(props) {
     e.preventDefault()
     router.push(
       '/account/pools/[networkName]/[prizePoolTicker]/withdraw',
-      `/account/pools/kovan/${ticker}/withdraw`,
+      `/account/pools/${networkName}/${ticker}/withdraw`,
       { shallow: true }
     )
   }
@@ -50,7 +54,7 @@ export default function AccountPrizePoolShow(props) {
     e.preventDefault()
     router.push(
       '/pools/[networkName]/[prizePoolTicker]/deposit',
-      `/pools/kovan/${ticker}/deposit`,
+      `/pools/${networkName}/${ticker}/deposit`,
       { shallow: true }
     )
   }
@@ -143,8 +147,9 @@ export default function AccountPrizePoolShow(props) {
                 wide
               >
                 Withdraw
-              </Button>
+              </Button>              
             </div>
+            
             <Button
               outline
               onClick={handleShowDeposit}

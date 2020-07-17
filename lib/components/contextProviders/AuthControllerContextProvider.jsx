@@ -9,6 +9,7 @@ import {
 } from 'lib/constants'
 import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
+import { chainIdToName } from 'lib/utils/chainIdToName'
 import { getChainId } from 'lib/utils/getChainId'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
@@ -66,10 +67,9 @@ export const AuthControllerContextProvider = (props) => {
   }, [currentState, magicContext.signedIn])
 
   useEffect(() => {
-    const cID = getChainId(currentState)
-    if (cID) {
-      // console.log('updating chainId: ', cID)
-      setChainId(cID)
+    const _chainId = getChainId(currentState)
+    if (_chainId) {
+      setChainId(_chainId)
     }
   }, [currentState])
 
@@ -165,6 +165,8 @@ export const AuthControllerContextProvider = (props) => {
     }
   }, [_onboard])
 
+  const networkName = chainIdToName(chainId)
+
   return <AuthControllerContext.Provider
     value={{
       ethBalance,
@@ -175,6 +177,7 @@ export const AuthControllerContextProvider = (props) => {
       signOut,
       signInMagic,
       handleShowOnboard,
+      networkName,
     }}
   >
     {children}
