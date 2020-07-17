@@ -1,17 +1,36 @@
-import React, { useContext } from 'react'
-import { useRouter } from 'next/router'
+import React, { useContext, useEffect, useState } from 'react'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
 import { NoFeeInstantWithdrawal } from 'lib/components/NoFeeInstantWithdrawal'
 // import { InstantOrScheduledForm } from 'lib/components/InstantOrScheduledForm'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 import { WizardLayout } from 'lib/components/WizardLayout'
+import { extractUsersTicketBalance } from 'lib/utils/extractUsersTicketBalance'
 
 export const WithdrawWizardContainer = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress } = authControllerContext
+
+  const poolData = useContext(PoolDataContext)
+  const { usersTicketBalance } = poolData
+
+  const [cachedUsersBalance, setCachedUsersBalance] = useState(usersTicketBalance)
+
+  useEffect(() => {
+    setCachedUsersBalance(usersTicketBalance)
+  }, [usersTicketBalance])
+
+  const balanceJsx = <DepositAndWithdrawFormUsersBalance
+    label='Your ticket balance:'
+    start={cachedUsersBalance || usersTicketBalance}
+    end={usersTicketBalance}
+  />
+
+
 
   return <>
     <Wizard>
@@ -29,6 +48,7 @@ export const WithdrawWizardContainer = (props) => {
               {(step) => {
                 return step.isActive && <>
                   <TicketQuantityForm
+                    balanceJsx={balanceJsx}
                     formName='Withdraw'
                     nextStep={step.nextStep}
                   />

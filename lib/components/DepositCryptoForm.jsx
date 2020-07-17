@@ -7,8 +7,8 @@ import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
+import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
 import { PaneTitle } from 'lib/components/PaneTitle'
-import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { TxMessage } from 'lib/components/TxMessage'
 import { sendTx } from 'lib/utils/sendTx'
@@ -136,17 +136,10 @@ export const DepositCryptoForm = (props) => {
       />
     </PaneTitle>
 
-    <div
-      className='flex text-inverse items-center justify-between w-9/12 sm:w-7/12 lg:w-1/3 mx-auto border-2 p-3'
-    >
-      <div>
-        Your balance: 
-      </div>
-      <PoolCountUp
-        start={cachedUsersBalance || usersBalance}
-        end={usersBalance}
-      />
-    </div>
+    <DepositAndWithdrawFormUsersBalance
+      start={cachedUsersBalance || usersBalance}
+      end={usersBalance}
+    />
 
     <div
       className='flex text-inverse items-center justify-between w-9/12 sm:w-7/12 lg:w-1/3 mx-auto border-l-2 border-r-2 border-b-2 p-3 font-bold'

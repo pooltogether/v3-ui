@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -119,7 +120,19 @@ export const PoolDataContextProvider = (props) => {
               //   console.log('pool', pool)
               // }
 
+              let usersTicketBalance = ethers.utils.bigNumberify(0)
+              let usersTicketBalanceBN = ethers.utils.bigNumberify(0)
 
+              if (pool && dynamicPlayerData) {
+                const poolAddress = pool && pool.id
+                const player = dynamicPlayerData.find(data => data.prizePool.id === poolAddress)
+
+                usersTicketBalance = Number(ethers.utils.formatUnits(
+                  player.balance,
+                  pool.underlyingCollateralDecimals
+                ))
+                usersTicketBalanceBN = ethers.utils.bigNumberify(player.balance)
+              }
 
 
 
@@ -146,6 +159,8 @@ export const PoolDataContextProvider = (props) => {
                           staticPoolData,
                           genericChainData,
                           usersChainData,
+                          usersTicketBalance,
+                          usersTicketBalanceBN,
                         }}
                       >
                         {props.children}

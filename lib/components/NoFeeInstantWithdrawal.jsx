@@ -12,42 +12,38 @@ import { TxMessage } from 'lib/components/TxMessage'
 import { sendTx } from 'lib/utils/sendTx'
 import { poolToast } from 'lib/utils/poolToast'
 
-const handleDeposit = async (
+
+const handleWithdraw = async (
   setTx,
   provider,
-  usersAddress,
   contractAddress,
   quantity,
+  withdrawType,
   decimals
 ) => {
-  console.log({ quantity })
-  if (
-    !quantity
-  ) {
-    poolToast.error(`Deposit Quantity needs to be filled in`)
-    return
-  }
-  // debugger
-
   const params = [
-    usersAddress,
     ethers.utils.parseUnits(quantity, decimals),
-    [], // bytes calldata
+    [],
     {
-      gasLimit: 700000
+      gasLimit: 500000
     }
   ]
+
+  const method = withdrawType === 'instant' ?
+    'redeemTicketsInstantly' :
+    'redeemTicketsWithTimelock'
 
   await sendTx(
     setTx,
     provider,
     contractAddress,
     CompoundPeriodicPrizePoolAbi,
-    'mintTickets',
+    method,
     params,
-    'Deposit',
+    'Withdraw'
   )
 }
+
 
 export const NoFeeInstantWithdrawal = (props) => {
   const { nextStep, previousStep } = props
@@ -56,7 +52,7 @@ export const NoFeeInstantWithdrawal = (props) => {
   const quantity = router.query.quantity
 
   const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress, provider } = authControllerContext
+  const { provider } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
   const { pool } = poolData
@@ -83,16 +79,16 @@ export const NoFeeInstantWithdrawal = (props) => {
   useEffect(() => {
     const runAsyncTx = () => {
       txExecuted = true
-      handleDeposit(
+      handleWithdraw(
         setTx,
         provider,
-        usersAddress,
         poolAddress,
         quantity,
+        'instant',
         underlyingCollateralDecimals,
       )
     }
-    if (!txExecuted) {
+    if (!txExecuted && quantity) {
       runAsyncTx()
     }
   }, [quantity])
@@ -116,12 +112,12 @@ export const NoFeeInstantWithdrawal = (props) => {
 
   return <>
     <PaneTitle small>
-      {quantity} tickets
+      Withdraw {quantity} tickets
     </PaneTitle>
 
     <PaneTitle>
-      {txSent && 'Deposit confirming ...'}
-      {txInWallet && 'Confirm deposit'}
+      {txSent && 'Withdrawal confirming ...'}
+      {txInWallet && 'Confirm withdrawal'}
     </PaneTitle>
 
     {txSent && <>
@@ -144,7 +140,7 @@ export const NoFeeInstantWithdrawal = (props) => {
       </div>
 
       <TxMessage
-        txType={`Deposit ${quantity} ${ticker.toUpperCase()}`}
+        txType={`Withdraw ${quantity} ${ticker.toUpperCase()}`}
         tx={tx}
         handleReset={handleResetState}
       />
