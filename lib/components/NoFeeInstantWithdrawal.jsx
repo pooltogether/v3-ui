@@ -9,8 +9,8 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { TxMessage } from 'lib/components/TxMessage'
-import { poolToast } from 'lib/utils/poolToast'
 import { sendTx } from 'lib/utils/sendTx'
+import { poolToast } from 'lib/utils/poolToast'
 
 const handleDeposit = async (
   setTx,
@@ -20,6 +20,7 @@ const handleDeposit = async (
   quantity,
   decimals
 ) => {
+  console.log({ quantity })
   if (
     !quantity
   ) {
@@ -48,7 +49,7 @@ const handleDeposit = async (
   )
 }
 
-export const ConfirmCryptoDeposit = (props) => {
+export const NoFeeInstantWithdrawal = (props) => {
   const { nextStep, previousStep } = props
 
   const router = useRouter()
@@ -75,10 +76,13 @@ export const ConfirmCryptoDeposit = (props) => {
   const txCompleted = tx.completed
   const txError = tx.error
 
+  let txExecuted = false
+
   const ready = txCompleted && !txError
 
   useEffect(() => {
     const runAsyncTx = () => {
+      txExecuted = true
       handleDeposit(
         setTx,
         provider,
@@ -88,8 +92,10 @@ export const ConfirmCryptoDeposit = (props) => {
         underlyingCollateralDecimals,
       )
     }
-    runAsyncTx()
-  }, [])
+    if (!txExecuted) {
+      runAsyncTx()
+    }
+  }, [quantity])
 
   useEffect(() => {
     if (tx.error) {

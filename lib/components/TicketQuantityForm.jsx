@@ -10,7 +10,7 @@ import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 export const TicketQuantityForm = (props) => {
   const { handleSubmit, register, errors, formState } = useForm({ mode: 'all' })
 
-  const { nextStep } = props
+  const { formName, nextStep } = props
 
   const router = useRouter()
 
@@ -24,7 +24,7 @@ export const TicketQuantityForm = (props) => {
 
   return <>
     <PaneTitle>
-      Get tickets
+      {formName}
     </PaneTitle>
 
     <form

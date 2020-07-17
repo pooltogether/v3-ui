@@ -5,13 +5,13 @@ import { Wizard, WizardStep } from 'react-wizard-primitive'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ConfirmCryptoDeposit } from 'lib/components/ConfirmCryptoDeposit'
 import { ConfirmFiatDeposit } from 'lib/components/ConfirmFiatDeposit'
-import { DepositWizardLayout } from 'lib/components/DepositWizardLayout'
 import { DepositCryptoForm } from 'lib/components/DepositCryptoForm'
 import { DepositFiatForm } from 'lib/components/DepositFiatForm'
 import { DepositWizardSignIn } from 'lib/components/DepositWizardSignIn'
 import { FiatOrCryptoForm } from 'lib/components/FiatOrCryptoForm'
 import { OrderComplete } from 'lib/components/OrderComplete'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
+import { WizardLayout } from 'lib/components/WizardLayout'
 
 export const DepositWizardContainer = (props) => {
   const router = useRouter()
@@ -30,7 +30,7 @@ export const DepositWizardContainer = (props) => {
         (wizard) => {
           const { activeStepIndex, previousStep, moveToStep } = wizard
 
-          return <DepositWizardLayout
+          return <WizardLayout
             currentWizardStep={activeStepIndex + 1}
             handlePreviousStep={previousStep}
             moveToStep={moveToStep}
@@ -40,6 +40,7 @@ export const DepositWizardContainer = (props) => {
               {(step) => {
                 return step.isActive && <>
                   <TicketQuantityForm
+                    formName='Get tickets'
                     nextStep={step.nextStep}
                   />
                 </>
@@ -99,7 +100,7 @@ export const DepositWizardContainer = (props) => {
                 </>
               }}
             </WizardStep>
-          </DepositWizardLayout>
+          </WizardLayout>
         }
       }
     </Wizard>

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { AnimatePresence } from 'framer-motion'
 
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
+import { WithdrawWizardContainer } from 'lib/components/WithdrawWizardContainer'
 import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNotificationBanner'
 import { Footer } from 'lib/components/Footer'
 import { Meta } from 'lib/components/Meta'
@@ -17,6 +18,7 @@ export const Layout = (props) => {
   const router = useRouter()
   const signIn = router.query.signIn
   const deposit = /deposit/.test(router.asPath)
+  const withdraw = /withdraw/.test(router.asPath)
 
   return <>
     <Meta />
@@ -27,6 +29,12 @@ export const Layout = (props) => {
 
     <AnimatePresence>
       {deposit && <DepositWizardContainer
+        {...props}
+      />}
+    </AnimatePresence>
+
+    <AnimatePresence>
+      {withdraw && <WithdrawWizardContainer
         {...props}
       />}
     </AnimatePresence>
@@ -41,7 +49,6 @@ export const Layout = (props) => {
 
       <div
         className='pool-container flex flex-grow relative z-30 h-full page'
-        // className='pool-container flex flex-grow relative z-30 h-full page fadeIn animated'
       >
         <div
           className='flex flex-col flex-grow'

@@ -8,7 +8,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 
 function range1(i) { return i ? range1(i - 1).concat(i) : [] }
 
-export const DepositWizardLayout = (props) => {
+export const WizardLayout = (props) => {
   const {
     currentWizardStep,
     handlePreviousStep,
@@ -20,10 +20,11 @@ export const DepositWizardLayout = (props) => {
   const poolData = useContext(PoolDataContext)
 
   const router = useRouter()
+  const action = router.pathname.includes('withdraw') ? 'withdraw' : 'deposit'
 
-  const handleCloseDeposit = () => {
-    const pathname = router.pathname.split('/deposit').shift()
-    const asPath = router.asPath.split('/deposit').shift()
+  const handleClose = () => {
+    const pathname = router.pathname.split(`/${action}`).shift()
+    const asPath = router.asPath.split(`/${action}`).shift()
 
     router.push(
       `${pathname}`,
@@ -39,14 +40,14 @@ export const DepositWizardLayout = (props) => {
 
   return <>
     <motion.div
-      key='deposit-scaled-bg'
+      key={`${action}-scaled-bg`}
       className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 bg-darkened'
       initial={{ scale: 0 }}
       animate={{ scale: 1, transition: { duration: 0.1 } }}
       exit={{ opacity: 0, transition: { duration: 0.5 } }}
     />
     <motion.div
-      key='deposit-pane'
+      key={`${action}-pane`}
       className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40'
       exit={{ opacity: 0, y: -50 }}
       transition={{ duration: 0.25 }}
@@ -116,7 +117,7 @@ export const DepositWizardLayout = (props) => {
 
         <button
           type='button'
-          onClick={handleCloseDeposit}
+          onClick={handleClose}
           className='text-primary hover:text-secondary trans'
         >
           <FeatherIcon
