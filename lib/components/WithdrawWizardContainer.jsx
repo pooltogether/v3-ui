@@ -42,6 +42,7 @@ export const WithdrawWizardContainer = (props) => {
                 return step.isActive && <>
                   <NoFeeInstantWithdrawal
                     nextStep={step.nextStep}
+                    previousStep={step.previousStep}
                   />
                 </>
               }}
