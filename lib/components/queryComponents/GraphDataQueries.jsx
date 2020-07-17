@@ -5,41 +5,44 @@ import { DynamicPlayerQuery } from 'lib/components/queryComponents/DynamicPlayer
 import { StaticPrizePoolsQuery } from 'lib/components/queryComponents/StaticPrizePoolsQuery'
 
 export const GraphDataQueries = (props) => {
-  const { children, poolAddresses } = props
+  const { children, usersAddress } = props
 
   return <StaticPrizePoolsQuery
     {...props}
-    addresses={poolAddresses}
   >
     {(staticPoolResult) => {
       const staticPoolData = staticPoolResult.poolData
 
       return <DynamicPrizePoolsQuery
         {...props}
-        addresses={poolAddresses}
       >
         {(dynamicPoolResult) => {
           const dynamicPoolData = dynamicPoolResult.poolData
 
           return <DynamicPlayerQuery
             {...props}
-            addresses={poolAddresses}
           >
             {(dynamicPlayerResult) => {
               const dynamicPlayerData = dynamicPlayerResult.playerData
+              console.log({dynamicPoolResult})
+              console.log({dynamicPoolData})
 
-              const graphDataLoading = staticPoolResult.loading ||
+              let loading = staticPoolResult.loading ||
                 dynamicPoolResult.loading ||
-                dynamicPlayerResult.loading ||
                 !staticPoolData ||
-                !dynamicPoolData ||
-                !dynamicPlayerData
+                !dynamicPoolData
+
+              if (usersAddress) {
+                console.log(dynamicPlayerResult)
+                console.log(dynamicPlayerData)
+                loading = (dynamicPlayerResult.loading || !dynamicPlayerData)
+              }
 
               return children({
                 dynamicPoolData,
                 dynamicPlayerData,
                 staticPoolData,
-                graphDataLoading,
+                graphDataLoading: loading,
               })
             }}
           </DynamicPlayerQuery>

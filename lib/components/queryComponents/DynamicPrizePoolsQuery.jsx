@@ -10,7 +10,7 @@ import { poolToast } from 'lib/utils/poolToast'
 export const DynamicPrizePoolsQuery = (
   props,
 ) => {
-  const { addresses, children } = props
+  const { poolAddresses, children } = props
  
   let poolData
 
@@ -24,7 +24,7 @@ export const DynamicPrizePoolsQuery = (
     console.error(error)
   }
 
-  poolData = getPoolDataFromQueryResult(addresses, data)
+  poolData = getPoolDataFromQueryResult(poolAddresses, data)
   
   return children({ loading, poolData })
 }

@@ -7,7 +7,7 @@ import { poolToast } from 'lib/utils/poolToast'
 export const StaticPrizePoolsQuery = (
   props,
 ) => {
-  const { addresses, children } = props
+  const { poolAddresses, children } = props
 
   let poolData
 
@@ -21,7 +21,9 @@ export const StaticPrizePoolsQuery = (
     console.error(error)
   }
   
-  poolData = getPoolDataFromQueryResult(addresses, data)
-  
+  console.log({ data})
+  poolData = getPoolDataFromQueryResult(poolAddresses, data)
+  console.log({ poolData })
+
   return children({ poolData, loading })
 }

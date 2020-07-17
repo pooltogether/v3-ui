@@ -18,9 +18,9 @@ export const dynamicPrizePoolFragment = gql`
 
     totalSupply
 
-    players {
-      ...playerFragment
-    }
+    # players {
+    #   ...playerFragment
+    # }
   }
-  ${playerFragment}
+  # ${playerFragment}
 `

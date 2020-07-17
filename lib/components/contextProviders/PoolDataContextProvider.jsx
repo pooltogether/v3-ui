@@ -33,7 +33,7 @@ export const PoolDataContextProvider = (props) => {
 
   const networkName = router.query.networkName ?
     router.query.networkName :
-    'mainnet'
+    process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
 
   useEffect(() => {
     const getReadProvider = async () => {
@@ -42,6 +42,8 @@ export const PoolDataContextProvider = (props) => {
     }
     getReadProvider()
   }, [networkName])
+  
+  let loading = true
   
   return <>
     <V3ApolloWrapper>
@@ -62,6 +64,7 @@ export const PoolDataContextProvider = (props) => {
           >
             {({ graphDataLoading, staticPoolData, dynamicPoolData, dynamicPlayerData }) => {
               let pools = []
+
               if (!graphDataLoading) {
                 pools = [
                   {
@@ -136,7 +139,7 @@ export const PoolDataContextProvider = (props) => {
                 }
               }
 
-
+              loading = graphDataLoading
 
               return <FetchGenericChainData
                 {...props}
@@ -153,6 +156,7 @@ export const PoolDataContextProvider = (props) => {
                     {({ usersChainData }) => {
                       return <PoolDataContext.Provider
                         value={{
+                          loading,
                           pool,
                           pools,
                           poolAddresses,
