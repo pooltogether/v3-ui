@@ -24,8 +24,6 @@ export const GraphDataQueries = (props) => {
           >
             {(dynamicPlayerResult) => {
               const dynamicPlayerData = dynamicPlayerResult.playerData
-              console.log({dynamicPoolResult})
-              console.log({dynamicPoolData})
 
               let loading = staticPoolResult.loading ||
                 dynamicPoolResult.loading ||
@@ -33,8 +31,6 @@ export const GraphDataQueries = (props) => {
                 !dynamicPoolData
 
               if (usersAddress) {
-                console.log(dynamicPlayerResult)
-                console.log(dynamicPlayerData)
                 loading = (dynamicPlayerResult.loading || !dynamicPlayerData)
               }
 

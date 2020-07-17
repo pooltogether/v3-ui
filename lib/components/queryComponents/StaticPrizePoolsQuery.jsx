@@ -21,9 +21,7 @@ export const StaticPrizePoolsQuery = (
     console.error(error)
   }
   
-  console.log({ data})
   poolData = getPoolDataFromQueryResult(poolAddresses, data)
-  console.log({ poolData })
 
   return children({ poolData, loading })
 }
