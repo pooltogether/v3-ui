@@ -29,7 +29,7 @@ export const AccountPoolShowUI = (props) => {
   }
 
   let usersBalance = 0
-  if (pool) {
+  if (pool && playerData) {
     usersBalance = Number(ethers.utils.formatUnits(
       playerData.balance,
       pool.underlyingCollateralDecimals

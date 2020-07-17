@@ -26,8 +26,6 @@ export const WizardLayout = (props) => {
     const pathname = router.pathname.split(`/${action}`).shift()
     const asPath = router.asPath.split(`/${action}`).shift()
 
-    console.log({pathname})
-
     router.push(
       `${pathname}`,
       `${asPath}`,
