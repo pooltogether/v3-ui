@@ -11,6 +11,7 @@ export const TextInputGroup = (
     label,
     disabled,
     type,
+    unsignedNumber,
     unsignedWholeNumber,
   } = props
 
@@ -21,12 +22,15 @@ export const TextInputGroup = (
       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
       message: "invalid email address"
     }
-  }
-
-  if (unsignedWholeNumber) {
+  } else if (unsignedNumber) {
+    pattern = {
+      value: /^\d*\.?\d*$/,
+      message: 'please enter a positive number'
+    }
+  } else if (unsignedWholeNumber) {
     pattern = { 
       value: /^\d+$/,
-      message: 'please enter a number'
+      message: 'please enter a positive number'
     }
   }
 

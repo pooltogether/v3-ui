@@ -10,7 +10,12 @@ import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 export const TicketQuantityForm = (props) => {
   const { handleSubmit, register, errors, formState } = useForm({ mode: 'all' })
 
-  const { balanceJsx, formName, nextStep } = props
+  const {
+    balanceJsx,
+    formName,
+    nextStep,
+    usersTicketBalance
+  } = props
 
   const router = useRouter()
 
@@ -27,7 +32,11 @@ export const TicketQuantityForm = (props) => {
       {formName}
     </PaneTitle>
 
-    {balanceJsx || null}
+    {balanceJsx && <>
+      <div className='mt-3 mb-6'>
+        {balanceJsx}
+      </div>
+    </>}
 
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -35,17 +44,23 @@ export const TicketQuantityForm = (props) => {
       <div className='w-10/12 sm:w-2/3 mx-auto'>
         <TextInputGroup
           large
-          unsignedWholeNumber
+          unsignedNumber
           id='quantity'
           name='quantity'
           register={register}
+          validate={{
+            greaterThanBalance: value => parseFloat(value) < usersTicketBalance,
+          }}
           label={'Quantity'}
           required='ticket quantity required'
-          autocomplete='off'
+          autoComplete='off'
           // placeholder={'# of tickets'}
         />
       </div>
       <div className='text-red'>
+        {errors.quantity && errors.quantity.type === 'greaterThanBalance' && <>
+          Please enter an amount lower than your ticket balance
+        </>}
         {errors.quantity && errors.quantity.message}
       </div>
 

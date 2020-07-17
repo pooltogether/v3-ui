@@ -9,29 +9,32 @@ import { NoFeeInstantWithdrawal } from 'lib/components/NoFeeInstantWithdrawal'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 import { WizardLayout } from 'lib/components/WizardLayout'
-import { extractUsersTicketBalance } from 'lib/utils/extractUsersTicketBalance'
 
 export const WithdrawWizardContainer = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
-  const { usersTicketBalance } = poolData
+  const { pool, usersTicketBalance } = poolData
 
   const [cachedUsersBalance, setCachedUsersBalance] = useState(usersTicketBalance)
+
+  let balanceJsx = null
+  let underlyingCollateralDecimals = 18
+  if (pool) {
+    underlyingCollateralDecimals = pool.underlyingCollateralDecimals
+
+    balanceJsx = <DepositAndWithdrawFormUsersBalance
+      label='Your ticket balance:'
+      start={cachedUsersBalance || usersTicketBalance}
+      end={usersTicketBalance}
+    />
+  }
 
   useEffect(() => {
     setCachedUsersBalance(usersTicketBalance)
   }, [usersTicketBalance])
-
-  const balanceJsx = <DepositAndWithdrawFormUsersBalance
-    label='Your ticket balance:'
-    start={cachedUsersBalance || usersTicketBalance}
-    end={usersTicketBalance}
-  />
-
-
-
+  
   return <>
     <Wizard>
       {
@@ -51,6 +54,8 @@ export const WithdrawWizardContainer = (props) => {
                     balanceJsx={balanceJsx}
                     formName='Withdraw'
                     nextStep={step.nextStep}
+                    usersTicketBalance={usersTicketBalance}
+                    underlyingCollateralDecimals={underlyingCollateralDecimals}
                   />
                 </>
               }}

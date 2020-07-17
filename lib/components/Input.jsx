@@ -17,6 +17,7 @@ export function Input(props) {
     isError,
     required,
     register,
+    validate,
   } = props
 
   const defaultClasses = 'text-white bg-purple trans rounded-lg focus:outline-none focus:outline-none leading-none px-6 py-2 lg:py-2'
@@ -57,6 +58,8 @@ export function Input(props) {
     'register',
     'required', // required is consumed by the register func but we don't want it on the <input />
     'pattern',
+    'validate',
+    'unsignedNumber',
     'unsignedWholeNumber',
   ])
 
@@ -65,7 +68,8 @@ export function Input(props) {
       {...newProps}
       ref={register({
         required,
-        pattern
+        pattern,
+        validate
       })}
 
       className={classnames(

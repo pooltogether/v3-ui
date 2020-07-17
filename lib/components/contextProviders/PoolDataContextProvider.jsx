@@ -120,7 +120,7 @@ export const PoolDataContextProvider = (props) => {
               //   console.log('pool', pool)
               // }
 
-              let usersTicketBalance = ethers.utils.bigNumberify(0)
+              let usersTicketBalance = 0
               let usersTicketBalanceBN = ethers.utils.bigNumberify(0)
 
               if (pool && dynamicPlayerData) {
