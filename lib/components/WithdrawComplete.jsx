@@ -8,6 +8,10 @@ import { PaneTitle } from 'lib/components/PaneTitle'
 export const WithdrawComplete = (props) => {
   const router = useRouter()
   const quantity = router.query.quantity
+  const prizePoolTicker = router.query.prizePoolTicker
+  if (!prizePoolTicker) {
+    return null
+  }
   const ticker = router.query.prizePoolTicker.toUpperCase()
 
   const confettiContext = useContext(ConfettiContext)
@@ -18,7 +22,7 @@ export const WithdrawComplete = (props) => {
       window.confettiContext = confetti
       confetti.start(setTimeout, setInterval)
     }, 300)
-  })
+  }, [])
 
   const handleShowAccount = (e) => {
     e.preventDefault()

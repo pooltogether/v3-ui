@@ -110,7 +110,7 @@ export const ConfirmCryptoDeposit = (props) => {
 
   return <>
     <PaneTitle small>
-      {quantity} tickets
+      {txInWallet && `${quantity} tickets`}
     </PaneTitle>
 
     <PaneTitle>
@@ -119,7 +119,7 @@ export const ConfirmCryptoDeposit = (props) => {
     </PaneTitle>
 
     {txSent && <>
-      <PaneTitle small>
+      {/* <PaneTitle small>
         Transactions may take a few minutes!
       </PaneTitle>
 
@@ -135,7 +135,7 @@ export const ConfirmCryptoDeposit = (props) => {
 
       <div className='mx-auto'>
         <V3LoadingDots />
-      </div>
+      </div> */}
 
       <TxMessage
         txType={`Deposit ${quantity} ${ticker.toUpperCase()}`}

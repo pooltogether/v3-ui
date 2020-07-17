@@ -25,7 +25,7 @@ const handleWithdraw = async (
     ethers.utils.parseUnits(quantity, decimals),
     [],
     {
-      gasLimit: 500000
+      gasLimit: 600000
     }
   ]
 
@@ -112,7 +112,7 @@ export const NoFeeInstantWithdrawal = (props) => {
 
   return <>
     <PaneTitle small>
-      Withdraw {quantity} tickets
+      {txInWallet && `Withdraw ${quantity} tickets`}
     </PaneTitle>
 
     <PaneTitle>
@@ -121,11 +121,11 @@ export const NoFeeInstantWithdrawal = (props) => {
     </PaneTitle>
 
     {txSent && <>
-      <PaneTitle small>
+      {/* <PaneTitle small>
         Transactions may take a few minutes!
-      </PaneTitle>
+      </PaneTitle> */}
 
-      <div
+      {/* <div
         className='text-inverse'
       >
         <span
@@ -133,11 +133,11 @@ export const NoFeeInstantWithdrawal = (props) => {
         >
           Estimated wait time:
         </span> 4 seconds
-      </div>
+      </div> */}
 
-      <div className='mx-auto'>
+      {/* <div className='mx-auto'>
         <V3LoadingDots />
-      </div>
+      </div> */}
 
       <TxMessage
         txType={`Withdraw ${quantity} ${ticker.toUpperCase()}`}

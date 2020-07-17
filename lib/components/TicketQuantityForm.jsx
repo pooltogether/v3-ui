@@ -14,7 +14,7 @@ export const TicketQuantityForm = (props) => {
     balanceJsx,
     formName,
     nextStep,
-    usersTicketBalance
+    usersTicketBalance,
   } = props
 
   const router = useRouter()
@@ -24,6 +24,13 @@ export const TicketQuantityForm = (props) => {
       queryParamUpdater.add(router, { quantity: values.quantity })
 
       nextStep()
+    }
+  }
+
+  let validate = null
+  if (formName === 'Withdraw') {
+    validate = {
+      greaterThanBalance: value => parseFloat(value) < usersTicketBalance,
     }
   }
 
@@ -48,9 +55,7 @@ export const TicketQuantityForm = (props) => {
           id='quantity'
           name='quantity'
           register={register}
-          validate={{
-            greaterThanBalance: value => parseFloat(value) < usersTicketBalance,
-          }}
+          validate={validate}
           label={'Quantity'}
           required='ticket quantity required'
           autoComplete='off'
