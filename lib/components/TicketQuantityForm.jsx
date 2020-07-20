@@ -56,7 +56,7 @@ export const TicketQuantityForm = (props) => {
           name='quantity'
           register={register}
           validate={validate}
-          label={'Quantity'}
+          label={'Amount of tickets'}
           required='ticket quantity required'
           autoComplete='off'
           // placeholder={'# of tickets'}
@@ -73,6 +73,8 @@ export const TicketQuantityForm = (props) => {
         className='my-5'
       >
         <Button
+          wide
+          size='lg'
           disabled={!formState.isValid}
           color='green'
         >

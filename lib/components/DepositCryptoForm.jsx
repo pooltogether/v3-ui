@@ -204,6 +204,8 @@ export const DepositCryptoForm = (props) => {
                   className='mt-3 sm:mt-5 mb-5'
                 >
                 <Button
+                  wide
+                  size='lg'
                   onClick={handleUnlockClick}
                   className='my-4 w-64'
                   disabled={txInFlight}
@@ -225,6 +227,8 @@ export const DepositCryptoForm = (props) => {
 
       {!disabled && <>
         <Button
+          wide
+          size='lg'
           onClick={handleDepositClick}
           color='white'
           className='mt-6 w-64 mx-auto'

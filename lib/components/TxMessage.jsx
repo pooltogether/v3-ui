@@ -96,6 +96,8 @@ export const TxMessage = (props) => {
           {handleReset && <>
             <div className='mt-10 text-center'>
               <Button
+                wide
+                size='lg'
                 onClick={handleReset}
               >
                 {resetButtonText || 'Try again'}

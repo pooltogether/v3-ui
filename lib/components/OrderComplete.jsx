@@ -17,7 +17,7 @@ export const OrderComplete = (props) => {
       window.confettiContext = confetti
       confetti.start(setTimeout, setInterval)
     }, 300)
-  })
+  }, [])
 
   const handleShowAccount = (e) => {
     e.preventDefault()
@@ -36,10 +36,11 @@ export const OrderComplete = (props) => {
 
     <div>
       <Button
+        size='lg'
         onClick={handleShowAccount}
         className='w-64'
       >
-        View your account page
+        View your account
       </Button>
     </div>
   </>

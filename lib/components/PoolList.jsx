@@ -43,7 +43,7 @@ export const PoolList = (
           // }}
         >
           {pools.map(pool => {
-            if (!pool.id) {
+            if (!pool || !pool.id) {
               return null
             }
 

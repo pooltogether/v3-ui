@@ -145,6 +145,8 @@ export const WithdrawForm = (props) => {
         className='my-5'
       >
         <Button
+          wide
+          size='lg'
           disabled={overBalance}
           color='green'
         >

@@ -41,10 +41,11 @@ export const WithdrawComplete = (props) => {
 
     <div>
       <Button
-        onClick={handleShowAccount}
+        size='lg'
         className='w-64'
+        onClick={handleShowAccount}
       >
-        View your account page
+        View your account
       </Button>
     </div>
   </>

@@ -25,10 +25,13 @@
     font-display: swap;
 }
 
+html { height: 100%; overflow:auto; }
+body { height: 100%; }
 
 html, body, table {
-  font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 0, "lnum" 0, "dlig" 0;
   -webkit-tap-highlight-color: transparent;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 0, "lnum" 0, "dlig" 0;
+  scroll-behavior: smooth;
 }
 
 input:-internal-autofill-previewed,
@@ -51,7 +54,6 @@ html {
 
 body {
   @apply font-sans-regular tracking-wider;
-  overflow-x: hidden;
 }
 
 hr {
@@ -107,10 +109,6 @@ figure,
 p,
 pre {
   margin: 0.5rem 0;
-}
-
-p {
-  
 }
 
 label {

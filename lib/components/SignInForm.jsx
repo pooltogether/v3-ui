@@ -42,6 +42,7 @@ export const SignInForm = (props) => {
       >
         <Button
           wide
+          size='lg'
           disabled={!formState.isValid}
           // type='submit'
         >

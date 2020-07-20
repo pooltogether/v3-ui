@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 import Link from 'next/link'
 import FeatherIcon from 'feather-icons-react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
@@ -42,9 +42,7 @@ export const PoolRow = (
   // }
 
   return <>
-    {/* <AnimatePresence
-    // onExitComplete={handleExitComplete}
-    > */}
+    <AnimatePresence>
 
         <Link
           href='/pools/[networkName]/[prizePoolTicker]'
@@ -117,6 +115,6 @@ export const PoolRow = (
           </motion.a>
         </Link>
 
-    {/* </AnimatePresence> */}
+    </AnimatePresence>
   </>
 }

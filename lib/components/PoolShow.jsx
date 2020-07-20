@@ -138,8 +138,8 @@ export const PoolShow = (
                 className='flex sm:justify-end items-center w-full sm:w-1/2 mt-4 sm:mt-0'
               >
                 <Button
-                  onClick={handleShowDeposit}
                   wide
+                  onClick={handleShowDeposit}
                 >
                   Get tickets
                 </Button>

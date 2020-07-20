@@ -58,6 +58,8 @@ export const SweepTimelockedForm = (props) => {
         className='my-5'
       >
         <Button
+          wide
+          size='lg'
           color='green'
           disabled={buttonDisabled}
         >

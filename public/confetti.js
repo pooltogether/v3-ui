@@ -46,13 +46,13 @@ _now = Date.now || function () { return new Date().getTime(); };
 }(window));
 
 
-var speed = 50,
+var speed = 40,
   duration = (1.0 / speed),
   confettiRibbonCount = 11,
   ribbonPaperCount = 30,
   ribbonPaperDist = 8.0,
   ribbonPaperThick = 8.0,
-  confettiPaperCount = 95,
+  confettiPaperCount = 65,
   DEG_TO_RAD = PI / 180,
   // RAD_TO_DEG = 180 / PI,
   colors = [

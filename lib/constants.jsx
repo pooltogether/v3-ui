@@ -1,13 +1,13 @@
 export const SUPPORTED_NETWORKS = [1, 3, 42, 31337, 1234]
 
-export const MAINNET_POLLING_INTERVAL = 5000
+export const MAINNET_POLLING_INTERVAL = 10000
 // export const MAINNET_POLLING_INTERVAL = 15000
 
 // cookie names
 export const MAGIC_EMAIL = 'magic-email'
 export const SELECTED_WALLET_COOKIE_KEY = 'selectedWallet'
 
-export const CONFETTI_DURATION_MS = 16000
+export const CONFETTI_DURATION_MS = 12000
 
 const domain = process.env.NEXT_JS_DOMAIN_NAME && `.${process.env.NEXT_JS_DOMAIN_NAME}`
 

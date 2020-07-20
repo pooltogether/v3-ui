@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import i18next from "../i18n"
-import { cssTransition, ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
-import { Chart } from 'lib/components/Chart'
+// import { Chart } from 'lib/components/Chart'
 import { Layout } from 'lib/components/Layout'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -19,21 +19,26 @@ import 'assets/styles/animations.css'
 import 'assets/styles/transitions.css'
 
 
-function handleExitComplete() {
-  if (typeof window !== 'undefined') {
-    window.scrollTo({ top: 0 })
-  }
-}
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, router }) {
   const [initialized, setInitialized] = useState(false)
 
   useEffect(() => {
+    const handleExitComplete = () => {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0 })
+      }
+    }
+
+    router.events.on('routeChangeComplete', handleExitComplete)
+    return () => {
+      router.events.off('routeChangeComplete', handleExitComplete)
+    }
+  }, [])
+
+  useEffect(() => {
     const initi18next = async () => {
-      // console.log({ i18next})
       await i18next.initPromise.then(() => {
-        // console.log(a)
-        // console.log(i18next.i18n.language)
         setInitialized(true)
       })
     }

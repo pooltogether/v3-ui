@@ -8,14 +8,6 @@ import { Button } from 'lib/components/Button'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
-// import PoolLogo from 'assets/images/pooltogether-white-wordmark.svg'
-
-import PoolLogoDark from 'assets/images/pooltogether-logo-black.svg'
-import PoolLogo from 'assets/images/pooltogether-logo.svg'
-
-// import PoolLogo from 'assets/images/trophy-outline-white.svg'
-// import PoolLogo from 'assets/images/trophy.svg'
-
 export const Nav = (props) => {
   const router = useRouter()
 
@@ -39,6 +31,7 @@ export const Nav = (props) => {
           <Link
             href='/'
             as='/'
+            shallow
           >
             <a
               title={'Back to home'}

@@ -38,14 +38,16 @@ export const FiatOrCryptoForm = (props) => {
 
     <div className='flex flex-col mx-auto w-full'>
       <Button
+        size='lg'
         onClick={handleFiatClick}
         color='green'
         className='my-2 w-full mx-auto'
       >
-        Fiat Currency
+        Fiat currency
       </Button>
 
       <Button
+        size='lg'
         onClick={handleCryptoClick}
         color='white'
         className='my-2 w-full mx-auto'

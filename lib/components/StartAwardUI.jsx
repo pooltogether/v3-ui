@@ -60,6 +60,8 @@ export const StartAwardUI = (props) => {
     {!txInFlight ? <>
       {genericChainData.canStartAward && <>
         <Button
+          wide
+          size='lg'
           onClick={handleClick}
         >
           Start Award

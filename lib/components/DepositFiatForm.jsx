@@ -49,6 +49,8 @@ export const DepositFiatForm = (props) => {
           </div>
 
           <Button
+            wide
+            size='lg'
             disabled={!formState.isValid}
             className='my-2 w-full'
           >
