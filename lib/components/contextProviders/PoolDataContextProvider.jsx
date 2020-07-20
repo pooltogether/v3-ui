@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
+import { SUPPORTED_CHAIN_IDS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
+import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
+import { chainIdToName } from 'lib/utils/chainIdToName'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { isEmptyObject } from 'lib/utils/isEmptyObject'
 import { poolToast } from 'lib/utils/poolToast'
@@ -15,24 +17,16 @@ import { readProvider } from 'lib/utils/readProvider'
 export const PoolDataContext = React.createContext()
 
 export const PoolDataContextProvider = (props) => {
+  const authControllerContext = useContext(AuthControllerContext)
+  const { chainId, usersAddress } = authControllerContext
+
   const [defaultReadProvider, setDefaultReadProvider] = useState({})
 
   const router = useRouter()
   const ticker = router.query.prizePoolTicker && router.query.prizePoolTicker.toLowerCase()
-  
-  const authControllerContext = useContext(AuthControllerContext)
-  const { chainId, usersAddress } = authControllerContext
 
-  let poolAddresses
-  try {
-    poolAddresses = getContractAddresses(chainId)
-  } catch (e) {
-    poolToast.error(e)
-    console.error(e)
-  }
-
-  const networkName = router.query.networkName ?
-    router.query.networkName :
+  const networkName = chainId ?
+    chainIdToName(chainId) :
     process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
 
   useEffect(() => {
@@ -44,6 +38,30 @@ export const PoolDataContextProvider = (props) => {
   }, [networkName])
   
   let loading = true
+
+  if (!SUPPORTED_CHAIN_IDS.includes(chainId)) {
+    return <PoolDataContext.Provider
+      value={{
+        chainId,
+        loading: false,
+        unsupportedNetwork: true,
+        pool: null,
+        pools: [],
+      }}
+    >
+      {props.children}
+    </PoolDataContext.Provider>
+  }
+
+
+  let poolAddresses
+  try {
+    poolAddresses = getContractAddresses(chainId)
+  } catch (e) {
+    poolToast.error(e)
+    console.error(e)
+  }
+
   
   return <>
     <V3ApolloWrapper>
@@ -157,6 +175,7 @@ export const PoolDataContextProvider = (props) => {
                     {({ usersChainData }) => {
                       return <PoolDataContext.Provider
                         value={{
+                          chainId,
                           loading,
                           pool,
                           pools,

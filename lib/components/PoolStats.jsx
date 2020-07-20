@@ -13,13 +13,13 @@ export const PoolStats = (props) => {
 
   const [secondsRemainingNow, setSecondsRemainingNow] = useState('--')
 
-  useEffect(() => {
+  // useEffect(() => {
     
-  }, [/*didUpdateVar?*/])
+  // }, [/*didUpdateVar?*/])
 
-  useInterval(() => {
+  // useInterval(() => {
     
-  }, 1000)
+  // }, 1000)
 
   return <>
     <div

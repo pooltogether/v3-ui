@@ -21,6 +21,10 @@ export const PoolRow = (
   const authDataContext = useContext(AuthControllerContext)
   const { networkName } = authDataContext
 
+  if (!pool || !pool.underlyingCollateralSymbol) {
+    return null
+  }
+
   const ticker = pool.underlyingCollateralSymbol.toLowerCase()
 
   // let featuredPoolContent
