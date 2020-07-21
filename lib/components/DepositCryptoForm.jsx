@@ -115,12 +115,6 @@ export const DepositCryptoForm = (props) => {
     setCachedUsersBalance(usersBalance)
   }, [usersBalance])
 
-  // console.log(usersChainData)
-  // console.log(usersChainData.usersTokenAllowance)
-  // if (usersChainData && usersChainData.usersTokenAllowance) {
-  //   console.log(usersChainData.usersTokenAllowance.toString())
-  // }
-
   const overBalance = quantity && usersBalanceBN.lt(
     ethers.utils.parseUnits(quantity, underlyingCollateralDecimals)
   )

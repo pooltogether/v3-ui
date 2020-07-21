@@ -29,71 +29,70 @@ export const AuthControllerContextProvider = (props) => {
   const router = useRouter()
 
   const walletContext = useContext(WalletContext)
-  const { onboard, reconnectWallet, connectWallet, walletState } = walletContext
-  console.log({ walletContext})
+  const {
+    onboard,
+    onboardAddress,
+    onboardBalance,
+    onboardNetwork,
+    onboardProvider,
+    onboardWallet,
+    reconnectWallet,
+    connectWallet,
+  } = walletContext
 
   const magicContext = useContext(MagicContext)
   const { magic } = magicContext
-  
-  const currentState = onboard && onboard.getState()
+ 
   // TODO: extend this to also pull the eth balance from the magic session
   // may need state / ethereum event listener
-  const ethBalance = currentState && currentState.balance ?
-    currentState.balance :
-    ethers.utils.bigNumberify(0)
+  const ethBalance = onboardBalance || ethers.utils.bigNumberify(0)
   // const [ethBalance, setEthBalance] = useState(ethers.utils.bigNumberify(0))
   // useEffect(() => {
   //   if (ethBalance) {
   //     setEthBalance(ethers.utils.bigNumberify(ethBalance))
   //   }
-  // }, [authControllerContext])
-
-  // console.log('1')
+  // }, [])
 
   let walletName = 'Unknown'
   if (magic && magicContext.signedIn) {
     walletName = 'Magic'
-  } else if (currentState && currentState.wallet) {
-    walletName = currentState.wallet.name
+  } else if (onboardWallet) {
+    walletName = onboardWallet.name
   }
 
-  const [chainId, setChainId] = useState(getChainId(currentState))
+  const [chainId, setChainId] = useState(getChainId(onboardNetwork))
   const [provider, setProvider] = useState()
   const [usersAddress, setUsersAddress] = useState()
   const [magicAutoSignInAlreadyExecuted, setMagicAutoSignInAlreadyExecuted] = useState(false)
-  // const [walletAutoSignInAlreadyExecuted, setWalletAutoSignInAlreadyExecuted] = useState(false)
 
   useEffect(() => {
-    let provider = walletState && walletState.provider
+    let provider = onboardProvider
     if (!provider && magicContext.signedIn) {
       provider = magicContext.provider
     }
     setProvider(provider)
-  }, [currentState, magicContext.signedIn])
+  }, [onboardProvider, magicContext.signedIn])
 
   useEffect(() => {
-    const _chainId = getChainId(currentState)
+    const _chainId = getChainId(onboardNetwork)
     if (_chainId) {
       setChainId(_chainId)
     }
-  }, [currentState])
+  }, [onboardNetwork])
 
   useEffect(() => {
     let usersAddress
 
-    if (currentState && currentState.address) {
-      usersAddress = currentState.address
-      // console.log('wallet usersAddress', usersAddress)
+    if (onboardAddress) {
+      usersAddress = onboardAddress
     }
 
     if (!usersAddress && magicContext.address) {
       usersAddress = magicContext.address
-      // console.log('magicContext.address', magicContext.address)
     }
 
-    // console.log('setting usersAddress: ', usersAddress)
     setUsersAddress(usersAddress)
-  }, [magicContext.address, currentState])
+  }, [magicContext.address, onboardAddress])
 
   const postConnectRedirect = () => {
     router.push(
@@ -105,12 +104,8 @@ export const AuthControllerContextProvider = (props) => {
     )
   }
   
-
   const postDisconnectRedirect = () => {
-    // console.log('postDisconnectRedirect')
-    // console.log('adding signIn 1')
     queryParamUpdater.add(router, { signIn: '1' })
-    // console.log(router.query)
   }
 
   const signOut = async (e) => {
@@ -164,11 +159,7 @@ export const AuthControllerContextProvider = (props) => {
         }
       }
 
-      // if (!walletAutoSignInAlreadyExecuted) {
-        autoSignInWallet()
-      // }
-
-      // setWalletAutoSignInAlreadyExecuted(true)
+      autoSignInWallet()
     }
   }, [onboard])
 
@@ -184,7 +175,6 @@ export const AuthControllerContextProvider = (props) => {
       signOut,
       signInMagic,
       connectWallet,
-      // handleShowOnboard,
       networkName,
     }}
   >
