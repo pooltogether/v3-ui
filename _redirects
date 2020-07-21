@@ -17,12 +17,14 @@ https://app.pooltogether.us https://app.pooltogether.com/ko  301!  Language=ko
 https://app.pooltogether.us/*     https://app.pooltogether.com 301!
 
 /account                                 /account.html                          200
-/account/pools/:network/:ticker          /account/pools/[network]/[ticker].html 200
-/account/pools/:network/:ticker/withdraw /account/pools/[network]/[ticker]/withdraw.html 200
+/account/pools/:networkName/:prizePoolTicker          /account/pools/[networkName]/[prizePoolTicker].html 200
+/account/pools/:networkName/:prizePoolTicker/withdraw /account/pools/[networkName]/[prizePoolTicker]/withdraw.html 200
+
 /pools/:networkName/:prizePoolTicker                  /pools/[networkName]/[prizePoolTicker].html         200
 /pools/:network/:ticker/deposit          /pools/[network]/[ticker]/deposit.html 200
 
 /prizes/:ticker/:prizeId  /prizes/[ticker]/[prizeId].html   200
 /prizes/:ticker           /prizes/[ticker].html             200
 /prizes                   /prizes/dai.html                  200
+
 /sponsor                  /sponsor.html                     200
