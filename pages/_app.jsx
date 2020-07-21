@@ -46,7 +46,11 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   if (!initialized) {
-    return null // could show loader ...
+    return null
+    return <div
+      className='h-full w-full fixed t-0 r-0 l-0 b-0'
+      style={{ backgroundColor: '#1E0B43' }}
+    ></div> // could show loader ...
   }
   
   return <>

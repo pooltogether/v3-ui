@@ -22,7 +22,7 @@ export const SignInForm = (props) => {
     <form
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className='mx-auto'>
+      <div className='w-10/12 sm:w-2/3 mx-auto'>
         <TextInputGroup
           id='email'
           name='email'
@@ -55,7 +55,7 @@ export const SignInForm = (props) => {
       <button
         onClick={(e) => {
           e.preventDefault()
-          authControllerContext.handleShowOnboard(postSignInCallback)
+          authControllerContext.connectWallet(postSignInCallback)
         }}
         className='font-bold inline mb-2 py-2 text-sm sm:text-base text-primary-soft hover:text-primary trans border-b-2 border-transparent hover:border-secondary'
       >

@@ -13,6 +13,8 @@ import { chainIdToName } from 'lib/utils/chainIdToName'
 import { getChainId } from 'lib/utils/getChainId'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
+const debug = require('debug')('AuthControllerContextProvider')
+
 export const AuthControllerContext = React.createContext()
 
 // This AuthController allows us to have one place to interface with both the Magic context and
@@ -27,12 +29,13 @@ export const AuthControllerContextProvider = (props) => {
   const router = useRouter()
 
   const walletContext = useContext(WalletContext)
-  const { _onboard, doConnectWallet, handleShowOnboard, onboardState } = walletContext
+  const { onboard, reconnectWallet, connectWallet, walletState } = walletContext
+  console.log({ walletContext})
 
   const magicContext = useContext(MagicContext)
   const { magic } = magicContext
   
-  const currentState = _onboard && _onboard.getState()
+  const currentState = onboard && onboard.getState()
   // TODO: extend this to also pull the eth balance from the magic session
   // may need state / ethereum event listener
   const ethBalance = currentState && currentState.balance ?
@@ -45,6 +48,8 @@ export const AuthControllerContextProvider = (props) => {
   //   }
   // }, [authControllerContext])
 
+  // console.log('1')
+
   let walletName = 'Unknown'
   if (magic && magicContext.signedIn) {
     walletName = 'Magic'
@@ -56,10 +61,10 @@ export const AuthControllerContextProvider = (props) => {
   const [provider, setProvider] = useState()
   const [usersAddress, setUsersAddress] = useState()
   const [magicAutoSignInAlreadyExecuted, setMagicAutoSignInAlreadyExecuted] = useState(false)
-  const [walletAutoSignInAlreadyExecuted, setWalletAutoSignInAlreadyExecuted] = useState(false)
+  // const [walletAutoSignInAlreadyExecuted, setWalletAutoSignInAlreadyExecuted] = useState(false)
 
   useEffect(() => {
-    let provider = onboardState && onboardState.provider
+    let provider = walletState && walletState.provider
     if (!provider && magicContext.signedIn) {
       provider = magicContext.provider
     }
@@ -124,7 +129,7 @@ export const AuthControllerContextProvider = (props) => {
   }
 
   const signInWallet = async (previouslySelectedWallet) => {
-    doConnectWallet(previouslySelectedWallet)
+    reconnectWallet(previouslySelectedWallet)
     postConnectRedirect()
   }
 
@@ -148,22 +153,24 @@ export const AuthControllerContextProvider = (props) => {
   }, [magic])
 
   useEffect(() => {
-    if (_onboard) {
+    if (onboard) {
+      debug('inside onboard UseEffect if!')
       const autoSignInWallet = async () => {
         const previouslySelectedWallet = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
 
         if (previouslySelectedWallet !== undefined) {
+          debug('running autosign in!')
           signInWallet(previouslySelectedWallet)
         }
       }
 
-      if (!walletAutoSignInAlreadyExecuted) {
+      // if (!walletAutoSignInAlreadyExecuted) {
         autoSignInWallet()
-      }
+      // }
 
-      setWalletAutoSignInAlreadyExecuted(true)
+      // setWalletAutoSignInAlreadyExecuted(true)
     }
-  }, [_onboard])
+  }, [onboard])
 
   const networkName = chainIdToName(chainId)
 
@@ -176,7 +183,8 @@ export const AuthControllerContextProvider = (props) => {
       walletName,
       signOut,
       signInMagic,
-      handleShowOnboard,
+      connectWallet,
+      // handleShowOnboard,
       networkName,
     }}
   >

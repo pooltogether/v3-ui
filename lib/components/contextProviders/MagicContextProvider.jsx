@@ -13,8 +13,6 @@ import { poolToast } from 'lib/utils/poolToast'
 export const MagicContext = React.createContext()
 
 export const MagicContextProvider = (props) => {
-  const router = useRouter()
-
   const [magic, setMagic] = useState()
   const [provider, setProvider] = useState()
   const [email, setEmail] = useState()

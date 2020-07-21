@@ -27,7 +27,7 @@ export const AllContextProviders = (props) => {
       <ConfettiContextProvider>
         <MagicContextProviderDynamic>
           <WalletContextProviderDynamic
-            postDisconnectCallback={async () => {
+            postConnectCallback={async () => {
               router.push(
                 `${router.pathname}`,
                 `${router.asPath}`,
