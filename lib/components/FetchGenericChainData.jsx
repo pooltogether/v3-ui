@@ -5,66 +5,64 @@ import {
 } from 'lib/constants'
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchGenericChainData } from 'lib/utils/fetchGenericChainData'
+import { isEmptyObject } from 'lib/utils/isEmptyObject'
 
 export const FetchGenericChainData = (props) => {
   const {
+    chainId,
     children,
-    pool,
     provider,
+    poolAddresses,
   } = props
 
-  const poolAddress = pool && pool.id
-
-  const [genericChainData, setGenericChainData] = useState({
-    // underlyingCollateralSymbol: 'TOKEN',
-    // poolTotalSupply: '1234',
-  })
+  const [genericChainData, setGenericChainData] = useState({})
 
   const fetchDataFromInfura = async () => {
     try {
-      const data = await fetchGenericChainData(
+      const daiPool = await fetchGenericChainData(
         provider,
-        pool,
+        poolAddresses['daiPool']
+      )
+      const usdcPool = await fetchGenericChainData(
+        provider,
+        poolAddresses['usdcPool']
+      )
+      const usdtPool = await fetchGenericChainData(
+        provider,
+        poolAddresses['usdtPool']
       )
 
-      return data
+      return {
+        daiPool,
+        usdcPool,
+        usdtPool,
+      }
     } catch (e) {
       // error while fetching from infura?
+      console.warn(e)
       return {}
     }
   }
 
-  const updateGenericChainData = (genericData) => {
-    setGenericChainData(existingData => ({
-      ...existingData,
-      ...genericData,
-    }))
-  }
-
   const updateOrDelete = async () => {
-    if (poolAddress) {
-      const genericData = await fetchDataFromInfura()
-      // setGenericChainData(genericData)
-      updateGenericChainData(genericData)
-    } else {
-      setGenericChainData({})
-    }
+    const genericData = await fetchDataFromInfura()
+    setGenericChainData(genericData)
   }
 
   useInterval(() => {
-    // console.log('interval updateOrDelete')
-    updateOrDelete()
-    // if (pool) {
-    //   const genericData = await fetchDataFromInfura()
-    //   updateGenericChainData(genericData)
-    // }
+    if (!isEmptyObject(provider)) {
+      updateOrDelete()
+    }
   }, MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {
-    // console.log('pool address change updateOrDelete')
-    updateOrDelete()
-    // OPTIMIZE: Could reset the interval loop here since we just grabbed fresh data!
-  }, [poolAddress])
+    if (!isEmptyObject(provider)) {
+      updateOrDelete()
+    }
+
+    // OPTIMIZE: Could reset the interval loop here
+    // since we just grabbed fresh data!
+  }, [provider, chainId])
 
   return children({ genericChainData })
 }

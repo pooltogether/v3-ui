@@ -27,10 +27,11 @@ export const TicketQuantityForm = (props) => {
     }
   }
 
+  // console.log({ usersTicketBalance})
   let validate = null
   if (formName === 'Withdraw') {
     validate = {
-      greaterThanBalance: value => parseFloat(value) < usersTicketBalance,
+      greaterThanBalance: value => parseFloat(value) <= usersTicketBalance,
     }
   }
 
@@ -64,7 +65,7 @@ export const TicketQuantityForm = (props) => {
       </div>
       <div className='text-red'>
         {errors.quantity && errors.quantity.type === 'greaterThanBalance' && <>
-          Please enter an amount lower than your ticket balance
+          please enter an amount lower than your ticket balance
         </>}
         {errors.quantity && errors.quantity.message}
       </div>

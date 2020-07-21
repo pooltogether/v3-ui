@@ -33,22 +33,11 @@ export const FetchUsersChainData = (props) => {
     }
   }
 
-  // const updateUsersChainData = (usersData) => {
-  //   setUsersChainData(usersData)
-  //   // setUsersChainData(existingData => ({
-  //   //   // ...existingData,
-  //   //   ...usersData,
-  //   // }))
-  // }
-
   const updateOrDelete = async () => {
     if (poolAddress && usersAddress) {
       const usersData = await fetchUsersDataFromInfura()
-      // console.log('SETTING USERS CHAIN DATA ! ')
-      // console.log({ usersChainData })
       setUsersChainData(usersData)
     } else {
-      // console.log('DELETING USERS DATA HERE !')
       setUsersChainData({})
     }
   }
@@ -56,19 +45,12 @@ export const FetchUsersChainData = (props) => {
 
   useInterval(() => {
     updateOrDelete()
-    // console.log({ usersChainData})
-    // if (poolAddress && usersAddress) {
-    //   const usersData = await fetchUsersDataFromInfura()
-    //   updateUsersChainData(usersData)
-    // }
   }, MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {    
     updateOrDelete()
     // OPTIMIZE: Could reset the interval loop here since we just grabbed fresh data!
   }, [poolAddress])
-
-  // console.log({ usersChainData})
 
   return children({ usersChainData })
 }

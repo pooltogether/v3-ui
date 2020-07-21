@@ -19,11 +19,23 @@ export const PrizeAmount = (
   }
 
   return <>
-    <div className={`${labelSize} uppercase font-bold`}>Prize estimate</div>
-    <div className={`${amountSize} text-inverse`}>
-      <span className='font-number'>${numberWithCommas(pool.prize)}</span> <span
+    <div
+      className={`${labelSize} uppercase font-bold`}
+    >
+      Prize estimate
+    </div>
+    <div
+      className={`${amountSize} text-inverse`}
+    >
+      <span
+        className='font-number'
+      >
+        ${numberWithCommas(pool.estimateRemainingPrize)}
+      </span> <span
         className={`${labelSize} uppercase font-bold text-primary`}
-      > / {pool.frequency === 'Weekly' ? 'week' : 'day'}</span>
+      >
+        / {pool.frequency === 'Weekly' ? 'week' : 'day'}
+      </span>
     </div>
   </>
 }

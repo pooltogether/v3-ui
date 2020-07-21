@@ -12,7 +12,8 @@ export const AccountLoggedIn = (props) => {
   
   useEffect(() => {
     if (!usersAddress) {
-      router.push('/?signIn=1', '/?signIn=1', { shallow: true })
+      console.warn('fix this!')
+      // router.push('/?signIn=1', '/?signIn=1', { shallow: true })
     }
   }, [])
 

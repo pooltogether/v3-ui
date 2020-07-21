@@ -86,7 +86,9 @@ export const AccountPoolRow = (
                 <div
                   className='flex items-center sm:my-1'
                 >
-                  <PrizePoolCountdown />
+                  <PrizePoolCountdown
+                    pool={pool}
+                  />
                 </div>
 
                 <div

@@ -81,91 +81,79 @@ export const PoolDataContextProvider = (props) => {
             usersAddress={usersAddress}
           >
             {({ graphDataLoading, staticPoolData, dynamicPoolData, dynamicPlayerData }) => {
-              let pools = []
-
-              if (!graphDataLoading) {
-                pools = [
-                  {
-                    ...dynamicPoolData.daiPool,
-                    ...staticPoolData.daiPool,
-                    prize: 9591,
-                    risk: 5,
-                    yieldSource: 'mStable',
-                    frequency: 'Weekly',
-                  },
-                  {
-                    ...dynamicPoolData.usdcPool,
-                    ...staticPoolData.usdcPool,
-                    prize: (11239 / 7),
-                    risk: 3,
-                    yieldSource: 'AAVE',
-                    frequency: 'Daily',
-                  },
-                  {
-                    ...dynamicPoolData.usdtPool,
-                    ...staticPoolData.usdtPool,
-                    prize: 7001,
-                    risk: 2,
-                    yieldSource: 'Compound',
-                    frequency: 'Weekly',
-                  },
-                ]
-              }
-
-
-              let pool
-              if (ticker) {
-                pool = pools.find(_pool => {
-                  let symbol
-                  if (_pool && _pool.underlyingCollateralSymbol) {
-                    symbol = _pool.underlyingCollateralSymbol.toLowerCase()
-                  }
-
-                  if (_pool && symbol) {
-                    return symbol === ticker
-                  }
-                })
-              }
-
-              // if (pool) {
-              //   console.log({
-              //     poolAddress: pool.id,
-              //     underlyingCollateralSymbol: pool.underlyingCollateralSymbol,
-              //     underlyingCollateralToken: pool.underlyingCollateralToken,
-              //     usersAddress: usersAddress,
-              //   })
-              // }
-              // if (pool) {
-              //   console.log({ pool: pool.id })
-              // } else {
-              //   console.log('pool', pool)
-              // }
-
-              let usersTicketBalance = 0
-              let usersTicketBalanceBN = ethers.utils.bigNumberify(0)
-
-
-              if (pool && dynamicPlayerData) {
-                const poolAddress = pool && pool.id
-                const player = dynamicPlayerData.find(data => data.prizePool.id === poolAddress)
-
-                if (player) {
-                  usersTicketBalance = Number(ethers.utils.formatUnits(
-                    player.balance,
-                    pool.underlyingCollateralDecimals
-                  ))
-                  usersTicketBalanceBN = ethers.utils.bigNumberify(player.balance)
-                }
-              }
-
-              loading = graphDataLoading
-
               return <FetchGenericChainData
                 {...props}
+                chainId={chainId}
                 provider={defaultReadProvider}
-                pool={pool}
+                poolAddresses={poolAddresses}
               >
                 {({ genericChainData }) => {
+                  let pools = []
+
+                  if (!graphDataLoading) {
+                    pools = [
+                      {
+                        ...genericChainData.daiPool,
+                        ...dynamicPoolData.daiPool,
+                        ...staticPoolData.daiPool,
+                        // prize: 9591,
+                        risk: 5,
+                        yieldSource: 'mStable',
+                        frequency: 'Weekly',
+                      },
+                      {
+                        ...genericChainData.usdcPool,
+                        ...dynamicPoolData.usdcPool,
+                        ...staticPoolData.usdcPool,
+                        // prize: (11239 / 7),
+                        risk: 3,
+                        yieldSource: 'AAVE',
+                        frequency: 'Daily',
+                      },
+                      {
+                        ...genericChainData.usdtPool,
+                        ...dynamicPoolData.usdtPool,
+                        ...staticPoolData.usdtPool,
+                        // prize: 7001,
+                        risk: 2,
+                        yieldSource: 'Compound',
+                        frequency: 'Weekly',
+                      },
+                    ]
+                  }
+
+                  let pool
+                  if (ticker) {
+                    pool = pools.find(_pool => {
+                      let symbol
+                      if (_pool && _pool.underlyingCollateralSymbol) {
+                        symbol = _pool.underlyingCollateralSymbol.toLowerCase()
+                      }
+
+                      if (_pool && symbol) {
+                        return symbol === ticker
+                      }
+                    })
+                  }
+
+                  let usersTicketBalance = 0
+                  let usersTicketBalanceBN = ethers.utils.bigNumberify(0)
+
+                  if (pool && dynamicPlayerData) {
+                    const poolAddress = pool && pool.id
+                    const player = dynamicPlayerData.find(data => data.prizePool.id === poolAddress)
+
+                    if (player) {
+                      usersTicketBalance = Number(ethers.utils.formatUnits(
+                        player.balance,
+                        pool.underlyingCollateralDecimals
+                      ))
+                      usersTicketBalanceBN = ethers.utils.bigNumberify(player.balance)
+                    }
+                  }
+
+
+
                   return <FetchUsersChainData
                     {...props}
                     provider={defaultReadProvider}
@@ -176,7 +164,7 @@ export const PoolDataContextProvider = (props) => {
                       return <PoolDataContext.Provider
                         value={{
                           chainId,
-                          loading,
+                          loading: graphDataLoading,
                           pool,
                           pools,
                           poolAddresses,

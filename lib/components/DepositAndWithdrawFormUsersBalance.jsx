@@ -17,6 +17,7 @@ export const DepositAndWithdrawFormUsersBalance = (
       <PoolCountUp
         start={start}
         end={end}
+        decimals={2}
       />
     </div>
   </>

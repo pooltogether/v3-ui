@@ -107,7 +107,7 @@ export const AccountPoolShowUI = (props) => {
             />
           </div>
           <div
-            className='mt-2 text-sm'
+            className='mt-1 text-sm'
           >
             Odds of winning: <PoolCountUp
               end={1}
@@ -119,7 +119,7 @@ export const AccountPoolShowUI = (props) => {
           </div>
 
           <div
-            className='my-6'
+            className='my-10'
           >
             <PrizeAmount
               pool={pool}
@@ -127,7 +127,7 @@ export const AccountPoolShowUI = (props) => {
           </div>
 
           <div
-            className='mt-4'
+            className='mt-6'
           >
             {pool.frequency} Pool
           </div>
@@ -135,7 +135,9 @@ export const AccountPoolShowUI = (props) => {
           <div
             className='mb-4'
           >
-            <PrizePoolCountdown />
+            <PrizePoolCountdown
+              pool={pool}
+            />
           </div>
 
           <div
