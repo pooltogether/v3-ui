@@ -35,7 +35,6 @@ export const WizardLayout = (props) => {
     )
   }
 
-  // const currentWizardStep = 1
   const disabled = currentWizardStep <= 1
 
   return <>
@@ -46,6 +45,7 @@ export const WizardLayout = (props) => {
       animate={{ scale: 1, transition: { duration: 0.1 } }}
       exit={{ opacity: 0, transition: { duration: 0.5 } }}
     />
+    
     <motion.div
       key={`${action}-pane`}
       className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40'

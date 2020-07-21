@@ -12,27 +12,45 @@ import { FiatOrCryptoForm } from 'lib/components/FiatOrCryptoForm'
 import { OrderComplete } from 'lib/components/OrderComplete'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 import { WizardLayout } from 'lib/components/WizardLayout'
+import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const DepositWizardContainer = (props) => {
   const router = useRouter()
   const method = router.query.method
+  const quantity = router.query.quantity
+
+  let initialStepIndex = 0
+  if (quantity) {
+    initialStepIndex = 1
+  }
+  if (method) {
+    initialStepIndex = 2
+  }
 
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress } = authControllerContext
 
   return <>
     <Wizard
-      // onChange={({ newStepIndex, previousStepIndex }) => {
-      //   console.log(`I moved from step ${previousStepIndex} to ${newStepIndex}`);
-      // }}
+      initialStepIndex={initialStepIndex}
     >
       {
         (wizard) => {
           const { activeStepIndex, previousStep, moveToStep } = wizard
 
+          const back = (e) => {
+            if (method) {
+              queryParamUpdater.remove(router, 'method')
+            } else if (quantity) {
+              queryParamUpdater.remove(router, 'quantity')
+            }
+            
+            previousStep()
+          } 
+
           return <WizardLayout
             currentWizardStep={activeStepIndex + 1}
-            handlePreviousStep={previousStep}
+            handlePreviousStep={back}
             moveToStep={moveToStep}
             totalWizardSteps={usersAddress ? 5 : 6}
           >
