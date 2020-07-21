@@ -13,6 +13,8 @@ export const DynamicPlayerQuery = (
  
   let playerData
 
+  // multiple queries at the same time, this or use apollo-link-batch (to prevent multiple re-renders)
+  // const { loading: poolQueryLoading, error: poolQueryError, data: poolQueryData } = useQuery(poolquery, {})
   const { loading, error, data } = useQuery(dynamicPlayerQuery, {
     variables: {
       playerAddress: usersAddress
