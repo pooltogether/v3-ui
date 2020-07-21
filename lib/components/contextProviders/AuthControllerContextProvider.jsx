@@ -94,16 +94,6 @@ export const AuthControllerContextProvider = (props) => {
     setUsersAddress(usersAddress)
   }, [magicContext.address, onboardAddress])
 
-  const postConnectRedirect = () => {
-    router.push(
-      `${router.pathname}`,
-      `${router.asPath}`,
-      {
-        shallow: true
-      }
-    )
-  }
-  
   const postDisconnectRedirect = () => {
     queryParamUpdater.add(router, { signIn: '1' })
   }
@@ -115,17 +105,13 @@ export const AuthControllerContextProvider = (props) => {
 
     magicContext.signOut()
     walletContext.disconnectWallet()
+
     postDisconnectRedirect()
   }
 
   const signInMagic = async (formEmail, postSignInCallback) => {
     magicContext.signIn(formEmail, postSignInCallback)
     walletContext.disconnectWallet()
-  }
-
-  const signInWallet = async (previouslySelectedWallet) => {
-    reconnectWallet(previouslySelectedWallet)
-    postConnectRedirect()
   }
 
   useEffect(() => {
@@ -155,7 +141,7 @@ export const AuthControllerContextProvider = (props) => {
 
         if (previouslySelectedWallet !== undefined) {
           debug('running autosign in!')
-          signInWallet(previouslySelectedWallet)
+          reconnectWallet(previouslySelectedWallet)
         }
       }
 

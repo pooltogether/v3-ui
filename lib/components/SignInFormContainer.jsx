@@ -4,26 +4,17 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
 import { SignInForm } from 'lib/components/SignInForm'
+import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const SignInFormContainer = (props) => {
   const router = useRouter()
 
   const handleCloseSignIn = () => {
-    let pathname = router.pathname
-    let asPath = router.asPath
+    queryParamUpdater.remove(router, 'signIn')
 
-    if (/signIn/.test(router.asPath)) {
-      pathname = '/'
-      asPath = '/'
+    if (router.asPath.match('account')) {
+      router.push('/', '/', { shallow: true })
     }
-
-    router.push(
-      `${pathname}`,
-      `${asPath}`,
-      {
-        shallow: true
-      }
-    )
   }
 
   return <>
@@ -66,14 +57,7 @@ export const SignInFormContainer = (props) => {
         
         <SignInForm
           postSignInCallback={() => {
-            // clear the `signIn=1` query param
-            router.push(
-              `${router.pathname}`,
-              `${router.asPath}`,
-              {
-                shallow: true
-              }
-            )
+            queryParamUpdater.remove(router, 'signIn')
           }}
         />
       </div>

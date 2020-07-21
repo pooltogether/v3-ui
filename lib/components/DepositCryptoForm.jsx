@@ -53,9 +53,8 @@ export const DepositCryptoForm = (props) => {
   const poolData = useContext(PoolDataContext)
   const { pool, genericChainData, usersChainData } = poolData
 
-  const {
-    underlyingCollateralDecimals
-  } = pool
+  const underlyingCollateralDecimals = 
+    pool && pool.underlyingCollateralDecimals || 18
 
   const {
     isRngRequested,
@@ -64,7 +63,7 @@ export const DepositCryptoForm = (props) => {
 
   const quantityBN = ethers.utils.parseUnits(
     quantity || '0',
-    pool.underlyingCollateralDecimals
+    underlyingCollateralDecimals
   )
 
   const ticker = pool && pool.underlyingCollateralSymbol
@@ -78,7 +77,7 @@ export const DepositCryptoForm = (props) => {
   const usersBalance = Number(
     ethers.utils.formatUnits(
       usersBalanceBN,
-      pool.underlyingCollateralDecimals 
+      underlyingCollateralDecimals 
     )
   )
 
@@ -106,7 +105,7 @@ export const DepositCryptoForm = (props) => {
       provider,
       pool.underlyingCollateralToken,
       pool.id,
-      pool.underlyingCollateralDecimals,
+      underlyingCollateralDecimals,
       quantity,
     )
   }
@@ -119,13 +118,19 @@ export const DepositCryptoForm = (props) => {
     ethers.utils.parseUnits(quantity, underlyingCollateralDecimals)
   )
 
+  if (!pool) {
+    return null
+  }
+
+  const tickerUpcased = ticker && ticker.toUpperCase()
+  
   return <>
     <PaneTitle small>
       {quantity} tickets
     </PaneTitle>
 
     <PaneTitle>
-      Deposit using {ticker.toUpperCase()} <PoolCurrencyIcon
+      Deposit using {tickerUpcased} <PoolCurrencyIcon
         pool={pool}
       />
     </PaneTitle>
@@ -146,7 +151,7 @@ export const DepositCryptoForm = (props) => {
           className='font-number'
         >
           {quantity}
-        </span> {ticker.toUpperCase()}
+        </span> {tickerUpcased}
       </div>
     </div>
 
@@ -166,7 +171,7 @@ export const DepositCryptoForm = (props) => {
           <div
             className='font-bold'
           >
-            You don't have enough {ticker.toUpperCase()}.
+            You don't have enough {tickerUpcased}.
           </div>
           
           <div
@@ -182,26 +187,26 @@ export const DepositCryptoForm = (props) => {
         </div>
       </> : <>
           {disabled && <>
-            <div className='w-full sm:w-2/3 mx-auto text-inverse mb-4 text-lg'>
+            <div className='w-full sm:w-9/12 mx-auto text-inverse mb-4 text-lg'>
               <div
-                className='px-6 sm:px-10'
+                className='px-6 sm:px-10 text-sm'
               >
                 <div
-                  className='font-bold my-2'
+                  className='font-bold my-2 mt-10'
                 >
                   Your approval is needed.
                 </div>
-                  Unlock this deposit by allowing the pool's ticket contract to have a <span className='font-bold'>{quantity} {ticker.toUpperCase()}</span> allowance.
-                </div>
 
-                <div
-                  className='mt-3 sm:mt-5 mb-5'
-                >
+                Unlock this deposit by allowing the pool's ticket contract to have a <span className='font-bold'>{quantity} {tickerUpcased}</span> allowance.
+              </div>
+
+              <div
+                className='mt-3 sm:mt-5 mb-5'
+              >
                 <Button
                   wide
                   size='lg'
                   onClick={handleUnlockClick}
-                  className='my-4 w-64'
                   disabled={txInFlight}
                 >
                   Unlock deposit
@@ -213,7 +218,7 @@ export const DepositCryptoForm = (props) => {
 
       {txInFlight && <>
         <TxMessage
-          txType={`Unlock ${quantity} ${ticker.toUpperCase()} deposit`}
+          txType={`Unlock ${quantity} ${tickerUpcased} deposit`}
           tx={tx}
           handleReset={handleResetState}
         />
