@@ -91,7 +91,6 @@ export const WalletContextProvider = (props) => {
 
     if (onboard.getState().wallet.type) {
       await onboard.walletCheck()
-      debug({ currentState: onboard.getState() })
 
       if (postSignInCallback) {
         postSignInCallback()

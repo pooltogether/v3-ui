@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { Button } from 'lib/components/Button'
+import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
@@ -70,14 +71,14 @@ export const AccountPoolShowUI = (props) => {
       </div>
 
       {!dynamicPlayerData ? <>
-      loading ...
+        <IndexUILoader />
       </> :
         !playerData ? <>
           <BlankStateMessage>
             <div
               className='mb-4'
             >
-              You currently have no tickets in this pool. Deposit now to get tickets!
+              You currently have no tickets in this pool.<br />Deposit now to get tickets!
             </div>
             
             <Button
