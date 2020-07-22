@@ -10,6 +10,10 @@ export const staticPrizePoolsQuery = gql`
   query staticPrizePoolsQuery {
     prizePools {
       ...staticPrizePoolFragment
+
+      prizeStrategy {
+        id
+      }
     }
   }
   ${staticPrizePoolFragment}

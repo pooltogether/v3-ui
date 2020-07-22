@@ -15,6 +15,7 @@ export const dynamicPlayerQuery = gql`
     # }
     player: players(where: { address: $playerAddress }) {
       ...playerFragment
+      
       prizePool {
         id
       }

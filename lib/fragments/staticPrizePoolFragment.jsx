@@ -9,21 +9,19 @@ export const staticPrizePoolFragment = gql`
     underlyingCollateralName
     underlyingCollateralSymbol
     
-    yieldToken
-    yieldDecimals
-    yieldName
-    yieldSymbol
+    # maxExitFeeMantissa
+    # maxTimelockDuration
+    # timelockTotalSupply
 
-    creator
-    prizeStrategy
+    # creator
 
-    ticket
-    sponsorship
-    rng
+    # ticket
+    # sponsorship
+    # rng
 
-    prizePeriodSeconds
+    # prizePeriodSeconds
 
-    feeScaleMantissa
-    rngRequestId
+    # feeScaleMantissa
+    # rngRequestId
   }
 `

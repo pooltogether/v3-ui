@@ -8,5 +8,7 @@ export const playerFragment = gql`
 
     timelockedBalance
     unlockTimestamp
+
+    address
   }
 `

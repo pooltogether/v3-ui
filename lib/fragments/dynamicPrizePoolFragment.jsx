@@ -11,8 +11,8 @@ export const dynamicPrizePoolFragment = gql`
   
     prizePeriodStartedAt
 
-    previousPrize
-    previousPrizeAverageTickets
+    # previousPrize
+    # previousPrizeAverageTickets
 
     playerCount
 
