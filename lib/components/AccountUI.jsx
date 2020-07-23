@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
+import Cookies from 'js-cookie'
 import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/router'
 
+import { SHOW_AWARD_FEATURES } from 'lib/constants'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { Button } from 'lib/components/Button'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
+import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { Tab, Tabs, Content, ContentPane } from 'lib/components/Tabs'
 import { WalletInfo } from 'lib/components/WalletInfo'
 
@@ -32,11 +35,31 @@ export const AccountUI = (props) => {
 
   const poolData = useContext(PoolDataContext)
   const { pools, dynamicPlayerData } = poolData
+
+  const [showAwardFeatures, setShowAwardFeatures] = useState(false)
+  useEffect(() => {
+    const cookieShowAward = Cookies.get(SHOW_AWARD_FEATURES)
+    setShowAwardFeatures(cookieShowAward)
+  }, [])
   
+  const handleShowAwardFeaturesClick = (e) => {
+    e.preventDefault()
+
+    if (showAwardFeatures) {
+      Cookies.remove(SHOW_AWARD_FEATURES)
+    } else {
+      Cookies.set(SHOW_AWARD_FEATURES, 1)
+    }
+
+    setShowAwardFeatures(!showAwardFeatures)
+  }
+
+
   const showPoolIndex = (e) => {
     e.preventDefault()
     router.push('/', '/', { shallow: true })
   }
+
 
   return <>
     <div
@@ -131,6 +154,20 @@ export const AccountUI = (props) => {
           <ContentPane
             isSelected={visible === SETTINGS}
           >
+            <div
+              className='flex flex-col sm:flex-wrap sm:flex-row items-center justify-center text-center text-xl'
+            >
+              <CheckboxInputGroup
+                large
+                id='settings-show-award'
+                name='settings-show-award'
+                label={<>
+                  Show award features
+                </>}
+                checked={showAwardFeatures}
+                handleClick={handleShowAwardFeaturesClick}
+              />
+            </div>
             <div
               className='flex flex-col sm:flex-wrap sm:flex-row items-center justify-center text-center text-xl'
             >

@@ -5,6 +5,7 @@ export const MAINNET_POLLING_INTERVAL = 10000
 // export const MAINNET_POLLING_INTERVAL = 15000
 
 // cookie names
+export const SHOW_AWARD_FEATURES = 'show-award-features'
 export const MAGIC_EMAIL = 'magic-email'
 export const SELECTED_WALLET_COOKIE_KEY = 'selectedWallet'
 

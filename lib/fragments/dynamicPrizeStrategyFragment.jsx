@@ -8,7 +8,7 @@ export const dynamicPrizeStrategyFragment = gql`
     currentState
   
     prizePeriodSeconds
-    prizePeriodStartedAt
+    # prizePeriodStartedAt
 
     # exitFeeMantissa
     # creditRateMantissa

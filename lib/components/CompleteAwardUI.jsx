@@ -1,79 +1,81 @@
-// import React, { useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 
-// import CompoundPeriodicPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPeriodicPrizePool'
+import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
-// import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-// import { Button } from 'lib/components/Button'
-// import { TxMessage } from 'lib/components/TxMessage'
-// import { sendTx } from 'lib/utils/sendTx'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { Button } from 'lib/components/Button'
+import { TxMessage } from 'lib/components/TxMessage'
+import { sendTx } from 'lib/utils/sendTx'
 
-// const handleCompleteAwardSubmit = async (
-//   setTx,
-//   provider,
-//   contractAddress,
-// ) => {
-//   const params = [
-//     {
-//       gasLimit: 600000
-//     }
-//   ]
+const handleCompleteAwardSubmit = async (
+  setTx,
+  provider,
+  contractAddress,
+) => {
+  const params = [
+    {
+      gasLimit: 600000
+    }
+  ]
 
-//   await sendTx(
-//     setTx,
-//     provider,
-//     contractAddress,
-//     CompoundPeriodicPrizePoolAbi,
-//     'completeAward',
-//     params,
-//     'Complete Award',
-//   )
-// }
+  await sendTx(
+    setTx,
+    provider,
+    contractAddress,
+    PrizePoolAbi,
+    'completeAward',
+    params,
+    'Complete Award',
+  )
+}
 
-// export const CompleteAwardUI = (props) => {
-//   const {
-//     genericChainData
-//   } = props
+export const CompleteAwardUI = (props) => {
+  const authControllerContext = useContext(AuthControllerContext)
+  const { provider } = authControllerContext
+ 
+  const poolDataContext = useContext(PoolDataContext)
+  const { pool } = poolDataContext
 
-//   const authControllerContext = useContext(AuthControllerContext)
-//   const { provider } = authControllerContext
-  
-//   const [tx, setTx] = useState({})
+  const { canCompleteAward, prizeStrategyAddress } = pool
 
-//   const txInFlight = tx.inWallet || tx.sent && !tx.completed
+  const [tx, setTx] = useState({})
 
-//   const resetState = (e) => {
-//     e.preventDefault()
-//     setTx({})
-//   }
+  const txInFlight = tx.inWallet || tx.sent && !tx.completed
 
-//   const handleClick = (e) => {
-//     e.preventDefault()
+  const resetState = (e) => {
+    e.preventDefault()
+    setTx({})
+  }
 
-//     handleCompleteAwardSubmit(
-//       setTx,
-//       provider,
-//       props.poolAddresses.prizePool,
-//     )
-//   }
+  const handleClick = (e) => {
+    e.preventDefault()
 
-//   return <>
-//     {!txInFlight ? <>
-//       {genericChainData.canCompleteAward && <>
-//         <Button
-//           onClick={handleClick}
-//         >
-//           Complete Award
-//         </Button>
-//       </>}
-//     </> : <>
-//       <TxMessage
-//         txType='Complete Award'
-//         tx={tx}
-//         handleReset={resetState}
-//         resetButtonText='Hide this'
-//       />
-//     </>}
+    handleCompleteAwardSubmit(
+      setTx,
+      provider,
+      prizeStrategyAddress,
+    )
+  }
+
+  return <>
+    {!txInFlight ? <>
+      {canCompleteAward && <>
+        <Button
+          onClick={handleClick}
+        >
+          Complete Award
+        </Button>
+      </>}
+    </> : <>
+      <TxMessage
+        txType='Complete Award'
+        tx={tx}
+        handleReset={resetState}
+        resetButtonText='Hide this'
+      />
+    </>}
     
-//   </>
-// }
+  </>
+}
 
