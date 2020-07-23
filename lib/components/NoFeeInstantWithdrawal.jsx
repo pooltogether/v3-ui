@@ -12,18 +12,21 @@ import { TxMessage } from 'lib/components/TxMessage'
 import { sendTx } from 'lib/utils/sendTx'
 import { poolToast } from 'lib/utils/poolToast'
 
-
 const handleWithdraw = async (
   setTx,
   provider,
   contractAddress,
+  usersAddress,
+  controlledTokenAddress,
   quantity,
   withdrawType,
   decimals
 ) => {
   const params = [
+    usersAddress,
     ethers.utils.parseUnits(quantity, decimals),
-    [],
+    controlledTokenAddress,
+    '0',
     {
       gasLimit: 600000
     }
@@ -52,18 +55,19 @@ export const NoFeeInstantWithdrawal = (props) => {
   const quantity = router.query.quantity
 
   const authControllerContext = useContext(AuthControllerContext)
-  const { provider } = authControllerContext
+  const { usersAddress, provider } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
   const { pool } = poolData
 
   const {
-    id,
     underlyingCollateralSymbol,
-    underlyingCollateralDecimals
+    underlyingCollateralDecimals,
+    poolAddress,
   } = pool
-  const poolAddress = id
+
   const ticker = pool && underlyingCollateralSymbol
+  const controlledTokenAddress = pool && pool.ticket
 
   const [tx, setTx] = useState({})
   const [txExecuted, setTxExecuted] = useState(false)
@@ -83,6 +87,8 @@ export const NoFeeInstantWithdrawal = (props) => {
         setTx,
         provider,
         poolAddress,
+        usersAddress,
+        controlledTokenAddress,
         quantity,
         'instant',
         underlyingCollateralDecimals,
