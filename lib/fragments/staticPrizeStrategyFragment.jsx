@@ -13,9 +13,5 @@ export const staticPrizeStrategyFragment = gql`
     # exitFeeMantissa
     # creditRateMantissa
 
-    # prizes {
-    #   ...prizeFragment
-    # }
   }
-  # ${prizeFragment}
 `

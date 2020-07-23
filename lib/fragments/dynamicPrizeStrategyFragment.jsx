@@ -1,7 +1,5 @@
 import gql from 'graphql-tag'
 
-// import { prizeFragment } from 'lib/fragments/prizeFragment'
-
 export const dynamicPrizeStrategyFragment = gql`
   fragment dynamicPrizeStrategyFragment on PrizeStrategy {
     id
@@ -14,10 +12,5 @@ export const dynamicPrizeStrategyFragment = gql`
 
     # exitFeeMantissa
     # creditRateMantissa
-
-    # prizes {
-    #   ...prizeFragment
-    # }
   }
-  # ${prizeFragment}
 `

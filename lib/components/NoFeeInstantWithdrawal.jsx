@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
-import CompoundPeriodicPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPeriodicPrizePool'
+import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
@@ -30,14 +30,14 @@ const handleWithdraw = async (
   ]
 
   const method = withdrawType === 'instant' ?
-    'redeemTicketsInstantly' :
-    'redeemTicketsWithTimelock'
+    'withdrawInstantlyFrom' :
+    'withdrawWithTimelockFrom'
 
   await sendTx(
     setTx,
     provider,
     contractAddress,
-    CompoundPeriodicPrizePoolAbi,
+    PrizePoolAbi,
     method,
     params,
     'Withdraw'

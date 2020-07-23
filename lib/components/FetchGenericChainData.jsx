@@ -19,23 +19,23 @@ export const FetchGenericChainData = (props) => {
 
   const fetchDataFromInfura = async () => {
     try {
-      const daiPool = await fetchGenericChainData(
+      const daiPrizeStrategy = await fetchGenericChainData(
         provider,
-        poolAddresses['daiPool']
+        poolAddresses['daiPrizeStrategy']
       )
-      const usdcPool = await fetchGenericChainData(
+      const usdcPrizeStrategy = await `fetchGenericChainData`(
         provider,
-        poolAddresses['usdcPool']
+        poolAddresses['usdcPrizeStrategy']
       )
-      const usdtPool = await fetchGenericChainData(
+      const usdtPrizeStrategy = await fetchGenericChainData(
         provider,
-        poolAddresses['usdtPool']
+        poolAddresses['usdtPrizeStrategy']
       )
 
       return {
-        daiPool,
-        usdcPool,
-        usdtPool,
+        daiPrizeStrategy,
+        usdcPrizeStrategy,
+        usdtPrizeStrategy,
       }
     } catch (e) {
       // error while fetching from infura?

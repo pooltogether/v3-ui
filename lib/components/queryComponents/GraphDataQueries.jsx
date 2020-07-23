@@ -1,50 +1,45 @@
 import React from 'react'
 
-import { DynamicPrizePoolsQuery } from 'lib/components/queryComponents/DynamicPrizePoolsQuery'
-import { DynamicPlayerQuery } from 'lib/components/queryComponents/DynamicPlayerQuery'
-import { StaticPrizePoolsQuery } from 'lib/components/queryComponents/StaticPrizePoolsQuery'
+import { DynamicQueries } from 'lib/components/queryComponents/DynamicQueries'
+import { StaticQueries } from 'lib/components/queryComponents/StaticQueries'
 
 export const GraphDataQueries = (props) => {
   const { children, usersAddress } = props
 
-  return <StaticPrizePoolsQuery
+  return <StaticQueries
     {...props}
   >
-    {(staticPoolResult) => {
-      const staticPoolData = staticPoolResult.poolData
-
-      return <DynamicPrizePoolsQuery
+    {({ staticDataLoading, staticPoolData, staticPrizeStrategiesData }) => {
+      return <DynamicQueries
         {...props}
       >
-        {(dynamicPoolResult) => {
-          const dynamicPoolData = dynamicPoolResult.poolData
+        {({ dynamicDataLoading, dynamicPoolData, dynamicPrizeStrategiesData, dynamicPlayerData }) => {
+          let loading = staticDataLoading ||
+            dynamicDataLoading ||
+            !staticPrizeStrategiesData ||
+            !staticPoolData ||
+            !dynamicPrizeStrategiesData ||
+            !dynamicPoolData
 
-          return <DynamicPlayerQuery
-            {...props}
-          >
-            {(dynamicPlayerResult) => {
-              const dynamicPlayerData = dynamicPlayerResult.playerData
+          if (usersAddress) {
+            loading = (dynamicDataLoading || !dynamicPlayerData)
+          }
 
-              let loading = staticPoolResult.loading ||
-                dynamicPoolResult.loading ||
-                !staticPoolData ||
-                !dynamicPoolData
+          console.log({dynamicPrizeStrategiesData})
+          console.log({dynamicPlayerData})
+          console.log({staticPoolData})
+          console.log({staticPrizeStrategiesData})
 
-              if (usersAddress) {
-                loading = (dynamicPlayerResult.loading || !dynamicPlayerData)
-              }
-
-              return children({
-                dynamicPoolData,
-                dynamicPlayerData,
-                staticPoolData,
-                graphDataLoading: loading,
-              })
-            }}
-          </DynamicPlayerQuery>
-
+          return children({
+            dynamicPoolData,
+            dynamicPrizeStrategiesData,
+            dynamicPlayerData,
+            staticPoolData,
+            staticPrizeStrategiesData,
+            graphDataLoading: loading,
+          })
         }}
-      </DynamicPrizePoolsQuery>
+      </DynamicQueries>
     }}
-  </StaticPrizePoolsQuery>
+  </StaticQueries>
 }

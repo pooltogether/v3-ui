@@ -30,7 +30,7 @@ export const PrizeAmount = (
       <span
         className='font-number'
       >
-        ${numberWithCommas(pool.estimateRemainingPrize)}
+        ${numberWithCommas(pool.estimatePrize)}
       </span> <span
         className={`${labelSize} uppercase font-bold text-primary`}
       >
