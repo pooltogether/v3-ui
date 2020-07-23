@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const PrizeAmount = (
   props,
@@ -9,6 +9,8 @@ export const PrizeAmount = (
     big,
     pool
   } = props
+
+  const decimals = pool.underlyingCollateralDecimals
 
   let labelSize = 'text-xxxs sm:text-xxs'
   let amountSize = 'text-sm sm:text-lg'
@@ -30,12 +32,8 @@ export const PrizeAmount = (
       <span
         className='font-number'
       >
-        ${numberWithCommas(pool.estimatePrize)}
-      </span> <span
-        className={`${labelSize} uppercase font-bold text-primary`}
-      >
-        /
-        {/* / {pool.frequency === 'Weekly' ? 'week' : 'day'} */}
+        ${displayAmountInEther(pool.estimatePrize, { decimals })}
+       {/* / week */}
       </span>
     </div>
   </>
