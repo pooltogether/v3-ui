@@ -104,7 +104,7 @@ export const DepositCryptoForm = (props) => {
       setTx,
       provider,
       pool.underlyingCollateralToken,
-      pool.id,
+      pool.poolAddress,
       underlyingCollateralDecimals,
       quantity,
     )

@@ -69,7 +69,7 @@ export const PoolRow = (
               <div
                 className='text-lg sm:text-xl font-bold w-5/12 sm:w-3/12'
               >
-                {pool.frequency} Pool
+                {pool.name}
               </div>
 
               <div

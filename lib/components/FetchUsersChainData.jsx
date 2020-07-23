@@ -14,7 +14,7 @@ export const FetchUsersChainData = (props) => {
     usersAddress,
   } = props
 
-  const poolAddress = pool && pool.id
+  const poolAddress = pool && pool.poolAddress
 
   const [usersChainData, setUsersChainData] = useState({})
 

@@ -10,8 +10,11 @@ export const staticPrizeStrategyFragment = gql`
       id
     }
 
+    ticket
+    sponsorship
+    rng
+
     # exitFeeMantissa
     # creditRateMantissa
-
   }
 `

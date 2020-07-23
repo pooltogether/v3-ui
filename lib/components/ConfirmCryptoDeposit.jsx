@@ -15,8 +15,9 @@ import { sendTx } from 'lib/utils/sendTx'
 const handleDeposit = async (
   setTx,
   provider,
-  usersAddress,
   contractAddress,
+  usersAddress,
+  controlledTokenAddress,
   quantity,
   decimals
 ) => {
@@ -31,9 +32,9 @@ const handleDeposit = async (
   const params = [
     usersAddress,
     ethers.utils.parseUnits(quantity, decimals),
-    [], // bytes calldata
+    controlledTokenAddress,
     {
-      gasLimit: 700000
+      gasLimit: 500000
     }
   ]
 
@@ -61,12 +62,13 @@ export const ConfirmCryptoDeposit = (props) => {
   const { pool } = poolData
 
   const {
-    id,
+    poolAddress,
     underlyingCollateralSymbol,
     underlyingCollateralDecimals
   } = pool
-  const poolAddress = id
+
   const ticker = pool && underlyingCollateralSymbol
+  const controlledTokenAddress = pool && pool.ticket
 
   const [tx, setTx] = useState({})
 
@@ -82,8 +84,9 @@ export const ConfirmCryptoDeposit = (props) => {
       handleDeposit(
         setTx,
         provider,
-        usersAddress,
         poolAddress,
+        usersAddress,
+        controlledTokenAddress,
         quantity,
         underlyingCollateralDecimals,
       )

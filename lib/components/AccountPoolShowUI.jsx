@@ -21,7 +21,7 @@ export const AccountPoolShowUI = (props) => {
   const poolData = useContext(PoolDataContext)
   const { pool, dynamicPlayerData } = poolData
 
-  const poolAddress = pool && pool.id
+  const poolAddress = pool && pool.poolAddress
   const ticker = pool && pool.underlyingCollateralSymbol
 
   let playerData
@@ -129,7 +129,7 @@ export const AccountPoolShowUI = (props) => {
           <div
             className='mt-6'
           >
-            {pool.frequency} Pool
+            {pool.name}
           </div>
 
           <div

@@ -15,10 +15,6 @@ export const staticPrizePoolFragment = gql`
 
     # creator
 
-    # ticket
-    # sponsorship
-    # rng
-
     # prizePeriodSeconds
 
     # feeScaleMantissa

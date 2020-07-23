@@ -34,7 +34,8 @@ export const PrizeAmount = (
       </span> <span
         className={`${labelSize} uppercase font-bold text-primary`}
       >
-        / {pool.frequency === 'Weekly' ? 'week' : 'day'}
+        /
+        {/* / {pool.frequency === 'Weekly' ? 'week' : 'day'} */}
       </span>
     </div>
   </>

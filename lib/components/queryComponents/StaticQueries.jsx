@@ -26,7 +26,7 @@ export const StaticQueries = (
   staticPoolData = getPoolDataFromQueryResult(poolAddresses, poolsQueryData)
 
 
-
+  
   let staticPrizeStrategiesData
 
   const { loading: prizeStrategiesQueryLoading, error: prizeStrategiesQueryError, data: prizeStrategiesQueryData } = useQuery(staticPrizeStrategiesQuery, {
@@ -39,7 +39,6 @@ export const StaticQueries = (
   }
 
   staticPrizeStrategiesData = getPrizeStrategyDataFromQueryResult(poolAddresses, prizeStrategiesQueryData)
-
 
 
 

@@ -25,11 +25,6 @@ export const GraphDataQueries = (props) => {
             loading = (dynamicDataLoading || !dynamicPlayerData)
           }
 
-          console.log({dynamicPrizeStrategiesData})
-          console.log({dynamicPlayerData})
-          console.log({staticPoolData})
-          console.log({staticPrizeStrategiesData})
-
           return children({
             dynamicPoolData,
             dynamicPrizeStrategiesData,

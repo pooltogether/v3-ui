@@ -65,7 +65,7 @@ export const IndexUI = (
 
   //   if (pools.length > 0) {
   //     pools.forEach(function (pool, i) {
-  //       if (pool.id === poolId) {
+  //       if (pool.poolAddress === poolId) {
   //         let otherPools = [].concat(pools)
   //         otherPools.unshift(i)
   //         otherPools = otherPools.slice(0, pools.length)
@@ -87,7 +87,7 @@ export const IndexUI = (
     />}
 
     <PoolList
-      selectedId={pool && pool.id}
+      selectedId={pool && pool.poolAddress}
       pools={pools}
     />
   </>

@@ -23,7 +23,7 @@ export const FetchGenericChainData = (props) => {
         provider,
         poolAddresses['daiPrizeStrategy']
       )
-      const usdcPrizeStrategy = await `fetchGenericChainData`(
+      const usdcPrizeStrategy = await fetchGenericChainData(
         provider,
         poolAddresses['usdcPrizeStrategy']
       )

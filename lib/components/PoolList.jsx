@@ -43,15 +43,15 @@ export const PoolList = (
           // }}
         >
           {pools.map(pool => {
-            if (!pool || !pool.id) {
+            if (!pool || !pool.poolAddress) {
               return null
             }
 
-            const selected = selectedId === pool.id
+            const selected = selectedId === pool.poolAddress
 
             return <motion.li
-              key={`pool-${pool.id}`}
-              sharedId={`pool-${pool.id}`}
+              key={`pool-${pool.poolAddress}`}
+              sharedId={`pool-${pool.poolAddress}`}
               animate='enter'
               // positionTransition
               // layoutTransition={spring}

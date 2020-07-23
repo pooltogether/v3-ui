@@ -38,7 +38,7 @@ export const PoolShow = (
   let error
   
   try {
-    ethers.utils.getAddress(pool.id)
+    ethers.utils.getAddress(pool.poolAddress)
   } catch (e) {
     error = 'Incorrectly formatted Ethereum address!'
   }
@@ -122,7 +122,7 @@ export const PoolShow = (
                 <div
                   className='inline-block text-left text-lg sm:text-xl font-bold'
                 >
-                  {pool.frequency} Pool
+                  {pool.name}
                 </div>
 
                 <div

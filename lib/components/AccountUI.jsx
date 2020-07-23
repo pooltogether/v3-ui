@@ -90,15 +90,15 @@ export const AccountUI = (props) => {
                   <AnimatePresence>
                     <motion.ul>
                       {dynamicPlayerData.map(playerData => {
-                        const pool = pools.find(pool => pool.id === playerData.prizePool.id)
+                        const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
 
                         if (!pool) {
                           return
                         }
 
                         return <motion.li
-                          key={`account-pool-row-li-${pool.id}`}
-                          sharedId={`pool-${pool.id}`}
+                          key={`account-pool-row-li-${pool.poolAddress}`}
+                          sharedId={`pool-${pool.poolAddress}`}
                           animate='enter'
                           variants={{
                             enter: {
@@ -114,7 +114,7 @@ export const AccountUI = (props) => {
                           className='relative w-full'
                         >
                           <AccountPoolRow
-                            key={`account-pool-row-a-${pool.id}`}
+                            key={`account-pool-row-a-${pool.poolAddress}`}
                             pool={pool}
                             player={playerData}
                           />

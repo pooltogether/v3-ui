@@ -139,7 +139,7 @@ export const WizardLayout = (props) => {
         >
           {/* {poolData.pool.yieldSource}*/}
           {poolData.pool && <>
-             {poolData.pool.frequency} {poolData.pool.underlyingCollateralSymbol} Pool
+            {poolData.pool.name}
           </>}
         </div>
       </nav>

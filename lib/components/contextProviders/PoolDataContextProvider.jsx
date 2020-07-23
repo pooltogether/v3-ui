@@ -80,7 +80,14 @@ export const PoolDataContextProvider = (props) => {
             poolAddresses={poolAddresses}
             usersAddress={usersAddress}
           >
-            {({ graphDataLoading, staticPoolData, dynamicPoolData, dynamicPlayerData }) => {
+            {({
+              graphDataLoading,
+              staticPoolData,
+              staticPrizeStrategiesData,
+              dynamicPoolData,
+              dynamicPrizeStrategiesData,
+              dynamicPlayerData,
+            }) => {
               return <FetchGenericChainData
                 {...props}
                 chainId={chainId}
@@ -95,35 +102,32 @@ export const PoolDataContextProvider = (props) => {
                       {
                         ...genericChainData.daiPrizeStrategy,
                         ...dynamicPoolData.daiPool,
-                        ...dynamicPoolData.daiPrizeStrategy,
+                        ...dynamicPrizeStrategiesData.daiPrizeStrategy,
                         ...staticPoolData.daiPool,
-                        ...staticPoolData.daiPrizeStrategy,
-                        // prize: 9591,
-                        risk: 5,
+                        ...staticPrizeStrategiesData.daiPrizeStrategy,
                         yieldSource: 'mStable',
-                        frequency: 'Weekly',
+                        name: 'Daily Dai Pool',
+                        symbol: 'PT-CDAI',
                       },
                       {
                         ...genericChainData.usdcPrizeStrategy,
                         ...dynamicPoolData.usdcPool,
-                        ...dynamicPoolData.usdcPrizeStrategy,
+                        ...dynamicPrizeStrategiesData.usdcPrizeStrategy,
                         ...staticPoolData.usdcPool,
-                        ...staticPoolData.usdcPrizeStrategy,
-                        // prize: (11239 / 7),
-                        risk: 3,
+                        ...staticPrizeStrategiesData.usdcPrizeStrategy,
                         yieldSource: 'AAVE',
-                        frequency: 'Daily',
+                        name: 'Daily USDC Pool',
+                        symbol: 'PT-CUSDC',
                       },
                       {
                         ...genericChainData.usdtPrizeStrategy,
                         ...dynamicPoolData.usdtPool,
-                        ...dynamicPoolData.usdtPrizeStrategy,
+                        ...dynamicPrizeStrategiesData.usdtPrizeStrategy,
                         ...staticPoolData.usdtPool,
-                        ...staticPoolData.usdtPrizeStrategy,
-                        // prize: 7001,
-                        risk: 2,
+                        ...staticPrizeStrategiesData.usdtPrizeStrategy,
                         yieldSource: 'Compound',
-                        frequency: 'Weekly',
+                        name: 'Weekly Tether Pool',
+                        symbol: 'PT-CUSDT',
                       },
                     ]
                   }
@@ -146,7 +150,7 @@ export const PoolDataContextProvider = (props) => {
                   let usersTicketBalanceBN = ethers.utils.bigNumberify(0)
 
                   if (pool && dynamicPlayerData) {
-                    const poolAddress = pool && pool.id
+                    const poolAddress = pool && pool.poolAddress
                     const player = dynamicPlayerData.find(data => data.prizePool.id === poolAddress)
 
                     if (player) {
