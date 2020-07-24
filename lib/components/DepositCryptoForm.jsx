@@ -67,6 +67,7 @@ export const DepositCryptoForm = (props) => {
   )
 
   const ticker = pool && pool.underlyingCollateralSymbol
+  const tickerUpcased = ticker && ticker.toUpperCase()
 
   const haveTokenAllowance = usersChainData && usersChainData.usersTokenAllowance
 
@@ -121,8 +122,6 @@ export const DepositCryptoForm = (props) => {
   if (!pool) {
     return null
   }
-
-  const tickerUpcased = ticker && ticker.toUpperCase()
   
   return <>
     <PaneTitle small>

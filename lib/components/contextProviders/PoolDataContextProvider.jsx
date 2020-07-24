@@ -23,7 +23,7 @@ export const PoolDataContextProvider = (props) => {
   const [defaultReadProvider, setDefaultReadProvider] = useState({})
 
   const router = useRouter()
-  const ticker = router.query.prizePoolTicker && router.query.prizePoolTicker.toLowerCase()
+  const querySymbol = router.query.symbol && router.query.symbol.toLowerCase()
 
   const networkName = chainId ?
     chainIdToName(chainId) :
@@ -107,7 +107,7 @@ export const PoolDataContextProvider = (props) => {
                         ...staticPrizeStrategiesData.daiPrizeStrategy,
                         yieldSource: 'mStable',
                         name: 'Daily Dai Pool',
-                        symbol: 'PT-CDAI',
+                        symbol: 'PT-cDAI',
                       },
                       {
                         ...genericChainData.usdcPrizeStrategy,
@@ -117,7 +117,7 @@ export const PoolDataContextProvider = (props) => {
                         ...staticPrizeStrategiesData.usdcPrizeStrategy,
                         yieldSource: 'AAVE',
                         name: 'Daily USDC Pool',
-                        symbol: 'PT-CUSDC',
+                        symbol: 'PT-cUSDC',
                       },
                       {
                         ...genericChainData.usdtPrizeStrategy,
@@ -127,21 +127,21 @@ export const PoolDataContextProvider = (props) => {
                         ...staticPrizeStrategiesData.usdtPrizeStrategy,
                         yieldSource: 'Compound',
                         name: 'Weekly Tether Pool',
-                        symbol: 'PT-CUSDT',
+                        symbol: 'PT-cUSDT',
                       },
                     ]
                   }
 
                   let pool
-                  if (ticker) {
+                  if (querySymbol) {
                     pool = pools.find(_pool => {
                       let symbol
-                      if (_pool && _pool.underlyingCollateralSymbol) {
-                        symbol = _pool.underlyingCollateralSymbol.toLowerCase()
+                      if (_pool && _pool.symbol) {
+                        symbol = _pool.symbol.toLowerCase()
                       }
 
                       if (_pool && symbol) {
-                        return symbol === ticker
+                        return symbol === querySymbol
                       }
                     })
                   }

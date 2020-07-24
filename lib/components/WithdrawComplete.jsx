@@ -2,17 +2,20 @@ import React, { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
 
 export const WithdrawComplete = (props) => {
   const router = useRouter()
   const quantity = router.query.quantity
-  const prizePoolTicker = router.query.prizePoolTicker
-  if (!prizePoolTicker) {
+
+  const poolData = useContext(PoolDataContext)
+  const { underlyingCollateralSymbol } = poolData
+
+  if (!underlyingCollateralSymbol) {
     return null
   }
-  const ticker = router.query.prizePoolTicker.toUpperCase()
 
   const confettiContext = useContext(ConfettiContext)
   const { confetti } = confettiContext
@@ -36,7 +39,7 @@ export const WithdrawComplete = (props) => {
     </PaneTitle>
 
     <PaneTitle>
-      {quantity} {ticker} = {quantity} tickets
+      {quantity} {underlyingCollateralSymbol.toUpperCase()} = {quantity} tickets
     </PaneTitle>
 
     <div>

@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { Button } from 'lib/components/Button'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
@@ -15,13 +14,11 @@ import { PrizePoolCountdown } from 'lib/components/PrizePoolCountdown'
 export const AccountPoolShowUI = (props) => {
   const router = useRouter()
 
-  const authDataContext = useContext(AuthControllerContext)
-  const { networkName } = authDataContext
-
   const poolData = useContext(PoolDataContext)
   const { pool, dynamicPlayerData } = poolData
 
   const poolAddress = pool && pool.poolAddress
+  const symbol = pool && pool.symbol
   const ticker = pool && pool.underlyingCollateralSymbol
 
   let playerData
@@ -45,8 +42,8 @@ export const AccountPoolShowUI = (props) => {
   const handleShowWithdraw = (e) => {
     e.preventDefault()
     router.push(
-      '/account/pools/[networkName]/[prizePoolTicker]/withdraw',
-      `/account/pools/${networkName}/${ticker}/withdraw`,
+      '/account/pools/[symbol]/withdraw',
+      `/account/pools/${symbol}/withdraw`,
       { shallow: true }
     )
   }
@@ -54,8 +51,8 @@ export const AccountPoolShowUI = (props) => {
   const handleShowDeposit = (e) => {
     e.preventDefault()
     router.push(
-      '/pools/[networkName]/[prizePoolTicker]/deposit',
-      `/pools/${networkName}/${ticker}/deposit`,
+      '/pools/[symbol]/deposit',
+      `/pools/${symbol}/deposit`,
       { shallow: true }
     )
   }

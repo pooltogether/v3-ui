@@ -4,7 +4,6 @@ import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
 
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { PrizePoolCountdown } from 'lib/components/PrizePoolCountdown'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -15,9 +14,6 @@ export const AccountPoolRow = (
 ) => {
   const { pool, player } = props
 
-  const authDataContext = useContext(AuthControllerContext)
-  const { networkName } = authDataContext
-
   const usersBalance = Number(ethers.utils.formatUnits(
     player.balance,
     pool.underlyingCollateralDecimals
@@ -25,8 +21,8 @@ export const AccountPoolRow = (
   
   return <>
     <Link
-      href='/account/pools/[networkName]/[prizePoolTicker]'
-      as={`/account/pools/${networkName}/${pool.underlyingCollateralSymbol}`}
+      href='/account/pools/[symbol]'
+      as={`/account/pools/${pool.symbol}`}
     >
       <motion.a
         animate
