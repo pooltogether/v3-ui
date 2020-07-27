@@ -54,7 +54,7 @@ export const DepositCryptoForm = (props) => {
   const { pool, genericChainData, usersChainData } = poolData
 
   const underlyingCollateralDecimals = 
-    pool && pool.underlyingCollateralDecimals || 18
+    pool && pool.underlyingCollateralDecimals || '18'
 
   const {
     isRngRequested,

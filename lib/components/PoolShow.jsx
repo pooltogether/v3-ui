@@ -43,12 +43,6 @@ export const PoolShow = (
     error = 'Incorrectly formatted Ethereum address!'
   }
   
-  // const tokenSvg = genericChainData.underlyingCollateralSymbol === 'DAI' ?
-  //   DaiSvg :
-  //   genericChainData.underlyingCollateralSymbol === 'USDC' ?
-  //     UsdcSvg :
-  //     UsdtSvg
-
   if (!pool) {
     // console.warn("don't do this!")
     return null
