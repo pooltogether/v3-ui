@@ -1,9 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
 
+import { Odds } from 'lib/components/Odds'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { PrizePoolCountdown } from 'lib/components/PrizePoolCountdown'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -66,12 +67,9 @@ export const AccountPoolRow = (
                 <div
                   className='sm:my-1'
                 >
-                  Odds of winning: <PoolCountUp
-                    end={1}
-                    decimals={null}
-                  /> in <PoolCountUp
-                    end={1234}
-                    decimals={null}
+                  <Odds
+                    pool={pool}
+                    usersBalance={usersBalance}
                   />
                 </div>
               </div>

@@ -4,6 +4,8 @@ export const SUPPORTED_CHAIN_IDS = [42, 31337, 1234]
 export const MAINNET_POLLING_INTERVAL = 10000
 // export const MAINNET_POLLING_INTERVAL = 15000
 
+export const MAX_SAFE_INTEGER = 9007199254740991
+
 // cookie names
 export const SHOW_AWARD_FEATURES = 'show-award-features'
 export const MAGIC_EMAIL = 'magic-email'

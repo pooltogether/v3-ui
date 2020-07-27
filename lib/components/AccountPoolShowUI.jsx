@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { Button } from 'lib/components/Button'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { Odds } from 'lib/components/Odds'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
@@ -20,6 +21,7 @@ export const AccountPoolShowUI = (props) => {
   const poolAddress = pool && pool.poolAddress
   const symbol = pool && pool.symbol
   const ticker = pool && pool.underlyingCollateralSymbol
+  const underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
 
   let playerData
   if (dynamicPlayerData) {
@@ -30,7 +32,7 @@ export const AccountPoolShowUI = (props) => {
   if (pool && playerData) {
     usersBalance = Number(ethers.utils.formatUnits(
       playerData.balance,
-      pool.underlyingCollateralDecimals
+      underlyingCollateralDecimals
     ))
   }
 
@@ -106,12 +108,9 @@ export const AccountPoolShowUI = (props) => {
           <div
             className='mt-1 text-sm'
           >
-            Odds of winning: <PoolCountUp
-              end={1}
-              decimals={null}
-            /> in <PoolCountUp
-              end={1234}
-              decimals={null}
+            <Odds
+              pool={pool}
+              usersBalance={usersBalance}
             />
           </div>
 

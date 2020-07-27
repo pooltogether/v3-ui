@@ -6,7 +6,7 @@
   "repository": "git@github.com:pooltogether/pool-app.git",
   "scripts": {
     "compile-translations": "node ./scripts/compile-translations",
-    "dev": "NODE_ENV=dev yarn compile-translations && npm-run-all --parallel start:app start:server",
+    "dev": "NODE_OPTIONS=--max_old_space_size=8192 NODE_ENV=dev yarn compile-translations && npm-run-all --parallel start:app start:server",
     "distrelease": "yarn dist",
     "start:app": "PORT=3000 node server.js",
     "start:server": "netlify-lambda serve functions",
@@ -75,7 +75,7 @@
     "i18next-node-locize-backend": "^3.1.2",
     "js-cookie": "^2.2.1",
     "magic-sdk": "^2.4.5",
-    "next": "9.5.0",
+    "next": "9.4.4",
     "next-i18next": "^4.5.0",
     "next-images": "^1.4.0",
     "postcss-easy-import": "^3.0.0",
