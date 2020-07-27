@@ -102,7 +102,7 @@ export const AccountPoolShowUI = (props) => {
           >
             Tickets: <PoolCountUp
               end={usersBalance}
-              decimals={null}
+              decimals={0}
             />
           </div>
           <div
