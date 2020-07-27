@@ -6,8 +6,10 @@ import { PoolCountUp } from 'lib/components/PoolCountUp'
 
 export const Odds = (props) => {
   const { pool, usersBalance } = props
-  // console.log({pool})
-  // console.log({ usersBalance})
+
+  if (!pool || !usersBalance) {
+    return ''
+  }
 
   const underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
   const totalSupply = pool && pool.totalSupply
