@@ -25,7 +25,7 @@
 //     provider,
 //     contractAddress,
 //     CompoundPeriodicPrizePoolAbi,
-//     'sweep',
+//     'sweepTimelockBalances',
 //     params,
 //     'Sweep Timelocked Funds'
 //   )

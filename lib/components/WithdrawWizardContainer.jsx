@@ -11,7 +11,7 @@ import { WizardLayout } from 'lib/components/WizardLayout'
 
 export const WithdrawWizardContainer = (props) => {
   const poolData = useContext(PoolDataContext)
-  const { pool, usersTicketBalance } = poolData
+  const { pool } = poolData
 
   const [cachedUsersBalance, setCachedUsersBalance] = useState(usersTicketBalance)
 

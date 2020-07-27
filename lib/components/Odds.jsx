@@ -5,7 +5,7 @@ import { PoolCountUp } from 'lib/components/PoolCountUp'
 // import { displayUsersChance } from 'lib/utils/displayUsersChance'
 
 export const Odds = (props) => {
-  const { pool, usersBalance } = props
+  const { pool, usersBalance, additionalQuantity } = props
 
   if (!pool || !usersBalance) {
     return ''
@@ -22,17 +22,26 @@ export const Odds = (props) => {
     ))
   }
 
+  const hasAdditionalQuantity = !!additionalQuantity && !isNaN(additionalQuantity)
 
-  // for now ...
-  const postPurchaseBalance = usersBalance
+  let postPurchaseBalance = usersBalance
+  if (hasAdditionalQuantity) {
+    postPurchaseBalance = usersBalance + additionalQuantity
+    totalSupplyFloat = totalSupplyFloat + additionalQuantity
+  }
 
   const result = totalSupplyFloat / postPurchaseBalance
   
   return <>
-    Odds of winning: <PoolCountUp
+    {hasAdditionalQuantity && additionalQuantity > 0 ? <>
+      New o
+    </> : <>
+      O
+    </>}dds of winning: <PoolCountUp
       end={1}
       decimals={0}
     /> in <PoolCountUp
+      start={result}
       end={result}
     />
   </>
