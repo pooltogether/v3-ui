@@ -2,6 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 
 import DaiSvg from 'assets/images/dai.svg'
+import MissingCurrencySvg from 'assets/images/help-circle.svg'
 import UsdcSvg from 'assets/images/usdc-new-transparent.png'
 // import UsdcSvg from 'assets/images/usdc.svg'
 import UsdtSvg from 'assets/images/usdt.svg'
@@ -14,7 +15,7 @@ export const PoolCurrencyIcon = (
     pool
   } = props
   const symbol = pool && pool.underlyingCollateralSymbol
-  const tokenSymbol = symbol.toLowerCase()
+  const tokenSymbol = symbol && symbol.toLowerCase()
 
   let currencyIcon = 'circle'
   if (tokenSymbol === 'dai') {
@@ -23,6 +24,8 @@ export const PoolCurrencyIcon = (
     currencyIcon = UsdcSvg
   } else if (tokenSymbol === 'usdt') {
     currencyIcon = UsdtSvg
+  } else {
+    currencyIcon = MissingCurrencySvg
   }
 
   return <>
