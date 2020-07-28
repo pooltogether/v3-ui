@@ -45,7 +45,7 @@ export const WizardLayout = (props) => {
       animate={{ scale: 1, transition: { duration: 0.1 } }}
       exit={{ opacity: 0, transition: {
         duration: 0.25,
-        delay: 0.5,
+        delay: 0.25,
       } }}
     />
     
@@ -53,7 +53,7 @@ export const WizardLayout = (props) => {
       key={`${action}-pane`}
       className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40'
       exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.25 }}
     >
       <nav
         className='fixed t-0 l-0 r-0 w-full px-4 pt-4 flex items-center justify-between flex-wrap h-20'

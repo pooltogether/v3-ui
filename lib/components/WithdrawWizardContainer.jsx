@@ -1,24 +1,74 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { ethers } from 'ethers'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
+import { useRouter } from 'next/router'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
 import { NoFeeInstantWithdrawal } from 'lib/components/NoFeeInstantWithdrawal'
-// import { InstantOrScheduledForm } from 'lib/components/InstantOrScheduledForm'
-import { WithdrawComplete } from 'lib/components/WithdrawComplete'
+import { InstantOrScheduledForm } from 'lib/components/InstantOrScheduledForm'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
+import { WithdrawComplete } from 'lib/components/WithdrawComplete'
 import { WizardLayout } from 'lib/components/WizardLayout'
+import { fetchExitFees } from 'lib/utils/fetchExitFees'
 
 export const WithdrawWizardContainer = (props) => {
-  const poolData = useContext(PoolDataContext)
-  const { pool, usersTicketBalance } = poolData
+  const router = useRouter()
+  const quantity = router.query.quantity
 
+  const authControllerContext = useContext(AuthControllerContext)
+  const { usersAddress, networkName } = authControllerContext
+
+  const poolData = useContext(PoolDataContext)
+  const {
+    pool,
+    usersTicketBalance
+  } = poolData
+
+  const { 
+    prizeStrategyAddress
+  } = pool || {}
+  const ticketAddress = pool && pool.ticket
+
+  const [exitFees, setExitFees] = useState({})
   const [cachedUsersBalance, setCachedUsersBalance] = useState(usersTicketBalance)
+
+  let hasEnoughCreditForInstant = null
+  console.log({ exitFees})
+  if (exitFees && exitFees.instantCredit) {
+    console.log({ instant: exitFees.instantCredit.toString() })
+    console.log({ instantFee: exitFees.instantFee.toString() })
+    console.log({ timelockCredit: exitFees.timelockCredit.toString() })
+    console.log({ timelockDuration: exitFees.timelockDuration.toString() })
+    hasEnoughCreditForInstant = exitFees.instantCredit.gt(0)
+  }
 
   useEffect(() => {
     setCachedUsersBalance(usersTicketBalance)
   }, [usersTicketBalance])
 
+
+  // TODO: have this use useInterval as well so we always
+  // have the updated data!
+  useEffect(() => {
+    const getFees = async () => {
+      const result = await fetchExitFees(
+        networkName,
+        usersAddress,
+        prizeStrategyAddress,
+        ticketAddress,
+        ethers.utils.parseEther(quantity),
+      )
+      console.log('restul')
+      console.log({result})
+      setExitFees(result)
+    }
+
+    if (quantity) {
+      getFees()
+    }
+  }, [quantity])
   
   let balanceJsx = null
   let underlyingCollateralDecimals = 18
@@ -58,29 +108,27 @@ export const WithdrawWizardContainer = (props) => {
               }}
             </WizardStep>
 
-            {/* if the player has enough credit to withdraw the amount they've entered */}
             <WizardStep>
               {(step) => {
-                return step.isActive && <>
-                  <NoFeeInstantWithdrawal
-                    nextStep={step.nextStep}
-                    previousStep={step.previousStep}
-                  />
-                </>
+                if (!step.isActive) {
+                  return null
+                }
+                return hasEnoughCreditForInstant === null ? <>
+                  <div className='text-inverse'>
+                    Getting available credit ...
+                  </div>
+                </> :
+                  hasEnoughCreditForInstant ?
+                    <NoFeeInstantWithdrawal
+                      nextStep={step.nextStep}
+                      previousStep={step.previousStep}
+                    /> :
+                    <InstantOrScheduledForm
+                      nextStep={step.nextStep}
+                    />
               }}
             </WizardStep>
 
-            {/* if the player needs to choose between Scheduled or Instant */}
-            {/* <WizardStep>
-              {(step) => {
-                return step.isActive && <>
-                  <InstantOrScheduledForm
-                    nextStep={step.nextStep}
-                  />
-                </>
-              }}
-            </WizardStep> */}
-            
             <WizardStep>
               {(step) => {
                 return step.isActive && <>
