@@ -2,14 +2,16 @@ import React from 'react'
 import { ethers } from 'ethers'
 
 import { PoolCountUp } from 'lib/components/PoolCountUp'
-// import { displayUsersChance } from 'lib/utils/displayUsersChance'
 
 export const Odds = (props) => {
-  const { pool, usersBalance, additionalQuantity } = props
+  const { pool, usersBalance } = props
+  let { additionalQuantity } = props
 
-  if (!pool || !usersBalance) {
-    return ''
+  if (!pool) {
+    return null
   }
+
+  const hasBalance = !isNaN(usersBalance) && usersBalance > 0
 
   const underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
   const totalSupply = pool && pool.totalSupply
@@ -22,7 +24,8 @@ export const Odds = (props) => {
     ))
   }
 
-  const hasAdditionalQuantity = !!additionalQuantity && !isNaN(additionalQuantity)
+  additionalQuantity = Number(additionalQuantity)
+  const hasAdditionalQuantity = !isNaN(additionalQuantity) && additionalQuantity > 0
 
   let postPurchaseBalance = usersBalance
   if (hasAdditionalQuantity) {
@@ -31,18 +34,19 @@ export const Odds = (props) => {
   }
 
   const result = totalSupplyFloat / postPurchaseBalance
-  
-  return <>
-    {hasAdditionalQuantity && additionalQuantity > 0 ? <>
-      New o
-    </> : <>
-      O
-    </>}dds of winning: <PoolCountUp
-      end={1}
-      decimals={0}
-    /> in <PoolCountUp
-      start={result}
-      end={result}
-    />
-  </>
+
+  if (hasBalance || hasAdditionalQuantity) {
+    return <>
+      {hasAdditionalQuantity && additionalQuantity > 0 ? <>
+        New o
+      </> : <>O</>}dds of winning: <span
+        className='font-number font-bold'
+      >1</span> in <PoolCountUp
+        start={result}
+        end={result}
+      />
+    </>
+  } else {
+    return null
+  }
 }

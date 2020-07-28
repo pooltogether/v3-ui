@@ -49,8 +49,6 @@ export const TicketQuantityForm = (props) => {
     }
   }
 
-  const additionalQuantity = Number(watchQuantity)
-
   return <>
     <PaneTitle>
       {formName}
@@ -105,7 +103,7 @@ export const TicketQuantityForm = (props) => {
         <Odds
           pool={pool}
           usersBalance={usersTicketBalance}
-          additionalQuantity={additionalQuantity}
+          additionalQuantity={watchQuantity}
         />
       </div>
     </form>
