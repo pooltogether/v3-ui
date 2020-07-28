@@ -32,6 +32,7 @@ const handleWithdraw = async (
       gasLimit: 600000
     }
   ]
+  console.log({ params})
 
   const method = withdrawType === 'instant' ?
     'withdrawInstantlyFrom' :

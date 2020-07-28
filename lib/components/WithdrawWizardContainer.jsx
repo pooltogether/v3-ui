@@ -11,10 +11,15 @@ import { WizardLayout } from 'lib/components/WizardLayout'
 
 export const WithdrawWizardContainer = (props) => {
   const poolData = useContext(PoolDataContext)
-  const { pool } = poolData
+  const { pool, usersTicketBalance } = poolData
 
   const [cachedUsersBalance, setCachedUsersBalance] = useState(usersTicketBalance)
 
+  useEffect(() => {
+    setCachedUsersBalance(usersTicketBalance)
+  }, [usersTicketBalance])
+
+  
   let balanceJsx = null
   let underlyingCollateralDecimals = 18
   if (pool) {
@@ -27,10 +32,6 @@ export const WithdrawWizardContainer = (props) => {
     />
   }
 
-  useEffect(() => {
-    setCachedUsersBalance(usersTicketBalance)
-  }, [usersTicketBalance])
-  
   return <>
     <Wizard>
       {

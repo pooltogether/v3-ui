@@ -4,12 +4,10 @@ import { ethers } from 'ethers'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 
 export const Odds = (props) => {
-  const { pool, usersBalance } = props
+  const { hide, pool, usersBalance } = props
   let { additionalQuantity } = props
 
-  if (!pool) {
-    return null
-  }
+  let content = null
 
   const hasBalance = !isNaN(usersBalance) && usersBalance > 0
 
@@ -25,7 +23,7 @@ export const Odds = (props) => {
   }
 
   additionalQuantity = Number(additionalQuantity)
-  const hasAdditionalQuantity = !isNaN(additionalQuantity) && additionalQuantity > 0
+  const hasAdditionalQuantity = !isNaN(additionalQuantity) && additionalQuantity !== 0
 
   let postPurchaseBalance = usersBalance
   if (hasAdditionalQuantity) {
@@ -34,9 +32,10 @@ export const Odds = (props) => {
   }
 
   const result = totalSupplyFloat / postPurchaseBalance
-
-  if (hasBalance || hasAdditionalQuantity) {
-    return <>
+  if (!isFinite(result)) {
+    content = <>Withdrawing everything will make you ineligible to win</>
+  } else if (!hide && (hasBalance || hasAdditionalQuantity)) {
+    content = <>
       {hasAdditionalQuantity && additionalQuantity > 0 ? <>
         New o
       </> : <>O</>}dds of winning: <span
@@ -46,7 +45,11 @@ export const Odds = (props) => {
         end={result}
       />
     </>
-  } else {
-    return null
   }
+
+  return <div style={{
+    minHeight: 24
+  }}>
+    {content}
+  </div>
 }

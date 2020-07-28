@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
 import { Button } from 'lib/components/Button'
+import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Odds } from 'lib/components/Odds'
@@ -42,10 +43,13 @@ export const TicketQuantityForm = (props) => {
     }
   }
 
+  const isWithdraw = formName === 'Withdraw'
+
   let validate = null
-  if (formName === 'Withdraw') {
+  if (isWithdraw) {
     validate = {
-      greaterThanBalance: value => parseFloat(value) <= usersTicketBalance,
+      greaterThanBalance: value => parseFloat(value) <= usersTicketBalance ||
+        'please enter an amount lower than your ticket balance',
     }
   }
 
@@ -77,12 +81,9 @@ export const TicketQuantityForm = (props) => {
           // placeholder={'# of tickets'}
         />
       </div>
-      <div className='text-red'>
-        {errors.quantity && errors.quantity.type === 'greaterThanBalance' && <>
-          please enter an amount lower than your ticket balance
-        </>}
-        {errors.quantity && errors.quantity.message}
-      </div>
+      <ErrorsBox 
+        errors={errors}
+      />
 
       <div
         className='my-5'
@@ -103,7 +104,8 @@ export const TicketQuantityForm = (props) => {
         <Odds
           pool={pool}
           usersBalance={usersTicketBalance}
-          additionalQuantity={watchQuantity}
+          additionalQuantity={isWithdraw ? Number(watchQuantity) * -1 : watchQuantity}
+          hide={parseFloat(watchQuantity) > usersTicketBalance}
         />
       </div>
     </form>
