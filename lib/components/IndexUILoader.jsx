@@ -13,7 +13,7 @@ export const IndexUILoader = (
   const themeContext = useContext(ThemeContext)
   const theme = themeContext.theme
 
-  const bgColor = theme === 'light' ? '#fafafa' : '#401C94'
+  const bgColor = theme === 'light' ? '#ffffff' : '#401C94'
   const foreColor = theme === 'light' ? '#f5f5f5' : '#501C94'
 
   return <>
