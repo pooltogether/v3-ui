@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-// import { ethers } from 'ethers'
+import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
 import { SUPPORTED_CHAIN_IDS } from 'lib/constants'
