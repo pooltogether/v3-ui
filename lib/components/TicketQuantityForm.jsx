@@ -104,7 +104,8 @@ export const TicketQuantityForm = (props) => {
         <Odds
           pool={pool}
           usersBalance={usersTicketBalance}
-          additionalQuantity={isWithdraw ? Number(watchQuantity) * -1 : watchQuantity}
+          additionalQuantity={watchQuantity}
+          isWithdraw={isWithdraw}
           hide={parseFloat(watchQuantity) > usersTicketBalance}
         />
       </div>

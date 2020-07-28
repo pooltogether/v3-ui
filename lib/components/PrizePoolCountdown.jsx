@@ -16,8 +16,6 @@ export const PrizePoolCountdown = (
   const secs = pool.prizePeriodRemainingSeconds &&
     parseInt(pool.prizePeriodRemainingSeconds.toString(), 10)
 
-  // console.log({ secs})
-
   useEffect(() => {
     setSecondsRemaining(secs)
   }, [secs])

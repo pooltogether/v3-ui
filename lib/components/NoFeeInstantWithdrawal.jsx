@@ -20,23 +20,30 @@ const handleWithdraw = async (
   controlledTokenAddress,
   quantity,
   withdrawType,
+  sponsoredExitFee,
+  maxExitFee,
   decimals
 ) => {
   const params = [
     usersAddress,
     ethers.utils.parseUnits(quantity, decimals),
     controlledTokenAddress,
-    '0',
-    '1000000000000000000000000',
-    {
-      gasLimit: 600000
-    }
   ]
-  console.log({ params})
 
-  const method = withdrawType === 'instant' ?
-    'withdrawInstantlyFrom' :
-    'withdrawWithTimelockFrom'
+  let method = 'withdrawWithTimelockFrom'
+  if (withdrawType === 'instant') {
+    method = 'withdrawInstantlyFrom'
+    params.push(
+      ethers.utils.parseEther(sponsoredExitFee),
+      ethers.utils.parseEther(maxExitFee)
+    )
+  }
+
+  params.push({
+    gasLimit: 500000
+  })
+
+  console.log({ params })
 
   await sendTx(
     setTx,
