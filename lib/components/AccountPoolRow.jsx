@@ -54,7 +54,7 @@ export const AccountPoolRow = (
             </div>
 
 
-            <div className='flex flex-row justify-between items-start w-full text-left mt-2'>
+            <div className='flex flex-row justify-between items-start w-full text-left mt-2 text-xxs sm:text-base'>
               <div className='flex flex-col justify-between items-start sm:w-2/3'>
                 <div
                   className='sm:my-1'
@@ -70,6 +70,7 @@ export const AccountPoolRow = (
                   <Odds
                     pool={pool}
                     usersBalance={usersBalance}
+                    splitLines
                   />
                 </div>
               </div>

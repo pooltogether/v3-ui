@@ -3075,10 +3075,10 @@
     lodash.merge "^4.6.2"
     zen-observable-ts "^0.8.20"
 
-"@pooltogether/pooltogether-contracts@3.0.0-alpha.26":
-  version "3.0.0-alpha.26"
-  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-contracts/-/pooltogether-contracts-3.0.0-alpha.26.tgz#4086f3567f0caa3568e76f0efb977b13e5bddcf8"
-  integrity sha512-1r4iMrqEK1PUlLkxW+8oJwSBMT4+4aKAf65K4etFENZYfXxpdLFQVP1z6+LkVDDcArKgVt3PToJtKmdkEw6k1A==
+"@pooltogether/pooltogether-contracts@3.0.0-alpha.28":
+  version "3.0.0-alpha.28"
+  resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-contracts/-/pooltogether-contracts-3.0.0-alpha.28.tgz#4836b45a736b9b4c7f7802a6eac76f5b3f91668a"
+  integrity sha512-EDxu6r6MRWwJjDXdtQUV5vrg2KpbDOtHLv1K/90zS+Koe1XXJwq6Evm6SpMCaWavcsIDL9emQx+Y3j3Hf5+9qA==
 
 "@popmotion/easing@^1.0.1", "@popmotion/easing@^1.0.2":
   version "1.0.2"

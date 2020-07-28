@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 
 export const Odds = (props) => {
-  const { isWithdraw, hide, pool, usersBalance } = props
+  const { splitLines, isWithdraw, hide, pool, usersBalance } = props
   let { additionalQuantity } = props
 
   let content = null
@@ -40,7 +40,7 @@ export const Odds = (props) => {
     content = <>
       {hasAdditionalQuantity && additionalQuantity !== 0 ? <>
         New o
-      </> : <>O</>}dds of winning: <span
+      </> : <>O</>}dds of winning: {splitLines && <br />}<span
         className='font-number font-bold'
       >1</span> in <PoolCountUp
         start={result}

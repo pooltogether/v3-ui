@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import formatDuration from 'date-fns/formatDuration'
 import addSeconds from 'date-fns/addSeconds'
 import FeatherIcon from 'feather-icons-react'
 
@@ -26,12 +25,8 @@ export const PrizePoolCountdown = (
     const futureDate = addSeconds(currentDate, secondsRemaining)
 
     const diff = subtractDates(futureDate, currentDate)
-    console.log({ diff})
 
-    formatted = formatDuration(diff)
-    // }, {
-    //   zero: true
-    // })
+    formatted = `${diff.days}d ${diff.hours}h ${diff.minutes}m ${diff.seconds}s`
   } else {
     formatted = 'prize awarded soon ...'
   }
@@ -41,7 +36,6 @@ export const PrizePoolCountdown = (
       icon='clock'
       className='stroke-current w-4 h-4 sm:w-6 sm:h-6 inline-block mr-1'
     />
-    {/* 15hrs 22mins */}
     {formatted}
   </>
 }

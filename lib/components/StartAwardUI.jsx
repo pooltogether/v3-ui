@@ -66,6 +66,7 @@ export const StartAwardUI = (props) => {
         <Button
           wide
           size='lg'
+          outline
           onClick={handleClick}
         >
           Start Award

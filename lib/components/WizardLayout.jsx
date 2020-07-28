@@ -43,14 +43,17 @@ export const WizardLayout = (props) => {
       className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 bg-darkened'
       initial={{ scale: 0 }}
       animate={{ scale: 1, transition: { duration: 0.1 } }}
-      exit={{ opacity: 0, transition: { duration: 0.5 } }}
+      exit={{ opacity: 0, transition: {
+        duration: 0.25,
+        delay: 0.5,
+      } }}
     />
     
     <motion.div
       key={`${action}-pane`}
       className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40'
-      exit={{ opacity: 0, y: -50 }}
-      transition={{ duration: 0.25 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.5 }}
     >
       <nav
         className='fixed t-0 l-0 r-0 w-full px-4 pt-4 flex items-center justify-between flex-wrap h-20'
@@ -60,7 +63,7 @@ export const WizardLayout = (props) => {
           type='button'
           onClick={handlePreviousStep}
           className={classnames(
-            'text-primary trans',
+            'text-primary trans outline-none focus:outline-none active:outline-none',
             {
               'hover:text-secondary': !disabled
             }
@@ -118,7 +121,7 @@ export const WizardLayout = (props) => {
         <button
           type='button'
           onClick={handleClose}
-          className='text-primary hover:text-secondary trans'
+          className='text-primary hover:text-secondary trans outline-none focus:outline-none active:outline-none'
         >
           <FeatherIcon
             icon='x-circle'

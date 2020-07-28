@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 
-import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
+import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PrizeStrategy'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
@@ -18,12 +18,14 @@ const handleCompleteAwardSubmit = async (
       gasLimit: 350000
     }
   ]
+  console.log({setTx, provider, params, contractAddress})
+  console.log({})
 
   await sendTx(
     setTx,
     provider,
     contractAddress,
-    PrizePoolAbi,
+    PrizeStrategyAbi,
     'completeAward',
     params,
     'Complete Award',
@@ -62,7 +64,10 @@ export const CompleteAwardUI = (props) => {
     {!txInFlight ? <>
       {canCompleteAward && <>
         <Button
+          wide
+          size='lg'
           onClick={handleClick}
+          outline
         >
           Complete Award
         </Button>

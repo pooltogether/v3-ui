@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import classnames from 'classnames'
 import Link from 'next/link'
 import FeatherIcon from 'feather-icons-react'
@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
+import { PrizePoolCountdown } from 'lib/components/PrizePoolCountdown'
 
 export const PoolRow = (
   props,
@@ -71,6 +72,14 @@ export const PoolRow = (
             >
               <PrizeAmount
                 {...props}
+              />
+            </div>
+
+            <div
+              className='flex items-center sm:my-1'
+            >
+              <PrizePoolCountdown
+                pool={pool}
               />
             </div>
           </div>

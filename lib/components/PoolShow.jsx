@@ -8,8 +8,9 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { Button } from 'lib/components/Button'
 import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
+import { PoolStats } from 'lib/components/PoolStats'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
-import { poolToast } from 'lib/utils/poolToast'
+import { PrizePoolCountdown } from 'lib/components/PrizePoolCountdown'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 // const renderErrorMessage = (
@@ -133,25 +134,37 @@ export const PoolShow = (
               >
                 <Button
                   wide
+                  size='lg'
                   onClick={handleShowDeposit}
                 >
                   Get tickets
                 </Button>
               </div>
-
-            </div>
-
-            <div className='text-left mt-10'>
-              <PrizeAmount
-                {...props}
-                big
-              />
             </div>
 
             <PoolActionsUI
               poolAddresses={poolAddresses}
               usersAddress={usersAddress}
             />
+
+            <div className='text-left mt-10'>
+              <PrizeAmount
+                {...props}
+                big
+              />
+              <div
+                className='flex items-center my-1'
+              >
+                <PrizePoolCountdown
+                  pool={pool}
+                />
+              </div>
+            </div>
+
+            <PoolStats
+              {...props}
+            />
+
           </div>
 
           <div

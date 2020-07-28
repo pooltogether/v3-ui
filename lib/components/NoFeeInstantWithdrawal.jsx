@@ -7,10 +7,8 @@ import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
-import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { TxMessage } from 'lib/components/TxMessage'
 import { sendTx } from 'lib/utils/sendTx'
-import { poolToast } from 'lib/utils/poolToast'
 
 const handleWithdraw = async (
   setTx,
@@ -42,8 +40,6 @@ const handleWithdraw = async (
   params.push({
     gasLimit: 500000
   })
-
-  console.log({ params })
 
   await sendTx(
     setTx,
@@ -78,6 +74,9 @@ export const NoFeeInstantWithdrawal = (props) => {
   const ticker = pool && underlyingCollateralSymbol
   const controlledTokenAddress = pool && pool.ticket
 
+  const [sponsoredExitFee, setSponsoredExitFee] = useState('0')
+  const [maxExitFee, setMaxExitFee] = useState('1')
+
   const [tx, setTx] = useState({})
   const [txExecuted, setTxExecuted] = useState(false)
 
@@ -100,6 +99,8 @@ export const NoFeeInstantWithdrawal = (props) => {
         controlledTokenAddress,
         quantity,
         'instant',
+        sponsoredExitFee,
+        maxExitFee,
         underlyingCollateralDecimals,
       )
     }
