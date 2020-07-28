@@ -1,11 +1,13 @@
 import React from 'react'
 import classnames from 'classnames'
 
-import DaiSvg from 'assets/images/dai.svg'
+import DaiSvg from 'assets/images/dai-new-transparent.png'
+// import DaiSvg from 'assets/images/dai.svg'
 import MissingCurrencySvg from 'assets/images/help-circle.svg'
 import UsdcSvg from 'assets/images/usdc-new-transparent.png'
 // import UsdcSvg from 'assets/images/usdc.svg'
-import UsdtSvg from 'assets/images/usdt.svg'
+import UsdtSvg from 'assets/images/usdt-new-transparent.png'
+// import UsdtSvg from 'assets/images/usdt.svg'
 
 export const PoolCurrencyIcon = (
   props,
