@@ -54,7 +54,10 @@ export const WithdrawForm = (props) => {
   }
 
   const overBalance = withdrawAmount && usersTicketBalance && usersTicketBalance.lt(
-    ethers.utils.parseUnits(withdrawAmount, underlyingCollateralDecimals)
+    ethers.utils.parseUnits(
+      withdrawAmount,
+      Number(underlyingCollateralDecimals)
+    )
   )
   
   return <>

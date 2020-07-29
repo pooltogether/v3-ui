@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
 import {
+  SUPPORTED_CHAIN_IDS,
   SELECTED_WALLET_COOKIE_KEY,
   MAGIC_EMAIL,
 } from 'lib/constants'
@@ -60,7 +61,8 @@ export const AuthControllerContextProvider = (props) => {
     walletName = onboardWallet.name
   }
 
-  const [chainId, setChainId] = useState(getChainId(onboardNetwork))
+  const defaultChainId = getChainId(process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME)
+  const [chainId, setChainId] = useState(defaultChainId)
   const [provider, setProvider] = useState()
   const [usersAddress, setUsersAddress] = useState()
   const [magicAutoSignInAlreadyExecuted, setMagicAutoSignInAlreadyExecuted] = useState(false)
@@ -74,9 +76,8 @@ export const AuthControllerContextProvider = (props) => {
   }, [onboardProvider, magicContext.signedIn])
 
   useEffect(() => {
-    const _chainId = getChainId(onboardNetwork)
-    if (_chainId) {
-      setChainId(_chainId)
+    if (onboardNetwork) {
+      setChainId(onboardNetwork)
     }
   }, [onboardNetwork])
 
@@ -150,6 +151,7 @@ export const AuthControllerContextProvider = (props) => {
   }, [onboard])
 
   const networkName = chainIdToName(chainId)
+  const supportedNetwork = SUPPORTED_CHAIN_IDS.includes(chainId)
 
   return <AuthControllerContext.Provider
     value={{
@@ -162,6 +164,7 @@ export const AuthControllerContextProvider = (props) => {
       signInMagic,
       connectWallet,
       networkName,
+      supportedNetwork,
     }}
   >
     {children}

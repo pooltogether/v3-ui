@@ -2,13 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
-import { SUPPORTED_CHAIN_IDS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
-import { chainIdToName } from 'lib/utils/chainIdToName'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { isEmptyObject } from 'lib/utils/isEmptyObject'
 import { poolToast } from 'lib/utils/poolToast'
@@ -18,16 +16,17 @@ export const PoolDataContext = React.createContext()
 
 export const PoolDataContextProvider = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
-  const { chainId, usersAddress } = authControllerContext
+  const {
+    supportedNetwork,
+    networkName,
+    chainId,
+    usersAddress
+  } = authControllerContext
 
   const [defaultReadProvider, setDefaultReadProvider] = useState({})
 
   const router = useRouter()
   const querySymbol = router.query.symbol && router.query.symbol.toLowerCase()
-
-  const networkName = chainId ?
-    chainIdToName(chainId) :
-    process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
 
   useEffect(() => {
     const getReadProvider = async () => {
@@ -36,27 +35,12 @@ export const PoolDataContextProvider = (props) => {
     }
     getReadProvider()
   }, [networkName])
-  
-  let loading = true
-
-  if (!SUPPORTED_CHAIN_IDS.includes(chainId)) {
-    return <PoolDataContext.Provider
-      value={{
-        chainId,
-        loading: false,
-        unsupportedNetwork: true,
-        pool: null,
-        pools: [],
-      }}
-    >
-      {props.children}
-    </PoolDataContext.Provider>
-  }
-
 
   let poolAddresses
   try {
-    poolAddresses = getContractAddresses(chainId)
+    if (supportedNetwork) {
+      poolAddresses = getContractAddresses(chainId)
+    }
   } catch (e) {
     poolToast.error(e)
     console.error(e)
@@ -129,6 +113,16 @@ export const PoolDataContextProvider = (props) => {
                         name: 'Weekly Tether Pool',
                         symbol: 'PT-cUSDT',
                       },
+                      // {
+                      //   ...genericChainData.wbtcPrizeStrategy,
+                      //   ...dynamicPoolData.wbtcPool,
+                      //   ...dynamicPrizeStrategiesData.wbtcPrizeStrategy,
+                      //   ...staticPoolData.wbtcPool,
+                      //   ...staticPrizeStrategiesData.wbtcPrizeStrategy,
+                      //   yieldSource: 'Compound',
+                      //   name: 'Weekly Wrapped Bitcoin Pool',
+                      //   symbol: 'PT-cWBTC',
+                      // },
                     ]
                   }
 
@@ -151,12 +145,13 @@ export const PoolDataContextProvider = (props) => {
 
                   if (pool && dynamicPlayerData) {
                     const poolAddress = pool && pool.poolAddress
+                    const underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
                     const player = dynamicPlayerData.find(data => data.prizePool.id === poolAddress)
 
-                    if (player) {
+                    if (player && underlyingCollateralDecimals) {
                       usersTicketBalance = Number(ethers.utils.formatUnits(
                         player.balance,
-                        pool.underlyingCollateralDecimals
+                        Number(underlyingCollateralDecimals)
                       ))
                       usersTicketBalanceBN = ethers.utils.bigNumberify(player.balance)
                     }
@@ -173,7 +168,6 @@ export const PoolDataContextProvider = (props) => {
                     {({ usersChainData }) => {
                       return <PoolDataContext.Provider
                         value={{
-                          chainId,
                           loading: graphDataLoading,
                           pool,
                           pools,

@@ -2,6 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 
 import DaiSvg from 'assets/images/dai-new-transparent.png'
+import WbtcSvg from 'assets/images/asset_BTC.svg'
 // import DaiSvg from 'assets/images/dai.svg'
 import MissingCurrencySvg from 'assets/images/help-circle.svg'
 import UsdcSvg from 'assets/images/usdc-new-transparent.png'
@@ -26,6 +27,8 @@ export const PoolCurrencyIcon = (
     currencyIcon = UsdcSvg
   } else if (tokenSymbol === 'usdt') {
     currencyIcon = UsdtSvg
+  } else if (tokenSymbol === 'wbtc') {
+    currencyIcon = WbtcSvg
   } else {
     currencyIcon = MissingCurrencySvg
   }

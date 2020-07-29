@@ -18,7 +18,7 @@ export const Odds = (props) => {
   if (totalSupply) {
     totalSupplyFloat = Number(ethers.utils.formatUnits(
       totalSupply,
-      underlyingCollateralDecimals
+      Number(underlyingCollateralDecimals)
     ))
   }
 

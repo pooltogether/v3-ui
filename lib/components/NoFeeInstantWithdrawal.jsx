@@ -24,7 +24,10 @@ const handleWithdraw = async (
 ) => {
   const params = [
     usersAddress,
-    ethers.utils.parseUnits(quantity, decimals),
+    ethers.utils.parseUnits(
+      quantity,  
+      Number(decimals)
+    ),
     controlledTokenAddress,
   ]
 

@@ -15,10 +15,15 @@ export const AccountPoolRow = (
 ) => {
   const { pool, player } = props
 
-  const usersBalance = Number(ethers.utils.formatUnits(
-    player.balance,
-    pool.underlyingCollateralDecimals
-  ))
+  const underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
+
+  let usersBalance = 0
+  if (!isNaN(underlyingCollateralDecimals)) {
+    usersBalance = Number(ethers.utils.formatUnits(
+      player.balance,
+      Number(underlyingCollateralDecimals)
+    ))
+  }
   
   return <>
     <Link

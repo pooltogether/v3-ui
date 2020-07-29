@@ -31,11 +31,16 @@ export const FetchGenericChainData = (props) => {
         provider,
         poolAddresses['usdtPrizeStrategy']
       )
+      // const wbtcPrizeStrategy = await fetchGenericChainData(
+      //   provider,
+      //   poolAddresses['wbtcPrizeStrategy']
+      // )
 
       return {
         daiPrizeStrategy,
         usdcPrizeStrategy,
         usdtPrizeStrategy,
+        // wbtcPrizeStrategy,
       }
     } catch (e) {
       // error while fetching from infura?

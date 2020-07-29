@@ -8,6 +8,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
 import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
+import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { TxMessage } from 'lib/components/TxMessage'
 import { sendTx } from 'lib/utils/sendTx'
@@ -23,7 +24,10 @@ const handleUnlockSubmit = async (
   const params = [
     prizePoolAddress,
     // ethers.utils.parseUnits('1000000000', decimals),
-    ethers.utils.parseUnits(quantity, decimals),
+    ethers.utils.parseUnits(
+      quantity,
+      Number(decimals)
+    ),
     {
       gasLimit: 200000
     }
@@ -62,7 +66,7 @@ export const DepositCryptoForm = (props) => {
 
   const quantityBN = ethers.utils.parseUnits(
     quantity || '0',
-    underlyingCollateralDecimals
+    Number(underlyingCollateralDecimals)
   )
 
   const ticker = pool && pool.underlyingCollateralSymbol
@@ -77,7 +81,7 @@ export const DepositCryptoForm = (props) => {
   const usersBalance = Number(
     ethers.utils.formatUnits(
       usersBalanceBN,
-      underlyingCollateralDecimals 
+      Number(underlyingCollateralDecimals )
     )
   )
 
@@ -115,7 +119,10 @@ export const DepositCryptoForm = (props) => {
   }, [usersBalance])
 
   const overBalance = quantity && usersBalanceBN.lt(
-    ethers.utils.parseUnits(quantity, underlyingCollateralDecimals)
+    ethers.utils.parseUnits(
+      quantity,
+      Number(underlyingCollateralDecimals)
+    )
   )
 
   if (!pool) {
