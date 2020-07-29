@@ -10,7 +10,12 @@ export const RadioInputGroup = (
     
     return <div
       key={`radios-${radio.value}`}
-      className='radio-input-group trans w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl bg-secondary rounded-xl relative mx-auto hover:bg-green'
+      className='flex items-center justify-center radio-input-group trans w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl bg-secondary rounded-xl relative hover:bg-green mx-2'
+      style={{
+        maxWidth: 300,
+        minHeight: 200,
+        width: '45%'
+      }}
     >
       <input
         id={id}
@@ -23,9 +28,11 @@ export const RadioInputGroup = (
       />
       <label
         htmlFor={id}
-        className='text-primary relative pl-6 py-3 w-full block mb-4 relative overflow-hidden trans'
+        className='flex items-center text-xs sm:text-base h-full text-primary hover:text-inverse absolute t-0 l-0 r-0 b-0 px-4 w-full block  trans mt-0'
       >
-        {radio.label}
+        <div className='-mt-4'>
+          {radio.label}
+        </div>
       </label>
     </div>
   })
@@ -35,12 +42,14 @@ export const RadioInputGroup = (
       className='radio-input-fieldset mb-6'
     >
       <label
-        className='text-inverse hover:text-inverse trans mt-0'
+        className='text-base sm:text-lg text-inverse hover:text-inverse trans mt-0'
       >
         {label}
       </label>
 
-      {radioElements}
+      <div className='flex items-center justify-center mt-4'>
+        {radioElements}
+      </div>
     </div>
   </>
 }
