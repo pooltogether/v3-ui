@@ -40,10 +40,11 @@ export const WithdrawWizardContainer = (props) => {
   const [cachedUsersBalance, setCachedUsersBalance] = useState(usersTicketBalance)
 
   let hasEnoughCreditForInstant = null
-  console.log({ exitFees})
   if (exitFees && exitFees.instantCredit) {
-    console.log({ instant: exitFees.instantCredit.toString() })
+    console.log('###################')
+    console.log({ instantCredit: exitFees.instantCredit.toString() })
     console.log({ instantFee: exitFees.instantFee.toString() })
+    console.log('*********************')
     console.log({ timelockCredit: exitFees.timelockCredit.toString() })
     console.log({ timelockDuration: exitFees.timelockDuration.toString() })
     hasEnoughCreditForInstant = exitFees.instantCredit.gt(0)
@@ -65,8 +66,6 @@ export const WithdrawWizardContainer = (props) => {
         ticketAddress,
         ethers.utils.parseEther(quantity),
       )
-      console.log('restul')
-      console.log({result})
       setExitFees(result)
     }
 
@@ -131,6 +130,8 @@ export const WithdrawWizardContainer = (props) => {
                       previousStep={step.previousStep}
                     /> :
                     <InstantOrScheduledForm
+                      pool={pool}
+                      exitFees={exitFees}
                       nextStep={step.nextStep}
                       quantity={quantity}
                     />

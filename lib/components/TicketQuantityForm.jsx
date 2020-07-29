@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 
 import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
+import { Modal } from 'lib/components/Modal'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Odds } from 'lib/components/Odds'
@@ -14,8 +15,9 @@ export const TicketQuantityForm = (props) => {
   const poolData = useContext(PoolDataContext)
   const { pool, usersTicketBalance } = poolData
 
+  const poolIsLocked = pool && pool.isRngRequested
+
   const {
-    getValues,
     handleSubmit,
     register,
     errors,
@@ -62,6 +64,19 @@ export const TicketQuantityForm = (props) => {
       <div className='mt-3 mb-6'>
         {balanceJsx}
       </div>
+    </>}
+
+    {poolIsLocked && <>
+      <Modal
+        header='CURRENCY Pool locked'
+      >
+        <div>
+          This Pool's prize is currently being awarded - until awarding is complete it can not accept deposits or withdrawals.
+
+      <br/>
+          COUNTDOWN TO UNLOCK:!
+        </div>
+      </Modal>
     </>}
 
     <form

@@ -3,11 +3,9 @@ import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
 
 import { Button } from 'lib/components/Button'
-import { Input } from 'lib/components/Input'
 import { FormLockedOverlay } from 'lib/components/FormLockedOverlay'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
-
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const WithdrawForm = (props) => {

@@ -154,7 +154,7 @@ export const AccountPoolShowUI = (props) => {
               onClick={handleShowDeposit}
               wide
             >
-              Get more tickets
+              Get tickets
             </Button>
           </div>
         </>

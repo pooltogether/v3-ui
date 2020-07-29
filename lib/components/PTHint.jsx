@@ -5,7 +5,6 @@ import Tooltip from 'react-tooltip-lite'
 export const PTHint = class _PTHint extends Component {
   static propTypes = {
     children: PropTypes.object,
-    tip: PropTypes.string.isRequired,
     className: PropTypes.string
   }
 
@@ -50,12 +49,11 @@ export const PTHint = class _PTHint extends Component {
       buttonText = children
     } else {
       buttonText = <span
-        className='flex items-center justify-center inline-block bg-white rounded-lg w-4 h-4 text-blue-500 text-center font-bold'
+        className='flex items-center justify-center inline-block bg-white rounded-lg w-10 h-10 text-blue-500 text-center font-bold rounded-full'
       >
         <span
-          className='relative text-xs'
+          className='relative text-base font-number'
           style={{
-            top: -1,
             left: '0.03rem'
           }}
         >

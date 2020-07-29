@@ -1,16 +1,54 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { ethers } from 'ethers'
 
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PTHint } from 'lib/components/PTHint'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const InstantOrScheduledForm = (props) => {
-  const { quantity } = props
+  const { pool, exitFees, quantity } = props
   const [withdrawType, setWithdrawType] = useState('scheduled')
 
   const handleWithdrawTypeChange = (e) => {
     setWithdrawType(e.target.value)
   }
-  
+
+  const underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
+  const underlyingCollateralSymbol = pool && pool.underlyingCollateralSymbol
+
+  const {
+    instantCredit,
+    instantFee,
+  } = exitFees
+
+  let instantFull = ethers.utils.bigNumberify(0)
+  let instantPartial = ethers.utils.bigNumberify(0)
+  if (quantity && underlyingCollateralDecimals) {
+    instantPartial = ethers.utils.parseUnits(
+      quantity,
+      Number(underlyingCollateralDecimals)
+    ).sub(instantFee)
+
+    instantFull = ethers.utils.parseUnits(
+      quantity,
+      Number(underlyingCollateralDecimals)
+    )
+  }
+ 
+  const instantFullFormatted = displayAmountInEther(
+    instantFull,
+    { decimals: underlyingCollateralDecimals }
+  )
+  const instantPartialFormatted = displayAmountInEther(
+    instantPartial,
+    { decimals: underlyingCollateralDecimals }
+  )
+  const instantFeeFormatted = displayAmountInEther(
+    instantFee,
+    { decimals: underlyingCollateralDecimals }
+  )
+
   return <div
     className='text-inverse'
   >
@@ -26,11 +64,11 @@ export const InstantOrScheduledForm = (props) => {
       radios={[
         {
           value: 'scheduled',
-          label: 'I want my X CURRENCY back in 4d 22h'
+          label: `I want my full $${instantFullFormatted} ${underlyingCollateralSymbol} back in 4d 22h`
         },
         {
           value: 'instant',
-          label: 'I want Y CURRENCY now and will forfeit the interest'
+          label: `I want $${instantPartialFormatted} ${underlyingCollateralSymbol} now and will forfeit the interest`
         }
       ]}
     />
@@ -42,10 +80,10 @@ export const InstantOrScheduledForm = (props) => {
           minHeight: 70
         }}
       >
-        Your X CURRENCY will be scheduled for withdrawal in: 4d 22h
+        Your ${instantFullFormatted} {underlyingCollateralSymbol} will be scheduled and ready to withdraw in: 4d 22h
       </div>
       <button
-        className='trans text-blue hover:text-secondary underline rounded-xl py-2 px-6 outline-none mt-2'
+        className='active:outline-none focus:outline-none trans text-blue hover:text-secondary underline rounded-xl py-2 px-6 outline-none mt-2'
         onClick={(e) => {
           e.preventDefault()
           setWithdrawType('instant')
@@ -60,17 +98,46 @@ export const InstantOrScheduledForm = (props) => {
           minHeight: 70
         }}
       >
-        You will receive Y CURRENCY now and forfeit Z CURRENCY as interest. 
-      </div>
-        <button
-          className='trans text-blue hover:text-secondary underline rounded-xl py-2 px-6 outline-none mt-2'
-          onClick={(e) => {
-            e.preventDefault()
-            setWithdrawType('scheduled')
-          }}
+        <PTHint
+          tip={<>
+            To maintain fairness your funds need to contribute interest towards the prize each week. You can:
+            1) SCHEDULE: receive ${quantity} DAI once enough interest has been provided to the prize
+            2) INSTANT: pay ${displayAmountInEther(
+              instantFee,
+              { decimals: underlyingCollateralDecimals }
+            )} to withdraw right now and forfeit the interest that would go towards the prize
+          </>}
         >
-          Don't want to forfeit your fairness fee?
-        </button>
+          You will receive ${instantPartialFormatted} {underlyingCollateralSymbol} now and {instantFee.eq(0)
+            ? <>burn ${displayAmountInEther(instantCredit)} {underlyingCollateralSymbol} from your fairness credit</>
+            : <>forfeit {instantFeeFormatted} {underlyingCollateralSymbol} as interest</>
+          }
+        </PTHint>
+      </div>
+      <button
+        className='active:outline-none focus:outline-none trans text-blue hover:text-secondary underline rounded-xl py-2 px-6 outline-none mt-2'
+        onClick={(e) => {
+          e.preventDefault()
+          setWithdrawType('scheduled')
+        }}
+      >
+          Don't want to forfeit a ${instantFeeFormatted} {underlyingCollateralSymbol} fairness fee?
+      </button>
     </>}
+
+
+
+    
+    
+{/* 
+    {withdrawType === 'instant' && instantFee.eq(0) && <>
+      <div className='font-bold mt-8'>
+        Why is the fairness fee $0?
+      </div>
+      <p>
+        The fairness fee is based on the previous prize and other factors (see documentation or contract code).
+      </p>
+    </>} */}
+
   </div> 
 }

@@ -39,8 +39,6 @@ export const StartAwardUI = (props) => {
 
   const { canStartAward, canCompleteAward, prizeStrategyAddress } = pool
 
-  console.log({ canCompleteAward, canStartAward})
-
   const [tx, setTx] = useState({})
 
   const txInFlight = tx.inWallet || tx.sent && !tx.completed
