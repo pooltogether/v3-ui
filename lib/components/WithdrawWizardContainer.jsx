@@ -17,6 +17,11 @@ export const WithdrawWizardContainer = (props) => {
   const router = useRouter()
   const quantity = router.query.quantity
 
+  let initialStepIndex = 0
+  if (quantity) {
+    initialStepIndex = 1
+  }
+
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress, networkName } = authControllerContext
 
@@ -83,7 +88,9 @@ export const WithdrawWizardContainer = (props) => {
   }
 
   return <>
-    <Wizard>
+    <Wizard
+      initialStepIndex={initialStepIndex}
+    >
       {
         (wizard) => {
           const { activeStepIndex, previousStep, moveToStep } = wizard
@@ -92,7 +99,7 @@ export const WithdrawWizardContainer = (props) => {
             currentWizardStep={activeStepIndex + 1}
             handlePreviousStep={previousStep}
             moveToStep={moveToStep}
-            totalWizardSteps={3}
+            totalWizardSteps={4}
           >
             <WizardStep>
               {(step) => {
@@ -125,6 +132,7 @@ export const WithdrawWizardContainer = (props) => {
                     /> :
                     <InstantOrScheduledForm
                       nextStep={step.nextStep}
+                      quantity={quantity}
                     />
               }}
             </WizardStep>
