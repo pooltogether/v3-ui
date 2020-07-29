@@ -69,7 +69,8 @@ export const WithdrawWizardContainer = (props) => {
       setExitFees(result)
     }
 
-    if (quantity) {
+    const ready = quantity && usersAddress && networkName && ticketAddress && prizeStrategyAddress && networkName
+    if (ready) {
       getFees()
     }
   }, [quantity, usersAddress, networkName, ticketAddress, prizeStrategyAddress, networkName])

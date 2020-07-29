@@ -11,11 +11,9 @@ export const WithdrawComplete = (props) => {
   const quantity = router.query.quantity
 
   const poolData = useContext(PoolDataContext)
-  const { underlyingCollateralSymbol } = poolData
+  const { pool } = poolData
 
-  if (!underlyingCollateralSymbol) {
-    return null
-  }
+  const underlyingCollateralSymbol = pool && pool.underlyingCollateralSymbol
 
   const confettiContext = useContext(ConfettiContext)
   const { confetti } = confettiContext
