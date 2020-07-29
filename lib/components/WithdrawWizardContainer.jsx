@@ -72,7 +72,7 @@ export const WithdrawWizardContainer = (props) => {
     if (quantity) {
       getFees()
     }
-  }, [quantity])
+  }, [quantity, usersAddress, networkName, ticketAddress, prizeStrategyAddress, networkName])
   
   let balanceJsx = null
   let underlyingCollateralDecimals = 18
@@ -98,7 +98,7 @@ export const WithdrawWizardContainer = (props) => {
             currentWizardStep={activeStepIndex + 1}
             handlePreviousStep={previousStep}
             moveToStep={moveToStep}
-            totalWizardSteps={4}
+            totalWizardSteps={hasEnoughCreditForInstant ? 3 : 4}
           >
             <WizardStep>
               {(step) => {

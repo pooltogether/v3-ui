@@ -466,3 +466,21 @@ input[type='submit'][disabled] {
   0% { stroke-dashoffset: -150; }
   100% { stroke-dashoffset: 0; }
 }
+
+[data-reach-tooltip] {
+  @apply text-inverse;
+  background: white;
+  box-shadow: rgba(14, 16, 60, 0.08) 0px 15px 30px;
+  border: 0;
+  padding: 1.25rem 2rem;
+  border-radius: 16px;
+  pointer-events: initial;
+  max-width: 20rem;
+  white-space: initial;
+  z-index: 1823774;
+}
+
+[data-reach-listbox-popover][hidden] {
+  opacity: 0;
+  pointer-events: none;
+}

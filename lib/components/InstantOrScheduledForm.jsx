@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
 
+import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PTHint } from 'lib/components/PTHint'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
@@ -73,6 +74,8 @@ export const InstantOrScheduledForm = (props) => {
       ]}
     />
 
+
+
     {withdrawType === 'scheduled' ? <>
       <div
         className='flex items-center justify-center py-2 px-4 sm:w-7/12 mx-auto rounded-xl -mx-6 sm:mx-auto bg-inverse text-match'
@@ -98,7 +101,26 @@ export const InstantOrScheduledForm = (props) => {
           minHeight: 70
         }}
       >
+
+
         <PTHint
+          label="Fall in love all over again"
+          tip={<>
+            To maintain fairness your funds need to contribute interest towards the prize each week. You can:
+          <br /><br />1) SCHEDULE: receive ${quantity} DAI once enough interest has been provided to the prize
+          <br /><br />2) INSTANT: pay ${displayAmountInEther(
+            instantFee,
+            { decimals: underlyingCollateralDecimals }
+          )} to withdraw right now and forfeit the interest that would go towards the prize
+        </>}
+        >
+          <>You will receive ${instantPartialFormatted} {underlyingCollateralSymbol} now and {instantFee.eq(0)
+            ? <>burn ${displayAmountInEther(instantCredit)} {underlyingCollateralSymbol} from your fairness credit</>
+            : <>forfeit {instantFeeFormatted} {underlyingCollateralSymbol} as interest</>
+          }</>
+        </PTHint>
+
+        {/* <PTHint
           tip={<>
             To maintain fairness your funds need to contribute interest towards the prize each week. You can:
             1) SCHEDULE: receive ${quantity} DAI once enough interest has been provided to the prize
@@ -108,11 +130,8 @@ export const InstantOrScheduledForm = (props) => {
             )} to withdraw right now and forfeit the interest that would go towards the prize
           </>}
         >
-          You will receive ${instantPartialFormatted} {underlyingCollateralSymbol} now and {instantFee.eq(0)
-            ? <>burn ${displayAmountInEther(instantCredit)} {underlyingCollateralSymbol} from your fairness credit</>
-            : <>forfeit {instantFeeFormatted} {underlyingCollateralSymbol} as interest</>
-          }
-        </PTHint>
+          
+        </PTHint> */}
       </div>
       <button
         className='active:outline-none focus:outline-none trans text-blue hover:text-secondary underline rounded-xl py-2 px-6 outline-none mt-2'
@@ -126,7 +145,13 @@ export const InstantOrScheduledForm = (props) => {
     </>}
 
 
-
+    <br /><br />
+    <Button
+      wide
+      size='lg'
+    >
+      Continue
+    </Button>
     
     
 {/* 

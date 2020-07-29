@@ -6,6 +6,7 @@ import { AllContextProviders } from 'lib/components/contextProviders/AllContextP
 // import { Chart } from 'lib/components/Chart'
 import { Layout } from 'lib/components/Layout'
 
+import '@reach/tooltip/styles.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'assets/styles/index.css'
 import 'assets/styles/toast-blur.css'
