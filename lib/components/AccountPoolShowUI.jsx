@@ -11,6 +11,7 @@ import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { PrizePoolCountdown } from 'lib/components/PrizePoolCountdown'
+import { TimelockedBalanceUI } from 'lib/components/TimelockedBalanceUI'
 
 export const AccountPoolShowUI = (props) => {
   const router = useRouter()
@@ -21,8 +22,10 @@ export const AccountPoolShowUI = (props) => {
 
   const poolAddress = pool && pool.poolAddress
   const symbol = pool && pool.symbol
-  const ticker = pool && pool.underlyingCollateralSymbol
   const underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
+
+  const ticker = pool && pool.underlyingCollateralSymbol
+  const tickerUpcased = ticker && ticker.toUpperCase()
 
   let playerData
   if (dynamicPlayerData) {
@@ -67,7 +70,7 @@ export const AccountPoolShowUI = (props) => {
       <div
         className='text-xl text-inverse'
       >
-        {ticker} Pool
+        {tickerUpcased} Pool
       </div>
 
       {!dynamicPlayerData ? <>
@@ -106,14 +109,22 @@ export const AccountPoolShowUI = (props) => {
               decimals={0}
             />
           </div>
-          <div
-            className='mt-1 text-sm'
-          >
-            <Odds
-              pool={pool}
-              usersBalance={usersBalance}
-            />
-          </div>
+
+          <TimelockedBalanceUI
+            pool={pool}
+            playerData={playerData}
+          />
+
+          {usersBalance > 0 && <>
+            <div
+              className='mt-1 text-sm'
+            >
+              <Odds
+                pool={pool}
+                usersBalance={usersBalance}
+              />
+            </div>
+          </>}
 
           <div
             className='my-10'

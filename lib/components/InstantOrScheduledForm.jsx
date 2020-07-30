@@ -68,17 +68,12 @@ export const InstantOrScheduledForm = (props) => {
   const updateParamsAndNextStep = (e) => {
     e.preventDefault()
 
-    // console.log({ withdrawType})
-    // queryParamUpdater.add(router, { withdrawType, timelockDuration: exitFees.timelockDuration })
-    // queryParamUpdater.add(router, { timelockDuration: exitFees.timelockDuration })
-
     if (withdrawType === 'instant') {
-      // console.log({ net: instantPartialFormatted, fee: instantFeeFormatted })
       queryParamUpdater.add(router, {
+        withdrawType,
         net: instantPartialFormatted,
         fee: instantFeeFormatted,
       })
-      // queryParamUpdater.add(router, { fee: instantFeeFormatted })
     } else if (withdrawType === 'scheduled') {
       queryParamUpdater.add(router, {
         withdrawType,

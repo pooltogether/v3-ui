@@ -88,6 +88,7 @@ export const Button = (props) => {
     disabled,
     href,
     inversed,
+    blue,
     noAnim,
     isBold,
     isText,
@@ -131,6 +132,8 @@ export const Button = (props) => {
   if (!disabled) {
     if (inversed) {
       borderClasses = `border-4 border-inverse hover:border-default`
+    } else if (blue) {
+      borderClasses = `border-4 border-blue hover:border-blue`
     } else {
       borderClasses = `border-4 border-inverse hover:border-green`
     }
@@ -167,7 +170,11 @@ export const Button = (props) => {
   )
 
   if (outline) {
-    className = 'font-bold rounded-xl text-secondary border-4 border-secondary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+    if (blue) {
+      className = 'font-bold rounded-xl bg-blue text-white text-xxs sm:text-base py-2 sm:py-2 px-4 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none '
+    } else {
+      className = 'font-bold rounded-xl text-secondary border-4 border-secondary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+    }
   }
 
   let newProps = omit(props, [
@@ -185,6 +192,7 @@ export const Button = (props) => {
     'textSizeClasses',
     'transitionClasses',
     'wide',
+    'blue',
   ])
 
   if (!disabled) {

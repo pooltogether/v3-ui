@@ -39,6 +39,7 @@ const handleWithdraw = async (
       ethers.utils.parseEther(maxExitFee)
     )
   }
+  console.log({ method })
 
   params.push({
     gasLimit: 500000

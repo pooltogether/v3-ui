@@ -37,7 +37,8 @@ export const StartAwardUI = (props) => {
   const poolDataContext = useContext(PoolDataContext)
   const { pool } = poolDataContext
 
-  const { canStartAward, canCompleteAward, prizeStrategyAddress } = pool
+  const { isRngCompleted, isRngRequested, canStartAward, canCompleteAward, prizeStrategyAddress } = pool
+  console.log({ canStartAward, canCompleteAward, isRngCompleted, isRngRequested,})
 
   const [tx, setTx] = useState({})
 
