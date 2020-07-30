@@ -18,6 +18,7 @@ export const AccountPoolShowUI = (props) => {
   const poolData = useContext(PoolDataContext)
   const { pool, dynamicPlayerData } = poolData
 
+
   const poolAddress = pool && pool.poolAddress
   const symbol = pool && pool.symbol
   const ticker = pool && pool.underlyingCollateralSymbol

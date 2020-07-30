@@ -14,6 +14,7 @@ export const WithdrawComplete = (props) => {
   const { pool } = poolData
 
   const underlyingCollateralSymbol = pool && pool.underlyingCollateralSymbol
+  const symbolUpcased = underlyingCollateralSymbol && underlyingCollateralSymbol.toUpperCase()
 
   const confettiContext = useContext(ConfettiContext)
   const { confetti } = confettiContext
@@ -37,7 +38,7 @@ export const WithdrawComplete = (props) => {
     </PaneTitle>
 
     <PaneTitle>
-      {quantity} {underlyingCollateralSymbol.toUpperCase()} = {quantity} tickets
+      {quantity} {symbolUpcased} = {quantity} tickets
     </PaneTitle>
 
     <div>

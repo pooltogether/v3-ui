@@ -6,10 +6,8 @@ import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvid
 
 export const PTHint = (props) => {
   const [trigger, tooltip] = useTooltip()
-  console.log({ trigger })
-  console.log({ tooltip })
-
-  console.log('WHAT THE FUCK')
+  // console.log({ trigger })
+  // console.log({ tooltip })
 
   const { isVisible, triggerRect } = tooltip;
 
@@ -17,7 +15,6 @@ export const PTHint = (props) => {
 
   const themeContext = useContext(ThemeContext)
   const { theme } = themeContext
-  console.log({theme})
 
   // Center the tooltip, but collisions will win
   // const centered = (triggerRect, tooltipRect) => {
