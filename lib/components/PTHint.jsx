@@ -1,5 +1,5 @@
 import React, { cloneElement } from 'react'
-import Tooltip, { useTooltip, TooltipPopup } from '@reach/tooltip'
+import { useTooltip, TooltipPopup } from '@reach/tooltip'
 
 export const PTHint = (props) => {
   const [trigger, tooltip] = useTooltip()

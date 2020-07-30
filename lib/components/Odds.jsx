@@ -15,11 +15,14 @@ export const Odds = (props) => {
   const totalSupply = pool && pool.totalSupply
 
   let totalSupplyFloat
-  if (totalSupply) {
+  // console.log({ totalSupply})
+  if (totalSupply && underlyingCollateralDecimals) {
     totalSupplyFloat = Number(ethers.utils.formatUnits(
       totalSupply,
       Number(underlyingCollateralDecimals)
     ))
+
+    // console.log({ totalSupplyFloat })
   }
 
   additionalQuantity = isWithdraw ?

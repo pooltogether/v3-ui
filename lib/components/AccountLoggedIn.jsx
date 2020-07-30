@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-import { AccountPoolShowUI } from 'lib/components/AccountPoolShowUI'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 
 export const AccountLoggedIn = (props) => {
@@ -11,11 +10,20 @@ export const AccountLoggedIn = (props) => {
   const { usersAddress } = authDataContext
   
   useEffect(() => {
+    let redirectTimeoutHandler
+    
     if (!usersAddress) {
-      console.warn('fix this!')
-      // router.push('/?signIn=1', '/?signIn=1', { shallow: true })
+      redirectTimeoutHandler = setTimeout(() => {
+        router.push('/?signIn=1', '/?signIn=1', { shallow: true })
+      }, 1000)
+    } else if (redirectTimeoutHandler) {
+      clearTimeout(redirectTimeoutHandler)
     }
-  }, [])
+
+    return () => {
+      clearTimeout(redirectTimeoutHandler)
+    }
+  }, [usersAddress])
 
   return props.children
 }

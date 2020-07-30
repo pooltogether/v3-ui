@@ -6,8 +6,6 @@ import { useRouter } from 'next/router'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
-import { NoFeeInstantWithdrawal } from 'lib/components/NoFeeInstantWithdrawal'
-import { InstantOrScheduledForm } from 'lib/components/InstantOrScheduledForm'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
 import { WizardLayout } from 'lib/components/WizardLayout'
@@ -31,52 +29,17 @@ export const WithdrawWizardContainer = (props) => {
     usersTicketBalance
   } = poolData
 
-  const { 
-    prizeStrategyAddress
-  } = pool || {}
-  const ticketAddress = pool && pool.ticket
-
-  const [exitFees, setExitFees] = useState({})
+  let underlyingCollateralDecimals = 18
+  underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
+  
   const [cachedUsersBalance, setCachedUsersBalance] = useState(usersTicketBalance)
-
-  let hasEnoughCreditForInstant = null
-  if (exitFees && exitFees.instantCredit) {
-    // console.log('###################')
-    // console.log({ instantCredit: exitFees.instantCredit.toString() })
-    // console.log({ instantFee: exitFees.instantFee.toString() })
-    // console.log('*********************')
-    // console.log({ timelockCredit: exitFees.timelockCredit.toString() })
-    // console.log({ timelockDuration: exitFees.timelockDuration.toString() })
-    hasEnoughCreditForInstant = exitFees.instantCredit.gt(0)
-  }
+  const [totalWizardSteps, setTotalWizardSteps] = useState(3)
 
   useEffect(() => {
     setCachedUsersBalance(usersTicketBalance)
   }, [usersTicketBalance])
 
-
-  // TODO: have this use useInterval as well so we always
-  // have the updated data!
-  useEffect(() => {
-    const getFees = async () => {
-      const result = await fetchExitFees(
-        networkName,
-        usersAddress,
-        prizeStrategyAddress,
-        ticketAddress,
-        ethers.utils.parseEther(quantity),
-      )
-      setExitFees(result)
-    }
-
-    const ready = quantity && usersAddress && networkName && ticketAddress && prizeStrategyAddress && networkName
-    if (ready) {
-      getFees()
-    }
-  }, [quantity, usersAddress, networkName, ticketAddress, prizeStrategyAddress, networkName])
-  
   let balanceJsx = null
-  let underlyingCollateralDecimals = 18
   if (pool) {
     underlyingCollateralDecimals = pool.underlyingCollateralDecimals
 
@@ -86,6 +49,7 @@ export const WithdrawWizardContainer = (props) => {
       end={usersTicketBalance}
     />
   }
+
 
   return <>
     <Wizard
@@ -99,7 +63,7 @@ export const WithdrawWizardContainer = (props) => {
             currentWizardStep={activeStepIndex + 1}
             handlePreviousStep={previousStep}
             moveToStep={moveToStep}
-            totalWizardSteps={hasEnoughCreditForInstant ? 3 : 4}
+            totalWizardSteps={totalWizardSteps}
           >
             <WizardStep>
               {(step) => {
@@ -120,22 +84,14 @@ export const WithdrawWizardContainer = (props) => {
                 if (!step.isActive) {
                   return null
                 }
-                return hasEnoughCreditForInstant === null ? <>
-                  <div className='text-inverse'>
-                    Getting available credit ...
-                  </div>
-                </> :
-                  hasEnoughCreditForInstant ?
-                    <NoFeeInstantWithdrawal
-                      nextStep={step.nextStep}
-                      previousStep={step.previousStep}
-                    /> :
-                    <InstantOrScheduledForm
-                      pool={pool}
-                      exitFees={exitFees}
-                      nextStep={step.nextStep}
-                      quantity={quantity}
-                    />
+                return null
+                // return <WithdrawScheduledOrInstantWithFee
+                //   pool={pool}
+                //   quantity={quantity}
+                //   nextStep={step.nextStep}
+                //   previousStep={step.previousStep}
+                //   setTotalWizardSteps={setTotalWizardSteps}
+                // />
               }}
             </WizardStep>
 

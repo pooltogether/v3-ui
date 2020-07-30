@@ -41,15 +41,15 @@ export const PoolRow = (
             minHeight: 120
           }}
         >
-          <div className='flex justify-between items-center'>
+          <div className='flex items-center'>
             <div
-              className='text-lg sm:text-xl font-bold w-5/12 sm:w-3/12'
+              className='text-lg sm:text-xl font-bold w-6/12 sm:w-4/12 lg:w-3/12'
             >
               {pool.name}
             </div>
 
             <div
-              className='flex items-center ml-4 w-6/12 sm:w-3/12 lg:w-1/3'
+              className='flex items-center w-5/12 sm:w-7/12 lg:w-8/12'
             >
               <CurrencyAndYieldSource
                 {...props}
@@ -57,7 +57,7 @@ export const PoolRow = (
             </div>
 
             <div
-              className='flex items-center w-1/12'
+              className='flex items-center w-1/12 justify-end'
             >
               <FeatherIcon
                 icon='arrow-right-circle'
@@ -68,7 +68,7 @@ export const PoolRow = (
 
           <div className='mt-5 flex items-center'>
             <div
-              className='w-6/12 sm:w-10/12 lg:w-11/12'
+              className='w-6/12 sm:w-4/12 lg:w-3/12'
             >
               <PrizeAmount
                 {...props}
