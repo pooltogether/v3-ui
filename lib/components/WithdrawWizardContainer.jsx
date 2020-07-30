@@ -1,15 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ethers } from 'ethers'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
 import { useRouter } from 'next/router'
 
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
+import { WithdrawScheduledOrInstantWithFee } from 'lib/components/WithdrawScheduledOrInstantWithFee'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
 import { WizardLayout } from 'lib/components/WizardLayout'
-import { fetchExitFees } from 'lib/utils/fetchExitFees'
 
 export const WithdrawWizardContainer = (props) => {
   const router = useRouter()
@@ -19,9 +17,6 @@ export const WithdrawWizardContainer = (props) => {
   if (quantity) {
     initialStepIndex = 1
   }
-
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress, networkName } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
   const {
@@ -41,8 +36,6 @@ export const WithdrawWizardContainer = (props) => {
 
   let balanceJsx = null
   if (pool) {
-    underlyingCollateralDecimals = pool.underlyingCollateralDecimals
-
     balanceJsx = <DepositAndWithdrawFormUsersBalance
       label='Your ticket balance:'
       start={cachedUsersBalance || usersTicketBalance}
@@ -84,14 +77,13 @@ export const WithdrawWizardContainer = (props) => {
                 if (!step.isActive) {
                   return null
                 }
-                return null
-                // return <WithdrawScheduledOrInstantWithFee
-                //   pool={pool}
-                //   quantity={quantity}
-                //   nextStep={step.nextStep}
-                //   previousStep={step.previousStep}
-                //   setTotalWizardSteps={setTotalWizardSteps}
-                // />
+                return <WithdrawScheduledOrInstantWithFee
+                  pool={pool}
+                  quantity={quantity}
+                  nextStep={step.nextStep}
+                  previousStep={step.previousStep}
+                  setTotalWizardSteps={setTotalWizardSteps}
+                />
               }}
             </WizardStep>
 

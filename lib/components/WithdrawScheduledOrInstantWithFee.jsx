@@ -23,6 +23,9 @@ export const WithdrawScheduledOrInstantWithFee = (props) => {
 
   const [exitFees, setExitFees] = useState({})
 
+  let underlyingCollateralDecimals = 18
+  underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
+
   let hasEnoughCreditForInstant = null
   if (exitFees && exitFees.instantCredit) {
     console.log('###################')
@@ -31,11 +34,11 @@ export const WithdrawScheduledOrInstantWithFee = (props) => {
     console.log('*********************')
     console.log({ timelockCredit: ethers.utils.formatUnits(exitFees.timelockCredit, Number(underlyingCollateralDecimals)) })
     console.log({ timelockDuration: exitFees.timelockDuration.toString() })
-    hasEnoughCreditForInstant = exitFees.instantCredit.gt(0)
+    hasEnoughCreditForInstant = exitFees.instantFee.lte(0)
   }
 
   useEffect(() => {
-    // setTotalWizardSteps(hasEnoughCreditForInstant ? 3 : 4)
+    setTotalWizardSteps(hasEnoughCreditForInstant ? 3 : 4)
   }, [hasEnoughCreditForInstant])
 
   // TODO: have this use useInterval as well so we always
