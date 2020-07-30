@@ -1,12 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 
+import {
+  MAINNET_POLLING_INTERVAL
+} from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { NoFeeInstantWithdrawal } from 'lib/components/NoFeeInstantWithdrawal'
+import { WithdrawRunInstantNoFee } from 'lib/components/WithdrawRunInstantNoFee'
 import { InstantOrScheduledForm } from 'lib/components/InstantOrScheduledForm'
 import { fetchExitFees } from 'lib/utils/fetchExitFees'
+import { useInterval } from 'lib/hooks/useInterval'
 
-export const WithdrawScheduledOrInstantWithFee = (props) => {
+export const WithdrawInstantOrScheduled = (props) => {
   const {
     pool,
     quantity,
@@ -28,13 +32,6 @@ export const WithdrawScheduledOrInstantWithFee = (props) => {
 
   let hasEnoughCreditForInstant = null
   if (exitFees && exitFees.instantCredit) {
-    console.log('###################')
-    console.log('###################')
-    console.log('###################')
-    console.log({ instantCredit: ethers.utils.formatUnits(exitFees.instantCredit, Number(underlyingCollateralDecimals)) })
-    console.log({ instantFee: ethers.utils.formatUnits(exitFees.instantFee, Number(underlyingCollateralDecimals)) })
-    console.log({ timelockCredit: ethers.utils.formatUnits(exitFees.timelockCredit, Number(underlyingCollateralDecimals)) })
-    console.log({ timelockDuration: exitFees.timelockDuration.toString() })
     hasEnoughCreditForInstant = exitFees.instantFee.lte(0)
   }
 
@@ -42,24 +39,32 @@ export const WithdrawScheduledOrInstantWithFee = (props) => {
     setTotalWizardSteps(hasEnoughCreditForInstant ? 3 : 4)
   }, [hasEnoughCreditForInstant])
 
-  // TODO: have this use useInterval as well so we always
-  // have the updated data!
-  useEffect(() => {
-    const getFees = async () => {
-      const result = await fetchExitFees(
-        networkName,
-        usersAddress,
-        prizeStrategyAddress,
-        ticketAddress,
-        ethers.utils.parseEther(quantity),
-      )
-      setExitFees(result)
-    }
 
+  const getFees = async () => {
+    const quantityBN = ethers.utils.parseEther(
+      quantity,
+      Number(underlyingCollateralDecimals)
+    )
+    const result = await fetchExitFees(
+      networkName,
+      usersAddress,
+      prizeStrategyAddress,
+      ticketAddress,
+      quantityBN
+    )
+    setExitFees(result)
+  }
+
+  useInterval(() => {
+    getFees()
+  }, MAINNET_POLLING_INTERVAL)
+
+  useEffect(() => {
     const ready = quantity && usersAddress && networkName && ticketAddress && prizeStrategyAddress && networkName
     if (ready) {
       getFees()
     }
+    // OPTIMIZE: Could reset the interval loop here since we just grabbed fresh data!
   }, [quantity, usersAddress, networkName, ticketAddress, prizeStrategyAddress, networkName])
   
   return <>
@@ -69,7 +74,7 @@ export const WithdrawScheduledOrInstantWithFee = (props) => {
       </div>
     </> :
       hasEnoughCreditForInstant ?
-        <NoFeeInstantWithdrawal
+        <WithdrawRunInstantNoFee
           nextStep={nextStep}
           previousStep={previousStep}
         /> :

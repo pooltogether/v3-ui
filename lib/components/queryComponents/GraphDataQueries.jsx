@@ -22,6 +22,7 @@ export const GraphDataQueries = (props) => {
             !dynamicPoolData
 
           if (usersAddress) {
+            console.log({ dynamicPlayerData})
             loading = (dynamicDataLoading || !dynamicPlayerData)
           }
 

@@ -5,7 +5,8 @@ import { useRouter } from 'next/router'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
-import { WithdrawScheduledOrInstantWithFee } from 'lib/components/WithdrawScheduledOrInstantWithFee'
+import { WithdrawInstantOrScheduled } from 'lib/components/WithdrawInstantOrScheduled'
+import { WithdrawRunScheduledOrInstantWithFee } from 'lib/components/WithdrawRunScheduledOrInstantWithFee'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
 import { WizardLayout } from 'lib/components/WizardLayout'
 
@@ -77,7 +78,7 @@ export const WithdrawWizardContainer = (props) => {
                 if (!step.isActive) {
                   return null
                 }
-                return <WithdrawScheduledOrInstantWithFee
+                return <WithdrawInstantOrScheduled
                   pool={pool}
                   quantity={quantity}
                   nextStep={step.nextStep}
@@ -86,6 +87,19 @@ export const WithdrawWizardContainer = (props) => {
                 />
               }}
             </WizardStep>
+            
+            {totalWizardSteps === 4 && <>
+              <WizardStep>
+                {(step) => {
+                  return step.isActive && <>
+                    <WithdrawRunScheduledOrInstantWithFee
+                      nextStep={step.nextStep}
+                      previousStep={step.previousStep}
+                    />
+                  </>
+                }}
+              </WizardStep>
+            </>}
 
             <WizardStep>
               {(step) => {

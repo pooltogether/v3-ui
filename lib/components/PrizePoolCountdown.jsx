@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import addSeconds from 'date-fns/addSeconds'
 import FeatherIcon from 'feather-icons-react'
 
-import { subtractDates } from 'lib/utils/subtractDates'
+import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 
 export const PrizePoolCountdown = (
   props,
@@ -19,12 +18,7 @@ export const PrizePoolCountdown = (
     setSecondsRemaining(secs)
   }, [secs])
  
-  const currentDate = new Date(Date.now())
-  const futureDate = addSeconds(currentDate, secondsRemaining)
-
-  const diff = subtractDates(futureDate, currentDate)
-
-  const formatted = `${diff.days}d ${diff.hours}h ${diff.minutes}m ${diff.seconds}s`
+  const formatted = formatFutureDateInSeconds(secondsRemaining)
 
   let msg
   if (!secondsRemaining) {

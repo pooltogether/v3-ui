@@ -56,7 +56,7 @@ const handleWithdraw = async (
 }
 
 
-export const NoFeeInstantWithdrawal = (props) => {
+export const WithdrawRunInstantNoFee = (props) => {
   const { nextStep, previousStep } = props
 
   const router = useRouter()
@@ -113,6 +113,15 @@ export const NoFeeInstantWithdrawal = (props) => {
     }
   }, [quantity])
 
+
+  const updateParamsAndNextStep = (e) => {
+    e.preventDefault()
+
+    queryParamUpdater.add(router, { withdrawType: 'instantNoFee' })
+
+    nextStep()
+  }
+
   useEffect(() => {
     if (tx.error) {
       previousStep()
@@ -121,7 +130,7 @@ export const NoFeeInstantWithdrawal = (props) => {
 
   useEffect(() => {
     if (ready) {
-      nextStep()
+      updateParamsAndNextStep()
     }
   }, [ready])
 

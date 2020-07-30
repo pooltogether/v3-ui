@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
+import { useRouter } from 'next/router'
 
 import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -7,9 +8,13 @@ import { PTHint } from 'lib/components/PTHint'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
+import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const InstantOrScheduledForm = (props) => {
-  const { pool, exitFees, quantity } = props
+  const router = useRouter()
+
+  const { nextStep, pool, exitFees, quantity } = props
   const [withdrawType, setWithdrawType] = useState('scheduled')
 
   const handleWithdrawTypeChange = (e) => {
@@ -38,7 +43,7 @@ export const InstantOrScheduledForm = (props) => {
     )
   }
  
-  const instantFullFormatted = displayAmountInEther(
+  const scheduledFullFormatted = displayAmountInEther(
     instantFull,
     { decimals: underlyingCollateralDecimals }
   )
@@ -60,6 +65,34 @@ export const InstantOrScheduledForm = (props) => {
     )} to withdraw right now and forfeit the interest that would otherwise go towards the prize
   </>
 
+  const updateParamsAndNextStep = (e) => {
+    e.preventDefault()
+
+    // console.log({ withdrawType})
+    // queryParamUpdater.add(router, { withdrawType, timelockDuration: exitFees.timelockDuration })
+    // queryParamUpdater.add(router, { timelockDuration: exitFees.timelockDuration })
+
+    if (withdrawType === 'instant') {
+      // console.log({ net: instantPartialFormatted, fee: instantFeeFormatted })
+      queryParamUpdater.add(router, {
+        net: instantPartialFormatted,
+        fee: instantFeeFormatted,
+      })
+      // queryParamUpdater.add(router, { fee: instantFeeFormatted })
+    } else if (withdrawType === 'scheduled') {
+      queryParamUpdater.add(router, {
+        withdrawType,
+        timelockDuration: exitFees.timelockDuration,
+      })
+    }
+
+    nextStep()
+  }
+
+  const formattedFutureDate = formatFutureDateInSeconds(
+    Number(exitFees.timelockDuration)
+  )
+
   return <div
     className='text-inverse'
   >
@@ -75,11 +108,11 @@ export const InstantOrScheduledForm = (props) => {
       radios={[
         {
           value: 'scheduled',
-          label: `I want my full $${instantFullFormatted} ${underlyingCollateralSymbol} back in 4d 22h`
+          label: `I want my full $${scheduledFullFormatted} in ${underlyingCollateralSymbol} back in ${formattedFutureDate}`
         },
         {
           value: 'instant',
-          label: `I want $${instantPartialFormatted} ${underlyingCollateralSymbol} now and will forfeit the interest`
+          label: `I want $${instantPartialFormatted} in ${underlyingCollateralSymbol} now and will forfeit the interest`
         }
       ]}
     />
@@ -97,7 +130,8 @@ export const InstantOrScheduledForm = (props) => {
           tip={tipJsx}
         >
           <>
-            Your ${instantFullFormatted} {underlyingCollateralSymbol} will be scheduled and ready to withdraw in: 4d 22h <QuestionMarkCircle />
+            Your ${scheduledFullFormatted} worth of {underlyingCollateralSymbol} will be scheduled and ready to withdraw in: 
+            <br />{formattedFutureDate} <QuestionMarkCircle />
           </>
         </PTHint>
       </div>
@@ -120,9 +154,9 @@ export const InstantOrScheduledForm = (props) => {
         <PTHint
           tip={tipJsx}
         >
-          <>You will receive ${instantPartialFormatted} {underlyingCollateralSymbol} now and {instantFee.eq(0)
-            ? <>burn ${displayAmountInEther(instantCredit)} {underlyingCollateralSymbol} from your fairness credit</>
-            : <>forfeit ${instantFeeFormatted} {underlyingCollateralSymbol} as interest</>
+          <>You will receive ${instantPartialFormatted} in {underlyingCollateralSymbol} now and {instantFee.eq(0)
+            ? <>burn ${displayAmountInEther(instantCredit)} in {underlyingCollateralSymbol} from your fairness credit</>
+            : <>forfeit ${instantFeeFormatted} in {underlyingCollateralSymbol} as interest to the pool</>
           } <QuestionMarkCircle /></>
         </PTHint>
       </div>
@@ -133,29 +167,19 @@ export const InstantOrScheduledForm = (props) => {
           setWithdrawType('scheduled')
         }}
       >
-          Don't want to forfeit a ${instantFeeFormatted} {underlyingCollateralSymbol} fairness fee?
+        Don't want to forfeit a ${instantFeeFormatted} {underlyingCollateralSymbol} fairness fee?
       </button>
     </>}
 
-
-    <br /><br />
-    <Button
-      wide
-      size='lg'
-    >
-      Continue
-    </Button>
-    
-    
-{/* 
-    {withdrawType === 'instant' && instantFee.eq(0) && <>
-      <div className='font-bold mt-8'>
-        Why is the fairness fee $0?
-      </div>
-      <p>
-        The fairness fee is based on the previous prize and other factors (see documentation or contract code).
-      </p>
-    </>} */}
-
+    <div className='mt-8'>
+      <Button
+        wide
+        size='lg'
+        onClick={updateParamsAndNextStep}
+      >
+        Continue
+      </Button>
+    </div> 
+      
   </div> 
 }

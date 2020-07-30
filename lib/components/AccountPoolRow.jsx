@@ -18,7 +18,7 @@ export const AccountPoolRow = (
   const underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
 
   let usersBalance = 0
-  if (!isNaN(underlyingCollateralDecimals)) {
+  if (player && player.balance && !isNaN(underlyingCollateralDecimals)) {
     usersBalance = Number(ethers.utils.formatUnits(
       player.balance,
       Number(underlyingCollateralDecimals)
