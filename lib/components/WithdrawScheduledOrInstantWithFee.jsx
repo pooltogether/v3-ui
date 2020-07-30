@@ -29,9 +29,10 @@ export const WithdrawScheduledOrInstantWithFee = (props) => {
   let hasEnoughCreditForInstant = null
   if (exitFees && exitFees.instantCredit) {
     console.log('###################')
+    console.log('###################')
+    console.log('###################')
     console.log({ instantCredit: ethers.utils.formatUnits(exitFees.instantCredit, Number(underlyingCollateralDecimals)) })
     console.log({ instantFee: ethers.utils.formatUnits(exitFees.instantFee, Number(underlyingCollateralDecimals)) })
-    console.log('*********************')
     console.log({ timelockCredit: ethers.utils.formatUnits(exitFees.timelockCredit, Number(underlyingCollateralDecimals)) })
     console.log({ timelockDuration: exitFees.timelockDuration.toString() })
     hasEnoughCreditForInstant = exitFees.instantFee.lte(0)

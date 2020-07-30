@@ -81,12 +81,6 @@ export const WithdrawForm = (props) => {
       >
         Withdraw:
       </div>
-      {/* can't get this tooltip to render in the proper place atm: */}
-      {/* <PTHint
-        tip={`To maintain fairness your funds need to contribute interest towards the prize each week. You can:
-1) SCHEDULE: receive $1000 DAI once enough interest has been provided to the prize
-2) INSTANT: pay $1.90 to withdraw right now and forfeit the interest that would go towards the prize`}
-      /> */}
 
       <RadioInputGroup
         label='What type of withdraw?'
@@ -123,7 +117,7 @@ export const WithdrawForm = (props) => {
         <div className='text-yellow-400'>
           You will receive {displayAmountInEther(
             instantTotal, { decimals: underlyingCollateralDecimals }
-          )} {underlyingCollateralSymbol} now and forfeit {displayAmountInEther(exitFee)} as interest
+          )} {underlyingCollateralSymbol} now and forfeit ${displayAmountInEther(exitFee)} as interest
         </div>
 
         {exitFee.eq(0) && <>
