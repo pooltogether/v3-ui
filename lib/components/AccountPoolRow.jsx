@@ -64,6 +64,11 @@ export const AccountPoolRow = (
                 <div
                   className='sm:my-1'
                 >
+                  {pool.name}
+                </div>
+                <div
+                  className='sm:my-1'
+                >
                   Tickets: <PoolCountUp
                     end={usersBalance}
                     decimals={null}
@@ -89,12 +94,6 @@ export const AccountPoolRow = (
                   <PrizePoolCountdown
                     pool={pool}
                   />
-                </div>
-
-                <div
-                  className='sm:my-1'
-                >
-                  {pool.name}
                 </div>
               </div>
             </div>

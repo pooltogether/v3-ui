@@ -19,16 +19,16 @@ export const PrizePoolCountdown = (
     setSecondsRemaining(secs)
   }, [secs])
  
-  let formatted
-  if (secondsRemaining) {
-    const currentDate = new Date(Date.now())
-    const futureDate = addSeconds(currentDate, secondsRemaining)
+  const currentDate = new Date(Date.now())
+  const futureDate = addSeconds(currentDate, secondsRemaining)
 
-    const diff = subtractDates(futureDate, currentDate)
+  const diff = subtractDates(futureDate, currentDate)
 
-    formatted = `${diff.days}d ${diff.hours}h ${diff.minutes}m ${diff.seconds}s`
-  } else {
-    formatted = 'prize awarded soon ...'
+  const formatted = `${diff.days}d ${diff.hours}h ${diff.minutes}m ${diff.seconds}s`
+
+  let msg
+  if (!secondsRemaining) {
+    msg = <><div className='text-xxxs'>prize awarded soon...</div></>
   }
 
   return <>
@@ -36,6 +36,10 @@ export const PrizePoolCountdown = (
       icon='clock'
       className='stroke-current w-4 h-4 sm:w-6 sm:h-6 inline-block mr-1'
     />
-    {formatted}
+    <div
+      className='ml-2'
+    >
+      {formatted}{msg}
+    </div>
   </>
 }

@@ -139,6 +139,14 @@ form:after {
   }
 }
 
+button {
+  @apply outline-none;
+}
+
+button:focus {
+  @apply outline-none;
+}
+
 button[disabled] {
   @apply opacity-20 cursor-not-allowed !important;
 }
@@ -378,11 +386,6 @@ input[type='submit'][disabled] {
   z-index: 100000;
 }
 
-.bn-onboard-modal-custom {
-  z-index: 200000;
-}
-
-
 .pool-logo {
   height: 40px;
   position: relative;
@@ -472,6 +475,7 @@ input[type='submit'][disabled] {
   background: white;
   box-shadow: rgba(14, 16, 60, 0.08) 0px 15px 30px;
   border: 0;
+  color: #210a45;
   padding: 1.25rem 2rem;
   border-radius: 16px;
   pointer-events: initial;
@@ -480,7 +484,7 @@ input[type='submit'][disabled] {
   z-index: 1823774;
 }
 
-[data-reach-listbox-popover][hidden] {
+/* [data-reach-listbox-popover][hidden] {
   opacity: 0;
   pointer-events: none;
-}
+} */

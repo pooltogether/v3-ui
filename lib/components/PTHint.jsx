@@ -1,37 +1,40 @@
-import React, { useContext, Portal, cloneElement } from 'react'
-import Tooltip, { useTooltip, TooltipPopup } from "@reach/tooltip"
-// import Tooltip from 'react-tooltip-lite'
-
-import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
+import React, { cloneElement } from 'react'
+import Tooltip, { useTooltip, TooltipPopup } from '@reach/tooltip'
 
 export const PTHint = (props) => {
   const [trigger, tooltip] = useTooltip()
-  // console.log({ trigger })
-  // console.log({ tooltip })
 
-  const { isVisible, triggerRect } = tooltip;
+  // const { triggerRect } = tooltip
+  const { isVisible, triggerRect } = tooltip
 
   const { children, tip } = props
 
-  const themeContext = useContext(ThemeContext)
-  const { theme } = themeContext
-
   // Center the tooltip, but collisions will win
   // const centered = (triggerRect, tooltipRect) => {
-  //   const triggerCenter = triggerRect.left + triggerRect.width / 2;
-  //   const left = triggerCenter - tooltipRect.width / 2;
-  //   const maxLeft = window.innerWidth - tooltipRect.width - 2;
+  //   console.log({ triggerRect })
+  //   if (!triggerRect) {
+  //     return {
+  //       left: -100000,
+  //       top: -100000
+  //     }
+  //   }
+
+  //   const triggerCenter = triggerRect.left + triggerRect.width / triggerRect
+  //   const left = triggerCenter - tooltipRect.width / 2
+  //   const maxLeft = window.innerWidth - tooltipRect.width - 2
   //   return {
   //     left: Math.min(Math.max(2, left), maxLeft) + window.scrollX,
   //     top: triggerRect.bottom + 8 + window.scrollY,
-  //   };
-  // };
+  //   }
+  // }
+
   
   return <>
+    {cloneElement(children, trigger)}
     {/* <div
-      onMouseEnter={trigger}
+      onMouseEnter={trigger.onMouseEnter}
+      className='cursor-pointer'
     > */}
-      {cloneElement(children, trigger)}
     {/* </div> */}
 
     {/* {isVisible && (
@@ -59,83 +62,9 @@ export const PTHint = (props) => {
 
     <TooltipPopup
       {...tooltip}
+      isVisible={isVisible}
       label={tip}
-      // aria-label={ariaLabel}
-      style={{
-        background: theme === 'light' ? 'white' : 'white',
-        color: theme === 'light' ? 'black' : 'black',
-      }}
       // position={centered}
     />
   </>
 }
-  
-  // const [tipOpen, setTipOpen] = true
-  // // const [tipOpen, setTipOpen] = false
-
-  // const showTip = (e) => {
-  //   e.preventDefault()
-  //   e.stopPropagation()
-
-  //   setTipOpen(true)
-  // }
-
-  // const hideTip = (e) => {
-  //   e.preventDefault()
-  //   e.stopPropagation()
-
-  //   setTipOpen(false)
-  // }
-
-  // const toggleTip = (e) => {
-  //   e.preventDefault()
-  //   e.stopPropagation()
-
-  //   setTipOpen(!state.tipOpen)
-  // }
-
-
-  // const {
-  //   children,
-  //   childrenClassName,
-  //   tip,
-  //   className
-  // } = props
-
-  // let buttonText
-
-  // const cn = className || ''
-  // const ccn = childrenClassName || 'cursor-pointer trans'
-  // const childrenProvided = children
-
-  // if (childrenProvided) {
-  //   buttonText = children
-  // } else {
-  //   buttonText = <span
-  //     className='flex items-center justify-center inline-block bg-white rounded-lg w-10 h-10 text-blue-500 text-center font-bold rounded-full'
-  //   >
-  //     <span
-  //       className='relative text-base font-number'
-  //       style={{
-  //         left: '0.03rem'
-  //       }}
-  //     >
-  //       ?
-  //     </span>
-  //   </span>
-  // }
-
-//   return <Tooltip
-//       label='Fall in love all over again"
-//       style={{
-//         background: "hsla(0, 0%, 0%, 0.75)",
-//         color: "white",
-//         border: "none",
-//         borderRadius: "4px",
-//         padding: "0.5em 1em",
-//       }}
-//       // className={cn}
-//     >
-//       {tip}
-//     </Tooltip>
-// }

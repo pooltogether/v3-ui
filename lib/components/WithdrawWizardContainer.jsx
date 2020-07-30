@@ -41,12 +41,12 @@ export const WithdrawWizardContainer = (props) => {
 
   let hasEnoughCreditForInstant = null
   if (exitFees && exitFees.instantCredit) {
-    console.log('###################')
-    console.log({ instantCredit: exitFees.instantCredit.toString() })
-    console.log({ instantFee: exitFees.instantFee.toString() })
-    console.log('*********************')
-    console.log({ timelockCredit: exitFees.timelockCredit.toString() })
-    console.log({ timelockDuration: exitFees.timelockDuration.toString() })
+    // console.log('###################')
+    // console.log({ instantCredit: exitFees.instantCredit.toString() })
+    // console.log({ instantFee: exitFees.instantFee.toString() })
+    // console.log('*********************')
+    // console.log({ timelockCredit: exitFees.timelockCredit.toString() })
+    // console.log({ timelockDuration: exitFees.timelockDuration.toString() })
     hasEnoughCreditForInstant = exitFees.instantCredit.gt(0)
   }
 

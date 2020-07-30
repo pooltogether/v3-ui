@@ -1,6 +1,7 @@
 import React from 'react'
 import { padStart } from 'lodash'
 
+import { PTHint } from 'lib/components/PTHint'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const PrizeAmount = (
@@ -35,12 +36,21 @@ export const PrizeAmount = (
         className='font-number'
       >
         ${displayAmountInEther(pool.estimatePrize, { decimals })}
-        <br />
-        {pool && pool.estimatePrize && <>
-          <span className='text-xxs text-yellow'>
-            ({padStart(pool.estimatePrize.toString(), Number(decimals) + 1, 0)} {collatSymbol})
-          </span>
-        </>}
+        
+        {/* <PTHint
+          label="Fall in love all over again"
+          tip={<>
+            {pool && pool.estimatePrize && <>
+              <span className='text-xxs text-yellow'>
+                ({padStart(pool.estimatePrize.toString(), Number(decimals) + 1, 0)} {collatSymbol})
+              </span>
+            </>}
+          </>}
+        >
+          <>
+            ${displayAmountInEther(pool.estimatePrize, { decimals })}
+          </>
+        </PTHint> */}
        {/* / week */}
       </span>
     </div>

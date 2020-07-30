@@ -103,6 +103,13 @@ export const InstantOrScheduledForm = (props) => {
       >
 
 
+        {/* <PTHint
+          label='Fall in love all over again'
+          tip='disguise'
+        >
+          <button>heart</button>
+        </PTHint> */}
+
         <PTHint
           label="Fall in love all over again"
           tip={<>
@@ -114,24 +121,12 @@ export const InstantOrScheduledForm = (props) => {
           )} to withdraw right now and forfeit the interest that would go towards the prize
         </>}
         >
-          <>You will receive ${instantPartialFormatted} {underlyingCollateralSymbol} now and {instantFee.eq(0)
+          <button>You will receive ${instantPartialFormatted} {underlyingCollateralSymbol} now and {instantFee.eq(0)
             ? <>burn ${displayAmountInEther(instantCredit)} {underlyingCollateralSymbol} from your fairness credit</>
             : <>forfeit {instantFeeFormatted} {underlyingCollateralSymbol} as interest</>
-          }</>
+          }</button>
         </PTHint>
 
-        {/* <PTHint
-          tip={<>
-            To maintain fairness your funds need to contribute interest towards the prize each week. You can:
-            1) SCHEDULE: receive ${quantity} DAI once enough interest has been provided to the prize
-            2) INSTANT: pay ${displayAmountInEther(
-              instantFee,
-              { decimals: underlyingCollateralDecimals }
-            )} to withdraw right now and forfeit the interest that would go towards the prize
-          </>}
-        >
-          
-        </PTHint> */}
       </div>
       <button
         className='active:outline-none focus:outline-none trans text-blue hover:text-secondary underline rounded-xl py-2 px-6 outline-none mt-2'
