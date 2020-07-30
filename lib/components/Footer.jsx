@@ -29,7 +29,7 @@ export const Footer = () => {
   // })
   
   return <footer
-    className='footer w-full text-default text-sm'
+    className='footer w-full text-default text-sm hidden sm:block'
   >
     <div className='nav-and-footer-container'>
       <div
