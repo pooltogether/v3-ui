@@ -80,7 +80,7 @@ export const ConfirmCryptoDeposit = (props) => {
     txSent,
     txCompleted,
     txError,
-    ready,
+    txSuccess,
   ] = useTransaction()
 
   useEffect(() => {
@@ -105,10 +105,10 @@ export const ConfirmCryptoDeposit = (props) => {
   }, [tx])
 
   useEffect(() => {
-    if (ready) {
+    if (txSuccess) {
       nextStep()
     }
-  }, [ready])
+  }, [txSuccess])
 
   const handleResetState = (e) => {
     e.preventDefault()

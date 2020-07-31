@@ -20,9 +20,9 @@ export const TimelockedBalanceUI = (props) => {
 
   // TODO! If there's a sweep tx in flight then show the button as disabled
   
-  console.log({ pool})
+  // console.log({ pool})
   const { poolAddress } = pool
-  console.log({ playerData })
+  // console.log({ playerData })
 
   const [tx, setTx] = useState({})
   const txInFlight = tx.inWallet || tx.sent && !tx.completed
