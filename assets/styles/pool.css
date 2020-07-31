@@ -383,6 +383,7 @@ input[type='submit'][disabled] {
 }
 
 .bn-onboard-modal {
+  font-family: 'Helvetica Neue', 'DM Mono', 'Courier', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important;
   z-index: 100000;
 }
 

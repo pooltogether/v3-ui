@@ -7,9 +7,9 @@ import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
-import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { TxMessage } from 'lib/components/TxMessage'
 import { poolToast } from 'lib/utils/poolToast'
+import { useTransaction } from 'lib/hooks/useTransaction'
 import { sendTx } from 'lib/utils/sendTx'
 
 const handleDeposit = async (
@@ -73,14 +73,15 @@ export const ConfirmCryptoDeposit = (props) => {
   const ticker = pool && underlyingCollateralSymbol
   const controlledTokenAddress = pool && pool.ticket
 
-  const [tx, setTx] = useState({})
-
-  const txInWallet = tx.inWallet && !tx.sent
-  const txSent = tx.sent && !tx.completed
-  const txCompleted = tx.completed
-  const txError = tx.error
-
-  const ready = txCompleted && !txError
+  const [
+    tx,
+    setTx,
+    txInWallet,
+    txSent,
+    txCompleted,
+    txError,
+    ready,
+  ] = useTransaction()
 
   useEffect(() => {
     const runAsyncTx = () => {

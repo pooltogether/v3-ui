@@ -20,12 +20,12 @@ export const AccountPoolShowUI = (props) => {
   const { pool, dynamicPlayerData } = poolData
 
 
-  const poolAddress = pool && pool.poolAddress
-  const symbol = pool && pool.symbol
-  const underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
+  const poolAddress = pool?.poolAddress
+  const symbol = pool?.symbol
+  const underlyingCollateralDecimals = pool?.underlyingCollateralDecimals
 
-  const ticker = pool && pool.underlyingCollateralSymbol
-  const tickerUpcased = ticker && ticker.toUpperCase()
+  const ticker = pool?.underlyingCollateralSymbol
+  const tickerUpcased = ticker?.toUpperCase()
 
   let playerData
   if (dynamicPlayerData) {
