@@ -3,6 +3,7 @@ import { ethers } from 'ethers'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
+import { transactionsVar } from 'lib/apollo/cache'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
@@ -56,6 +57,12 @@ export const TimelockedBalanceUI = (props) => {
 
   const handleSweepTimelocked = async (e) => {
     e.preventDefault()
+
+    const transactions = transactionsVar()
+    const tx = {
+      hash: 'asdf'
+    }
+    transactionsVar([...transactions, tx])
 
     const params = [
       [usersAddress],

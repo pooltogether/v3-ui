@@ -7,13 +7,17 @@ const TXS = gql`
   }
 `
 
-export const useIsLoggedIn = function () {
+export const useTransactions = function () {
   const { loading, error, data } = useQuery(TXS)
-  console.log(loading, error, data)
+  console.log(data)
 
-  if (data && data.isLoggedIn) {
-    return data.isLoggedIn
-  } else {
-    return false
+  if (loading) {
+    return []
   }
+
+  if (error) {
+    console.error(error)
+  }
+
+  return data.transactions
 }

@@ -8,7 +8,10 @@ import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNot
 import { Footer } from 'lib/components/Footer'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
+import { TransactionsUI } from 'lib/components/TransactionsUI'
 import { SignInFormContainer } from 'lib/components/SignInFormContainer'
+import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
+import { isEmptyObject } from 'lib/utils/isEmptyObject'
 
 export const Layout = (props) => {
   const {
@@ -22,6 +25,16 @@ export const Layout = (props) => {
 
   return <>
     <Meta />
+
+    <V3ApolloWrapper>
+      {(client) => {
+        // console.log({client})
+        // check if client is ready
+        if (!isEmptyObject(client)) {
+          return <TransactionsUI />
+        }
+      }}
+    </V3ApolloWrapper>
 
     <AnimatePresence>
       {signIn && <SignInFormContainer />}
