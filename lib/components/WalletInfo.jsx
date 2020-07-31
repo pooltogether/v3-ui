@@ -5,7 +5,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { Button } from 'lib/components/Button'
 import { networkColorClassname } from 'lib/utils/networkColorClassname'
 import { chainIdToName } from 'lib/utils/chainIdToName'
-import { shortenAddress } from 'lib/utils/shortenAddress'
+import { shorten } from 'lib/utils/shorten'
 
 export const WalletInfo = () => {
   const authControllerContext = useContext(AuthControllerContext)
@@ -43,7 +43,7 @@ export const WalletInfo = () => {
               className='overflow-ellipsis w-full no-underline lg:text-sm text-secondary mb-6 sm:mb-0'
             >
               <div className='block lg:hidden'>
-                {shortenAddress(usersAddress)}
+                {shorten(usersAddress)}
               </div>
               <div className='hidden lg:block'>
                 {usersAddress}

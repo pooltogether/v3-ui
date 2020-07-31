@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react'
+import { useQuery } from '@apollo/client'
 
 import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PrizeStrategy'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
-import { TxMessage } from 'lib/components/TxMessage'
+import { transactionsQuery } from 'lib/queries/transactionsQuery'
 import { sendTx } from 'lib/utils/sendTx'
 
 const handleStartAwardSubmit = async (
@@ -37,8 +38,14 @@ export const StartAwardUI = (props) => {
   const poolDataContext = useContext(PoolDataContext)
   const { pool } = poolDataContext
 
-  const { isRngCompleted, isRngRequested, canStartAward, canCompleteAward, prizeStrategyAddress } = pool
-  console.log({ canStartAward, canCompleteAward, isRngCompleted, isRngRequested,})
+  const {
+    isRngCompleted,
+    isRngRequested,
+    canStartAward,
+    canCompleteAward,
+    prizeStrategyAddress
+  } = pool
+  // console.log({ canStartAward, canCompleteAward, isRngCompleted, isRngRequested,})
 
   const [tx, setTx] = useState({})
 
@@ -59,26 +66,32 @@ export const StartAwardUI = (props) => {
     )
   }
 
+  const { data, loading, error } = useQuery(transactionsQuery, {
+    variables: {
+      method: 'startAward'
+    }
+  })
+  const disabled = data?.transactions?.[0]
+
   return <>
-    {!txInFlight ? <>
-      {canStartAward && <>
-        <Button
-          wide
-          size='lg'
-          outline
-          onClick={handleClick}
-        >
-          Start Award
-        </Button>
-      </>}
-    </> : <>
-      <TxMessage
+    {canStartAward && <>
+      <Button
+        wide
+        size='lg'
+        outline
+        onClick={handleClick}
+        disabled={disabled}
+      >
+        Start Award
+      </Button>
+    </>}
+
+      {/* <TxMessage
         txType='Start Award'
         tx={tx}
         handleReset={resetState}
         resetButtonText='Hide this'
-      />
-    </>}
+      /> */}
     
   </>
 }

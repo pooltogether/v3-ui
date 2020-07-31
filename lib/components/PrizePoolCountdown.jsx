@@ -28,7 +28,7 @@ export const PrizePoolCountdown = (
   return <>
     <FeatherIcon
       icon='clock'
-      className='stroke-current w-4 h-4 sm:w-6 sm:h-6 inline-block mr-1'
+      className='stroke-current w-6 h-6 sm:w-6 sm:h-6 inline-block mr-1'
     />
     <div
       className='ml-2'

@@ -2,13 +2,9 @@ import React from 'react'
 
 import { DynamicQueries } from 'lib/components/queryComponents/DynamicQueries'
 import { StaticQueries } from 'lib/components/queryComponents/StaticQueries'
-import { useTransactions } from 'lib/hooks/useTransactions'
 
 export const GraphDataQueries = (props) => {
   const { children, usersAddress } = props
-
-  const transactions = useTransactions()
-  console.log({ transactions})
 
   // OPTIMIZE: Only query pools we care about instead of getting every
   // pool / strategy and filtering them

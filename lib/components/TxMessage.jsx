@@ -4,7 +4,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { Button } from 'lib/components/Button'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
-import { shortenAddress } from 'lib/utils/shortenAddress'
+import { shorten } from 'lib/utils/shorten'
 
 export const TxMessage = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
@@ -114,7 +114,7 @@ export const TxMessage = (props) => {
               chainId={chainId}
               hash={tx.hash}
             >
-              {shortenAddress(tx.hash)}
+              {shorten(tx.hash)}
             </EtherscanTxLink>}
           </div>
 
