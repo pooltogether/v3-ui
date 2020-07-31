@@ -5,7 +5,7 @@ import {
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { WithdrawRunInstantNoFee } from 'lib/components/WithdrawRunInstantNoFee'
+import { ExecuteWithdrawInstantNoFee } from 'lib/components/ExecuteWithdrawInstantNoFee'
 import { InstantOrScheduledForm } from 'lib/components/InstantOrScheduledForm'
 import { fetchExitFees } from 'lib/utils/fetchExitFees'
 import { useInterval } from 'lib/hooks/useInterval'
@@ -74,7 +74,7 @@ export const WithdrawInstantOrScheduled = (props) => {
       </div>
     </> :
       hasEnoughCreditForInstant ?
-        <WithdrawRunInstantNoFee
+        <ExecuteWithdrawInstantNoFee
           nextStep={nextStep}
           previousStep={previousStep}
         /> :

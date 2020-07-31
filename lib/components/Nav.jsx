@@ -48,7 +48,7 @@ export const Nav = (props) => {
           </div>
 
           <div
-            className='mt-0 sm:mt-0 text-xxs sm:text-sm text-right spinner-hidden'
+            className='mt-0 sm:mt-0 text-xxs sm:text-sm text-right'
             style={{
               minWidth: 70
             }}

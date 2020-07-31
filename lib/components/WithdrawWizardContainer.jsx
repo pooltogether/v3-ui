@@ -6,7 +6,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 import { WithdrawInstantOrScheduled } from 'lib/components/WithdrawInstantOrScheduled'
-import { WithdrawRunScheduledOrInstantWithFee } from 'lib/components/WithdrawRunScheduledOrInstantWithFee'
+import { ExecuteWithdrawScheduledOrInstantWithFee } from 'lib/components/ExecuteWithdrawScheduledOrInstantWithFee'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
 import { WizardLayout } from 'lib/components/WizardLayout'
 
@@ -92,7 +92,7 @@ export const WithdrawWizardContainer = (props) => {
               <WizardStep>
                 {(step) => {
                   return step.isActive && <>
-                    <WithdrawRunScheduledOrInstantWithFee
+                    <ExecuteWithdrawScheduledOrInstantWithFee
                       nextStep={step.nextStep}
                       previousStep={step.previousStep}
                     />

@@ -57,7 +57,7 @@ const handleWithdraw = async (
 }
 
 
-export const WithdrawRunInstantNoFee = (props) => {
+export const ExecuteWithdrawInstantNoFee = (props) => {
   const { nextStep, previousStep } = props
 
   const router = useRouter()

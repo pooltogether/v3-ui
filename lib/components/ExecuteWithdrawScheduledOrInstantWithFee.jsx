@@ -56,7 +56,7 @@ const handleWithFeeWithdraw = async (
   )
 }
 
-export const WithdrawRunScheduledOrInstantWithFee = (props) => {
+export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const { nextStep, previousStep } = props
 
   const router = useRouter()
