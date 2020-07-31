@@ -8,6 +8,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { TxMessage } from 'lib/components/TxMessage'
+import { useTransactions } from 'lib/hooks/useTransactions'
 import { sendTx } from 'lib/utils/sendTx'
 
 const handleWithdraw = async (
@@ -58,6 +59,9 @@ const handleWithdraw = async (
 
 
 export const ExecuteWithdrawInstantNoFee = (props) => {
+  const [transactions, wrong] = useTransactions()
+  console.log({transactions, wrong})
+
   const { nextStep, previousStep } = props
 
   const router = useRouter()

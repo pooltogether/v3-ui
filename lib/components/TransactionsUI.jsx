@@ -57,7 +57,7 @@ export const TransactionsUI = () => {
                     >
                       <div
                         className='absolute t-0'
-                        style={{ left: -20 }}
+                        style={{ left: -26 }}
                       >
                         {!tx.completed && <LoadingDots /> }
                       </div>
