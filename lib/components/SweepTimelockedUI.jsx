@@ -5,7 +5,7 @@
 // import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 // import { SweepTimelockedForm } from 'lib/components/SweepTimelockedForm'
 // import { TxMessage } from 'lib/components/TxMessage'
-// import { sendTx } from 'lib/utils/sendTx'
+// import { callTransaction } from 'lib/utils/callTransaction'
 
 // const handleSweepTimelockedSubmit = async (
 //   setTx,

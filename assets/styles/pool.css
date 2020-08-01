@@ -79,9 +79,8 @@ h3 {
 }
 
 a {
-  /* @apply no-underline border-b-2 border-purple-800; */
-  /* @apply text-primary no-underline border-b-2 border-purple-800; */
-  @apply text-primary no-underline border-b-2;
+  @apply text-blue;
+  transition: all 100ms ease-in;
 }
 
 a:hover {

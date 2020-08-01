@@ -6,8 +6,8 @@ import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PrizeStr
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
-import { transactionsQuery } from 'lib/queries/transactionsQuery'
-import { sendTx } from 'lib/utils/sendTx'
+import { transactionsQuery } from 'lib/queries/transactionQueries'
+import { callTransaction } from 'lib/utils/callTransaction'
 
 const handleStartAwardSubmit = async (
   setTx,

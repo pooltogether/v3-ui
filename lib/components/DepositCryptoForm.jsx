@@ -11,7 +11,7 @@ import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWit
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { TxMessage } from 'lib/components/TxMessage'
-import { sendTx } from 'lib/utils/sendTx'
+import { callTransaction } from 'lib/utils/callTransaction'
 
 const handleUnlockSubmit = async (
   setTx,

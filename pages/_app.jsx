@@ -70,7 +70,7 @@ function MyApp({ Component, pageProps, router }) {
     <ToastContainer
       className='pool-toast'
       position='top-center'
-      autoClose={6000}
+      autoClose={15000}
     />
   </>
 }

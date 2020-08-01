@@ -1,8 +1,9 @@
 import { useQuery } from '@apollo/client'
 import classnames from 'classnames'
 
+import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { LoadingDots } from 'lib/components/LoadingDots'
-import { transactionsQuery } from 'lib/queries/transactionsQuery'
+import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { shorten } from 'lib/utils/shorten'
 
 export const TransactionsUI = () => {
@@ -11,14 +12,12 @@ export const TransactionsUI = () => {
   if (loading) return 'loading'
   if (error) return <p>ERROR: {error.message}</p>
 
-  console.log({data, loading, error})
-
   return <>
     <div
       id='transactions-ui'
       className={classnames(
         'text-sm sm:text-base lg:text-lg',
-        'absolute block b-0 l-0 r-0 block pointer-events-none mb-20',
+        'absolute block b-0 l-0 r-0 block mb-20',
         {
           // 'hidden pointer-events-none': !visible,
           // 'absolute block t-0 b-0 l-0 r-0 block': visible,
@@ -30,7 +29,8 @@ export const TransactionsUI = () => {
       }}
     >
       <div
-        className='flex flex-col items-center justify-center h-full w-full shadow-2xl'
+        // shadow-2xl
+        className='flex flex-col items-center justify-center h-full w-full '
       >
         <div
           className='relative message bg-inverse text-match flex flex-col w-full rounded-lg border-secondary border-2 shadow-4xl'
@@ -50,34 +50,46 @@ export const TransactionsUI = () => {
               <span className='font-bold uppercase'>Currently no ongoing transactions ...</span>
             ) : (
                 <>
-                  {data && data.transactions.map(tx => {
-                    return <div
-                      key={tx.id}
-                      className='relative'
-                    >
-                      <div
-                        className='absolute t-0'
-                        style={{ left: -26 }}
+                  <ul>
+                    {data && data.transactions.map(tx => {
+                      return <li
+                        key={tx.hash || Date.now()}
+                        className='relative'
                       >
-                        {!tx.completed && <LoadingDots /> }
-                      </div>
+                        <div
+                          className='absolute t-0'
+                          style={{ left: -26 }}
+                        >
+                          {!tx.completed && <LoadingDots /> }
+                        </div>
 
-                      <span className='font-bold uppercase'>
-                        {tx.name}
-                      </span> {tx.hash ? <>
-                        {shorten(tx.hash)} - 
-                      </> : <>
-                          - Please confirm in your wallet ...
-                      </>} {tx.sent && !tx.completed && <>In progress ...</>}
-                      {/* {tx.completed && <>Completed.</>}
-                      {tx.error && <>Error.</>} */}
-                      <span
-                        className='text-red font-bold capitalize'
-                      >
-                        {tx.reason && <>{tx.reason}</>}
-                      </span>
-                    </div>
-                  })}
+                        <span className='font-bold uppercase'>
+                          {tx.name}
+                        </span> - {tx.hash && <>
+                          <EtherscanTxLink
+                            chainId={tx.chainId}
+                            hash={tx.hash}
+                          >
+                            {shorten(tx.hash)}
+                          </EtherscanTxLink>
+                        </>}
+
+                        <br />
+                          
+                        {tx.inWallet && <>
+                          Please confirm in your wallet ...
+                        </>}
+
+                        {tx.sent && !tx.completed && <>In progress ...</>}
+
+                        <span
+                          className='text-red font-bold capitalize'
+                        >
+                          {tx.reason && <>{tx.reason}</>}
+                        </span>
+                      </li>
+                    })}
+                  </ul>
                 </>
               )}
           </div>

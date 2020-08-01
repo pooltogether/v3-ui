@@ -8,7 +8,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { TxMessage } from 'lib/components/TxMessage'
-import { sendTx } from 'lib/utils/sendTx'
+import { callTransaction } from 'lib/utils/callTransaction'
 import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 
 const handleWithFeeWithdraw = async (

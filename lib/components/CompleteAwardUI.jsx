@@ -6,7 +6,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
 import { TxMessage } from 'lib/components/TxMessage'
-import { sendTx } from 'lib/utils/sendTx'
+import { callTransaction } from 'lib/utils/callTransaction'
 
 const handleCompleteAwardSubmit = async (
   setTx,

@@ -10,7 +10,7 @@ import { PaneTitle } from 'lib/components/PaneTitle'
 import { TxMessage } from 'lib/components/TxMessage'
 import { poolToast } from 'lib/utils/poolToast'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { sendTx } from 'lib/utils/sendTx'
+import { callTransaction } from 'lib/utils/callTransaction'
 
 const handleDeposit = async (
   setTx,
