@@ -5,12 +5,11 @@ import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { PTHint } from 'lib/components/PTHint'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
-import { shorten } from 'lib/utils/shorten'
 
 export const TransactionsUI = () => {
   const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
-  console.log({ transactions})
+  const notCancelledTransactions = transactionsQueryResult?.data?.transactions
+    .filter(t => !t.cancelled)
 
   return <>
     <div
@@ -46,11 +45,11 @@ export const TransactionsUI = () => {
           <div
             className='relative flex flex-col w-full px-10 py-6 text-sm text-xs sm:text-sm lg:text-base'
           >
-            {transactions.length === 0 ? <>
-              <span className='font-bold uppercase'>Currently no ongoing transactions ...</span>
+            {notCancelledTransactions.length === 0 ? <>
+              <span className='font-bold uppercase'>Currently no active transactions ...</span>
             </> : <>
                 <ul>
-                  {transactions.map(tx => {
+                  {notCancelledTransactions.map(tx => {
                     // console.log({ tx})
                     if (tx.cancelled) {
                       return
@@ -68,7 +67,12 @@ export const TransactionsUI = () => {
                       </div>
 
                       <div className='flex'>
-                        <span className='font-bold uppercase'>
+                        <div
+                          className='font-bold uppercase'
+                          style={{
+                            minWidth: 300
+                          }}
+                        >
                           {tx.hash ? <>
                             <EtherscanTxLink
                               chainId={tx.ethersTx.chainId}
@@ -78,7 +82,7 @@ export const TransactionsUI = () => {
                             </EtherscanTxLink>
                           </> : tx.name
                           }
-                        </span>
+                        </div>
 
                         {tx.reason && <>
                           <PTHint
@@ -95,16 +99,18 @@ export const TransactionsUI = () => {
                         </>}
                       </div>
 
-                      <br />
-                      <span
-                        className='text-primary'
-                      >
-                        {tx.inWallet && <>
-                          Please confirm in your wallet...
-                        </>}
+                      {tx.inWallet || (tx.sent && !tx.completed) && <>
+                        <br />
+                        <span
+                          className='text-primary'
+                        >
+                          {tx.inWallet && <>
+                            Please confirm in your wallet...
+                          </>}
 
-                        {tx.sent && !tx.completed && <>In progress ...</>}
-                      </span>
+                          {tx.sent && !tx.completed && <>In progress ...</>}
+                        </span>
+                      </>}
                     </li>
                   })}
                 </ul>
