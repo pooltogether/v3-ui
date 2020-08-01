@@ -8,7 +8,6 @@ import { shorten } from 'lib/utils/shorten'
 
 export const TransactionsUI = () => {
   const { data, loading, error } = useQuery(transactionsQuery)
-  console.log({ data})
 
   if (loading) return 'loading'
   if (error) return <p>ERROR: {error.message}</p>
@@ -53,6 +52,11 @@ export const TransactionsUI = () => {
                 <>
                   <ul>
                     {data && data.transactions.map(tx => {
+                      console.log({ tx})
+                      if (tx.cancelled) {
+                        return
+                      }
+
                       return <li
                         key={tx.hash || Date.now()}
                         className='relative'
@@ -65,20 +69,19 @@ export const TransactionsUI = () => {
                         </div>
 
                         <span className='font-bold uppercase'>
-                          {tx.name}
-                        </span> - {tx.hash && <>
-                          <EtherscanTxLink
-                            chainId={tx.chainId}
-                            hash={tx.hash}
-                          >
-                            {shorten(tx.hash)}
-                          </EtherscanTxLink>
-                        </>}
-
+                          {tx.hash ? <>
+                            <EtherscanTxLink
+                              chainId={tx.chainId}
+                              hash={tx.hash}
+                            >
+                              {tx.name}
+                            </EtherscanTxLink>
+                          </> : tx.name
+                          }
+                        </span>
                         <br />
-                          
                         {tx.inWallet && <>
-                          Please confirm in your wallet ...
+                          Please confirm in your wallet...
                         </>}
 
                         {tx.sent && !tx.completed && <>In progress ...</>}

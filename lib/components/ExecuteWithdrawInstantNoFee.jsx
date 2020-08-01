@@ -10,7 +10,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { transactionQueryById } from 'lib/queries/transactionQueries'
+import { transactionsQuery } from 'lib/queries/transactionQueries'
 
 export const ExecuteWithdrawInstantNoFee = (props) => {
   const router = useRouter()
@@ -44,9 +44,10 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   }
 
 
+  const method = 'withdrawInstantlyFrom'
 
   
-  let txId
+  const [txId, setTxId] = useState()
 
   useEffect(() => {
     const runTx = async () => {
@@ -55,7 +56,6 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
       const sponsoredExitFee = '0'
       const maxExitFee = '1'
 
-      const method = 'withdrawInstantlyFrom'
       const params = [
         usersAddress,
         ethers.utils.parseUnits(
@@ -70,13 +70,14 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
         }
       ]
 
-      txId = await sendTx(
+      const id = sendTx(
         provider,
         PrizePoolAbi,
         poolAddress,
         method,
         params
       )
+      setTxId(id)
     }
 
     if (!txExecuted && quantity && decimals) {
@@ -85,24 +86,60 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   }, [quantity, decimals])
 
 
-  let tx
-  const { data, loading, error } = useQuery(transactionQueryById, {
+  // let tx
+  // console.log({ txId})
+  // const { data, loading, error } = useQuery(transactionQueryById, {
+  //   variables: {
+  //     id: txId
+  //   },
+  //   skip: !txId
+  // })
+  // console.log({ data, loading, error })
+  // if (data) {
+  //   console.log('found tx with id: ', txId)
+  //   tx = data.tx
+  // }
+
+  // let tx
+
+  
+  // const { completeAllTodos, setVisibilityFilter, clearCompletedTodos } = todoMutations
+
+  // useEffect(() => {
+  //   console.log({ data })
+  //   if (data && txId) {
+  //     const transaction = data.transactions.find(transaction => transaction.id === txId)
+
+  //     if (transaction) {
+  //       setTx(transaction)
+  //       console.log('found tx with id: ', txId)
+  //     } else {
+  //       console.log('COULD NOT FIND tx with id: ', txId)
+  //     }
+  //   }
+  // }, [tx])
+
+  const transactionsQueryResult = useQuery(transactionsQuery, {
     variables: {
-      id: txId
-    },
-    skip: !txId
+      method
+    }
   })
-  console.log({ data, loading, error })
-  if (data) {
-    console.log('found tx with id: ', txId)
-    tx = data.tx
+  const transactions = transactionsQueryResult.data.transactions
+  console.log({ transactions})
+  console.log({ txId})
+  let tx
+  if (transactions) {
+    tx = transactions.find((todo) => todo.id === txId)
   }
-
-
+  // const tx = todosVar()
+  //   .map((todo: Todo) => todo.id === id ? { ...todo, text } : todo);
+  console.log({ tx })
 
 
   useEffect(() => {
+    console.log({txUpdate: { ...tx }})
     if (tx?.cancelled || tx?.error) {
+      console.log('prevStep')
       previousStep()
     } else if (tx?.completed) {
       updateParamsAndNextStep()
