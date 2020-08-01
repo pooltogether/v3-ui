@@ -15,12 +15,6 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   const quantity = router.query.quantity
 
   const { nextStep, previousStep } = props
-
-  const txName = `Withdraw ${quantity} tickets`
-
-  const [sendTx, tx] = useSendTransaction(txName)
-  console.log({sendTx, tx})
-
   
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress, provider } = authControllerContext
@@ -28,31 +22,16 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   const poolData = useContext(PoolDataContext)
   const { pool } = poolData
 
-  const {
-    underlyingCollateralSymbol,
-    underlyingCollateralDecimals,
-    poolAddress,
-  } = pool
+  const decimals = pool?.underlyingCollateralDecimals
+  const ticker = pool?.underlyingCollateralSymbol
+  const poolAddress = pool?.poolAddress
+  const controlledTokenAddress = pool?.ticket
 
-  const ticker = pool && underlyingCollateralSymbol
-  const controlledTokenAddress = pool && pool.ticket
+  const txName = `Withdraw ${quantity} tickets ($${quantity} ${ticker})`
 
-  const [sponsoredExitFee, setSponsoredExitFee] = useState('0')
-  const [maxExitFee, setMaxExitFee] = useState('1')
+  const [sendTx, tx] = useSendTransaction(txName)
 
   const [txExecuted, setTxExecuted] = useState(false)
-
-  // const [tx, setTx] = useState({})
-
-  // const txInWallet = tx.inWallet && !tx.sent
-  // const txSent = tx.sent && !tx.completed
-  // const txCompleted = tx.completed
-  // const txError = tx.error
-
-  // const ready = txCompleted && !txError
-
-  
-
 
   const updateParamsAndNextStep = (e) => {
     e.preventDefault()
@@ -71,35 +50,36 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   }, [tx])
 
 
-
-
-
-  const method = 'withdrawInstantlyFrom'
-  const params = [
-    usersAddress,
-    ethers.utils.parseUnits(
-      quantity,
-      Number(underlyingCollateralDecimals)
-    ),
-    controlledTokenAddress,
-    ethers.utils.parseEther(sponsoredExitFee),
-    ethers.utils.parseEther(maxExitFee),
-    {
-      gasLimit: 500000
-    }
-  ]
+  
 
   useEffect(() => {
     const runTx = async () => {
       setTxExecuted(true)
 
+      const sponsoredExitFee = '0'
+      const maxExitFee = '1'
+
+      const method = 'withdrawInstantlyFrom'
+      const params = [
+        usersAddress,
+        ethers.utils.parseUnits(
+          quantity,
+          Number(decimals)
+        ),
+        controlledTokenAddress,
+        ethers.utils.parseEther(sponsoredExitFee),
+        ethers.utils.parseEther(maxExitFee),
+        {
+          gasLimit: 500000
+        }
+      ]
+
       await sendTx(
         provider,
-        poolAddress,
         PrizePoolAbi,
+        poolAddress,
         method,
-        params,
-        'Withdraw'
+        params
       )
     }
 
