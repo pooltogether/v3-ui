@@ -85,61 +85,16 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
     }
   }, [quantity, decimals])
 
-
-  // let tx
-  // console.log({ txId})
-  // const { data, loading, error } = useQuery(transactionQueryById, {
-  //   variables: {
-  //     id: txId
-  //   },
-  //   skip: !txId
-  // })
-  // console.log({ data, loading, error })
-  // if (data) {
-  //   console.log('found tx with id: ', txId)
-  //   tx = data.tx
-  // }
-
-  // let tx
-
-  
-  // const { completeAllTodos, setVisibilityFilter, clearCompletedTodos } = todoMutations
-
-  // useEffect(() => {
-  //   console.log({ data })
-  //   if (data && txId) {
-  //     const transaction = data.transactions.find(transaction => transaction.id === txId)
-
-  //     if (transaction) {
-  //       setTx(transaction)
-  //       console.log('found tx with id: ', txId)
-  //     } else {
-  //       console.log('COULD NOT FIND tx with id: ', txId)
-  //     }
-  //   }
-  // }, [tx])
-
   const transactionsQueryResult = useQuery(transactionsQuery, {
     variables: {
       method
     }
   })
-  const transactions = transactionsQueryResult.data.transactions
-  console.log({ transactions})
-  console.log({ txId})
-  let tx
-  if (transactions) {
-    tx = transactions.find((todo) => todo.id === txId)
-  }
-  // const tx = todosVar()
-  //   .map((todo: Todo) => todo.id === id ? { ...todo, text } : todo);
-  console.log({ tx })
-
+  const transactions = transactionsQueryResult?.data?.transactions
+  const tx = transactions?.find((todo) => todo.id === txId)
 
   useEffect(() => {
-    console.log({txUpdate: { ...tx }})
     if (tx?.cancelled || tx?.error) {
-      console.log('prevStep')
       previousStep()
     } else if (tx?.completed) {
       updateParamsAndNextStep()

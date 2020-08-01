@@ -30,8 +30,6 @@ export const Layout = (props) => {
       {(client) => {
         // check if client is ready
         if (!isEmptyObject(client)) {
-          console.log({ client })
-          console.log(client.cache.data.data)
           return <TransactionsUI />
         }
       }}

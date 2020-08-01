@@ -66,12 +66,12 @@ export const StartAwardUI = (props) => {
     )
   }
 
-  const { data, loading, error } = useQuery(transactionsQuery, {
-    variables: {
-      method: 'startAward'
-    }
-  })
-  const disabled = data?.transactions?.[0]
+  // const { data, loading, error } = useQuery(transactionsQuery, {
+  //   variables: {
+  //     method: 'startAward'
+  //   }
+  // })
+  // const disabled = data?.transactions?.[0]
 
   return <>
     {canStartAward && <>
