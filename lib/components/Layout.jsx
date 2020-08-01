@@ -28,9 +28,10 @@ export const Layout = (props) => {
 
     <V3ApolloWrapper>
       {(client) => {
-        // console.log({client})
         // check if client is ready
         if (!isEmptyObject(client)) {
+          console.log({ client })
+          console.log(client.cache.data.data)
           return <TransactionsUI />
         }
       }}

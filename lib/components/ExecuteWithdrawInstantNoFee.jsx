@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
+import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
@@ -9,6 +10,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { transactionQueryById } from 'lib/queries/transactionQueries'
 
 export const ExecuteWithdrawInstantNoFee = (props) => {
   const router = useRouter()
@@ -29,7 +31,7 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
 
   const txName = `Withdraw ${quantity} tickets ($${quantity} ${ticker})`
 
-  const [sendTx, tx] = useSendTransaction(txName)
+  const [sendTx] = useSendTransaction(txName)
 
   const [txExecuted, setTxExecuted] = useState(false)
 
@@ -41,16 +43,10 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
     nextStep()
   }
 
-  useEffect(() => {
-    if (tx.cancelled || tx.error) {
-      previousStep()
-    } else if (tx.completed) {
-      updateParamsAndNextStep()
-    }
-  }, [tx])
 
 
   
+  let txId
 
   useEffect(() => {
     const runTx = async () => {
@@ -74,7 +70,7 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
         }
       ]
 
-      await sendTx(
+      txId = await sendTx(
         provider,
         PrizePoolAbi,
         poolAddress,
@@ -83,23 +79,49 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
       )
     }
 
-    if (!txExecuted && quantity && underlyingCollateralDecimals) {
+    if (!txExecuted && quantity && decimals) {
       runTx()
     }
-  }, [quantity, underlyingCollateralDecimals])
+  }, [quantity, decimals])
+
+
+  let tx
+  const { data, loading, error } = useQuery(transactionQueryById, {
+    variables: {
+      id: txId
+    },
+    skip: !txId
+  })
+  console.log({ data, loading, error })
+  if (data) {
+    console.log('found tx with id: ', txId)
+    tx = data.tx
+  }
+
+
+
+
+  useEffect(() => {
+    if (tx?.cancelled || tx?.error) {
+      previousStep()
+    } else if (tx?.completed) {
+      updateParamsAndNextStep()
+    }
+  }, [tx])
+
 
 
   return <>
     <PaneTitle small>
-      {tx.inWallet && txName}
+      {tx?.inWallet && txName}
     </PaneTitle>
 
     <PaneTitle>
-      {tx.sent && 'Withdrawal confirming ...'}
-      {tx.inWallet && 'Confirm withdrawal'}
+      {tx?.sent && 'Withdrawal confirming ...'}
+      {tx?.inWallet && 'Confirm withdrawal'}
     </PaneTitle>
 
-    {tx.sent && !tx.completed && <>
+    {tx?.sent && !tx?.completed && <>
       <div className='mx-auto -mb-2'>
         <V3LoadingDots />
       </div>

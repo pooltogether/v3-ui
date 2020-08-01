@@ -8,6 +8,7 @@ import { shorten } from 'lib/utils/shorten'
 
 export const TransactionsUI = () => {
   const { data, loading, error } = useQuery(transactionsQuery)
+  console.log({ data})
 
   if (loading) return 'loading'
   if (error) return <p>ERROR: {error.message}</p>
