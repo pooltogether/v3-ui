@@ -6,7 +6,7 @@ export const DepositAndWithdrawFormUsersBalance = (
   props,
 ) => {
   const { label, start, end } = props
-  
+
   return <>
     <div
       className='flex text-inverse items-center justify-between w-9/12 sm:w-7/12 lg:w-1/3 mx-auto border-2 p-3'

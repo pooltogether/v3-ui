@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
+import { useQuery } from '@apollo/client'
 
 import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 
@@ -11,38 +12,9 @@ import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWit
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { TxMessage } from 'lib/components/TxMessage'
-import { callTransaction } from 'lib/utils/callTransaction'
-
-const handleUnlockSubmit = async (
-  setTx,
-  provider,
-  contractAddress,
-  prizePoolAddress,
-  decimals,
-  quantity,
-) => {
-  const params = [
-    prizePoolAddress,
-    // ethers.utils.parseUnits('1000000000', decimals),
-    ethers.utils.parseUnits(
-      quantity,
-      Number(decimals)
-    ),
-    {
-      gasLimit: 200000
-    }
-  ]
-
-  await sendTx(
-    setTx,
-    provider,
-    contractAddress,
-    IERC20Abi,
-    'approve',
-    params,
-    'Unlock deposit',
-  )
-}
+import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { transactionsQuery } from 'lib/queries/transactionQueries'
 
 export const DepositCryptoForm = (props) => {
   const { nextStep } = props
@@ -56,79 +28,130 @@ export const DepositCryptoForm = (props) => {
   const poolData = useContext(PoolDataContext)
   const { pool, genericChainData, usersChainData } = poolData
 
-  const underlyingCollateralDecimals = 
-    pool && pool.underlyingCollateralDecimals || '18'
+  const decimals = pool?.underlyingCollateralDecimals
+  const tokenAddress = pool?.underlyingCollateralToken
+  const ticker = pool?.underlyingCollateralSymbol
+  
+  const tickerUpcased = ticker?.toUpperCase()
+  const poolAddress = pool?.poolAddress
+  const controlledTokenAddress = pool?.ticket
 
   const {
     isRngRequested,
   } = genericChainData || {}
   const poolIsLocked = isRngRequested
 
-  const quantityBN = ethers.utils.parseUnits(
-    quantity || '0',
-    Number(underlyingCollateralDecimals)
-  )
+  let quantityBN = ethers.utils.bigNumberify(0)
+  if (decimals) {
+    quantityBN = ethers.utils.parseUnits(
+      quantity || '0',
+      Number(decimals)
+    )
+  }
 
-  const ticker = pool && pool.underlyingCollateralSymbol
-  const tickerUpcased = ticker && ticker.toUpperCase()
-
-  const haveTokenAllowance = usersChainData && usersChainData.usersTokenAllowance
+  const haveTokenAllowance = usersChainData?.usersTokenAllowance
 
   const usersBalanceBN = haveTokenAllowance ?
-    usersChainData && usersChainData.usersTokenBalance :
+    usersChainData?.usersTokenBalance :
     ethers.utils.bigNumberify(0)
 
-  const usersBalance = Number(
-    ethers.utils.formatUnits(
-      usersBalanceBN,
-      Number(underlyingCollateralDecimals )
+  let usersBalance
+  if (decimals) {
+    usersBalance = Number(
+      ethers.utils.formatUnits(
+        usersBalanceBN,
+        Number(decimals)
+      )
     )
-  )
+  }
 
   const disabled = !haveTokenAllowance ||
     quantityBN.gt(usersChainData.usersTokenAllowance)
 
-  const [tx, setTx] = useState({})
+  // const [tx, setTx] = useState({})
   const [cachedUsersBalance, setCachedUsersBalance] = useState(usersBalance)
 
-  const txInFlight = tx.inWallet || tx.sent
 
-  const handleResetState = (e) => {
-    e.preventDefault()
-    setTx({})
-  }
+  // const handleResetState = (e) => {
+  //   e.preventDefault()
+  //   setTx({})
+  // }
 
   const handleDepositClick = (e) => {
     e.preventDefault()
     nextStep()
   }
 
-  const handleUnlockClick = (e) => {
-    handleUnlockSubmit(
-      setTx,
-      provider,
-      pool.underlyingCollateralToken,
-      pool.poolAddress,
-      underlyingCollateralDecimals,
-      quantity,
-    )
-  }
-
   useEffect(() => {
     setCachedUsersBalance(usersBalance)
   }, [usersBalance])
 
-  const overBalance = quantity && usersBalanceBN.lt(
-    ethers.utils.parseUnits(
-      quantity,
-      Number(underlyingCollateralDecimals)
+  let overBalance = false
+  if (decimals) {
+    overBalance = quantity && usersBalanceBN.lt(
+      ethers.utils.parseUnits(
+        quantity,
+        Number(decimals)
+      )
     )
-  )
+  }
+
+
+
+  const [txId, setTxId] = useState()
+
+  const txName = `Approve ${ticker}`
+  const method = 'approve'
+
+  const [sendTx] = useSendTransaction(txName)
+
+  const transactionsQueryResult = useQuery(transactionsQuery)
+  const transactions = transactionsQueryResult?.data?.transactions
+  const tx = transactions?.find((todo) => todo.id === txId)
+
+  const txInFlight = tx?.inWallet || tx?.sent
+
+  const handleUnlockClick = (e) => {
+    e.preventDefault()
+
+    const params = [
+      poolAddress,
+      ethers.utils.parseUnits(
+        quantity,
+        Number(decimals)
+      ),
+      {
+        gasLimit: 200000
+      }
+    ]
+
+    const id = sendTx(
+      provider,
+      IERC20Abi,
+      tokenAddress,
+      method,
+      params,
+    )
+    
+    setTxId(id)
+  }
+
+  useEffect(() => {
+    if (tx?.cancelled || tx?.error) {
+      // previousStep()
+    } else if (tx?.completed) {
+      // updateParamsAndNextStep()
+    }
+  }, [tx])
+
+
+
+
 
   if (!pool) {
     return null
   }
-  
+
   return <>
     <PaneTitle small>
       {quantity} tickets
@@ -219,14 +242,6 @@ export const DepositCryptoForm = (props) => {
               </div>
             </div>
           </>}
-      </>}
-
-      {txInFlight && <>
-        <TxMessage
-          txType={`Unlock ${quantity} ${tickerUpcased} deposit`}
-          tx={tx}
-          handleReset={handleResetState}
-        />
       </>}
 
       {!disabled && <>

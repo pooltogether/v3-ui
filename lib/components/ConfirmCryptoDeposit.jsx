@@ -77,11 +77,7 @@ export const ConfirmCryptoDeposit = (props) => {
 
   const [sendTx] = useSendTransaction(txName)
 
-  const transactionsQueryResult = useQuery(transactionsQuery, {
-    variables: {
-      method
-    }
-  })
+  const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
   const tx = transactions?.find((todo) => todo.id === txId)
 

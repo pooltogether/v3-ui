@@ -5,8 +5,6 @@ import { useRouter } from 'next/router'
 import { SUPPORTED_CHAIN_IDS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { GraphPlayerQueries } from 'lib/components/queryComponents/GraphPlayerQueries'
-import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
-import { isEmptyObject } from 'lib/utils/isEmptyObject'
 
 export const PlayerDataContext = React.createContext()
 
@@ -26,6 +24,39 @@ export const PlayerDataContextProvider = (props) => {
     error = 'Incorrectly formatted Ethereum address!'
   }
 
+  let content = <PlayerDataContext.Provider
+    value={{
+      loading: false,
+      playerData: null
+    }}
+  >
+    {props.children}
+  </PlayerDataContext.Provider>
+
+  if (
+    playerAddress &&
+    SUPPORTED_CHAIN_IDS.includes(chainId)
+  ) {
+    content = <GraphPlayerQueries
+      {...props}
+      playerAddress={playerAddress}
+    >
+      {({
+        playerData,
+        loading
+      }) => {
+        return <PlayerDataContext.Provider
+          value={{
+            loading,
+            playerData
+          }}
+        >
+          {props.children}
+        </PlayerDataContext.Provider>
+      }}
+    </GraphPlayerQueries>
+  }
+
   return <>
     {error && <>
       <div className='text-red font-bold p-4 mx-auto border-2'>
@@ -33,45 +64,6 @@ export const PlayerDataContextProvider = (props) => {
       </div>
     </>}
 
-    <V3ApolloWrapper>
-      {(client) => {
-        // console.log({client})
-        // check if client is ready
-        if (
-          !playerAddress ||
-          isEmptyObject(client) ||
-          !SUPPORTED_CHAIN_IDS.includes(chainId)
-        ) {
-          // console.log('client not ready')
-          return <PlayerDataContext.Provider
-            value={{
-              loading: false,
-              playerData: null
-            }}
-          >
-            {props.children}
-          </PlayerDataContext.Provider>
-        } else {
-          return <GraphPlayerQueries
-            {...props}
-            playerAddress={playerAddress}
-          >
-            {({
-              playerData,
-              loading
-            }) => {
-              return <PlayerDataContext.Provider
-                value={{
-                  loading,
-                  playerData
-                }}
-              >
-                {props.children}
-              </PlayerDataContext.Provider>
-            }}
-          </GraphPlayerQueries>
-        }
-      }}
-    </V3ApolloWrapper>
+    {content}
   </>
 }

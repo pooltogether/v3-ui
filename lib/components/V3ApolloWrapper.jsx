@@ -3,6 +3,7 @@ import { ApolloProvider } from '@apollo/client'
 // import { ApolloProvider } from 'react-apollo'
 
 import { v3ApolloClient } from 'lib/apollo/v3ApolloClient'
+import { isEmptyObject } from 'lib/utils/isEmptyObject'
 // import { ProviderManager } from 'lib/apollo/ProviderManager'
 // import { ProviderManagerContext } from 'lib/components/ProviderManagerContext'
 // import { TightbeamContext } from 'lib/components/TightbeamContext'
@@ -26,9 +27,15 @@ export const V3ApolloWrapper = (props) => {
     getClient()
   }, [])
 
-  return <ApolloProvider
-    client={client}
-  >
-    {props.children(client)}
-  </ApolloProvider>
+  if (isEmptyObject(client)) {
+    return null
+  } else {
+    return <ApolloProvider
+      client={client}
+    >
+      {props.children}
+      {/* {props.children(client)} */}
+    </ApolloProvider>
+  }
+
 }

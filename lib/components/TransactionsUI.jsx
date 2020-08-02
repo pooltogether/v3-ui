@@ -32,15 +32,15 @@ export const TransactionsUI = () => {
         className='flex flex-col items-center justify-center h-full w-full '
       >
         <div
-          className='relative message bg-default text-inverse flex flex-col w-full rounded-lg border-default border-2 shadow-4xl'
+          className='relative message bg-primary text-inverse flex flex-col w-full rounded-lg border-default border-2 shadow-4xl'
           style={{
             maxWidth: '36rem'
           }}
         >
           <div
-            className='relative flex flex-col w-full border-b-2 border-default px-10 py-6 text-lg'
+            className='relative flex flex-col w-full border-b-2 border-default px-10 py-6 text-lg uppercase'
           >
-            TRANSACTIONS
+            Recent transactions
           </div>
           <div
             className='relative flex flex-col w-full px-10 py-6 text-sm text-xs sm:text-sm lg:text-base'
@@ -99,16 +99,13 @@ export const TransactionsUI = () => {
                         </>}
                       </div>
 
-                      {tx.inWallet || (tx.sent && !tx.completed) && <>
-                        <br />
+                      {tx.inWallet && <>
                         <span
-                          className='text-primary'
+                          className='text-yellow'
                         >
                           {tx.inWallet && <>
                             Please confirm in your wallet...
                           </>}
-
-                          {tx.sent && !tx.completed && <>In progress ...</>}
                         </span>
                       </>}
                     </li>

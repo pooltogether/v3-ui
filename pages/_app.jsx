@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 // import { Chart } from 'lib/components/Chart'
 import { Layout } from 'lib/components/Layout'
+import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 
 import '@reach/tooltip/styles.css'
 import 'react-toastify/dist/ReactToastify.css'
@@ -57,21 +58,25 @@ function MyApp({ Component, pageProps, router }) {
   return <>
     {/* <Chart /> */}
 
-    <AllContextProviders>
-      <Layout
-        props={pageProps}
-      >
-        <Component
-          {...pageProps}
-        />
-      </Layout>
-    </AllContextProviders>
+    <V3ApolloWrapper>
+      <>
+        <AllContextProviders>
+          <Layout
+            props={pageProps}
+          >
+            <Component
+              {...pageProps}
+            />
+          </Layout>
+        </AllContextProviders>
 
-    <ToastContainer
-      className='pool-toast'
-      position='top-center'
-      autoClose={15000}
-    />
+        <ToastContainer
+          className='pool-toast'
+          position='top-center'
+          autoClose={15000}
+        />
+      </>
+    </V3ApolloWrapper>
   </>
 }
 

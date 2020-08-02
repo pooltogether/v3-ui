@@ -11,7 +11,6 @@ import { Nav } from 'lib/components/Nav'
 import { TransactionsUI } from 'lib/components/TransactionsUI'
 import { SignInFormContainer } from 'lib/components/SignInFormContainer'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
-import { isEmptyObject } from 'lib/utils/isEmptyObject'
 
 export const Layout = (props) => {
   const {
@@ -26,14 +25,7 @@ export const Layout = (props) => {
   return <>
     <Meta />
 
-    <V3ApolloWrapper>
-      {(client) => {
-        // check if client is ready
-        if (!isEmptyObject(client)) {
-          return <TransactionsUI />
-        }
-      }}
-    </V3ApolloWrapper>
+    <TransactionsUI />
 
     <AnimatePresence>
       {signIn && <SignInFormContainer />}
@@ -87,12 +79,12 @@ export const Layout = (props) => {
               })}
             </div>
           </div>
-
+{/* 
           <div
             className='main-footer z-10'
           >
             <Footer />
-          </div>
+          </div> */}
         </div>
 
       </div>
