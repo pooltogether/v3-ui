@@ -3,7 +3,7 @@ import classnames from 'classnames'
 
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { PTHint } from 'lib/components/PTHint'
-import { V3LoadingDots } from 'lib/components/V3LoadingDots'
+import { LoadingDots } from 'lib/components/LoadingDots'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 
 export const TransactionsUI = () => {
@@ -60,10 +60,10 @@ export const TransactionsUI = () => {
                       className='relative mb-2'
                     >
                       <div
-                        className='absolute t-0'
-                        style={{ left: -26 }}
+                        className='absolute '
+                        style={{ left: -26, top: 5 }}
                       >
-                        {!tx.completed && <V3LoadingDots /> }
+                        {!tx.completed && <LoadingDots /> }
                       </div>
 
                       <div className='flex'>

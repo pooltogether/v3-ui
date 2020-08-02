@@ -8,7 +8,7 @@ import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
-import { V3LoadingDots } from 'lib/components/V3LoadingDots'
+import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 
@@ -29,11 +29,21 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   const poolAddress = pool?.poolAddress
   const controlledTokenAddress = pool?.ticket
 
+  const [txExecuted, setTxExecuted] = useState(false)
+  const [txId, setTxId] = useState()
+
   const txName = `Withdraw ${quantity} tickets ($${quantity} ${ticker})`
+  const method = 'withdrawInstantlyFrom'
 
   const [sendTx] = useSendTransaction(txName)
 
-  const [txExecuted, setTxExecuted] = useState(false)
+  const transactionsQueryResult = useQuery(transactionsQuery, {
+    variables: {
+      method
+    }
+  })
+  const transactions = transactionsQueryResult?.data?.transactions
+  const tx = transactions?.find((todo) => todo.id === txId)
 
   const updateParamsAndNextStep = (e) => {
     e.preventDefault()
@@ -42,12 +52,6 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
 
     nextStep()
   }
-
-
-  const method = 'withdrawInstantlyFrom'
-
-  
-  const [txId, setTxId] = useState()
 
   useEffect(() => {
     const runTx = async () => {
@@ -85,14 +89,6 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
     }
   }, [quantity, decimals])
 
-  const transactionsQueryResult = useQuery(transactionsQuery, {
-    variables: {
-      method
-    }
-  })
-  const transactions = transactionsQueryResult?.data?.transactions
-  const tx = transactions?.find((todo) => todo.id === txId)
-
   useEffect(() => {
     if (tx?.cancelled || tx?.error) {
       previousStep()
@@ -100,8 +96,6 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
       updateParamsAndNextStep()
     }
   }, [tx])
-
-
 
   return <>
     <PaneTitle small>
@@ -113,25 +107,6 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
       {tx?.inWallet && 'Confirm withdrawal'}
     </PaneTitle>
 
-    {tx?.sent && !tx?.completed && <>
-      <div className='mx-auto -mb-2'>
-        <V3LoadingDots />
-      </div>
-
-      <PaneTitle small>
-        Transactions may take a few minutes
-      </PaneTitle>
-
-      <div
-        className='text-inverse'
-      >
-        <span
-          className='font-bold'
-        >
-          Estimated wait time:
-        </span> PUT actual estimate here?
-      </div>
-
-    </>}
+    {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage />}
   </>
 }

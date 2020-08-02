@@ -1,56 +1,56 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
+import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
-import { TxMessage } from 'lib/components/TxMessage'
-import { poolToast } from 'lib/utils/poolToast'
-import { useTransaction } from 'lib/hooks/useTransaction'
-import { callTransaction } from 'lib/utils/callTransaction'
+import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
+import { transactionsQuery } from 'lib/queries/transactionQueries'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
-const handleDeposit = async (
-  setTx,
-  provider,
-  contractAddress,
-  usersAddress,
-  controlledTokenAddress,
-  quantity,
-  decimals
-) => {
-  if (
-    !quantity
-  ) {
-    poolToast.error(`Deposit Quantity needs to be filled in`)
-    return
-  }
-  // debugger
+// const handleDeposit = async (
+//   setTx,
+//   provider,
+//   contractAddress,
+//   usersAddress,
+//   controlledTokenAddress,
+//   quantity,
+//   decimals
+// ) => {
+//   if (
+//     !quantity
+//   ) {
+//     poolToast.error(`Deposit Quantity needs to be filled in`)
+//     return
+//   }
+//   // debugger
 
-  const params = [
-    usersAddress,
-    ethers.utils.parseUnits(
-      quantity,
-      Number(decimals)
-    ),
-    controlledTokenAddress,
-    {
-      gasLimit: 500000
-    }
-  ]
+//   const params = [
+//     usersAddress,
+//     ethers.utils.parseUnits(
+//       quantity,
+//       Number(decimals)
+//     ),
+//     controlledTokenAddress,
+//     {
+//       gasLimit: 500000
+//     }
+//   ]
 
-  await sendTx(
-    setTx,
-    provider,
-    contractAddress,
-    PrizePoolAbi,
-    'depositTo',
-    params,
-    'Deposit',
-  )
-}
+//   await sendTx(
+//     setTx,
+//     provider,
+//     contractAddress,
+//     PrizePoolAbi,
+//     'depositTo',
+//     params,
+//     'Deposit',
+//   )
+// }
 
 export const ConfirmCryptoDeposit = (props) => {
   const { nextStep, previousStep } = props
@@ -64,91 +64,78 @@ export const ConfirmCryptoDeposit = (props) => {
   const poolData = useContext(PoolDataContext)
   const { pool } = poolData
 
-  const {
-    poolAddress,
-    underlyingCollateralSymbol,
-    underlyingCollateralDecimals
-  } = pool
+  const decimals = pool?.underlyingCollateralDecimals
+  const ticker = pool?.underlyingCollateralSymbol
+  const poolAddress = pool?.poolAddress
+  const controlledTokenAddress = pool?.ticket
 
-  const ticker = pool && underlyingCollateralSymbol
-  const controlledTokenAddress = pool && pool.ticket
+  const [txExecuted, setTxExecuted] = useState(false)
+  const [txId, setTxId] = useState()
 
-  const [
-    tx,
-    setTx,
-    txInWallet,
-    txSent,
-    txCompleted,
-    txError,
-    txSuccess,
-  ] = useTransaction()
+  const txName = `Deposit ${quantity} tickets ($${quantity} ${ticker})`
+  const method = 'depositTo'
 
-  useEffect(() => {
-    const runAsyncTx = () => {
-      handleDeposit(
-        setTx,
-        provider,
-        poolAddress,
-        usersAddress,
-        controlledTokenAddress,
-        quantity,
-        underlyingCollateralDecimals,
-      )
+  const [sendTx] = useSendTransaction(txName)
+
+  const transactionsQueryResult = useQuery(transactionsQuery, {
+    variables: {
+      method
     }
-    runAsyncTx()
-  }, [])
+  })
+  const transactions = transactionsQueryResult?.data?.transactions
+  const tx = transactions?.find((todo) => todo.id === txId)
+
+
 
   useEffect(() => {
-    if (tx.error) {
+    const runTx = async () => {
+      setTxExecuted(true)
+
+      const params = [
+        usersAddress,
+        ethers.utils.parseUnits(
+          quantity,
+          Number(decimals)
+        ),
+        controlledTokenAddress,
+        {
+          gasLimit: 500000
+        }
+      ]
+
+      const id = sendTx(
+        provider,
+        PrizePoolAbi,
+        poolAddress,
+        method,
+        params
+      )
+      setTxId(id)
+    }
+
+    if (!txExecuted && quantity && decimals) {
+      runTx()
+    }
+  }, [quantity, decimals])
+  
+  useEffect(() => {
+    if (tx?.cancelled || tx?.error) {
       previousStep()
+    } else if (tx?.completed) {
+      nextStep()
     }
   }, [tx])
 
-  useEffect(() => {
-    if (txSuccess) {
-      nextStep()
-    }
-  }, [txSuccess])
-
-  const handleResetState = (e) => {
-    e.preventDefault()
-    setTx({})
-  }
-
   return <>
     <PaneTitle small>
-      {txInWallet && `${quantity} tickets`}
+      {tx?.inWallet && txName}
     </PaneTitle>
 
     <PaneTitle>
-      {txSent && 'Deposit confirming ...'}
-      {txInWallet && 'Confirm deposit'}
+      {tx?.sent && 'Deposit confirming ...'}
+      {tx?.inWallet && 'Confirm deposit'}
     </PaneTitle>
 
-    {txSent && <>
-      {/* <PaneTitle small>
-        Transactions may take a few minutes!
-      </PaneTitle>
-
-      <div
-        className='text-inverse'
-      >
-        <span
-          className='font-bold'
-        >
-          Estimated wait time:
-        </span> 4 seconds
-      </div>
-
-      <div className='mx-auto'>
-        <V3LoadingDots />
-      </div> */}
-
-      <TxMessage
-        txType={`Deposit ${quantity} ${ticker.toUpperCase()}`}
-        tx={tx}
-        handleReset={handleResetState}
-      />
-    </>}
+    {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage />}
   </>
 }
