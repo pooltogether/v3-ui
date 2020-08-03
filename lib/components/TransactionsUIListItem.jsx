@@ -12,14 +12,7 @@ export const TransactionsUIListItem = (props) => {
     key={tx.hash || Date.now()}
     className='relative mb-2'
   >
-    <div
-      className='absolute '
-      style={{ left: -26, top: 5 }}
-    >
-      {!tx.completed && <LoadingDots />}
-    </div>
-
-    <div className='flex justify-between'>
+    <div className='flex justify-between w-full'>
       <div
         // style={{
         //   minWidth: 300
@@ -36,37 +29,50 @@ export const TransactionsUIListItem = (props) => {
         }
       </div>
 
-      {tx.completed && !tx.error && <>
-        <FeatherIcon
-          icon='check-circle'
-          className='relative w-5 h-5 text-green ml-2'
-          style={{
-            top: 4,
-          }}
-        />
-      </>}
+      <div className='w-5'>
+        {!tx.completed && <LoadingDots />}
 
-      {tx.reason && <>
-        <PTHint
-          tip={tx.reason}
-        >
-          <>
-            <span
-              className='relative inline-flex items-center justify-center bg-red rounded-full w-6 h-6'
-            >
+        {tx.completed && !tx.error && <>
+          <FeatherIcon
+            icon='check-circle'
+            className='relative w-6 h-6 text-green'
+            style={{
+              top: 4,
+            }}
+          />
+        </>}
+
+        {tx.reason && <>
+          <PTHint
+            tip={tx.reason}
+          >
+            <FeatherIcon
+              icon='help-circle'
+              className='relative w-6 h-6 text-red'
+              style={{
+                top: 4,
+              }}
+            />
+            {/* <>
               <span
-                className='relative text-white font-bold font-number font-bold'
-                style={{
-                  left: 1,
-                  top: 1
-                }}
+                className='relative inline-flex items-center justify-center border-red border-2 rounded-full w-6 h-6'
               >
-                ?
-              </span>
-          </span>
-          </>
-        </PTHint>
-      </>}
+                <span
+                  className='relative text-red font-bold font-number font-bold'
+                  style={{
+                    left: 1,
+                    top: 1
+                  }}
+                >
+                  ?
+                </span>
+            </span>
+            </> */}
+          </PTHint>
+        </>}
+      </div>
+      
+
     </div>
 
     {tx.inWallet && <>

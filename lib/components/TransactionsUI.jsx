@@ -19,6 +19,7 @@ export const TransactionsUI = (props) => {
   const transactionsQueryResult = useQuery(transactionsQuery)
   const notCancelledTransactions = transactionsQueryResult?.data?.transactions
     .filter(t => !t.cancelled)
+    .reverse()
 
   return <>
     <button
@@ -36,8 +37,6 @@ export const TransactionsUI = (props) => {
       <motion.div
         id='transactions-ui'
         className={'relative text-sm sm:text-base lg:text-lg h-full'}
-        
-      
         key='sign-in-scaled-bg'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { duration: 0.4 } }}
@@ -49,13 +48,13 @@ export const TransactionsUI = (props) => {
         >
           <VisuallyHidden>
             Close
-        </VisuallyHidden>
+          </VisuallyHidden>
           <span
             aria-hidden
           >
             <FeatherIcon
               icon='x-circle'
-              className='w-8 h-8'
+              className='w-6 h-6'
             />
           </span>
         </button>
@@ -76,7 +75,11 @@ export const TransactionsUI = (props) => {
               className='dialog-inner-content flex-grow relative flex flex-col w-full px-10 pt-6 pb-4 text-sm text-xs sm:text-sm lg:text-base'
             >
               {notCancelledTransactions.length === 0 ? <>
-                <span className='text-primary'>Currently no active transactions ...</span>
+                <div
+                  className='text-primary mb-2'
+                >
+                  Currently no active transactions...
+                </div>
               </> : <>
                   <ul>
                     {notCancelledTransactions.map(tx => {

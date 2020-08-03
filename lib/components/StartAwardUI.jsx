@@ -39,7 +39,7 @@ export const StartAwardUI = (props) => {
   const tx = transactions?.find((todo) => todo.id === txId)
 
   const ongoingStartAwardTransactions = transactions?.
-    filter(t => t.method === 'startAward' && !t.cancelled && !t.completed)
+    filter(t => t.method === method && !t.cancelled && !t.completed)
   const disabled = ongoingStartAwardTransactions.length > 0
 
   const handleStartAwardClick = (e) => {

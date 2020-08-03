@@ -19,6 +19,7 @@ module.exports = {
         default: 'var(--color-border-default)',
         transparent: 'var(--color-border-transparent)',
         inverse: 'var(--color-border-inverse)',
+        red: 'var(--color-border-red)',
         green: 'var(--color-border-green)',
       },
       textColor: {

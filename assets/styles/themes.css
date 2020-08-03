@@ -35,6 +35,7 @@
   --color-border-secondary: #33DEC3;
   --color-border-default: #4c249f;
   --color-border-inverse: #fff;
+  --color-border-red: #e61b1b;
   --color-border-green: #3EF3D4;
   --color-border-transparent: rgba(0,0,0,0);
 }
@@ -73,6 +74,7 @@
   --color-border-default: #f7f7f7;
   --color-border-inverse: #000;
   --color-border-green: #1ef7d6;
+  --color-border-red: #e61b1b;
   --color-border-transparent: rgba(0,0,0,0);
 }
 
