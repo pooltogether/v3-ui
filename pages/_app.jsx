@@ -7,6 +7,7 @@ import { AllContextProviders } from 'lib/components/contextProviders/AllContextP
 import { Layout } from 'lib/components/Layout'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 
+// import "@reach/dialog/styles.css";
 import '@reach/tooltip/styles.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'assets/styles/index.css'
@@ -19,8 +20,6 @@ import 'assets/styles/pool-toast.css'
 import 'assets/styles/utils.css'
 import 'assets/styles/animations.css'
 import 'assets/styles/transitions.css'
-
-
 
 function MyApp({ Component, pageProps, router }) {
   const [initialized, setInitialized] = useState(false)

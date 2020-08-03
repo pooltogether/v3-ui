@@ -8,9 +8,7 @@ import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNot
 import { Footer } from 'lib/components/Footer'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
-import { TransactionsUI } from 'lib/components/TransactionsUI'
 import { SignInFormContainer } from 'lib/components/SignInFormContainer'
-import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 
 export const Layout = (props) => {
   const {
@@ -25,7 +23,6 @@ export const Layout = (props) => {
   return <>
     <Meta />
 
-    <TransactionsUI />
 
     <AnimatePresence>
       {signIn && <SignInFormContainer />}

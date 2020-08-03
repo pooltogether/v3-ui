@@ -488,3 +488,82 @@ input[type='submit'][disabled] {
   opacity: 0;
   pointer-events: none;
 } */
+
+[data-reach-dialog-overlay] {
+  background: rgba(0, 0, 0, 0.50);
+  backdrop-filter: blur(2px);
+  bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  overflow: auto;
+  position: fixed;
+  z-index: 1823770;
+}
+
+[data-reach-dialog-content] {
+  /* background: white; */
+  margin: 10vh auto;
+  max-width: 600px;
+  padding-top: 20vh;
+  pointer-events: none;
+  /* position: relative; */
+  outline: none;
+  width: 80vw;
+}
+
+[data-reach-dialog-content] > div,
+[data-reach-dialog-content] > button {
+  pointer-events: initial;
+}
+
+.close-button {
+  border-radius: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-items: center;
+  outline: none;
+  font-size: 26px;
+  position: absolute;
+  right: 18px;
+  top: 26px;
+  z-index: 1823775;
+}
+
+.close-button:focus,
+.close-button:active {
+  outline: none;
+}
+
+.dialog-inner {
+  border-radius: 16px;
+}
+
+.dialog-inner-content {
+  flex: 1;
+}
+
+@media screen and (max-width: 780px) {
+  [data-reach-dialog-content] {
+    max-width: initial;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100%;
+  }
+
+  .close-button {
+    top: 26px;
+  }
+
+  .dialog-inner {
+    border: 0;
+    border-radius: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  .dialog-inner-content {
+    height: 100%;
+  }
+}

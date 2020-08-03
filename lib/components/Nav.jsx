@@ -6,6 +6,7 @@ import { AccountButton } from 'lib/components/AccountButton'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
+import { TransactionsUI } from 'lib/components/TransactionsUI'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const Nav = (props) => {
@@ -46,6 +47,12 @@ export const Nav = (props) => {
           <div className='mr-4'>
             <ThemeSwitcher />
           </div>
+
+          {usersAddress && <>
+            <TransactionsUI
+              usersAddress={usersAddress}
+            />
+          </>}
 
           <div
             className='mt-0 sm:mt-0 text-xxs sm:text-sm text-right'
