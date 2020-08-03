@@ -525,7 +525,7 @@ input[type='submit'][disabled] {
   outline: none;
   font-size: 26px;
   position: absolute;
-  right: 18px;
+  right: 38px;
   top: 26px;
   z-index: 1823775;
 }

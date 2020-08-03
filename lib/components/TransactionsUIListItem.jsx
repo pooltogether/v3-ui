@@ -1,4 +1,5 @@
 import React from 'react'
+import FeatherIcon from 'feather-icons-react'
 
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { PTHint } from 'lib/components/PTHint'
@@ -18,11 +19,11 @@ export const TransactionsUIListItem = (props) => {
       {!tx.completed && <LoadingDots />}
     </div>
 
-    <div className='flex'>
+    <div className='flex justify-between'>
       <div
-        style={{
-          minWidth: 300
-        }}
+        // style={{
+        //   minWidth: 300
+        // }}
       >
         {tx.hash ? <>
           <EtherscanTxLink
@@ -35,15 +36,33 @@ export const TransactionsUIListItem = (props) => {
         }
       </div>
 
+      {tx.completed && !tx.error && <>
+        <FeatherIcon
+          icon='check-circle'
+          className='relative w-5 h-5 text-green ml-2'
+          style={{
+            top: 4,
+          }}
+        />
+      </>}
+
       {tx.reason && <>
         <PTHint
           tip={tx.reason}
         >
           <>
             <span
-              className='inline-flex items-center justify-center text-white bg-red font-bold capitalize rounded-full ml-4 w-6 h-6'
+              className='relative inline-flex items-center justify-center bg-red rounded-full w-6 h-6'
             >
-              ?
+              <span
+                className='relative text-white font-bold font-number font-bold'
+                style={{
+                  left: 1,
+                  top: 1
+                }}
+              >
+                ?
+              </span>
           </span>
           </>
         </PTHint>

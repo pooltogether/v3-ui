@@ -68,12 +68,12 @@ export const TransactionsUI = (props) => {
             className='dialog-inner relative message bg-primary text-inverse flex flex-col w-full border-default border-2 shadow-4xl'
           >
             <div
-              className='relative flex flex-col w-full border-b-2 border-default px-10 py-6 text-lg uppercase'
+              className='relative flex flex-col w-full border-b-2 border-default px-10 pt-6 pb-5 text-lg uppercase'
             >
               Recent transactions
             </div>
             <div
-              className='dialog-inner-content flex-grow relative flex flex-col w-full px-10 py-6 text-sm text-xs sm:text-sm lg:text-base'
+              className='dialog-inner-content flex-grow relative flex flex-col w-full px-10 pt-6 pb-4 text-sm text-xs sm:text-sm lg:text-base'
             >
               {notCancelledTransactions.length === 0 ? <>
                 <span className='text-primary'>Currently no active transactions ...</span>

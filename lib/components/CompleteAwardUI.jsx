@@ -1,36 +1,14 @@
 import React, { useContext, useState } from 'react'
+import { useQuery } from '@apollo/client'
 
 import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PrizeStrategy'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
-import { TxMessage } from 'lib/components/TxMessage'
-import { callTransaction } from 'lib/utils/callTransaction'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { transactionsQuery } from 'lib/queries/transactionQueries'
 
-const handleCompleteAwardSubmit = async (
-  setTx,
-  provider,
-  contractAddress,
-) => {
-  const params = [
-    {
-      gasLimit: 350000
-    }
-  ]
-  console.log({setTx, provider, params, contractAddress})
-  console.log({})
-
-  await sendTx(
-    setTx,
-    provider,
-    contractAddress,
-    PrizeStrategyAbi,
-    'completeAward',
-    params,
-    'Complete Award',
-  )
-}
 
 export const CompleteAwardUI = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
@@ -41,46 +19,53 @@ export const CompleteAwardUI = (props) => {
 
   const { canCompleteAward, prizeStrategyAddress } = pool
 
-  const [tx, setTx] = useState({})
+  const [txId, setTxId] = useState()
 
-  const txInFlight = tx.inWallet || tx.sent && !tx.completed
+  const txName = `Start ${pool?.name} award process`
+  const method = 'completeAward'
 
-  const resetState = (e) => {
+  const [sendTx] = useSendTransaction(txName)
+
+  const transactionsQueryResult = useQuery(transactionsQuery)
+  const transactions = transactionsQueryResult?.data?.transactions
+  const tx = transactions?.find((todo) => todo.id === txId)
+
+  const ongoingCompleteAwardTransactions = transactions?.
+    filter(t => t.method === method && !t.cancelled && !t.completed)
+  const disabled = ongoingCompleteAwardTransactions.length > 0
+
+  const handleCompleteAwardClick = (e) => {
     e.preventDefault()
-    setTx({})
-  }
 
-  const handleClick = (e) => {
-    e.preventDefault()
+    const params = [
+      {
+        gasLimit: 350000
+      }
+    ]
 
-    handleCompleteAwardSubmit(
-      setTx,
+    const id = sendTx(
       provider,
+      PrizeStrategyAbi,
       prizeStrategyAddress,
+      method,
+      params,
     )
+
+    setTxId(id)
   }
 
   return <>
-    {!txInFlight ? <>
-      {canCompleteAward && <>
-        <Button
-          wide
-          size='lg'
-          onClick={handleClick}
-          outline
-        >
-          Complete Award
-        </Button>
-      </>}
-    </> : <>
-      <TxMessage
-        txType='Complete Award'
-        tx={tx}
-        handleReset={resetState}
-        resetButtonText='Hide this'
-      />
+    {canCompleteAward && <>
+      <Button
+        wide
+        size='lg'
+        onClick={handleCompleteAwardClick}
+        outline
+        disabled={disabled}
+      >
+        Complete Award
+      </Button>
     </>}
-    
   </>
 }
 

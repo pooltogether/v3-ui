@@ -6,30 +6,8 @@ import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PrizeStr
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
-import { callTransaction } from 'lib/utils/callTransaction'
-
-const handleStartAwardSubmit = async (
-  setTx,
-  provider,
-  contractAddress,
-) => {
-  const params = [
-    {
-      gasLimit: 200000
-    }
-  ]
-
-  await sendTx(
-    setTx,
-    provider,
-    contractAddress,
-    PrizeStrategyAbi,
-    'startAward',
-    params,
-    'Start Award',
-  )
-}
 
 export const StartAwardUI = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
@@ -38,38 +16,51 @@ export const StartAwardUI = (props) => {
   const poolDataContext = useContext(PoolDataContext)
   const { pool } = poolDataContext
 
-  const {
-    isRngCompleted,
-    isRngRequested,
-    canStartAward,
-    canCompleteAward,
-    prizeStrategyAddress
-  } = pool
+  // const {
+  //   isRngCompleted,
+  //   isRngRequested,
+  //   canCompleteAward,
+  // } = pool
   // console.log({ canStartAward, canCompleteAward, isRngCompleted, isRngRequested,})
 
-  const [tx, setTx] = useState({})
+  const canStartAward = pool?.canStartAward
+  const prizeStrategyAddress = pool?.prizeStrategyAddress
+  const ticker = pool?.underlyingCollateralSymbol
 
-  const txInFlight = tx.inWallet || tx.sent && !tx.completed
+  const [txId, setTxId] = useState()
 
-  const resetState = (e) => {
-    e.preventDefault()
-    setTx({})
-  }
+  const txName = `Start ${pool?.name} award process`
+  const method = 'startAward'
 
-  const handleClick = (e) => {
-    e.preventDefault()
+  const [sendTx] = useSendTransaction(txName)
 
-    handleStartAwardSubmit(
-      setTx,
-      provider,
-      prizeStrategyAddress,
-    )
-  }
+  const transactionsQueryResult = useQuery(transactionsQuery)
+  const transactions = transactionsQueryResult?.data?.transactions
+  const tx = transactions?.find((todo) => todo.id === txId)
 
-  const { data, loading, error } = useQuery(transactionsQuery)
-  const ongoingStartAwardTransactions = data?.transactions?.
-    filter(t => t.method === 'startAward' && !t.completed)
+  const ongoingStartAwardTransactions = transactions?.
+    filter(t => t.method === 'startAward' && !t.cancelled && !t.completed)
   const disabled = ongoingStartAwardTransactions.length > 0
+
+  const handleStartAwardClick = (e) => {
+    e.preventDefault()
+
+    const params = [
+      {
+        gasLimit: 200000
+      }
+    ]
+
+    const id = sendTx(
+      provider,
+      PrizeStrategyAbi,
+      prizeStrategyAddress,
+      method,
+      params,
+    )
+
+    setTxId(id)
+  }
 
   return <>
     {canStartAward && <>
@@ -77,20 +68,12 @@ export const StartAwardUI = (props) => {
         wide
         size='lg'
         outline
-        onClick={handleClick}
+        onClick={handleStartAwardClick}
         disabled={disabled}
       >
         Start Award
       </Button>
     </>}
-
-      {/* <TxMessage
-        txType='Start Award'
-        tx={tx}
-        handleReset={resetState}
-        resetButtonText='Hide this'
-      /> */}
-    
   </>
 }
 
