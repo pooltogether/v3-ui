@@ -43,7 +43,7 @@
 .theme-light {
   --color-bg-body: #fff;
   --color-bg-primary: #fff;
-  --color-bg-secondary: #fff;
+  --color-bg-secondary: #f2f2f2;
   --color-bg-default: #f7f7f7;
   --color-bg-darkened: #e9e9e9;
   --color-bg-inverse: #000;
@@ -111,9 +111,8 @@
 
 
 .theme-dark .toggle {
+  @apply bg-secondary;
   transform: translateX(100%);
-  background-color: #451ba7;
-  /* background-color: #34323D; */
 }
 
 .theme-toggler--light,
@@ -123,23 +122,31 @@
 
 .theme-toggler,
 .toggle {
-  color: #999;
-  height: 1.25rem;
+  color: #9f7aea;
+  height: 1.3rem;
   border-radius: 100px;
 }
 
 @screen sm {
   .theme-toggler,
   .toggle {
-    height: 2.5rem;
+    height: 2rem;
+  }
+}
+
+@screen lg {
+  .theme-toggler,
+  .toggle {
+    height: 2.25rem;
   }
 }
 
 .theme-toggler {
-  background-color: rgba(0,0,0,.1);
+  @apply bg-secondary;
   border-radius: 100px;
   position: relative;
   cursor: pointer;
+  width: 50px;
 }
 
 .theme-dark .theme-toggler {
@@ -148,7 +155,7 @@
 
 @screen sm {
   .theme-toggler {
-    width: 136px;
+    width: 89px;
   }
 }
 
@@ -174,23 +181,35 @@
 }
 
 .theme-light .theme-toggler:hover .theme-toggler--light {
-  /* @apply text-primary; */
+  @apply text-yellow;
 }
 
 .theme-light .theme-toggler:hover .theme-toggler--dark {
-  @apply text-secondary;
+  color: #300e69;
 }
 
 .theme-dark .theme-toggler:hover .theme-toggler--light {
-  @apply text-secondary;
+  @apply text-white;
   opacity: 1;
 }
 
 .theme-dark .theme-toggler:hover .theme-toggler--dark {
-  /* @apply text-secondary; */
+  @apply text-yellow;
 }
 
 .theme-toggler--names {
   margin: 0 3px 0 2px;
-  padding-top: 9px;
+  padding-top: 4px;
+}
+
+@screen sm {
+  .theme-toggler--names {
+    padding-top: 8px;
+  }
+}
+
+@screen lg {
+  .theme-toggler--names {
+    padding-top: 10px;
+  }
 }

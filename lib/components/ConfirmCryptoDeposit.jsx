@@ -12,46 +12,6 @@ import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTime
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
-// const handleDeposit = async (
-//   setTx,
-//   provider,
-//   contractAddress,
-//   usersAddress,
-//   controlledTokenAddress,
-//   quantity,
-//   decimals
-// ) => {
-//   if (
-//     !quantity
-//   ) {
-//     poolToast.error(`Deposit Quantity needs to be filled in`)
-//     return
-//   }
-//   // debugger
-
-//   const params = [
-//     usersAddress,
-//     ethers.utils.parseUnits(
-//       quantity,
-//       Number(decimals)
-//     ),
-//     controlledTokenAddress,
-//     {
-//       gasLimit: 500000
-//     }
-//   ]
-
-//   await sendTx(
-//     setTx,
-//     provider,
-//     contractAddress,
-//     PrizePoolAbi,
-//     'depositTo',
-//     params,
-//     'Deposit',
-//   )
-// }
-
 export const ConfirmCryptoDeposit = (props) => {
   const { nextStep, previousStep } = props
 

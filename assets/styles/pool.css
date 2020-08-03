@@ -227,6 +227,24 @@ input[type='submit'][disabled] {
 	}
 }
 
+.nav--account-transactions-button:hover {
+  @apply bg-purple text-white;
+}
+
+.nav--account-transactions-button:hover div,
+.nav--account-transactions-button:hover .nav--account-transactions-button__address {
+  @apply bg-purple text-white;
+}
+
+.nav--account-transactions-button:hover .loader01 {
+  border-color: white;
+  border-right-color: transparent;
+}
+
+.nav--account-transactions-button__address {
+  @apply bg-darkened;
+}
+
 .new-prize-gradient {
   background: linear-gradient(155deg, #55A0FB, #6D50DF, #6A1BCF );
 }

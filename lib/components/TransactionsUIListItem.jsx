@@ -13,11 +13,7 @@ export const TransactionsUIListItem = (props) => {
     className='relative mb-2'
   >
     <div className='flex justify-between w-full'>
-      <div
-        // style={{
-        //   minWidth: 300
-        // }}
-      >
+      <div>
         {tx.hash ? <>
           <EtherscanTxLink
             chainId={tx.ethersTx.chainId}
@@ -53,21 +49,6 @@ export const TransactionsUIListItem = (props) => {
                 top: 4,
               }}
             />
-            {/* <>
-              <span
-                className='relative inline-flex items-center justify-center border-red border-2 rounded-full w-6 h-6'
-              >
-                <span
-                  className='relative text-red font-bold font-number font-bold'
-                  style={{
-                    left: 1,
-                    top: 1
-                  }}
-                >
-                  ?
-                </span>
-            </span>
-            </> */}
           </PTHint>
         </>}
       </div>

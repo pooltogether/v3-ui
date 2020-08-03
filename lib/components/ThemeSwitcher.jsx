@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import FeatherIcon from 'feather-icons-react'
 
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
@@ -14,30 +15,20 @@ export const ThemeSwitcher = (props) => {
       className='theme-toggler--names relative z-10 flex items-center justify-between'
     >
       <span
-        className='theme-toggler--light font-bold text-xxs ml-4'
+        className='theme-toggler--light font-bold text-xxs ml-1 sm:ml-3'
       >
-        <span
-          className='sm:hidden'
-        >
-        </span>
-        <span
-          className='hidden sm:block'
-        >
-          Light
-        </span>
+        <FeatherIcon
+          icon='sun'
+          className='relative w-3 h-3 sm:w-4 sm:h-4'
+        />
       </span>
       <span
-        className='theme-toggler--dark font-bold text-xxs mr-4'
+        className='theme-toggler--dark font-bold text-xxs mr-1 sm:mr-3'
       >
-        <span
-          className='sm:hidden'
-        >
-        </span>
-        <span
-          className='hidden sm:block'
-        >
-          Dark
-        </span>
+          <FeatherIcon
+            icon='moon'
+            className='relative w-3 h-3 sm:w-4 sm:h-4'
+          />
       </span>
     </div>
   </label>

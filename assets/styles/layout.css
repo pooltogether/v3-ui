@@ -76,7 +76,24 @@ body {
   }
 }
 
-/* breakpoint overrides */
+.nav--pool-logo-container {
+  min-width: 104px;
+}
+
+.nav--account-controls-container {
+  max-width: 244px;
+}
+
+@screen sm {
+  .nav--pool-logo-container {
+    min-width: initial;
+  }
+
+  .nav--account-controls-container {
+    max-width: initial;
+  }
+}
+
 
 @screen sm {
   .nav-and-footer-container {
