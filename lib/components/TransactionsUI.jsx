@@ -8,8 +8,12 @@ import { motion } from 'framer-motion'
 
 import { LoadingDots } from 'lib/components/LoadingDots'
 import { TransactionsUIListItem } from 'lib/components/TransactionsUIListItem'
+import { transactionsVar } from 'lib/apollo/cache'
+import { clearPreviousTransactionsFactory } from 'lib/apollo/clearPreviousTransactionsFactory'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { shorten } from 'lib/utils/shorten'
+
+const clearPreviousTransactions = clearPreviousTransactionsFactory(transactionsVar)
 
 export const TransactionsUI = (props) => {
   const { usersAddress } = props
@@ -26,6 +30,15 @@ export const TransactionsUI = (props) => {
   const pendingCount = transactionsQueryResult?.data?.transactions
     .filter(t => !t.completed)
     .length
+  
+  const pastTransactionsCount = transactionsQueryResult?.data?.transactions
+    .filter(t => t.completed)
+    .length
+
+  const clearPrevious = (e) => {
+    e.preventDefault()
+    clearPreviousTransactions()
+  }
 
   return <>
     <button
@@ -49,9 +62,10 @@ export const TransactionsUI = (props) => {
       </>}
       <span
         className={classnames(
-          'nav--account-transactions-button__address rounded-full hidden sm:block sm:px-3 sm:py-1 lg:px-4 lg:py-1',
+          'nav--account-transactions-button__address rounded-full sm:px-3 sm:py-1 lg:px-4 lg:py-1',
           {
-            'ml-2': pendingCount > 0,
+            'px-2': pendingCount === 0,
+            'hidden sm:block ml-2': pendingCount > 0,
           }
         )}
       >
@@ -104,11 +118,12 @@ export const TransactionsUI = (props) => {
                 </>}
               </div>
 
-              {notCancelledTransactions?.length > 0 && <>
+              {pastTransactionsCount > 0 && <>
                 <button
                   className='text-xxs text-left underline text-blue hover:text-secondary trans mt-1'
+                  onClick={clearPrevious}
                 >
-                  Clear recent
+                  Clear previous
                 </button>
               </>}
             </div>
