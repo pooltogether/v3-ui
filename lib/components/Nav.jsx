@@ -56,9 +56,6 @@ export const Nav = (props) => {
 
           <div
             className='mt-0 sm:mt-0 text-xxs sm:text-sm text-right'
-            style={{
-              minWidth: 70
-            }}
           >
             {usersAddress ?
               <AccountButton

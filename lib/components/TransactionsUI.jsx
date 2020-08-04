@@ -11,7 +11,9 @@ import { TransactionsUIListItem } from 'lib/components/TransactionsUIListItem'
 import { transactionsVar } from 'lib/apollo/cache'
 import { clearPreviousTransactionsFactory } from 'lib/apollo/clearPreviousTransactionsFactory'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
-import { shorten } from 'lib/utils/shorten'
+// import { shorten } from 'lib/utils/shorten'
+
+// import EthereumIcon from 'assets/images/ethereum-white.svg'
 
 const clearPreviousTransactions = clearPreviousTransactionsFactory(transactionsVar)
 
@@ -30,6 +32,7 @@ export const TransactionsUI = (props) => {
   const pendingCount = transactionsQueryResult?.data?.transactions
     .filter(t => !t.completed)
     .length
+  // const pendingCount = 33
   
   const pastTransactionsCount = transactionsQueryResult?.data?.transactions
     .filter(t => t.completed)
@@ -43,34 +46,54 @@ export const TransactionsUI = (props) => {
   return <>
     <button
       onClick={openTransactions}
-      className='nav--account-transactions-button flex text-primary bg-secondary inline-block trans rounded-full mr-2 sm:mr-4 text-xxs sm:text-xs lg:text-base shadow-sm'
+      className='nav--account-transactions-button flex text-primary bg-secondary inline-block trans rounded-full mr-2 sm:mr-4 text-xs sm:text-xs lg:text-sm shadow-sm'
     >
       {pendingCount > 0 && <>
         <span
-          className='pr-3 sm:px-0 sm:py-1 lg:px-0 lg:py-1'
+          className='py-1 sm:px-0 sm:py-1 lg:px-0 lg:py-1'
         >
           <div
-            className='relative inline-block ml-2'
-            style={{
-              top: 3,
-              transform: 'scale3d(0.75, 0.75, 1)'
-            }}
+            className='nav--account-transactions-button__loader relative inline-block ml-2 mr-1'
           >
             <LoadingDots />
-          </div> {pendingCount} <span className='hidden sm:inline-block'>pending</span><span className='sm:hidden'>txs</span>
+          </div> {pendingCount} <span className='hidden sm:inline-block'>pending</span><span className='sm:hidden'></span>
         </span>
       </>}
-      <span
+      {/* <span
         className={classnames(
-          'nav--account-transactions-button__address rounded-full sm:px-3 sm:py-1 lg:px-4 lg:py-1',
+          'nav--account-transactions-button__address rounded-full py-1 lg:px-4 lg:py-1 hidden sm:block',
           {
             'px-2': pendingCount === 0,
-            'hidden sm:block ml-2': pendingCount > 0,
+            'px-3 ml-2': pendingCount > 0,
           }
         )}
       >
         {shorten(usersAddress)}
+      </span> */}
+
+      <span
+        className={classnames(
+          // 'sm:hidden',
+          'rounded-full py-2 pl-2 pr-3',
+          // 'rounded-full py-2 px-3 opacity-40 hover:opacity-100',
+        )}
+      >
+        <div className='ethereum-icon'></div>
       </span>
+
+      {/* <span
+        className={classnames(
+          // 'sm:hidden',
+          'rounded-full py-2 px-3',
+          // 'rounded-full py-2 px-3 opacity-40 hover:opacity-100',
+        )}
+      >
+        <div
+          alt='ethereum icon'
+          src={EthereumIcon}
+          className='ethereum-icon relative'
+        />
+      </span> */}
     </button>
 
     <Dialog

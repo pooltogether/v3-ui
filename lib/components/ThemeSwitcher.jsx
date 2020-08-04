@@ -15,19 +15,21 @@ export const ThemeSwitcher = (props) => {
       className='theme-toggler--names relative z-10 flex items-center justify-between'
     >
       <span
-        className='theme-toggler--light font-bold text-xxs ml-1 sm:ml-3'
+        className='theme-toggler--light font-bold text-xxs ml-2 sm:ml-3'
       >
         <FeatherIcon
           icon='sun'
-          className='relative w-3 h-3 sm:w-4 sm:h-4'
+          className='relative w-4 h-4 sm:w-4 sm:h-4'
+          strokeWidth='3'
         />
       </span>
       <span
-        className='theme-toggler--dark font-bold text-xxs mr-1 sm:mr-3'
+        className='theme-toggler--dark font-bold text-xxs mr-2 sm:mr-3'
       >
           <FeatherIcon
             icon='moon'
-            className='relative w-3 h-3 sm:w-4 sm:h-4'
+            className='relative w-4 h-4 sm:w-4 sm:h-4'
+            strokeWidth='3'
           />
       </span>
     </div>

@@ -111,7 +111,7 @@ export const DepositCryptoForm = (props) => {
 
   const txInFlight = tx?.inWallet || tx?.sent
 
-  const handleUnlockClick = (e) => {
+  const handleUnlockClick = async (e) => {
     e.preventDefault()
 
     const params = [

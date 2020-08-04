@@ -91,6 +91,22 @@
   background-image: url('/pooltogether-logo-black.svg');
 }
 
+.theme-dark .ethereum-icon:after {
+  background-image: url('/ethereum-soft-purple.svg');
+}
+
+.nav--account-transactions-button:hover .ethereum-icon:after {
+  background-image: url('/ethereum-white.svg');
+}
+
+.theme-light .nav--account-transactions-button:hover .ethereum-icon:after {
+  background-image: url('/ethereum.svg');
+}
+
+.theme-light .ethereum-icon:after {
+  background-image: url('/ethereum-soft-purple.svg');
+}
+
 .theme-light ::placeholder,
 .theme-light .input::placeholder,
 .theme-light .textarea::placeholder {
@@ -123,7 +139,7 @@
 .theme-toggler,
 .toggle {
   color: #9f7aea;
-  height: 1.3rem;
+  height: 2rem;
   border-radius: 100px;
 }
 
@@ -146,7 +162,7 @@
   border-radius: 100px;
   position: relative;
   cursor: pointer;
-  width: 50px;
+  width: 74px;
 }
 
 .theme-dark .theme-toggler {
@@ -199,7 +215,7 @@
 
 .theme-toggler--names {
   margin: 0 3px 0 2px;
-  padding-top: 4px;
+  padding-top: 8px;
 }
 
 @screen sm {

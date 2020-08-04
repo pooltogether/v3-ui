@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
 
 import { Button } from 'lib/components/Button'
@@ -36,18 +37,31 @@ export const AccountButton = (props) => {
     }
   }, [usersAddress])
 
-  return <Button
-    outline
+  return <button
     onClick={handleShowAccount}
+    className='font-bold text-secondary hover:text-blue text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
   >
     <div className='flex items-center'>
-      {(profile && isValidImage(profile.image)) && <>
-        <img
-          alt='profile avatar'
-          src={`https://ipfs.infura.io/ipfs/${profile.image[0].contentUrl['/']}`}
-          className='inline-block rounded-full w-6 h-6 mr-1'
-        />
-      </>} {(profile && profile.name) ? profile.name : 'Account'}
+      <FeatherIcon
+        icon='user'
+        className='stroke-current w-4 h-4 sm:hidden'
+        strokeWidth='3'
+      />
+
+      <div
+        className='hidden sm:block'
+      >
+        {(profile && isValidImage(profile.image)) && <>
+          <img
+            alt='profile avatar'
+            src={`https://ipfs.infura.io/ipfs/${profile.image[0].contentUrl['/']}`}
+            className='relative inline-block rounded-full w-8 h-8 mr-1'
+            style={{
+              top: -3
+            }}
+          />
+        </>} {(profile && profile.name) ? profile.name : 'Account'}
+      </div>
     </div>
-  </Button>
+  </button>
 }

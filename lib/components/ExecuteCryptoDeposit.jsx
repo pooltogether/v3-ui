@@ -12,7 +12,7 @@ import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTime
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
-export const ConfirmCryptoDeposit = (props) => {
+export const ExecuteCryptoDeposit = (props) => {
   const { nextStep, previousStep } = props
 
   const router = useRouter()
@@ -55,7 +55,7 @@ export const ConfirmCryptoDeposit = (props) => {
         ),
         controlledTokenAddress,
         {
-          gasLimit: 500000
+          gasLimit: 550000
         }
       ]
 

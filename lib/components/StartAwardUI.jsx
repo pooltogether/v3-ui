@@ -42,7 +42,7 @@ export const StartAwardUI = (props) => {
     filter(t => t.method === method && !t.cancelled && !t.completed)
   const disabled = ongoingStartAwardTransactions.length > 0
 
-  const handleStartAwardClick = (e) => {
+  const handleStartAwardClick = async (e) => {
     e.preventDefault()
 
     const params = [

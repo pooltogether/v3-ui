@@ -11,50 +11,50 @@ import { TxMessage } from 'lib/components/TxMessage'
 import { callTransaction } from 'lib/utils/callTransaction'
 import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 
-const handleWithFeeWithdraw = async (
-  setTx,
-  provider,
-  contractAddress,
-  usersAddress,
-  controlledTokenAddress,
-  quantity,
-  withdrawType,
-  decimals
-) => {
-  const params = [
-    usersAddress,
-    ethers.utils.parseUnits(
-      quantity,  
-      Number(decimals)
-    ),
-    controlledTokenAddress,
-  ]
+// const handleWithFeeWithdraw = async (
+//   setTx,
+//   provider,
+//   contractAddress,
+//   usersAddress,
+//   controlledTokenAddress,
+//   quantity,
+//   withdrawType,
+//   decimals
+// ) => {
+//   const params = [
+//     usersAddress,
+//     ethers.utils.parseUnits(
+//       quantity,  
+//       Number(decimals)
+//     ),
+//     controlledTokenAddress,
+//   ]
 
-  let method = 'withdrawWithTimelockFrom'
-  if (withdrawType === 'instant') {
-    method = 'withdrawInstantlyFrom'
-    const sponsoredExitFee = '0'
-    const maxExitFee = '1'
-    params.push(
-      ethers.utils.parseEther(sponsoredExitFee),
-      ethers.utils.parseEther(maxExitFee)
-    )
-  }
+//   let method = 'withdrawWithTimelockFrom'
+//   if (withdrawType === 'instant') {
+//     method = 'withdrawInstantlyFrom'
+//     const sponsoredExitFee = '0'
+//     const maxExitFee = '1'
+//     params.push(
+//       ethers.utils.parseEther(sponsoredExitFee),
+//       ethers.utils.parseEther(maxExitFee)
+//     )
+//   }
 
-  params.push({
-    gasLimit: 500000
-  })
+//   params.push({
+//     gasLimit: 500000
+//   })
 
-  await sendTx(
-    setTx,
-    provider,
-    contractAddress,
-    PrizePoolAbi,
-    method,
-    params,
-    'Withdraw'
-  )
-}
+//   await sendTx(
+//     setTx,
+//     provider,
+//     contractAddress,
+//     PrizePoolAbi,
+//     method,
+//     params,
+//     'Withdraw'
+//   )
+// }
 
 export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const { nextStep, previousStep } = props
@@ -108,7 +108,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const ready = txCompleted && !txError
 
   useEffect(() => {
-    const runAsyncTx = () => {
+    const runTx = () => {
       setTxExecuted(true)
 
       handleWithFeeWithdraw(
@@ -124,7 +124,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
     }
 
     if (!txExecuted && quantity) {
-      runAsyncTx()
+      runTx()
     }
   }, [quantity])
 

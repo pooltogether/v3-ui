@@ -11,6 +11,7 @@ import { PaneTitle } from 'lib/components/PaneTitle'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
+import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const ExecuteWithdrawInstantNoFee = (props) => {
   const router = useRouter()
@@ -41,9 +42,7 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   const transactions = transactionsQueryResult?.data?.transactions
   const tx = transactions?.find((todo) => todo.id === txId)
 
-  const updateParamsAndNextStep = (e) => {
-    e.preventDefault()
-
+  const updateParamsAndNextStep = () => {
     queryParamUpdater.add(router, { withdrawType: 'instantNoFee' })
 
     nextStep()

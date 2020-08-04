@@ -16,10 +16,11 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head />
-        <Meta />
         <body
           className='bg-body'
         >
+          <Main />
+          <NextScript />
           <script src='/confetti.js'></script>
 
           <canvas
@@ -27,9 +28,8 @@ class MyDocument extends Document {
             width='1'
             height='1'
           />
-          
-          <Main />
-          <NextScript />
+          <Meta />
+
         </body>
       </Html>
     )

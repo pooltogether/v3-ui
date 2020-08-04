@@ -22,7 +22,7 @@ import 'assets/styles/animations.css'
 import 'assets/styles/transitions.css'
 
 function MyApp({ Component, pageProps, router }) {
-  const [initialized, setInitialized] = useState(false)
+  // const [initialized, setInitialized] = useState(false)
 
   useEffect(() => {
     const handleExitComplete = () => {
@@ -40,19 +40,19 @@ function MyApp({ Component, pageProps, router }) {
   useEffect(() => {
     const initi18next = async () => {
       await i18next.initPromise.then(() => {
-        setInitialized(true)
+        // setInitialized(true)
       })
     }
     initi18next()
   }, [])
 
-  if (!initialized) {
-    return null
-    return <div
-      className='h-full w-full fixed t-0 r-0 l-0 b-0'
-      style={{ backgroundColor: '#1E0B43' }}
-    ></div> // could show loader ...
-  }
+  // if (!initialized) {
+  //   // return null
+  //   return <div
+  //     className='h-full w-full fixed t-0 r-0 l-0 b-0'
+  //     style={{ backgroundColor: '#1E0B43' }}
+  //   >LOADING</div> // could show loader ...
+  // }
   
   return <>
     {/* <Chart /> */}
