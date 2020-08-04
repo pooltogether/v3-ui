@@ -32,10 +32,8 @@ export const DepositCryptoForm = (props) => {
 
   const decimals = pool?.underlyingCollateralDecimals
   const tokenAddress = pool?.underlyingCollateralToken
-  console.log({ tokenAddress})
   const ticker = pool?.underlyingCollateralSymbol
   const poolAddress = pool?.poolAddress
-  console.log({ poolAddress })
   
   const tickerUpcased = ticker?.toUpperCase()
 

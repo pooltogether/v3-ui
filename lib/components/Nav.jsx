@@ -48,11 +48,7 @@ export const Nav = (props) => {
             <ThemeSwitcher />
           </div>
 
-          {usersAddress && <>
-            <TransactionsUI
-              usersAddress={usersAddress}
-            />
-          </>}
+          {usersAddress && <TransactionsUI />}
 
           <div
             className='mt-0 sm:mt-0 text-xxs sm:text-sm text-right'

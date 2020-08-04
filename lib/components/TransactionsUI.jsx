@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import VisuallyHidden from '@reach/visually-hidden'
-import { Dialog, DialogOverlay, DialogContent } from '@reach/dialog'
+import { Dialog } from '@reach/dialog'
 import { useQuery } from '@apollo/client'
 import { motion } from 'framer-motion'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { LoadingDots } from 'lib/components/LoadingDots'
 import { TransactionsUIListItem } from 'lib/components/TransactionsUIListItem'
 import { transactionsVar } from 'lib/apollo/cache'
@@ -18,23 +20,26 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 const clearPreviousTransactions = clearPreviousTransactionsFactory(transactionsVar)
 
 export const TransactionsUI = (props) => {
-  const { usersAddress } = props
+  const authControllerContext = useContext(AuthControllerContext)
+  const { networkName, usersAddress, provider } = authControllerContext
 
   const [showDialog, setShowDialog] = useState(false)
   const openTransactions = () => setShowDialog(true)
   const closeTransactions = () => setShowDialog(false)
 
   const transactionsQueryResult = useQuery(transactionsQuery)
-  const notCancelledTransactions = transactionsQueryResult?.data?.transactions
+  const transactions = transactionsQueryResult?.data?.transactions
+
+  const notCancelledTransactions = transactions
     .filter(t => !t.cancelled)
     .reverse()
 
-  const pendingCount = transactionsQueryResult?.data?.transactions
+  const pendingCount = transactions
     .filter(t => !t.completed)
     .length
   // const pendingCount = 33
   
-  const pastTransactionsCount = transactionsQueryResult?.data?.transactions
+  const pastTransactionsCount = transactions
     .filter(t => t.completed)
     .length
 
@@ -44,6 +49,10 @@ export const TransactionsUI = (props) => {
   }
 
   return <>
+    <TransactionStatusChecker
+      transactions={transactions}
+    />
+
     <button
       onClick={openTransactions}
       className='nav--account-transactions-button flex text-primary bg-secondary inline-block trans rounded-full mr-2 sm:mr-4 text-xs sm:text-xs lg:text-sm shadow-sm'
@@ -74,7 +83,7 @@ export const TransactionsUI = (props) => {
       <span
         className={classnames(
           // 'sm:hidden',
-          'rounded-full py-2 pl-2 pr-3',
+          'rounded-full py-2 px-3',
           // 'rounded-full py-2 px-3 opacity-40 hover:opacity-100',
         )}
       >
