@@ -56,7 +56,7 @@ export const WizardLayout = (props) => {
       transition={{ duration: 0.25 }}
     >
       <nav
-        className='fixed t-0 l-0 r-0 w-full px-4 pt-4 flex items-center justify-between flex-wrap h-20'
+        className='fixed t-0 l-0 r-0 w-full px-4 pt-4 flex items-start justify-between h-20'
       >
         <button
           disabled={disabled}
@@ -81,13 +81,13 @@ export const WizardLayout = (props) => {
           className='flex'
           variants={{
             enter: {
-              y: 0,
+              y: 13,
               transition: {
                 when: 'beforeChildren',
                 staggerChildren: 0.4,
               },
             },
-            exit: { y: -70},
+            exit: { y: -70 },
           }}
           initial='exit'
           exit='exit'
@@ -121,7 +121,7 @@ export const WizardLayout = (props) => {
         <button
           type='button'
           onClick={handleClose}
-          className='text-primary hover:text-secondary trans outline-none focus:outline-none active:outline-none'
+          className='text-primary hover:text-secondary trans outline-none focus:outline-none active:outline-none text-right'
         >
           <FeatherIcon
             icon='x-circle'
@@ -130,7 +130,12 @@ export const WizardLayout = (props) => {
         </button>
       </nav>
 
-      <div className='h-full flex flex-col justify-center px-4 sm:px-32 lg:px-64 text-center'>
+      <div
+        className='h-full flex flex-col justify-center px-4 sm:px-12 lg:px-64 text-center mx-auto'
+        style={{
+          maxWidth: 1460
+        }}
+      >
         {children}
       </div>
 

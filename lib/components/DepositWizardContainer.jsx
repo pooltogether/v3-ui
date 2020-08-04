@@ -52,7 +52,7 @@ export const DepositWizardContainer = (props) => {
             currentWizardStep={activeStepIndex + 1}
             handlePreviousStep={back}
             moveToStep={moveToStep}
-            totalWizardSteps={usersAddress ? 5 : 6}
+            totalWizardSteps={usersAddress ? 4 : 5}
           >
             <WizardStep>
               {(step) => {
@@ -64,7 +64,7 @@ export const DepositWizardContainer = (props) => {
                 </>
               }}
             </WizardStep>
-            <WizardStep>
+            {/* <WizardStep>
               {(step) => {
                 return step.isActive && <>
                   <FiatOrCryptoForm
@@ -72,7 +72,7 @@ export const DepositWizardContainer = (props) => {
                   />
                 </>
               }}
-            </WizardStep>
+            </WizardStep> */}
             {!usersAddress && <>
               <WizardStep>
                 {(step) => {

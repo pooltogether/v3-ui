@@ -33,7 +33,7 @@ export const SignInFormContainer = (props) => {
       transition={{ duration: 0.25 }}
     >
       <nav
-        className='fixed t-0 l-0 r-0 w-full px-4 pt-4 flex items-start justify-between flex-wrap h-20'
+        className='fixed t-0 l-0 r-0 w-full px-4 pt-4 flex items-start justify-between h-20'
       >
         <div></div>
         <button
@@ -48,7 +48,12 @@ export const SignInFormContainer = (props) => {
         </button>
       </nav>
 
-      <div className='h-full flex flex-col justify-center px-4 sm:px-32 lg:px-64 -mt-4 text-center'>
+      <div
+        className='h-full flex flex-col justify-center px-4 sm:px-12 lg:px-64 -mt-4 text-center mx-auto'
+        style={{
+          maxWidth: 1460
+        }}
+      >
         <div
           className='font-bold mb-2 py-2 text-xl sm:text-3xl lg:text-5xl text-inverse'
         >
