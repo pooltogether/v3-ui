@@ -108,7 +108,7 @@ export const DepositCryptoForm = (props) => {
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
-  const tx = transactions?.find((todo) => todo.id === txId)
+  const tx = transactions?.find((tx) => tx.id === txId)
 
   const unlockTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)
 

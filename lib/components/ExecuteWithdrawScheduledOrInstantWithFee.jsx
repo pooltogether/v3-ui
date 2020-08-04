@@ -1,60 +1,17 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
+import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
-import { TxMessage } from 'lib/components/TxMessage'
-import { callTransaction } from 'lib/utils/callTransaction'
+import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
-
-// const handleWithFeeWithdraw = async (
-//   setTx,
-//   provider,
-//   contractAddress,
-//   usersAddress,
-//   controlledTokenAddress,
-//   quantity,
-//   withdrawType,
-//   decimals
-// ) => {
-//   const params = [
-//     usersAddress,
-//     ethers.utils.parseUnits(
-//       quantity,  
-//       Number(decimals)
-//     ),
-//     controlledTokenAddress,
-//   ]
-
-//   let method = 'withdrawWithTimelockFrom'
-//   if (withdrawType === 'instant') {
-//     method = 'withdrawInstantlyFrom'
-//     const sponsoredExitFee = '0'
-//     const maxExitFee = '1'
-//     params.push(
-//       ethers.utils.parseEther(sponsoredExitFee),
-//       ethers.utils.parseEther(maxExitFee)
-//     )
-//   }
-
-//   params.push({
-//     gasLimit: 500000
-//   })
-
-//   await sendTx(
-//     setTx,
-//     provider,
-//     contractAddress,
-//     PrizePoolAbi,
-//     method,
-//     params,
-//     'Withdraw'
-//   )
-// }
+import { transactionsQuery } from 'lib/queries/transactionQueries'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const { nextStep, previousStep } = props
@@ -62,11 +19,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const router = useRouter()
   const withdrawType = router.query.withdrawType
 
-  if (!withdrawType) {
-    console.log('massive error! We need the withdrawType ...')
-    console.log('massive error! We need the withdrawType ...')
-    console.log('massive error! We need the withdrawType ...')
-  }
+  const [txExecuted, setTxExecuted] = useState(false)
 
   const quantity = router.query.quantity
   const timelockDuration = router.query.timelockDuration
@@ -87,40 +40,79 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const poolData = useContext(PoolDataContext)
   const { pool } = poolData
 
-  const {
-    underlyingCollateralSymbol,
-    underlyingCollateralDecimals,
-    poolAddress,
-  } = pool
+  const ticker = pool?.underlyingCollateralSymbol
+  const decimals = pool?.underlyingCollateralDecimals
+  const poolAddress = pool?.underlyingCollateralSymbol
+  const controlledTokenAddress = pool?.ticket
 
-  const ticker = underlyingCollateralSymbol
-  const tickerUpcased = ticker && ticker.toUpperCase()
-  const controlledTokenAddress = pool && pool.ticket
+  const tickerUpcased = ticker?.toUpperCase()
 
-  const [tx, setTx] = useState({})
-  const [txExecuted, setTxExecuted] = useState(false)
 
-  const txInWallet = tx.inWallet && !tx.sent
-  const txSent = tx.sent && !tx.completed
-  const txCompleted = tx.completed
-  const txError = tx.error
+
+
+  const [txId, setTxId] = useState()
+
+  let method = 'withdrawInstantlyFrom'
+  if (scheduledWithdrawal) {
+    method = 'withdrawWithTimelockFrom'
+  }
+  console.log({ scheduledWithdrawal})
+  console.log({ method})
+
+  const txName = `Withdraw ${quantity} tickets ${scheduledWithdrawal ? 'with timelock' : 'instantly with fairness fee'} ($${quantity} ${ticker})`
+
+  const [sendTx] = useSendTransaction(txName)
+
+  const transactionsQueryResult = useQuery(transactionsQuery)
+  const transactions = transactionsQueryResult?.data?.transactions
+  const tx = transactions?.find((tx) => tx.id === txId)
+
+  const txInWallet = tx?.inWallet && !tx?.sent
+  const txSent = tx?.sent && !tx?.completed
+  const txCompleted = tx?.completed
+  const txError = tx?.error
 
   const ready = txCompleted && !txError
+
 
   useEffect(() => {
     const runTx = () => {
       setTxExecuted(true)
 
-      handleWithFeeWithdraw(
-        setTx,
-        provider,
-        poolAddress,
+      const params = [
         usersAddress,
+        ethers.utils.parseUnits(
+          quantity,  
+          Number(decimals)
+        ),
         controlledTokenAddress,
-        quantity,
-        withdrawType,
-        underlyingCollateralDecimals,
+      ]
+
+      if (!scheduledWithdrawal) {
+        const sponsoredExitFee = '0'
+        const maxExitFee = '1'
+        params.push(
+          ethers.utils.parseEther(sponsoredExitFee),
+          ethers.utils.parseEther(maxExitFee)
+        )
+      }
+
+      // bytes calldata
+      params.push([])
+
+      params.push({
+        gasLimit: 500000
+      })
+
+      const id = sendTx(
+        provider,
+        PrizePoolAbi,
+        poolAddress,
+        method,
+        params,
       )
+
+      setTxId(id)
     }
 
     if (!txExecuted && quantity) {
@@ -129,7 +121,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   }, [quantity])
 
   useEffect(() => {
-    if (tx.error) {
+    if (tx?.error) {
       previousStep()
     }
   }, [tx])
@@ -140,13 +132,8 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
     }
   }, [ready])
 
-  const handleResetState = (e) => {
-    e.preventDefault()
-    setTx({})
-  }
-
   const formattedWithdrawType = scheduledWithdrawal ? 'Schedule' : 'Instant'
-  // yes this is different, read closely:
+  // yes this string is different:
   const formattedWithdrawTypePastTense = scheduledWithdrawal ? 'Scheduled' : 'Instant'
 
   return <>
@@ -155,8 +142,8 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
     </PaneTitle>
 
     <PaneTitle>
-      {txSent && `${formattedWithdrawType} Withdrawal confirming ...`}
-      {txInWallet && `Confirm ${formattedWithdrawTypePastTense} Withdrawal`}
+      {txInWallet && `Confirm ${formattedWithdrawTypePastTense} withdrawal`}
+      {txSent && `${formattedWithdrawType} Withdrawal confirming...`}
     </PaneTitle>
 
     <div className='text-white bg-yellow py-2 px-8 rounded-xl w-9/12 sm:w-2/3 mx-auto'>
@@ -173,14 +160,10 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
         You are withdrawing ${net} {tickerUpcased} of your funds right now, less the ${fee} {tickerUpcased} fairness fee
       </>}
     </div>
+
+    {txSent && !txCompleted && <>
+      <TransactionsTakeTimeMessage />
+    </>}
     
-{/* 
-    {txSent && <>
-      <TxMessage
-        txType={`${formattedWithdrawType} Withdraw ${quantity} ${tickerUpcased}`}
-        tx={tx}
-        handleReset={handleResetState}
-      />
-    </>} */}
   </>
 }

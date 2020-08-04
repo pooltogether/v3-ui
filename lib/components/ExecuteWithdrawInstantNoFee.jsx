@@ -40,7 +40,7 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
-  const tx = transactions?.find((todo) => todo.id === txId)
+  const tx = transactions?.find((tx) => tx.id === txId)
 
   const updateParamsAndNextStep = () => {
     queryParamUpdater.add(router, { withdrawType: 'instantNoFee' })

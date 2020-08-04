@@ -41,7 +41,7 @@ export const ExecuteCryptoDeposit = (props) => {
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
-  const tx = transactions?.find((todo) => todo.id === txId)
+  const tx = transactions?.find((tx) => tx.id === txId)
 
 
 

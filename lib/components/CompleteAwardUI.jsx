@@ -28,7 +28,7 @@ export const CompleteAwardUI = (props) => {
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
-  const tx = transactions?.find((todo) => todo.id === txId)
+  const tx = transactions?.find((tx) => tx.id === txId)
 
   const ongoingCompleteAwardTransactions = transactions?.
     filter(t => t.method === method && !t.cancelled && !t.completed)

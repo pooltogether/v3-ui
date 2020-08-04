@@ -25,7 +25,7 @@ export const StartAwardUI = (props) => {
 
   const canStartAward = pool?.canStartAward
   const prizeStrategyAddress = pool?.prizeStrategyAddress
-  const ticker = pool?.underlyingCollateralSymbol
+  // const ticker = pool?.underlyingCollateralSymbol
 
   const [txId, setTxId] = useState()
 
@@ -36,7 +36,7 @@ export const StartAwardUI = (props) => {
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
-  const tx = transactions?.find((todo) => todo.id === txId)
+  const tx = transactions?.find((tx) => tx.id === txId)
 
   const ongoingStartAwardTransactions = transactions?.
     filter(t => t.method === method && !t.cancelled && !t.completed)

@@ -1,7 +1,7 @@
 @keyframes blurInDown {
 	0% {
 		filter: blur(20px);
-		transform: translate3d(0,-200px,0);
+		transform: translate3d(0,-350px,0);
 		visibility: visible;
   }
 	to {
@@ -18,7 +18,7 @@
 	to {
 		filter: blur(20px);
 		visibility: hidden;
-		transform: translate3d(0,-200px,0)
+		transform: translate3d(0,-350px,0)
   }
 }
 
