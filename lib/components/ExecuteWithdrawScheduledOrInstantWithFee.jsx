@@ -174,13 +174,13 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
       </>}
     </div>
     
-
+{/* 
     {txSent && <>
       <TxMessage
         txType={`${formattedWithdrawType} Withdraw ${quantity} ${tickerUpcased}`}
         tx={tx}
         handleReset={handleResetState}
       />
-    </>}
+    </>} */}
   </>
 }

@@ -29,6 +29,8 @@ export const ExecuteCryptoDeposit = (props) => {
   const poolAddress = pool?.poolAddress
   const controlledTokenAddress = pool?.ticket
 
+  const tickerUpcased = ticker?.toUpperCase()
+
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
@@ -84,12 +86,34 @@ export const ExecuteCryptoDeposit = (props) => {
 
   return <>
     <PaneTitle small>
-      {tx?.inWallet && txName}
+      {txName}
     </PaneTitle>
 
     <PaneTitle>
-      {tx?.sent && 'Deposit confirming ...'}
+      ${quantity} {tickerUpcased} = {quantity} tickets
+    </PaneTitle>
+
+    <ol className='mb-6'>
+      <li
+        className='mb-3'
+      >
+        1. Tickets are instant &amp; perpetual
+      </li>
+      <li
+        className='mb-3'
+      >
+        2. 10 day minimum deposit length for fairness
+      </li>
+      <li
+        className='mb-3'
+      >
+        3. Winnings are automatically added to your account
+      </li>
+    </ol>
+
+    <PaneTitle>
       {tx?.inWallet && 'Confirm deposit'}
+      {tx?.sent && 'Deposit confirming ...'}
     </PaneTitle>
 
     {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage />}

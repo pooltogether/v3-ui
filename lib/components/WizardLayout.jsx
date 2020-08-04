@@ -35,7 +35,7 @@ export const WizardLayout = (props) => {
     )
   }
 
-  const disabled = currentWizardStep <= 1
+  const disabled = currentWizardStep <= 1 || currentWizardStep >= totalWizardSteps
 
   return <>
     <motion.div

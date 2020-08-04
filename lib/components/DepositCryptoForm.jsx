@@ -9,10 +9,10 @@ import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
+import { DepositTxButton } from 'lib/components/DepositTxButton'
 import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { TxMessage } from 'lib/components/TxMessage'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
@@ -27,18 +27,20 @@ export const DepositCryptoForm = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
   const { provider } = authControllerContext
 
-  const [needsApproval, setNeedsApproval] = useState(true)
-
   const poolData = useContext(PoolDataContext)
   const { pool, genericChainData, usersChainData } = poolData
 
   const decimals = pool?.underlyingCollateralDecimals
   const tokenAddress = pool?.underlyingCollateralToken
+  console.log({ tokenAddress})
   const ticker = pool?.underlyingCollateralSymbol
+  const poolAddress = pool?.poolAddress
+  console.log({ poolAddress })
   
   const tickerUpcased = ticker?.toUpperCase()
-  const poolAddress = pool?.poolAddress
-  const controlledTokenAddress = pool?.ticket
+
+  const [needsApproval, setNeedsApproval] = useState(true)
+  const [cachedUsersBalance, setCachedUsersBalance] = useState(usersBalance)
 
   const {
     isRngRequested,
@@ -71,28 +73,21 @@ export const DepositCryptoForm = (props) => {
     )
   }
 
-  // const [tx, setTx] = useState({})
-  const [cachedUsersBalance, setCachedUsersBalance] = useState(usersBalance)
-
-  const handleDepositClick = (e) => {
-    e.preventDefault()
-    nextStep()
-  }
-
-  const disabled = quantityBN.gt(usersTokenAllowance)
-
-  useEffect(() => {
-    if (
-      usersChainData.usersTokenAllowance &&
-      usersChainData.usersTokenAllowance.gte(quantityBN)
-    ) {
-      setNeedsApproval(false)
-    }
-  }, [quantityBN, usersChainData])
-
   useEffect(() => {
     setCachedUsersBalance(usersBalance)
   }, [usersBalance])
+
+
+  useEffect(() => {
+    if (
+      quantityBN.gt(0) &&
+      usersTokenAllowance.gte(quantityBN)
+    ) {
+      setNeedsApproval(false)
+    }
+  }, [quantityBN, usersTokenAllowance])
+
+  
 
   let overBalance = false
   if (decimals) {
@@ -108,7 +103,7 @@ export const DepositCryptoForm = (props) => {
 
   const [txId, setTxId] = useState()
 
-  const txName = `Approve ${ticker}`
+  const txName = `Approve ${tickerUpcased}`
   const method = 'approve'
 
   const [sendTx] = useSendTransaction(txName)
@@ -117,22 +112,24 @@ export const DepositCryptoForm = (props) => {
   const transactions = transactionsQueryResult?.data?.transactions
   const tx = transactions?.find((todo) => todo.id === txId)
 
-  const unlockTxInFlight = tx?.inWallet || tx?.sent
-  const depositTxInFlight = tx?.inWallet || tx?.sent
+  const unlockTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)
 
   const handleUnlockClick = async (e) => {
     e.preventDefault()
 
     const params = [
       poolAddress,
-      ethers.utils.parseUnits(
-        quantity,
-        Number(decimals)
-      ),
+      ethers.utils.parseUnits('9999999999', Number(decimals)),
+      // ethers.utils.parseUnits(
+      //   quantity,
+      //   Number(decimals)
+      // ),
       {
         gasLimit: 200000
       }
     ]
+
+    console.log(params)
 
     const id = sendTx(
       provider,
@@ -145,42 +142,17 @@ export const DepositCryptoForm = (props) => {
     setTxId(id)
   }
 
-  useEffect(() => {
-    if (tx?.cancelled || tx?.error) {
-      // previousStep()
-    } else if (tx?.completed) {
-      // updateParamsAndNextStep()
-    }
-  }, [tx])
-
-
-
-  if (!pool) {
-    return null
-  }
-
-  const depositButton = <Button
-    wide
-    size='lg'
-    onClick={handleDepositClick}
-    disabled={disabled}
-    className={classnames({
-      'w-49-percent': needsApproval,
-      'w-full': !needsApproval
-    })}
-  >
-    Deposit
-  </Button>
-
   return <>
     <PaneTitle small>
       {quantity} tickets
     </PaneTitle>
 
     <PaneTitle>
-      Deposit using {tickerUpcased} <PoolCurrencyIcon
-        pool={pool}
-      />
+      Deposit using {tickerUpcased} <div className='inline-block relative -t-1'>
+        <PoolCurrencyIcon
+          pool={pool}
+        />
+      </div>
     </PaneTitle>
 
     <DepositAndWithdrawFormUsersBalance
@@ -237,23 +209,38 @@ export const DepositCryptoForm = (props) => {
           </div> */}
         </div>
       </> : <>
-        <div className='text-inverse mb-4 text-lg'>
+        <div className='text-inverse mb-4 text-lg w-full'>
+
           {needsApproval && <>
             <div
-              className='px-6 sm:px-10 text-sm mb-10'
+              className='px-6 sm:px-10 text-sm'
+              style={{
+                minHeight: 97
+              }}
             >
               <div
                 className='font-bold my-2 mt-10'
               >
-                Your approval is needed.
+                {needsApproval && !unlockTxInFlight && 'Your approval is necessary'}
+
+                {tx?.inWallet && !tx?.cancelled && 'Confirm approval'}
+                {tx?.sent && !tx?.completed && 'Approval confirming...'}
               </div>
 
-              Unlock this deposit by allowing the pool to have a <span className='font-bold'>{quantity} {tickerUpcased}</span> allowance:
+              {needsApproval && !unlockTxInFlight && <>
+                Unlock this deposit by allowing the pool to have a <span className='font-bold'>{tickerUpcased}</span> allowance:
+              </>}
+
+              {/* {tx?.inWallet && !tx?.cancelled && 'Check your wallet'} */}
+              {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage />}
+              
+              {/* Unlock this deposit by allowing the pool to have a <span className='font-bold'>{quantity} {tickerUpcased}</span> allowance: */}
             </div>
           </>}
+          
 
           <div
-            className='flex mt-3 sm:mt-5 mb-5 justify-between'
+            className='flex mt-10 sm:mt-10 mb-5 justify-between items-center'
           >
             {needsApproval && <>
               <Button
@@ -267,7 +254,12 @@ export const DepositCryptoForm = (props) => {
               </Button>
             </>}
 
-            {depositButton}
+            <DepositTxButton
+              needsApproval={needsApproval}
+              quantity={quantity}
+              disabled={poolIsLocked || needsApproval || overBalance}
+              nextStep={nextStep}
+            />
           </div>
         </div>
       </>}

@@ -141,7 +141,7 @@ export const Button = (props) => {
   
   // paddingClasses = getPaddingClasses(paddingClasses, isText)
   if (wide) {
-    paddingClasses = 'px-12 py-2 sm:py-2'
+    paddingClasses = 'px-2 sm:px-8 lg:px-12 py-2 sm:py-2'
   } else {
     paddingClasses = 'px-1 py-2 sm:py-2'
   }
@@ -195,18 +195,18 @@ export const Button = (props) => {
     'blue',
   ])
 
-  if (!disabled) {
+  // if (!disabled) {
     newProps = {
       ...newProps,
-      animate: 'enter',
-      variants: {
-        enter: {
-          y: 0,
-          transition: {
-            duration: 0.1
-          }
-        },
-      },
+      // animate: 'enter',
+      // variants: {
+      //   enter: {
+      //     y: 0,
+      //     transition: {
+      //       duration: 0.1
+      //     }
+      //   },
+      // },
       whileHover: {
         scale: 1.03,
         y: -3,
@@ -222,7 +222,7 @@ export const Button = (props) => {
         }
       }
     }
-  }
+  // }
 
   if (href && as) {
     const linkProps = omit(newProps, [
@@ -238,7 +238,7 @@ export const Button = (props) => {
       <motion.a
         {...linkProps}
         ref={buttonRef}
-        // anim={disabled || noAnim ? '' : 'ripple'}
+        anim={disabled || noAnim ? '' : 'ripple'}
         className={className}
       >
         {children}
@@ -248,7 +248,7 @@ export const Button = (props) => {
     return <motion.button
       {...newProps}
       ref={buttonRef}
-      // anim={disabled || noAnim ? '' : 'ripple'}
+      anim={disabled || noAnim ? '' : 'ripple'}
       className={className}
     />
   }
