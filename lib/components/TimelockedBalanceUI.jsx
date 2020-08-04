@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
+import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
@@ -7,7 +8,8 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { Button } from 'lib/components/Button'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
-import { callTransaction } from 'lib/utils/callTransaction'
+import { transactionsQuery } from 'lib/queries/transactionQueries'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 export const TimelockedBalanceUI = (props) => {
   const {
@@ -17,15 +19,8 @@ export const TimelockedBalanceUI = (props) => {
 
   const authContext = useContext(AuthControllerContext)
   const { provider, usersAddress } = authContext
-
-  // TODO! If there's a sweep tx in flight then show the button as disabled
   
-  // console.log({ pool})
-  const { poolAddress } = pool
-  // console.log({ playerData })
-
-  const [tx, setTx] = useState({})
-  const txInFlight = tx.inWallet || tx.sent && !tx.completed
+  const poolAddress = pool?.poolAddress
 
   const underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
 
@@ -37,6 +32,20 @@ export const TimelockedBalanceUI = (props) => {
   let formattedFutureDate
   let usersTimelockedBalance = 0
   let timelockSweepReady = false
+
+
+  const [txId, setTxId] = useState()
+
+  const txName = `Return timelocked funds`
+  const method = 'sweepTimelockBalances'
+
+  const [sendTx] = useSendTransaction(txName)
+
+  const transactionsQueryResult = useQuery(transactionsQuery)
+  const transactions = transactionsQueryResult?.data?.transactions
+  const tx = transactions?.find((tx) => tx.id === txId)
+
+
 
   if (pool && playerData && underlyingCollateralDecimals) {
     usersTimelockedBalance = Number(ethers.utils.formatUnits(
@@ -64,15 +73,14 @@ export const TimelockedBalanceUI = (props) => {
       }
     ]
 
-    await sendTx(
-      setTx,
+    const id = sendTx(
       provider,
-      poolAddress,
       PrizePoolAbi,
-      'sweepTimelockBalances',
-      params,
-      'Sweep timelocked funds'
+      poolAddress,
+      method,
+      params
     )
+    setTxId(id)
   }
 
   return <>
@@ -94,6 +102,7 @@ export const TimelockedBalanceUI = (props) => {
                   outline
                   blue
                   onClick={handleSweepTimelocked}
+                  disabled={tx?.sent && !tx?.completed}
                 >
                   Sweep timelocked funds
                 </Button>
