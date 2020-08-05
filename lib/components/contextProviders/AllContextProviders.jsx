@@ -22,33 +22,47 @@ export const AllContextProviders = (props) => {
   const { children } = props
 
   const router = useRouter()
+
+  const doesntNeedOnboardYet = Cookies.get('wallet') // ?
+
+  if (!doesntNeedOnboardYet) {
+    return <>
+      <ThemeContextProvider>
+        <PoolDataContextProvider>
+          {children}
+        </PoolDataContextProvider>
+      </ThemeContextProvider>
+    </>
+  } else {
+    return <>
+      <ThemeContextProvider>
+        <ConfettiContextProvider>
+          <MagicContextProviderDynamic>
+            <WalletContextProviderDynamic
+              postConnectCallback={async () => {
+                console.log('og postConnectCallback')
+                router.push(
+                  `${router.pathname}`,
+                  `${router.asPath}`,
+                  {
+                    shallow: true
+                  }
+                )
+              }}
+            >
+              <AuthControllerContextProvider>
+                <PoolDataContextProvider>
+                  <PlayerDataContextProvider>
+                    {children}
+                  </PlayerDataContextProvider>
+                </PoolDataContextProvider>
+              </AuthControllerContextProvider>
+            </WalletContextProviderDynamic>
+          </MagicContextProviderDynamic>
+        </ConfettiContextProvider>
+      </ThemeContextProvider>
+    </>
+  }
   
-  return <>
-    <ThemeContextProvider>
-      <ConfettiContextProvider>
-        <MagicContextProviderDynamic>
-          <WalletContextProviderDynamic
-            postConnectCallback={async () => {
-              console.log('og postConnectCallback')
-              router.push(
-                `${router.pathname}`,
-                `${router.asPath}`,
-                {
-                  shallow: true
-                }
-              )
-            }}
-          >
-            <AuthControllerContextProvider>
-              <PoolDataContextProvider>
-                <PlayerDataContextProvider>
-                  {children}
-                </PlayerDataContextProvider>
-              </PoolDataContextProvider>
-            </AuthControllerContextProvider>
-          </WalletContextProviderDynamic>
-        </MagicContextProviderDynamic>
-      </ConfettiContextProvider>
-    </ThemeContextProvider>
-  </>
+  
 }
