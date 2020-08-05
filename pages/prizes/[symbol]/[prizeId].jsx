@@ -1,6 +1,5 @@
-import { AccountPoolShowUI } from 'lib/components/AccountPoolShowUI'
+import { PrizeShow } from 'lib/components/PrizeShow'
 
-// placeholder
-export default function AccountPool(props) {
-  return <AccountPoolShowUI />
+export default function PrizeShowPage(props) {
+  return <PrizeShow />
 }

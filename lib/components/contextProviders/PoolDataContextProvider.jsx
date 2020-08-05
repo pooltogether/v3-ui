@@ -25,6 +25,7 @@ export const PoolDataContextProvider = (props) => {
 
   const router = useRouter()
   const querySymbol = router.query.symbol && router.query.symbol.toLowerCase()
+  console.log({ querySymbol})
 
   useEffect(() => {
     const getReadProvider = async () => {
@@ -44,12 +45,7 @@ export const PoolDataContextProvider = (props) => {
     console.error(e)
   }
 
-
-            // OPTIMIZE: This is causing double renders, I believe each polling
-          // query causes a re-render it should wait until all the data is ready
-          // before re-rendering
   return <>
-
     <GraphDataQueries
       {...props}
       poolAddresses={poolAddresses}

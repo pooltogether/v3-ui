@@ -44,14 +44,25 @@ export const Nav = (props) => {
         <div
           className='nav--account-controls-container w-4/5 flex justify-end h-full items-center text-right'
         >
+
           <div className='mr-2 sm:mr-4'>
             <ThemeSwitcher />
           </div>
 
           {usersAddress && <TransactionsUI />}
 
+          <Link
+            href='/prizes/PT-cDAI'
+            as='/prizes/PT-cDAI'
+            shallow
+          >
+            <a
+              className='font-bold text-secondary hover:text-blue text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+            >Prizes</a>
+          </Link>
+
           <div
-            className='mt-0 sm:mt-0 text-xxs sm:text-sm text-right'
+            className='text-xxs sm:text-sm text-right'
           >
             {usersAddress ?
               <AccountButton

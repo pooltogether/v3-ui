@@ -112,79 +112,74 @@ export const PoolShow = (
       
         <>
           <div
-            className='px-2 py-4 sm:py-2 text-center rounded-lg'
+            className='flex flex-col sm:flex-row justify-between items-center'
           >
             <div
-              className='flex flex-col sm:flex-row justify-between items-center'
+              className='flex items-center w-full sm:w-1/2'
             >
               <div
-                className='flex items-center w-full sm:w-1/2'
+                className='inline-block text-left text-xl sm:text-2xl lg:text-3xl font-bold'
               >
-                <div
-                  className='inline-block text-left text-xl sm:text-2xl lg:text-3xl font-bold'
-                >
-                  {pool.name}
-                </div>
-
-                <div
-                  className='inline-flex items-center ml-4'
-                >
-                  <CurrencyAndYieldSource
-                    {...props}
-                  />
-                </div>
+                {pool.name}
               </div>
 
               <div
-                className='flex w-full sm:w-1/2 sm:justify-end items-center mt-4 sm:mt-0'
+                className='inline-flex items-center ml-4'
               >
-                {cookieShowAward && <>
-                  <div className='flex flex-col'>
-                    <Button
-                      outline
-                      href='/pools/[symbol]/manage'
-                      as={`/pools/${symbol}/manage`}
-                      className='mr-3 flex-grow'
-                    >
-                      <FeatherIcon
-                        icon='settings'
-                        className='w-8 h-8'
-                        strokeWidth='2'
-                      />
-                    </Button>
-                  </div>
-                </>}
-
-                <Button
-                  wide
-                  size='lg'
-                  onClick={handleShowDeposit}
-                >
-                  Get tickets
-                </Button>
-              </div>
-            </div>
-
-
-            <div className='text-left mt-10'>
-              <PrizeAmount
-                {...props}
-                big
-              />
-              <div
-                className='flex items-center my-1'
-              >
-                <PrizePoolCountdown
-                  pool={pool}
+                <CurrencyAndYieldSource
+                  {...props}
                 />
               </div>
             </div>
 
-            <PoolStats
-              {...props}
-            />
+            <div
+              className='flex w-full sm:w-1/2 sm:justify-end items-center mt-4 sm:mt-0'
+            >
+              {cookieShowAward && <>
+                <div className='flex flex-col'>
+                  <Button
+                    outline
+                    href='/pools/[symbol]/manage'
+                    as={`/pools/${symbol}/manage`}
+                    className='mr-3 flex-grow'
+                  >
+                    <FeatherIcon
+                      icon='settings'
+                      className='w-8 h-8'
+                      strokeWidth='2'
+                    />
+                  </Button>
+                </div>
+              </>}
 
+              <Button
+                wide
+                size='lg'
+                onClick={handleShowDeposit}
+              >
+                Get tickets
+              </Button>
+            </div>
           </div>
+
+
+          <div className='text-left mt-10'>
+            <PrizeAmount
+              {...props}
+              big
+            />
+            <div
+              className='flex items-center my-1'
+            >
+              <PrizePoolCountdown
+                pool={pool}
+              />
+            </div>
+          </div>
+
+          <PoolStats
+            {...props}
+          />
 
           <div
             className='relative py-4 sm:py-2 text-center rounded-lg'
