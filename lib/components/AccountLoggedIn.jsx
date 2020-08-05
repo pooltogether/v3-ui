@@ -8,16 +8,22 @@ export const AccountLoggedIn = (props) => {
 
   const authDataContext = useContext(AuthControllerContext)
   const { usersAddress } = authDataContext
+  console.log({ usersAddress})
   
   useEffect(() => {
+    console.log('1')
+
     let redirectTimeoutHandler
     
     if (!usersAddress) {
-      console.log({ usersAddress})
+      console.log(usersAddress)
       redirectTimeoutHandler = setTimeout(() => {
+        console.log('in redirect')
+
         router.push('/?signIn=1', '/?signIn=1', { shallow: true })
       }, 1000)
     } else if (redirectTimeoutHandler) {
+      console.log('clear timeout!')
       clearTimeout(redirectTimeoutHandler)
     }
 

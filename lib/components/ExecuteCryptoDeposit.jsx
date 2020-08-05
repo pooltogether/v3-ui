@@ -93,7 +93,7 @@ export const ExecuteCryptoDeposit = (props) => {
       ${quantity} {tickerUpcased} = {quantity} tickets
     </PaneTitle>
 
-    <ol className='mb-6'>
+    <ol className='mb-6 text-inverse'>
       <li
         className='mb-3'
       >
@@ -111,7 +111,7 @@ export const ExecuteCryptoDeposit = (props) => {
       </li>
     </ol>
 
-    <PaneTitle>
+    <PaneTitle small>
       {tx?.inWallet && 'Confirm deposit'}
       {tx?.sent && 'Deposit confirming ...'}
     </PaneTitle>

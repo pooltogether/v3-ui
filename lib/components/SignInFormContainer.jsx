@@ -15,6 +15,7 @@ export const SignInFormContainer = (props) => {
 
   // lazy load onboardjs when sign-in is shown
   useEffect(() => {
+    console.log('handleLoadOnboard on sign in show')
     handleLoadOnboard()
   }, [])
 

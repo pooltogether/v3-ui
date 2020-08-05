@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { PaneTitle } from 'lib/components/PaneTitle'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 
 export const TransactionsTakeTimeMessage = (props) => {
@@ -9,9 +8,11 @@ export const TransactionsTakeTimeMessage = (props) => {
       <V3LoadingDots />
     </div>
 
-    <PaneTitle small>
+    <div
+      className='leading-tight font-bold text-base sm:text-lg lg:text-xl text-primary pb-2'
+    >
       Transactions may take a few minutes
-      </PaneTitle>
+    </div>
 
     <div
       className='text-inverse'

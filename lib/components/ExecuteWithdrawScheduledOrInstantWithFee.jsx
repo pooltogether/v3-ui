@@ -42,7 +42,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
 
   const ticker = pool?.underlyingCollateralSymbol
   const decimals = pool?.underlyingCollateralDecimals
-  const poolAddress = pool?.underlyingCollateralSymbol
+  const poolAddress = pool?.poolAddress
   const controlledTokenAddress = pool?.ticket
 
   const tickerUpcased = ticker?.toUpperCase()
@@ -56,10 +56,11 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   if (scheduledWithdrawal) {
     method = 'withdrawWithTimelockFrom'
   }
-  console.log({ scheduledWithdrawal})
-  console.log({ method})
 
-  const txName = `Withdraw ${quantity} tickets ${scheduledWithdrawal ? 'with timelock' : 'instantly with fairness fee'} ($${quantity} ${ticker})`
+  let txName = `Withdraw ${quantity} tickets instantly with fairness fee ($${quantity} ${ticker})`
+  if (scheduledWithdrawal) {
+    txName = `Schedule a withdrawal of ${quantity} tickets ($${quantity} ${ticker})`
+  }
 
   const [sendTx] = useSendTransaction(txName)
 
@@ -96,9 +97,6 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
           ethers.utils.parseEther(maxExitFee)
         )
       }
-
-      // bytes calldata
-      params.push([])
 
       params.push({
         gasLimit: 500000

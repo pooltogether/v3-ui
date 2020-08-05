@@ -245,25 +245,20 @@ module.exports = {
       'active'
     ],
     textColor: [
-      'responsive',
       'hover',
       'focus',
       'active'
     ],
     backgroundColor: [
-      'responsive',
       'hover',
       'focus',
       'active'
     ],
     borderRadius: [
-      'responsive'
     ],
     opacity: [
       'hover',
       'focus',
-      'responsive',
-      'disabled'
     ]
   },
   plugins: [],

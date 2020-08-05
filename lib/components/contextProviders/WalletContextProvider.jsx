@@ -92,6 +92,7 @@ export const WalletContextProvider = (props) => {
     const hasWalletCookie = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
 
     if (hasWalletCookie) {
+      console.log('handleLoadOnboard from cookie')
       handleLoadOnboard()
     }
   }, [])

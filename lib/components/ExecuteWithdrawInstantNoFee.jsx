@@ -76,6 +76,7 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
         method,
         params
       )
+      
       setTxId(id)
     }
 
