@@ -4,6 +4,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { Button } from 'lib/components/Button'
 import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
 import { Meta } from 'lib/components/Meta'
+import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { PrizePoolCountdown } from 'lib/components/PrizePoolCountdown'
 
@@ -12,7 +13,7 @@ export const PoolPrizesShow = (
 ) => {
   const poolData = useContext(PoolDataContext)
   const { pool, pools, dynamicPlayerData } = poolData
-  console.log({pool})
+  console.log({pools})
 
   return <>
     <Meta title='Prizes' />
@@ -37,20 +38,23 @@ export const PoolPrizesShow = (
       </div>
     </div>
 
-    <div className='flex text-left mt-10'>
-      <Button
-        outline
-        wide
-        size='lg'
-        className='flex items-center justify-center'
-        
-      >
-        <CurrencyAndYieldSource
-          pool={{
-            underlyingCollateralSymbol: 'DAI',
-          }}
-        />
-      </Button>
+    <div className='flex justify-center text-left mt-10'>
+      {pools.map(_pool => {
+        return <Button
+          key={`prize-pool-button-${_pool.id}`}
+          outline
+          wide
+          selected={_pool.symbol === pool?.symbol}
+          size='lg'
+          href='/prizes/[symbol]'
+          as={`/prizes/${_pool.symbol}`}
+          className='flex items-center justify-center mr-4'
+        >
+          <PoolCurrencyIcon
+            pool={_pool}
+          /> {_pool.underlyingCollateralSymbol}
+        </Button>
+      })}
     </div>
 
   </>

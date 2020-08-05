@@ -52,7 +52,7 @@ export const Nav = (props) => {
           {usersAddress && <TransactionsUI />}
 
           <Link
-            href='/prizes/PT-cDAI'
+            href='/prizes/[symbol]'
             as='/prizes/PT-cDAI'
             shallow
           >
