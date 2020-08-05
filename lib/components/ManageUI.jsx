@@ -60,7 +60,7 @@ export const ManageUI = (
           Can start award?
         </div>
         <div>
-          {canStartAward.toString()}
+          {canStartAward?.toString()}
         </div>
       </div>
       <div
@@ -70,7 +70,7 @@ export const ManageUI = (
           Can complete award?
         </div>
         <div>
-          {canCompleteAward.toString()}
+          {canCompleteAward?.toString()}
         </div>
       </div>
       <div
@@ -80,7 +80,7 @@ export const ManageUI = (
           Random number completed? (isRngCompleted)
         </div>
         <div>
-          {isRngCompleted.toString()}
+          {isRngCompleted?.toString()}
         </div>
       </div>
       <div
@@ -90,7 +90,7 @@ export const ManageUI = (
           Random number requested? (isRngRequested)
         </div>
         <div>
-          {isRngRequested.toString()}
+          {isRngRequested?.toString()}
         </div>
       </div>
     </div>

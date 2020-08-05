@@ -6,16 +6,14 @@ export const prizeFragment = gql`
   fragment prizeFragment on Prize {
     id
 
+    awardedTimestamp
     balance
+    # amount
     prize
     # reserveFee
 
-    # randomNumber
-    # rngRequestId
-
     prizePeriodStartedAt
-    lockBlock
-    awardedBlock
+    # prizePeriodStartedTimestamp
 
     winners {
       ...playerFragment

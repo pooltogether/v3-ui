@@ -2,18 +2,16 @@ import React, { useContext } from 'react'
 
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
-import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
+import { PoolPrizeListing } from 'lib/components/PoolPrizeListing'
 import { Meta } from 'lib/components/Meta'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { PrizeAmount } from 'lib/components/PrizeAmount'
-import { PrizePoolCountdown } from 'lib/components/PrizePoolCountdown'
 
 export const PoolPrizesShow = (
   props,
 ) => {
   const poolData = useContext(PoolDataContext)
   const { pool, pools, dynamicPlayerData } = poolData
-  console.log({pools})
+  console.log({pool})
 
   return <>
     <Meta title='Prizes' />
@@ -56,6 +54,10 @@ export const PoolPrizesShow = (
         </Button>
       })}
     </div>
+
+    <PoolPrizeListing
+      pool={pool}
+    />
 
   </>
 }
