@@ -13,6 +13,7 @@ export const AccountLoggedIn = (props) => {
     let redirectTimeoutHandler
     
     if (!usersAddress) {
+      console.log({ usersAddress})
       redirectTimeoutHandler = setTimeout(() => {
         router.push('/?signIn=1', '/?signIn=1', { shallow: true })
       }, 1000)

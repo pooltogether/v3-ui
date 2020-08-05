@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import { Magic, RPCError, RPCErrorCode } from 'magic-sdk'
+// import { Magic, RPCError, RPCErrorCode } from 'magic-sdk'
 
 import {
   COOKIE_OPTIONS,
@@ -13,6 +13,21 @@ import { poolToast } from 'lib/utils/poolToast'
 export const MagicContext = React.createContext()
 
 export const MagicContextProvider = (props) => {
+  return <MagicContext.Provider
+    value={{
+      address,
+      provider,
+      magic,
+      email,
+      signedIn,
+      signIn,
+      signOut,
+    }}
+  >
+    {props.children}
+  </MagicContext.Provider>
+
+
   const [magic, setMagic] = useState()
   const [provider, setProvider] = useState()
   const [email, setEmail] = useState()
