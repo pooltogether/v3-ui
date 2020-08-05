@@ -20,15 +20,15 @@ export const SignInForm = (props) => {
 
   return <>
     <div>
-      <button
+      <Button
+        outline
         onClick={(e) => {
           e.preventDefault()
           authControllerContext.connectWallet(postSignInCallback)
         }}
-        className='font-bold inline mb-2 py-2 text-sm sm:text-base text-primary-soft hover:text-primary trans border-b-2 border-transparent hover:border-secondary'
       >
-        or connect to MetaMask, etc.
-      </button>
+        Connect Wallet
+      </Button>
     </div>
 
     {/* <div

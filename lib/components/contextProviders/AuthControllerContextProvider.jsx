@@ -104,7 +104,7 @@ export const AuthControllerContextProvider = (props) => {
       e.preventDefault()
     }
 
-    magicContext.signOut()
+    // magicContext.signOut()
     walletContext.disconnectWallet()
 
     postDisconnectRedirect()

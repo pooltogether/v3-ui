@@ -2,14 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 
-import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
-
-import { initOnboard } from 'lib/services/initOnboard'
-
 import {
   COOKIE_OPTIONS,
   SELECTED_WALLET_COOKIE_KEY
 } from 'lib/constants'
+import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 
 const debug = require('debug')('WalletContextProvider')
 
@@ -42,8 +39,14 @@ export const WalletContextProvider = (props) => {
     )
   }
 
-  const getOnboard = () => {
-    return initOnboard({
+  const getOnboard = async () => {
+    if (onboard) {
+      return onboard
+    }
+
+    const initOnboardModule = await import('lib/services/initOnboard')
+
+    return initOnboardModule.initOnboard({
       address: setAddress,
       network: setNetwork,
       //     network: async (n) => {
@@ -80,13 +83,23 @@ export const WalletContextProvider = (props) => {
     })
   }
 
+  const handleLoadOnboard = async () => {
+    const ob = await getOnboard()
+    setOnboard(ob)
+  }
+
   useEffect(() => {
-    setOnboard(getOnboard())
+    const hasWalletCookie = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
+
+    if (hasWalletCookie) {
+      handleLoadOnboard()
+    }
   }, [])
-    
+
   const connectWallet = async (
     postSignInCallback
   ) => {
+    console.log({ onboard})
     await onboard.walletSelect()
 
     if (onboard.getState().wallet.type) {
@@ -117,6 +130,7 @@ export const WalletContextProvider = (props) => {
       connectWallet,
       disconnectWallet,
       reconnectWallet,
+      handleLoadOnboard,
     }}
   >
     {children}

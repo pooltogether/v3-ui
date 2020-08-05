@@ -1,13 +1,22 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { SignInForm } from 'lib/components/SignInForm'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const SignInFormContainer = (props) => {
   const router = useRouter()
+
+  const walletContext = useContext(WalletContext)
+  const { handleLoadOnboard } = walletContext
+
+  // lazy load onboardjs when sign-in is shown
+  useEffect(() => {
+    handleLoadOnboard()
+  }, [])
 
   const handleCloseSignIn = () => {
     queryParamUpdater.remove(router, 'signIn')

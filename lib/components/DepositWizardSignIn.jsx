@@ -16,8 +16,11 @@ export const DepositWizardSignIn = (props) => {
     </PaneTitle>
 
     <PaneTitle>
-      Enter your email address to continue.
+      Connect an Ethereum wallet to continue
     </PaneTitle>
+    {/* <PaneTitle>
+      Enter your email address to continue.
+    </PaneTitle> */}
 
     <div className='flex flex-col mx-auto w-full'>
       <SignInForm
