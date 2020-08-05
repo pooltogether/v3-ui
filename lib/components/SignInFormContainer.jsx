@@ -54,12 +54,6 @@ export const SignInFormContainer = (props) => {
           maxWidth: 1460
         }}
       >
-        <div
-          className='font-bold mb-2 py-2 text-xl sm:text-3xl lg:text-5xl text-inverse'
-        >
-          Enter your email address to continue.
-        </div>
-        
         <SignInForm
           postSignInCallback={() => {
             queryParamUpdater.remove(router, 'signIn')

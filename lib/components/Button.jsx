@@ -156,7 +156,7 @@ export const Button = (props) => {
   textSizeClasses = getTextSizeClasses(textSizeClasses, isText, size)
   transitionClasses = getTransitionClasses(transitionClasses)
 
-  className = classnames(
+  let newClassNames = classnames(
     backgroundColorClasses,
     className,
     borderClasses,
@@ -171,9 +171,9 @@ export const Button = (props) => {
 
   if (outline) {
     if (blue) {
-      className = 'font-bold rounded-xl bg-blue text-white text-xxs sm:text-base py-2 sm:py-2 px-4 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none '
+      newClassNames = `${className} font-bold rounded-xl bg-blue text-white text-xxs sm:text-base py-2 sm:py-2 px-4 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none `
     } else {
-      className = 'font-bold rounded-xl text-secondary border-4 border-secondary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+      newClassNames = `${className} font-bold rounded-xl text-secondary border-4 border-secondary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none`
     }
   }
 
@@ -239,7 +239,7 @@ export const Button = (props) => {
         {...linkProps}
         ref={buttonRef}
         anim={disabled || noAnim ? '' : 'ripple'}
-        className={className}
+        className={newClassNames}
       >
         {children}
       </motion.a>
@@ -249,7 +249,7 @@ export const Button = (props) => {
       {...newProps}
       ref={buttonRef}
       anim={disabled || noAnim ? '' : 'ripple'}
-      className={className}
+      className={newClassNames}
     />
   }
 

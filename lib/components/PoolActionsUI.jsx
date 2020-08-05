@@ -11,7 +11,7 @@ export const PoolActionsUI = (props) => {
   return <>
     {cookieShowAward && <>
       <div
-        className='flex sm:justify-end items-center mt-4 mt-2'
+        className='flex items-center mt-4 mt-2'
       >
         <StartAwardUI
           {...props}
@@ -23,4 +23,3 @@ export const PoolActionsUI = (props) => {
     </>}
   </>
 }
-

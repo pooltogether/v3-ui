@@ -16,20 +16,13 @@ export const StartAwardUI = (props) => {
   const poolDataContext = useContext(PoolDataContext)
   const { pool } = poolDataContext
 
-  // const {
-  //   isRngCompleted,
-  //   isRngRequested,
-  //   canCompleteAward,
-  // } = pool
-  // console.log({ canStartAward, canCompleteAward, isRngCompleted, isRngRequested,})
-
   const canStartAward = pool?.canStartAward
   const prizeStrategyAddress = pool?.prizeStrategyAddress
   // const ticker = pool?.underlyingCollateralSymbol
 
   const [txId, setTxId] = useState()
 
-  const txName = `Start ${pool?.name} award process`
+  const txName = `Start Award - ${pool?.name}`
   const method = 'startAward'
 
   const [sendTx] = useSendTransaction(txName)

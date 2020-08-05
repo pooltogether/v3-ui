@@ -6,19 +6,37 @@ import { Button } from 'lib/components/Button'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 
 export const SignInForm = (props) => {
-  const { handleSubmit, register, errors, formState } = useForm({ mode: 'onBlur' })
+  // const { handleSubmit, register, errors, formState } = useForm({ mode: 'onBlur' })
 
   const { postSignInCallback } = props
 
   const authControllerContext = useContext(AuthControllerContext)
 
-  const onSubmit = (values) => {
-    if (formState.isValid) {
-      authControllerContext.signInMagic(values.email, postSignInCallback)
-    }
-  }
+  // const onSubmit = (values) => {
+  //   if (formState.isValid) {
+  //     authControllerContext.signInMagic(values.email, postSignInCallback)
+  //   }
+  // }
 
   return <>
+    <div>
+      <button
+        onClick={(e) => {
+          e.preventDefault()
+          authControllerContext.connectWallet(postSignInCallback)
+        }}
+        className='font-bold inline mb-2 py-2 text-sm sm:text-base text-primary-soft hover:text-primary trans border-b-2 border-transparent hover:border-secondary'
+      >
+        or connect to MetaMask, etc.
+      </button>
+    </div>
+
+    {/* <div
+      className='font-bold mb-2 py-2 text-xl sm:text-3xl lg:text-5xl text-inverse'
+    >
+      Enter your email address to continue.
+    </div>
+
     <form
       onSubmit={handleSubmit(onSubmit)}
     >
@@ -49,7 +67,7 @@ export const SignInForm = (props) => {
           Continue
         </Button>
       </div>
-    </form>
+    </form> 
 
     <div>
       <button
@@ -62,5 +80,6 @@ export const SignInForm = (props) => {
         or connect to MetaMask, etc.
       </button>
     </div>
+    */}
   </>
 }

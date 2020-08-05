@@ -1,13 +1,15 @@
 import React, { useContext } from 'react'
+import Cookies from 'js-cookie'
+import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
+import { SHOW_AWARD_FEATURES } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
 import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
-import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { PoolStats } from 'lib/components/PoolStats'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { PrizePoolCountdown } from 'lib/components/PrizePoolCountdown'
@@ -30,6 +32,8 @@ export const PoolShow = (
   const router = useRouter()
   const { pool } = props
 
+  const symbol = pool?.symbol
+
   const authControllerContext = useContext(AuthControllerContext)
   const { ethBalance, usersAddress } = authControllerContext
 
@@ -48,6 +52,8 @@ export const PoolShow = (
     // console.warn("don't do this!")
     return null
   }
+
+  const cookieShowAward = Cookies.get(SHOW_AWARD_FEATURES)
 
   const handleShowDeposit = (e) => {
     e.preventDefault()
@@ -115,7 +121,7 @@ export const PoolShow = (
                 className='flex items-center w-full sm:w-1/2'
               >
                 <div
-                  className='inline-block text-left text-lg sm:text-xl font-bold'
+                  className='inline-block text-left text-xl sm:text-2xl lg:text-3xl font-bold'
                 >
                   {pool.name}
                 </div>
@@ -130,8 +136,25 @@ export const PoolShow = (
               </div>
 
               <div
-                className='flex sm:justify-end items-center w-full sm:w-1/2 mt-4 sm:mt-0'
+                className='flex w-full sm:w-1/2 sm:justify-end items-center mt-4 sm:mt-0'
               >
+                {cookieShowAward && <>
+                  <div className='flex flex-col'>
+                    <Button
+                      outline
+                      href='/pools/[symbol]/manage'
+                      as={`/pools/${symbol}/manage`}
+                      className='mr-3 flex-grow'
+                    >
+                      <FeatherIcon
+                        icon='settings'
+                        className='w-8 h-8'
+                        strokeWidth='2'
+                      />
+                    </Button>
+                  </div>
+                </>}
+
                 <Button
                   wide
                   size='lg'
@@ -142,10 +165,6 @@ export const PoolShow = (
               </div>
             </div>
 
-            <PoolActionsUI
-              poolAddresses={poolAddresses}
-              usersAddress={usersAddress}
-            />
 
             <div className='text-left mt-10'>
               <PrizeAmount

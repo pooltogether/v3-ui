@@ -1,8 +1,8 @@
-import { IndexUI } from 'lib/components/IndexUI'
+import { ManageUI } from 'lib/components/ManageUI'
 
 export default function IndexPage(props) {
   return <>
-    <IndexUI
+    <ManageUI
       {...props}
     />
   </>
