@@ -1,33 +1,74 @@
 import React, { useMemo } from 'react'
+import { ethers } from 'ethers'
 import { fromUnixTime } from 'date-fns'
 import { useTable } from 'react-table'
 
 import { poolFormat } from 'lib/date-fns-factory'
 
+const currentLang = 'en'
+
+const formatDate = (date) => {
+  if (!date) { return }
+  return poolFormat(
+    fromUnixTime(date),
+    currentLang,
+    'MMMM do, yyyy @ HH:mm'
+  )
+}
+
+
+// WHERE IS OUR 4th or ONGOING prize? Just inject
+// one based off data we know? Yeah prob ...
+
+const tablePrize = (pool, prize) => {
+  console.log(prize)
+  const decimals = pool.underlyingCollateralDecimals
+  const prizeAmount = prize.prize && decimals ?
+    ethers.utils.formatUnits(
+      prize.prize,
+      Number(decimals)
+    ) : ethers.utils.bigNumberify(0)
+
+  return {
+    id: prize.id.split('-')[1],
+    startedAt: formatDate(prize?.prizePeriodStartedAt),
+    awardedAt: formatDate(prize?.awardedTimestamp),
+    prizeAmount: prizeAmount.toString(),
+    winner: prize.winners.length === 0 ?
+      'No winner' :
+      prize.winners.map(winner => winner.id)
+  }
+}
+
 export const PrizesTable = (
   props,
 ) => {
-  const { prizes } = props
+  const { pool, prizes } = props
 
   if (!prizes || prizes?.length === 0) {
     return null
   }
 
+
+
+  
+
+
   const columns = React.useMemo(() => {
     return [
       {
         Header: 'Prize amount',
-        accessor: 'prize', // accessor is the "key" in the data
+        accessor: 'prizeAmount', // accessor is the "key" in the data
       },
       {
         Header: 'Awarded on',
-        accessor: 'awardedTimestamp',
+        accessor: 'awardedAt',
       },
     ]
   }, [] )
 
   const data = React.useMemo(() => {
-    return prizes
+    return prizes.map(prize => tablePrize(pool, prize))
   }, [prizes])
   
   const tableInstance = useTable({
@@ -37,16 +78,6 @@ export const PrizesTable = (
   })
 
 
-  const currentLang = 'en'
-
-  const formatDate = (date) => {
-    if (!date) { return }
-    return poolFormat(
-      fromUnixTime(date),
-      currentLang,
-      'MMMM do, yyyy @ HH:mm'
-    )
-  }
 
   const {
     getTableProps,

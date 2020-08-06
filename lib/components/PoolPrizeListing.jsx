@@ -54,6 +54,7 @@ export const PoolPrizeListing = (
       </>}
 
       <PrizesTable
+        pool={pool}
         prizes={reversedPrizes} 
       />
     </div>
