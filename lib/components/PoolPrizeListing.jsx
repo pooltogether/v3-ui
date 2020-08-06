@@ -11,7 +11,6 @@ export const PoolPrizeListing = (
 ) => {
   const { pool } = props
 
-  console.log(pool?.prizeStrategyAddress)
   const { loading, error, data } = useQuery(poolPrizesQuery, {
     variables: {
       prizeStrategyAddress: pool?.prizeStrategyAddress
@@ -22,14 +21,18 @@ export const PoolPrizeListing = (
   })
 
   if (error) {
-    // poolToast.error(error)
     console.error(error)
   }
 
   const prizes = data?.prizeStrategy?.prizes
-  console.log({ prizes})
-  console.log('unmount')
-  console.log('remount')
+  
+  if (loading) {
+    return <div
+      className='mt-10'
+    >
+      <IndexUILoader />
+    </div>
+  }
 
   return <>
     <div
@@ -50,8 +53,6 @@ export const PoolPrizeListing = (
 
       {prizes?.map(prize => {
         const decimals = pool.underlyingCollateralDecimals
-        console.log({ decimals})
-        console.log(prize.prize)
         const prizeAmount = prize.prize && decimals ?
           ethers.utils.formatUnits(
             prize.prize,
