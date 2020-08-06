@@ -24,6 +24,8 @@ body {
 }
 
 .pool-container {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   width: 100%;
 }
 
@@ -52,9 +54,11 @@ body {
 }
 
 .nav-and-footer-container {
-  margin-left: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  /* margin-left: 1rem;
   margin-right: 1rem;
-  width: calc(100% - 2rem);
+  width: calc(100% - 2rem); */
 }
 
 .pool-container .pool-container,
@@ -66,12 +70,12 @@ body {
 @screen sm {
   .pool-container,
   .nav-and-footer-container {
-    max-width: 788px;
+    /* max-width: 788px; */
 
     margin-left: auto;
     margin-right: auto;
-    padding-left: 0;
-    padding-right: 0;
+    /* padding-left: 0;
+    padding-right: 0; */
     width: 100%;
   }
 }
@@ -86,41 +90,44 @@ body {
 
 @screen sm {
   .nav--pool-logo-container {
-    min-width: initial;
+    min-width: 154px;
+    /* min-width: initial; */
   }
 
   .nav--account-controls-container {
-    max-width: initial;
+    max-width: 560px;
   }
 }
 
 
 @screen sm {
   .nav-and-footer-container {
-    max-width: 788px;
+    /* max-width: 788px; */
   }
 }
 
 @screen lg {
   .nav-and-footer-container {
-    max-width: 1132px;
+    max-width: 1400px;
   }
 }
 
 @screen sm {
   .pool-container {
-    max-width: 788px;
+    /* max-width: 788px; */
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 
 @screen lg {
   .pool-container {
-    max-width: 1228px;
+    max-width: 1400px;
   }
 }
 
 .pool-max-width {
-  max-width: 1228px; 
+  max-width: 1400px; 
 }
 
 .modal-max-width {
