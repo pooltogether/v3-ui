@@ -11,7 +11,6 @@ export const PoolPrizesShow = (
 ) => {
   const poolData = useContext(PoolDataContext)
   const { pool, pools, dynamicPlayerData } = poolData
-  console.log(pool?.name)
 
   return <>
     <Meta title='Prizes' />

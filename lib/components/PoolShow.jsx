@@ -135,7 +135,7 @@ export const PoolShow = (
             <div
               className='flex w-full sm:w-1/2 sm:justify-end items-center mt-4 sm:mt-0'
             >
-              {cookieShowAward && <>
+              {usersAddress && cookieShowAward && <>
                 <div className='flex flex-col'>
                   <Button
                     outline

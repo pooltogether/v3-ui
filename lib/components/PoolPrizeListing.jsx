@@ -1,9 +1,9 @@
 import React from 'react'
-import { ethers } from 'ethers'
 import { useQuery } from '@apollo/client'
 
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { PrizesTable } from 'lib/components/PrizesTable'
 import { poolPrizesQuery } from 'lib/queries/poolPrizesQuery'
 
 export const PoolPrizeListing = (
@@ -24,8 +24,10 @@ export const PoolPrizeListing = (
     console.error(error)
   }
 
-  const prizes = data?.prizeStrategy?.prizes
-  
+  let prizes = data?.prizeStrategy?.prizes
+  // need to stash in new array due to strict mode / read only error
+  let reversedPrizes = prizes && [...prizes]
+
   if (loading) {
     return <div
       className='mt-10'
@@ -48,33 +50,12 @@ export const PoolPrizeListing = (
       </>}
 
       {prizes?.length === 0 && <>
-      BLANK STATE MSG
+        BLANK STATE MSG
       </>}
 
-      {prizes?.map(prize => {
-        const decimals = pool.underlyingCollateralDecimals
-        const prizeAmount = prize.prize && decimals ?
-          ethers.utils.formatUnits(
-            prize.prize,
-            Number(decimals)
-          ) : ethers.utils.bigNumberify(0)
-
-        return <div key={`prize-strategy-prize-${prize.id}`}>
-          <div>
-            ID: {prize.id.split('-')[1]}
-          </div>
-          <div>
-            Amount: {prizeAmount.toString()}
-          </div>
-          <div>
-            Started at: {prize.prizePeriodStartedAt}
-            {/* {prize.prizePeriodStartedTimestamp} */}
-          </div>
-          <div>
-            Awarded at: {prize.awardedTimestamp}
-          </div>
-        </div>
-      })}
+      <PrizesTable
+        prizes={reversedPrizes} 
+      />
     </div>
 
   </>
