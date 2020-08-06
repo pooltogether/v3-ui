@@ -122,8 +122,20 @@ form:after {
 }
 
 table {
+  @apply text-xs;
   border-spacing: 0;
-  /* border: 1px solid black; */
+}
+
+@screen sm {
+  table {
+    @apply text-base;
+  }
+}
+
+@screen lg {
+  table {
+    @apply text-lg;
+  }
 }
 
 tr:last-child td {
@@ -137,6 +149,13 @@ td {
   padding: 0.5rem;
   /* border-bottom: 1px solid black;
   border-right: 1px solid black; */
+}
+
+@screen sm {
+  th,
+  td {
+    padding: 0.5rem 1rem;
+  }
 }
 
 th:last-child,
@@ -259,10 +278,10 @@ input[type='submit'][disabled] {
     #0e8dd6 30%,
     #3be8ff 40%,
     #07d464 50%,
-    #fa9806 60%,
-    #ff0404 78%,
-    #ff04c4 90%,
-    #963bff 100%
+    #6df51f 60%,
+    #ff04ab 78%,
+    #7904ff 90%,
+    #3b89ff 100%
   );
   background-clip: text;
   -webkit-text-fill-color: transparent;

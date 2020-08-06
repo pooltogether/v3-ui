@@ -27,7 +27,9 @@ const prizeLink = (pool, prize) => {
     href='/prizes/[symbol]/[prizeId]'
     as={`/prizes/${pool.symbol}/${prize.id}`}
   >
-    <a>
+    <a
+      className='text-secondary hover:text-blue trans'
+    >
       view details
     </a>
   </Link>
