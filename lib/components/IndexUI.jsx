@@ -100,7 +100,7 @@ export const IndexUI = (
           maxWidth: '90%',
         }}
       >
-        You could <span className='text-flashy-gradient'>win $702 every week</span> just by saving your money.
+        You could <span className='text-flashy'>win $702 every week</span> just by saving your money.
       </h1>
     </>}
 

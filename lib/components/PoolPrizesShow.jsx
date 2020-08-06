@@ -41,7 +41,7 @@ export const PoolPrizesShow = (
           Total awarded:
         </div>
         <br/>
-        <div className='text-3xl -mt-6 text-secondary font-bold font-number'>
+        <div className='text-3xl -mt-6 text-flashy font-bold font-number'>
           $23,994
         </div>
       </div>
@@ -77,7 +77,7 @@ export const PoolPrizesShow = (
         </div>
       </div>
 
-      <div className='mx-8 sm:mx-12 text-2xl text-center -mt-2'>
+      <div className='mx-8 sm:mx-12 lg:mx-20 text-2xl text-center -mt-2 text-secondary'>
         $17,242
         <div className='text-xxs -mt-1'>
           Awarded so far

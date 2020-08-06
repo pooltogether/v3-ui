@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react'
+import Link from 'next/link'
 import { ethers } from 'ethers'
 import { fromUnixTime } from 'date-fns'
 import { useTable } from 'react-table'
 
 import { poolFormat } from 'lib/date-fns-factory'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 const currentLang = 'en'
 
@@ -16,12 +18,22 @@ const formatDate = (date) => {
   )
 }
 
+const extractPrizeId = (prize) => {
+  return parseInt(prize.id.split('-')[1], 10)
+}
 
-// WHERE IS OUR 4th or ONGOING prize? Just inject
-// one based off data we know? Yeah prob ...
+const prizeLink = (pool, prize) => {
+  return <Link
+    href='/prizes/[symbol]/[prizeId]'
+    as={`/prizes/${pool.symbol}/${prize.id}`}
+  >
+    <a>
+      view details
+    </a>
+  </Link>
+}
 
-const tablePrize = (pool, prize) => {
-  console.log(prize)
+const formatPrizeObject = (pool, prize) => {
   const decimals = pool.underlyingCollateralDecimals
   const prizeAmount = prize.prize && decimals ?
     ethers.utils.formatUnits(
@@ -29,14 +41,17 @@ const tablePrize = (pool, prize) => {
       Number(decimals)
     ) : ethers.utils.bigNumberify(0)
 
+  let prizeStatus = '...'
+  prizeStatus = prize.winners && prize.winners.length > 0 ?
+    prize.winners.map(winner => winner.id) :
+    'No winner'
+
   return {
-    id: prize.id.split('-')[1],
     startedAt: formatDate(prize?.prizePeriodStartedAt),
     awardedAt: formatDate(prize?.awardedTimestamp),
-    prizeAmount: prizeAmount.toString(),
-    winner: prize.winners.length === 0 ?
-      'No winner' :
-      prize.winners.map(winner => winner.id)
+    prizeAmount: `$${prizeAmount.toString()}`,
+    status: prizeStatus,
+    view: prizeLink(pool, { id: extractPrizeId(prize) })
   }
 }
 
@@ -45,14 +60,11 @@ export const PrizesTable = (
 ) => {
   const { pool, prizes } = props
 
+  const decimals = pool?.underlyingCollateralDecimals
+  
   if (!prizes || prizes?.length === 0) {
     return null
   }
-
-
-
-  
-
 
   const columns = React.useMemo(() => {
     return [
@@ -64,20 +76,43 @@ export const PrizesTable = (
         Header: 'Awarded on',
         accessor: 'awardedAt',
       },
+      {
+        Header: 'Status',
+        accessor: 'status',
+      },
+      {
+        Header: '',
+        accessor: 'view',
+      },
     ]
   }, [] )
 
   const data = React.useMemo(() => {
-    return prizes.map(prize => tablePrize(pool, prize))
+    const lastPrize = prizes[0]
+    const currentPrizeId = extractPrizeId(lastPrize) + 1
+
+    console.log({ ep: pool?.estimatePrize?.toString()})
+    const currentPrize = {
+      prizeAmount: `$${displayAmountInEther(
+        pool.estimatePrize,
+        { decimals }
+      )}`,
+      status: 'Current prize',
+      view: prizeLink(pool, { id: currentPrizeId })
+    }
+
+    const prizeObjects = prizes.map(prize => formatPrizeObject(pool, prize))
+
+    return [
+      currentPrize,
+      ...prizeObjects
+    ]
   }, [prizes])
   
   const tableInstance = useTable({
     columns,
     data
-    // data: prizes || []
   })
-
-
 
   const {
     getTableProps,
@@ -89,86 +124,53 @@ export const PrizesTable = (
 
 
   return <>
-    <table {...getTableProps()}>
+    <table
+      {...getTableProps()}
+    >
       <thead>
-        {// Loop over the header rows
+        {
           headerGroups.map(headerGroup => (
-            // Apply the header row props
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {// Loop over the headers in each row
+            <tr
+              {...headerGroup.getHeaderGroupProps()}
+            >
+              {
                 headerGroup.headers.map(column => (
-                  // Apply the header cell props
-                  <th {...column.getHeaderProps()}>
-                    {// Render the header
-                      column.render('Header')}
+                  <th
+                    {...column.getHeaderProps()}
+                  >
+                    {column.render('Header')}
                   </th>
-                ))}
+                ))
+              }
             </tr>
-          ))}
+          ))
+        }
       </thead>
-      {/* Apply the table body props */}
-      <tbody {...getTableBodyProps()}>
-        {// Loop over the table rows
+      <tbody
+        {...getTableBodyProps()}
+      >
+        {
           rows.map(row => {
-            // Prepare the row for display
             prepareRow(row)
-            return (
-              // Apply the row props
+
+            return <>
               <tr {...row.getRowProps()}>
-                {// Loop over the rows cells
+                {
                   row.cells.map(cell => {
-                    // Apply the cell props
                     return (
-                      <td {...cell.getCellProps()}>
-                        {// Render the cell contents
-                          cell.render('Cell')}
+                      <td
+                        {...cell.getCellProps()}
+                      >
+                        {cell.render('Cell')}
                       </td>
                     )
-                  })}
+                  })
+                }
               </tr>
-            )
+            </>
           })}
       </tbody>
     </table>
-
-      {/* {reversedPrizes?.map(prize => {
-        console.log(prize)
-        const decimals = pool.underlyingCollateralDecimals
-        const prizeAmount = prize.prize && decimals ?
-          ethers.utils.formatUnits(
-            prize.prize,
-            Number(decimals)
-          ) : ethers.utils.bigNumberify(0)
-
-        return <div
-          key={`prize-strategy-prize-${prize.id}`}
-          className='mb-6'
-        >
-
-
-          <div>
-            ID: {prize.id.split('-')[1]}
-          </div>
-          <div>
-            Started at: {formatDate(prize?.prizePeriodStartedAt)}
-            {format(fromUnixTime(prize.prizePeriodStartedTimestamp, 'MM/dd/yyyy'))}
-          </div>
-
-
-          <div>
-            <span className='font-bold'>Awarded at:</span> {formatDate(prize?.awardedTimestamp)}
-          </div>
-          <div>
-            <span className='font-bold'>Amount:</span> {prizeAmount.toString()}
-          </div>
-          <div>
-            <span className='font-bold'>Winner:</span> {prize.winners.length === 0 ?
-              'No winner' :
-              prize.winners.map(winner => winner.id)
-            }
-          </div>
-        </div>
-      })} */}
 
   </>
 }
