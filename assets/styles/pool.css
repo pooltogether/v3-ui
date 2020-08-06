@@ -236,10 +236,10 @@ input[type='submit'][disabled] {
     #0e8dd6 30%,
     #3be8ff 40%,
     #07d464 50%,
-    #f7df2c 60%,
-    #ff0404 70%,
-    #ff04c4 80%,
-    #963bff 90%
+    #fa9806 60%,
+    #ff0404 78%,
+    #ff04c4 90%,
+    #963bff 100%
   );
   background-clip: text;
   -webkit-text-fill-color: transparent;

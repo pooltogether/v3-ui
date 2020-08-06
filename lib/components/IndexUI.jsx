@@ -94,9 +94,10 @@ export const IndexUI = (
           lineHeight: 1.2,
           marginTop: '2rem',
           marginBottom: '5rem',
-          marginLeft: '3rem',
-          marginRight: '3rem',
-          textAlign: 'center'
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          textAlign: 'center',
+          maxWidth: '90%',
         }}
       >
         You could <span className='text-flashy-gradient'>win $702 every week</span> just by saving your money.
