@@ -86,6 +86,24 @@ export const IndexUI = (
       pool={pool}
     />}
 
+    {!pool && <>
+      <h1
+        style={{
+          fontWeight: 'bold',
+          fontSize: 'calc(3vw + 20px)',
+          lineHeight: 1.2,
+          marginTop: '2rem',
+          marginBottom: '5rem',
+          marginLeft: '3rem',
+          marginRight: '3rem',
+          textAlign: 'center'
+        }}
+      >
+        You could <span className='text-flashy-gradient'>win $702 every week</span> just by saving your money.
+      </h1>
+    </>}
+
+
     <PoolList
       selectedId={pool && pool.poolAddress}
       pools={pools}

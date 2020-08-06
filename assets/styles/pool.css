@@ -227,6 +227,41 @@ input[type='submit'][disabled] {
 	}
 }
 
+.text-flashy-gradient {
+  background: linear-gradient(
+    40deg,
+    #ff9304 0%,
+    #ff04ea 10%,
+    #8409c7 20%,
+    #0e8dd6 30%,
+    #3be8ff 40%,
+    #07d464 50%,
+    #f7df2c 60%,
+    #ff0404 70%,
+    #ff04c4 80%,
+    #963bff 90%
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  background-size: 1000% auto;
+  animation: 25000ms ease-in-out infinite cycleBackgroundPos;
+}
+
+@keyframes cycleBackgroundPos {
+  0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+
+
 .nav--account-transactions-button__loader {
   transform: scale(0.8);
 }

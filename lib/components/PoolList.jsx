@@ -11,6 +11,12 @@ export const PoolList = (
   return <>
     <AnimateSharedLayout>
       <AnimatePresence>
+        <h2
+          className='text-primary'
+        >
+          Active Pools
+        </h2>
+        
         <motion.ul
           key='pool-list'
           className='flex flex-col text-xs sm:text-lg lg:text-xl'
