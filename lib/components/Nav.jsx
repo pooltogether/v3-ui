@@ -24,7 +24,7 @@ export const Nav = (props) => {
   return <>
     <div className='nav-and-footer-container'>
       <nav
-        className='sm:px-4 lg:px-0 nav-min-height flex items-center h-full justify-between flex-wrap'
+        className='nav-min-height flex items-center h-full justify-between flex-wrap'
       >
         <div
           className='nav--pool-logo-container w-1/5 justify-start h-full flex items-center truncate'

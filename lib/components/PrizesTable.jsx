@@ -5,6 +5,7 @@ import { fromUnixTime } from 'date-fns'
 import { useTable } from 'react-table'
 
 import { poolFormat } from 'lib/date-fns-factory'
+import { BasicTable } from 'lib/components/BasicTable'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 const currentLang = 'en'
@@ -18,7 +19,7 @@ const formatDate = (date) => {
   )
 }
 
-const extractPrizeId = (prize) => {
+const extractPrizeNumber = (prize) => {
   return parseInt(prize.id.split('-')[1], 10)
 }
 
@@ -53,7 +54,7 @@ const formatPrizeObject = (pool, prize) => {
     awardedAt: formatDate(prize?.awardedTimestamp),
     prizeAmount: `$${prizeAmount.toString()}`,
     status: prizeStatus,
-    view: prizeLink(pool, { id: extractPrizeId(prize) })
+    view: prizeLink(pool, { id: extractPrizeNumber(prize) })
   }
 }
 
@@ -91,9 +92,8 @@ export const PrizesTable = (
 
   const data = React.useMemo(() => {
     const lastPrize = prizes[0]
-    const currentPrizeId = extractPrizeId(lastPrize) + 1
+    const currentPrizeId = extractPrizeNumber(lastPrize) + 1
 
-    console.log({ ep: pool?.estimatePrize?.toString()})
     const currentPrize = {
       prizeAmount: `$${displayAmountInEther(
         pool.estimatePrize,
@@ -116,63 +116,8 @@ export const PrizesTable = (
     data
   })
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = tableInstance
+  return <BasicTable
+    tableInstance={tableInstance}
+  />
 
-
-  return <>
-    <table
-      {...getTableProps()}
-    >
-      <thead>
-        {
-          headerGroups.map(headerGroup => (
-            <tr
-              {...headerGroup.getHeaderGroupProps()}
-            >
-              {
-                headerGroup.headers.map(column => (
-                  <th
-                    {...column.getHeaderProps()}
-                  >
-                    {column.render('Header')}
-                  </th>
-                ))
-              }
-            </tr>
-          ))
-        }
-      </thead>
-      <tbody
-        {...getTableBodyProps()}
-      >
-        {
-          rows.map(row => {
-            prepareRow(row)
-
-            return <>
-              <tr {...row.getRowProps()}>
-                {
-                  row.cells.map(cell => {
-                    return (
-                      <td
-                        {...cell.getCellProps()}
-                      >
-                        {cell.render('Cell')}
-                      </td>
-                    )
-                  })
-                }
-              </tr>
-            </>
-          })}
-      </tbody>
-    </table>
-
-  </>
 }

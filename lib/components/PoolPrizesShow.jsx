@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { useRouter} from 'next/router'
 
+import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
-import { PoolPrizeListing } from 'lib/components/PoolPrizeListing'
 import { Meta } from 'lib/components/Meta'
+import { PoolPrizeListing } from 'lib/components/PoolPrizeListing'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 
 export const PoolPrizesShow = (
@@ -13,7 +14,7 @@ export const PoolPrizesShow = (
   const router = useRouter()
 
   const poolData = useContext(PoolDataContext)
-  const { pool, pools, dynamicPlayerData } = poolData
+  const { pool, pools } = poolData
 
   const handleShowDeposit = (e) => {
     e.preventDefault()
@@ -24,8 +25,15 @@ export const PoolPrizesShow = (
     )
   }
 
+  if (pool === null) {
+    const querySymbol = router.query?.symbol
+    return <BlankStateMessage>
+      Could not find pool with symbol: ${querySymbol}
+    </BlankStateMessage>
+  }
+
   return <>
-    <Meta title='Prizes' />
+    <Meta title={`${pool?.name} Prizes`} />
 
     <div
       className='flex flex-col items-center text-center'

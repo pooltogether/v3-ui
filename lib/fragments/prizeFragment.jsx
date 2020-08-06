@@ -7,10 +7,11 @@ export const prizeFragment = gql`
     id
 
     awardedTimestamp
-    balance
+    # balance
     # amount
     prize
     # reserveFee
+    awardedBlock
 
     prizePeriodStartedAt
     # prizePeriodStartedTimestamp

@@ -25,7 +25,6 @@ export const PoolDataContextProvider = (props) => {
 
   const router = useRouter()
   const querySymbol = router.query.symbol && router.query.symbol.toLowerCase()
-  console.log({ querySymbol})
 
   useEffect(() => {
     const getReadProvider = async () => {
@@ -114,7 +113,7 @@ export const PoolDataContextProvider = (props) => {
             }
 
             let pool
-            if (querySymbol) {
+            if (querySymbol && pools?.length > 0) {
               pool = pools.find(_pool => {
                 let symbol
                 if (_pool && _pool.symbol) {
@@ -125,6 +124,10 @@ export const PoolDataContextProvider = (props) => {
                   return symbol === querySymbol
                 }
               })
+
+              if (!pool) {
+                pool = null
+              }
             }
 
             let usersTicketBalance = 0

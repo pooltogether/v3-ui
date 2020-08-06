@@ -12,8 +12,8 @@ export const PrizeAmount = (
     pool
   } = props
 
-  const decimals = pool.underlyingCollateralDecimals
-  const collatSymbol = pool.underlyingCollateralSymbol
+  const decimals = pool?.underlyingCollateralDecimals
+  // const collatSymbol = pool?.underlyingCollateralSymbol
 
   let labelSize = 'text-xxxs sm:text-xxs'
   let amountSize = 'text-sm sm:text-lg'
@@ -35,10 +35,13 @@ export const PrizeAmount = (
       <span
         className='font-number'
       >
-        ${displayAmountInEther(pool.estimatePrize, { decimals })}
+        ${displayAmountInEther(
+          pool?.estimatePrize,
+          { decimals }
+        )}
         
         {/* <PTHint
-          label="Fall in love all over again"
+          label=""
           tip={<>
             {pool && pool.estimatePrize && <>
               <span className='text-xxs text-yellow'>
