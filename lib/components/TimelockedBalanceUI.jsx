@@ -83,10 +83,12 @@ export const TimelockedBalanceUI = (props) => {
     setTxId(id)
   }
 
+  console.log({ usersTimelockedBalance })
+
   return <>
     {usersTimelockedBalance > 0 && <>
       <div
-        className='mt-6 text-sm border-t-2 border-b-2 py-4'
+        className='mt-6 mb-6 text-sm border-t-2 border-b-2 py-4'
       >
         <div>
           Timelocked balance: $<PoolCountUp

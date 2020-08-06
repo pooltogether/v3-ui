@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useRouter} from 'next/router'
 
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
@@ -9,8 +10,19 @@ import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 export const PoolPrizesShow = (
   props,
 ) => {
+  const router = useRouter()
+
   const poolData = useContext(PoolDataContext)
   const { pool, pools, dynamicPlayerData } = poolData
+
+  const handleShowDeposit = (e) => {
+    e.preventDefault()
+    router.push(
+      '/pools/[symbol]/deposit',
+      `/pools/${pool?.symbol}/deposit`,
+      { shallow: true }
+    )
+  }
 
   return <>
     <Meta title='Prizes' />
@@ -52,6 +64,33 @@ export const PoolPrizesShow = (
           /> {_pool.underlyingCollateralSymbol}
         </Button>
       })}
+    </div>
+
+    <div
+      className='bg-default mt-6 mb-6 text-sm py-4 flex items-center justify-center'
+    >
+      <div className='flex flex-col items-center justify-center text-lg'>
+        <PoolCurrencyIcon
+          pool={pool}
+        /> <div className='mt-1'>
+          {pool?.name}
+        </div>
+      </div>
+
+      <div className='mx-8 sm:mx-12 text-2xl text-center -mt-2'>
+        $17,242
+        <div className='text-xxs -mt-1'>
+          Awarded so far
+        </div>
+      </div>
+
+      <Button
+        outline
+        onClick={handleShowDeposit}
+        wide
+      >
+        Get tickets
+      </Button>
     </div>
 
     <PoolPrizeListing

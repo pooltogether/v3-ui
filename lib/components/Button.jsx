@@ -172,13 +172,13 @@ export const Button = (props) => {
 
   if (outline) {
     if (blue) {
-      newClassNames = `${className} font-bold rounded-xl bg-blue text-white text-xxs sm:text-base py-2 sm:py-2 px-4 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none `
+      newClassNames = `${className} font-bold bg-body rounded-xl bg-blue text-white text-xxs sm:text-base py-2 sm:py-2 px-4 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none `
     } else {
-      newClassNames = `${className} font-bold rounded-xl text-secondary border-4 border-secondary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none`
+      newClassNames = `${className} font-bold bg-body rounded-xl text-secondary border-4 border-secondary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none`
     }
 
     if (selected) {
-      newClassNames = `opacity-60 ` + newClassNames
+      newClassNames = `opacity-40 ` + newClassNames
     }
   }
 
