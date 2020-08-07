@@ -25,8 +25,9 @@ const extractPrizeNumber = (prize) => {
 
 const prizeLink = (pool, prize) => {
   return <Link
-    href='/prizes/[symbol]/[prizeId]'
+    href='/prizes/[symbol]/[prizeNumber]'
     as={`/prizes/${pool.symbol}/${prize.id}`}
+    shallow
   >
     <a
       className='text-secondary hover:text-blue trans'
@@ -36,24 +37,47 @@ const prizeLink = (pool, prize) => {
   </Link>
 }
 
+const AWARDED = 'Awarded'
+const AWARD_STARTED = 'AwardStarted'
+const UNAWARDED = 'Unawarded'
+
+const prizeState = (prize) => {
+  if (prize.net) {
+    return AWARDED
+  } else if (prize.net === null) {
+    return AWARD_STARTED
+  } else {
+    return UNAWARDED
+  }
+}
+
+const prizeStatusString = (prize) => {
+  const state = prizeState(prize)
+
+  if (state === AWARDED) {
+    return prize.winners && prize.winners.length > 0 ?
+      prize.winners.map(winner => winner.id) :
+      'No winner'
+  } else if (state === AWARD_STARTED) {
+    return 'Awarding...'
+  } else {
+    return '...'
+  }
+}
+
 const formatPrizeObject = (pool, prize) => {
   const decimals = pool.underlyingCollateralDecimals
-  const prizeAmount = prize.prize && decimals ?
-    ethers.utils.formatUnits(
-      prize.prize,
-      Number(decimals)
+  const prizeAmount = prize.net && decimals ?
+    displayAmountInEther(
+      prize.net,
+      { decimals } 
     ) : ethers.utils.bigNumberify(0)
 
-  let prizeStatus = '...'
-  prizeStatus = prize.winners && prize.winners.length > 0 ?
-    prize.winners.map(winner => winner.id) :
-    'No winner'
-
   return {
-    startedAt: formatDate(prize?.prizePeriodStartedAt),
+    startedAt: formatDate(prize?.prizePeriodStartedTimestamp),
     awardedAt: formatDate(prize?.awardedTimestamp),
-    prizeAmount: `$${prizeAmount.toString()}`,
-    status: prizeStatus,
+    prizeAmount: `$${prizeAmount.toString()} ${pool?.underlyingCollateralSymbol}`,
+    status: prizeStatusString(prize),
     view: prizeLink(pool, { id: extractPrizeNumber(prize) })
   }
 }
@@ -91,24 +115,29 @@ export const PrizesTable = (
   }, [] )
 
   const data = React.useMemo(() => {
-    const lastPrize = prizes[0]
-    const currentPrizeId = extractPrizeNumber(lastPrize) + 1
+    const prizeRows = prizes.map(prize => formatPrizeObject(pool, prize))
 
-    const currentPrize = {
-      prizeAmount: `$${displayAmountInEther(
+    const lastPrize = prizes[0]
+
+    let currentPrize
+    // If we have a prize amount then we know the last prize has been rewarded
+    if (lastPrize.awardedBlock) {
+      const currentPrizeId = extractPrizeNumber(lastPrize) + 1
+      const amount = displayAmountInEther(
         pool.estimatePrize,
         { decimals }
-      )}`,
-      status: 'Current prize',
-      view: prizeLink(pool, { id: currentPrizeId })
+      )
+
+      currentPrize = {
+        prizeAmount: `$${amount} ${pool.underlyingCollateralSymbol}`,
+        status: 'Current',
+        view: prizeLink(pool, { id: currentPrizeId })
+      }
+
+      prizeRows.unshift(currentPrize)
     }
 
-    const prizeObjects = prizes.map(prize => formatPrizeObject(pool, prize))
-
-    return [
-      currentPrize,
-      ...prizeObjects
-    ]
+    return prizeRows
   }, [prizes])
   
   const tableInstance = useTable({

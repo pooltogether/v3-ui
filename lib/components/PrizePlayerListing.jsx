@@ -15,15 +15,16 @@ export const PrizePlayerListing = (
   const generalContext = useContext(GeneralContext)
   const { paused } = generalContext
 
-  const timeTravelQuery = prizePlayersQuery(prize?.awardedBlock)
+  const timeTravelPlayersQuery = prizePlayersQuery(prize?.awardedBlock)
 
-  const { loading, error, data } = useQuery(timeTravelQuery, {
-    variables: {
-      prizePoolAddress: pool.poolAddress,
-      prizeId: prize.id,
-      first: 10,
-      skip: 0
-    },
+  const variables = {
+    prizePoolAddress: pool.poolAddress,
+    first: 10,
+    skip: 0
+  }
+
+  const { loading, error, data } = useQuery(timeTravelPlayersQuery, {
+    variables,
     skip: !pool || !prize,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,

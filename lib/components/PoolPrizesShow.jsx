@@ -7,6 +7,7 @@ import { Button } from 'lib/components/Button'
 import { Meta } from 'lib/components/Meta'
 import { PoolPrizeListing } from 'lib/components/PoolPrizeListing'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { PrizesPageHeader } from 'lib/components/PrizesPageHeader'
 
 export const PoolPrizesShow = (
   props,
@@ -35,25 +36,9 @@ export const PoolPrizesShow = (
   return <>
     <Meta title={`${pool?.name} Prizes`} />
 
-    <div
-      className='flex flex-col items-center text-center'
-    >
-      <div
-        className='inline-block text-2xl font-bold pb-4'
-      >
-        Prizes
-      </div>
-      
-      <div>
-        <div className='text-lg'>
-          Total awarded:
-        </div>
-        <br/>
-        <div className='text-3xl -mt-6 text-flashy font-bold font-number'>
-          $23,994
-        </div>
-      </div>
-    </div>
+    <PrizesPageHeader
+      pool={pool}
+    />
 
     <div className='flex justify-center text-left mt-10'>
       {pools.map(_pool => {

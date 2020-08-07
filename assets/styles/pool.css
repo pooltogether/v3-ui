@@ -285,6 +285,7 @@ input[type='submit'][disabled] {
   );
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: inline-block;
 
   background-size: 1000% auto;
   animation: 25000ms ease-in-out infinite cycleBackgroundPos;

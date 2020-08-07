@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import Link from 'next/link'
 import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 
@@ -9,8 +8,9 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Meta } from 'lib/components/Meta'
-import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { PrizesPageHeader } from 'lib/components/PrizesPageHeader'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { prizeQuery } from 'lib/queries/prizeQuery'
 
 export const PrizeShow = (
@@ -24,14 +24,15 @@ export const PrizeShow = (
 
   const poolData = useContext(PoolDataContext)
   const { pool } = poolData
-
+  
   if (pool === null) {
     const querySymbol = router.query?.symbol
     return <BlankStateMessage>
       Could not find pool with symbol: ${querySymbol}
     </BlankStateMessage>
   }
-  
+
+  const isCurrentPrize = Number(pool?.prizesCount) + 1 === Number(prizeNumber)
   const prizeStrategyAddress = pool?.prizeStrategyAddress
 
   const prizeId = `${prizeStrategyAddress}-${prizeNumber}`
@@ -39,7 +40,7 @@ export const PrizeShow = (
     variables: {
       prizeId
     },
-    skip: !prizeStrategyAddress || !prizeNumber,
+    skip: !prizeStrategyAddress || !prizeNumber || isCurrentPrize,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
   })
@@ -48,7 +49,19 @@ export const PrizeShow = (
     console.error(error)
   }
 
+  
+
   let prize = data?.prize
+  const decimals = pool?.underlyingCollateralDecimals || 18
+  if (isCurrentPrize) {
+    prize = {
+      awardedBlock: null,
+      net: displayAmountInEther(
+        pool?.estimatePrize || 0,
+        { decimals }
+      )
+    }
+  }
 
   if (prize === null) {
     return <div
@@ -67,55 +80,24 @@ export const PrizeShow = (
   }
 
   return <>
-    <Meta title={`${pool?.name} Prize #${prizeNumber}`} />
+    {pool?.name && <>
+      <Meta title={`${pool?.name} Prize #${prizeNumber}`} />
+    </>}
 
-    <div
-      className='flex flex-col items-center text-center'
-    >
-      <div
-        className='inline-block text-2xl font-bold pb-4'
-      >
-        Prizes
-      </div>
-
-      <div>
-        <div className='text-lg'>
-          Total awarded:
-        </div>
-        <br />
-        <div className='text-3xl -mt-6 text-flashy font-bold font-number'>
-          $23,994
-        </div>
-      </div>
-    </div>
-
-    <div
-      className='bg-default mt-6 mb-6 text-sm py-4 flex items-center justify-center'
-    >
-      <div className='flex flex-col items-center justify-center text-lg'>
-        <PoolCurrencyIcon
-          pool={pool}
-        /> <div className='mt-1'>
-          <Link
-            href='/prizes/[symbol]'
-            as={`/prizes/${pool?.symbol}`}
-          >
-            <a>
-              {pool?.name}
-            </a>
-          </Link>
-        </div>
-      </div>
-    </div>
-
+    <PrizesPageHeader
+      showPoolLink
+      pool={pool}
+    />
+    
+{/* 
     <br />Prize:
-    <br />{prize?.awardedTimestamp}
-    <br />{prize?.balance}
-    <br />{prize?.id}
-    <br />{prize?.prize}
-    <br />{prize?.awardedBlock}
-    <br />{prize?.prizePeriodStartedAt}
-    <br />{prize?.winners}
+    <br />{prize?.awardedTimestamp} awardedTimestamp
+    <br />{prize?.id} id
+    <br />{prize?.gross} gross
+    <br />{prize?.net} net
+    <br />{prize?.awardedBlock} awardedBlock
+    <br />{prize?.prizePeriodStartedTimestamp} prizePeriodStartedTimestamp
+    <br />{prize?.winners} winners */}
 
     <PrizePlayerListing
       pool={pool}

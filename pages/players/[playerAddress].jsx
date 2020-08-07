@@ -1,5 +1,5 @@
 import { PlayerPageUI } from 'lib/components/PlayerPageUI'
 
-export default function AccountPool(props) {
+export default function PlayerPage(props) {
   return <PlayerPageUI />
 }

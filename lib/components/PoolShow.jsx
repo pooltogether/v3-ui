@@ -41,11 +41,14 @@ export const PoolShow = (
   const { poolAddresses } = poolDataContext
   
   let error
-  
+
   try {
     ethers.utils.getAddress(pool.poolAddress)
   } catch (e) {
-    error = 'Incorrectly formatted Ethereum address!'
+    console.error(e)
+    if (e.message.match('invalid address')) {
+      error = 'Incorrectly formatted Ethereum address!'
+    }
   }
   
   if (!pool) {

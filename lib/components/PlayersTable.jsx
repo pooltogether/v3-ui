@@ -11,6 +11,7 @@ const playerLink = (player) => {
   return <Link
     href='/players/[playerAddress]'
     as={`/players/${player.address}`}
+    shallow
   >
     <a
       className='text-secondary hover:text-blue trans'
@@ -36,7 +37,7 @@ const formatPlayerObject = (pool, player) => {
     )}`,
     address: shorten(player.address),
     odds: '1 in 2',
-    view: playerLink(pool, player)
+    view: playerLink(player)
   }
 }
 

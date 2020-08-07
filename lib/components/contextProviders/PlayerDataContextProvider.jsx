@@ -32,11 +32,15 @@ export const PlayerDataContextProvider = (props) => {
     try {
       ethers.utils.getAddress(playerAddress)
     } catch (e) {
-      playerAddressError = 'Incorrectly formatted Ethereum address!'
-      console.error(playerAddressError)
       console.error(e)
+
+      if (e.message.match('invalid address')) {
+        playerAddressError = 'Incorrectly formatted Ethereum address!'
+        console.error(playerAddressError)
+      }
     }
   }
+
 
   let playerData
 

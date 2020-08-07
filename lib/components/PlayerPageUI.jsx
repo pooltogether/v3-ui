@@ -1,4 +1,6 @@
 import React, { useContext } from 'react'
+import { ethers } from 'ethers'
+import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
 import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
@@ -10,20 +12,27 @@ import { ErrorMessage } from 'lib/components/ErrorMessage'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 
 export const PlayerPageUI = (props) => {
+  const router = useRouter()
+  const playerAddress = router.query?.playerAddress
+
+  try {
+    ethers.utils.getAddress(playerAddress)
+  } catch (e) {
+    console.error(e)
+    if (e.message.match('invalid address')) {
+      return <ErrorMessage>
+        Incorrectly formatted Ethereum address!
+      </ErrorMessage>
+    }
+  }
+
   const playerDataContext = useContext(PlayerDataContext)
   const { playerData } = playerDataContext
 
   const poolData = useContext(PoolDataContext)
   const { pools } = poolData
 
-  try {
-    ethers.utils.getAddress(pool.poolAddress)
-  } catch (e) {
-    return <ErrorMessage>
-      Incorrectly formatted Ethereum address!
-    </ErrorMessage>
-  }
-
+  
   return <>
     <motion.div
       initial='initial'
