@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import {
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
+import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchGenericChainData } from 'lib/utils/fetchGenericChainData'
 import { isEmptyObject } from 'lib/utils/isEmptyObject'
@@ -15,6 +16,9 @@ export const FetchGenericChainData = (props) => {
     poolAddresses,
   } = props
 
+  const generalContext = useContext(GeneralContext)
+  const { paused } = generalContext
+  
   const [genericChainData, setGenericChainData] = useState({})
 
   const fetchDataFromInfura = async () => {
@@ -58,7 +62,7 @@ export const FetchGenericChainData = (props) => {
     if (!isEmptyObject(provider)) {
       updateOrDelete()
     }
-  }, MAINNET_POLLING_INTERVAL)
+  }, paused ? null : MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {
     if (!isEmptyObject(provider)) {

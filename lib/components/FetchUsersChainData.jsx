@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import {
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
+import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchUsersChainData } from 'lib/utils/fetchUsersChainData'
 
@@ -13,6 +14,9 @@ export const FetchUsersChainData = (props) => {
     provider,
     usersAddress,
   } = props
+
+  const generalContext = useContext(GeneralContext)
+  const { paused } = generalContext
 
   const poolAddress = pool && pool.poolAddress
 
@@ -45,7 +49,7 @@ export const FetchUsersChainData = (props) => {
 
   useInterval(() => {
     updateOrDelete()
-  }, MAINNET_POLLING_INTERVAL)
+  }, paused ? null : MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {    
     updateOrDelete()

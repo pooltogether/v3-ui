@@ -5,6 +5,7 @@ import {
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { ExecuteWithdrawInstantNoFee } from 'lib/components/ExecuteWithdrawInstantNoFee'
 import { InstantOrScheduledForm } from 'lib/components/InstantOrScheduledForm'
 import { fetchExitFees } from 'lib/utils/fetchExitFees'
@@ -18,6 +19,9 @@ export const WithdrawInstantOrScheduled = (props) => {
     previousStep,
     setTotalWizardSteps,
   } = props
+
+  const generalContext = useContext(GeneralContext)
+  const { paused } = generalContext
 
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress, networkName } = authControllerContext
@@ -57,7 +61,7 @@ export const WithdrawInstantOrScheduled = (props) => {
 
   useInterval(() => {
     getFees()
-  }, MAINNET_POLLING_INTERVAL)
+  }, paused ? null : MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {
     const ready = quantity && usersAddress && networkName && ticketAddress && prizeStrategyAddress && networkName

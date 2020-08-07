@@ -49,7 +49,6 @@ export const PrizeShow = (
   }
 
   let prize = data?.prize
-  console.log({prize})
 
   if (prize === null) {
     return <div

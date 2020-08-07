@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import useWindowFocus from 'use-window-focus'
 import { useOnlineState } from 'beautiful-react-hooks'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -10,17 +11,20 @@ export const GeneralContextProvider = (props) => {
   if (!window) {
     return null
   }
-
+  
   const authControllerContext = useContext(AuthControllerContext)
   const { supportedNetwork } = authControllerContext
 
+  const windowFocused = useWindowFocus()
+
   const isOnline = useOnlineState()
-  const paused = !isOnline || !supportedNetwork
+  const paused = !windowFocused || !isOnline || !supportedNetwork
 
   return <GeneralContext.Provider
     value={{
       isOnline,
-      paused
+      paused,
+      windowFocused,
     }}
   >
     <Modal

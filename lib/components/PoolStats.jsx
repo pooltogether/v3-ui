@@ -1,10 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import classnames from 'classnames'
 
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { useInterval } from 'lib/hooks/useInterval'
-import { BlueLineStat } from 'lib/components/BlueLineStat'
-import { StatContainer } from 'lib/components/StatContainer'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const PoolStats = (props) => {
@@ -12,14 +9,6 @@ export const PoolStats = (props) => {
   const { pool } = poolDataContext
 
   const [secondsRemainingNow, setSecondsRemainingNow] = useState('--')
-
-  // useEffect(() => {
-    
-  // }, [/*didUpdateVar?*/])
-
-  // useInterval(() => {
-    
-  // }, 1000)
 
   return <>
     <div

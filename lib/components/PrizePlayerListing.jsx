@@ -29,14 +29,11 @@ export const PrizePlayerListing = (
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
   })
 
-  console.log({ loading, error, data })
-
   if (error) {
     console.error(error)
   }
 
   let players = data?.players
-    console.log({ players})
 
   // // need to stash in new array due to strict mode / read only error
   // let reversedPrizes = prizes && [...prizes]
@@ -51,8 +48,6 @@ export const PrizePlayerListing = (
       <IndexUILoader />
     </div>
   }
-
-  console.log({ error })
 
   return <>
     <div
