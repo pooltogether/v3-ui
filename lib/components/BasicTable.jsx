@@ -16,6 +16,7 @@ export const BasicTable = (
   return <>
     <table
       {...getTableProps()}
+      className='w-full'
     >
       <thead>
         {

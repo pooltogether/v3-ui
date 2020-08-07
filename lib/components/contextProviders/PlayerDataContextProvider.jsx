@@ -1,10 +1,14 @@
 import React, { useContext } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
+import { useQuery } from '@apollo/client'
 
+import {
+  MAINNET_POLLING_INTERVAL
+} from 'lib/constants'
 import { SUPPORTED_CHAIN_IDS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { GraphPlayerQueries } from 'lib/components/queryComponents/GraphPlayerQueries'
+import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
 
 export const PlayerDataContext = React.createContext()
 
@@ -13,57 +17,46 @@ export const PlayerDataContextProvider = (props) => {
   const { chainId } = authControllerContext
 
   const router = useRouter()
-  const playerAddress = router.query.playerAddress && router.query.playerAddress.toLowerCase()
+  const playerAddress = router.query?.playerAddress?.toLowerCase()
 
-  let error
-  try {
-    if (playerAddress) {
-      ethers.utils.getAddress(playerAddress)
-    }
-  } catch (e) {
-    error = 'Incorrectly formatted Ethereum address!'
+  if (!SUPPORTED_CHAIN_IDS.includes(chainId)) {
+    console.error('network not supported')
   }
 
-  let content = <PlayerDataContext.Provider
+  let playerAddressError
+  try {
+    ethers.utils.getAddress(pool.poolAddress)
+  } catch (e) {
+    playerAddressError = 'Incorrectly formatted Ethereum address!'
+    console.error(playerAddressError)
+    console.error(e)
+  }
+
+
+  let playerData
+
+  const { loading, error, data } = useQuery(dynamicPlayerQuery, {
+    variables: {
+      playerAddress
+    },
+    fetchPolicy: 'network-only',
+    pollInterval: MAINNET_POLLING_INTERVAL,
+    skip: !playerAddress || playerAddressError
+  })
+
+  if (error) {
+    console.error(error)
+  }
+
+  playerData = data?.player
+
+  return <PlayerDataContext.Provider
     value={{
-      loading: false,
-      playerData: null
+      // loading,
+      playerData
     }}
   >
     {props.children}
   </PlayerDataContext.Provider>
-
-  if (
-    playerAddress &&
-    SUPPORTED_CHAIN_IDS.includes(chainId)
-  ) {
-    content = <GraphPlayerQueries
-      {...props}
-      playerAddress={playerAddress}
-    >
-      {({
-        playerData,
-        loading
-      }) => {
-        return <PlayerDataContext.Provider
-          value={{
-            loading,
-            playerData
-          }}
-        >
-          {props.children}
-        </PlayerDataContext.Provider>
-      }}
-    </GraphPlayerQueries>
-  }
-
-  return <>
-    {error && <>
-      <div className='text-red font-bold p-4 mx-auto border-2'>
-        {error}
-      </div>
-    </>}
-
-    {content}
-  </>
+  
 }

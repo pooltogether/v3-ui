@@ -3,20 +3,8 @@ import { useQuery } from '@apollo/client'
 
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
-import { PrizesTable } from 'lib/components/PrizesTable'
+import { PlayersTable } from 'lib/components/PlayersTable'
 import { prizePlayersQuery } from 'lib/queries/prizePlayersQuery'
-
-// {
-//   prizes(where: { id: "0x8aeb8966f8bace440398041776e185f7f27e219b-1" }
-//   ) {
-//     id
-//   }
-// }
-//
-// players(where: { prizePool: "0x0e31d9a960f983e50a4d6574a5b29d34a29fa5a3" }
-//         block: { number: prize.awardedAtBlock }) {
-//   id
-// }
 
 export const PrizePlayerListing = (
   props,
@@ -73,10 +61,10 @@ export const PrizePlayerListing = (
         no players
       </>}
 
-      {/* <PrizesTable
+      <PlayersTable
         pool={pool}
-        prizes={reversedPrizes} 
-      /> */}
+        players={players}
+      />
     </div>
 
   </>

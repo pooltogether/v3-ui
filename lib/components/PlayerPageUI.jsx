@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
 import { motion } from 'framer-motion'
 
-import { AccountPoolRow } from 'lib/components/AccountPoolRow'
-import { Button } from 'lib/components/Button'
-import { IndexUILoader } from 'lib/components/IndexUILoader'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
+import { Button } from 'lib/components/Button'
+import { ErrorMessage } from 'lib/components/ErrorMessage'
+import { IndexUILoader } from 'lib/components/IndexUILoader'
 
 export const PlayerPageUI = (props) => {
   const playerDataContext = useContext(PlayerDataContext)
@@ -14,6 +15,14 @@ export const PlayerPageUI = (props) => {
 
   const poolData = useContext(PoolDataContext)
   const { pools } = poolData
+
+  try {
+    ethers.utils.getAddress(pool.poolAddress)
+  } catch (e) {
+    return <ErrorMessage>
+      Incorrectly formatted Ethereum address!
+    </ErrorMessage>
+  }
 
   return <>
     <motion.div
