@@ -2,6 +2,7 @@ import React from 'react'
 import { useQuery } from '@apollo/client'
 
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
+import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PrizesTable } from 'lib/components/PrizesTable'
 import { poolPrizesQuery } from 'lib/queries/poolPrizesQuery'
@@ -11,13 +12,16 @@ export const PoolPrizeListing = (
 ) => {
   const { pool } = props
 
+  const generalContext = useContext(GeneralContext)
+  const { paused } = generalContext
+
   const { loading, error, data } = useQuery(poolPrizesQuery, {
     variables: {
       prizeStrategyAddress: pool?.prizeStrategyAddress
     },
     skip: !pool?.prizeStrategyAddress,
     fetchPolicy: 'network-only',
-    pollInterval: MAINNET_POLLING_INTERVAL,
+    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
   })
 
   if (error) {

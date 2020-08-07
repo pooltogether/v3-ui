@@ -2,7 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 
 export const Modal = (props) => {
-  const { header, children, visible } = props
+  const { header, children, visible, zIndex } = props
 
   return <>
     <div
@@ -15,7 +15,7 @@ export const Modal = (props) => {
       )}
       style={{
         backdropFilter: "blur(2px)",
-        zIndex: 150000
+        zIndex: zIndex || 150000
       }}
     >
       <div

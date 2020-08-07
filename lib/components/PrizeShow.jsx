@@ -3,14 +3,14 @@ import Link from 'next/link'
 import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 
+import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { Button } from 'lib/components/Button'
+import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Meta } from 'lib/components/Meta'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
-import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { prizeQuery } from 'lib/queries/prizeQuery'
 
 export const PrizeShow = (
@@ -18,6 +18,9 @@ export const PrizeShow = (
 ) => {
   const router = useRouter()
   const prizeNumber = router.query?.prizeNumber
+
+  const generalContext = useContext(GeneralContext)
+  const { paused } = generalContext
 
   const poolData = useContext(PoolDataContext)
   const { pool } = poolData
@@ -37,7 +40,8 @@ export const PrizeShow = (
       prizeId
     },
     skip: !prizeStrategyAddress || !prizeNumber,
-    // fetchPolicy: 'network-only',
+    fetchPolicy: 'network-only',
+    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
   })
 
   if (error) {

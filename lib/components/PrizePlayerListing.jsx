@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useQuery } from '@apollo/client'
 
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
+import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PlayersTable } from 'lib/components/PlayersTable'
 import { prizePlayersQuery } from 'lib/queries/prizePlayersQuery'
@@ -10,6 +11,9 @@ export const PrizePlayerListing = (
   props,
 ) => {
   const { pool, prize } = props
+
+  const generalContext = useContext(GeneralContext)
+  const { paused } = generalContext
 
   const timeTravelQuery = prizePlayersQuery(prize?.awardedBlock)
 
@@ -22,7 +26,7 @@ export const PrizePlayerListing = (
     },
     skip: !pool || !prize,
     fetchPolicy: 'network-only',
-    pollInterval: MAINNET_POLLING_INTERVAL,
+    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
   })
 
   console.log({ loading, error, data })
@@ -48,13 +52,15 @@ export const PrizePlayerListing = (
     </div>
   }
 
+  console.log({ error })
+
   return <>
     <div
       className='flex flex-col items-center text-center mt-10'
     >
       {error && <>
         There was an issue loading data from The Graph:
-        {error}
+        {error.message}
       </>}
 
       {players?.length === 0 && <>

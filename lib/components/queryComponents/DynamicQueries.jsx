@@ -1,8 +1,10 @@
+import { useContext } from 'react'
 import { useQuery } from '@apollo/client'
 
 import {
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
+import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
 import { dynamicPrizePoolsQuery } from 'lib/queries/dynamicPrizePoolsQuery'
 import { dynamicPrizeStrategiesQuery } from 'lib/queries/dynamicPrizeStrategiesQuery'
@@ -15,12 +17,15 @@ export const DynamicQueries = (
 ) => {
   const { poolAddresses, usersAddress, children } = props
  
+  const generalContext = useContext(GeneralContext)
+  const { paused } = generalContext
+
   let dynamicPoolData
 
   // multiple queries at the same time, this or use apollo-link-batch (to prevent multiple re-renders)
   const { loading: poolQueryLoading, error: poolQueryError, data: poolQueryData } = useQuery(dynamicPrizePoolsQuery, {
     fetchPolicy: 'network-only',
-    pollInterval: MAINNET_POLLING_INTERVAL
+    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
   })
 
   if (poolQueryError) {
@@ -37,7 +42,7 @@ export const DynamicQueries = (
   // multiple queries at the same time, this or use apollo-link-batch (to prevent multiple re-renders)
   const { loading: prizeStrategyQueryLoading, error: prizeStrategyQueryError, data: prizeStrategyQueryData } = useQuery(dynamicPrizeStrategiesQuery, {
     fetchPolicy: 'network-only',
-    pollInterval: MAINNET_POLLING_INTERVAL
+    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
   })
 
   if (prizeStrategyQueryError) {
@@ -58,7 +63,7 @@ export const DynamicQueries = (
       playerAddress: usersAddress
     },
     fetchPolicy: 'network-only',
-    pollInterval: MAINNET_POLLING_INTERVAL,
+    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
     skip: !usersAddress
   })
 

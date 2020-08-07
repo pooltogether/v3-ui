@@ -18,7 +18,7 @@
 //       playerAddress: usersAddress
 //     },
 //     fetchPolicy: 'network-only',
-//     pollInterval: MAINNET_POLLING_INTERVAL,
+//     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
 //     skip: !usersAddress
 //   })
 

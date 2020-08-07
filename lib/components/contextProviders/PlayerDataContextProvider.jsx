@@ -4,9 +4,10 @@ import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/client'
 
 import {
-  MAINNET_POLLING_INTERVAL
+  MAINNET_POLLING_INTERVAL,
+  SUPPORTED_CHAIN_IDS
 } from 'lib/constants'
-import { SUPPORTED_CHAIN_IDS } from 'lib/constants'
+import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
 
@@ -16,6 +17,9 @@ export const PlayerDataContextProvider = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
   const { chainId } = authControllerContext
 
+  const generalContext = useContext(GeneralContext)
+  const { paused } = generalContext
+
   const router = useRouter()
   const playerAddress = router.query?.playerAddress?.toLowerCase()
 
@@ -24,14 +28,15 @@ export const PlayerDataContextProvider = (props) => {
   }
 
   let playerAddressError
-  try {
-    ethers.utils.getAddress(pool.poolAddress)
-  } catch (e) {
-    playerAddressError = 'Incorrectly formatted Ethereum address!'
-    console.error(playerAddressError)
-    console.error(e)
+  if (playerAddress) {
+    try {
+      ethers.utils.getAddress(playerAddress)
+    } catch (e) {
+      playerAddressError = 'Incorrectly formatted Ethereum address!'
+      console.error(playerAddressError)
+      console.error(e)
+    }
   }
-
 
   let playerData
 
@@ -40,7 +45,7 @@ export const PlayerDataContextProvider = (props) => {
       playerAddress
     },
     fetchPolicy: 'network-only',
-    pollInterval: MAINNET_POLLING_INTERVAL,
+    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
     skip: !playerAddress || playerAddressError
   })
 
