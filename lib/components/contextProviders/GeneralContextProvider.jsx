@@ -15,7 +15,7 @@ export const GeneralContextProvider = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
   const { supportedNetwork } = authControllerContext
 
-  const windowFocused = useWindowFocus()
+  const windowFocused = true || useWindowFocus()
 
   const isOnline = useOnlineState()
   const paused = !windowFocused || !isOnline || !supportedNetwork

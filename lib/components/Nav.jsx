@@ -22,6 +22,51 @@ export const Nav = (props) => {
   }
 
   return <>
+    <div
+      className='flex justify-between items-center fixed b-0 l-0 r-0 bg-card-selected'
+      style={{
+        boxShadow: '0 -10px 15px -3px rgba(0, 0, 0, .1), 0 -4px 6px -2px rgba(0, 0, 0, .05)',
+        height: '10vh'
+      }}
+    >
+      <Link
+        href='/account'
+        as='/account'
+        shallow
+      >
+        <a
+          className='h-full w-full flex flex-col justify-center items-center px-10 text-primary hover:text-secondary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+        >
+          Account
+        </a>
+      </Link>
+
+      <Link
+        href='/'
+        as='/'
+        shallow
+      >
+        <a
+          className='h-full w-full flex flex-col justify-center items-center px-10 text-primary hover:text-secondary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+        >
+          Pool
+        </a>
+      </Link>
+
+      <Link
+        href='/prizes/[symbol]'
+        as='/prizes/PT-cDAI'
+        shallow
+      >
+        <a
+          className='h-full w-full flex flex-col justify-center items-center px-10 text-primary hover:text-secondary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+        >
+          Prizes
+        </a>
+      </Link>
+    </div>
+
+
     <div className='nav-and-footer-container'>
       <nav
         className='nav-min-height flex items-center h-full justify-between flex-wrap'
@@ -50,7 +95,7 @@ export const Nav = (props) => {
           </div>
 
           {usersAddress && <TransactionsUI />}
-
+{/* 
           <Link
             href='/prizes/[symbol]'
             as='/prizes/PT-cDAI'
@@ -59,7 +104,7 @@ export const Nav = (props) => {
             <a
               className='font-bold text-secondary hover:text-blue text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
             >Prizes</a>
-          </Link>
+          </Link> */}
 
           <div
             className='text-xxs sm:text-sm text-right'

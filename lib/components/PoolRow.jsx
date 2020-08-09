@@ -33,8 +33,8 @@ export const PoolRow = (
           className={classnames(
             'w-full px-3 sm:px-4 sm:px-4 mb-3 py-3 sm:py-4 inline-block  trans rounded-lg border-0 text-inverse',
             {
-              'bg-primary hover:bg-secondary hover:text-primary cursor-pointer shadow-md hover:shadow-xl': !selected,
-              'bg-default hover:bg-default hover:text-inverse': selected,
+              'bg-card hover:bg-card-selected cursor-pointer border border-transparent border shadow-md hover:shadow-xl': !selected,
+              'bg-card hover:bg-card-selected border border-dashed border-secondary': selected,
             }
           )}
           style={{

@@ -132,7 +132,7 @@ export const AccountUI = (props) => {
                             },
                           }}
                           whileHover={{
-                            y: -6
+                            y: -4
                           }}
                           className='relative w-full'
                         >

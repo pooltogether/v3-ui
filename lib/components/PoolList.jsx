@@ -76,7 +76,7 @@ export const PoolList = (
                 // },
               }}
               whileHover={{
-                y: selected ? 0 : -6
+                y: selected ? 0 : -4
               }}
               className='relative w-full'
             >
