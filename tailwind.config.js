@@ -13,7 +13,7 @@ module.exports = {
       'lg': '1281px'
     },
     colors: {
-      black: colors.black,
+      // black: colors.black,
       white: colors.white,
       cyan: {
       },
@@ -33,6 +33,7 @@ module.exports = {
     extend: {
       borderColor: {
         primary: 'var(--color-border-primary)',
+        card: 'var(--color-border-card)',
         secondary: 'var(--color-border-secondary)',
         default: 'var(--color-border-default)',
         transparent: 'var(--color-border-transparent)',
@@ -41,6 +42,7 @@ module.exports = {
         green: 'var(--color-border-green)',
       },
       textColor: {
+        black: 'var(--color-text-black)',
         primary: 'var(--color-text-primary)',
         'primary-soft': 'var(--color-text-primary-soft)',
         secondary: 'var(--color-text-secondary)',
@@ -49,6 +51,7 @@ module.exports = {
         inverse: 'var(--color-text-inverse)',
         'inverse-soft': 'var(--color-text-inverse-soft)',
         match: 'var(--color-text-match)',
+        'accent-grey-1': 'var(--color-text-accent-grey-1)',
         red: 'var(--color-text-red)',
         green: 'var(--color-text-green)',
         yellow: 'var(--color-text-yellow)',
@@ -66,6 +69,7 @@ module.exports = {
         darkened: 'var(--color-bg-darkened)',
         inverse: 'var(--color-bg-inverse)',
         overlay: 'var(--color-bg-overlay)',
+        black: 'var(--color-text-black)',
         red: 'var(--color-bg-red)',
         green: 'var(--color-bg-green)',
         yellow: 'var(--color-bg-yellow)',
@@ -74,7 +78,7 @@ module.exports = {
         purple: 'var(--color-bg-purple)',
       },
       boxShadow: {
-        'md': '0 3px 12px -2px rgba(0, 0, 0, .1), 0 2px 8px -1px rgba(0, 0, 0, .06)',
+        'md': '0 3px 8px -1px rgba(0, 0, 0, .1), 0 1px 5px -1px rgba(0, 0, 0, .06)',
         'lg': '0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05)',
         'xl': '0 10px 25px -5px rgba(0, 0, 0, .1), 0 10px 10px -5px rgba(0, 0, 0, .04)',
         '2xl': '0 25px 50px -12px rgba(0, 0, 0, .25)',

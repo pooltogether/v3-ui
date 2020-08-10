@@ -26,7 +26,7 @@
 }
 
 html { height: 100%; overflow:auto; }
-body { height: 100%; }
+body { height: 100%;  }
 
 html, body, table {
   -webkit-tap-highlight-color: transparent;
@@ -94,7 +94,7 @@ a[disabled],
 a[disabled]:hover {
   /* @apply text-blue-800; */
 }
-
+/* 
 blockquote,
 dl,
 dd,
@@ -108,6 +108,39 @@ figure,
 p,
 pre {
   margin: 0.5rem 0;
+} */
+
+h6 {
+  @apply font-bold text-base;
+  /* font-size: 1.25rem; */
+}
+
+@screen sm {
+  h6 {
+    @apply text-lg;
+  }
+}
+
+@screen lg {
+  h6 {
+    @apply text-xl;
+  }
+}
+
+.text-caption {
+  @apply text-accent-grey-1 text-xxxs;
+}
+
+@screen sm {
+  .text-caption {
+    @apply text-xxs;
+  }
+}
+
+@screen lg {
+  .text-caption {
+    @apply text-xs;
+  }
 }
 
 label {

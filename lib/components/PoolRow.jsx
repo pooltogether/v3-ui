@@ -4,9 +4,10 @@ import Link from 'next/link'
 import FeatherIcon from 'feather-icons-react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
+import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
-import { PrizePoolCountdown } from 'lib/components/PrizePoolCountdown'
+import { NewPrizePoolCountdown } from 'lib/components/NewPrizePoolCountdown'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const PoolRow = (
   props,
@@ -21,6 +22,7 @@ export const PoolRow = (
   }
 
   const symbol = pool.symbol
+  const decimals = pool?.underlyingCollateralDecimals
 
   return <>
     <AnimatePresence>
@@ -31,10 +33,10 @@ export const PoolRow = (
         <motion.a
           animate
           className={classnames(
-            'w-full px-3 sm:px-4 sm:px-4 mb-3 py-3 sm:py-4 inline-block  trans rounded-lg border-0 text-inverse',
+            'bg-card hover:bg-card-selected border-card w-full px-4 sm:px-4 sm:px-4 mb-3 py-3 sm:py-4 inline-block  trans rounded-lg border-0 text-inverse',
             {
-              'bg-card hover:bg-card-selected cursor-pointer border border-transparent border shadow-md hover:shadow-xl': !selected,
-              'bg-card hover:bg-card-selected border border-dashed border-secondary': selected,
+              'border border-card shadow-md hover:shadow-xl cursor-pointer': !selected,
+              'border border-card border-dashed': selected,
             }
           )}
           style={{
@@ -43,19 +45,36 @@ export const PoolRow = (
         >
           <div className='flex items-center'>
             <div
-              className='text-lg sm:text-xl font-bold w-6/12 sm:w-4/12 lg:w-3/12'
+              className='font-bold w-8/12 sm:w-4/12 lg:w-3/12'
             >
-              {pool.name}
+              <PoolCurrencyIcon
+                pool={pool}
+              />
+              <div className='inline-flex flex flex-col'>
+                <h6 className='inline-block'>
+                  <span
+                    className='text-primary'
+                  >
+                    Prize ${displayAmountInEther(
+                      pool?.estimatePrize,
+                      { decimals }
+                    )}
+                  </span>
+                </h6>
+                <span className='text-caption'>
+                  {pool.frequency}
+                </span>
+              </div>
             </div>
 
             <div
-              className='flex items-center w-5/12 sm:w-7/12 lg:w-8/12'
+              className='flex flex-col items-center w-4/12 sm:w-7/12 lg:w-8/12'
             >
-              <CurrencyAndYieldSource
-                {...props}
+              <NewPrizePoolCountdown
+                pool={pool}
               />
             </div>
-
+{/*}
             <div
               className='flex items-center w-1/12 justify-end'
             >
@@ -63,24 +82,20 @@ export const PoolRow = (
                 icon='arrow-right-circle'
                 className='stroke-current w-6 h-6 sm:w-8 sm:h-8'
               />
-            </div>
+            </div> */}
           </div>
 
           <div className='mt-5 flex items-center'>
             <div
               className='w-6/12 sm:w-4/12 lg:w-3/12'
             >
-              <PrizeAmount
-                {...props}
-              />
+              
             </div>
 
             <div
               className='flex items-center sm:my-1'
             >
-              <PrizePoolCountdown
-                pool={pool}
-              />
+              
             </div>
           </div>
         </motion.a>

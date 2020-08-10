@@ -75,8 +75,8 @@ export const PoolDataContextProvider = (props) => {
                   ...dynamicPrizeStrategiesData.daiPrizeStrategy,
                   ...staticPoolData.daiPool,
                   ...staticPrizeStrategiesData.daiPrizeStrategy,
-                  yieldSource: 'mStable',
-                  name: 'Daily Dai Pool',
+                  name: 'Weekly Dai Pool',
+                  frequency: 'Weekly',
                   symbol: 'PT-cDAI',
                 },
                 {
@@ -85,8 +85,8 @@ export const PoolDataContextProvider = (props) => {
                   ...dynamicPrizeStrategiesData.usdcPrizeStrategy,
                   ...staticPoolData.usdcPool,
                   ...staticPrizeStrategiesData.usdcPrizeStrategy,
-                  yieldSource: 'AAVE',
                   name: 'Daily USDC Pool',
+                  frequency: 'Daily',
                   symbol: 'PT-cUSDC',
                 },
                 {
@@ -95,8 +95,8 @@ export const PoolDataContextProvider = (props) => {
                   ...dynamicPrizeStrategiesData.usdtPrizeStrategy,
                   ...staticPoolData.usdtPool,
                   ...staticPrizeStrategiesData.usdtPrizeStrategy,
-                  yieldSource: 'Compound',
                   name: 'Weekly Tether Pool',
+                  frequency: 'Weekly',
                   symbol: 'PT-cUSDT',
                 },
                 // {

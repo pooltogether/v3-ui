@@ -60,7 +60,7 @@ export const AccountButton = (props) => {
               top: -3
             }}
           />
-        </>} {(profile && profile.name) ? profile.name : 'Account'}
+        </>} {(profile && profile.name) && profile.name}
       </div>
     </div>
   </button>

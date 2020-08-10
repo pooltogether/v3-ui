@@ -41,7 +41,7 @@ export const IndexUI = (
           marginLeft: 'auto',
           marginRight: 'auto',
           textAlign: 'center',
-          maxWidth: '90%',
+          maxWidth: '100%',
         }}
       >
         You could <span className='text-flashy'>win $702 every week</span> just by saving your money.

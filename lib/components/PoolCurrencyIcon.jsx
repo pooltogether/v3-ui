@@ -39,7 +39,7 @@ export const PoolCurrencyIcon = (
       className={classnames(
         {
           [className]: className,
-          'inline-block w-6 h-6 lg:w-8 lg:h-8 mr-2': !className,
+          'inline-block w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 mr-2': !className,
         }
       )}
     />

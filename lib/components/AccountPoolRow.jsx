@@ -32,7 +32,7 @@ export const AccountPoolRow = (
     >
       <motion.a
         animate
-        className='shadow-md hover:shadow-xl bg-card hover:bg-card-selected cursor-pointer border border-transparent w-full px-3 sm:px-4 sm:px-4 mb-3 py-3 sm:py-4 inline-block trans rounded-lg border-0 text-inverse'
+        className='border border-card shadow-md hover:shadow-xl bg-card hover:bg-card-selected cursor-pointer border border-transparent w-full px-3 sm:px-4 sm:px-4 mb-3 py-3 sm:py-4 inline-block trans rounded-lg border-0 text-inverse'
         style={{
           minHeight: 120
         }}

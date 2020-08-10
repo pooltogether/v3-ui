@@ -24,8 +24,9 @@ body {
 }
 
 .pool-container {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-bottom: 4rem;
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
   width: 100%;
 }
 

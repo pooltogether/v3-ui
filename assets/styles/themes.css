@@ -12,6 +12,7 @@
   --color-bg-darkened: #1a083a;
   --color-bg-inverse: #fff;
   --color-bg-overlay: rgba(48, 14, 105, 0.97);
+  --color-bg-black: #111;
   --color-bg-red: #e61b1b;
   --color-bg-green: #3EF3D4;
   --color-bg-yellow: #FF9303;
@@ -19,13 +20,15 @@
   --color-bg-teal: #0EA3A4;
   --color-bg-purple: #401C94;
 
+  --color-text-accent-grey-1: #BBB2CE;
   --color-text-primary: #9f7aea;
   --color-text-primary-soft: #6458af;
   --color-text-secondary: #72FAE3;
   --color-text-default: #a472f7;
   --color-text-default-soft: #7458df;
   --color-text-inverse: #fff;
-  --color-text-match: #000;
+  --color-text-match: #111;
+  --color-text-black: #111;
   --color-text-red: #e61b1b;
   --color-text-green: #05e6c4;
   --color-text-yellow: #ffc403;
@@ -34,6 +37,7 @@
   --color-text-purple: #401C94;
 
   --color-border-primary: #3c1a79;
+  --color-border-card: #341762;
   --color-border-secondary: #33DEC3;
   --color-border-default: #4c249f;
   --color-border-inverse: #fff;
@@ -44,14 +48,15 @@
 
 .theme-light {
   --color-bg-body: #fff;
-  --color-bg-card: #341762;
-  --color-bg-card-selected: #43286E;
+  --color-bg-card: #fff;
+  --color-bg-card-selected: #fff;
   --color-bg-primary: #fff;
   --color-bg-secondary: #f2f2f2;
   --color-bg-default: #f7f7f7;
   --color-bg-darkened: #e9e9e9;
-  --color-bg-inverse: #000;
+  --color-bg-inverse: #111;
   --color-bg-overlay: rgba(248, 248, 248, 0.97);
+  --color-bg-black: #111;
   --color-bg-red: #e61b1b;
   --color-bg-green: #1ef7d6;
   --color-bg-yellow: #FF9303;
@@ -59,13 +64,15 @@
   --color-bg-teal: #0EA3A4;
   --color-bg-purple: #401C94;
 
+  --color-text-accent-grey-1: #BBB2CE;
   --color-text-primary: #401C94;
   --color-text-primary-soft: #d9d9d9;
   --color-text-secondary: #05e6c4;
   --color-text-default: #4c249f;
   --color-text-default-soft: #946fdf;
-  --color-text-inverse: #000;
+  --color-text-inverse: #111;
   --color-text-match: #fff;
+  --color-text-black: #111;
   --color-text-red: #e61b1b;
   --color-text-green: #05e6c4;
   --color-text-yellow: #eba308;
@@ -74,9 +81,10 @@
   --color-text-purple: #401C94;
 
   --color-border-primary: #3c1a79;
+  --color-border-card: #BBB2CE;
   --color-border-secondary: #05e6c4;
   --color-border-default: #f7f7f7;
-  --color-border-inverse: #000;
+  --color-border-inverse: #111;
   --color-border-green: #1ef7d6;
   --color-border-red: #e61b1b;
   --color-border-transparent: rgba(0,0,0,0);
@@ -95,7 +103,7 @@ background: radial-gradient(circle, rgba(95,9,134,1) 0%, rgba(86,16,131,1) 19%, 
 }
 
 .theme-light .pool-logo:after {
-  background-image: url('/pooltogether-logo-black.svg');
+  background-image: url('/pooltogether-logo-dark.svg');
 }
 
 .theme-dark .ethereum-icon:after {
