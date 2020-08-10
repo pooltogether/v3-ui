@@ -41,8 +41,8 @@ export const IndexUI = (
           marginLeft: 'auto',
           marginRight: 'auto',
           textAlign: 'center',
-          maxWidth: '100%',
         }}
+        className='banner-text'
       >
         You could <span className='text-flashy'>win $702 every week</span> just by saving your money.
       </h1>
@@ -53,5 +53,15 @@ export const IndexUI = (
       selectedId={pool && pool.poolAddress}
       pools={pools}
     />
+
+    <div className='text-accent-grey-1 text-center text-base sm:text-lg lg:text-xl mt-6 opacity-50'>
+      The more you pool, the more you save, the more you win.
+      {/* When we pool,
+      we all save,
+      and one of us wins. */}
+      {/* The more you pool,
+      <br />The more you save,
+      <br />The more you win. */}
+    </div>
   </>
 }

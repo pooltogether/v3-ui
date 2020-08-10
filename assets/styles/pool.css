@@ -321,7 +321,7 @@ input[type='submit'][disabled] {
   display: inline-block;
 
   background-size: 1000% auto;
-  animation: 25000ms ease-in-out infinite cycleBackgroundPos;
+  animation: cycleBackgroundPos 25000ms infinite steps(170);
 }
 
 @keyframes cycleBackgroundPos {
@@ -752,5 +752,18 @@ input[type='submit'][disabled] {
 
   .dialog-inner-content {
     height: 100%;
+  }
+}
+
+
+@screen sm {
+  .banner-text {
+    max-width: 80%;
+  }
+}
+
+@screen lg {
+  .banner-text {
+    max-width: 80%;
   }
 }

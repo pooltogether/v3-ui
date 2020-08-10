@@ -128,7 +128,7 @@ export const Nav = (props) => {
         </div>
 
         <div
-          className='nav--account-controls-container w-4/5 flex justify-end h-full items-center text-right'
+          className='nav--account-controls-container flex justify-end h-full items-center text-right'
         >
 
           <div className='mr-2 sm:mr-4'>
