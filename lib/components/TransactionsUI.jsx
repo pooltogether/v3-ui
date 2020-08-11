@@ -65,7 +65,7 @@ export const TransactionsUI = (props) => {
     >
       {pendingCount > 0 && <>
         <span
-          className='py-1 sm:px-0 sm:py-1 lg:px-0 lg:py-1'
+          // className='sm:px-0 lg:px-0'
         >
           <div
             className='nav--account-transactions-button__loader relative inline-block ml-2 mr-1'
@@ -76,9 +76,9 @@ export const TransactionsUI = (props) => {
       </>}
       <span
         className={classnames(
-          'nav--account-transactions-button__address rounded-full py-1 lg:px-4 lg:py-1 hidden sm:block',
+          'bg-default text-inverse nav--account-transactions-button__address rounded-full lg:px-4 hidden sm:block border-2 border-highlight-2',
           {
-            'px-2': pendingCount === 0,
+            'px-4': pendingCount === 0,
             'px-3 ml-2': pendingCount > 0,
           }
         )}

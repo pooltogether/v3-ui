@@ -20,9 +20,7 @@ export const NavAccount = (props) => {
   }
 
   return <>
-    <div
-      className='text-xxs sm:text-sm text-right'
-    >
+    
       {usersAddress ?
         <AccountButton
           usersAddress={usersAddress}
@@ -34,7 +32,7 @@ export const NavAccount = (props) => {
           Sign in
         </Button>
       }
-    </div>
+    
 
     <TransactionsUI />
   </>

@@ -18,7 +18,7 @@ export const Nav = (props) => {
 
   return <>
     <nav
-      className='flex flex-col items-start hidden sm:block pt-4'
+      className='flex flex-col items-start hidden sm:block pt-4 font-bold'
     >
       <Link
         href='/'
@@ -27,7 +27,7 @@ export const Nav = (props) => {
       >
         <a
           className={classnames(
-            'h-full w-full flex justify-start items-center px-10 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none',
+            'h-full w-full flex justify-start items-center px-10 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-10 trans tracking-wider outline-none focus:outline-none active:outline-none',
             {
               'text-accent-3 hover:text-highlight-2': !poolPage,
               'text-highlight-2 hover:text-highlight-2': poolPage
@@ -62,7 +62,7 @@ export const Nav = (props) => {
       >
         <a
           className={classnames(
-            'h-full w-full flex justify-start items-center px-10 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none',
+            'h-full w-full flex justify-start items-center px-10 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-10 trans tracking-wider outline-none focus:outline-none active:outline-none',
             {
               'text-accent-3 hover:text-highlight-2': !prizesPage,
               'text-highlight-2 hover:text-highlight-2': prizesPage
@@ -94,7 +94,7 @@ export const Nav = (props) => {
       >
         <a
           className={classnames(
-            'h-full w-full flex justify-start items-center px-10 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none',
+            'h-full w-full flex justify-start items-center px-10 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-10 trans tracking-wider outline-none focus:outline-none active:outline-none',
             {
               'text-accent-3 hover:text-highlight-2': !accountPage,
               'text-highlight-2 hover:text-highlight-2': accountPage

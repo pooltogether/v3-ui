@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
+import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { motion } from 'framer-motion'
 
-import { Button } from 'lib/components/Button'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
 
 export const Settings = (props) => {
@@ -10,18 +10,24 @@ export const Settings = (props) => {
   
   const toggleSettingsPanel = (e) => {
     e.preventDefault()
+
     setIsOpen(!isOpen)
-    console.log({isOpen})
   }
   
   return <>
     <button
       onClick={toggleSettingsPanel}
-
+      className={classnames(
+        'hover:text-highlight-2',
+        {
+          'text-highlight': !isOpen,
+          'text-highlight-2': isOpen,
+        }
+      )}
     >
       <FeatherIcon
         icon='settings'
-        className='w-6 h-6 text-primary'
+        className='w-6 h-6'
         strokeWidth='2'
       />
     </button>

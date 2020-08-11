@@ -195,7 +195,7 @@ background: radial-gradient(circle, rgba(95,9,134,1) 0%, rgba(86,16,131,1) 19%, 
 }
 
 .theme-toggler {
-  @apply bg-secondary;
+  @apply bg-white;
   border-radius: 100px;
   position: relative;
   cursor: pointer;
@@ -203,7 +203,7 @@ background: radial-gradient(circle, rgba(95,9,134,1) 0%, rgba(86,16,131,1) 19%, 
 }
 
 .theme-dark .theme-toggler {
-  background-color: #0c041c;
+  @apply bg-darkened;
 }
 
 @screen sm {
@@ -225,12 +225,12 @@ background: radial-gradient(circle, rgba(95,9,134,1) 0%, rgba(86,16,131,1) 19%, 
 }
 
 .theme-dark .theme-toggler .theme-toggler--light {
-  @apply text-primary;
+  @apply text-highlight-2;
   opacity: 0.7;
 }
 
 .theme-dark .theme-toggler .theme-toggler--dark {
-  @apply text-primary;
+  @apply text-highlight-2;
 }
 
 .theme-light .theme-toggler:hover .theme-toggler--light {

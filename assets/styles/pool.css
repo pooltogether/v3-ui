@@ -375,10 +375,6 @@ input[type='submit'][disabled] {
   border-right-color: transparent;
 }
 
-.nav--account-transactions-button__address {
-  @apply bg-darkened;
-}
-
 .new-prize-gradient {
   background: linear-gradient(155deg, #55A0FB, #6D50DF, #6A1BCF );
 }
