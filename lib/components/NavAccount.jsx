@@ -4,9 +4,10 @@ import { useRouter } from 'next/router'
 import { AccountButton } from 'lib/components/AccountButton'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
+import { TransactionsUI } from 'lib/components/TransactionsUI'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
-export const AccountAndSignIn = (props) => {
+export const NavAccount = (props) => {
   const router = useRouter()
 
   const authControllerContext = useContext(AuthControllerContext)
@@ -34,6 +35,8 @@ export const AccountAndSignIn = (props) => {
         </Button>
       }
     </div>
+
+    <TransactionsUI />
   </>
     
 }

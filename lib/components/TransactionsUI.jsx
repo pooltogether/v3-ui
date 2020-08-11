@@ -13,7 +13,7 @@ import { TransactionsUIListItem } from 'lib/components/TransactionsUIListItem'
 import { transactionsVar } from 'lib/apollo/cache'
 import { clearPreviousTransactionsFactory } from 'lib/apollo/clearPreviousTransactionsFactory'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
-// import { shorten } from 'lib/utils/shorten'
+import { shorten } from 'lib/utils/shorten'
 
 // import EthereumIcon from 'assets/images/ethereum-white.svg'
 
@@ -61,7 +61,7 @@ export const TransactionsUI = (props) => {
 
     <button
       onClick={openTransactions}
-      className='nav--account-transactions-button flex text-primary bg-secondary inline-block trans rounded-full mr-2 sm:mr-4 text-xs sm:text-xs lg:text-sm shadow-sm'
+      className='nav--account-transactions-button flex text-primary bg-body inline-block trans rounded-full mr-2 sm:mr-4 text-xs sm:text-xs lg:text-sm shadow-sm'
     >
       {pendingCount > 0 && <>
         <span
@@ -74,7 +74,7 @@ export const TransactionsUI = (props) => {
           </div> {pendingCount} <span className='hidden sm:inline-block'>pending</span><span className='sm:hidden'></span>
         </span>
       </>}
-      {/* <span
+      <span
         className={classnames(
           'nav--account-transactions-button__address rounded-full py-1 lg:px-4 lg:py-1 hidden sm:block',
           {
@@ -84,9 +84,9 @@ export const TransactionsUI = (props) => {
         )}
       >
         {shorten(usersAddress)}
-      </span> */}
+      </span>
 
-      <span
+      {/* <span
         className={classnames(
           // 'sm:hidden',
           'rounded-full py-2 px-3',
@@ -94,7 +94,7 @@ export const TransactionsUI = (props) => {
         )}
       >
         <div className='ethereum-icon'></div>
-      </span>
+      </span> */}
 
       {/* <span
         className={classnames(
@@ -121,8 +121,8 @@ export const TransactionsUI = (props) => {
         className={'relative text-sm sm:text-base lg:text-lg h-full'}
         key='sign-in-scaled-bg'
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1, transition: { duration: 0.4 } }}
-        exit={{ opacity: 0, transition: { duration: 0.5 } }}
+        animate={{ opacity: 1, transition: { duration: 0.2 } }}
+        exit={{ opacity: 0, transition: { duration: 0.1 } }}
       >
         
 
@@ -158,7 +158,7 @@ export const TransactionsUI = (props) => {
 
               <button
                 onClick={closeTransactions}
-                className='close-button text-primary hover:text-secondary trans outline-none focus:outline-none active:outline-none'
+                className='close-button text-primary hover:text-secondary trans outline-none focus:outline-none active:outline-none pr-2'
               >
                 <VisuallyHidden>
                   Close

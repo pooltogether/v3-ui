@@ -1,20 +1,16 @@
 import React from 'react'
-import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
 import { AnimatePresence } from 'framer-motion'
 
-import { AccountAndSignIn } from 'lib/components/AccountAndSignIn'
-import { Button } from 'lib/components/Button'
+import { NavAccount } from 'lib/components/NavAccount'
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
 import { NavMobile } from 'lib/components/NavMobile'
 import { WithdrawWizardContainer } from 'lib/components/WithdrawWizardContainer'
 import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNotificationBanner'
-import { Footer } from 'lib/components/Footer'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
 import { Settings } from 'lib/components/Settings'
-import { TransactionsUI } from 'lib/components/TransactionsUI'
 import { SignInFormContainer } from 'lib/components/SignInFormContainer'
 
 export const Layout = (props) => {
@@ -72,17 +68,8 @@ export const Layout = (props) => {
               }}
               className='flex items-center justify-end relative'
             >
-              <TransactionsUI />
-
-              <AccountAndSignIn />
-
-              {/* <div
-                id='top'
-                className='main-nav relative z-20 pt-2'
-              >
-                <Nav />
-              </div> */}
-
+              <NavAccount />
+              
               <Settings />
             </div>
           </div>
