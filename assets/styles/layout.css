@@ -203,7 +203,7 @@ body {
   grid-template-areas:
     "header"
     "content";
-  grid-template-rows: 170px 1fr;
+  grid-template-rows: 150px 1fr;
 }
 /* "footer" */
 

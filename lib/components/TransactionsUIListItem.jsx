@@ -3,7 +3,7 @@ import FeatherIcon from 'feather-icons-react'
 
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { PTHint } from 'lib/components/PTHint'
-import { LoadingDots } from 'lib/components/LoadingDots'
+import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 
 export const TransactionsUIListItem = (props) => {
   const { tx } = props
@@ -28,7 +28,7 @@ export const TransactionsUIListItem = (props) => {
       </div>
 
       <div className='w-5'>
-        {!tx.completed && <LoadingDots />}
+        {!tx.completed && <LoadingSpinner />}
 
         {tx.completed && !tx.error && <>
           <FeatherIcon

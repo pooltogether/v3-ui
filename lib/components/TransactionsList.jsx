@@ -23,10 +23,9 @@ export const TransactionsList = (props) => {
     .filter(t => !t.cancelled)
     .reverse()
 
-  const pendingCount = transactions
+  const pendingTransactionsCount = transactions
     .filter(t => !t.completed)
     .length
-  // const pendingCount = 33
   
   const pastTransactionsCount = transactions
     .filter(t => t.completed)
@@ -47,16 +46,15 @@ export const TransactionsList = (props) => {
       transactions={transactions}
     />
       
-    {/* border-b-2 border-default */}
     <div
-      className='flex px-10 pt-6 pb-2'
+      className='flex px-6 sm:px-10 pt-6 pb-2'
     >
       <div
         className='flex flex-col w-full text-lg uppercase'
       >
-        Recent transactions <div className='block sm:inline-block text-xxs'>
-          {pendingCount > 0 && <>
-            ({pendingCount} pending)
+        Recent transactions <div className='block sm:inline-block text-xxs text-caption'>
+          {pendingTransactionsCount > 0 && <>
+            {pendingTransactionsCount} pending
           </>}
         </div>
 
@@ -76,13 +74,13 @@ export const TransactionsList = (props) => {
     >
       {notCancelledTransactions.length === 0 ? <>
         <div
-          className='text-caption px-10 pb-4 uppercase '
+          className='text-default-soft px-6 sm:px-10 pb-4 uppercase text-xs'
         >
           Currently no active transactions...
         </div>
       </> : <>
           <ul
-            className='transactions-ui-list overflow-x-hidden overflow-y-auto px-10 py-4'
+            className='transactions-ui-list overflow-x-hidden overflow-y-auto px-6 sm:px-10 py-4'
           >
             {notCancelledTransactions.map(tx => {
               return <TransactionsUIListItem

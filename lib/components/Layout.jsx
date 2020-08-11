@@ -57,7 +57,7 @@ export const Layout = (props) => {
           <StaticNetworkNotificationBanner />
 
           <div
-            className='flex justify-between items-center px-4 sm:px-10 py-4 sm:py-6'
+            className='flex justify-between items-center px-4 sm:px-10 py-4 sm:pt-5 sm:pb-3'
           >
             <HeaderLogo />
 

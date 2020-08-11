@@ -28,7 +28,7 @@ export const Settings = (props) => {
       <FeatherIcon
         icon='settings'
         className='w-6 h-6 sm:w-8 sm:h-8'
-        strokeWidth='2'
+        strokeWidth='0.09rem'
       />
     </button>
 

@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react'
 import classnames from 'classnames'
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 import { useQuery } from '@apollo/client'
-import { useRouter } from 'next/router'
 
-import { LoadingDots } from 'lib/components/LoadingDots'
+import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { shorten } from 'lib/utils/shorten'
 
@@ -19,8 +18,6 @@ const isValidImage = (image) => {
 }
 
 export const AccountButton = (props) => {
-  const router = useRouter()
-
   const { openTransactions, usersAddress } = props
   const [profile, setProfile] = useState()
 
@@ -61,6 +58,22 @@ export const AccountButton = (props) => {
     profile.name :
     shorten(usersAddress)
 
+  const pendingTxJsx = <>
+      <div
+        className='relative inline-block mr-1'
+        style={{
+          top: 3,
+          transform: 'scale(0.7)'
+        }}
+      >
+        <LoadingSpinner />
+      </div> {pendingTransactionsCount} pending
+  </>
+
+  const profileNameAndImage = <>
+    {image} {name}
+  </>
+
   return <button
     onClick={openTransactions}
     className='text-inverse hover:text-green text-xxs sm:text-sm trans tracking-wider outline-none focus:outline-none active:outline-none mr-2'
@@ -69,27 +82,31 @@ export const AccountButton = (props) => {
       className='flex items-center leading-none'
     >
       {pendingTransactionsCount > 0 && <>
-        <span>
-          <div
-            className='relative inline-block ml-2 mr-1'
-          >
-            <LoadingDots />
-          </div> {pendingCount} <span className='hidden sm:inline-block'>pending</span><span className='sm:hidden'></span>
-        </span>
+        <div
+          className='relative hidden sm:block mr-2 bg-card rounded-l-full py-2 px-3 pr-5 z-10'
+          style={{
+            right: -20
+          }}
+        >
+          {pendingTxJsx}
+        </div>
       </>}
-
-      {pendingTransactionsCount.length}
 
       <span
         className={classnames(
-          'flex items-center leading-none bg-default hover:bg-card rounded-full border-2 border-highlight-2 px-3 sm:px-5 py-1 trans leading-none',
-          // {
-          //   'px-4': pendingCount === 0,
-          //   'px-3 ml-2': pendingCount > 0,
-          // }
+          'flex items-center leading-none bg-default hover:bg-card rounded-full border-2 border-highlight-2 px-3 sm:px-5 py-1 trans leading-none z-20',
         )}
       >
-        {image} {name}
+        {pendingTransactionsCount > 0 ? <>
+          <div className='block sm:hidden py-1'>
+            {pendingTxJsx}
+          </div>
+          <div className='hidden sm:block'>
+            {profileNameAndImage}
+          </div>
+        </> : <>
+          {profileNameAndImage}
+        </>}
       </span>
     </div>
   </button>

@@ -19,8 +19,17 @@ export const NavAccount = (props) => {
   const { usersAddress } = authControllerContext
 
   const [showDialog, setShowDialog] = useState(false)
-  const openTransactions = () => setShowDialog(true)
-  const closeTransactions = () => setShowDialog(false)
+  console.log({ showDialog})
+  
+  const openTransactions = (e) => {
+    e.preventDefault()
+    setShowDialog(true)
+  }
+
+  const closeTransactions = (e) => {
+    e.preventDefault()
+    setShowDialog(false)
+  }
 
   const handleShowSignIn = (e) => {
     e.preventDefault()
@@ -34,16 +43,15 @@ export const NavAccount = (props) => {
         openTransactions={openTransactions}
         usersAddress={usersAddress}
       /> :
-      <Button
-        outline
+      <button
         onClick={handleShowSignIn}
+        className='text-highlight-2 hover:text-green text-xxs sm:text-sm bg-body rounded-full border-2 border-highlight-2 py-1 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none mr-2'
       >
         Sign in
-      </Button>
+      </button>
     }
 
     {usersAddress && <>
-
       <Dialog
         aria-label='List of your transactions'
         isOpen={showDialog}
@@ -53,9 +61,26 @@ export const NavAccount = (props) => {
           id='transactions-ui'
           className={'relative text-sm sm:text-base lg:text-lg h-full'}
           key='sign-in-scaled-bg'
-          initial={{ scale: 0 }}
-          animate={{ scale: 1, transition: { duration: 0.1 } }}
-          exit={{ scale: 0, transition: { duration: 0.1 } }}
+          animate={showDialog ? 'enter' : 'exit'}
+          variants={{
+            exit: {
+              scale: 0,
+              transition: {
+                duration: 0.1,
+                staggerChildren: 0.1
+              }
+            },
+            enter: {
+              scale: 1,
+              transition: {
+                duration: 0.1,
+                staggerChildren: 0.1
+              }
+            },
+            initial: {
+              scale: 0,
+            }
+          }}
         >
           <div
             className='flex flex-col items-center justify-center h-full w-full '
@@ -64,15 +89,15 @@ export const NavAccount = (props) => {
               className='dialog-inner relative message bg-primary text-inverse flex flex-col w-full border-default border-2 shadow-4xl'
             >
               <div
-                className='flex justify-between items-start px-10 pt-6 pb-5 bg-default rounded-xl rounded-b-none'
+                className='flex justify-between items-start px-6 sm:px-10 pt-6 pb-5 bg-default rounded-xl rounded-b-none'
               >
                 <WalletInfo />
 
                 <button
                   onClick={closeTransactions}
-                  className='relative close-button text-primary hover:text-secondary trans outline-none focus:outline-none active:outline-none'
+                  className='relative close-button text-default hover:text-highlight trans outline-none focus:outline-none active:outline-none'
                   style={{
-                    right: -10
+                    right: 0
                   }}
                 >
                   <VisuallyHidden>

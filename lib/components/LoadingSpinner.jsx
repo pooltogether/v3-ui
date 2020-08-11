@@ -1,5 +1,5 @@
 import React from 'react'
 
-export const LoadingDots = ({}) => (
+export const LoadingSpinner = ({}) => (
   <div className="loader01"></div>
 )
