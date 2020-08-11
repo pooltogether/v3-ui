@@ -1,4 +1,5 @@
 import React from 'react'
+import classnames from 'classnames'
 import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion'
 
 import { PoolRow } from 'lib/components/PoolRow'
@@ -6,49 +7,27 @@ import { PoolRow } from 'lib/components/PoolRow'
 export const PoolList = (
   props,
 ) => {
-  const { pools, selectedId } = props
+  const { omit, pools, selectedId } = props
 
   return <>
     <AnimateSharedLayout>
       <AnimatePresence>
         <h6
-          className='text-primary mb-6'
+          className={classnames(
+            'text-accent-2 mb-8',
+            {
+              'mt-20': omit
+            }
+          )}
         >
-          Active Pools
+          {omit ? 'Other Pools' : 'Active Pools'}
         </h6>
         
         <motion.ul
           key='pool-list'
           className='flex flex-col text-xs sm:text-lg lg:text-xl'
-          // initial='initial'
-          // animate='enter'
-          // exit='exit'
-          // variants={{
-          //   // exit: {
-          //   //   // scale: 0.6,
-          //   //   // y: 100,
-          //   //   opacity: 0,
-          //   //   transition: {
-          //   //     duration: 0.5,
-          //   //     staggerChildren: 0.1 
-          //   //   } 
-          //   // },
-          //   enter: {
-          //     transition: {
-          //       duration: 0.5,
-          //       staggerChildren: 0.1
-          //     }
-          //   },
-          //   initial: {
-          //     y: 0,
-          //     opacity: 1,
-          //     transition: {
-          //       duration: 0.2
-          //     }
-          //   }
-          // }}
         >
-          {pools.map(pool => {
+          {pools.filter(_pool => omit !== _pool).map(pool => {
             if (!pool || !pool.poolAddress) {
               return null
             }
@@ -59,8 +38,6 @@ export const PoolList = (
               key={`pool-${pool.poolAddress}`}
               sharedId={`pool-${pool.poolAddress}`}
               animate='enter'
-              // positionTransition
-              // layoutTransition={spring}
               variants={{
                 enter: {
                   y: 0,
@@ -68,12 +45,6 @@ export const PoolList = (
                     duration: 0.1
                   }
                 },
-                // exit: {
-                //   scale: 0.9,
-                //   transition: {
-                //     duration: 0.1
-                //   }
-                // },
               }}
               whileHover={{
                 y: selected ? 0 : -4

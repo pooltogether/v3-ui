@@ -174,7 +174,7 @@ export const Button = (props) => {
     if (blue) {
       newClassNames = `${className} font-bold bg-body rounded-xl bg-blue text-white text-xxs sm:text-base py-2 sm:py-2 px-4 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none `
     } else {
-      newClassNames = `${className} font-bold bg-body rounded-xl text-secondary border-4 border-secondary text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none`
+      newClassNames = `${className} font-bold bg-body rounded-xl text-highlight-2 border-4 border-highlight-2 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none`
     }
 
     if (selected) {
@@ -200,54 +200,47 @@ export const Button = (props) => {
     'blue',
   ])
 
-  // if (!disabled) {
-    newProps = {
-      ...newProps,
-      // animate: 'enter',
-      // variants: {
-      //   enter: {
-      //     y: 0,
-      //     transition: {
-      //       duration: 0.1
-      //     }
-      //   },
-      // },
-      whileHover: {
-        scale: 1.03,
-        y: -3,
-        transition: {
-          duration: 0.1
-        }
-      },
-      whileTap: {
-        scale: 0.97,
-        y: 2,
-        transition: {
-          duration: 0.1
-        }
+  const animationProps = {
+    whileHover: {
+      scale: 1.03,
+      y: -3,
+      transition: {
+        duration: 0.1
+      }
+    },
+    whileTap: {
+      scale: 0.97,
+      y: 2,
+      transition: {
+        duration: 0.1
       }
     }
-  // }
+  }
 
   if (href && as) {
-    const linkProps = omit(newProps, [
-      'children',
-      'type',
-    ])
+    // const linkProps = omit(newProps, [
+    //   'children',
+    //   'type',
+    // ])
 
     return <Link
       href={href}
       as={as}
       scroll={false}
     >
-      <motion.a
-        {...linkProps}
+      <a
+        // {...linkProps}
         ref={buttonRef}
         anim={disabled || noAnim ? '' : 'ripple'}
         className={newClassNames}
       >
-        {children}
-      </motion.a>
+        <motion.span
+          {...animationProps}
+          className='inline'
+        >
+          {children}
+        </motion.span>
+      </a>
     </Link>
   } else {
     return <motion.button

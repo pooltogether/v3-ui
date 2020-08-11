@@ -50,11 +50,14 @@ export const IndexUI = (
 
 
     <PoolList
+      omit={pool}
       selectedId={pool && pool.poolAddress}
       pools={pools}
     />
 
-    <div className='text-accent-grey-1 text-center text-base sm:text-lg lg:text-xl mt-6 opacity-50'>
+    <div
+      className='text-accent-1 text-center text-base sm:text-lg lg:text-xl mt-20 opacity-40'
+    >
       The more you pool, the more you save, the more you win.
       {/* When we pool,
       we all save,

@@ -9,6 +9,7 @@ import { SHOW_AWARD_FEATURES } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
+import { ButtonLink } from 'lib/components/ButtonLink'
 import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
 import { PoolStats } from 'lib/components/PoolStats'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
@@ -155,13 +156,18 @@ export const PoolShow = (
                 </div>
               </>}
 
-              <Button
+              <ButtonLink
                 wide
                 size='lg'
+                border='highlight'
+                text='highlight'
+                bg='primary'
+                href='/pools/[symbol]/deposit'
+                as={`/pools/${symbol}/deposit`}
                 onClick={handleShowDeposit}
               >
                 Get tickets
-              </Button>
+              </ButtonLink>
             </div>
           </div>
 

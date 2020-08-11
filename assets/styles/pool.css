@@ -128,7 +128,7 @@ h6 {
 }
 
 .text-caption {
-  @apply text-accent-grey-1 text-xxxs;
+  @apply text-accent-1 text-xxxs;
 }
 
 @screen sm {
