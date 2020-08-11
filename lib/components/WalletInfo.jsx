@@ -6,7 +6,9 @@ import { networkColorClassname } from 'lib/utils/networkColorClassname'
 import { chainIdToName } from 'lib/utils/chainIdToName'
 import { shorten } from 'lib/utils/shorten'
 
-export const WalletInfo = () => {
+export const WalletInfo = (props) => {
+  const { closeTransactions } = props
+
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress, chainId, walletName } = authControllerContext
 
@@ -58,7 +60,12 @@ export const WalletInfo = () => {
               className='rounded-lg capitalize sm:text-xs lg:text-sm text-default-soft mb-2 sm:mb-4'
             >
               {walletName} - <button
-                onClick={authControllerContext.signOut}
+                onClick={(e) => {
+                  e.preventDefault()
+
+                  closeTransactions()
+                  authControllerContext.signOut()
+                }}
                 className='inline-block text-blue hover:text-green underline trans lowercase'
               >
                 Change account

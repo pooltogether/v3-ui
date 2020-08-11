@@ -10,15 +10,9 @@ export const Nav = (props) => {
   const prizesPage = router.pathname.match('prizes')
   const poolPage = !accountPage && !prizesPage
 
-  // const handleShowSignIn = (e) => {
-  //   e.preventDefault()
-
-  //   queryParamUpdater.add(router, { signIn: 1 })
-  // }
-
   return <>
     <nav
-      className='flex flex-col items-start hidden sm:block pt-4 font-bold'
+      className='flex flex-col items-start hidden sm:block pt-6 font-bold'
     >
       <Link
         href='/'

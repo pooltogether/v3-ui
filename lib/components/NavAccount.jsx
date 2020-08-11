@@ -27,7 +27,9 @@ export const NavAccount = (props) => {
   }
 
   const closeTransactions = (e) => {
-    e.preventDefault()
+    if (e) {
+      e.preventDefault()
+    }
     setShowDialog(false)
   }
 
@@ -51,7 +53,7 @@ export const NavAccount = (props) => {
       </button>
     }
 
-    {usersAddress && <>
+    {/* {usersAddress && <> */}
       <Dialog
         aria-label='List of your transactions'
         isOpen={showDialog}
@@ -91,7 +93,9 @@ export const NavAccount = (props) => {
               <div
                 className='flex justify-between items-start px-6 sm:px-10 pt-6 pb-5 bg-default rounded-xl rounded-b-none'
               >
-                <WalletInfo />
+                <WalletInfo
+                  closeTransactions={closeTransactions}
+                />
 
                 <button
                   onClick={closeTransactions}
@@ -123,7 +127,7 @@ export const NavAccount = (props) => {
 
         </motion.div>
       </Dialog>
-    </>}
+    {/* </>} */}
   </>
     
 }
