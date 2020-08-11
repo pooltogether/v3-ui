@@ -30,7 +30,7 @@ const prizeLink = (pool, prize) => {
     shallow
   >
     <a
-      className='text-secondary hover:text-blue trans'
+      className='text-secondary hover:text-blue trans text-right w-full'
     >
       view details
     </a>
@@ -110,6 +110,7 @@ export const PrizesTable = (
       {
         Header: '',
         accessor: 'view',
+        Cell: row => <div style={{ textAlign: 'right' }}>{row.value}</div>
       },
     ]
   }, [] )

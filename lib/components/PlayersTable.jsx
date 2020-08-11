@@ -69,6 +69,7 @@ export const PlayersTable = (
       {
         Header: '',
         accessor: 'view',
+        Cell: row => <div style={{ textAlign: 'right' }}>{row.value}</div>
       },
     ]
   }, [] )

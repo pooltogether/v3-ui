@@ -21,7 +21,11 @@ const clearPreviousTransactions = clearPreviousTransactionsFactory(transactionsV
 
 export const TransactionsUI = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
-  const { networkName, usersAddress, provider } = authControllerContext
+  const { usersAddress } = authControllerContext
+
+  if (!usersAddress) {
+    return null
+  }
 
   const [showDialog, setShowDialog] = useState(false)
   const openTransactions = () => setShowDialog(true)
