@@ -33,11 +33,11 @@ export const Settings = (props) => {
     </button>
 
     <motion.div
-      className='bg-default h-full absolute t-0 b-0 z-20 p-4 sm:p-6 shadow-md'
+      className='bg-default h-full fixed t-0 b-0 z-20 px-10 py-6 shadow-md rounded-lg'
       style={{
-        height: 'calc(100vh - 220px)',
+        height: '40vh',
         right: -30,
-        top: 78,
+        top: '12vh',
         width: 300
       }}
       animate={isOpen ? 'enter' : 'exit'}

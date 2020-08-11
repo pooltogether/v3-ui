@@ -731,11 +731,6 @@ input[type='submit'][disabled] {
     width: 100%;
   }
 
-  .close-button {
-    right: 36px;
-    top: 26px;
-  }
-
   .dialog-inner {
     border: 0;
     border-radius: 0;

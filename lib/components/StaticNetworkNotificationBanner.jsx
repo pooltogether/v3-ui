@@ -46,7 +46,7 @@ export const StaticNetworkNotificationBanner = (props) => {
     
     <div
       className={classnames(
-        'text-sm sm:text-base lg:text-lg sm:px-6 py-4',
+        'text-sm sm:text-base lg:text-lg sm:px-6 py-2',
         {
           'block bg-red': !supportedNetwork,
           [supportedNetworkClasses]: supportedNetwork,

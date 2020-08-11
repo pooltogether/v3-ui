@@ -158,7 +158,7 @@ export const TransactionsUI = (props) => {
 
               <button
                 onClick={closeTransactions}
-                className='close-button text-primary hover:text-secondary trans outline-none focus:outline-none active:outline-none pr-2'
+                className='close-button text-primary hover:text-secondary trans outline-none focus:outline-none active:outline-none sm:pr-2'
               >
                 <VisuallyHidden>
                   Close

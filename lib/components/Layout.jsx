@@ -95,7 +95,7 @@ export const Layout = (props) => {
                 }}
               >
                 <div
-                  className='my-4 text-inverse'
+                  className='my-0 text-inverse'
                 >
                   {React.cloneElement(children, {
                     ...props,

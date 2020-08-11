@@ -25,7 +25,7 @@ export const NavMobile = (props) => {
       >
         <a
           className={classnames(
-            'h-full w-full flex flex-col justify-center items-center px-10 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none',
+            'h-full w-full flex flex-col justify-center items-center px-2 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none',
             {
               'text-accent-3 hover:text-highlight-2': !poolPage,
               'text-highlight-2 hover:text-highlight-2': poolPage
@@ -50,7 +50,7 @@ export const NavMobile = (props) => {
       >
         <a
           className={classnames(
-            'h-full w-full flex flex-col justify-center items-center px-10 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none',
+            'h-full w-full flex flex-col justify-center items-center px-2 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none',
             {
               'text-accent-3 hover:text-highlight-2': !prizesPage,
               'text-highlight-2 hover:text-highlight-2': prizesPage
@@ -73,7 +73,7 @@ export const NavMobile = (props) => {
       >
         <a
           className={classnames(
-            'h-full w-full flex flex-col justify-center items-center px-10 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none',
+            'h-full w-full flex flex-col justify-center items-center px-2 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none',
             {
               'text-accent-3 hover:text-highlight-2': !accountPage,
               'text-highlight-2 hover:text-highlight-2': accountPage
