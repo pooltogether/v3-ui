@@ -37,9 +37,20 @@ export const NewPrizeCountdown = (
   const minutesArray = ('' + minutes).split('')
   const secondsArray = ('' + seconds).split('')
 
+  const textColor = minutes > 2 ?
+    'green' :
+    minutes > 1 ?
+      'yellow' :
+      'red'
+  // const textColor = days > 2 ?
+  //   'green' :
+  //   days > 1 ?
+  //     'yellow' :
+  //     'red'
+
   const LeftSideJsx = ({ digit }) => {
     return <span
-      className='bg-white text-green font-bold border border-accent-1 rounded-tl-md rounded-bl-md'
+      className={`bg-white text-${textColor} font-bold border border-accent-1 rounded-tl-md rounded-bl-md`}
       style={{
         padding: '1px 4px',
         borderWidth: '0.015rem'
@@ -51,7 +62,7 @@ export const NewPrizeCountdown = (
 
   const RightSideJsx = ({ digit }) => {
     return <span
-      className='bg-white text-green font-bold border border-accent-1 rounded-tr-md rounded-br-md border-l-0'
+      className={`bg-white text-${textColor} font-bold border border-accent-1 rounded-tr-md rounded-br-md border-l-0`}
       style={{
         padding: '1px 4px',
         borderWidth: '0.015rem'
