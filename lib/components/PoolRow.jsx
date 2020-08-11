@@ -34,7 +34,7 @@ export const PoolRow = (
         <motion.a
           animate
           className={classnames(
-            'bg-card hover:bg-card-selected border-card w-full px-4 mb-3 py-5 inline-block  trans rounded-lg border-0 text-inverse',
+            'bg-card hover:bg-card-selected border-card w-full px-4 mb-3 py-5 inline-block trans rounded-lg border-0 text-inverse hover:text-inverse',
             {
               'border border-card shadow-md hover:shadow-xl cursor-pointer': !selected,
               'border border-card border-dashed': selected,

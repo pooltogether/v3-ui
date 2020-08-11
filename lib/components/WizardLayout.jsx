@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 
 function range1(i) { return i ? range1(i - 1).concat(i) : [] }
 
@@ -139,9 +140,15 @@ export const WizardLayout = (props) => {
         {children}
       </div>
 
-      <nav
-        className='fixed b-0 l-0 r-0 w-full px-4 pb-4 flex items-center justify-center flex-wrap h-20'
+      <div
+        className='fixed b-0 l-0 r-0 w-full px-4 pb-16 flex flex-col items-center justify-center h-20'
       >
+        <div className='mb-2'>
+          <PoolCurrencyIcon
+            pool={poolData.pool}
+          />
+        </div>
+
         <div
           className='text-inverse bg-primary rounded-lg px-2 uppercase text-xxs sm:text-sm font-bold'
         >
@@ -150,7 +157,7 @@ export const WizardLayout = (props) => {
             {poolData.pool.name}
           </>}
         </div>
-      </nav>
+      </div>
     </motion.div>
   </>
 }
