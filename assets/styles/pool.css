@@ -87,7 +87,7 @@ a:hover {
   /* @apply border-purple-700; */
   /* @apply text-secondary border-purple-700; */
   /* @apply text-secondary border-primary; */
-  @apply text-secondary;
+  @apply text-green;
 }
 
 a[disabled],
@@ -684,12 +684,9 @@ input[type='submit'][disabled] {
 }
 
 [data-reach-dialog-content] {
-  /* background: white; */
   margin: 10vh auto;
   max-width: 600px;
-  padding-top: 3vh;
   pointer-events: none;
-  /* position: relative; */
   outline: none;
   width: 80vw;
 }
@@ -743,25 +740,31 @@ input[type='submit'][disabled] {
   }
 }
 
-
-@screen sm {
-  .banner-text {
-    max-width: 80%;
-  }
-}
-
 @screen lg {
   .banner-text {
     max-width: 80%;
   }
 }
 
-.transactions-ui-list {
-  
+@screen sm {
+  .transactions-ui-list {
+    max-height: 40vh;
+  }
+}
+
+.profile-img--jazzicon {
+  top: 1px;
+}
+
+.profile-img {
+  /* top: 2px; */
+  transform: scale(0.8);
 }
 
 @screen sm {
-  .transactions-ui-list {
-    max-height: 60vh;
+  .profile-img {
+    top: 0;
+    transform: scale(0.9);
+    transform-origin: center;
   }
 }

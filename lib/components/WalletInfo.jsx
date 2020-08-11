@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { Button } from 'lib/components/Button'
 import { networkColorClassname } from 'lib/utils/networkColorClassname'
 import { chainIdToName } from 'lib/utils/chainIdToName'
 import { shorten } from 'lib/utils/shorten'
@@ -28,19 +27,17 @@ export const WalletInfo = () => {
   if (usersAddress && walletName) {
     content = <>
       <div
-        className='flex flex-col sm:flex-row w-full sm:items-center justify-between'
+        className='flex flex-col w-full justify-between'
       > 
-        <div className='flex flex-col sm:flex-row text-base sm:text-lg lg:text-xl leading-snug text-default trans justify-start items-start text-left '>
+        <div className='flex flex-col text-xxs sm:text-lg lg:text-xl leading-snug trans'>
           <div
             className='sm:mr-10 lg:mr-20'
           >
-            <h2
-              className='text-default-soft'
-            >
-              ETH Address
-            </h2>
+            <h6>
+              Address:
+            </h6>
             <div
-              className='overflow-ellipsis w-full no-underline lg:text-sm text-secondary mb-6 sm:mb-0'
+              className='overflow-ellipsis w-full no-underline sm:text-xs lg:text-sm text-default-soft mb-2 sm:mb-4'
             >
               <div className='block lg:hidden'>
                 {shorten(usersAddress)}
@@ -54,52 +51,33 @@ export const WalletInfo = () => {
           <div
             className='sm:mr-10 lg:mr-20'
           >
-            <h2
-              className='text-default-soft'
-            >
+            <h6>
               Connected to
-            </h2>
+            </h6>
             <div
-              className='rounded-lg capitalize lg:text-sm text-secondary mb-6 sm:mb-0'
+              className='rounded-lg capitalize sm:text-xs lg:text-sm text-default-soft mb-2 sm:mb-4'
             >
-              {walletName}
+              {walletName} - <button
+                onClick={authControllerContext.signOut}
+                className='inline-block text-blue hover:text-green underline trans lowercase'
+              >
+                Change account
+              </button>
             </div>
           </div>
 
           <div
             className='sm:mr-10 lg:mr-20'
           >
-            <h2
-              className='text-default-soft'
-            >
+            <h6>
               Network
-            </h2>
+            </h6>
             <div
-              className='rounded-lg capitalize lg:text-sm text-secondary mb-6 sm:mb-0'
+              className='rounded-lg capitalize sm:text-xs lg:text-sm text-default-soft'
             >
               {networkName}
             </div>
           </div>
-  {/* 
-          {magic && signedIn && <>
-            <div className='mt-16'>
-              <Button
-                outline
-                onClick={authControllerContext.signOut}
-              >
-                Sign out
-            </Button>
-            </div>
-          </>} */}
-        </div>
-
-        <div className='mt-16 sm:mt-0'>
-          <Button 
-            outline
-            onClick={authControllerContext.signOut}
-          >
-            Sign out
-          </Button>
         </div>
       </div>
     </>

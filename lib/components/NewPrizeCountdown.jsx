@@ -24,7 +24,6 @@ export const NewPrizeCountdown = (
   // const futureDate = addSeconds(currentDate, secondsRemaining + 950044)
   const futureDate = addSeconds(currentDate, secondsRemaining)
   const diff = subtractDates(futureDate, currentDate)
-  console.log({ diff})
   const { days, hours, minutes, seconds } = subtractDates(futureDate, currentDate)
 
   let msg
