@@ -23,9 +23,6 @@ export const TransactionsUI = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress } = authControllerContext
 
-  if (!usersAddress) {
-    return null
-  }
 
   const [showDialog, setShowDialog] = useState(false)
   const openTransactions = () => setShowDialog(true)
@@ -50,6 +47,11 @@ export const TransactionsUI = (props) => {
   const clearPrevious = (e) => {
     e.preventDefault()
     clearPreviousTransactions()
+  }
+
+
+  if (!usersAddress) {
+    return null
   }
 
   return <>
@@ -122,22 +124,7 @@ export const TransactionsUI = (props) => {
         animate={{ opacity: 1, transition: { duration: 0.4 } }}
         exit={{ opacity: 0, transition: { duration: 0.5 } }}
       >
-        <button
-          onClick={closeTransactions}
-          className='close-button text-primary hover:text-secondary trans outline-none focus:outline-none active:outline-none'
-        >
-          <VisuallyHidden>
-            Close
-          </VisuallyHidden>
-          <span
-            aria-hidden
-          >
-            <FeatherIcon
-              icon='x-circle'
-              className='w-6 h-6'
-            />
-          </span>
-        </button>
+        
 
         <div
           className='flex flex-col items-center justify-center h-full w-full '
@@ -145,35 +132,61 @@ export const TransactionsUI = (props) => {
           <div
             className='dialog-inner relative message bg-primary text-inverse flex flex-col w-full border-default border-2 shadow-4xl'
           >
+
+
             <div
-              className='relative flex flex-col w-full border-b-2 border-default px-10 pt-6 pb-5 text-lg uppercase'
+              className='flex px-10 pt-6 pb-5 border-b-2 border-default'
             >
-              Recent transactions <div className='block sm:inline-block text-xxs'>
-                {pendingCount > 0 && <>
-                  ({pendingCount} pending)
+              <div
+                className='flex flex-col w-full text-lg uppercase'
+              >
+                Recent transactions <div className='block sm:inline-block text-xxs'>
+                  {pendingCount > 0 && <>
+                    ({pendingCount} pending)
+                  </>}
+                </div>
+
+                {pastTransactionsCount > 0 && <>
+                  <button
+                    className='text-xxs text-left underline text-blue hover:text-secondary trans mt-1'
+                    onClick={clearPrevious}
+                  >
+                    Clear previous
+                  </button>
                 </>}
               </div>
 
-              {pastTransactionsCount > 0 && <>
-                <button
-                  className='text-xxs text-left underline text-blue hover:text-secondary trans mt-1'
-                  onClick={clearPrevious}
+              <button
+                onClick={closeTransactions}
+                className='close-button text-primary hover:text-secondary trans outline-none focus:outline-none active:outline-none'
+              >
+                <VisuallyHidden>
+                  Close
+                </VisuallyHidden>
+                <span
+                  aria-hidden
                 >
-                  Clear previous
-                </button>
-              </>}
+                  <FeatherIcon
+                    icon='x-circle'
+                    className='w-6 h-6'
+                  />
+                </span>
+              </button>
             </div>
+
             <div
-              className='dialog-inner-content flex-grow relative flex flex-col w-full px-10 pt-6 pb-4 text-sm text-xs sm:text-sm lg:text-base'
+              className='dialog-inner-content flex-grow relative flex flex-col w-full px-0 pt-0 pb-2 text-sm text-xs sm:text-sm lg:text-base'
             >
               {notCancelledTransactions.length === 0 ? <>
                 <div
-                  className='text-primary mb-2'
+                  className='text-primary pb-2 pr-4'
                 >
                   Currently no active transactions...
                 </div>
               </> : <>
-                  <ul>
+                  <ul
+                    className='transactions-ui-list overflow-x-hidden overflow-y-auto px-10 py-4'
+                  >
                     {notCancelledTransactions.map(tx => {
                       return <TransactionsUIListItem
                         key={tx.id}

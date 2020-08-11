@@ -11,8 +11,8 @@ export const NavMobile = (props) => {
   const poolPage = !accountPage && !prizesPage
 
   return <>
-    <div
-      className='flex justify-between items-center fixed b-0 l-0 r-0 bg-card-selected sm:hidden'
+    <nav
+      className='flex justify-between items-center fixed b-0 l-0 r-0 bg-card-selected sm:hidden z-20'
       style={{
         boxShadow: '0 -10px 15px -3px rgba(0, 0, 0, .1), 0 -4px 6px -2px rgba(0, 0, 0, .05)',
         height: '10vh'
@@ -87,7 +87,7 @@ export const NavMobile = (props) => {
           Account
         </a>
       </Link>
-    </div>
+    </nav>
 
   </>
     

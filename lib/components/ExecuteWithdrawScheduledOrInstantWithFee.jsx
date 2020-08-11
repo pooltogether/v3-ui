@@ -57,7 +57,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
     method = 'withdrawWithTimelockFrom'
   }
 
-  let txName = `Withdraw ${quantity} tickets instantly with fairness fee ($${quantity} ${ticker})`
+  let txName = `Withdraw ${quantity} tickets instantly (fairness fee: $${quantity} ${ticker})`
   if (scheduledWithdrawal) {
     txName = `Schedule a withdrawal of ${quantity} tickets ($${quantity} ${ticker})`
   }

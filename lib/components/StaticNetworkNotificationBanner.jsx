@@ -44,7 +44,6 @@ export const StaticNetworkNotificationBanner = (props) => {
       </div>
     </Modal>
     
-    
     <div
       className={classnames(
         'text-sm sm:text-base lg:text-lg sm:px-6 py-4',

@@ -691,7 +691,7 @@ input[type='submit'][disabled] {
   /* background: white; */
   margin: 10vh auto;
   max-width: 600px;
-  padding-top: 20vh;
+  padding-top: 3vh;
   pointer-events: none;
   /* position: relative; */
   outline: none;
@@ -710,9 +710,6 @@ input[type='submit'][disabled] {
   justify-items: center;
   outline: none;
   font-size: 26px;
-  position: absolute;
-  right: 38px;
-  top: 28px;
   z-index: 1823775;
 }
 
@@ -765,5 +762,15 @@ input[type='submit'][disabled] {
 @screen lg {
   .banner-text {
     max-width: 80%;
+  }
+}
+
+.transactions-ui-list {
+  
+}
+
+@screen sm {
+  .transactions-ui-list {
+    max-height: 60vh;
   }
 }

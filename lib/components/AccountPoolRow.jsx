@@ -41,7 +41,7 @@ export const AccountPoolRow = (
           <div className='flex flex-col justify-center items-start w-10/12'>
             <div className='flex flex-row justify-between items-start w-full'>
               <div
-                className='flex items-start w-2/12 sm:w-1/12'
+                className='flex items-start w-2/12 sm:w-2/12'
               >
                 <PoolCurrencyIcon
                   pool={pool}

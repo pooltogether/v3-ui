@@ -7,11 +7,13 @@ import { AccountAndSignIn } from 'lib/components/AccountAndSignIn'
 import { Button } from 'lib/components/Button'
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
+import { NavMobile } from 'lib/components/NavMobile'
 import { WithdrawWizardContainer } from 'lib/components/WithdrawWizardContainer'
 import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNotificationBanner'
 import { Footer } from 'lib/components/Footer'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
+import { Settings } from 'lib/components/Settings'
 import { TransactionsUI } from 'lib/components/TransactionsUI'
 import { SignInFormContainer } from 'lib/components/SignInFormContainer'
 
@@ -58,72 +60,75 @@ export const Layout = (props) => {
         <div className='header'>
           <StaticNetworkNotificationBanner />
 
-          <HeaderLogo />
-
-          <TransactionsUI />
-
-          <AccountAndSignIn />
-
-          {/* <div
-            id='top'
-            className='main-nav relative z-20 pt-2'
+          <div
+            className='flex justify-between items-center px-4 sm:px-6 py-4 sm:py-6'
           >
-            <Nav />
-          </div> */}
+            <HeaderLogo />
 
-          <Button
-            outline
-            className='mr-3 flex-grow'
-          >
-            <FeatherIcon
-              icon='settings'
-              className='w-8 h-8'
-              strokeWidth='2'
-            />
-          </Button>
+            <div
+              style={{
+                minWidth: '50vw',
+                maxWidth: 600
+              }}
+              className='flex items-center justify-end relative'
+            >
+              <TransactionsUI />
+
+              <AccountAndSignIn />
+
+              {/* <div
+                id='top'
+                className='main-nav relative z-20 pt-2'
+              >
+                <Nav />
+              </div> */}
+
+              <Settings />
+            </div>
+          </div>
         </div>
 
-        <div className='sidebar'>
+        <div className='sidebar bg-default'>
           <Nav />
         </div>
 
         <div className='content'>
-        </div>
-
-        <div
-          className='pool-container flex flex-grow relative z-30 h-full page'
-        >
           <div
-            className='flex flex-col flex-grow'
+            className='pool-container flex flex-grow relative z-10 h-full page'
           >
-            
-
             <div
-              className='relative flex flex-col flex-grow h-full z-10 text-white'
-              style={{
-                flex: 1
-              }}
+              className='flex flex-col flex-grow'
             >
+
+
               <div
-                className='my-4 text-inverse'
+                className='relative flex flex-col flex-grow h-full z-10 text-white'
+                style={{
+                  flex: 1
+                }}
               >
-                {React.cloneElement(children, {
-                  ...props,
-                })}
+                <div
+                  className='my-4 text-inverse'
+                >
+                  {React.cloneElement(children, {
+                    ...props,
+                  })}
+                </div>
+              </div>
+
+              {/* 
+              <div
+                className='main-footer z-10'
+              >
+                <Footer />
+              </div> */}
               </div>
             </div>
-  {/* 
-            <div
-              className='main-footer z-10'
-            >
-              <Footer />
-            </div> */}
           </div>
+
         </div>
-      </div>
 
-
-
+      <NavMobile />
     </div>
   </>
 }

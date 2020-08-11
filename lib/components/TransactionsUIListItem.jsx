@@ -10,10 +10,12 @@ export const TransactionsUIListItem = (props) => {
 
   return <li
     key={tx.hash || Date.now()}
-    className='relative mb-2'
+    className='relative pb-2'
   >
     <div className='flex justify-between w-full'>
-      <div>
+      <div
+        className='pr-2'
+      >
         {tx.hash ? <>
           <EtherscanTxLink
             chainId={tx.ethersTx.chainId}

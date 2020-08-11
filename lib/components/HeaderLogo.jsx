@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const HeaderLogo = (props) => {
   return <>
     <div
-      className='nav--pool-logo-container w-1/5 justify-start h-full flex items-center truncate'
+      className='nav--pool-logo-container w-1/5 justify-start flex items-center truncate'
     >
       <Link
         href='/'

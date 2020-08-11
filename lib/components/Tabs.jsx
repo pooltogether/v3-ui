@@ -29,7 +29,7 @@ export const Tab = ({ isSelected, onClick, children }) => {
 
 export const Content = ({ children, className }) => {
   return <div
-    className={classnames(className, 'sm:py-2 lg:py-4 flex')}
+    className={classnames(className, 'py-2 flex')}
   >
     {children}
   </div>
