@@ -117,6 +117,7 @@ export const TicketQuantityForm = (props) => {
         className='mt-5 text-sm text-blue'
       >
         <Odds
+          showLabel
           pool={pool}
           usersBalance={usersTicketBalance}
           additionalQuantity={watchQuantity}

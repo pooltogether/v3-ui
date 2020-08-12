@@ -78,9 +78,10 @@ export const AccountPoolRow = (
                   className='sm:my-1'
                 >
                   <Odds
+                    showLabel
+                    splitLines
                     pool={pool}
                     usersBalance={usersBalance}
-                    splitLines
                   />
                 </div>
               </div>

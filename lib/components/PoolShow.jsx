@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import Cookies from 'js-cookie'
-import FeatherIcon from 'feather-icons-react'
+import Link from 'next/link'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
@@ -116,7 +116,7 @@ export const PoolShow = (
       
         <>
           <div
-            className='flex flex-col sm:flex-row justify-between items-center'
+            className='flex flex-col sm:flex-row justify-between lg:items-center'
           >
             <div
               className='flex items-center w-full sm:w-1/2'
@@ -135,32 +135,26 @@ export const PoolShow = (
                 />
               </div>
             </div>
+            
+            {usersAddress && cookieShowAward && <>
+              <Link
+                href='/pools/[symbol]/manage'
+                as={`/pools/${symbol}/manage`}
+              >
+                <a>
+                  Manage pool
+                </a>
+              </Link>
+            </>}
 
             <div
-              className='flex w-full sm:w-1/2 sm:justify-end items-center mt-4 sm:mt-0'
+              className='flex w-full sm:w-1/2 lgm:justify-end items-start mt-4 lg:mt-0'
             >
-              {usersAddress && cookieShowAward && <>
-                <div className='flex flex-col'>
-                  <Button
-                    outline
-                    href='/pools/[symbol]/manage'
-                    as={`/pools/${symbol}/manage`}
-                    className='mr-3 flex-grow'
-                  >
-                    <FeatherIcon
-                      icon='settings'
-                      className='w-8 h-8'
-                      strokeWidth='2'
-                    />
-                  </Button>
-                </div>
-              </>}
-
               <ButtonLink
                 wide
                 size='lg'
-                border='highlight'
-                text='highlight'
+                border='highlight-1'
+                text='highlight-1'
                 bg='primary'
                 href='/pools/[symbol]/deposit'
                 as={`/pools/${symbol}/deposit`}

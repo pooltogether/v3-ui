@@ -57,7 +57,7 @@ export const Layout = (props) => {
           <StaticNetworkNotificationBanner />
 
           <div
-            className='flex justify-between items-center px-4 sm:px-10 py-4 sm:pt-5 sm:pb-3'
+            className='flex justify-between items-center px-8 sm:px-10 py-4 sm:pt-5 sm:pb-3'
           >
             <HeaderLogo />
 
@@ -75,7 +75,7 @@ export const Layout = (props) => {
           </div>
         </div>
 
-        <div className='sidebar bg-default'>
+        <div className='sidebar bg-card'>
           <Nav />
         </div>
 

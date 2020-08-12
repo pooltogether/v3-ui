@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 import { useTable } from 'react-table'
 
 import { BasicTable } from 'lib/components/BasicTable'
+import { Odds } from 'lib/components/Odds'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
 
@@ -14,14 +15,14 @@ const playerLink = (player) => {
     shallow
   >
     <a
-      className='text-secondary hover:text-blue trans'
+      className='trans'
     >
       view player info
     </a>
   </Link>
 }
 
-const formatPlayerObject = (pool, player) => {
+const formatPlayerObject = (pool, player, timeTravelTotalSupply) => {
   const decimals = pool.underlyingCollateralDecimals
   const balance = player.balance && decimals ?
     ethers.utils.formatUnits(
@@ -36,7 +37,11 @@ const formatPlayerObject = (pool, player) => {
       { precision: 0 }
     )}`,
     address: shorten(player.address),
-    odds: '1 in 2',
+    odds: <Odds
+      timeTravelTotalSupply={timeTravelTotalSupply}
+      pool={pool}
+      usersBalance={balance}
+    />,
     view: playerLink(player)
   }
 }
@@ -44,10 +49,8 @@ const formatPlayerObject = (pool, player) => {
 export const PlayersTable = (
   props,
 ) => {
-  const { pool, players } = props
+  const { timeTravelTotalSupply, pool, players } = props
 
-  const decimals = pool?.underlyingCollateralDecimals
-  
   if (!players || players?.length === 0) {
     return null
   }
@@ -75,7 +78,11 @@ export const PlayersTable = (
   }, [] )
 
   const data = React.useMemo(() => {
-    return players.map(player => formatPlayerObject(pool, player))
+    return players.map(player => formatPlayerObject(
+      pool,
+      player,
+      timeTravelTotalSupply
+    ))
   }, [players])
   
   const tableInstance = useTable({

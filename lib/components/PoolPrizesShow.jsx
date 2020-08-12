@@ -3,7 +3,7 @@ import { useRouter} from 'next/router'
 
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { Button } from 'lib/components/Button'
+import { ButtonLink } from 'lib/components/ButtonLink'
 import { Meta } from 'lib/components/Meta'
 import { PoolPrizeListing } from 'lib/components/PoolPrizeListing'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -16,15 +16,6 @@ export const PoolPrizesShow = (
 
   const poolData = useContext(PoolDataContext)
   const { pool, pools } = poolData
-
-  const handleShowDeposit = (e) => {
-    e.preventDefault()
-    router.push(
-      '/pools/[symbol]/deposit',
-      `/pools/${pool?.symbol}/deposit`,
-      { shallow: true }
-    )
-  }
 
   if (pool === null) {
     const querySymbol = router.query?.symbol
@@ -42,20 +33,21 @@ export const PoolPrizesShow = (
 
     <div className='flex justify-center text-left mt-10'>
       {pools.map(_pool => {
-        return <Button
+        return <ButtonLink
           key={`prize-pool-button-${_pool.id}`}
-          outline
-          wide
           selected={_pool.symbol === pool?.symbol}
-          size='lg'
           href='/prizes/[symbol]'
           as={`/prizes/${_pool.symbol}`}
           className='flex items-center justify-center mr-4'
+          border='highlight-1'
+          text='highlight-1'
+          hoverText='highlight-2'
+          size='lg'
         >
           <PoolCurrencyIcon
             pool={_pool}
           /> {_pool.underlyingCollateralSymbol}
-        </Button>
+        </ButtonLink>
       })}
     </div>
 
@@ -70,20 +62,24 @@ export const PoolPrizesShow = (
         </div>
       </div>
 
-      <div className='mx-8 sm:mx-12 lg:mx-20 text-2xl text-center -mt-2 text-secondary'>
+      <div className='mx-8 sm:mx-12 lg:mx-20 text-2xl text-center -mt-2 text-highlight-2'>
         $17,242
         <div className='text-xxs -mt-1'>
           Awarded so far
         </div>
       </div>
 
-      <Button
-        outline
-        onClick={handleShowDeposit}
-        wide
+      <ButtonLink
+        border='highlight-1'
+        text='secondary'
+        bg='highlight-1'
+        size='lg'
+        href='/pools/[symbol]/deposit'
+        as={`/pools/${pool?.symbol}/deposit`}
+        // {shallow: true }
       >
         Get tickets
-      </Button>
+      </ButtonLink>
     </div>
 
     <PoolPrizeListing

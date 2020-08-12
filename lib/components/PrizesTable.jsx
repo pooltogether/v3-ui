@@ -1,27 +1,12 @@
 import React, { useMemo } from 'react'
 import Link from 'next/link'
 import { ethers } from 'ethers'
-import { fromUnixTime } from 'date-fns'
 import { useTable } from 'react-table'
 
-import { poolFormat } from 'lib/date-fns-factory'
 import { BasicTable } from 'lib/components/BasicTable'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-
-const currentLang = 'en'
-
-const formatDate = (date) => {
-  if (!date) { return }
-  return poolFormat(
-    fromUnixTime(date),
-    currentLang,
-    'MMMM do, yyyy @ HH:mm'
-  )
-}
-
-const extractPrizeNumber = (prize) => {
-  return parseInt(prize.id.split('-')[1], 10)
-}
+import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
+import { formatDate } from 'lib/utils/formatDate'
 
 const prizeLink = (pool, prize) => {
   return <Link
@@ -30,7 +15,7 @@ const prizeLink = (pool, prize) => {
     shallow
   >
     <a
-      className='text-secondary hover:text-blue trans text-right w-full'
+      className='trans text-right w-full'
     >
       view details
     </a>
@@ -66,6 +51,7 @@ const prizeStatusString = (prize) => {
 }
 
 const formatPrizeObject = (pool, prize) => {
+  const id = extractPrizeNumberFromPrize(prize)
   const decimals = pool.underlyingCollateralDecimals
   const prizeAmount = prize.net && decimals ?
     displayAmountInEther(
@@ -74,11 +60,12 @@ const formatPrizeObject = (pool, prize) => {
     ) : ethers.utils.bigNumberify(0)
 
   return {
+    prizeNumber: id,
     startedAt: formatDate(prize?.prizePeriodStartedTimestamp),
     awardedAt: formatDate(prize?.awardedTimestamp),
     prizeAmount: `$${prizeAmount.toString()} ${pool?.underlyingCollateralSymbol}`,
     status: prizeStatusString(prize),
-    view: prizeLink(pool, { id: extractPrizeNumber(prize) })
+    view: prizeLink(pool, { id })
   }
 }
 
@@ -95,6 +82,10 @@ export const PrizesTable = (
 
   const columns = React.useMemo(() => {
     return [
+      {
+        Header: '#',
+        accessor: 'prizeNumber',
+      },
       {
         Header: 'Prize amount',
         accessor: 'prizeAmount', // accessor is the "key" in the data
@@ -123,7 +114,7 @@ export const PrizesTable = (
     let currentPrize
     // If we have a prize amount then we know the last prize has been rewarded
     if (lastPrize.awardedBlock) {
-      const currentPrizeId = extractPrizeNumber(lastPrize) + 1
+      const currentPrizeId = extractPrizeNumberFromPrize(lastPrize) + 1
       const amount = displayAmountInEther(
         pool.estimatePrize,
         { decimals }

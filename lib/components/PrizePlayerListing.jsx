@@ -5,6 +5,7 @@ import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PlayersTable } from 'lib/components/PlayersTable'
+import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { prizePlayersQuery } from 'lib/queries/prizePlayersQuery'
 
 export const PrizePlayerListing = (
@@ -63,10 +64,18 @@ export const PrizePlayerListing = (
         no players
       </>}
 
-      <PlayersTable
+      <TimeTravelPool
         pool={pool}
-        players={players}
-      />
+        prize={prize}
+      >
+        {(timeTravelPool) => {
+          return <PlayersTable
+            timeTravelTotalSupply={timeTravelPool?.totalSupply}
+            pool={pool}
+            players={players}
+          />
+        }}
+      </TimeTravelPool>
     </div>
 
   </>

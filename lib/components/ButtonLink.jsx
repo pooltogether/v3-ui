@@ -31,6 +31,9 @@ export const ButtonLink = (props) => {
     border,
     bg,
     text,
+    hoverBg,
+    hoverBorder,
+    hoverText,
     padding,
     rounded,
     transition,
@@ -42,35 +45,24 @@ export const ButtonLink = (props) => {
     width,
   } = props
 
-  let defaultClasses = 'border-4 relative font-bold inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
+  let defaultClasses = 'border-2 relative font-bold inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
 
   // eg. textSize='sm', textSize='2xl'
   const textSize = padding ? `${padding}` : getTextSize(size)
 
   // text = 'text-match'
-  padding = padding ? `${padding}` : 'px-1 py-2 sm:py-2'
-  rounded = rounded ? `rounded-${rounded}` : 'rounded-md'
+  padding = padding ? `${padding}` : 'px-3 py-2 sm:py-2'
+  rounded = rounded ? `rounded-${rounded}` : 'rounded-lg'
   transition = transition ? `${transition}` : 'trans trans-fast'
   width = width ? `${width}` : ''
 
-  border = border ? `border-${border}` : `border-inverse`
+  border = border ? `border-${border}` : `border-highlight-1`
   bg = bg ? `bg-${bg}` : 'bg-primary'
-  text = text ? `text-${text}` : 'text-secondary'
-
-  // if (color === 'primary') {
-  //   background = 'bg-primary'
-  //   text = 'text-secondary'
-  // }
-
-  // if (color === 'purple') {
-  //   background = 'bg-purple'
-  //   text = 'text-secondary'
-  //   borderClasses = ` border-highlight`
-  // }
-
-  // if (wide) {
-  //   paddingClasses = 'px-2 sm:px-8 lg:px-12 py-2 sm:py-2'
-  // }
+  text = text ? `text-${text}` : 'text-highlight-1'
+  
+  hoverBg = hoverBg ? `hover:bg-${hoverBg}` : `hover:bg-primary`
+  hoverBorder = hoverBorder ? `hover:border-${hoverBorder}` : `hover:border-highlight-2`
+  hoverText = hoverText ? `hover:text-${hoverText}` : 'hover:text-blue'
 
   let newClassNames = classnames(
     className,
@@ -80,6 +72,9 @@ export const ButtonLink = (props) => {
     padding,
     rounded,
     text,
+    hoverBg,
+    hoverBorder,
+    hoverText,
     textSize,
     transition,
     width
@@ -92,6 +87,9 @@ export const ButtonLink = (props) => {
     'rounded',
     'size',
     'text',
+    'hoverBg',
+    'hoverBorder',
+    'hoverText',
     'textSize',
     'transition',
     'width',
@@ -133,17 +131,18 @@ export const ButtonLink = (props) => {
     as={as}
     scroll={false}
   >
-    <a
-      {...linkProps}
-      className={newClassNames}
+    <motion.span
+      {...animationProps}
+      className='inline'
     >
-      <motion.span
-        {...animationProps}
-        className='inline'
+      <a
+        {...linkProps}
+        className={newClassNames}
       >
+      
         {children}
-      </motion.span>
-    </a>
+      </a>
+    </motion.span>
   </Link>
 
 }

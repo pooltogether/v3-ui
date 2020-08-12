@@ -15,6 +15,7 @@ export const PoolCurrencyIcon = (
 ) => {
   const {
     className,
+    large,
     pool
   } = props
   const symbol = pool && pool.underlyingCollateralSymbol
@@ -33,13 +34,19 @@ export const PoolCurrencyIcon = (
     currencyIcon = MissingCurrencySvg
   }
 
+  let sizeClasses = 'w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10'
+  if (large) {
+    sizeClasses = 'w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16'
+  }
+
   return <>
     <img
       src={currencyIcon}
       className={classnames(
+        sizeClasses,
         {
           [className]: className,
-          'inline-block w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 mr-2': !className,
+          'inline-block mr-2': !className,
         }
       )}
     />

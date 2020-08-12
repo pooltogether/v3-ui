@@ -7,7 +7,6 @@ import { Dialog } from '@reach/dialog'
 
 import { AccountButton } from 'lib/components/AccountButton'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { Button } from 'lib/components/Button'
 import { TransactionsList } from 'lib/components/TransactionsList'
 import { WalletInfo } from 'lib/components/WalletInfo'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
@@ -19,7 +18,6 @@ export const NavAccount = (props) => {
   const { usersAddress } = authControllerContext
 
   const [showDialog, setShowDialog] = useState(false)
-  console.log({ showDialog})
   
   const openTransactions = (e) => {
     e.preventDefault()
@@ -47,7 +45,7 @@ export const NavAccount = (props) => {
       /> :
       <button
         onClick={handleShowSignIn}
-        className='text-highlight-2 hover:text-green text-xxs sm:text-sm bg-body rounded-full border-2 border-highlight-2 py-1 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none mr-2'
+        className='font-bold text-highlight-1 hover:text-highlight-2 text-xxs sm:text-sm bg-body rounded-full border-2 border-highlight-2 py-1 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none mr-2'
       >
         Sign in
       </button>
@@ -99,7 +97,7 @@ export const NavAccount = (props) => {
 
                 <button
                   onClick={closeTransactions}
-                  className='relative close-button text-default hover:text-highlight trans outline-none focus:outline-none active:outline-none'
+                  className='relative close-button text-default hover:text-highlight-1 trans outline-none focus:outline-none active:outline-none'
                   style={{
                     right: 0
                   }}

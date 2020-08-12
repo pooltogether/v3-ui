@@ -13,8 +13,9 @@
   --color-bg-inverse: #fff;
   --color-bg-overlay: rgba(48, 14, 105, 0.97);
   --color-bg-black: #111;
-  --color-bg-highlight: #35F0D0;
+  --color-bg-highlight-1: #35F0D0;
   --color-bg-highlight-2: #35F0D0;
+  --color-bg-highlight-3: #401C94;
   --color-bg-red: #e61b1b;
   --color-bg-green: #3EF3D4;
   --color-bg-yellow: #FF9303;
@@ -33,7 +34,7 @@
   --color-text-inverse: #fff;
   --color-text-match: #111;
   --color-text-black: #111;
-  --color-text-highlight: #35F0D0;
+  --color-text-highlight-1: #35F0D0;
   --color-text-highlight-2: #35F0D0;
   --color-text-red: #e61b1b;
   --color-text-green: #05e6c4;
@@ -50,7 +51,7 @@
   --color-border-secondary: #4C249F;
   --color-border-default: #4c249f;
   --color-border-inverse: #fff;
-  --color-border-highlight: #35F0D0;
+  --color-border-highlight-1: #35F0D0;
   --color-border-highlight-2: #35F0D0;
   --color-border-red: #e61b1b;
   --color-border-green: #3EF3D4;
@@ -68,8 +69,9 @@
   --color-bg-inverse: #111;
   --color-bg-overlay: rgba(248, 248, 248, 0.97);
   --color-bg-black: #111;
-  --color-bg-highlight: #4c249f;
+  --color-bg-highlight-1: #4c249f;
   --color-bg-highlight-2: #7F51D1;
+  --color-bg-highlight-3: #4c249f;
   --color-bg-red: #e61b1b;
   --color-bg-green: #1ef7d6;
   --color-bg-yellow: #FF9303;
@@ -106,7 +108,7 @@
   --color-border-default: #f7f7f7;
   --color-border-inverse: #111;
   --color-border-green: #1ef7d6;
-  --color-border-highlight: #4c249f;
+  --color-border-highlight-1: #4c249f;
   --color-border-highlight-2: #7F51D1;
   --color-border-red: #e61b1b;
   --color-border-transparent: rgba(0,0,0,0);

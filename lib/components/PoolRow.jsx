@@ -49,6 +49,7 @@ export const PoolRow = (
               className='flex items-center font-bold w-8/12 sm:w-3/12 lg:w-3/12'
             >
               <PoolCurrencyIcon
+                large
                 pool={pool}
               />
               <div className='inline-flex flex flex-col'>
@@ -96,9 +97,9 @@ export const PoolRow = (
               className='w-10/12 sm:w-11/12 lg:w-11/12 pr-2'
             >
               <ButtonLink
-                border='highlight'
+                border='highlight-1'
                 text='secondary'
-                bg='highlight'
+                bg='highlight-1'
                 width='w-full'
                 size='lg'
                 href='/pools/[symbol]/deposit'
@@ -116,13 +117,13 @@ export const PoolRow = (
               }}
             >
               <ButtonLink
-                border='highlight'
-                text='highlight'
+                border='highlight-1'
+                text='highlight-1'
                 bg='primary'
                 width='w-full'
                 rounded='full'
-                href='/pools/[symbol]/deposit'
-                as={`/pools/${pool.symbol}/deposit`}
+                href='/pools/[symbol]'
+                as={`/pools/${pool.symbol}`}
                 style={{
                   top: 2
                 }}

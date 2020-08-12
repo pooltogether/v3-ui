@@ -120,6 +120,7 @@ export const AccountPoolShowUI = (props) => {
               className='mt-1 text-sm'
             >
               <Odds
+                showLabel
                 pool={pool}
                 usersBalance={usersBalance}
               />

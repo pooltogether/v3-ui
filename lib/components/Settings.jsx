@@ -20,7 +20,7 @@ export const Settings = (props) => {
       className={classnames(
         'hover:text-highlight-2',
         {
-          'text-highlight': !isOpen,
+          'text-highlight-1': !isOpen,
           'text-highlight-2': isOpen,
         }
       )}
