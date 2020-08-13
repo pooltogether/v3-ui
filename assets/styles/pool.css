@@ -881,3 +881,7 @@ input[type='submit'][disabled] {
     height: 14px;
   }
 }
+
+.bg-blur {
+  backdrop-filter: blur(2px)
+}

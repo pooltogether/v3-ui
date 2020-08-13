@@ -11,7 +11,7 @@
   --color-bg-default: #27094C;
   --color-bg-darkened: #1a083a;
   --color-bg-inverse: #fff;
-  --color-bg-overlay: rgba(48, 14, 105, 0.97);
+  --color-bg-overlay: rgba(0, 0, 0, 0.5);
   --color-bg-black: #111;
   --color-bg-highlight-1: #35F0D0;
   --color-bg-highlight-2: #35F0D0;
@@ -67,7 +67,7 @@
   --color-bg-default: #f7f7f7;
   --color-bg-darkened: #e9e9e9;
   --color-bg-inverse: #111;
-  --color-bg-overlay: rgba(248, 248, 248, 0.97);
+  --color-bg-overlay: rgba(0, 0, 0, 0.5);
   --color-bg-black: #111;
   --color-bg-highlight-1: #4c249f;
   --color-bg-highlight-2: #7F51D1;

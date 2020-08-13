@@ -33,7 +33,37 @@ export const Settings = (props) => {
     </button>
 
     <motion.div
-      className='bg-default h-full fixed t-0 b-0 z-20 px-10 py-6 shadow-md rounded-lg'
+      key='settings-overlay'
+      onClick={toggleSettingsPanel}
+      className={classnames(
+        'fixed t-0 l-0 r-0 b-0 w-full h-full z-30 bg-overlay bg-blur',
+        {
+          'pointer-events-none': !isOpen
+        }
+      )}
+      animate={isOpen ? 'enter' : 'exit'}
+      initial='initial'
+      variants={{
+        exit: {
+          opacity: 0,
+          transition: {
+            duration: 0.1,
+          }
+        },
+        enter: {
+          opacity: 1,
+          transition: {
+            duration: 0.1,
+          }
+        },
+        initial: {
+          opacity: 0,
+        }
+      }}
+    />
+
+    <motion.div
+      className='bg-highlight-3 h-full fixed t-0 b-0 z-40 px-10 py-6 shadow-md rounded-xl'
       style={{
         height: '40vh',
         right: -30,
