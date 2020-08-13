@@ -86,7 +86,6 @@ export const PrizeShow = (
       <IndexUILoader />
     </div>
   }
-  console.log({prize})
 
   return <>
     {pool?.name && <>
@@ -94,6 +93,9 @@ export const PrizeShow = (
     </>}
 
     <ButtonLink
+      text='green'
+      border='green'
+      hoverBorder='green'
       href='/prizes/[symbol]'
       as={`/prizes/${pool?.symbol}`}
     >
@@ -139,7 +141,7 @@ export const PrizeShow = (
         </div>
 
         <div
-          className='w-full sm:w-1/2 mt-3 sm:mt-6'
+          className='w-full sm:w-1/2'
         >
           <h2>
             <PoolCurrencyIcon
@@ -173,7 +175,7 @@ export const PrizeShow = (
       className='flex flex-col sm:flex-row'
     >
       <div
-        className='w-full sm:w-1/2 mt-2 sm:mt-10 px-6 py-4 rounded-lg bg-card sm:mr-8'
+        className='w-full sm:w-1/2 mt-2 sm:mt-10 px-6 py-4 rounded-lg bg-card sm:mr-8 shadow-md'
       >
         <div
           className='text-caption uppercase'
@@ -196,7 +198,7 @@ export const PrizeShow = (
       </div>
 
       <div
-        className='w-full sm:w-1/2 mt-2 sm:mt-10 px-6 py-4 rounded-lg bg-card sm:ml-8'
+        className='w-full sm:w-1/2 mt-2 sm:mt-10 px-6 py-4 rounded-lg bg-card sm:ml-8 shadow-md'
       >
         <div
           className='text-caption uppercase'
@@ -224,6 +226,11 @@ export const PrizeShow = (
     </div>  
       
 
+    <h4
+      className='mt-16'
+    >
+      Players
+    </h4>
     
 {/*  <br />{prize?.winners} winners */}
 

@@ -67,36 +67,18 @@ hr {
 }
 
 a {
-  @apply text-highlight-1;
+  @apply text-green;
   transition: all 100ms ease-in;
 }
 
 a:hover {
-  /* @apply border-purple-700; */
-  /* @apply text-secondary border-purple-700; */
-  /* @apply text-secondary border-primary; */
-  @apply text-blue;
+  @apply text-inverse bg-default;
 }
 
 a[disabled],
 a[disabled]:hover {
-  /* @apply text-blue-800; */
+  /* @apply text-blue; */
 }
-/* 
-blockquote,
-dl,
-dd,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-figure,
-p,
-pre {
-  margin: 0.5rem 0;
-} */
 
 h1,
 h2,
@@ -256,7 +238,8 @@ th,
 td {
   text-align: left;
   margin: 0;
-  padding: 0.5rem;
+  padding: 0;
+  /* padding: 0.5rem; */
   /* border-bottom: 1px solid black;
   border-right: 1px solid black; */
 }
@@ -264,7 +247,20 @@ td {
 @screen sm {
   th,
   td {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
+    /* padding: 0.5rem 1rem; */
+  }
+}
+
+thead tr {
+  @apply bg-default;
+  transition: all 150ms ease-in-out;
+}
+
+@screen sm {
+  tr:hover {
+    @apply bg-default;
+    transition: all 150ms ease-in-out;
   }
 }
 

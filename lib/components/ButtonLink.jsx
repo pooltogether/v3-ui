@@ -45,7 +45,7 @@ export const ButtonLink = (props) => {
     width,
   } = props
 
-  let defaultClasses = 'border-2 relative font-bold inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
+  let defaultClasses = 'border-2 relative inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
 
   // eg. textSize='sm', textSize='2xl'
   const textSize = padding ? `${padding}` : getTextSize(size)
@@ -145,9 +145,4 @@ export const ButtonLink = (props) => {
     </motion.span>
   </Link>
 
-}
-
-ButtonLink.propTypes = {
-  href: PropTypes.string.required,
-  as: PropTypes.string.required,
 }
