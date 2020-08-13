@@ -170,19 +170,18 @@ h5 {
 }
 
 h6 {
-  @apply text-xs;
-  /* font-size: 1.25rem; */
+  @apply text-base;
 }
 
 @screen sm {
   h6 {
-    @apply text-sm;
+    /* @apply text-sm; */
   }
 }
 
 @screen lg {
   h6 {
-    @apply text-base;
+    /* @apply text-base; */
   }
 }
 
@@ -220,7 +219,7 @@ table {
 
 @screen sm {
   table {
-    @apply text-base;
+    @apply text-sm;
   }
 }
 
@@ -236,24 +235,32 @@ tr:last-child td {
 
 th,
 td {
+  @apply py-1;
+
   text-align: left;
   margin: 0;
-  padding: 0;
-  /* padding: 0.5rem; */
-  /* border-bottom: 1px solid black;
-  border-right: 1px solid black; */
+}
+
+th:first-child,
+td:first-child {
+  @apply rounded-tl-lg rounded-bl-lg pl-4 pr-2;
+}
+
+th:last-child,
+td:last-child {
+  @apply rounded-tr-lg rounded-br-lg pr-4 pl-2;
 }
 
 @screen sm {
   th,
   td {
-    padding: 0.5rem;
-    /* padding: 0.5rem 1rem; */
+    @apply px-1 py-2;
   }
 }
 
 thead tr {
-  @apply bg-default;
+  @apply bg-default rounded-lg;
+
   transition: all 150ms ease-in-out;
 }
 
@@ -632,8 +639,8 @@ input[type='submit'][disabled] {
   left: 0;
   right: 0;
   top: 0;
-  height: 40px;
-  width: 100px;
+  height: 39px;
+  width: 23px;
   z-index: 2;
 }
 
@@ -817,9 +824,22 @@ input[type='submit'][disabled] {
   }
 }
 
+.banner-text {
+  font-size: 'calc(2vw + 20px)';
+  line-height: 1.2;
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+}
+
+@screen sm {
+  .banner-text {
+    margin-bottom: 4rem;
+  }
+}
+
 @screen lg {
   .banner-text {
-    max-width: 80%;
+    /* max-width: 80%; */
   }
 }
 

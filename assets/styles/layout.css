@@ -25,8 +25,8 @@ body {
 
 .pool-container {
   padding-bottom: 12rem;
-  padding-left: 1.75rem;
-  padding-right: 1.75rem;
+  /* padding-left: 1.75rem;
+  padding-right: 1.75rem; */
   width: 100%;
 }
 
@@ -91,8 +91,8 @@ body {
 @screen sm {
   .pool-container {
     /* max-width: 788px; */
-    padding-left: 2rem;
-    padding-right: 2rem;
+    /* padding-left: 2rem;
+    padding-right: 2rem; */
   }
 }
 
@@ -181,6 +181,10 @@ body {
     "header"
     "content";
   grid-template-columns: 1fr;
+  grid-template-rows: 0 100px 1fr;
+}
+
+.grid-wrapper.showing-network-banner {
   grid-template-rows: 46px 100px 1fr;
 }
 /* "footer" */
@@ -189,12 +193,31 @@ body {
   display: block;
   grid-area: header;
   /* position: fixed; */
+  top: 0;
+}
+
+.header.showing-network-banner {
   top: 46px;
 }
 
 .header > div {
   position: sticky;
   top: 0;
+  max-width: 1060px;
+}
+
+@screen sm {
+  /* I think this weird rule is necessary because of the scrollbar and mixing fixed/sticky with grid */
+  /* and yes to pull off this layout I had to mix fixed/sticky with grid :D */
+  .header {
+    padding-left: 20px;
+  }
+}
+
+@screen lg {
+  .header > div {
+    max-width: 1360px;
+  }
 }
 
 .sidebar {
@@ -204,7 +227,11 @@ body {
 
 .sidebar > div {
   position: sticky;
-  top: 0;
+  top: 124px;
+}
+
+.sidebar.showing-network-banner > div {
+  top: 170px;
 }
 
 .content {
@@ -222,20 +249,27 @@ body {
 
 @screen sm {
   .grid-wrapper {
-    /* grid-template-columns: 20% auto; */
-    grid-template-rows: 46px 120px 1fr;
-    /* grid-template-columns: 300px 1fr; */
+    grid-template-rows: 0 120px 1fr;
     grid-template-columns: minmax(1px, 1fr) 300px 760px minmax(1px, 1fr);
     grid-template-areas:
       "banner banner banner banner"
       "whitespace-1 header  header whitespace-2"
       "whitespace-1 sidebar  content whitespace-2";
-    /* grid-template-columns: fit-content(300px) 1fr; */
+  }
+
+  .grid-wrapper.showing-network-banner {
+    grid-template-rows: 46px 120px 1fr;
   }
 
   .sidebar {
     display: block;
     /* padding-top: 4rem; */
     /* position: fixed; */
+  }
+}
+
+@screen lg {
+  .grid-wrapper {
+    grid-template-columns: minmax(1px, 1fr) 300px 1060px minmax(1px, 1fr);
   }
 }

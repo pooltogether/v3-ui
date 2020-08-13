@@ -14,8 +14,9 @@ export const NavMobile = (props) => {
     <nav
       className='flex justify-between items-center fixed b-0 l-0 r-0 bg-card-selected sm:hidden z-20'
       style={{
-        boxShadow: '0 -10px 15px -3px rgba(0, 0, 0, .1), 0 -4px 6px -2px rgba(0, 0, 0, .05)',
-        height: '10vh'
+        boxShadow: '0 -5px 10px -2px rgba(0, 0, 0, .06), 0 -3px 5px -1px rgba(0, 0, 0, .04)',
+        height: '10vh',
+        minHeight: 100
       }}
     >
       <Link

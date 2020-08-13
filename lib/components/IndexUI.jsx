@@ -32,17 +32,7 @@ export const IndexUI = (
 
     {!pool && <>
       <h1
-        style={{
-          fontWeight: 'bold',
-          fontSize: 'calc(3vw + 20px)',
-          lineHeight: 1.2,
-          marginTop: '1rem',
-          marginBottom: '6rem',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          textAlign: 'center',
-        }}
-        className='banner-text'
+        className='banner-text mx-auto font-bold text-center'
       >
         You could <span className='text-flashy'>win $702 every week</span> just by saving your money.
       </h1>

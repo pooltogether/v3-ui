@@ -70,7 +70,7 @@
     "eth-revert-reason": "^1.0.3",
     "ethers": "^4.0.47",
     "feather-icons-react": "^0.4.1",
-    "framer-motion": "^2.3.0",
+    "framer-motion": "^2.4.1",
     "graphql": "^15.3.0",
     "http-proxy-middleware": "^1.0.5",
     "i18next": "^19.6.3",

@@ -52,7 +52,7 @@ export const PoolPrizesShow = (
     </div>
 
     <div
-      className='bg-default mt-6 mb-6 text-sm py-4 flex items-center justify-center'
+      className='bg-default mt-6 mb-6 text-sm py-4 flex items-center justify-center rounded-lg'
     >
       <div className='flex flex-col items-center justify-center text-lg'>
         <PoolCurrencyIcon

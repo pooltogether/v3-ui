@@ -9,6 +9,10 @@ export const PoolList = (
 ) => {
   const { omit, pools, selectedId } = props
 
+  if (omit) {
+    return null
+  }
+
   return <>
     <AnimateSharedLayout>
       <AnimatePresence>

@@ -92,9 +92,11 @@ export const PoolRow = (
             </div> */}
           </div>
 
-          <div className='mt-5 flex items-center'>
+          <div
+            className='mt-5 flex items-center justify-between'
+          >
             <div
-              className='w-10/12 sm:w-11/12 lg:w-11/12 pr-2'
+              className='w-7/12 sm:w-11/12 lg:w-11/12 pr-2'
             >
               <ButtonLink
                 border='highlight-1'
@@ -113,25 +115,27 @@ export const PoolRow = (
               className='w-2/12 text-right'
               style={{
                 lineHeight: 1.2,
-                maxWidth: 50
               }}
             >
               <ButtonLink
                 border='highlight-1'
                 text='highlight-1'
                 bg='primary'
-                width='w-full'
                 rounded='full'
                 href='/pools/[symbol]'
                 as={`/pools/${pool.symbol}`}
                 style={{
-                  top: 2
+                  top: 2,
+                  width: 44
                 }}
               >
                 <FeatherIcon
-                  strokeWidth='3'
-                  icon='eye'
-                  className='w-7 h-7 mx-auto'
+                  strokeWidth='2'
+                  icon='arrow-right'
+                  className='relative w-7 h-7 mx-auto'
+                  style={{
+                    left: -4
+                  }}
                 />
               </ButtonLink>
             </div>
