@@ -70,7 +70,7 @@ export const TransactionsList = (props) => {
     </div>
 
     <div
-      className='dialog-inner-content flex-grow relative flex flex-col w-full pb-2 text-sm text-xs sm:text-sm lg:text-base'
+      className='dialog-inner-content flex-grow relative flex flex-col w-full pb-2 text-xs sm:text-sm'
     >
       {notCancelledTransactions.length === 0 ? <>
         <div

@@ -7,10 +7,10 @@ module.exports = {
     container: true
   },
   theme: {
-    // this gives us regular (mobile), sm (641px - 1281px) and lg (1281px+)
+    // this gives us regular (mobile/tablet), sm (1041px - 1481px) and lg (1481px+)
     screens: {
-      'sm': '801px',
-      'lg': '1281px'
+      'sm': '1041px',
+      'lg': '1481px'
     },
     colors: {
       // black: colors.black,

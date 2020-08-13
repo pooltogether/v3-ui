@@ -33,9 +33,9 @@ export const TransactionsUIListItem = (props) => {
         {tx.completed && !tx.error && <>
           <FeatherIcon
             icon='check-circle'
-            className='relative w-6 h-6 text-green'
+            className='relative w-4 h-4 sm:w-5 sm:h-5 text-green'
             style={{
-              top: 4,
+              top: 2,
             }}
           />
         </>}

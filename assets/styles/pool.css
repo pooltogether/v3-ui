@@ -274,13 +274,13 @@ td:last-child {
   max-width: 340px;
 }
 
-@media screen and (min-width: 640px) {
+@screen sm {
   .pt-button {
     /* min-width: 170px; */
   }
 }
 
-@media screen and (min-width: 1280px) {
+@screen lg {
   .pt-button {
     /* min-width: 220px; */
   }
@@ -537,14 +537,14 @@ input[type='submit'][disabled] {
   top: 11px;
 }
 
-@media screen and (min-width: 640px) {
+@screen sm {
   .question-button {
     right: 50px;
     top: 11px;
   }
 }
 
-@media screen and (min-width: 1280px) {
+@screen lg {
   .question-button {
     right: 70px;
     top: 17px;
@@ -555,13 +555,13 @@ input[type='submit'][disabled] {
   top: -5px;
 }
 
-@media screen and (min-width: 640px) {
+@screen sm {
   .question-button--container {
     top: -3px;
   }
 }
 
-@media screen and (min-width: 1280px) {
+@screen lg {
   .question-button--container {
     top: -2px;
   }
@@ -709,7 +709,7 @@ input[type='submit'][disabled] {
   width: 100%;
 }
 
-@media screen and (min-width: 1280px) {
+@screen lg {
   .check {
     top: 5px;
     left: 4px;
