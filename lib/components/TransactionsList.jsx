@@ -60,7 +60,7 @@ export const TransactionsList = (props) => {
 
         {pastTransactionsCount > 0 && <>
           <button
-            className='text-xxs text-left underline text-blue hover:text-secondary trans'
+            className='text-xxs text-left underline text-green hover:text-secondary trans'
             onClick={clearPrevious}
           >
             Clear history

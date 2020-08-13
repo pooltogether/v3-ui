@@ -10,6 +10,8 @@ export const Nav = (props) => {
   const prizesPage = router.pathname.match('prizes')
   const poolPage = !accountPage && !prizesPage
 
+  const navParentClasses = 'rounded-full h-full w-full flex justify-start items-center px-10 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-10 trans tracking-wider outline-none focus:outline-none active:outline-none'
+
   return <>
     <nav
       className='flex flex-col items-start hidden sm:block pt-6 font-bold'
@@ -21,7 +23,7 @@ export const Nav = (props) => {
       >
         <a
           className={classnames(
-            'h-full w-full flex justify-start items-center px-10 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-10 trans tracking-wider outline-none focus:outline-none active:outline-none',
+            navParentClasses,
             {
               'text-accent-3 hover:text-highlight-2': !poolPage,
               'text-highlight-2 hover:text-highlight-2': poolPage
@@ -56,7 +58,7 @@ export const Nav = (props) => {
       >
         <a
           className={classnames(
-            'h-full w-full flex justify-start items-center px-10 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-10 trans tracking-wider outline-none focus:outline-none active:outline-none',
+            navParentClasses,
             {
               'text-accent-3 hover:text-highlight-2': !prizesPage,
               'text-highlight-2 hover:text-highlight-2': prizesPage
@@ -88,7 +90,7 @@ export const Nav = (props) => {
       >
         <a
           className={classnames(
-            'h-full w-full flex justify-start items-center px-10 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-10 trans tracking-wider outline-none focus:outline-none active:outline-none',
+            navParentClasses,
             {
               'text-accent-3 hover:text-highlight-2': !accountPage,
               'text-highlight-2 hover:text-highlight-2': accountPage

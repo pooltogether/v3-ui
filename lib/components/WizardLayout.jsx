@@ -41,7 +41,7 @@ export const WizardLayout = (props) => {
   return <>
     <motion.div
       key={`${action}-scaled-bg`}
-      className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 bg-darkened'
+      className='fixed w-full h-full z-40 bg-darkened'
       initial={{ scale: 0 }}
       animate={{ scale: 1, transition: { duration: 0.1 } }}
       exit={{ opacity: 0, transition: {
@@ -52,7 +52,7 @@ export const WizardLayout = (props) => {
     
     <motion.div
       key={`${action}-pane`}
-      className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40'
+      className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 z-50'
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.25 }}
     >
@@ -73,6 +73,7 @@ export const WizardLayout = (props) => {
           <FeatherIcon
             icon='arrow-left-circle'
             className='w-8 h-8 sm:w-16 sm:h-16'
+            strokeWidth='1'
           />
         </button>
       
@@ -127,6 +128,7 @@ export const WizardLayout = (props) => {
           <FeatherIcon
             icon='x-circle'
             className='w-8 h-8 sm:w-16 sm:h-16'
+            strokeWidth='1'
           />
         </button>
       </nav>

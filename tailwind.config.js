@@ -107,6 +107,8 @@ module.exports = {
         'full': '100%',
       },
       borderRadius: {
+        'sm': '0.25rem',
+        'md': '0.375rem',
         'xl': '0.75rem',
         '2xl': '1rem',
         '3xl': '1.25rem',

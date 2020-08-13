@@ -12,10 +12,10 @@ export const CheckboxInputGroup = (
     checked,
   } = props
 
-  const defaultClasses = 'flex justify-start items-center trans trans-faster cursor-pointer font-bold outline-none focus:outline-none hover:outline-none active:outline-none leading-none px-0 py-1'
+  const defaultClasses = 'flex justify-start items-start trans trans-faster cursor-pointer font-bold outline-none focus:outline-none hover:outline-none active:outline-none leading-none px-0 py-1'
   const roundedClasses = 'rounded-xl'
   const marginClasses = 'mt-1 mb-1 sm:mb-3 lg:mb-4'
-  const textClasses = 'text-sm sm:text-base lg:text-xl'
+  const textClasses = 'text-sm sm:text-base lg:text-base'
 
   return <>
     <div
@@ -25,15 +25,15 @@ export const CheckboxInputGroup = (
         marginClasses,
         roundedClasses,
         {
-          'text-secondary inner-lg': checked,
-          'text-default-soft hover:text-primary': !checked,
+          'text-green inner-lg': checked,
+          'text-accent-1 hover:text-green': !checked,
         }
       )}
       onClick={handleClick}
     >
       <div
         className={classnames(
-          'flex items-center justify-center mr-3 text-3xl leading-none'
+          'flex items-center justify-center mr-3 text-3xl leading-none mt-1'
         )}
       >
         <div
@@ -62,7 +62,7 @@ export const CheckboxInputGroup = (
       </div>
 
       <div
-        className='font-normal text-left text-xs sm:text-base lg:text-lg flex flex-col items-start justify-start leading-snug'
+        className='font-normal text-left text-xs sm:text-base flex flex-col items-start justify-start leading-snug'
       >
         {label}
       </div>

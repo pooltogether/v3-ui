@@ -45,7 +45,7 @@ export const NavAccount = (props) => {
       /> :
       <button
         onClick={handleShowSignIn}
-        className='font-bold text-highlight-1 hover:text-highlight-2 text-xxs sm:text-sm bg-body rounded-full border-2 border-highlight-2 py-1 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none mr-2'
+        className='text-highlight-2 hover:text-highlight-1 text-xxs sm:text-sm bg-body rounded-full border-2 border-highlight-2 hover:border-highlight-1 py-1 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none mr-2'
       >
         Sign in
       </button>
@@ -97,7 +97,7 @@ export const NavAccount = (props) => {
 
                 <button
                   onClick={closeTransactions}
-                  className='relative close-button text-default hover:text-highlight-1 trans outline-none focus:outline-none active:outline-none'
+                  className='relative close-button text-highlight-2 hover:text-highlight-1 trans outline-none focus:outline-none active:outline-none'
                   style={{
                     right: 0
                   }}

@@ -11,6 +11,7 @@ html, body {
 body {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .nav-min-height {
@@ -24,36 +25,15 @@ body {
 }
 
 .pool-container {
+  padding-top: 2rem;
   padding-bottom: 12rem;
-  /* padding-left: 1.75rem;
-  padding-right: 1.75rem; */
   width: 100%;
-}
-
-.nav-and-footer-container {
-  /* padding-left: 0.5rem;
-  padding-right: 0.5rem; */
-  /* margin-left: 1rem;
-  margin-right: 1rem;
-  width: calc(100% - 2rem); */
 }
 
 .pool-container .pool-container,
 .nav-and-footer-container .nav-and-footer-container {
   margin-left: 0;
   margin-right: 0;
-}
-
-@screen sm {
-  .pool-container,
-  .nav-and-footer-container {
-    /* max-width: 788px; */
-    margin-left: auto;
-    margin-right: auto;
-    /* padding-left: 0;
-    padding-right: 0; */
-    width: 100%;
-  }
 }
 
 .nav--pool-logo-container {
@@ -67,7 +47,6 @@ body {
 @screen sm {
   .nav--pool-logo-container {
     min-width: 154px;
-    /* min-width: initial; */
   }
 
   .nav--account-controls-container {
@@ -75,24 +54,9 @@ body {
   }
 }
 
-
-@screen sm {
-  .nav-and-footer-container {
-    /* max-width: 788px; */
-  }
-}
-
 @screen lg {
   .nav-and-footer-container {
     max-width: 1400px;
-  }
-}
-
-@screen sm {
-  .pool-container {
-    /* max-width: 788px; */
-    /* padding-left: 2rem;
-    padding-right: 2rem; */
   }
 }
 
@@ -173,6 +137,7 @@ body {
 .grid-wrapper {
   display: grid;
   height: 100vh;
+  margin: 0 auto;
   width: 100vw;
   grid-gap: 0;
   row-gap: 0;
@@ -184,6 +149,33 @@ body {
   grid-template-rows: 0 100px 1fr;
 }
 
+@screen sm {
+  .grid-wrapper {
+    grid-template-rows: 0 120px 1fr;
+    grid-template-columns: 220px 1fr;
+    grid-template-areas:
+      "banner banner"
+      "header  header"
+      "sidebar  content";
+    max-width: 1260px;
+  }
+
+  .grid-wrapper.showing-network-banner {
+    grid-template-rows: 46px 120px 1fr;
+  }
+
+  .sidebar {
+    display: block;
+  }
+}
+
+@screen lg {
+  .grid-wrapper {
+    grid-template-columns: 220px 1fr;
+    max-width: 1460px;
+  }
+}
+
 .grid-wrapper.showing-network-banner {
   grid-template-rows: 46px 100px 1fr;
 }
@@ -192,7 +184,7 @@ body {
 .header {
   display: block;
   grid-area: header;
-  /* position: fixed; */
+  position: fixed;
   top: 0;
 }
 
@@ -201,28 +193,18 @@ body {
 }
 
 .header > div {
-  position: sticky;
-  top: 0;
-  max-width: 1060px;
-}
-
-@screen sm {
-  /* I think this weird rule is necessary because of the scrollbar and mixing fixed/sticky with grid */
-  /* and yes to pull off this layout I had to mix fixed/sticky with grid :D */
-  .header {
-    padding-left: 20px;
-  }
+  max-width: 1280px;
 }
 
 @screen lg {
   .header > div {
-    max-width: 1360px;
+    max-width: 1460px;
   }
 }
 
 .sidebar {
   grid-area: sidebar;
-  width: 300px;
+  width: 220px;
 }
 
 .sidebar > div {
@@ -242,34 +224,7 @@ body {
   grid-area: banner;
 }
 
-.whitespace-1 {
+/* .whitespace-1 {
   grid-area: whitespace-1;
-}
+} */
 
-
-@screen sm {
-  .grid-wrapper {
-    grid-template-rows: 0 120px 1fr;
-    grid-template-columns: minmax(1px, 1fr) 300px 760px minmax(1px, 1fr);
-    grid-template-areas:
-      "banner banner banner banner"
-      "whitespace-1 header  header whitespace-2"
-      "whitespace-1 sidebar  content whitespace-2";
-  }
-
-  .grid-wrapper.showing-network-banner {
-    grid-template-rows: 46px 120px 1fr;
-  }
-
-  .sidebar {
-    display: block;
-    /* padding-top: 4rem; */
-    /* position: fixed; */
-  }
-}
-
-@screen lg {
-  .grid-wrapper {
-    grid-template-columns: minmax(1px, 1fr) 300px 1060px minmax(1px, 1fr);
-  }
-}

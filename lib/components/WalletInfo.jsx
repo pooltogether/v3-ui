@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
+import Link from 'next/link'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { networkColorClassname } from 'lib/utils/networkColorClassname'
@@ -47,6 +48,23 @@ export const WalletInfo = (props) => {
               <div className='hidden lg:block'>
                 {usersAddress}
               </div>
+              <div
+              >
+                <Link
+                  href='/account'
+                  as='/account'
+                  shallow
+                >
+                  <a
+                    onClick={(e) => {
+                      closeTransactions()
+                    }}
+                    className='inline-block text-highlight-1 hover:text-green underline trans'
+                  >
+                    View your holdings
+                  </a>
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -66,7 +84,7 @@ export const WalletInfo = (props) => {
                   closeTransactions()
                   authControllerContext.signOut()
                 }}
-                className='inline-block text-blue hover:text-green underline trans lowercase'
+                className='inline-block text-highlight-1 hover:text-green underline trans'
               >
                 Change account
               </button>

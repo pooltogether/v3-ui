@@ -16,13 +16,11 @@ export const IndexUI = (
     pool,
   } = poolDataContext
 
-  if (loading) {
-    return <IndexUILoader />
-  }
+  
 
-  if (pools.length === 0) {
-    return <IndexUIPlaceholder />
-  }
+  // if (pools.length === 0) {
+  //   return <IndexUIPlaceholder />
+  // }
 
   return <>
     {pool && <PoolShow
@@ -38,12 +36,14 @@ export const IndexUI = (
       </h1>
     </>}
 
-
-    <PoolList
-      omit={pool}
-      selectedId={pool && pool.poolAddress}
-      pools={pools}
-    />
+    {loading ?
+      <IndexUILoader /> :
+      <PoolList
+        omit={pool}
+        selectedId={pool && pool.poolAddress}
+        pools={pools}
+      />
+    }
 
     <div
       className='text-accent-1 text-center text-base sm:text-lg lg:text-xl mt-20 opacity-40'

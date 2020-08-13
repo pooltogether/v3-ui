@@ -49,7 +49,7 @@ export const NewPrizeCountdown = (
 
   const LeftSideJsx = ({ digit }) => {
     return <span
-      className={`bg-white text-${textColor} font-bold border border-accent-1 rounded-tl-md rounded-bl-md`}
+      className={`bg-white text-${textColor} font-bold border border-accent-1 rounded-tl-sm rounded-bl-sm`}
       style={{
         padding: '1px 4px',
         borderWidth: '0.015rem'
@@ -61,7 +61,7 @@ export const NewPrizeCountdown = (
 
   const RightSideJsx = ({ digit }) => {
     return <span
-      className={`bg-white text-${textColor} font-bold border border-accent-1 rounded-tr-md rounded-br-md border-l-0`}
+      className={`bg-white text-${textColor} font-bold border border-accent-1 rounded-tr-sm rounded-br-sm border-l-0`}
       style={{
         padding: '1px 4px',
         borderWidth: '0.015rem'
@@ -76,9 +76,11 @@ export const NewPrizeCountdown = (
       className='flex text-center'
     >
       <div
-        className='flex flex-col px-1'
+        className='flex flex-col sm:mr-2'
         style={{
-          minWidth: 50
+          // minWidth: 50
+          paddingLeft: 2,
+          paddingRight: 2,
         }}
       >
         <div className='flex'>
@@ -94,9 +96,11 @@ export const NewPrizeCountdown = (
         </div>
       </div>
       <div
-        className='flex flex-col px-1'
+        className='flex flex-col'
         style={{
-          minWidth: 50
+          // minWidth: 50
+          paddingLeft: 2,
+          paddingRight: 2,
         }}
       >
         <div className='flex'>
@@ -117,9 +121,11 @@ export const NewPrizeCountdown = (
         :
       </div>
       <div
-        className='flex flex-col px-1'
+        className='flex flex-col'
         style={{
-          minWidth: 50
+          // minWidth: 50
+          paddingLeft: 1,
+          paddingRight: 2,
         }}
       >
         <div className='flex'>
@@ -140,9 +146,11 @@ export const NewPrizeCountdown = (
         :
       </div>
       <div
-        className='flex flex-col px-1 hidden sm:block'
+        className='flex flex-col hidden sm:block'
         style={{
-          minWidth: 50
+          // minWidth: 50
+          paddingLeft: 1,
+          paddingRight: 2,
         }}
       >
         <div className='flex'>

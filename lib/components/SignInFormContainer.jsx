@@ -54,6 +54,7 @@ export const SignInFormContainer = (props) => {
           <FeatherIcon
             icon='x-circle'
             className='w-8 h-8 sm:w-16 sm:h-16'
+            strokeWidth='1'
           />
         </button>
       </nav>

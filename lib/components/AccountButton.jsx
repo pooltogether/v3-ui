@@ -46,10 +46,10 @@ export const AccountButton = (props) => {
       className='profile-img relative inline-block rounded-full w-6 h-6 mr-1'
     /> :
     <div
-      className='profile-img profile-img--jazzicon relative inline-block mr-1'
+      className='profile-img profile-img--jazzicon relative inline-block mr-2'
     >
       <Jazzicon
-        diameter={25}
+        diameter={20}
         seed={jsNumberForAddress(usersAddress)}
       />
     </div>

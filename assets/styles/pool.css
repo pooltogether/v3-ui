@@ -72,8 +72,12 @@ a {
 }
 
 a:hover {
-  @apply text-inverse bg-default;
+  @apply text-inverse;
 }
+
+/* a:hover {
+  @apply text-inverse bg-default;
+} */
 
 a[disabled],
 a[disabled]:hover {
@@ -827,19 +831,20 @@ input[type='submit'][disabled] {
 .banner-text {
   font-size: 'calc(2vw + 20px)';
   line-height: 1.2;
-  margin-bottom: 3rem;
-  margin-top: 3rem;
+  margin-bottom: 4rem;
+  margin-top: 0;
 }
 
 @screen sm {
   .banner-text {
+    margin-top: 1rem;
     margin-bottom: 4rem;
   }
 }
 
 @screen lg {
   .banner-text {
-    /* max-width: 80%; */
+    margin-top: 0.75rem;
   }
 }
 
@@ -855,13 +860,13 @@ input[type='submit'][disabled] {
 
 .profile-img {
   /* top: 2px; */
-  transform: scale(0.8);
+  transform: scale(1);
 }
 
 @screen sm {
   .profile-img {
-    top: 0;
-    transform: scale(0.9);
+    top: 1px;
+    transform: scale(1.1);
     transform-origin: center;
   }
 }

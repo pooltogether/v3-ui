@@ -45,8 +45,12 @@ export const Odds = (props) => {
   
   let label = showLabel && <>
     {hasAdditionalQuantity && additionalQuantity !== 0 ? <>
-      New o
-    </> : <>O</>}dds of winning:
+      {!isWithdraw && <span className='text-flashy'>New odds of winning:</span>}
+      {isWithdraw && 'New odds of winning:'}
+    </>
+       :
+      <>Current odds of winning:</>
+    }
   </>
 
   if (isWithdraw && !isFinite(result)) {

@@ -14,8 +14,8 @@ export const Tab = ({ isSelected, onClick, children }) => {
     className={classnames(
       'relative border-b-2 cursor-pointer text-xs sm:text-sm text-inverse mx-2 sm:mx-3 mb-1',
       {
-        'border-transparent text-default hover:text-secondary': !isSelected,
-        'border-green text-inverse hover:text-secondary': isSelected,
+        'border-transparent hover:border-highlight-1 text-default hover:text-highlight-2': !isSelected,
+        'border-green text-inverse hover:text-highlight-1': isSelected,
       }
     )}
     style={{

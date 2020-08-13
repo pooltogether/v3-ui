@@ -62,7 +62,7 @@ export const ButtonLink = (props) => {
   
   hoverBg = hoverBg ? `hover:bg-${hoverBg}` : `hover:bg-primary`
   hoverBorder = hoverBorder ? `hover:border-${hoverBorder}` : `hover:border-highlight-2`
-  hoverText = hoverText ? `hover:text-${hoverText}` : 'hover:text-blue'
+  hoverText = hoverText ? `hover:text-${hoverText}` : 'hover:text-green'
 
   let newClassNames = classnames(
     className,

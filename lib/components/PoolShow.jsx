@@ -5,7 +5,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
-import { SHOW_AWARD_FEATURES } from 'lib/constants'
+import { SHOW_MANAGE_LINKS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
@@ -57,7 +57,7 @@ export const PoolShow = (
     return null
   }
 
-  const cookieShowAward = Cookies.get(SHOW_AWARD_FEATURES)
+  const cookieShowAward = Cookies.get(SHOW_MANAGE_LINKS)
 
   const handleShowDeposit = (e) => {
     e.preventDefault()

@@ -10,7 +10,7 @@ export const Modal = (props) => {
         'text-sm sm:text-base lg:text-lg',
         {
           'hidden pointer-events-none': !visible,
-          'absolute block t-0 b-0 l-0 r-0 block': visible,
+          'bg-overlay fixed block t-0 b-0 l-0 r-0 block': visible,
         }
       )}
       style={{

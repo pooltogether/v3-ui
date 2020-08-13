@@ -7,6 +7,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { NavAccount } from 'lib/components/NavAccount'
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
+import { Modal } from 'lib/components/Modal'
 import { NavMobile } from 'lib/components/NavMobile'
 import { WithdrawWizardContainer } from 'lib/components/WithdrawWizardContainer'
 import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNotificationBanner'
@@ -35,15 +36,11 @@ export const Layout = (props) => {
   const withdraw = /withdraw/.test(router.asPath)
 
 
-
-
   const authControllerContext = useContext(AuthControllerContext)
-  const { chainId } = authControllerContext
+  const { supportedNetwork, usersAddress, chainId } = authControllerContext
 
-  // const showingNetworkBanner = false
   const showingNetworkBanner = chainId !== 1
-
-  console.log('should be ', yScrollPosition > 1 ? 'enter' : 'exit')
+  const supportedNetworkNames = process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
 
   return <>
     <Meta />
@@ -63,6 +60,19 @@ export const Layout = (props) => {
         {...props}
       />}
     </AnimatePresence>
+
+    <Modal
+      visible={!supportedNetwork}
+      header={<>
+        Ethereum network mismatch
+      </>}
+    >
+      Your Ethereum wallet is connected to the wrong network. Please set your network to: <span
+        className='font-bold text-purple'
+      >
+        {supportedNetworkNames}
+      </span>
+    </Modal>
     
     <div
       className='flex flex-col w-full'
@@ -106,11 +116,7 @@ export const Layout = (props) => {
           <div
             className='flex justify-between items-center px-8 sm:px-10 py-4 sm:pt-5 sm:pb-3'
           >
-            {/* <div
-                className='sm:hidden'
-              > */}
             <HeaderLogo />
-            {/* </div> */}
 
             <div
               className='flex items-center justify-end relative'
@@ -132,9 +138,6 @@ export const Layout = (props) => {
           }
         )}
       >
-        <div className='whitespace-1'>
-        </div>
-
         <div
           className={classnames(
             'sidebar hidden sm:block z-20',
@@ -143,9 +146,7 @@ export const Layout = (props) => {
             }
           )}
         >
-          <div
-            // className='pt-40'
-          >
+          <div>
             <Nav />
           </div>
         </div>
@@ -184,8 +185,6 @@ export const Layout = (props) => {
             </div>
           </div>
 
-          <div className='whitespace-2'>
-          </div>
         </div>
 
       <NavMobile />

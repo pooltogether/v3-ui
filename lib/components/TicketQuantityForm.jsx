@@ -114,7 +114,7 @@ export const TicketQuantityForm = (props) => {
       </div>
 
       <div
-        className='mt-5 text-sm text-blue'
+        className='mt-5 text-sm text-highlight-1'
       >
         <Odds
           showLabel

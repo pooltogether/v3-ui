@@ -93,15 +93,18 @@ export const PoolRow = (
           </div>
 
           <div
-            className='mt-5 flex items-center justify-between'
+            className='mt-5 flex items-end justify-between'
           >
             <div
-              className='w-7/12 sm:w-11/12 lg:w-11/12 pr-2'
+              className='w-7/12 sm:w-4/12 lg:w-6/12 pr-2'
             >
               <ButtonLink
                 border='highlight-1'
                 text='secondary'
                 bg='highlight-1'
+                hoverBorder='highlight-2'
+                hoverText='secondary'
+                hoverBg='highlight-2'
                 width='w-full'
                 size='lg'
                 href='/pools/[symbol]/deposit'
@@ -121,6 +124,9 @@ export const PoolRow = (
                 border='highlight-1'
                 text='highlight-1'
                 bg='primary'
+                hoverBorder='highlight-2'
+                hoverText='highlight-2'
+                hoverBg='primary'
                 rounded='full'
                 href='/pools/[symbol]'
                 as={`/pools/${pool.symbol}`}

@@ -1,12 +1,12 @@
 import React from 'react'
 import Cookies from 'js-cookie'
 
-import { SHOW_AWARD_FEATURES } from 'lib/constants'
+import { SHOW_MANAGE_LINKS } from 'lib/constants'
 import { CompleteAwardUI } from 'lib/components/CompleteAwardUI'
 import { StartAwardUI } from 'lib/components/StartAwardUI'
 
 export const PoolActionsUI = (props) => {
-  const cookieShowAward = Cookies.get(SHOW_AWARD_FEATURES)
+  const cookieShowAward = Cookies.get(SHOW_MANAGE_LINKS)
 
   return <>
     {cookieShowAward && <>

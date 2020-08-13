@@ -129,14 +129,14 @@ export const Button = (props) => {
     }
   }
 
-  borderClasses = `border-4 border-inverse`
+  borderClasses = `border-2 border-inverse`
   if (!disabled) {
     if (inversed) {
-      borderClasses = `border-4 border-inverse hover:border-default`
+      borderClasses = `border-2 border-inverse hover:border-default`
     } else if (blue) {
-      borderClasses = `border-4 border-blue hover:border-blue`
+      borderClasses = `border-2 border-blue hover:border-blue`
     } else {
-      borderClasses = `border-4 border-inverse hover:border-green`
+      borderClasses = `border-2 border-inverse hover:border-green`
     }
   }
   
@@ -171,11 +171,7 @@ export const Button = (props) => {
   )
 
   if (outline) {
-    if (blue) {
-      newClassNames = `${className} font-bold bg-body rounded-xl bg-blue text-white text-xxs sm:text-base py-2 sm:py-2 px-4 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none `
-    } else {
-      newClassNames = `${className} font-bold bg-body rounded-xl text-highlight-2 border-4 border-highlight-2 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none`
-    }
+    newClassNames = `${className} font-bold bg-body rounded-xl text-highlight-2 hover:text-highlight-1 border-2 border-highlight-2 hover:border-highlight-1 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none`
 
     if (selected) {
       newClassNames = `opacity-40 ` + newClassNames
@@ -202,17 +198,17 @@ export const Button = (props) => {
 
   const animationProps = {
     whileHover: {
-      scale: 1.03,
+      scale: 1.015,
       y: -3,
       transition: {
-        duration: 0.1
+        duration: 0.05
       }
     },
     whileTap: {
-      scale: 0.97,
+      scale: 0.98,
       y: 2,
       transition: {
-        duration: 0.1
+        duration: 0.05
       }
     }
   }
@@ -228,25 +224,22 @@ export const Button = (props) => {
       as={as}
       scroll={false}
     >
-      <a
-        // {...linkProps}
-        ref={buttonRef}
-        anim={disabled || noAnim ? '' : 'ripple'}
-        className={newClassNames}
+      <motion.span
+        {...animationProps}
+        className='inline'
       >
-        <motion.span
-          {...animationProps}
-          className='inline'
+        <a
+          // {...linkProps}
+          className={newClassNames}
         >
           {children}
-        </motion.span>
-      </a>
+        </a>
+      </motion.span>
     </Link>
   } else {
     return <motion.button
       {...newProps}
-      ref={buttonRef}
-      anim={disabled || noAnim ? '' : 'ripple'}
+      {...animationProps}
       className={newClassNames}
     />
   }
