@@ -614,6 +614,10 @@ input[type='submit'][disabled] {
   width: 150px;
 }
 
+.pool-logo:hover {
+  background-color: transparent;
+}
+
 @screen sm {
   .pool-logo {
     height: 60px;

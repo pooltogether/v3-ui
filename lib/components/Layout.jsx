@@ -53,19 +53,32 @@ export const Layout = (props) => {
 
 
       <div className='grid-wrapper'>
-        <div className='header'>
-          <StaticNetworkNotificationBanner />
+        <div className='whitespace-1'>
+        </div>
 
+        <div className='banner'>
+          <StaticNetworkNotificationBanner />
+        </div>
+
+        <div className='sidebar hidden sm:block z-30'>
+          <div>
+            <Nav />
+          </div>
+        </div>
+
+        <div
+          className='header w-full bg-body z-20 shadow-xl py-2'
+        >
           <div
             className='flex justify-between items-center px-8 sm:px-10 py-4 sm:pt-5 sm:pb-3'
           >
-            <HeaderLogo />
+            {/* <div
+              className='sm:hidden'
+            > */}
+              <HeaderLogo />
+            {/* </div> */}
 
             <div
-              style={{
-                minWidth: '50vw',
-                maxWidth: 600
-              }}
               className='flex items-center justify-end relative'
             >
               <NavAccount />
@@ -76,9 +89,7 @@ export const Layout = (props) => {
         </div>
 
 {/* bg-card */}
-        <div className='sidebar'>  
-          <Nav />
-        </div>
+        
 
         <div className='content'>
           <div
@@ -114,6 +125,8 @@ export const Layout = (props) => {
             </div>
           </div>
 
+          <div className='whitespace-2'>
+          </div>
         </div>
 
       <NavMobile />

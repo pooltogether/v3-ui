@@ -62,7 +62,14 @@ const formatPrizeObject = (pool, prize) => {
   return {
     prizeNumber: id,
     startedAt: formatDate(prize?.prizePeriodStartedTimestamp),
-    awardedAt: formatDate(prize?.awardedTimestamp),
+    awardedAt: <>
+      <span className='sm:hidden'>
+        {formatDate(prize?.awardedTimestamp, { short: true })}
+      </span>
+      <span className='hidden sm:block'>
+        {formatDate(prize?.awardedTimestamp)}
+      </span>
+    </>,
     prizeAmount: `$${prizeAmount.toString()} ${pool?.underlyingCollateralSymbol}`,
     status: prizeStatusString(prize),
     view: prizeLink(pool, { id })
