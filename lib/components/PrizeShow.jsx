@@ -17,6 +17,9 @@ import { prizeQuery } from 'lib/queries/prizeQuery'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatDate } from 'lib/utils/formatDate'
 
+import TicketsIcon from 'assets/images/icon-ticket@2x.png'
+import PlayersIcon from 'assets/images/players@2x.png'
+
 export const PrizeShow = (
   props,
 ) => {
@@ -103,14 +106,8 @@ export const PrizeShow = (
       /> Back to prizes
     </ButtonLink>
 
-    <PoolCurrencyIcon
-      large
-      pool={pool}
-      className='block mx-auto mt-4'
-    />
-
     <div
-      className='bg-highlight-3 rounded-lg px-6 pt-4 pb-6 text-white mt-6'
+      className='bg-highlight-3 rounded-lg px-6 pt-4 pb-6 text-white mt-4 sm:mt-10'
     >
       <div
         className='flex justify-between'
@@ -123,7 +120,9 @@ export const PrizeShow = (
           </h2>
           
           {prize?.awardedTimestamp && <>
-            <h6>
+            <h6
+              className='mt-3'
+            >
               Awarded on:
             </h6>
             <div
@@ -140,10 +139,13 @@ export const PrizeShow = (
         </div>
 
         <div
-          className='w-full sm:w-1/2'
+          className='w-full sm:w-1/2 mt-3 sm:mt-6'
         >
           <h2>
-            ${displayAmountInEther(
+            <PoolCurrencyIcon
+              pool={pool}
+              className='inline-block mx-auto'
+            /> ${displayAmountInEther(
             prize?.net || 0,
             { decimals }
           )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
@@ -154,7 +156,7 @@ export const PrizeShow = (
       </div>
 
       <div
-        className='w-full my-6'
+        className='w-full sm:w-1/2 mt-3 sm:mt-6'
       >
         <h6>
           Winner:
@@ -165,50 +167,62 @@ export const PrizeShow = (
           winner goes here after we fix the subgraph
         </div>
       </div>
-
-      <TimeTravelPool
-        pool={pool}
-        prize={prize}
-      >
-        {(timeTravelPool) => {
-          return <div
-            className='flex flex-col sm:flex-row justify-between mt-2'
-          >
-            <div
-              className='w-full sm:w-1/2'
-            >
-              <h6>
-                # ticket holders:
-              </h6>
-              <div
-                className='text-caption uppercase'
-              >
-                {timeTravelPool?.playerCount}
-              </div>
-            </div>
-
-            <div
-              className='w-full sm:w-1/2 mt-4 sm:mt-0'
-            >
-              <h6>
-                # tickets sold:
-              </h6>
-              <div
-                className='text-caption uppercase'
-              >
-                {displayAmountInEther(
-                  timeTravelPool?.totalSupply || 0,
-                  {decimals, precision: 0 }
-                )}
-              </div>
-            </div>
-          </div>
-        }}
-      </TimeTravelPool>
-
-      
     </div>
-    
+
+    <div
+      className='flex flex-col sm:flex-row'
+    >
+      <div
+        className='w-full sm:w-1/2 mt-2 sm:mt-10 px-6 py-4 rounded-lg bg-card sm:mr-8'
+      >
+        <div
+          className='text-caption uppercase'
+        >
+          <img
+            src={PlayersIcon}
+            className='inline-block mr-2 card-icon'
+          /> Players
+        </div>
+        <h3>
+          <TimeTravelPool
+            pool={pool}
+            prize={prize}
+          >
+            {(timeTravelPool) => {
+              return timeTravelPool?.playerCount || null
+            }}
+          </TimeTravelPool>
+        </h3>
+      </div>
+
+      <div
+        className='w-full sm:w-1/2 mt-2 sm:mt-10 px-6 py-4 rounded-lg bg-card sm:ml-8'
+      >
+        <div
+          className='text-caption uppercase'
+        >
+          <img
+            src={TicketsIcon}
+            className='inline-block mr-2 card-icon'
+          /> Tickets sold
+        </div>
+        <h3>
+          <TimeTravelPool
+            pool={pool}
+            prize={prize}
+          >
+            {(timeTravelPool) => {
+              return timeTravelPool?.totalSupply ?
+                displayAmountInEther(
+                  timeTravelPool.totalSupply,
+                  { decimals, precision: 0 }
+                ) : null
+            }}
+          </TimeTravelPool>
+        </h3>
+      </div>
+    </div>  
+      
 
     
 {/*  <br />{prize?.winners} winners */}

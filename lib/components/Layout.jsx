@@ -75,7 +75,8 @@ export const Layout = (props) => {
           </div>
         </div>
 
-        <div className='sidebar bg-card'>
+{/* bg-card */}
+        <div className='sidebar'>  
           <Nav />
         </div>
 
