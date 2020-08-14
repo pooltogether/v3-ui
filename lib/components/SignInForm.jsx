@@ -20,6 +20,7 @@ export const SignInForm = (props) => {
 
   return <>
     <div>
+      write about wallets here:
       <Button
         outline
         onClick={(e) => {

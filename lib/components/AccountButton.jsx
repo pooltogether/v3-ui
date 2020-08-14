@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/client'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
+import { NetworkText } from 'lib/components/NetworkText'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { shorten } from 'lib/utils/shorten'
@@ -92,9 +93,11 @@ export const AccountButton = (props) => {
     <div
       className='flex items-center leading-none'
     >
+      <NetworkText />
+      
       {(ethBalance || pendingTransactionsCount > 0) && <>
         <div
-          className='relative block mr-2 bg-default rounded-l-full py-3 px-3 pr-5 z-10'
+          className='relative block mr-2 bg-default rounded-l-full py-2 pl-4 pr-5 z-10'
           style={{
             right: -20
           }}
@@ -104,7 +107,7 @@ export const AccountButton = (props) => {
               {pendingTxJsx}
             </span>
           </> : <>
-            <span className='text-default-soft hover:text-green'>
+            <span className='text-default-soft hover:text-green text-xxxs sm:text-xxs'>
               <PoolCountUp
                 start={0}
                 end={ethBalanceNumber}

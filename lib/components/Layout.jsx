@@ -10,7 +10,6 @@ import { HeaderLogo } from 'lib/components/HeaderLogo'
 import { Modal } from 'lib/components/Modal'
 import { NavMobile } from 'lib/components/NavMobile'
 import { WithdrawWizardContainer } from 'lib/components/WithdrawWizardContainer'
-import { StaticNetworkNotificationBanner } from 'lib/components/StaticNetworkNotificationBanner'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
 import { Settings } from 'lib/components/Settings'
@@ -39,7 +38,10 @@ export const Layout = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
   const { supportedNetwork, usersAddress, chainId } = authControllerContext
 
-  const showingNetworkBanner = chainId !== 1
+  // this is useful for showing a big banner at the top that catches
+  // people's attention
+  const showingBanner = false
+  // const showingBanner = chainId !== 1
   const supportedNetworkNames = process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
 
   return <>
@@ -67,11 +69,15 @@ export const Layout = (props) => {
         Ethereum network mismatch
       </>}
     >
-      Your Ethereum wallet is connected to the wrong network. Please set your network to: <span
-        className='font-bold text-purple'
+      Your Ethereum wallet is connected to the wrong network. Please set your network to: <div
+        className='font-bold text-white text-center mt-2'
       >
-        {supportedNetworkNames}
-      </span>
+        <div
+          className='bg-purple px-2 py-1 w-24 rounded-full mr-2'
+        >
+          {supportedNetworkNames}
+        </div>
+      </div>
     </Modal>
     
     <div
@@ -80,12 +86,6 @@ export const Layout = (props) => {
         minHeight: '100vh'
       }}
     >
-      <div
-        className='banner fixed l-0 r-0 w-full z-30'
-      >
-        <StaticNetworkNotificationBanner />
-      </div>
-
       <motion.div
         animate={yScrollPosition > 1 ? 'enter' : 'exit'}
         variants={{
@@ -106,7 +106,7 @@ export const Layout = (props) => {
         className={classnames(
           'header fixed w-full bg-body z-30 py-2 mx-auto l-0 r-0',
           {
-            'showing-network-banner': showingNetworkBanner
+            'showing-network-banner': showingBanner
           }
         )}
       >
@@ -134,7 +134,7 @@ export const Layout = (props) => {
         className={classnames(
           'grid-wrapper',
           {
-            'showing-network-banner': showingNetworkBanner
+            'showing-network-banner': showingBanner
           }
         )}
       >
@@ -142,7 +142,7 @@ export const Layout = (props) => {
           className={classnames(
             'sidebar hidden sm:block z-20',
             {
-              'showing-network-banner': showingNetworkBanner
+              'showing-network-banner': showingBanner
             }
           )}
         >
