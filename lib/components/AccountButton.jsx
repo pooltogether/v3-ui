@@ -5,7 +5,6 @@ import { useQuery } from '@apollo/client'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
-import { NetworkText } from 'lib/components/NetworkText'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { shorten } from 'lib/utils/shorten'
@@ -86,46 +85,58 @@ export const AccountButton = (props) => {
     { precision: 2 }
   ))
 
-  return <button
-    onClick={openTransactions}
-    className='text-inverse hover:text-green text-xxs sm:text-sm trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none mr-2'
-  >
-    <div
-      className='flex items-center leading-none'
+  return <>
+    <button
+      onClick={openTransactions}
+      className='text-inverse hover:text-green text-xxs sm:text-sm trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none'
     >
-      <NetworkText />
-      
-      {(ethBalance || pendingTransactionsCount > 0) && <>
-        <div
-          className='relative block mr-2 bg-default rounded-l-full py-2 pl-4 pr-5 z-10'
-          style={{
-            right: -20
-          }}
-        >
-          {pendingTransactionsCount > 0 ? <>
-            <span className='text-inverse hover:text-green'>
-              {pendingTxJsx}
-            </span>
-          </> : <>
-            <span className='text-default-soft hover:text-green text-xxxs sm:text-xxs'>
-              <PoolCountUp
-                start={0}
-                end={ethBalanceNumber}
-                decimals={2}
-              />
-              {} ETH
-            </span>
-          </>}
-        </div>
-      </>}
+      <div
+        className='flex items-center leading-none'
+      > 
+        {(ethBalance || pendingTransactionsCount > 0) && <>
+          <div
+            className='hidden xs:block relative block mr-2 bg-default rounded-l-full py-2 pl-4 pr-5 z-10'
+            style={{
+              right: -20
+            }}
+          >
+            {pendingTransactionsCount > 0 ? <>
+              <span className='text-inverse hover:text-green'>
+                {pendingTxJsx}
+              </span>
+            </> : <>
+              <span className='text-default-soft hover:text-green text-xxxs sm:text-xxs'>
+                <PoolCountUp
+                  start={0}
+                  end={ethBalanceNumber}
+                  decimals={2}
+                /> ETH
+              </span>
+            </>}
+          </div>
+        </>}
+      </div>
+    </button>
 
+    <button
+      onClick={openTransactions}
+      className='text-inverse hover:text-green text-xxs sm:text-sm trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20'
+    >
       <span
         className={classnames(
           'flex items-center leading-none bg-default hover:bg-card rounded-full border-2 border-highlight-2 px-3 sm:px-5 py-1 trans trans-fastest leading-none z-20',
         )}
       >
-        {profileNameAndImage}
+        {pendingTransactionsCount > 0 && <>
+          <span className='block xs:hidden text-inverse hover:text-green'>
+            {pendingTxJsx}
+          </span>
+        </>}
+        
+        <span className='hidden xs:block'>
+          {profileNameAndImage}
+        </span>
       </span>
-    </div>
-  </button>
+    </button>
+  </>
 }

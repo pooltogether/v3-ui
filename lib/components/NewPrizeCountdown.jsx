@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import addSeconds from 'date-fns/addSeconds'
+import { useInterval } from 'beautiful-react-hooks'
 
 import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 import { subtractDates } from 'lib/utils/subtractDates'
+
+const ONE_SECOND = 1000
 
 export const NewPrizeCountdown = (
   props,
@@ -18,6 +21,11 @@ export const NewPrizeCountdown = (
   useEffect(() => {
     setSecondsRemaining(secs)
   }, [secs])
+
+  useInterval(() => {
+    console.log({ secondsRemaining})
+    setSecondsRemaining(secondsRemaining - 1)
+  }, ONE_SECOND)
 
   const currentDate = new Date(Date.now())
   // for testing:
@@ -141,12 +149,12 @@ export const NewPrizeCountdown = (
         </div>
       </div>
       <div
-        className='px-0 sm:px-1 hidden sm:block'
+        className='px-0 sm:px-1 hidden xs:block'
       >
         :
       </div>
       <div
-        className='flex flex-col hidden sm:block'
+        className='flex flex-col hidden xs:block'
         style={{
           // minWidth: 50
           paddingLeft: 1,

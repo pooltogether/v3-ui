@@ -7,6 +7,7 @@ import { Dialog } from '@reach/dialog'
 
 import { AccountButton } from 'lib/components/AccountButton'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { NetworkText } from 'lib/components/NetworkText'
 import { TransactionsList } from 'lib/components/TransactionsList'
 import { WalletInfo } from 'lib/components/WalletInfo'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
@@ -38,10 +39,14 @@ export const NavAccount = (props) => {
   }
 
   return <>
-    {usersAddress ?
+    {usersAddress ? <>
+      <NetworkText
+        openTransactions={openTransactions}
+      />
       <AccountButton
         openTransactions={openTransactions}
-      /> :
+      />
+    </> :
       <button
         onClick={handleShowSignIn}
         className='text-highlight-2 hover:text-highlight-1 text-xxs sm:text-sm bg-body rounded-full border-2 border-highlight-2 hover:border-highlight-1 py-1 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none mr-2'

@@ -119,11 +119,18 @@ export const Layout = (props) => {
             <HeaderLogo />
 
             <div
-              className='flex items-center justify-end relative'
+              className='flex flex-col xs:flex-row items-end xs:items-center justify-end sm:justify-center relative'
             >
-              <NavAccount />
-
-              <Settings />
+              <div
+                className='flex justify-center mb-1 xs:mb-0'
+              >
+                <NavAccount />
+              </div>
+              <div
+                className='flex justify-center mt-1 xs:mt-0'
+              >
+                <Settings />
+              </div>
             </div>
           </div>
         </div>
@@ -153,7 +160,7 @@ export const Layout = (props) => {
 
         <div className='content'>
           <div
-            className='pool-container flex flex-grow relative z-10 h-full page px-8 sm:px-10'
+            className='pool-container flex flex-grow relative z-10 h-full page px-4 xs:px-8 sm:px-10'
           >
             <div
               className='flex flex-col flex-grow'

@@ -40,7 +40,7 @@ export const Settings = (props) => {
     <button
       onClick={toggleSettingsPanel}
       className={classnames(
-        'w-6 h-6 sm:w-8 sm:h-8 hover:text-highlight-1',
+        'w-5 h-5 sm:w-6 sm:h-6 hover:text-highlight-1 ml-2',
         {
           'text-highlight-2': !isOpen,
           'text-highlight-1': isOpen,
@@ -49,7 +49,7 @@ export const Settings = (props) => {
     >
       <FeatherIcon
         icon='settings'
-        className='w-6 h-6 sm:w-8 sm:h-8'
+        className='w-full h-full'
         strokeWidth='0.09rem'
       />
     </button>
@@ -85,7 +85,7 @@ export const Settings = (props) => {
     />
 
     <motion.div
-      className='bg-highlight-3 h-full fixed t-0 b-0 z-40 px-10 pr-16 py-8 shadow-md rounded-xl'
+      className='bg-highlight-3 h-full fixed t-0 b-0 z-40 px-10 pr-16 py-6 shadow-md rounded-xl'
       style={{
         height: '40vh',
         right: -30,

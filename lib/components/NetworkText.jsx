@@ -6,6 +6,8 @@ import { chainIdToName } from 'lib/utils/chainIdToName'
 import { networkColorClassname } from 'lib/utils/networkColorClassname'
 
 export const NetworkText = (props) => {
+  const { openTransactions } = props
+
   const authControllerContext = useContext(AuthControllerContext)
   const { supportedNetwork, chainId } = authControllerContext
 
@@ -15,17 +17,19 @@ export const NetworkText = (props) => {
   }
 
   return <>
-    <div
+    <button
+      onClick={openTransactions}
       className={classnames(
-        'inline-block capitalize',
-        `bg-${networkColorClassname(chainId)}`,
-        'text-xxs sm:text-xs px-2 sm:px-4 py-1 rounded-full -mr-3',
+        'tracking-wider	inline-flex items-center capitalize trans trans-fast',
+        `hover:bg-green bg-${networkColorClassname(chainId)}`,
+        'text-xxs sm:text-xs px-2 sm:px-4 my-1 rounded-full sm:-mr-4',
       )}
       style={{
-        color: 'rgba(255, 255, 255, 0.4)'
+        color: 'rgba(255, 255, 255, 0.7)',
+        lineHeight: 0
       }}
     >
       {networkName}
-    </div>
+    </button>
   </>
 }
