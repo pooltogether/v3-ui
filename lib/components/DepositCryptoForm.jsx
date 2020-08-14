@@ -19,7 +19,7 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const DepositCryptoForm = (props) => {
-  const { nextStep } = props
+  const { nextStep, previousStep } = props
 
   const router = useRouter()
   const quantity = router.query.quantity
@@ -193,13 +193,24 @@ export const DepositCryptoForm = (props) => {
           >
             You don't have enough {tickerUpcased}.
           </div>
+
+          <Button
+            onClick={previousStep}
+            className='px-4 mt-2'
+          >
+            Change ticket quantity
+          </Button>
           
           {/* <div
 
             className='mt-2 text-default-soft'
           >
             <Button
-              outline
+              wide
+              size='lg'
+              onClick={handleUnlockClick}
+              disabled={unlockTxInFlight}
+              className='w-49-percent'
             >
               Top up your balance
             </Button>

@@ -3,12 +3,12 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
 import { Button } from 'lib/components/Button'
+import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PTHint } from 'lib/components/PTHint'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const InstantOrScheduledForm = (props) => {
@@ -84,9 +84,9 @@ export const InstantOrScheduledForm = (props) => {
     nextStep()
   }
 
-  const formattedFutureDate = formatFutureDateInSeconds(
-    Number(exitFees.timelockDuration)
-  )
+  const formattedFutureDate = <FormattedFutureDateCountdown
+    futureDate={Number(exitFees.timelockDuration)}
+  />
 
   return <div
     className='text-inverse'
@@ -103,11 +103,15 @@ export const InstantOrScheduledForm = (props) => {
       radios={[
         {
           value: 'scheduled',
-          label: `I want my full $${scheduledFullFormatted} in ${underlyingCollateralSymbol} back in ${formattedFutureDate}`
+          label: <>
+            I want my full <span className='font-bold'>${scheduledFullFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> back in {formattedFutureDate}
+          </>
         },
         {
           value: 'instant',
-          label: `I want $${instantPartialFormatted} in ${underlyingCollateralSymbol} now and will forfeit the interest`
+          label: <>
+            I want <span className='font-bold'>${instantPartialFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> now and will forfeit the interest
+          </>
         }
       ]}
     />
@@ -125,7 +129,7 @@ export const InstantOrScheduledForm = (props) => {
           tip={tipJsx}
         >
           <>
-            Your ${scheduledFullFormatted} worth of {underlyingCollateralSymbol} will be scheduled and ready to withdraw in: 
+            Your <span className='font-bold'>${scheduledFullFormatted}</span> worth of <span className='font-bold'>{underlyingCollateralSymbol}</span> will be scheduled and ready to withdraw in: 
             <br />{formattedFutureDate} <QuestionMarkCircle />
           </>
         </PTHint>
@@ -149,9 +153,9 @@ export const InstantOrScheduledForm = (props) => {
         <PTHint
           tip={tipJsx}
         >
-          <>You will receive ${instantPartialFormatted} in {underlyingCollateralSymbol} now and {instantFee.eq(0)
-            ? <>burn ${displayAmountInEther(instantCredit)} in {underlyingCollateralSymbol} from your fairness credit</>
-            : <>forfeit ${instantFeeFormatted} in {underlyingCollateralSymbol} as interest to the pool</>
+            <>You will receive <span className='font-bold'>${instantPartialFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> now and {instantFee.eq(0)
+              ? <>burn <span className='font-bold'>${displayAmountInEther(instantCredit)}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> from your fairness credit</>
+              : <>forfeit <span className='font-bold'>${instantFeeFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> as interest to the pool</>
           } <QuestionMarkCircle /></>
         </PTHint>
       </div>

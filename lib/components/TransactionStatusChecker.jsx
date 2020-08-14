@@ -36,8 +36,6 @@ const readTransactions = (chainId, usersAddress, provider) => {
 }
 
 export const TransactionStatusChecker = (props) => {
-  // const { transactions } = props
-
   const authControllerContext = useContext(AuthControllerContext)
   const { chainId, usersAddress, provider } = authControllerContext
 

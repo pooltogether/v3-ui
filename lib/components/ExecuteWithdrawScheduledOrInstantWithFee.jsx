@@ -7,9 +7,9 @@ import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
-import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
@@ -29,9 +29,9 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
 
   let formattedFutureDate
   if (timelockDuration) {
-    formattedFutureDate = formatFutureDateInSeconds(
-      Number(timelockDuration)
-    )
+    formattedFutureDate = <FormattedFutureDateCountdown
+      futureDate={Number(timelockDuration)}
+    />
   }
 
   const authControllerContext = useContext(AuthControllerContext)
@@ -72,9 +72,6 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const txSent = tx?.sent && !tx?.completed
   const txCompleted = tx?.completed
   const txError = tx?.error
-
-  const ready = txCompleted && !txError
-
 
   useEffect(() => {
     const runTx = () => {
@@ -119,16 +116,12 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   }, [quantity])
 
   useEffect(() => {
-    if (tx?.error) {
+    if (tx?.cancelled || tx?.error) {
       previousStep()
-    }
-  }, [tx])
-
-  useEffect(() => {
-    if (ready) {
+    } else if (tx?.completed) {
       nextStep()
     }
-  }, [ready])
+  }, [tx])
 
   const formattedWithdrawType = scheduledWithdrawal ? 'Schedule' : 'Instant'
   // yes this string is different:
@@ -144,19 +137,23 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
       {txSent && `${formattedWithdrawType} Withdrawal confirming...`}
     </PaneTitle>
 
-    <div className='text-white bg-yellow py-2 px-8 rounded-xl w-9/12 sm:w-2/3 mx-auto'>
-      {scheduledWithdrawal ? <>
-        <div className='font-bold'>
-          Note:
-        </div>
-          You are scheduling to receive ${quantity} DAI and your funds will be ready for withdrawal in: <br />
-          {formattedFutureDate}
+    <div className='text-white bg-yellow py-4 sm:py-6 px-5 sm:px-8 rounded-xl w-full sm:w-2/3 mx-auto'>
+      <h6
+        className='mb-2'
+        style={{
+          color: 'rgba(255, 255, 255, 0.6)'
+        }}
+      >
+        Note:
+      </h6>
+      <h4>
+        {scheduledWithdrawal ? <>
+          You are scheduling to receive <span className='font-bold'>${quantity} DAI</span> and your funds will be ready for withdrawal in: <br />
+          <span className='font-bold'>{formattedFutureDate}</span>
         </> : <>
-        <div className='font-bold'>
-          Note:
-        </div>
-        You are withdrawing ${net} {tickerUpcased} of your funds right now, less the ${fee} {tickerUpcased} fairness fee
-      </>}
+          You are withdrawing <span className='font-bold'>${net} {tickerUpcased}</span> of your funds right now, less the <span className='font-bold'>${fee} {tickerUpcased}</span> fairness fee
+        </>}
+      </h4>
     </div>
 
     {txSent && !txCompleted && <>

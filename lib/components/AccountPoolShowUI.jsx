@@ -5,12 +5,12 @@ import { useRouter } from 'next/router'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { Button } from 'lib/components/Button'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Odds } from 'lib/components/Odds'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
-import { PrizePoolCountdown } from 'lib/components/PrizePoolCountdown'
 import { TimelockedBalanceUI } from 'lib/components/TimelockedBalanceUI'
 
 export const AccountPoolShowUI = (props) => {
@@ -68,9 +68,17 @@ export const AccountPoolShowUI = (props) => {
       className='px-2 py-4 sm:py-2 text-center'
     >
       <div
-        className='text-xl text-inverse'
+        className='mt-4'
       >
-        {tickerUpcased} Pool
+        <PoolCurrencyIcon
+          pool={pool}
+          className='inline-block w-12 h-12'
+        />
+        <div
+          className='mt-2 mb-8 font-bold'
+        >
+          {pool?.name}
+        </div>
       </div>
 
       {!dynamicPlayerData ? <>
@@ -92,14 +100,6 @@ export const AccountPoolShowUI = (props) => {
             </Button>
           </BlankStateMessage>
         </> : <>
-          <div
-            className='mt-4'
-          >
-            <PoolCurrencyIcon
-              pool={pool}
-              className='inline-block w-12 h-12'
-            />
-          </div>
 
           <div
             className='mt-4 text-xl'
@@ -136,15 +136,9 @@ export const AccountPoolShowUI = (props) => {
           </div>
 
           <div
-            className='mt-6'
+            className='mb-4 flex items-center justify-center'
           >
-            {pool.name}
-          </div>
-
-          <div
-            className='mb-4'
-          >
-            <PrizePoolCountdown
+            <NewPrizeCountdown
               pool={pool}
             />
           </div>

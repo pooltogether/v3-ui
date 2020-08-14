@@ -9,6 +9,7 @@ import { AccountButton } from 'lib/components/AccountButton'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { NetworkText } from 'lib/components/NetworkText'
 import { TransactionsList } from 'lib/components/TransactionsList'
+import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { WalletInfo } from 'lib/components/WalletInfo'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
@@ -55,7 +56,7 @@ export const NavAccount = (props) => {
       </button>
     }
 
-    {/* {usersAddress && <> */}
+    {usersAddress && <>
       <Dialog
         aria-label='List of your transactions'
         isOpen={showDialog}
@@ -120,6 +121,7 @@ export const NavAccount = (props) => {
                 </button>
               </div>
 
+              <TransactionStatusChecker />
               <TransactionsList
                 closeTransactions={closeTransactions}
                 showDialog={showDialog}
@@ -129,7 +131,7 @@ export const NavAccount = (props) => {
 
         </motion.div>
       </Dialog>
-    {/* </>} */}
+    </>}
   </>
     
 }

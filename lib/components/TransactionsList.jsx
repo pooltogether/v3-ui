@@ -1,20 +1,15 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TransactionsUIListItem } from 'lib/components/TransactionsUIListItem'
 import { transactionsVar } from 'lib/apollo/cache'
 import { clearPreviousTransactionsFactory } from 'lib/apollo/clearPreviousTransactionsFactory'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 
-const clearPreviousTransactions = clearPreviousTransactionsFactory(transactionsVar)
-
 export const TransactionsList = (props) => {
-  const { showDialog, closeTransactions } = props
-
   const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress } = authControllerContext
+  const { chainId, usersAddress } = authControllerContext
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
@@ -31,37 +26,42 @@ export const TransactionsList = (props) => {
     .filter(t => t.completed)
     .length
 
-  const clearPrevious = (e) => {
+  const handleClearPrevious = (e) => {
     e.preventDefault()
-    clearPreviousTransactions()
-  }
 
+    if (usersAddress, chainId) {
+      const clearFxn = clearPreviousTransactionsFactory(
+        transactionsVar,
+        usersAddress,
+        chainId
+      )
+      clearFxn()
+    }
+  }
 
   if (!usersAddress) {
     return null
   }
 
   return <>
-    <TransactionStatusChecker
-      transactions={transactions}
-    />
-      
     <div
       className='flex px-8 sm:px-10 pt-8 pb-2'
     >
       <div
         className='flex flex-col w-full text-lg uppercase'
       >
-        Recent transactions <div className='block sm:inline-block text-xxs text-caption'>
+        Recent transactions <div className='block sm:inline-block text-caption'>
           {pendingTransactionsCount > 0 && <>
-            {pendingTransactionsCount} pending
+            <span className='text-xxs'>
+              {pendingTransactionsCount} pending
+            </span>
           </>}
         </div>
 
         {pastTransactionsCount > 0 && <>
           <button
             className='text-xxs text-left underline text-green hover:text-secondary trans w-24'
-            onClick={clearPrevious}
+            onClick={handleClearPrevious}
           >
             Clear history
           </button>

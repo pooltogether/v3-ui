@@ -91,6 +91,7 @@ export const DepositWizardContainer = (props) => {
                     /> :
                     <DepositCryptoForm
                       nextStep={step.nextStep}
+                      previousStep={step.previousStep}
                     />
                   }
                 </>

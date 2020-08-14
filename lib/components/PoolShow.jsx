@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import Cookies from 'js-cookie'
-import Link from 'next/link'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
@@ -8,12 +7,11 @@ import { motion } from 'framer-motion'
 import { SHOW_MANAGE_LINKS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CurrencyAndYieldSource } from 'lib/components/CurrencyAndYieldSource'
 import { PoolStats } from 'lib/components/PoolStats'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
-import { PrizePoolCountdown } from 'lib/components/PrizePoolCountdown'
+import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 // const renderErrorMessage = (
@@ -119,12 +117,12 @@ export const PoolShow = (
             className='flex flex-col sm:flex-row justify-between lg:items-center'
           >
             <div
-              className='flex items-center w-full sm:w-1/2'
+              className='flex items-center w-full sm:w-full'
             >
               <div
                 className='inline-block text-left text-xl sm:text-2xl lg:text-3xl font-bold'
               >
-                {pool.name}
+                {pool?.name}
               </div>
 
               <div
@@ -135,27 +133,18 @@ export const PoolShow = (
                 />
               </div>
             </div>
-            
-            {usersAddress && cookieShowAward && <>
-              <Link
-                href='/pools/[symbol]/manage'
-                as={`/pools/${symbol}/manage`}
-              >
-                <a>
-                  Manage pool
-                </a>
-              </Link>
-            </>}
 
             <div
-              className='flex w-full sm:w-1/2 lgm:justify-end items-start mt-4 lg:mt-0'
+              className='flex w-full lg:justify-end items-start mt-4 lg:mt-0'
             >
               <ButtonLink
-                wide
                 size='lg'
                 border='highlight-1'
-                text='highlight-1'
-                bg='primary'
+                text='secondary'
+                bg='highlight-1'
+                hoverBorder='highlight-2'
+                hoverText='green'
+                hoverBg='highlight-2'
                 href='/pools/[symbol]/deposit'
                 as={`/pools/${symbol}/deposit`}
                 onClick={handleShowDeposit}
@@ -174,7 +163,7 @@ export const PoolShow = (
             <div
               className='flex items-center my-1'
             >
-              <PrizePoolCountdown
+              <NewPrizeCountdown
                 pool={pool}
               />
             </div>
@@ -202,6 +191,25 @@ export const PoolShow = (
           </div>
         </>
         {/* } */}
+
+        {usersAddress && cookieShowAward && <>
+          <div
+            className='text-center'
+          >
+            <ButtonLink
+              border='highlight-1'
+              text='secondary'
+              bg='highlight-1'
+              hoverBorder='highlight-2'
+              hoverText='green'
+              hoverBg='highlight-2'
+              href='/pools/[symbol]/manage'
+              as={`/pools/${symbol}/manage`}
+            >
+              Manage pool
+            </ButtonLink>
+          </div>
+        </>}
       </motion.div>
   </>
 }

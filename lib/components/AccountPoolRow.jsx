@@ -64,7 +64,7 @@ export const AccountPoolRow = (
                 <div
                   className='sm:my-1'
                 >
-                  {pool.name}
+                  {pool?.name}
                 </div>
                 <div
                   className='sm:my-1'

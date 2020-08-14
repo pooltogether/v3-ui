@@ -6,8 +6,8 @@ import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
+import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
-import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
@@ -57,9 +57,9 @@ export const TimelockedBalanceUI = (props) => {
       const unlockUnixTimestamp = parseInt(playerData.unlockTimestamp, 10)
 
       timelockSweepReady = (currentUnixTimestamp - unlockUnixTimestamp > 0)
-      formattedFutureDate = formatFutureDateInSeconds(
-        unlockUnixTimestamp - currentUnixTimestamp
-      )
+      formattedFutureDate = <FormattedFutureDateCountdown
+        futureDate={unlockUnixTimestamp - currentUnixTimestamp}
+      />
     }
   }
 
@@ -82,23 +82,26 @@ export const TimelockedBalanceUI = (props) => {
     )
     setTxId(id)
   }
-
-  console.log({ usersTimelockedBalance })
-
+  
   return <>
     {usersTimelockedBalance > 0 && <>
       <div
-        className='mt-6 mb-6 text-sm border-t-2 border-b-2 py-4'
+        className='mt-6 mb-6 text-sm border-t-2 border-b-2 py-6'
       >
-        <div>
-          Timelocked balance: $<PoolCountUp
+        <h4>
+          Your timelocked balance
+        </h4>
+        <div
+          className='font-bold'
+        >
+          $<PoolCountUp
             end={usersTimelockedBalance}
             decimals={0}
           /> {tickerUpcased}
         </div>
 
-        <div className='text-xxs sm:text-xs'>
-          Ready for withdraw{timelockSweepReady ? <>
+        <div className='text-xs sm:text-sm lg:text-lg mt-2'>
+          Ready to withdraw{timelockSweepReady ? <>
             ! <div className='mt-2'>
                 <Button
                   outline
@@ -110,7 +113,7 @@ export const TimelockedBalanceUI = (props) => {
                 </Button>
               </div>
           </> : <>
-            &nbsp;in: {formattedFutureDate}
+            &nbsp;in: <div className='font-bold'>{formattedFutureDate}</div>
           </>}
         </div>
       </div>
