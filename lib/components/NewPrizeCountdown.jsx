@@ -23,7 +23,6 @@ export const NewPrizeCountdown = (
   }, [secs])
 
   useInterval(() => {
-    console.log({ secondsRemaining})
     setSecondsRemaining(secondsRemaining - 1)
   }, ONE_SECOND)
 
@@ -31,13 +30,16 @@ export const NewPrizeCountdown = (
   // for testing:
   // const futureDate = addSeconds(currentDate, secondsRemaining + 950044)
   const futureDate = addSeconds(currentDate, secondsRemaining)
-  const diff = subtractDates(futureDate, currentDate)
   const { days, hours, minutes, seconds } = subtractDates(futureDate, currentDate)
 
   let msg
-  // if (!secondsRemaining) {
-  //   msg = <><div className='text-xxxs'>prize awarded soon...</div></>
-  // }
+  if (pool.isRngRequested) {
+    return <>
+      <h5 className='text-right text-flashy'>
+        Prize is being awarded...!
+      </h5>
+    </>
+  }
 
   const daysArray = ('' + days).split('')
   const hoursArray = ('' + hours).split('')
@@ -49,11 +51,6 @@ export const NewPrizeCountdown = (
     minutes > 1 ?
       'yellow' :
       'red'
-  // const textColor = days > 2 ?
-  //   'green' :
-  //   days > 1 ?
-  //     'yellow' :
-  //     'red'
 
   const LeftSideJsx = ({ digit }) => {
     return <span
