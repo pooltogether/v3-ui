@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
+import VisuallyHidden from '@reach/visually-hidden'
 import { motion } from 'framer-motion'
 
 import { SHOW_MANAGE_LINKS } from 'lib/constants'
@@ -84,7 +85,7 @@ export const Settings = (props) => {
     />
 
     <motion.div
-      className='bg-highlight-3 h-full fixed t-0 b-0 z-40 px-10 pr-16 py-6 shadow-md rounded-xl'
+      className='bg-highlight-3 h-full fixed t-0 b-0 z-40 px-10 pr-16 py-8 shadow-md rounded-xl'
       style={{
         height: '40vh',
         right: -30,
@@ -115,6 +116,32 @@ export const Settings = (props) => {
         }
       }}
     >
+      <button
+        onClick={toggleSettingsPanel}
+        className='absolute close-button text-highlight-2 hover:text-green trans outline-none focus:outline-none active:outline-none'
+        style={{
+          right: 50,
+          top: 35
+        }}
+      >
+        <VisuallyHidden>
+          Close
+        </VisuallyHidden>
+        <span
+          aria-hidden
+        >
+          <FeatherIcon
+            icon='x-circle'
+            className='w-6 h-6'
+          />
+        </span>
+      </button>
+
+      <h6
+        className='text-white'
+      >
+        Settings
+      </h6>
       <label
         className='uppercase text-caption font-number pb-1'
       >

@@ -98,8 +98,8 @@ export const ButtonLink = (props) => {
 
   const animationProps = {
     whileHover: {
-      scale: 1.01,
-      y: -3,
+      scale: 1.015,
+      y: -2,
       transition: {
         duration: 0.1
       }

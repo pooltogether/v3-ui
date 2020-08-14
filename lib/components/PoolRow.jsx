@@ -6,7 +6,6 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
@@ -64,7 +63,7 @@ export const PoolRow = (
                   >
                     Prize ${displayAmountInEther(
                       pool?.estimatePrize,
-                      { decimals }
+                      { decimals, precision: 0 }
                     )}
                   </span>
                 </h6>

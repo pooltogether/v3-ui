@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 import { useQuery } from '@apollo/client'
 
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
+import { BlankStateMessage } from 'lib/components/BlankStateMessage'
+import { ButtonLink } from 'lib/components/ButtonLink'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PrizesTable } from 'lib/components/PrizesTable'
@@ -57,7 +59,19 @@ export const PoolPrizeListing = (
       </>}
 
       {prizes?.length === 0 && <>
-        BLANK STATE MSG
+        <BlankStateMessage>
+          <div
+            className='mb-4'
+          >
+            There are no prizes for this pool yet.
+          </div>
+          <ButtonLink
+            href='/pools/[symbol]/manage'
+            as={`/pools/${pool?.symbol}/manage`}
+          >
+            Manage pool
+          </ButtonLink>
+        </BlankStateMessage>
       </>}
 
       <PrizesTable

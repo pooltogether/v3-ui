@@ -2,11 +2,11 @@ import React, { useContext, useState } from 'react'
 import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/router'
 
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
+import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { Button } from 'lib/components/Button'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { Tab, Tabs, Content, ContentPane } from 'lib/components/Tabs'
 
 export const AccountUI = (props) => {

@@ -38,7 +38,7 @@ export const PoolPrizesShow = (
           selected={_pool.symbol === pool?.symbol}
           href='/prizes/[symbol]'
           as={`/prizes/${_pool.symbol}`}
-          className='flex items-center justify-center mr-4'
+          className='flex items-center justify-center mx-2'
           border='highlight-1'
           text='highlight-1'
           hoverText='highlight-2'
@@ -52,19 +52,28 @@ export const PoolPrizesShow = (
     </div>
 
     <div
-      className='bg-default mt-6 mb-6 text-sm py-4 flex items-center justify-center rounded-lg'
+      className='bg-default mt-6 mb-6 text-sm py-6 flex flex-col sm:flex-row items-center justify-center rounded-lg'
     >
-      <div className='flex flex-col items-center justify-center text-lg'>
-        <PoolCurrencyIcon
-          pool={pool}
-        /> <div className='mt-1'>
+      <div className='flex flex-col items-center justify-center text-highlight-2 mb-4 sm:mb-0'>
+        <div
+          className='sm:h-12 sm:pt-1'
+        >
+          <PoolCurrencyIcon
+            pool={pool}
+          />
+        </div>
+        <div className='text-lg mt-1'>
           {pool?.name}
         </div>
       </div>
 
-      <div className='mx-8 sm:mx-12 lg:mx-20 text-2xl text-center -mt-2 text-highlight-2'>
-        $17,242
-        <div className='text-xxs -mt-1'>
+      <div className='mx-8 sm:mx-12 lg:mx-20 text-2xl text-center text-highlight-2 mb-6 sm:mb-0'>
+        <div
+          className='sm:h-12'
+        >
+          $17,242
+        </div>
+        <div className='text-xs sm:text-lg -mt-2 sm:mt-1'>
           Awarded so far
         </div>
       </div>
@@ -73,10 +82,12 @@ export const PoolPrizesShow = (
         border='highlight-1'
         text='secondary'
         bg='highlight-1'
+        hoverBorder='highlight-2'
+        hoverText='green'
+        hoverBg='highlight-2'
         size='lg'
         href='/pools/[symbol]/deposit'
         as={`/pools/${pool?.symbol}/deposit`}
-        // {shallow: true }
       >
         Get tickets
       </ButtonLink>

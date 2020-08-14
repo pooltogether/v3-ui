@@ -148,9 +148,9 @@ export const PrizeShow = (
               pool={pool}
               className='inline-block mx-auto'
             /> ${displayAmountInEther(
-            prize?.net || 0,
-            { decimals }
-          )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
+                  prize?.net || 0,
+                  { decimals, precision: 0 }
+                )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
             {/* <br />{prize?.gross} gross
             <br />{prize?.net} net */}
           </h2>
