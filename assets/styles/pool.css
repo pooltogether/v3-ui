@@ -914,3 +914,18 @@ input[type='submit'][disabled] {
 .bg-blur {
   backdrop-filter: blur(2px)
 }
+
+.list-item:hover {
+  @apply bg-default;
+  transition: all 120ms ease-in-out;
+}
+
+.list-item--icon {
+  top: 0;
+}
+
+@screen sm {
+  .list-item--icon {
+    top: 3px;
+  }
+}

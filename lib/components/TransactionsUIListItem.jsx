@@ -10,7 +10,7 @@ export const TransactionsUIListItem = (props) => {
 
   return <li
     key={tx.hash || Date.now()}
-    className='relative pb-2'
+    className='list-item relative p-2 -mx-2'
   >
     <div className='flex justify-between w-full'>
       <div
@@ -31,13 +31,16 @@ export const TransactionsUIListItem = (props) => {
         {!tx.completed && <LoadingSpinner />}
 
         {tx.completed && !tx.error && <>
-          <FeatherIcon
-            icon='check-circle'
-            className='relative w-4 h-4 sm:w-5 sm:h-5 text-green'
-            style={{
-              top: 2,
-            }}
-          />
+          <EtherscanTxLink
+            noIcon
+            chainId={tx.ethersTx.chainId}
+            hash={tx.hash}
+          >
+            <FeatherIcon
+              icon='check-circle'
+              className='list-item--icon relative w-5 h-5 text-green'
+            />
+          </EtherscanTxLink>
         </>}
 
         {tx.reason && <>
@@ -46,10 +49,7 @@ export const TransactionsUIListItem = (props) => {
           >
             <FeatherIcon
               icon='help-circle'
-              className='relative w-6 h-6 text-red'
-              style={{
-                top: 4,
-              }}
+              className='list-item--icon relative w-5 h-5 text-red'
             />
           </PTHint>
         </>}

@@ -74,7 +74,7 @@ export function Input(props) {
 
       className={classnames(
         className,
-        'bg-primary hover:bg-secondary focus:bg-secondary active:bg-secondary text-inverse w-full sm:w-10/12 rounded-full focus:outline-none leading-none pl-6',
+        'bg-primary text-inverse w-full sm:w-10/12 rounded-full focus:outline-none leading-none pl-6',
       )}
     />
 

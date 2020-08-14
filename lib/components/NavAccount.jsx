@@ -89,7 +89,7 @@ export const NavAccount = (props) => {
               className='dialog-inner relative message bg-primary text-inverse flex flex-col w-full border-default border-2 shadow-4xl'
             >
               <div
-                className='flex justify-between items-start px-6 sm:px-10 pt-6 pb-5 bg-default rounded-xl rounded-b-none'
+                className='flex justify-between items-start px-8 sm:px-10 pt-8 pb-5 bg-default rounded-xl rounded-b-none'
               >
                 <WalletInfo
                   closeTransactions={closeTransactions}

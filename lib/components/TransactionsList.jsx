@@ -47,7 +47,7 @@ export const TransactionsList = (props) => {
     />
       
     <div
-      className='flex px-6 sm:px-10 pt-6 pb-2'
+      className='flex px-8 sm:px-10 pt-8 pb-2'
     >
       <div
         className='flex flex-col w-full text-lg uppercase'
@@ -60,7 +60,7 @@ export const TransactionsList = (props) => {
 
         {pastTransactionsCount > 0 && <>
           <button
-            className='text-xxs text-left underline text-green hover:text-secondary trans'
+            className='text-xxs text-left underline text-green hover:text-secondary trans w-24'
             onClick={clearPrevious}
           >
             Clear history
@@ -74,13 +74,13 @@ export const TransactionsList = (props) => {
     >
       {notCancelledTransactions.length === 0 ? <>
         <div
-          className='text-default-soft px-6 sm:px-10 pb-4 uppercase text-xs'
+          className='text-default-soft px-8 sm:px-10 pb-4 uppercase text-xs'
         >
           Currently no active transactions...
         </div>
       </> : <>
           <ul
-            className='transactions-ui-list overflow-x-hidden overflow-y-auto px-6 sm:px-10 py-4'
+            className='transactions-ui-list overflow-x-hidden overflow-y-auto px-8 sm:px-10 py-4'
           >
             {notCancelledTransactions.map(tx => {
               return <TransactionsUIListItem
