@@ -45,7 +45,7 @@ export const Odds = (props) => {
   
   let label = showLabel && <>
     {hasAdditionalQuantity && additionalQuantity !== 0 ? <>
-      {!isWithdraw && <span className='text-flashy'>New odds of winning:</span>}
+      {!isWithdraw && <span className='font-bold text-flashy'>New odds of winning:</span>}
       {isWithdraw && 'New odds of winning:'}
     </>
        :

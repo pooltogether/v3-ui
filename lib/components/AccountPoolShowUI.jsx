@@ -11,6 +11,7 @@ import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
+import { PTHint } from 'lib/components/PTHint'
 import { TimelockedBalanceUI } from 'lib/components/TimelockedBalanceUI'
 
 export const AccountPoolShowUI = (props) => {
@@ -19,6 +20,7 @@ export const AccountPoolShowUI = (props) => {
   const poolData = useContext(PoolDataContext)
   const { pool, dynamicPlayerData } = poolData
 
+  const poolIsLocked = pool?.isRngRequested
 
   const poolAddress = pool?.poolAddress
   const symbol = pool?.symbol
@@ -147,13 +149,37 @@ export const AccountPoolShowUI = (props) => {
             className='flex justify-center items-center w-full mt-10 mx-auto'
           >
             <div className='mr-2'>
-              <Button
-                outline
-                onClick={handleShowWithdraw}
-                wide
-              >
-                Withdraw
-              </Button>              
+
+              {poolIsLocked ? <>
+                <PTHint
+                  title='Pool is locked'
+                  tip={<>
+                    <div className='my-2 text-xs sm:text-sm'>
+                      The Pool is currently being awarded. No deposits or withdrawals can be processed until it's complete.
+                    </div>
+                    <div
+                      className='text-xs sm:text-sm'
+                    >
+                      You won't need to refresh the page.
+                    </div>
+                  </>}
+                  className='w-full'
+                >
+                  <div
+                    className='opacity-60 font-bold bg-body rounded-xl text-highlight-2 hover:text-highlight-1 border-2 border-highlight-2 hover:border-highlight-1 text-xxs sm:text-base py-1 sm:py-2 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none'
+                  >
+                    Withdraw
+                  </div>
+                </PTHint>
+              </> : <>
+                <Button
+                  wide
+                  outline
+                  onClick={handleShowWithdraw}
+                >
+                  Withdraw
+                </Button>
+              </>}
             </div>
             
             <Button

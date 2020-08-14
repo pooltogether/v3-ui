@@ -6,7 +6,7 @@ export const poolPrizesQuery = gql`
   query poolPrizesQuery($prizeStrategyAddress: String!) {
     prizeStrategy(id: $prizeStrategyAddress) {
       id
-      prizes {
+      prizes(orderBy: awardedTimestamp, orderDirection: desc) {
         ...prizeFragment
       }
     }

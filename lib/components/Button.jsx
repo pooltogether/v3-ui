@@ -107,7 +107,7 @@ export const Button = (props) => {
   let defaultClasses = 'pt-button inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
 
   if (isBold !== false) {
-    defaultClasses += ' font-bold'
+    // defaultClasses += ' font-bold'
   }
 
   if (isLowOpacity) {

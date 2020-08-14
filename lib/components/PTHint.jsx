@@ -1,12 +1,14 @@
 import React, { useState, cloneElement } from 'react'
+import classnames from 'classnames'
 import { useTooltip, TooltipPopup } from '@reach/tooltip'
 
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 
 export const PTHint = (props) => {
-  const [trigger, tooltip] = useTooltip()
+  const { children, className, title } = props
+  let { tip } = props
 
-  const { children, tip } = props
+  const [trigger, tooltip] = useTooltip()
 
   const [isVisible, setIsVisible] = useState(false)
 
@@ -29,13 +31,26 @@ export const PTHint = (props) => {
     // }, 2000)
   }
 
+  if (title) {
+    tip = <>
+      <h5 className='bg-inverse text-accent-1'>
+        {title}
+      </h5>
+
+      {tip}
+    </>
+  }
+
   return <>
     <button
       {...trigger}
       onMouseEnter={show}
       onMouseLeave={hide}
       onTouchStart={toggleVisible}
-      className='cursor-pointer'
+      className={classnames(
+        className,
+        'cursor-pointer'
+      )}
       style={{
         pointerEvents: 'all'
       }}
@@ -43,6 +58,7 @@ export const PTHint = (props) => {
       {children ? children : <QuestionMarkCircle />}
     </button>
 
+  
     <TooltipPopup
       {...tooltip}
       isVisible={isVisible}

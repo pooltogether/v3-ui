@@ -232,7 +232,7 @@ export const PrizeShow = (
       Players
     </h4>
     
-{/*  <br />{prize?.winners} winners */}
+    {/*  <br />{prize?.winners} winners */}
 
     <PrizePlayerListing
       pool={pool}

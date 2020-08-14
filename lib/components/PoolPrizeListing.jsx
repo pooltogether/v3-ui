@@ -31,11 +31,6 @@ export const PoolPrizeListing = (
   }
 
   let prizes = data?.prizeStrategy?.prizes
-  // need to stash in new array due to strict mode / read only error
-  let reversedPrizes = prizes && [...prizes]
-  if (reversedPrizes) {
-    reversedPrizes = reversedPrizes.reverse()
-  }
 
   if (loading) {
     return <div
@@ -76,7 +71,7 @@ export const PoolPrizeListing = (
 
       <PrizesTable
         pool={pool}
-        prizes={reversedPrizes} 
+        prizes={prizes} 
       />
     </div>
 

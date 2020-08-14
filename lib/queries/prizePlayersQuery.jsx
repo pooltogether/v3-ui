@@ -13,7 +13,7 @@ export const prizePlayersQuery = (number) => {
   return gql`
     # query prizePlayersQuery($prizePoolAddress: ID!, $prizeId: String!, $first: Int!, $skip: Int!) {
     query prizePlayersQuery($prizePoolAddress: ID!, $first: Int!, $skip: Int!) {
-      players(first: $first, skip: $skip, where: { prizePool: $prizePoolAddress }${blockFilter}) {
+      players(first: $first, skip: $skip, orderBy: balance, orderDirection: desc, where: { prizePool: $prizePoolAddress }${blockFilter}) {
         ...playerFragment
       }
     }

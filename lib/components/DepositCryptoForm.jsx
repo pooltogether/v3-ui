@@ -40,10 +40,7 @@ export const DepositCryptoForm = (props) => {
   const [needsApproval, setNeedsApproval] = useState(true)
   const [cachedUsersBalance, setCachedUsersBalance] = useState(usersBalance)
 
-  const {
-    isRngRequested,
-  } = genericChainData || {}
-  const poolIsLocked = isRngRequested
+  const poolIsLocked = pool?.isRngRequested
 
   let quantityBN = ethers.utils.bigNumberify(0)
   if (decimals) {
@@ -175,15 +172,6 @@ export const DepositCryptoForm = (props) => {
       </div>
     </div>
 
-    {poolIsLocked && <FormLockedOverlay
-      title='Deposit'
-    >
-      <div>
-        The Pool is currently being awarded. No deposits or withdrawals can be processed until it's complete in:
-{/* locked         */} (You do not need to refresh the page)
-      </div>
-    </FormLockedOverlay>}
-
     <div className='flex flex-col mx-auto w-full sm:w-9/12 lg:w-9/12 mx-auto items-center justify-center'>
       
       {overBalance ? <>
@@ -267,6 +255,7 @@ export const DepositCryptoForm = (props) => {
               needsApproval={needsApproval}
               quantity={quantity}
               disabled={poolIsLocked || needsApproval || overBalance}
+              poolIsLocked={poolIsLocked}
               nextStep={nextStep}
             />
           </div>

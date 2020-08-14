@@ -144,7 +144,7 @@ export const PoolShow = (
                 bg='highlight-1'
                 hoverBorder='highlight-2'
                 hoverText='green'
-                hoverBg='highlight-2'
+                hoverBg='purple'
                 href='/pools/[symbol]/deposit'
                 as={`/pools/${symbol}/deposit`}
                 onClick={handleShowDeposit}
@@ -202,7 +202,7 @@ export const PoolShow = (
               bg='highlight-1'
               hoverBorder='highlight-2'
               hoverText='green'
-              hoverBg='highlight-2'
+              hoverBg='purple'
               href='/pools/[symbol]/manage'
               as={`/pools/${symbol}/manage`}
             >
