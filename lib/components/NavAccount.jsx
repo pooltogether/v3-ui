@@ -41,7 +41,6 @@ export const NavAccount = (props) => {
     {usersAddress ?
       <AccountButton
         openTransactions={openTransactions}
-        usersAddress={usersAddress}
       /> :
       <button
         onClick={handleShowSignIn}

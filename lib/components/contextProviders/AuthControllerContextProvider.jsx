@@ -46,7 +46,7 @@ export const AuthControllerContextProvider = (props) => {
  
   // TODO: extend this to also pull the eth balance from the magic session
   // may need state / ethereum event listener
-  const ethBalance = onboardBalance || ethers.utils.bigNumberify(0)
+  const ethBalance = onboardBalance || null
   // const [ethBalance, setEthBalance] = useState(ethers.utils.bigNumberify(0))
   // useEffect(() => {
   //   if (ethBalance) {
