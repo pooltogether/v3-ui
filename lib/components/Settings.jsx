@@ -85,11 +85,11 @@ export const Settings = (props) => {
     />
 
     <motion.div
-      className='bg-highlight-3 h-full fixed t-0 b-0 z-40 px-10 pr-16 py-6 shadow-md rounded-xl'
+      className='bg-highlight-3 h-full fixed t-0 b-0 z-40 px-8 pr-16 py-6 shadow-md rounded'
       style={{
-        height: '40vh',
+        height: '90vh',
         right: -30,
-        top: '12vh',
+        top: '100px',
         width: 300
       }}
       animate={isOpen ? 'enter' : 'exit'}

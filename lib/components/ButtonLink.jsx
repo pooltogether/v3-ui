@@ -24,7 +24,6 @@ const getTextSize = (size) => {
 
 export const ButtonLink = (props) => {
   let {
-    asFormButton,
     children,
     as,
     href,
@@ -40,15 +39,14 @@ export const ButtonLink = (props) => {
     className,
     disabled,
     selected,
-    size,
-    wide,
+    textSize,
     width,
   } = props
 
-  let defaultClasses = 'border-2 relative inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
+  let defaultClasses = 'font-bold border-2 relative inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
 
   // eg. textSize='sm', textSize='2xl'
-  const textSize = padding ? `${padding}` : getTextSize(size)
+  textSize = getTextSize(textSize)
 
   // text = 'text-match'
   padding = padding ? `${padding}` : 'px-3 py-2 sm:py-2'
@@ -93,7 +91,6 @@ export const ButtonLink = (props) => {
     'textSize',
     'transition',
     'width',
-    'wide',
   ])
 
   const animationProps = {
@@ -119,30 +116,18 @@ export const ButtonLink = (props) => {
     'as'
   ])
 
-  // if (asFormButton) {
-  //   return <motion.button
-  //     {...newProps}
-  //     className={newClassNames}
-  //   />
-  // }
-
   return <Link
     href={href}
     as={as}
     scroll={false}
   >
-    <motion.span
+    <motion.a
+      {...linkProps}
       {...animationProps}
-      className='inline'
+      className={newClassNames}
     >
-      <a
-        {...linkProps}
-        className={newClassNames}
-      >
-      
-        {children}
-      </a>
-    </motion.span>
+      {children}
+    </motion.a>
   </Link>
 
 }

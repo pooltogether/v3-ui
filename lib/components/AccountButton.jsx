@@ -120,23 +120,21 @@ export const AccountButton = (props) => {
 
     <button
       onClick={openTransactions}
-      className='text-inverse hover:text-green text-xxs sm:text-sm trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20'
+      className='text-green hover:text-inverse text-xxs sm:text-sm trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20'
     >
-      <span
+      <div
         className={classnames(
-          'flex items-center leading-none bg-default hover:bg-card rounded-full border-2 border-highlight-2 px-3 sm:px-5 py-1 trans trans-fastest leading-none z-20',
+          'flex items-center leading-none bg-default hover:bg-card rounded-full border-2 border-highlight-2 px-2 py-1 trans trans-fastest leading-none z-20',
         )}
       >
         {pendingTransactionsCount > 0 && <>
-          <span className='block xs:hidden text-inverse hover:text-green'>
+          <div className='block xs:hidden text-green hover:text-inverse'>
             {pendingTxJsx}
-          </span>
+          </div>
         </>}
         
-        <span className='hidden xs:block'>
-          {profileNameAndImage}
-        </span>
-      </span>
+        {profileNameAndImage}
+      </div>
     </button>
   </>
 }

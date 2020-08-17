@@ -24,7 +24,6 @@ export const Layout = (props) => {
   const { scrollY } = useViewportScroll()
 
   scrollY.onChange(y => {
-    console.log({y})
     setYScrollPosition(y)
   })
   
@@ -73,7 +72,7 @@ export const Layout = (props) => {
         className='font-bold text-white text-center mt-2'
       >
         <div
-          className='bg-purple px-2 py-1 w-24 rounded-full mr-2'
+          className='bg-purple px-2 py-1 w-24 rounded-full mr-2 mt-2'
         >
           {supportedNetworkNames}
         </div>
@@ -114,7 +113,7 @@ export const Layout = (props) => {
           className='mx-auto'
         >
           <div
-            className='flex justify-between items-center px-8 sm:px-10 py-4 sm:pt-5 sm:pb-3'
+            className='flex justify-between items-center px-4 xs:px-8 sm:px-10 py-4 sm:pt-5 sm:pb-3'
           >
             <HeaderLogo />
 

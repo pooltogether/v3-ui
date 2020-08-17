@@ -24,7 +24,7 @@ export const PoolList = (
             }
           )}
         >
-          {omit ? 'Other Pools' : 'Active Pools'}
+          {omit ? 'Other Pools' : 'Pools'}
         </h6>
         
         <motion.ul

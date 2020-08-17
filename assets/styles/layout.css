@@ -151,7 +151,7 @@ body {
 @screen sm {
   .grid-wrapper {
     grid-template-rows: 0 120px 1fr;
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 300px 1fr;
     grid-template-areas:
       "banner banner"
       "header  header"
@@ -170,7 +170,7 @@ body {
 
 @screen lg {
   .grid-wrapper {
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 300px 1fr;
     max-width: 1460px;
   }
 }
@@ -203,7 +203,7 @@ body {
 
 .sidebar {
   grid-area: sidebar;
-  width: 220px;
+  width: 300px;
 }
 
 .sidebar > div {

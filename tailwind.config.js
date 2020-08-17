@@ -7,8 +7,13 @@ module.exports = {
     container: true
   },
   theme: {
-    // this gives us regular (mobile/tablet), sm (1041px - 1481px) and lg (1481px+)
+    // this gives us:
+    // null (mobile),
+    // xs (tablet),
+    // sm (1041px - 1481px)
+    // lg (1481px+)
     screens: {
+      'xs': '461px',
       'sm': '1041px',
       'lg': '1481px'
     },
@@ -50,6 +55,7 @@ module.exports = {
         yellow: 'var(--color-bg-yellow)',
         blue: 'var(--color-bg-blue)',
         teal: 'var(--color-bg-teal)',
+        'secondary-teal-1': 'var(--color-bg-secondary-teal-1)',
         purple: 'var(--color-bg-purple)',
       },
       textColor: {
@@ -72,6 +78,7 @@ module.exports = {
         yellow: 'var(--color-text-yellow)',
         blue: 'var(--color-text-blue)',
         teal: 'var(--color-text-teal)',
+        'secondary-teal-1': 'var(--color-text-secondary-teal-1)',
         purple: 'var(--color-text-purple)',
       },
       borderColor: {
@@ -148,6 +155,7 @@ module.exports = {
         // base: ['16px', '24px'],
         // lg: ['20px', '28px'], // line height!
         // xl: ['24px', '32px'],
+        'xxxxs': '0.625rem',
         'xxxs': '0.75rem',
         'xxs': '0.875rem',
         'xs': '1rem',
