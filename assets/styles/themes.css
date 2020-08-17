@@ -13,6 +13,7 @@
   --color-bg-inverse: #fff;
   --color-bg-overlay: rgba(0, 0, 0, 0.5);
   --color-bg-black: #111;
+  --color-bg-accent-grey-1: rgba(53, 240, 208, 0.2);
   --color-bg-highlight-1: #35F0D0;
   --color-bg-highlight-2: #35F0D0;
   --color-bg-highlight-3: #401C94;
@@ -21,7 +22,6 @@
   --color-bg-yellow: #FF9303;
   --color-bg-blue: #4565FF;
   --color-bg-teal: #0EA3A4;
-  --color-bg-secondary-teal-1: rgba(53, 240, 208, 0.2);
   --color-bg-purple: #401C94;
 
   --color-text-accent-1: #BBB2CE;
@@ -42,7 +42,6 @@
   --color-text-yellow: #ffc403;
   --color-text-blue: #68a7ff;
   --color-text-teal: #049c9c;
-  --color-text-secondary-teal-1: rgba(53, 240, 208, 0.2);
   --color-text-purple: #401C94;
 
   --color-border-accent-1: #BBB2CE;
@@ -71,6 +70,7 @@
   --color-bg-inverse: #111;
   --color-bg-overlay: rgba(0, 0, 0, 0.5);
   --color-bg-black: #111;
+  --color-bg-accent-grey-1: #f6f2ff;
   --color-bg-highlight-1: #4c249f;
   --color-bg-highlight-2: #7F51D1;
   --color-bg-highlight-3: #4c249f;
@@ -79,7 +79,6 @@
   --color-bg-yellow: #FF9303;
   --color-bg-blue: #4565FF;
   --color-bg-teal: #0EA3A4;
-  --color-bg-secondary-teal-1: rgba(53, 240, 208, 0.2);
   --color-bg-purple: #4c249f;
 
   --color-text-accent-1: #BBB2CE;
@@ -100,7 +99,7 @@
   --color-text-yellow: #eba308;
   --color-text-blue: #3857ee;
   --color-text-teal: #049c9c;
-  --color-text-secondary-teal-1: rgba(53, 240, 208, 0.2);
+  --color-text-accent-grey-1: rgba(53, 240, 208, 0.2);
   --color-text-purple: #401C94;
 
   --color-border-accent-1: #BBB2CE;

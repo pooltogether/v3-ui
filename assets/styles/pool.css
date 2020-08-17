@@ -68,20 +68,15 @@ hr {
 
 a {
   @apply text-green;
-  transition: all 100ms ease-in;
+  transition: all 75ms ease-in-out;
 }
 
 a:hover {
   @apply text-inverse;
 }
 
-/* a:hover {
-  @apply text-inverse bg-default;
-} */
-
 a[disabled],
 a[disabled]:hover {
-  /* @apply text-blue; */
 }
 
 h1,
@@ -963,7 +958,7 @@ input[type='submit'][disabled] {
 }
 
 .list-item:hover {
-  @apply bg-default;
+  @apply bg-accent-grey-1;
   transition: all 120ms ease-in-out;
 }
 

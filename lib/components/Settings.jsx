@@ -85,11 +85,11 @@ export const Settings = (props) => {
     />
 
     <motion.div
-      className='bg-highlight-3 h-full fixed t-0 b-0 z-40 px-8 pr-16 py-6 shadow-md rounded'
+      className='bg-highlight-3 h-full fixed t-0 b-0 z-40 px-8 pr-16 py-8 shadow-md rounded'
       style={{
-        height: '90vh',
+        height: '100vh',
         right: -30,
-        top: '100px',
+        top: '108px',
         width: 300
       }}
       animate={isOpen ? 'enter' : 'exit'}
@@ -121,7 +121,7 @@ export const Settings = (props) => {
         className='absolute close-button text-highlight-2 hover:text-green trans outline-none focus:outline-none active:outline-none'
         style={{
           right: 50,
-          top: 35
+          top: 34
         }}
       >
         <VisuallyHidden>
@@ -138,36 +138,41 @@ export const Settings = (props) => {
       </button>
 
       <h6
-        className='text-white'
+        className='text-white mb-8'
       >
         Settings
       </h6>
-      <label
-        className='uppercase text-caption font-number pb-1'
-      >
-        Theme:
-      </label>
-      <ThemeSwitcher />
+
+      <div className='mb-8'>
+        <label
+          className='uppercase text-caption font-number mb-2'
+        >
+          Theme:
+        </label>
+        <ThemeSwitcher />
+      </div>
 
 
-      <label
-        className='uppercase text-caption font-number pb-1'
-      >
-        Manage:
-      </label>
-      <div
-        className='flex flex-col sm:flex-wrap sm:flex-row items-center justify-start text-center'
-      >
-        <CheckboxInputGroup
-          large
-          id='settings-show-award'
-          name='settings-show-award'
-          label={<>
-            Show Manage Pool links
-          </>}
-          checked={showManageLinks}
-          handleClick={handleShowManageLinksClick}
-        />
+      <div className='mb-8'>
+        <label
+          className='uppercase text-caption font-number mb-0'
+        >
+          Manage:
+        </label>
+        <div
+          className='flex flex-col sm:flex-wrap sm:flex-row items-center justify-start text-center'
+        >
+          <CheckboxInputGroup
+            large
+            id='settings-show-award'
+            name='settings-show-award'
+            label={<>
+              Show Manage Pool links
+            </>}
+            checked={showManageLinks}
+            handleClick={handleShowManageLinksClick}
+          />
+        </div>
       </div>
     </motion.div>
   </>

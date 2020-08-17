@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { TransactionsUIListItem } from 'lib/components/TransactionsUIListItem'
+import { TransactionsListItem } from 'lib/components/TransactionsListItem'
 import { transactionsVar } from 'lib/apollo/cache'
 import { clearPreviousTransactionsFactory } from 'lib/apollo/clearPreviousTransactionsFactory'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
@@ -83,7 +83,7 @@ export const TransactionsList = (props) => {
             className='transactions-ui-list overflow-x-hidden overflow-y-auto px-8 sm:px-10 py-4'
           >
             {notCancelledTransactions.map(tx => {
-              return <TransactionsUIListItem
+              return <TransactionsListItem
                 key={tx.id}
                 tx={tx}
               />

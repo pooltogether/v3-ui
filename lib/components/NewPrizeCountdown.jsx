@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import classnames from 'classnames'
 import addSeconds from 'date-fns/addSeconds'
 import { useInterval } from 'beautiful-react-hooks'
 
@@ -11,6 +12,7 @@ export const NewPrizeCountdown = (
   props,
 ) => {
   const { pool } = props
+  let flashy = props.flashy === false ? false : true
 
   const [secondsRemaining, setSecondsRemaining] = useState(null)
 
@@ -35,7 +37,14 @@ export const NewPrizeCountdown = (
   let msg
   if (pool.isRngRequested) {
     return <>
-      <h5 className='text-right text-flashy'>
+      <h5
+        className={classnames(
+          'text-right',
+          {
+            'text-flashy': flashy
+          }
+        )}
+      >
         Prize is being awarded...!
       </h5>
     </>

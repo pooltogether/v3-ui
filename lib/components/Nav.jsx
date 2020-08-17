@@ -14,12 +14,12 @@ export const Nav = (props) => {
   const usdcPoolPage = router.asPath === '/pools/PT-cUSDC'
   const usdtPoolPage = router.asPath === '/pools/PT-cUSDT'
 
-  const navParentClasses = 'leading-none rounded-full hover:bg-secondary-teal-1 h-full w-8/12 flex justify-start items-center text-lg lg:text-xl py-3 px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none my-3 font-bold ml-3 lg:ml-0'
-  const navChildClasses = 'leading-none rounded-full hover:bg-secondary-teal-1 h-full w-8/12 flex justify-start items-center text-sm lg:text-base py-3 px-10 lg:px-12 trans tracking-wider outline-none focus:outline-none active:outline-none my-3 ml-8'
+  const navParentClasses = 'leading-none rounded-full hover:bg-accent-grey-1 h-full w-8/12 flex justify-start items-center text-lg lg:text-xl py-3 px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none my-3 font-bold ml-3 lg:ml-0'
+  const navChildClasses = 'leading-none rounded-full hover:bg-accent-grey-1 h-full w-8/12 flex justify-start items-center text-sm lg:text-base py-3 px-10 lg:px-12 trans tracking-wider outline-none focus:outline-none active:outline-none my-3 ml-8'
 
   return <>
     <nav
-      className='flex flex-col items-start hidden sm:block pt-6'
+      className='flex flex-col items-start hidden sm:block pt-8 lg:pt-10 ml-2'
     >
       <Link
         href='/'
@@ -31,7 +31,7 @@ export const Nav = (props) => {
             navParentClasses,
             {
               'text-accent-3 hover:text-highlight-2': !poolPage,
-              'text-highlight-2 hover:text-highlight-2 bg-secondary-teal-1': poolPage
+              'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': poolPage
             }
           )}
         >
@@ -60,7 +60,7 @@ export const Nav = (props) => {
           <span className='pl-2'>Pools</span>
         </a>
       </Link>
-
+{/* 
       <div>
         <Link
           href='/pools/[symbol]'
@@ -72,7 +72,7 @@ export const Nav = (props) => {
               navChildClasses,
               {
                 'text-accent-3 hover:text-highlight-2': !daiPoolPage,
-                'text-highlight-2 hover:text-highlight-2 bg-secondary-teal-1': daiPoolPage
+                'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': daiPoolPage
               }
             )}
           >
@@ -90,7 +90,7 @@ export const Nav = (props) => {
               navChildClasses,
               {
                 'text-accent-3 hover:text-highlight-2': !usdcPoolPage,
-                'text-highlight-2 hover:text-highlight-2 bg-secondary-teal-1': usdcPoolPage
+                'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': usdcPoolPage
               }
             )}
           >
@@ -108,14 +108,14 @@ export const Nav = (props) => {
               navChildClasses,
               {
                 'text-accent-3 hover:text-highlight-2': !usdtPoolPage,
-                'text-highlight-2 hover:text-highlight-2 bg-secondary-teal-1': usdtPoolPage
+                'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': usdtPoolPage
               }
             )}
           >
             USDT Pool
           </a>
         </Link>
-      </div>
+      </div> */}
 
       <Link
         href='/prizes/[symbol]'
@@ -127,7 +127,7 @@ export const Nav = (props) => {
             navParentClasses,
             {
               'text-accent-3 hover:text-highlight-2': !prizesPage,
-              'text-highlight-2 hover:text-highlight-2 bg-secondary-teal-1': prizesPage
+              'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': prizesPage
             }
           )}
         >
@@ -166,7 +166,7 @@ export const Nav = (props) => {
             navParentClasses,
             {
               'text-accent-3 hover:text-highlight-2': !accountPage,
-              'text-highlight-2 hover:text-highlight-2 bg-secondary-teal-1': accountPage
+              'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': accountPage
             }
           )}
         >

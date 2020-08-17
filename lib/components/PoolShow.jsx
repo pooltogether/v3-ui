@@ -9,12 +9,18 @@ import { SHOW_MANAGE_LINKS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonLink } from 'lib/components/ButtonLink'
+import { CardGrid } from 'lib/components/CardGrid'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolStats } from 'lib/components/PoolStats'
-import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
+
+import CompoundFinanceIcon from 'assets/images/icon-compoundfinance.svg'
+import PrizeStrategyIcon from 'assets/images/icon-prizestrategy@2x.png'
+import TicketsIcon from 'assets/images/icon-ticket@2x.png'
+import PlayersIcon from 'assets/images/players@2x.png'
+import YieldSourceIcon from 'assets/images/icon-yieldsource@2x.png'
 
 export const PoolShow = (
   props,
@@ -157,9 +163,9 @@ export const PoolShow = (
                 border='highlight-1'
                 text='secondary'
                 bg='highlight-1'
-                hoverBorder='highlight-1'
-                hoverText='secondary'
-                hoverBg='highlight-1'
+                hoverBorder='secondary'
+                hoverText='highlight-1'
+                hoverBg='secondary'
                 href='/pools/[symbol]/deposit'
                 as={`/pools/${symbol}/deposit`}
                 onClick={handleShowDeposit}
@@ -191,14 +197,62 @@ export const PoolShow = (
               >
                 <NewPrizeCountdown
                   pool={pool}
+                  flashy={false}
                 />
               </div>
             </div>
           </div>
 
-
-          <PoolStats
-            {...props}
+          <CardGrid
+            cardGroupId='pool-cards'
+            cards={[
+              {
+                icon: PlayersIcon,
+                title: 'Players',
+                content: <>
+                  <h3>
+                    {pool?.playerCount}
+                  </h3>
+                </>
+              },
+              {
+                icon: TicketsIcon,
+                title: 'Tickets sold',
+                content: <>
+                  <h3>
+                    ${displayAmountInEther(pool.totalSupply, {
+                      precision: 0,
+                      decimals: pool.underlyingCollateralDecimals
+                    })} {pool.underlyingCollateralSymbol}
+                  </h3>
+                </>
+              },
+              {
+                icon: YieldSourceIcon,
+                title: 'Yield source',
+                content: <>
+                  <h6
+                    className='flex items-center'
+                  >
+                    <img
+                      src={CompoundFinanceIcon}
+                      className='inline-block mr-2 w-6 h-6 sm:w-10 sm:h-10'
+                      alt={`compound finance's logo`}
+                    /> Compound Finance
+                  </h6>
+                </>
+              },
+              {
+                icon: PrizeStrategyIcon,
+                title: 'Prize strategy',
+                content: <>
+                  <h6>
+                    Each week, one randomly chosen winner wins that week's prize
+                  </h6>
+                </>
+              },
+              
+            ]}
           />
 
           <div
@@ -222,7 +276,7 @@ export const PoolShow = (
 
         {usersAddress && cookieShowAward && <>
           <div
-            className='text-center'
+            className='text-center mt-20'
           >
             <ButtonLink
               border='highlight-1'

@@ -8,6 +8,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
+import { CardGrid } from 'lib/components/CardGrid'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Meta } from 'lib/components/Meta'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -171,59 +172,48 @@ export const PrizeShow = (
       </div>
     </div>
 
-    <div
-      className='flex flex-col sm:flex-row'
-    >
-      <div
-        className='w-full sm:w-1/2 mt-2 sm:mt-10 px-6 py-4 rounded-lg bg-card sm:mr-8 shadow-md'
-      >
-        <div
-          className='text-caption uppercase'
-        >
-          <img
-            src={PlayersIcon}
-            className='inline-block mr-2 card-icon'
-          /> Players
-        </div>
-        <h3>
-          <TimeTravelPool
-            pool={pool}
-            prize={prize}
-          >
-            {(timeTravelPool) => {
-              return timeTravelPool?.playerCount || null
-            }}
-          </TimeTravelPool>
-        </h3>
-      </div>
+    <CardGrid
+      cardGroupId='prize-cards'
+      cards={[
+        {
+          icon: PlayersIcon,
+          title: 'Players',
+          content: <>
+            <h3>
+              <TimeTravelPool
+                pool={pool}
+                prize={prize}
+              >
+                {(timeTravelPool) => {
+                  return timeTravelPool?.playerCount || null
+                }}
+              </TimeTravelPool>
+            </h3>
+          </>
+        },
+        {
+          icon: TicketsIcon,
+          title: 'Tickets sold',
+          content: <>
+            <h3>
+              <TimeTravelPool
+                pool={pool}
+                prize={prize}
+              >
+                {(timeTravelPool) => {
+                  return timeTravelPool?.totalSupply ?
+                    displayAmountInEther(
+                      timeTravelPool.totalSupply,
+                      { decimals, precision: 0 }
+                    ) : null
+                }}
+              </TimeTravelPool>
+            </h3>
+          </>
+        }
+      ]}
+    />
 
-      <div
-        className='w-full sm:w-1/2 mt-2 sm:mt-10 px-6 py-4 rounded-lg bg-card sm:ml-8 shadow-md'
-      >
-        <div
-          className='text-caption uppercase'
-        >
-          <img
-            src={TicketsIcon}
-            className='inline-block mr-2 card-icon'
-          /> Tickets sold
-        </div>
-        <h3>
-          <TimeTravelPool
-            pool={pool}
-            prize={prize}
-          >
-            {(timeTravelPool) => {
-              return timeTravelPool?.totalSupply ?
-                displayAmountInEther(
-                  timeTravelPool.totalSupply,
-                  { decimals, precision: 0 }
-                ) : null
-            }}
-          </TimeTravelPool>
-        </h3>
-      </div>
-    </div>  
       
 
     <h4

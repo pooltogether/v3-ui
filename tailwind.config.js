@@ -13,7 +13,7 @@ module.exports = {
     // sm (1041px - 1481px)
     // lg (1481px+)
     screens: {
-      'xs': '461px',
+      'xs': '501px',
       'sm': '1041px',
       'lg': '1481px'
     },
@@ -55,7 +55,7 @@ module.exports = {
         yellow: 'var(--color-bg-yellow)',
         blue: 'var(--color-bg-blue)',
         teal: 'var(--color-bg-teal)',
-        'secondary-teal-1': 'var(--color-bg-secondary-teal-1)',
+        'accent-grey-1': 'var(--color-bg-accent-grey-1)',
         purple: 'var(--color-bg-purple)',
       },
       textColor: {
@@ -78,7 +78,7 @@ module.exports = {
         yellow: 'var(--color-text-yellow)',
         blue: 'var(--color-text-blue)',
         teal: 'var(--color-text-teal)',
-        'secondary-teal-1': 'var(--color-text-secondary-teal-1)',
+        'accent-grey-1': 'var(--color-text-accent-grey-1)',
         purple: 'var(--color-text-purple)',
       },
       borderColor: {

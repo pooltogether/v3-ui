@@ -5,12 +5,12 @@ import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { PTHint } from 'lib/components/PTHint'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 
-export const TransactionsUIListItem = (props) => {
+export const TransactionsListItem = (props) => {
   const { tx } = props
 
   return <li
     key={tx.hash || Date.now()}
-    className='list-item relative p-2 -mx-2'
+    className='list-item rounded-lg relative p-2 -mx-2'
   >
     <div className='flex justify-between w-full'>
       <div
