@@ -49,7 +49,7 @@ export const SignInFormContainer = (props) => {
         <button
           type='button'
           onClick={handleCloseSignIn}
-          className='text-primary hover:text-secondary trans'
+          className='text-accent-1 hover:text-inverse trans outline-none focus:outline-none active:outline-none'
         >
           <FeatherIcon
             icon='x-circle'

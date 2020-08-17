@@ -64,9 +64,9 @@ export const WizardLayout = (props) => {
           type='button'
           onClick={handlePreviousStep}
           className={classnames(
-            'text-primary trans outline-none focus:outline-none active:outline-none',
+            'text-accent-1 trans outline-none focus:outline-none active:outline-none',
             {
-              'hover:text-secondary': !disabled
+              'hover:text-inverse': !disabled
             }
           )}
         >
@@ -123,7 +123,7 @@ export const WizardLayout = (props) => {
         <button
           type='button'
           onClick={handleClose}
-          className='text-primary hover:text-secondary trans outline-none focus:outline-none active:outline-none text-right'
+          className='text-accent-1 hover:text-inverse trans outline-none focus:outline-none active:outline-none'
         >
           <FeatherIcon
             icon='x-circle'

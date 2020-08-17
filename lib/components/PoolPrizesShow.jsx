@@ -35,16 +35,22 @@ export const PoolPrizesShow = (
       {pools.map(_pool => {
         return <ButtonLink
           key={`prize-pool-button-${_pool.id}`}
-          selected={_pool.symbol === pool?.symbol}
-          href='/prizes/[symbol]'
-          as={`/prizes/${_pool.symbol}`}
-          className='flex items-center justify-center mx-2'
+
           border='highlight-1'
           text='highlight-1'
+          bg='primary'
+          hoverBorder='highlight-2'
           hoverText='highlight-2'
-          size='lg'
+          hoverBg='primary'
+
+          className='flex flex-col items-center justify-center mx-2 w-1/3 sm:w-1/6'
+          selected={_pool.symbol === pool?.symbol}
+          href='/prizes/[symbol]'
+          as={`/prizes/${_pool.symbol}`}        
         >
           <PoolCurrencyIcon
+            sm
+            noMargin
             pool={_pool}
           /> {_pool.underlyingCollateralSymbol}
         </ButtonLink>
@@ -52,24 +58,26 @@ export const PoolPrizesShow = (
     </div>
 
     <div
-      className='bg-default mt-6 mb-6 text-sm py-6 flex flex-col sm:flex-row items-center justify-center rounded-lg'
+      className='bg-default mt-4 mb-10 text-sm py-6 flex flex-col sm:flex-row items-center justify-center rounded-lg'
     >
-      <div className='flex flex-col items-center justify-center text-highlight-2 mb-4 sm:mb-0'>
-        <div
-          className='sm:h-12 sm:pt-1'
-        >
-          <PoolCurrencyIcon
-            pool={pool}
-          />
-        </div>
-        <div className='text-lg mt-1'>
-          {pool?.name}
+      <div className='flex items-center justify-center sm:justify-end text-highlight-2 mb-4 sm:mb-0 w-1/3'>
+        <div className='flex flex-col items-center justify-center'>
+          <div
+            className='sm:h-12 sm:pt-1'
+          >
+            <PoolCurrencyIcon
+              pool={pool}
+            />
+          </div>
+          <div className='text-lg mt-1'>
+            {pool?.name}
+          </div>
         </div>
       </div>
 
-      <div className='mx-8 sm:mx-12 lg:mx-20 text-2xl text-center text-highlight-2 mb-6 sm:mb-0'>
+      <div className='text-2xl text-center text-highlight-2 mb-6 sm:mb-0 sm:w-1/3 lg:w-1/5'>
         <div
-          className='sm:h-12'
+          className='sm:h-12 font-bold'
         >
           $17,242
         </div>
@@ -78,20 +86,29 @@ export const PoolPrizesShow = (
         </div>
       </div>
 
-      <ButtonLink
-        border='highlight-1'
-        text='secondary'
-        bg='highlight-1'
-        hoverBorder='highlight-2'
-        hoverText='green'
-        hoverBg='purple'
-        size='lg'
-        href='/pools/[symbol]/deposit'
-        as={`/pools/${pool?.symbol}/deposit`}
-      >
-        Get tickets
-      </ButtonLink>
+      <div className='text-center sm:text-left w-1/3'>
+        <ButtonLink
+          border='highlight-1'
+          text='secondary'
+          bg='highlight-1'
+          hoverBorder='highlight-2'
+          hoverText='green'
+          hoverBg='purple'
+          size='lg'
+          href='/pools/[symbol]/deposit'
+          as={`/pools/${pool?.symbol}/deposit`}
+        >
+          Get tickets
+        </ButtonLink>
+      </div>
     </div>
+
+
+    <h6
+      className='text-accent-2 mb-4 mt-16'
+    >
+      Prize history:
+    </h6>
 
     <PoolPrizeListing
       pool={pool}

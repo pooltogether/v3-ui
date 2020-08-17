@@ -15,10 +15,12 @@ export const PoolCurrencyIcon = (
 ) => {
   const {
     className,
-    large,
+    sm,
+    lg,
     xl,
     pool
   } = props
+  const noMargin = props.noMargin || false
   const symbol = pool && pool.underlyingCollateralSymbol
   const tokenSymbol = symbol && symbol.toLowerCase()
 
@@ -36,7 +38,10 @@ export const PoolCurrencyIcon = (
   }
 
   let sizeClasses = 'w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10'
-  if (large) {
+  if (sm) {
+    sizeClasses = 'w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8'
+  }
+  else if (lg) {
     sizeClasses = 'w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16'
   } else if (xl) {
     sizeClasses = 'w-12 h-12 sm:w-16 sm:h-16 lg:w-18 lg:h-18'
@@ -49,7 +54,8 @@ export const PoolCurrencyIcon = (
         sizeClasses,
         {
           [className]: className,
-          'inline-block mr-2': !className,
+          'inline-block': !className,
+          'mr-2': !noMargin,
         }
       )}
     />

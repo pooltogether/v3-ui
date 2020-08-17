@@ -48,7 +48,7 @@ export const PoolRow = (
               className='flex items-center font-bold w-8/12 sm:w-3/12 lg:w-3/12'
             >
               <PoolCurrencyIcon
-                large
+                lg
                 pool={pool}
               />
               <div className='inline-flex flex flex-col'>

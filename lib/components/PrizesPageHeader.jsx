@@ -10,21 +10,25 @@ export const PrizesPageHeader = (
   
   return <>
     <div
-      className='flex flex-col items-center text-center'
+      className='bg-highlight-3 rounded-lg px-6 pt-5 pb-5 text-white mt-4 sm:mt-4 mb-10 sm:mb-20'
     >
       <div
-        className='inline-block text-2xl font-bold pb-4'
+        className='flex items-center justify-between'
       >
-        Prizes
-      </div>
-
-      <div>
-        <div className='text-lg'>
-          Total awarded:
+        <div
+          className='w-full sm:w-1/2'
+        >
+          <h2>
+            Prizes
+          </h2>
         </div>
-        <br />
-        <div className='text-3xl -mt-6 text-flashy font-bold font-number'>
-          $23,994
+
+        <div
+          className='w-full sm:w-1/2 text-right'
+        >
+          <h4>
+            Total awarded: <span className='text-flashy'>$23,994</span>
+          </h4>
         </div>
       </div>
     </div>

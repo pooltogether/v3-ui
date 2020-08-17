@@ -111,54 +111,58 @@ export const PoolShow = (
       
         <>
           <div
-            className='flex flex-col sm:flex-row justify-between sm:items-center'
+            className='flex flex-col xs:flex-row justify-between xs:items-center'
           >
-            <PoolCurrencyIcon
-              xl
-              pool={pool}
-            />
-            
             <div
-              className='flex flex-col items-start justify-between w-full sm:w-full ml-6 leading-none'
+              className='flex justify-between items-center xs:w-3/4 sm:w-3/4'
             >
+              <PoolCurrencyIcon
+                xl
+                pool={pool}
+              />
+              
               <div
-                className='inline-block text-left text-xl sm:text-3xl font-bold text-accent-2 relative'
-                style={{
-                  top: -6
-                }}
+                className='flex flex-col items-start justify-between w-full ml-1 sm:ml-6 leading-none'
               >
-                {pool?.name}
-              </div>
-              <div
-                className='inline-block text-left text-caption-2 relative'
-                style={{
-                  left: 2,
-                  bottom: -4
-                }}
-              >
-                <Link
-                  href='/'
-                  as='/'
-                  shallow
+                <div
+                  className='inline-block text-left text-xl sm:text-3xl font-bold text-accent-2 relative'
+                  style={{
+                    top: -6
+                  }}
                 >
-                  <a
-                    className='underline uppercase'
+                  {pool?.name}
+                </div>
+                <div
+                  className='inline-block text-left text-caption-2 relative'
+                  style={{
+                    left: 2,
+                    bottom: -4
+                  }}
+                >
+                  <Link
+                    href='/'
+                    as='/'
+                    shallow
                   >
-                    Pools
-                  </a>
-                </Link> &gt; <span
-                    className='uppercase'
-                  >
-                    {pool?.name}
-                  </span>
+                    <a
+                      className='underline uppercase'
+                    >
+                      Pools
+                    </a>
+                  </Link> &gt; <span
+                      className='uppercase'
+                    >
+                      {pool?.name}
+                    </span>
+                </div>
               </div>
             </div>
 
             <div
-              className='flex w-full sm:justify-end items-start mt-4 sm:mt-0'
+              className='flex w-full xs:justify-end items-start mt-4 xs:mt-0'
             >
               <ButtonLink
-                width='w-full xs:w-1/2 sm:w-10/12 lg:w-8/12'
+                width='w-full xs:w-9/12 sm:w-8/12 lg:w-6/12'
                 textSize='lg'
                 border='highlight-1'
                 text='secondary'
@@ -179,7 +183,7 @@ export const PoolShow = (
             className='bg-highlight-3 rounded-lg px-6 pt-4 pb-6 text-white my-8 sm:mt-20 sm:mb-12 border-flashy mx-auto'
           >
             <div
-              className='flex justify-between'
+              className='flex items-center justify-between'
             >
               <div
                 className='w-full sm:w-1/2'
@@ -193,7 +197,7 @@ export const PoolShow = (
               </div>
 
               <div
-                className='flex flex-col items-end justify-center w-4/12 sm:w-9/12 lg:w-9/12'
+                className='flex flex-col items-end justify-center pt-4 w-4/12 sm:w-9/12 lg:w-9/12'
               >
                 <NewPrizeCountdown
                   pool={pool}
