@@ -100,11 +100,17 @@ export const WalletContextProvider = (props) => {
   const connectWallet = async (
     postSignInCallback
   ) => {
-    console.log({ onboard})
-    await onboard.walletSelect()
+    let _onboard = onboard
 
-    if (onboard.getState().wallet.type) {
-      await onboard.walletCheck()
+    if (!_onboard) {
+      await handleLoadOnboard()
+      _onboard = await getOnboard()
+    }
+
+    await _onboard.walletSelect()
+
+    if (_onboard.getState().wallet.type) {
+      await _onboard.walletCheck()
 
       if (postSignInCallback) {
         postSignInCallback()

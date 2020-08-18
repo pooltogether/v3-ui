@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { Button } from 'lib/components/Button'
+import { ButtonLink } from 'lib/components/ButtonLink'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 
@@ -69,13 +69,14 @@ export const WithdrawComplete = (props) => {
     </>}
 
     <div>
-      <Button
+      <ButtonLink
         size='lg'
         className='w-64'
-        onClick={handleShowAccount}
+        href='/account'
+        as='/account'
       >
         View your account
-      </Button>
+      </ButtonLink>
     </div>
   </>
 }

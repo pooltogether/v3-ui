@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
-import { Button } from 'lib/components/Button'
+import { ButtonLink } from 'lib/components/ButtonLink'
 import { PaneTitle } from 'lib/components/PaneTitle'
 
 export const OrderComplete = (props) => {
@@ -19,12 +19,6 @@ export const OrderComplete = (props) => {
     }, 300)
   }, [])
 
-  const handleShowAccount = (e) => {
-    e.preventDefault()
-
-    router.push('/account', '/account', { shallow: true })
-  }
-
   return <>
     <PaneTitle small>
       Deposit complete
@@ -35,13 +29,14 @@ export const OrderComplete = (props) => {
     </PaneTitle>
 
     <div>
-      <Button
+      <ButtonLink
         size='lg'
-        onClick={handleShowAccount}
         className='w-64'
+        href='/account'
+        as='/account'
       >
         View your account
-      </Button>
+      </ButtonLink>
     </div>
   </>
 }

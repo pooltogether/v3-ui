@@ -43,8 +43,8 @@ export const TextInputGroup = (
         className={classnames(
           'mt-0 pb-1 trans',
           {
-            'text-primary cursor-not-allowed': disabled,
-            'text-primary hover:text-inverse': !disabled,
+            'font-bold text-primary cursor-not-allowed': disabled,
+            'font-bold text-default-soft hover:text-default': !disabled,
           }
         )}
       >

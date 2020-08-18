@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { Button } from 'lib/components/Button'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { shorten } from 'lib/utils/shorten'
@@ -13,8 +12,6 @@ export const TxMessage = (props) => {
   const {
     tx,
     txType,
-    resetButtonText,
-    handleReset,
   } = props
 
   const txInWallet = tx.inWallet && !tx.sent
@@ -91,19 +88,6 @@ export const TxMessage = (props) => {
               Transaction signature denied
             </>}
           </div>
-
-
-          {handleReset && <>
-            <div className='mt-10 text-center'>
-              <Button
-                wide
-                size='lg'
-                onClick={handleReset}
-              >
-                {resetButtonText || 'Try again'}
-              </Button>
-            </div>
-          </>}
         </>}
 
         {tx.hash && <>

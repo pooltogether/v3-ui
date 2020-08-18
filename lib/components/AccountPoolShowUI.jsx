@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
-import { Button } from 'lib/components/Button'
+import { ButtonLink } from 'lib/components/ButtonLink'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Odds } from 'lib/components/Odds'
@@ -42,29 +42,6 @@ export const AccountPoolShowUI = (props) => {
     ))
   }
 
-  const showPoolIndex = (e) => {
-    e.preventDefault()
-    router.push('/', '/', { shallow: true })
-  }
-
-  const handleShowWithdraw = (e) => {
-    e.preventDefault()
-    router.push(
-      '/account/pools/[symbol]/withdraw',
-      `/account/pools/${symbol}/withdraw`,
-      { shallow: true }
-    )
-  }
-
-  const handleShowDeposit = (e) => {
-    e.preventDefault()
-    router.push(
-      '/pools/[symbol]/deposit',
-      `/pools/${symbol}/deposit`,
-      { shallow: true }
-    )
-  }
-
   return <>
     <div
       className='px-2 py-4 sm:py-2 text-center'
@@ -94,12 +71,13 @@ export const AccountPoolShowUI = (props) => {
               You currently have no tickets in this pool.<br />Deposit now to get tickets!
             </div>
             
-            <Button
+            <ButtonLink
               outline
-              onClick={showPoolIndex}
+              href='/'
+              as='/'
             >
               View pools
-            </Button>
+            </ButtonLink>
           </BlankStateMessage>
         </> : <>
 
@@ -172,23 +150,26 @@ export const AccountPoolShowUI = (props) => {
                   </div>
                 </PTHint>
               </> : <>
-                <Button
+                <ButtonLink
                   wide
                   outline
                   onClick={handleShowWithdraw}
+                  href='/account/pools/[symbol]/withdraw'
+                  as={`/account/pools/${symbol}/withdraw`}
                 >
                   Withdraw
-                </Button>
+                </ButtonLink>
               </>}
             </div>
             
-            <Button
-              outline
-              onClick={handleShowDeposit}
+            <ButtonLink
               wide
+              outline
+              href='/pools/[symbol]/deposit'
+              as={`/pools/${symbol}/deposit`}
             >
               Get tickets
-            </Button>
+            </ButtonLink>
           </div>
         </>
       }

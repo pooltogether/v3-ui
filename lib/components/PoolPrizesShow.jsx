@@ -86,15 +86,9 @@ export const PoolPrizesShow = (
         </div>
       </div>
 
-      <div className='text-center sm:text-left w-1/3'>
+      <div className='text-center sm:text-left w-3/4 sm:w-1/3'>
         <ButtonLink
-          border='highlight-1'
-          text='secondary'
-          bg='highlight-1'
-          hoverBorder='highlight-2'
-          hoverText='green'
-          hoverBg='purple'
-          size='lg'
+          textSize='lg'
           href='/pools/[symbol]/deposit'
           as={`/pools/${pool?.symbol}/deposit`}
         >

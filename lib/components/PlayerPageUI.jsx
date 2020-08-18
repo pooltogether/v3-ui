@@ -7,7 +7,7 @@ import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataCon
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
-import { Button } from 'lib/components/Button'
+import { ButtonLink } from 'lib/components/ButtonLink'
 import { ErrorMessage } from 'lib/components/ErrorMessage'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 
@@ -74,12 +74,13 @@ export const PlayerPageUI = (props) => {
             >
               You currently have no tickets.<br /> Deposit in a pool now to get tickets!
             </div>
-            <Button
+            <ButtonLink
               outline
-              onClick={showPoolIndex}
+              href='/'
+              as='/'
             >
               View pools
-            </Button>
+            </ButtonLink>
           </BlankStateMessage>
         </> : <>
           <motion.ul>

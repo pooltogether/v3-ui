@@ -113,7 +113,7 @@ export const Layout = (props) => {
           className='mx-auto'
         >
           <div
-            className='flex justify-between items-center pl-4 pr-8 xs:pl-12 xs:pr-16 sm:px-10 py-4 sm:pt-5 sm:pb-3'
+            className='flex justify-between items-center px-4 xs:px-12 sm:px-10 py-4 sm:pt-5 sm:pb-3'
           >
             <HeaderLogo />
 
@@ -157,7 +157,7 @@ export const Layout = (props) => {
 
         <div className='content'>
           <div
-            className='pool-container flex flex-grow relative z-10 h-full page pl-4 pr-8 xs:pl-12 xs:pr-16 sm:px-10'
+            className='pool-container flex flex-grow relative z-10 h-full page px-4 xs:px-12 sm:px-10'
           >
             <div
               className='flex flex-col flex-grow'

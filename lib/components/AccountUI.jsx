@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
-import { Button } from 'lib/components/Button'
+import { ButtonLink } from 'lib/components/ButtonLink'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Tab, Tabs, Content, ContentPane } from 'lib/components/Tabs'
 
@@ -33,12 +33,6 @@ export const AccountUI = (props) => {
 
   const poolData = useContext(PoolDataContext)
   const { pools, dynamicPlayerData } = poolData
-
-  const showPoolIndex = (e) => {
-    e.preventDefault()
-    router.push('/', '/', { shallow: true })
-  }
-
 
   return <>
     <div
@@ -86,12 +80,13 @@ export const AccountUI = (props) => {
 
                     You currently have no tickets.<br /> Deposit in a pool now to get tickets!
                   </div>
-                  <Button
+                  <ButtonLink
                     outline
-                    onClick={showPoolIndex}
+                    href='/'
+                    as='/'
                   >
                     View pools
-                  </Button>
+                  </ButtonLink>
                 </BlankStateMessage>
               </> : <>
                 <AnimateSharedLayout>

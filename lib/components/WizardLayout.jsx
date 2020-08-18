@@ -58,7 +58,7 @@ export const WizardLayout = (props) => {
       key={`${action}-scaled-bg`}
       className='fixed w-full h-full z-40 bg-darkened'
       initial={{ scale: 0 }}
-      animate={{ scale: 1, transition: { duration: 0.1 } }}
+      animate={{ scale: 1, transition: { duration: 0.2 } }}
       exit={{ opacity: 0, transition: {
         duration: 0.25,
         delay: 0.25,
@@ -88,7 +88,7 @@ export const WizardLayout = (props) => {
           <FeatherIcon
             icon='arrow-left-circle'
             className='w-8 h-8 sm:w-16 sm:h-16'
-            strokeWidth='1'
+            strokeWidth='0.09rem'
           />
         </button>
       
@@ -138,12 +138,12 @@ export const WizardLayout = (props) => {
         <button
           type='button'
           onClick={handleClose}
-          className='text-accent-1 hover:text-inverse trans outline-none focus:outline-none active:outline-none'
+          className='text-inverse opacity-50 hover:opacity-100 hover:text-inverse trans outline-none focus:outline-none active:outline-none'
         >
           <FeatherIcon
             icon='x-circle'
             className='w-8 h-8 sm:w-16 sm:h-16'
-            strokeWidth='1'
+            strokeWidth='0.09rem'
           />
         </button>
       </nav>

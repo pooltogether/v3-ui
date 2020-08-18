@@ -105,7 +105,8 @@ export const TicketQuantityForm = (props) => {
       >
         <Button
           wide
-          size='lg'
+          primary
+          textSize='lg'
           disabled={!formState.isValid}
           color='green'
         >

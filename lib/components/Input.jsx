@@ -72,9 +72,10 @@ export function Input(props) {
         validate
       })}
 
+      // rounded-full
       className={classnames(
         className,
-        'bg-primary text-inverse w-full sm:w-10/12 rounded-full focus:outline-none leading-none pl-6',
+        'bg-primary text-inverse w-full focus:outline-none leading-none pl-6',
       )}
     />
 

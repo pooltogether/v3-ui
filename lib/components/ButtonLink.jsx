@@ -1,9 +1,101 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Link from 'next/link'
 import { omit } from 'lodash'
 import { motion } from 'framer-motion'
+
+export const getButtonClasses = (props) => {
+  let {
+    border,
+    bg,
+    primary,
+    text,
+    hoverBg,
+    hoverBorder,
+    hoverText,
+    padding,
+    rounded,
+    selected,
+    transition,
+    className,
+    textSize,
+    width,
+  } = props
+
+  let defaultClasses = 'font-bold relative inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
+  // border-2
+  
+  if (selected) {
+    defaultClasses += ` opacity-50`
+  }
+
+  
+  // eg. textSize='sm', textSize='2xl'
+  textSize = getTextSize(textSize)
+
+
+  // text = 'text-match'
+  padding = padding ? `${padding}` : 'px-4 lg:px-6 py-2 sm:py-2'
+  rounded = rounded ? `rounded-${rounded}` : 'rounded-lg'
+  transition = transition ? `${transition}` : 'trans trans-fast'
+  width = width ? `${width}` : ''
+
+  // border = border ? `border-${border}` : `border-highlight-1`
+  bg = bg ? `bg-${bg}` : 'bg-highlight-1'
+  text = text ? `text-${text}` : 'text-secondary'
+
+  hoverBg = hoverBg ? `hover:bg-${hoverBg}` : `hover:bg-purple`
+  // hoverBg = hoverBg ? `hover:bg-${hoverBg}` : `hover:bg-primary`
+  hoverBorder = hoverBorder ? `hover:border-${hoverBorder}` : `hover:border-highlight-2`
+  hoverText = hoverText ? `hover:text-${hoverText}` : 'hover:text-green'
+
+  
+  return classnames(
+    className,
+    defaultClasses,
+    bg,
+    // border,
+    padding,
+    rounded,
+    text,
+    hoverBg,
+    hoverBorder,
+    hoverText,
+    textSize,
+    transition,
+    width
+  )
+}
+
+export const getButtonAnimationProps = (props) => {
+  let {
+    selected,
+    disabled,
+  } = props
+
+  let animationProps = {
+    whileHover: {
+      scale: 1.015,
+      y: -2,
+      transition: {
+        duration: 0.1
+      }
+    },
+    whileTap: {
+      scale: 0.98,
+      y: 2,
+      transition: {
+        duration: 0.1
+      }
+    }
+  }
+
+  if (selected || disabled) {
+    animationProps = {}
+  }
+
+  return animationProps
+}
 
 const getTextSize = (size) => {
   switch (size) {
@@ -27,90 +119,27 @@ export const ButtonLink = (props) => {
     children,
     as,
     href,
-    border,
-    bg,
-    text,
-    hoverBg,
-    hoverBorder,
-    hoverText,
-    padding,
-    rounded,
-    transition,
-    className,
-    disabled,
-    selected,
-    textSize,
-    width,
   } = props
 
-  let defaultClasses = 'font-bold border-2 relative inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
-
-  // eg. textSize='sm', textSize='2xl'
-  textSize = getTextSize(textSize)
-
-  // text = 'text-match'
-  padding = padding ? `${padding}` : 'px-3 py-2 sm:py-2'
-  rounded = rounded ? `rounded-${rounded}` : 'rounded-lg'
-  transition = transition ? `${transition}` : 'trans trans-fast'
-  width = width ? `${width}` : ''
-
-  border = border ? `border-${border}` : `border-highlight-1`
-  bg = bg ? `bg-${bg}` : 'bg-primary'
-  text = text ? `text-${text}` : 'text-highlight-1'
+  const classes = getButtonClasses(props)
+  const animationProps = getButtonAnimationProps(props)
   
-  hoverBg = hoverBg ? `hover:bg-${hoverBg}` : `hover:bg-primary`
-  hoverBorder = hoverBorder ? `hover:border-${hoverBorder}` : `hover:border-highlight-2`
-  hoverText = hoverText ? `hover:text-${hoverText}` : 'hover:text-green'
+  // let newProps = omit(props, [
+  //   'bg',
+  //   'border',
+  //   'padding',
+  //   'rounded',
+  //   'size',
+  //   'text',
+  //   'hoverBg',
+  //   'hoverBorder',
+  //   'hoverText',
+  //   'textSize',
+  //   'transition',
+  //   'width',
+  // ])
 
-  let newClassNames = classnames(
-    className,
-    defaultClasses,
-    bg,
-    border,
-    padding,
-    rounded,
-    text,
-    hoverBg,
-    hoverBorder,
-    hoverText,
-    textSize,
-    transition,
-    width
-  )
-
-  let newProps = omit(props, [
-    'bg',
-    'border',
-    'padding',
-    'rounded',
-    'size',
-    'text',
-    'hoverBg',
-    'hoverBorder',
-    'hoverText',
-    'textSize',
-    'transition',
-    'width',
-  ])
-
-  const animationProps = {
-    whileHover: {
-      scale: 1.015,
-      y: -2,
-      transition: {
-        duration: 0.1
-      }
-    },
-    whileTap: {
-      scale: 0.98,
-      y: 2,
-      transition: {
-        duration: 0.1
-      }
-    }
-  }
-
-  const linkProps = omit(newProps, [
+  const linkProps = omit(props, [
     'children',
     'href',
     'as'
@@ -124,7 +153,7 @@ export const ButtonLink = (props) => {
     <motion.a
       {...linkProps}
       {...animationProps}
-      className={newClassNames}
+      className={classes}
     >
       {children}
     </motion.a>

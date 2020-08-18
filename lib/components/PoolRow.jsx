@@ -105,7 +105,7 @@ export const PoolRow = (
                 hoverText='green'
                 hoverBg='purple'
                 width='w-full'
-                size='lg'
+                textSize='lg'
                 href='/pools/[symbol]/deposit'
                 as={`/pools/${pool.symbol}/deposit`}
               >

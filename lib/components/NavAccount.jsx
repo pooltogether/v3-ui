@@ -47,14 +47,14 @@ export const NavAccount = (props) => {
       <AccountButton
         openTransactions={openTransactions}
       />
-    </> :
-      <button
+    </> : <>
+      {/* <button
         onClick={handleShowSignIn}
         className='text-highlight-2 hover:text-highlight-1 text-xxs sm:text-sm bg-body rounded-full border-2 border-highlight-2 hover:border-highlight-1 py-1 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none mr-2'
       >
         Sign in
-      </button>
-    }
+      </button> */}
+    </>}
 
     {usersAddress && <>
       <Dialog

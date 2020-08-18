@@ -11,10 +11,9 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { PoolStats } from 'lib/components/PoolStats'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
+// import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 import CompoundFinanceIcon from 'assets/images/icon-compoundfinance.svg'
 import PrizeStrategyIcon from 'assets/images/icon-prizestrategy@2x.png'
@@ -25,16 +24,12 @@ import YieldSourceIcon from 'assets/images/icon-yieldsource@2x.png'
 export const PoolShow = (
   props,
 ) => {
-  const router = useRouter()
   const { pool } = props
 
   const symbol = pool?.symbol
 
   const authControllerContext = useContext(AuthControllerContext)
-  const { ethBalance, usersAddress } = authControllerContext
-
-  const poolDataContext = useContext(PoolDataContext)
-  const { poolAddresses } = poolDataContext
+  const { usersAddress } = authControllerContext
   
   let error
 
@@ -54,27 +49,27 @@ export const PoolShow = (
 
   const cookieShowAward = Cookies.get(SHOW_MANAGE_LINKS)
 
-  const handleShowDeposit = (e) => {
-    e.preventDefault()
+  // const handleShowDeposit = (e) => {
+  //   e.preventDefault()
 
-    let pathname = router.pathname
-    let asPath = router.asPath
+  //   let pathname = router.pathname
+  //   let asPath = router.asPath
 
-    if (!/deposit/.test(asPath)) {
-      // console.log('not on deposit so adding deposit to url')
-      queryParamUpdater.removeAll(router)
-      pathname = `${router.pathname}/deposit`
-      asPath = `${router.asPath}/deposit`
-    }
+  //   if (!/deposit/.test(asPath)) {
+  //     // console.log('not on deposit so adding deposit to url')
+  //     queryParamUpdater.removeAll(router)
+  //     pathname = `${router.pathname}/deposit`
+  //     asPath = `${router.asPath}/deposit`
+  //   }
 
-    router.push(
-      pathname,
-      asPath,
-      {
-        shallow: true
-      }
-    )
-  }
+  //   router.push(
+  //     pathname,
+  //     asPath,
+  //     {
+  //       shallow: true
+  //     }
+  //   )
+  // }
 
   return <>
     <motion.div
@@ -172,7 +167,6 @@ export const PoolShow = (
                 hoverBg='secondary'
                 href='/pools/[symbol]/deposit'
                 as={`/pools/${symbol}/deposit`}
-                onClick={handleShowDeposit}
               >
                 Get tickets
               </ButtonLink>

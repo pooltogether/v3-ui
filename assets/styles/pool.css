@@ -241,7 +241,7 @@ h6 {
 
 label {
   /* @apply font-headline block cursor-pointer mt-6 mb-1; */
-  @apply block cursor-pointer mt-6 mb-1;
+  @apply block cursor-pointer mt-6 mb-1 text-left pl-6;
 }
 
 form:after {
@@ -251,8 +251,14 @@ form:after {
 }
 
 table {
-  @apply text-xs;
+  @apply text-xxxs;
   border-spacing: 0;
+}
+
+@screen xs {
+  table {
+    @apply text-xs;
+  }
 }
 
 @screen sm {
@@ -273,7 +279,7 @@ tr:last-child td {
 
 th,
 td {
-  @apply py-1;
+  @apply px-1 py-1;
 
   text-align: left;
   margin: 0;

@@ -58,9 +58,9 @@ export const CompleteAwardUI = (props) => {
     {canCompleteAward && <>
       <Button
         wide
+        outline
         size='lg'
         onClick={handleCompleteAwardClick}
-        outline
         disabled={disabled}
       >
         Complete Award
