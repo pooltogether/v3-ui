@@ -1,8 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
 import Link from 'next/link'
-import { omit } from 'lodash'
-import { motion } from 'framer-motion'
 
 export const getButtonClasses = (props) => {
   let {
@@ -24,9 +22,11 @@ export const getButtonClasses = (props) => {
 
   let defaultClasses = 'font-bold relative inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
   // border-2
+  let animClass = 'button-scale'
   
   if (selected) {
     defaultClasses += ` opacity-50`
+    animClass = ``
   }
 
   
@@ -35,7 +35,7 @@ export const getButtonClasses = (props) => {
 
 
   // text = 'text-match'
-  padding = padding ? `${padding}` : 'px-4 lg:px-6 py-2 sm:py-2'
+  padding = padding ? `${padding}` : 'px-6 sm:px-10 lg:px-12 py-2 sm:py-2'
   rounded = rounded ? `rounded-${rounded}` : 'rounded-lg'
   transition = transition ? `${transition}` : 'trans trans-fast'
   width = width ? `${width}` : ''
@@ -53,6 +53,7 @@ export const getButtonClasses = (props) => {
   return classnames(
     className,
     defaultClasses,
+    animClass,
     bg,
     // border,
     padding,
@@ -65,36 +66,6 @@ export const getButtonClasses = (props) => {
     transition,
     width
   )
-}
-
-export const getButtonAnimationProps = (props) => {
-  let {
-    selected,
-    disabled,
-  } = props
-
-  let animationProps = {
-    whileHover: {
-      scale: 1.015,
-      y: -2,
-      transition: {
-        duration: 0.1
-      }
-    },
-    whileTap: {
-      scale: 0.98,
-      y: 2,
-      transition: {
-        duration: 0.1
-      }
-    }
-  }
-
-  if (selected || disabled) {
-    animationProps = {}
-  }
-
-  return animationProps
 }
 
 const getTextSize = (size) => {
@@ -122,41 +93,18 @@ export const ButtonLink = (props) => {
   } = props
 
   const classes = getButtonClasses(props)
-  const animationProps = getButtonAnimationProps(props)
   
-  // let newProps = omit(props, [
-  //   'bg',
-  //   'border',
-  //   'padding',
-  //   'rounded',
-  //   'size',
-  //   'text',
-  //   'hoverBg',
-  //   'hoverBorder',
-  //   'hoverText',
-  //   'textSize',
-  //   'transition',
-  //   'width',
-  // ])
-
-  const linkProps = omit(props, [
-    'children',
-    'href',
-    'as'
-  ])
-
   return <Link
     href={href}
     as={as}
     scroll={false}
   >
-    <motion.a
-      {...linkProps}
-      {...animationProps}
+    <a
+      // {...linkProps}
       className={classes}
     >
       {children}
-    </motion.a>
+    </a>
   </Link>
 
 }

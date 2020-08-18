@@ -159,12 +159,6 @@ export const PoolShow = (
               <ButtonLink
                 width='w-full xs:w-9/12 sm:w-8/12 lg:w-6/12'
                 textSize='lg'
-                border='highlight-1'
-                text='secondary'
-                bg='highlight-1'
-                hoverBorder='secondary'
-                hoverText='highlight-1'
-                hoverBg='secondary'
                 href='/pools/[symbol]/deposit'
                 as={`/pools/${symbol}/deposit`}
               >

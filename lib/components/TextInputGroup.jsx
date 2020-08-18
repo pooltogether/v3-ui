@@ -41,7 +41,7 @@ export const TextInputGroup = (
       <label
         htmlFor={id}
         className={classnames(
-          'mt-0 pb-1 trans',
+          'mt-0 pb-1 pl-4 trans',
           {
             'font-bold text-primary cursor-not-allowed': disabled,
             'font-bold text-default-soft hover:text-default': !disabled,

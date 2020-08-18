@@ -240,8 +240,7 @@ h6 {
 }
 
 label {
-  /* @apply font-headline block cursor-pointer mt-6 mb-1; */
-  @apply block cursor-pointer mt-6 mb-1 text-left pl-6;
+  @apply block cursor-pointer mt-6 mb-1 text-left;
 }
 
 form:after {
@@ -1075,4 +1074,10 @@ input[type='submit'][disabled] {
 
 .bn-onboard-custom.bn-onboard-modal {
   z-index:99
+}
+
+.button-scale:hover,
+.button-scale:focus,
+.button-scale:active {
+  transform: scale(1.04) translateY(-3px);
 }

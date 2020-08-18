@@ -1,8 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
-import { motion } from 'framer-motion'
 
-import { getButtonAnimationProps } from 'lib/components/ButtonLink'
 import { getButtonClasses } from 'lib/components/ButtonLink'
 
 export const Button = (props) => {
@@ -99,11 +96,9 @@ export const Button = (props) => {
   // ])
 
   const classes = getButtonClasses(props)
-  const animationProps = getButtonAnimationProps(props)
 
-  return <motion.button
+  return <button
     {...props}
-    {...animationProps}
     className={classes}
   />
 

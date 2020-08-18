@@ -6,7 +6,7 @@ import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvid
 export const ThemeSwitcher = (props) => {
   const { toggleTheme } = useContext(ThemeContext)
 
-  return <label
+  return <div
     onClick={toggleTheme}
     className='theme-toggler m-0 relative select-none'
   >
@@ -33,5 +33,5 @@ export const ThemeSwitcher = (props) => {
           />
       </span>
     </div>
-  </label>
+  </div>
 }
