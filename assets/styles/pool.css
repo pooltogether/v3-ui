@@ -1,3 +1,22 @@
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --flashy-gradient: linear-gradient(
+    40deg,
+    #ff9304 0%,
+    #ff04ea 10%,
+    #9b4beb 20%,
+    #0e8dd6 30%,
+    #3be8ff 40%,
+    #07d464 50%,
+    #ebf831 60%,
+    #ff04ab 78%,
+    #8933eb 90%,
+    #3b89ff 100%
+  );
+}
+
 @font-face {
     font-family: 'DM Mono';
     src: url('/fonts/DMMono-Regular.woff2') format('woff2'),
@@ -399,22 +418,6 @@ input[type='submit'][disabled] {
 	100% {
 		background-position: 0% 50%;
 	}
-}
-
-* {
-  --flashy-gradient: linear-gradient(
-    40deg,
-    #ff9304 0%,
-    #ff04ea 10%,
-    #9b4beb 20%,
-    #0e8dd6 30%,
-    #3be8ff 40%,
-    #07d464 50%,
-    #ebf831 60%,
-    #ff04ab 78%,
-    #8933eb 90%,
-    #3b89ff 100%
-  );
 }
 
 .text-flashy {
@@ -907,7 +910,7 @@ input[type='submit'][disabled] {
 
 @screen sm {
   .profile-img {
-    top: 1px;
+    /* top: 1px; */
     transform: scale(1.1);
     transform-origin: center;
   }

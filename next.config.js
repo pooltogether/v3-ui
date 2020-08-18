@@ -19,6 +19,15 @@ const allConfig =
   withImages(
     {
       ...nextConfig,
+      async redirects() {
+        return [
+          {
+            source: '/prizes',
+            destination: '/prizes/PT-cDAI',
+            permanent: true,
+          }
+        ]
+      },
       publicRuntimeConfig: {
         locizeProjectId: process.env.NEXT_JS_LOCIZE_PROJECT_ID,
         locizeApiKey: process.env.NEXT_JS_LOCIZE_DEV_API_KEY,

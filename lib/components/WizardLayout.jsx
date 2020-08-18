@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
@@ -35,6 +35,21 @@ export const WizardLayout = (props) => {
       }
     )
   }
+
+  // could easily refactor into a custom hook
+  useEffect(() => {
+    const escToClose = (e) => {
+      if (e.keyCode === 27) {
+        handleClose()
+      }
+    }
+
+    document.addEventListener('keydown', escToClose)
+
+    return () => {
+      document.removeEventListener('keydown', escToClose)
+    }
+  }, [])
 
   const disabled = currentWizardStep <= 1 || currentWizardStep >= totalWizardSteps
 

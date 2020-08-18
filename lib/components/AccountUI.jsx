@@ -9,6 +9,8 @@ import { Button } from 'lib/components/Button'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Tab, Tabs, Content, ContentPane } from 'lib/components/Tabs'
 
+import TicketIcon from 'assets/images/tickets-icon.svg'
+
 export const AccountUI = (props) => {
   const router = useRouter()
 
@@ -49,6 +51,7 @@ export const AccountUI = (props) => {
           >
             Your account
           </div>
+
           <div>
             <Tab
               isSelected={visible === HOLDINGS}
@@ -76,6 +79,11 @@ export const AccountUI = (props) => {
                   <div
                     className='mb-4'
                   >
+                    <img
+                      src={TicketIcon}
+                      className='mx-auto'
+                    />
+
                     You currently have no tickets.<br /> Deposit in a pool now to get tickets!
                   </div>
                   <Button
@@ -88,6 +96,11 @@ export const AccountUI = (props) => {
               </> : <>
                 <AnimateSharedLayout>
                   <AnimatePresence>
+                    <img
+                      src={TicketIcon}
+                      className='mx-auto'
+                    />
+
                     <motion.ul>
                       {dynamicPlayerData.map(playerData => {
                         const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)

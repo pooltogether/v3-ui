@@ -120,7 +120,7 @@ export const AccountButton = (props) => {
 
     <button
       onClick={openTransactions}
-      className='text-green hover:text-inverse text-xxs sm:text-sm trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20'
+      className='text-highlight-2 font-bold hover:text-inverse text-xxs sm:text-sm trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20'
     >
       <div
         className={classnames(

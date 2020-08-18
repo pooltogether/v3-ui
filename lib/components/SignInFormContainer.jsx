@@ -18,6 +18,21 @@ export const SignInFormContainer = (props) => {
     console.log('handleLoadOnboard on sign in show')
     handleLoadOnboard()
   }, [])
+  
+  // could easily refactor into a custom hook
+  useEffect(() => {
+    const escToClose = (e) => {
+      if (e.keyCode === 27) {
+        handleCloseSignIn()
+      }
+    }
+
+    document.addEventListener('keydown', escToClose)
+
+    return () => {
+      document.removeEventListener('keydown', escToClose)
+    }
+  }, [])
 
   const handleCloseSignIn = () => {
     queryParamUpdater.remove(router, 'signIn')
