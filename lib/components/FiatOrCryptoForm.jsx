@@ -38,7 +38,7 @@ export const FiatOrCryptoForm = (props) => {
 
     <div className='flex flex-col mx-auto w-full'>
       <Button
-        size='lg'
+        textSize='2xl'
         onClick={handleFiatClick}
         color='green'
         className='my-2 w-full mx-auto'
@@ -47,7 +47,7 @@ export const FiatOrCryptoForm = (props) => {
       </Button>
 
       <Button
-        size='lg'
+        textSize='2xl'
         onClick={handleCryptoClick}
         color='white'
         className='my-2 w-full mx-auto'

@@ -36,7 +36,7 @@ export const PoolPrizesShow = (
         return <ButtonLink
           key={`prize-pool-button-${_pool.id}`}
 
-          border='highlight-1'
+          border='highlight-1 border-2'
           text='highlight-1'
           bg='primary'
           hoverBorder='highlight-2'

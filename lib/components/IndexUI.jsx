@@ -36,6 +36,12 @@ export const IndexUI = (
       </h1>
     </>}
 
+    <h6
+      className='text-accent-2 mb-8'
+    >
+      Pools
+    </h6>
+
     {loading ?
       <IndexUILoader /> :
       <PoolList

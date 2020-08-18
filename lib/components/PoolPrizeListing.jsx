@@ -49,7 +49,7 @@ export const PoolPrizeListing = (
       </>}
 
       {error && <>
-        There was an issue loading data from The Graph:
+        There was an issue loading data:
         {error}
       </>}
 

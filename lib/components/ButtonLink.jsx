@@ -11,6 +11,7 @@ export const getButtonClasses = (props) => {
     hoverBg,
     hoverBorder,
     hoverText,
+    noAnim,
     padding,
     rounded,
     selected,
@@ -21,8 +22,7 @@ export const getButtonClasses = (props) => {
   } = props
 
   let defaultClasses = 'font-bold relative inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
-  // border-2
-  let animClass = 'button-scale'
+  let animClass = noAnim ? '' : 'button-scale'
   
   if (selected) {
     defaultClasses += ` opacity-50`
@@ -40,7 +40,7 @@ export const getButtonClasses = (props) => {
   transition = transition ? `${transition}` : 'trans trans-fast'
   width = width ? `${width}` : ''
 
-  // border = border ? `border-${border}` : `border-highlight-1`
+  border = border ? `border-${border}` : `border-highlight-1`
   bg = bg ? `bg-${bg}` : 'bg-highlight-1'
   text = text ? `text-${text}` : 'text-secondary'
 
@@ -55,7 +55,7 @@ export const getButtonClasses = (props) => {
     defaultClasses,
     animClass,
     bg,
-    // border,
+    border,
     padding,
     rounded,
     text,

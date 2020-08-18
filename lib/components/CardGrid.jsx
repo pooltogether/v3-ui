@@ -8,7 +8,7 @@ export const Card = (props) => {
     className='w-full sm:w-1/2 lg:w-1/3 px-4'
   >
     <div
-      className='mt-2 sm:mt-10 py-4 sm:py-6 px-10 bg-card shadow-md rounded-lg'
+      className='mt-2 sm:mt-10 py-4 sm:py-6 px-10 bg-card shadow-md rounded-lg card-min-height-desktop'
     >
       <div
         className='text-caption uppercase'

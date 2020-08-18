@@ -1081,3 +1081,9 @@ input[type='submit'][disabled] {
 .button-scale:active {
   transform: scale(1.04) translateY(-3px);
 }
+
+@screen sm {
+  .card-min-height-desktop {
+    min-height: 146px
+  }
+}

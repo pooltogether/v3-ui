@@ -1,5 +1,4 @@
 import React from 'react'
-import classnames from 'classnames'
 import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion'
 
 import { PoolRow } from 'lib/components/PoolRow'
@@ -7,31 +6,16 @@ import { PoolRow } from 'lib/components/PoolRow'
 export const PoolList = (
   props,
 ) => {
-  const { omit, pools, selectedId } = props
-
-  if (omit) {
-    return null
-  }
+  const { pools, selectedId } = props
 
   return <>
     <AnimateSharedLayout>
       <AnimatePresence>
-        <h6
-          className={classnames(
-            'text-accent-2 mb-8',
-            {
-              'mt-20': omit
-            }
-          )}
-        >
-          {omit ? 'Other Pools' : 'Pools'}
-        </h6>
-        
         <motion.ul
           key='pool-list'
           className='flex flex-col text-xs sm:text-lg lg:text-xl'
         >
-          {pools.filter(_pool => omit !== _pool).map(pool => {
+          {pools.map(pool => {
             if (!pool || !pool.poolAddress) {
               return null
             }

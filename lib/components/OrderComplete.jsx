@@ -30,7 +30,7 @@ export const OrderComplete = (props) => {
 
     <div>
       <ButtonLink
-        size='lg'
+        textSize='lg'
         className='w-64'
         href='/account'
         as='/account'

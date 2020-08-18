@@ -10,6 +10,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
+import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
@@ -71,6 +72,7 @@ export const PoolShow = (
   //   )
   // }
 
+  const player = 'a'
   return <>
     <motion.div
       // layoutId={`pool-container-${poolId}`}
@@ -241,6 +243,40 @@ export const PoolShow = (
                   <h6>
                     Each week, one randomly chosen winner wins that week's prize
                   </h6>
+                </>
+              },
+              {
+                icon: null,
+                // icon: TotalAwardedIcon,
+                title: 'Total awarded',
+                content: <>
+                  <h3>
+                    ${displayAmountInEther(pool.totalSupply, {
+                      precision: 0,
+                      decimals: pool.underlyingCollateralDecimals
+                    })} {pool.underlyingCollateralSymbol}
+                  </h3>
+                  
+                  <br /> <Link
+                    href='/prizes/[symbol]'
+                    as={`/prizes/${pool?.symbol}`}
+                  >
+                    <a
+                      className='-mt-4 block'
+                    >
+                      View previous winners
+                    </a>
+                  </Link>
+                </>
+              },
+              {
+                icon: null,
+                // icon: TotalAwardedIcon,
+                title: 'Past 5 winners',
+                content: <>
+                  <LastWinnersListing
+                    pool={pool}
+                  />
                 </>
               },
               

@@ -195,7 +195,7 @@ export const DepositCryptoForm = (props) => {
           >
             <Button
               wide
-              size='lg'
+              textSize='2xl'
               onClick={handleUnlockClick}
               disabled={unlockTxInFlight}
               className='w-49-percent'
@@ -241,8 +241,8 @@ export const DepositCryptoForm = (props) => {
           >
             {needsApproval && <>
               <Button
-                wide
-                size='lg'
+                noAnim
+                textSize='2xl'
                 onClick={handleUnlockClick}
                 disabled={unlockTxInFlight}
                 className='w-49-percent'

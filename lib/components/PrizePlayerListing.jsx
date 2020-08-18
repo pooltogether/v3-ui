@@ -83,7 +83,7 @@ export const PrizePlayerListing = (
       className='flex flex-col items-center text-center mt-8'
     >
       {error && <>
-        There was an issue loading data from The Graph:
+        There was an issue loading data:
         {error.message}
       </>}
 

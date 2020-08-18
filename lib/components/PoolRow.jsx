@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 import FeatherIcon from 'feather-icons-react'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -17,6 +17,8 @@ export const PoolRow = (
     selected,
   } = props
 
+  const router = useRouter()
+
   if (!pool || !pool.symbol) {
     return null
   }
@@ -26,11 +28,16 @@ export const PoolRow = (
 
   return <>
     <AnimatePresence>
-      <Link
-        href='/pools/[symbol]'
-        as={`/pools/${symbol}`}
-      >
-        <motion.a
+        <motion.div
+          onClick={(e) => {
+            e.preventDefault()
+
+            router.push(
+              '/pools/[symbol]',
+              `/pools/${symbol}`,
+              { shallow: true }
+            )
+          }}
           animate
           className={classnames(
             'bg-card hover:bg-card-selected border-card w-full px-4 mb-3 py-5 inline-block trans rounded-lg border-0 text-inverse hover:text-inverse',
@@ -120,19 +127,20 @@ export const PoolRow = (
               }}
             >
               <ButtonLink
-                border='highlight-1'
+                border='highlight-1 border-2'
                 text='highlight-1'
                 bg='primary'
                 hoverBorder='highlight-2'
                 hoverText='highlight-2'
                 hoverBg='primary'
+                padding='pl-2 pr-0 py-2 sm:py-2'
+                width='w-10 h-10 lg:w-12 lg:h-12'
+                className='inline-flex items-center justify-center'
+
                 rounded='full'
                 href='/pools/[symbol]'
                 as={`/pools/${pool.symbol}`}
-                style={{
-                  top: 2,
-                  width: 44
-                }}
+                
               >
                 <FeatherIcon
                   strokeWidth='2'
@@ -145,8 +153,7 @@ export const PoolRow = (
               </ButtonLink>
             </div>
           </div>
-        </motion.a>
-      </Link>
+        </motion.div>
     </AnimatePresence>
   </>
 }

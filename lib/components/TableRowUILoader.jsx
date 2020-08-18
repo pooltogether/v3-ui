@@ -3,7 +3,7 @@ import ContentLoader from 'react-content-loader'
 
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
-export const IndexUILoader = (
+export const TableRowUILoader = (
   props,
 ) => {
   if (!window) {
@@ -21,13 +21,15 @@ export const IndexUILoader = (
       gradientRatio={2.5}
       interval={0.05}
       speed={0.6}
-      viewBox="0 0 600 600"
+      viewBox="0 0 600 200"
       backgroundColor={bgColor}
       foregroundColor={foreColor}
     >
-      <rect x="0" y="0"   rx="5" ry="5" width="600" height="80" />
-      <rect x="0" y="90"  rx="5" ry="5" width="600" height="80" />
-      <rect x="0" y="180" rx="5" ry="5" width="600" height="80" />
+      <rect x="0" y="0"   rx="5" ry="5" width="600" height="25" />
+      <rect x="0" y="35"  rx="5" ry="5" width="600" height="25" />
+      <rect x="0" y="70"  rx="5" ry="5" width="600" height="25" />
+      <rect x="0" y="105" rx="5" ry="5" width="600" height="25" />
+      <rect x="0" y="140" rx="5" ry="5" width="600" height="25" />
     </ContentLoader>
   </> 
 }
