@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     Fathom.load('ESRNTJKP', {
-      includedDomains: ['https://staging-v3.pooltogether.com']
+      includedDomains: ['staging-v3.pooltogether.com']
     })
 
     function onRouteChangeComplete() {
