@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import * as Fathom from 'fathom-client'
 import i18next from "../i18n"
+import { useRouter } from 'next/router'
 import { ToastContainer } from 'react-toastify'
 
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
@@ -21,8 +23,25 @@ import 'assets/styles/pool-toast.css'
 import 'assets/styles/animations.css'
 import 'assets/styles/transitions.css'
 
-function MyApp({ Component, pageProps, router }) {
+function MyApp({ Component, pageProps }) {
+  const router = useRouter()
   // const [initialized, setInitialized] = useState(false)
+
+  useEffect(() => {
+    Fathom.load('ESRNTJKP', {
+      includedDomains: ['https://staging-v3.pooltogether.com']
+    })
+
+    function onRouteChangeComplete() {
+      Fathom.trackPageview()
+    }
+
+    router.events.on('routeChangeComplete', onRouteChangeComplete)
+
+    return () => {
+      router.events.off('routeChangeComplete', onRouteChangeComplete)
+    }
+  }, [])
 
   useEffect(() => {
     const handleExitComplete = () => {

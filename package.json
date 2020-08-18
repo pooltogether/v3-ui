@@ -69,6 +69,7 @@
     "email-validator": "^2.0.4",
     "eth-revert-reason": "^1.0.3",
     "ethers": "^4.0.47",
+    "fathom-client": "^3.0.0",
     "feather-icons-react": "^0.4.1",
     "framer-motion": "^2.4.1",
     "graphql": "^15.3.0",
