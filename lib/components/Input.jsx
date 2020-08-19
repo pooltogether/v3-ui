@@ -20,7 +20,7 @@ export function Input(props) {
     validate,
   } = props
 
-  const defaultClasses = 'text-white bg-purple trans rounded-lg focus:outline-none focus:outline-none leading-none px-6 py-2 lg:py-2'
+  const defaultClasses = 'text-white bg-purple trans rounded-full focus:outline-none focus:outline-none leading-none px-6 py-2 lg:py-2'
   // const defaultClasses = 'text-white border-2 border-primary bg-purple trans rounded-lg focus:outline-none focus:outline-none leading-none px-6 py-2 lg:py-2'
 
   if (roundedClasses === undefined) {

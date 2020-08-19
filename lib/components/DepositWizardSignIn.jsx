@@ -16,7 +16,7 @@ export const DepositWizardSignIn = (props) => {
     </PaneTitle>
 
     <PaneTitle>
-      Connect an Ethereum wallet to continue
+      Connect a wallet to continue:
     </PaneTitle>
     {/* <PaneTitle>
       Enter your email address to continue.

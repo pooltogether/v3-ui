@@ -21,11 +21,11 @@ export const SignInForm = (props) => {
 
   return <>
     <div
-      className='text-inverse -mt-10'
+      className='text-inverse'
     >
       <img
         src={PoolTogetherTrophyDetailed}
-        className='mx-auto mb-6 w-2/12 xs:w-1/12'
+        className='mx-auto mb-6 w-16 xs:w-1/12'
       />
       <h4 className='mb-10 xs:w-2/3 sm:w-1/2 lg:w-7/12 mx-auto'>
         Connect an Ethereum wallet to manage your PoolTogether tickets &amp; rewards:
