@@ -75,7 +75,6 @@ export const PlayerPageUI = (props) => {
               You currently have no tickets.<br /> Deposit in a pool now to get tickets!
             </div>
             <ButtonLink
-              outline
               href='/'
               as='/'
             >

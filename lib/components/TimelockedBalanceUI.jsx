@@ -104,8 +104,6 @@ export const TimelockedBalanceUI = (props) => {
           Ready to withdraw{timelockSweepReady ? <>
             ! <div className='mt-2'>
                 <Button
-                  outline
-                  blue
                   onClick={handleSweepTimelocked}
                   disabled={tx?.sent && !tx?.completed}
                 >

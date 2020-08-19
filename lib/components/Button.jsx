@@ -1,4 +1,5 @@
 import React from 'react'
+import { omit } from 'lodash'
 
 import { getButtonClasses } from 'lib/components/ButtonLink'
 
@@ -77,28 +78,17 @@ export const Button = (props) => {
   //   }
   // }
 
-  // let newProps = omit(props, [
-  //   'inversed',
-  //   'backgroundColorClasses',
-  //   'borderClasses',
-  //   'noAnim',
-  //   'isBold',
-  //   'isLowOpacity',
-  //   'isText',
-  //   'paddingClasses',
-  //   'roundedClasses',
-  //   'size',
-  //   'textColorClasses',
-  //   'textSizeClasses',
-  //   'transitionClasses',
-  //   'wide',
-  //   'blue',
-  // ])
+  
 
   const classes = getButtonClasses(props)
 
+  let newProps = omit(props, [
+    'outline',
+    'textSize',
+  ])
+
   return <button
-    {...props}
+    {...newProps}
     className={classes}
   />
 

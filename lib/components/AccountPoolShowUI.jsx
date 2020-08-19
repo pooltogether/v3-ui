@@ -72,7 +72,6 @@ export const AccountPoolShowUI = (props) => {
             </div>
             
             <ButtonLink
-              outline
               href='/'
               as='/'
             >
@@ -151,8 +150,6 @@ export const AccountPoolShowUI = (props) => {
                 </PTHint>
               </> : <>
                 <ButtonLink
-                  wide
-                  outline
                   onClick={handleShowWithdraw}
                   href='/account/pools/[symbol]/withdraw'
                   as={`/account/pools/${symbol}/withdraw`}
@@ -163,8 +160,6 @@ export const AccountPoolShowUI = (props) => {
             </div>
             
             <ButtonLink
-              wide
-              outline
               href='/pools/[symbol]/deposit'
               as={`/pools/${symbol}/deposit`}
             >

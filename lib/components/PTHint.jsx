@@ -33,7 +33,7 @@ export const PTHint = (props) => {
 
   if (title) {
     tip = <>
-      <h5 className='bg-inverse text-accent-1'>
+      <h5 className='text-highlight-1'>
         {title}
       </h5>
 

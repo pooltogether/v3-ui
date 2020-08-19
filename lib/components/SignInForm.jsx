@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
-import { useForm } from 'react-hook-form'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
-import { TextInputGroup } from 'lib/components/TextInputGroup'
+import { PTHint } from 'lib/components/PTHint'
+
+import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
 
 export const SignInForm = (props) => {
   // const { handleSubmit, register, errors, formState } = useForm({ mode: 'onBlur' })
@@ -19,10 +20,19 @@ export const SignInForm = (props) => {
   // }
 
   return <>
-    <div>
-      write about wallets here:
+    <div
+      className='text-inverse -mt-10'
+    >
+      <img
+        src={PoolTogetherTrophyDetailed}
+        className='mx-auto mb-6 w-2/12 xs:w-1/12'
+      />
+      <h4 className='mb-10 xs:w-2/3 sm:w-1/2 lg:w-7/12 mx-auto'>
+        Connect an Ethereum wallet to manage your PoolTogether tickets &amp; rewards:
+      </h4>
+
       <Button
-        outline
+        textSize='xl'
         onClick={(e) => {
           e.preventDefault()
           authControllerContext.connectWallet(postSignInCallback)
@@ -30,6 +40,29 @@ export const SignInForm = (props) => {
       >
         Connect Wallet
       </Button>
+
+
+      <PTHint
+        title='Ethereum'
+        className='mt-4 block mx-auto'
+
+        tip={<>
+          <div className='my-2 text-xs sm:text-sm'>
+            Ethereum is a global, open-source platform for decentralized applications.
+          </div>
+          <div
+            className='text-xs sm:text-sm'
+          >
+            On Ethereum, you can write code that controls digital value, runs exactly as programmed, and is accessible anywhere in the world.
+          </div>
+        </>}
+      >
+        <span
+          className='font-bold text-caption'
+        >
+          What's an Ethereum?
+        </span>
+      </PTHint>
     </div>
 
     {/* <div

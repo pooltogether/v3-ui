@@ -57,8 +57,6 @@ export const CompleteAwardUI = (props) => {
   return <>
     {canCompleteAward && <>
       <Button
-        wide
-        outline
         textSize='2xl'
         onClick={handleCompleteAwardClick}
         disabled={disabled}
