@@ -40,7 +40,7 @@ export const PoolRow = (
           }}
           animate
           className={classnames(
-            'bg-card hover:bg-card-selected border-card w-full px-4 mb-3 py-5 inline-block trans rounded-lg border-0 text-inverse hover:text-inverse',
+            'interactable-card bg-card hover:bg-card-selected border-card w-full px-4 mb-3 py-5 inline-block trans rounded-lg border-0 text-inverse hover:text-inverse',
             {
               'border border-card shadow-md hover:shadow-xl cursor-pointer': !selected,
               'border border-card border-dashed': selected,
@@ -99,18 +99,12 @@ export const PoolRow = (
           </div>
 
           <div
-            className='mt-5 flex items-end justify-between'
+            className='mt-5 flex items-center justify-between'
           >
             <div
-              className='w-7/12 sm:w-4/12 lg:w-6/12 pr-2'
+              className='w-full xs:w-7/12 sm:w-4/12 lg:w-6/12 pr-2'
             >
               <ButtonLink
-                border='highlight-1'
-                text='secondary'
-                bg='highlight-1'
-                hoverBorder='highlight-2'
-                hoverText='green'
-                hoverBg='purple'
                 width='w-full'
                 textSize='lg'
                 href='/pools/[symbol]/deposit'
@@ -127,12 +121,13 @@ export const PoolRow = (
               }}
             >
               <ButtonLink
-                border='highlight-1 border-2'
-                text='highlight-1'
+                border='accent-2 border-2'
+                text='accent-2'
                 bg='primary'
                 hoverBorder='highlight-2'
                 hoverText='highlight-2'
                 hoverBg='primary'
+
                 padding='pl-2 pr-0 py-2 sm:py-2'
                 width='w-10 h-10 lg:w-12 lg:h-12'
                 className='inline-flex items-center justify-center'

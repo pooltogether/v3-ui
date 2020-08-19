@@ -72,7 +72,7 @@ html {
 }
 
 body {
-  @apply font-sans-regular tracking-wider;
+  @apply font-sans-regular tracking-wide;
 }
 
 hr {
@@ -140,7 +140,7 @@ h2 {
 }
 
 h3 {
-  @apply text-xl;
+  @apply text-2xl;
 }
 
 @screen sm {
@@ -612,7 +612,7 @@ input[type='submit'][disabled] {
 }
 
 .pool-logo {
-  height: 40px;
+  height: 43px;
   position: relative;
   z-index: 1;
   width: 150px;
@@ -636,8 +636,8 @@ input[type='submit'][disabled] {
   left: 0;
   right: 0;
   top: 0;
-  height: 39px;
-  width: 23px;
+  height: 43px;
+  width: 63px;
   z-index: 2;
 }
 
@@ -833,6 +833,15 @@ input[type='submit'][disabled] {
   line-height: 1.2;
   margin-bottom: 4rem;
   margin-top: 0;
+}
+
+@screen xs {
+  .banner-text {
+    margin-top: 1rem;
+    margin-bottom: 4rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
 
 @screen sm {
@@ -1036,4 +1045,30 @@ input[type='submit'][disabled] {
   .card-min-height-desktop {
     min-height: 146px
   }
+}
+
+.interactable-card {
+  border: 1px dashed transparent;
+}
+
+.theme-dark .interactable-card:hover,
+.theme-dark .interactable-card:focus,
+.theme-dark .interactable-card:active,
+.theme-light .interactable-card:hover,
+.theme-light .interactable-card:focus,
+.theme-light .interactable-card:active {
+  border: 1px dashed var(--color-border-highlight-1);
+}
+
+.theme-light .interactable-card {
+  border: 1px solid var(--color-border-accent-1);
+}
+
+.theme-light .non-interactable-card {
+  box-shadow: none;
+  border: 1px solid var(--color-border-accent-1);
+}
+
+.theme-dark .non-interactable-card {
+  @apply shadow-md;
 }

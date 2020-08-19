@@ -17,6 +17,7 @@
   --color-bg-highlight-1: #35F0D0;
   --color-bg-highlight-2: #35F0D0;
   --color-bg-highlight-3: #401C94;
+  --color-bg-highlight-4: #5af5db;
   --color-bg-red: #e61b1b;
   --color-bg-green: #3EF3D4;
   --color-bg-yellow: #FF9303;
@@ -74,6 +75,7 @@
   --color-bg-highlight-1: #4c249f;
   --color-bg-highlight-2: #7F51D1;
   --color-bg-highlight-3: #4c249f;
+  --color-bg-highlight-4: #5c29c2;
   --color-bg-red: #e61b1b;
   --color-bg-green: #1ef7d6;
   --color-bg-yellow: #FF9303;
@@ -99,7 +101,6 @@
   --color-text-yellow: #eba308;
   --color-text-blue: #3857ee;
   --color-text-teal: #049c9c;
-  --color-text-accent-grey-1: rgba(53, 240, 208, 0.2);
   --color-text-purple: #401C94;
 
   --color-border-accent-1: #BBB2CE;
@@ -118,12 +119,20 @@
 }
 
 .theme-dark .pool-logo:after {
+  background-image: url('/pooltogether-white-trophy-and-mark.svg');
+}
+
+.theme-light .pool-logo:after {
+  background-image: url('/pooltogether-purple-trophy-and-mark.svg');
+}
+/* 
+.theme-dark .pool-logo:after {
   background-image: url('/pooltogether-white-mark.svg');
 }
 
 .theme-light .pool-logo:after {
   background-image: url('/pooltogether-purple-mark.svg');
-}
+} */
 
 @screen sm {
   .theme-dark .pool-logo:after {

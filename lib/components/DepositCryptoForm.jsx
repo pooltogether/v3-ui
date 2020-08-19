@@ -194,7 +194,6 @@ export const DepositCryptoForm = (props) => {
             className='mt-2 text-default-soft'
           >
             <Button
-              wide
               textSize='2xl'
               onClick={handleUnlockClick}
               disabled={unlockTxInFlight}

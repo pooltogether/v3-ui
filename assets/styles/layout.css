@@ -24,9 +24,15 @@ body {
 }
 
 .pool-container {
-  padding-top: 2rem;
+  padding-top: 1rem;
   padding-bottom: 12rem;
   width: 100%;
+}
+
+@screen sm {
+  .pool-container {
+    padding-top: 2rem;
+  }
 }
 
 .pool-container .pool-container,
@@ -36,7 +42,7 @@ body {
 }
 
 .nav--pool-logo-container {
-  width: 34px;
+  width: 63px;
 }
 
 .nav--account-controls-container {

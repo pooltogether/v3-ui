@@ -44,10 +44,10 @@ export const getButtonClasses = (props) => {
   bg = bg ? `bg-${bg}` : 'bg-highlight-1'
   text = text ? `text-${text}` : 'text-secondary'
 
-  hoverBg = hoverBg ? `hover:bg-${hoverBg}` : `hover:bg-purple`
+  hoverBg = hoverBg ? `hover:bg-${hoverBg}` : `hover:bg-highlight-4`
   // hoverBg = hoverBg ? `hover:bg-${hoverBg}` : `hover:bg-primary`
   hoverBorder = hoverBorder ? `hover:border-${hoverBorder}` : `hover:border-highlight-2`
-  hoverText = hoverText ? `hover:text-${hoverText}` : 'hover:text-green'
+  hoverText = hoverText ? `hover:text-${hoverText}` : 'hover:text-secondary'
 
   
   return classnames(
@@ -71,17 +71,17 @@ export const getButtonClasses = (props) => {
 const getTextSize = (size) => {
   switch (size) {
     case 'xs':
-      return `text-xs sm:text-sm lg:text-base`
+      return `text-xxs xs:text-xs sm:text-sm lg:text-base`
     case 'sm':
-      return `text-sm sm:text-base lg:text-lg`
+      return `text-xs xs:text-sm sm:text-base lg:text-lg`
     case 'lg':
-      return `text-lg sm:text-xl lg:text-2xl`
+      return `text-base xs:text-lg sm:text-xl lg:text-2xl`
     case 'xl':
-      return `text-xl sm:text-2xl lg:text-3xl`
+      return `text-lg xs:text-xl sm:text-2xl lg:text-3xl`
     case '2xl':
-      return `text-2xl sm:text-3xl lg:text-4xl`
+      return `text-xl xs:text-2xl sm:text-3xl lg:text-4xl`
     default:
-      return `text-xs sm:text-sm lg:text-base`
+      return `text-xxs xs:text-xs sm:text-sm lg:text-base`
   }
 }
 
@@ -102,6 +102,7 @@ export const ButtonLink = (props) => {
     <a
       // {...linkProps}
       className={classes}
+      onClick={(e) => e.stopPropagation()}
     >
       {children}
     </a>

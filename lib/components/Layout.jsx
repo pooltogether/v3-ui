@@ -118,15 +118,28 @@ export const Layout = (props) => {
             <HeaderLogo />
 
             <div
-              className='flex flex-col xs:flex-row items-end xs:items-center justify-end sm:justify-center relative'
+              className={classnames(
+                'flex flex-col xs:flex-row relative',
+                {
+                  'items-end xs:items-center justify-end sm:justify-center': usersAddress,
+                  'items-center': !usersAddress
+                }
+              )}
             >
+              {usersAddress && <>
+                <div
+                  className='flex justify-center mb-1 xs:mb-0'
+                >
+                  <NavAccount />
+                </div>
+              </>}
               <div
-                className='flex justify-center mb-1 xs:mb-0'
-              >
-                <NavAccount />
-              </div>
-              <div
-                className='flex justify-center mt-1 xs:mt-0'
+                className={classnames(
+                  'flex justify-center',
+                  {
+                    'mt-1 xs:mt-0': usersAddress
+                  }
+                )}
               >
                 <Settings />
               </div>
@@ -171,11 +184,17 @@ export const Layout = (props) => {
                 }}
               >
                 <div
-                  className='my-0 text-inverse pt-2 lg:pt-4'
+                  className='my-0 text-inverse sm:pt-2 lg:pt-4'
                 >
                   {React.cloneElement(children, {
                     ...props,
                   })}
+
+                  <div
+                    className='text-accent-1 text-center text-base sm:text-lg lg:text-xl mt-20 opacity-40'
+                  >
+                    The more you pool, the more you save, the more you win.
+                  </div>
                 </div>
               </div>
 

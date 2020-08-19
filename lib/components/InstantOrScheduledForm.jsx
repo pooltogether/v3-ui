@@ -172,7 +172,6 @@ export const InstantOrScheduledForm = (props) => {
 
     <div className='mt-8'>
       <Button
-        wide
         textSize='2xl'
         onClick={updateParamsAndNextStep}
       >

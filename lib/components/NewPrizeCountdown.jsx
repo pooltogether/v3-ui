@@ -37,16 +37,16 @@ export const NewPrizeCountdown = (
   let msg
   if (pool.isRngRequested) {
     return <>
-      <h5
+      <p
         className={classnames(
-          'text-right',
+          'font-bold text-right text-xs xs:text-sm sm:text-xl lg:text-2xl',
           {
             'text-flashy': flashy
           }
         )}
       >
         Prize is being awarded...!
-      </h5>
+      </p>
     </>
   }
 
