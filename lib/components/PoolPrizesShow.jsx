@@ -60,7 +60,7 @@ export const PoolPrizesShow = (
     <div
       className='bg-highlight-3 mt-4 mb-10 text-sm py-6 flex flex-col sm:flex-row items-center justify-center rounded-lg'
     >
-      <div className='flex items-center justify-center sm:justify-end text-highlight-2 mb-4 sm:mb-0 w-1/3'>
+      <div className='flex items-center justify-center sm:justify-end text-match mb-4 sm:mb-0 w-1/3'>
         <div className='flex flex-col items-center justify-center'>
           <div
             className='sm:h-12 sm:pt-1'
@@ -75,9 +75,9 @@ export const PoolPrizesShow = (
         </div>
       </div>
 
-      <div className='text-2xl text-center text-highlight-2 mb-6 sm:mb-0 sm:w-1/3 lg:w-1/5'>
+      <div className='text-2xl text-center text-match mb-6 sm:mb-0 sm:w-1/3 lg:w-1/5'>
         <div
-          className='sm:h-12 font-bold'
+          className='sm:h-12 font-bold pt-2'
         >
           $17,242
         </div>
@@ -88,6 +88,7 @@ export const PoolPrizesShow = (
 
       <div className='text-center sm:text-left w-3/4 sm:w-1/3'>
         <ButtonLink
+          bg='highlight-4'
           textSize='lg'
           href='/pools/[symbol]/deposit'
           as={`/pools/${pool?.symbol}/deposit`}
