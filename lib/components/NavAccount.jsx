@@ -40,6 +40,7 @@ export const NavAccount = (props) => {
   }
 
   return <>
+    EN
     {usersAddress ? <>
       <NetworkText
         openTransactions={openTransactions}

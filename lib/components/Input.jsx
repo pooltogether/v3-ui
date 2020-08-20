@@ -61,6 +61,7 @@ export function Input(props) {
     'validate',
     'unsignedNumber',
     'unsignedWholeNumber',
+    'rightLabel',
   ])
 
   return <>

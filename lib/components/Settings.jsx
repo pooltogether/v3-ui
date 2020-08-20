@@ -63,6 +63,9 @@ export const Settings = (props) => {
           'pointer-events-none': !isOpen
         }
       )}
+      style={{
+        top: 108
+      }}
       animate={isOpen ? 'enter' : 'exit'}
       initial='initial'
       variants={{
@@ -85,7 +88,7 @@ export const Settings = (props) => {
     />
 
     <motion.div
-      className='bg-highlight-3 h-full fixed t-0 b-0 z-40 px-8 pr-16 py-8 shadow-md rounded'
+      className='bg-highlight-3 h-full fixed t-0 b-0 z-40 px-8 pr-16 py-8 shadow-md'
       style={{
         height: '100vh',
         right: -30,
