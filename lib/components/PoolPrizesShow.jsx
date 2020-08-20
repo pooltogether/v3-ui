@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useRouter} from 'next/router'
 
+import { useTranslation } from 'lib/../i18n'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonLink } from 'lib/components/ButtonLink'
@@ -12,6 +13,7 @@ import { PrizesPageHeader } from 'lib/components/PrizesPageHeader'
 export const PoolPrizesShow = (
   props,
 ) => {
+  const [t] = useTranslation()
   const router = useRouter()
 
   const poolData = useContext(PoolDataContext)
@@ -93,7 +95,7 @@ export const PoolPrizesShow = (
           href='/pools/[symbol]/deposit'
           as={`/pools/${pool?.symbol}/deposit`}
         >
-          Get tickets
+          {t('getTickets')}
         </ButtonLink>
       </div>
     </div>

@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ExecuteCryptoDeposit } from 'lib/components/ExecuteCryptoDeposit'
 import { ConfirmFiatDeposit } from 'lib/components/ConfirmFiatDeposit'
@@ -15,6 +16,7 @@ import { WizardLayout } from 'lib/components/WizardLayout'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const DepositWizardContainer = (props) => {
+  const [t] = useTranslation()
   const router = useRouter()
   const method = router.query.method
   const quantity = router.query.quantity
@@ -58,7 +60,7 @@ export const DepositWizardContainer = (props) => {
               {(step) => {
                 return step.isActive && <>
                   <TicketQuantityForm
-                    formName='Get tickets'
+                    formName={t('getTickets')}
                     nextStep={step.nextStep}
                   />
                 </>

@@ -2,19 +2,16 @@ import React, { useContext } from 'react'
 import Cookies from 'js-cookie'
 import Link from 'next/link'
 import { ethers } from 'ethers'
-import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
+import { useTranslation } from 'lib/../i18n'
 import { SHOW_MANAGE_LINKS } from 'lib/constants'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-// import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 import CompoundFinanceIcon from 'assets/images/icon-compoundfinance.svg'
 import PrizeStrategyIcon from 'assets/images/icon-prizestrategy@2x.png'
@@ -29,9 +26,6 @@ export const PoolShow = (
 
   const symbol = pool?.symbol
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress } = authControllerContext
-  
   let error
 
   try {
@@ -164,7 +158,7 @@ export const PoolShow = (
                 href='/pools/[symbol]/deposit'
                 as={`/pools/${symbol}/deposit`}
               >
-                Get tickets
+                {t('getTickets')}
               </ButtonLink>
             </div>
           </div>

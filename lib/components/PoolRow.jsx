@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import FeatherIcon from 'feather-icons-react'
 import { AnimatePresence, motion } from 'framer-motion'
 
+import { useTranslation } from 'lib/../i18n'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
@@ -11,12 +12,13 @@ import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const PoolRow = (
   props,
-) => {
+) => {  
   const {
     pool,
     selected,
   } = props
-
+  
+  const [t] = useTranslation()
   const router = useRouter()
 
   if (!pool || !pool.symbol) {
@@ -110,7 +112,7 @@ export const PoolRow = (
                 href='/pools/[symbol]/deposit'
                 as={`/pools/${pool.symbol}/deposit`}
               >
-                Get tickets
+                {t('getTickets')}
               </ButtonLink>
             </div>
 

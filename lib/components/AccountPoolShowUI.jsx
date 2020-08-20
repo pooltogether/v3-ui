@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { ethers } from 'ethers'
-import { useRouter } from 'next/router'
 
+import { useTranslation } from 'lib/../i18n'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
@@ -15,7 +15,7 @@ import { PTHint } from 'lib/components/PTHint'
 import { TimelockedBalanceUI } from 'lib/components/TimelockedBalanceUI'
 
 export const AccountPoolShowUI = (props) => {
-  const router = useRouter()
+  const [t] = useTranslation()
 
   const poolData = useContext(PoolDataContext)
   const { pool, dynamicPlayerData } = poolData
@@ -163,7 +163,7 @@ export const AccountPoolShowUI = (props) => {
               href='/pools/[symbol]/deposit'
               as={`/pools/${symbol}/deposit`}
             >
-              Get tickets
+              {t('getTickets')}
             </ButtonLink>
           </div>
         </>

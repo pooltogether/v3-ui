@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Locize from 'i18next-locize-backend'
-import { i18n, useTranslation } from 'lib/../i18n'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -11,9 +9,21 @@ import {
   MenuItem,
 } from '@reach/menu-button'
 
-export const LanguagePicker = (props) => {
-  const [t] = useTranslation()
+import { i18n, useTranslation } from 'lib/../i18n'
 
+{/* de: Deutsch (German)
+  en: English
+  es: Español (Spanish)
+  fr: Français (French)
+  hr: Hrvatski (Croatian)
+  it: Italiana (Italian)
+  ja: 日本 (Japanese)
+                    ko: 한국어 (Korean)
+                    tr: Türk (Turkish)
+                    zh: 普通话 (Mandarin)
+                      */}
+
+export const LanguagePicker = (props) => {
   const [langs, setLangs] = useState({
     en: {
       'name': 'English',
@@ -42,13 +52,21 @@ export const LanguagePicker = (props) => {
         if (err) {
           console.error(`There was an error getting the languages from locize: `, err)
         }
+        console.log(result)
         setLangs(result)
       })
     }
     runGetLangs()
   }, [])
 
-  const menuItems = Object.keys(langs).map(langKey => {
+  const activeLangs = Object.keys(langs).reduce(function (result, lang) {
+    if (i18n.options.allLanguages.includes(lang)) {
+      result.push(lang)
+    }
+    return result
+  }, [])
+
+  const menuItems = activeLangs.map(langKey => {
     const lang = langs[langKey]
 
     return <MenuItem
@@ -82,11 +100,11 @@ export const LanguagePicker = (props) => {
               minWidth: 50
             }}
           >
-            {t('simpleContent')} {currentLang.toUpperCase()} <FeatherIcon
+            {currentLang.toUpperCase()} <FeatherIcon
               icon={isExpanded ? 'chevron-up' : 'chevron-down'}
               className='relative w-4 h-4 inline-block ml-2'
               strokeWidth='0.15rem'
-            /> {t('what')}
+            />
           </MenuButton>
 
           <AnimatePresence>
@@ -113,27 +131,6 @@ export const LanguagePicker = (props) => {
                 }}
               >
                 {menuItems}
-                {/* <MenuItem
-                  onSelect={() => { handleChangeLangClick('en') }}
-                >
-                  EN - English
-                </MenuItem>
-                <MenuItem
-                  onSelect={() => { handleChangeLangClick('es') }}
-                >
-                  ES - Español (Spanish)
-                </MenuItem> */}
-                {/* de: Deutsch (German)
-                    en: English
-                    es: Español (Spanish)
-                    fr: Français (French)
-                    hr: Hrvatski (Croatian)
-                    it: Italiana (Italian)
-                    ja: 日本 (Japanese)
-                    ko: 한국어 (Korean)
-                    tr: Türk (Turkish)
-                    zh: 普通话 (Mandarin)
-                      */}
               </MenuList>
             </motion.div>
           </AnimatePresence>

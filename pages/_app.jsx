@@ -26,7 +26,7 @@ import 'assets/styles/transitions.css'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
-  // const [initialized, setInitialized] = useState(false)
+  const [initialized, setInitialized] = useState(false)
 
   useEffect(() => {
     Fathom.load('ESRNTJKP', {
@@ -60,7 +60,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     const initi18next = async () => {
       await i18next.initPromise.then(() => {
-        // setInitialized(true)
+        setInitialized(true)
       })
     }
     initi18next()
