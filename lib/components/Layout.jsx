@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import classnames from 'classnames'
+import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
 import { AnimatePresence, motion, useViewportScroll } from 'framer-motion'
 
@@ -144,6 +145,20 @@ export const Layout = (props) => {
                   }
                 )}
               >
+                <button
+                  onClick={openTransactions}
+                  className={classnames(
+                    'font-bold tracking-wide flex items-center capitalize trans trans-fast',
+                    `bg-default hover:bg-card text-${networkColorClassname(chainId)} hover:text-inverse border-2 border-accent-3`,
+                    'text-xxs sm:text-xs px-2 sm:px-3 py-1 rounded-full mr-2',
+                  )}
+                >
+                  EN <FeatherIcon
+                      icon='chevron-down'
+                      className='stroke-current w-6 h-6 sm:w-8 sm:h-8'
+                    />
+                </button>
+
                 <Settings />
               </div>
             </div>

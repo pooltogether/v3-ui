@@ -33,14 +33,13 @@ export const NavAccount = (props) => {
     setShowDialog(false)
   }
 
-  const handleShowSignIn = (e) => {
-    e.preventDefault()
+  // const handleShowSignIn = (e) => {
+  //   e.preventDefault()
 
-    queryParamUpdater.add(router, { signIn: 1 })
-  }
+  //   queryParamUpdater.add(router, { signIn: 1 })
+  // }
 
   return <>
-    EN
     {usersAddress ? <>
       <NetworkText
         openTransactions={openTransactions}
