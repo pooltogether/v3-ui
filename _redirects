@@ -1,19 +1,3 @@
-https://app.pooltogether.com https://app.pooltogether.com/en  301!  Language=en
-https://app.pooltogether.com https://app.pooltogether.com/es  301!  Language=es
-https://app.pooltogether.com https://app.pooltogether.com/it  301!  Language=it
-https://app.pooltogether.com https://app.pooltogether.com/ja  301!  Language=ja
-https://app.pooltogether.com https://app.pooltogether.com/zh  301!  Language=zh
-https://app.pooltogether.com https://app.pooltogether.com/hr  301!  Language=hr
-https://app.pooltogether.com https://app.pooltogether.com/ko  301!  Language=ko
-
-https://app.pooltogether.us https://app.pooltogether.com/en  301!  Language=en
-https://app.pooltogether.us https://app.pooltogether.com/es  301!  Language=es
-https://app.pooltogether.us https://app.pooltogether.com/it  301!  Language=it
-https://app.pooltogether.us https://app.pooltogether.com/ja  301!  Language=ja
-https://app.pooltogether.us https://app.pooltogether.com/zh  301!  Language=zh
-https://app.pooltogether.us https://app.pooltogether.com/hr  301!  Language=hr
-https://app.pooltogether.us https://app.pooltogether.com/ko  301!  Language=ko
-
 https://app.pooltogether.us/*     https://app.pooltogether.com 301!
 
 /account                        /account.html                         200
