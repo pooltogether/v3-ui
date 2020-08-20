@@ -58,7 +58,8 @@ export const StartAwardUI = (props) => {
   return <>
     {canStartAward && <>
       <Button
-        textSize='2xl'
+        secondary
+        textSize='lg'
         onClick={handleStartAwardClick}
         disabled={disabled}
       >

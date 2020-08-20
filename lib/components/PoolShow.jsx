@@ -302,17 +302,12 @@ export const PoolShow = (
         </>
         {/* } */}
 
-        {usersAddress && cookieShowAward && <>
+        {cookieShowAward && <>
           <div
             className='text-center mt-20'
           >
             <ButtonLink
-              border='highlight-1'
-              text='secondary'
-              bg='highlight-1'
-              hoverBorder='highlight-2'
-              hoverText='green'
-              hoverBg='purple'
+              secondary
               href='/pools/[symbol]/manage'
               as={`/pools/${symbol}/manage`}
             >

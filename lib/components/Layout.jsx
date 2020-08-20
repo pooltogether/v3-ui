@@ -129,6 +129,9 @@ export const Layout = (props) => {
               {usersAddress && <>
                 <div
                   className='flex justify-center mb-1 xs:mb-0'
+                  style={{
+                    lineHeight: 0
+                  }}
                 >
                   <NavAccount />
                 </div>
@@ -170,7 +173,7 @@ export const Layout = (props) => {
 
         <div className='content'>
           <div
-            className='pool-container flex flex-grow relative z-10 h-full page px-4 xs:px-12 sm:px-10'
+            className='pool-container w-full flex flex-grow relative z-10 h-full page px-4 xs:px-12 sm:px-10 pt-6 xs:pt-6 sm:pt-8'
           >
             <div
               className='flex flex-col flex-grow'

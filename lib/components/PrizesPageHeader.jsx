@@ -10,13 +10,13 @@ export const PrizesPageHeader = (
   
   return <>
     <div
-      className='bg-highlight-3 rounded-lg px-6 pt-5 pb-5 text-white mt-4 sm:mt-4 mb-10 sm:mb-20'
+      className='rounded-lg text-white mb-10 sm:mb-20'
     >
       <div
         className='flex items-center justify-between'
       >
         <div
-          className='w-full sm:w-1/2'
+          className='w-full sm:w-1/2 text-inverse'
         >
           <h2>
             Prizes
@@ -24,11 +24,11 @@ export const PrizesPageHeader = (
         </div>
 
         <div
-          className='w-full sm:w-1/2 text-right'
+          className='w-full sm:w-1/2 text-right text-inverse'
         >
-          <h4>
+          <h5>
             Total awarded: <span className='text-flashy'>$23,994</span>
-          </h4>
+          </h5>
         </div>
       </div>
     </div>

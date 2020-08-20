@@ -2,18 +2,33 @@ import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { Modal } from 'lib/components/Modal'
 import { PaneTitle } from 'lib/components/PaneTitle'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Odds } from 'lib/components/Odds'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
 export const TicketQuantityForm = (props) => {
+  const {
+    balanceJsx,
+    formName,
+    nextStep,
+  } = props
+  
+  const authControllerContext = useContext(AuthControllerContext)
+  const { usersAddress } = authControllerContext
+
   const poolData = useContext(PoolDataContext)
-  const { pool, usersTicketBalance } = poolData
+  const { pool, usersTicketBalance, usersChainData } = poolData
+
+  const ticker = pool?.underlyingCollateralSymbol
+  const tickerUpcased = ticker?.toUpperCase()
 
   const poolIsLocked = pool && pool.isRngRequested
 
@@ -22,7 +37,8 @@ export const TicketQuantityForm = (props) => {
     register,
     errors,
     formState,
-    watch
+    watch,
+    setValue
   } = useForm({
     mode: 'all', reValidateMode: 'onChange',
  })
@@ -30,10 +46,8 @@ export const TicketQuantityForm = (props) => {
   const watchQuantity = watch('quantity')
 
   const {
-    balanceJsx,
-    formName,
-    nextStep,
-  } = props
+    usersBalance,
+  } = usersDataForPool(pool, usersChainData)
 
   const router = useRouter()
 
@@ -68,13 +82,13 @@ export const TicketQuantityForm = (props) => {
 
     {poolIsLocked && <>
       <Modal
-        header='CURRENCY Pool locked'
+        header={`${tickerUpcased} Pool locked`}
       >
         <div>
           This Pool's prize is currently being awarded - until awarding is complete it can not accept deposits or withdrawals.
 
-      <br/>
-          COUNTDOWN TO UNLOCK:!
+          {/* <br/>
+          Time til unlocked: !!! */}
         </div>
       </Modal>
     </>}
@@ -82,7 +96,7 @@ export const TicketQuantityForm = (props) => {
     <form
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className='w-10/12 sm:w-2/3 mx-auto'>
+      <div className='w-full xs:w-10/12 sm:w-2/3 mx-auto'>
         <TextInputGroup
           large
           unsignedNumber
@@ -90,39 +104,60 @@ export const TicketQuantityForm = (props) => {
           name='quantity'
           register={register}
           validate={validate}
-          label={'Amount of tickets'}
+          label={<>
+            Amount<span
+              className='hidden xs:inline-block'
+            > of tickets</span>
+          </>}
           required='ticket quantity required'
           autoComplete='off'
           // placeholder={'# of tickets'}
+          rightLabel={usersAddress && <>
+            <button
+              type='button'
+              className='font-bold'
+              onClick={(e) => {
+                e.preventDefault()
+                // setQuantity(usersBalance)
+                setValue('quantity', usersBalance, { shouldValidate: true })
+              }}
+            >
+              Balance: {numberWithCommas(usersBalance)} {tickerUpcased}
+            </button>
+          </>}
         />
       </div>
-      <ErrorsBox 
-        errors={errors}
-      />
+      <div
+        className='mt-2 text-sm text-highlight-1 font-bold mb-2'
+        style={{
+          minHeight: 24
+        }}
+      >
+        <ErrorsBox
+          errors={errors}
+        />
+
+        <Odds
+          showLabel
+          splitLines
+          pool={pool}
+          usersBalance={usersTicketBalance}
+          additionalQuantity={watchQuantity}
+          isWithdraw={isWithdraw}
+        // hide={parseFloat(watchQuantity) > usersTicketBalance}
+        />
+      </div>
 
       <div
         className='my-5'
       >
         <Button
-          textSize='2xl'
+          textSize='xl'
           disabled={!formState.isValid}
           color='green'
         >
           Continue
         </Button>
-      </div>
-
-      <div
-        className='mt-5 text-sm text-highlight-1'
-      >
-        <Odds
-          showLabel
-          pool={pool}
-          usersBalance={usersTicketBalance}
-          additionalQuantity={watchQuantity}
-          isWithdraw={isWithdraw}
-          hide={parseFloat(watchQuantity) > usersTicketBalance}
-        />
       </div>
     </form>
   </>

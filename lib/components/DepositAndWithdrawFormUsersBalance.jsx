@@ -9,7 +9,7 @@ export const DepositAndWithdrawFormUsersBalance = (
 
   return <>
     <div
-      className='flex text-inverse items-center justify-between w-full sm:w-9/12 lg:w-9/12 mx-auto border-2 p-3'
+      className='flex text-inverse items-center justify-between w-full xs:w-10/12 sm:w-9/12 lg:w-9/12 mx-auto bg-primary border-b-2 border-card px-6 py-3 rounded-tl-lg rounded-tr-lg'
     >
       <div>
         {label || 'Your balance:'}

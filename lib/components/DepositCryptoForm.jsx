@@ -17,6 +17,7 @@ import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTime
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
 export const DepositCryptoForm = (props) => {
   const { nextStep, previousStep } = props
@@ -28,7 +29,7 @@ export const DepositCryptoForm = (props) => {
   const { provider } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
-  const { pool, genericChainData, usersChainData } = poolData
+  const { pool, usersChainData } = poolData
 
   const decimals = pool?.underlyingCollateralDecimals
   const tokenAddress = pool?.underlyingCollateralToken
@@ -38,7 +39,7 @@ export const DepositCryptoForm = (props) => {
   const tickerUpcased = ticker?.toUpperCase()
 
   const [needsApproval, setNeedsApproval] = useState(true)
-  const [cachedUsersBalance, setCachedUsersBalance] = useState(usersBalance)
+  const [cachedUsersBalance, setCachedUsersBalance] = useState()
 
   const poolIsLocked = pool?.isRngRequested
 
@@ -50,23 +51,11 @@ export const DepositCryptoForm = (props) => {
     )
   }
 
-  const usersTokenAllowance = usersChainData?.usersTokenAllowance ?
-    usersChainData.usersTokenAllowance :
-    ethers.utils.bigNumberify(0)
-
-  const usersBalanceBN = usersChainData?.usersTokenBalance ?
-    usersChainData.usersTokenBalance :
-    ethers.utils.bigNumberify(0)
-
-  let usersBalance = 0
-  if (decimals) {
-    usersBalance = Number(
-      ethers.utils.formatUnits(
-        usersBalanceBN,
-        Number(decimals)
-      )
-    )
-  }
+  const {
+    usersBalanceBN,
+    usersBalance,
+    usersTokenAllowance,
+  } = usersDataForPool(pool, usersChainData)
 
   useEffect(() => {
     setCachedUsersBalance(usersBalance)
@@ -158,7 +147,7 @@ export const DepositCryptoForm = (props) => {
     />
 
     <div
-      className='flex text-inverse items-center justify-between w-full sm:w-9/12 lg:w-9/12 mx-auto border-l-2 border-r-2 border-b-2 p-3 font-bold'
+      className='bg-default flex text-inverse items-center justify-between w-full xs:w-10/12 sm:w-9/12 lg:w-9/12 mx-auto px-6 py-3 font-bold rounded-bl-lg rounded-br-lg'
     >
       <div>
         Total:
@@ -194,7 +183,7 @@ export const DepositCryptoForm = (props) => {
             className='mt-2 text-default-soft'
           >
             <Button
-              textSize='2xl'
+              textSize='xl'
               onClick={handleUnlockClick}
               disabled={unlockTxInFlight}
               className='w-49-percent'
@@ -241,7 +230,7 @@ export const DepositCryptoForm = (props) => {
             {needsApproval && <>
               <Button
                 noAnim
-                textSize='2xl'
+                textSize='xl'
                 onClick={handleUnlockClick}
                 disabled={unlockTxInFlight}
                 className='w-49-percent'

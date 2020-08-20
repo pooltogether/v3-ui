@@ -14,6 +14,7 @@ export const getButtonClasses = (props) => {
     noAnim,
     padding,
     rounded,
+    secondary,
     selected,
     transition,
     className,
@@ -28,26 +29,44 @@ export const getButtonClasses = (props) => {
     defaultClasses += ` opacity-50`
     animClass = ``
   }
-
   
-  // eg. textSize='sm', textSize='2xl'
+  // eg. textSize='sm', textSize='xl'
   textSize = getTextSize(textSize)
 
+  let defaultPadding = 'px-6 sm:px-10 lg:px-12 py-2 sm:py-2'
+  let defaultRounded = 'rounded-lg'
+  let defaultTrans = 'trans trans-fast'
 
-  // text = 'text-match'
-  padding = padding ? `${padding}` : 'px-6 sm:px-10 lg:px-12 py-2 sm:py-2'
-  rounded = rounded ? `rounded-${rounded}` : 'rounded-lg'
-  transition = transition ? `${transition}` : 'trans trans-fast'
+  let defaultBorder = 'border-highlight-1'
+  let defaultBg = 'bg-highlight-1'
+  let defaultText = 'text-secondary'
+
+  let defaultHoverBorder = 'hover:border-highlight-2'
+  let defaultHoverBg = 'hover:bg-highlight-4'
+  let defaultHoverText = 'hover:text-secondary'
+
+  if (secondary) {
+    defaultBorder = 'border-highlight-2 border-2'
+    defaultBg = 'bg-default'
+    defaultText = 'text-highlight-2'
+
+    defaultHoverBorder = 'hover:border-highlight-1'
+    defaultHoverBg = 'hover:darkened'
+    defaultHoverText = 'hover:text-highlight-1'
+  }
+
+  padding = padding ? `${padding}` : defaultPadding
+  rounded = rounded ? `rounded-${rounded}` : defaultRounded
+  transition = transition ? `${transition}` : defaultTrans
   width = width ? `${width}` : ''
 
-  border = border ? `border-${border}` : `border-highlight-1`
-  bg = bg ? `bg-${bg}` : 'bg-highlight-1'
-  text = text ? `text-${text}` : 'text-secondary'
+  border = border ? `border-${border}` : defaultBorder
+  bg = bg ? `bg-${bg}` : defaultBg
+  text = text ? `text-${text}` : defaultText
 
-  hoverBg = hoverBg ? `hover:bg-${hoverBg}` : `hover:bg-highlight-4`
-  // hoverBg = hoverBg ? `hover:bg-${hoverBg}` : `hover:bg-primary`
-  hoverBorder = hoverBorder ? `hover:border-${hoverBorder}` : `hover:border-highlight-2`
-  hoverText = hoverText ? `hover:text-${hoverText}` : 'hover:text-secondary'
+  hoverBorder = hoverBorder ? `hover:border-${hoverBorder}` : defaultHoverBorder
+  hoverBg = hoverBg ? `hover:bg-${hoverBg}` : defaultHoverBg
+  hoverText = hoverText ? `hover:text-${hoverText}` : defaultHoverText
 
   
   return classnames(

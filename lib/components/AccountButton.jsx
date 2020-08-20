@@ -86,37 +86,26 @@ export const AccountButton = (props) => {
   ))
 
   return <>
-    <button
-      onClick={openTransactions}
-      className='text-inverse hover:text-green text-xxs sm:text-sm trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none'
-    >
-      <div
-        className='flex items-center leading-none'
-      > 
-        {(ethBalance || pendingTransactionsCount > 0) && <>
-          <div
-            className='hidden xs:block relative block mr-2 bg-default rounded-l-full py-2 pl-4 pr-5 z-10'
-            style={{
-              right: -20
-            }}
-          >
-            {pendingTransactionsCount > 0 ? <>
-              <span className='text-inverse hover:text-green'>
-                {pendingTxJsx}
-              </span>
-            </> : <>
-              <span className='text-default-soft hover:text-green text-xxxs sm:text-xxs'>
-                <PoolCountUp
-                  start={0}
-                  end={ethBalanceNumber}
-                  decimals={2}
-                /> ETH
-              </span>
-            </>}
-          </div>
+    {(ethBalance || pendingTransactionsCount > 0) && <>
+      <button
+        onClick={openTransactions}
+        className='flex items-center text-inverse hover:text-green text-xxs sm:text-xs trans tracking-wider outline-none focus:outline-none active:outline-none hidden xs:block relative block mr-2 bg-default hover:bg-card rounded-l-full py-1 pl-4 pr-5 z-10 border-2 border-accent-3 -mr-4'
+      >
+        {pendingTransactionsCount > 0 ? <>
+          <span className='text-inverse hover:text-green'>
+            {pendingTxJsx}
+          </span>
+        </> : <>
+          <span className='text-default-soft hover:text-inverse'>
+            <PoolCountUp
+              start={0}
+              end={ethBalanceNumber}
+              decimals={2}
+            /> ETH
+          </span>
         </>}
-      </div>
-    </button>
+      </button>
+    </>}
 
     <button
       onClick={openTransactions}
@@ -124,7 +113,7 @@ export const AccountButton = (props) => {
     >
       <div
         className={classnames(
-          'flex items-center leading-none bg-default hover:bg-card rounded-full border-2 border-highlight-2 px-2 py-1 trans trans-fastest leading-none z-20',
+          'flex items-center bg-default hover:bg-card rounded-full border-2 border-highlight-2 px-2 py-1 trans trans-fastest z-20',
         )}
       >
         {pendingTransactionsCount > 0 && <>

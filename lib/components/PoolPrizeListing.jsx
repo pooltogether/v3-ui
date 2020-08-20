@@ -61,6 +61,7 @@ export const PoolPrizeListing = (
             There are no prizes for this pool yet.
           </div>
           <ButtonLink
+            secondary
             href='/pools/[symbol]/manage'
             as={`/pools/${pool?.symbol}/manage`}
           >

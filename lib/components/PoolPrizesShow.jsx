@@ -36,12 +36,12 @@ export const PoolPrizesShow = (
         return <ButtonLink
           key={`prize-pool-button-${_pool.id}`}
 
-          border='highlight-1 border-2'
+          border='transparent border hover:border-highlight-1 border-dashed'
           text='highlight-1'
-          bg='primary'
+          bg='card'
           hoverBorder='highlight-2'
           hoverText='highlight-2'
-          hoverBg='primary'
+          hoverBg='card-selected'
 
           className='flex flex-col items-center justify-center mx-2 w-1/3 sm:w-1/6'
           selected={_pool.symbol === pool?.symbol}
@@ -58,7 +58,7 @@ export const PoolPrizesShow = (
     </div>
 
     <div
-      className='bg-default mt-4 mb-10 text-sm py-6 flex flex-col sm:flex-row items-center justify-center rounded-lg'
+      className='bg-highlight-3 mt-4 mb-10 text-sm py-6 flex flex-col sm:flex-row items-center justify-center rounded-lg'
     >
       <div className='flex items-center justify-center sm:justify-end text-highlight-2 mb-4 sm:mb-0 w-1/3'>
         <div className='flex flex-col items-center justify-center'>

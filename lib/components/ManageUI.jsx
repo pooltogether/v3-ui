@@ -51,10 +51,10 @@ export const ManageUI = (
     </div>
 
     <div
-      className='flex flex-wrap w-full px-2 py-4 sm:py-2'
+      className='flex flex-col w-full py-4 sm:py-2'
     >    
       <div
-        className='flex text-inverse justify-between w-full sm:w-1/2 lg:w-1/2 border-2 p-3'
+        className='flex text-inverse justify-between w-full sm:w-1/2 lg:w-1/2 p-3'
       >
         <div>
           Can start award?
@@ -64,7 +64,7 @@ export const ManageUI = (
         </div>
       </div>
       <div
-        className='flex text-inverse justify-between w-full sm:w-1/2 lg:w-1/2 border-2 p-3'
+        className='flex text-inverse justify-between w-full sm:w-1/2 lg:w-1/2 p-3'
       >
         <div>
           Can complete award?
@@ -74,7 +74,7 @@ export const ManageUI = (
         </div>
       </div>
       <div
-        className='flex text-inverse justify-between w-full sm:w-1/2 lg:w-1/2 border-2 p-3'
+        className='flex text-inverse justify-between w-full sm:w-1/2 lg:w-1/2 p-3'
       >
         <div>
           Random number completed? (isRngCompleted)
@@ -84,7 +84,7 @@ export const ManageUI = (
         </div>
       </div>
       <div
-        className='flex text-inverse justify-between w-full sm:w-1/2 lg:w-1/2 border-2 p-3'
+        className='flex text-inverse justify-between w-full sm:w-1/2 lg:w-1/2 p-3'
       >
         <div>
           Random number requested? (isRngRequested)

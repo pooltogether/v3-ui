@@ -15,7 +15,7 @@ export const DepositTxButton = (props) => {
   const button = <>
     <Button
       noAnim
-      textSize='2xl'
+      textSize='xl'
       onClick={handleDepositClick}
       disabled={disabled}
       className={classnames({

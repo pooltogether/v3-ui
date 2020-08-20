@@ -13,6 +13,7 @@ export const TextInputGroup = (
     type,
     unsignedNumber,
     unsignedWholeNumber,
+    rightLabel,
   } = props
 
   let pattern = {}
@@ -38,18 +39,35 @@ export const TextInputGroup = (
     <div
       className='input-fieldset py-2 mb-0'
     >
-      <label
-        htmlFor={id}
-        className={classnames(
-          'mt-0 pb-1 pl-8 trans',
-          {
-            'font-bold text-primary cursor-not-allowed': disabled,
-            'font-bold text-default-soft hover:text-default': !disabled,
-          }
-        )}
-      >
-        {label}
-      </label>
+      <div className='flex justify-between'>
+        <label
+          htmlFor={id}
+          className={classnames(
+            'mt-0 pb-1 sm:pl-8 sm:pr-2 trans',
+            {
+              'font-bold text-primary cursor-not-allowed': disabled,
+              'font-bold text-default-soft hover:text-default': !disabled,
+            }
+          )}
+        >
+          {label}
+        </label>
+
+        {rightLabel && <>
+          <label
+            className={classnames(
+              'mt-0 pb-1 sm:pr-8 sm:pl-2 trans',
+              {
+                'font-bold text-primary cursor-not-allowed': disabled,
+                'font-bold text-default-soft hover:text-default': !disabled,
+              }
+            )}
+          >
+            {rightLabel}
+          </label>
+        </>}
+      </div>
+
       <Input
         {...props}
         pattern={pattern}

@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
-import { IndexUIPlaceholder } from 'lib/components/IndexUIPlaceholder'
 import { PoolList } from 'lib/components/PoolList'
 import { PoolShow } from 'lib/components/PoolShow'
 
@@ -15,12 +14,6 @@ export const IndexUI = (
     pools,
     pool,
   } = poolDataContext
-
-  
-
-  // if (pools.length === 0) {
-  //   return <IndexUIPlaceholder />
-  // }
 
   return <>
     {pool && <PoolShow

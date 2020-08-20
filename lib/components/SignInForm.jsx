@@ -74,7 +74,7 @@ export const SignInForm = (props) => {
     <form
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className='w-10/12 sm:w-2/3 mx-auto'>
+      <div className='w-full xs:w-10/12 sm:w-2/3 mx-auto'>
         <TextInputGroup
           id='email'
           name='email'
@@ -93,7 +93,7 @@ export const SignInForm = (props) => {
         className='my-5'
       >
         <Button
-          textSize='2xl'
+          textSize='xl'
           disabled={!formState.isValid}
           // type='submit'
         >

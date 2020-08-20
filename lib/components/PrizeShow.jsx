@@ -94,9 +94,6 @@ export const PrizeShow = (
     </>}
 
     <ButtonLink
-      text='green'
-      border='green'
-      hoverBorder='green'
       href='/prizes/[symbol]'
       as={`/prizes/${pool?.symbol}`}
     >

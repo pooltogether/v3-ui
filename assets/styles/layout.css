@@ -23,7 +23,7 @@ body {
   }
 }
 
-.pool-container {
+/* .pool-container {
   padding-top: 1rem;
   padding-bottom: 12rem;
   width: 100%;
@@ -33,13 +33,13 @@ body {
   .pool-container {
     padding-top: 2rem;
   }
-}
-
+} */
+/* 
 .pool-container .pool-container,
 .nav-and-footer-container .nav-and-footer-container {
   margin-left: 0;
   margin-right: 0;
-}
+} */
 
 .nav--pool-logo-container {
   width: 63px;

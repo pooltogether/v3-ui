@@ -40,7 +40,7 @@ export const Settings = (props) => {
     <button
       onClick={toggleSettingsPanel}
       className={classnames(
-        'w-5 h-5 sm:w-6 sm:h-6 hover:text-highlight-1 ml-2',
+        'w-5 h-5 sm:w-6 sm:h-6 ml-2 hover:text-inverse',
         {
           'text-highlight-2': !isOpen,
           'text-highlight-1': isOpen,
