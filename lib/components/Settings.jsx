@@ -30,7 +30,7 @@ export const Settings = (props) => {
     setShowManageLinks(!showManageLinks)
   }
 
-  const toggleSettingsPanel = (e) => {
+  const toggleOpen = (e) => {
     e.preventDefault()
 
     setIsOpen(!isOpen)
@@ -38,9 +38,9 @@ export const Settings = (props) => {
   
   return <>
     <button
-      onClick={toggleSettingsPanel}
+      onClick={toggleOpen}
       className={classnames(
-        'w-5 h-5 sm:w-6 sm:h-6 ml-2 hover:text-inverse',
+        'w-5 h-5 sm:w-6 sm:h-6 ml-2 my-2 hover:text-inverse',
         {
           'text-highlight-2': !isOpen,
           'text-highlight-1': isOpen,
@@ -56,7 +56,7 @@ export const Settings = (props) => {
 
     <motion.div
       key='settings-overlay'
-      onClick={toggleSettingsPanel}
+      onClick={toggleOpen}
       className={classnames(
         'fixed t-0 l-0 r-0 b-0 w-full h-full z-30 bg-overlay bg-blur',
         {
@@ -120,7 +120,7 @@ export const Settings = (props) => {
       }}
     >
       <button
-        onClick={toggleSettingsPanel}
+        onClick={toggleOpen}
         className='absolute close-button text-highlight-2 hover:text-green trans outline-none focus:outline-none active:outline-none'
         style={{
           right: 50,

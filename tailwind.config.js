@@ -3,6 +3,7 @@ const {
 } = require('tailwindcss/defaultTheme')
 
 module.exports = {
+  experimental: 'all',
   corePlugins: {
     container: true
   },

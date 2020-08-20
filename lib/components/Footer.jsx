@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react'
 
-// import Locize from "i18next-locize-backend"
-
 import { useTranslation } from 'lib/../i18n'
-// import { useTranslation } from 'react-i18next'
 
 import MailFooterIcon from 'assets/images/mail-footer.svg'
 import MediumFooterLogo from 'assets/images/medium-footer.svg'
@@ -17,16 +14,7 @@ export const Footer = () => {
   let mailHref = 'mailto:hello@pooltogether.com'
   let twitterHref = 'https://twitter.com/PoolTogether_'
 
-  // const locize = new Locize(options)
-  // useEffect(() => {
-  //   const runGetLangs = async () => {
-  //     await i18n.services.backendConnector.backend.getLanguages((err, result) => {
-  //       console.log({err})
-  //       console.log({result})
-  //     })
-  //   }
-  //   runGetLangs()
-  // })
+  
   
   return <footer
     className='footer w-full text-default text-sm hidden sm:block'

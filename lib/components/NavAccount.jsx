@@ -1,37 +1,20 @@
 import React, { useContext, useState } from 'react'
 import VisuallyHidden from '@reach/visually-hidden'
 import FeatherIcon from 'feather-icons-react'
-import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import { Dialog } from '@reach/dialog'
 
 import { AccountButton } from 'lib/components/AccountButton'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { NetworkText } from 'lib/components/NetworkText'
 import { TransactionsList } from 'lib/components/TransactionsList'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { WalletInfo } from 'lib/components/WalletInfo'
-import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const NavAccount = (props) => {
-  const router = useRouter()
+  const { openTransactions, closeTransactions, showTransactionsDialog } = props
 
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress } = authControllerContext
-
-  const [showDialog, setShowDialog] = useState(false)
-  
-  const openTransactions = (e) => {
-    e.preventDefault()
-    setShowDialog(true)
-  }
-
-  const closeTransactions = (e) => {
-    if (e) {
-      e.preventDefault()
-    }
-    setShowDialog(false)
-  }
 
   // const handleShowSignIn = (e) => {
   //   e.preventDefault()
@@ -41,9 +24,6 @@ export const NavAccount = (props) => {
 
   return <>
     {usersAddress ? <>
-      <NetworkText
-        openTransactions={openTransactions}
-      />
       <AccountButton
         openTransactions={openTransactions}
       />
@@ -59,14 +39,14 @@ export const NavAccount = (props) => {
     {usersAddress && <>
       <Dialog
         aria-label='List of your transactions'
-        isOpen={showDialog}
+        isOpen={showTransactionsDialog}
         onDismiss={closeTransactions}
       >
         <motion.div
           id='transactions-ui'
           className={'relative text-sm sm:text-base lg:text-lg h-full'}
           key='sign-in-scaled-bg'
-          animate={showDialog ? 'enter' : 'exit'}
+          animate={showTransactionsDialog ? 'enter' : 'exit'}
           variants={{
             exit: {
               scale: 0,
@@ -124,7 +104,7 @@ export const NavAccount = (props) => {
               <TransactionStatusChecker />
               <TransactionsList
                 closeTransactions={closeTransactions}
-                showDialog={showDialog}
+                showTransactionsDialog={showTransactionsDialog}
               />
             </div>
           </div>

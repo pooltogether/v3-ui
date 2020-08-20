@@ -10,6 +10,7 @@ import { Layout } from 'lib/components/Layout'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 
 // import "@reach/dialog/styles.css";
+import "@reach/menu-button/styles.css"
 import '@reach/tooltip/styles.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'assets/styles/utils.css'

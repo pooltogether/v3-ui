@@ -89,7 +89,10 @@ export const AccountButton = (props) => {
     {(ethBalance || pendingTransactionsCount > 0) && <>
       <button
         onClick={openTransactions}
-        className='flex items-center text-inverse hover:text-green text-xxs sm:text-xs trans tracking-wider outline-none focus:outline-none active:outline-none hidden xs:block relative block mr-2 bg-default hover:bg-card rounded-l-full py-1 pl-4 pr-5 z-10 border-2 border-accent-3 -mr-4'
+        className='flex items-center text-inverse hover:text-green text-xxs sm:text-xs trans tracking-wider outline-none focus:outline-none active:outline-none hidden xs:block relative block mr-2 bg-default hover:bg-card rounded-l-full py-3 pl-4 pr-5 z-10 border-2 border-accent-3 -mr-4'
+        style={{
+          height: 32
+        }}
       >
         {pendingTransactionsCount > 0 ? <>
           <span className='text-inverse hover:text-green'>

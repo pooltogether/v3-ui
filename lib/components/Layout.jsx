@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import classnames from 'classnames'
-import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
 import { AnimatePresence, motion, useViewportScroll } from 'framer-motion'
 
@@ -10,9 +9,11 @@ import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
 import { Modal } from 'lib/components/Modal'
 import { NavMobile } from 'lib/components/NavMobile'
+import { NetworkText } from 'lib/components/NetworkText'
 import { WithdrawWizardContainer } from 'lib/components/WithdrawWizardContainer'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
+import { LanguagePicker } from 'lib/components/LanguagePicker'
 import { Settings } from 'lib/components/Settings'
 import { SignInFormContainer } from 'lib/components/SignInFormContainer'
 
@@ -27,6 +28,20 @@ export const Layout = (props) => {
   scrollY.onChange(y => {
     setYScrollPosition(y)
   })
+
+  const [showTransactionsDialog, setShowTransactionsDialog] = useState(false)
+
+  const openTransactions = (e) => {
+    e.preventDefault()
+    setShowTransactionsDialog(true)
+  }
+
+  const closeTransactions = (e) => {
+    if (e) {
+      e.preventDefault()
+    }
+    setShowTransactionsDialog(false)
+  }
   
   const router = useRouter()
 
@@ -120,49 +135,37 @@ export const Layout = (props) => {
 
             <div
               className={classnames(
-                'flex flex-col xs:flex-row relative',
+                'flex items-center justify-end flex-row flex-wrap relative',
                 {
-                  'items-end xs:items-center justify-end sm:justify-center': usersAddress,
-                  'items-center': !usersAddress
+                  // 'items-end xs:items-center justify-end sm:justify-center': usersAddress,
+                  // 'items-center': !usersAddress
                 }
               )}
+              style={{
+                lineHeight: 0
+              }}
             >
               {usersAddress && <>
-                <div
-                  className='flex justify-center mb-1 xs:mb-0'
-                  style={{
-                    lineHeight: 0
-                  }}
-                >
-                  <NavAccount />
-                </div>
+                  <NavAccount
+                    openTransactions={openTransactions}
+                    closeTransactions={closeTransactions}
+                    showTransactionsDialog={showTransactionsDialog}
+                  />
               </>}
-              <div
-                className={classnames(
-                  'flex justify-center',
-                  {
-                    'mt-1 xs:mt-0': usersAddress
-                  }
-                )}
-              >
-                <button
-                  onClick={openTransactions}
-                  className={classnames(
-                    'font-bold tracking-wide flex items-center capitalize trans trans-fast',
-                    `bg-default hover:bg-card text-${networkColorClassname(chainId)} hover:text-inverse border-2 border-accent-3`,
-                    'text-xxs sm:text-xs px-2 sm:px-3 py-1 rounded-full mr-2',
-                  )}
-                >
-                  EN <FeatherIcon
-                      icon='chevron-down'
-                      className='stroke-current w-6 h-6 sm:w-8 sm:h-8'
-                    />
-                </button>
+              
+                {usersAddress && <>
+                  <NetworkText
+                    openTransactions={openTransactions}
+                  />
+                </>}
+
+                <LanguagePicker />
 
                 <Settings />
               </div>
+
+              
             </div>
-          </div>
         </div>
       </motion.div>
 
