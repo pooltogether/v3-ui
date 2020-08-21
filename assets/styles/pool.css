@@ -748,9 +748,15 @@ input[type='submit'][disabled] {
   padding: 1.25rem 2rem;
   border-radius: 16px;
   pointer-events: initial;
-  max-width: 20rem;
+  max-width: 16rem;
   white-space: initial;
   z-index: 1823774;
+}
+
+@screen xs {
+  [data-reach-tooltip] {
+    max-width: 24rem;
+  }
 }
 
 @screen sm {
@@ -1044,7 +1050,7 @@ input[type='submit'][disabled] {
 .button-scale:hover,
 .button-scale:focus,
 .button-scale:active {
-  transform: scale(1.04) translateY(-3px);
+  transform: scale(1.02) translateY(-3px);
 }
 
 @screen sm {

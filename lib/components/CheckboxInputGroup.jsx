@@ -1,18 +1,23 @@
 import React from 'react'
 import classnames from 'classnames'
 
+import { PTHint } from 'lib/components/PTHint'
+import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
+
 export const CheckboxInputGroup = (
   props,
 ) => {
   const {
     id,
     disabled,
+    hint,
+    title,
     label,
     handleClick,
     checked,
   } = props
 
-  const defaultClasses = 'flex justify-start items-start trans trans-faster cursor-pointer font-bold outline-none focus:outline-none hover:outline-none active:outline-none leading-none px-0 py-1'
+  const defaultClasses = 'flex justify-start items-start xs:items-center trans trans-faster cursor-pointer font-bold outline-none focus:outline-none hover:outline-none active:outline-none leading-none px-0 py-1'
   const roundedClasses = 'rounded-xl'
   const marginClasses = 'mt-1 mb-1 sm:mb-3 lg:mb-4'
   const textClasses = 'text-sm sm:text-base lg:text-base'
@@ -38,7 +43,7 @@ export const CheckboxInputGroup = (
       >
         <div
           className={classnames(
-            'flex items-center rounded-lg w-6 h-6 lg:w-8 lg:h-8 border-2 trans',
+            'flex items-center rounded-lg w-6 h-6 border-2 trans',
             {
               'text-white bg-white border-secondary hover:border-secondary': checked,
               'text-darkened bg-white border-secondary hover:border-primary': !checked,
@@ -62,10 +67,21 @@ export const CheckboxInputGroup = (
       </div>
 
       <div
-        className='font-normal text-left text-xs sm:text-base flex flex-col items-start justify-start leading-snug'
+        className='font-normal text-left text-xs flex flex-col items-start justify-start leading-snug'
       >
         {label}
       </div>
+
+      {hint && <>
+        <PTHint
+          title={title ? title : null}
+          tip={hint}
+        >
+          <QuestionMarkCircle
+            white
+          />
+        </PTHint>
+      </>}
 
     </div>
   </>

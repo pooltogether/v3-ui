@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 
 import { SHOW_MANAGE_LINKS } from 'lib/constants'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
+import { PTHint } from 'lib/components/PTHint'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
 
 export const Settings = (props) => {
@@ -93,13 +94,13 @@ export const Settings = (props) => {
         height: '100vh',
         right: -30,
         top: '108px',
-        width: 300
+        width: '320px'
       }}
       animate={isOpen ? 'enter' : 'exit'}
       initial='initial'
       variants={{
         exit: {
-          x: 300,
+          x: '320px',
           opacity: 0,
           transition: {
             staggerChildren: 0.1
@@ -171,6 +172,12 @@ export const Settings = (props) => {
             name='settings-show-award'
             label={<>
               Show Pool Management pages
+            </>}
+            title='Manage Pools'
+            hint={<>
+              <div className='my-2 text-xs sm:text-sm'>
+                Anyone can manage basic functions of the pools such as StartAward() and CompleteAward(). These pages are hidden by default as most people won't want to admin a pool.
+              </div>
             </>}
             checked={showManageLinks}
             handleClick={handleShowManageLinksClick}
