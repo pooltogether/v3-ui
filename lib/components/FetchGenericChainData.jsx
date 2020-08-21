@@ -31,10 +31,10 @@ export const FetchGenericChainData = (props) => {
         provider,
         poolAddresses['usdcPrizeStrategy']
       )
-      const usdtPrizeStrategy = await fetchGenericChainData(
-        provider,
-        poolAddresses['usdtPrizeStrategy']
-      )
+      // const usdtPrizeStrategy = await fetchGenericChainData(
+      //   provider,
+      //   poolAddresses['usdtPrizeStrategy']
+      // )
       // const wbtcPrizeStrategy = await fetchGenericChainData(
       //   provider,
       //   poolAddresses['wbtcPrizeStrategy']
@@ -43,7 +43,7 @@ export const FetchGenericChainData = (props) => {
       return {
         daiPrizeStrategy,
         usdcPrizeStrategy,
-        usdtPrizeStrategy,
+        // usdtPrizeStrategy,
         // wbtcPrizeStrategy,
       }
     } catch (e) {
