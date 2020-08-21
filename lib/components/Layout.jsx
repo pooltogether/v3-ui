@@ -102,21 +102,21 @@ export const Layout = (props) => {
       }}
     >
       <motion.div
-        animate={yScrollPosition > 1 ? 'enter' : 'exit'}
-        variants={{
-          enter: {
-            boxShadow: '0 2px 6px 0 rgba(0, 0, 0, .07), 0 1px 2px -1px rgba(0, 0, 0, .04)',
-            transition: {
-              duration: 1
-            }
-          },
-          exit: {
-            boxShadow: '0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0)',
-            transition: {
-              duration: 0.3
-            }
-          }
-        }}
+        // animate={yScrollPosition > 1 ? 'enter' : 'exit'}
+        // variants={{
+        //   enter: {
+        //     boxShadow: '0 2px 6px 0 rgba(0, 0, 0, .07), 0 1px 2px -1px rgba(0, 0, 0, .04)',
+        //     transition: {
+        //       duration: 1
+        //     }
+        //   },
+        //   exit: {
+        //     boxShadow: '0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0)',
+        //     transition: {
+        //       duration: 0.3
+        //     }
+        //   }
+        // }}
 
         className={classnames(
           'header fixed w-full bg-body z-30 py-2 mx-auto l-0 r-0',
@@ -125,47 +125,42 @@ export const Layout = (props) => {
           }
         )}
       >
+      
         <div
-          className='mx-auto'
+          className='flex justify-between items-center px-4 xs:px-12 sm:px-10 py-4 sm:pt-5 sm:pb-3'
         >
+          <HeaderLogo />
+
           <div
-            className='flex justify-between items-center px-4 xs:px-12 sm:px-10 py-4 sm:pt-5 sm:pb-3'
+            className={classnames(
+              'flex items-center justify-end flex-row flex-wrap relative',
+              {
+                // 'items-end xs:items-center justify-end sm:justify-center': usersAddress,
+                // 'items-center': !usersAddress
+              }
+            )}
+            style={{
+              lineHeight: 0
+            }}
           >
-            <HeaderLogo />
+            {usersAddress && <>
+              <NavAccount
+                openTransactions={openTransactions}
+                closeTransactions={closeTransactions}
+                showTransactionsDialog={showTransactionsDialog}
+              />
+            </>}
+            
+            {usersAddress && <>
+              <NetworkText
+                openTransactions={openTransactions}
+              />
+            </>}
 
-            <div
-              className={classnames(
-                'flex items-center justify-end flex-row flex-wrap relative',
-                {
-                  // 'items-end xs:items-center justify-end sm:justify-center': usersAddress,
-                  // 'items-center': !usersAddress
-                }
-              )}
-              style={{
-                lineHeight: 0
-              }}
-            >
-              {usersAddress && <>
-                  <NavAccount
-                    openTransactions={openTransactions}
-                    closeTransactions={closeTransactions}
-                    showTransactionsDialog={showTransactionsDialog}
-                  />
-              </>}
-              
-                {usersAddress && <>
-                  <NetworkText
-                    openTransactions={openTransactions}
-                  />
-                </>}
+            <LanguagePicker />
 
-                <LanguagePicker />
-
-                <Settings />
-              </div>
-
-              
-            </div>
+            <Settings />
+          </div>
         </div>
       </motion.div>
 

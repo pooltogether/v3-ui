@@ -9,7 +9,7 @@ import DiscordLogo from 'assets/images/discord-footer.svg'
 import TwitterFooterLogo from 'assets/images/twitter-footer.svg'
 
 export const Footer = () => {
-  const { t, i18n } = useTranslation()
+  const [t] = useTranslation()
 
   let mailHref = 'mailto:hello@pooltogether.com'
   let twitterHref = 'https://twitter.com/PoolTogether_'

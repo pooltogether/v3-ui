@@ -44,8 +44,14 @@
     font-display: swap;
 }
 
-html { height: 100%; overflow:auto; }
-body { height: 100%;  }
+html {
+  height: 100%;
+  overflow: auto;
+}
+
+body {
+  height: 100%;
+}
 
 html, body, table {
   -webkit-tap-highlight-color: transparent;
@@ -86,7 +92,7 @@ hr {
 }
 
 a {
-  @apply text-green;
+  @apply text-teal;
   transition: all 75ms ease-in-out;
 }
 
@@ -1087,6 +1093,8 @@ input[type='submit'][disabled] {
 [data-reach-popover] {
   margin-top: 10px;
   z-index: 5001;
+
+  transition: all 1ms ease-in-out;
 }
 
 [data-reach-menu-list] {

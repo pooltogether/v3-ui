@@ -141,14 +141,14 @@ export const Settings = (props) => {
       </button>
 
       <h6
-        className='text-white mb-8'
+        className='text-white mt-4 mb-16'
       >
         Settings
       </h6>
 
-      <div className='mb-8'>
+      <div className='my-12'>
         <label
-          className='uppercase text-caption font-number mb-2'
+          className='uppercase text-caption font-number mb-4'
         >
           Theme:
         </label>
@@ -156,9 +156,9 @@ export const Settings = (props) => {
       </div>
 
 
-      <div className='mb-8'>
+      <div className='my-12'>
         <label
-          className='uppercase text-caption font-number mb-0'
+          className='uppercase text-caption font-number mb-2'
         >
           Manage:
         </label>
@@ -170,7 +170,7 @@ export const Settings = (props) => {
             id='settings-show-award'
             name='settings-show-award'
             label={<>
-              Show Manage Pool links
+              Show Pool Management pages
             </>}
             checked={showManageLinks}
             handleClick={handleShowManageLinksClick}

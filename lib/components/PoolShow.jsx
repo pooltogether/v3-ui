@@ -18,10 +18,13 @@ import PrizeStrategyIcon from 'assets/images/icon-prizestrategy@2x.png'
 import TicketsIcon from 'assets/images/icon-ticket@2x.png'
 import PlayersIcon from 'assets/images/players@2x.png'
 import YieldSourceIcon from 'assets/images/icon-yieldsource@2x.png'
+import TotalAwardedIcon from 'assets/images/icon-total@2x.png'
+import PrizeIcon from 'assets/images/icon-prize@2x.png'
 
 export const PoolShow = (
   props,
 ) => {
+  const [t] = useTranslation()
   const { pool } = props
 
   const symbol = pool?.symbol
@@ -240,8 +243,7 @@ export const PoolShow = (
                 </>
               },
               {
-                icon: null,
-                // icon: TotalAwardedIcon,
+                icon: TotalAwardedIcon,
                 title: 'Total awarded',
                 content: <>
                   <h3>
@@ -264,8 +266,7 @@ export const PoolShow = (
                 </>
               },
               {
-                icon: null,
-                // icon: TotalAwardedIcon,
+                icon: PrizeIcon,
                 title: 'Past 5 winners',
                 content: <>
                   <LastWinnersListing

@@ -106,34 +106,34 @@ export const LanguagePicker = (props) => {
               strokeWidth='0.15rem'
             />
           </MenuButton>
-
+{/* 
           <AnimatePresence>
             <motion.div
               animate='enter'
               variants={{
                 enter: {
-                  y: 0,
+                  scale: 1,
                   transition: {
                     duration: 0.1
                   }
                 },
               }}
-            >
+            > */}
               <MenuList
-                animate='enter'
-                variants={{
-                  enter: {
-                    y: 0,
-                    transition: {
-                      duration: 0.1
-                    }
-                  },
-                }}
+                // animate='enter'
+                // variants={{
+                //   enter: {
+                //     y: 0,
+                //     transition: {
+                //       duration: 0.1
+                //     }
+                //   },
+                // }}
               >
                 {menuItems}
               </MenuList>
-            </motion.div>
-          </AnimatePresence>
+            {/* </motion.div>
+          </AnimatePresence> */}
         </>
       )}
     </Menu>

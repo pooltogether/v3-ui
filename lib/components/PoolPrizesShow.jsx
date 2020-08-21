@@ -62,7 +62,7 @@ export const PoolPrizesShow = (
     <div
       className='bg-highlight-3 mt-4 mb-10 text-sm py-6 flex flex-col sm:flex-row items-center justify-center rounded-lg'
     >
-      <div className='flex items-center justify-center sm:justify-end text-match mb-4 sm:mb-0 w-1/3'>
+      <div className='flex items-center justify-center sm:justify-end text-white mb-4 sm:mb-0 w-1/3'>
         <div className='flex flex-col items-center justify-center'>
           <div
             className='sm:h-12 sm:pt-1'
@@ -71,19 +71,19 @@ export const PoolPrizesShow = (
               pool={pool}
             />
           </div>
-          <div className='text-lg mt-1'>
+          <div className='text-lg mt-1 font-bold'>
             {pool?.name}
           </div>
         </div>
       </div>
 
-      <div className='text-2xl text-center text-match mb-6 sm:mb-0 sm:w-1/3 lg:w-1/5'>
+      <div className='text-2xl text-center text-white mb-6 sm:mb-0 sm:w-1/3 lg:w-1/5'>
         <div
           className='sm:h-12 font-bold pt-2'
         >
           $17,242
         </div>
-        <div className='text-xs sm:text-lg -mt-2 sm:mt-1'>
+        <div className='text-xs sm:text-base -mt-2 sm:mt-1 font-bold'>
           Awarded so far
         </div>
       </div>

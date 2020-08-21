@@ -69,7 +69,7 @@ export const WalletInfo = (props) => {
           </div>
 
           <div
-            className='sm:mr-10 lg:mr-20'
+            className='sm:mr-10 lg:mr-20 my-2'
           >
             <h6>
               Connected to
@@ -84,7 +84,7 @@ export const WalletInfo = (props) => {
                   closeTransactions()
                   authControllerContext.signOut()
                 }}
-                className='inline-block text-highlight-1 hover:text-green underline trans'
+                className='inline-block text-highlight-1 hover:text-green underline trans trans-faster'
               >
                 Change account
               </button>
@@ -92,7 +92,7 @@ export const WalletInfo = (props) => {
           </div>
 
           <div
-            className='sm:mr-10 lg:mr-20'
+            className='sm:mr-10 lg:mr-20 mb-2'
           >
             <h6>
               Network
