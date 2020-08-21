@@ -42,10 +42,10 @@ export const PoolRow = (
           }}
           animate
           className={classnames(
-            'interactable-card bg-card hover:bg-card-selected border-card w-full px-4 mb-3 py-5 inline-block trans rounded-lg border-0 text-inverse hover:text-inverse',
+            'interactable-card bg-card hover:bg-card-selected border-card w-full px-4 mb-3 py-5 inline-block trans rounded-lg text-inverse hover:text-inverse',
             {
-              'border border-card shadow-md hover:shadow-xl cursor-pointer': !selected,
-              'border border-card border-dashed': selected,
+              'border-card hover:shadow-xl cursor-pointer': !selected,
+              'border-card border-dashed': selected,
             }
           )}
           style={{
@@ -60,6 +60,37 @@ export const PoolRow = (
                 lg
                 pool={pool}
               />
+
+              <div
+                className='flex flex-col items-start justify-between w-full ml-1 sm:ml-6 leading-none'
+              >
+                <div
+                  className='inline-block text-left text-xl sm:text-3xl font-bold text-inverse relative'
+                  style={{
+                    top: -6
+                  }}
+                >
+                  Prize ${displayAmountInEther(
+                    pool?.estimatePrize,
+                    { decimals, precision: 0 }
+                  )}
+                </div>
+                <div
+                  className='inline-block text-left text-caption-2 relative'
+                  style={{
+                    left: 2,
+                    bottom: -4
+                  }}
+                >
+                  <span
+                    className='uppercase'
+                  >
+                    {pool.frequency}
+                  </span>
+                </div>
+              </div>
+
+{/* 
               <div className='inline-flex flex flex-col'>
                 <h6
                   className='inline-block'
@@ -79,7 +110,10 @@ export const PoolRow = (
                 <span className='text-caption font-number uppercase -mt-1'>
                   {pool.frequency}
                 </span>
-              </div>
+              </div> */}
+
+
+              
             </div>
 
             <div

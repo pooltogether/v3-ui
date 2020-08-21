@@ -14,9 +14,7 @@ export const prizeFragment = gql`
 
     prizePeriodStartedTimestamp
 
-    winners {
-      ...playerFragment
-    }
+    winners
   }
   ${playerFragment}
 `

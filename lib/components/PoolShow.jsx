@@ -258,7 +258,7 @@ export const PoolShow = (
                     as={`/prizes/${pool?.symbol}`}
                   >
                     <a
-                      className='-mt-4 block'
+                      className='-mt-4 block font-bold'
                     >
                       View previous winners
                     </a>

@@ -1054,7 +1054,7 @@ input[type='submit'][disabled] {
 }
 
 .interactable-card {
-  border: 1px dashed transparent;
+  border: 0.1rem dashed transparent;
 }
 
 .theme-dark .interactable-card:hover,
@@ -1063,16 +1063,16 @@ input[type='submit'][disabled] {
 .theme-light .interactable-card:hover,
 .theme-light .interactable-card:focus,
 .theme-light .interactable-card:active {
-  border: 1px dashed var(--color-border-highlight-1);
+  border: 0.1rem dashed var(--color-border-highlight-1);
 }
 
 .theme-light .interactable-card {
-  border: 1px solid var(--color-border-accent-1);
+  border: 0.1rem solid var(--color-border-accent-1);
 }
 
 .theme-light .non-interactable-card {
   box-shadow: none;
-  border: 1px solid var(--color-border-accent-1);
+  border: 0.1rem solid var(--color-border-accent-1);
 }
 
 .theme-dark .non-interactable-card {

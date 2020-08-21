@@ -86,7 +86,7 @@ export const PoolDataContextProvider = (props) => {
                   ...staticPoolData.usdcPool,
                   ...staticPrizeStrategiesData.usdcPrizeStrategy,
                   name: 'USDC Pool',
-                  frequency: 'Daily',
+                  frequency: 'Weekly',
                   symbol: 'PT-cUSDC',
                 },
                 // {

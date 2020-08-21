@@ -6,11 +6,17 @@ import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { poolPrizesQuery } from 'lib/queries/poolPrizesQuery'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { shorten } from 'lib/utils/shorten'
 
 export const LastWinnersListing = (
   props,
 ) => {
   const { pool } = props
+
+  const decimals = pool?.underlyingColleteralDecimals
+  const ticker = pool?.underlyingCollateralSymbol
+  const tickerUpcased = ticker?.toUpperCase()
 
   const generalContext = useContext(GeneralContext)
   const { paused } = generalContext
@@ -30,17 +36,12 @@ export const LastWinnersListing = (
   }
 
   const prizes = data?.prizeStrategy?.prizes
-  // const players = prizes?.map(prize => {
-  //   if (prize.winners.length > 0) {
-  //     return prize.winners[0]
-  //   } else {
-  //     return
-  //   }
-  // })
-
   const players = prizes?.reduce(function (result, prize) {
     if (prize.winners.length > 0) {
-      result.push(prize.winners[0])
+      result.push({
+        address: prize?.winners[0],
+        winnings: prize?.net
+      })
     }
     return result
   }, [])
@@ -70,7 +71,10 @@ export const LastWinnersListing = (
           <a
             className='-mt-4 block font-bold'
           >
-            {player?.address} {player?.winnings}
+            {shorten(player?.address)} - ${displayAmountInEther(
+              player?.winnings,
+              { decimals }
+            )} {tickerUpcased}
           </a>
         </Link>
       })}
