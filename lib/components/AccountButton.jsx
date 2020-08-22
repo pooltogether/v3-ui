@@ -52,7 +52,7 @@ export const AccountButton = (props) => {
       className='profile-img relative inline-block rounded-full w-6 h-6 mr-1'
     /> :
     <div
-      className='profile-img profile-img--jazzicon relative inline-block mr-2'
+      className='profile-img profile-img--jazzicon relative inline-block ml-2 xs:ml-0 mr-2'
     >
       <Jazzicon
         diameter={20}
@@ -89,13 +89,10 @@ export const AccountButton = (props) => {
     {(ethBalance || pendingTransactionsCount > 0) && <>
       <button
         onClick={openTransactions}
-        className='flex items-center text-inverse hover:text-green text-xxs sm:text-xs trans tracking-wider outline-none focus:outline-none active:outline-none hidden xs:block relative block mr-2 bg-default hover:bg-card rounded-l-full py-3 pl-4 pr-5 z-10 border-2 border-accent-3 -mr-4'
-        style={{
-          height: 32
-        }}
+        className='flex items-center text-inverse hover:text-green text-xxs sm:text-xs trans tracking-wider outline-none focus:outline-none active:outline-none hidden xs:block relative block mr-2 bg-default hover:bg-card rounded-l-full pl-2 pr-6 z-10 border-2 border-accent-3 -mr-4 h-6 xs:h-8'
       >
         {pendingTransactionsCount > 0 ? <>
-          <span className='text-inverse hover:text-green'>
+          <span className='text-inverse hover:text-green font-bold'>
             {pendingTxJsx}
           </span>
         </> : <>
@@ -112,11 +109,11 @@ export const AccountButton = (props) => {
 
     <button
       onClick={openTransactions}
-      className='text-highlight-2 font-bold hover:text-inverse text-xxs sm:text-sm trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20'
+      className='text-highlight-2 font-bold hover:text-inverse text-xxs sm:text-sm trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20 h-6 xs:h-8'
     >
       <div
         className={classnames(
-          'flex items-center bg-default hover:bg-card rounded-full border-2 border-highlight-2 px-2 py-1 trans trans-fastest z-20',
+          'flex items-center bg-default hover:bg-card rounded-full border-2 border-highlight-2 px-2 trans trans-fastest z-20 h-6 xs:h-8',
         )}
       >
         {pendingTransactionsCount > 0 && <>

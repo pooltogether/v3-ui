@@ -22,11 +22,11 @@ export const NetworkText = (props) => {
       className={classnames(
         'font-bold tracking-wide flex items-center capitalize trans trans-fast',
         `bg-default hover:bg-card text-${networkColorClassname(chainId)} hover:text-inverse border-2 border-accent-3`,
-        'text-xxs sm:text-xs pl-6 pr-2 py-3 rounded-full -ml-5',
+        'text-xxs sm:text-xs pl-2 xs:pl-6 pr-2 rounded-full ml-20 xs:-ml-5 h-6 xs:h-8',
       )}
-      style={{
-        height: 32
-      }}
+      // style={{
+      //   height: 32
+      // }}
     >
       {networkName}
     </button>
