@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import classnames from 'classnames'
+import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/client'
@@ -9,6 +9,7 @@ import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
+import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositTxButton } from 'lib/components/DepositTxButton'
 import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -171,12 +172,21 @@ export const DepositCryptoForm = (props) => {
             You don't have enough {tickerUpcased}.
           </div>
 
-          <Button
-            onClick={previousStep}
-            className='px-4 mt-2'
-          >
-            Change ticket quantity
-          </Button>
+          <ButtonDrawer>
+            <Button
+              textSize='xl'
+              onClick={previousStep}
+              className='px-4 mt-2 inline-flex items-center'
+            >
+              <FeatherIcon
+                icon='arrow-left-circle'
+                className='relative stroke-current w-4 h-4 sm:w-8 sm:h-8 mr-2'
+                style={{
+                  top: 1
+                }}
+              /> Change ticket quantity
+            </Button>
+          </ButtonDrawer>
           
           {/* <div
 
@@ -186,7 +196,7 @@ export const DepositCryptoForm = (props) => {
               textSize='xl'
               onClick={handleUnlockClick}
               disabled={unlockTxInFlight}
-              className='w-49-percent'
+              className='w-48-percent'
             >
               Top up your balance
             </Button>
@@ -223,8 +233,29 @@ export const DepositCryptoForm = (props) => {
             </div>
           </>}
           
+          <ButtonDrawer>
+              {needsApproval && <>
+                <Button
+                  noAnim
+                  textSize='xl'
+                  onClick={handleUnlockClick}
+                  disabled={unlockTxInFlight}
+                  className='w-48-percent'
+                >
+                  Approve {tickerUpcased}
+                </Button>
+              </>}
 
-          <div
+              <DepositTxButton
+                needsApproval={needsApproval}
+                quantity={quantity}
+                disabled={poolIsLocked || needsApproval || overBalance}
+                poolIsLocked={poolIsLocked}
+                nextStep={nextStep}
+              />
+          </ButtonDrawer>
+
+          {/* <div
             className='flex mt-10 sm:mt-10 mb-5 justify-between items-center'
           >
             {needsApproval && <>
@@ -233,7 +264,7 @@ export const DepositCryptoForm = (props) => {
                 textSize='xl'
                 onClick={handleUnlockClick}
                 disabled={unlockTxInFlight}
-                className='w-49-percent'
+                className='w-48-percent'
               >
                 Approve {tickerUpcased}
               </Button>
@@ -246,7 +277,7 @@ export const DepositCryptoForm = (props) => {
               poolIsLocked={poolIsLocked}
               nextStep={nextStep}
             />
-          </div>
+          </div> */}
         </div>
       </>}
     </div>

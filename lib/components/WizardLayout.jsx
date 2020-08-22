@@ -157,23 +157,23 @@ export const WizardLayout = (props) => {
         {children}
       </div>
 
-      <div
+      {/* <div
         className='fixed b-0 l-0 r-0 w-full px-4 pb-16 flex flex-col items-center justify-center h-20'
       >
-        {/* <div className='mb-2'>
+       <div className='mb-2'>
           <PoolCurrencyIcon
             pool={poolData.pool}
           />
-        </div> */}
+        </div>
 
-        {/* <div
+         <div
           className='text-inverse bg-primary rounded-lg px-2 uppercase text-xxs sm:text-sm font-bold'
         >
           {poolData.pool && <>
             {poolData.pool.name}
           </>}
-        </div> */}
-      </div>
+        </div> 
+      </div> */}
     </motion.div>
   </>
 }

@@ -30,6 +30,13 @@ class MyDocument extends Document {
           />
           <Meta />
 
+          {/* <div
+            className='sm:hidden h-20 l-0 r-0 b-0 fixed flex items-center justify-center'
+            id='button-portal'
+            style={{
+              zIndex: 123141241
+            }}
+          /> */}
         </body>
       </Html>
     )

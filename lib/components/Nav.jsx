@@ -14,8 +14,8 @@ export const Nav = (props) => {
   const usdcPoolPage = router.asPath === '/pools/PT-cUSDC'
   // const usdtPoolPage = router.asPath === '/pools/PT-cUSDT'
 
-  const navParentClasses = 'leading-none rounded-full hover:bg-accent-grey-1 h-full w-8/12 flex justify-start items-center text-lg lg:text-xl py-3 px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none my-3 font-bold ml-3 lg:ml-0'
-  const navChildClasses = 'leading-none rounded-full hover:bg-accent-grey-1 h-full w-8/12 flex justify-start items-center text-sm lg:text-base py-3 px-10 lg:px-12 trans tracking-wider outline-none focus:outline-none active:outline-none my-3 ml-8'
+  const navParentClasses = 'leading-none rounded-full hover:bg-accent-grey-1 w-8/12 flex justify-start items-center text-lg lg:text-xl py-3 px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none my-3 font-bold ml-3 lg:ml-0 h-10'
+  // const navChildClasses = 'leading-none rounded-full hover:bg-accent-grey-1 w-8/12 flex justify-start items-center text-sm lg:text-base py-3 px-10 lg:px-12 trans tracking-wider outline-none focus:outline-none active:outline-none my-3 ml-8'
 
   return <>
     <nav

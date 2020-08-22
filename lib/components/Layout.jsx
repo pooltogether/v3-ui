@@ -102,30 +102,13 @@ export const Layout = (props) => {
       }}
     >
       <motion.div
-        // animate={yScrollPosition > 1 ? 'enter' : 'exit'}
-        // variants={{
-        //   enter: {
-        //     boxShadow: '0 2px 6px 0 rgba(0, 0, 0, .07), 0 1px 2px -1px rgba(0, 0, 0, .04)',
-        //     transition: {
-        //       duration: 1
-        //     }
-        //   },
-        //   exit: {
-        //     boxShadow: '0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0)',
-        //     transition: {
-        //       duration: 0.3
-        //     }
-        //   }
-        // }}
-
         className={classnames(
           'header fixed w-full bg-body z-30 py-2 mx-auto l-0 r-0',
-          {
+          { 
             'showing-network-banner': showingBanner
           }
         )}
       >
-      
         <div
           className='flex justify-between items-center px-4 xs:px-12 sm:px-10 py-4 sm:pt-5 sm:pb-3 mx-auto'
         >
@@ -162,6 +145,27 @@ export const Layout = (props) => {
             <Settings />
           </div>
         </div>
+
+        <motion.div
+          style={{
+            boxShadow: '0 20px 60px 0 rgba(0, 0, 0, .7), 0 1px 2px -1px rgba(0, 0, 0, .4)',
+            height: 3,
+            width: '100%'
+          }}
+          animate={yScrollPosition > 1 ? 'enter' : 'exit'}
+          variants={{
+            enter: {
+              opacity: 1,
+              transition: {
+                duration: 1
+              }
+            },
+            exit: {
+              opacity: 0
+            }
+          }}
+        >
+        </motion.div>
       </motion.div>
 
 
@@ -207,7 +211,7 @@ export const Layout = (props) => {
                   })}
 
                   <div
-                    className='text-accent-1 text-center text-base sm:text-lg lg:text-xl mt-20 opacity-40'
+                    className='text-accent-1 text-center text-base sm:text-lg lg:text-xl mt-20 opacity-60 pb-10'
                   >
                     The more you pool, the more you save, the more you win.
                   </div>

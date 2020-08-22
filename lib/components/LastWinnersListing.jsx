@@ -65,6 +65,7 @@ export const LastWinnersListing = (
     </> : <>
       {players.map(player => {
         return <Link
+          key={`last-winners-${player?.address}-${player?.winnings}`}
           href='/players/[playerAddress]'
           as={`/players/${player?.address}`}
         >

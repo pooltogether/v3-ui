@@ -19,7 +19,7 @@ export const DepositTxButton = (props) => {
       onClick={handleDepositClick}
       disabled={disabled || poolIsLocked}
       className={classnames({
-        'w-49-percent': needsApproval,
+        'w-48-percent': needsApproval,
         'mx-auto w-full': !needsApproval
       })}
     >

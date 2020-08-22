@@ -1,9 +1,11 @@
 import React, { useContext } from 'react'
+import ReactDOM from 'react-dom'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { Modal } from 'lib/components/Modal'
@@ -69,6 +71,15 @@ export const TicketQuantityForm = (props) => {
     }
   }
 
+  const continueButton = <Button
+    textSize='xl'
+    disabled={!formState.isValid}
+    color='green'
+    onClick={handleSubmit(onSubmit)}
+  >
+    Continue
+  </Button>
+
   return <>
     <PaneTitle>
       {formName}
@@ -105,9 +116,9 @@ export const TicketQuantityForm = (props) => {
           register={register}
           validate={validate}
           label={<>
-            Amount<span
+            Amount <span
               className='hidden xs:inline-block'
-            > of tickets</span>
+            >of tickets</span>
           </>}
           required='ticket quantity required'
           autoComplete='off'
@@ -148,17 +159,9 @@ export const TicketQuantityForm = (props) => {
         />
       </div>
 
-      <div
-        className='my-5'
-      >
-        <Button
-          textSize='xl'
-          disabled={!formState.isValid}
-          color='green'
-        >
-          Continue
-        </Button>
-      </div>
+      <ButtonDrawer>
+        {continueButton}
+      </ButtonDrawer>
     </form>
   </>
 }

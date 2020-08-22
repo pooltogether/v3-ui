@@ -181,6 +181,11 @@ export const PoolShow = (
                     { decimals: pool?.underlyingCollateralDecimals, precision: 0 }
                   )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
                 </h2>
+                <div
+                  className='text-caption -mt-2'
+                >
+                  {pool?.frequency}
+                </div>
               </div>
 
               <div
@@ -258,7 +263,7 @@ export const PoolShow = (
                     as={`/prizes/${pool?.symbol}`}
                   >
                     <a
-                      className='-mt-4 block font-bold'
+                      className='-mt-4 inline-block font-bold'
                     >
                       View previous winners
                     </a>

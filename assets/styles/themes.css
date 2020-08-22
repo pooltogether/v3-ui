@@ -38,6 +38,7 @@
   --color-text-black: #111;
   --color-text-highlight-1: #35F0D0;
   --color-text-highlight-2: #35F0D0;
+  --color-text-highlight-3: #55f1d7;
   --color-text-red: #e61b1b;
   --color-text-green: #05e6c4;
   --color-text-yellow: #ffc403;
@@ -96,6 +97,7 @@
   --color-text-black: #111;
   --color-text-highlight-1: #4c249f;
   --color-text-highlight-2: #7F51D1;
+  --color-text-highlight-3: #3857ee;
   --color-text-red: #e61b1b;
   --color-text-green: #05e6c4;
   --color-text-yellow: #eba308;

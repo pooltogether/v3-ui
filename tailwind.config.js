@@ -75,6 +75,7 @@ module.exports = {
         match: 'var(--color-text-match)',
         'highlight-1': 'var(--color-text-highlight-1)',
         'highlight-2': 'var(--color-text-highlight-2)',
+        'highlight-3': 'var(--color-text-highlight-3)',
         red: 'var(--color-text-red)',
         green: 'var(--color-text-green)',
         yellow: 'var(--color-text-yellow)',

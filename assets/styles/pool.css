@@ -92,16 +92,12 @@ hr {
 }
 
 a {
-  @apply text-teal;
+  @apply text-highlight-3;
   transition: all 75ms ease-in-out;
 }
 
 a:hover {
   @apply text-inverse;
-}
-
-a[disabled],
-a[disabled]:hover {
 }
 
 h1,
@@ -315,7 +311,7 @@ thead tr {
 
 @screen sm {
   tr:hover {
-    @apply bg-default;
+    @apply bg-card-selected;
     transition: all 150ms ease-in-out;
   }
 }
@@ -1085,22 +1081,9 @@ input[type='submit'][disabled] {
   @apply shadow-md;
 }
 
-
-
-/* [data-reach-menu-button] {
-  color: pink;
-}
-
-[data-reach-menu-button][aria-expanded="true"] {
-  background: #000;
-  color: white;
-} */
-
 [data-reach-popover] {
   margin-top: 10px;
   z-index: 5001;
-
-  transition: all 1ms ease-in-out;
 }
 
 [data-reach-menu-list] {
