@@ -8,8 +8,6 @@ export const InteractableCard = (
 ) => {  
   const selected = props.selected
 
-  console.log(props)
-
   return <>
     <motion.li
       onClick={props.onClick}

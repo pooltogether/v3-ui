@@ -79,9 +79,10 @@ export const WizardLayout = (props) => {
           type='button'
           onClick={handlePreviousStep}
           className={classnames(
-            'text-accent-1 trans outline-none focus:outline-none active:outline-none',
+            'text-inverse hover:opacity-100 trans outline-none focus:outline-none active:outline-none',
             {
-              'hover:text-inverse': !disabled
+              'opacity-70': !disabled,
+              'opacity-30': disabled
             }
           )}
         >
@@ -138,7 +139,7 @@ export const WizardLayout = (props) => {
         <button
           type='button'
           onClick={handleClose}
-          className='text-inverse opacity-50 hover:opacity-100 hover:text-inverse trans outline-none focus:outline-none active:outline-none'
+          className='text-inverse opacity-70 hover:opacity-100 trans outline-none focus:outline-none active:outline-none'
         >
           <FeatherIcon
             icon='x-circle'

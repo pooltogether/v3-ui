@@ -32,9 +32,8 @@
   }
 }
 
-
 .pool-toast .Toastify__toast {
-  @apply rounded-lg;
+  @apply rounded-lg shadow-xl;
   background-color: black;
   border: 3px solid black;
   color: white;
@@ -62,6 +61,8 @@
 }
 
 .pool-toast .Toastify__toast--default:before {
+  @apply shadow-3xl;
+  
   animation: cycleBackgroundPos 5000ms infinite;
   background: var(--flashy-gradient);
   background-size: 400% auto;

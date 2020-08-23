@@ -70,7 +70,6 @@ export const AccountUI = (props) => {
       </Tabs>
 
       <Content>
-
         <ContentPane isSelected={visible === POOLS}>
           {!dynamicPlayerData ? <>
             <IndexUILoader />
@@ -120,7 +119,7 @@ export const AccountUI = (props) => {
         <ContentPane
           isSelected={visible === REWARDS}
         >
-          go here          
+          go here
         </ContentPane>
 
       </Content>

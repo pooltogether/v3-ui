@@ -81,6 +81,15 @@ export const ExecuteCryptoDeposit = (props) => {
     if (tx?.cancelled || tx?.error) {
       previousStep()
     } else if (tx?.completed) {
+      const valueInCentsWithDecimals = Number(quantity) * 100
+      const valueInCents = parseInt(valueInCentsWithDecimals, 10)
+
+      console.log('value in cents', valueInCents)
+      console.log(window.fathom)
+      if (window && window.fathom) {
+        console.log('send fathom')
+        window.fathom.trackGoal('L4PBHM0U', valueInCents)
+      }
       nextStep()
     }
   }, [tx])

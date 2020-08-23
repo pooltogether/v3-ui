@@ -1,5 +1,4 @@
-import React, { useContext } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
@@ -23,6 +22,9 @@ export const TicketQuantityForm = (props) => {
     nextStep,
   } = props
   
+  const router = useRouter()
+  const quantity = router.query.quantity
+
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress } = authControllerContext
 
@@ -43,15 +45,19 @@ export const TicketQuantityForm = (props) => {
     setValue
   } = useForm({
     mode: 'all', reValidateMode: 'onChange',
- })
+  })
+
+  useEffect(() => {
+    if (quantity) {
+      setValue('quantity', quantity, { shouldValidate: true })
+    }
+  }, [])
 
   const watchQuantity = watch('quantity')
 
   const {
     usersBalance,
   } = usersDataForPool(pool, usersChainData)
-
-  const router = useRouter()
 
   const onSubmit = (values) => {
     if (formState.isValid) {
@@ -129,7 +135,6 @@ export const TicketQuantityForm = (props) => {
               className='font-bold'
               onClick={(e) => {
                 e.preventDefault()
-                // setQuantity(usersBalance)
                 setValue('quantity', usersBalance, { shouldValidate: true })
               }}
             >
