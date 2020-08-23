@@ -70,7 +70,7 @@ export const LastWinnersListing = (
           as={`/players/${player?.address}`}
         >
           <a
-            className='-mt-4 block font-bold'
+            className='block font-bold'
           >
             {shorten(player?.address)} - ${displayAmountInEther(
               player?.winnings,

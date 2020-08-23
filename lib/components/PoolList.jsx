@@ -9,11 +9,28 @@ export const PoolList = (
   const { pools, selectedId } = props
 
   return <>
-    <AnimateSharedLayout>
+    {/* <AnimateSharedLayout> */}
       <AnimatePresence>
         <motion.ul
           key='pool-list'
           className='flex flex-col text-xs sm:text-lg lg:text-xl'
+          animate='enter'
+          variants={{
+            initial: {
+              scale: 0,
+              y: 10,
+              opacity: 0,
+            },
+            enter: {
+              scale: 1,
+              y: 0,
+              opacity: 1,
+              transition: {
+                duration: 6,
+                staggerChildren: 2
+              }
+            },
+          }}
         >
           {pools.map(pool => {
             if (!pool || !pool.poolAddress) {
@@ -22,32 +39,15 @@ export const PoolList = (
 
             const selected = selectedId === pool.poolAddress
 
-            return <motion.li
+            return <PoolRow
               key={`pool-${pool.poolAddress}`}
-              sharedId={`pool-${pool.poolAddress}`}
-              animate='enter'
-              variants={{
-                enter: {
-                  y: 0,
-                  transition: {
-                    duration: 0.1
-                  }
-                },
-              }}
-              whileHover={{
-                y: selected ? 0 : -2
-              }}
-              className='relative w-full'
-            >
-              <PoolRow
-                pool={pool}
-                selected={selected}
-              />
-            </motion.li>
+              pool={pool}
+              selected={selected}
+            />
           })}
         </motion.ul>
       </AnimatePresence>
-    </AnimateSharedLayout>
+    {/* </AnimateSharedLayout> */}
   </>
 
 }

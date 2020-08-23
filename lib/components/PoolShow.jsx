@@ -9,6 +9,7 @@ import { SHOW_MANAGE_LINKS } from 'lib/constants'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
+import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
@@ -69,7 +70,6 @@ export const PoolShow = (
   //   )
   // }
 
-  const player = 'a'
   return <>
     <motion.div
       // layoutId={`pool-container-${poolId}`}
@@ -110,46 +110,21 @@ export const PoolShow = (
             <div
               className='flex justify-between items-center xs:w-3/4 sm:w-3/4'
             >
-              <PoolCurrencyIcon
-                xl
+
+              <PageTitleAndBreadcrumbs
+                title={pool?.name}
                 pool={pool}
+                breadcrumbs={[
+                  {
+                    href: '/',
+                    as: '/',
+                    name: 'Pools',
+                  },
+                  {
+                    name: pool?.name,
+                  }
+                ]}
               />
-              
-              <div
-                className='flex flex-col items-start justify-between w-full ml-1 sm:ml-6 leading-none'
-              >
-                <div
-                  className='inline-block text-left text-xl sm:text-3xl font-bold text-accent-2 relative'
-                  style={{
-                    top: -6
-                  }}
-                >
-                  {pool?.name}
-                </div>
-                <div
-                  className='inline-block text-left text-caption-2 relative'
-                  style={{
-                    left: 2,
-                    bottom: -4
-                  }}
-                >
-                  <Link
-                    href='/'
-                    as='/'
-                    shallow
-                  >
-                    <a
-                      className='underline uppercase'
-                    >
-                      Pools
-                    </a>
-                  </Link> &gt; <span
-                    className='uppercase'
-                  >
-                    {pool?.name}
-                  </span>
-                </div>
-              </div>
             </div>
 
             <div

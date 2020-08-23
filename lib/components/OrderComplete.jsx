@@ -31,7 +31,6 @@ export const OrderComplete = (props) => {
     <div>
       <ButtonLink
         textSize='lg'
-        className='w-64'
         href='/account'
         as='/account'
       >

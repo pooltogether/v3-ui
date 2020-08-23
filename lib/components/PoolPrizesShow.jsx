@@ -27,7 +27,9 @@ export const PoolPrizesShow = (
   }
 
   return <>
-    <Meta title={`${pool?.name} Prizes`} />
+    <Meta
+      title={`${pool?.name} Prizes`} 
+    />
 
     <PrizesPageHeader
       pool={pool}
@@ -44,8 +46,9 @@ export const PoolPrizesShow = (
           hoverBorder='highlight-2'
           hoverText='highlight-2'
           hoverBg='card-selected'
+          // 
 
-          className='flex flex-col items-center justify-center mx-2 w-1/3 sm:w-1/6'
+          className='interactable-card hover:shadow-xl flex flex-col items-center justify-center mx-2 w-1/3 sm:w-1/6'
           selected={_pool.symbol === pool?.symbol}
           href='/prizes/[symbol]'
           as={`/prizes/${_pool.symbol}`}        

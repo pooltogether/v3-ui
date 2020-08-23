@@ -103,24 +103,20 @@ export const Layout = (props) => {
     >
       <motion.div
         className={classnames(
-          'header fixed w-full bg-body z-30 pt-2 pb-0 mx-auto l-0 r-0',
+          'header fixed w-full bg-body z-30 pt-1 pb-1 xs:pt-2 xs:pb-0 sm:py-0 mx-auto l-0 r-0',
           { 
             'showing-network-banner': showingBanner
           }
         )}
       >
         <div
-          className='flex justify-between items-center px-4 xs:px-12 sm:px-10 py-4 sm:pt-5 sm:pb-7 mx-auto'
+          className='flex justify-between items-center px-4 xs:px-12 sm:px-10 py-4 xs:pb-6 sm:pt-5 sm:pb-7 mx-auto'
         >
           <HeaderLogo />
 
           <div
             className={classnames(
               'flex items-center justify-end flex-row flex-wrap relative',
-              {
-                // 'items-end xs:items-center justify-end sm:justify-center': usersAddress,
-                // 'items-center': !usersAddress
-              }
             )}
             style={{
               lineHeight: 0

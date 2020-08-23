@@ -92,7 +92,7 @@ export const LanguagePicker = (props) => {
         <>
           <MenuButton
             className={classnames(
-              'inline-flex items-center justify-center trans ml-4 sm:ml-6 mr-2 sm:mr-4 my-2 hover:text-inverse font-bold inline-block text-xxs sm:text-base text-lg',
+              'inline-flex items-center justify-center trans ml-8 xs:ml-6 sm:ml-6 mr-2 sm:mr-4 my-2 hover:text-inverse font-bold inline-block text-xxs sm:text-base text-lg',
               {
                 'text-highlight-2': !isExpanded,
                 'text-highlight-1': isExpanded,

@@ -21,9 +21,8 @@ export const NetworkText = (props) => {
       onClick={openTransactions}
       className={classnames(
         'font-bold tracking-wide flex items-center capitalize trans trans-fast',
-        `bg-default hover:bg-card text-${networkColorClassname(chainId)} hover:text-inverse border-2 border-accent-3`,
-        'text-xxs sm:text-xs pl-2 xs:pl-6 pr-2 rounded-full ml-2 xs:-ml-5 h-8',
-        // h - 6 xs:h-8
+        `bg-default hover:bg-body text-${networkColorClassname(chainId)} hover:text-inverse border-2 border-accent-4 hover:border-primary`,
+        'text-xxs sm:text-xs pl-2 xs:pl-10 pr-2 rounded-full ml-2 xs:-ml-8 h-8',
       )}
     >
       {networkName}

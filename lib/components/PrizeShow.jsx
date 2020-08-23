@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import FeatherIcon from 'feather-icons-react'
+import Link from 'next/link'
 import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 
@@ -11,6 +11,7 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Meta } from 'lib/components/Meta'
+import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
@@ -88,12 +89,14 @@ export const PrizeShow = (
     </div>
   }
 
+  const winnerAddress = prize?.winners?.[0]
+
   return <>
     {pool?.name && <>
       <Meta title={`${pool?.name} Prize #${prizeNumber}`} />
     </>}
 
-    <ButtonLink
+    {/* <ButtonLink
       href='/prizes/[symbol]'
       as={`/prizes/${pool?.symbol}`}
     >
@@ -104,7 +107,24 @@ export const PrizeShow = (
           top: -2
         }}
       /> Back to prizes
-    </ButtonLink>
+    </ButtonLink> */}
+
+    <PageTitleAndBreadcrumbs
+      title={`Prizes`}
+      pool={pool}
+      breadcrumbs={[
+        {
+          href: '/prizes',
+          as: '/prizes',
+          name: 'Prizes',
+        },
+        {
+          href: '/pools/[symbol]',
+          as: `/pools/${pool?.symbol}`,
+          name: pool?.name,
+        }
+      ]}
+    />
 
     <div
       className='bg-highlight-3 rounded-lg px-6 pt-4 pb-6 text-white mt-4 sm:mt-10'
@@ -149,8 +169,6 @@ export const PrizeShow = (
                   prize?.net || 0,
                   { decimals, precision: 0 }
                 )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
-            {/* <br />{prize?.gross} gross
-            <br />{prize?.net} net */}
           </h2>
         </div>
       </div>
@@ -164,7 +182,16 @@ export const PrizeShow = (
         <div
           className='text-caption uppercase'
         >
-          winner goes here after we fix the subgraph
+          <Link
+            href='/players/[playerAddress]'
+            as={`/players/${winnerAddress}`}
+          >
+            <a
+              className='block font-bold'
+            >
+              {winnerAddress}
+            </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -218,8 +245,6 @@ export const PrizeShow = (
     >
       Players
     </h4>
-    
-    {/*  <br />{prize?.winners} winners */}
 
     <PrizePlayerListing
       pool={pool}

@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { LoadingSpinner } from 'lib/components/LoadingSpinner'
+import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
@@ -29,70 +31,54 @@ export const ManageUI = (
   console.log({ canStartAward, canCompleteAward, isRngCompleted, isRngRequested,})
 
   return <>
-    <div
-      className='w-full px-2 py-4 sm:py-2'
+    <PageTitleAndBreadcrumbs
+      title={`Pool Management`}
+      pool={pool}
+      breadcrumbs={[
+        {
+          href: '/',
+          as: '/',
+          name: 'Pools',
+        },
+        {
+          href: '/pools/[symbol]',
+          as: `/pools/${pool?.symbol}`,
+          name: pool?.name,
+        },
+        {
+          name: 'Manage'
+        }
+      ]}
+    />
+
+    <h4
+      className='flex flex-col w-full py-4 sm:py-2 mt-16'
     >
-      <div
-        className='flex items-center justify-between '
-      >
-        <div
-          className='text-xl sm:text-2xl lg:text-3xl font-bold'
-        >
-          {pool?.name}
-        </div>
+      {isRngRequested && !canCompleteAward && <>
+        Pool locked! Waiting on random number generation ...
+        <LoadingSpinner />
+      </>}
 
-        <div className='-mt-2'>
-          <PoolActionsUI
-            poolAddresses={poolAddresses}
-            usersAddress={usersAddress}
-          />
-        </div>
-      </div>
-    </div>
+      {canStartAward && <>
+        Pool reward process ready to be started:
+      </>}
+
+      {canCompleteAward && <>
+        Pool locked! Pool reward process ready to be finished:
+      </>}
+
+      {!canStartAward && !canCompleteAward && !isRngRequested && <>
+        Pool is in open phase, accepting deposits and withdrawals.
+      </>}
+    </h4>
 
     <div
-      className='flex flex-col w-full py-4 sm:py-2'
-    >    
-      <div
-        className='flex text-inverse justify-between w-full sm:w-1/2 lg:w-1/2 p-3'
-      >
-        <div>
-          Can start award?
-        </div>
-        <div>
-          {canStartAward?.toString()}
-        </div>
-      </div>
-      <div
-        className='flex text-inverse justify-between w-full sm:w-1/2 lg:w-1/2 p-3'
-      >
-        <div>
-          Can complete award?
-        </div>
-        <div>
-          {canCompleteAward?.toString()}
-        </div>
-      </div>
-      <div
-        className='flex text-inverse justify-between w-full sm:w-1/2 lg:w-1/2 p-3'
-      >
-        <div>
-          Random number completed? (isRngCompleted)
-        </div>
-        <div>
-          {isRngCompleted?.toString()}
-        </div>
-      </div>
-      <div
-        className='flex text-inverse justify-between w-full sm:w-1/2 lg:w-1/2 p-3'
-      >
-        <div>
-          Random number requested? (isRngRequested)
-        </div>
-        <div>
-          {isRngRequested?.toString()}
-        </div>
-      </div>
+      className='mb-10'
+    >
+      <PoolActionsUI
+        poolAddresses={poolAddresses}
+        usersAddress={usersAddress}
+      />
     </div>
   </>
 }

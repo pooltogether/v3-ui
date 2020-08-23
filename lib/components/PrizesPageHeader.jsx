@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 
+import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 
 export const PrizesPageHeader = (
@@ -9,28 +10,24 @@ export const PrizesPageHeader = (
   const { showPoolLink, pool } = props
   
   return <>
-    <div
-      className='rounded-lg text-white mb-10 sm:mb-20'
-    >
-      <div
-        className='flex items-center justify-between'
-      >
-        <div
-          className='w-full sm:w-1/2 text-inverse'
-        >
-          <h2>
-            Prizes
-          </h2>
-        </div>
+    <PageTitleAndBreadcrumbs
+      title={`Prizes`}
+      // pool={pool}
+      breadcrumbs={[
+        // {
+        //   href: '/prizes',
+        //   as: '/prizes',
+        //   name: 'Prizes',
+        // }
+      ]}
+    />
 
-        <div
-          className='w-full sm:w-1/2 text-right text-inverse'
-        >
-          <h5>
-            Total awarded: <span className='text-flashy'>$23,994</span>
-          </h5>
-        </div>
-      </div>
+    <div
+      className='text-inverse mb-16'
+    >
+      <h4>
+        Total awarded: <span className='text-flashy'>$23,994</span>
+      </h4>
     </div>
 
     {showPoolLink && <>
