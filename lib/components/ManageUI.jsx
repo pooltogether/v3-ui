@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import FeatherIcon from 'feather-icons-react'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
@@ -32,6 +33,9 @@ export const ManageUI = (
   const canCompleteAward = pool?.canCompleteAward
   console.log({ canStartAward, canCompleteAward, isRngCompleted, isRngRequested,})
 
+  const poolLocked = canCompleteAward || (isRngRequested && !canCompleteAward)
+  const openPhase = !canStartAward && !canCompleteAward && !isRngRequested
+
   return <>
     <PageTitleAndBreadcrumbs
       title={`Pool Management`}
@@ -54,38 +58,83 @@ export const ManageUI = (
     />
 
     <div
-      className='bg-highlight-3 rounded-lg px-6 pt-16 pb-12 text-white mt-4 sm:mt-16 flex flex-col justify-center'
+      className='bg-highlight-3 rounded-lg px-6 pt-10 pb-10 text-white mt-4 sm:mt-16 flex flex-col justify-center'
     >
       <h4>
+        Pool status: <span className='text-accent-3'>
+          {poolLocked && <>
+            Pool locked <FeatherIcon
+              strokeWidth='0.09rem'
+              icon='lock'
+              className='inline-block w-6 h-6 relative'
+              style={{
+                top: -3
+              }}
+            />
+          </>}
+          {canStartAward && <>
+            Ready to be awarded <FeatherIcon
+              strokeWidth='0.09rem'
+              icon='check'
+              className='inline-block w-6 h-6 relative'
+              style={{
+                top: -3
+              }}
+            />
+          </>}
+          {openPhase && <>
+            Open <FeatherIcon
+              strokeWidth='0.09rem'
+              icon='clock'
+              className='inline-block w-6 h-6 relative'
+              style={{
+                top: -3
+              }}
+            />
+          </>}
+        </span>
+      </h4>
+
+      <p className='text-caption font-bold'>
         {isRngRequested && !canCompleteAward && <>
-          Pool locked! Waiting on random number generation ...
+          Waiting on random number generation ...
           <LoadingSpinner />
         </>}
 
         {canStartAward && <>
-          Pool reward process ready to be started:
+          Prize reward process ready to be started!
         </>}
 
         {canCompleteAward && <>
-          Pool locked! Pool reward process ready to be finished:
+          Prize reward process ready to be finished!
         </>}
 
-        {!canStartAward && !canCompleteAward && !isRngRequested && <>
-          Pool is in the open phase, accepting deposits and withdrawals.
+        {openPhase && <>
+          Pool is accepting deposits and withdrawals.
         </>}
-      </h4>
+      </p>
 
-      <NewPrizeCountdown
-        pool={pool}
-        flashy={false}
-      />
-
-      <PoolActionsUI
-        poolAddresses={poolAddresses}
-        usersAddress={usersAddress}
-      />
+      <div
+        className='mt-10'
+      >
+        {openPhase ? <>
+          <h6
+            className='mb-2'
+          >
+            Prize period remaining:
+          </h6>
+          <NewPrizeCountdown
+            pool={pool}
+            flashy={false}
+          />
+        </> : <>
+          <PoolActionsUI
+            poolAddresses={poolAddresses}
+            usersAddress={usersAddress}
+          />
+        </>}
+      </div>
     </div>
-
 
     <Tagline />
   </>
