@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
+import { Meta } from 'lib/components/Meta'
 import { SignInForm } from 'lib/components/SignInForm'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
@@ -43,6 +44,10 @@ export const SignInFormContainer = (props) => {
   }
 
   return <>
+    <Meta
+      title={`Sign in`}
+    />
+
     <motion.div
       key='sign-in-scaled-bg'
       className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 bg-darkened'

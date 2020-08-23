@@ -4,10 +4,11 @@ import { useRouter } from 'next/router'
 
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
-import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
-import { WithdrawInstantOrScheduled } from 'lib/components/WithdrawInstantOrScheduled'
 import { ExecuteWithdrawScheduledOrInstantWithFee } from 'lib/components/ExecuteWithdrawScheduledOrInstantWithFee'
+import { Meta } from 'lib/components/Meta'
+import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
+import { WithdrawInstantOrScheduled } from 'lib/components/WithdrawInstantOrScheduled'
 import { WizardLayout } from 'lib/components/WizardLayout'
 
 export const WithdrawWizardContainer = (props) => {
@@ -46,6 +47,10 @@ export const WithdrawWizardContainer = (props) => {
 
 
   return <>
+    <Meta
+      title={`Withdraw`}
+    />
+
     <Wizard
       initialStepIndex={initialStepIndex}
     >

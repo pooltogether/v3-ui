@@ -5,6 +5,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
+import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Tab, Tabs, Content, ContentPane } from 'lib/components/Tabs'
@@ -34,6 +35,10 @@ export const AccountUI = (props) => {
   const { pools, dynamicPlayerData } = poolData
 
   return <>
+    <Meta
+      title={`My account`}
+    />
+    
     <PageTitleAndBreadcrumbs
       title={`Account`}
       breadcrumbs={[

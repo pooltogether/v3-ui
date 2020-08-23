@@ -10,6 +10,7 @@ import { DepositCryptoForm } from 'lib/components/DepositCryptoForm'
 import { DepositFiatForm } from 'lib/components/DepositFiatForm'
 import { DepositWizardSignIn } from 'lib/components/DepositWizardSignIn'
 import { FiatOrCryptoForm } from 'lib/components/FiatOrCryptoForm'
+import { Meta } from 'lib/components/Meta'
 import { OrderComplete } from 'lib/components/OrderComplete'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 import { WizardLayout } from 'lib/components/WizardLayout'
@@ -33,6 +34,10 @@ export const DepositWizardContainer = (props) => {
   const { usersAddress } = authControllerContext
 
   return <>
+    <Meta
+      title={`Deposit`}
+    />
+
     <Wizard
       initialStepIndex={initialStepIndex}
     >

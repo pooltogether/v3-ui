@@ -17,8 +17,8 @@ export const NewPrizeCountdown = (
   const [secondsRemaining, setSecondsRemaining] = useState(null)
 
   // const secs = 167868
-  const secs = pool.prizePeriodRemainingSeconds &&
-    parseInt(pool.prizePeriodRemainingSeconds.toString(), 10)
+  const secs = pool?.prizePeriodRemainingSeconds &&
+    parseInt(pool?.prizePeriodRemainingSeconds.toString(), 10)
 
   useEffect(() => {
     setSecondsRemaining(secs)
@@ -28,6 +28,10 @@ export const NewPrizeCountdown = (
     setSecondsRemaining(secondsRemaining - 1)
   }, ONE_SECOND)
 
+  if (!pool) {
+    return null
+  }
+
   const currentDate = new Date(Date.now())
   // for testing:
   // const futureDate = addSeconds(currentDate, secondsRemaining + 950044)
@@ -35,7 +39,7 @@ export const NewPrizeCountdown = (
   const { days, hours, minutes, seconds } = subtractDates(futureDate, currentDate)
 
   let msg
-  if (pool.isRngRequested) {
+  if (pool?.isRngRequested) {
     return <>
       <p
         className={classnames(
@@ -84,7 +88,7 @@ export const NewPrizeCountdown = (
       {digit}
     </span>
   }
-
+  
   return <>
     <div
       className='flex text-center'

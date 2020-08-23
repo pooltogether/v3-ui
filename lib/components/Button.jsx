@@ -9,6 +9,7 @@ export const Button = (props) => {
   let newProps = omit(props, [
     'noAnim',
     'outline',
+    'secondary',
     'textSize',
   ])
 

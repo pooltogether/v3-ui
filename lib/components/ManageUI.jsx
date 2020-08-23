@@ -4,6 +4,7 @@ import FeatherIcon from 'feather-icons-react'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
+import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
@@ -37,6 +38,10 @@ export const ManageUI = (
   const openPhase = !canStartAward && !canCompleteAward && !isRngRequested
 
   return <>
+    <Meta
+      title={`${pool?.name} - Manage - Pools`}
+    />
+
     <PageTitleAndBreadcrumbs
       title={`Pool Management`}
       pool={pool}

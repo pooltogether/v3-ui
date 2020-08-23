@@ -10,6 +10,7 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
+import { Meta } from 'lib/components/Meta'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Tagline } from 'lib/components/Tagline'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
@@ -73,6 +74,10 @@ export const PoolShow = (
   // }
 
   return <>
+    <Meta
+      title={`${pool?.name} - Pools`}
+    />
+
     <motion.div
       initial='initial'
       animate='enter'

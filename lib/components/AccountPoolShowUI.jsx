@@ -6,6 +6,7 @@ import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
+import { Meta } from 'lib/components/Meta'
 import { Odds } from 'lib/components/Odds'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -44,6 +45,10 @@ export const AccountPoolShowUI = (props) => {
   }
 
   return <>
+    <Meta
+      title={`${pool?.name} - My account`}
+    />
+
     <div
       className='px-2 py-4 sm:py-2 text-center'
     >

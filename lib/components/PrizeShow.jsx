@@ -92,29 +92,13 @@ export const PrizeShow = (
       />
     </div>
   }
-  // console.log({ prize})
-  // console.log(prize?.net || 0)
 
   const winnerAddress = prize?.winners?.[0]
 
-
   return <>
     {pool?.name && <>
-      <Meta title={`${pool?.name} Prize #${prizeNumber}`} />
+      <Meta title={`Prize #${prizeNumber} - ${pool?.name}`} />
     </>}
-
-    {/* <ButtonLink
-      href='/prizes/[symbol]'
-      as={`/prizes/${pool?.symbol}`}
-    >
-      <FeatherIcon
-        icon='arrow-left'
-        className='stroke-current w-5 h-5 inline-block relative'
-        style={{
-          top: -2
-        }}
-      /> Back to prizes
-    </ButtonLink> */}
 
     <PageTitleAndBreadcrumbs
       title={`Prizes`}
