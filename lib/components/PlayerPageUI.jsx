@@ -9,7 +9,10 @@ import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { ErrorMessage } from 'lib/components/ErrorMessage'
+import { Meta } from 'lib/components/Meta'
+import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { shorten } from 'lib/utils/shorten'
 
 export const PlayerPageUI = (props) => {
   const router = useRouter()
@@ -34,6 +37,24 @@ export const PlayerPageUI = (props) => {
 
   
   return <>
+    <Meta
+      title={`Player ${playerAddress}`}
+    />
+
+    <PageTitleAndBreadcrumbs
+      title={`Player ${shorten(playerAddress)}`}
+      breadcrumbs={[
+        {
+          name: 'Players',
+        },
+        {
+          href: '/players/[playerAddress]',
+          as: `/players/${playerAddress}`,
+          name: `Player ${shorten(playerAddress)}`
+        }
+      ]}
+    />
+
     <motion.div
       initial='initial'
       animate='enter'
@@ -72,7 +93,7 @@ export const PlayerPageUI = (props) => {
             <div
               className='mb-4'
             >
-              You currently have no tickets.<br /> Deposit in a pool now to get tickets!
+              This player currently has no tickets.
             </div>
             <ButtonLink
               href='/'
@@ -90,29 +111,11 @@ export const PlayerPageUI = (props) => {
                 return
               }
 
-              return <motion.li
-                key={`account-pool-row-li-${pool.poolAddress}`}
-                sharedId={`pool-${pool.poolAddress}`}
-                animate='enter'
-                variants={{
-                  enter: {
-                    y: 0,
-                    transition: {
-                      duration: 0.1
-                    }
-                  },
-                }}
-                whileHover={{
-                  y: -4
-                }}
-                className='relative w-full'
-              >
-                <AccountPoolRow
-                  key={`account-pool-row-a-${pool.poolAddress}`}
-                  pool={pool}
-                  player={playerData}
-                />
-              </motion.li>
+              return <AccountPoolRow
+                key={`account-pool-row-${pool.poolAddress}`}
+                pool={pool}
+                player={playerData}
+              />
             })}
           </motion.ul>
         </>}

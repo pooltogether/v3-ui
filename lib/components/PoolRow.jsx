@@ -1,12 +1,11 @@
 import React from 'react'
-import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import FeatherIcon from 'feather-icons-react'
-import { AnimatePresence, motion } from 'framer-motion'
 
 import { useTranslation } from 'lib/../i18n'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { InteractableCard } from 'lib/components/InteractableCard'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
@@ -29,68 +28,10 @@ export const PoolRow = (
   const decimals = pool?.underlyingCollateralDecimals
 
   return <>
-    {/* <AnimatePresence> */}
-    <motion.li
-      key={`pool-${pool.poolAddress}`}
-      whileHover={{
-        y: selected ? 0 : -2
-      }}
-      whileTap={{ y: 1, scale: 0.98 }}
-      className={classnames(
-        'interactable-card bg-card hover:bg-card-selected border-card w-full px-4 mb-3 py-5 inline-block trans rounded-lg text-inverse hover:text-inverse',
-        {
-          'border-card hover:shadow-xl cursor-pointer': !selected,
-          'border-card border-dashed': selected,
-        }
-      )}
-      style={{
-        minHeight: 120
-      }}
-      onClick={(e) => {
-        e.preventDefault()
-
-        router.push(
-          '/pools/[symbol]',
-          `/pools/${symbol}`,
-          { shallow: true }
-        )
-      }}
-      animate={{
-        scale: 1,
-        y: 0,
-        opacity: 1,
-        transition: {
-          duration: 0.2,
-          staggerChildren: 0.5,
-          delayChildren: 0.2
-        }
-        // transition: { staggerChildren: 0.07, delayChildren: 0.2 }
-      }}
-      exit={{
-        scale: 0,
-        y: -10,
-        opacity: 0,
-        transition: { staggerChildren: 0.05, staggerDirection: -1 }
-      }}
-      // variants={{
-      //   exit: {
-      //     y: 50,
-      //     opacity: 0,
-      //     transition: {
-      //       y: { stiffness: 1000 }
-      //     }
-      //   },
-      //   animate: {
-      //     y: 0,
-      //     opacity: 1,
-      //     transition: {
-      //       y: { stiffness: 1000, velocity: -100 }
-      //     }
-      //   },
-      //   // initial: {
-      //   //   scale: 0,
-      //   // }
-      // }}
+    <InteractableCard
+      key={`pool-row-${pool.poolAddress}`}
+      href='/pools/[symbol]'
+      as={`/pools/${symbol}`}
     >
       <div className='flex items-center'>
         <div
@@ -224,8 +165,6 @@ export const PoolRow = (
           </ButtonLink>
         </div>
       </div>
-    </motion.li>
-      
-    {/* </AnimatePresence> */}
+    </InteractableCard>
   </>
 }

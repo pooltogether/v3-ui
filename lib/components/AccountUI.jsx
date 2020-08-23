@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
@@ -104,28 +104,11 @@ export const AccountUI = (props) => {
                       return
                     }
 
-                    return <motion.li
-                      key={`account-pool-row-li-${pool.poolAddress}`}
-                      animate='enter'
-                      variants={{
-                        enter: {
-                          y: 0,
-                          transition: {
-                            duration: 0.1
-                          }
-                        },
-                      }}
-                      whileHover={{
-                        y: -4
-                      }}
-                      className='relative w-full'
-                    >
-                      <AccountPoolRow
-                        key={`account-pool-row-a-${pool.poolAddress}`}
-                        pool={pool}
-                        player={playerData}
-                      />
-                    </motion.li>
+                    return <AccountPoolRow
+                      key={`account-pool-row-${pool.poolAddress}`}
+                      pool={pool}
+                      player={playerData}
+                    />
                   })}
                     
                 </motion.ul>
