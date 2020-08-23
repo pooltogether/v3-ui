@@ -4,7 +4,7 @@ import CountUp from 'react-countup'
 import { usePreviousValue } from 'beautiful-react-hooks'; 
 
 export const PoolCountUp = (props) => {
-  const { bold } = props
+  const { bold, fontSansRegular } = props
 
   const [value, setValue] = useState(0)
   const prev = usePreviousValue(value)
@@ -24,8 +24,10 @@ export const PoolCountUp = (props) => {
   return <>
     <span
       className={classnames(
-        'font-number', {
-          'font-bold': fontBold
+        {
+          'font-sans-regular': fontSansRegular,
+          'font-number': !fontSansRegular,
+          'font-bold': fontBold,
         }
       )}
     >

@@ -5,15 +5,22 @@ import { PoolCountUp } from 'lib/components/PoolCountUp'
 
 export const Odds = (props) => {
   const {
-    splitLines,
-    isWithdraw,
+    className,
     hide,
+    fontSansRegular,
+    isWithdraw,
     pool,
     showLabel,
+    splitLines,
+    style,
     timeTravelTotalSupply,
     usersBalance,
   } = props
+
   let { additionalQuantity } = props
+
+  const font = fontSansRegular ? 'font-sans-regular' : 'font-number'
+
 
   let content = null
 
@@ -58,8 +65,9 @@ export const Odds = (props) => {
   } else if (!hide && (hasBalance || hasAdditionalQuantity)) {
     content = <>
       {label} {splitLines && <br />}<span
-        className='font-number font-bold'
+        className={`${font} font-bold`}
       >1</span> in <PoolCountUp
+        fontSansRegular
         start={result}
         end={result}
       />
@@ -70,6 +78,8 @@ export const Odds = (props) => {
     style={{
       minHeight: 24
     }}
+    className={className}
+    style={style}
   >
     {content}
   </div>

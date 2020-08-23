@@ -7,6 +7,7 @@ export const InteractableCard = (
   props,
 ) => {  
   const selected = props.selected
+  const className = props.className
 
   return <>
     <motion.li
@@ -17,7 +18,8 @@ export const InteractableCard = (
       }}
       whileTap={{ y: 1, scale: 0.98 }}
       className={classnames(
-        'interactable-card bg-card hover:bg-card-selected border-card w-full px-4 mb-3 py-5 trans rounded-lg text-inverse hover:text-inverse',
+        className,
+        'interactable-card bg-card hover:bg-card-selected border-card w-full px-4 sm:px-10 mb-3 py-5 sm:py-6 trans rounded-lg text-inverse hover:text-inverse',
         {
           'border-card hover:shadow-xl cursor-pointer': !selected,
           'border-card border-dashed': selected,
@@ -67,12 +69,7 @@ export const InteractableCard = (
         href={props.href}
         as={props.as}
       >
-        <a
-          // className='border border-card shadow-md hover:shadow-xl bg-card hover:bg-card-selected cursor-pointer border border-transparent w-full px-3 sm:px-4 sm:px-4 mb-3 py-3 sm:py-4 inline-block trans rounded-lg border-0 text-inverse'
-          // style={{
-          //   minHeight: 120
-          // }}
-        >
+        <a>
           {props.children}
         </a>
       </Link>

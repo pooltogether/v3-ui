@@ -1055,6 +1055,15 @@ input[type='submit'][disabled] {
   }
 }
 
+.ticket-card {
+  background-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 48.9%,
+    var(--color-bg-accent-grey-2) 49%
+  );
+}
+
 .interactable-card {
   border: 0.1rem dashed transparent;
 }
