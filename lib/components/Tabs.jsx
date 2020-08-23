@@ -3,7 +3,7 @@ import classnames from 'classnames'
 
 export const Tabs = ({ children }) => {
   return <nav
-    className='flex items-end justify-between mt-2 mb-6 mx-auto text-center border-b-2 pb-1'
+    className='flex items-center justify-center mt-10 mb-6 mx-auto text-center'
   >
     {children}
   </nav>
@@ -12,10 +12,10 @@ export const Tabs = ({ children }) => {
 export const Tab = ({ isSelected, onClick, children }) => {
   return <a
     className={classnames(
-      'relative border-b-2 cursor-pointer text-xs sm:text-sm text-inverse mx-2 sm:mx-3 mb-1',
+      'relative border-b-2 cursor-pointer text-xs sm:text-sm mx-2 sm:mx-3 mb-1 px-3 font-bold',
       {
-        'border-transparent hover:border-highlight-1 text-default hover:text-highlight-2': !isSelected,
-        'border-green text-inverse hover:text-highlight-1': isSelected,
+        'border-transparent hover:border-highlight-1 text-accent-2 hover:text-highlight-2': !isSelected,
+        'border-green text-highlight-2 hover:text-highlight-1': isSelected,
       }
     )}
     style={{

@@ -103,14 +103,14 @@ export const Layout = (props) => {
     >
       <motion.div
         className={classnames(
-          'header fixed w-full bg-body z-30 py-2 mx-auto l-0 r-0',
+          'header fixed w-full bg-body z-30 pt-2 pb-0 mx-auto l-0 r-0',
           { 
             'showing-network-banner': showingBanner
           }
         )}
       >
         <div
-          className='flex justify-between items-center px-4 xs:px-12 sm:px-10 py-4 sm:pt-5 sm:pb-3 mx-auto'
+          className='flex justify-between items-center px-4 xs:px-12 sm:px-10 py-4 sm:pt-5 sm:pb-7 mx-auto'
         >
           <HeaderLogo />
 
@@ -147,10 +147,11 @@ export const Layout = (props) => {
         </div>
 
         <motion.div
+          className='w-full'
           style={{
-            boxShadow: '0 20px 60px 0 rgba(0, 0, 0, .7), 0 1px 2px -1px rgba(0, 0, 0, .4)',
-            height: 3,
-            width: '100%'
+            boxShadow: 'rgba(0, 0, 0, 0.025) 0px 0px 1px 1px, rgba(0, 0, 0, 0.1) 0px 1px 7px 1px',
+            height: 0,
+            maxWidth: '100vw',
           }}
           animate={yScrollPosition > 1 ? 'enter' : 'exit'}
           variants={{

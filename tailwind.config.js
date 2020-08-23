@@ -87,6 +87,8 @@ module.exports = {
       borderColor: {
         'accent-1': 'var(--color-text-accent-1)',
         'accent-2': 'var(--color-text-accent-2)',
+        'accent-3': 'var(--color-text-accent-3)',
+        'accent-4': 'var(--color-text-accent-4)',
         primary: 'var(--color-border-primary)',
         card: 'var(--color-border-card)',
         secondary: 'var(--color-border-secondary)',

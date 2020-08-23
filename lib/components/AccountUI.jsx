@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import Link from 'next/link'
 import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/router'
 
@@ -12,23 +13,21 @@ import { Tab, Tabs, Content, ContentPane } from 'lib/components/Tabs'
 import TicketIcon from 'assets/images/tickets-icon.svg'
 
 export const AccountUI = (props) => {
-  const router = useRouter()
+  const POOLS = 'POOLS'
+  const REWARDS = 'REWARDS'
 
-  const HOLDINGS = 'holdings'
-  const SETTINGS = 'settings'
+  const [visible, setVisible] = useState(POOLS)
 
-  const [visible, setVisible] = useState(HOLDINGS)
-
-  const handleShowSettings = (e) => {
+  const handleShowRewards = (e) => {
     e.preventDefault()
 
-    setVisible(SETTINGS)
+    setVisible(REWARDS)
   }
 
-  const handleShowHoldings = (e) => {
+  const handleShowPools = (e) => {
     e.preventDefault()
 
-    setVisible(HOLDINGS)
+    setVisible(POOLS)
   }
 
   const poolData = useContext(PoolDataContext)
@@ -36,35 +35,69 @@ export const AccountUI = (props) => {
 
   return <>
     <div
-      className='px-2 py-4 sm:py-2 text-center rounded-lg'
+     
     >
+      <div
+        className='flex flex-col items-start justify-between w-full leading-none'
+      >
+
+        <div
+          className='inline-block text-left text-xl sm:text-3xl font-bold text-accent-2 relative'
+          style={{
+            top: -6
+          }}
+        >
+          Account
+        </div>
+
+        <div
+          className='inline-block text-left text-caption-2 relative'
+          style={{
+            left: 2,
+            bottom: -4
+          }}
+        >
+          <Link
+            href='/account'
+            as='/account'
+            shallow
+          >
+            <a
+              className='underline uppercase'
+            >
+              Account
+            </a>
+          </Link> &gt; <span
+            className='uppercase'
+          >
+            My account
+          </span>
+        </div>
+      </div>
+
       <div>
         <Tabs>
-          <div
-            className='text-base sm:text-xl text-inverse'
-          >
-            Your account
-          </div>
+          
 
           <div>
             <Tab
-              isSelected={visible === HOLDINGS}
-              onClick={handleShowHoldings}
+              isSelected={visible === POOLS}
+              onClick={handleShowPools}
             >
-              Holdings
+              Pools
             </Tab>
             <Tab
-              isSelected={visible === SETTINGS}
-              onClick={handleShowSettings}
+              isSelected={visible === REWARDS}
+              onClick={handleShowRewards}
             >
-              Placeholder
+              Rewards
             </Tab>
           </div>
         </Tabs>
 
         <Content>
 
-          <ContentPane isSelected={visible === HOLDINGS}>
+          <ContentPane isSelected={visible === POOLS}>
             {!dynamicPlayerData ? <>
               <IndexUILoader />
             </> :
@@ -73,10 +106,10 @@ export const AccountUI = (props) => {
                   <div
                     className='mb-4'
                   >
-                    <img
+                    {/* <img
                       src={TicketIcon}
                       className='mx-auto'
-                    />
+                    /> */}
 
                     You currently have no tickets.<br /> Deposit in a pool now to get tickets!
                   </div>
@@ -88,55 +121,53 @@ export const AccountUI = (props) => {
                   </ButtonLink>
                 </BlankStateMessage>
               </> : <>
-                <AnimateSharedLayout>
-                  <AnimatePresence>
-                    <img
-                      src={TicketIcon}
-                      className='mx-auto'
-                    />
+                <>
+                  <img
+                    src={TicketIcon}
+                    className='mx-auto'
+                  />
 
-                    <motion.ul>
-                      {dynamicPlayerData.map(playerData => {
-                        const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
+                  <motion.ul>
+                    {dynamicPlayerData.map(playerData => {
+                      const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
 
-                        if (!pool) {
-                          return
-                        }
+                      if (!pool) {
+                        return
+                      }
 
-                        return <motion.li
-                          key={`account-pool-row-li-${pool.poolAddress}`}
-                          sharedId={`pool-${pool.poolAddress}`}
-                          animate='enter'
-                          variants={{
-                            enter: {
-                              y: 0,
-                              transition: {
-                                duration: 0.1
-                              }
-                            },
-                          }}
-                          whileHover={{
-                            y: -4
-                          }}
-                          className='relative w-full'
-                        >
-                          <AccountPoolRow
-                            key={`account-pool-row-a-${pool.poolAddress}`}
-                            pool={pool}
-                            player={playerData}
-                          />
-                        </motion.li>
-                      })}
-                        
-                    </motion.ul>
-                  </AnimatePresence>
-                </AnimateSharedLayout>
+                      return <motion.li
+                        key={`account-pool-row-li-${pool.poolAddress}`}
+                        sharedId={`pool-${pool.poolAddress}`}
+                        animate='enter'
+                        variants={{
+                          enter: {
+                            y: 0,
+                            transition: {
+                              duration: 0.1
+                            }
+                          },
+                        }}
+                        whileHover={{
+                          y: -4
+                        }}
+                        className='relative w-full'
+                      >
+                        <AccountPoolRow
+                          key={`account-pool-row-a-${pool.poolAddress}`}
+                          pool={pool}
+                          player={playerData}
+                        />
+                      </motion.li>
+                    })}
+                      
+                  </motion.ul>
+                </>
               </>
             }
           </ContentPane>
 
           <ContentPane
-            isSelected={visible === SETTINGS}
+            isSelected={visible === REWARDS}
           >
             
           </ContentPane>

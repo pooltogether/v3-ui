@@ -144,10 +144,10 @@ export const PoolShow = (
                       Pools
                     </a>
                   </Link> &gt; <span
-                      className='uppercase'
-                    >
-                      {pool?.name}
-                    </span>
+                    className='uppercase'
+                  >
+                    {pool?.name}
+                  </span>
                 </div>
               </div>
             </div>
@@ -258,7 +258,7 @@ export const PoolShow = (
                     })} {pool.underlyingCollateralSymbol}
                   </h3>
                   
-                  <br /> <Link
+                  <Link
                     href='/prizes/[symbol]'
                     as={`/prizes/${pool?.symbol}`}
                   >

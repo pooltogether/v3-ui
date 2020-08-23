@@ -872,7 +872,7 @@ input[type='submit'][disabled] {
 }
 
 .profile-img--jazzicon {
-  top: 1px;
+  /* top: 1px; */
 }
 
 .profile-img {
