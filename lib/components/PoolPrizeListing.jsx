@@ -5,7 +5,7 @@ import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
-import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { PrizesTable } from 'lib/components/PrizesTable'
 import { poolPrizesQuery } from 'lib/queries/poolPrizesQuery'
 
@@ -36,7 +36,9 @@ export const PoolPrizeListing = (
     return <div
       className='mt-10'
     >
-      <IndexUILoader />
+      <TableRowUILoader
+        rows={5}
+      />
     </div>
   }
 

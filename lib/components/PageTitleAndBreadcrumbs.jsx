@@ -23,7 +23,7 @@ export const PageTitleAndBreadcrumbs = (
       <div
         className='inline-block text-left text-caption-2 relative uppercase mt-3'
         style={{
-          left: 2,
+          left: 1,
           bottom: 2
         }}
       >

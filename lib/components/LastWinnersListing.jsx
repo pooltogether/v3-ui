@@ -37,7 +37,7 @@ export const LastWinnersListing = (
 
   const prizes = data?.prizeStrategy?.prizes
   const players = prizes?.reduce(function (result, prize) {
-    if (prize.winners.length > 0) {
+    if (prize.winners && prize.winners.length > 0) {
       result.push({
         address: prize?.winners[0],
         winnings: prize?.net
@@ -58,7 +58,7 @@ export const LastWinnersListing = (
       {error.message}
     </>}
 
-    {players?.length === 0 ? <>
+    {players && players?.length === 0 ? <>
       <h6>
         No winners awarded yet...
       </h6>

@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PoolList } from 'lib/components/PoolList'
-import { PoolShow } from 'lib/components/PoolShow'
+import { Tagline } from 'lib/components/Tagline'
 
 export const IndexUI = (
   props,
@@ -12,38 +12,29 @@ export const IndexUI = (
   const {
     loading,
     pools,
-    pool,
+    // pool,
   } = poolDataContext
 
   return <>
-    {pool && <PoolShow
-      {...props}
-      pool={pool}
-    />}
+    <h1
+      className='banner-text mx-auto font-bold text-center'
+    >
+      You could <span className='text-flashy'>win $702 every week</span> just by saving your money.
+    </h1>
 
-    {!pool && <>
-      <h1
-        className='banner-text mx-auto font-bold text-center'
-      >
-        You could <span className='text-flashy'>win $702 every week</span> just by saving your money.
-      </h1>
+    <h6
+      className='text-accent-2 mb-6'
+    >
+      Pools
+    </h6>
 
-      <h6
-        className='text-accent-2 mb-6'
-      >
-        Pools
-      </h6>
+    {loading ?
+      <IndexUILoader /> :
+      <PoolList
+        pools={pools}
+      />
+    }
 
-      {loading ?
-        <IndexUILoader /> :
-        <PoolList
-          omit={pool}
-          selectedId={pool && pool.poolAddress}
-          pools={pools}
-        />
-      }
-    </>}
-
-    
+    <Tagline />
   </>
 }

@@ -2,13 +2,14 @@ import React, { useContext } from 'react'
 import { useRouter} from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
-import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { Meta } from 'lib/components/Meta'
 import { PoolPrizeListing } from 'lib/components/PoolPrizeListing'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PrizesPageHeader } from 'lib/components/PrizesPageHeader'
+import { Tagline } from 'lib/components/Tagline'
 
 export const PoolPrizesShow = (
   props,
@@ -114,5 +115,6 @@ export const PoolPrizesShow = (
       pool={pool}
     />
 
+    <Tagline />
   </>
 }

@@ -17,8 +17,6 @@ export const CompleteAwardUI = (props) => {
   const poolDataContext = useContext(PoolDataContext)
   const { pool } = poolDataContext
 
-  const { canCompleteAward, prizeStrategyAddress } = pool
-
   const [txId, setTxId] = useState()
 
   const txName = `Start ${pool?.name} award process`
@@ -46,7 +44,7 @@ export const CompleteAwardUI = (props) => {
     const id = sendTx(
       provider,
       PrizeStrategyAbi,
-      prizeStrategyAddress,
+      pool?.prizeStrategyAddress,
       method,
       params,
     )
@@ -55,8 +53,9 @@ export const CompleteAwardUI = (props) => {
   }
 
   return <>
-    {canCompleteAward && <>
+    {pool?.canCompleteAward && <>
       <Button
+        secondary
         textSize='lg'
         onClick={handleCompleteAwardClick}
         disabled={disabled}

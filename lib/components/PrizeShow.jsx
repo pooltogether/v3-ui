@@ -9,7 +9,8 @@ import { GeneralContext } from 'lib/components/contextProviders/GeneralContextPr
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
-import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { TableRowUILoader } from 'lib/components/TableRowUILoader'
+import { Tagline } from 'lib/components/Tagline'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -66,12 +67,13 @@ export const PrizeShow = (
   if (isCurrentPrize) {
     prize = {
       awardedBlock: null,
-      net: displayAmountInEther(
-        pool?.estimatePrize || 0,
-        { decimals }
-      )
+      net: pool?.estimatePrize
     }
   }
+  // displayAmountInEther(
+  //   pool?.estimatePrize || 0,
+  //   { decimals }
+  // )
 
   if (prize === null) {
     return <div
@@ -85,11 +87,16 @@ export const PrizeShow = (
     return <div
       className='mt-10'
     >
-      <IndexUILoader />
+      <TableRowUILoader
+        rows={5}
+      />
     </div>
   }
+  // console.log({ prize})
+  // console.log(prize?.net || 0)
 
   const winnerAddress = prize?.winners?.[0]
+
 
   return <>
     {pool?.name && <>
@@ -251,5 +258,6 @@ export const PrizeShow = (
       prize={prize}
     />
 
+    <Tagline />
   </>
 }

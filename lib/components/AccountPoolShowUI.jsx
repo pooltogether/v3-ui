@@ -12,6 +12,7 @@ import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PrizeAmount } from 'lib/components/PrizeAmount'
 import { PTHint } from 'lib/components/PTHint'
+import { Tagline } from 'lib/components/Tagline'
 import { TimelockedBalanceUI } from 'lib/components/TimelockedBalanceUI'
 
 export const AccountPoolShowUI = (props) => {
@@ -150,7 +151,6 @@ export const AccountPoolShowUI = (props) => {
                 </PTHint>
               </> : <>
                 <ButtonLink
-                  onClick={handleShowWithdraw}
                   href='/account/pools/[symbol]/withdraw'
                   as={`/account/pools/${symbol}/withdraw`}
                 >
@@ -169,5 +169,7 @@ export const AccountPoolShowUI = (props) => {
         </>
       }
     </div>
+
+    <Tagline />
   </>
 }

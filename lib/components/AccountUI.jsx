@@ -1,7 +1,5 @@
 import React, { useContext, useState } from 'react'
-import Link from 'next/link'
 import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion'
-import { useRouter } from 'next/router'
 
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
@@ -10,6 +8,7 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Tab, Tabs, Content, ContentPane } from 'lib/components/Tabs'
+import { Tagline } from 'lib/components/Tagline'
 
 import TicketIcon from 'assets/images/tickets-icon.svg'
 
@@ -138,5 +137,7 @@ export const AccountUI = (props) => {
 
       </Content>
     </div>
+
+    <Tagline />
   </>
 }

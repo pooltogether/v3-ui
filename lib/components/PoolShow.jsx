@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Cookies from 'js-cookie'
 import Link from 'next/link'
 import { ethers } from 'ethers'
@@ -10,8 +10,8 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
-import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
+import { Tagline } from 'lib/components/Tagline'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 import CompoundFinanceIcon from 'assets/images/icon-compoundfinance.svg'
@@ -33,7 +33,9 @@ export const PoolShow = (
   let error
 
   try {
-    ethers.utils.getAddress(pool.poolAddress)
+    if (pool?.poolAddress) {
+      ethers.utils.getAddress(pool.poolAddress)
+    }
   } catch (e) {
     console.error(e)
     if (e.message.match('invalid address')) {
@@ -72,7 +74,6 @@ export const PoolShow = (
 
   return <>
     <motion.div
-      // layoutId={`pool-container-${poolId}`}
       initial='initial'
       animate='enter'
       exit='exit'
@@ -291,5 +292,8 @@ export const PoolShow = (
           </div>
         </>}
       </motion.div>
+
+    <Tagline />
+
   </>
 }

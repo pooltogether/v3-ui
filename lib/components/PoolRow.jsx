@@ -35,6 +35,7 @@ export const PoolRow = (
       whileHover={{
         y: selected ? 0 : -2
       }}
+      whileTap={{ y: 1, scale: 0.98 }}
       className={classnames(
         'interactable-card bg-card hover:bg-card-selected border-card w-full px-4 mb-3 py-5 inline-block trans rounded-lg text-inverse hover:text-inverse',
         {
@@ -54,24 +55,42 @@ export const PoolRow = (
           { shallow: true }
         )
       }}
-      animate
-      variants={{
-        exit: {
-          scale: 0,
-          transition: {
-            duration: 0.8,
-          }
-        },
-        enter: {
-          scale: 1,
-          transition: {
-            duration: 0.8,
-          }
-        },
-        initial: {
-          scale: 0,
+      animate={{
+        scale: 1,
+        y: 0,
+        opacity: 1,
+        transition: {
+          duration: 0.2,
+          staggerChildren: 0.5,
+          delayChildren: 0.2
         }
+        // transition: { staggerChildren: 0.07, delayChildren: 0.2 }
       }}
+      exit={{
+        scale: 0,
+        y: -10,
+        opacity: 0,
+        transition: { staggerChildren: 0.05, staggerDirection: -1 }
+      }}
+      // variants={{
+      //   exit: {
+      //     y: 50,
+      //     opacity: 0,
+      //     transition: {
+      //       y: { stiffness: 1000 }
+      //     }
+      //   },
+      //   animate: {
+      //     y: 0,
+      //     opacity: 1,
+      //     transition: {
+      //       y: { stiffness: 1000, velocity: -100 }
+      //     }
+      //   },
+      //   // initial: {
+      //   //   scale: 0,
+      //   // }
+      // }}
     >
       <div className='flex items-center'>
         <div

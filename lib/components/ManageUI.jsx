@@ -2,10 +2,12 @@ import React, { useContext } from 'react'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
+import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { Tagline } from 'lib/components/Tagline'
 
 export const ManageUI = (
   props,
@@ -51,34 +53,40 @@ export const ManageUI = (
       ]}
     />
 
-    <h4
-      className='flex flex-col w-full py-4 sm:py-2 mt-16'
-    >
-      {isRngRequested && !canCompleteAward && <>
-        Pool locked! Waiting on random number generation ...
-        <LoadingSpinner />
-      </>}
-
-      {canStartAward && <>
-        Pool reward process ready to be started:
-      </>}
-
-      {canCompleteAward && <>
-        Pool locked! Pool reward process ready to be finished:
-      </>}
-
-      {!canStartAward && !canCompleteAward && !isRngRequested && <>
-        Pool is in open phase, accepting deposits and withdrawals.
-      </>}
-    </h4>
-
     <div
-      className='mb-10'
+      className='bg-highlight-3 rounded-lg px-6 pt-16 pb-12 text-white mt-4 sm:mt-16 flex flex-col justify-center'
     >
+      <h4>
+        {isRngRequested && !canCompleteAward && <>
+          Pool locked! Waiting on random number generation ...
+          <LoadingSpinner />
+        </>}
+
+        {canStartAward && <>
+          Pool reward process ready to be started:
+        </>}
+
+        {canCompleteAward && <>
+          Pool locked! Pool reward process ready to be finished:
+        </>}
+
+        {!canStartAward && !canCompleteAward && !isRngRequested && <>
+          Pool is in the open phase, accepting deposits and withdrawals.
+        </>}
+      </h4>
+
+      <NewPrizeCountdown
+        pool={pool}
+        flashy={false}
+      />
+
       <PoolActionsUI
         poolAddresses={poolAddresses}
         usersAddress={usersAddress}
       />
     </div>
+
+
+    <Tagline />
   </>
 }
