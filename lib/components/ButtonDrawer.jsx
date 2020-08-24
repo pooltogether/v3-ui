@@ -6,7 +6,7 @@ export const ButtonDrawer = (props) => {
 
   return <>
     <div
-      className='hidden sm:flex items-center justify-between my-5'
+      className='hidden sm:flex items-center justify-between mt-12'
     >
       {children}
     </div>
@@ -20,12 +20,5 @@ export const ButtonDrawer = (props) => {
     >
       {children}
     </div>
-{/* 
-    {ReactDOM.createPortal(
-      <>
-        {children}
-      </>,
-      document.getElementById('button-portal')
-    )} */}
   </>
 }

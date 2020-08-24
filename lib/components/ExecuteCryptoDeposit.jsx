@@ -34,7 +34,7 @@ export const ExecuteCryptoDeposit = (props) => {
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
-  const txName = `Deposit ${quantity} tickets ($${quantity} ${ticker})`
+  const txName = `Deposit: ${quantity} tickets ($${quantity} ${ticker})`
   const method = 'depositTo'
 
   const [sendTx] = useSendTransaction(txName)

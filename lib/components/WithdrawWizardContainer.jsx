@@ -39,6 +39,8 @@ export const WithdrawWizardContainer = (props) => {
   let balanceJsx = null
   if (pool) {
     balanceJsx = <DepositAndWithdrawFormUsersBalance
+      widthClasses={'w-full xs:w-5/12'}
+      roundedClasses='rounded-lg'
       label='Your ticket balance:'
       start={cachedUsersBalance || usersTicketBalance}
       end={usersTicketBalance}

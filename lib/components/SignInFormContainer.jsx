@@ -82,7 +82,7 @@ export const SignInFormContainer = (props) => {
       <div
         className='h-full flex flex-col justify-center px-4 sm:px-12 lg:px-64 -mt-4 text-center mx-auto'
         style={{
-          maxWidth: 1460
+          maxWidth: 1260
         }}
       >
         <SignInForm

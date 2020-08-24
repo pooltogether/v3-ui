@@ -59,7 +59,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
 
   let txName = `Withdraw ${quantity} tickets instantly (fairness fee: $${quantity} ${ticker})`
   if (scheduledWithdrawal) {
-    txName = `Schedule a withdrawal of ${quantity} tickets ($${quantity} ${ticker})`
+    txName = `Schedule withdrawal of ${quantity} tickets ($${quantity} ${ticker})`
   }
 
   const [sendTx] = useSendTransaction(txName)

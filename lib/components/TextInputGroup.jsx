@@ -39,12 +39,20 @@ export const TextInputGroup = (
     <div
       className='input-fieldset py-2 mb-0'
     >
-      <div className='flex justify-between'>
+      <div
+        className={classnames(
+          'flex',
+          {
+            'justify-between': rightLabel,
+            'justify-center': !rightLabel,
+          }
+        )}>
         <label
           htmlFor={id}
           className={classnames(
-            'mt-0 pb-1 sm:pl-8 sm:pr-2 trans',
+            'mt-0 pb-1 sm:pr-2 trans',
             {
+              'sm:pl-8': rightLabel,
               'font-bold text-primary cursor-not-allowed': disabled,
               'font-bold text-default-soft hover:text-default': !disabled,
             }

@@ -19,7 +19,7 @@ export const Odds = (props) => {
 
   let { additionalQuantity } = props
 
-  const font = fontSansRegular ? 'font-sans-regular' : 'font-number'
+  const font = fontSansRegular ? 'font-sans-regular' : ''
 
 
   let content = null

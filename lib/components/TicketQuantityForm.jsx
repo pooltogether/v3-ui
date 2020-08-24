@@ -80,8 +80,8 @@ export const TicketQuantityForm = (props) => {
   const continueButton = <Button
     textSize='xl'
     disabled={!formState.isValid}
-    color='green'
     onClick={handleSubmit(onSubmit)}
+    // className={'mx-auto w-full'}
   >
     Continue
   </Button>
@@ -92,7 +92,7 @@ export const TicketQuantityForm = (props) => {
     </PaneTitle>
 
     {balanceJsx && <>
-      <div className='mt-3 mb-6'>
+      <div className='mb-12'>
         {balanceJsx}
       </div>
     </>}
@@ -113,7 +113,9 @@ export const TicketQuantityForm = (props) => {
     <form
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className='w-full xs:w-10/12 sm:w-2/3 mx-auto'>
+      <div
+        className='w-full xs:w-10/12 sm:w-10/12 mx-auto'
+      >
         <TextInputGroup
           large
           unsignedNumber
@@ -128,8 +130,7 @@ export const TicketQuantityForm = (props) => {
           </>}
           required='ticket quantity required'
           autoComplete='off'
-          // placeholder={'# of tickets'}
-          rightLabel={usersAddress && <>
+          rightLabel={usersAddress && !isWithdraw && <>
             <button
               type='button'
               className='font-bold'
@@ -164,9 +165,16 @@ export const TicketQuantityForm = (props) => {
         />
       </div>
 
-      <ButtonDrawer>
-        {continueButton}
-      </ButtonDrawer>
+      <div
+        className='flex flex-col mx-auto w-full xs:w-10/12 sm:w-10/12 mx-auto items-center justify-center'
+      >
+
+        <ButtonDrawer>
+          {continueButton}
+        </ButtonDrawer>
+      </div>
+
+
     </form>
   </>
 }

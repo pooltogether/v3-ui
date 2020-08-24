@@ -40,7 +40,6 @@ export const FiatOrCryptoForm = (props) => {
       <Button
         textSize='xl'
         onClick={handleFiatClick}
-        color='green'
         className='my-2 w-full mx-auto'
       >
         Fiat currency

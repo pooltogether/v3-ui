@@ -148,7 +148,7 @@ export const DepositCryptoForm = (props) => {
     />
 
     <div
-      className='bg-default flex text-inverse items-center justify-between w-full xs:w-10/12 sm:w-9/12 lg:w-9/12 mx-auto px-6 py-3 font-bold rounded-bl-lg rounded-br-lg'
+      className='bg-primary flex text-inverse items-center justify-between w-full xs:w-10/12 sm:w-10/12 mx-auto px-6 py-3 font-bold rounded-bl-lg rounded-br-lg'
     >
       <div>
         Total:
@@ -162,7 +162,9 @@ export const DepositCryptoForm = (props) => {
       </div>
     </div>
 
-    <div className='flex flex-col mx-auto w-full sm:w-9/12 lg:w-9/12 mx-auto items-center justify-center'>
+    <div
+      className='flex flex-col mx-auto w-full xs:w-10/12 sm:w-10/12 mx-auto items-center justify-center'
+    >
       
       {overBalance ? <>
         <div className='text-yellow my-6 flex flex-col'>
@@ -204,7 +206,9 @@ export const DepositCryptoForm = (props) => {
           </div> */}
         </div>
       </> : <>
-        <div className='text-inverse mb-4 text-lg w-full'>
+        <div
+          className='text-inverse mb-4 text-lg w-full'
+        >
 
           {needsApproval && <>
             <div
@@ -234,30 +238,6 @@ export const DepositCryptoForm = (props) => {
           </>}
           
           <ButtonDrawer>
-              {needsApproval && <>
-                <Button
-                  noAnim
-                  textSize='xl'
-                  onClick={handleUnlockClick}
-                  disabled={unlockTxInFlight}
-                  className='w-48-percent'
-                >
-                  Approve {tickerUpcased}
-                </Button>
-              </>}
-
-              <DepositTxButton
-                needsApproval={needsApproval}
-                quantity={quantity}
-                disabled={poolIsLocked || needsApproval || overBalance}
-                poolIsLocked={poolIsLocked}
-                nextStep={nextStep}
-              />
-          </ButtonDrawer>
-
-          {/* <div
-            className='flex mt-10 sm:mt-10 mb-5 justify-between items-center'
-          >
             {needsApproval && <>
               <Button
                 noAnim
@@ -277,7 +257,7 @@ export const DepositCryptoForm = (props) => {
               poolIsLocked={poolIsLocked}
               nextStep={nextStep}
             />
-          </div> */}
+          </ButtonDrawer>
         </div>
       </>}
     </div>

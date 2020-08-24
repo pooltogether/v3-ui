@@ -33,7 +33,7 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
-  const txName = `Withdraw ${quantity} tickets ($${quantity} ${ticker})`
+  const txName = `Withdraw: ${quantity} tickets ($${quantity} ${ticker})`
   const method = 'withdrawInstantlyFrom'
 
   const [sendTx] = useSendTransaction(txName)
