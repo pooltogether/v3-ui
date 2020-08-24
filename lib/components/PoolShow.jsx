@@ -264,22 +264,18 @@ export const PoolShow = (
             ]}
           />
 
-          <div
-            className='relative py-4 sm:py-2 text-center rounded-lg'
-          >
-            {/* {ethBalance && ethBalance.eq(0) && <>
-              <FormLockedOverlay
-                flexColJustifyClass='justify-start'
-                title={`Deposit & Withdraw`}
-                zLayerClass='z-30'
-              >
-                <>
-                  Your ETH balance is 0.
-                  <br />To interact with the contracts you will need ETH.
-                </>
-              </FormLockedOverlay>
-            </>} */}
-          </div>
+          {/* {ethBalance && ethBalance.eq(0) && <>
+            <FormLockedOverlay
+              flexColJustifyClass='justify-start'
+              title={`Deposit & Withdraw`}
+              zLayerClass='z-30'
+            >
+              <>
+                Your ETH balance is 0.
+                <br />To interact with the contracts you will need ETH.
+              </>
+            </FormLockedOverlay>
+          </>} */}
         </>
         {/* } */}
 

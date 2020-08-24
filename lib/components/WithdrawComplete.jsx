@@ -31,6 +31,10 @@ export const WithdrawComplete = (props) => {
   const underlyingCollateralSymbol = pool && pool.underlyingCollateralSymbol
   const symbolUpcased = underlyingCollateralSymbol && underlyingCollateralSymbol.toUpperCase()
 
+  if (!withdrawType) {
+    return null
+  }
+
   const handleShowAccount = (e) => {
     e.preventDefault()
 
@@ -70,10 +74,9 @@ export const WithdrawComplete = (props) => {
 
     <div>
       <ButtonLink
-        size='lg'
-        className='w-64'
         href='/account'
         as='/account'
+        textSize='2xl'
       >
         View your account
       </ButtonLink>

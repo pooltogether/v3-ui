@@ -94,10 +94,14 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
           ethers.utils.parseEther(maxExitFee)
         )
       }
+      
+      // TX "data" param
+      params.push([])
 
       params.push({
         gasLimit: 500000
       })
+      console.log({params})
 
       const id = sendTx(
         provider,

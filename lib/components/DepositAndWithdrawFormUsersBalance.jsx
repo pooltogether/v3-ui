@@ -9,7 +9,7 @@ export const DepositAndWithdrawFormUsersBalance = (
   const { label, start, end, units } = props
 
   let roundedClasses = props.roundedClasses || 'rounded-tl-lg rounded-tr-lg'
-  let widthClasses = props.widthClasses || 'w-full xs:w-10/12 sm:w-10/12'
+  let widthClasses = props.widthClasses || 'w-full'
 
   return <>
     <div
@@ -27,7 +27,7 @@ export const DepositAndWithdrawFormUsersBalance = (
           {...props}
           start={start}
           end={end}
-          decimals={2}
+          decimals={4}
         /> {units}
       </div>
     </div>

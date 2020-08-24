@@ -10,7 +10,7 @@ export const RadioInputGroup = (
     
     return <div
       key={`radios-${radio.value}`}
-      className='flex items-center justify-center radio-input-group trans w-full sm:w-10/12 text-base sm:text-xl lg:text-2xl bg-white rounded-xl relative hover:bg-green mx-2'
+      className='flex items-center justify-center radio-input-group trans w-full text-base sm:text-xl lg:text-2xl bg-white rounded-xl relative hover:bg-green mx-2'
       style={{
         maxWidth: 300,
         minHeight: 200,

@@ -6,8 +6,8 @@ import { usePreviousValue } from 'beautiful-react-hooks';
 export const PoolCountUp = (props) => {
   const { bold, fontSansRegular } = props
 
-  const [value, setValue] = useState(0)
-  const prev = usePreviousValue(value)
+  let [value, setValue] = useState(0)
+  let prev = usePreviousValue(value)
   useEffect(() => {
     setValue(props.end)
   }, [props.end])
@@ -18,9 +18,14 @@ export const PoolCountUp = (props) => {
   if (isNaN(decimalsToUse)) {
     decimalsToUse = 2
   }
-  
-  // TODO: We need to use a clever formatter (maybe one from v2)
+
+  // TODO: Replace this! What we need is a clever formatter (maybe the one from v2)
   // that only shows the # of decimals necessary
+  if (decimalsToUse === 0) {
+    prev = parseInt(prev, 10)
+    value = parseInt(value, 10)
+  }
+  
   return <>
     <span
       className={classnames(

@@ -101,20 +101,39 @@ function MyApp({ Component, pageProps }) {
           <Layout
             props={pageProps}
           >
-            <AnimatePresence exitBeforeEnter>
+            <AnimatePresence
+              exitBeforeEnter
+              onExitComplete={() => {
+                setTimeout(() => {
+                  const elem = document.getElementById('content-animation-wrapper')
+                  
+                  // in case the animation failed
+                  elem.style.opacity = '1'
+                }, 300)
+                
+              }}
+            >
               <motion.div
+                id='content-animation-wrapper'
                 key={router.route}
-                initial="pageInitial"
-                exit="pageInitial"
-                animate="pageAnimate"
-                variants={{
-                pageInitial: {
+                initial={{
                   opacity: 0
-                },
-                pageAnimate: {
+                }}
+                exit={{
+                  opacity: 0
+                }}
+                animate={{
                   opacity: 1
-                },
-              }}>
+                }}
+                // variants={{
+                // pageInitial: {
+                //   opacity: 0
+                // },
+                // pageAnimate: {
+                //   opacity: 1
+                // },
+              // }}>
+              >
                 {/* key={router.route} */}
                 <Component {...pageProps} />
               </motion.div>

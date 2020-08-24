@@ -148,7 +148,7 @@ export const DepositCryptoForm = (props) => {
     />
 
     <div
-      className='bg-primary flex text-inverse items-center justify-between w-full xs:w-10/12 sm:w-10/12 mx-auto px-6 py-3 font-bold rounded-bl-lg rounded-br-lg'
+      className='bg-primary flex text-inverse items-center justify-between w-full mx-auto px-6 py-3 font-bold rounded-bl-lg rounded-br-lg'
     >
       <div>
         Total:
@@ -163,7 +163,7 @@ export const DepositCryptoForm = (props) => {
     </div>
 
     <div
-      className='flex flex-col mx-auto w-full xs:w-10/12 sm:w-10/12 mx-auto items-center justify-center'
+      className='flex flex-col mx-auto w-full mx-auto items-center justify-center'
     >
       
       {overBalance ? <>

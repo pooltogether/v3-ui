@@ -19,6 +19,11 @@ export const OrderComplete = (props) => {
     }, 300)
   }, [])
 
+  // prevents flashing when unmounting
+  if (!quantity) {
+    return null
+  }
+
   return <>
     <PaneTitle small>
       Deposit complete
@@ -30,9 +35,9 @@ export const OrderComplete = (props) => {
 
     <div>
       <ButtonLink
-        textSize='lg'
         href='/account'
         as='/account'
+        textSize='2xl'
       >
         View your account
       </ButtonLink>

@@ -74,7 +74,7 @@ export const SignInForm = (props) => {
     <form
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className='w-full xs:w-10/12 sm:w-2/3 mx-auto'>
+      <div className='w-full mx-auto'>
         <TextInputGroup
           id='email'
           name='email'

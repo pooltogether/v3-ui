@@ -103,7 +103,9 @@ export const PlayerPageUI = (props) => {
             </ButtonLink>
           </BlankStateMessage>
         </> : <>
-          <motion.ul>
+          <ul
+            className='mt-16'
+          >
             {playerData.map(playerData => {
               const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
 
@@ -117,7 +119,7 @@ export const PlayerPageUI = (props) => {
                 player={playerData}
               />
             })}
-          </motion.ul>
+          </ul>
         </>}
     </motion.div>
   </>

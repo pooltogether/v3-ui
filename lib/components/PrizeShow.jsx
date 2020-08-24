@@ -121,7 +121,7 @@ export const PrizeShow = (
       className='bg-highlight-3 rounded-lg px-6 pt-4 pb-6 text-white mt-4 sm:mt-10'
     >
       <div
-        className='flex justify-between'
+        className='flex flex-col sm:flex-row justify-between'
       >
         <div
           className='w-full sm:w-1/2'
@@ -150,7 +150,7 @@ export const PrizeShow = (
         </div>
 
         <div
-          className='w-full sm:w-1/2'
+          className='w-full sm:w-1/2 mt-8 sm:mt-0'
         >
           <h2>
             <PoolCurrencyIcon
@@ -161,24 +161,18 @@ export const PrizeShow = (
                   { decimals, precision: 0 }
                 )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
           </h2>
-        </div>
-      </div>
 
-      <div
-        className='w-full sm:w-1/2 mt-3 sm:mt-6'
-      >
-        <h6>
-          Winner:
-        </h6>
-        <div
-          className='text-caption uppercase'
-        >
+          <h6
+            className='mt-4 sm:mt-0'
+          >
+            Winner:
+          </h6>
           <Link
             href='/players/[playerAddress]'
             as={`/players/${winnerAddress}`}
           >
             <a
-              className='block font-bold'
+              className='block font-bold text-xs xs:text-base sm:text-lg'
             >
               {winnerAddress}
             </a>

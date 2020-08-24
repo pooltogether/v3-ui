@@ -35,7 +35,7 @@ export const PoolRow = (
     >
       <div className='flex items-center'>
         <div
-          className='flex items-center font-bold w-8/12 sm:w-3/12 lg:w-3/12'
+          className='flex items-center font-bold w-8/12 sm:w-6/12 lg:w-6/12'
         >
           <PoolCurrencyIcon
             lg
@@ -70,31 +70,6 @@ export const PoolRow = (
               </span>
             </div>
           </div>
-
-          {/* 
-          <div className='inline-flex flex flex-col'>
-            <h6
-              className='inline-block'
-              style={{
-                marginTop: -2
-              }}
-            >
-              <span
-                className='text-inverse'
-              >
-                Prize ${displayAmountInEther(
-                  pool?.estimatePrize,
-                  { decimals, precision: 0 }
-                )}
-              </span>
-            </h6>
-            <span className='text-caption font-number uppercase -mt-1'>
-              {pool.frequency}
-            </span>
-          </div> */}
-
-
-
         </div>
 
         <div
@@ -104,15 +79,6 @@ export const PoolRow = (
             pool={pool}
           />
         </div>
-        {/*}
-        <div
-          className='flex items-center w-1/12 justify-end'
-        >
-          <FeatherIcon
-            icon='arrow-right-circle'
-            className='stroke-current w-6 h-6 sm:w-8 sm:h-8'
-          />
-        </div> */}
       </div>
 
       <div

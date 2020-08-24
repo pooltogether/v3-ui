@@ -34,10 +34,13 @@ export const WithdrawInstantOrScheduled = (props) => {
   let underlyingCollateralDecimals = 18
   underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
 
+
   let hasEnoughCreditForInstant = null
   if (exitFees && exitFees.instantCredit) {
     hasEnoughCreditForInstant = exitFees.instantFee.lte(0)
   }
+  console.log({ exitFees })
+  console.log({ hasEnoughCreditForInstant })
 
   useEffect(() => {
     setTotalWizardSteps(hasEnoughCreditForInstant ? 3 : 4)

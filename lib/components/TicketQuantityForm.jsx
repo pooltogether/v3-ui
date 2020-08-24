@@ -81,7 +81,7 @@ export const TicketQuantityForm = (props) => {
     textSize='xl'
     disabled={!formState.isValid}
     onClick={handleSubmit(onSubmit)}
-    // className={'mx-auto w-full'}
+    className={'mx-auto w-full'}
   >
     Continue
   </Button>
@@ -114,7 +114,7 @@ export const TicketQuantityForm = (props) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div
-        className='w-full xs:w-10/12 sm:w-10/12 mx-auto'
+        className='w-full mx-auto'
       >
         <TextInputGroup
           large
@@ -150,25 +150,26 @@ export const TicketQuantityForm = (props) => {
           minHeight: 24
         }}
       >
-        <ErrorsBox
-          errors={errors}
-        />
-
-        <Odds
-          showLabel
-          splitLines
-          pool={pool}
-          usersBalance={usersTicketBalance}
-          additionalQuantity={watchQuantity}
-          isWithdraw={isWithdraw}
-        // hide={parseFloat(watchQuantity) > usersTicketBalance}
-        />
+        {Object.values(errors).length > 0 ? <>
+          <ErrorsBox
+            errors={errors}
+          />
+        </> : <>
+          <Odds
+            showLabel
+            splitLines
+            pool={pool}
+            usersBalance={usersTicketBalance}
+            additionalQuantity={watchQuantity}
+            isWithdraw={isWithdraw}
+          // hide={parseFloat(watchQuantity) > usersTicketBalance}
+          />
+        </>}
       </div>
 
       <div
-        className='flex flex-col mx-auto w-full xs:w-10/12 sm:w-10/12 mx-auto items-center justify-center'
+        className='flex flex-col mx-auto w-full mx-auto items-center justify-center'
       >
-
         <ButtonDrawer>
           {continueButton}
         </ButtonDrawer>

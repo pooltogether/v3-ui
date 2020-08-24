@@ -152,7 +152,7 @@ export const WizardLayout = (props) => {
       <div
         className='h-full flex flex-col justify-center px-4 sm:px-12 lg:px-64 text-center mx-auto'
         style={{
-          maxWidth: 1260
+          maxWidth: 1160
         }}
       >
         {children}

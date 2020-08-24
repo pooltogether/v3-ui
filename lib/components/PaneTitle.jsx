@@ -10,7 +10,7 @@ export const PaneTitle = (props) => {
   let spacingClasses = 'pb-10'
 
   if (small) {
-    fontClasses = 'text-lg sm:text-2xl lg:text-3xl text-primary'
+    fontClasses = 'text-lg sm:text-2xl lg:text-3xl text-default-soft'
     spacingClasses = 'pb-2'
   }
 

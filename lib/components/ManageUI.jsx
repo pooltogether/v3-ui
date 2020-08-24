@@ -103,7 +103,7 @@ export const ManageUI = (
       <p className='text-caption font-bold'>
         {isRngRequested && !canCompleteAward && <>
           Waiting on random number generation ...
-          <LoadingSpinner />
+          <br /><LoadingSpinner />
         </>}
 
         {canStartAward && <>

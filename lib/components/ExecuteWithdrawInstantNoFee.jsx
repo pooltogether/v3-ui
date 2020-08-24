@@ -64,6 +64,7 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
         controlledTokenAddress,
         ethers.utils.parseEther(sponsoredExitFee),
         ethers.utils.parseEther(maxExitFee),
+        [], // tx data
         {
           gasLimit: 500000
         }

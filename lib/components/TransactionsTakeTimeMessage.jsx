@@ -9,7 +9,7 @@ export const TransactionsTakeTimeMessage = (props) => {
     </div>
 
     <div
-      className='leading-tight font-bold text-base sm:text-lg lg:text-xl text-primary pb-2'
+      className='leading-tight font-bold text-base sm:text-lg lg:text-xl text-default-soft pb-2'
     >
       Transactions may take a few minutes
     </div>
@@ -21,7 +21,7 @@ export const TransactionsTakeTimeMessage = (props) => {
         className='font-bold'
       >
         Estimated wait time:
-        </span> PUT actual estimate here?
-      </div>
+      </span> PUT actual estimate here?
+    </div>
   </>
 }
