@@ -5,6 +5,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
+import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
@@ -60,7 +61,7 @@ export const AccountUI = (props) => {
     />
 
     <div
-      className='mt-16'
+      className='mt-24'
     >
       <Tabs>
         <Tab
@@ -85,7 +86,7 @@ export const AccountUI = (props) => {
             dynamicPlayerData.length === 0 ? <>
               <BlankStateMessage>
                 <div
-                  className='mb-4'
+                  className='mb-10 font-bold'
                 >
                   <img
                     src={TicketIcon}
@@ -128,7 +129,72 @@ export const AccountUI = (props) => {
         <ContentPane
           isSelected={visible === REWARDS}
         >
-          go here
+
+
+          <div
+            className='non-interactable-card mt-2 py-4 sm:py-6 px-4 xs:px-10 bg-card rounded-lg card-min-height-desktop'
+          >
+            <div
+              className='text-caption uppercase font-bold'
+            >
+              Earned referral rewards (i)
+            </div>
+
+            <div className='flex flex-col'>
+              <div className='flex items-center justify-between mt-4'>
+
+                <div>
+                  <h3>10</h3>
+                  
+                  <div
+                    className='text-caption -mt-2 uppercase font-bold'
+                  >
+                    Sign ups (TODO: add $ value claimable here!)
+                  </div>
+                </div>
+
+                <div>
+                  <Button
+                    textSize='xl'
+                    onClick={(e) => {
+                      e.preventDefault()
+                      console.log('run claim fxn')
+                    }}
+                  >
+                    Claim
+                  </Button>
+                </div>
+
+              </div>
+
+              
+              <div
+                className='border-t border-dashed border-highlight-2 pt-6 mt-6'
+              >
+                <div
+                  className='text-caption uppercase font-bold'
+                >
+                  Share more, earn more
+                </div>
+                <div
+                  className='bg-primary px-4 py-2 text-inverse w-1/2 flex items-center justify-between rounded-lg mt-4'
+                >
+                  <div>
+                    referral URL with 
+                  </div>
+
+                  <div>
+                    TODO: copy/paste feature w/ icon
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+
+
         </ContentPane>
 
       </Content>

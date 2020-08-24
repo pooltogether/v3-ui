@@ -16,18 +16,17 @@ export const AccountSummary = (props) => {
 
     const decimals = pool.underlyingCollateralDecimals
     const what = ethers.utils
-    console.log({decimals});
-    console.log({what});
-    // debugger
     
-    console.log(playerData.balance)
     const balance = Number(
       ethers.utils.formatUnits(playerData.balance, decimals),
     )
-    console.log(balance)
 
     totalTickets = totalTickets ? totalTickets + balance : balance
   })
+
+  if (!totalTickets) {
+    totalTickets = 0
+  }
 
   return <>
     <div
@@ -55,7 +54,7 @@ export const AccountSummary = (props) => {
           >
             <h4>$89</h4>
             <div
-              className='text-caption -mt-2 uppercase font-bold'
+              className='text-caption uppercase font-bold'
             >
               All-time earned rewards
             </div>
@@ -66,7 +65,7 @@ export const AccountSummary = (props) => {
           >
             <h4>0</h4>
             <div
-              className='text-caption -mt-2 uppercase font-bold'
+              className='text-caption uppercase font-bold'
             >
               All-time prizes won
             </div>
