@@ -58,6 +58,7 @@ module.exports = {
         blue: 'var(--color-bg-blue)',
         teal: 'var(--color-bg-teal)',
         'accent-grey-1': 'var(--color-bg-accent-grey-1)',
+        'accent-grey-2': 'var(--color-bg-accent-grey-2)',
         purple: 'var(--color-bg-purple)',
       },
       textColor: {

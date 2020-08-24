@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
+import { AccountSummary } from 'lib/components/AccountSummary'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { Meta } from 'lib/components/Meta'
@@ -53,7 +54,14 @@ export const AccountUI = (props) => {
       ]}
     />
 
-    <div>
+    <AccountSummary
+      pools={pools}
+      dynamicPlayerData={dynamicPlayerData}
+    />
+
+    <div
+      className='mt-16'
+    >
       <Tabs>
         <Tab
           isSelected={visible === POOLS}
@@ -84,7 +92,8 @@ export const AccountUI = (props) => {
                     className='mx-auto'
                   />
 
-                  You currently have no tickets.<br /> Deposit in a pool now to get tickets!
+                  You currently have no tickets.
+                  <br />Deposit in a pool now to get tickets!
                 </div>
                 <ButtonLink
                   href='/'

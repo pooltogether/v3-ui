@@ -21,10 +21,19 @@ import 'assets/styles/toast-blur.css'
 import 'assets/styles/layout.css'
 import 'assets/styles/loader.css'
 import 'assets/styles/themes.css'
+
+import 'assets/styles/typography.css'
+import 'assets/styles/tables.css'
 import 'assets/styles/pool.css'
 import 'assets/styles/pool-toast.css'
 import 'assets/styles/animations.css'
 import 'assets/styles/transitions.css'
+
+import 'assets/styles/radios.css'
+import 'assets/styles/interactable-cards.css'
+import 'assets/styles/tabs.css'
+import 'assets/styles/bnc-onboard--custom.css'
+import 'assets/styles/reach--custom.css'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()

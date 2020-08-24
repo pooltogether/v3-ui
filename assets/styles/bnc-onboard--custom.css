@@ -1,0 +1,93 @@
+.bn-onboard-modal {
+  font-family: 'Helvetica Neue', 'DM Mono', 'Courier', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important;
+  z-index: 100000;
+}
+
+.bn-onboard-clickable {
+  border: 0; 
+}
+
+.bn-onboard-custom {
+  margin: 0;
+  font-family: 'Titillium Web', Arial,sans-serif!important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.bn-onboard-custom .bn-onboard-modal-content {
+  padding:32px!important
+}
+
+.bn-onboard-custom .bn-onboard-modal-content-close {
+  border-radius:100%!important
+}
+
+.bn-onboard-custom .bn-onboard-modal-content-header-icon {
+  display:none
+}
+
+.bn-onboard-custom .bn-onboard-icon-button {
+  border-radius:4px
+}
+
+.bn-onboard-custom .bn-onboard-icon-button div {
+  width:25px;
+  height:25px
+}
+
+.bn-onboard-custom .bn-onboard-icon-button div img,.bn-onboard-custom .bn-onboard-icon-button div svg {
+  width:25px!important;
+  min-width:25px!important;
+  max-width:25px!important;
+  height:auto
+}
+
+.bn-onboard-custom .bn-onboard-icon-button span {
+  color:#002237!important;
+  margin-left:16px;
+  font-weight:500!important
+}
+
+.bn-onboard-custom .bn-onboard-custom.bn-onboard-dark-mode-background,.bn-onboard-custom .bn-onboard-custom.bn-onboard-dark-mode-background-hover:hover {
+  background:#21262b!important
+}
+
+.bn-onboard-custom .bn-onboard-select-wallet-info {
+  color:#784ffe!important;
+  transition:.3s
+}
+
+.bn-onboard-custom .bn-onboard-select-wallet-info:hover {
+  opacity:.6
+}
+
+.bn-onboard-custom .bn-onboard-modal-content-header-heading {
+  font-weight:500;
+  margin-left:0;
+  color:#002237!important
+}
+
+.bn-onboard-custom.bn-onboard-dark-mode {
+  background:#141a1e!important
+}
+
+.bn-onboard-custom.bn-onboard-dark-mode .bn-onboard-select-wallet-info {
+  color:#fff!important;
+  transition:.3s
+}
+
+.bn-onboard-custom.bn-onboard-dark-mode .bn-onboard-select-wallet-info:hover {
+  opacity:.6
+}
+
+.bn-onboard-custom.bn-onboard-dark-mode .bn-onboard-icon-button span,.bn-onboard-custom.bn-onboard-dark-mode .bn-onboard-modal-content-header-heading {
+  color:#fff!important
+}
+
+.bn-onboard-dark-mode-close-background:hover {
+  background:#21262b!important
+}
+
+.bn-onboard-custom.bn-onboard-modal {
+  z-index:99
+}

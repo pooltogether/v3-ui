@@ -152,22 +152,6 @@
   }
 }
 
-.theme-dark .ethereum-icon:after {
-  background-image: url('/ethereum-soft-purple.svg');
-}
-
-.nav--account-transactions-button:hover .ethereum-icon:after {
-  background-image: url('/ethereum-white.svg');
-}
-
-.theme-light .nav--account-transactions-button:hover .ethereum-icon:after {
-  background-image: url('/ethereum.svg');
-}
-
-.theme-light .ethereum-icon:after {
-  background-image: url('/ethereum-soft-purple.svg');
-}
-
 .theme-light ::placeholder,
 .theme-light .input::placeholder,
 .theme-light .textarea::placeholder {
@@ -179,12 +163,6 @@
 .theme-dark .textarea::placeholder {
   color: #7458df;
 }
-
-
-
-
-
-
 
 
 .theme-dark .toggle {
@@ -289,4 +267,15 @@
   .theme-toggler--names {
     padding-top: 10px;
   }
+}
+
+
+
+.theme-light .nav--account-transactions-button:hover {
+  @apply bg-green text-white;
+}
+
+.theme-light .nav--account-transactions-button:hover div,
+.theme-light .nav--account-transactions-button:hover .nav--account-transactions-button__address {
+  @apply bg-green text-white;
 }

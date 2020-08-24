@@ -1,0 +1,49 @@
+@screen sm {
+  .card-min-height-desktop {
+    min-height: 146px
+  }
+}
+
+.ticket-card {
+  background-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 48.9%,
+    var(--color-bg-accent-grey-2) 49%
+  );
+}
+
+.ticket-card:hover {
+  background-image: linear-gradient(
+    180deg,
+    var(--color-bg-secondary) 0%,
+    var(--color-bg-secondary) 48.9%,
+    var(--color-bg-card-selected) 49%
+  );
+}
+
+.interactable-card {
+  border: 0.1rem dashed transparent;
+}
+
+.theme-dark .interactable-card:hover,
+.theme-dark .interactable-card:focus,
+.theme-dark .interactable-card:active,
+.theme-light .interactable-card:hover,
+.theme-light .interactable-card:focus,
+.theme-light .interactable-card:active {
+  border: 0.1rem dashed var(--color-border-highlight-1);
+}
+
+.theme-light .interactable-card {
+  border: 0.1rem solid var(--color-border-accent-1);
+}
+
+.theme-light .non-interactable-card {
+  box-shadow: none;
+  border: 0.1rem solid var(--color-border-accent-1);
+}
+
+.theme-dark .non-interactable-card {
+  @apply shadow-md;
+}

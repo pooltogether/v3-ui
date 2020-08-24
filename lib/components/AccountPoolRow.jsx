@@ -26,6 +26,8 @@ export const AccountPoolRow = (
       Number(decimals)
     ))
   }
+
+  const ticker = pool?.underlyingCollateralSymbol
   
   return <>
     <InteractableCard
@@ -120,7 +122,7 @@ export const AccountPoolRow = (
         className='mt-5 flex items-center justify-between pt-2'
       >
         <div
-          className='w-full xs:w-7/12 sm:w-3/12 lg:w-3/12 pr-2 border-r border-accent-4'
+          className='w-full xs:w-7/12 sm:w-4/12 lg:w-4/12 sm:pr-2 sm:border-r border-accent-4'
         >
           <Odds
             fontSansRegular
@@ -129,21 +131,22 @@ export const AccountPoolRow = (
             usersBalance={usersBalance}
           />
           <span
-            className='block text-caption uppercase'
+            className='block text-caption uppercase font-bold'
           >
-            Winnings odds
+            Winning odds
           </span>
         </div>
 
         <div
-          className='w-full xs:w-7/12 sm:w-4/12 lg:w-6/12 pl-2 font-bold text-xl sm:text-2xl lg:text-3xl text-highlight-1'
+          className='w-full xs:w-7/12 sm:w-6/12 lg:w-6/12 sm:pl-16 font-bold text-xl sm:text-2xl lg:text-3xl text-inverse'
         >
           <PoolCountUp
+            fontSansRegular
             end={usersBalance}
             decimals={null}
           /> Tickets
           <span className='block text-caption uppercase'>
-            ${usersBalance} VALUE
+            ${usersBalance} {ticker}
           </span>
         </div>
 

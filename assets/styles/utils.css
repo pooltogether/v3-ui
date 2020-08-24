@@ -1,3 +1,7 @@
+.bg-blur {
+  backdrop-filter: blur(2px)
+}
+
 .w-48-percent {
   width: 48%;
 }
