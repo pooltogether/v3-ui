@@ -197,10 +197,10 @@ export const PoolShow = (
                 title: 'Tickets sold',
                 content: <>
                   <h3>
-                    ${displayAmountInEther(pool.totalSupply, {
+                    {displayAmountInEther(pool.totalSupply, {
                       precision: 0,
                       decimals: pool.underlyingCollateralDecimals
-                    })} {pool.underlyingCollateralSymbol}
+                    })}
                   </h3>
                 </>
               },
