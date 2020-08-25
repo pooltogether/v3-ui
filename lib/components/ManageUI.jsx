@@ -66,7 +66,7 @@ export const ManageUI = (
       className='bg-highlight-3 rounded-lg px-6 pt-10 pb-10 text-white mt-4 sm:mt-16 flex flex-col justify-center'
     >
       <h4>
-        Pool status: <span className='text-accent-3'>
+        Pool status: <span className='text-green'>
           {poolLocked && <>
             Pool locked <FeatherIcon
               strokeWidth='0.09rem'

@@ -5,7 +5,8 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'lib/../i18n'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { InteractableCard } from 'lib/components/InteractableCard'
+import { NonInteractableCard } from 'lib/components/NonInteractableCard'
+// import { InteractableCard } from 'lib/components/InteractableCard'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
@@ -28,7 +29,7 @@ export const PoolRow = (
   const decimals = pool?.underlyingCollateralDecimals
 
   return <>
-    <InteractableCard
+    <NonInteractableCard
       key={`pool-row-${pool.poolAddress}`}
       href='/pools/[symbol]'
       as={`/pools/${symbol}`}
@@ -131,6 +132,6 @@ export const PoolRow = (
           </ButtonLink>
         </div>
       </div>
-    </InteractableCard>
+    </NonInteractableCard>
   </>
 }

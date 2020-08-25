@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import * as Fathom from 'fathom-client'
 import i18next from "../i18n"
+import * as Fathom from 'fathom-client'
 import { useRouter } from 'next/router'
 import { ToastContainer } from 'react-toastify'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -78,7 +78,6 @@ function MyApp({ Component, pageProps }) {
   }, [])
 
   if (!initialized) {
-    // return null
     return <div
       className='h-full w-full fixed t-0 r-0 l-0 b-0 text-white flex flex-col items-center justify-center'
       style={{ backgroundColor: '#1E0B43', color: 'white' }}
@@ -89,67 +88,53 @@ function MyApp({ Component, pageProps }) {
       >
         Filling up the pools ...
       </h4>
-    </div> // could show loader ...
+    </div>
   }
   
   return <>
     {/* <Chart /> */}
 
     <V3ApolloWrapper>
-      <>
-        <AllContextProviders>
-          <Layout
-            props={pageProps}
-          >
-            <AnimatePresence
-              exitBeforeEnter
-              onExitComplete={() => {
-                setTimeout(() => {
-                  const elem = document.getElementById('content-animation-wrapper')
-                  
-                  // in case the animation failed
-                  elem.style.opacity = '1'
-                }, 300)
+      <AllContextProviders>
+        <Layout
+          props={pageProps}
+        >
+          <AnimatePresence
+            exitBeforeEnter
+            onExitComplete={() => {
+              setTimeout(() => {
+                const elem = document.getElementById('content-animation-wrapper')
                 
+                // in case the animation failed
+                elem.style.opacity = '1'
+              }, 300)
+              
+            }}
+          >
+            <motion.div
+              id='content-animation-wrapper'
+              key={router.route}
+              initial={{
+                opacity: 0
+              }}
+              exit={{
+                opacity: 0
+              }}
+              animate={{
+                opacity: 1
               }}
             >
-              <motion.div
-                id='content-animation-wrapper'
-                key={router.route}
-                initial={{
-                  opacity: 0
-                }}
-                exit={{
-                  opacity: 0
-                }}
-                animate={{
-                  opacity: 1
-                }}
-                // variants={{
-                // pageInitial: {
-                //   opacity: 0
-                // },
-                // pageAnimate: {
-                //   opacity: 1
-                // },
-              // }}>
-              >
-                {/* key={router.route} */}
-                <Component {...pageProps} />
-              </motion.div>
-            </AnimatePresence>
-            {/* <Component
-              {...pageProps}
-            /> */}
-          </Layout>
-        </AllContextProviders>
+              <Component {...pageProps} />
+            </motion.div>
+          </AnimatePresence>
+        </Layout>
+      </AllContextProviders>
 
-        <ToastContainer
-          className='pool-toast'
-          position='top-center'
-          autoClose={15000}
-        />
-      </>
+      <ToastContainer
+        className='pool-toast'
+        position='top-center'
+        autoClose={15000}
+      />
     </V3ApolloWrapper>
   </>
 }

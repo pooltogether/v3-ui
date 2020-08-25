@@ -3,7 +3,8 @@ import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
 
 import { ButtonLink } from 'lib/components/ButtonLink'
-import { InteractableCard } from 'lib/components/InteractableCard'
+import { NonInteractableCard } from 'lib/components/NonInteractableCard'
+// import { InteractableCard } from 'lib/components/InteractableCard'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -28,10 +29,10 @@ export const AccountPoolRow = (
   const ticker = pool?.underlyingCollateralSymbol
   
   return <>
-    <InteractableCard
+    <NonInteractableCard
       key={`account-pool-row-li-${pool.poolAddress}`}
-      href='/account/pools/[symbol]'
-      as={`/account/pools/${pool.symbol}`}
+      // href='/account/pools/[symbol]'
+      // as={`/account/pools/${pool.symbol}`}
       className='ticket-card'
     >
       <div className='flex items-center pb-2'>
@@ -182,6 +183,6 @@ export const AccountPoolRow = (
           </ButtonLink>
         </div>
       </div>
-    </InteractableCard>
+    </NonInteractableCard>
   </>
 }

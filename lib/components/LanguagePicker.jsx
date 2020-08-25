@@ -36,7 +36,7 @@ export const LanguagePicker = (props) => {
   const handleChangeLangClick = (newLang) => {
     setCurrentLang(newLang)
     i18n.changeLanguage(newLang)
-    console.log({ lang: i18n.language})
+    // console.log({ lang: i18n.language})
   }
 
   // set lang to whatever i18n thinks it hould be (based
@@ -44,7 +44,7 @@ export const LanguagePicker = (props) => {
   useEffect(() => {
     if (i18n.language) {
       setCurrentLang(i18n.language)
-      console.log({ lang: i18n.language })
+      // console.log({ lang: i18n.language })
     }
   }, [])
   
@@ -54,7 +54,7 @@ export const LanguagePicker = (props) => {
         if (err) {
           console.error(`There was an error getting the languages from locize: `, err)
         }
-        console.log(result)
+        // console.log(result)
         setLangs(result)
       })
     }

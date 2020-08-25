@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Cookies from 'js-cookie'
-import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
+import { useApolloClient } from '@apollo/client'
 
 import {
+  COOKIE_OPTIONS,
+  STORED_CHAIN_ID_KEY,
   SUPPORTED_CHAIN_IDS,
   SELECTED_WALLET_COOKIE_KEY,
   MAGIC_EMAIL,
@@ -25,6 +27,8 @@ export const AuthControllerContext = React.createContext()
 // This also provides a unified authentication pattern to get the usersAddress
 // and ethers provider for transactions
 export const AuthControllerContextProvider = (props) => {
+  const client = useApolloClient();
+
   const { children } = props
 
   const router = useRouter()
@@ -78,6 +82,8 @@ export const AuthControllerContextProvider = (props) => {
   useEffect(() => {
     if (onboardNetwork) {
       setChainId(onboardNetwork)
+
+      client.resetStore()
     }
   }, [onboardNetwork])
 
@@ -152,6 +158,13 @@ export const AuthControllerContextProvider = (props) => {
 
   const networkName = chainIdToName(chainId)
   const supportedNetwork = SUPPORTED_CHAIN_IDS.includes(chainId)
+
+  Cookies.set(
+    STORED_CHAIN_ID_KEY,
+    chainId,
+    COOKIE_OPTIONS
+  )
+  // console.log('setting ', chainId)
 
   return <AuthControllerContext.Provider
     value={{

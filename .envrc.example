@@ -4,6 +4,7 @@ export NEXT_JS_FORTMATIC_API_KEY=<YOUR_FORTMATIC_API_KEY>
 export NEXT_JS_FORTMATIC_PRODUCTION_API_KEY=<YOUR_FORTMATIC_PRODUCTION_API_KEY>
 
 export NEXT_JS_SUBGRAPH_URI_KOVAN=https://api.thegraph.com/subgraphs/name/pooltogether/v3-kovan
+export NEXT_JS_SUBGRAPH_URI_RINKEBY=https://api.thegraph.com/subgraphs/name/pooltogether/rinkeby-v3
 
 export NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME=homestead
 
