@@ -227,19 +227,27 @@ input[type='submit'][disabled] {
 }
 
 .pool-logo {
-  height: 43px;
+  height: 60px;
   position: relative;
   z-index: 1;
-  width: 150px;
+  width: 35px;
 }
 
 .pool-logo:hover {
   background-color: transparent;
 }
 
+@screen xs {
+  .pool-logo {
+    height: 66px;
+    width: 39px;
+  }
+}
+
 @screen sm {
   .pool-logo {
     height: 60px;
+    width: 138px;
   }
 }
  
@@ -251,8 +259,8 @@ input[type='submit'][disabled] {
   left: 0;
   right: 0;
   top: 0;
-  height: 43px;
-  width: 63px;
+  height: 100%;
+  width: 100%;
   z-index: 2;
 }
 

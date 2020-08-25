@@ -62,13 +62,14 @@ export const DepositCryptoForm = (props) => {
     setCachedUsersBalance(usersBalance)
   }, [usersBalance])
 
-
   useEffect(() => {
     if (
       quantityBN.gt(0) &&
       usersTokenAllowance.gte(quantityBN)
     ) {
       setNeedsApproval(false)
+    } else {
+      setNeedsApproval(true)
     }
   }, [quantityBN, usersTokenAllowance])
 
@@ -113,8 +114,6 @@ export const DepositCryptoForm = (props) => {
         gasLimit: 200000
       }
     ]
-
-    console.log(params)
 
     const id = sendTx(
       provider,

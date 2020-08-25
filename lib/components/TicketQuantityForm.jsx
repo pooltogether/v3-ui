@@ -87,9 +87,13 @@ export const TicketQuantityForm = (props) => {
   </Button>
 
   return <>
-    <PaneTitle>
-      {formName}
-    </PaneTitle>
+    <div
+      className='pane-title'
+    >
+      <PaneTitle>
+        {formName}
+      </PaneTitle>
+    </div>
 
     {balanceJsx && <>
       <div className='mb-12'>
@@ -155,15 +159,19 @@ export const TicketQuantityForm = (props) => {
             errors={errors}
           />
         </> : <>
-          <Odds
-            showLabel
-            splitLines
-            pool={pool}
-            usersBalance={usersTicketBalance}
-            additionalQuantity={watchQuantity}
-            isWithdraw={isWithdraw}
-          // hide={parseFloat(watchQuantity) > usersTicketBalance}
-          />
+          <div
+            className='odds-box'
+          >
+            <Odds
+              showLabel
+              splitLines
+              pool={pool}
+              usersBalance={usersTicketBalance}
+              additionalQuantity={watchQuantity}
+              isWithdraw={isWithdraw}
+              // hide={parseFloat(watchQuantity) > usersTicketBalance}
+            />
+          </div>
         </>}
       </div>
 

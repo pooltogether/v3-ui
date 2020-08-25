@@ -89,6 +89,11 @@
   flex: 1;
 }
 
+@media screen and (max-height: 400px) {
+  .odds-box { display: none; }
+  .pane-title { display: none; }
+}
+
 @media screen and (max-width: 780px) {
   [data-reach-dialog-content] {
     max-width: initial;

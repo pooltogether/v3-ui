@@ -23,30 +23,18 @@ body {
   }
 }
 
-/* .pool-container {
-  padding-top: 1rem;
-  padding-bottom: 12rem;
-  width: 100%;
-}
-
-@screen sm {
-  .pool-container {
-    padding-top: 2rem;
-  }
-} */
-/* 
-.pool-container .pool-container,
-.nav-and-footer-container .nav-and-footer-container {
-  margin-left: 0;
-  margin-right: 0;
-} */
-
 .nav--pool-logo-container {
-  width: 111px;
+  width: 40px;
 }
 
 .nav--account-controls-container {
   max-width: 244px;
+}
+
+@screen xs {
+  .nav--pool-logo-container {
+    width: 80px;
+  }
 }
 
 @screen sm {

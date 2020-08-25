@@ -27,7 +27,7 @@ export const SignInForm = (props) => {
         src={PoolTogetherTrophyDetailed}
         className='mx-auto mb-6 w-16 xs:w-1/12'
       />
-      <h4 className='mb-10 xs:w-2/3 sm:w-1/2 lg:w-7/12 mx-auto'>
+      <h4 className='mb-10 xs:w-1/2 sm:w-1/2 lg:w-full mx-auto'>
         Connect an Ethereum wallet to manage your PoolTogether tickets &amp; rewards:
       </h4>
 

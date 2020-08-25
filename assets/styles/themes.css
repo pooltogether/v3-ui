@@ -124,21 +124,21 @@
   --color-border-transparent: rgba(0,0,0,0);
 }
 
-.theme-dark .pool-logo:after {
+/* .theme-dark .pool-logo:after {
   background-image: url('/pooltogether-white-trophy-and-mark.svg');
 }
 
 .theme-light .pool-logo:after {
   background-image: url('/pooltogether-purple-trophy-and-mark.svg');
-}
-/* 
+} */
+
 .theme-dark .pool-logo:after {
   background-image: url('/pooltogether-white-mark.svg');
 }
 
 .theme-light .pool-logo:after {
   background-image: url('/pooltogether-purple-mark.svg');
-} */
+}
 
 @screen sm {
   .theme-dark .pool-logo:after {
