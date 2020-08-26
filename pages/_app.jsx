@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import i18next from "../i18n"
 import * as Fathom from 'fathom-client'
+import * as Sentry from '@sentry/browser'
 import { useRouter } from 'next/router'
 import { ToastContainer } from 'react-toastify'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -34,6 +35,13 @@ import 'assets/styles/interactable-cards.css'
 import 'assets/styles/tabs.css'
 import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'
+
+if (process.env.NEXT_JS_SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.NEXT_JS_SENTRY_DSN,
+    release: process.env.NEXT_JS_RELEASE_VERSION
+  })
+}
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
