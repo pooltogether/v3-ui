@@ -78,7 +78,7 @@ export const TicketQuantityForm = (props) => {
   }
 
   const continueButton = <Button
-    textSize='xl'
+    textSize='lg'
     disabled={!formState.isValid}
     onClick={handleSubmit(onSubmit)}
     className={'mx-auto w-full'}
@@ -143,7 +143,7 @@ export const TicketQuantityForm = (props) => {
                 setValue('quantity', usersBalance, { shouldValidate: true })
               }}
             >
-              Balance: {numberWithCommas(usersBalance)} {tickerUpcased}
+              Balance: {numberWithCommas(usersBalance, { precision: 4 })} {tickerUpcased}
             </button>
           </>}
         />

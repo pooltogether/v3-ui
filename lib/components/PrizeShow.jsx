@@ -158,7 +158,7 @@ export const PrizeShow = (
               className='inline-block mx-auto'
             /> ${displayAmountInEther(
                   prize?.net || 0,
-                  { decimals, precision: 0 }
+                  { decimals, precision: 2 }
                 )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
           </h2>
 
@@ -172,7 +172,7 @@ export const PrizeShow = (
             as={`/players/${winnerAddress}`}
           >
             <a
-              className='block font-bold text-xs xs:text-base sm:text-lg'
+              className='block font-bold text-xs xs:text-base sm:text-lg text-green hover:text-white'
             >
               {winnerAddress}
             </a>

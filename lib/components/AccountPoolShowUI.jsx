@@ -115,7 +115,7 @@ export const AccountPoolShowUI = (props) => {
               >
                 Prize ${displayAmountInEther(
                   pool?.estimatePrize,
-                  { decimals, precision: 0 }
+                  { decimals, precision: 2 }
                 )}
               </div>
               <div

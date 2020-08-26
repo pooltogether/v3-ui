@@ -34,7 +34,7 @@ const formatPlayerObject = (pool, player, timeTravelTotalSupply) => {
   return {
     balance: `${numberWithCommas(
       balance.toString(),
-      { precision: 0 }
+      { precision: 2 }
     )}`,
     address: shorten(player.address),
     odds: <Odds

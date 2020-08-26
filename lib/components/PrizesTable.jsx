@@ -56,7 +56,7 @@ const formatPrizeObject = (pool, prize) => {
   const prizeAmount = prize.net && decimals ?
     displayAmountInEther(
       prize.net,
-      { decimals, precision: 0 }
+      { decimals, precision: 2 }
     ) : ethers.utils.bigNumberify(0)
 
   return {
@@ -124,7 +124,7 @@ export const PrizesTable = (
       const currentPrizeId = extractPrizeNumberFromPrize(lastPrize) + 1
       const amount = displayAmountInEther(
         pool.estimatePrize,
-        { decimals, precision: 0 }
+        { decimals, precision: 2 }
       )
 
       currentPrize = {

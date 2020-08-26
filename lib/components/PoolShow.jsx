@@ -159,7 +159,7 @@ export const PoolShow = (
                 <h2>
                   Prize ${displayAmountInEther(
                     pool?.estimatePrize || 0,
-                    { decimals: pool?.underlyingCollateralDecimals, precision: 0 }
+                    { decimals: pool?.underlyingCollateralDecimals, precision: 2 }
                   )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
                 </h2>
                 <div
@@ -233,10 +233,12 @@ export const PoolShow = (
                 title: 'Total awarded',
                 content: <>
                   <h3>
-                    ${displayAmountInEther(pool.totalSupply, {
-                      precision: 0,
-                      decimals: pool.underlyingCollateralDecimals
-                    })} {pool.underlyingCollateralSymbol}
+                    ${displayAmountInEther(
+                      pool.cumulativePrizeNet, {
+                        precision: 4,
+                        decimals: pool.underlyingCollateralDecimals
+                      })
+                    } {pool.underlyingCollateralSymbol}
                   </h3>
                   
                   <Link

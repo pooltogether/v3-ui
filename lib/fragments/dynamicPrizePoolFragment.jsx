@@ -8,6 +8,7 @@ export const dynamicPrizePoolFragment = gql`
 
     playerCount
     totalSupply
+    cumulativePrizeNet
 
     # players {
     #   ...playerFragment

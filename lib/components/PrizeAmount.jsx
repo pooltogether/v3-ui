@@ -37,7 +37,7 @@ export const PrizeAmount = (
       >
         ${displayAmountInEther(
           pool?.estimatePrize,
-          { decimals, precision: 0 }
+          { decimals, precision: 2 }
         )}
         
         {/* <PTHint

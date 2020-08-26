@@ -32,7 +32,7 @@ export const SignInForm = (props) => {
       </h4>
 
       <Button
-        textSize='xl'
+        textSize='lg'
         onClick={(e) => {
           e.preventDefault()
           authControllerContext.connectWallet(postSignInCallback)
@@ -93,7 +93,7 @@ export const SignInForm = (props) => {
         className='my-5'
       >
         <Button
-          textSize='xl'
+          textSize='lg'
           disabled={!formState.isValid}
           // type='submit'
         >

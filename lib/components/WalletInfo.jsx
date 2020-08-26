@@ -91,18 +91,20 @@ export const WalletInfo = (props) => {
             </div>
           </div>
 
-          <div
-            className='sm:mr-10 lg:mr-20 mb-2'
-          >
-            <h6>
-              Network
-            </h6>
+          {chainId && chainId !== 1 && <>
             <div
-              className='rounded-lg capitalize sm:text-xs lg:text-sm text-default-soft'
+              className='sm:mr-10 lg:mr-20 mb-2'
             >
-              {networkName}
+              <h6>
+                Network
+              </h6>
+              <div
+                className='rounded-lg capitalize sm:text-xs lg:text-sm text-default-soft'
+              >
+                {networkName}
+              </div>
             </div>
-          </div>
+          </>}
         </div>
       </div>
     </>

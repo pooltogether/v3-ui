@@ -53,9 +53,9 @@ export const PoolRow = (
               }}
             >
               Prize ${displayAmountInEther(
-              pool?.estimatePrize,
-              { decimals, precision: 0 }
-            )}
+                pool?.estimatePrize,
+                { decimals, precision: 2 }
+              )}
             </div>
             <div
               className='inline-block text-left text-caption-2 relative'

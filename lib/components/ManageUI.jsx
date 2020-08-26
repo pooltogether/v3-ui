@@ -63,7 +63,7 @@ export const ManageUI = (
     />
 
     <div
-      className='bg-highlight-3 rounded-lg px-6 pt-10 pb-10 text-white mt-4 sm:mt-16 flex flex-col justify-center'
+      className='bg-highlight-3 rounded-lg px-10 pt-10 pb-10 text-white mt-4 sm:mt-16 flex flex-col justify-center'
     >
       <h4>
         Pool status: <span className='text-green'>
@@ -103,7 +103,11 @@ export const ManageUI = (
       <p className='text-caption font-bold'>
         {isRngRequested && !canCompleteAward && <>
           Waiting on random number generation ...
-          <br /><LoadingSpinner />
+          <div
+            className='w-6 flex items-start justify-start mt-6'
+          >
+            <LoadingSpinner />
+          </div>
         </>}
 
         {canStartAward && <>

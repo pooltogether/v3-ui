@@ -30,7 +30,7 @@ export const CompleteAwardUI = (props) => {
 
   const ongoingCompleteAwardTransactions = transactions?.
     filter(t => t.method === method && !t.cancelled && !t.completed)
-  const disabled = ongoingCompleteAwardTransactions.length > 0
+  // const disabled = ongoingCompleteAwardTransactions.length > 0
 
   const handleCompleteAwardClick = async (e) => {
     e.preventDefault()
@@ -58,7 +58,7 @@ export const CompleteAwardUI = (props) => {
         secondary
         textSize='lg'
         onClick={handleCompleteAwardClick}
-        disabled={disabled}
+        // disabled={disabled}
       >
         Complete Award
       </Button>

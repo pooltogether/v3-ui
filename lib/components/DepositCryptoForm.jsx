@@ -156,7 +156,7 @@ export const DepositCryptoForm = (props) => {
         <span
           className='font-number'
         >
-          {numberWithCommas(quantity)}
+          {numberWithCommas(quantity, { precision: 4 })}
         </span> {tickerUpcased}
       </div>
     </div>
@@ -175,7 +175,7 @@ export const DepositCryptoForm = (props) => {
 
           <ButtonDrawer>
             <Button
-              textSize='xl'
+              textSize='lg'
               onClick={previousStep}
               className='px-4 mt-2 inline-flex items-center'
             >
@@ -194,7 +194,7 @@ export const DepositCryptoForm = (props) => {
             className='mt-2 text-default-soft'
           >
             <Button
-              textSize='xl'
+              textSize='lg'
               onClick={handleUnlockClick}
               disabled={unlockTxInFlight}
               className='w-48-percent'
@@ -240,7 +240,7 @@ export const DepositCryptoForm = (props) => {
             {needsApproval && <>
               <Button
                 noAnim
-                textSize='xl'
+                textSize='lg'
                 onClick={handleUnlockClick}
                 disabled={unlockTxInFlight}
                 className='w-48-percent'

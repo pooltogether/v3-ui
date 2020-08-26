@@ -76,7 +76,7 @@ export const WithdrawComplete = (props) => {
       <ButtonLink
         href='/account'
         as='/account'
-        textSize='2xl'
+        textSize='lg'
       >
         View your account
       </ButtonLink>

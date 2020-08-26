@@ -54,9 +54,9 @@ export const AccountPoolRow = (
               }}
             >
               Prize ${displayAmountInEther(
-              pool?.estimatePrize,
-              { decimals, precision: 0 }
-            )}
+                pool?.estimatePrize,
+                { decimals, precision: 2 }
+              )}
             </div>
             <div
               className='inline-block text-left text-caption-2 relative'
@@ -72,30 +72,6 @@ export const AccountPoolRow = (
               </span>
             </div>
           </div>
-
-          {/* 
-          <div className='inline-flex flex flex-col'>
-            <h6
-              className='inline-block'
-              style={{
-                marginTop: -2
-              }}
-            >
-              <span
-                className='text-inverse'
-              >
-                Prize ${displayAmountInEther(
-                  pool?.estimatePrize,
-                  { decimals, precision: 0 }
-                )}
-              </span>
-            </h6>
-            <span className='text-caption font-number uppercase -mt-1'>
-              {pool.frequency}
-            </span>
-          </div> */}
-
-
 
         </div>
 

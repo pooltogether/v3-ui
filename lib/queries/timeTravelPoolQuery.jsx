@@ -13,6 +13,7 @@ export const timeTravelPoolQuery = (number) => {
         id
         playerCount
         totalSupply
+        cumulativePrizeNet
       }
     }
   `
