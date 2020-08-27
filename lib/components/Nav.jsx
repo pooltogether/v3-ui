@@ -7,8 +7,11 @@ export const Nav = (props) => {
   const router = useRouter()
 
   const accountPage = router.pathname.match('account')
-  const prizesPage = router.pathname.match('prizes')
-  const poolPage = !accountPage && !prizesPage
+  const poolPage = !accountPage
+  
+  // const prizesPage = router.pathname.match('prizes')
+  // const poolPage = !accountPage && !prizesPage
+
 
   const daiPoolPage = router.asPath === '/pools/PT-cDAI'
   const usdcPoolPage = router.asPath === '/pools/PT-cUSDC'
@@ -117,7 +120,7 @@ export const Nav = (props) => {
         </Link>
       </div> */}
 
-      <Link
+      {/* <Link
         href='/prizes/[symbol]'
         as='/prizes/PT-cDAI'
         shallow
@@ -154,7 +157,7 @@ export const Nav = (props) => {
 
           <span className='pl-2'>Prizes</span>
         </a>
-      </Link>
+      </Link> */}
 
       <Link
         href='/account'

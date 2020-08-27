@@ -7,8 +7,10 @@ export const NavMobile = (props) => {
   const router = useRouter()
 
   const accountPage = router.pathname.match('account')
-  const prizesPage = router.pathname.match('prizes')
-  const poolPage = !accountPage && !prizesPage
+  const poolPage = !accountPage
+ 
+  // const prizesPage = router.pathname.match('prizes')
+  // const poolPage = !accountPage && !prizesPage
 
   const mobileNavClasses = 'h-full w-full flex flex-col justify-center items-center px-2 text-xs pb-1 pt-2 px-3 trans outline-none focus:outline-none active:outline-none tracking-normal'
 
@@ -47,7 +49,7 @@ export const NavMobile = (props) => {
         </a>
       </Link>
 
-      <Link
+      {/* <Link
         href='/prizes/[symbol]'
         as='/prizes/PT-cDAI'
         shallow
@@ -72,7 +74,7 @@ export const NavMobile = (props) => {
 
           Prizes
         </a>
-      </Link>
+      </Link> */}
 
       <Link
         href='/account'
