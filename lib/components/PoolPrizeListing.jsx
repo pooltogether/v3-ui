@@ -44,7 +44,7 @@ export const PoolPrizeListing = (
 
   return <>
     <div
-      className='flex flex-col items-center text-center mt-8'
+      className='flex flex-col items-center text-center mt-4'
     >
       {!prizes || loading && <>
         <IndexUILoader />

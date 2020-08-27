@@ -11,7 +11,7 @@ export const NonInteractableCard = (
     <motion.div
       className={classnames(
         className,
-        'interactable-card bg-card border-card w-full px-6 sm:px-10 mb-4 py-5 sm:py-6 trans rounded-lg text-inverse',
+        'interactable-card bg-card border-card w-full px-4 xs:px-6 mb-4 py-5 sm:py-6 trans rounded-lg text-inverse',
       )}
       style={{
         minHeight: 120

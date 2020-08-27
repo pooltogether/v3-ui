@@ -65,7 +65,7 @@
     "autoprefixer": "^9.8.6",
     "beautiful-react-hooks": "^0.28.0",
     "bn.js": "4.11.0",
-    "bnc-onboard": "^1.11.1",
+    "bnc-onboard": "^1.12.0",
     "classnames": "^2.2.6",
     "date-fns": "^2.15.0",
     "email-validator": "^2.0.4",

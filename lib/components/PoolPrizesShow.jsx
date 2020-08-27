@@ -10,6 +10,7 @@ import { PoolPrizeListing } from 'lib/components/PoolPrizeListing'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PrizesPageHeader } from 'lib/components/PrizesPageHeader'
 import { Tagline } from 'lib/components/Tagline'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const PoolPrizesShow = (
   props,
@@ -18,7 +19,9 @@ export const PoolPrizesShow = (
   const router = useRouter()
 
   const poolData = useContext(PoolDataContext)
-  const { pool, pools } = poolData
+  const { pool } = poolData
+  
+  const decimals = pool?.underlyingCollateralDecimals
 
   if (pool === null) {
     const querySymbol = router.query?.symbol
@@ -36,7 +39,7 @@ export const PoolPrizesShow = (
       pool={pool}
     />
 
-    <div className='flex justify-center text-left mt-10'>
+    {/* <div className='flex justify-center text-left mt-10'>
       {pools.map(_pool => {
         return <ButtonLink
           key={`prize-pool-button-${_pool.id}`}
@@ -61,7 +64,7 @@ export const PoolPrizesShow = (
           /> {_pool.underlyingCollateralSymbol}
         </ButtonLink>
       })}
-    </div>
+    </div> */}
 
     <div
       className='bg-highlight-3 mt-4 mb-10 text-sm py-6 flex flex-col sm:flex-row items-center justify-center rounded-lg'
@@ -85,7 +88,10 @@ export const PoolPrizesShow = (
         <div
           className='sm:h-12 font-bold pt-2'
         >
-          $17,242
+          ${displayAmountInEther(
+            pool?.cumulativePrizeNet,
+            { decimals, precision: 2 }
+          )}
         </div>
         <div className='text-xs sm:text-base -mt-2 sm:mt-1 font-bold'>
           Awarded so far
@@ -106,7 +112,7 @@ export const PoolPrizesShow = (
 
 
     <h6
-      className='text-accent-2 mb-4 mt-16'
+      className='text-accent-2 mb-0 mt-8'
     >
       Prize history:
     </h6>

@@ -47,7 +47,7 @@ export const PoolRow = (
             className='flex flex-col items-start justify-between w-full ml-1 sm:ml-6 leading-none'
           >
             <div
-              className='inline-block text-left text-xl sm:text-3xl font-bold text-inverse relative'
+              className='inline-block text-left text-sm xs:text-xl sm:text-3xl font-bold text-inverse relative'
               style={{
                 top: -6
               }}

@@ -3,7 +3,6 @@ import classnames from 'classnames'
 import Link from 'next/link'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { networkBgColorClassname } from 'lib/utils/networkColorClassnames'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { shorten } from 'lib/utils/shorten'
 
@@ -18,10 +17,7 @@ export const WalletInfo = (props) => {
 
   if (chainId) {
     networkName = <span
-      className={classnames(
-        `text-${networkBgColorClassname(chainId)}`,
-        'inline-block'
-      )}
+      className={'inline-block'}
     >
       {chainIdToNetworkName(chainId)}
     </span>
@@ -40,7 +36,7 @@ export const WalletInfo = (props) => {
               Address:
             </h6>
             <div
-              className='overflow-ellipsis w-full no-underline sm:text-xs lg:text-sm text-default-soft mb-2 sm:mb-4'
+              className='overflow-ellipsis w-full no-underline sm:text-xs lg:text-sm text-default mb-2 sm:mb-4'
             >
               <div className='block lg:hidden'>
                 {shorten(usersAddress)}
@@ -75,7 +71,7 @@ export const WalletInfo = (props) => {
               Connected to
             </h6>
             <div
-              className='rounded-lg capitalize sm:text-xs lg:text-sm text-default-soft mb-2 sm:mb-4'
+              className='rounded-lg capitalize sm:text-xs lg:text-sm text-default mb-2 sm:mb-4'
             >
               {walletName} - <button
                 onClick={(e) => {
@@ -99,7 +95,7 @@ export const WalletInfo = (props) => {
                 Network
               </h6>
               <div
-                className='rounded-lg capitalize sm:text-xs lg:text-sm text-default-soft'
+                className='rounded-lg capitalize sm:text-xs lg:text-sm text-default'
               >
                 {networkName}
               </div>

@@ -172,12 +172,16 @@
 
 .bn-onboard-custom.bn-onboard-dark-mode .bn-onboard-select-wallet-info:hover {
   color:#fff !important;
-  /* opacity: 0.6; */
 }
-/* 
-.bn-onboard-custom .bn-onboard-select-wallet-info:hover {
-  opacity:.6
-} */
+
+.bn-onboard-custom.bn-onboard-icon-display {
+  padding: 2rem 0 !important;
+}
+
+.bn-onboard-custom.bn-onboard-modal-selected-wallet p {
+  font-size: 1rem !important;
+  padding: 0 0 2rem 0 !important;
+}
 
 .bn-onboard-custom.bn-onboard-dark-mode .bn-onboard-icon-button span,
 .bn-onboard-custom.bn-onboard-dark-mode .bn-onboard-modal-content-header-heading {
@@ -200,4 +204,14 @@
 
 .bn-onboard-select-info-container .bn-onboard-custom.bn-onboard-prepare-button {
   display: none !important;
+}
+
+@media only screen and (max-width: 450px) {
+  .bn-onboard-custom.bn-onboard-modal-select-wallets {
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, .1),
+      inset 0 0 5px rgba(0, 0, 0, .05);
+    margin: 0 -2rem 1.5rem -2rem !important;
+    max-height: 400px !important;
+    padding: 1rem 2rem !important;
+  }
 }
