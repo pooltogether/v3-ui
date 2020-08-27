@@ -15,7 +15,7 @@
     "export": "next export",
     "postexport": "node post-export.js",
     "release": "./scripts/sentry-release.sh",
-    "distrelease": "yarn test && export NEXT_JS_RELEASE_VERSION=$SENTRY_PROJECT:$(sentry-cli releases propose-version) && yarn dist && yarn release",
+    "distrelease": "yarn test && export NEXT_JS_RELEASE_VERSION=$SENTRY_PROJECT$(sentry-cli releases propose-version) && yarn dist && yarn release",
     "start": "NODE_ENV=production PORT=80 node server.js",
     "test": "jest",
     "testcov": "jest --coverage --coverageDirectory=coverage && open ./coverage/index.html",
