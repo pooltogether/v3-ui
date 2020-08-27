@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import Link from 'next/link'
+import classnames from 'classnames'
 import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 
@@ -8,10 +9,10 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { AllPoolsTotalAwarded } from 'lib/components/AllPoolsTotalAwarded'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
-import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { Meta } from 'lib/components/Meta'
+import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
@@ -71,10 +72,6 @@ export const PrizeShow = (
       net: pool?.estimatePrize
     }
   }
-  // displayAmountInEther(
-  //   pool?.estimatePrize || 0,
-  //   { decimals }
-  // )
 
   if (prize === null) {
     return <div
@@ -116,8 +113,8 @@ export const PrizeShow = (
           name: pool?.name,
         },
         {
-          href: '/prizes',
-          as: '/prizes',
+          href: '/prizes/[symbol]',
+          as: `/prizes/${pool?.symbol}`,
           name: 'Prizes',
         },
         {
@@ -127,7 +124,12 @@ export const PrizeShow = (
     />
 
     <div
-      className='bg-highlight-3 rounded-lg px-6 pt-4 pb-6 text-white mt-4 sm:mt-10'
+      className={classnames(
+        'bg-highlight-3 rounded-lg px-6 pt-4 pb-6 text-white mt-4 sm:mt-10',
+        {
+          'border-flashy': isCurrentPrize
+        }
+      )}
     >
       <div
         className='flex flex-col sm:flex-row justify-between'
@@ -139,7 +141,7 @@ export const PrizeShow = (
             Prize #{prizeNumber}
           </h2>
           
-          {prize?.awardedTimestamp && <>
+          {prize?.awardedTimestamp ? <>
             <h6
               className='mt-4'
             >
@@ -155,6 +157,16 @@ export const PrizeShow = (
                 }
               )}
             </div>
+          </> : <>
+            <h6
+              className='mt-4 mb-4'
+            >
+              Will be awarded in:
+            </h6>
+            <NewPrizeCountdown
+              pool={pool}
+              flashy={false}
+            />
           </>}
         </div>
 
@@ -176,21 +188,32 @@ export const PrizeShow = (
           >
             Winner:
           </h6>
-          <Link
-            href='/players/[playerAddress]'
-            as={`/players/${winnerAddress}`}
-          >
-            <a
-              className='block font-bold text-sm xs:text-base sm:text-lg text-green hover:text-white'
+          {prize?.awardedTimestamp ? <>
+            
+            <Link
+              href='/players/[playerAddress]'
+              as={`/players/${winnerAddress}`}
             >
-              <div className='block lg:hidden'>
-                {shorten(winnerAddress)}
-              </div>
-              <div className='hidden lg:block'>
-                {winnerAddress}
-              </div>
-            </a>
-          </Link>
+              <a
+                className='block font-bold text-sm xs:text-base sm:text-lg text-green hover:text-white'
+              >
+                <div className='block lg:hidden'>
+                  {shorten(winnerAddress)}
+                </div>
+                <div className='hidden lg:block'>
+                  {winnerAddress}
+                </div>
+              </a>
+            </Link>
+          </> : <>
+            <span
+              className='block font-bold text-caption uppercase mt-2'
+            >
+              yet to be awarded
+            </span>
+          </>}
+
+          
         </div>
       </div>
     </div>

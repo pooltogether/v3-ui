@@ -10,6 +10,7 @@ import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const AccountPoolRow = (
   props,
@@ -99,12 +100,21 @@ export const AccountPoolRow = (
         <div
           className='w-full xs:w-4/12 sm:w-4/12 lg:w-4/12 sm:border-r border-accent-4'
         >
-          <Odds
-            fontSansRegular
-            className='font-bold text-flashy text-xl sm:text-2xl lg:text-3xl'
-            pool={pool}
-            usersBalance={usersBalance}
-          />
+          {usersBalance === 0 ? <>
+            <span
+              className='font-bold text-xl sm:text-2xl lg:text-3xl'
+            >
+              n/a
+            </span>
+          </> : <>
+            <Odds
+              fontSansRegular
+              className='font-bold text-flashy text-xl sm:text-2xl lg:text-3xl'
+              pool={pool}
+              usersBalance={usersBalance}
+            />
+          </>}
+          
           <span
             className='block text-caption uppercase font-bold'
           >
@@ -117,11 +127,11 @@ export const AccountPoolRow = (
         >
           <PoolCountUp
             fontSansRegular
-            end={usersBalance}
+            end={parseInt(usersBalance, 10)}
             decimals={null}
           /> Tickets
           <span className='block text-caption uppercase'>
-            ${usersBalance} {ticker}
+            ${numberWithCommas(usersBalance, { precision: 4 })} {ticker}
           </span>
         </div>
 

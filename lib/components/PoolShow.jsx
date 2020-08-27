@@ -163,7 +163,7 @@ export const PoolShow = (
                   )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
                 </h2>
                 <div
-                  className='text-caption -mt-2'
+                  className='text-caption -mt-2 uppercase'
                 >
                   {pool?.frequency}
                 </div>
@@ -190,6 +190,17 @@ export const PoolShow = (
                   <h3>
                     {pool?.playerCount}
                   </h3>
+
+                  <Link
+                    href='/prizes/[symbol]/[prizeNumber]]'
+                    as={`/prizes/${pool?.symbol}/${pool?.currentPrizeId}`}
+                  >
+                    <a
+                      className='inline-block font-bold opacity-80 hover:opacity-100 trans'
+                    >
+                      View current players
+                    </a>
+                  </Link>
                 </>
               },
               {
@@ -235,7 +246,7 @@ export const PoolShow = (
                   <h3>
                     ${displayAmountInEther(
                       pool.cumulativePrizeNet, {
-                        precision: 4,
+                        precision: 2,
                         decimals: pool.underlyingCollateralDecimals
                       })
                     } {pool.underlyingCollateralSymbol}
@@ -246,7 +257,7 @@ export const PoolShow = (
                     as={`/prizes/${pool?.symbol}`}
                   >
                     <a
-                      className='-mt-4 inline-block font-bold'
+                      className='inline-block font-bold opacity-80 hover:opacity-100 trans'
                     >
                       View previous winners
                     </a>

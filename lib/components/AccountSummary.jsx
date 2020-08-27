@@ -1,7 +1,7 @@
 import React from 'react'
 import { ethers } from 'ethers'
 
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const AccountSummary = (props) => {
   const { pools, dynamicPlayerData } = props
@@ -43,7 +43,7 @@ export const AccountSummary = (props) => {
         <div
           className='text-caption -mt-2 uppercase font-bold'
         >
-          ${totalTickets} Total Value
+          ${numberWithCommas(totalTickets, { precision: 4 })} Total Value
         </div>
 
         <div

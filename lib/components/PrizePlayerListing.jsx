@@ -30,6 +30,7 @@ export const PrizePlayerListing = (
   const skip = (page - 1) * pageSize
   const pages = Math.ceil(Number(playerCount / pageSize, 10))
 
+  console.log(prize?.awardedBlock)
   const timeTravelPlayersQuery = prizePlayersQuery(prize?.awardedBlock)
 
   const variables = {

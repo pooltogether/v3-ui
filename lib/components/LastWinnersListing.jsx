@@ -70,12 +70,21 @@ export const LastWinnersListing = (
           as={`/players/${player?.address}`}
         >
           <a
-            className='block font-bold'
+            className='block font-bold bg-default mb-2 rounded-lg px-2 opacity-80 hover:opacity-100 trans'
           >
-            {shorten(player?.address)} - ${displayAmountInEther(
-              player?.winnings,
-              { decimals }
-            )} {tickerUpcased}
+            <span
+              className='inline-block w-1/2 lg:w-2/3 font-number'
+            >
+              {shorten(player?.address)}
+            </span>
+            <span
+              className='inline-block w-1/2 lg:w-1/3 text-left'
+            >
+              ${displayAmountInEther(
+                player?.winnings,
+                { decimals, precision: 0 }
+              )} {tickerUpcased}
+            </span>
           </a>
         </Link>
       })}
