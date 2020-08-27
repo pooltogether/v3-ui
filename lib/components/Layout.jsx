@@ -125,7 +125,7 @@ export const Layout = (props) => {
               />
             </>}
             
-            {usersAddress && <>
+            {usersAddress && chainId && chainId !== 1 && <>
               <NetworkText
                 openTransactions={openTransactions}
               />

@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react'
-import { useRouter } from 'next/router'
+import React, { useContext } from 'react'
 
 import {
   SUPPORTED_CHAIN_IDS,
@@ -7,7 +6,7 @@ import {
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Modal } from 'lib/components/Modal'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
-import { networkColorClassname } from 'lib/utils/networkColorClassname'
+import { networkBgColorClassname } from 'lib/utils/networkColorClassnames'
 import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
 
 const onlyUnique = (value, index, self) => {
@@ -37,7 +36,7 @@ export const WrongNetworkModal = (props) => {
         {supportedNetworkNames.map(name => {
           return <div
             key={`network-${name}`}
-            className={`inline-block bg-${networkColorClassname(
+            className={`inline-block bg-${networkBgColorClassname(
               networkNameToChainId(name)
             )} px-2 py-1 w-24 rounded-full mr-2 mt-2 mr-2`}
           >

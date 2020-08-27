@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import Link from 'next/link'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { networkColorClassname } from 'lib/utils/networkColorClassname'
+import { networkBgColorClassname } from 'lib/utils/networkColorClassnames'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { shorten } from 'lib/utils/shorten'
 
@@ -19,7 +19,7 @@ export const WalletInfo = (props) => {
   if (chainId) {
     networkName = <span
       className={classnames(
-        networkColorClassname(chainId),
+        `text-${networkBgColorClassname(chainId)}`,
         'inline-block'
       )}
     >

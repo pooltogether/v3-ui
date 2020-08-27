@@ -3,7 +3,7 @@ import classnames from 'classnames'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
-import { networkColorClassname } from 'lib/utils/networkColorClassname'
+import { networkBgColorClassname } from 'lib/utils/networkColorClassnames'
 
 export const StaticNetworkNotificationBanner = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
@@ -17,7 +17,7 @@ export const StaticNetworkNotificationBanner = (props) => {
   if (chainId && supportedNetwork) {
     networkName = <span
       className={classnames(
-        networkColorClassname(chainId),
+        // networkTextColorClassname(chainId),
         'inline-block'
       )}
     >
@@ -25,7 +25,7 @@ export const StaticNetworkNotificationBanner = (props) => {
     </span>
   }
 
-  const supportedNetworkClasses = `block bg-${networkColorClassname(chainId)}`
+  const supportedNetworkClasses = `block bg-${networkBgColorClassname(chainId)}`
   const supportedNetworkNames = process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
 
   const verb = usersAddress ? 'connected to' : 'viewing'
