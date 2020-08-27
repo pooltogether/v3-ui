@@ -3,6 +3,7 @@ import { useRouter} from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { AllPoolsTotalAwarded } from 'lib/components/AllPoolsTotalAwarded'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { Meta } from 'lib/components/Meta'
@@ -67,38 +68,23 @@ export const PoolPrizesShow = (
     </div> */}
 
     <div
-      className='bg-highlight-3 mt-4 mb-10 text-sm py-6 flex flex-col sm:flex-row items-center justify-center rounded-lg'
+      className='bg-highlight-3 mt-8 mb-8 text-sm py-6 px-6 flex flex-col xs:flex-row items-center justify-center xs:justify-between text-center xs:text-left rounded-lg'
     >
-      <div className='flex items-center justify-center sm:justify-end text-white mb-4 sm:mb-0 w-1/3'>
-        <div className='flex flex-col items-center justify-center'>
-          <div
-            className='sm:h-12 sm:pt-1'
-          >
-            <PoolCurrencyIcon
-              pool={pool}
-            />
-          </div>
-          <div className='text-lg mt-1 font-bold'>
-            {pool?.name}
-          </div>
-        </div>
-      </div>
-
-      <div className='text-2xl text-center text-white mb-6 sm:mb-0 sm:w-1/3 lg:w-1/5'>
+      <div className='text-2xl text-white mb-6 xs:mb-0 xs:w-1/3 lg:w-1/5'>
         <div
-          className='sm:h-12 font-bold pt-2'
+          className='xs:h-12 font-bold'
         >
           ${displayAmountInEther(
             pool?.cumulativePrizeNet,
             { decimals, precision: 2 }
           )}
         </div>
-        <div className='text-xs sm:text-base -mt-2 sm:mt-1 font-bold'>
+        <div className='text-xs xs:text-base -mt-2 xs:mt-1 font-bold'>
           Awarded so far
         </div>
       </div>
 
-      <div className='text-center sm:text-left w-3/4 sm:w-1/3'>
+      <div className='text-center xs:text-right w-3/4 xs:w-1/3'>
         <ButtonLink
           bg='highlight-4'
           textSize='lg'
@@ -121,6 +107,6 @@ export const PoolPrizesShow = (
       pool={pool}
     />
 
-    <Tagline />
+    <AllPoolsTotalAwarded />
   </>
 }

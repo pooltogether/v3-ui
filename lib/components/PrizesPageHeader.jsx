@@ -32,27 +32,23 @@ export const PrizesPageHeader = (
   return <>
     <PageTitleAndBreadcrumbs
       title={`Prizes`}
-      // pool={pool}
+      pool={pool}
       breadcrumbs={[
-        // {
-        //   href: '/prizes',
-        //   as: '/prizes',
-        //   name: 'Prizes',
-        // }
+        {
+          href: '/',
+          as: '/',
+          name: 'Pools',
+        },
+        {
+          href: '/pools/[symbol]',
+          as: `/pools/${pool?.symbol}`,
+          name: pool?.name,
+        },
+        {
+          name: 'Prizes',
+        }
       ]}
     />
-
-    <div
-      className='text-inverse mb-16'
-    >
-      <h4>
-        Total awarded: <span className='text-flashy'>${displayAmountInEther(
-          cumulativePrizeNetAllPools,
-          { decimals: 18, precision: 2 }
-        )}
-        </span>
-      </h4>
-    </div>
 
     {showPoolLink && <>
       <div

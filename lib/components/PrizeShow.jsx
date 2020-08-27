@@ -6,11 +6,11 @@ import { useRouter } from 'next/router'
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
+import { AllPoolsTotalAwarded } from 'lib/components/AllPoolsTotalAwarded'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
-import { Tagline } from 'lib/components/Tagline'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -105,14 +105,22 @@ export const PrizeShow = (
       pool={pool}
       breadcrumbs={[
         {
-          href: '/prizes',
-          as: '/prizes',
-          name: 'Prizes',
+          href: '/',
+          as: '/',
+          name: 'Pools',
         },
         {
           href: '/pools/[symbol]',
           as: `/pools/${pool?.symbol}`,
           name: pool?.name,
+        },
+        {
+          href: '/prizes',
+          as: '/prizes',
+          name: 'Prizes',
+        },
+        {
+          name: `Prize #${prizeNumber}`,
         }
       ]}
     />
@@ -236,6 +244,6 @@ export const PrizeShow = (
       prize={prize}
     />
 
-    <Tagline />
+    <AllPoolsTotalAwarded />
   </>
 }
