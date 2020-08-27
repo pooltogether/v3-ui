@@ -105,6 +105,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
 
       const id = sendTx(
         provider,
+        usersAddress,
         PrizePoolAbi,
         poolAddress,
         method,

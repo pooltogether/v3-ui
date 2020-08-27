@@ -75,6 +75,7 @@ export const TimelockedBalanceUI = (props) => {
 
     const id = sendTx(
       provider,
+      usersAddress,
       PrizePoolAbi,
       poolAddress,
       method,

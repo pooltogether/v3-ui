@@ -19,6 +19,7 @@ import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { prizeQuery } from 'lib/queries/prizeQuery'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatDate } from 'lib/utils/formatDate'
+import { shorten } from 'lib/utils/shorten'
 
 import TicketsIcon from 'assets/images/icon-ticket@2x.png'
 import PlayersIcon from 'assets/images/players@2x.png'
@@ -132,7 +133,7 @@ export const PrizeShow = (
         className='flex flex-col sm:flex-row justify-between'
       >
         <div
-          className='w-full sm:w-1/2'
+          className='w-full sm:w-1/3'
         >
           <h2>
             Prize #{prizeNumber}
@@ -140,12 +141,12 @@ export const PrizeShow = (
           
           {prize?.awardedTimestamp && <>
             <h6
-              className='mt-3'
+              className='mt-4'
             >
               Awarded on:
             </h6>
             <div
-              className='text-caption uppercase'
+              className='text-caption uppercase font-bold text-sm xs:text-base sm:text-lg'
             >
               {formatDate(
                 prize?.awardedTimestamp,
@@ -158,12 +159,12 @@ export const PrizeShow = (
         </div>
 
         <div
-          className='w-full sm:w-1/2 mt-8 sm:mt-0'
+          className='w-full sm:w-2/3 mt-8 sm:mt-0'
         >
           <h2>
             <PoolCurrencyIcon
               pool={pool}
-              className='inline-block mx-auto'
+              className='inline-block mx-auto -mt-1'
             /> ${displayAmountInEther(
                   prize?.net || 0,
                   { decimals, precision: 2 }
@@ -171,7 +172,7 @@ export const PrizeShow = (
           </h2>
 
           <h6
-            className='mt-4 sm:mt-0'
+            className='mt-4'
           >
             Winner:
           </h6>
@@ -180,9 +181,14 @@ export const PrizeShow = (
             as={`/players/${winnerAddress}`}
           >
             <a
-              className='block font-bold text-xs xs:text-base sm:text-lg text-green hover:text-white'
+              className='block font-bold text-sm xs:text-base sm:text-lg text-green hover:text-white'
             >
-              {winnerAddress}
+              <div className='block lg:hidden'>
+                {shorten(winnerAddress)}
+              </div>
+              <div className='hidden lg:block'>
+                {winnerAddress}
+              </div>
             </a>
           </Link>
         </div>

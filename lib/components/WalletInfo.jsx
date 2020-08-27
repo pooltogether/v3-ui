@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
 import Link from 'next/link'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'

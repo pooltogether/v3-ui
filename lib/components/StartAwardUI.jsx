@@ -5,20 +5,19 @@ import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PrizeStr
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { Button } from 'lib/components/Button'
+import { ButtonTx } from 'lib/components/ButtonTx'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 
 export const StartAwardUI = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
-  const { provider } = authControllerContext
+  const { provider, usersAddress } = authControllerContext
 
   const poolDataContext = useContext(PoolDataContext)
   const { pool } = poolDataContext
 
   const canStartAward = pool?.canStartAward
   const prizeStrategyAddress = pool?.prizeStrategyAddress
-  // const ticker = pool?.underlyingCollateralSymbol
 
   const [txId, setTxId] = useState()
 
@@ -31,9 +30,10 @@ export const StartAwardUI = (props) => {
   const transactions = transactionsQueryResult?.data?.transactions
   const tx = transactions?.find((tx) => tx.id === txId)
 
-  const ongoingStartAwardTransactions = transactions?.
-    filter(t => t.method === method && !t.cancelled && !t.completed)
+  // const ongoingStartAwardTransactions = transactions?.
+  //   filter(t => t.method === method && !t.cancelled && !t.completed)
   // const disabled = ongoingStartAwardTransactions.length > 0
+  const disabled = !usersAddress
 
   const handleStartAwardClick = async (e) => {
     e.preventDefault()
@@ -46,6 +46,7 @@ export const StartAwardUI = (props) => {
 
     const id = sendTx(
       provider,
+      usersAddress,
       PrizeStrategyAbi,
       prizeStrategyAddress,
       method,
@@ -57,14 +58,14 @@ export const StartAwardUI = (props) => {
 
   return <>
     {canStartAward && <>
-      <Button
+      <ButtonTx
         secondary
         textSize='lg'
         onClick={handleStartAwardClick}
-        // disabled={disabled}
+        usersAddress={usersAddress}
       >
         Start Award
-      </Button>
+      </ButtonTx>
     </>}
   </>
 }

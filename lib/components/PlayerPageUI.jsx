@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
@@ -18,14 +18,14 @@ export const PlayerPageUI = (props) => {
   const router = useRouter()
   const playerAddress = router.query?.playerAddress
 
+  const [error, setError] = useState('')
+
   try {
     ethers.utils.getAddress(playerAddress)
   } catch (e) {
     console.error(e)
-    if (e.message.match('invalid address')) {
-      return <ErrorMessage>
-        Incorrectly formatted Ethereum address!
-      </ErrorMessage>
+    if (!error && e.message.match('invalid address')) {
+      setError('Incorrectly formatted Ethereum address!')
     }
   }
 
@@ -84,43 +84,54 @@ export const PlayerPageUI = (props) => {
         }
       }}
     >
-
-      {!playerData ? <>
-        <IndexUILoader />
-      </> :
-        playerData.length === 0 ? <>
-          <BlankStateMessage>
-            <div
-              className='mb-4'
-            >
-              This player currently has no tickets.
-            </div>
-            <ButtonLink
-              href='/'
-              as='/'
-            >
-              View pools
-            </ButtonLink>
-          </BlankStateMessage>
+      <div
+        className='mt-8'
+      >
+        {error ? <>
+          <ErrorMessage>
+            Incorrectly formatted Ethereum address!
+          </ErrorMessage>
         </> : <>
-          <ul
-            className='mt-16'
-          >
-            {playerData.map(playerData => {
-              const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
+          {!playerData ? <>
+            <IndexUILoader />
+          </> :
+          playerData.length === 0 ? <>
+            <BlankStateMessage>
+              <div
+                className='mb-4'
+              >
+                This player currently has no tickets.
+              </div>
+              <ButtonLink
+                href='/'
+                as='/'
+              >
+                View pools
+              </ButtonLink>
+            </BlankStateMessage>
+          </> : <>
+            <ul
+              className='mt-8'
+            >
+              {playerData.map(playerData => {
+                const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
 
-              if (!pool) {
-                return
-              }
+                if (!pool) {
+                  return
+                }
 
-              return <AccountPoolRow
-                key={`account-pool-row-${pool.poolAddress}`}
-                pool={pool}
-                player={playerData}
-              />
-            })}
-          </ul>
+                return <AccountPoolRow
+                  key={`account-pool-row-${pool.poolAddress}`}
+                  pool={pool}
+                  player={playerData}
+                />
+              })}
+            </ul>
+          </>}
         </>}
+      </div>
+
+      
     </motion.div>
   </>
 }

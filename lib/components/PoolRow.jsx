@@ -1,12 +1,12 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { NonInteractableCard } from 'lib/components/NonInteractableCard'
-// import { InteractableCard } from 'lib/components/InteractableCard'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
@@ -15,7 +15,6 @@ export const PoolRow = (
 ) => {  
   const {
     pool,
-    selected,
   } = props
   
   const [t] = useTranslation()
@@ -38,13 +37,22 @@ export const PoolRow = (
         <div
           className='flex items-center font-bold w-8/12 sm:w-6/12 lg:w-6/12'
         >
-          <PoolCurrencyIcon
-            lg
-            pool={pool}
-          />
+          <Link
+            href='/pools/[symbol]'
+            as={`/pools/${pool.symbol}`}
+          >
+            <a
+              className='inline-block w-12 xs:w-12 sm:w-16 lg:w-20 xs:mr-2'
+            >
+              <PoolCurrencyIcon
+                lg
+                pool={pool}
+              />
+            </a>
+          </Link>
 
           <div
-            className='flex flex-col items-start justify-between w-full ml-1 sm:ml-6 leading-none'
+            className='flex flex-col items-start justify-between w-full ml-1 sm:ml-4 leading-none'
           >
             <div
               className='inline-block text-left text-sm xs:text-xl sm:text-3xl font-bold text-inverse relative'

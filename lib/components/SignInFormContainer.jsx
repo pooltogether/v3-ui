@@ -3,6 +3,7 @@ import FeatherIcon from 'feather-icons-react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { Meta } from 'lib/components/Meta'
 import { SignInForm } from 'lib/components/SignInForm'
@@ -10,14 +11,27 @@ import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const SignInFormContainer = (props) => {
   const router = useRouter()
+  const showSelectMenu = router.query.showSelectMenu
 
   const walletContext = useContext(WalletContext)
   const { handleLoadOnboard } = walletContext
+
+  const authControllerContext = useContext(AuthControllerContext)
 
   // lazy load onboardjs when sign-in is shown
   useEffect(() => {
     console.log('handleLoadOnboard on sign in show')
     handleLoadOnboard()
+
+    
+
+    if (showSelectMenu) {
+      const postSignInCallback = () => {
+        queryParamUpdater.remove(router, 'signIn')
+      }
+
+      authControllerContext.connectWallet(postSignInCallback)
+    }
   }, [])
   
   // could easily refactor into a custom hook

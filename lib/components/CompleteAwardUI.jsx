@@ -12,7 +12,7 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 
 export const CompleteAwardUI = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
-  const { provider } = authControllerContext
+  const { usersAddress, provider } = authControllerContext
  
   const poolDataContext = useContext(PoolDataContext)
   const { pool } = poolDataContext
@@ -43,6 +43,7 @@ export const CompleteAwardUI = (props) => {
 
     const id = sendTx(
       provider,
+      usersAddress,
       PrizeStrategyAbi,
       pool?.prizeStrategyAddress,
       method,

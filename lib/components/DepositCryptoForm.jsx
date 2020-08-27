@@ -27,7 +27,7 @@ export const DepositCryptoForm = (props) => {
   const quantity = router.query.quantity
   
   const authControllerContext = useContext(AuthControllerContext)
-  const { provider } = authControllerContext
+  const { usersAddress, provider } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
   const { pool, usersChainData } = poolData
@@ -117,6 +117,7 @@ export const DepositCryptoForm = (props) => {
 
     const id = sendTx(
       provider,
+      usersAddress,
       IERC20Abi,
       tokenAddress,
       method,
@@ -216,23 +217,19 @@ export const DepositCryptoForm = (props) => {
                 minHeight: 97
               }}
             >
-              <div
-                className='font-bold my-2 mt-10'
-              >
+              <PaneTitle small>
                 {needsApproval && !unlockTxInFlight && 'Your approval is necessary'}
 
-                {tx?.inWallet && !tx?.cancelled && 'Confirm approval'}
+                {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
+                {tx?.inWallet && !tx?.cancelled && 'Confirm approval in your wallet'}
                 {tx?.sent && !tx?.completed && 'Approval confirming...'}
-              </div>
+              </PaneTitle>
 
               {needsApproval && !unlockTxInFlight && <>
                 Unlock this deposit by allowing the pool to have a <span className='font-bold'>{tickerUpcased}</span> allowance:
               </>}
 
-              {/* {tx?.inWallet && !tx?.cancelled && 'Check your wallet'} */}
               {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage />}
-              
-              {/* Unlock this deposit by allowing the pool to have a <span className='font-bold'>{quantity} {tickerUpcased}</span> allowance: */}
             </div>
           </>}
           

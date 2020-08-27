@@ -103,6 +103,8 @@ export const WalletContextProvider = (props) => {
     let _onboard = onboard
 
     if (!_onboard) {
+      console.warn(`onboard wasn't ready when user clicked "connect wallet"! (this is slow)`)
+      
       await handleLoadOnboard()
       _onboard = await getOnboard()
     }

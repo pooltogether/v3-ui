@@ -27,9 +27,9 @@ export const SignInForm = (props) => {
         src={PoolTogetherTrophyDetailed}
         className='mx-auto mb-6 w-16 xs:w-1/12'
       />
-      <h4 className='mb-10 xs:w-1/2 sm:w-1/2 lg:w-full mx-auto'>
+      <h5 className='mb-10 xs:w-1/2 sm:w-1/2 lg:w-full mx-auto'>
         Connect an Ethereum wallet to manage your PoolTogether tickets &amp; rewards:
-      </h4>
+      </h5>
 
       <Button
         textSize='lg'
@@ -38,7 +38,7 @@ export const SignInForm = (props) => {
           authControllerContext.connectWallet(postSignInCallback)
         }}
       >
-        Connect Wallet
+        Connect wallet
       </Button>
 
 

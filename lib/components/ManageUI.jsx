@@ -32,7 +32,6 @@ export const ManageUI = (
   const isRngRequested = pool?.isRngRequested
   const canStartAward = pool?.canStartAward
   const canCompleteAward = pool?.canCompleteAward
-  console.log({ canStartAward, canCompleteAward, isRngCompleted, isRngRequested,})
 
   const poolLocked = canCompleteAward || (isRngRequested && !canCompleteAward)
   const openPhase = !canStartAward && !canCompleteAward && !isRngRequested
@@ -103,11 +102,11 @@ export const ManageUI = (
       <p className='text-caption font-bold'>
         {isRngRequested && !canCompleteAward && <>
           Waiting on random number generation ...
-          <div
+          <span
             className='w-6 flex items-start justify-start mt-6'
           >
             <LoadingSpinner />
-          </div>
+          </span>
         </>}
 
         {canStartAward && <>

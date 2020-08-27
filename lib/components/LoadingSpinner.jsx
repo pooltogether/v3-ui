@@ -1,5 +1,5 @@
 import React from 'react'
 
 export const LoadingSpinner = ({}) => (
-  <div className="loader01"></div>
+  <span className='inline-block loader01'></span>
 )

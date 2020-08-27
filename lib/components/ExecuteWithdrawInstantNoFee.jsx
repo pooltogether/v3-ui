@@ -72,6 +72,7 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
 
       const id = sendTx(
         provider,
+        usersAddress,
         PrizePoolAbi,
         poolAddress,
         method,

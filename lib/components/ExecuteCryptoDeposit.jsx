@@ -66,6 +66,7 @@ export const ExecuteCryptoDeposit = (props) => {
 
       const id = sendTx(
         provider,
+        usersAddress,
         PrizePoolAbi,
         poolAddress,
         method,
@@ -111,6 +112,8 @@ export const ExecuteCryptoDeposit = (props) => {
     <DepositInfoList />
 
     <PaneTitle small>
+      {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
+
       {tx?.inWallet && 'Confirm deposit in your wallet'}
       {tx?.sent && 'Deposit confirming ...'}
     </PaneTitle>
