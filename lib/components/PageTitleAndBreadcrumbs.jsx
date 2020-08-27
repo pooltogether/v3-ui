@@ -38,7 +38,7 @@ export const PageTitleAndBreadcrumbs = (
                 shallow
               >
                 <a
-                  className='underline'
+                  className='border-b border-accent-3'
                 >
                   {crumb.name}
                 </a>

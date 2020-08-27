@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { networkColorClassname } from 'lib/utils/networkColorClassname'
-import { chainIdToName } from 'lib/utils/chainIdToName'
+import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { shorten } from 'lib/utils/shorten'
 
 export const WalletInfo = (props) => {
@@ -23,7 +23,7 @@ export const WalletInfo = (props) => {
         'inline-block'
       )}
     >
-      {chainIdToName(chainId)}
+      {chainIdToNetworkName(chainId)}
     </span>
   }
 

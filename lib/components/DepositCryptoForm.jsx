@@ -53,14 +53,14 @@ export const DepositCryptoForm = (props) => {
   }
 
   const {
-    usersBalanceBN,
-    usersBalance,
+    usersTokenBalanceBN,
+    usersTokenBalance,
     usersTokenAllowance,
   } = usersDataForPool(pool, usersChainData)
 
   useEffect(() => {
-    setCachedUsersBalance(usersBalance)
-  }, [usersBalance])
+    setCachedUsersBalance(usersTokenBalance)
+  }, [usersTokenBalance])
 
   useEffect(() => {
     if (
@@ -77,7 +77,7 @@ export const DepositCryptoForm = (props) => {
 
   let overBalance = false
   if (decimals) {
-    overBalance = quantity && usersBalanceBN.lt(
+    overBalance = quantity && usersTokenBalanceBN.lt(
       ethers.utils.parseUnits(
         quantity,
         Number(decimals)
@@ -141,8 +141,8 @@ export const DepositCryptoForm = (props) => {
 
     <DepositAndWithdrawFormUsersBalance
       bold={false}
-      start={cachedUsersBalance || usersBalance}
-      end={usersBalance}
+      start={cachedUsersBalance || usersTokenBalance}
+      end={usersTokenBalance}
       units={tickerUpcased}
     />
 

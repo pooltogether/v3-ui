@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { chainIdToName } from 'lib/utils/chainIdToName'
+import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { networkColorClassname } from 'lib/utils/networkColorClassname'
 
 export const NetworkText = (props) => {
@@ -13,7 +13,7 @@ export const NetworkText = (props) => {
 
   let networkName = null
   if (chainId && supportedNetwork) {
-    networkName = chainIdToName(chainId)
+    networkName = chainIdToNetworkName(chainId)
   }
 
   return <>

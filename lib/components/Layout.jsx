@@ -3,11 +3,13 @@ import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import { AnimatePresence, motion, useViewportScroll } from 'framer-motion'
 
+import {
+  SUPPORTED_CHAIN_IDS,
+} from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { NavAccount } from 'lib/components/NavAccount'
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
-import { Modal } from 'lib/components/Modal'
 import { NavMobile } from 'lib/components/NavMobile'
 import { NetworkText } from 'lib/components/NetworkText'
 import { WithdrawWizardContainer } from 'lib/components/WithdrawWizardContainer'
@@ -16,6 +18,12 @@ import { Nav } from 'lib/components/Nav'
 import { LanguagePicker } from 'lib/components/LanguagePicker'
 import { Settings } from 'lib/components/Settings'
 import { SignInFormContainer } from 'lib/components/SignInFormContainer'
+import { WrongNetworkModal } from 'lib/components/WrongNetworkModal'
+import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
+
+const onlyUnique = (value, index, self) => {
+  return self.indexOf(value) === index
+}
 
 export const Layout = (props) => {
   const {
@@ -57,7 +65,9 @@ export const Layout = (props) => {
   // people's attention
   const showingBanner = false
   // const showingBanner = chainId !== 1
-  const supportedNetworkNames = process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
+
+  let supportedNetworkNames = SUPPORTED_CHAIN_IDS.map(chainId => chainIdToNetworkName(chainId))
+  supportedNetworkNames = supportedNetworkNames.filter(onlyUnique)
 
   return <>
     <Meta />
@@ -78,22 +88,7 @@ export const Layout = (props) => {
       />}
     </AnimatePresence>
 
-    <Modal
-      visible={!supportedNetwork}
-      header={<>
-        Ethereum network mismatch
-      </>}
-    >
-      Your Ethereum wallet is connected to the wrong network. Please set your network to: <div
-        className='font-bold text-white text-center mt-2'
-      >
-        <div
-          className='bg-purple px-2 py-1 w-24 rounded-full mr-2 mt-2'
-        >
-          {supportedNetworkNames}
-        </div>
-      </div>
-    </Modal>
+    <WrongNetworkModal />
     
     <div
       className='flex flex-col w-full'

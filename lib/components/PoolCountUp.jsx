@@ -6,6 +6,19 @@ import { usePreviousValue } from 'beautiful-react-hooks';
 export const PoolCountUp = (props) => {
   const { bold, fontSansRegular } = props
 
+
+  // The CountUp library only works with floats and ints, not strings
+  if (
+    isNaN(props.start) ||
+    isNaN(props.end) ||
+    typeof props.start === 'string' ||
+    typeof props.end === 'string'
+  ) {
+    return props.end
+  }
+
+
+
   let [value, setValue] = useState(0)
   let prev = usePreviousValue(value)
   useEffect(() => {
@@ -25,7 +38,7 @@ export const PoolCountUp = (props) => {
     prev = parseInt(prev, 10)
     value = parseInt(value, 10)
   }
-  
+
   return <>
     <span
       className={classnames(

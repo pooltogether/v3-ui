@@ -24,7 +24,7 @@ export const PlayerDataContextProvider = (props) => {
   const playerAddress = router.query?.playerAddress?.toLowerCase()
 
   if (!SUPPORTED_CHAIN_IDS.includes(chainId)) {
-    console.error('network not supported')
+    console.log('Network not supported')
   }
 
   let playerAddressError

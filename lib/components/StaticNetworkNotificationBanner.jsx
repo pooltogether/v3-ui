@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { chainIdToName } from 'lib/utils/chainIdToName'
+import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { networkColorClassname } from 'lib/utils/networkColorClassname'
 
 export const StaticNetworkNotificationBanner = (props) => {
@@ -21,7 +21,7 @@ export const StaticNetworkNotificationBanner = (props) => {
         'inline-block'
       )}
     >
-      {chainIdToName(chainId)}
+      {chainIdToNetworkName(chainId)}
     </span>
   }
 

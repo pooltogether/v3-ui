@@ -56,7 +56,7 @@ export const TicketQuantityForm = (props) => {
   const watchQuantity = watch('quantity')
 
   const {
-    usersBalance,
+    usersTokenBalance,
   } = usersDataForPool(pool, usersChainData)
 
   const onSubmit = (values) => {
@@ -140,10 +140,10 @@ export const TicketQuantityForm = (props) => {
               className='font-bold'
               onClick={(e) => {
                 e.preventDefault()
-                setValue('quantity', usersBalance, { shouldValidate: true })
+                setValue('quantity', usersTokenBalance, { shouldValidate: true })
               }}
             >
-              Balance: {numberWithCommas(usersBalance, { precision: 4 })} {tickerUpcased}
+              Balance: {numberWithCommas(usersTokenBalance, { precision: 4 })} {tickerUpcased}
             </button>
           </>}
         />

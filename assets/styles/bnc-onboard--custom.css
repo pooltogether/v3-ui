@@ -107,8 +107,31 @@
   /* font-weight:500!important */
 }
 
-.bn-onboard-custom .bn-onboard-custom.bn-onboard-dark-mode-background,.bn-onboard-custom .bn-onboard-custom.bn-onboard-dark-mode-background-hover:hover {
+.bn-onboard-custom .bn-onboard-custom.bn-onboard-dark-mode-background,
+.bn-onboard-custom .bn-onboard-custom.bn-onboard-dark-mode-background-hover:hover {
   background:#4C249F !important
+}
+
+.bn-onboard-custom.bn-onboard-selected-wallet {
+  background:#4C249F !important
+}
+
+.bn-onboard-custom.bn-onboard-dark-mode-background.bn-onboard-prepare-error {
+  background-color: black !important;
+  font-size: 1rem;
+  font-weight: 900;
+  padding-left: 1rem;
+}
+
+.bn-onboard-custom.bn-onboard-prepare-description {
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.bn-onboard-custom.bn-onboard-selected-wallet i {
+  color:#5af5db !important;
+  text-decoration: none !important;
+  font-weight: 900 !important;
 }
 
 .bn-onboard-custom.bn-onboard-dark-mode-link {

@@ -12,7 +12,7 @@ import {
 } from 'lib/constants'
 import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
-import { chainIdToName } from 'lib/utils/chainIdToName'
+import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { getChainId } from 'lib/utils/getChainId'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
@@ -156,7 +156,7 @@ export const AuthControllerContextProvider = (props) => {
     }
   }, [onboard])
 
-  const networkName = chainIdToName(chainId)
+  const networkName = chainIdToNetworkName(chainId)
   const supportedNetwork = SUPPORTED_CHAIN_IDS.includes(chainId)
 
   Cookies.set(
