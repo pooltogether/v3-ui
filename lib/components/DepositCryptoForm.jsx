@@ -3,9 +3,11 @@ import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/client'
+import { isSafari } from 'react-device-detect'
 
 import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
@@ -15,12 +17,15 @@ import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWit
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
+import { WyreTopUpBalanceDropdown } from 'lib/components/WyreTopUpBalanceDropdown'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
 export const DepositCryptoForm = (props) => {
+  const { t } = useTranslation()
+
   const { nextStep, previousStep } = props
 
   const router = useRouter()
@@ -133,32 +138,36 @@ export const DepositCryptoForm = (props) => {
     </PaneTitle>
 
     <PaneTitle>
-      Deposit using {tickerUpcased} <div className='inline-block relative -t-1'>
+      Deposit {tickerUpcased} <div className='inline-block relative -t-1'>
         <PoolCurrencyIcon
           pool={pool}
         />
       </div>
     </PaneTitle>
 
-    <DepositAndWithdrawFormUsersBalance
-      bold={false}
-      start={cachedUsersBalance || usersTokenBalance}
-      end={usersTokenBalance}
-      units={tickerUpcased}
-    />
-
     <div
-      className='bg-primary flex text-inverse items-center justify-between w-full mx-auto px-6 py-3 font-bold rounded-bl-lg rounded-br-lg'
+      className='text-sm xs:text-base sm:text-lg lg:text-xl'
     >
-      <div>
-        Total:
-      </div>
-      <div>
-        <span
-          className='font-number'
-        >
-          {numberWithCommas(quantity, { precision: 4 })}
-        </span> {tickerUpcased}
+      <DepositAndWithdrawFormUsersBalance
+        bold={false}
+        start={cachedUsersBalance || usersTokenBalance}
+        end={usersTokenBalance}
+        units={tickerUpcased}
+      />
+
+      <div
+        className='bg-primary flex text-inverse items-center justify-between w-full mx-auto px-6 py-3 font-bold rounded-bl-lg rounded-br-lg'
+      >
+        <div>
+          Total:
+        </div>
+        <div>
+          <span
+            className='font-number'
+          >
+            {numberWithCommas(quantity, { precision: 4 })}
+          </span> {tickerUpcased}
+        </div>
       </div>
     </div>
 
@@ -168,42 +177,35 @@ export const DepositCryptoForm = (props) => {
       
       {overBalance ? <>
         <div className='text-yellow my-6 flex flex-col'>
-          <div
-            className='font-bold'
+          <h4
+            className=''
           >
             You don't have enough {tickerUpcased}.
+          </h4>
+          <div
+            className='mt-2 text-default-soft'
+          >
+            <WyreTopUpBalanceDropdown />
           </div>
 
           <ButtonDrawer>
             <Button
+              secondary
               textSize='lg'
               onClick={previousStep}
-              className='px-4 mt-2 inline-flex items-center'
+              className='mt-2 inline-flex items-center'
             >
               <FeatherIcon
-                icon='arrow-left-circle'
-                className='relative stroke-current w-4 h-4 sm:w-8 sm:h-8 mr-2'
+                icon='arrow-left'
+                className='relative stroke-current w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2'
                 style={{
                   top: 1
                 }}
-              /> Change ticket quantity
+              /> Change quantity
             </Button>
           </ButtonDrawer>
           
-          {/* <div
-
-            className='mt-2 text-default-soft'
-          >
-            <Button
-              textSize='lg'
-              onClick={handleUnlockClick}
-              disabled={unlockTxInFlight}
-              className='w-48-percent'
-            >
-              Top up your balance
-            </Button>
-            <br/> (feature not done yet)
-          </div> */}
+          
         </div>
       </> : <>
         <div

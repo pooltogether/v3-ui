@@ -150,7 +150,7 @@ export const WizardLayout = (props) => {
       </nav>
 
       <div
-        className='h-full flex flex-col justify-center px-4 sm:px-12 lg:px-64 text-center mx-auto'
+        className='h-full flex flex-col justify-center px-4 xs:px-20 sm:px-12 lg:px-64 text-center mx-auto'
         style={{
           maxWidth: 1160
         }}
