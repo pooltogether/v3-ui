@@ -40,8 +40,8 @@ export const ButtonTx = (props) => {
             onClick={(e) => {
               e.preventDefault()
               router.push(
-                '/?signIn=1&showSelectMenu=1',
-                '/?signIn=1&showSelectMenu=1',
+                '/account?signIn=1&showSelectMenu=1',
+                '/account?signIn=1&showSelectMenu=1',
                 { shallow: true }
               )
             }}

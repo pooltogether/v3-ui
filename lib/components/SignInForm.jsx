@@ -9,7 +9,11 @@ import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detai
 export const SignInForm = (props) => {
   // const { handleSubmit, register, errors, formState } = useForm({ mode: 'onBlur' })
 
-  const { postSignInCallback } = props
+  const {
+    hideImg,
+    descriptionClassName,
+    postSignInCallback
+  } = props
 
   const authControllerContext = useContext(AuthControllerContext)
 
@@ -18,16 +22,22 @@ export const SignInForm = (props) => {
   //     authControllerContext.signInMagic(values.email, postSignInCallback)
   //   }
   // }
+  console.log({ hideImg})
 
   return <>
     <div
       className='text-inverse'
     >
-      <img
-        src={PoolTogetherTrophyDetailed}
-        className='mx-auto mb-6 w-16 xs:w-1/12'
-      />
-      <h5 className='mb-10 xs:w-1/2 sm:w-1/2 lg:w-full mx-auto'>
+      {!hideImg && <>
+        <img
+          src={PoolTogetherTrophyDetailed}
+          className='mx-auto mb-6 w-16 xs:w-1/12'
+        />
+      </>}
+
+      <h5
+        className={descriptionClassName}
+      >
         Connect an Ethereum wallet to manage your PoolTogether tickets &amp; rewards:
       </h5>
 
@@ -58,7 +68,7 @@ export const SignInForm = (props) => {
         </>}
       >
         <span
-          className='font-bold text-caption'
+          className='font-bold text-caption hidden sm:block'
         >
           What's an Ethereum?
         </span>

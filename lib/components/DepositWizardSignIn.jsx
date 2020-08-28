@@ -34,6 +34,7 @@ export const DepositWizardSignIn = (props) => {
 
     <div className='flex flex-col mx-auto w-full'>
       <SignInForm
+        descriptionClassName='mb-10 xs:w-1/2 sm:w-1/2 lg:w-full mx-auto'
         postSignInCallback={nextStep}
       />
     </div>

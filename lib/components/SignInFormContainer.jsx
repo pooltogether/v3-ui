@@ -23,8 +23,6 @@ export const SignInFormContainer = (props) => {
     console.log('handleLoadOnboard on sign in show')
     handleLoadOnboard()
 
-    
-
     if (showSelectMenu) {
       const postSignInCallback = () => {
         queryParamUpdater.remove(router, 'signIn')
@@ -63,8 +61,9 @@ export const SignInFormContainer = (props) => {
     />
 
     <motion.div
+      onClick={handleCloseSignIn}
       key='sign-in-scaled-bg'
-      className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 bg-darkened'
+      className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 bg-overlay'
       initial={{ scale: 0 }}
       animate={{ scale: 1, transition: { duration: 0.1 } }}
       exit={{ opacity: 0, transition: { duration: 0.5 } }}
@@ -72,9 +71,12 @@ export const SignInFormContainer = (props) => {
 
     <motion.div
       key='sign-in-pane'
-      className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40'
+      className='fixed t-0 l-0 r-0 w-full z-40 bg-darkened'
       exit={{ opacity: 0, y: -50 }}
       transition={{ duration: 0.25 }}
+      style={{
+        maxHeight: 300,
+      }}
     >
       <nav
         className='fixed t-0 l-0 r-0 w-full px-4 pt-4 flex items-start justify-between h-20'
@@ -94,12 +96,11 @@ export const SignInFormContainer = (props) => {
       </nav>
 
       <div
-        className='h-full flex flex-col justify-center px-4 sm:px-12 lg:px-64 -mt-4 text-center mx-auto'
-        style={{
-          maxWidth: 1160
-        }}
+        className='flex flex-col justify-center px-10 xs:px-0 sm:px-12 lg:px-32 py-6 text-center mx-auto shadow-2xl'
       >
         <SignInForm
+          hideImg
+          descriptionClassName='mb-4 text-xxs xs:text-sm sm:text-xl lg:text-2xl xs:w-1/2 sm:w-1/2 lg:w-full mx-auto'
           postSignInCallback={() => {
             queryParamUpdater.remove(router, 'signIn')
           }}
