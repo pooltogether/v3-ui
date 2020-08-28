@@ -18,15 +18,21 @@ export const PrizesPageHeader = (
 
   let cumulativePrizeNetAllPools = ethers.utils.bigNumberify(0)
   pools?.forEach(pool => {
+    console.log(pool.cumulativePrizeNet)
     const decimals = pool?.underlyingCollateralDecimals
-    const cumulativePrizeNetForPool = normalizeTo18Decimals(
-      pool.cumulativePrizeNet,
-      decimals
-    )
 
-    cumulativePrizeNetAllPools = cumulativePrizeNetAllPools.add(
-      cumulativePrizeNetForPool
-    )
+    if (pool.cumulativePrizeNet) {
+      const cumulativePrizeNetForPool = normalizeTo18Decimals(
+        pool.cumulativePrizeNet,
+        decimals
+      )
+  
+      cumulativePrizeNetAllPools = cumulativePrizeNetAllPools.add(
+        cumulativePrizeNetForPool
+      )
+    } else {
+      console.log('why is pool.cumulativePrizeNet not a value?')
+    }
   })
  
   return <>

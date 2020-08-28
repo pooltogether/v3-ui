@@ -38,6 +38,7 @@ export const DateValueLineGraph = (props) => {
   const circleColor = theme === 'light' ? '#401C94' : '#ffffff'
 
   const series = props.data
+  console.log({ series})
   const allData = series.reduce((rec, d) => rec.concat(d), [])
 
   return <>
@@ -103,7 +104,7 @@ export const DateValueLineGraph = (props) => {
                     </LinearGradient>
 
 
-                  {lineData.map((data, j) => {
+                  {lineData?.map((data, j) => {
                     return <>
                       <LinePath
                         data={lineData}
@@ -115,7 +116,7 @@ export const DateValueLineGraph = (props) => {
                     </>
                   })}
 
-                  {lineData.map((data, j) => {
+                  {lineData?.map((data, j) => {
                     return <>
                       <circle
                         key={i + j}
