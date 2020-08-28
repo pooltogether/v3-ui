@@ -208,6 +208,7 @@ export const PoolShow = (
                 icon: TicketsIcon,
                 title: 'Tickets sold',
                 content: <>
+                  <Chart />
                   <h3>
                     {displayAmountInEther(pool.totalSupply, {
                       precision: 0,
@@ -244,8 +245,6 @@ export const PoolShow = (
                 icon: TotalAwardedIcon,
                 title: 'Total awarded',
                 content: <>
-                  <Chart />
-
                   <h3>
                     ${displayAmountInEther(
                       pool.cumulativePrizeNet, {

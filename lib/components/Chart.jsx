@@ -44,7 +44,6 @@ const tooltipStyles = {
   color: 'white',
 };
 
-let tooltipTimeout;
 
 export const Chart = (props) => {
   const {
@@ -54,8 +53,7 @@ export const Chart = (props) => {
     tooltipData,
     hideTooltip,
     showTooltip,
-  } = useTooltip();
-  console.log({ tooltipData})
+  } = useTooltip()
 
   const series = [
     [
@@ -76,15 +74,8 @@ export const Chart = (props) => {
 
   const allData = series.reduce((rec, d) => rec.concat(d), [])
 
-  // const themeContext = useContext(ThemeContext)
-  // const theme = themeContext.theme
-
-  // const foreColor = theme === 'light' ? '#BBB2CE' : '#f5f5f5'
-
-
-
   return <>
-    <ParentSize className="graph-container" debounceTime={10}>
+    <ParentSize className='graph-container' debounceTime={10}>
       {({ width }) => {
         const xMax = width - margin.left - margin.right
         const yMax = height - margin.top - margin.bottom
@@ -100,19 +91,18 @@ export const Chart = (props) => {
         })
 
         return <>
-          {tooltipOpen}
-          {/* {tooltipData}
-          {tooltipTop}
-          {tooltipLeft} */}
-          {/* {tooltipOpen && <>open!</>} */}
           {tooltipOpen && tooltipData && (
             <TooltipWithBounds
-              style={tooltipStyles}
+              // style={tooltipStyles}
               key={Math.random()}
               top={tooltipTop}
               left={tooltipLeft}
+
+              className='vx-chart-tooltip'
             >
-              Data value <strong>{tooltipData.price}</strong>
+              Tickets: <strong>{tooltipData.price}</strong>
+              <br/>
+              Date: <strong>{tooltipData.date}</strong>
             </TooltipWithBounds>
           )}
 
@@ -123,22 +113,21 @@ export const Chart = (props) => {
                 left={margin.left}
                 right={margin.right}
                 top={margin.top}
-                // top={i * lineHeight + margin.top}
               >
                   <LinearGradient
-                    id="vx-gradient"
+                    id='vx-gradient'
                     vertical={false} 
                   >
-                    <stop offset="0%" stopColor="#ff9304"></stop>
-                    <stop offset="10%" stopColor="#ff04ea"></stop>
-                    <stop offset="20%" stopColor="#9b4beb"></stop>
-                    <stop offset="30%" stopColor="#0e8dd6"></stop>
-                    <stop offset="40%" stopColor="#3be8ff"></stop>
-                    <stop offset="50%" stopColor="#07d464"></stop>
-                    <stop offset="60%" stopColor="#ebf831"></stop>
-                    <stop offset="78%" stopColor="#ff04ab"></stop>
-                    <stop offset="90%" stopColor="#8933eb"></stop>
-                    <stop offset="100%" stopColor="#3b89ff"></stop>
+                    <stop offset='0%' stopColor='#ff9304'></stop>
+                    <stop offset='10%' stopColor='#ff04ea'></stop>
+                    <stop offset='20%' stopColor='#9b4beb'></stop>
+                    <stop offset='30%' stopColor='#0e8dd6'></stop>
+                    <stop offset='40%' stopColor='#3be8ff'></stop>
+                    <stop offset='50%' stopColor='#07d464'></stop>
+                    <stop offset='60%' stopColor='#ebf831'></stop>
+                    <stop offset='78%' stopColor='#ff04ab'></stop>
+                    <stop offset='90%' stopColor='#8933eb'></stop>
+                    <stop offset='100%' stopColor='#3b89ff'></stop>
                   </LinearGradient>
 
                 {lineData.map((d, j) => {
@@ -146,70 +135,30 @@ export const Chart = (props) => {
                     
                     <circle
                       key={i + j}
-                      r={10}
+                      r={5}
                       cx={xScale(getX(d))}
                       cy={yScale(getY(d))}
-                      stroke="rgba(255,255,255,0.5)"
-                      fill="pink"
-
-                      onMouseLeave={() => {
-                        tooltipTimeout = window.setTimeout(() => {
-                          hideTooltip();
-                        }, 300);
-                      }}
+                      stroke='black'
+                      fill='black'
+                      className='cursor-pointer'
+                      // onMouseLeave={hideTooltip}
                       onMouseMove={(event, datum) => {
-                        // event => {
-                        //   console.log({ event })
-                          if (tooltipTimeout) clearTimeout(tooltipTimeout);
-                        //   const top = yScale(getY(d))
-                        //   // const top = event.clientY - margin.top - bar.height;
-                        //   // const offset = (dateScale.paddingInner() * dateScale.step()) / 2;
-                        //   const left = xScale(getX(d)) // bar.x + bar.width + offset;
-                        //   console.log({ top })
-                        //   console.log({ left })
-
-                        //   const bar = { date: "2017", price: 100 }
-
-                        //   showTooltip({
-                        //     tooltipData: bar,
-                        //     tooltipTop: top,
-                        //     tooltipLeft: left,
-                        //   });
-                        // }
-
-                        // const datum = { date: "2017", price: 100 }
-
-                        const bar = { date: "2017", price: 100 }
-
-                        // console.log(event.target.ownerSVGElement)
-                        // console.log(event)
-                        // const coords = localPoint(event.target.ownerSVGElement, event)
-                        const coords = localPoint(event) || { x: 0 }
-
-                        console.log({ coords })
-                        // console.log({ datum })
-                        console.log(event.clientX, event.clientY)
-                        console.log(event.pageX, event.pageY)
-                        // console.log(event.movementX)
-                        // console.log(event.screenX)
+                        const bar = { date: '2017', price: 100 }
 
                         showTooltip({
-                          tooltipLeft: event.clientX,
-                          tooltipTop: event.clientY,
+                          tooltipLeft: event.clientX - 50,
+                          tooltipTop: event.clientY - 150,
                           tooltipData: bar
                         })
                       }}
                     />
 
                     <LinePath
-                      // curve={allCurves[curveType]}
                       data={lineData}
                       x={d => xScale(getX(d))}
                       y={d => yScale(getY(d))}
-                      stroke={"url(#vx-gradient)"}
-                      // stroke={foreColor}
+                      stroke={'url(#vx-gradient)'}
                       strokeWidth={3}
-                      shapeRendering="geometricPrecision"
                     />
                   </>
                 })}
