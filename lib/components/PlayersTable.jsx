@@ -83,7 +83,7 @@ export const PlayersTable = (
       player,
       timeTravelTotalSupply
     ))
-  }, [players])
+  }, [players, pool, timeTravelTotalSupply])
   
   const tableInstance = useTable({
     columns,

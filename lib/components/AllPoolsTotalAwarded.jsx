@@ -16,8 +16,8 @@ export const AllPoolsTotalAwarded = (
 
   let cumulativePrizeNetAllPools = ethers.utils.bigNumberify(0)
   pools?.forEach(pool => {
-    const decimals = pool?.underlyingCollateralDecimals
     if (pool.cumulativePrizeNet) {
+      const decimals = pool?.underlyingCollateralDecimals
       const cumulativePrizeNetForPool = normalizeTo18Decimals(
         pool.cumulativePrizeNet,
         decimals
@@ -26,8 +26,6 @@ export const AllPoolsTotalAwarded = (
       cumulativePrizeNetAllPools = cumulativePrizeNetAllPools.add(
         cumulativePrizeNetForPool
       )
-    } else {
-      console.log('why is pool.cumulativePrizeNet not a value?')
     }
   })
  

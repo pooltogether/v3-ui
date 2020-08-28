@@ -40,33 +40,6 @@ export const PoolPrizesShow = (
       pool={pool}
     />
 
-    {/* <div className='flex justify-center text-left mt-10'>
-      {pools.map(_pool => {
-        return <ButtonLink
-          key={`prize-pool-button-${_pool.id}`}
-
-          border='transparent border hover:border-highlight-1 border-dashed'
-          text='highlight-1'
-          bg='card'
-          hoverBorder='highlight-2'
-          hoverText='highlight-2'
-          hoverBg='card-selected'
-          // 
-
-          className='interactable-card hover:shadow-xl flex flex-col items-center justify-center mx-2 w-1/3 sm:w-1/6'
-          selected={_pool.symbol === pool?.symbol}
-          href='/prizes/[symbol]'
-          as={`/prizes/${_pool.symbol}`}        
-        >
-          <PoolCurrencyIcon
-            sm
-            noMargin
-            pool={_pool}
-          /> {_pool.underlyingCollateralSymbol}
-        </ButtonLink>
-      })}
-    </div> */}
-
     <div
       className='bg-highlight-3 mt-8 mb-8 text-sm py-6 px-6 flex flex-col xs:flex-row items-center justify-center xs:justify-between text-center xs:text-left rounded-lg'
     >

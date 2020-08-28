@@ -7,7 +7,6 @@ import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { DateValueLineGraph } from 'lib/components/DateValueLineGraph'
 import { poolPrizesQuery } from 'lib/queries/poolPrizesQuery'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const TicketsSoldGraph = (
   props,
@@ -19,7 +18,8 @@ export const TicketsSoldGraph = (
 
   const { loading, error, data } = useQuery(poolPrizesQuery, {
     variables: {
-      prizeStrategyAddress: pool?.prizeStrategyAddress
+      prizeStrategyAddress: pool?.prizeStrategyAddress,
+      first: 7,
     },
     skip: !pool?.prizeStrategyAddress,
     fetchPolicy: 'network-only',
@@ -30,7 +30,7 @@ export const TicketsSoldGraph = (
     console.error(error)
   }
 
-  let prizes = data?.prizeStrategy?.prizes
+  let prizes = [].concat(data?.prizeStrategy?.prizes)
 
   if (error) {
     console.error(error)
@@ -42,35 +42,41 @@ export const TicketsSoldGraph = (
 
   const decimals = pool.underlyingCollateralDecimals
 
+
+
+  const lastPrize = prizes[0]
+  let currentPrize
+
+  // If we have a prize amount then we know the last prize has been rewarded
+  if (lastPrize.awardedBlock) {
+    // unsure why we need to divide by 1000 here when we do it again
+    // when compiling the array ...
+    currentPrize = {
+      totalTicketSupply: pool.totalSupply,
+      awardedTimestamp: Date.now() / 1000
+    }
+
+    prizes.unshift(currentPrize)
+  }
+
+
+
+
+
   const dataArray = prizes.map(prize => {
     const ticketsSold = ethers.utils.formatUnits(prize.totalTicketSupply, decimals)
     
     return {
       value: parseInt(ticketsSold, 10),
-      date: fromUnixTime(prize.awardedTimestamp),
+      date: fromUnixTime(prize.awardedTimestamp / 1000),
     }
   })
 
   return <>
     <DateValueLineGraph
+      id='tickets-sold-graph'
       valueLabel='Tickets'
       data={[dataArray]}
-      // [
-      //   [
-      //     {
-      //       date: new Date(98, 1),
-      //       value: 100,
-      //     },
-      //     {
-      //       date: new Date(2001, 1),
-      //       value: 400,
-      //     },
-      //     {
-      //       date: new Date(),
-      //       value: 200,
-      //     }
-      //   ]
-      // ]
     />
 
   </>

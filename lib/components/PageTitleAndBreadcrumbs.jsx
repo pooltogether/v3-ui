@@ -69,7 +69,8 @@ export const PageTitleAndBreadcrumbs = (
   return <>
     {pool ? <>
       <div
-        className='flex justify-start items-center xs:w-3/4 sm:w-3/4'
+        // xs:w-3/4 sm:w-3/4
+        className='flex justify-start items-center'
       >
         <PoolCurrencyIcon
           xl

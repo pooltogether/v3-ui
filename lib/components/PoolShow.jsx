@@ -115,9 +115,8 @@ export const PoolShow = (
             className='flex flex-col xs:flex-row justify-between xs:items-center'
           >
             <div
-              className='flex justify-between items-center xs:w-3/4 sm:w-3/4'
+              className='flex justify-between items-center xs:w-1/2'
             >
-
               <PageTitleAndBreadcrumbs
                 title={pool?.name}
                 pool={pool}
@@ -197,7 +196,7 @@ export const PoolShow = (
                     as={`/prizes/${pool?.symbol}/${pool?.currentPrizeId}`}
                   >
                     <a
-                      className='inline-block font-bold opacity-80 hover:opacity-100 trans'
+                      className='inline-block font-bold trans'
                     >
                       View current players
                     </a>
@@ -212,7 +211,9 @@ export const PoolShow = (
                     pool={pool}
                   />
                   
-                  <h3>
+                  <h3
+                    className='mt-2'
+                  >
                     {displayAmountInEther(pool.totalSupply, {
                       precision: 0,
                       decimals: pool.underlyingCollateralDecimals
@@ -262,7 +263,7 @@ export const PoolShow = (
                     as={`/prizes/${pool?.symbol}`}
                   >
                     <a
-                      className='inline-block font-bold opacity-80 hover:opacity-100 trans'
+                      className='inline-block font-bold trans'
                     >
                       View previous winners
                     </a>

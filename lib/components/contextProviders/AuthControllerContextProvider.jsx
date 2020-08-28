@@ -83,6 +83,7 @@ export const AuthControllerContextProvider = (props) => {
     if (onboardNetwork) {
       setChainId(onboardNetwork)
 
+      // console.log('run reset store')
       client.resetStore()
     }
   }, [onboardNetwork])

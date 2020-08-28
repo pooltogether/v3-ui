@@ -1,31 +1,20 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
-import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 import { useQuery } from '@apollo/client'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
+import { PoolCountUp } from 'lib/components/PoolCountUp'
+import { ProfileAvatar } from 'lib/components/ProfileAvatar'
+import { ProfileName } from 'lib/components/ProfileName'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { shorten } from 'lib/utils/shorten'
-import { PoolCountUp } from './PoolCountUp'
-
-const { getProfile } = require('3box/lib/api')
-
-const isValidImage = (image) => {
-  if (image && image[0] && image[0].contentUrl) {
-    return true
-  }
-
-  return false
-}
 
 export const AccountButton = (props) => {
   const { openTransactions } = props
-  const [profile, setProfile] = useState()
 
   const authControllerContext = useContext(AuthControllerContext)
-  const { ethBalance, usersAddress } = authControllerContext
+  const { ethBalance } = authControllerContext
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
@@ -34,50 +23,16 @@ export const AccountButton = (props) => {
     .filter(t => !t.completed)
     .length
 
-  useEffect(() => {
-    const get3BoxProfile = async () => {
-      const boxProfile = await getProfile(usersAddress)
-      setProfile(boxProfile)
-    }
-
-    if (usersAddress) {
-      get3BoxProfile()
-    }
-  }, [usersAddress])
-
-  const image = (profile && isValidImage(profile.image)) ?
-    <img
-      alt='profile avatar'
-      src={`https://ipfs.infura.io/ipfs/${profile.image[0].contentUrl['/']}`}
-      className='profile-img relative inline-block rounded-full w-6 h-6 mr-1'
-    /> :
-    <div
-      className='profile-img profile-img--jazzicon relative inline-block ml-2 xs:ml-0 mr-2'
-    >
-      <Jazzicon
-        diameter={20}
-        seed={jsNumberForAddress(usersAddress)}
-      />
-    </div>
-
-  const name = (profile && profile.name) ?
-    profile.name :
-    shorten(usersAddress)
-
   const pendingTxJsx = <>
-      <div
-        className='relative inline-block mr-1'
-        style={{
-          top: 3,
-          transform: 'scale(0.7)'
-        }}
-      >
-        <LoadingSpinner />
-      </div> {pendingTransactionsCount} pending
-  </>
-
-  const profileNameAndImage = <>
-    {image} {name}
+    <div
+      className='relative inline-block mr-1'
+      style={{
+        top: 3,
+        transform: 'scale(0.7)'
+      }}
+    >
+      <LoadingSpinner />
+    </div> {pendingTransactionsCount} pending
   </>
 
   const ethBalanceNumber = ethBalance && Number(displayAmountInEther(
@@ -120,7 +75,7 @@ export const AccountButton = (props) => {
           </div>
         </>}
         
-        {profileNameAndImage}
+        <ProfileAvatar /> <ProfileName />
       </div>
     </button>
   </>

@@ -119,6 +119,7 @@ export const PrizesTable = (
     const lastPrize = prizes[0]
 
     let currentPrize
+    
     // If we have a prize amount then we know the last prize has been rewarded
     if (lastPrize.awardedBlock) {
       const currentPrizeId = extractPrizeNumberFromPrize(lastPrize) + 1
@@ -137,7 +138,7 @@ export const PrizesTable = (
     }
 
     return prizeRows
-  }, [prizes])
+  }, [pool, prizes])
   
   const tableInstance = useTable({
     columns,

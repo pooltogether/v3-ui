@@ -8,6 +8,7 @@ import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Meta } from 'lib/components/Meta'
 import { NonInteractableCard } from 'lib/components/NonInteractableCard'
 import { Odds } from 'lib/components/Odds'
+import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
@@ -56,6 +57,25 @@ export const AccountPoolShowUI = (props) => {
   return <>
     <Meta
       title={`${pool?.name} - My account`}
+    />
+
+    <PageTitleAndBreadcrumbs
+      title={`Account`}
+      breadcrumbs={[
+        {
+          href: '/account',
+          as: '/account',
+          name: 'Account',
+        },
+        {
+          href: '/account',
+          as: '/account',
+          name: 'My account'
+        },
+        {
+          name: pool?.name
+        }
+      ]}
     />
 
     {!dynamicPlayerData ? <>
@@ -148,10 +168,10 @@ export const AccountPoolShowUI = (props) => {
         </div>
 
         <div
-          className='mt-5 flex items-center justify-between pt-2'
+          className='mt-0 xs:mt-5 flex flex-col xs:flex-row items-center justify-between pt-2'
         >
           <div
-            className='w-full xs:w-4/12 sm:w-4/12 lg:w-4/12 sm:border-r border-accent-4'
+            className='w-full pb-10 xs:pb-0 xs:w-4/12 sm:w-4/12 lg:w-4/12 sm:border-r border-accent-4'
           >
             <Odds
               fontSansRegular
@@ -167,11 +187,11 @@ export const AccountPoolShowUI = (props) => {
           </div>
 
           <div
-            className='w-full xs:w-4/12 sm:w-4/12 lg:w-4/12 sm:pl-16 font-bold text-xl sm:text-2xl lg:text-3xl text-inverse'
+            className='w-full mt-2 xs:mt-0 xs:w-4/12 sm:w-4/12 lg:w-4/12 sm:pl-16 font-bold text-xl sm:text-2xl lg:text-3xl text-inverse'
           >
             <PoolCountUp
               fontSansRegular
-              end={usersBalance}
+              end={parseInt(usersBalance, 10)}
               decimals={null}
             /> Tickets
             <span className='block text-caption uppercase'>
@@ -182,7 +202,7 @@ export const AccountPoolShowUI = (props) => {
 
 
           <div
-            className='w-4/12 text-right'
+            className='mt-4 xs:mt-0 w-4/12 text-right'
             style={{
               lineHeight: 1.2,
             }}

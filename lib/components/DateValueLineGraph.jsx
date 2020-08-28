@@ -1,5 +1,6 @@
-import React, { useContext } from 'react'
+import React, { Fragment, useContext, useRef } from 'react'
 import ParentSize from '@vx/responsive/lib/components/ParentSize'
+import { localPoint } from '@vx/event'
 import { Group } from '@vx/group'
 import { LinePath } from '@vx/shape'
 import { useTooltip, TooltipWithBounds, defaultStyles } from '@vx/tooltip';
@@ -9,6 +10,7 @@ import { LinearGradient } from '@vx/gradient'
 
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 import { formatDate } from 'lib/utils/formatDate'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 // data accessors
 const getX = (d) => d.date
@@ -32,18 +34,25 @@ export const DateValueLineGraph = (props) => {
     showTooltip,
   } = useTooltip()
 
+  const svgRef = useRef(null)
+
   const themeContext = useContext(ThemeContext)
   const theme = themeContext.theme
 
   const circleColor = theme === 'light' ? '#401C94' : '#ffffff'
 
+  const id = props.id
   const series = props.data
-  console.log({ series})
   const allData = series.reduce((rec, d) => rec.concat(d), [])
 
   return <>
-    <div className='h-32 sm:h-20'>
-      <ParentSize className='graph-container' debounceTime={10}>
+    <div
+      className='h-32 sm:h-20'
+    >
+      <ParentSize
+        className='graph-container'
+        debounceTime={100}
+      >
         {({ height, width }) => {
           const xMax = width - margin.left - margin.right
           const yMax = height - margin.top - margin.bottom
@@ -58,7 +67,9 @@ export const DateValueLineGraph = (props) => {
             domain: [0, max(allData, getY)],
           })
 
-          return <>
+          return <Fragment
+            key={`${id}-fragment`}
+          >
             {tooltipOpen && tooltipData && <>
               <TooltipWithBounds
                 key={Math.random()}
@@ -66,7 +77,10 @@ export const DateValueLineGraph = (props) => {
                 left={tooltipLeft}
                 className='vx-chart-tooltip'
               >
-                {props.valueLabel || 'Value'}: <strong>{tooltipData.value}</strong>
+                {props.valueLabel || 'Value'}: <strong>
+                  {tooltipData.value}
+                  {/* {numberWithCommas(tooltipData.value)} */}
+                </strong>
                 <span className='block mt-2'>
                   Date: <strong>{formatDate(
                     Date.parse(tooltipData.date),
@@ -79,10 +93,14 @@ export const DateValueLineGraph = (props) => {
               </TooltipWithBounds>
             </>}
 
-            <svg width={width} height={height}>
+            <svg
+              ref={svgRef}
+              width={width}
+              height={height}
+            >
               {width > 8 && series.map((lineData, i) => (
                 <Group
-                  key={`lines-${i}`}
+                  key={`${id}-group-lines-${i}`}
                   left={margin.left}
                   right={margin.right}
                   top={margin.top}
@@ -107,6 +125,7 @@ export const DateValueLineGraph = (props) => {
                   {lineData?.map((data, j) => {
                     return <>
                       <LinePath
+                        key={`${id}-lines-${i}`}
                         data={lineData}
                         x={d => xScale(getX(d))}
                         y={d => yScale(getY(d))}
@@ -119,7 +138,7 @@ export const DateValueLineGraph = (props) => {
                   {lineData?.map((data, j) => {
                     return <>
                       <circle
-                        key={i + j}
+                        key={`${id}-circle-${i}-${j}`}
                         r={4}
                         cx={xScale(getX(data))}
                         cy={yScale(getY(data))}
@@ -127,10 +146,21 @@ export const DateValueLineGraph = (props) => {
                         fill={circleColor}
                         className='cursor-pointer'
                         onMouseLeave={hideTooltip}
-                        onMouseMove={(event) => {
+                        onTouchMove={(event) => {
+                          const point = localPoint(svgRef.current, event) || { x: 0, y: 0 }
+
                           showTooltip({
-                            tooltipLeft: event.clientX - 50,
-                            tooltipTop: event.clientY - 150,
+                            tooltipLeft: point.x + 180,
+                            tooltipTop: point.y + 340,
+                            tooltipData: data
+                          })
+                        }}
+                        onMouseMove={(event) => {
+                          const point = localPoint(svgRef.current, event) || { x: 0, y: 0 }
+
+                          showTooltip({
+                            tooltipLeft: point.x + 180,
+                            tooltipTop: point.y + 340,
                             tooltipData: data
                           })
                         }}
@@ -141,7 +171,7 @@ export const DateValueLineGraph = (props) => {
                 </Group>
               ))}
             </svg>
-          </>
+          </Fragment>
         }}
       </ParentSize>
     </div>

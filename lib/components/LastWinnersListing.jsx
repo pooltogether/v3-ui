@@ -14,7 +14,7 @@ export const LastWinnersListing = (
 ) => {
   const { pool } = props
 
-  const decimals = pool?.underlyingColleteralDecimals
+  const decimals = pool?.underlyingCollateralDecimals
   const ticker = pool?.underlyingCollateralSymbol
   const tickerUpcased = ticker?.toUpperCase()
 
@@ -70,19 +70,19 @@ export const LastWinnersListing = (
           as={`/players/${player?.address}`}
         >
           <a
-            className='block font-bold bg-default mb-2 rounded-lg px-2 opacity-80 hover:opacity-100 trans'
+            className='block font-bold bg-default mb-2 rounded-lg px-2 trans'
           >
             <span
-              className='inline-block w-1/2 lg:w-2/3 font-number'
+              className='inline-block w-1/2 sm:w-1/2'
             >
               {shorten(player?.address)}
             </span>
             <span
-              className='inline-block w-1/2 lg:w-1/3 text-left'
+              className='inline-block w-1/2 sm:w-1/2 text-left'
             >
               ${displayAmountInEther(
                 player?.winnings,
-                { decimals, precision: 0 }
+                { decimals, precision: 2 }
               )} {tickerUpcased}
             </span>
           </a>

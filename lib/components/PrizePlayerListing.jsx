@@ -42,6 +42,8 @@ export const PrizePlayerListing = (
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
   }
+
+  // only historical, don't ping the graph multiple times
   if (prize?.awardedBlock) {
     fetchAndPoolOptions = {}
   }
@@ -57,12 +59,6 @@ export const PrizePlayerListing = (
   }
 
   let players = data?.players
-
-  // // need to stash in new array due to strict mode / read only error
-  // let reversedPrizes = prizes && [...prizes]
-  // if (reversedPrizes) {
-  //   reversedPrizes = reversedPrizes.reverse()
-  // }
 
   if (!prize && prize !== null) {
     return <div
