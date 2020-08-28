@@ -1,28 +1,21 @@
 import React, { useContext, useState } from 'react'
-import { letterFrequency } from '@vx/mock-data'
-import { Group } from '@vx/group'
-import * as allCurves from '@vx/curve'
-import { LinePath } from '@vx/shape'
-import generateDateValue, { DateValue } from '@vx/mock-data/lib/generators/genDateValue'
-// import { scaleLinear, scaleBand } from '@vx/scale'
+// import * as allCurves from '@vx/curve'
 import ParentSize from '@vx/responsive/lib/components/ParentSize'
+import { localPoint } from '@vx/event'
+import { Group } from '@vx/group'
+import { LinePath } from '@vx/shape'
+// import generateDateValue, { DateValue } from '@vx/mock-data/lib/generators/genDateValue'
+// import { scaleLinear, scaleBand } from '@vx/scale'
+import { useTooltip, TooltipWithBounds, defaultStyles } from '@vx/tooltip';
 import { scaleTime, scaleLinear } from '@vx/scale'
 import { extent, max } from 'd3-array'
 import { LinearGradient } from '@vx/gradient'
 
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
-
-// const curveTypes = Object.keys(allCurves)
-// const lineCount = 1
-
-export const gradientColor1 = '#ec4b5f'
-export const gradientColor2 = '#4f0000' // '#b2305b'
-
 // data accessors
 const getX = (d) => d.date
 const getY = (d) => d.value
-
 
 const height = 200
 const lineHeight = 100
@@ -30,25 +23,39 @@ const margin = {
   top: 20,
   bottom: 0,
   left: 20,
-  right: 0,
+  right: 20,
 }
 
+// const TooltipData = {
+//   bar: SeriesPoint;
+//   key: CityName;
+//   index: number;
+//   height: number;
+//   width: number;
+//   x: number;
+//   y: number;
+//   color: string;
+// };
+
+const tooltipStyles = {
+  ...defaultStyles,
+  minWidth: 60,
+  backgroundColor: 'rgba(0,0,0,1)',
+  color: 'white',
+};
+
+let tooltipTimeout;
+
 export const Chart = (props) => {
-  // const series = new Array(lineCount)
-  //   .fill(null)
-  //   .map(_ => generateDateValue(4))
-  //   .map(line => {
-  //     return [
-  //       {
-  //         date: new Date(98, 1),
-  //         value: 100,
-  //       },
-  //       {
-  //         date: new Date(),
-  //         value: 400,
-  //       }
-  //     ]
-  //   })
+  const {
+    tooltipOpen,
+    tooltipLeft,
+    tooltipTop,
+    tooltipData,
+    hideTooltip,
+    showTooltip,
+  } = useTooltip();
+  console.log({ tooltipData})
 
   const series = [
     [
@@ -67,23 +74,14 @@ export const Chart = (props) => {
     ]
   ]
 
-  // const hi = generateDateValue(25)
-  // console.log(hi)
-
-  console.log(series)
   const allData = series.reduce((rec, d) => rec.concat(d), [])
 
-  
+  // const themeContext = useContext(ThemeContext)
+  // const theme = themeContext.theme
+
+  // const foreColor = theme === 'light' ? '#BBB2CE' : '#f5f5f5'
 
 
-  // const curveType = 'curveBasisOpen'
-
-
-
-  const themeContext = useContext(ThemeContext)
-  const theme = themeContext.theme
-
-  const foreColor = theme === 'light' ? '#BBB2CE' : '#f5f5f5'
 
   return <>
     <ParentSize className="graph-container" debounceTime={10}>
@@ -100,24 +98,33 @@ export const Chart = (props) => {
           range: [yMax, 0],
           domain: [0, max(allData, getY)],
         })
-        // yScale.range([lineHeight - 2, 0])
-        // xScale.range([0, width])
 
         return <>
-          
-          
-          <svg width={width} height={height}>
-            {/* <LinearGradient
-              id="vx-curves-demo"
-              from={gradientColor1}
-              to={gradientColor2}
-              rotate="-45"
-            /> */}
+          {tooltipOpen}
+          {/* {tooltipData}
+          {tooltipTop}
+          {tooltipLeft} */}
+          {/* {tooltipOpen && <>open!</>} */}
+          {tooltipOpen && tooltipData && (
+            <TooltipWithBounds
+              style={tooltipStyles}
+              key={Math.random()}
+              top={tooltipTop}
+              left={tooltipLeft}
+            >
+              Data value <strong>{tooltipData.price}</strong>
+            </TooltipWithBounds>
+          )}
 
-            {/* <rect width={width} height={height} fill="url(#vx-curves-demo)" rx={14} ry={14} /> */}
+          <svg width={width} height={height}>
             {width > 8 && series.map((lineData, i) => (
-              <Group key={`lines-${i}`} top={i * lineHeight + margin.top}>
-                <defs>
+              <Group
+                key={`lines-${i}`}
+                left={margin.left}
+                right={margin.right}
+                top={margin.top}
+                // top={i * lineHeight + margin.top}
+              >
                   <LinearGradient
                     id="vx-gradient"
                     vertical={false} 
@@ -133,25 +140,66 @@ export const Chart = (props) => {
                     <stop offset="90%" stopColor="#8933eb"></stop>
                     <stop offset="100%" stopColor="#3b89ff"></stop>
                   </LinearGradient>
-                </defs>
-{/* 
 
-                <LinearGradient
-                  from='#fbc2eb'
-                  to='#a6c1ee'
-                  id='vx-gradient'
-                  vertical={false} 
-                /> */}
                 {lineData.map((d, j) => {
                   return <>
-                    {/* <circle
+                    
+                    <circle
                       key={i + j}
-                      r={4}
+                      r={10}
                       cx={xScale(getX(d))}
                       cy={yScale(getY(d))}
-                      // stroke="rgba(255,255,255,0.5)"
-                      fill="red"
-                    /> */}
+                      stroke="rgba(255,255,255,0.5)"
+                      fill="pink"
+
+                      onMouseLeave={() => {
+                        tooltipTimeout = window.setTimeout(() => {
+                          hideTooltip();
+                        }, 300);
+                      }}
+                      onMouseMove={(event, datum) => {
+                        // event => {
+                        //   console.log({ event })
+                          if (tooltipTimeout) clearTimeout(tooltipTimeout);
+                        //   const top = yScale(getY(d))
+                        //   // const top = event.clientY - margin.top - bar.height;
+                        //   // const offset = (dateScale.paddingInner() * dateScale.step()) / 2;
+                        //   const left = xScale(getX(d)) // bar.x + bar.width + offset;
+                        //   console.log({ top })
+                        //   console.log({ left })
+
+                        //   const bar = { date: "2017", price: 100 }
+
+                        //   showTooltip({
+                        //     tooltipData: bar,
+                        //     tooltipTop: top,
+                        //     tooltipLeft: left,
+                        //   });
+                        // }
+
+                        // const datum = { date: "2017", price: 100 }
+
+                        const bar = { date: "2017", price: 100 }
+
+                        // console.log(event.target.ownerSVGElement)
+                        // console.log(event)
+                        // const coords = localPoint(event.target.ownerSVGElement, event)
+                        const coords = localPoint(event) || { x: 0 }
+
+                        console.log({ coords })
+                        // console.log({ datum })
+                        console.log(event.clientX, event.clientY)
+                        console.log(event.pageX, event.pageY)
+                        // console.log(event.movementX)
+                        // console.log(event.screenX)
+
+                        showTooltip({
+                          tooltipLeft: event.clientX,
+                          tooltipTop: event.clientY,
+                          tooltipData: bar
+                        })
+                      }}
+                    />
 
                     <LinePath
                       // curve={allCurves[curveType]}
@@ -161,7 +209,7 @@ export const Chart = (props) => {
                       stroke={"url(#vx-gradient)"}
                       // stroke={foreColor}
                       strokeWidth={3}
-                      // shapeRendering="geometricPrecision"
+                      shapeRendering="geometricPrecision"
                     />
                   </>
                 })}
