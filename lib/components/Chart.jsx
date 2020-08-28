@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
+// import React, { useContext, useState } from 'react'
 // import * as allCurves from '@vx/curve'
 import ParentSize from '@vx/responsive/lib/components/ParentSize'
-import { localPoint } from '@vx/event'
+// import { localPoint } from '@vx/event'
 import { Group } from '@vx/group'
 import { LinePath } from '@vx/shape'
 // import generateDateValue, { DateValue } from '@vx/mock-data/lib/generators/genDateValue'
@@ -11,7 +12,8 @@ import { scaleTime, scaleLinear } from '@vx/scale'
 import { extent, max } from 'd3-array'
 import { LinearGradient } from '@vx/gradient'
 
-import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
+// import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
+import { formatDate } from 'lib/utils/formatDate'
 
 // data accessors
 const getX = (d) => d.date
@@ -91,20 +93,25 @@ export const Chart = (props) => {
         })
 
         return <>
-          {tooltipOpen && tooltipData && (
+          {tooltipOpen && tooltipData && <>
             <TooltipWithBounds
-              // style={tooltipStyles}
               key={Math.random()}
               top={tooltipTop}
               left={tooltipLeft}
-
               className='vx-chart-tooltip'
             >
-              Tickets: <strong>{tooltipData.price}</strong>
-              <br/>
-              Date: <strong>{tooltipData.date}</strong>
+              Tickets: <strong>{tooltipData.value}</strong>
+              <span className='block mt-2'>
+                Date: <strong>{formatDate(
+                  Date.parse(tooltipData.date),
+                  {
+                    short: true
+                  }
+                )}
+                </strong>
+              </span>
             </TooltipWithBounds>
-          )}
+          </>}
 
           <svg width={width} height={height}>
             {width > 8 && series.map((lineData, i) => (
@@ -130,29 +137,9 @@ export const Chart = (props) => {
                     <stop offset='100%' stopColor='#3b89ff'></stop>
                   </LinearGradient>
 
-                {lineData.map((d, j) => {
+
+                {lineData.map((data, j) => {
                   return <>
-                    
-                    <circle
-                      key={i + j}
-                      r={5}
-                      cx={xScale(getX(d))}
-                      cy={yScale(getY(d))}
-                      stroke='black'
-                      fill='black'
-                      className='cursor-pointer'
-                      // onMouseLeave={hideTooltip}
-                      onMouseMove={(event, datum) => {
-                        const bar = { date: '2017', price: 100 }
-
-                        showTooltip({
-                          tooltipLeft: event.clientX - 50,
-                          tooltipTop: event.clientY - 150,
-                          tooltipData: bar
-                        })
-                      }}
-                    />
-
                     <LinePath
                       data={lineData}
                       x={d => xScale(getX(d))}
@@ -162,6 +149,29 @@ export const Chart = (props) => {
                     />
                   </>
                 })}
+
+                {lineData.map((data, j) => {
+                  return <>
+                    <circle
+                      key={i + j}
+                      r={4}
+                      cx={xScale(getX(data))}
+                      cy={yScale(getY(data))}
+                      stroke='black'
+                      fill='black'
+                      className='cursor-pointer'
+                      onMouseLeave={hideTooltip}
+                      onMouseMove={(event) => {
+                        showTooltip({
+                          tooltipLeft: event.clientX - 50,
+                          tooltipTop: event.clientY - 150,
+                          tooltipData: data
+                        })
+                      }}
+                    />
+                  </>
+                })}
+
               </Group>
             ))}
           </svg>
