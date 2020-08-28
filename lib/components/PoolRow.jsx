@@ -73,7 +73,7 @@ export const PoolRow = (
               }}
             >
               <span
-                className='uppercase'
+                className='uppercase text-caption'
               >
                 {pool.frequency}
               </span>

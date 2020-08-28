@@ -131,6 +131,9 @@ export const Layout = (props) => {
               />
             </>}
 
+            {/* this pushes the lang picker and settings gear onto it's own roll on mobile/tablet */}
+            <div className='w-full sm:hidden'></div>
+
             <LanguagePicker />
 
             <Settings />

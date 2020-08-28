@@ -7,7 +7,6 @@ import { ToastContainer } from 'react-toastify'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
-// import { Chart } from 'lib/components/Chart'
 import { Layout } from 'lib/components/Layout'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
@@ -100,8 +99,6 @@ function MyApp({ Component, pageProps }) {
   }
   
   return <>
-    {/* <Chart /> */}
-
     <V3ApolloWrapper>
       <AllContextProviders>
         <Layout

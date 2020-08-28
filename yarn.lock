@@ -3319,10 +3319,10 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@pooltogether/bnc-onboard@^1.12.0":
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.12.0.tgz#a2f37d8ec66f8a2c042b3db4935b098ce9b034d0"
-  integrity sha512-7M2UO2RAKy+UEn40RM8641w3UTrDmdyshzmRZmm1Wkc1Q72OSUyEZLQOzLOEnA1C9aVndKJgJh9M5jTsv9CqBw==
+"@pooltogether/bnc-onboard@^1.12.0-b":
+  version "1.12.0-b"
+  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.12.0-b.tgz#10d69859936b02d57b3e43be3d348628d8d13c92"
+  integrity sha512-7rT+xEqYrQvy2jcQZurLPMTSrkYt9VwGQHOJE5MwzXYq0GrrMG/WjAF43G5z+kRBa34xxrYpiIz2nYBlxxDhtw==
   dependencies:
     "@ledgerhq/hw-app-eth" "^5.21.0"
     "@ledgerhq/hw-transport-u2f" "^5.21.0"
@@ -3857,6 +3857,11 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
+"@types/lodash@^4.14.146":
+  version "4.14.160"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.160.tgz#2f1bba6500bc3cb9a732c6d66a083378fb0b0b29"
+  integrity sha512-aP03BShJoO+WVndoVj/WNcB/YBPt+CIU1mvaao2GRAHy2yg4pT/XS4XnVHEQBjPJGycWf/9seKEO9vopTJGkvA==
+
 "@types/mime@*":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.2.tgz#857a118d8634c84bba7ae14088e4508490cd5da5"
@@ -3980,6 +3985,14 @@
     "@types/d3-shape" "^1.3.1"
     d3-shape "^1.0.6"
 
+"@vx/gradient@^0.0.198":
+  version "0.0.198"
+  resolved "https://registry.yarnpkg.com/@vx/gradient/-/gradient-0.0.198.tgz#7ec691aed1ac8798fd80f8650ff0142c3ac7a03c"
+  integrity sha512-gqK/fQp9Javw5RJAu0zLIB9TVPxz4GF4h+/YAiYpqmIKHvfZ8yIGuUtJxPjFixWqUCCTHu3UfQR9OwhluXeenw==
+  dependencies:
+    "@types/react" "*"
+    prop-types "^15.5.7"
+
 "@vx/group@0.0.198", "@vx/group@^0.0.198":
   version "0.0.198"
   resolved "https://registry.yarnpkg.com/@vx/group/-/group-0.0.198.tgz#acfd16953a39eac8f9901dcfaaf3936f4b05eb9c"
@@ -3997,6 +4010,17 @@
   dependencies:
     "@types/d3-random" "^1.1.2"
     d3-random "^1.0.3"
+
+"@vx/responsive@^0.0.198":
+  version "0.0.198"
+  resolved "https://registry.yarnpkg.com/@vx/responsive/-/responsive-0.0.198.tgz#5030c773340d737ce47349164b94f65627718984"
+  integrity sha512-+tdDnsHq5CXdhxUNHoUkf2u4EQDyNMIVNUbCudkDnWAr3sAnl4a4FWnxrsAIWoGJMXox/oG7VJjrPRm73ZAbkg==
+  dependencies:
+    "@types/lodash" "^4.14.146"
+    "@types/react" "*"
+    lodash "^4.17.10"
+    prop-types "^15.6.1"
+    resize-observer-polyfill "1.5.1"
 
 "@vx/scale@^0.0.198":
   version "0.0.198"
@@ -12469,6 +12493,11 @@ lodash.toarray@^4.4.0:
   resolved "https://registry.yarnpkg.com/lodash.toarray/-/lodash.toarray-4.4.0.tgz#24c4bfcd6b2fba38bfd0594db1179d8e9b656561"
   integrity sha1-JMS/zWsvuji/0FlNsRedjptlZWE=
 
+lodash@^4.17.10:
+  version "4.17.20"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
+  integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
+
 lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.3, lodash@^4.17.4:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
@@ -14954,7 +14983,7 @@ prop-types-exact@1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@15.7.2, prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.7.2, prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -15719,6 +15748,11 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
+
+resize-observer-polyfill@1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
+  integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
 
 resolve-cwd@^3.0.0:
   version "3.0.0"
