@@ -1,11 +1,7 @@
 import React, { useContext } from 'react'
-// import * as allCurves from '@vx/curve'
 import ParentSize from '@vx/responsive/lib/components/ParentSize'
-// import { localPoint } from '@vx/event'
 import { Group } from '@vx/group'
 import { LinePath } from '@vx/shape'
-// import generateDateValue, { DateValue } from '@vx/mock-data/lib/generators/genDateValue'
-// import { scaleLinear, scaleBand } from '@vx/scale'
 import { useTooltip, TooltipWithBounds, defaultStyles } from '@vx/tooltip';
 import { scaleTime, scaleLinear } from '@vx/scale'
 import { extent, max } from 'd3-array'
@@ -26,14 +22,7 @@ const margin = {
   right: 20,
 }
 
-const tooltipStyles = {
-  ...defaultStyles,
-  minWidth: 60,
-  backgroundColor: 'rgba(0,0,0,1)',
-  color: 'white',
-}
-
-export const Chart = (props) => {
+export const DateValueLineGraph = (props) => {
   const {
     tooltipOpen,
     tooltipLeft,
@@ -48,23 +37,7 @@ export const Chart = (props) => {
 
   const circleColor = theme === 'light' ? '#401C94' : '#ffffff'
 
-  const series = [
-    [
-      {
-        date: new Date(98, 1),
-        value: 100,
-      },
-      {
-        date: new Date(2001, 1),
-        value: 400,
-      },
-      {
-        date: new Date(),
-        value: 200,
-      }
-    ]
-  ]
-
+  const series = props.data
   const allData = series.reduce((rec, d) => rec.concat(d), [])
 
   return <>
@@ -92,7 +65,7 @@ export const Chart = (props) => {
                 left={tooltipLeft}
                 className='vx-chart-tooltip'
               >
-                Tickets: <strong>{tooltipData.value}</strong>
+                {props.valueLabel || 'Value'}: <strong>{tooltipData.value}</strong>
                 <span className='block mt-2'>
                   Date: <strong>{formatDate(
                     Date.parse(tooltipData.date),

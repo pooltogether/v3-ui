@@ -8,7 +8,7 @@ import { useTranslation } from 'lib/../i18n'
 import { SHOW_MANAGE_LINKS } from 'lib/constants'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
-import { Chart } from 'lib/components/Chart'
+import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Meta } from 'lib/components/Meta'
@@ -208,7 +208,10 @@ export const PoolShow = (
                 icon: TicketsIcon,
                 title: 'Tickets sold',
                 content: <>
-                  <Chart />
+                  <TicketsSoldGraph
+                    pool={pool}
+                  />
+                  
                   <h3>
                     {displayAmountInEther(pool.totalSupply, {
                       precision: 0,

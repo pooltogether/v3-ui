@@ -11,7 +11,8 @@ export const prizeFragment = gql`
     net
     # reserveFee
     awardedBlock
-
+    
+    totalTicketSupply
     prizePeriodStartedTimestamp
 
     winners
