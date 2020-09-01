@@ -1,9 +1,15 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 import Link from 'next/link'
+import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
+import {
+  WIZARD_REFERRER_HREF,
+  WIZARD_REFERRER_AS_PATH
+} from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
+import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { NonInteractableCard } from 'lib/components/NonInteractableCard'
@@ -17,7 +23,7 @@ export const PoolRow = (
     pool,
   } = props
   
-  const [t] = useTranslation()
+  const { t } = useTranslation()
   const router = useRouter()
 
   if (!pool || !pool.symbol) {
@@ -26,6 +32,21 @@ export const PoolRow = (
 
   const symbol = pool.symbol
   const decimals = pool?.underlyingCollateralDecimals
+
+  const handleGetTicketsClick = (e) => {
+    e.preventDefault()
+
+    Cookies.set(WIZARD_REFERRER_HREF, '/')
+    Cookies.set(WIZARD_REFERRER_AS_PATH, `/`)
+
+    router.push(
+      `/pools/[symbol]/deposit`,
+      `/pools/${pool?.symbol}/deposit`,
+      {
+        shallow: true
+      }
+    )
+  }
 
   return <>
     <NonInteractableCard
@@ -96,14 +117,13 @@ export const PoolRow = (
         <div
           className='w-full xs:w-7/12 sm:w-4/12 lg:w-6/12 pr-2'
         >
-          <ButtonLink
+          <Button
+            onClick={handleGetTicketsClick}
             width='w-full'
             textSize='lg'
-            href='/pools/[symbol]/deposit'
-            as={`/pools/${pool.symbol}/deposit`}
           >
             {t('getTickets')}
-          </ButtonLink>
+          </Button>
         </div>
 
         <div

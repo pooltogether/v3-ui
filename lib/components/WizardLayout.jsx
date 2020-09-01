@@ -1,11 +1,15 @@
 import React, { useContext, useEffect } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
+import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
 
+import {
+  WIZARD_REFERRER_HREF,
+  WIZARD_REFERRER_AS_PATH
+} from 'lib/constants'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 
 function range1(i) { return i ? range1(i - 1).concat(i) : [] }
 
@@ -24,8 +28,11 @@ export const WizardLayout = (props) => {
   const action = router.asPath.match('withdraw') ? 'withdraw' : 'deposit'
 
   const handleClose = () => {
-    const pathname = router.pathname.split(`/${action}`).shift()
-    const asPath = router.asPath.split(`/${action}`).shift()
+    const pathname = Cookies.get(WIZARD_REFERRER_HREF) || '/'
+    const asPath = Cookies.get(WIZARD_REFERRER_AS_PATH) || '/'
+
+    Cookies.remove(WIZARD_REFERRER_HREF)
+    Cookies.remove(WIZARD_REFERRER_AS_PATH)
 
     router.push(
       `${pathname}`,
