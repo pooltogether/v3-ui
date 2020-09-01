@@ -12,13 +12,13 @@ export const ThemeContextProvider = (props) => {
     return null
   }
 
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState('dark')
 
   useEffect(() => {
     let stored = Cookies.get(THEME)
     
     const body = document.body
-    body.classList.add('theme-light')
+    body.classList.add('theme-dark')
 
     if (window.matchMedia) {
       const setThemeAutomatically = (newValue) => {
@@ -36,32 +36,32 @@ export const ThemeContextProvider = (props) => {
       }
 
       // register an onChange listener if we don't have a cookie set
-      if (!stored && window.matchMedia) {
-        const mm = window.matchMedia('(prefers-color-scheme: dark)')
+      // if (!stored && window.matchMedia) {
+      //   const mm = window.matchMedia('(prefers-color-scheme: dark)')
 
-        const prefersDark = mm.matches
-        stored = prefersDark ? 'dark' : 'light'
+      //   const prefersDark = mm.matches
+      //   stored = prefersDark ? 'dark' : 'light'
 
-        try {
-          mm.addListener(e => {
-            const newValue = e.matches ? 'theme-dark' : 'theme-light'
-            setThemeAutomatically(newValue)
-          })
-        } catch (e) {
-          // console.warn(e)
-          // console.warn('swallowing matchmediaquery addListener call')
-        }
+      //   try {
+      //     mm.addListener(e => {
+      //       const newValue = e.matches ? 'theme-dark' : 'theme-light'
+      //       setThemeAutomatically(newValue)
+      //     })
+      //   } catch (e) {
+      //     // console.warn(e)
+      //     // console.warn('swallowing matchmediaquery addListener call')
+      //   }
         
-        try {
-          mm.addEventListener('change', e => {
-            const newValue = e.matches ? 'theme-dark' : 'theme-light'
-            setThemeAutomatically(newValue)
-          })
-        } catch (e) {
-          // console.warn(e)
-          // console.warn('swallowing matchmediaquery addEventListener call')
-        }
-      }
+      //   try {
+      //     mm.addEventListener('change', e => {
+      //       const newValue = e.matches ? 'theme-dark' : 'theme-light'
+      //       setThemeAutomatically(newValue)
+      //     })
+      //   } catch (e) {
+      //     // console.warn(e)
+      //     // console.warn('swallowing matchmediaquery addEventListener call')
+      //   }
+      // }
 
       // onLoad
       setThemeAutomatically(stored)
