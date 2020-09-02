@@ -1,23 +1,23 @@
-import gql from 'graphql-tag'
+// import gql from 'graphql-tag'
 
-export const staticPrizePoolFragment = gql`
-  fragment staticPrizePoolFragment on PrizePool {
-    id
+// export const staticPrizePoolFragment = gql`
+//   fragment staticPrizePoolFragment on PrizePool {
+//     id
 
-    underlyingCollateralToken
-    underlyingCollateralDecimals
-    underlyingCollateralName
-    underlyingCollateralSymbol
+//     underlyingCollateralToken
+//     underlyingCollateralDecimals
+//     underlyingCollateralName
+//     underlyingCollateralSymbol
     
-    # maxExitFeeMantissa
-    # maxTimelockDuration
-    # timelockTotalSupply
+//     # maxExitFeeMantissa
+//     # maxTimelockDuration
+//     # timelockTotalSupply
 
-    # creator
+//     # creator
 
-    # prizePeriodSeconds
+//     # prizePeriodSeconds
 
-    # feeScaleMantissa
-    # rngRequestId
-  }
-`
+//     # feeScaleMantissa
+//     # rngRequestId
+//   }
+// `

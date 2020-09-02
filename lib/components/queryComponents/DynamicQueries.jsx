@@ -39,7 +39,8 @@ export const DynamicQueries = (
 
   let dynamicPrizeStrategiesData
 
-  // multiple queries at the same time, this or use apollo-link-batch (to prevent multiple re-renders)
+  // OPTIMIZE: Batch multiple queries at the same time,
+  // this or use apollo-link-batch (to prevent multiple re-renders)
   const { loading: prizeStrategyQueryLoading, error: prizeStrategyQueryError, data: prizeStrategyQueryData } = useQuery(dynamicPrizeStrategiesQuery, {
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
@@ -58,7 +59,12 @@ export const DynamicQueries = (
 
   let dynamicPlayerData
 
-  const { loading: playerQueryLoading, error: playerQueryError, data: playerQueryData } = useQuery(dynamicPlayerQuery, {
+  const {
+    loading: playerQueryLoading,
+    error: playerQueryError,
+    data: playerQueryData,
+    refetch: refetchPlayerQuery
+  } = useQuery(dynamicPlayerQuery, {
     variables: {
       playerAddress: usersAddress
     },
@@ -74,9 +80,16 @@ export const DynamicQueries = (
 
   if (playerQueryData) {
     dynamicPlayerData = playerQueryData.player
+    console.log({ dynamicPlayerData})
   }
 
   const dynamicDataLoading = poolQueryLoading || prizeStrategyQueryLoading || playerQueryLoading
   
-  return children({ dynamicDataLoading, dynamicPoolData, dynamicPrizeStrategiesData, dynamicPlayerData })
+  return children({
+    dynamicDataLoading,
+    dynamicPoolData,
+    dynamicPrizeStrategiesData,
+    dynamicPlayerData,
+    refetchPlayerQuery
+  })
 }

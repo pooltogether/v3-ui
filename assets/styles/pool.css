@@ -417,3 +417,9 @@ input[type='submit'][disabled] {
 .button-scale:active {
   transform: scale(1.02) translateY(-3px);
 }
+
+@media screen and (max-height: 400px) {
+  .odds-box { display: none; }
+  .pane-title { display: none; }
+}
+

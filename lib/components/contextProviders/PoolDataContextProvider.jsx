@@ -52,11 +52,10 @@ export const PoolDataContextProvider = (props) => {
     >
       {({
         graphDataLoading,
-        staticPoolData,
-        staticPrizeStrategiesData,
         dynamicPoolData,
         dynamicPrizeStrategiesData,
         dynamicPlayerData,
+        refetchPlayerQuery
       }) => {
         return <FetchGenericChainData
           {...props}
@@ -73,8 +72,6 @@ export const PoolDataContextProvider = (props) => {
                   ...genericChainData.daiPrizeStrategy,
                   ...dynamicPoolData.daiPool,
                   ...dynamicPrizeStrategiesData.daiPrizeStrategy,
-                  ...staticPoolData.daiPool,
-                  ...staticPrizeStrategiesData.daiPrizeStrategy,
                   name: 'DAI Pool',
                   frequency: 'Weekly',
                   symbol: 'PT-cDAI',
@@ -83,8 +80,6 @@ export const PoolDataContextProvider = (props) => {
                   ...genericChainData.usdcPrizeStrategy,
                   ...dynamicPoolData.usdcPool,
                   ...dynamicPrizeStrategiesData.usdcPrizeStrategy,
-                  ...staticPoolData.usdcPool,
-                  ...staticPrizeStrategiesData.usdcPrizeStrategy,
                   name: 'USDC Pool',
                   frequency: 'Weekly',
                   symbol: 'PT-cUSDC',
@@ -93,8 +88,6 @@ export const PoolDataContextProvider = (props) => {
                 //   ...genericChainData.usdtPrizeStrategy,
                 //   ...dynamicPoolData.usdtPool,
                 //   ...dynamicPrizeStrategiesData.usdtPrizeStrategy,
-                //   ...staticPoolData.usdtPool,
-                //   ...staticPrizeStrategiesData.usdtPrizeStrategy,
                 //   name: 'Tether Pool',
                 //   frequency: 'Weekly',
                 //   symbol: 'PT-cUSDT',
@@ -103,8 +96,6 @@ export const PoolDataContextProvider = (props) => {
                 //   ...genericChainData.wbtcPrizeStrategy,
                 //   ...dynamicPoolData.wbtcPool,
                 //   ...dynamicPrizeStrategiesData.wbtcPrizeStrategy,
-                //   ...staticPoolData.wbtcPool,
-                //   ...staticPrizeStrategiesData.wbtcPrizeStrategy,
                 //   yieldSource: 'Compound',
                 //   name: 'Weekly Wrapped Bitcoin Pool',
                 //   symbol: 'PT-cWBTC',
@@ -164,8 +155,8 @@ export const PoolDataContextProvider = (props) => {
                     poolAddresses,
                     dynamicPoolData,
                     dynamicPlayerData,
-                    staticPoolData,
                     genericChainData,
+                    refetchPlayerQuery,
                     usersChainData,
                     usersTicketBalance,
                     usersTicketBalanceBN,

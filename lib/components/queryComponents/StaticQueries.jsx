@@ -1,48 +1,49 @@
-import { useQuery } from '@apollo/client'
+// import { useQuery } from '@apollo/client'
 
-import { staticPrizePoolsQuery } from 'lib/queries/staticPrizePoolsQuery'
-import { staticPrizeStrategiesQuery } from 'lib/queries/staticPrizeStrategiesQuery'
-import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
-import { getPrizeStrategyDataFromQueryResult } from 'lib/services/getPrizeStrategyDataFromQueryResult'
-import { poolToast } from 'lib/utils/poolToast'
+// import { staticPrizePoolsQuery } from 'lib/queries/staticPrizePoolsQuery'
+// import { staticPrizeStrategiesQuery } from 'lib/queries/staticPrizeStrategiesQuery'
+// import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
+// import { getPrizeStrategyDataFromQueryResult } from 'lib/services/getPrizeStrategyDataFromQueryResult'
+// import { poolToast } from 'lib/utils/poolToast'
 
-export const StaticQueries = (
-  props,
-) => {
-  const { poolAddresses, children } = props
+// export const StaticQueries = (
+//   props,
+// ) => {
+//   const { poolAddresses, children } = props
 
-  let staticPoolData
+//   let staticPoolData
 
-  // this should only run once:
-  const { loading: poolsQueryLoading, error: poolsQueryError, data: poolsQueryData } = useQuery(staticPrizePoolsQuery, {
-    fetchPolicy: 'network-only',
-  })
+//   // this should only run once:
+//   const { loading: poolsQueryLoading, error: poolsQueryError, data: poolsQueryData } = useQuery(staticPrizePoolsQuery, {
+//     fetchPolicy: 'network-only',
+//   })
 
-  if (poolsQueryError) {
-    poolToast.error(poolsQueryError)
-    console.error(poolsQueryError)
-  }
+//   console.log('poolsQueryData')
+//   console.log(poolsQueryData)
+
+//   if (poolsQueryError) {
+//     poolToast.error(poolsQueryError)
+//     console.error(poolsQueryError)
+//   }
   
-  staticPoolData = getPoolDataFromQueryResult(poolAddresses, poolsQueryData)
-
-
+//   staticPoolData = getPoolDataFromQueryResult(poolAddresses, poolsQueryData)
   
-  let staticPrizeStrategiesData
+//   let staticPrizeStrategiesData
 
-  const { loading: prizeStrategiesQueryLoading, error: prizeStrategiesQueryError, data: prizeStrategiesQueryData } = useQuery(staticPrizeStrategiesQuery, {
-    fetchPolicy: 'network-only',
-  })
+//   const { loading: prizeStrategiesQueryLoading, error: prizeStrategiesQueryError, data: prizeStrategiesQueryData } = useQuery(staticPrizeStrategiesQuery, {
+//     fetchPolicy: 'network-only',
+//   })
 
-  if (prizeStrategiesQueryError) {
-    poolToast.error(prizeStrategiesQueryError)
-    console.error(prizeStrategiesQueryError)
-  }
+//   if (prizeStrategiesQueryError) {
+//     poolToast.error(prizeStrategiesQueryError)
+//     console.error(prizeStrategiesQueryError)
+//   }
 
-  staticPrizeStrategiesData = getPrizeStrategyDataFromQueryResult(poolAddresses, prizeStrategiesQueryData)
+//   staticPrizeStrategiesData = getPrizeStrategyDataFromQueryResult(poolAddresses, prizeStrategiesQueryData)
 
 
 
-  const staticDataLoading = poolsQueryLoading || prizeStrategiesQueryLoading
+//   const staticDataLoading = poolsQueryLoading || prizeStrategiesQueryLoading
 
-  return children({ staticPoolData, staticPrizeStrategiesData, staticDataLoading })
-}
+//   return children({ staticPoolData, staticPrizeStrategiesData, staticDataLoading })
+// }

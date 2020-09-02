@@ -4,6 +4,7 @@ import { Wizard, WizardStep } from 'react-wizard-primitive'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ExecuteCryptoDeposit } from 'lib/components/ExecuteCryptoDeposit'
 import { ConfirmFiatDeposit } from 'lib/components/ConfirmFiatDeposit'
 import { DepositCryptoForm } from 'lib/components/DepositCryptoForm'
@@ -17,8 +18,9 @@ import { WizardLayout } from 'lib/components/WizardLayout'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const DepositWizardContainer = (props) => {
-  const [t] = useTranslation()
+  const { t } = useTranslation()
   const router = useRouter()
+  
   const method = router.query.method
   const quantity = router.query.quantity
 
@@ -32,6 +34,9 @@ export const DepositWizardContainer = (props) => {
 
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress } = authControllerContext
+
+  const poolDataContext = useContext(PoolDataContext)
+  const { pool } = poolDataContext
 
   return <>
     <Meta
@@ -65,7 +70,9 @@ export const DepositWizardContainer = (props) => {
               {(step) => {
                 return step.isActive && <>
                   <TicketQuantityForm
+                    showInfoList
                     formName={t('getTickets')}
+                    formSubName={`1 ticket = 1 ${pool?.underlyingCollateralSymbol}`}
                     nextStep={step.nextStep}
                   />
                 </>

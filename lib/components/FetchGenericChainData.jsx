@@ -47,7 +47,6 @@ export const FetchGenericChainData = (props) => {
         // wbtcPrizeStrategy,
       }
     } catch (e) {
-      // error while fetching from infura?
       console.warn(e)
       return {}
     }

@@ -38,7 +38,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const { usersAddress, provider } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
-  const { pool } = poolData
+  const { pool, refetchPlayerQuery } = poolData
 
   const ticker = pool?.underlyingCollateralSymbol
   const decimals = pool?.underlyingCollateralDecimals
@@ -62,7 +62,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
     txName = `Schedule withdrawal of ${quantity} tickets ($${quantity} ${ticker})`
   }
 
-  const [sendTx] = useSendTransaction(txName)
+  const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions

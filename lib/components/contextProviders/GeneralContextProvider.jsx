@@ -13,12 +13,11 @@ export const GeneralContextProvider = (props) => {
   }
   
   const authControllerContext = useContext(AuthControllerContext)
-  const { supportedNetwork } = authControllerContext
+  const { changingNetwork, supportedNetwork } = authControllerContext
 
   const windowFocused = true || useWindowFocus()
-
   const isOnline = useOnlineState()
-  const paused = !windowFocused || !isOnline || !supportedNetwork
+  const paused = !windowFocused || !isOnline || !supportedNetwork || changingNetwork
 
   return <GeneralContext.Provider
     value={{

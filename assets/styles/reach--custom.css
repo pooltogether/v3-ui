@@ -59,7 +59,9 @@
 }
 
 [data-reach-dialog-content] {
+  background: transparent;
   margin: 10vh auto;
+  padding: 0;
   max-width: 600px;
   pointer-events: none;
   outline: none;
@@ -103,11 +105,6 @@
 
 .dialog-inner-content {
   flex: 1;
-}
-
-@media screen and (max-height: 400px) {
-  .odds-box { display: none; }
-  .pane-title { display: none; }
 }
 
 @media screen and (max-width: 780px) {
