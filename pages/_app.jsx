@@ -139,7 +139,7 @@ function MyApp({ Component, pageProps }) {
       <ToastContainer
         className='pool-toast'
         position='top-center'
-        autoClose={15000}
+        autoClose={7000}
       />
     </V3ApolloWrapper>
   </>

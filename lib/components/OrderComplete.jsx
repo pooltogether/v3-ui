@@ -6,6 +6,7 @@ import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContext
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const OrderComplete = (props) => {
   const router = useRouter()
@@ -15,7 +16,7 @@ export const OrderComplete = (props) => {
   const { confetti } = confettiContext
 
   const poolData = useContext(PoolDataContext)
-  const { pool } = poolData
+  const { pool, usersTicketBalance } = poolData
 
   useEffect(() => {
     setTimeout(() => {
@@ -44,7 +45,7 @@ export const OrderComplete = (props) => {
       <div
         className='mb-6'
       >
-        You now have X tickets in the {pool?.underlyingCollateralSymbol} pool!
+        You now have {numberWithCommas(usersTicketBalance)} tickets in the {pool?.underlyingCollateralSymbol} pool!
       </div>
       <div
         className='mb-6'

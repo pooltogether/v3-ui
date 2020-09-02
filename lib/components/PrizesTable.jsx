@@ -7,6 +7,7 @@ import { BasicTable } from 'lib/components/BasicTable'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { formatDate } from 'lib/utils/formatDate'
+import { shorten } from 'lib/utils/shorten'
 
 const prizeLink = (pool, prize) => {
   return <Link
@@ -62,6 +63,7 @@ const formatPrizeObject = (pool, prize) => {
   return {
     prizeNumber: id,
     startedAt: formatDate(prize?.prizePeriodStartedTimestamp),
+    winner: shorten(prize?.winners?.[0]),
     awardedAt: <>
       <span className='sm:hidden'>
         {formatDate(prize?.awardedTimestamp, { short: true })}
@@ -96,6 +98,15 @@ export const PrizesTable = (
       {
         Header: 'Prize amount',
         accessor: 'prizeAmount', // accessor is the "key" in the data
+      },
+      {
+        Header: row => <div
+          className='hidden sm:block'
+        >Winner</div>,
+        accessor: 'winner',
+        Cell: row => <div
+          className='hidden sm:block'
+        >{row.value}</div>
       },
       {
         Header: 'Awarded on',

@@ -79,6 +79,7 @@ export const AuthControllerContextProvider = (props) => {
   }, [onboardProvider, magicContext.signedIn])
 
   useEffect(() => {
+    // TODO: Add && if supportedNetwork here!
     if (onboardNetwork && onboardNetwork !== chainId) {
       setChangingNetwork(true)
 

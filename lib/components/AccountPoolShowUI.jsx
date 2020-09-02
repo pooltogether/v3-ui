@@ -82,7 +82,7 @@ export const AccountPoolShowUI = (props) => {
     />
 
     <PageTitleAndBreadcrumbs
-      title={`Account`}
+      title={`Account - ${pool?.name}`}
       breadcrumbs={[
         {
           href: '/account',

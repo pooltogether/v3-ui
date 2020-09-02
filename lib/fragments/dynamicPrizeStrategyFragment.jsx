@@ -19,7 +19,7 @@ export const dynamicPrizeStrategyFragment = gql`
   
     prizePeriodSeconds
 
-    # exitFeeMantissa
-    # creditRateMantissa
+    exitFeeMantissa
+    creditRateMantissa
   }
 `

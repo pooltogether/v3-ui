@@ -95,8 +95,14 @@ export const InstantOrScheduledForm = (props) => {
       Withdraw {quantity} tickets
     </PaneTitle>
 
+    <div className='mt-4'>
+      <PaneTitle small>
+        Choose how to receive your funds:
+      </PaneTitle>
+    </div>
+
     <RadioInputGroup
-      label='Choose how to receive your funds:'
+      label=''
       name='withdrawType'
       onChange={handleWithdrawTypeChange}
       value={withdrawType}
@@ -104,13 +110,13 @@ export const InstantOrScheduledForm = (props) => {
         {
           value: 'scheduled',
           label: <>
-            I want my full <span className='font-bold'>${scheduledFullFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> back in {formattedFutureDate}
+            I want <span className='font-bold'>${scheduledFullFormatted}</span> <span className='font-bold'>{underlyingCollateralSymbol}</span> back in: <br />{formattedFutureDate}
           </>
         },
         {
           value: 'instant',
           label: <>
-            I want <span className='font-bold'>${instantPartialFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> now and will forfeit the interest
+            I want <span className='font-bold'>${instantPartialFormatted}</span> <span className='font-bold'>{underlyingCollateralSymbol}</span> now, and will forfeit the interest
           </>
         }
       ]}
@@ -120,7 +126,7 @@ export const InstantOrScheduledForm = (props) => {
 
     {withdrawType === 'scheduled' ? <>
       <div
-        className='flex items-center justify-center py-2 px-10 sm:w-7/12 mx-auto rounded-xl -mx-6 sm:mx-auto bg-primary text-inverse'
+        className='flex items-center justify-center py-4 px-10 sm:w-7/12 mx-auto rounded-xl -mx-6 sm:mx-auto bg-primary text-inverse'
         style={{
           minHeight: 70
         }}
@@ -129,8 +135,10 @@ export const InstantOrScheduledForm = (props) => {
           tip={tipJsx}
         >
           <>
-            Your <span className='font-bold'>${scheduledFullFormatted}</span> worth of <span className='font-bold'>{underlyingCollateralSymbol}</span> will be scheduled and ready to withdraw in: 
-            <br />{formattedFutureDate} <QuestionMarkCircle />
+            <div className='w-10 mx-auto mb-2'>
+              <QuestionMarkCircle />
+            </div>
+            Your <span className='font-bold'>${scheduledFullFormatted}</span> worth of <span className='font-bold'>{underlyingCollateralSymbol}</span> will be scheduled and ready to withdraw in: {formattedFutureDate}
           </>
         </PTHint>
       </div>
@@ -145,7 +153,7 @@ export const InstantOrScheduledForm = (props) => {
       </button>
     </> : <>
       <div
-        className='flex items-center justify-center py-2 px-10 sm:w-7/12 mx-auto rounded-xl -mx-6 sm:mx-auto bg-primary text-inverse'
+        className='flex items-center justify-center py-4 px-10 sm:w-7/12 mx-auto rounded-xl -mx-6 sm:mx-auto bg-primary text-inverse'
         style={{
           minHeight: 70
         }}
@@ -153,10 +161,14 @@ export const InstantOrScheduledForm = (props) => {
         <PTHint
           tip={tipJsx}
         >
-            <>You will receive <span className='font-bold'>${instantPartialFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> now and {instantFee.eq(0)
-              ? <>burn <span className='font-bold'>${displayAmountInEther(instantCredit)}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> from your fairness credit</>
-              : <>forfeit <span className='font-bold'>${instantFeeFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> as interest to the pool</>
-          } <QuestionMarkCircle /></>
+            <>
+              <div className='w-10 mx-auto mb-2'>
+                <QuestionMarkCircle />
+              </div>
+              You will receive <span className='font-bold'>${instantPartialFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> now and {instantFee.eq(0)
+                ? <>burn <span className='font-bold'>${displayAmountInEther(instantCredit)}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> from your fairness credit</>
+                : <>forfeit <span className='font-bold'>${instantFeeFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> as interest to the pool</>
+            } </>
         </PTHint>
       </div>
       <button

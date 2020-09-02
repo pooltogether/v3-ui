@@ -13,10 +13,10 @@ export const Card = (props) => {
       <div
         className='text-caption uppercase'
       >
-        <img
+        {icon && <img
           src={icon}
           className='inline-block mr-2 card-icon'
-        /> {title}
+        />} {title}
       </div>
       <div className='mt-4'>
         {content}

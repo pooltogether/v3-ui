@@ -80,7 +80,6 @@ export const DynamicQueries = (
 
   if (playerQueryData) {
     dynamicPlayerData = playerQueryData.player
-    console.log({ dynamicPlayerData})
   }
 
   const dynamicDataLoading = poolQueryLoading || prizeStrategyQueryLoading || playerQueryLoading

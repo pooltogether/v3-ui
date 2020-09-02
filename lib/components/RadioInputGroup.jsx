@@ -10,7 +10,7 @@ export const RadioInputGroup = (
     
     return <div
       key={`radios-${radio.value}`}
-      className='flex items-center justify-center radio-input-group trans w-full text-base sm:text-xl lg:text-2xl bg-white rounded-xl relative hover:bg-green mx-2'
+      className='flex items-center justify-center radio-input-group trans w-full text-base sm:text-xl lg:text-2xl bg-white rounded-xl relative hover:text-white hover:bg-highlight-3 mx-2'
       style={{
         maxWidth: 300,
         minHeight: 200,
@@ -28,7 +28,7 @@ export const RadioInputGroup = (
       />
       <label
         htmlFor={id}
-        className='flex items-center text-xs sm:text-base h-full text-primary hover:text-inverse absolute t-0 l-0 r-0 b-0 px-4 w-full block  trans mt-0'
+        className='flex items-center text-xs sm:text-base h-full text-primary hover:text-white absolute t-0 l-0 r-0 b-0 px-4 w-full block  trans mt-0'
       >
         <div className='-mt-4'>
           {radio.label}
@@ -42,7 +42,7 @@ export const RadioInputGroup = (
       className='radio-input-fieldset mb-6'
     >
       <label
-        className='text-base sm:text-lg text-inverse hover:text-inverse trans mt-0'
+        className='text-base sm:text-lg text-inverse hover:text-white trans mt-0'
       >
         {label}
       </label>

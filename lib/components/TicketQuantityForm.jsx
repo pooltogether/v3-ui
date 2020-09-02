@@ -72,8 +72,11 @@ export const TicketQuantityForm = (props) => {
 
   const isWithdraw = formName === 'Withdraw'
 
+  let contextualBalance = usersTokenBalance
+
   let validate = null
   if (isWithdraw) {
+    contextualBalance = usersTicketBalance
     validate = {
       greaterThanBalance: value => parseFloat(value) <= usersTicketBalance ||
         'please enter an amount lower than your ticket balance',
@@ -151,16 +154,16 @@ export const TicketQuantityForm = (props) => {
           </>}
           required='ticket quantity required'
           autoComplete='off'
-          rightLabel={usersAddress && !isWithdraw && <>
+          rightLabel={usersAddress && <>
             <button
               type='button'
               className='font-bold'
               onClick={(e) => {
                 e.preventDefault()
-                setValue('quantity', usersTokenBalance, { shouldValidate: true })
+                setValue('quantity', contextualBalance, { shouldValidate: true })
               }}
             >
-              Balance: {numberWithCommas(usersTokenBalance, { precision: 4 })} {tickerUpcased}
+              Balance: {numberWithCommas(contextualBalance, { precision: 4 })} {tickerUpcased}
             </button>
           </>}
         />

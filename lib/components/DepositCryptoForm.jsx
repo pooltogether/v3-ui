@@ -234,17 +234,15 @@ export const DepositCryptoForm = (props) => {
           </>}
           
           <ButtonDrawer>
-            {needsApproval && <>
-              <Button
-                noAnim
-                textSize='lg'
-                onClick={handleUnlockClick}
-                disabled={unlockTxInFlight}
-                className='w-48-percent'
-              >
-                Approve {tickerUpcased}
-              </Button>
-            </>}
+            <Button
+              noAnim
+              textSize='lg'
+              onClick={handleUnlockClick}
+              disabled={!needsApproval || unlockTxInFlight}
+              className='w-48-percent'
+            >
+              Approve {tickerUpcased}
+            </Button>
 
             <DepositTxButton
               needsApproval={needsApproval}

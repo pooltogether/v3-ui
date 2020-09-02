@@ -12,7 +12,7 @@ import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { NonInteractableCard } from 'lib/components/NonInteractableCard'
+import { InteractableCard } from 'lib/components/InteractableCard'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
@@ -49,7 +49,7 @@ export const PoolRow = (
   }
 
   return <>
-    <NonInteractableCard
+    <InteractableCard
       key={`pool-row-${pool.poolAddress}`}
       href='/pools/[symbol]'
       as={`/pools/${symbol}`}
@@ -58,19 +58,10 @@ export const PoolRow = (
         <div
           className='flex items-center font-bold w-8/12 sm:w-6/12 lg:w-6/12'
         >
-          <Link
-            href='/pools/[symbol]'
-            as={`/pools/${pool.symbol}`}
-          >
-            <a
-              className='inline-block w-12 xs:w-12 sm:w-16 lg:w-20 xs:mr-2'
-            >
-              <PoolCurrencyIcon
-                lg
-                pool={pool}
-              />
-            </a>
-          </Link>
+          <PoolCurrencyIcon
+            lg
+            pool={pool}
+          />
 
           <div
             className='flex flex-col items-start justify-between w-full ml-1 sm:ml-4 leading-none'
@@ -160,6 +151,6 @@ export const PoolRow = (
           </ButtonLink>
         </div>
       </div>
-    </NonInteractableCard>
+    </InteractableCard>
   </>
 }
