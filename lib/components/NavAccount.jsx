@@ -69,10 +69,7 @@ export const NavAccount = (props) => {
 
                 <button
                   onClick={closeTransactions}
-                  className='relative close-button text-highlight-2 hover:text-highlight-1 trans outline-none focus:outline-none active:outline-none'
-                  style={{
-                    right: 0
-                  }}
+                  className='absolute r-0 t-0 pr-6 pt-6 pb-4 pl-4 close-button text-highlight-2 hover:text-highlight-1 trans outline-none focus:outline-none active:outline-none opacity-50 hover:opacity-100'
                 >
                   <VisuallyHidden>
                     Close

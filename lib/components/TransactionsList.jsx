@@ -48,12 +48,12 @@ export const TransactionsList = (props) => {
       className='px-8 sm:px-10 pt-8'
     >
       <div
-        className='text-xxs xs:text-xs uppercase font-bold text-accent-3'
+        className='flex justify-between items-center text-xxs xs:text-xs uppercase font-bold text-accent-3'
       >
         Recent transactions {pastTransactionsCount > 0 && <>
           <button
             onClick={handleClearPrevious}
-            className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 mx-2 px-2 trans trans-fastest font-bold'
+            className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 px-2 trans trans-fastest font-bold'
           >
             Clear history
         </button>

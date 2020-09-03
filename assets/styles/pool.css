@@ -321,10 +321,6 @@ input[type='submit'][disabled] {
 }
 
 .close-button {
-  border-radius: 100%;
-  display: inline-flex;
-  align-items: center;
-  justify-items: center;
   outline: none;
   font-size: 26px;
   z-index: 1823775;

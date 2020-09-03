@@ -28,14 +28,14 @@ export const WalletInfo = (props) => {
       <div
         className='flex flex-col w-full justify-between'
       > 
-        <div className='flex flex-col text-xxs sm:text-lg lg:text-xl leading-snug trans'>
+        <div className='flex flex-col w-full text-xxs sm:text-lg lg:text-xl leading-snug trans'>
           <div
             className='text-xxs xs:text-xs uppercase font-bold text-accent-3'
           >
             Account address:
           </div>
           <div
-            className='sm:text-xs lg:text-sm text-default mt-1 mb-2 sm:mb-4'
+            className='flex justify-between items-center sm:text-xs lg:text-sm text-default mt-1 mb-2 sm:mb-4'
           >
             <EtherscanAddressLink 
               address={usersAddress}
@@ -51,15 +51,15 @@ export const WalletInfo = (props) => {
                 onClick={(e) => {
                   closeTransactions()
                 }}
-                className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 mx-2 px-2 trans trans-fastest font-bold'
+                className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 px-2 trans trans-fastest font-bold'
               >
-                View tickets &amp; rewards
+                Your tickets &amp; rewards
               </a>
             </Link>
           </div>
 
           <div
-            className='sm:mr-10 lg:mr-20 my-2'
+            className='my-2'
           >
             <div
               className='text-xxs xs:text-xs uppercase font-bold text-accent-3'
@@ -67,11 +67,13 @@ export const WalletInfo = (props) => {
               Connected to:
             </div>
             <div
-              className='sm:text-xs lg:text-sm text-default mt-1 mb-2 sm:mb-4'
+              className='flex justify-between items-center sm:text-xs lg:text-sm text-default mt-1 mb-2 sm:mb-4'
             >
-              {walletName} {chainId && chainId !== 1 && <>
-                on <span className='capitalize'>{networkName}</span>
-              </>}
+              <div>
+                {walletName} {chainId && chainId !== 1 && <>
+                  on <span className='capitalize'>{networkName}</span>
+                </>}
+              </div>
               <button
                 onClick={(e) => {
                   e.preventDefault()
@@ -79,7 +81,7 @@ export const WalletInfo = (props) => {
                   closeTransactions()
                   authControllerContext.signOut()
                 }}
-                className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 mx-2 px-2 trans trans-fastest font-bold'
+                className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 px-2 trans trans-fastest font-bold'
               >
                 Change account
               </button>
