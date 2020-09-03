@@ -1,20 +1,41 @@
 import React from 'react'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
 
-import { ButtonLink } from 'lib/components/ButtonLink'
+import {
+  WIZARD_REFERRER_HREF,
+  WIZARD_REFERRER_AS_PATH
+} from 'lib/constants'
+import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
 
 export const WithdrawButton = (props) => {
   const { poolIsLocked, poolSymbol } = props
+  const router = useRouter()
 
-  const button = <>
-    <ButtonLink
+  const handleWithdrawClick = (e) => {
+    e.preventDefault()
+
+    Cookies.set(WIZARD_REFERRER_HREF, '/account/pools/[symbol]')
+    Cookies.set(WIZARD_REFERRER_AS_PATH, `/account/pools/${poolSymbol}`)
+
+    router.push(
+      `/account/pools/[symbol]/withdraw`,
+      `/account/pools/${poolSymbol}/withdraw`,
+      {
+        shallow: true
+      }
+    )
+  }
+
+  const withdrawButton = <>
+    <Button
       secondary
       disabled={poolIsLocked}
-      href='/account/pools/[symbol]/withdraw'
-      as={`/account/pools/${poolSymbol}/withdraw`}
+      onClick={handleWithdrawClick}  
     >
       Withdraw
-    </ButtonLink>
+    </Button>
   </>
 
   return <>
@@ -33,8 +54,8 @@ export const WithdrawButton = (props) => {
         </>}
         className='w-full w-49-percent'
       >
-        {button}
+        {withdrawButton}
       </PTHint>
-    </> : button}
+    </> : withdrawButton}
   </>
 }

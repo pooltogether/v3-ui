@@ -1,5 +1,4 @@
 import React from 'react'
-import classnames from 'classnames'
 
 import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
@@ -18,10 +17,7 @@ export const DepositTxButton = (props) => {
       textSize='lg'
       onClick={handleDepositClick}
       disabled={disabled || poolIsLocked}
-      className={classnames({
-        'w-48-percent': needsApproval,
-        'mx-auto w-full': !needsApproval
-      })}
+      className='w-48-percent'
     >
       Deposit
     </Button>

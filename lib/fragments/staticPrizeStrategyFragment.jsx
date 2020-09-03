@@ -1,20 +1,20 @@
-import gql from 'graphql-tag'
+// import gql from 'graphql-tag'
 
-// import { prizeFragment } from 'lib/fragments/prizeFragment'
+// // import { prizeFragment } from 'lib/fragments/prizeFragment'
 
-export const staticPrizeStrategyFragment = gql`
-  fragment staticPrizeStrategyFragment on PrizeStrategy {
-    id
+// export const staticPrizeStrategyFragment = gql`
+//   fragment staticPrizeStrategyFragment on PrizeStrategy {
+//     id
 
-    prizePool {
-      id
-    }
+//     prizePool {
+//       id
+//     }
 
-    ticket
-    sponsorship
-    rng
+//     ticket
+//     sponsorship
+//     rng
 
-    # exitFeeMantissa
-    # creditRateMantissa
-  }
-`
+//     # exitFeeMantissa
+//     # creditRateMantissa
+//   }
+// `

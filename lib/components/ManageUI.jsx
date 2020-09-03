@@ -1,7 +1,10 @@
 import React, { useContext } from 'react'
 import FeatherIcon from 'feather-icons-react'
+import { ethers } from 'ethers'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { FetchExtendedChainData } from 'lib/components/FetchExtendedChainData'
+import { CardGrid } from 'lib/components/CardGrid'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Meta } from 'lib/components/Meta'
@@ -10,6 +13,9 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Tagline } from 'lib/components/Tagline'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { isEmptyObject } from 'lib/utils/isEmptyObject'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const ManageUI = (
   props,
@@ -143,6 +149,56 @@ export const ManageUI = (
         </>}
       </div>
     </div>
+
+    {/* <FetchExtendedChainData>
+      {({ extendedChainData }) => {
+        console.log({ extendedChainData})
+        return <pre>{JSON.stringify(extendedChainData, null, 2)}</pre>
+      }}
+    </FetchExtendedChainData> */}
+
+    {pool && !isEmptyObject(pool) && <>
+      <CardGrid
+        cardGroupId='manage-pool-cards'
+        cards={[
+          {
+            icon: null,
+            title: 'Exit Fee Mantissa',
+            content: <>
+              <h3>
+                {displayAmountInEther(
+                  ethers.utils.bigNumberify(pool.exitFeeMantissa).mul(100).toString(),
+                  { precision: 6 }
+                )}%
+              </h3>
+            </>
+          },
+          {
+            icon: null,
+            title: 'Credit Rate Mantissa',
+            content: <>
+              <h3>
+                {displayAmountInEther(
+                  ethers.utils.bigNumberify(pool.creditRateMantissa).mul(100).toString(),
+                  { precision: 6 }
+                )}%
+              </h3>
+            </>
+          },
+          {
+            icon: null,
+            title: 'Prize Period (in seconds)',
+            content: <h3>{numberWithCommas(pool.prizePeriodSeconds)}</h3>
+          },
+        ]}
+      />
+
+      <br />
+      <br />
+
+      {pool && <pre>{JSON.stringify(pool, null, 2)}</pre>}
+    </>}
+    
 
     <Tagline />
   </>

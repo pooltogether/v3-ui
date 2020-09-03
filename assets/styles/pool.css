@@ -56,12 +56,14 @@ hr {
   width: 90%;
 }
 
-a {
+a,
+button {
   @apply text-highlight-3;
   transition: all 75ms ease-in-out;
 }
 
-a:hover {
+a:hover,
+button:hover {
   @apply text-inverse;
 }
 
@@ -319,10 +321,6 @@ input[type='submit'][disabled] {
 }
 
 .close-button {
-  border-radius: 100%;
-  display: inline-flex;
-  align-items: center;
-  justify-items: center;
   outline: none;
   font-size: 26px;
   z-index: 1823775;
@@ -397,10 +395,10 @@ input[type='submit'][disabled] {
   }
 }
 
-.list-item:hover {
+/* .list-item:hover {
   @apply bg-accent-grey-1;
   transition: all 120ms ease-in-out;
-}
+} */
 
 .list-item--icon {
   top: 0;
@@ -417,3 +415,9 @@ input[type='submit'][disabled] {
 .button-scale:active {
   transform: scale(1.02) translateY(-3px);
 }
+
+@media screen and (max-height: 400px) {
+  .odds-box { display: none; }
+  .pane-title { display: none; }
+}
+

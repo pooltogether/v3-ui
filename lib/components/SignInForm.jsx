@@ -22,7 +22,6 @@ export const SignInForm = (props) => {
   //     authControllerContext.signInMagic(values.email, postSignInCallback)
   //   }
   // }
-  console.log({ hideImg})
 
   return <>
     <div

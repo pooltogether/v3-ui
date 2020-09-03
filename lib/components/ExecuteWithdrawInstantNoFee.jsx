@@ -23,7 +23,7 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   const { usersAddress, provider } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
-  const { pool } = poolData
+  const { pool, refetchPlayerQuery } = poolData
 
   const decimals = pool?.underlyingCollateralDecimals
   const ticker = pool?.underlyingCollateralSymbol
@@ -33,10 +33,12 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
-  const txName = `Withdraw: ${quantity} tickets ($${quantity} ${ticker})`
+  const txMainName = `Withdraw: ${quantity} tickets`
+  const txSubName = `($${quantity} ${ticker})`
+  const txName = `${txMainName} ${txSubName}`
   const method = 'withdrawInstantlyFrom'
 
-  const [sendTx] = useSendTransaction(txName)
+  const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
@@ -97,7 +99,14 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
 
   return <>
     <PaneTitle small>
-      {tx?.inWallet && txName}
+      {tx?.inWallet && <>
+        {txMainName}
+        <span
+          className='text-accent-3 opacity-50'
+        >
+          <br />{txSubName}
+        </span>
+      </> }
     </PaneTitle>
 
     <PaneTitle>

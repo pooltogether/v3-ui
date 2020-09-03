@@ -1,16 +1,19 @@
 import React, { useContext } from 'react'
-import { useRouter} from 'next/router'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
 
+import {
+  WIZARD_REFERRER_HREF,
+  WIZARD_REFERRER_AS_PATH
+} from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AllPoolsTotalAwarded } from 'lib/components/AllPoolsTotalAwarded'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
-import { ButtonLink } from 'lib/components/ButtonLink'
+import { Button } from 'lib/components/Button'
 import { Meta } from 'lib/components/Meta'
 import { PoolPrizeListing } from 'lib/components/PoolPrizeListing'
-import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PrizesPageHeader } from 'lib/components/PrizesPageHeader'
-import { Tagline } from 'lib/components/Tagline'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const PoolPrizesShow = (
@@ -29,6 +32,21 @@ export const PoolPrizesShow = (
     return <BlankStateMessage>
       Could not find pool with symbol: ${querySymbol}
     </BlankStateMessage>
+  }
+
+  const handleGetTicketsClick = (e) => {
+    e.preventDefault()
+
+    Cookies.set(WIZARD_REFERRER_HREF, '/prizes/[symbol]')
+    Cookies.set(WIZARD_REFERRER_AS_PATH, `/prizes/${pool?.symbol}`)
+
+    router.push(
+      `/pools/[symbol]/deposit`,
+      `/pools/${pool?.symbol}/deposit`,
+      {
+        shallow: true
+      }
+    )
   }
 
   return <>
@@ -58,14 +76,13 @@ export const PoolPrizesShow = (
       </div>
 
       <div className='text-center xs:text-right w-3/4 xs:w-1/3'>
-        <ButtonLink
+        <Button
           bg='highlight-4'
           textSize='lg'
-          href='/pools/[symbol]/deposit'
-          as={`/pools/${pool?.symbol}/deposit`}
+          onClick={handleGetTicketsClick}
         >
           {t('getTickets')}
-        </ButtonLink>
+        </Button>
       </div>
     </div>
 

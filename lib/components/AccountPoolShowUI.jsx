@@ -1,9 +1,15 @@
 import React, { useContext } from 'react'
+import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
+import { useRouter } from 'next/router'
 
+import {
+  WIZARD_REFERRER_HREF,
+  WIZARD_REFERRER_AS_PATH
+} from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
-import { ButtonLink } from 'lib/components/ButtonLink'
+import { Button } from 'lib/components/Button'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Meta } from 'lib/components/Meta'
 import { NonInteractableCard } from 'lib/components/NonInteractableCard'
@@ -20,7 +26,8 @@ import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import TicketIcon from 'assets/images/tickets-icon.svg'
 
 export const AccountPoolShowUI = (props) => {
-  const [t] = useTranslation()
+  const { t } = useTranslation()
+  const router = useRouter()
 
   const poolData = useContext(PoolDataContext)
   const { pool, dynamicPlayerData } = poolData
@@ -46,13 +53,28 @@ export const AccountPoolShowUI = (props) => {
     ))
   }
 
-  const getMoreTicketsButton = <ButtonLink
+  const handleGetTicketsClick = (e) => {
+    e.preventDefault()
+
+    Cookies.set(WIZARD_REFERRER_HREF, '/account/pools/[symbol]')
+    Cookies.set(WIZARD_REFERRER_AS_PATH, `/account/pools/${pool?.symbol}`)
+
+    router.push(
+      `/pools/[symbol]/deposit`,
+      `/pools/${pool?.symbol}/deposit`,
+      {
+        shallow: true
+      }
+    )
+  }
+
+  const getMoreTicketsButton = <Button
     textSize='xl'
-    href='/pools/[symbol]/deposit'
-    as={`/pools/${symbol}/deposit`}
+    onClick={handleGetTicketsClick}
   >
     {t('getMoreTickets')}
-  </ButtonLink>
+  </Button>
+
 
   return <>
     <Meta
@@ -60,7 +82,7 @@ export const AccountPoolShowUI = (props) => {
     />
 
     <PageTitleAndBreadcrumbs
-      title={`Account`}
+      title={`Account - ${pool?.name}`}
       breadcrumbs={[
         {
           href: '/account',
@@ -113,7 +135,7 @@ export const AccountPoolShowUI = (props) => {
         </BlankStateMessage>
       </> : <>
       <NonInteractableCard
-        className='ticket-card'
+        className='ticket-card my-8 sm:mt-20 sm:mb-12'
       >
         <div className='flex items-center pb-2'>
           <div

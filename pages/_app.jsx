@@ -11,10 +11,11 @@ import { Layout } from 'lib/components/Layout'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 
-// import "@reach/dialog/styles.css";
+import "@reach/dialog/styles.css"
 import "@reach/menu-button/styles.css"
 import '@reach/tooltip/styles.css'
 import 'react-toastify/dist/ReactToastify.css'
+
 import 'assets/styles/utils.css'
 import 'assets/styles/index.css'
 import 'assets/styles/toast-blur.css'
@@ -138,7 +139,7 @@ function MyApp({ Component, pageProps }) {
       <ToastContainer
         className='pool-toast'
         position='top-center'
-        autoClose={15000}
+        autoClose={7000}
       />
     </V3ApolloWrapper>
   </>

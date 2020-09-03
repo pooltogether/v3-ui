@@ -1,11 +1,17 @@
 import React from 'react'
-import Cookies from 'js-cookie'
 import Link from 'next/link'
+import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/router'
 
+import {
+  WIZARD_REFERRER_HREF,
+  WIZARD_REFERRER_AS_PATH
+} from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { SHOW_MANAGE_LINKS } from 'lib/constants'
+import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
@@ -27,8 +33,10 @@ import PrizeIcon from 'assets/images/icon-prize@2x.png'
 export const PoolShow = (
   props,
 ) => {
-  const [t] = useTranslation()
   const { pool } = props
+
+  const { t } = useTranslation()
+  const router = useRouter()
 
   const symbol = pool?.symbol
 
@@ -73,6 +81,21 @@ export const PoolShow = (
   //     }
   //   )
   // }
+
+  const handleGetTicketsClick = (e) => {
+    e.preventDefault()
+
+    Cookies.set(WIZARD_REFERRER_HREF, '/pools/[symbol]')
+    Cookies.set(WIZARD_REFERRER_AS_PATH, `/pools/${pool?.symbol}`)
+
+    router.push(
+      `/pools/[symbol]/deposit`,
+      `/pools/${pool?.symbol}/deposit`,
+      {
+        shallow: true
+      }
+    )
+  }
 
   return <>
     <Meta
@@ -136,14 +159,13 @@ export const PoolShow = (
             <div
               className='flex w-full xs:justify-end items-start mt-4 xs:mt-0'
             >
-              <ButtonLink
+              <Button
                 width='w-full xs:w-9/12 sm:w-8/12 lg:w-6/12'
                 textSize='lg'
-                href='/pools/[symbol]/deposit'
-                as={`/pools/${symbol}/deposit`}
+                onClick={handleGetTicketsClick}
               >
                 {t('getTickets')}
-              </ButtonLink>
+              </Button>
             </div>
           </div>
 

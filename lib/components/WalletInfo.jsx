@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import Link from 'next/link'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { shorten } from 'lib/utils/shorten'
 
@@ -27,79 +28,65 @@ export const WalletInfo = (props) => {
       <div
         className='flex flex-col w-full justify-between'
       > 
-        <div className='flex flex-col text-xxs sm:text-lg lg:text-xl leading-snug trans'>
+        <div className='flex flex-col w-full text-xxs sm:text-lg lg:text-xl leading-snug trans'>
           <div
-            className='sm:mr-10 lg:mr-20'
+            className='text-xxs xs:text-xs uppercase font-bold text-accent-3'
           >
-            <h6>
-              Address:
-            </h6>
-            <div
-              className='overflow-ellipsis w-full no-underline sm:text-xs lg:text-sm text-default mb-2 sm:mb-4'
+            Account address:
+          </div>
+          <div
+            className='flex justify-between items-center sm:text-xs lg:text-sm text-default mt-1 mb-2 sm:mb-4'
+          >
+            <EtherscanAddressLink 
+              address={usersAddress}
             >
-              <div className='block lg:hidden'>
-                {shorten(usersAddress)}
-              </div>
-              <div className='hidden lg:block'>
-                {usersAddress}
-              </div>
-              <div
+              {shorten(usersAddress)}
+            </EtherscanAddressLink>
+            <Link
+              href='/account'
+              as='/account'
+              shallow
+            >
+              <a
+                onClick={(e) => {
+                  closeTransactions()
+                }}
+                className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 px-2 trans trans-fastest font-bold'
               >
-                <Link
-                  href='/account'
-                  as='/account'
-                  shallow
-                >
-                  <a
-                    onClick={(e) => {
-                      closeTransactions()
-                    }}
-                    className='inline-block text-highlight-1 hover:text-green underline trans'
-                  >
-                    View your holdings
-                  </a>
-                </Link>
-              </div>
-            </div>
+                Your tickets &amp; rewards
+              </a>
+            </Link>
           </div>
 
           <div
-            className='sm:mr-10 lg:mr-20 my-2'
+            className='my-2'
           >
-            <h6>
-              Connected to
-            </h6>
             <div
-              className='rounded-lg capitalize sm:text-xs lg:text-sm text-default mb-2 sm:mb-4'
+              className='text-xxs xs:text-xs uppercase font-bold text-accent-3'
             >
-              {walletName} - <button
+              Connected to:
+            </div>
+            <div
+              className='flex justify-between items-center sm:text-xs lg:text-sm text-default mt-1 mb-2 sm:mb-4'
+            >
+              <div>
+                {walletName} {chainId && chainId !== 1 && <>
+                  on <span className='capitalize'>{networkName}</span>
+                </>}
+              </div>
+              <button
                 onClick={(e) => {
                   e.preventDefault()
 
                   closeTransactions()
                   authControllerContext.signOut()
                 }}
-                className='inline-block text-highlight-1 hover:text-green underline trans trans-faster'
+                className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 px-2 trans trans-fastest font-bold'
               >
                 Change account
               </button>
             </div>
           </div>
-
-          {chainId && chainId !== 1 && <>
-            <div
-              className='sm:mr-10 lg:mr-20 mb-2'
-            >
-              <h6>
-                Network
-              </h6>
-              <div
-                className='rounded-lg capitalize sm:text-xs lg:text-sm text-default'
-              >
-                {networkName}
-              </div>
-            </div>
-          </>}
         </div>
       </div>
     </>

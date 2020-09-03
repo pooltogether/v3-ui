@@ -4,7 +4,7 @@ export const DepositInfoList = (props) => {
   
   return <>
     <ol
-      className='mb-6 text-highlight-3 text-lg font-bold'
+      className='mb-6 text-highlight-3 text-sm sm:text-lg font-bold'
     >
       <li
         className='mb-3'

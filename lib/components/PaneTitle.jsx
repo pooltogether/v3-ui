@@ -4,6 +4,7 @@ export const PaneTitle = (props) => {
   const {
     children,
     small,
+    short,
   } = props
 
   let fontClasses = 'text-2xl sm:text-5xl lg:text-5xl text-inverse'
@@ -11,6 +12,10 @@ export const PaneTitle = (props) => {
 
   if (small) {
     fontClasses = 'text-lg sm:text-2xl lg:text-3xl text-default-soft'
+    spacingClasses = 'pb-2'
+  }
+
+  if (short) {
     spacingClasses = 'pb-2'
   }
 

@@ -45,28 +45,27 @@ export const TransactionsList = (props) => {
 
   return <>
     <div
-      className='flex px-8 sm:px-10 pt-8 pb-2'
+      className='px-8 sm:px-10 pt-8'
     >
       <div
-        className='flex flex-col w-full text-lg uppercase'
+        className='flex justify-between items-center text-xxs xs:text-xs uppercase font-bold text-accent-3'
       >
-        Recent transactions <div className='block sm:inline-block text-caption'>
-          {pendingTransactionsCount > 0 && <>
-            <span className='text-xxs'>
-              {pendingTransactionsCount} pending
-            </span>
-          </>}
-        </div>
-
-        {pastTransactionsCount > 0 && <>
+        Recent transactions {pastTransactionsCount > 0 && <>
           <button
-            className='text-xxs text-left underline hover:text-secondary trans trans-faster w-24'
             onClick={handleClearPrevious}
+            className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 px-2 trans trans-fastest font-bold'
           >
             Clear history
-          </button>
+        </button>
         </>}
-      </div>
+      </div> 
+
+      {pendingTransactionsCount > 0 && <>
+        <div className='block sm:inline-block text-caption text-xxs'>
+          {pendingTransactionsCount} pending
+        </div>
+      </>}
+
     </div>
 
     <div

@@ -1,9 +1,10 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
+import Link from 'next/link'
 import { ethers } from 'ethers'
 
 import { ButtonLink } from 'lib/components/ButtonLink'
-import { NonInteractableCard } from 'lib/components/NonInteractableCard'
+import { InteractableCard } from 'lib/components/InteractableCard'
 // import { InteractableCard } from 'lib/components/InteractableCard'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Odds } from 'lib/components/Odds'
@@ -30,10 +31,10 @@ export const AccountPoolRow = (
   const ticker = pool?.underlyingCollateralSymbol
   
   return <>
-    <NonInteractableCard
+    <InteractableCard
       key={`account-pool-row-li-${pool.poolAddress}`}
-      // href='/account/pools/[symbol]'
-      // as={`/account/pools/${pool.symbol}`}
+      href='/account/pools/[symbol]'
+      as={`/account/pools/${pool.symbol}`}
       className='ticket-card'
     >
       <div className='flex items-center pb-2'>
@@ -83,26 +84,17 @@ export const AccountPoolRow = (
             pool={pool}
           />
         </div>
-        {/*}
-        <div
-          className='flex items-center w-1/12 justify-end'
-        >
-          <FeatherIcon
-            icon='arrow-right-circle'
-            className='stroke-current w-6 h-6 sm:w-8 sm:h-8'
-          />
-        </div> */}
       </div>
 
       <div
-        className='mt-5 flex items-center justify-between pt-2'
+        className='mt-6 flex items-center justify-between pt-4'
       >
         <div
           className='w-full xs:w-4/12 sm:w-4/12 lg:w-4/12 sm:border-r border-accent-4'
         >
           {usersBalance === 0 ? <>
             <span
-              className='font-bold text-xl sm:text-2xl lg:text-3xl'
+              className='font-bold text-xl sm:text-2xl lg:text-3xl text-accent-3'
             >
               n/a
             </span>
@@ -141,34 +133,26 @@ export const AccountPoolRow = (
             lineHeight: 1.2,
           }}
         >
-          <ButtonLink
-            border='accent-2 border-2'
-            text='accent-2'
-            bg='primary'
-            hoverBorder='highlight-2'
-            hoverText='highlight-2'
-            hoverBg='primary'
-
-            padding='pl-2 pr-0 py-2 sm:py-2'
-            width='w-10 h-10 lg:w-12 lg:h-12'
-            className='inline-flex items-center justify-center'
-
-            rounded='full'
+          <Link
             href='/account/pools/[symbol]'
             as={`/account/pools/${pool.symbol}`}
-
           >
-            <FeatherIcon
-              strokeWidth='2'
-              icon='arrow-right'
-              className='relative w-7 h-7 mx-auto'
-              style={{
-                left: -4
-              }}
-            />
-          </ButtonLink>
+            <a
+              className='flex items-center justify-center font-bold text-highlight-3 uppercase pt-12'
+            >
+              <FeatherIcon
+                strokeWidth='0.09rem'
+                icon='arrow-right-circle'
+                className='relative w-4 h-4 mx-auto'
+                style={{
+                  left: -6,
+                  top: '0.05rem'
+                }}
+              /> Ticket Details
+            </a>
+          </Link>
         </div>
       </div>
-    </NonInteractableCard>
+    </InteractableCard>
   </>
 }

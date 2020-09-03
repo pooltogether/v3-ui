@@ -1,16 +1,16 @@
-// export const SUPPORTED_NETWORKS = [1, 3, 42, 31337, 1234]
 export const SUPPORTED_CHAIN_IDS = [4, 42, 31337, 1234]
 
 export const MAINNET_POLLING_INTERVAL = 15000
-// export const MAINNET_POLLING_INTERVAL = 15000
 
 export const MAX_SAFE_INTEGER = 9007199254740991
 
 // cookie names
+export const WIZARD_REFERRER_HREF = 'wizardReferrerHref'
+export const WIZARD_REFERRER_AS_PATH = 'wizardReferrerAsPath'
 export const STORED_CHAIN_ID_KEY = 'chainId'
 export const TRANSACTIONS_KEY = 'txs'
-export const SHOW_MANAGE_LINKS = 'show-award-features'
-export const MAGIC_EMAIL = 'magic-email'
+export const SHOW_MANAGE_LINKS = 'showAwardFeatures'
+export const MAGIC_EMAIL = 'magicEmail'
 export const SELECTED_WALLET_COOKIE_KEY = 'selectedWallet'
 
 export const CONFETTI_DURATION_MS = 12000

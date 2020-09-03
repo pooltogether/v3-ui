@@ -16,24 +16,11 @@ export const NavAccount = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress } = authControllerContext
 
-  // const handleShowSignIn = (e) => {
-  //   e.preventDefault()
-
-  //   queryParamUpdater.add(router, { signIn: 1 })
-  // }
-
   return <>
-    {usersAddress ? <>
+    {usersAddress && <>
       <AccountButton
         openTransactions={openTransactions}
       />
-    </> : <>
-      {/* <button
-        onClick={handleShowSignIn}
-        className='text-highlight-2 hover:text-highlight-1 text-xxs sm:text-sm bg-body rounded-full border-2 border-highlight-2 hover:border-highlight-1 py-1 px-3 sm:px-6 trans tracking-wider outline-none focus:outline-none active:outline-none mr-2'
-      >
-        Sign in
-      </button> */}
     </>}
 
     {usersAddress && <>
@@ -71,7 +58,7 @@ export const NavAccount = (props) => {
             className='flex flex-col items-center justify-center h-full w-full '
           >
             <div
-              className='dialog-inner relative message bg-primary text-inverse flex flex-col w-full border-default border-2 shadow-4xl'
+              className='dialog-inner relative message bg-primary text-inverse flex flex-col w-full shadow-4xl'
             >
               <div
                 className='flex justify-between items-start px-8 sm:px-10 pt-8 pb-5 bg-default rounded-xl rounded-b-none'
@@ -82,10 +69,7 @@ export const NavAccount = (props) => {
 
                 <button
                   onClick={closeTransactions}
-                  className='relative close-button text-highlight-2 hover:text-highlight-1 trans outline-none focus:outline-none active:outline-none'
-                  style={{
-                    right: 0
-                  }}
+                  className='absolute r-0 t-0 pr-6 pt-6 pb-4 pl-4 close-button text-highlight-2 hover:text-highlight-1 trans outline-none focus:outline-none active:outline-none opacity-50 hover:opacity-100'
                 >
                   <VisuallyHidden>
                     Close

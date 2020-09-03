@@ -8,6 +8,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { ExecuteWithdrawInstantNoFee } from 'lib/components/ExecuteWithdrawInstantNoFee'
 import { InstantOrScheduledForm } from 'lib/components/InstantOrScheduledForm'
+import { PaneTitle } from 'lib/components/PaneTitle'
 import { fetchExitFees } from 'lib/utils/fetchExitFees'
 import { useInterval } from 'lib/hooks/useInterval'
 
@@ -30,7 +31,8 @@ export const WithdrawInstantOrScheduled = (props) => {
   const ticketAddress = pool && pool.ticket
 
   const [exitFees, setExitFees] = useState({})
-
+  console.log({ exitFees })
+ 
   let underlyingCollateralDecimals = 18
   underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
 
@@ -74,9 +76,9 @@ export const WithdrawInstantOrScheduled = (props) => {
   
   return <>
     {hasEnoughCreditForInstant === null ? <>
-      <div className='text-inverse'>
+      <PaneTitle small>
         Getting available credit ...
-      </div>
+      </PaneTitle>
     </> :
       hasEnoughCreditForInstant ?
         <ExecuteWithdrawInstantNoFee

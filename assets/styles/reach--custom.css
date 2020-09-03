@@ -47,7 +47,7 @@
 } */
 
 [data-reach-dialog-overlay] {
-  background: rgba(0, 0, 0, 0.50);
+  background: var(--color-bg-overlay);
   backdrop-filter: blur(2px);
   bottom: 0;
   top: 0;
@@ -59,7 +59,9 @@
 }
 
 [data-reach-dialog-content] {
+  background: transparent;
   margin: 10vh auto;
+  padding: 0;
   max-width: 600px;
   pointer-events: none;
   outline: none;
@@ -98,16 +100,11 @@
 }
 
 .dialog-inner {
-  border-radius: 16px;
+  border-radius: 6px;
 }
 
 .dialog-inner-content {
   flex: 1;
-}
-
-@media screen and (max-height: 400px) {
-  .odds-box { display: none; }
-  .pane-title { display: none; }
 }
 
 @media screen and (max-width: 780px) {

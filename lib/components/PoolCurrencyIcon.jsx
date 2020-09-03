@@ -20,18 +20,18 @@ export const PoolCurrencyIcon = (
     xl,
     pool
   } = props
+  
   const noMargin = props.noMargin || false
-  const symbol = pool && pool.underlyingCollateralSymbol
-  const tokenSymbol = symbol && symbol.toLowerCase()
+  const symbol = pool?.underlyingCollateralSymbol?.toLowerCase()
 
   let currencyIcon = 'circle'
-  if (tokenSymbol === 'dai') {
+  if (symbol === 'dai') {
     currencyIcon = DaiSvg
-  } else if (tokenSymbol === 'usdc') {
+  } else if (symbol === 'usdc') {
     currencyIcon = UsdcSvg
-  } else if (tokenSymbol === 'usdt') {
+  } else if (symbol === 'usdt') {
     currencyIcon = UsdtSvg
-  } else if (tokenSymbol === 'wbtc') {
+  } else if (symbol === 'wbtc') {
     currencyIcon = WbtcSvg
   } else {
     currencyIcon = MissingCurrencySvg
