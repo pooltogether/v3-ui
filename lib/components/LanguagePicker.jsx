@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import classnames from 'classnames'
-import FeatherIcon from 'feather-icons-react'
-// import { motion, AnimatePresence } from 'framer-motion'
-import {
-  Menu,
-  MenuList,
-  MenuButton,
-  MenuItem,
-} from '@reach/menu-button'
 
 import { i18n, useTranslation } from 'lib/../i18n'
+import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 
 {/* de: Deutsch (German)
   en: English
@@ -33,13 +25,12 @@ export const LanguagePicker = (props) => {
 
   const [currentLang, setCurrentLang] = useState('en')
 
-  const handleChangeLangClick = (newLang) => {
-    setCurrentLang(newLang)
+  const onValueSet = (newLang) => {
     i18n.changeLanguage(newLang)
     // console.log({ lang: i18n.language})
   }
 
-  // set lang to whatever i18n thinks it hould be (based
+  // set lang to whatever i18n thinks it should be (based
   // on lang detection or stored cookies)
   useEffect(() => {
     if (i18n.language) {
@@ -61,84 +52,24 @@ export const LanguagePicker = (props) => {
     runGetLangs()
   }, [])
 
-  const activeLangs = Object.keys(langs).reduce(function (result, lang) {
-    if (i18n.options.allLanguages.includes(lang)) {
-      result.push(lang)
-    }
-    return result
-  }, [])
-
-  const menuItems = activeLangs.map(langKey => {
-    const lang = langs[langKey]
-
-    return <MenuItem
-      key={`lang-picker-item-${langKey}`}
-      onSelect={() => { handleChangeLangClick(langKey) }}
-      className={classnames(
-        {
-          selected: langKey === currentLang
-        }
-      )}
-    >
-      {langKey.toUpperCase()} - <span className='capitalize'>
+  const formatValue = (key) => {
+    const lang = langs[key]
+    
+    return <>
+      {key.toUpperCase()} - <span className='capitalize'>
         {lang.nativeName.split(',')[0]}
       </span> ({lang.name.split(';')[0]})
-    </MenuItem>
-  })
+    </>
+  }
 
   return <>
-    <Menu>
-      {({ isExpanded }) => (
-        <>
-          <MenuButton
-            className={classnames(
-              'inline-flex items-center justify-center trans ml-8 xs:ml-6 sm:ml-6 mr-2 sm:mr-4 my-2 hover:text-inverse font-bold inline-block text-xxs sm:text-base text-lg',
-              {
-                'text-highlight-2': !isExpanded,
-                'text-highlight-1': isExpanded,
-              }
-            )}
-            style={{
-              minWidth: 50
-            }}
-          >
-            {currentLang.toUpperCase()} <FeatherIcon
-              icon={isExpanded ? 'chevron-up' : 'chevron-down'}
-              className='relative w-4 h-4 inline-block ml-2'
-              strokeWidth='0.15rem'
-            />
-          </MenuButton>
-{/* 
-          <AnimatePresence>
-            <motion.div
-              animate='enter'
-              variants={{
-                enter: {
-                  scale: 1,
-                  transition: {
-                    duration: 0.1
-                  }
-                },
-              }}
-            > */}
-              <MenuList
-                // animate='enter'
-                // variants={{
-                //   enter: {
-                //     y: 0,
-                //     transition: {
-                //       duration: 0.1
-                //     }
-                //   },
-                // }}
-              >
-                {menuItems}
-              </MenuList>
-            {/* </motion.div>
-          </AnimatePresence> */}
-        </>
-      )}
-    </Menu>
+    <DropdownInputGroup
+      id='language-picker-dropdown'
+      formatValue={formatValue}
+      onValueSet={onValueSet}
+      current={currentLang}
+      values={langs}
+    />
 
   </>
 }
