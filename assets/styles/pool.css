@@ -56,12 +56,14 @@ hr {
   width: 90%;
 }
 
-a {
+a,
+button {
   @apply text-highlight-3;
   transition: all 75ms ease-in-out;
 }
 
-a:hover {
+a:hover,
+button:hover {
   @apply text-inverse;
 }
 
@@ -397,10 +399,10 @@ input[type='submit'][disabled] {
   }
 }
 
-.list-item:hover {
+/* .list-item:hover {
   @apply bg-accent-grey-1;
   transition: all 120ms ease-in-out;
-}
+} */
 
 .list-item--icon {
   top: 0;

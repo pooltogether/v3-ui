@@ -47,7 +47,7 @@
 } */
 
 [data-reach-dialog-overlay] {
-  background: rgba(0, 0, 0, 0.50);
+  background: var(--color-bg-overlay);
   backdrop-filter: blur(2px);
   bottom: 0;
   top: 0;
@@ -100,7 +100,7 @@
 }
 
 .dialog-inner {
-  border-radius: 16px;
+  border-radius: 6px;
 }
 
 .dialog-inner-content {
