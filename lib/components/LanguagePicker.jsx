@@ -80,6 +80,7 @@ export const LanguagePicker = (props) => {
   return <>
     <DropdownInputGroup
       id='language-picker-dropdown'
+      className='ml-8 xs:ml-6 sm:ml-6 mr-2 sm:mr-4 my-2 text-xxs sm:text-base text-lg'
       label={currentLang?.toUpperCase()}
       formatValue={formatValue}
       onValueSet={onValueSet}

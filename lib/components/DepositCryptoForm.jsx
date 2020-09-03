@@ -3,7 +3,6 @@ import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/client'
-import { isSafari } from 'react-device-detect'
 
 import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 
@@ -185,7 +184,10 @@ export const DepositCryptoForm = (props) => {
           <div
             className='mt-2 text-default-soft'
           >
-            <WyreTopUpBalanceDropdown />
+            <WyreTopUpBalanceDropdown
+              tickerUpcased={tickerUpcased}
+              usersAddress={usersAddress}
+            />
           </div>
 
           <ButtonDrawer>
@@ -193,7 +195,7 @@ export const DepositCryptoForm = (props) => {
               secondary
               textSize='lg'
               onClick={previousStep}
-              className='mt-2 inline-flex items-center'
+              className='mt-2 inline-flex items-center mx-auto'
             >
               <FeatherIcon
                 icon='arrow-left'
@@ -203,6 +205,7 @@ export const DepositCryptoForm = (props) => {
                 }}
               /> Change quantity
             </Button>
+            <div></div>
           </ButtonDrawer>
           
           
@@ -214,7 +217,7 @@ export const DepositCryptoForm = (props) => {
 
           {needsApproval && <>
             <div
-              className='px-6 sm:px-10 text-sm'
+              className='px-6 sm:px-10 text-sm mt-4'
               style={{
                 minHeight: 97
               }}

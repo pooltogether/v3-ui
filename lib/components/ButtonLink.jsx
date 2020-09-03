@@ -51,7 +51,7 @@ export const getButtonClasses = (props) => {
     defaultText = 'text-highlight-2'
 
     defaultHoverBorder = 'hover:border-highlight-1'
-    defaultHoverBg = 'hover:darkened'
+    defaultHoverBg = 'hover:bg-body'
     defaultHoverText = 'hover:text-highlight-1'
   }
 
