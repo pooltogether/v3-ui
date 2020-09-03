@@ -12,35 +12,26 @@ export const DropdownInputGroup = (props) => {
   const {
     id,
     formatValue,
+    label,
     values,
     current,
     onValueSet
   } = props
 
-  let label = props.label || 'Dropdown'
-
   const [currentValue, setCurrentValue] = useState(current ? current : '')
 
   const handleChangeValueClick = (newValue) => {
     setCurrentValue(newValue)
-    onValueSet()
+    onValueSet(newValue)
   }
 
   let valuesArray = []
   if (typeof values === 'object') {
-    console.log(Object.keys(values))
-
     valuesArray = Object.keys(values).map(v => v)
   }
-  console.log(valuesArray)
 
   const menuItems = valuesArray.map(valueItem => {
     let value = valueItem
-
-    // let valueObject
-    // if (typeof values === 'object') {
-    //   valueObject = values[value]
-    // }
 
     const selected = value === currentValue
 
@@ -73,7 +64,7 @@ export const DropdownInputGroup = (props) => {
               minWidth: 50
             }}
           >
-            {label ? label : currentValue.toUpperCase()} <FeatherIcon
+            {label ? label : currentValue} <FeatherIcon
               icon={isExpanded ? 'chevron-up' : 'chevron-down'}
               className='relative w-4 h-4 inline-block ml-2'
               strokeWidth='0.15rem'
