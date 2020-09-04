@@ -5,6 +5,7 @@ export const MAINNET_POLLING_INTERVAL = 15000
 export const MAX_SAFE_INTEGER = 9007199254740991
 
 // cookie names
+export const REFERRER_ADDRESS_KEY = 'referrerAddress'
 export const WIZARD_REFERRER_HREF = 'wizardReferrerHref'
 export const WIZARD_REFERRER_AS_PATH = 'wizardReferrerAsPath'
 export const STORED_CHAIN_ID_KEY = 'chainId'

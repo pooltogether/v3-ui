@@ -1,12 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { isSafari } from 'react-device-detect'
 
 import { useTranslation } from 'lib/../i18n'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
-// import { Button } from 'lib/components/Button'
-// import { PTDropdown } from 'lib/components/PTDropdown'
 
-import GooglePay from 'assets/images/googlepay.svg'
+// import GooglePay from 'assets/images/googlepay.svg'
 import ApplePay from 'assets/images/applepay.svg'
 
 const wyreDomain = () => {
@@ -16,11 +14,17 @@ const wyreDomain = () => {
 }
 
 export const WyreTopUpBalanceDropdown = (props) => {
-  const { tickerUpcased } = props
+  const {
+    label,
+    className,
+    hoverTextColor,
+    textColor,
+    showSuggestion,
+    tickerUpcased
+  } = props
   
   const { t } = useTranslation()
 
-  const dropdownRef = useRef()
   const [canBuy, setCanBuy] = useState(null)
 
   const checkIfCanBuy = async () => {
@@ -41,21 +45,12 @@ export const WyreTopUpBalanceDropdown = (props) => {
     checkIfCanBuy()
   }, [])
 
-  if (canBuy === null) {
-    console.log("null")
-    return null
-  }
-
   const onValueSet = (currency) => {
     handleOpenWyre(currency)
   }
 
-  const googleApplePay = <>
-    <img
-      src={GooglePay}
-      className='inline-block relative h-8 w-16'
-      style={{ top: 0 }}
-    />{isSafari && <> or <img
+  const applePay = <>
+    {isSafari && <>, <img
       src={ApplePay}
       className='inline-block relative h-8 w-16'
       style={{ top: 0 }}
@@ -64,13 +59,13 @@ export const WyreTopUpBalanceDropdown = (props) => {
 
   const currencies = {
     [tickerUpcased]: {
-      'label': <span className='text-xl sm:text-2xl'>
-        Get {tickerUpcased} with {googleApplePay}
+      'label': <span className='text-lg'>
+        Buy {tickerUpcased} (Debit, Credit Card{applePay})
       </span>,
     },
     'ETH': {
-      'label': <span className='text-xl sm:text-2xl'>
-        Get ETH with {googleApplePay}
+      'label': <span className='text-lg'>
+        Buy ETH (Debit, Credit Card{applePay})
       </span>,
     },
   }
@@ -113,21 +108,24 @@ export const WyreTopUpBalanceDropdown = (props) => {
   }
 
   return <>
-    <div className='relative z-50 mb-3'>
-      {!canBuy ?
-        <>You will need to acquire ETH &amp; DAI on Coinbase, Kraken, or through MoonPay or Wyre, etc.</>
-        : <>
-          <DropdownInputGroup
-            id='topup-dropdown'
-            className='mt-4 mb-20 px-10 py-2 text-sm sm:text-xl lg:text-2xl rounded-lg border-highlight-2 border-2 bg-default text-highlight-2 hover:border-highlight-1 hover:bg-body hover:text-highlight-1'
-            label={'Top up my balance'}
-            formatValue={formatValue}
-            onValueSet={onValueSet}
-            current={null}
-            values={currencies}
-          />
-        </>
-      }
-    </div>
+    <span className='relative z-50'>
+      {canBuy && <>
+        <DropdownInputGroup
+          id='topup-dropdown'
+          label={label}
+          className={className}
+          textColor={textColor}
+          hoverTextColor={hoverTextColor}
+          formatValue={formatValue}
+          onValueSet={onValueSet}
+          current={null}
+          values={currencies}
+        />
+      </>}
+
+      {!canBuy && showSuggestion && <>
+        You will need to acquire ETH &amp; DAI on Coinbase, Kraken, or through MoonPay or Wyre, etc.
+      </>}
+    </span>
   </>
 }

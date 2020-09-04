@@ -84,11 +84,24 @@
 
 [data-reach-menu-list],
 [data-reach-menu-items] {
-  @apply text-xs sm:text-sm rounded-lg shadow-lg;
+  @apply py-1 text-xs sm:text-sm rounded-lg shadow-lg;
+}
+
+@screen sm {
+  [data-reach-menu-list],
+  [data-reach-menu-items] {
+    @apply py-2;
+  }
 }
 
 [data-reach-menu-item] {
-  @apply px-10 py-2 font-bold text-primary;
+  @apply px-2 py-1 font-bold text-primary rounded-lg;
+}
+
+@screen sm {
+  [data-reach-menu-item] {
+    @apply px-10 py-2;
+  } 
 }
 
 [data-reach-menu-item].selected {

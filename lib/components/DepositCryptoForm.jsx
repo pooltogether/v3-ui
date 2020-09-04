@@ -185,6 +185,11 @@ export const DepositCryptoForm = (props) => {
             className='mt-2 text-default-soft'
           >
             <WyreTopUpBalanceDropdown
+              showSuggestion
+              label='Top up my balance'
+              textColor='text-highlight-2'
+              hoverTextColor='text-highlight-1'
+              className='button-scale mt-4 mb-20 px-10 py-2 text-sm sm:text-xl lg:text-2xl rounded-lg border-highlight-2 border-2 bg-default hover:border-highlight-1 hover:bg-body'
               tickerUpcased={tickerUpcased}
               usersAddress={usersAddress}
             />

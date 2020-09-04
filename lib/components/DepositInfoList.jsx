@@ -4,22 +4,22 @@ export const DepositInfoList = (props) => {
   
   return <>
     <ol
-      className='mb-6 text-highlight-3 text-sm sm:text-lg font-bold'
+      className='mb-6 text-highlight-3 text-sm font-bold'
     >
       <li
         className='mb-3'
       >
-        1. Tickets are instant &amp; perpetual
+        Tickets are instant &amp; perpetual
       </li>
       <li
         className='mb-3'
       >
-        2. 10 day minimum deposit length for fairness
+        10 day minimum deposit length for fairness
       </li>
       <li
         className='mb-3'
       >
-        3. Winnings are automatically added to your account
+        Winnings are automatically added to your ticket balance
       </li>
     </ol>
   </>

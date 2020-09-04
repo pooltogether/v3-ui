@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import i18next from "../i18n"
 import * as Fathom from 'fathom-client'
 import * as Sentry from '@sentry/browser'
-import { useRouter } from 'next/router'
+import Cookies from 'js-cookie'
+import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
 import { motion, AnimatePresence } from 'framer-motion'
 
+import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { Layout } from 'lib/components/Layout'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
@@ -43,9 +45,22 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
   })
 }
 
-function MyApp({ Component, pageProps }) {
-  const router = useRouter()
+function MyApp({ Component, pageProps, router }) {
   const [initialized, setInitialized] = useState(false)
+
+  useEffect(() => {
+    if (router?.query?.referrer) {
+      const referrerAddress = router.query.referrer
+
+      try {
+        ethers.utils.getAddress(referrerAddress)
+
+        Cookies.set(REFERRER_ADDRESS_KEY, referrerAddress)
+      } catch (e) {
+        console.error(`referrer address was an invalid Ethereum address:`, e.message)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     Fathom.load('ESRNTJKP', {

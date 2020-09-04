@@ -13,6 +13,7 @@ export const TextInputGroup = (
     type,
     unsignedNumber,
     unsignedWholeNumber,
+    centerLabel,
     rightLabel,
   } = props
 
@@ -52,7 +53,7 @@ export const TextInputGroup = (
           className={classnames(
             'mt-0 pb-1 sm:pr-2 trans',
             {
-              'sm:pl-8': rightLabel,
+              'sm:pl-8 w-1/3': rightLabel,
               'font-bold text-primary cursor-not-allowed': disabled,
               'font-bold text-default-soft hover:text-default': !disabled,
             }
@@ -61,10 +62,24 @@ export const TextInputGroup = (
           {label}
         </label>
 
+        {centerLabel && <>
+          <label
+            className={classnames(
+              'mt-0 pb-1 trans w-1/3 text-center',
+              {
+                'font-bold text-primary cursor-not-allowed': disabled,
+                'font-bold text-default-soft hover:text-default': !disabled,
+              }
+            )}
+          >
+            {centerLabel}
+          </label>
+        </>}
+
         {rightLabel && <>
           <label
             className={classnames(
-              'mt-0 pb-1 sm:pr-8 sm:pl-2 trans',
+              'mt-0 pb-1 sm:pr-8 sm:pl-2 trans w-1/3 text-right',
               {
                 'font-bold text-primary cursor-not-allowed': disabled,
                 'font-bold text-default-soft hover:text-default': !disabled,

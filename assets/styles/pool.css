@@ -416,8 +416,18 @@ input[type='submit'][disabled] {
   transform: scale(1.02) translateY(-3px);
 }
 
-@media screen and (max-height: 400px) {
+@media screen and (max-height: 460px) {
   .odds-box { display: none; }
   .pane-title { display: none; }
+}
+
+@media screen and (max-height: 600px) {
+  .deposit-info-list {
+    padding: 0 !important;
+  }
+  
+  .deposit-info-list li {
+    padding-bottom: 3px !important;
+  }
 }
 

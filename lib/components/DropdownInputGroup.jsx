@@ -12,10 +12,12 @@ export const DropdownInputGroup = (props) => {
   const {
     id,
     className,
-    formatValue,
-    label,
-    values,
     current,
+    formatValue,
+    hoverTextColor,
+    label,
+    textColor,
+    values,
     onValueSet
   } = props
 
@@ -51,6 +53,9 @@ export const DropdownInputGroup = (props) => {
     </MenuItem>
   })
 
+  const inactiveTextColorClasses = `${textColor} hover:${hoverTextColor}`
+  const activeTextColorClasses = `${hoverTextColor} hover:${hoverTextColor}`
+
   return <>
     <Menu>
       {({ isExpanded }) => (
@@ -58,10 +63,10 @@ export const DropdownInputGroup = (props) => {
           <MenuButton
             className={classnames(
               className,
-              'inline-flex items-center justify-center trans hover:text-inverse font-bold',
+              'inline-flex items-center justify-center trans font-bold',
               {
-                'text-highlight-2': !isExpanded,
-                'text-highlight-1': isExpanded,
+                [inactiveTextColorClasses]: !isExpanded,
+                [activeTextColorClasses]: isExpanded,
               }
             )}
           >

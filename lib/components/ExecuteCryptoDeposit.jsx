@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react'
+import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
+import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { DepositInfoList } from 'lib/components/DepositInfoList'
@@ -51,6 +53,14 @@ export const ExecuteCryptoDeposit = (props) => {
     const runTx = async () => {
       setTxExecuted(true)
 
+      let referrerAddress = Cookies.get(REFERRER_ADDRESS_KEY)
+      try {
+        ethers.utils.getAddress(referrerAddress)
+      } catch (e) {
+        referrerAddress = null
+        console.error(`referrer address was an invalid Ethereum address:`, e.message)
+      }
+
       const params = [
         usersAddress,
         ethers.utils.parseUnits(
@@ -58,7 +68,7 @@ export const ExecuteCryptoDeposit = (props) => {
           Number(decimals)
         ),
         controlledTokenAddress,
-        [],
+        [], // this will change from empty array (calldata) to `referrerAddress` after we update the contracts
         {
           gasLimit: 550000
         }

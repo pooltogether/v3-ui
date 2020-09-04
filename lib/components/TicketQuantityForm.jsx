@@ -12,6 +12,7 @@ import { Modal } from 'lib/components/Modal'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { Odds } from 'lib/components/Odds'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
+import { WyreTopUpBalanceDropdown } from 'lib/components/WyreTopUpBalanceDropdown'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
@@ -108,7 +109,7 @@ export const TicketQuantityForm = (props) => {
       </PaneTitle>
       {showInfoList && <>
         <h6
-          className='py-6'
+          className='deposit-info-list py-6'
         >
           <DepositInfoList />
         </h6>
@@ -148,13 +149,24 @@ export const TicketQuantityForm = (props) => {
           register={register}
           validate={validate}
           label={<>
-            Amount <span
-              className='hidden xs:inline-block'
-            >of tickets</span>
+            Ticket amount:
           </>}
           required='ticket quantity required'
           autoComplete='off'
-          rightLabel={usersAddress && <>
+          centerLabel={<>
+            <WyreTopUpBalanceDropdown
+              label={<>
+                Top up <span
+                  className='hidden xs:inline-block'
+                >&nbsp;balance</span>:
+              </>}
+              textColor='text-default-soft'
+              hoverTextColor='text-highlight-1'
+              tickerUpcased={tickerUpcased}
+              usersAddress={usersAddress}
+            />
+          </>}
+          rightLabel={usersAddress && tickerUpcased && <>
             <button
               type='button'
               className='font-bold'
@@ -163,7 +175,8 @@ export const TicketQuantityForm = (props) => {
                 setValue('quantity', contextualBalance, { shouldValidate: true })
               }}
             >
-              Balance: {numberWithCommas(contextualBalance, { precision: 4 })} {tickerUpcased}
+              {/* Balance:  */}
+              {numberWithCommas(contextualBalance, { precision: 4 })} {tickerUpcased}
             </button>
           </>}
         />
