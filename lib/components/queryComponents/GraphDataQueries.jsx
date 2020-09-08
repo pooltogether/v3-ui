@@ -15,22 +15,26 @@ export const GraphDataQueries = (props) => {
       dynamicPoolData,
       dynamicPrizeStrategiesData,
       dynamicPlayerData,
-      refetchPlayerQuery
+      dynamicSponsorData,
+      refetchPlayerQuery,
+      refetchSponsorQuery,
     }) => {
       let loading = dynamicDataLoading ||
         !dynamicPrizeStrategiesData ||
         !dynamicPoolData
 
       if (usersAddress) {
-        loading = (dynamicDataLoading || !dynamicPlayerData)
+        loading = (dynamicDataLoading || !dynamicPlayerData || !dynamicSponsorData)
       }
 
       return children({
         dynamicPoolData,
         dynamicPrizeStrategiesData,
         dynamicPlayerData,
+        dynamicSponsorData,
         graphDataLoading: loading,
-        refetchPlayerQuery
+        refetchPlayerQuery,
+        refetchSponsorQuery,
       })
     }}
   </DynamicQueries>

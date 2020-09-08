@@ -214,7 +214,7 @@ export const PoolShow = (
                   </h3>
 
                   <Link
-                    href='/prizes/[symbol]/[prizeNumber]]'
+                    href='/prizes/[symbol]/[prizeNumber]'
                     as={`/prizes/${pool?.symbol}/${pool?.currentPrizeId}`}
                   >
                     <a

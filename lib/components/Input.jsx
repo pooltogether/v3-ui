@@ -5,7 +5,7 @@ import { isBrowser } from 'react-device-detect'
 
 export function Input(props) {
   let {
-    // autoFocus,
+    autoFocus,
     // placeholder,
     // handleChange,
     // value,
@@ -61,12 +61,14 @@ export function Input(props) {
     'validate',
     'unsignedNumber',
     'unsignedWholeNumber',
+    'centerLabel',
     'rightLabel',
   ])
 
   return <>
     <input
       {...newProps}
+      autoFocus={autoFocus && isBrowser}
       ref={register({
         required,
         pattern,

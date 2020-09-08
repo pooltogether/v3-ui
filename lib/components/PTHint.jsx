@@ -14,21 +14,14 @@ export const PTHint = (props) => {
 
   const show = (e) => {
     setIsVisible(true)
-    trigger.onMouseLeave(e)
   }
 
   const hide = (e) => {
     setIsVisible(false)
-    trigger.onMouseLeave(e)
   }
 
   const toggleVisible = (e) => {
-    // TODO: improve on this since you should be able to hover over any
-    // part of the tooltip and have it stay on screen
-    // setTimeout(() => {
     setIsVisible(!isVisible)
-    trigger.onMouseLeave(e)
-    // }, 2000)
   }
 
   if (title) {
@@ -42,21 +35,28 @@ export const PTHint = (props) => {
   }
 
   return <>
-    <button
-      {...trigger}
-      onMouseEnter={show}
-      onMouseLeave={hide}
-      onTouchStart={toggleVisible}
+    <div
       className={classnames(
         className,
-        'cursor-pointer'
+        'relative cursor-pointer',
       )}
-      style={{
-        pointerEvents: 'all'
-      }}
     >
+      <div
+        {...trigger}
+        onMouseEnter={show}
+        onMouseOut={hide}
+        onTouchStart={toggleVisible}
+        className={classnames(
+          className,
+          'cursor-pointer h-full w-full l-0 r-0 t-0 b-0 absolute',
+        )}
+        style={{
+          zIndex: 12314082
+        }}
+      />
+
       {children ? children : <QuestionMarkCircle />}
-    </button>
+    </div>
 
   
     <TooltipPopup

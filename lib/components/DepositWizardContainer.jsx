@@ -70,7 +70,6 @@ export const DepositWizardContainer = (props) => {
               {(step) => {
                 return step.isActive && <>
                   <TicketQuantityForm
-                    showInfoList
                     formName={t('getTickets')}
                     formSubName={`1 ticket = 1 ${pool?.underlyingCollateralSymbol}`}
                     nextStep={step.nextStep}

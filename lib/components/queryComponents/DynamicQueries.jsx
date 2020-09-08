@@ -6,6 +6,7 @@ import {
 } from 'lib/constants'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
+import { dynamicSponsorQuery } from 'lib/queries/dynamicSponsorQuery'
 import { dynamicPrizePoolsQuery } from 'lib/queries/dynamicPrizePoolsQuery'
 import { dynamicPrizeStrategiesQuery } from 'lib/queries/dynamicPrizeStrategiesQuery'
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
@@ -82,13 +83,45 @@ export const DynamicQueries = (
     dynamicPlayerData = playerQueryData.player
   }
 
-  const dynamicDataLoading = poolQueryLoading || prizeStrategyQueryLoading || playerQueryLoading
+
+
+  let dynamicSponsorData
+
+  const {
+    loading: sponsorQueryLoading,
+    error: sponsorQueryError,
+    data: sponsorQueryData,
+    refetch: refetchSponsorQuery
+  } = useQuery(dynamicSponsorQuery, {
+    variables: {
+      sponsorAddress: usersAddress
+    },
+    fetchPolicy: 'network-only',
+    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
+    skip: !usersAddress
+  })
+
+  if (sponsorQueryError) {
+  //   poolToast.error(sponsorQueryError)
+    console.log(sponsorQueryError)
+  }
+
+  if (sponsorQueryData) {
+    console.log({ sponsorQueryData})
+    dynamicSponsorData = sponsorQueryData.sponsor
+  }
+
+
+
+  const dynamicDataLoading = poolQueryLoading || prizeStrategyQueryLoading || playerQueryLoading || sponsorQueryLoading
   
   return children({
     dynamicDataLoading,
     dynamicPoolData,
     dynamicPrizeStrategiesData,
     dynamicPlayerData,
-    refetchPlayerQuery
+    dynamicSponsorData,
+    refetchPlayerQuery,
+    refetchSponsorQuery,
   })
 }

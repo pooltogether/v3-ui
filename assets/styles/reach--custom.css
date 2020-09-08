@@ -68,6 +68,12 @@
   width: 80vw;
 }
 
+@screen sm {
+  [data-reach-dialog-content] {
+    max-width: 46rem;
+  }
+}
+
 [data-reach-dialog-content] > div,
 [data-reach-dialog-content] > button {
   pointer-events: initial;

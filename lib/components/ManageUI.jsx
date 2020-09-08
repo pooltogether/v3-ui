@@ -1,13 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { FetchExtendedChainData } from 'lib/components/FetchExtendedChainData'
+// import { FetchExtendedChainData } from 'lib/components/FetchExtendedChainData'
+import { Button } from 'lib/components/Button'
 import { CardGrid } from 'lib/components/CardGrid'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Meta } from 'lib/components/Meta'
+import { SponsorshipPane } from 'lib/components/SponsorshipPane'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
@@ -34,6 +36,9 @@ export const ManageUI = (
     return <IndexUILoader />
   }
 
+  const decimals = pool?.underlyingCollateralDecimals
+  const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
+
   const isRngCompleted = pool?.isRngCompleted
   const isRngRequested = pool?.isRngRequested
   const canStartAward = pool?.canStartAward
@@ -41,6 +46,9 @@ export const ManageUI = (
 
   const poolLocked = canCompleteAward || (isRngRequested && !canCompleteAward)
   const openPhase = !canStartAward && !canCompleteAward && !isRngRequested
+
+  const exitFeeMantissa = pool?.exitFeeMantissa ?? '0'
+  const creditRateMantissa = pool?.creditRateMantissa ?? '0'
 
   return <>
     <Meta
@@ -65,6 +73,10 @@ export const ManageUI = (
           name: 'Manage'
         }
       ]}
+    />
+
+    <SponsorshipPane
+      tickerUpcased={tickerUpcased}
     />
 
     <div
@@ -129,7 +141,7 @@ export const ManageUI = (
       </p>
 
       <div
-        className='mt-10'
+        className='mt-4'
       >
         {openPhase ? <>
           <h6
@@ -150,6 +162,9 @@ export const ManageUI = (
       </div>
     </div>
 
+
+
+
     {/* <FetchExtendedChainData>
       {({ extendedChainData }) => {
         console.log({ extendedChainData})
@@ -167,9 +182,9 @@ export const ManageUI = (
             content: <>
               <h3>
                 {displayAmountInEther(
-                  ethers.utils.bigNumberify(pool.exitFeeMantissa).mul(100).toString(),
+                  ethers.utils.bigNumberify(exitFeeMantissa).mul(100).toString(),
                   { precision: 6 }
-                )}%
+                )} %
               </h3>
             </>
           },
@@ -179,9 +194,9 @@ export const ManageUI = (
             content: <>
               <h3>
                 {displayAmountInEther(
-                  ethers.utils.bigNumberify(pool.creditRateMantissa).mul(100).toString(),
+                  ethers.utils.bigNumberify(creditRateMantissa).mul(100).toString(),
                   { precision: 6 }
-                )}%
+                )} %
               </h3>
             </>
           },
@@ -193,12 +208,11 @@ export const ManageUI = (
         ]}
       />
 
-      <br />
-      <br />
+      {/* <br />
+      <br /> */}
 
-      {pool && <pre>{JSON.stringify(pool, null, 2)}</pre>}
+      {/* {pool && <pre>{JSON.stringify(pool, null, 2)}</pre>} */}
     </>}
-    
 
     <Tagline />
   </>

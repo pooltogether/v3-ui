@@ -52,7 +52,7 @@ export const WithdrawButton = (props) => {
             You won't need to refresh the page.
           </div>
         </>}
-        className='w-full w-49-percent'
+        className='w-full'
       >
         {withdrawButton}
       </PTHint>

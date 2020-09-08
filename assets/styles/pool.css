@@ -1,5 +1,5 @@
 * {
-  --flashy-gradient: linear-gradient(
+  --flashyGradient: linear-gradient(
     40deg,
     #ff9304 0%,
     #ff04ea 10%,
@@ -131,7 +131,7 @@ input[type='submit'][disabled] {
 }
 
 .text-flashy {
-  background: var(--flashy-gradient);
+  background: var(--flashyGradient);
   background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
@@ -141,21 +141,28 @@ input[type='submit'][disabled] {
 }
 
 .border-flashy {
-  --borderWidth: 12px;
+  --borderFlashyRadius: 8px;
+  --borderFlashyWidth: 6px;
   position: relative;
-  border-radius: calc(var(--borderWidth) / 2);
-  width: calc(100% - calc(var(--borderWidth) * 2));
+  border-radius: var(--borderFlashyRadius);
+  /* width: calc(100% - calc(var(--borderFlashyWidth) * 2)); */
+}
+
+@screen sm {
+  .border-flashy {
+    --borderFlashyWidth: 10px;
+  }
 }
 
 .border-flashy:after {
   content: '';
   position: absolute;
-  top: calc(-1 * var(--borderWidth));
-  left: calc(-1 * var(--borderWidth));
-  height: calc(100% + var(--borderWidth) * 2);
-  width: calc(100% + var(--borderWidth) * 2);
-  background: var(--flashy-gradient);
-  border-radius: calc(var(--borderWidth) / 2);
+  top: calc(-1 * var(--borderFlashyWidth));
+  left: calc(-1 * var(--borderFlashyWidth));
+  height: calc(100% + var(--borderFlashyWidth) * 2);
+  width: calc(100% + var(--borderFlashyWidth) * 2);
+  background: var(--flashyGradient);
+  border-radius: var(--borderFlashyRadius);
   animation: cycleBackgroundPos 25000ms infinite steps(140);
   background-size: 300% 300%;
   z-index: -1;

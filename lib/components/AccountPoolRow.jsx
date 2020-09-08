@@ -143,12 +143,12 @@ export const AccountPoolRow = (
               <FeatherIcon
                 strokeWidth='0.09rem'
                 icon='arrow-right-circle'
-                className='relative w-4 h-4 mx-auto'
+                className='relative w-5 h-5 ml-auto mr-2'
                 style={{
-                  left: -6,
+                  left: -1,
                   top: '0.05rem'
                 }}
-              /> Ticket Details
+              /> Details
             </a>
           </Link>
         </div>

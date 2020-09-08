@@ -53,7 +53,8 @@ export const TextInputGroup = (
           className={classnames(
             'mt-0 pb-1 sm:pr-2 trans',
             {
-              'sm:pl-8 w-1/3': rightLabel,
+              'sm:pl-8 w-1/2': rightLabel && !centerLabel,
+              'sm:pl-8 w-1/3': rightLabel && centerLabel,
               'font-bold text-primary cursor-not-allowed': disabled,
               'font-bold text-default-soft hover:text-default': !disabled,
             }
@@ -79,8 +80,10 @@ export const TextInputGroup = (
         {rightLabel && <>
           <label
             className={classnames(
-              'mt-0 pb-1 sm:pr-8 sm:pl-2 trans w-1/3 text-right',
+              'mt-0 pb-1 sm:pr-8 sm:pl-2 trans text-right',
               {
+                'w-1/2': rightLabel && !centerLabel,
+                'w-1/3': rightLabel && centerLabel,
                 'font-bold text-primary cursor-not-allowed': disabled,
                 'font-bold text-default-soft hover:text-default': !disabled,
               }

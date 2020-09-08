@@ -11,7 +11,7 @@ export const PoolActionsUI = (props) => {
   return <>
     {cookieShowAward && <>
       <div
-        className='flex items-center mt-4 mt-2'
+        className='flex items-center'
       >
         <StartAwardUI
           {...props}

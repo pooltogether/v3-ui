@@ -1,44 +1,49 @@
 import React from 'react'
-import classnames from 'classnames'
+import FeatherIcon from 'feather-icons-react'
+import { Dialog } from '@reach/dialog'
 
 export const Modal = (props) => {
-  const { header, children, visible, zIndex } = props
+  const { handleClose, header, children, visible, zIndex } = props
+
+  const nullFxn = (e) => { e.preventDefault() }
+
+  const onDismiss = handleClose || nullFxn
 
   return <>
-    <div
-      className={classnames(
-        'text-sm sm:text-base lg:text-lg',
-        {
-          'hidden pointer-events-none': !visible,
-          'bg-overlay fixed block t-0 b-0 l-0 r-0 block': visible,
-        }
-      )}
-      style={{
-        backdropFilter: "blur(2px)",
-        zIndex: zIndex || 150000
-      }}
+    <Dialog
+      aria-label='List of your transactions'
+      isOpen={visible}
+      onDismiss={onDismiss}
     >
       <div
-        className='flex flex-col items-center justify-center h-full w-full shadow-2xl'
+        className='relative message bg-darkened text-inverse flex flex-col w-full rounded-lg border-secondary border-2 shadow-4xl h-full'
       >
         <div
-          className='relative message bg-inverse text-match flex flex-col w-full rounded-lg border-secondary border-2 shadow-4xl'
-          style={{
-            maxWidth: '30rem'
-          }}
+          className='relative flex justify-between w-full border-b-2 border-secondary px-10 py-6 text-lg'
         >
-          <div
-            className='relative flex flex-col w-full border-b-2 border-secondary px-10 py-6 text-lg'
-          >
+          <div>
             {header}
           </div>
-          <div
-            className='relative flex flex-col w-full px-10 py-6 text-sm'
+
+          {handleClose && <button
+            type='button'
+            onClick={handleClose}
+            className='text-inverse opacity-70 hover:opacity-100 trans outline-none focus:outline-none active:outline-none'
           >
-            {children}
-          </div>
+            <FeatherIcon
+              icon='x-circle'
+              className='w-8 h-8'
+              strokeWidth='0.09rem'
+            />
+          </button>}
+        </div>
+
+        <div
+          className='relative flex flex-col w-full px-10 py-6 text-sm'
+        >
+          {children}
         </div>
       </div>
-    </div>
+    </Dialog>
   </>
 }

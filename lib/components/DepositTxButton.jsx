@@ -4,12 +4,14 @@ import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
 
 export const DepositTxButton = (props) => {
-  const { needsApproval, poolIsLocked, disabled, nextStep } = props
+  const { poolIsLocked, disabled, nextStep } = props
 
   const handleDepositClick = (e) => {
     e.preventDefault()
     nextStep()
   }
+
+  const buttonClassName = poolIsLocked ? 'w-full' : 'w-48-percent'
 
   const button = <>
     <Button
@@ -17,7 +19,7 @@ export const DepositTxButton = (props) => {
       textSize='lg'
       onClick={handleDepositClick}
       disabled={disabled || poolIsLocked}
-      className='w-48-percent'
+      className={buttonClassName}
     >
       Deposit
     </Button>
@@ -37,7 +39,7 @@ export const DepositTxButton = (props) => {
             You won't need to refresh the page.
           </div>
         </>}
-        className='w-full w-49-percent'
+        className='w-48-percent'
       >
         {button}
       </PTHint>

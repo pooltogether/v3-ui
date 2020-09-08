@@ -23,7 +23,6 @@ export const TicketQuantityForm = (props) => {
     formName,
     formSubName,
     nextStep,
-    showInfoList,
   } = props
   
   const router = useRouter()
@@ -107,13 +106,6 @@ export const TicketQuantityForm = (props) => {
       >
         {formSubName}
       </PaneTitle>
-      {showInfoList && <>
-        <h6
-          className='deposit-info-list py-6'
-        >
-          <DepositInfoList />
-        </h6>
-      </>}
     </div>
 
     {balanceJsx && <>
@@ -122,18 +114,19 @@ export const TicketQuantityForm = (props) => {
       </div>
     </>}
 
-    {poolIsLocked && <>
+    {/* {poolIsLocked && <>
       <Modal
         header={`${tickerUpcased} Pool locked`}
+        visible={true}
       >
-        <div>
+        <h3>
           This Pool's prize is currently being awarded - until awarding is complete it can not accept deposits or withdrawals.
 
-          {/* <br/>
-          Time til unlocked: !!! */}
-        </div>
+          <br/>
+          Show time til unlocked: ...
+        </h3>
       </Modal>
-    </>}
+    </>} */}
 
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -144,6 +137,7 @@ export const TicketQuantityForm = (props) => {
         <TextInputGroup
           large
           unsignedNumber
+          autoFocus
           id='quantity'
           name='quantity'
           register={register}

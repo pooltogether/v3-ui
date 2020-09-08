@@ -65,7 +65,7 @@
   @apply shadow-3xl;
   
   animation: cycleBackgroundPos 5000ms infinite;
-  background: var(--flashy-gradient);
+  background: var(--flashyGradient);
   background-size: 400% auto;
   border-radius: 10px;
   content: '';

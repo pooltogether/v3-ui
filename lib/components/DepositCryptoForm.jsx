@@ -15,6 +15,7 @@ import { DepositTxButton } from 'lib/components/DepositTxButton'
 import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { PTHint } from 'lib/components/PTHint'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { WyreTopUpBalanceDropdown } from 'lib/components/WyreTopUpBalanceDropdown'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -131,6 +132,18 @@ export const DepositCryptoForm = (props) => {
     setTxId(id)
   }
 
+  const approveButtonClassName = !needsApproval ? 'w-full' : 'w-48-percent'
+
+  const approveButton = <Button
+    noAnim
+    textSize='lg'
+    onClick={handleUnlockClick}
+    disabled={!needsApproval || unlockTxInFlight}
+    className={approveButtonClassName}
+  >
+    Approve {tickerUpcased}
+  </Button>
+
   return <>
     <PaneTitle small>
       {quantity} tickets
@@ -244,15 +257,21 @@ export const DepositCryptoForm = (props) => {
           </>}
           
           <ButtonDrawer>
-            <Button
-              noAnim
-              textSize='lg'
-              onClick={handleUnlockClick}
-              disabled={!needsApproval || unlockTxInFlight}
-              className='w-48-percent'
-            >
-              Approve {tickerUpcased}
-            </Button>
+            {!needsApproval ? <>
+              <PTHint
+                title='Allowance'
+                tip={<>
+                  <div className='my-2 text-xs sm:text-sm'>
+                    You have provided enough allowance to this pool and don't need to approve anymore.
+                  </div>
+                </>}
+                className='w-48-percent'
+              >
+                {approveButton}
+              </PTHint>
+            </> : approveButton}
+
+            
 
             <DepositTxButton
               needsApproval={needsApproval}

@@ -125,7 +125,7 @@ export const PrizeShow = (
 
     <div
       className={classnames(
-        'bg-highlight-3 rounded-lg px-6 pt-4 pb-6 text-white mt-4 sm:mt-10',
+        'bg-highlight-3 rounded-lg px-6 pt-4 pb-6 text-white my-10 sm:mt-10',
         {
           'border-flashy': isCurrentPrize
         }
