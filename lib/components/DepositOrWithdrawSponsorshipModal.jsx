@@ -118,10 +118,8 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
             name='quantity'
             register={register}
             validate={validate}
-            label={<>
-              Sponsor amount:
-            </>}
-            required='Sponsorship amount required'
+            label={isWithdraw ? `Withdraw amount:` : 'Sponsor amount:'}
+            required='amount required'
             autoComplete='off'
             rightLabel={usersAddress && tickerUpcased && <>
               <button

@@ -16,14 +16,15 @@ export const Modal = (props) => {
       onDismiss={onDismiss}
     >
       <div
-        className='relative message bg-darkened text-inverse flex flex-col w-full sm:rounded-xl border-secondary sm:border-2 sm:shadow-4xl h-full sm:h-auto'
+        className='relative message bg-default text-inverse flex flex-col w-full sm:rounded-xl border-secondary sm:border-2 sm:shadow-4xl h-full sm:h-auto'
       >
         <div
           className='relative flex justify-between w-full border-b-2 border-secondary px-10 py-6 text-lg'
         >
-          <div>
+          <h6
+          >
             {header}
-          </div>
+          </h6>
 
           {handleClose && <button
             type='button'
