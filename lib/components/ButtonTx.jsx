@@ -33,21 +33,6 @@ export const ButtonTx = (props) => {
           <div className='my-2 text-xs sm:text-sm'>
             Please connect a wallet before submitting transactions.
           </div>
-
-          <Button
-            className='mt-4'
-            textSize='lg'
-            onClick={(e) => {
-              e.preventDefault()
-              router.push(
-                '/account?signIn=1&showSelectMenu=1',
-                '/account?signIn=1&showSelectMenu=1',
-                { shallow: true }
-              )
-            }}
-          >
-            Connect wallet
-          </Button>
         </>}
       >
         {button}

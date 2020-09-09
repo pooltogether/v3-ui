@@ -162,6 +162,7 @@ export const ManageUI = (
     <SponsorshipPane
       decimals={decimals}
       tickerUpcased={tickerUpcased}
+      usersAddress={usersAddress}
     />
 
 

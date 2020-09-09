@@ -26,11 +26,21 @@ export const PTHint = (props) => {
 
   if (title) {
     tip = <>
-      <h5 className='text-highlight-1'>
-        {title}
-      </h5>
+      <div
+        className='-mx-8 bg-highlight-5 px-8 py-4 -mt-6 rounded-t-lg'
+      >
+        <h5
+          className='text-highlight-1'
+        >
+          {title}
+        </h5>
+      </div>
 
-      {tip}
+      <div
+        className='pt-4'
+      >
+        {tip}
+      </div>
     </>
   }
 
