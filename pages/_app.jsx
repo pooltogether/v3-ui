@@ -35,8 +35,10 @@ import 'assets/styles/transitions.css'
 import 'assets/styles/radios.css'
 import 'assets/styles/interactable-cards.css'
 import 'assets/styles/tabs.css'
+
 import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'
+import 'assets/styles/vx--custom.css'
 
 if (process.env.NEXT_JS_SENTRY_DSN) {
   Sentry.init({

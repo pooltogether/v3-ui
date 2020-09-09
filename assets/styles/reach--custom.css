@@ -1,19 +1,4 @@
-/* vx tooltip uses inline styles which I dislike, so I'm overriding them :) */
-.vx-chart-tooltip {
-  color: var(--color-text-inverse) !important;
-  background: white !important;
-  box-shadow: 0 -10px 10px -1px rgba(0, 0, 0, .05), 0 20px 20px -3px rgba(0, 0, 0, .1), rgba(14, 16, 60, 0.08) 0px 15px 30px !important;
-  border: 0 !important;
-  color: #210a45 !important;
-  font-size: 1.125rem !important;
-  padding: 1rem 1.5rem !important;
-  border-radius: 8px !important;
-  pointer-events: initial !important;
-  max-width: 16rem !important;
-  white-space: initial !important;
-  z-index: 1823774 !important;
-}
-
+/* TOOLTIPS / PTHINTS */
 [data-reach-tooltip] {
   @apply text-inverse bg-primary;
   box-shadow: 0 -10px 10px -1px rgba(0, 0, 0, .1),
@@ -39,13 +24,7 @@
   }
 }
 
-
-/* [data-reach-listbox-popover][hidden] {
-  opacity: 0;
-  pointer-events: none;
-} */
-
-
+/* MENUS / DROPDOWNS */
 [data-reach-popover] {
   margin-top: 10px;
   z-index: 5001;
@@ -77,14 +56,23 @@
   } 
 }
 
-[data-reach-menu-item].selected {
+.theme-dark [data-reach-menu-item].selected {
   @apply text-default bg-accent-grey-1;
 }
 
-[data-reach-menu-item]:hover {
+.theme-dark [data-reach-menu-item]:hover {
   @apply bg-highlight-1 text-inverse;
 }
 
+.theme-light [data-reach-menu-item].selected {
+  @apply text-default bg-accent-grey-1;
+}
+
+.theme-light [data-reach-menu-item]:hover {
+  @apply bg-highlight-1 text-white;
+}
+
+/* DIALOG / MODALS */
 .dialog-inner {
   border-radius: 6px;
 }
