@@ -2,35 +2,21 @@ import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
 
 import { Button } from 'lib/components/Button'
-import { DepositSponsorshipModal } from 'lib/components/DepositSponsorshipModal'
+import { DepositOrWithdrawSponsorshipModal } from 'lib/components/DepositOrWithdrawSponsorshipModal'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const SponsorshipPane = (
   props,
 ) => {
-  const { tickerUpcased } = props
+  const { decimals, tickerUpcased } = props
 
   const [depositVisible, setDepositVisible] = useState(false)
   const [withdrawVisible, setWithdrawVisible] = useState(false)
   
-  // const authControllerContext = useContext(AuthControllerContext)
-  // const { usersAddress } = authControllerContext
+  const poolData = useContext(PoolDataContext)
+  const { usersSponsorshipBalance } = poolData
   
-  const poolDataContext = useContext(PoolDataContext)
-  const {
-    pool,
-    sponsor
-  } = poolDataContext
-
-  let sponsorBalance = 0
-  if (sponsor && sponsor.balance && !isNaN(decimals)) {
-    sponsorBalance = Number(ethers.utils.formatUnits(
-      sponsor.balance,
-      Number(decimals)
-    ))
-  }
-
   const handleDepositSponsorshipClick = (e) => {
     e.preventDefault()
 
@@ -51,21 +37,30 @@ export const SponsorshipPane = (
   }
 
   return <>
-    <DepositSponsorshipModal
+    <DepositOrWithdrawSponsorshipModal
+      {...props}
       handleClose={handleClose}
-      tickerUpcased={tickerUpcased}
       visible={depositVisible}
     />
 
+    <DepositOrWithdrawSponsorshipModal
+      {...props}
+      isWithdraw
+      handleClose={handleClose}
+      visible={withdrawVisible}
+    />
 
     <div
-      className='bg-highlight-3 rounded-lg px-10 pt-8 pb-10 text-white mt-10 mb-10 sm:mb-0 flex flex-col justify-center'
+      className='bg-highlight-3 rounded-lg px-10 pt-8 pb-10 text-white my-4 flex flex-col justify-center'
     >
       <h4>
-        Manage your sponsorship
+        Your sponsorship
       </h4>
       <div className='uppercase text-caption mb-4 font-bold'>
-        Balance: {numberWithCommas(sponsorBalance)} {tickerUpcased}
+        Balance: {numberWithCommas(
+          usersSponsorshipBalance,
+          { precision: 4 }
+        )} {tickerUpcased}
       </div>
 
       <div className='flex'>

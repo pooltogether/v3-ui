@@ -56,7 +56,8 @@ export const PoolDataContextProvider = (props) => {
         dynamicPrizeStrategiesData,
         dynamicPlayerData,
         dynamicSponsorData,
-        refetchPlayerQuery
+        refetchPlayerQuery,
+        refetchSponsorQuery,
       }) => {
         return <FetchGenericChainData
           {...props}
@@ -140,18 +141,18 @@ export const PoolDataContextProvider = (props) => {
               }
             }
 
-            let usersSponsorBalance = 0
-            let usersSponsorBalanceBN = ethers.utils.bigNumberify(0)
+            let usersSponsorshipBalance = 0
+            let usersSponsorshipBalanceBN = ethers.utils.bigNumberify(0)
 
             if (pool && dynamicSponsorData) {
               const sponsor = dynamicSponsorData.find(data => data.prizePool.id === poolAddress)
 
               if (sponsor && underlyingCollateralDecimals) {
-                usersSponsorBalance = Number(ethers.utils.formatUnits(
+                usersSponsorshipBalance = Number(ethers.utils.formatUnits(
                   sponsor.balance,
                   Number(underlyingCollateralDecimals)
                 ))
-                usersSponsorBalanceBN = ethers.utils.bigNumberify(sponsor.balance)
+                usersSponsorshipBalanceBN = ethers.utils.bigNumberify(sponsor.balance)
               }
             }
 
@@ -173,7 +174,10 @@ export const PoolDataContextProvider = (props) => {
                     dynamicPlayerData,
                     genericChainData,
                     refetchPlayerQuery,
+                    refetchSponsorQuery,
                     usersChainData,
+                    usersSponsorshipBalance,
+                    usersSponsorshipBalanceBN,
                     usersTicketBalance,
                     usersTicketBalanceBN,
                   }}

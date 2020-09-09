@@ -75,10 +75,6 @@ export const ManageUI = (
       ]}
     />
 
-    <SponsorshipPane
-      tickerUpcased={tickerUpcased}
-    />
-
     <div
       className='bg-highlight-3 rounded-lg px-10 pt-10 pb-10 text-white mt-4 sm:mt-16 flex flex-col justify-center'
     >
@@ -163,6 +159,11 @@ export const ManageUI = (
     </div>
 
 
+    <SponsorshipPane
+      decimals={decimals}
+      tickerUpcased={tickerUpcased}
+    />
+
 
 
     {/* <FetchExtendedChainData>
@@ -203,7 +204,10 @@ export const ManageUI = (
           {
             icon: null,
             title: 'Prize Period (in seconds)',
-            content: <h3>{numberWithCommas(pool.prizePeriodSeconds)}</h3>
+            content: <h3>{numberWithCommas(
+              pool.prizePeriodSeconds,
+              { precision: 0 }
+            )}</h3>
           },
         ]}
       />

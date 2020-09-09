@@ -1,38 +1,46 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { ethers } from 'ethers'
 import { useForm } from 'react-hook-form'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ApproveSponsorshipTxButton } from 'lib/components/ApproveSponsorshipTxButton'
 import { DepositSponsorshipTxButton } from 'lib/components/DepositSponsorshipTxButton'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
-import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Modal } from 'lib/components/Modal'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
-export const DepositSponsorshipModal = (props) => {
-  const { handleClose, isWithdraw, tickerUpcased, visible } = props
+export const DepositOrWithdrawSponsorshipModal = (props) => {
+  const {
+    decimals,
+    handleClose,
+    isWithdraw,
+    tickerUpcased,
+    visible
+  } = props
+
+  const [needsApproval, setNeedsApproval] = useState(null)
 
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
-  const { pool, usersChainData } = poolData
-
   const {
-    usersTokenBalanceBN,
-    usersTokenBalance,
-    usersTokenAllowance,
-  } = usersDataForPool(pool, usersChainData)
+    pool,
+    usersSponsorshipBalance,
+    sponsor,
+    usersChainData
+  } = poolData
+  
   
   const {
     handleSubmit,
     register,
     errors,
-    formState,
+    getValues,
     watch,
     setValue
   } = useForm({
@@ -40,10 +48,51 @@ export const DepositSponsorshipModal = (props) => {
   })
 
 
+
+
+  const {
+    usersTokenBalanceBN,
+    usersTokenBalance,
+    usersTokenAllowance,
+    // usersSponsorshipAllowance,
+  } = usersDataForPool(pool, usersChainData)
+
+
+
+  // useEffect(() => {
+  //   setCachedUsersBalance(usersTokenBalance)
+  // }, [usersTokenBalance])
+
+  
+  const quantity = getValues('quantity')
+  
+  let quantityBN = ethers.utils.bigNumberify(0)
+  if (decimals) {
+    quantityBN = ethers.utils.parseUnits(
+      getValues('quantity') || '0',
+      Number(decimals)
+    )
+  }
+
+  useEffect(() => {
+    if (
+      quantityBN.gt(0) &&
+      usersTokenAllowance.gte(quantityBN)
+    ) {
+      setNeedsApproval(false)
+    } else if (quantity) {
+      setNeedsApproval(true)
+    }
+  }, [quantityBN, usersTokenAllowance])
+
+  const onSubmit = () => {
+    
+  }
+
   let contextualBalance = usersTokenBalance
   let validate = null
   if (isWithdraw) {
-    contextualBalance = usersTicketBalance
+    contextualBalance = usersSponsorshipBalance
     validate = {
       greaterThanBalance: value => parseFloat(value) <= usersTicketBalance ||
         'please enter an amount lower than your sponsorship balance',
@@ -55,51 +104,6 @@ export const DepositSponsorshipModal = (props) => {
     }
   }
 
-  const onSubmit = (values) => {
-    if (formState.isValid) {
-
-    }
-  }
-
-  const continueButton = <Button
-    textSize='lg'
-    disabled={!formState.isValid}
-    onClick={handleSubmit(onSubmit)}
-    className={'mx-auto w-full'}
-  >
-    Continue
-  </Button>
-
-
-
-  const approveButtonClassName = !needsApproval ? 'w-full' : 'w-48-percent'
-
-  const approveButton = <Button
-    noAnim
-    textSize='lg'
-    onClick={handleUnlockClick}
-    disabled={!needsApproval || unlockTxInFlight}
-    className={approveButtonClassName}
-  >
-    Approve {tickerUpcased}
-  </Button>
-
-
-  const depositButtonClassName = poolIsLocked ? 'w-full' : 'w-48-percent'
-
-  const depositButton = <>
-    <Button
-      noAnim
-      textSize='lg'
-      onClick={handleDepositClick}
-      disabled={disabled || poolIsLocked}
-      className={depositButtonClassName}
-    >
-      Deposit
-    </Button>
-  </>
-
-
   return <>
     <Modal
       handleClose={handleClose}
@@ -109,7 +113,7 @@ export const DepositSponsorshipModal = (props) => {
       </>}
     >
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={onSubmit}
       >
         <div
           className='w-full mx-auto'
@@ -160,7 +164,16 @@ export const DepositSponsorshipModal = (props) => {
           className='flex flex-col mx-auto w-full mx-auto items-center justify-center'
         >
           <ButtonDrawer>
-            {/* <ApproveSponsorshipTxButton /> <DepositSponsorshipTxButton /> */}
+            <ApproveSponsorshipTxButton
+              {...props}
+              disabled={needsApproval === null}
+              needsApproval={needsApproval}
+            />
+            <DepositSponsorshipTxButton
+              {...props}
+              quantity={quantity}
+              needsApproval={needsApproval}
+            />
           </ButtonDrawer>
         </div>
       </form>

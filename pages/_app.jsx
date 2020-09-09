@@ -154,7 +154,7 @@ function MyApp({ Component, pageProps, router }) {
       <ToastContainer
         className='pool-toast'
         position='top-center'
-        autoClose={7000}
+        autoClose={70000}
       />
     </V3ApolloWrapper>
   </>

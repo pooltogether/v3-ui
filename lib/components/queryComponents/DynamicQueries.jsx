@@ -107,7 +107,6 @@ export const DynamicQueries = (
   }
 
   if (sponsorQueryData) {
-    console.log({ sponsorQueryData})
     dynamicSponsorData = sponsorQueryData.sponsor
   }
 

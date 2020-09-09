@@ -60,11 +60,14 @@ export const TicketsSoldGraph = (
   }
 
 
-
-
-
   const dataArray = prizes.map(prize => {
-    const ticketsSold = ethers.utils.formatUnits(prize.totalTicketSupply, decimals)
+    if (!prize) {
+      console.warn('why no prize here?', prize)
+    }
+    const ticketsSold = ethers.utils.formatUnits(
+      prize?.totalTicketSupply || '0',
+      decimals
+    )
     
     return {
       value: parseInt(ticketsSold, 10),

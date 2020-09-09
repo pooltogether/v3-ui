@@ -14,6 +14,7 @@ import { SHOW_MANAGE_LINKS } from 'lib/constants'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
+import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
@@ -54,8 +55,13 @@ export const PoolShow = (
   }
   
   if (!pool) {
-    console.warn("don't do this!")
-    return null
+    return <div
+      className='mt-10'
+    >
+      <TableRowUILoader
+        rows={5}
+      />
+    </div>
   }
 
   const cookieShowAward = Cookies.get(SHOW_MANAGE_LINKS)
@@ -176,7 +182,7 @@ export const PoolShow = (
               className='flex items-center justify-between'
             >
               <div
-                className='w-full sm:w-1/2'
+                className='w-full sm:w-7/12'
               >
                 <h2>
                   Prize ${displayAmountInEther(
@@ -185,14 +191,14 @@ export const PoolShow = (
                   )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
                 </h2>
                 <div
-                  className='text-caption -mt-2 uppercase'
+                  className='text-caption -mt-2 uppercase font-bold'
                 >
                   {pool?.frequency}
                 </div>
               </div>
 
               <div
-                className='flex flex-col items-end justify-center pt-4 w-4/12 sm:w-9/12 lg:w-9/12'
+                className='flex flex-col items-end justify-center pt-4 w-4/12 sm:w-5/12'
               >
                 <NewPrizeCountdown
                   pool={pool}

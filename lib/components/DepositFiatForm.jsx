@@ -14,8 +14,8 @@ export const DepositFiatForm = (props) => {
   const router = useRouter()
   const quantity = router.query.quantity
 
-  const onSubmit = (e) => {
-    e.preventDefault()
+  const onSubmit = () => {
+    // e.preventDefault()
     nextStep()
   }
 
