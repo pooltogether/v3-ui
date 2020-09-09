@@ -28,7 +28,7 @@ export const ButtonTx = (props) => {
         title='Connect a wallet'
         tip={<>
           <div className='my-2 text-xs sm:text-sm'>
-            You are attempting to run a transaction without having a wallet connected.
+            You do not have a wallet connected.
           </div>
           <div className='my-2 text-xs sm:text-sm'>
             Please connect a wallet before submitting transactions.

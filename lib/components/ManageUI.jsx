@@ -158,14 +158,11 @@ export const ManageUI = (
       </div>
     </div>
 
-
     <SponsorshipPane
       decimals={decimals}
       tickerUpcased={tickerUpcased}
       usersAddress={usersAddress}
     />
-
-
 
     {/* <FetchExtendedChainData>
       {({ extendedChainData }) => {
@@ -209,6 +206,14 @@ export const ManageUI = (
               pool.prizePeriodSeconds,
               { precision: 0 }
             )}</h3>
+          },
+          {
+            icon: null,
+            title: 'Sponsorship',
+            content: <h3>{displayAmountInEther(
+              pool.totalSponsorship,
+              { decimals, precision: 4 }
+            )} {tickerUpcased}</h3>
           },
         ]}
       />

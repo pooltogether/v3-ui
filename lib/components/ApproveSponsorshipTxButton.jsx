@@ -26,8 +26,8 @@ export const ApproveSponsorshipTxButton = (props) => {
   const { pool } = poolData
 
   const poolAddress = pool?.poolAddress
-  const sponsorshipAddress = pool?.sponsorship
-
+  const tokenAddress = pool?.underlyingCollateralToken
+  
   const [txId, setTxId] = useState()
 
   const txName = `Approve ${tickerUpcased}`
@@ -57,7 +57,7 @@ export const ApproveSponsorshipTxButton = (props) => {
       provider,
       usersAddress,
       IERC20Abi,
-      sponsorshipAddress,
+      tokenAddress,
       method,
       params,
     )

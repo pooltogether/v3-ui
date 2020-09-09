@@ -6,6 +6,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ApproveSponsorshipTxButton } from 'lib/components/ApproveSponsorshipTxButton'
 import { DepositSponsorshipTxButton } from 'lib/components/DepositSponsorshipTxButton'
+import { WithdrawSponsorshipTxButton } from 'lib/components/WithdrawSponsorshipTxButton'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { Modal } from 'lib/components/Modal'
@@ -31,7 +32,6 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
   const {
     pool,
     usersSponsorshipBalance,
-    sponsor,
     usersChainData
   } = poolData
   
@@ -51,19 +51,10 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
 
 
   const {
-    usersTokenBalanceBN,
     usersTokenBalance,
     usersTokenAllowance,
-    // usersSponsorshipAllowance,
   } = usersDataForPool(pool, usersChainData)
 
-
-
-  // useEffect(() => {
-  //   setCachedUsersBalance(usersTokenBalance)
-  // }, [usersTokenBalance])
-
-  
   const quantity = getValues('quantity')
   
   let quantityBN = ethers.utils.bigNumberify(0)
@@ -79,6 +70,7 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
       quantityBN.gt(0) &&
       usersTokenAllowance.gte(quantityBN)
     ) {
+
       setNeedsApproval(false)
     } else if (quantity) {
       setNeedsApproval(true)
@@ -94,7 +86,7 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
   if (isWithdraw) {
     contextualBalance = usersSponsorshipBalance
     validate = {
-      greaterThanBalance: value => parseFloat(value) <= usersTicketBalance ||
+      greaterThanBalance: value => parseFloat(value) <= usersSponsorshipBalance ||
         'please enter an amount lower than your sponsorship balance',
     }
   } else {
@@ -164,16 +156,23 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
           className='flex flex-col mx-auto w-full mx-auto items-center justify-center'
         >
           <ButtonDrawer>
-            <ApproveSponsorshipTxButton
-              {...props}
-              disabled={needsApproval === null}
-              needsApproval={needsApproval}
-            />
-            <DepositSponsorshipTxButton
-              {...props}
-              quantity={quantity}
-              needsApproval={needsApproval}
-            />
+            {isWithdraw ? <>
+              <WithdrawSponsorshipTxButton
+                {...props}
+                quantity={quantity}
+              />
+            </> : <>
+              <ApproveSponsorshipTxButton
+                {...props}
+                disabled={needsApproval === null}
+                needsApproval={needsApproval}
+              />
+              <DepositSponsorshipTxButton
+                {...props}
+                quantity={quantity}
+                needsApproval={needsApproval}
+              />
+            </>}
           </ButtonDrawer>
         </div>
       </form>

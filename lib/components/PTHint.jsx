@@ -30,7 +30,7 @@ export const PTHint = (props) => {
         className='-mx-8 bg-highlight-5 px-8 py-4 -mt-6 rounded-t-lg'
       >
         <h5
-          className='text-highlight-1'
+          className='text-green'
         >
           {title}
         </h5>

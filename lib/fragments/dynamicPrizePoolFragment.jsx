@@ -4,8 +4,10 @@ export const dynamicPrizePoolFragment = gql`
   fragment dynamicPrizePoolFragment on PrizePool {
     id
 
-    playerCount
     totalSupply
+    totalSponsorship
+
+    playerCount
     cumulativePrizeNet
 
     underlyingCollateralToken

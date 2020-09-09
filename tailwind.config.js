@@ -224,6 +224,7 @@ module.exports = {
       'active'
     ],
     borderRadius: [
+      'responsive'
     ],
     opacity: [
       'hover',
