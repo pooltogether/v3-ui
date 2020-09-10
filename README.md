@@ -1,4 +1,4 @@
-# PoolTogether Private App - v3- test
+# PoolTogether Private App - v3
 
 This is the private PoolTogether Inc. app for v3.
 
