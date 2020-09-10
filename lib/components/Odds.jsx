@@ -69,7 +69,7 @@ export const Odds = (props) => {
     content = <>
       {label} {splitLines && <br />}<span
         className={`${font} font-bold`}
-      >1</span> in <PoolCountUp
+      >1</span> {t('in')} <PoolCountUp
         fontSansRegular
         start={result}
         end={result}

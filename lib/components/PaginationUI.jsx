@@ -1,6 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 
+import { useTranslation } from 'lib/../i18n'
+
 export function PaginationUI({
   prevPath,
   nextPath,
@@ -20,7 +22,9 @@ export function PaginationUI({
   nextLabel,
   className
 }) {
-  const nextPrevPageClasses = 'no-underline rounded-lg text-green border-2 border-green hover:bg-primary text-xs lg:text-lg py-8 sm:py-2 px-4 sm:px-3 lg:px-5 trans whitespace-normal inline-flex sm:inline-block text-center h-10 sm:h-auto items-center justify-center leading-tight'
+  const { t } = useTranslation()
+
+  const nextPrevPageClasses = 'no-underline rounded-lg text-green border-2 border-green hover:bg-primary text-xxxs xs:text-xs sm:text-base lg:text-lg py-2 sm:py-2 px-3 sm:px-3 lg:px-5 trans whitespace-normal inline-flex sm:inline-block text-center h-10 sm:h-auto items-center justify-center leading-tight'
   const pageNumClasses = 'inline-flex items-center justify-center no-underline text-green bg-card trans p-2 sm:p-2 rounded-lg text-sm sm:text-base mx-1 leading-none shadow-md'
   const ellipsisClasses = 'mx-2 lg:mx-3 mt-1 hidden sm:block text-inverse'
   const listItemClasses = 'lg:mx-2 mt-1 lg:mt-2'
@@ -47,7 +51,7 @@ export function PaginationUI({
               href={prevPath}
               className={nextPrevPageClasses}
             >
-              Previous page
+              {t('previousPage')}
             </a>
           </Link>
         }
@@ -207,7 +211,7 @@ export function PaginationUI({
               href={nextPath}
               className={nextPrevPageClasses}
             >
-              Next page
+              {t('nextPage')}
             </a>
           </Link>
         }

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { motion } from 'framer-motion'
 
+import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { AccountSummary } from 'lib/components/AccountSummary'
@@ -16,6 +17,8 @@ import { Tagline } from 'lib/components/Tagline'
 import TicketIcon from 'assets/images/tickets-icon.svg'
 
 export const AccountUI = (props) => {
+  const { t } = useTranslation()
+
   const POOLS = 'POOLS'
   const REWARDS = 'REWARDS'
 
@@ -38,19 +41,19 @@ export const AccountUI = (props) => {
 
   return <>
     <Meta
-      title={`My account`}
+      title={t('myAccount')}
     />
     
     <PageTitleAndBreadcrumbs
-      title={`Account`}
+      title={t('account')}
       breadcrumbs={[
         {
           href: '/account',
           as: '/account',
-          name: 'Account',
+          name: t('account'),
         },
         {
-          name: 'My account'
+          name: t('myAccount')
         }
       ]}
     />
@@ -68,13 +71,13 @@ export const AccountUI = (props) => {
           isSelected={visible === POOLS}
           onClick={handleShowPools}
         >
-          Pools
+          {t('pools')}
         </Tab>
         <Tab
           isSelected={visible === REWARDS}
           onClick={handleShowRewards}
         >
-          Rewards
+          {t('rewards')}
         </Tab>
       </Tabs>
 
@@ -93,14 +96,14 @@ export const AccountUI = (props) => {
                     className='mx-auto'
                   />
 
-                  You currently have no tickets.
-                  <br />Deposit in a pool now to get tickets!
+                  {t('youCurrentlyHaveNoTickets')}
+                  <br />{t('depositInAPoolNow')}
                 </div>
                 <ButtonLink
                   href='/'
                   as='/'
                 >
-                  View pools
+                  {t('viewPools')}
                 </ButtonLink>
               </BlankStateMessage>
             </> : <>
@@ -129,8 +132,6 @@ export const AccountUI = (props) => {
         <ContentPane
           isSelected={visible === REWARDS}
         >
-
-
           <div
             className='non-interactable-card mt-2 py-4 sm:py-6 px-4 xs:px-10 bg-card rounded-lg card-min-height-desktop'
           >

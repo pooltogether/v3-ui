@@ -23,5 +23,5 @@ export const TimeTravelPool = (
     console.error(error)
   }
 
-  return children(data?.prizePool)
+  return children(data?.timeTravelPrizePool)
 }

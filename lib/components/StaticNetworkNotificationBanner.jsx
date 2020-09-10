@@ -44,9 +44,15 @@ export const StaticNetworkNotificationBanner = (props) => {
         className='text-center text-white'
       >
         {!supportedNetwork ? <>
-          Please connect to the supported network <span className='font-bold'>{supportedNetworkNames}</span>.
+          Please connect to the supported network <span
+            className='font-bold'
+          >
+            {supportedNetworkNames}
+          </span>.
         </> : <>
-          You are {verb} <span className='font-bold'>{networkName}</span>.
+          You are {verb} <span
+            className='font-bold'
+          >{networkName}</span>.
         </>}
       </div>
     </div>

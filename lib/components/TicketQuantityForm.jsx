@@ -153,10 +153,10 @@ export const TicketQuantityForm = (props) => {
               label={<>
                 <Trans
                   i18nKey='topUpBalance'
-                  defaults='Top up <hiddenMobile>balance</hiddenMobile>:'
+                  defaults='Top up<hiddenMobile> balance</hiddenMobile>:'
                   components={{
                     hiddenMobile: <span
-                      className='hidden xs:inline-block'
+                      className='hidden xs:inline-block ml-1'
                     />
                   }}
                 />

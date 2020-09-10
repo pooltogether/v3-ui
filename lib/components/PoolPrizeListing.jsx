@@ -54,7 +54,7 @@ export const PoolPrizeListing = (
 
       {error && <>
         {t('thereWasAnErrorLoadingData')}
-        {error}
+        <br />{error}
       </>}
 
       {prizes?.length === 0 && <>

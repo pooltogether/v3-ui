@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
+import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { AllPoolsTotalAwarded } from 'lib/components/AllPoolsTotalAwarded'
@@ -28,7 +29,9 @@ import PlayersIcon from 'assets/images/players@2x.png'
 export const PrizeShow = (
   props,
 ) => {
+  const { t } = useTranslation()
   const router = useRouter()
+
   const prizeNumber = router.query?.prizeNumber
 
   const generalContext = useContext(GeneralContext)
@@ -77,7 +80,7 @@ export const PrizeShow = (
     return <div
       className='mt-10'
     >
-      Couldn't find prize
+      {t('couldntFindPrize')}
     </div>
   }
 
@@ -95,17 +98,17 @@ export const PrizeShow = (
 
   return <>
     {pool?.name && <>
-      <Meta title={`Prize #${prizeNumber} - ${pool?.name}`} />
+      <Meta title={`${t('prize')} #${prizeNumber} - ${pool?.name}`} />
     </>}
 
     <PageTitleAndBreadcrumbs
-      title={`Prizes`}
+      title={t('prizes')}
       pool={pool}
       breadcrumbs={[
         {
           href: '/',
           as: '/',
-          name: 'Pools',
+          name: t('pools'),
         },
         {
           href: '/pools/[symbol]',
@@ -115,10 +118,10 @@ export const PrizeShow = (
         {
           href: '/prizes/[symbol]',
           as: `/prizes/${pool?.symbol}`,
-          name: 'Prizes',
+          name: t('prizes'),
         },
         {
-          name: `Prize #${prizeNumber}`,
+          name: `${t('prize')} #${prizeNumber}`,
         }
       ]}
     />
@@ -138,14 +141,14 @@ export const PrizeShow = (
           className='w-full sm:w-1/3'
         >
           <h2>
-            Prize #{prizeNumber}
+            {t('prize')} #{prizeNumber}
           </h2>
           
           {prize?.awardedTimestamp ? <>
             <h6
               className='mt-4'
             >
-              Awarded on:
+              {t('awardedOn')}
             </h6>
             <div
               className='text-caption uppercase font-bold text-sm xs:text-base sm:text-lg'
@@ -161,7 +164,7 @@ export const PrizeShow = (
             <h6
               className='mt-4 mb-4'
             >
-              Will be awarded in:
+              {t('willBeAwardedIn')}
             </h6>
             <NewPrizeCountdown
               pool={pool}
@@ -178,15 +181,15 @@ export const PrizeShow = (
               pool={pool}
               className='inline-block mx-auto -mt-1'
             /> ${displayAmountInEther(
-                  prize?.net || 0,
-                  { decimals, precision: 2 }
-                )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
+                prize?.net || 0,
+                { decimals, precision: 2 }
+              )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
           </h2>
 
           <h6
             className='mt-4'
           >
-            Winner:
+            {t('winner')}:
           </h6>
           {prize?.awardedTimestamp ? <>
             
@@ -209,7 +212,7 @@ export const PrizeShow = (
             <span
               className='block font-bold text-caption uppercase mt-2'
             >
-              yet to be awarded
+              {t('yetToBeAwarded')}
             </span>
           </>}
 
@@ -223,7 +226,7 @@ export const PrizeShow = (
       cards={[
         {
           icon: PlayersIcon,
-          title: 'Players',
+          title: t('players'),
           content: <>
             <h3>
               <TimeTravelPool
@@ -239,7 +242,7 @@ export const PrizeShow = (
         },
         {
           icon: TicketsIcon,
-          title: 'Tickets sold',
+          title: t('ticketsSold'),
           content: <>
             <h3>
               <TimeTravelPool
@@ -265,7 +268,7 @@ export const PrizeShow = (
     <h4
       className='mt-16'
     >
-      Players
+      {t('players')}
     </h4>
 
     <PrizePlayerListing

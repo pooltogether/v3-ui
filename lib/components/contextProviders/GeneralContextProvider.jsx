@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import useWindowFocus from 'use-window-focus'
 import { useOnlineState } from 'beautiful-react-hooks'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Modal } from 'lib/components/Modal'
 
@@ -12,6 +13,8 @@ export const GeneralContextProvider = (props) => {
     return null
   }
   
+  const { t } = useTranslation()
+
   const authControllerContext = useContext(AuthControllerContext)
   const { changingNetwork, supportedNetwork } = authControllerContext
 
@@ -29,15 +32,13 @@ export const GeneralContextProvider = (props) => {
     <Modal
       zIndex={2000000}
       visible={!isOnline}
-      header={<>
-        No Internet connection
-      </>}
+      header={t('noInternetConnection')}
     >
       <p>
-        We detected that you are offline.
+        {t('weDetectedThatYouAreOffline')}
       </p>
       <p>
-        Please reconnect to the Internet and try again.
+        {t('pleaseReconnectToInternet')}
       </p>
     </Modal>
 

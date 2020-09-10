@@ -3,6 +3,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
+import { useTranslation } from 'lib/../i18n'
 import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
@@ -15,7 +16,9 @@ import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { shorten } from 'lib/utils/shorten'
 
 export const PlayerPageUI = (props) => {
+  const { t } = useTranslation()
   const router = useRouter()
+  
   const playerAddress = router.query?.playerAddress
 
   const [error, setError] = useState('')
@@ -38,19 +41,19 @@ export const PlayerPageUI = (props) => {
   
   return <>
     <Meta
-      title={`Player ${playerAddress}`}
+      title={`${t('player')} ${playerAddress}`}
     />
 
     <PageTitleAndBreadcrumbs
-      title={`Player ${shorten(playerAddress)}`}
+      title={`${t('player')} ${shorten(playerAddress)}`}
       breadcrumbs={[
         {
-          name: 'Players',
+          name: t('players'),
         },
         {
           href: '/players/[playerAddress]',
           as: `/players/${playerAddress}`,
-          name: `Player ${shorten(playerAddress)}`
+          name: `${t('player')} ${shorten(playerAddress)}`
         }
       ]}
     />
@@ -100,13 +103,13 @@ export const PlayerPageUI = (props) => {
               <div
                 className='mb-4'
               >
-                This player currently has no tickets.
+                {t('thisPlayerCurrentlyHasNoTickets')}
               </div>
               <ButtonLink
                 href='/'
                 as='/'
               >
-                View pools
+                {t('viewPools')}
               </ButtonLink>
             </BlankStateMessage>
           </> : <>

@@ -1,12 +1,15 @@
 import React from 'react'
 import { padStart } from 'lodash'
 
+import { useTranslation } from 'lib/../i18n'
 import { PTHint } from 'lib/components/PTHint'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const PrizeAmount = (
   props,
 ) => {
+  const { t } = useTranslation()
+
   const {
     big,
     pool
@@ -27,7 +30,7 @@ export const PrizeAmount = (
     <div
       className={`${labelSize} uppercase font-bold`}
     >
-      Prize estimate
+      {t('prizeEstimate')}
     </div>
     <div
       className={`${amountSize} text-inverse`}

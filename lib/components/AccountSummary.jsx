@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { ethers } from 'ethers'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ProfileAvatar } from 'lib/components/ProfileAvatar'
 import { ProfileName } from 'lib/components/ProfileName'
@@ -11,6 +12,8 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import AccountPlaceholderImg from 'assets/images/avatar-placeholder.svg'
 
 export const AccountSummary = (props) => {
+  const { t } = useTranslation()
+
   const { pools, dynamicPlayerData } = props
 
   const authContext = useContext(AuthControllerContext)
@@ -81,7 +84,7 @@ export const AccountSummary = (props) => {
             /> <h2
               className='ml-4'
             > 
-              Account name
+              {t('accountName')}
             </h2>
           </>}
         </div>
@@ -91,7 +94,7 @@ export const AccountSummary = (props) => {
         >
           {totalTickets && <>
             {parseInt(totalTickets, 10)}
-          </>} Tickets
+          </>} {t('tickets')}
         </h3>
         
         {usersAddress && <>
@@ -109,12 +112,15 @@ export const AccountSummary = (props) => {
             className='flex flex-col w-full xs:w-7/12 sm:w-4/12 lg:w-4/12 sm:border-r border-accent-4 sm:pr-2 mb-4 sm:mb-0'
           >
             <h4>
-              ${displayAmountInEther(cumulativeWinningsAllPools, { decimals: 18 })}
+              ${displayAmountInEther(
+                cumulativeWinningsAllPools,
+                { decimals: 18 }
+              )}
             </h4>
             <div
               className='text-caption uppercase font-bold'
             >
-              All-time prizes won
+              {t('allTimePrizesWon')}
             </div>
           </div>
 
@@ -127,7 +133,7 @@ export const AccountSummary = (props) => {
             <div
               className='text-caption uppercase font-bold'
             >
-              All-time earned rewards
+              {t('allTimeEarnedRewards')}
             </div>
           </div>
         </div>

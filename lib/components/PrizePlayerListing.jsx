@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
+import { useTranslation } from 'lib/../i18n'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PaginationUI } from 'lib/components/PaginationUI'
@@ -13,6 +14,7 @@ import { prizePlayersQuery } from 'lib/queries/prizePlayersQuery'
 export const PrizePlayerListing = (
   props,
 ) => {
+  const { t } = useTranslation()
   const { pool, prize } = props
 
   const router = useRouter()
@@ -80,11 +82,11 @@ export const PrizePlayerListing = (
     >
       {error && <>
         There was an issue loading data:
-        {error.message}
+        <br />{error.message}
       </>}
 
       {players?.length === 0 && <>
-        no players
+        {t('noPlayers')}
       </>}
 
       <TimeTravelPool

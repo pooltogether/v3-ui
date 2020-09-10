@@ -6,12 +6,15 @@ import {
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
+import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
 
 export const WithdrawButton = (props) => {
-  const { poolIsLocked, poolSymbol } = props
+  const { t } = useTranslation()
   const router = useRouter()
+
+  const { poolIsLocked, poolSymbol } = props
 
   const handleWithdrawClick = (e) => {
     e.preventDefault()
@@ -34,22 +37,22 @@ export const WithdrawButton = (props) => {
       disabled={poolIsLocked}
       onClick={handleWithdrawClick}  
     >
-      Withdraw
+      {t('withdraw')}
     </Button>
   </>
 
   return <>
     {poolIsLocked ? <>
       <PTHint
-        title='Pool is locked'
+        title={t('poolIsLocked')}
         tip={<>
           <div className='my-2 text-xs sm:text-sm'>
-            The Pool is currently being awarded. No deposits or withdrawals can be processed until it's complete.
+            {t('poolCurrentlyBeingAwarded')}
           </div>
           <div
             className='text-xs sm:text-sm'
           >
-            You won't need to refresh the page.
+            {t('youWontNeedToRefreshThePage')}
           </div>
         </>}
         className='w-full'

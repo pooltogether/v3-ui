@@ -1,45 +1,25 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Link from 'next/link'
-import { ethers } from 'ethers'
 
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { useTranslation } from 'lib/../i18n'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 
 export const PrizesPageHeader = (
   props,
 ) => {
+  const { t } = useTranslation()
   const { showPoolLink, pool } = props
-
-  const poolData = useContext(PoolDataContext)
-  const { pools } = poolData
-
-  let cumulativePrizeNetAllPools = ethers.utils.bigNumberify(0)
-  pools?.forEach(pool => {
-    if (pool.cumulativePrizeNet) {
-      const decimals = pool?.underlyingCollateralDecimals
-      const cumulativePrizeNetForPool = normalizeTo18Decimals(
-        pool.cumulativePrizeNet,
-        decimals
-      )
-  
-      cumulativePrizeNetAllPools = cumulativePrizeNetAllPools.add(
-        cumulativePrizeNetForPool
-      )
-    }
-  })
  
   return <>
     <PageTitleAndBreadcrumbs
-      title={`Prizes`}
+      title={t('prizes')}
       pool={pool}
       breadcrumbs={[
         {
           href: '/',
           as: '/',
-          name: 'Pools',
+          name: t('pools'),
         },
         {
           href: '/pools/[symbol]',
@@ -47,7 +27,7 @@ export const PrizesPageHeader = (
           name: pool?.name,
         },
         {
-          name: 'Prizes',
+          name: t('prizes'),
         }
       ]}
     />

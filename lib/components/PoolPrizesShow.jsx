@@ -51,7 +51,7 @@ export const PoolPrizesShow = (
 
   return <>
     <Meta
-      title={`${pool?.name} Prizes`} 
+      title={`${pool?.name} ${t('prizes')}`} 
     />
 
     <PrizesPageHeader
@@ -71,7 +71,7 @@ export const PoolPrizesShow = (
           )}
         </div>
         <div className='text-xs xs:text-base -mt-2 xs:mt-1 font-bold'>
-          Awarded so far
+          {t('awardedSoFar')}
         </div>
       </div>
 

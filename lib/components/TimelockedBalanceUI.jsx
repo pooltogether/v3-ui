@@ -94,7 +94,7 @@ export const TimelockedBalanceUI = (props) => {
         className='mt-6 mb-6 text-sm border-t-2 border-b-2 py-6'
       >
         <h4>
-          Your timelocked balance
+          {t('yourTimelockedBalance')}
         </h4>
         <div
           className='font-bold'
@@ -106,15 +106,16 @@ export const TimelockedBalanceUI = (props) => {
         </div>
 
         <div className='text-xs sm:text-sm lg:text-lg mt-2'>
-          Ready to withdraw{timelockSweepReady ? <>
-            ! <div className='mt-2'>
-                <Button
-                  onClick={handleSweepTimelocked}
-                  disabled={tx?.sent && !tx?.completed}
-                >
-                  Sweep timelocked funds
-                </Button>
-              </div>
+          {timelockSweepReady ? <>
+            {t('readyToWithdraw')}
+            <div className='mt-2'>
+              <Button
+                onClick={handleSweepTimelocked}
+                disabled={tx?.sent && !tx?.completed}
+              >
+                {t('returnTimelockedFunds')}
+              </Button>
+            </div>
           </> : <>
             &nbsp;in: <div className='font-bold'>{formattedFutureDate}</div>
           </>}

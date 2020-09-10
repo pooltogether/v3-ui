@@ -78,21 +78,21 @@ export const AccountPoolShowUI = (props) => {
 
   return <>
     <Meta
-      title={`${pool?.name} - My account`}
+      title={`${pool?.name} - ${t('myAccount')}`}
     />
 
     <PageTitleAndBreadcrumbs
-      title={`Account - ${pool?.name}`}
+      title={`${t('account')} - ${pool?.name}`}
       breadcrumbs={[
         {
           href: '/account',
           as: '/account',
-          name: 'Account',
+          name: t('account'),
         },
         {
           href: '/account',
           as: '/account',
-          name: 'My account'
+          name: t('myAccount')
         },
         {
           name: pool?.name
@@ -127,8 +127,8 @@ export const AccountPoolShowUI = (props) => {
           <div
             className='mb-4 font-bold'
           >
-            You currently have no tickets in this pool.
-            <br />Deposit now to get tickets!
+            {t('youCurrentlyHaveNoTicketsInThisPool')}
+            <br />{t('depositNowToGetTickets')}
           </div>
 
           {getMoreTicketsButton}
@@ -155,10 +155,12 @@ export const AccountPoolShowUI = (props) => {
                   top: -6
                 }}
               >
-                Prize ${displayAmountInEther(
-                  pool?.estimatePrize,
-                  { decimals, precision: 2 }
-                )}
+                {t('prizeAmount', {
+                  amount: displayAmountInEther(
+                    pool?.estimatePrize,
+                    { decimals, precision: 2 }
+                  )
+                })}
               </div>
               <div
                 className='inline-block text-left text-caption-2 relative'
@@ -170,7 +172,7 @@ export const AccountPoolShowUI = (props) => {
                 <span
                   className='uppercase text-caption'
                 >
-                  {pool?.frequency}
+                  {t(pool?.frequency.toLowerCase())}
                 </span>
               </div>
             </div>
@@ -184,9 +186,6 @@ export const AccountPoolShowUI = (props) => {
               playerData={playerData}
             />
           </div>
-
-
-
         </div>
 
         <div
@@ -204,7 +203,7 @@ export const AccountPoolShowUI = (props) => {
             <span
               className='block text-caption uppercase font-bold'
             >
-              Winning odds
+              {t('winningOdds')}
             </span>
           </div>
 
@@ -215,7 +214,7 @@ export const AccountPoolShowUI = (props) => {
               fontSansRegular
               end={parseInt(usersBalance, 10)}
               decimals={null}
-            /> Tickets
+            /> {t('tickets')}
             <span className='block text-caption uppercase'>
               ${usersBalance} {ticker}
             </span>
@@ -234,8 +233,6 @@ export const AccountPoolShowUI = (props) => {
               poolSymbol={symbol}
             />
           </div>
-          
-
         </div>
       </NonInteractableCard>
 

@@ -1,11 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
+import { useTranslation } from 'lib/../i18n'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { SignInForm } from 'lib/components/SignInForm'
 
 export const DepositWizardSignIn = (props) => {
+  const { t } = useTranslation()
   const { nextStep } = props
 
   const router = useRouter()
@@ -22,15 +24,14 @@ export const DepositWizardSignIn = (props) => {
 
   return <>
     <PaneTitle small>
-      {quantity} tickets
+      {t('amountTickets', {
+        amount: quantity
+      })}
     </PaneTitle>
 
     <PaneTitle>
-      Connect a wallet to continue:
+      {t('connectAWalletToContinue')}
     </PaneTitle>
-    {/* <PaneTitle>
-      Enter your email address to continue.
-    </PaneTitle> */}
 
     <div className='flex flex-col mx-auto w-full'>
       <SignInForm

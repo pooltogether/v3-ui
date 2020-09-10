@@ -9,11 +9,11 @@ export const timeTravelPoolQuery = (number) => {
 
   return gql`
     query timeTravelPoolQuery($prizePoolAddress: ID!) {
-      prizePool(id: $prizePoolAddress ${blockFilter}) {
+      timeTravelPrizePool: prizePool(id: $prizePoolAddress ${blockFilter}) {
         id
         playerCount
         totalSupply
-        cumulativePrizeNet
+        # cumulativePrizeNet
       }
     }
   `

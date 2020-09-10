@@ -3,12 +3,13 @@ import Link from 'next/link'
 import { ethers } from 'ethers'
 import { useTable } from 'react-table'
 
+import { useTranslation } from 'lib/../i18n'
 import { BasicTable } from 'lib/components/BasicTable'
 import { Odds } from 'lib/components/Odds'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
 
-const playerLink = (player) => {
+const playerLink = (t, player) => {
   return <Link
     href='/players/[playerAddress]'
     as={`/players/${player.address}`}
@@ -17,12 +18,12 @@ const playerLink = (player) => {
     <a
       className='trans'
     >
-      view player info
+      {t('viewPlayerInfo')}
     </a>
   </Link>
 }
 
-const formatPlayerObject = (pool, player, timeTravelTotalSupply) => {
+const formatPlayerObject = (t, pool, player, timeTravelTotalSupply) => {
   const decimals = pool.underlyingCollateralDecimals
   const balance = player.balance && decimals ?
     ethers.utils.formatUnits(
@@ -42,31 +43,34 @@ const formatPlayerObject = (pool, player, timeTravelTotalSupply) => {
       pool={pool}
       usersBalance={balance}
     />,
-    view: playerLink(player)
+    view: playerLink(t, player)
   }
 }
 
 export const PlayersTable = (
   props,
 ) => {
-  const { timeTravelTotalSupply, pool, players } = props
+  const { t } = useTranslation()
 
-  if (!players || players?.length === 0) {
-    return null
+  let players = []
+  if (props.players) {
+    players = props.players
   }
+
+  const { timeTravelTotalSupply, pool } = props
 
   const columns = React.useMemo(() => {
     return [
       {
-        Header: 'Address',
+        Header: t('address'),
         accessor: 'address',
       },
       {
-        Header: 'Tickets',
+        Header: t('tickets'),
         accessor: 'balance', // accessor is the "key" in the data
       },
       {
-        Header: 'Odds',
+        Header: t('odds'),
         accessor: 'odds',
       },
       {
@@ -79,6 +83,7 @@ export const PlayersTable = (
 
   const data = React.useMemo(() => {
     return players.map(player => formatPlayerObject(
+      t,
       pool,
       player,
       timeTravelTotalSupply
@@ -89,6 +94,10 @@ export const PlayersTable = (
     columns,
     data
   })
+
+  if (!players || players?.length === 0) {
+    return null
+  }
 
   return <BasicTable
     tableInstance={tableInstance}

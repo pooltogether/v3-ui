@@ -30,7 +30,7 @@ export const DepositTxButton = (props) => {
   return <>
     {poolIsLocked ? <>
       <PTHint
-        title='Pool is locked'
+        title={t('poolIsLocked')}
         tip={<>
           <div className='my-2 text-xs sm:text-sm'>
             {t('poolCurrentlyBeingAwarded')}

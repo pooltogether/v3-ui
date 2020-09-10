@@ -53,7 +53,7 @@ export const WyreTopUpBalanceDropdown = (props) => {
   const applePay = <>
     {isSafari && <>, <img
       src={ApplePay}
-      className='inline-block relative h-8 w-16'
+      className='inline-block relative h-6 w-12'
       style={{ top: 0 }}
     /></>}
   </>
@@ -62,16 +62,13 @@ export const WyreTopUpBalanceDropdown = (props) => {
     [tickerUpcased]: {
       'label': <span className='text-lg'>
         {t('buyTickerDebitCreditCard', {
-          ticker: tickerUpcased,
-          applePay
-        })}
+          ticker: tickerUpcased
+        })}{applePay}
       </span>,
     },
     'ETH': {
       'label': <span className='text-lg'>
-        {t('buyEthDebitCreditCard', {
-          applePay
-        })}
+        {t('buyEthDebitCreditCard')}{applePay}
       </span>,
     },
   }

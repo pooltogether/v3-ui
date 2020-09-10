@@ -11,7 +11,7 @@ import { formatDate } from 'lib/utils/formatDate'
 import { shorten } from 'lib/utils/shorten'
 
 const prizeLink = (t, pool, prize) => {
-  return <Link
+  return <Link 
     href='/prizes/[symbol]/[prizeNumber]'
     as={`/prizes/${pool.symbol}/${prize.id}`}
     shallow
@@ -146,7 +146,7 @@ export const PrizesTable = (
       currentPrize = {
         prizeAmount: `$${amount} ${pool.underlyingCollateralSymbol}`,
         status: t('current'),
-        view: prizeLink(pool, { id: currentPrizeId })
+        view: prizeLink(t, pool, { id: currentPrizeId })
       }
 
       prizeRows.unshift(currentPrize)

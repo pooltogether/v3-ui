@@ -3,9 +3,8 @@ import FeatherIcon from 'feather-icons-react'
 import Link from 'next/link'
 import { ethers } from 'ethers'
 
-import { ButtonLink } from 'lib/components/ButtonLink'
+import { useTranslation } from 'lib/../i18n'
 import { InteractableCard } from 'lib/components/InteractableCard'
-// import { InteractableCard } from 'lib/components/InteractableCard'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -16,6 +15,8 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 export const AccountPoolRow = (
   props,
 ) => {
+  const { t } = useTranslation()
+  
   const { pool, player } = props
 
   const decimals = pool?.underlyingCollateralDecimals
@@ -55,10 +56,12 @@ export const AccountPoolRow = (
                 top: -6
               }}
             >
-              Prize ${displayAmountInEther(
-                pool?.estimatePrize,
-                { decimals, precision: 2 }
-              )}
+              {t('prizeAmount', {
+                amount: displayAmountInEther(
+                  pool?.estimatePrize,
+                  { decimals, precision: 2 }
+                )
+              })}
             </div>
             <div
               className='inline-block text-left text-caption-2 relative'
@@ -96,7 +99,7 @@ export const AccountPoolRow = (
             <span
               className='font-bold text-xl sm:text-2xl lg:text-3xl text-accent-3'
             >
-              n/a
+              {t('notAvailableAbbreviation')}
             </span>
           </> : <>
             <Odds
@@ -110,7 +113,7 @@ export const AccountPoolRow = (
           <span
             className='block text-caption uppercase font-bold'
           >
-            Winning odds
+            {t('winningOdds')}
           </span>
         </div>
 
@@ -121,7 +124,7 @@ export const AccountPoolRow = (
             fontSansRegular
             end={parseInt(usersBalance, 10)}
             decimals={null}
-          /> Tickets
+          /> {t('tickets')}
           <span className='block text-caption uppercase'>
             ${numberWithCommas(usersBalance, { precision: 4 })} {ticker}
           </span>
@@ -148,7 +151,7 @@ export const AccountPoolRow = (
                   left: -1,
                   top: '0.05rem'
                 }}
-              /> Details
+              /> {t('details')}
             </a>
           </Link>
         </div>

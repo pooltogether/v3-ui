@@ -174,7 +174,7 @@ export const PoolShow = (
                 <div
                   className='text-caption -mt-2 uppercase font-bold'
                 >
-                  {t(pool?.frequency)}
+                  {t(pool?.frequency?.toLowerCase())}
                 </div>
               </div>
 
