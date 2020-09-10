@@ -3,6 +3,7 @@ import FeatherIcon from 'feather-icons-react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { Meta } from 'lib/components/Meta'
@@ -10,6 +11,7 @@ import { SignInForm } from 'lib/components/SignInForm'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const SignInFormContainer = (props) => {
+  const { t } = useTranslation()
   const router = useRouter()
   const showSelectMenu = router.query.showSelectMenu
 

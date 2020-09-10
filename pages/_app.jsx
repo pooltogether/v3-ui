@@ -7,7 +7,6 @@ import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import { useTranslation } from 'lib/../i18n'
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { Layout } from 'lib/components/Layout'
@@ -49,7 +48,6 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 }
 
 function MyApp({ Component, pageProps, router }) {
-  const { t } = useTranslation()
   const [initialized, setInitialized] = useState(false)
 
   useEffect(() => {
@@ -113,7 +111,7 @@ function MyApp({ Component, pageProps, router }) {
       <h4
         className='-mt-6'
       >
-        {t('fillingUpThePools')}
+        Filling up the pools...
       </h4>
     </div>
   }
