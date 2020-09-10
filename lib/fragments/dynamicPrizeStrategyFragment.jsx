@@ -8,6 +8,7 @@ export const dynamicPrizeStrategyFragment = gql`
       id
     }
 
+    creator
     ticket
     sponsorship
     rng

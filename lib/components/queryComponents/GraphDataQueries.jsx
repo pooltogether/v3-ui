@@ -5,8 +5,6 @@ import { DynamicQueries } from 'lib/components/queryComponents/DynamicQueries'
 export const GraphDataQueries = (props) => {
   const { children, usersAddress } = props
 
-  // OPTIMIZE: Only query pools we care about instead of getting every
-  // pool / strategy and filtering them
   return <DynamicQueries
     {...props}
   >

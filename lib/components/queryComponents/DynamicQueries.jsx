@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import { useQuery } from '@apollo/client'
 
 import {
+  CREATOR_ADDRESS,
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
@@ -21,10 +22,16 @@ export const DynamicQueries = (
   const generalContext = useContext(GeneralContext)
   const { paused } = generalContext
 
+  const variables = {
+    creator: CREATOR_ADDRESS
+  }
+
+
   let dynamicPoolData
 
-  // multiple queries at the same time, this or use apollo-link-batch (to prevent multiple re-renders)
+  // multiple queries at the same time this (or use apollo-link-batch) to prevent multiple re-renders
   const { loading: poolQueryLoading, error: poolQueryError, data: poolQueryData } = useQuery(dynamicPrizePoolsQuery, {
+    variables,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
   })
@@ -40,9 +47,8 @@ export const DynamicQueries = (
 
   let dynamicPrizeStrategiesData
 
-  // OPTIMIZE: Batch multiple queries at the same time,
-  // this or use apollo-link-batch (to prevent multiple re-renders)
   const { loading: prizeStrategyQueryLoading, error: prizeStrategyQueryError, data: prizeStrategyQueryData } = useQuery(dynamicPrizeStrategiesQuery, {
+    variables,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
   })
