@@ -55,7 +55,7 @@ export const SignInForm = (props) => {
 
       <PTHint
         title='Ethereum'
-        className='mt-4 block mx-auto'
+        className='mt-4 mx-auto w-48'
 
         tip={<>
           <div className='my-2 text-xs sm:text-sm'>
@@ -69,7 +69,7 @@ export const SignInForm = (props) => {
         </>}
       >
         <span
-          className='font-bold text-caption hidden sm:block'
+          className='font-bold text-caption hidden sm:block w-48'
         >
           {t('whatsAnEthereum')}
         </span>

@@ -57,7 +57,6 @@ export const PTHint = (props) => {
         onMouseOut={hide}
         onTouchStart={toggleVisible}
         className={classnames(
-          className,
           'cursor-pointer h-full w-full l-0 r-0 t-0 b-0 absolute',
         )}
         style={{
