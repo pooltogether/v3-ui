@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
@@ -7,6 +8,7 @@ import { PTHint } from 'lib/components/PTHint'
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
 
 export const SignInForm = (props) => {
+  const { t } = useTranslation()
   // const { handleSubmit, register, errors, formState } = useForm({ mode: 'onBlur' })
 
   const {
@@ -37,7 +39,7 @@ export const SignInForm = (props) => {
       <h5
         className={descriptionClassName}
       >
-        Connect an Ethereum wallet to manage your PoolTogether tickets &amp; rewards:
+        {t('connectAWalletToManageTicketsAndRewards')}
       </h5>
 
       <Button
@@ -47,7 +49,7 @@ export const SignInForm = (props) => {
           authControllerContext.connectWallet(postSignInCallback)
         }}
       >
-        Connect wallet
+        {t('connectWallet')}
       </Button>
 
 
@@ -57,19 +59,19 @@ export const SignInForm = (props) => {
 
         tip={<>
           <div className='my-2 text-xs sm:text-sm'>
-            Ethereum is a global, open-source platform for decentralized applications.
+            {t('whatIsEthereumOne')}
           </div>
           <div
             className='text-xs sm:text-sm'
           >
-            On Ethereum, you can write code that controls digital value, runs exactly as programmed, and is accessible anywhere in the world.
+            {t('whatIsEthereumTwo')}
           </div>
         </>}
       >
         <span
           className='font-bold text-caption hidden sm:block'
         >
-          What's an Ethereum?
+          {t('whatsAnEthereum')}
         </span>
       </PTHint>
     </div>

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useForm } from 'react-hook-form'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ApproveSponsorshipTxButton } from 'lib/components/ApproveSponsorshipTxButton'
@@ -15,6 +16,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
 export const DepositOrWithdrawSponsorshipModal = (props) => {
+  const { t } = useTranslation()
   const {
     decimals,
     handleClose,
@@ -87,12 +89,12 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
     contextualBalance = usersSponsorshipBalance
     validate = {
       greaterThanBalance: value => parseFloat(value) <= usersSponsorshipBalance ||
-        'please enter an amount lower than your sponsorship balance',
+        t('enterAmountLowerThanSponsorshipBalance'),
     }
   } else {
     validate = {
       greaterThanBalance: value => parseFloat(value) <= usersTokenBalance ||
-        'please enter an amount lower than your token balance',
+        t('enterAmountLowerThanTokenBalance'),
     }
   }
 
@@ -101,7 +103,7 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
       handleClose={handleClose}
       visible={visible}
       header={<>
-        Deposit Sponsorship
+        {t('depositSponsorship')}
       </>}
     >
       <form
@@ -118,8 +120,8 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
             name='quantity'
             register={register}
             validate={validate}
-            label={isWithdraw ? `Withdraw amount:` : 'Sponsor amount:'}
-            required='amount required'
+            label={isWithdraw ? t('withdrawAmount') : t('sponsorAmount')}
+            required={t('amountRequired')}
             autoComplete='off'
             rightLabel={usersAddress && tickerUpcased && <>
               <button

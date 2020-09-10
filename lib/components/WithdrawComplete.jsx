@@ -1,12 +1,15 @@
 import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 
+import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 
 export const WithdrawComplete = (props) => {
+  const { t } = useTranslation()
+
   const router = useRouter()
 
   const quantity = router.query.quantity
@@ -29,7 +32,7 @@ export const WithdrawComplete = (props) => {
   const { pool } = poolData
 
   const underlyingCollateralSymbol = pool && pool.underlyingCollateralSymbol
-  const symbolUpcased = underlyingCollateralSymbol && underlyingCollateralSymbol.toUpperCase()
+  const tickerUpcased = underlyingCollateralSymbol && underlyingCollateralSymbol.toUpperCase()
 
   if (!withdrawType) {
     return null
@@ -44,19 +47,29 @@ export const WithdrawComplete = (props) => {
   // TODO: show what happened here!
   // 3. your new odds are:
 
+  // 'Successfully scheduled your withdrawal'
+  // 'Successfully withdrew'
   return <>
     <PaneTitle small>
-      Successfully {scheduledWithdrawal ?
-        'scheduled your withdrawal' :
-        'withdrew'
+      {scheduledWithdrawal ?
+        t('successfullyScheduledYourWithdrawal')  :
+        t('successfullyWithdrew')
       }
     </PaneTitle>
 
     <PaneTitle>
       {scheduledWithdrawal || instantNoFee ? <>
-        ${quantity} {symbolUpcased} = {quantity} tickets
+        {t('amountTickerEqualsAmountTickets', {
+          amount: quantity,
+          ticker: tickerUpcased
+        })}
+        {/* ${quantity} {tickerUpcased} = {quantity} tickets */}
       </> : <>
-        You received ${net} {symbolUpcased}
+        {t('youReceivedAmountTicker', {
+          amount: net,
+          ticker: tickerUpcased
+        })}
+        
       </>}
     </PaneTitle>
 
@@ -64,9 +77,12 @@ export const WithdrawComplete = (props) => {
       <div className='-mt-6 mb-10'>
         <PaneTitle small>
           {scheduledWithdrawal ? <>
-            your funds will be ready in: {formattedFutureDate}
+            {t('yourFundsWillBeReadyInDate', { date: formattedFutureDate })}
           </> : <>
-            ... and forfeited a fairness fee of ${fee} {symbolUpcased} to the pool
+            {t('andForfeitedAFairnessFeeOfAmountTicker', {
+              amount: fee,
+              ticker: tickerUpcased
+            })}
           </>}
         </PaneTitle>
       </div>
@@ -78,7 +94,7 @@ export const WithdrawComplete = (props) => {
         as='/account'
         textSize='lg'
       >
-        View your account
+        {t('viewYourAccount')}
       </ButtonLink>
     </div>
   </>

@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
+import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
@@ -18,6 +19,8 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
 export const TicketQuantityForm = (props) => {
+  const { t } = useTranslation()
+
   const {
     balanceJsx,
     formName,
@@ -70,7 +73,7 @@ export const TicketQuantityForm = (props) => {
     }
   }
 
-  const isWithdraw = formName === 'Withdraw'
+  const isWithdraw = formName === t('withdraw')
 
   let contextualBalance = usersTokenBalance
 
@@ -79,7 +82,7 @@ export const TicketQuantityForm = (props) => {
     contextualBalance = usersTicketBalance
     validate = {
       greaterThanBalance: value => parseFloat(value) <= usersTicketBalance ||
-        'please enter an amount lower than your ticket balance',
+        t('pleaseEnterAmountLowerThanTicketBalance'),
     }
   }
 
@@ -142,17 +145,21 @@ export const TicketQuantityForm = (props) => {
           name='quantity'
           register={register}
           validate={validate}
-          label={<>
-            Ticket amount:
-          </>}
-          required='ticket quantity required'
+          label={t('ticketAmount')}
+          required={t('ticketQuantityRequired')}
           autoComplete='off'
           centerLabel={<>
             <WyreTopUpBalanceDropdown
               label={<>
-                Top up <span
-                  className='hidden xs:inline-block'
-                >&nbsp;balance</span>:
+                <Trans
+                  i18nKey='topUpBalance'
+                  defaults='Top up <hiddenMobile>balance</hiddenMobile>:'
+                  components={{
+                    hiddenMobile: <span
+                      className='hidden xs:inline-block'
+                    />
+                  }}
+                />
               </>}
               textColor='text-default-soft'
               hoverTextColor='text-highlight-1'

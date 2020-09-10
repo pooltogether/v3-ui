@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
@@ -12,6 +13,8 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 export const TimelockedBalanceUI = (props) => {
+  const { t } = useTranslation()
+  
   const {
     pool,
     playerData,
@@ -36,7 +39,7 @@ export const TimelockedBalanceUI = (props) => {
 
   const [txId, setTxId] = useState()
 
-  const txName = `Return timelocked funds`
+  const txName = t(`returnTimelockedFunds`)
   const method = 'sweepTimelockBalances'
 
   const [sendTx] = useSendTransaction(txName)
@@ -74,6 +77,7 @@ export const TimelockedBalanceUI = (props) => {
     ]
 
     const id = sendTx(
+      t,
       provider,
       usersAddress,
       PrizePoolAbi,

@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client'
 
 import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
@@ -12,6 +13,7 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 export const ApproveSponsorshipTxButton = (props) => {
+  const { t } = useTranslation()
   const {
     decimals,
     disabled,
@@ -30,7 +32,8 @@ export const ApproveSponsorshipTxButton = (props) => {
   
   const [txId, setTxId] = useState()
 
-  const txName = `Approve ${tickerUpcased}`
+    // `Approve ${tickerUpcased}`
+  const txName = t(`approveTicker`, { ticker: tickerUpcased })
   const method = 'approve'
 
   const [sendTx] = useSendTransaction(txName)
@@ -54,6 +57,7 @@ export const ApproveSponsorshipTxButton = (props) => {
     ]
 
     const id = sendTx(
+      t,
       provider,
       usersAddress,
       IERC20Abi,

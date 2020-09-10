@@ -18,15 +18,24 @@ export const ConfirmFiatDeposit = (props) => {
 
   return <>
     <PaneTitle small>
-      {quantity} tickets
+      {t('forAmountTickets', {
+        amount: quantity
+      })}
     </PaneTitle>
 
     <PaneTitle>
-      Deposit confirming ...
+      {t('depositConfirming')}
     </PaneTitle>
 
     <PaneTitle small>
-      Transactions may take a few minutes! Estimated wait time: 4 seconds
+      {/* {t('transactionsMayTakeAFewMinutes', {
+        waitTime: 'PUT actual estimate here?'
+      })}
+      <span
+        className='font-bold'
+      >
+        Estimated wait time:
+      </span> PUT actual estimate here? */}
     </PaneTitle>
 
     <div className='mx-auto'>

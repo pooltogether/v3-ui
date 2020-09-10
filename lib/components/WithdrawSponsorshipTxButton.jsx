@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
@@ -12,6 +13,8 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 export const WithdrawSponsorshipTxButton = (props) => {
+  const { t } = useTranslation()
+  
   const {
     decimals,
     quantity,
@@ -33,7 +36,13 @@ export const WithdrawSponsorshipTxButton = (props) => {
 
   const [txId, setTxId] = useState()
 
-  const txName = `Withdraw Sponsorship (${quantity} ${tickerUpcased})`
+  // const txName = `Withdraw Sponsorship (${quantity} ${tickerUpcased})`
+  const txName = t(`withdrawSponsorshipAmountTicker`, {
+    amount: quantity,
+    ticker: tickerUpcased
+  })
+
+  // const txName = `Withdraw Sponsorship (${quantity} ${tickerUpcased})`
   const method = 'withdrawInstantlyFrom'
 
   const [sendTx] = useSendTransaction(txName, refetchSponsorQuery)
@@ -66,9 +75,9 @@ export const WithdrawSponsorshipTxButton = (props) => {
         gasLimit: 550000
       }
     ]
-    
 
     const id = sendTx(
+      t,
       provider,
       usersAddress,
       PrizePoolAbi,

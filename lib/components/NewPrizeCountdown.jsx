@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import addSeconds from 'date-fns/addSeconds'
 import { useInterval } from 'beautiful-react-hooks'
 
+import { useTranslation } from 'lib/../i18n'
 import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 import { subtractDates } from 'lib/utils/subtractDates'
 
@@ -11,6 +12,7 @@ const ONE_SECOND = 1000
 export const NewPrizeCountdown = (
   props,
 ) => {
+  const { t } = useTranslation()
   const { pool } = props
   let flashy = props.flashy === false ? false : true
 
@@ -49,7 +51,7 @@ export const NewPrizeCountdown = (
           }
         )}
       >
-        Prize is being awarded...!
+        {t('prizeIsBeingAwarded')}
       </p>
     </>
   }
@@ -110,7 +112,7 @@ export const NewPrizeCountdown = (
           />
         </div>
         <div className='text-caption'>
-          DAY
+          {t('countdownDayShort')}
         </div>
       </div>
       <div
@@ -130,7 +132,7 @@ export const NewPrizeCountdown = (
           />
         </div>
         <div className='text-caption'>
-          HR
+          {t('countdownHourShort')}
         </div>
       </div>
       <div
@@ -155,7 +157,7 @@ export const NewPrizeCountdown = (
           />
         </div>
         <div className='text-caption'>
-          MIN
+          {t('countdownMinuteShort')}
         </div>
       </div>
       <div
@@ -180,7 +182,7 @@ export const NewPrizeCountdown = (
           />
         </div>
         <div className='text-caption'>
-          SEC
+          {t('countdownSecondShort')}
         </div>
       </div>
       {msg}

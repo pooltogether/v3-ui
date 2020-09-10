@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 // import { FetchExtendedChainData } from 'lib/components/FetchExtendedChainData'
 import { Button } from 'lib/components/Button'
@@ -22,6 +23,8 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 export const ManageUI = (
   props,
 ) => {
+  const { t } = useTranslation()
+
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress } = authControllerContext
   
@@ -52,7 +55,7 @@ export const ManageUI = (
 
   return <>
     <Meta
-      title={`${pool?.name} - Manage - Pools`}
+      title={`${pool?.name} - ${t('manage')} - ${t('pools')}`}
     />
 
     <PageTitleAndBreadcrumbs
@@ -62,7 +65,7 @@ export const ManageUI = (
         {
           href: '/',
           as: '/',
-          name: 'Pools',
+          name: t('pools'),
         },
         {
           href: '/pools/[symbol]',
@@ -70,7 +73,7 @@ export const ManageUI = (
           name: pool?.name,
         },
         {
-          name: 'Manage'
+          name: t('manage')
         }
       ]}
     />
@@ -79,9 +82,9 @@ export const ManageUI = (
       className='bg-highlight-3 rounded-lg px-10 pt-10 pb-10 text-white mt-4 sm:mt-16 flex flex-col justify-center'
     >
       <h4>
-        Pool status: <span className='text-green'>
+        {t('poolStatus')} <span className='text-green'>
           {poolLocked && <>
-            Pool locked <FeatherIcon
+            {t('poolLocked')} <FeatherIcon
               strokeWidth='0.09rem'
               icon='lock'
               className='inline-block w-6 h-6 relative'
@@ -91,7 +94,7 @@ export const ManageUI = (
             />
           </>}
           {canStartAward && <>
-            Ready to be awarded <FeatherIcon
+            {t('readyToBeAwarded')} <FeatherIcon
               strokeWidth='0.09rem'
               icon='check'
               className='inline-block w-6 h-6 relative'
@@ -101,7 +104,7 @@ export const ManageUI = (
             />
           </>}
           {openPhase && <>
-            Open <FeatherIcon
+            {t('open')} <FeatherIcon
               strokeWidth='0.09rem'
               icon='clock'
               className='inline-block w-6 h-6 relative'
@@ -115,7 +118,7 @@ export const ManageUI = (
 
       <p className='text-caption font-bold'>
         {isRngRequested && !canCompleteAward && <>
-          Waiting on random number generation ...
+          {t('waitingOnRandomNumberGeneration')}
           <span
             className='w-6 flex items-start justify-start mt-6'
           >
@@ -124,15 +127,18 @@ export const ManageUI = (
         </>}
 
         {canStartAward && <>
-          Prize reward process ready to be started!
+          {t('prizeRewardProcessReady')}
+          {/* Prize reward process ready to be started! */}
         </>}
 
         {canCompleteAward && <>
-          Prize reward process ready to be finished!
+          {t('prizeRewardProcessReadyToFinish')}
+          {/* Prize reward process ready to be finished! */}
         </>}
 
         {openPhase && <>
-          Pool is accepting deposits and withdrawals.
+          {t('poolAcceptingDepositsAndWithdrawals')}
+          {/* Pool is accepting deposits and withdrawals. */}
         </>}
       </p>
 
@@ -143,7 +149,7 @@ export const ManageUI = (
           <h6
             className='mb-2'
           >
-            Prize period remaining:
+            {t('prizePeriodRemaining')}
           </h6>
           <NewPrizeCountdown
             pool={pool}
@@ -177,7 +183,13 @@ export const ManageUI = (
         cards={[
           {
             icon: null,
-            title: 'Exit Fee Mantissa',
+            title: <>
+              {t('exitFee')} (<a
+                href='https://docs.pooltogether.com/tutorials/withdrawing-from-a-prize-pool#withdrawing-funds-instantly'
+                target='_blank'
+                rel='noreferrer nofollow'
+              >exitFeeMantissa</a>)
+            </>,
             content: <>
               <h3>
                 {displayAmountInEther(
@@ -189,7 +201,13 @@ export const ManageUI = (
           },
           {
             icon: null,
-            title: 'Credit Rate Mantissa',
+            title: <>
+              {t('creditRate')} (<a
+                href='https://docs.pooltogether.com/tutorials/withdrawing-from-a-prize-pool#withdrawing-funds-instantly'
+                target='_blank'
+                rel='noreferrer nofollow'
+              >creditRateMantissa</a>)
+            </>,
             content: <>
               <h3>
                 {displayAmountInEther(
@@ -201,7 +219,7 @@ export const ManageUI = (
           },
           {
             icon: null,
-            title: 'Prize Period (in seconds)',
+            title: t('prizePeriodInSeconds'),
             content: <h3>{numberWithCommas(
               pool.prizePeriodSeconds,
               { precision: 0 }
@@ -209,7 +227,7 @@ export const ManageUI = (
           },
           {
             icon: null,
-            title: 'Sponsorship',
+            title: t('sponsorship'),
             content: <h3>{displayAmountInEther(
               pool.totalSponsorship,
               { decimals, precision: 4 }

@@ -8,7 +8,7 @@ import {
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -72,10 +72,16 @@ export const PoolRow = (
                 top: -6
               }}
             >
-              Prize ${displayAmountInEther(
-                pool?.estimatePrize,
-                { decimals, precision: 2 }
-              )}
+              <Trans
+                i18nKey="prizeAndAmount"
+                defaults="Prize ${{amount}}"
+                values={{
+                  amount: displayAmountInEther(
+                    pool?.estimatePrize,
+                    { decimals, precision: 2 }
+                  )
+                }}
+              />
             </div>
             <div
               className='inline-block text-left text-caption-2 relative'
@@ -87,7 +93,7 @@ export const PoolRow = (
               <span
                 className='uppercase text-caption'
               >
-                {pool.frequency}
+                {t(pool?.frequency)}
               </span>
             </div>
           </div>

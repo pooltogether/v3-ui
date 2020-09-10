@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { useQuery } from '@apollo/client'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TransactionsListItem } from 'lib/components/TransactionsListItem'
 import { transactionsVar } from 'lib/apollo/cache'
@@ -8,6 +9,8 @@ import { clearPreviousTransactionsFactory } from 'lib/apollo/clearPreviousTransa
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 
 export const TransactionsList = (props) => {
+  const { t } = useTranslation()
+
   const authControllerContext = useContext(AuthControllerContext)
   const { chainId, usersAddress } = authControllerContext
 
@@ -50,19 +53,19 @@ export const TransactionsList = (props) => {
       <div
         className='flex justify-between items-center text-xxs xs:text-xs uppercase font-bold text-accent-3'
       >
-        Recent transactions {pastTransactionsCount > 0 && <>
+        {t('recentTransactions')} {pastTransactionsCount > 0 && <>
           <button
             onClick={handleClearPrevious}
             className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 px-2 trans trans-fastest font-bold'
           >
-            Clear history
-        </button>
+            {t('clearHistory')}
+          </button>
         </>}
       </div> 
 
       {pendingTransactionsCount > 0 && <>
         <div className='block sm:inline-block text-caption text-xxs'>
-          {pendingTransactionsCount} pending
+          {t('pendingTransactionsCount', { count: pendingTransactionsCount })}
         </div>
       </>}
 
@@ -73,9 +76,10 @@ export const TransactionsList = (props) => {
     >
       {notCancelledTransactions.length === 0 ? <>
         <div
-          className='text-default-soft px-8 sm:px-10 pb-4 uppercase text-xs'
+          className='text-default-soft px-8 sm:px-10 pb-4 uppercase text-xs mt-4'
         >
-          Currently no active transactions...
+          {t('currentlyNoActiveTransactions')}
+          {/* CURRENTLY NO ACTIVE TRANSACTIONS */}
         </div>
       </> : <>
           <ul

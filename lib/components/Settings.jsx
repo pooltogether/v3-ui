@@ -5,12 +5,14 @@ import FeatherIcon from 'feather-icons-react'
 import VisuallyHidden from '@reach/visually-hidden'
 import { motion } from 'framer-motion'
 
+import { useTranslation } from 'lib/../i18n'
 import { SHOW_MANAGE_LINKS } from 'lib/constants'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { PTHint } from 'lib/components/PTHint'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
 
 export const Settings = (props) => {
+  const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
 
   const [showManageLinks, setShowManageLinks] = useState(false)
@@ -142,16 +144,16 @@ export const Settings = (props) => {
       </button>
 
       <h6
-        className='text-white mt-4 mb-16'
+        className='text-white mt-4 mb-16 capitalize'
       >
-        Settings
+        {t('settings')}
       </h6>
 
       <div className='my-12'>
         <label
           className='uppercase text-caption font-number mb-4'
         >
-          Theme:
+          {t('theme')}:
         </label>
         <ThemeSwitcher />
       </div>
@@ -161,7 +163,7 @@ export const Settings = (props) => {
         <label
           className='uppercase text-caption font-number mb-2'
         >
-          Manage:
+          {t('manage')}:
         </label>
         <div
           className='flex flex-col sm:flex-wrap sm:flex-row items-center justify-start text-center'
@@ -170,13 +172,11 @@ export const Settings = (props) => {
             large
             id='settings-show-award'
             name='settings-show-award'
-            label={<>
-              Show Pool Management pages
-            </>}
-            title='Manage Pools'
+            label={t('showPoolManagementPages')}
+            title={t('managePools')}
             hint={<>
               <div className='my-2 text-xs sm:text-sm'>
-                Anyone can manage basic functions of the pools such as StartAward() and CompleteAward(). These pages are hidden by default as most people won't want to admin a pool.
+                {t('showPoolManagementDescription')}
               </div>
             </>}
             checked={showManageLinks}

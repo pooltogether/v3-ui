@@ -94,7 +94,8 @@ export const DepositCryptoForm = (props) => {
 
   const [txId, setTxId] = useState()
 
-  const txName = `Approve ${tickerUpcased}`
+  const txName = t(`approveTicker`, { ticker: tickerUpcased })
+  // const txName = `Approve ${tickerUpcased}`
   const method = 'approve'
 
   const [sendTx] = useSendTransaction(txName)
@@ -121,6 +122,7 @@ export const DepositCryptoForm = (props) => {
     ]
 
     const id = sendTx(
+      t,
       provider,
       usersAddress,
       IERC20Abi,
@@ -141,16 +143,22 @@ export const DepositCryptoForm = (props) => {
     disabled={!needsApproval || unlockTxInFlight}
     className={approveButtonClassName}
   >
-    Approve {tickerUpcased}
+    {t('approveTicker', {
+      ticker: tickerUpcased
+    })}
   </Button>
 
   return <>
     <PaneTitle small>
-      {quantity} tickets
+      {t('amountTickets', {
+        amount: quantity
+      })}
     </PaneTitle>
 
     <PaneTitle>
-      Deposit {tickerUpcased} <div className='inline-block relative -t-1'>
+      {t('depositTicker', {
+        ticker: tickerUpcased
+      })} <div className='inline-block relative -t-1'>
         <PoolCurrencyIcon
           pool={pool}
         />
@@ -171,7 +179,7 @@ export const DepositCryptoForm = (props) => {
         className='bg-primary flex text-inverse items-center justify-between w-full mx-auto px-6 py-3 font-bold rounded-bl-lg rounded-br-lg'
       >
         <div>
-          Total:
+          {t('total')}
         </div>
         <div>
           <span
@@ -192,14 +200,16 @@ export const DepositCryptoForm = (props) => {
           <h4
             className=''
           >
-            You don't have enough {tickerUpcased}.
+            {t('youDontHaveEnoughTicker', {
+              ticker: tickerUpcased
+            })}
           </h4>
           <div
             className='mt-2 text-default-soft'
           >
             <WyreTopUpBalanceDropdown
               showSuggestion
-              label='Top up my balance'
+              label={t('topUpMyBalance')}
               textColor='text-highlight-2'
               hoverTextColor='text-highlight-1'
               className='button-scale mt-4 mb-20 px-10 py-2 text-sm sm:text-xl lg:text-2xl rounded-lg border-highlight-2 border-2 bg-default hover:border-highlight-1 hover:bg-body'
@@ -221,7 +231,7 @@ export const DepositCryptoForm = (props) => {
                 style={{
                   top: 1
                 }}
-              /> Change quantity
+              /> {t('changeQuantity')}
             </Button>
             <div></div>
           </ButtonDrawer>
@@ -241,15 +251,17 @@ export const DepositCryptoForm = (props) => {
               }}
             >
               <PaneTitle small>
-                {needsApproval && !unlockTxInFlight && 'Your approval is necessary'}
+                {needsApproval && !unlockTxInFlight && t('yourApprovalIsNecessary')}
 
                 {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
-                {tx?.inWallet && !tx?.cancelled && 'Confirm approval in your wallet'}
-                {tx?.sent && !tx?.completed && 'Approval confirming...'}
+                {tx?.inWallet && !tx?.cancelled && t('confirmApprovalInWallet')}
+                {tx?.sent && !tx?.completed && t('approvalConfirming')}
               </PaneTitle>
 
               {needsApproval && !unlockTxInFlight && <>
-                Unlock this deposit by allowing the pool to have a <span className='font-bold'>{tickerUpcased}</span> allowance:
+                {t('unlockToDepositTicker', {
+                  ticker: tickerUpcased
+                })}
               </>}
 
               {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage />}
@@ -259,10 +271,10 @@ export const DepositCryptoForm = (props) => {
           <ButtonDrawer>
             {!needsApproval ? <>
               <PTHint
-                title='Allowance'
+                title={t('allowance')}
                 tip={<>
                   <div className='my-2 text-xs sm:text-sm'>
-                    You have provided enough allowance to this pool and don't need to approve anymore.
+                    {t('youHaveProvidedEnoughAllowance')}
                   </div>
                 </>}
                 className='w-48-percent'

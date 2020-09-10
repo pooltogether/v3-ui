@@ -1,9 +1,12 @@
 import React from 'react'
 import { ethers } from 'ethers'
 
+import { useTranslation } from 'lib/../i18n'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 
 export const Odds = (props) => {
+  const { t } = useTranslation()
+
   const {
     className,
     hide,
@@ -52,16 +55,16 @@ export const Odds = (props) => {
   
   let label = showLabel && <>
     {hasAdditionalQuantity && additionalQuantity !== 0 ? <>
-      {!isWithdraw && <span className='font-bold text-flashy'>New odds of winning:</span>}
-      {isWithdraw && 'New odds of winning:'}
+      {!isWithdraw && <span className='font-bold text-flashy'>{t('newOddsOfWinning')}</span>}
+      {isWithdraw && t('newOddsOfWinning')}
     </>
        :
-      <>Current odds of winning:</>
+      t('currentOddsOfWinning')
     }
   </>
 
   if (isWithdraw && !isFinite(result)) {
-    content = <>Withdrawing everything will make you ineligible to win</>
+    content = t('withdrawingEverythingMakeYouIneligible')
   } else if (!hide && (hasBalance || hasAdditionalQuantity)) {
     content = <>
       {label} {splitLines && <br />}<span

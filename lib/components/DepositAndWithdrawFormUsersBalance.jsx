@@ -1,11 +1,13 @@
 import React from 'react'
 import classnames from 'classnames'
 
+import { useTranslation } from 'lib/../i18n'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 
 export const DepositAndWithdrawFormUsersBalance = (
   props,
 ) => {
+  const { t } = useTranslation()
   const { label, start, end, units } = props
 
   let roundedClasses = props.roundedClasses || 'rounded-tl-lg rounded-tr-lg'
@@ -20,7 +22,7 @@ export const DepositAndWithdrawFormUsersBalance = (
       )}
     >
       <div>
-        {label || 'Your balance:'}
+        {label || t('yourBalance')}
       </div>
       <div>
         <PoolCountUp

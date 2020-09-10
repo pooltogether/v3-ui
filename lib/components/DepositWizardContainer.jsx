@@ -38,9 +38,11 @@ export const DepositWizardContainer = (props) => {
   const poolDataContext = useContext(PoolDataContext)
   const { pool } = poolDataContext
 
+  const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
+  
   return <>
     <Meta
-      title={`Deposit`}
+      title={t('deposit')}
     />
 
     <Wizard
@@ -71,7 +73,10 @@ export const DepositWizardContainer = (props) => {
                 return step.isActive && <>
                   <TicketQuantityForm
                     formName={t('getTickets')}
-                    formSubName={`1 ticket = 1 ${pool?.underlyingCollateralSymbol}`}
+                    formSubName={t('amountTickerEqualsAmountTickets', { 
+                      amount: '1',
+                      ticker: tickerUpcased
+                    })}
                     nextStep={step.nextStep}
                   />
                 </>

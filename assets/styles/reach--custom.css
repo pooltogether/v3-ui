@@ -122,6 +122,7 @@
 @screen sm {
   [data-reach-dialog-content] {
     background: transparent;
+    height: auto;
     margin: 10vh auto;
     padding: 0;
     max-width: 46rem;

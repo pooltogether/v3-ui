@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import {
   SUPPORTED_CHAIN_IDS,
 } from 'lib/constants'
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Modal } from 'lib/components/Modal'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
@@ -14,6 +15,8 @@ const onlyUnique = (value, index, self) => {
 }
 
 export const WrongNetworkModal = (props) => {
+  const { t } = useTranslation()
+
   const authControllerContext = useContext(AuthControllerContext)
   const { supportedNetwork } = authControllerContext
 
@@ -26,11 +29,9 @@ export const WrongNetworkModal = (props) => {
   return <>
     <Modal
       visible={!supportedNetwork}
-      header={<>
-        Ethereum network mismatch
-      </>}
+      header={t('ethereumNetworkMismatch')}
     >
-      Your Ethereum wallet is connected to the wrong network. Please set your network to one of the following: <div
+      {t('yourEthereumNetworkIsUnsupported')} <div
         className='inline-flex items-start justify-start font-bold text-white text-center mt-2'
       >
         {supportedNetworkNames.map(name => {

@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { useQuery } from '@apollo/client'
 
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
+import { useTranslation } from 'lib/../i18n'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
@@ -12,6 +13,7 @@ import { poolPrizesQuery } from 'lib/queries/poolPrizesQuery'
 export const PoolPrizeListing = (
   props,
 ) => {
+  const { t } = useTranslation()
   const { pool } = props
 
   const generalContext = useContext(GeneralContext)
@@ -51,7 +53,7 @@ export const PoolPrizeListing = (
       </>}
 
       {error && <>
-        There was an issue loading data:
+        {t('thereWasAnErrorLoadingData')}
         {error}
       </>}
 
@@ -60,14 +62,15 @@ export const PoolPrizeListing = (
           <div
             className='mb-4'
           >
-            There are no prizes for this pool yet.
+            {t('thereAreNoPrizesYet')}
+            {/* There are no prizes for this pool yet. */}
           </div>
           <ButtonLink
             secondary
             href='/pools/[symbol]/manage'
             as={`/pools/${pool?.symbol}/manage`}
           >
-            Manage pool
+            {t('managePool')}
           </ButtonLink>
         </BlankStateMessage>
       </>}

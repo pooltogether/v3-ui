@@ -1,15 +1,16 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { ethers } from 'ethers'
 import { useTable } from 'react-table'
 
+import { useTranslation } from 'lib/../i18n'
 import { BasicTable } from 'lib/components/BasicTable'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { formatDate } from 'lib/utils/formatDate'
 import { shorten } from 'lib/utils/shorten'
 
-const prizeLink = (pool, prize) => {
+const prizeLink = (t, pool, prize) => {
   return <Link
     href='/prizes/[symbol]/[prizeNumber]'
     as={`/prizes/${pool.symbol}/${prize.id}`}
@@ -18,7 +19,7 @@ const prizeLink = (pool, prize) => {
     <a
       className='trans text-right w-full'
     >
-      view details
+      {t('viewDetails')}
     </a>
   </Link>
 }
@@ -37,21 +38,21 @@ const prizeState = (prize) => {
   }
 }
 
-const prizeStatusString = (prize) => {
+const prizeStatusString = (t, prize) => {
   const state = prizeState(prize)
 
   if (state === AWARDED) {
     return prize.winners && prize.winners.length > 0 ?
       prize.winners.map(winner => winner.id) :
-      'No winner'
+      t('noWinner')
   } else if (state === AWARD_STARTED) {
-    return 'Awarding...'
+    return t('awarding')
   } else {
     return '...'
   }
 }
 
-const formatPrizeObject = (pool, prize) => {
+const formatPrizeObject = (t, pool, prize) => {
   const id = extractPrizeNumberFromPrize(prize)
   const decimals = pool.underlyingCollateralDecimals
   const prizeAmount = prize.net && decimals ?
@@ -73,14 +74,15 @@ const formatPrizeObject = (pool, prize) => {
       </span>
     </>,
     prizeAmount: `$${prizeAmount.toString()} ${pool?.underlyingCollateralSymbol}`,
-    status: prizeStatusString(prize),
-    view: prizeLink(pool, { id })
+    status: prizeStatusString(t, prize),
+    view: prizeLink(t, pool, { id })
   }
 }
 
 export const PrizesTable = (
   props,
 ) => {
+  const { t } = useTranslation()
   const { pool, prizes } = props
 
   const decimals = pool?.underlyingCollateralDecimals
@@ -96,24 +98,26 @@ export const PrizesTable = (
         accessor: 'prizeNumber',
       },
       {
-        Header: 'Prize amount',
+        Header: t('prizeAmount'),
         accessor: 'prizeAmount', // accessor is the "key" in the data
       },
       {
         Header: row => <div
           className='hidden sm:block'
-        >Winner</div>,
+        >
+          {t('winner')}
+        </div>,
         accessor: 'winner',
         Cell: row => <div
           className='hidden sm:block'
         >{row.value}</div>
       },
       {
-        Header: 'Awarded on',
+        Header: t('awardedOn'),
         accessor: 'awardedAt',
       },
       {
-        Header: 'Status',
+        Header: t('status'),
         accessor: 'status',
       },
       {
@@ -125,7 +129,7 @@ export const PrizesTable = (
   }, [] )
 
   const data = React.useMemo(() => {
-    const prizeRows = prizes.map(prize => formatPrizeObject(pool, prize))
+    const prizeRows = prizes.map(prize => formatPrizeObject(t, pool, prize))
 
     const lastPrize = prizes[0]
 
@@ -141,7 +145,7 @@ export const PrizesTable = (
 
       currentPrize = {
         prizeAmount: `$${amount} ${pool.underlyingCollateralSymbol}`,
-        status: 'Current',
+        status: t('current'),
         view: prizeLink(pool, { id: currentPrizeId })
       }
 

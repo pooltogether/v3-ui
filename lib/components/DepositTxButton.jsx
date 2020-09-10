@@ -1,9 +1,11 @@
 import React from 'react'
 
+import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
 
 export const DepositTxButton = (props) => {
+  const { t } = useTranslation()
   const { poolIsLocked, disabled, nextStep } = props
 
   const handleDepositClick = (e) => {
@@ -21,7 +23,7 @@ export const DepositTxButton = (props) => {
       disabled={disabled || poolIsLocked}
       className={buttonClassName}
     >
-      Deposit
+      {t('deposit')}
     </Button>
   </>
 
@@ -31,12 +33,12 @@ export const DepositTxButton = (props) => {
         title='Pool is locked'
         tip={<>
           <div className='my-2 text-xs sm:text-sm'>
-            The Pool is currently being awarded. No deposits or withdrawals can be processed until it's complete.
+            {t('poolCurrentlyBeingAwarded')}
           </div>
           <div
             className='text-xs sm:text-sm'
           >
-            You won't need to refresh the page.
+            {t('youWontNeedToRefreshThePage')}
           </div>
         </>}
         className='w-48-percent'

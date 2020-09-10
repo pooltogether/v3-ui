@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
-import { ethers } from 'ethers'
 
+import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { DepositOrWithdrawSponsorshipModal } from 'lib/components/DepositOrWithdrawSponsorshipModal'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
@@ -9,6 +9,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 export const SponsorshipPane = (
   props,
 ) => {
+  const { t } = useTranslation()
   const { tickerUpcased, usersAddress } = props
 
   const [depositVisible, setDepositVisible] = useState(false)
@@ -54,14 +55,14 @@ export const SponsorshipPane = (
       className='bg-highlight-3 rounded-lg px-10 pt-8 pb-10 text-white my-4 flex flex-col justify-center'
     >
       <h4>
-        Your sponsorship
+        {t('yourSponsorship')}
       </h4>
 
       {!usersAddress ? <>
-        Connect a wallet to manage your sponsorship balance.
+        {t('connectAWalletToManageSponsorship')}
       </> : <>
         <div className='uppercase text-caption mb-4 font-bold'>
-          Balance: {numberWithCommas(
+          {t('balance')} {numberWithCommas(
             usersSponsorshipBalance,
             { precision: 4 }
           )} {tickerUpcased}
@@ -74,7 +75,7 @@ export const SponsorshipPane = (
             className='w-1/2 sm:w-1/3 mr-2'
             onClick={handleDepositSponsorshipClick}
           >
-            Deposit
+            {t('deposit')}
           </Button>
 
           <Button
@@ -83,7 +84,7 @@ export const SponsorshipPane = (
             onClick={handleWithdrawSponsorshipClick}
             className='w-1/2 sm:w-1/3 ml-2'
           >
-            Withdraw
+            {t('withdraw')}
           </Button>
         </div>
       </>}

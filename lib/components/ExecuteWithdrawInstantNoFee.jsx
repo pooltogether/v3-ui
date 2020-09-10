@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -14,6 +15,8 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const ExecuteWithdrawInstantNoFee = (props) => {
+  const { t } = useTranslation()
+
   const router = useRouter()
   const quantity = router.query.quantity
 
@@ -26,16 +29,19 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   const { pool, refetchPlayerQuery } = poolData
 
   const decimals = pool?.underlyingCollateralDecimals
-  const ticker = pool?.underlyingCollateralSymbol
+  const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
   const poolAddress = pool?.poolAddress
   const controlledTokenAddress = pool?.ticket
 
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
-  const txMainName = `Withdraw: ${quantity} tickets`
-  const txSubName = `($${quantity} ${ticker})`
-  const txName = `${txMainName} ${txSubName}`
+  // const txMainName = `Withdraw: ${quantity} tickets`
+  const txMainName = t(`withdrawAmountTickets`, {
+    amount: quantity,
+  })
+  const txSubName = `${quantity} ${tickerUpcased}`
+  const txName = `${txMainName} - ${txSubName}`
   const method = 'withdrawInstantlyFrom'
 
   const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
@@ -73,6 +79,7 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
       ]
 
       const id = sendTx(
+        t,
         provider,
         usersAddress,
         PrizePoolAbi,

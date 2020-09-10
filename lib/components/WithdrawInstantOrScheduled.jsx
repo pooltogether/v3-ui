@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 import {
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { ExecuteWithdrawInstantNoFee } from 'lib/components/ExecuteWithdrawInstantNoFee'
@@ -13,6 +14,8 @@ import { fetchExitFees } from 'lib/utils/fetchExitFees'
 import { useInterval } from 'lib/hooks/useInterval'
 
 export const WithdrawInstantOrScheduled = (props) => {
+  const { t } = useTranslation()
+
   const {
     pool,
     quantity,
@@ -72,12 +75,19 @@ export const WithdrawInstantOrScheduled = (props) => {
       getFees()
     }
     // OPTIMIZE: Could reset the interval loop here since we just grabbed fresh data!
-  }, [quantity, usersAddress, networkName, ticketAddress, prizeStrategyAddress, networkName])
+  }, [
+    quantity,
+    usersAddress,
+    networkName,
+    ticketAddress,
+    prizeStrategyAddress,
+    networkName
+  ])
   
   return <>
     {hasEnoughCreditForInstant === null ? <>
       <PaneTitle small>
-        Getting available credit ...
+        {t('gettingAvailableCredit')}
       </PaneTitle>
     </> :
       hasEnoughCreditForInstant ?

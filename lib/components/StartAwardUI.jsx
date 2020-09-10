@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client'
 
 import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PrizeStrategy'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonTx } from 'lib/components/ButtonTx'
@@ -10,6 +11,8 @@ import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 
 export const StartAwardUI = (props) => {
+  const { t } = useTranslation()
+
   const authControllerContext = useContext(AuthControllerContext)
   const { provider, usersAddress } = authControllerContext
 
@@ -21,7 +24,10 @@ export const StartAwardUI = (props) => {
 
   const [txId, setTxId] = useState()
 
-  const txName = `Start Award - ${pool?.name}`
+  // const txName = `Start Award - ${pool?.name}`
+  const txName = t(`startAwardPoolName`, {
+    poolName: pool?.name
+  })
   const method = 'startAward'
 
   const [sendTx] = useSendTransaction(txName)
@@ -45,6 +51,7 @@ export const StartAwardUI = (props) => {
     ]
 
     const id = sendTx(
+      t,
       provider,
       usersAddress,
       PrizeStrategyAbi,
@@ -64,7 +71,7 @@ export const StartAwardUI = (props) => {
         onClick={handleStartAwardClick}
         usersAddress={usersAddress}
       >
-        Start Award
+        {t('startAward')}
       </ButtonTx>
     </>}
   </>

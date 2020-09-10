@@ -1,12 +1,14 @@
 import React, { useContext } from 'react'
 import Link from 'next/link'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { shorten } from 'lib/utils/shorten'
 
 export const WalletInfo = (props) => {
+  const { t } = useTranslation()
   const { closeTransactions } = props
 
   const authControllerContext = useContext(AuthControllerContext)
@@ -32,7 +34,7 @@ export const WalletInfo = (props) => {
           <div
             className='text-xxs xs:text-xs uppercase font-bold text-accent-3'
           >
-            Account address:
+            {t('accountAddress')}
           </div>
           <div
             className='flex justify-between items-center sm:text-xs lg:text-sm text-default mt-1 mb-2 sm:mb-4'
@@ -53,7 +55,7 @@ export const WalletInfo = (props) => {
                 }}
                 className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 px-2 trans trans-fastest font-bold'
               >
-                Your tickets &amp; rewards
+                {t('yourTicketsAndRewards')}
               </a>
             </Link>
           </div>
@@ -64,14 +66,14 @@ export const WalletInfo = (props) => {
             <div
               className='text-xxs xs:text-xs uppercase font-bold text-accent-3'
             >
-              Connected to:
+              {t('connectedTo')}
             </div>
             <div
               className='flex justify-between items-center sm:text-xs lg:text-sm text-default mt-1 mb-2 sm:mb-4'
             >
               <div>
                 {walletName} {chainId && chainId !== 1 && <>
-                  on <span className='capitalize'>{networkName}</span>
+                  - <span className='capitalize'>{networkName}</span>
                 </>}
               </div>
               <button
@@ -83,7 +85,7 @@ export const WalletInfo = (props) => {
                 }}
                 className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 px-2 trans trans-fastest font-bold'
               >
-                Change account
+                {t('changeAccount')}
               </button>
             </div>
           </div>

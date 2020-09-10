@@ -14,6 +14,8 @@ const wyreDomain = () => {
 }
 
 export const WyreTopUpBalanceDropdown = (props) => {
+  const { t } = useTranslation()
+
   const {
     label,
     className,
@@ -23,7 +25,6 @@ export const WyreTopUpBalanceDropdown = (props) => {
     tickerUpcased
   } = props
   
-  const { t } = useTranslation()
 
   const [canBuy, setCanBuy] = useState(null)
 
@@ -60,12 +61,17 @@ export const WyreTopUpBalanceDropdown = (props) => {
   const currencies = {
     [tickerUpcased]: {
       'label': <span className='text-lg'>
-        Buy {tickerUpcased} (Debit, Credit Card{applePay})
+        {t('buyTickerDebitCreditCard', {
+          ticker: tickerUpcased,
+          applePay
+        })}
       </span>,
     },
     'ETH': {
       'label': <span className='text-lg'>
-        Buy ETH (Debit, Credit Card{applePay})
+        {t('buyEthDebitCreditCard', {
+          applePay
+        })}
       </span>,
     },
   }
@@ -124,7 +130,7 @@ export const WyreTopUpBalanceDropdown = (props) => {
       </>}
 
       {!canBuy && showSuggestion && <>
-        You will need to acquire ETH &amp; DAI on Coinbase, Kraken, or through MoonPay or Wyre, etc.
+        {t('needToAcquireCurrencyFromExchange')}
       </>}
     </span>
   </>

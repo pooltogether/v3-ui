@@ -3,7 +3,10 @@ import classnames from 'classnames'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
+import { useTranslation } from 'lib/../i18n'
+
 export const Nav = (props) => {
+  const { t } = useTranslation()
   const router = useRouter()
 
   const accountPage = router.pathname.match('account')
@@ -12,9 +15,8 @@ export const Nav = (props) => {
   // const prizesPage = router.pathname.match('prizes')
   // const poolPage = !accountPage && !prizesPage
 
-
-  const daiPoolPage = router.asPath === '/pools/PT-cDAI'
-  const usdcPoolPage = router.asPath === '/pools/PT-cUSDC'
+  // const daiPoolPage = router.asPath === '/pools/PT-cDAI'
+  // const usdcPoolPage = router.asPath === '/pools/PT-cUSDC'
   // const usdtPoolPage = router.asPath === '/pools/PT-cUSDT'
 
   const navParentClasses = 'leading-none rounded-full hover:bg-accent-grey-1 w-8/12 flex justify-start items-center text-lg lg:text-xl py-3 px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none my-3 font-bold ml-3 lg:ml-0 h-10'
@@ -60,7 +62,7 @@ export const Nav = (props) => {
             </svg>
           </div>
 
-          <span className='pl-2'>Pools</span>
+          <span className='pl-2 capitalize'>{t('pools')}</span>
         </a>
       </Link>
 {/* 
@@ -192,7 +194,7 @@ export const Nav = (props) => {
             </svg>
           </div>
 
-          <span className='pl-2'>Account</span>
+          <span className='pl-2 capitalize'>{t('account')}</span>
         </a>
       </Link>
     </nav>

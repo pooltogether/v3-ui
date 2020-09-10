@@ -7,6 +7,7 @@ import { useQuery } from '@apollo/client'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { DepositInfoList } from 'lib/components/DepositInfoList'
@@ -16,6 +17,8 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 export const ExecuteCryptoDeposit = (props) => {
+  const { t } = useTranslation()
+
   const { nextStep, previousStep } = props
 
   const router = useRouter()
@@ -37,8 +40,9 @@ export const ExecuteCryptoDeposit = (props) => {
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
-  const txName = `Deposit: ${quantity} tickets`
-  // const txName = `Deposit: ${quantity} tickets ($${quantity} ${ticker})`
+  const txName = t(`depositAmountTickets`, {
+    amount: quantity,
+  })
   const method = 'depositTo'
 
   const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
@@ -75,6 +79,7 @@ export const ExecuteCryptoDeposit = (props) => {
       ]
 
       const id = sendTx(
+        t,
         provider,
         usersAddress,
         PrizePoolAbi,
@@ -115,7 +120,11 @@ export const ExecuteCryptoDeposit = (props) => {
     </PaneTitle>
 
     <PaneTitle>
-      For ${quantity} {tickerUpcased}
+      {t('forAmountTicker', {
+        amount: quantity,
+        ticker: tickerUpcased
+      })}
+      {/* For ${quantity} {tickerUpcased} */}
        {/* = {quantity} tickets */}
     </PaneTitle>
 
@@ -124,8 +133,8 @@ export const ExecuteCryptoDeposit = (props) => {
     <PaneTitle small>
       {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
 
-      {tx?.inWallet && 'Confirm deposit in your wallet'}
-      {tx?.sent && 'Deposit confirming ...'}
+      {tx?.inWallet && t('confirmDepositInYourWallet')}
+      {tx?.sent && t('depositConfirming')}
     </PaneTitle>
 
     {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage />}

@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
 import { useRouter } from 'next/router'
 
+import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
+// import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
 import { ExecuteWithdrawScheduledOrInstantWithFee } from 'lib/components/ExecuteWithdrawScheduledOrInstantWithFee'
 import { Meta } from 'lib/components/Meta'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
@@ -12,6 +13,7 @@ import { WithdrawInstantOrScheduled } from 'lib/components/WithdrawInstantOrSche
 import { WizardLayout } from 'lib/components/WizardLayout'
 
 export const WithdrawWizardContainer = (props) => {
+  const { t } = useTranslation()
   const router = useRouter()
   const quantity = router.query.quantity
 
@@ -50,7 +52,7 @@ export const WithdrawWizardContainer = (props) => {
 
   return <>
     <Meta
-      title={`Withdraw`}
+      title={t('withdraw')}
     />
 
     <Wizard
@@ -71,7 +73,7 @@ export const WithdrawWizardContainer = (props) => {
                 return step.isActive && <>
                   <TicketQuantityForm
                     balanceJsx={balanceJsx}
-                    formName='Withdraw'
+                    formName={t('withdraw')}
                     nextStep={step.nextStep}
                     usersTicketBalance={usersTicketBalance}
                     underlyingCollateralDecimals={underlyingCollateralDecimals}

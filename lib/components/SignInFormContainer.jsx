@@ -57,7 +57,7 @@ export const SignInFormContainer = (props) => {
 
   return <>
     <Meta
-      title={`Sign in`}
+      title={t('signIn')}
     />
 
     <motion.div

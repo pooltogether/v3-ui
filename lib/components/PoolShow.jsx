@@ -34,10 +34,10 @@ import PrizeIcon from 'assets/images/icon-prize@2x.png'
 export const PoolShow = (
   props,
 ) => {
-  const { pool } = props
-
   const { t } = useTranslation()
   const router = useRouter()
+
+  const { pool } = props
 
   const symbol = pool?.symbol
 
@@ -66,28 +66,6 @@ export const PoolShow = (
 
   const cookieShowAward = Cookies.get(SHOW_MANAGE_LINKS)
 
-  // const handleShowDeposit = (e) => {
-  //   e.preventDefault()
-
-  //   let pathname = router.pathname
-  //   let asPath = router.asPath
-
-  //   if (!/deposit/.test(asPath)) {
-  //     // console.log('not on deposit so adding deposit to url')
-  //     queryParamUpdater.removeAll(router)
-  //     pathname = `${router.pathname}/deposit`
-  //     asPath = `${router.asPath}/deposit`
-  //   }
-
-  //   router.push(
-  //     pathname,
-  //     asPath,
-  //     {
-  //       shallow: true
-  //     }
-  //   )
-  // }
-
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
 
@@ -105,7 +83,7 @@ export const PoolShow = (
 
   return <>
     <Meta
-      title={`${pool?.name} - Pools`}
+      title={`${pool?.name} - ${t('pools')}`}
     />
 
     <motion.div
@@ -153,7 +131,7 @@ export const PoolShow = (
                   {
                     href: '/',
                     as: '/',
-                    name: 'Pools',
+                    name: t('pools'),
                   },
                   {
                     name: pool?.name,
@@ -185,15 +163,18 @@ export const PoolShow = (
                 className='w-full sm:w-7/12'
               >
                 <h2>
-                  Prize ${displayAmountInEther(
-                    pool?.estimatePrize || 0,
-                    { decimals: pool?.underlyingCollateralDecimals, precision: 2 }
-                  )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
+                  {t('prizeAmountAndTicker', {
+                    amount: displayAmountInEther(
+                      pool?.estimatePrize || 0,
+                      { decimals: pool?.underlyingCollateralDecimals, precision: 2 }
+                    ),
+                    ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
+                  })}
                 </h2>
                 <div
                   className='text-caption -mt-2 uppercase font-bold'
                 >
-                  {pool?.frequency}
+                  {t(pool?.frequency)}
                 </div>
               </div>
 
@@ -213,7 +194,7 @@ export const PoolShow = (
             cards={[
               {
                 icon: PlayersIcon,
-                title: 'Players',
+                title: t('players'),
                 content: <>
                   <h3>
                     {pool?.playerCount}
@@ -226,14 +207,14 @@ export const PoolShow = (
                     <a
                       className='inline-block font-bold trans'
                     >
-                      View current players
+                      {t('viewCurrentPlayers')}
                     </a>
                   </Link>
                 </>
               },
               {
                 icon: TicketsIcon,
-                title: 'Tickets sold',
+                title: t('ticketsSold'),
                 content: <>
                   <TicketsSoldGraph
                     pool={pool}
@@ -251,7 +232,7 @@ export const PoolShow = (
               },
               {
                 icon: YieldSourceIcon,
-                title: 'Yield source',
+                title: t('yieldSource'),
                 content: <>
                   <h6
                     className='flex items-center'
@@ -266,16 +247,16 @@ export const PoolShow = (
               },
               {
                 icon: PrizeStrategyIcon,
-                title: 'Prize strategy',
+                title: t('prizeStrategy'),
                 content: <>
                   <h6>
-                    Each week, one randomly chosen winner wins that week's prize
+                    {t('singleRandomWinnerStrategyDescription')}
                   </h6>
                 </>
               },
               {
                 icon: TotalAwardedIcon,
-                title: 'Total awarded',
+                title: t('totalAwarded'),
                 content: <>
                   <h3>
                     ${displayAmountInEther(
@@ -293,14 +274,14 @@ export const PoolShow = (
                     <a
                       className='inline-block font-bold trans'
                     >
-                      View previous winners
+                      {t('viewPreviousWinners')}
                     </a>
                   </Link>
                 </>
               },
               {
                 icon: PrizeIcon,
-                title: 'Past 5 winners',
+                title: t('pastFiveWinners'),
                 content: <>
                   <LastWinnersListing
                     pool={pool}
@@ -335,7 +316,7 @@ export const PoolShow = (
               href='/pools/[symbol]/manage'
               as={`/pools/${symbol}/manage`}
             >
-              Manage pool
+              {t('managePool')}
             </ButtonLink>
           </div>
         </>}

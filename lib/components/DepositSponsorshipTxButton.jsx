@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
@@ -12,6 +13,8 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 export const DepositSponsorshipTxButton = (props) => {
+  const { t } = useTranslation()
+  
   const {
     decimals,
     quantity,
@@ -33,7 +36,11 @@ export const DepositSponsorshipTxButton = (props) => {
 
   const [txId, setTxId] = useState()
 
-  const txName = `Deposit ${quantity} ${tickerUpcased} to Sponsorship`
+  const txName = t(`depositAmountTickerToSponsorship`, {
+    amount: quantity,
+    ticker: tickerUpcased
+  })
+  // const txName = `Deposit ${quantity} ${tickerUpcased} to Sponsorship`
   const method = 'depositTo'
 
   const [sendTx] = useSendTransaction(txName, refetchSponsorQuery)
@@ -63,6 +70,7 @@ export const DepositSponsorshipTxButton = (props) => {
     ]
 
     const id = sendTx(
+      t,
       provider,
       usersAddress,
       PrizePoolAbi,
@@ -83,7 +91,7 @@ export const DepositSponsorshipTxButton = (props) => {
     disabled={!quantity || needsApproval || depositSponsorshipTxInFlight}
     className={depositSponsorshipButtonClassName}
   >
-    Deposit sponsorship
+    {t('depositSponsorship')}
   </Button>
 
 
@@ -93,7 +101,7 @@ export const DepositSponsorshipTxButton = (props) => {
         title='Allowance'
         tip={<>
           <div className='my-2 text-xs sm:text-sm'>
-            You need to provide enough allowance to this pool and prior to depositing anymore.
+            {t('needToProvideEnoughAllowance')}
           </div>
         </>}
         className='w-48-percent'
