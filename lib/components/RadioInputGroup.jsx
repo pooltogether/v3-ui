@@ -30,7 +30,7 @@ export const RadioInputGroup = (
         htmlFor={id}
         className='flex items-center text-xs sm:text-base h-full text-primary hover:text-white absolute t-0 l-0 r-0 b-0 px-4 w-full block  trans mt-0'
       >
-        <div className='-mt-4'>
+        <div className='-mt-4 text-center mx-auto'>
           {radio.label}
         </div>
       </label>

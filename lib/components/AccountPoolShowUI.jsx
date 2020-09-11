@@ -134,6 +134,16 @@ export const AccountPoolShowUI = (props) => {
           {getMoreTicketsButton}
         </BlankStateMessage>
       </> : <>
+
+        <div
+          className='bg-card-selected  my-8 sm:mt-20 sm:mb-12 px-8 rounded-lg'
+        >
+            <TimelockedBalanceUI
+              pool={pool}
+              playerData={playerData}
+            />
+        </div>
+
       <NonInteractableCard
         className='ticket-card my-8 sm:mt-20 sm:mb-12'
       >
@@ -176,15 +186,6 @@ export const AccountPoolShowUI = (props) => {
                 </span>
               </div>
             </div>
-          </div>
-
-          <div
-            className='flex flex-col items-end w-4/12 sm:w-9/12 lg:w-9/12'
-          >
-            <TimelockedBalanceUI
-              pool={pool}
-              playerData={playerData}
-            />
           </div>
         </div>
 

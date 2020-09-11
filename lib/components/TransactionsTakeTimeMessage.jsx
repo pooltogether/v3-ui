@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 
 export const TransactionsTakeTimeMessage = (props) => {
@@ -22,11 +22,11 @@ export const TransactionsTakeTimeMessage = (props) => {
     >
       <Trans
         i18nKey='estimatedWaitTime'
-        defaults='<bold>Estimated wait time:</bold> <lineBreak /> {{waitTime}}'
+        defaults='<bold>Estimated wait time:</bold> <lineBreak>{{waitTime}}</lineBreak>'
         values={{ waitTime: 'put actual estimate here!' }}
         components={{
           bold: <span className='font-bold' />,
-          lineBreak: <br />
+          lineBreak: <div />
         }}
       />
     </div>

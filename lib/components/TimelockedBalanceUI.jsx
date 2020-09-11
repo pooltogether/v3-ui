@@ -91,19 +91,15 @@ export const TimelockedBalanceUI = (props) => {
   return <>
     {usersTimelockedBalance > 0 && <>
       <div
-        className='mt-6 mb-6 text-sm border-t-2 border-b-2 py-6'
+        className='mt-6 mb-6 text-sm py-6'
       >
         <h4>
-          {t('yourTimelockedBalance')}
-        </h4>
-        <div
-          className='font-bold'
-        >
-          $<PoolCountUp
+          {t('yourTimelockedBalance')}: <span className='text-highlight-1'> $<PoolCountUp
             end={usersTimelockedBalance}
             decimals={0}
           /> {tickerUpcased}
-        </div>
+          </span>
+        </h4>
 
         <div className='text-xs sm:text-sm lg:text-lg mt-2'>
           {timelockSweepReady ? <>
@@ -117,7 +113,7 @@ export const TimelockedBalanceUI = (props) => {
               </Button>
             </div>
           </> : <>
-            &nbsp;in: <div className='font-bold'>{formattedFutureDate}</div>
+            {t('readyToWithdrawIn')} <div className='font-bold'>{formattedFutureDate}</div>
           </>}
         </div>
       </div>

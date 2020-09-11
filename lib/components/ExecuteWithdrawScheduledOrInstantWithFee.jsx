@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
@@ -14,6 +15,8 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
+  const { t } = useTranslation()
+
   const { nextStep, previousStep } = props
 
   const router = useRouter()

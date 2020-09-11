@@ -148,7 +148,7 @@ export const TicketQuantityForm = (props) => {
           label={t('ticketAmount')}
           required={t('ticketQuantityRequired')}
           autoComplete='off'
-          centerLabel={<>
+          centerLabel={usersAddress && tickerUpcased && <>
             <WyreTopUpBalanceDropdown
               label={<>
                 <Trans
