@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { useQuery } from '@apollo/client'
 
-import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PrizeStrategy'
+import SingleRandomWinnerAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinner'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -54,7 +54,7 @@ export const StartAwardUI = (props) => {
       t,
       provider,
       usersAddress,
-      PrizeStrategyAbi,
+      SingleRandomWinnerAbi,
       prizeStrategyAddress,
       method,
       params,
@@ -76,4 +76,3 @@ export const StartAwardUI = (props) => {
     </>}
   </>
 }
-

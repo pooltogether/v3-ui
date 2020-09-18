@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { useQuery } from '@apollo/client'
 
-import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PrizeStrategy'
-
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
@@ -16,7 +14,7 @@ export const CompleteAwardUI = (props) => {
 
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress, provider } = authControllerContext
- 
+
   const poolDataContext = useContext(PoolDataContext)
   const { pool } = poolDataContext
 
@@ -70,4 +68,3 @@ export const CompleteAwardUI = (props) => {
     </>}
   </>
 }
-

@@ -58,6 +58,7 @@ export const PoolDataContextProvider = (props) => {
         dynamicSponsorData,
         refetchPlayerQuery,
         refetchSponsorQuery,
+        dynamicPlayerDrips,
       }) => {
         return <FetchGenericChainData
           {...props}
@@ -172,6 +173,7 @@ export const PoolDataContextProvider = (props) => {
                     poolAddresses,
                     dynamicPoolData,
                     dynamicPlayerData,
+                    dynamicPlayerDrips,
                     genericChainData,
                     refetchPlayerQuery,
                     refetchSponsorQuery,

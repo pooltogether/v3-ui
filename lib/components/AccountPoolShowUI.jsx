@@ -243,7 +243,7 @@ export const AccountPoolShowUI = (props) => {
         {getMoreTicketsButton}
       </div>
     </>}
-    
+
     <Tagline />
   </>
 }

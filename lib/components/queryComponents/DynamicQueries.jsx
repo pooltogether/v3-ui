@@ -18,7 +18,7 @@ export const DynamicQueries = (
   props,
 ) => {
   const { poolAddresses, usersAddress, children } = props
- 
+
   const generalContext = useContext(GeneralContext)
   const { paused } = generalContext
 
@@ -65,6 +65,7 @@ export const DynamicQueries = (
 
 
   let dynamicPlayerData
+  let dynamicPlayerDrips
 
   const {
     loading: playerQueryLoading,
@@ -87,6 +88,12 @@ export const DynamicQueries = (
 
   if (playerQueryData) {
     dynamicPlayerData = playerQueryData.player
+    dynamicPlayerDrips = {
+      dripTokens: playerQueryData.playerDripToken,
+      balanceDrips: playerQueryData.playerBalanceDrip,
+      volumeDrips: playerQueryData.playerVolumeDrip,
+    }
+    // console.log('DynamicQueries', {...playerQueryData})
   }
 
 
@@ -119,12 +126,13 @@ export const DynamicQueries = (
 
 
   const dynamicDataLoading = poolQueryLoading || prizeStrategyQueryLoading || playerQueryLoading || sponsorQueryLoading
-  
+
   return children({
     dynamicDataLoading,
     dynamicPoolData,
     dynamicPrizeStrategiesData,
     dynamicPlayerData,
+    dynamicPlayerDrips,
     dynamicSponsorData,
     refetchPlayerQuery,
     refetchSponsorQuery,

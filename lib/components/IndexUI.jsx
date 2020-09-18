@@ -21,14 +21,15 @@ export const IndexUI = (
     <h1
       className='banner-text mx-auto font-bold text-center'
     >
-      <Trans
+      You could <span className='text-flashy'>win $1,039 every week</span> just by saving your money.
+      {/* <Trans
         i18nKey='youCouldWin'
         defaults='You could <flashy>win ${{totalPrizes}} every week</flashy> just by saving your money.'
         values={{ totalPrizes: '1,039' }}
         components={{
           flashy: <span className='text-flashy' />
         }}
-      />
+      /> */}
     </h1>
 
     <h6

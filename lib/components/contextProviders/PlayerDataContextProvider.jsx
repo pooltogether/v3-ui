@@ -43,6 +43,9 @@ export const PlayerDataContextProvider = (props) => {
 
 
   let playerData
+  let playerDripTokenData
+  let playerBalanceDripData
+  let playerVolumeDripData
 
   const { loading, error, data } = useQuery(dynamicPlayerQuery, {
     variables: {
@@ -58,14 +61,20 @@ export const PlayerDataContextProvider = (props) => {
   }
 
   playerData = data?.player
+  playerDripTokenData = data?.playerDripToken
+  playerBalanceDripData = data?.playerBalanceDrip
+  playerVolumeDripData = data?.playerVolumeDrip
 
   return <PlayerDataContext.Provider
     value={{
       // loading,
-      playerData
+      playerData,
+      playerDripTokenData,
+      playerBalanceDripData,
+      playerVolumeDripData,
     }}
   >
     {props.children}
   </PlayerDataContext.Provider>
-  
+
 }
