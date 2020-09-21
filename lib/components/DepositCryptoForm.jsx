@@ -171,7 +171,7 @@ export const DepositCryptoForm = (props) => {
       <DepositAndWithdrawFormUsersBalance
         bold={false}
         start={cachedUsersBalance || usersTokenBalance}
-        end={usersTokenBalance}
+        end={numberWithCommas(usersTokenBalance, { precision: 4 })}
         units={tickerUpcased}
       />
 

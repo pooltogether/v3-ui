@@ -22,6 +22,7 @@ import { Tagline } from 'lib/components/Tagline'
 import { TimelockedBalanceUI } from 'lib/components/TimelockedBalanceUI'
 import { WithdrawButton } from 'lib/components/WithdrawButton'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import TicketIcon from 'assets/images/tickets-icon.svg'
 
@@ -69,7 +70,6 @@ export const AccountPoolShowUI = (props) => {
   }
 
   const getMoreTicketsButton = <Button
-    textSize='xl'
     onClick={handleGetTicketsClick}
   >
     {t('getMoreTickets')}
@@ -195,12 +195,21 @@ export const AccountPoolShowUI = (props) => {
           <div
             className='w-full pb-10 xs:pb-0 xs:w-4/12 sm:w-4/12 lg:w-4/12 sm:border-r border-accent-4'
           >
-            <Odds
-              fontSansRegular
-              className='font-bold text-flashy text-xl sm:text-2xl lg:text-3xl'
-              pool={pool}
-              usersBalance={usersBalance}
-            />
+            {usersBalance < 1 ? <>
+              <span
+                className='font-bold text-xl sm:text-2xl lg:text-3xl text-accent-3'
+              >
+                {t('notAvailableAbbreviation')}
+              </span>
+            </> : <>
+              <Odds
+                fontSansRegular
+                className='font-bold text-flashy text-xl sm:text-2xl lg:text-3xl'
+                pool={pool}
+                usersBalance={usersBalance}
+              />
+            </>}
+            
             <span
               className='block text-caption uppercase font-bold'
             >
@@ -213,11 +222,11 @@ export const AccountPoolShowUI = (props) => {
           >
             <PoolCountUp
               fontSansRegular
-              end={parseInt(usersBalance, 10)}
+              end={Number.parseFloat(usersBalance).toFixed(0)}
               decimals={null}
             /> {t('tickets')}
             <span className='block text-caption uppercase'>
-              ${usersBalance} {ticker}
+              ${numberWithCommas(usersBalance, { precision: 4 })} {ticker}
             </span>
           </div>
 

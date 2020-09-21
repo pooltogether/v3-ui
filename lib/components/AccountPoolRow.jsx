@@ -51,7 +51,7 @@ export const AccountPoolRow = (
             className='flex flex-col items-start justify-between w-full ml-1 sm:ml-6 leading-none'
           >
             <div
-              className='inline-block text-left text-xl sm:text-3xl font-bold text-inverse relative'
+              className='inline-block text-left text-xl sm:text-2xl lg:text-3xl font-bold text-inverse relative'
               style={{
                 top: -6
               }}
@@ -81,7 +81,7 @@ export const AccountPoolRow = (
         </div>
 
         <div
-          className='flex flex-col items-end w-4/12 sm:w-9/12 lg:w-9/12'
+          className='flex flex-col items-end w-4/12 sm:w-6/12 lg:w-9/12'
         >
           <NewPrizeCountdown
             pool={pool}
@@ -95,7 +95,7 @@ export const AccountPoolRow = (
         <div
           className='w-full xs:w-4/12 sm:w-4/12 lg:w-4/12 sm:border-r border-accent-4'
         >
-          {usersBalance === 0 ? <>
+          {usersBalance < 1 ? <>
             <span
               className='font-bold text-xl sm:text-2xl lg:text-3xl text-accent-3'
             >
@@ -122,7 +122,7 @@ export const AccountPoolRow = (
         >
           <PoolCountUp
             fontSansRegular
-            end={parseInt(usersBalance, 10)}
+            end={Number.parseFloat(usersBalance).toFixed(0)}
             decimals={null}
           /> {t('tickets')}
           <span className='block text-caption uppercase'>

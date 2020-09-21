@@ -72,9 +72,9 @@ export const AuthControllerContextProvider = (props) => {
 
   useEffect(() => {
     let provider = onboardProvider
-    if (!provider && magicContext.signedIn) {
-      provider = magicContext.provider
-    }
+    // if (!provider && magicContext.signedIn) {
+    //   provider = magicContext.provider
+    // }
     setProvider(provider)
   }, [onboardProvider, magicContext.signedIn])
 

@@ -43,7 +43,8 @@ export const Odds = (props) => {
   additionalQuantity = isWithdraw ?
     Number(additionalQuantity) * - 1 :
     Number(additionalQuantity)
-  const hasAdditionalQuantity = !isNaN(additionalQuantity) && additionalQuantity !== 0
+  const hasAdditionalQuantity = !isNaN(additionalQuantity)
+    && additionalQuantity !== 0
 
   let postPurchaseBalance = usersBalance
   if (hasAdditionalQuantity) {
@@ -51,8 +52,14 @@ export const Odds = (props) => {
     totalSupplyFloat = totalSupplyFloat + additionalQuantity
   }
 
-  const result = totalSupplyFloat / postPurchaseBalance
-  
+  let result = null
+  if (postPurchaseBalance < 1) {
+    result = 0
+  } else {
+    result = totalSupplyFloat / postPurchaseBalance
+  }
+ 
+  // console.log({ hasAdditionalQuantity})
   let label = showLabel && <>
     {hasAdditionalQuantity && additionalQuantity !== 0 ? <>
       {!isWithdraw && <span className='font-bold text-flashy'>{t('newOddsOfWinning')}</span>}
@@ -63,7 +70,12 @@ export const Odds = (props) => {
     }
   </>
 
-  if (isWithdraw && !isFinite(result)) {
+  if (result === 0) {
+    label = <>
+      {label}
+      <br />{t('notAvailableAbbreviation')}
+    </>
+  } else if (isWithdraw && !isFinite(result)) {
     content = t('withdrawingEverythingMakeYouIneligible')
   } else if (!hide && (hasBalance || hasAdditionalQuantity)) {
     content = <>

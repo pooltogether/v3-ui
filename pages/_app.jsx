@@ -13,8 +13,8 @@ import { Layout } from 'lib/components/Layout'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 
-import "@reach/dialog/styles.css"
-import "@reach/menu-button/styles.css"
+import '@reach/dialog/styles.css'
+import '@reach/menu-button/styles.css'
 import '@reach/tooltip/styles.css'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -39,6 +39,8 @@ import 'assets/styles/tabs.css'
 import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'
 import 'assets/styles/vx--custom.css'
+
+import PoolTogetherMark from 'assets/images/pooltogether-white-mark.svg'
 
 if (process.env.NEXT_JS_SENTRY_DSN) {
   Sentry.init({
@@ -101,22 +103,40 @@ function MyApp({ Component, pageProps, router }) {
     }
     initi18next()
   }, [])
-
-  if (!initialized) {
-    return <div
-      className='h-full w-full fixed t-0 r-0 l-0 b-0 text-white flex flex-col items-center justify-center'
-      style={{ backgroundColor: '#1E0B43', color: 'white' }}
-    >
-      <V3LoadingDots />
-      <h4
-        className='-mt-6'
-      >
-        Filling up the pools...
-      </h4>
-    </div>
-  }
   
   return <>
+    <motion.div
+      animate={!initialized ? 'enter' : 'exit'}
+      transition={{ duration: 0.5, ease: 'easeIn' }}
+      variants={{
+        initial: {
+          opacity: 1,
+        },
+        enter: {
+          opacity: 1,
+        },
+        exit: {
+          opacity: 0,
+          transitionEnd: {
+            display: "none",
+          },
+        }
+      }}
+      className='h-full w-full fixed t-0 r-0 l-0 b-0 text-white flex flex-col items-center justify-center'
+      style={{
+        backgroundColor: '#1E0B43',
+        color: 'white',
+        zIndex: 12345678
+      }}
+    >
+      <img
+        src={PoolTogetherMark}
+        className='w-8'
+      />
+
+      <V3LoadingDots />
+    </motion.div>
+
     <V3ApolloWrapper>
       <AllContextProviders>
         <Layout

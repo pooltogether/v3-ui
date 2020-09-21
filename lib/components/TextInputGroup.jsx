@@ -10,11 +10,14 @@ export const TextInputGroup = (
     id,
     label,
     disabled,
-    type,
     unsignedNumber,
     unsignedWholeNumber,
     centerLabel,
     rightLabel,
+  } = props
+
+  let {
+    type
   } = props
 
   let pattern = {}
@@ -25,11 +28,13 @@ export const TextInputGroup = (
       message: "invalid email address"
     }
   } else if (unsignedNumber) {
+    type = 'number'
     pattern = {
       value: /^\d*\.?\d*$/,
       message: 'please enter a positive number'
     }
   } else if (unsignedWholeNumber) {
+    type = 'number'
     pattern = { 
       value: /^\d+$/,
       message: 'please enter a positive number'
