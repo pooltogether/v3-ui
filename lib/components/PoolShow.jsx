@@ -14,7 +14,7 @@ import { SHOW_MANAGE_LINKS } from 'lib/constants'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
-import { TableRowUILoader } from 'lib/components/TableRowUILoader'
+import { PoolShowLoader } from 'lib/components/PoolShowLoader'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
@@ -55,13 +55,7 @@ export const PoolShow = (
   }
   
   if (!pool) {
-    return <div
-      className='mt-10'
-    >
-      <TableRowUILoader
-        rows={5}
-      />
-    </div>
+    return <PoolShowLoader />
   }
 
   const cookieShowAward = Cookies.get(SHOW_MANAGE_LINKS)

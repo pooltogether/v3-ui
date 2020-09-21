@@ -339,7 +339,7 @@ input[type='submit'][disabled] {
 }
 
 .banner-text {
-  font-size: 'calc(2vw + 20px)';
+  font-size: calc(2vw + 17px);
   line-height: 1.2;
   margin-bottom: 4rem;
   margin-top: 0;
@@ -349,15 +349,18 @@ input[type='submit'][disabled] {
   .banner-text {
     margin-top: 1rem;
     margin-bottom: 4rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 6vw;
+    padding-right: 6vw;
   }
 }
 
 @screen sm {
   .banner-text {
+    font-size: calc(2vw + 20px);
     margin-top: 1rem;
     margin-bottom: 4rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
   }
 }
 
