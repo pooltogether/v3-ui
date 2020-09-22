@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 
 import {
   SUPPORTED_CHAIN_IDS,
@@ -17,18 +17,43 @@ const onlyUnique = (value, index, self) => {
 export const WrongNetworkModal = (props) => {
   const { t } = useTranslation()
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { supportedNetwork } = authControllerContext
+  const [bypassed, setBypassed] = useState(false)
 
-  let supportedNetworkNames = SUPPORTED_CHAIN_IDS.map(chainId => 
-    chainIdToNetworkName(chainId)
+  const authControllerContext = useContext(AuthControllerContext)
+  const { networkName, supportedNetwork } = authControllerContext
+
+  let supportedNetworkNames = SUPPORTED_CHAIN_IDS.map(_chainId => 
+    chainIdToNetworkName(_chainId)
   )
   supportedNetworkNames = supportedNetworkNames.filter(onlyUnique)
     .filter(name => name !== 'localhost')
 
+
+  const handleClose = (e) => {
+    e.preventDefault()
+
+    setBypassed(true)
+  }
+
+  if (supportedNetwork) {
+    return null
+  }
+  
   return <>
+    {bypassed && <>
+      <div
+        className='r-0 l-0 fixed w-10/12 sm:w-1/4 bg-red px-4 py-2 font-bold mx-auto text-center rounded-lg z-50 text-white'
+        style={{
+          bottom: '10vh'
+        }}
+      >
+        {t('unsupportedNetwork')}: {networkName}
+      </div>
+    </>}
+
     <Modal
-      visible={!supportedNetwork}
+      handleClose={handleClose}
+      visible={!supportedNetwork && !bypassed}
       header={t('ethereumNetworkMismatch')}
     >
       {t('yourEthereumNetworkIsUnsupported')} <div
