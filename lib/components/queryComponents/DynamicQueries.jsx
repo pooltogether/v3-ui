@@ -9,7 +9,6 @@ import { GeneralContext } from 'lib/components/contextProviders/GeneralContextPr
 import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
 import { dynamicSponsorQuery } from 'lib/queries/dynamicSponsorQuery'
 import { dynamicPrizePoolsQuery } from 'lib/queries/dynamicPrizePoolsQuery'
-// import { dynamicPrizeStrategiesQuery } from 'lib/queries/dynamicPrizeStrategiesQuery'
 import { dynamicSingleRandomWinnerQuery } from 'lib/queries/dynamicSingleRandomWinnerQuery'
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
 import { getPrizeStrategyDataFromQueryResult } from 'lib/services/getPrizeStrategyDataFromQueryResult'
@@ -26,8 +25,6 @@ export const DynamicQueries = (
   const variables = {
     owner: CREATOR_ADDRESS
   }
-
-  console.log({poolAddresses})
 
   let dynamicPoolData
 

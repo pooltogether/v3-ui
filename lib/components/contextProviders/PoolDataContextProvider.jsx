@@ -109,6 +109,8 @@ export const PoolDataContextProvider = (props) => {
                 //   symbol: 'PT-cWBTC',
                 // },
               ]
+
+              // console.log('PoolDataContextProvider', {pools})
             }
 
             let pool

@@ -10,8 +10,13 @@ export const dynamicPrizePoolFragment = gql`
       id
     }
 
+    prizePoolType
+    compoundPrizePool {
+      id
+      cToken
+    }
+
     reserveFeeControlledToken
-    yieldToken
 
     underlyingCollateralToken
     underlyingCollateralDecimals
