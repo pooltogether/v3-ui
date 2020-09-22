@@ -14,22 +14,25 @@ export const FetchGenericChainData = (props) => {
     children,
     provider,
     poolAddresses,
+    poolData,
   } = props
 
   const generalContext = useContext(GeneralContext)
   const { paused } = generalContext
-  
+
   const [genericChainData, setGenericChainData] = useState({})
 
   const fetchDataFromInfura = async () => {
     try {
       const daiPrizeStrategy = await fetchGenericChainData(
         provider,
-        poolAddresses['daiPrizeStrategy']
+        poolAddresses['daiPrizeStrategy'],
+        poolData.daiPool
       )
       const usdcPrizeStrategy = await fetchGenericChainData(
         provider,
-        poolAddresses['usdcPrizeStrategy']
+        poolAddresses['usdcPrizeStrategy'],
+        poolData.usdcPool
       )
       // const usdtPrizeStrategy = await fetchGenericChainData(
       //   provider,

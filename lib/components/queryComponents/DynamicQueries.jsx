@@ -9,7 +9,8 @@ import { GeneralContext } from 'lib/components/contextProviders/GeneralContextPr
 import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
 import { dynamicSponsorQuery } from 'lib/queries/dynamicSponsorQuery'
 import { dynamicPrizePoolsQuery } from 'lib/queries/dynamicPrizePoolsQuery'
-import { dynamicPrizeStrategiesQuery } from 'lib/queries/dynamicPrizeStrategiesQuery'
+// import { dynamicPrizeStrategiesQuery } from 'lib/queries/dynamicPrizeStrategiesQuery'
+import { dynamicSingleRandomWinnerQuery } from 'lib/queries/dynamicSingleRandomWinnerQuery'
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
 import { getPrizeStrategyDataFromQueryResult } from 'lib/services/getPrizeStrategyDataFromQueryResult'
 import { poolToast } from 'lib/utils/poolToast'
@@ -23,9 +24,10 @@ export const DynamicQueries = (
   const { paused } = generalContext
 
   const variables = {
-    creator: CREATOR_ADDRESS
+    owner: CREATOR_ADDRESS
   }
 
+  console.log({poolAddresses})
 
   let dynamicPoolData
 
@@ -47,7 +49,11 @@ export const DynamicQueries = (
 
   let dynamicPrizeStrategiesData
 
-  const { loading: prizeStrategyQueryLoading, error: prizeStrategyQueryError, data: prizeStrategyQueryData } = useQuery(dynamicPrizeStrategiesQuery, {
+  const {
+    loading: prizeStrategyQueryLoading,
+    error: prizeStrategyQueryError,
+    data: prizeStrategyQueryData
+  } = useQuery(dynamicSingleRandomWinnerQuery, {
     variables,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
@@ -93,7 +99,6 @@ export const DynamicQueries = (
       balanceDrips: playerQueryData.playerBalanceDrip,
       volumeDrips: playerQueryData.playerVolumeDrip,
     }
-    // console.log('DynamicQueries', {...playerQueryData})
   }
 
 

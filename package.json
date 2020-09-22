@@ -5,7 +5,7 @@
   "author": "PoolTogether Inc.",
   "repository": "git@github.com:pooltogether/pool-app.git",
   "scripts": {
-    "reinstall": "rm -rf node_modules/ && rm -f yarn.lock && yarn",
+    "reinstall": "rm -rf ./node_modules && yarn",
     "compile-translations": "node ./scripts/compile-translations",
     "dev": "NODE_ENV=dev yarn compile-translations && npm-run-all --parallel start:app start:server",
     "start:app": "PORT=3000 node --max-old-space-size=8192 server.js",

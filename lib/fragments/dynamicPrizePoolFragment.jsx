@@ -4,15 +4,36 @@ export const dynamicPrizePoolFragment = gql`
   fragment dynamicPrizePoolFragment on PrizePool {
     id
 
-    totalSupply
-    totalSponsorship
+    owner
 
-    playerCount
-    cumulativePrizeNet
+    prizeStrategy {
+      id
+    }
+
+    reserveFeeControlledToken
+    yieldToken
 
     underlyingCollateralToken
     underlyingCollateralDecimals
     underlyingCollateralName
     underlyingCollateralSymbol
+
+    maxExitFeeMantissa
+    maxTimelockDuration
+    timelockTotalSupply
+    liquidityCap
+
+    playerCount
+    totalSupply
+    totalSponsorship
+
+    cumulativePrizeGross
+    cumulativePrizeReserveFee
+    cumulativePrizeNet
+
+    currentPrizeId
+    currentState
+
+    prizesCount
   }
 `

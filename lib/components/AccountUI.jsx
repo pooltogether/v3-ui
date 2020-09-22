@@ -1,19 +1,13 @@
 import React, { useState } from 'react'
 
 import { useTranslation } from 'lib/../i18n'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { AccountSummary } from 'lib/components/AccountSummary'
-import { BlankStateMessage } from 'lib/components/BlankStateMessage'
-import { Button } from 'lib/components/Button'
-import { ButtonLink } from 'lib/components/ButtonLink'
+import { AccountPoolsUI } from 'lib/components/AccountPoolsUI'
+import { AccountRewardsUI } from 'lib/components/AccountRewardsUI'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Tab, Tabs, Content, ContentPane } from 'lib/components/Tabs'
 import { Tagline } from 'lib/components/Tagline'
-import { AccountSummary } from 'lib/components/AccountSummary'
-import { AccountPoolsUI } from 'lib/components/AccountPoolsUI'
-import { AccountRewardsUI } from 'lib/components/AccountRewardsUI'
 
 export const AccountUI = () => {
   const POOLS = 'POOLS'
