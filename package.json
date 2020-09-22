@@ -5,6 +5,7 @@
   "author": "PoolTogether Inc.",
   "repository": "git@github.com:pooltogether/pool-app.git",
   "scripts": {
+    "reinstall": "rm -rf ./node_modules && yarn",
     "compile-translations": "node ./scripts/compile-translations",
     "dev": "NODE_ENV=dev yarn compile-translations && npm-run-all --parallel start:app start:server",
     "start:app": "PORT=3000 node --max-old-space-size=8192 server.js",
@@ -52,7 +53,7 @@
     "@argent/smartwallet-utils": "^0.0.11",
     "@pooltogether/bnc-onboard": "1.13.1-b",
     "@pooltogether/etherplex": "^0.2.3",
-    "@pooltogether/pooltogether-contracts": "3.0.0-alpha.30",
+    "@pooltogether/pooltogether-contracts": "3.0.0-alpha.33",
     "@reach/dialog": "^0.10.5",
     "@reach/menu-button": "^0.10.5",
     "@reach/tooltip": "^0.10.5",

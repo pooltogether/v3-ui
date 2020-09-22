@@ -3,6 +3,7 @@ import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ProfileAvatar } from 'lib/components/ProfileAvatar'
 import { ProfileName } from 'lib/components/ProfileName'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
@@ -11,14 +12,10 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import AccountPlaceholderImg from 'assets/images/avatar-placeholder.svg'
 
-export const AccountSummary = (props) => {
+export const AccountSummary = () => {
   const { t } = useTranslation()
-
-  const { pools, dynamicPlayerData } = props
-
-  const authContext = useContext(AuthControllerContext)
-  const { usersAddress } = authContext
-
+  const { pools, dynamicPlayerData } = useContext(PoolDataContext)
+  const { usersAddress } = useContext(AuthControllerContext)
 
   let totalTickets = null
   let cumulativeWinningsAllPools = ethers.utils.bigNumberify(0)
@@ -30,7 +27,7 @@ export const AccountSummary = (props) => {
     }
 
     const decimals = pool.underlyingCollateralDecimals
-    
+
     const balance = Number(
       ethers.utils.formatUnits(playerData.balance, decimals),
     )
@@ -83,7 +80,7 @@ export const AccountSummary = (props) => {
               className='profile-img relative inline-block rounded-full mr-1 w-12 h-12'
             /> <h2
               className='ml-4'
-            > 
+            >
               {t('accountName')}
             </h2>
           </>}
@@ -96,7 +93,7 @@ export const AccountSummary = (props) => {
             {parseInt(totalTickets, 10)}
           </>} {t('tickets')}
         </h3>
-        
+
         {usersAddress && <>
           <div
             className='text-caption uppercase font-bold'

@@ -7,6 +7,7 @@ import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
+import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPoolPrize'
 import { poolToast } from 'lib/utils/poolToast'
 import { readProvider } from 'lib/utils/readProvider'
 
@@ -58,12 +59,15 @@ export const PoolDataContextProvider = (props) => {
         dynamicSponsorData,
         refetchPlayerQuery,
         refetchSponsorQuery,
+        dynamicPlayerDrips,
       }) => {
+
         return <FetchGenericChainData
           {...props}
           chainId={chainId}
           provider={defaultReadProvider}
           poolAddresses={poolAddresses}
+          poolData={dynamicPoolData}
         >
           {({ genericChainData }) => {
             let pools = []
@@ -77,6 +81,7 @@ export const PoolDataContextProvider = (props) => {
                   name: 'DAI Pool',
                   frequency: 'Weekly',
                   symbol: 'PT-cDAI',
+                  estimatePrize: calculateEstimatedPoolPrize(dynamicPoolData.daiPool),
                 },
                 {
                   ...genericChainData.usdcPrizeStrategy,
@@ -85,6 +90,7 @@ export const PoolDataContextProvider = (props) => {
                   name: 'USDC Pool',
                   frequency: 'Weekly',
                   symbol: 'PT-cUSDC',
+                  estimatePrize: calculateEstimatedPoolPrize(dynamicPoolData.usdcPool),
                 },
                 // {
                 //   ...genericChainData.usdtPrizeStrategy,
@@ -103,6 +109,8 @@ export const PoolDataContextProvider = (props) => {
                 //   symbol: 'PT-cWBTC',
                 // },
               ]
+
+              // console.log('PoolDataContextProvider', {pools})
             }
 
             let pool
@@ -172,6 +180,7 @@ export const PoolDataContextProvider = (props) => {
                     poolAddresses,
                     dynamicPoolData,
                     dynamicPlayerData,
+                    dynamicPlayerDrips,
                     genericChainData,
                     refetchPlayerQuery,
                     refetchSponsorQuery,

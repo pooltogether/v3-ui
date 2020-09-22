@@ -8,19 +8,8 @@ export const dynamicPrizeStrategyFragment = gql`
       id
     }
 
-    creator
-    ticket
-    sponsorship
-    rng
-
-    prizesCount
-
-    currentPrizeId
-    currentState
-  
-    prizePeriodSeconds
-
-    exitFeeMantissa
-    creditRateMantissa
+    singleRandomWinner {
+      id
+    }
   }
 `

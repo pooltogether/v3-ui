@@ -9,7 +9,7 @@ import { GeneralContext } from 'lib/components/contextProviders/GeneralContextPr
 import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
 import { dynamicSponsorQuery } from 'lib/queries/dynamicSponsorQuery'
 import { dynamicPrizePoolsQuery } from 'lib/queries/dynamicPrizePoolsQuery'
-import { dynamicPrizeStrategiesQuery } from 'lib/queries/dynamicPrizeStrategiesQuery'
+import { dynamicSingleRandomWinnerQuery } from 'lib/queries/dynamicSingleRandomWinnerQuery'
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
 import { getPrizeStrategyDataFromQueryResult } from 'lib/services/getPrizeStrategyDataFromQueryResult'
 import { poolToast } from 'lib/utils/poolToast'
@@ -18,14 +18,13 @@ export const DynamicQueries = (
   props,
 ) => {
   const { poolAddresses, usersAddress, children } = props
- 
+
   const generalContext = useContext(GeneralContext)
   const { paused } = generalContext
 
   const variables = {
-    creator: CREATOR_ADDRESS
+    owner: CREATOR_ADDRESS
   }
-
 
   let dynamicPoolData
 
@@ -47,7 +46,11 @@ export const DynamicQueries = (
 
   let dynamicPrizeStrategiesData
 
-  const { loading: prizeStrategyQueryLoading, error: prizeStrategyQueryError, data: prizeStrategyQueryData } = useQuery(dynamicPrizeStrategiesQuery, {
+  const {
+    loading: prizeStrategyQueryLoading,
+    error: prizeStrategyQueryError,
+    data: prizeStrategyQueryData
+  } = useQuery(dynamicSingleRandomWinnerQuery, {
     variables,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
@@ -65,6 +68,7 @@ export const DynamicQueries = (
 
 
   let dynamicPlayerData
+  let dynamicPlayerDrips
 
   const {
     loading: playerQueryLoading,
@@ -87,6 +91,11 @@ export const DynamicQueries = (
 
   if (playerQueryData) {
     dynamicPlayerData = playerQueryData.player
+    dynamicPlayerDrips = {
+      dripTokens: playerQueryData.playerDripToken,
+      balanceDrips: playerQueryData.playerBalanceDrip,
+      volumeDrips: playerQueryData.playerVolumeDrip,
+    }
   }
 
 
@@ -119,12 +128,13 @@ export const DynamicQueries = (
 
 
   const dynamicDataLoading = poolQueryLoading || prizeStrategyQueryLoading || playerQueryLoading || sponsorQueryLoading
-  
+
   return children({
     dynamicDataLoading,
     dynamicPoolData,
     dynamicPrizeStrategiesData,
     dynamicPlayerData,
+    dynamicPlayerDrips,
     dynamicSponsorData,
     refetchPlayerQuery,
     refetchSponsorQuery,

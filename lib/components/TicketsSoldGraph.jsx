@@ -48,7 +48,7 @@ export const TicketsSoldGraph = (
   let currentPrize
 
   // If we have a prize amount then we know the last prize has been rewarded
-  if (lastPrize.awardedBlock) {
+  if (lastPrize?.awardedBlock) {
     // unsure why we need to divide by 1000 here when we do it again
     // when compiling the array ...
     currentPrize = {
@@ -68,7 +68,7 @@ export const TicketsSoldGraph = (
       prize?.totalTicketSupply || '0',
       decimals
     )
-    
+
     return {
       value: parseInt(ticketsSold, 10),
       date: fromUnixTime(prize.awardedTimestamp / 1000),
