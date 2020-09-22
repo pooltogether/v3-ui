@@ -125,7 +125,7 @@ function MyApp({ Component, pageProps, router }) {
           },
         }
       }}
-      className='h-full w-full fixed t-0 r-0 l-0 b-0 text-white flex flex-col items-center justify-center'
+      className='h-screen w-screen fixed t-0 r-0 l-0 b-0 text-white flex flex-col items-center justify-center'
       style={{
         backgroundColor: '#1E0B43',
         color: 'white',
@@ -134,7 +134,7 @@ function MyApp({ Component, pageProps, router }) {
     >
       <img
         src={PoolTogetherMark}
-        className='w-8'
+        className='w-8 outline-none -mt-20'
       />
 
       <V3LoadingDots />

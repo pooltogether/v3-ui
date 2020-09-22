@@ -1,4 +1,5 @@
-https://app.pooltogether.us/*     https://app.pooltogether.com 301!
+https://app.pooltogether.us     https://app.pooltogether.com 301!
+https://app.pooltogether.us/*   https://app.pooltogether.com 301!
 
 /account                        /account.html                         200
 /account/pools/:symbol          /account/pools/[symbol].html          200
