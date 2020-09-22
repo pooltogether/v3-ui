@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Link from 'next/link'
 import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
@@ -6,11 +6,12 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
 import {
+  SHOW_MANAGE_LINKS,
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
-import { SHOW_MANAGE_LINKS } from 'lib/constants'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
@@ -22,6 +23,7 @@ import { Meta } from 'lib/components/Meta'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Tagline } from 'lib/components/Tagline'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 
 import CompoundFinanceIcon from 'assets/images/icon-compoundfinance.svg'
 import PrizeStrategyIcon from 'assets/images/icon-prizestrategy@2x.png'
@@ -36,6 +38,9 @@ export const PoolShow = (
 ) => {
   const { t } = useTranslation()
   const router = useRouter()
+
+  const authControllerContext = useContext(AuthControllerContext)
+  const { walletName } = authControllerContext
 
   const { pool } = props
 
@@ -73,6 +78,11 @@ export const PoolShow = (
         shallow: true
       }
     )
+  }
+
+  const handleAddTokenToMetaMask = (e) => {
+    e.preventDefault()
+    addTokenToMetaMask(pool)
   }
 
   return <>
@@ -303,15 +313,31 @@ export const PoolShow = (
 
         {cookieShowAward && <>
           <div
-            className='text-center mt-20'
+            className='flex justify-center mt-20'
           >
-            <ButtonLink
-              secondary
-              href='/pools/[symbol]/manage'
-              as={`/pools/${symbol}/manage`}
-            >
-              {t('managePool')}
-            </ButtonLink>
+            <div className='mx-2'>
+              <ButtonLink
+                secondary
+                href='/pools/[symbol]/manage'
+                as={`/pools/${symbol}/manage`}
+              >
+                {t('managePool')}
+              </ButtonLink>
+            </div>
+
+
+            {walletName === 'MetaMask' && <>
+              <div className='mx-2'>
+                <Button
+                  secondary
+                  onClick={handleAddTokenToMetaMask}
+                >
+                  {t('addTicketTokenToMetamask', {
+                    token: pool?.symbol
+                  })}
+                </Button>
+              </div>
+            </>}
           </div>
         </>}
       </motion.div>
