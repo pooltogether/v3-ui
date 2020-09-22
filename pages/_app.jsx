@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
+import { BodyClasses } from 'lib/components/BodyClasses'
 import { Layout } from 'lib/components/Layout'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
@@ -105,6 +106,8 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
   
   return <>
+    <BodyClasses />
+
     <motion.div
       animate={!initialized ? 'enter' : 'exit'}
       transition={{ duration: 0.5, ease: 'easeIn' }}

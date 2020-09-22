@@ -2,9 +2,26 @@ import React, { useState, cloneElement } from 'react'
 import classnames from 'classnames'
 import { useTooltip, TooltipPopup } from '@reach/tooltip'
 
+import { useTranslation } from 'lib/../i18n'
+import { Button } from 'lib/components/Button'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 
+// Center the tooltip, but collisions will win
+const custom = (triggerRect, tooltipRect) => {
+  const body = document.body
+  const triggerCenter = triggerRect.left + triggerRect.width / 2;
+  const left = triggerCenter - tooltipRect.width / 2;
+  const maxLeft = body.offsetWidth - tooltipRect.width - 2;
+  // const maxLeft = window.innerWidth - tooltipRect.width - 2 - 30;
+
+  return {
+    left: Math.min(Math.max(2, left), maxLeft) + window.scrollX,
+    top: triggerRect.bottom + 40  + window.scrollY,
+  };
+};
+
 export const PTHint = (props) => {
+  const { t } = useTranslation()
   const { children, className, title } = props
   let { tip } = props
 
@@ -40,6 +57,16 @@ export const PTHint = (props) => {
         className='pt-4'
       >
         {tip}
+
+        <div
+          className='sm:hidden my-4'
+        >
+          <Button
+            onClick={toggleVisible}
+          >
+            {t('close')}
+          </Button>
+        </div>
       </div>
     </>
   }
@@ -50,11 +77,12 @@ export const PTHint = (props) => {
         className,
         'relative cursor-pointer',
       )}
+      onMouseOut={hide}
     >
       <div
         {...trigger}
         onMouseEnter={show}
-        onMouseOut={hide}
+        // onClick={toggleVisible}
         onTouchStart={toggleVisible}
         className={classnames(
           'cursor-pointer h-full w-full l-0 r-0 t-0 b-0 absolute',
@@ -72,6 +100,7 @@ export const PTHint = (props) => {
       {...tooltip}
       isVisible={isVisible}
       label={tip}
+      position={custom}
     />
   </>
 }

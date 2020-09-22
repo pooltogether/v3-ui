@@ -92,7 +92,7 @@ export const TicketQuantityForm = (props) => {
     onClick={handleSubmit(onSubmit)}
     className={'mx-auto w-full'}
   >
-    Continue
+    {t('continue')}
   </Button>
 
   return <>

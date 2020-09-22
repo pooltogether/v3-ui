@@ -16,12 +16,12 @@
 
 html {
   height: 100%;
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 body {
   height: 100%;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 html, body, table {
@@ -40,10 +40,6 @@ select:-internal-autofill-selected {
 ::selection {
   background-color: #79FFE1;
   color: var(--color-text-inverse);
-}
-
-html {
-  overflow-x: hidden;
 }
 
 hr {

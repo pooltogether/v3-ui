@@ -187,7 +187,7 @@ export const InstantOrScheduledForm = (props) => {
         textSize='lg'
         onClick={updateParamsAndNextStep}
       >
-        Continue
+        {t('continue')}
       </Button>
     </div> 
       
