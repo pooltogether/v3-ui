@@ -21,9 +21,9 @@ export const PoolPrizeListing = (
 
   const { loading, error, data } = useQuery(poolPrizesQuery, {
     variables: {
-      prizeStrategyAddress: pool?.prizeStrategyAddress
+      prizePoolAddress: pool?.poolAddress
     },
-    skip: !pool?.prizeStrategyAddress,
+    skip: !pool?.poolAddress,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
   })
@@ -32,7 +32,7 @@ export const PoolPrizeListing = (
     console.error(error)
   }
 
-  let prizes = data?.prizeStrategy?.prizes
+  let prizes = data?.prizePools?.prizes
 
   if (loading) {
     return <div
@@ -77,7 +77,7 @@ export const PoolPrizeListing = (
 
       <PrizesTable
         pool={pool}
-        prizes={prizes} 
+        prizes={prizes}
       />
     </div>
 

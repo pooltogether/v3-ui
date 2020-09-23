@@ -23,10 +23,10 @@ export const LastWinnersListing = (
 
   const { loading, error, data } = useQuery(poolPrizesQuery, {
     variables: {
-      prizeStrategyAddress: pool?.prizeStrategyAddress,
+      prizePoolAddress: pool?.poolAddress,
       first: 5,
     },
-    skip: !pool?.prizeStrategyAddress,
+    skip: !pool?.poolAddress,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
   })
@@ -35,7 +35,7 @@ export const LastWinnersListing = (
     console.error(error)
   }
 
-  const prizes = data?.prizeStrategy?.prizes
+  let prizes = compact([].concat(data?.prizePools?.prizes))
   const players = prizes?.reduce(function (result, prize) {
     if (prize.winners && prize.winners.length > 0) {
       result.push({

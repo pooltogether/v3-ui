@@ -3,8 +3,8 @@ import gql from 'graphql-tag'
 import { prizeFragment } from 'lib/fragments/prizeFragment'
 
 export const poolPrizesQuery = gql`
-  query poolPrizesQuery($prizeStrategyAddress: String!, $first: Int) {
-    prizeStrategy(id: $prizeStrategyAddress) {
+  query poolPrizesQuery($prizePoolAddress: String!, $first: Int) {
+    prizePools(id: $prizePoolAddress) {
       id
       prizes(first: $first, orderBy: awardedTimestamp, orderDirection: desc) {
         ...prizeFragment

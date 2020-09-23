@@ -7,13 +7,13 @@ export const prizeFragment = gql`
     id
 
     awardedTimestamp
-    gross
-    net
-    # reserveFee
     awardedBlock
-    
+    amount
+
     totalTicketSupply
     prizePeriodStartedTimestamp
+
+    lockBlock
 
     winners
   }

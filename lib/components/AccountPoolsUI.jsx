@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { motion } from 'framer-motion'
 
+import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
@@ -10,6 +11,7 @@ import { IndexUILoader } from 'lib/components/IndexUILoader'
 import TicketIcon from 'assets/images/tickets-icon.svg'
 
 export const AccountPoolsUI = () => {
+  const { t } = useTranslation()
   const {pools, dynamicPlayerData} = useContext(PoolDataContext)
 
   return <>
