@@ -233,7 +233,7 @@ export const AccountPoolShowUI = (props) => {
 
 
           <div
-            className='mt-4 xs:mt-0 w-4/12 text-right'
+            className='mt-4 xs:mt-0 w-4/12 text-center sm:text-right'
             style={{
               lineHeight: 1.2,
             }}

@@ -3,6 +3,7 @@
   margin: 0 auto;
   max-width: 1228px;
   padding: 1rem;
+  pointer-events: none;
   text-align: center;
   top: 0;
   width: 100%;
@@ -44,6 +45,7 @@
   min-width: 100%;
   overflow: visible;
   padding: 0;
+  pointer-events: all;
 }
 
 @screen lg {
