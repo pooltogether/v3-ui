@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
+import { isEmpty } from 'lodash'
 
 import {
   MAINNET_POLLING_INTERVAL
@@ -17,41 +18,44 @@ export const FetchGenericChainData = (props) => {
     poolData,
   } = props
 
-  const generalContext = useContext(GeneralContext)
-  const { paused } = generalContext
+  const { paused } = useContext(GeneralContext)
 
   const [genericChainData, setGenericChainData] = useState({})
 
   const fetchDataFromInfura = async () => {
+    const chainData = {
+      daiPrizeStrategy: {},
+      usdcPrizeStrategy: {},
+      // usdtPrizeStrategy: {},
+      // wbtcPrizeStrategy: {},
+    }
     try {
-      const daiPrizeStrategy = await fetchGenericChainData(
-        provider,
-        poolAddresses['daiPrizeStrategy'],
-        poolData.daiPool
-      )
-      const usdcPrizeStrategy = await fetchGenericChainData(
-        provider,
-        poolAddresses['usdcPrizeStrategy'],
-        poolData.usdcPool
-      )
-      // const usdtPrizeStrategy = await fetchGenericChainData(
-      //   provider,
-      //   poolAddresses['usdtPrizeStrategy']
-      // )
-      // const wbtcPrizeStrategy = await fetchGenericChainData(
-      //   provider,
-      //   poolAddresses['wbtcPrizeStrategy']
-      // )
-
-      return {
-        daiPrizeStrategy,
-        usdcPrizeStrategy,
-        // usdtPrizeStrategy,
-        // wbtcPrizeStrategy,
+      if (!isEmpty(poolAddresses)) {
+        chainData.daiPrizeStrategy = await fetchGenericChainData(
+          provider,
+          poolAddresses['daiPrizeStrategy'],
+          poolData.daiPool
+        )
+        chainData.usdcPrizeStrategy = await fetchGenericChainData(
+          provider,
+          poolAddresses['usdcPrizeStrategy'],
+          poolData.usdcPool
+        )
+        // chainData.usdtPrizeStrategy = await fetchGenericChainData(
+        //   provider,
+        //   poolAddresses['usdtPrizeStrategy']
+        // )
+        // chainData.wbtcPrizeStrategy = await fetchGenericChainData(
+        //   provider,
+        //   poolAddresses['wbtcPrizeStrategy']
+        // )
       }
-    } catch (e) {
+    }
+    catch (e) {
       console.warn(e)
-      return {}
+    }
+    finally {
+      return chainData
     }
   }
 

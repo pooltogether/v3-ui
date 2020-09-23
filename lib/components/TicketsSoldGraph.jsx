@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { ethers } from 'ethers'
 import { useQuery } from '@apollo/client'
 import { fromUnixTime } from 'date-fns'
+import { compact } from 'lodash'
 
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
@@ -18,10 +19,10 @@ export const TicketsSoldGraph = (
 
   const { loading, error, data } = useQuery(poolPrizesQuery, {
     variables: {
-      prizeStrategyAddress: pool?.prizeStrategyAddress,
+      prizePoolAddress: pool?.poolAddress,
       first: 7,
     },
-    skip: !pool?.prizeStrategyAddress,
+    skip: !pool?.poolAddress,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
   })
@@ -30,13 +31,18 @@ export const TicketsSoldGraph = (
     console.error(error)
   }
 
-  let prizes = [].concat(data?.prizeStrategy?.prizes)
+  let prizes = compact([].concat(data?.prizePools?.prizes))
+
+  console.log('======================')
+  console.log('======================')
+  console.log('======================')
+  console.log({data, prizes})
 
   if (error) {
     console.error(error)
   }
 
-  if (!prizes || loading) {
+  if (!prizes.length || loading) {
     return null
   }
 
