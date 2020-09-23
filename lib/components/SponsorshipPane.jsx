@@ -52,7 +52,7 @@ export const SponsorshipPane = (
     />
 
     <div
-      className='bg-highlight-3 rounded-lg px-5 pt-4 pb-5 py-4 xs:p-10 text-white my-4 flex flex-col justify-center'
+      className='bg-highlight-3 rounded-lg px-4 pt-4 pb-5 py-4 xs:p-10 text-white my-4 flex flex-col justify-center'
     >
       <h4>
         {t('yourSponsorship')}
@@ -70,9 +70,9 @@ export const SponsorshipPane = (
 
         <div className='flex'>
           <Button
-            bg='highlight-4'
-            className='w-1/2 sm:w-1/5 mr-2'
+            secondary
             onClick={handleDepositSponsorshipClick}
+            className='w-1/2 sm:w-1/5 mr-2'
           >
             {t('deposit')}
           </Button>

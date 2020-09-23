@@ -66,7 +66,6 @@ export const StartAwardUI = (props) => {
   return <>
     {canStartAward && <>
       <ButtonTx
-        secondary
         textSize='lg'
         onClick={handleStartAwardClick}
         usersAddress={usersAddress}

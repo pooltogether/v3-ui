@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { useQuery } from '@apollo/client'
 
+import SingleRandomWinnerAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinner'
+
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
@@ -37,7 +39,7 @@ export const CompleteAwardUI = (props) => {
 
     const params = [
       {
-        gasLimit: 350000
+        gasLimit: 400000
       }
     ]
 
@@ -45,7 +47,7 @@ export const CompleteAwardUI = (props) => {
       t,
       provider,
       usersAddress,
-      PrizeStrategyAbi,
+      SingleRandomWinnerAbi,
       pool?.prizeStrategyAddress,
       method,
       params,
@@ -57,7 +59,6 @@ export const CompleteAwardUI = (props) => {
   return <>
     {pool?.canCompleteAward && <>
       <Button
-        secondary
         textSize='lg'
         onClick={handleCompleteAwardClick}
         // disabled={disabled}
