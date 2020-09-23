@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
+import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -12,6 +13,7 @@ import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const InstantOrScheduledForm = (props) => {
+  const { t } = useTranslation()
   const router = useRouter()
 
   const { nextStep, pool, exitFees, quantity } = props

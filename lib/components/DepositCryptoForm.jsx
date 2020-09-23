@@ -92,8 +92,7 @@ export const DepositCryptoForm = (props) => {
 
   const [txId, setTxId] = useState()
 
-  const txName = t(`approveTicker`, { ticker: tickerUpcased })
-  // const txName = `Approve ${tickerUpcased}`
+  const txName = t(`allowTickerPool`, { ticker: tickerUpcased })
   const method = 'approve'
 
   const [sendTx] = useSendTransaction(txName)
@@ -141,7 +140,7 @@ export const DepositCryptoForm = (props) => {
     disabled={!needsApproval || unlockTxInFlight}
     className={approveButtonClassName}
   >
-    {t('approveTicker', {
+    {t('allowTicker', {
       ticker: tickerUpcased
     })}
   </Button>
@@ -256,11 +255,13 @@ export const DepositCryptoForm = (props) => {
                 {tx?.sent && !tx?.completed && t('approvalConfirming')}
               </PaneTitle>
 
-              {needsApproval && !unlockTxInFlight && <>
-                {t('unlockToDepositTicker', {
-                  ticker: tickerUpcased
-                })}
-              </>}
+              <span className='font-bold'>
+                {needsApproval && !unlockTxInFlight && <>
+                  {t('unlockToDepositTicker', {
+                    ticker: tickerUpcased
+                  })}
+                </>}
+              </span>
 
               {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage
                 tx={tx}
