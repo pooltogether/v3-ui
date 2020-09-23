@@ -46,7 +46,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const ticker = pool?.underlyingCollateralSymbol
   const decimals = pool?.underlyingCollateralDecimals
   const poolAddress = pool?.poolAddress
-  const controlledTokenAddress = pool?.ticket
+  const controlledTokenAddress = pool?.ticket?.id
 
   const tickerUpcased = ticker?.toUpperCase()
 

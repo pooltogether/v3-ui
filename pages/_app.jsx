@@ -176,14 +176,15 @@ function MyApp({ Component, pageProps, router }) {
           </AnimatePresence>
         </Layout>
       </AllContextProviders>
+
+      <ToastContainer
+        className='pool-toast'
+        position='top-center'
+        autoClose={7000}
+      />
+
     </V3ApolloWrapper>
 
-    <ToastContainer
-      className='pool-toast'
-      position='top-center'
-      autoClose={7000}
-    />
-    
     <GasStationQuery />
   </>
 }

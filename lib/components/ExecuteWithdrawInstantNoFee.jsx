@@ -31,7 +31,7 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   const decimals = pool?.underlyingCollateralDecimals
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
   const poolAddress = pool?.poolAddress
-  const controlledTokenAddress = pool?.ticket
+  const controlledTokenAddress = pool?.ticket?.id
 
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
@@ -59,7 +59,6 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
     const runTx = async () => {
       setTxExecuted(true)
 
-      const sponsoredExitFee = '0'
       const maxExitFee = '1'
 
       const params = [
@@ -69,9 +68,7 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
           Number(decimals)
         ),
         controlledTokenAddress,
-        ethers.utils.parseEther(sponsoredExitFee),
         ethers.utils.parseEther(maxExitFee),
-        [], // tx data
         {
           gasLimit: 500000
         }

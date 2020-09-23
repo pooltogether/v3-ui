@@ -33,7 +33,7 @@ export const ExecuteCryptoDeposit = (props) => {
   const decimals = pool?.underlyingCollateralDecimals
   const ticker = pool?.underlyingCollateralSymbol
   const poolAddress = pool?.poolAddress
-  const controlledTokenAddress = pool?.ticket
+  const controlledTokenAddress = pool?.ticket?.id
 
   const tickerUpcased = ticker?.toUpperCase()
 
@@ -64,7 +64,7 @@ export const ExecuteCryptoDeposit = (props) => {
       try {
         ethers.utils.getAddress(referrerAddress)
       } catch (e) {
-        referrerAddress = null
+        referrerAddress = ethers.constants.AddressZero
         console.error(`referrer address was an invalid Ethereum address:`, e.message)
       }
 
@@ -75,9 +75,9 @@ export const ExecuteCryptoDeposit = (props) => {
           Number(decimals)
         ),
         controlledTokenAddress,
-        [], // this will change from empty array (calldata) to `referrerAddress` after we update the contracts
+        referrerAddress,
         {
-          gasLimit: 550000
+          gasLimit: 600000
         }
       ]
 

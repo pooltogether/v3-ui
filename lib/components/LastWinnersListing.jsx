@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import Link from 'next/link'
 import { useQuery } from '@apollo/client'
+import { compact } from 'lodash'
 
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
