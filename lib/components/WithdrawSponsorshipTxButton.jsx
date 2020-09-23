@@ -29,7 +29,7 @@ export const WithdrawSponsorshipTxButton = (props) => {
   const { pool, refetchSponsorQuery } = poolData
 
   const poolAddress = pool?.poolAddress
-  const sponsorshipAddress = pool?.sponsorship
+  const sponsorshipAddress = pool?.sponsorship?.id
   
 
 
@@ -58,7 +58,6 @@ export const WithdrawSponsorshipTxButton = (props) => {
   const handleWithdrawSponsorshipClick = async (e) => {
     e.preventDefault()
 
-    const sponsoredExitFee = '0'
     const maxExitFee = '1'
 
     const params = [
@@ -68,9 +67,7 @@ export const WithdrawSponsorshipTxButton = (props) => {
         Number(decimals)
       ),
       sponsorshipAddress,
-      ethers.utils.parseEther(sponsoredExitFee),
       ethers.utils.parseEther(maxExitFee),
-      [], // tx data
       {
         gasLimit: 550000
       }
