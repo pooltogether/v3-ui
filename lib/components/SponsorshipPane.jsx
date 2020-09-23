@@ -70,9 +70,8 @@ export const SponsorshipPane = (
 
         <div className='flex'>
           <Button
-            textSize='lg'
             bg='highlight-4'
-            className='w-1/2 sm:w-1/3 mr-2'
+            className='w-1/2 sm:w-1/5 mr-2'
             onClick={handleDepositSponsorshipClick}
           >
             {t('deposit')}
@@ -80,9 +79,8 @@ export const SponsorshipPane = (
 
           <Button
             secondary
-            textSize='lg'
             onClick={handleWithdrawSponsorshipClick}
-            className='w-1/2 sm:w-1/3 ml-2'
+            className='w-1/2 sm:w-1/5 ml-2'
           >
             {t('withdraw')}
           </Button>

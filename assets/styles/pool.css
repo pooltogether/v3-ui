@@ -422,6 +422,16 @@ input[type='submit'][disabled] {
   transform: scale(1.02) translateY(-3px);
 }
 
+.button-partially-disabled {
+  opacity: 0.8;
+  transition: all 75ms ease-in-out;
+}
+
+.button-partially-disabled:hover {
+  opacity: 1;
+  transform: scale(1.02) translateY(-3px);
+}
+
 @media screen and (max-height: 460px) {
   .odds-box { display: none; }
   .pane-title { display: none; }

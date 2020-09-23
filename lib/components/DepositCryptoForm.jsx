@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
-import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/client'
+import { useRouter } from 'next/router'
 
 import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 
@@ -90,12 +90,9 @@ export const DepositCryptoForm = (props) => {
     )
   }
 
-
-
   const [txId, setTxId] = useState()
 
-  const txName = t(`approveTicker`, { ticker: tickerUpcased })
-  // const txName = `Approve ${tickerUpcased}`
+  const txName = t(`allowTickerPool`, { ticker: tickerUpcased })
   const method = 'approve'
 
   const [sendTx] = useSendTransaction(txName)
@@ -143,7 +140,7 @@ export const DepositCryptoForm = (props) => {
     disabled={!needsApproval || unlockTxInFlight}
     className={approveButtonClassName}
   >
-    {t('approveTicker', {
+    {t('allowTicker', {
       ticker: tickerUpcased
     })}
   </Button>
@@ -245,7 +242,7 @@ export const DepositCryptoForm = (props) => {
 
           {needsApproval && <>
             <div
-              className='px-6 sm:px-10 text-sm mt-4'
+              className='px-6 sm:px-10 text-sm my-6'
               style={{
                 minHeight: 97
               }}
@@ -258,13 +255,17 @@ export const DepositCryptoForm = (props) => {
                 {tx?.sent && !tx?.completed && t('approvalConfirming')}
               </PaneTitle>
 
-              {needsApproval && !unlockTxInFlight && <>
-                {t('unlockToDepositTicker', {
-                  ticker: tickerUpcased
-                })}
-              </>}
+              <span className='font-bold'>
+                {needsApproval && !unlockTxInFlight && <>
+                  {t('unlockToDepositTicker', {
+                    ticker: tickerUpcased
+                  })}
+                </>}
+              </span>
 
-              {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage />}
+              {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage
+                tx={tx}
+              />}
             </div>
           </>}
           
@@ -288,7 +289,7 @@ export const DepositCryptoForm = (props) => {
             <DepositTxButton
               needsApproval={needsApproval}
               quantity={quantity}
-              disabled={poolIsLocked || needsApproval || overBalance}
+              disabled={needsApproval || overBalance}
               poolIsLocked={poolIsLocked}
               nextStep={nextStep}
             />

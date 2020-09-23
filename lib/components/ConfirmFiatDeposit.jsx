@@ -29,13 +29,8 @@ export const ConfirmFiatDeposit = (props) => {
 
     <PaneTitle small>
       {/* {t('transactionsMayTakeAFewMinutes', {
-        waitTime: 'PUT actual estimate here?'
-      })}
-      <span
-        className='font-bold'
-      >
-        Estimated wait time:
-      </span> PUT actual estimate here? */}
+        waitTime: ''
+      })} */}
     </PaneTitle>
 
     <div className='mx-auto'>

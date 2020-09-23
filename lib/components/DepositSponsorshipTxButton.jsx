@@ -40,7 +40,6 @@ export const DepositSponsorshipTxButton = (props) => {
     amount: quantity,
     ticker: tickerUpcased
   })
-  // const txName = `Deposit ${quantity} ${tickerUpcased} to Sponsorship`
   const method = 'depositTo'
 
   const [sendTx] = useSendTransaction(txName, refetchSponsorQuery)

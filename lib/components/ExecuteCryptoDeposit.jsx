@@ -40,9 +40,12 @@ export const ExecuteCryptoDeposit = (props) => {
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
-  const txName = t(`depositAmountTickets`, {
+  const txMainName = t(`depositAmountTickets`, {
     amount: quantity,
   })
+  const txSubName = `${quantity} ${tickerUpcased}`
+  const txName = `${txMainName} (${txSubName})`
+  
   const method = 'depositTo'
 
   const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
@@ -137,6 +140,8 @@ export const ExecuteCryptoDeposit = (props) => {
       {tx?.sent && t('depositConfirming')}
     </PaneTitle>
 
-    {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage />}
+    {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage
+      tx={tx}
+    />}
   </>
 }

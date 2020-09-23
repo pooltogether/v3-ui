@@ -12,7 +12,7 @@ export const PaneTitle = (props) => {
 
   if (small) {
     fontClasses = 'text-lg sm:text-2xl lg:text-3xl text-default-soft'
-    spacingClasses = 'pb-2'
+    spacingClasses = 'pb-1'
   }
 
   if (short) {

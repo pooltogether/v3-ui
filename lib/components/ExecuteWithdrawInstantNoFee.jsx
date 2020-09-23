@@ -36,12 +36,11 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
-  // const txMainName = `Withdraw: ${quantity} tickets`
   const txMainName = t(`withdrawAmountTickets`, {
     amount: quantity,
   })
   const txSubName = `${quantity} ${tickerUpcased}`
-  const txName = `${txMainName} - ${txSubName}`
+  const txName = `${txMainName} (${txSubName})`
   const method = 'withdrawInstantlyFrom'
 
   const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
@@ -121,6 +120,8 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
       {tx?.inWallet && 'Confirm withdrawal'}
     </PaneTitle>
 
-    {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage />}
+    {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage
+      tx={tx}
+    />}
   </>
 }

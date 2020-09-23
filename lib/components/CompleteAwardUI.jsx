@@ -8,7 +8,6 @@ import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 
-
 export const CompleteAwardUI = (props) => {
   const { t } = useTranslation()
 

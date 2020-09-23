@@ -32,8 +32,7 @@ export const ApproveSponsorshipTxButton = (props) => {
   
   const [txId, setTxId] = useState()
 
-    // `Approve ${tickerUpcased}`
-  const txName = t(`approveTicker`, { ticker: tickerUpcased })
+  const txName = t(`allowTickerPoolSponsorship`, { ticker: tickerUpcased })
   const method = 'approve'
 
   const [sendTx] = useSendTransaction(txName)
