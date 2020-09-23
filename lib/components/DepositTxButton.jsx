@@ -17,10 +17,9 @@ export const DepositTxButton = (props) => {
 
   const button = <>
     <Button
-      noAnim
       textSize='lg'
       onClick={handleDepositClick}
-      disabled={disabled || poolIsLocked}
+      disabled={disabled}
       className={buttonClassName}
     >
       {t('deposit')}
@@ -30,6 +29,7 @@ export const DepositTxButton = (props) => {
   return <>
     {poolIsLocked ? <>
       <PTHint
+        isButton={poolIsLocked}
         title={t('poolIsLocked')}
         tip={<>
           <div className='my-2 text-xs sm:text-sm'>

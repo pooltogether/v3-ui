@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
-import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/client'
+import { useRouter } from 'next/router'
 
 import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 
@@ -89,8 +89,6 @@ export const DepositCryptoForm = (props) => {
       )
     )
   }
-
-
 
   const [txId, setTxId] = useState()
 
@@ -264,7 +262,9 @@ export const DepositCryptoForm = (props) => {
                 })}
               </>}
 
-              {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage />}
+              {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage
+                tx={tx}
+              />}
             </div>
           </>}
           
@@ -288,7 +288,7 @@ export const DepositCryptoForm = (props) => {
             <DepositTxButton
               needsApproval={needsApproval}
               quantity={quantity}
-              disabled={poolIsLocked || needsApproval || overBalance}
+              disabled={needsApproval || overBalance}
               poolIsLocked={poolIsLocked}
               nextStep={nextStep}
             />

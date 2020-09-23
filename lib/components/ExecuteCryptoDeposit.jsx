@@ -137,6 +137,8 @@ export const ExecuteCryptoDeposit = (props) => {
       {tx?.sent && t('depositConfirming')}
     </PaneTitle>
 
-    {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage />}
+    {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage
+      tx={tx}
+    />}
   </>
 }

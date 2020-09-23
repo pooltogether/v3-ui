@@ -29,7 +29,7 @@ exports.handler = (event, context, callback) => {
 
   request({
     method: 'GET',
-    url: `https://ethgasstation.info/json/ethgasAPI.json`
+    url: `https://ethgasstation.info/json/ethgasAPI.json?api-key=${process.env.DEFI_PULSE_GAS_STATION_API_KEY}`
   }, (error, response, body) => {
     if (error) {
       // console.log(error)

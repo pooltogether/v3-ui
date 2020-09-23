@@ -22,7 +22,7 @@ const custom = (triggerRect, tooltipRect) => {
 
 export const PTHint = (props) => {
   const { t } = useTranslation()
-  const { children, className, title } = props
+  const { children, className, isButton, title } = props
   let { tip } = props
 
   const [trigger, tooltip] = useTooltip()
@@ -76,6 +76,9 @@ export const PTHint = (props) => {
       className={classnames(
         className,
         'relative cursor-pointer',
+        {
+          'button-partially-disabled': isButton
+        }
       )}
       onMouseOut={hide}
     >

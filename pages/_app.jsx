@@ -11,6 +11,7 @@ import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
 import { Layout } from 'lib/components/Layout'
+import { GasStationQuery } from 'lib/components/GasStationQuery'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 
@@ -175,13 +176,15 @@ function MyApp({ Component, pageProps, router }) {
           </AnimatePresence>
         </Layout>
       </AllContextProviders>
-
-      <ToastContainer
-        className='pool-toast'
-        position='top-center'
-        autoClose={7000}
-      />
     </V3ApolloWrapper>
+
+    <ToastContainer
+      className='pool-toast'
+      position='top-center'
+      autoClose={7000}
+    />
+    
+    <GasStationQuery />
   </>
 }
 

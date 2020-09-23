@@ -6,7 +6,6 @@ export const getButtonClasses = (props) => {
   let {
     border,
     bg,
-    primary,
     text,
     hoverBg,
     hoverBorder,

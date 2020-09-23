@@ -1,10 +1,60 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { ethers } from 'ethers'
+import { useQuery } from '@apollo/client'
+
+import { differenceInMinutes } from 'date-fns'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
+import { gasStationDataQuery } from 'lib/queries/gasStationDataQuery'
+
 
 export const TransactionsTakeTimeMessage = (props) => {
   const { t } = useTranslation()
+
+  const { tx } = props
+
+  const [waitTime, setWaitTime] = useState(null)
+
+  const gasStationDataQueryResult = useQuery(gasStationDataQuery)
+  const gasStationData = gasStationDataQueryResult?.data?.gasStationData
+
+  useEffect(() => {
+    if (gasStationData && gasStationData['fast']) {
+      window.differenceInMinutes = differenceInMinutes
+      const gasPairs = ['average', 'fast', 'fastest', 'safeLow'].map(pair => {
+        const gasInGwei = gasStationData[pair] / 10
+
+        const waitKey = pair === 'average' ? 'avgWait' : `${pair}Wait`
+        const waitTime = gasStationData[waitKey]
+
+        return {
+          pair,
+          waitTime,
+          gasInGwei
+        }
+      })
+
+      const findClosest = (x) => {
+        return gasPairs.reduce((best, current) => {
+          return (current.gasInGwei <= x && (!best || current.gasInGwei > best.gasInGwei))
+            ? current
+            : best
+        }, undefined)
+      }
+
+      const txGasPriceInGwei = parseInt(
+        ethers.utils.formatUnits(tx.ethersTx.gasPrice, 'gwei'),
+        10
+      )
+      
+      const closestPair = findClosest(txGasPriceInGwei)
+
+      const _waitTime = closestPair ? closestPair.waitTime : gasStationData['safeLowWait']
+
+      setWaitTime(_waitTime)
+    }
+  }, [gasStationData])  
 
   return <>
     <div className='mx-auto -mb-2'>
@@ -17,18 +67,17 @@ export const TransactionsTakeTimeMessage = (props) => {
       {t('transactionsMayTakeAFewMinutes')}
     </div>
 
-    <div
-      className='text-inverse'
-    >
-      <Trans
-        i18nKey='estimatedWaitTime'
-        defaults='<bold>Estimated wait time:</bold> <lineBreak>{{waitTime}}</lineBreak>'
-        values={{ waitTime: 'put actual estimate here!' }}
-        components={{
-          bold: <span className='font-bold' />,
-          lineBreak: <div />
-        }}
-      />
-    </div>
+    {waitTime && <>
+      <div
+        className='text-inverse'
+      >
+        <span className='font-bold'>
+          {t('estimatedWaitTime')}
+        </span> {waitTime > 1 ?
+          t('waitTimeMinutes', { waitTime }) :
+          t('lessThanAMinute')
+        }
+      </div>
+    </>}
   </>
 }

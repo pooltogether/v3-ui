@@ -325,7 +325,6 @@ export const PoolShow = (
               </ButtonLink>
             </div>
 
-
             {walletName === 'MetaMask' && <>
               <div className='mx-2'>
                 <Button
