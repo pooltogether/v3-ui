@@ -79,7 +79,7 @@ export const ManageUI = (
     />
 
     <div
-      className='bg-highlight-3 rounded-lg px-10 pt-10 pb-10 text-white mt-4 sm:mt-16 flex flex-col justify-center'
+      className='bg-highlight-3 rounded-lg px-5 pt-4 pb-5 xs:p-10 text-white mt-4 sm:mt-16 flex flex-col justify-center'
     >
       <h4>
         {t('poolStatus')} <span className='text-green'>

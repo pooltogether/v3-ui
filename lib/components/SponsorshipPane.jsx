@@ -52,7 +52,7 @@ export const SponsorshipPane = (
     />
 
     <div
-      className='bg-highlight-3 rounded-lg px-10 pt-8 pb-10 text-white my-4 flex flex-col justify-center'
+      className='bg-highlight-3 rounded-lg px-5 pt-4 pb-5 py-4 xs:p-10 text-white my-4 flex flex-col justify-center'
     >
       <h4>
         {t('yourSponsorship')}

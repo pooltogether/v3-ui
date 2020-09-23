@@ -29,7 +29,7 @@ export const DepositSponsorshipTxButton = (props) => {
   const { pool, refetchSponsorQuery } = poolData
 
   const poolAddress = pool?.poolAddress
-  const sponsorshipAddress = pool?.sponsorship
+  const sponsorshipAddress = pool?.sponsorship?.id
   
 
 
@@ -62,7 +62,7 @@ export const DepositSponsorshipTxButton = (props) => {
         Number(decimals)
       ),
       sponsorshipAddress,
-      [],
+      ethers.constants.AddressZero,
       {
         gasLimit: 550000
       }
