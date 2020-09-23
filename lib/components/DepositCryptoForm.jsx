@@ -243,7 +243,7 @@ export const DepositCryptoForm = (props) => {
 
           {needsApproval && <>
             <div
-              className='px-6 sm:px-10 text-sm mt-4'
+              className='px-6 sm:px-10 text-sm my-6'
               style={{
                 minHeight: 97
               }}

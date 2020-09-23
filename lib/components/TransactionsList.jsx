@@ -53,7 +53,15 @@ export const TransactionsList = (props) => {
       <div
         className='flex justify-between items-center text-xxs xs:text-xs uppercase font-bold text-accent-3'
       >
-        {t('recentTransactions')} {pastTransactionsCount > 0 && <>
+        <div>
+          {t('recentTransactions')} {pendingTransactionsCount > 0 && <>
+            <span className='text-accent-1 text-xxxs uppercase opacity-50'>
+              {t('pendingTransactionsCount', { count: pendingTransactionsCount })}
+            </span>
+          </>}
+        </div>
+        
+        {pastTransactionsCount > 0 && <>
           <button
             onClick={handleClearPrevious}
             className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 px-2 trans trans-fastest font-bold'
@@ -61,14 +69,7 @@ export const TransactionsList = (props) => {
             {t('clearHistory')}
           </button>
         </>}
-      </div> 
-
-      {pendingTransactionsCount > 0 && <>
-        <div className='block sm:inline-block text-caption text-xxs'>
-          {t('pendingTransactionsCount', { count: pendingTransactionsCount })}
-        </div>
-      </>}
-
+      </div>
     </div>
 
     <div

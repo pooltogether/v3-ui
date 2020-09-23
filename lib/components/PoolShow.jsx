@@ -21,6 +21,7 @@ import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Meta } from 'lib/components/Meta'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
+import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
 import { Tagline } from 'lib/components/Tagline'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
@@ -40,7 +41,7 @@ export const PoolShow = (
   const router = useRouter()
 
   const authControllerContext = useContext(AuthControllerContext)
-  const { walletName } = authControllerContext
+  const { usersAddress, walletName } = authControllerContext
 
   const { pool } = props
 
@@ -83,6 +84,28 @@ export const PoolShow = (
   const handleAddTokenToMetaMask = (e) => {
     e.preventDefault()
     addTokenToMetaMask(pool)
+  }
+
+  const handleRevokeAllowance = async (e) => {
+    e.preventDefault()
+
+    const params = [
+      [usersAddress],
+      {
+        gasLimit: 500000
+      }
+    ]
+
+    const id = sendTx(
+      t,
+      provider,
+      usersAddress,
+      PrizePoolAbi,
+      poolAddress,
+      method,
+      params
+    )
+    setTxId(id)
   }
 
   return <>
@@ -311,11 +334,11 @@ export const PoolShow = (
         </>
         {/* } */}
 
-        {cookieShowAward && <>
-          <div
-            className='flex justify-center mt-20'
-          >
-            <div className='mx-2'>
+        <div
+          className='flex flex-col sm:flex-row items-center justify-center mt-20'
+        >
+          {cookieShowAward && <>
+            <div className='m-2'>
               <ButtonLink
                 secondary
                 href='/pools/[symbol]/manage'
@@ -324,21 +347,25 @@ export const PoolShow = (
                 {t('managePool')}
               </ButtonLink>
             </div>
+          </>}
 
-            {walletName === 'MetaMask' && <>
-              <div className='mx-2'>
-                <Button
-                  secondary
-                  onClick={handleAddTokenToMetaMask}
-                >
-                  {t('addTicketTokenToMetamask', {
-                    token: pool?.symbol
-                  })}
-                </Button>
-              </div>
-            </>}
-          </div>
-        </>}
+          {walletName === 'MetaMask' && <>
+            <div className='m-2'>
+              <Button
+                secondary
+                onClick={handleAddTokenToMetaMask}
+              >
+                {t('addTicketTokenToMetamask', {
+                  token: pool?.symbol
+                })}
+              </Button>
+            </div>
+          </>}
+
+          {usersAddress && <RevokePoolAllowanceTxButton
+            pool={pool}
+          />}
+        </div>
       </motion.div>
 
     <Tagline />

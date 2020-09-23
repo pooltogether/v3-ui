@@ -166,7 +166,9 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
     </div>
 
     {txSent && !txCompleted && <>
-      <TransactionsTakeTimeMessage />
+      <TransactionsTakeTimeMessage
+        tx={tx}
+      />
     </>}
     
   </>

@@ -121,6 +121,8 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
       {tx?.inWallet && 'Confirm withdrawal'}
     </PaneTitle>
 
-    {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage />}
+    {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage
+      tx={tx}
+    />}
   </>
 }
