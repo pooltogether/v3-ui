@@ -24,7 +24,7 @@ import { WithdrawButton } from 'lib/components/WithdrawButton'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-import TicketIcon from 'assets/images/tickets-icon.svg'
+import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 
 export const AccountPoolShowUI = (props) => {
   const { t } = useTranslation()
@@ -121,7 +121,7 @@ export const AccountPoolShowUI = (props) => {
         <BlankStateMessage>
           <img
             src={TicketIcon}
-            className='mx-auto'
+            className='mx-auto w-16 mb-8'
           />
 
           <div

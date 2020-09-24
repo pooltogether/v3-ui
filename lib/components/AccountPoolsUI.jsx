@@ -8,7 +8,7 @@ import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 
-import TicketIcon from 'assets/images/tickets-icon.svg'
+import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 
 export const AccountPoolsUI = () => {
   const { t } = useTranslation()
@@ -25,7 +25,7 @@ export const AccountPoolsUI = () => {
           >
             <img
               src={TicketIcon}
-              className='mx-auto'
+              className='mx-auto w-16 mb-8'
             />
 
             {t('youCurrentlyHaveNoTickets')}
