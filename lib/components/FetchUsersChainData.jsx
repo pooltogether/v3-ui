@@ -18,7 +18,7 @@ export const FetchUsersChainData = (props) => {
   const generalContext = useContext(GeneralContext)
   const { paused } = generalContext
 
-  const poolAddress = pool && pool.poolAddress
+  const poolAddress = pool?.poolAddress
 
   const [usersChainData, setUsersChainData] = useState({})
 
@@ -33,6 +33,7 @@ export const FetchUsersChainData = (props) => {
       return data
     } catch (e) {
       // error while fetching from infura?
+      console.warn(e)
       return {}
     }
   }

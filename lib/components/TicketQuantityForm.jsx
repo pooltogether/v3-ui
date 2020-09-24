@@ -31,16 +31,11 @@ export const TicketQuantityForm = (props) => {
   const router = useRouter()
   const quantity = router.query.quantity
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress } = authControllerContext
-
-  const poolData = useContext(PoolDataContext)
-  const { pool, usersTicketBalance, usersChainData } = poolData
+  const { usersAddress } = useContext(AuthControllerContext)
+  const { pool, usersTicketBalance, usersChainData } = useContext(PoolDataContext)
 
   const ticker = pool?.underlyingCollateralSymbol
   const tickerUpcased = ticker?.toUpperCase()
-
-  const poolIsLocked = pool && pool.isRngRequested
 
   const {
     handleSubmit,
@@ -75,6 +70,8 @@ export const TicketQuantityForm = (props) => {
 
   const isWithdraw = formName === t('withdraw')
 
+  console.log({ usersTokenBalance: usersTokenBalance.toString()})
+  console.log({ usersChainData })
   let contextualBalance = usersTokenBalance
 
   let validate = null

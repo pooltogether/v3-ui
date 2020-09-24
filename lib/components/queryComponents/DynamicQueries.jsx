@@ -46,6 +46,7 @@ export const DynamicQueries = (
 
   let dynamicPrizeStrategiesData
 
+  console.log({ variables})
   const {
     loading: prizeStrategyQueryLoading,
     error: prizeStrategyQueryError,
