@@ -26,7 +26,7 @@ export const AccountSummary = () => {
       return
     }
 
-    const decimals = pool.underlyingCollateralDecimals
+    const decimals = parseInt(pool?.underlyingCollateralDecimals, 10)
 
     const balance = Number(
       ethers.utils.formatUnits(playerData.balance, decimals),

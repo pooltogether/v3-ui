@@ -153,7 +153,9 @@ function MyApp({ Component, pageProps, router }) {
                 const elem = document.getElementById('content-animation-wrapper')
                 
                 // in case the animation failed
-                elem.style.opacity = '1'
+                if (elem) {
+                  elem.style.opacity = '1'
+                }
               }, 300)
               
             }}

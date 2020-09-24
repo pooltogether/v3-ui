@@ -33,10 +33,10 @@ export const TicketsSoldGraph = (
 
   let prizes = compact([].concat(data?.prizePools?.prizes))
 
-  console.log('======================')
-  console.log('======================')
-  console.log('======================')
-  console.log({data, prizes})
+  // console.log('======================')
+  // console.log('======================')
+  // console.log('======================')
+  // console.log({data, prizes})
 
   if (error) {
     console.error(error)
