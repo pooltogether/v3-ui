@@ -26,8 +26,10 @@ export const FetchGenericChainData = (props) => {
     const chainData = {
       daiPrizeStrategy: {},
       usdcPrizeStrategy: {},
-      // usdtPrizeStrategy: {},
-      // wbtcPrizeStrategy: {},
+      usdtPrizeStrategy: {},
+      wbtcPrizeStrategy: {},
+      zrxPrizeStrategy: {},
+      batPrizeStrategy: {},
     }
     try {
       if (!isEmpty(poolAddresses)) {
@@ -41,14 +43,26 @@ export const FetchGenericChainData = (props) => {
           poolAddresses['usdcPrizeStrategy'],
           poolData.usdcPool
         )
-        // chainData.usdtPrizeStrategy = await fetchGenericChainData(
-        //   provider,
-        //   poolAddresses['usdtPrizeStrategy']
-        // )
-        // chainData.wbtcPrizeStrategy = await fetchGenericChainData(
-        //   provider,
-        //   poolAddresses['wbtcPrizeStrategy']
-        // )
+        chainData.usdtPrizeStrategy = await fetchGenericChainData(
+          provider,
+          poolAddresses['usdtPrizeStrategy'],
+          poolData.usdtPool
+        )
+        chainData.wbtcPrizeStrategy = await fetchGenericChainData(
+          provider,
+          poolAddresses['wbtcPrizeStrategy'],
+          poolData.wbtcPool
+        )
+        chainData.zrxPrizeStrategy = await fetchGenericChainData(
+          provider,
+          poolAddresses['zrxPrizeStrategy'],
+          poolData.zrxPool
+        )
+        chainData.batPrizeStrategy = await fetchGenericChainData(
+          provider,
+          poolAddresses['batPrizeStrategy'],
+          poolData.batPool
+        )
       }
     }
     catch (e) {

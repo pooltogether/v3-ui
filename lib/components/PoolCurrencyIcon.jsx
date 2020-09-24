@@ -2,13 +2,13 @@ import React from 'react'
 import classnames from 'classnames'
 
 import DaiSvg from 'assets/images/dai-new-transparent.png'
-import WbtcSvg from 'assets/images/asset_BTC.svg'
-// import DaiSvg from 'assets/images/dai.svg'
-import MissingCurrencySvg from 'assets/images/activity.svg'
+import WbtcSvg from 'assets/images/wbtc-new-transparent.png'
+// import WbtcSvg from 'assets/images/asset_BTC.svg'
 import UsdcSvg from 'assets/images/usdc-new-transparent.png'
-// import UsdcSvg from 'assets/images/usdc.svg'
 import UsdtSvg from 'assets/images/usdt-new-transparent.png'
-// import UsdtSvg from 'assets/images/usdt.svg'
+import ZrxSvg from 'assets/images/zrx-new-transparent.png'
+import BatSvg from 'assets/images/bat-new-transparent.png'
+import MissingCurrencySvg from 'assets/images/activity.svg'
 
 export const PoolCurrencyIcon = (
   props,
@@ -33,6 +33,10 @@ export const PoolCurrencyIcon = (
     currencyIcon = UsdtSvg
   } else if (symbol === 'wbtc') {
     currencyIcon = WbtcSvg
+  } else if (symbol === 'zrx') {
+    currencyIcon = ZrxSvg
+  } else if (symbol === 'bat') {
+    currencyIcon = BatSvg
   } else {
     currencyIcon = MissingCurrencySvg
   }
