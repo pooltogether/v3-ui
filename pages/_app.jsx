@@ -85,11 +85,25 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   useEffect(() => {
+
     const handleExitComplete = () => {
       if (typeof window !== 'undefined') {
-        window.scrollTo({ top: 0 })
+        // window.scrollTo({ top: 0 })
+
+        // make sure opacity gets set back to 1 after page transitions!
+        setTimeout(() => {
+          const elem = document.getElementById('content-animation-wrapper')
+
+          // in case the animation failed
+          if (elem) {
+            elem.style.opacity = '1'
+          }
+        }, 1000)
       }
     }
+
+    
+
 
     router.events.on('routeChangeComplete', handleExitComplete)
     return () => {
@@ -105,7 +119,7 @@ function MyApp({ Component, pageProps, router }) {
     }
     initi18next()
   }, [])
-  
+
   return <>
     <BodyClasses />
 
@@ -148,25 +162,11 @@ function MyApp({ Component, pageProps, router }) {
         >
           <AnimatePresence
             exitBeforeEnter
-            onExitComplete={() => {
-              console.log('onExitComplete')
-              setTimeout(() => {
-                console.log('run!')
-                const elem = document.getElementById('content-animation-wrapper')
-                
-                // in case the animation failed
-                console.log(elem)
-                if (elem) {
-                  console.log('setting!')
-                  elem.style.opacity = '1'
-                }
-              }, 1200)
-              
-            }}
           >
             <motion.div
               id='content-animation-wrapper'
               key={router.route}
+              transition={{ duration: 0.1, ease: 'easeIn' }}
               initial={{
                 opacity: 0
               }}

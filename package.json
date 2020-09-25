@@ -79,7 +79,7 @@
     "ethers": "^4.0.47",
     "fathom-client": "^3.0.0",
     "feather-icons-react": "^0.4.1",
-    "framer-motion": "^2.6.9",
+    "framer-motion": "2.7.5",
     "graphql": "^15.3.0",
     "http-proxy-middleware": "^1.0.5",
     "i18next": "^19.7.0",
