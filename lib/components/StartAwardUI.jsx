@@ -66,6 +66,9 @@ export const StartAwardUI = (props) => {
   return <>
     {canStartAward && <>
       <ButtonTx
+        bg='highlight-4'
+        hoverBg='green'
+        hoverText='primary'
         textSize='lg'
         onClick={handleStartAwardClick}
         usersAddress={usersAddress}

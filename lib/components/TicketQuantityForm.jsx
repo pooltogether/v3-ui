@@ -70,8 +70,6 @@ export const TicketQuantityForm = (props) => {
 
   const isWithdraw = formName === t('withdraw')
 
-  console.log({ usersTokenBalance: usersTokenBalance.toString()})
-  console.log({ usersChainData })
   let contextualBalance = usersTokenBalance
 
   let validate = null
@@ -145,7 +143,7 @@ export const TicketQuantityForm = (props) => {
           label={t('ticketAmount')}
           required={t('ticketQuantityRequired')}
           autoComplete='off'
-          centerLabel={usersAddress && tickerUpcased && <>
+          centerLabel={!isWithdraw && usersAddress && tickerUpcased && <>
             <WyreTopUpBalanceDropdown
               label={<>
                 <Trans

@@ -59,6 +59,9 @@ export const CompleteAwardUI = (props) => {
   return <>
     {pool?.canCompleteAward && <>
       <Button
+        bg='highlight-4'
+        hoverBg='green'
+        hoverText='primary'
         textSize='lg'
         onClick={handleCompleteAwardClick}
         // disabled={disabled}

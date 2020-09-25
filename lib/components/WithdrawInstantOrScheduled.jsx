@@ -42,19 +42,38 @@ export const WithdrawInstantOrScheduled = (props) => {
 
   let hasEnoughCreditForInstant = null
   if (exitFees && exitFees.instantCredit) {
+    console.log({ credit: exitFees.instantCredit.toString()})
+    console.log({ exitFees})
     hasEnoughCreditForInstant = exitFees.instantFee.lte(0)
+    console.log({ hasEnoughCreditForInstant})
   }
 
   useEffect(() => {
     setTotalWizardSteps(hasEnoughCreditForInstant ? 3 : 4)
   }, [hasEnoughCreditForInstant])
 
+  useEffect(() => {
+    if (exitFees === 'error') {
+      poolToast.error('There was an error fetching exit fees')
+      previousStep()
+    }
+  }, [exitFees])
+
+  
 
   const getFees = async () => {
-    const quantityBN = ethers.utils.parseEther(
+    // const quantityBN = ethers.utils.formatUnits(
+    //   quantity,
+    //   Number(underlyingCollateralDecimals)
+    // )
+    const quantityBN = ethers.utils.parseUnits(
       quantity,
       Number(underlyingCollateralDecimals)
     )
+    // const quantityBN = ethers.utils.parseUnits(
+    //   quantity,
+    //   Number(underlyingCollateralDecimals)
+    // ).mul(1000000000000)
     const result = await fetchExitFees(
       networkName,
       usersAddress,

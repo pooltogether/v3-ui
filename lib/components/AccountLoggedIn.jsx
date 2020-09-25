@@ -3,31 +3,26 @@ import { useRouter } from 'next/router'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 
+const MILLISECONDS_BEFORE_REDIRECT = 2500
+
 export const AccountLoggedIn = (props) => {
   const router = useRouter()
 
   const authDataContext = useContext(AuthControllerContext)
   const { usersAddress } = authDataContext
-  // console.log({ usersAddress})
   
   useEffect(() => {
-    // console.log('1')
-
     let redirectTimeoutHandler
     
     if (!usersAddress) {
-      // console.log(usersAddress)
       redirectTimeoutHandler = setTimeout(() => {
-        // console.log('in redirect')
-
         router.push(
           '/account?signIn=1',
           '/account?signIn=1',
           { shallow: true }
         )
-      }, 1000)
+      }, MILLISECONDS_BEFORE_REDIRECT)
     } else if (redirectTimeoutHandler) {
-      console.log('clear timeout!')
       clearTimeout(redirectTimeoutHandler)
     }
 

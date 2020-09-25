@@ -30,15 +30,13 @@ export const AccountPoolShowUI = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const poolData = useContext(PoolDataContext)
-  const { pool, dynamicPlayerData } = poolData
+  const { pool, dynamicPlayerData } = useContext(PoolDataContext)
 
   const poolIsLocked = pool?.isRngRequested
 
   const poolAddress = pool?.poolAddress
   const symbol = pool?.symbol
   const decimals = pool?.underlyingCollateralDecimals
-
   const ticker = pool?.underlyingCollateralSymbol
 
   let playerData
@@ -46,9 +44,9 @@ export const AccountPoolShowUI = (props) => {
     playerData = dynamicPlayerData.find(data => data.prizePool.id === poolAddress)
   }
 
-  let usersBalance = 0
+  let usersTicketBalance = 0
   if (pool && playerData && decimals) {
-    usersBalance = Number(ethers.utils.formatUnits(
+    usersTicketBalance = Number(ethers.utils.formatUnits(
       playerData.balance,
       Number(decimals)
     ))
@@ -195,7 +193,7 @@ export const AccountPoolShowUI = (props) => {
           <div
             className='w-full pb-10 xs:pb-0 xs:w-4/12 sm:w-4/12 lg:w-4/12 sm:border-r border-accent-4'
           >
-            {usersBalance < 1 ? <>
+            {usersTicketBalance < 1 ? <>
               <span
                 className='font-bold text-xl sm:text-2xl lg:text-3xl text-accent-3'
               >
@@ -206,7 +204,7 @@ export const AccountPoolShowUI = (props) => {
                 fontSansRegular
                 className='font-bold text-flashy text-xl sm:text-2xl lg:text-3xl'
                 pool={pool}
-                usersBalance={usersBalance}
+                usersBalance={usersTicketBalance}
               />
             </>}
             
@@ -222,15 +220,13 @@ export const AccountPoolShowUI = (props) => {
           >
             <PoolCountUp
               fontSansRegular
-              end={Number.parseFloat(usersBalance).toFixed(0)}
+              end={Number.parseFloat(usersTicketBalance).toFixed(0)}
               decimals={null}
             /> {t('tickets')}
             <span className='block text-caption uppercase'>
-              ${numberWithCommas(usersBalance, { precision: 4 })} {ticker}
+              ${numberWithCommas(usersTicketBalance, { precision: 4 })} {ticker}
             </span>
           </div>
-
-
 
           <div
             className='mt-4 xs:mt-0 w-4/12 text-center sm:text-right'
@@ -238,10 +234,12 @@ export const AccountPoolShowUI = (props) => {
               lineHeight: 1.2,
             }}
           >
-            <WithdrawButton
-              poolIsLocked={poolIsLocked}
-              poolSymbol={symbol}
-            />
+            {usersTicketBalance > 0 && <>
+              <WithdrawButton
+                poolIsLocked={poolIsLocked}
+                poolSymbol={symbol}
+              />
+            </>}
           </div>
         </div>
       </NonInteractableCard>

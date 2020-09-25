@@ -24,7 +24,8 @@ export const PoolCurrencyIcon = (
   const noMargin = props.noMargin || false
   const symbol = pool?.underlyingCollateralSymbol?.toLowerCase()
 
-  let currencyIcon = 'circle'
+  let iconMissing
+  let currencyIcon
   if (symbol === 'dai') {
     currencyIcon = DaiSvg
   } else if (symbol === 'usdc') {
@@ -38,7 +39,7 @@ export const PoolCurrencyIcon = (
   } else if (symbol === 'bat') {
     currencyIcon = BatSvg
   } else {
-    currencyIcon = MissingCurrencySvg
+    iconMissing = true
   }
 
   let sizeClasses = 'w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10'
@@ -51,17 +52,27 @@ export const PoolCurrencyIcon = (
     sizeClasses = 'w-12 h-12 sm:w-16 sm:h-16 lg:w-18 lg:h-18'
   }
 
+  const classes = classnames(
+    sizeClasses,
+    {
+      [className]: className,
+      'inline-block': !className,
+      'mr-2': !noMargin,
+    }
+  )
+
   return <>
-    <img
-      src={currencyIcon}
-      className={classnames(
-        sizeClasses,
-        {
-          [className]: className,
-          'inline-block': !className,
-          'mr-2': !noMargin,
-        }
-      )}
-    />
+    {iconMissing ? <>
+      <span
+        className={`${classes} text-3xl`}
+        role='img'
+        aria-label='thinking face'
+      >🤔</span>
+    </> : <>
+      <img
+        src={currencyIcon}
+        className={classes}
+      />
+    </>}
   </>
 }

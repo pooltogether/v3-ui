@@ -70,17 +70,29 @@ export const SponsorshipPane = (
 
         <div className='flex'>
           <Button
-            secondary
+            // secondary
+            bg='highlight-3'
+            hoverBg='green'
+            text='accent-3'
+            hoverText='primary'
+            border='highlight-2'
+            hoverBorder='transparent'
             onClick={handleDepositSponsorshipClick}
-            className='w-1/2 sm:w-1/5 mr-2'
+            className='w-1/2 sm:w-3/12 mr-2 border-2'
           >
             {t('deposit')}
           </Button>
 
           <Button
-            secondary
+            // secondary
+            bg='highlight-3'
+            hoverBg='green'
+            text='accent-3'
+            hoverText='primary'
+            border='highlight-2'
+            hoverBorder='transparent'
             onClick={handleWithdrawSponsorshipClick}
-            className='w-1/2 sm:w-1/5 ml-2'
+            className='w-1/2 sm:w-3/12 ml-2 border-2'
           >
             {t('withdraw')}
           </Button>
