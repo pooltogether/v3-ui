@@ -58,7 +58,8 @@ export const WithdrawSponsorshipTxButton = (props) => {
   const handleWithdrawSponsorshipClick = async (e) => {
     e.preventDefault()
 
-    const maxExitFee = '1'
+    // there should be no exit fee when withdrawing sponsorship
+    const maxExitFee = '0'
 
     const params = [
       usersAddress,

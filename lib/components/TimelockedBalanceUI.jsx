@@ -49,7 +49,6 @@ export const TimelockedBalanceUI = (props) => {
   const tx = transactions?.find((tx) => tx.id === txId)
 
 
-
   if (pool && playerData && underlyingCollateralDecimals) {
     usersTimelockedBalance = Number(ethers.utils.formatUnits(
       playerData.timelockedBalance,
@@ -91,17 +90,21 @@ export const TimelockedBalanceUI = (props) => {
   return <>
     {usersTimelockedBalance > 0 && <>
       <div
-        className='mt-6 mb-6 text-sm py-6'
-      >
-        <h4>
-          {t('yourTimelockedBalance')}: <span className='text-highlight-1'> $<PoolCountUp
-            end={usersTimelockedBalance}
-            decimals={0}
-          /> {tickerUpcased}
-          </span>
+        className='border-card border-dotted border-2 bg-default rounded-lg my-8 sm:mt-20 sm:mb-12 p-4 xs:px-8 xs:py-6'
+      > 
+        <h4
+          className='text-default-soft text-sm'
+        >
+          {t('yourTimelockedBalance')}
+          <div className='text-highlight-1 text-xl'> 
+            <PoolCountUp
+              end={usersTimelockedBalance}
+              decimals={0}
+            /> {tickerUpcased}
+          </div>
         </h4>
 
-        <div className='text-xs sm:text-sm lg:text-lg mt-2'>
+        <div className='text-xs mt-4'>
           {timelockSweepReady ? <>
             {t('readyToWithdraw')}
             <div className='mt-2'>
@@ -113,7 +116,7 @@ export const TimelockedBalanceUI = (props) => {
               </Button>
             </div>
           </> : <>
-            {t('readyToWithdrawIn')} <div className='font-bold'>{formattedFutureDate}</div>
+            {t('readyToWithdrawIn')} <div className='font-bold text-xs sm:text-sm lg:text-sm'>{formattedFutureDate}</div>
           </>}
         </div>
       </div>

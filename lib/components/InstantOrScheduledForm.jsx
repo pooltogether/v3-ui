@@ -78,6 +78,7 @@ export const InstantOrScheduledForm = (props) => {
     } else if (withdrawType === 'scheduled') {
       queryParamUpdater.add(router, {
         withdrawType,
+        net: quantity,
         timelockDurationSeconds: exitFees.timelockDurationSeconds,
       })
     }
@@ -96,11 +97,9 @@ export const InstantOrScheduledForm = (props) => {
       Withdraw {quantity} tickets
     </PaneTitle>
 
-    <div className='mt-4'>
-      <PaneTitle small>
-        Choose how to receive your funds:
-      </PaneTitle>
-    </div>
+    <PaneTitle small>
+      Choose how to receive your funds:
+    </PaneTitle>
 
     <RadioInputGroup
       label=''

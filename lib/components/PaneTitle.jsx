@@ -7,11 +7,11 @@ export const PaneTitle = (props) => {
     short,
   } = props
 
-  let fontClasses = 'text-2xl sm:text-5xl lg:text-5xl text-inverse'
-  let spacingClasses = 'pb-10'
+  let fontClasses = 'text-2xl sm:text-3xl lg:text-4xl text-inverse'
+  let spacingClasses = 'pb-8'
 
   if (small) {
-    fontClasses = 'text-lg sm:text-2xl lg:text-3xl text-default-soft'
+    fontClasses = 'text-lg sm:text-xl lg:text-2xl text-default-soft'
     spacingClasses = 'pb-1'
   }
 

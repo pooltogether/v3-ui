@@ -88,7 +88,7 @@ function MyApp({ Component, pageProps, router }) {
 
     const handleExitComplete = () => {
       if (typeof window !== 'undefined') {
-        // window.scrollTo({ top: 0 })
+        window.scrollTo({ top: 0 })
 
         // make sure opacity gets set back to 1 after page transitions!
         setTimeout(() => {
@@ -161,20 +161,23 @@ function MyApp({ Component, pageProps, router }) {
           props={pageProps}
         >
           <AnimatePresence
+            // initial={false}
             exitBeforeEnter
+            // custom={router.route}
+            // onExitComplete={(a) => console.log(a, 'exitComplete framer-motion')}
           >
             <motion.div
               id='content-animation-wrapper'
               key={router.route}
-              transition={{ duration: 0.1, ease: 'easeIn' }}
+              transition={{ duration: 0.3, ease: 'easeIn' }}
               initial={{
-                opacity: 0
+                opacity: 0.01
               }}
               exit={{
-                opacity: 0
+                opacity: 0.01
               }}
               animate={{
-                opacity: 1
+                opacity: 0.99
               }}
             >
               <Component {...pageProps} />

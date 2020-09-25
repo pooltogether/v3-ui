@@ -168,6 +168,7 @@ export const TicketQuantityForm = (props) => {
               className='font-bold'
               onClick={(e) => {
                 e.preventDefault()
+                console.log('clicked!')
                 setValue('quantity', contextualBalance, { shouldValidate: true })
               }}
             >

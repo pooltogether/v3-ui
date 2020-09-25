@@ -59,7 +59,8 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
     const runTx = async () => {
       setTxExecuted(true)
 
-      const maxExitFee = '1'
+      // there should be no exit fee when we do an instant no-fee withdrawal
+      const maxExitFee = '0'
 
       const params = [
         usersAddress,

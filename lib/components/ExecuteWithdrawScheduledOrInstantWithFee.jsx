@@ -21,27 +21,26 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
 
   const router = useRouter()
   const withdrawType = router.query.withdrawType
+  console.log(withdrawType)
 
   const [txExecuted, setTxExecuted] = useState(false)
 
-  const quantity = router.query.quantity
-  const timelockDuration = router.query.timelockDuration
+  // const quantity = router.query.quantity
+  const timelockDurationSeconds = router.query.timelockDurationSeconds
   const fee = router.query.fee
-  const net = router.query.net
+  const quantity = router.query.net
+  // const net = router.query.net
   const scheduledWithdrawal = withdrawType && withdrawType === 'scheduled'
 
   let formattedFutureDate
-  if (timelockDuration) {
+  if (timelockDurationSeconds) {
     formattedFutureDate = <FormattedFutureDateCountdown
-      futureDate={Number(timelockDuration)}
+      futureDate={Number(timelockDurationSeconds)}
     />
   }
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress, provider } = authControllerContext
-
-  const poolData = useContext(PoolDataContext)
-  const { pool, refetchPlayerQuery } = poolData
+  const { usersAddress, provider } = useContext(AuthControllerContext)
+  const { pool, refetchPlayerQuery } = useContext(PoolDataContext)
 
   const ticker = pool?.underlyingCollateralSymbol
   const decimals = pool?.underlyingCollateralDecimals
@@ -60,9 +59,9 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
     method = 'withdrawWithTimelockFrom'
   }
 
-  let txName = `Withdraw ${quantity} tickets instantly (fairness fee: $${quantity} ${ticker})`
+  let txName = `Withdraw ${quantity} ${tickerUpcased} instantly (fee: $${fee} ${tickerUpcased})`
   if (scheduledWithdrawal) {
-    txName = `Schedule withdrawal of ${quantity} tickets ($${quantity} ${ticker})`
+    txName = `Schedule withdrawal ${quantity} ${tickerUpcased}`
   }
 
   const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
@@ -90,15 +89,15 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
       ]
 
       if (!scheduledWithdrawal) {
-        const maxExitFee = '0.01'
         params.push(
-          ethers.utils.parseEther(maxExitFee)
+          ethers.utils.parseEther(fee)
         )
       }
       
       params.push({
         gasLimit: 500000
       })
+      console.log({method})
       console.log({params})
 
       const id = sendTx(
@@ -155,10 +154,15 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
           You are scheduling to receive <span className='font-bold'>${quantity} DAI</span> and your funds will be ready for withdrawal in: <br />
           <span className='font-bold'>{formattedFutureDate}</span>
         </> : <>
-          You are withdrawing <span className='font-bold'>${net} {tickerUpcased}</span> of your funds right now, less the <span className='font-bold'>${fee} {tickerUpcased}</span> fairness fee
+          You are withdrawing <span className='font-bold'>${quantity} {tickerUpcased}</span> of your funds right now, less the <span className='font-bold'>${fee} {tickerUpcased}</span> fairness fee
         </>}
       </h5>
     </div>
+
+    <PaneTitle small>
+      {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
+      {tx?.sent && <>{formattedWithdrawTypePastTense} {t('withdrawalConfirming')}</>}
+    </PaneTitle>
 
     {txSent && !txCompleted && <>
       <TransactionsTakeTimeMessage

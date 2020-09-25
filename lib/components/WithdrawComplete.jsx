@@ -14,7 +14,7 @@ export const WithdrawComplete = (props) => {
 
   const quantity = router.query.quantity
   const withdrawType = router.query.withdrawType
-  const timelockDuration = router.query.timelockDuration
+  const timelockDurationSeconds = router.query.timelockDurationSeconds
   const fee = router.query.fee
   const net = router.query.net
 
@@ -22,9 +22,9 @@ export const WithdrawComplete = (props) => {
   const instantNoFee = withdrawType === 'instantNoFee'
 
   let formattedFutureDate
-  if (timelockDuration) {
+  if (timelockDurationSeconds) {
     formattedFutureDate = formatFutureDateInSeconds(
-      Number(timelockDuration)
+      Number(timelockDurationSeconds)
     )
   }
 
