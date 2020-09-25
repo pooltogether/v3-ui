@@ -149,14 +149,18 @@ function MyApp({ Component, pageProps, router }) {
           <AnimatePresence
             exitBeforeEnter
             onExitComplete={() => {
+              console.log('onExitComplete')
               setTimeout(() => {
+                console.log('run!')
                 const elem = document.getElementById('content-animation-wrapper')
                 
                 // in case the animation failed
+                console.log(elem)
                 if (elem) {
+                  console.log('setting!')
                   elem.style.opacity = '1'
                 }
-              }, 300)
+              }, 1200)
               
             }}
           >

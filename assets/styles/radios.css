@@ -19,7 +19,7 @@
 }
 
 .radio-input-group label:after {
-  @apply bg-highlight-3 border-accent-2;
+  @apply bg-highlight-3 border-accent-4;
   width: 32px;
   height: 32px;
   content: "";

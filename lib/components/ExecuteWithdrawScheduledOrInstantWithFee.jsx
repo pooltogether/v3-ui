@@ -90,17 +90,12 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
       ]
 
       if (!scheduledWithdrawal) {
-        const sponsoredExitFee = '0'
-        const maxExitFee = '1'
+        const maxExitFee = '0.01'
         params.push(
-          ethers.utils.parseEther(sponsoredExitFee),
           ethers.utils.parseEther(maxExitFee)
         )
       }
       
-      // TX "data" param
-      params.push([])
-
       params.push({
         gasLimit: 500000
       })
@@ -155,14 +150,14 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
       >
         Note:
       </h6>
-      <h4>
+      <h5>
         {scheduledWithdrawal ? <>
           You are scheduling to receive <span className='font-bold'>${quantity} DAI</span> and your funds will be ready for withdrawal in: <br />
           <span className='font-bold'>{formattedFutureDate}</span>
         </> : <>
           You are withdrawing <span className='font-bold'>${net} {tickerUpcased}</span> of your funds right now, less the <span className='font-bold'>${fee} {tickerUpcased}</span> fairness fee
         </>}
-      </h4>
+      </h5>
     </div>
 
     {txSent && !txCompleted && <>

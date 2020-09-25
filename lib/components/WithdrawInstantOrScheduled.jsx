@@ -30,27 +30,23 @@ export const WithdrawInstantOrScheduled = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
   const { usersAddress, networkName } = authControllerContext
 
-  const prizeStrategyAddress = pool?.prizeStrategyAddress
+  const poolAddress = pool?.poolAddress
   const ticketAddress = pool?.ticket?.id
 
   const [exitFees, setExitFees] = useState({})
-  console.log({ exitFees })
  
   let underlyingCollateralDecimals = 18
   underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
 
 
-  let hasEnoughCreditForInstant = null
-  if (exitFees && exitFees.instantCredit) {
-    console.log({ credit: exitFees.instantCredit.toString()})
-    console.log({ exitFees})
-    hasEnoughCreditForInstant = exitFees.instantFee.lte(0)
-    console.log({ hasEnoughCreditForInstant})
+  let notEnoughCredit = null
+  if (exitFees && exitFees.exitFee) {
+    notEnoughCredit = exitFees.exitFee.gt(0)
   }
 
   useEffect(() => {
-    setTotalWizardSteps(hasEnoughCreditForInstant ? 3 : 4)
-  }, [hasEnoughCreditForInstant])
+    setTotalWizardSteps(notEnoughCredit ? 4 : 3)
+  }, [notEnoughCredit])
 
   useEffect(() => {
     if (exitFees === 'error') {
@@ -62,25 +58,19 @@ export const WithdrawInstantOrScheduled = (props) => {
   
 
   const getFees = async () => {
-    // const quantityBN = ethers.utils.formatUnits(
-    //   quantity,
-    //   Number(underlyingCollateralDecimals)
-    // )
     const quantityBN = ethers.utils.parseUnits(
       quantity,
       Number(underlyingCollateralDecimals)
     )
-    // const quantityBN = ethers.utils.parseUnits(
-    //   quantity,
-    //   Number(underlyingCollateralDecimals)
-    // ).mul(1000000000000)
+
     const result = await fetchExitFees(
       networkName,
       usersAddress,
-      prizeStrategyAddress,
+      poolAddress,
       ticketAddress,
       quantityBN
     )
+
     setExitFees(result)
   }
 
@@ -89,7 +79,7 @@ export const WithdrawInstantOrScheduled = (props) => {
   }, paused ? null : MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {
-    const ready = quantity && usersAddress && networkName && ticketAddress && prizeStrategyAddress && networkName
+    const ready = quantity && usersAddress && networkName && ticketAddress && poolAddress && networkName
     if (ready) {
       getFees()
     }
@@ -99,26 +89,26 @@ export const WithdrawInstantOrScheduled = (props) => {
     usersAddress,
     networkName,
     ticketAddress,
-    prizeStrategyAddress,
+    poolAddress,
     networkName
   ])
   
   return <>
-    {hasEnoughCreditForInstant === null ? <>
+    {notEnoughCredit === null ? <>
       <PaneTitle small>
         {t('gettingAvailableCredit')}
       </PaneTitle>
     </> :
-      hasEnoughCreditForInstant ?
-        <ExecuteWithdrawInstantNoFee
-          nextStep={nextStep}
-          previousStep={previousStep}
-        /> :
+      notEnoughCredit ?
         <InstantOrScheduledForm
           pool={pool}
           exitFees={exitFees}
           nextStep={nextStep}
           quantity={quantity}
+        /> :
+        <ExecuteWithdrawInstantNoFee
+          nextStep={nextStep}
+          previousStep={previousStep}
         />
     }
   </>

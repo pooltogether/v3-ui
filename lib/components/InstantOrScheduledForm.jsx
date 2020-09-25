@@ -27,8 +27,7 @@ export const InstantOrScheduledForm = (props) => {
   const underlyingCollateralSymbol = pool && pool.underlyingCollateralSymbol
 
   const {
-    instantCredit,
-    instantFee,
+    exitFee
   } = exitFees
 
   let instantFull = ethers.utils.bigNumberify(0)
@@ -37,7 +36,7 @@ export const InstantOrScheduledForm = (props) => {
     instantPartial = ethers.utils.parseUnits(
       quantity,
       Number(underlyingCollateralDecimals)
-    ).sub(instantFee)
+    ).sub(exitFee)
 
     instantFull = ethers.utils.parseUnits(
       quantity,
@@ -53,8 +52,8 @@ export const InstantOrScheduledForm = (props) => {
     instantPartial,
     { decimals: underlyingCollateralDecimals }
   )
-  const instantFeeFormatted = displayAmountInEther(
-    instantFee,
+  const exitFeeFormatted = displayAmountInEther(
+    exitFee,
     { decimals: underlyingCollateralDecimals }
   )
 
@@ -62,7 +61,7 @@ export const InstantOrScheduledForm = (props) => {
     To maintain fairness your funds need to contribute interest towards the prize each week. You can:
     <br /><br />1) SCHEDULE: receive ${quantity} DAI once enough interest has been provided to the prize
     <br /><br />2) INSTANT: pay ${displayAmountInEther(
-      instantFee,
+      exitFee,
       { decimals: underlyingCollateralDecimals }
     )} to withdraw right now and forfeit the interest that would otherwise go towards the prize
   </>
@@ -74,12 +73,12 @@ export const InstantOrScheduledForm = (props) => {
       queryParamUpdater.add(router, {
         withdrawType,
         net: instantPartialFormatted,
-        fee: instantFeeFormatted,
+        fee: exitFeeFormatted,
       })
     } else if (withdrawType === 'scheduled') {
       queryParamUpdater.add(router, {
         withdrawType,
-        timelockDuration: exitFees.timelockDuration,
+        timelockDurationSeconds: exitFees.timelockDurationSeconds,
       })
     }
 
@@ -87,7 +86,7 @@ export const InstantOrScheduledForm = (props) => {
   }
 
   const formattedFutureDate = <FormattedFutureDateCountdown
-    futureDate={Number(exitFees.timelockDuration)}
+    futureDate={Number(exitFees.timelockDurationSeconds)}
   />
 
   return <div
@@ -128,7 +127,7 @@ export const InstantOrScheduledForm = (props) => {
 
     {withdrawType === 'scheduled' ? <>
       <div
-        className='flex items-center justify-center py-4 px-10 sm:w-7/12 mx-auto rounded-xl -mx-6 sm:mx-auto bg-primary text-inverse'
+        className='flex items-center justify-center py-4 px-10 sm:w-7/12 mx-auto rounded-xl -mx-6 sm:mx-auto bg-card-selected text-inverse'
         style={{
           minHeight: 70
         }}
@@ -155,7 +154,7 @@ export const InstantOrScheduledForm = (props) => {
       </button>
     </> : <>
       <div
-        className='flex items-center justify-center py-4 px-10 sm:w-7/12 mx-auto rounded-xl -mx-6 sm:mx-auto bg-primary text-inverse'
+        className='flex items-center justify-center py-4 px-10 sm:w-7/12 mx-auto rounded-xl -mx-6 sm:mx-auto bg-card-selected text-inverse'
         style={{
           minHeight: 70
         }}
@@ -167,9 +166,9 @@ export const InstantOrScheduledForm = (props) => {
               <div className='w-10 mx-auto mb-2'>
                 <QuestionMarkCircle />
               </div>
-              You will receive <span className='font-bold'>${instantPartialFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> now and {instantFee.eq(0)
+              You will receive <span className='font-bold'>${instantPartialFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> now and {exitFee.eq(0)
                 ? <>burn <span className='font-bold'>${displayAmountInEther(instantCredit)}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> from your fairness credit</>
-                : <>forfeit <span className='font-bold'>${instantFeeFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> as interest to the pool</>
+                : <>forfeit <span className='font-bold'>${exitFeeFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> as interest to the pool</>
             } </>
         </PTHint>
       </div>
@@ -180,7 +179,7 @@ export const InstantOrScheduledForm = (props) => {
           setWithdrawType('scheduled')
         }}
       >
-        Don't want to forfeit a ${instantFeeFormatted} {underlyingCollateralSymbol} fairness fee?
+          Don't want to forfeit a ${exitFeeFormatted} {underlyingCollateralSymbol} fairness fee?
       </button>
     </>}
 
