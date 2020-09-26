@@ -90,13 +90,13 @@ export const TimelockedBalanceUI = (props) => {
   return <>
     {usersTimelockedBalance > 0 && <>
       <div
-        className='border-card border-dotted border-2 bg-default rounded-lg my-8 sm:mt-20 sm:mb-12 p-4 xs:px-8 xs:py-6'
+        className='border-highlight-1 border-2 bg-accent-grey-1 rounded-lg my-8 sm:mt-20 sm:mb-12 p-4 xs:px-8 xs:py-6'
       > 
         <h4
-          className='text-default-soft text-sm'
+          className='text-inverse text-sm'
         >
           {t('yourTimelockedBalance')}
-          <div className='text-highlight-1 text-xl'> 
+          <div className='text-highlight-3 text-xl'> 
             <PoolCountUp
               end={usersTimelockedBalance}
               decimals={0}

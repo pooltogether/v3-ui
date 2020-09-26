@@ -10,8 +10,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
-import { Layout } from 'lib/components/Layout'
 import { GasStationQuery } from 'lib/components/GasStationQuery'
+import { Layout } from 'lib/components/Layout'
+import { TxRefetchListener } from 'lib/components/TxRefetchListener'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 
@@ -157,6 +158,8 @@ function MyApp({ Component, pageProps, router }) {
 
     <V3ApolloWrapper>
       <AllContextProviders>
+        <TxRefetchListener />
+
         <Layout
           props={pageProps}
         >

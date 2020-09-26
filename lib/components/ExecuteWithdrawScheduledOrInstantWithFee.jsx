@@ -21,7 +21,6 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
 
   const router = useRouter()
   const withdrawType = router.query.withdrawType
-  console.log(withdrawType)
 
   const [txExecuted, setTxExecuted] = useState(false)
 
@@ -97,8 +96,6 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
       params.push({
         gasLimit: 500000
       })
-      console.log({method})
-      console.log({params})
 
       const id = sendTx(
         t,

@@ -24,11 +24,8 @@ export const ExecuteCryptoDeposit = (props) => {
   const router = useRouter()
   const quantity = router.query.quantity
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress, provider } = authControllerContext
-
-  const poolData = useContext(PoolDataContext)
-  const { pool, refetchPlayerQuery } = poolData
+  const { usersAddress, provider } = useContext(AuthControllerContext)
+  const { pool } = useContext(PoolDataContext)
 
   const decimals = pool?.underlyingCollateralDecimals
   const ticker = pool?.underlyingCollateralSymbol
@@ -48,7 +45,7 @@ export const ExecuteCryptoDeposit = (props) => {
   
   const method = 'depositTo'
 
-  const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
+  const [sendTx] = useSendTransaction(txName)
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions

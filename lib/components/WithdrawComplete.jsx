@@ -90,12 +90,19 @@ export const WithdrawComplete = (props) => {
 
     <div>
       <ButtonLink
+        href='/account/pools/[symbol]'
+        as={`/account/pools/${pool?.symbol}`}
+        textSize='lg'
+      >
+        {t('continue')}
+      </ButtonLink>
+      {/* <ButtonLink
         href='/account'
         as='/account'
         textSize='lg'
       >
         {t('viewYourAccount')}
-      </ButtonLink>
+      </ButtonLink> */}
     </div>
   </>
 }

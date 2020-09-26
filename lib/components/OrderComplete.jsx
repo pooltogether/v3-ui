@@ -40,7 +40,7 @@ export const OrderComplete = (props) => {
     </PaneTitle>
 
     <div
-      className='mb-6 text-highlight-3 text-sm xs:text-base sm:text-lg font-bold'
+      className='mb-6 text-highlight-3 text-sm'
     >
       <div
         className='mb-6'
@@ -55,9 +55,9 @@ export const OrderComplete = (props) => {
       <div
         className='mb-3'
       >
-        The next prize will be awarded in: <NewPrizeCountdownInWords
+        The next prize will be awarded in: <span className='font-bold'><NewPrizeCountdownInWords
           pool={pool}
-        />
+        /></span>
       </div>
     </div>
 
