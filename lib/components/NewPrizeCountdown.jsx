@@ -32,7 +32,7 @@ export const NewPrizeCountdown = (
     setSecondsRemaining(secondsRemaining - 1)
   }, ONE_SECOND)
 
-  if (!pool) {
+  if (!pool || secs === undefined) {
     return null
   }
 
