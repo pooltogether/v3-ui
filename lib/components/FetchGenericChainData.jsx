@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react'
-import { isEmpty } from 'lodash'
 
 import {
   MAINNET_POLLING_INTERVAL
@@ -20,7 +19,9 @@ export const FetchGenericChainData = (props) => {
 
   const { paused } = useContext(GeneralContext)
 
+  const [alreadyExecuted, setAlreadyExecuted] = useState(false)
   const [genericChainData, setGenericChainData] = useState({})
+  const [storedChainId, setStoredChainId] = useState(null)
 
   const fetchDataFromInfura = async () => {
     const chainData = {
@@ -31,39 +32,38 @@ export const FetchGenericChainData = (props) => {
       zrxPrizeStrategy: {},
       batPrizeStrategy: {},
     }
+
     try {
-      if (!isEmpty(poolAddresses)) {
-        chainData.daiPrizeStrategy = await fetchGenericChainData(
-          provider,
-          poolAddresses['daiPrizeStrategy'],
-          poolData.daiPool
-        )
-        chainData.usdcPrizeStrategy = await fetchGenericChainData(
-          provider,
-          poolAddresses['usdcPrizeStrategy'],
-          poolData.usdcPool
-        )
-        chainData.usdtPrizeStrategy = await fetchGenericChainData(
-          provider,
-          poolAddresses['usdtPrizeStrategy'],
-          poolData.usdtPool
-        )
-        chainData.wbtcPrizeStrategy = await fetchGenericChainData(
-          provider,
-          poolAddresses['wbtcPrizeStrategy'],
-          poolData.wbtcPool
-        )
-        chainData.zrxPrizeStrategy = await fetchGenericChainData(
-          provider,
-          poolAddresses['zrxPrizeStrategy'],
-          poolData.zrxPool
-        )
-        chainData.batPrizeStrategy = await fetchGenericChainData(
-          provider,
-          poolAddresses['batPrizeStrategy'],
-          poolData.batPool
-        )
-      }
+      chainData.daiPrizeStrategy = await fetchGenericChainData(
+        provider,
+        poolAddresses['daiPrizeStrategy'],
+        poolData.daiPool
+      )
+      chainData.usdcPrizeStrategy = await fetchGenericChainData(
+        provider,
+        poolAddresses['usdcPrizeStrategy'],
+        poolData.usdcPool
+      )
+      chainData.usdtPrizeStrategy = await fetchGenericChainData(
+        provider,
+        poolAddresses['usdtPrizeStrategy'],
+        poolData.usdtPool
+      )
+      chainData.wbtcPrizeStrategy = await fetchGenericChainData(
+        provider,
+        poolAddresses['wbtcPrizeStrategy'],
+        poolData.wbtcPool
+      )
+      chainData.zrxPrizeStrategy = await fetchGenericChainData(
+        provider,
+        poolAddresses['zrxPrizeStrategy'],
+        poolData.zrxPool
+      )
+      chainData.batPrizeStrategy = await fetchGenericChainData(
+        provider,
+        poolAddresses['batPrizeStrategy'],
+        poolData.batPool
+      )
     }
     catch (e) {
       console.warn(e)
@@ -73,25 +73,50 @@ export const FetchGenericChainData = (props) => {
     }
   }
 
-  const updateOrDelete = async () => {
-    const genericData = await fetchDataFromInfura()
-    setGenericChainData(genericData)
-  }
-
   useInterval(() => {
-    if (!isEmptyObject(provider)) {
-      updateOrDelete()
+    const getChainDataAsync = async () => {
+      console.log('fetching new chain data after MAINNET_POLLING_INTERVAL expired', MAINNET_POLLING_INTERVAL)
+      const genericData = await fetchDataFromInfura()
+      setGenericChainData(genericData)
     }
+
+    getChainDataAsync()
   }, paused ? null : MAINNET_POLLING_INTERVAL)
 
+  // This only runs once when the component is mounted or when we reset the
+  // `alreadyExecuted` state var if the user changes network, etc
   useEffect(() => {
-    if (!isEmptyObject(provider)) {
-      updateOrDelete()
+    const conditionallyGetChainData = async () => {
+      const genericData = await fetchDataFromInfura()
+
+      if (isEmptyObject(genericData.daiPrizeStrategy)) {
+        // console.log('NO HIT, resetting ....')
+        setAlreadyExecuted(false)
+      } else if (!isEmptyObject(genericData.daiPrizeStrategy)) {
+        // console.log('got data!')
+        setGenericChainData(genericData)
+      }
     }
 
-    // OPTIMIZE: Could reset the interval loop here
-    // since we just grabbed fresh data!
-  }, [provider, chainId])
+    const ready = !isEmptyObject(provider) && !isEmptyObject(poolData.daiPool)
+
+    if (!alreadyExecuted && ready) {
+      // console.log('ready and trying')
+      setAlreadyExecuted(true)
+      conditionallyGetChainData()
+    }
+  }, [provider, chainId, poolData])
+
+  useEffect(() => {
+    const resetGenericChainData = () => {
+      if (chainId !== storedChainId) {
+        setAlreadyExecuted(false)
+        setStoredChainId(chainId)
+      }
+    }
+
+    resetGenericChainData()
+  }, [chainId])
 
   return children({ genericChainData })
 }
