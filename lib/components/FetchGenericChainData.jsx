@@ -8,6 +8,8 @@ import { useInterval } from 'lib/hooks/useInterval'
 import { fetchGenericChainData } from 'lib/utils/fetchGenericChainData'
 import { isEmptyObject } from 'lib/utils/isEmptyObject'
 
+const debug = require('debug')('pool-app:FetchGenericChainData')
+
 export const FetchGenericChainData = (props) => {
   const {
     chainId,
@@ -75,7 +77,7 @@ export const FetchGenericChainData = (props) => {
 
   useInterval(() => {
     const getChainDataAsync = async () => {
-      console.log('fetching new chain data after MAINNET_POLLING_INTERVAL expired', MAINNET_POLLING_INTERVAL)
+      debug('fetching new chain data after MAINNET_POLLING_INTERVAL expired', MAINNET_POLLING_INTERVAL)
       const genericData = await fetchDataFromInfura()
       setGenericChainData(genericData)
     }

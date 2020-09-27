@@ -127,3 +127,8 @@ span {
     transform: rotate(360deg); 
   } 
 }
+
+.loader01.white {
+  border-color: white;
+  border-right-color: transparent;
+}

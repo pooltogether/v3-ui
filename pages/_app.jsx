@@ -164,10 +164,7 @@ function MyApp({ Component, pageProps, router }) {
           props={pageProps}
         >
           <AnimatePresence
-            // initial={false}
             exitBeforeEnter
-            // custom={router.route}
-            // onExitComplete={(a) => console.log(a, 'exitComplete framer-motion')}
           >
             <motion.div
               id='content-animation-wrapper'

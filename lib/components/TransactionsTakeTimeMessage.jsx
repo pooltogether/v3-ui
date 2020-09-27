@@ -57,19 +57,19 @@ export const TransactionsTakeTimeMessage = (props) => {
   }, [gasStationData])  
 
   return <>
-    <div className='mx-auto -mb-8 -mt-6'>
+    <div className='mx-auto -mb-6 -mt-6'>
       <V3LoadingDots />
     </div>
 
     <div
-      className='leading-tight font-bold text-base sm:text-lg lg:text-xl text-default-soft pb-1'
+      className='leading-tight font-bold text-xs xs:text-base sm:text-lg text-default pb-1'
     >
       {t('transactionsMayTakeAFewMinutes')}
     </div>
 
     {waitTime && <>
       <div
-        className='text-inverse'
+        className='text-blue'
       >
         <span className='font-bold'>
           {t('estimatedWaitTime')}

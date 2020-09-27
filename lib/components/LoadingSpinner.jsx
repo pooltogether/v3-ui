@@ -1,5 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
-export const LoadingSpinner = ({}) => (
-  <span className='inline-block loader01'></span>
-)
+import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
+
+export const LoadingSpinner = ({}) => {
+  const theme = useContext(ThemeContext).theme
+
+  const lightClass = theme === 'dark' && 'white'
+
+  return <span
+    className={`inline-block loader01 ${lightClass}`}
+  ></span>
+}

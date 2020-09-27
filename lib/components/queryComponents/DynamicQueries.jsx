@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 
 import {
@@ -13,6 +13,8 @@ import { dynamicSingleRandomWinnerQuery } from 'lib/queries/dynamicSingleRandomW
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
 import { getPrizeStrategyDataFromQueryResult } from 'lib/services/getPrizeStrategyDataFromQueryResult'
 import { poolToast } from 'lib/utils/poolToast'
+
+const debug = require('debug')('pool-app:DynamicQueries')
 
 export const DynamicQueries = (
   props,
@@ -34,6 +36,15 @@ export const DynamicQueries = (
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
   })
+
+  // useEffect(() => {
+  //   const onCompleted = (data) => {
+  //     debug('updating dynamic prize pool data after MAINNET_POLLING_INTERVAL expired', MAINNET_POLLING_INTERVAL)
+  //   };
+  //   if (onCompleted && !poolQueryLoading && !poolQueryError) {
+  //     onCompleted(poolQueryData)
+  //   }
+  // }, [poolQueryLoading, poolQueryData, poolQueryError]);
 
   if (poolQueryError) {
     poolToast.error(poolQueryError)

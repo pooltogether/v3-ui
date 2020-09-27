@@ -138,34 +138,32 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
     </PaneTitle>
 
     <div className='text-white bg-yellow py-4 sm:py-6 px-5 sm:px-8 rounded-xl w-full sm:w-2/3 mx-auto'>
-      <h6
-        className='mb-2'
-        style={{
-          color: 'rgba(255, 255, 255, 0.6)'
-        }}
+      <span
+        className='font-bold mt-0 mb-0 text-xs xs:text-base'
       >
-        Note:
-      </h6>
-      <h5>
-        {scheduledWithdrawal ? <>
-          You are scheduling to receive <span className='font-bold'>${quantity} DAI</span> and your funds will be ready for withdrawal in: <br />
+        <span
+          className='uppercase'
+          style={{
+            color: 'rgba(255, 255, 255, 0.75)'
+          }}
+        >Note: </span>{scheduledWithdrawal ? <>
+          You are scheduling <span className='font-bold'>${quantity} DAI</span>. Your funds will be ready for withdrawal in: <br />
           <span className='font-bold'>{formattedFutureDate}</span>
         </> : <>
           You are withdrawing <span className='font-bold'>${quantity} {tickerUpcased}</span> of your funds right now, less the <span className='font-bold'>${fee} {tickerUpcased}</span> fairness fee
         </>}
-      </h5>
+      </span>
     </div>
 
-    <PaneTitle small>
-      {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
-      {tx?.sent && <>{formattedWithdrawTypePastTense} {t('withdrawalConfirming')}</>}
-    </PaneTitle>
+    <div className='mt-10'>
+      <PaneTitle small>
+        {tx?.sent && <>{formattedWithdrawTypePastTense} {t('withdrawalConfirming')}</>}
+      </PaneTitle>
+    </div>
 
-    {txSent && !txCompleted && <>
-      <TransactionsTakeTimeMessage
-        tx={tx}
-      />
-    </>}
+    <TransactionsTakeTimeMessage
+      tx={tx}
+    />
     
   </>
 }

@@ -10,8 +10,7 @@ export const TableRowUILoader = (
     return null
   }
   
-  const themeContext = useContext(ThemeContext)
-  const theme = themeContext.theme
+  const theme = useContext(ThemeContext).theme
 
   const bgColor = theme === 'light' ? '#ffffff' : '#401C94'
   const foreColor = theme === 'light' ? '#f5f5f5' : '#501C94'

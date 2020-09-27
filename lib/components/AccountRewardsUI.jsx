@@ -12,7 +12,7 @@ export const AccountRewardsUI = () => {
 
   const poolAddresses = map(pools, 'poolAddress')
   const playerRewards = extractPoolRewardsFromUserDrips({poolAddresses, dynamicPlayerDrips})
-  console.log({playerRewards})
+  // console.log({playerRewards})
 
   return <>
     <div

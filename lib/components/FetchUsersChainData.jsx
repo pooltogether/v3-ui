@@ -7,6 +7,8 @@ import { GeneralContext } from 'lib/components/contextProviders/GeneralContextPr
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchUsersChainData } from 'lib/utils/fetchUsersChainData'
 
+const debug = require('debug')('pool-app:FetchUsersChainData')
+
 export const FetchUsersChainData = (props) => {
   const {
     children,
@@ -49,6 +51,7 @@ export const FetchUsersChainData = (props) => {
 
 
   useInterval(() => {
+    debug('fetching new users chain data after MAINNET_POLLING_INTERVAL expired', MAINNET_POLLING_INTERVAL)
     updateOrDelete()
   }, paused ? null : MAINNET_POLLING_INTERVAL)
 

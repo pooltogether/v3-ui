@@ -22,12 +22,10 @@ export const TxRefetchListener = (props) => {
       // we don't know when the Graph will have processed the new block data or when it has
       // so simply query a few times for the updated data
       setTimeout(() => {
-        console.log('running timeout 1')
         refetchPlayerQuery()
       }, 500)
 
       setTimeout(() => {
-        console.log('running timeout 2')
         refetchPlayerQuery()
       }, 2000)
     }
