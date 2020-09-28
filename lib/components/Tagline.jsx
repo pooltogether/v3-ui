@@ -11,5 +11,10 @@ export const Tagline = (props) => {
     >
       {t('theMoreYouPoolTagline')}
     </div>
+    <p
+      className='text-caption mt-2'
+    >
+      Powered by CoinGecko API
+    </p>
   </>
 }
