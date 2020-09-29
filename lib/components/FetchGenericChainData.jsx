@@ -30,9 +30,9 @@ export const FetchGenericChainData = (props) => {
       daiPrizeStrategy: {},
       usdcPrizeStrategy: {},
       usdtPrizeStrategy: {},
-      wbtcPrizeStrategy: {},
-      zrxPrizeStrategy: {},
-      batPrizeStrategy: {},
+      // wbtcPrizeStrategy: {},
+      // zrxPrizeStrategy: {},
+      // batPrizeStrategy: {},
     }
 
     try {
@@ -51,21 +51,21 @@ export const FetchGenericChainData = (props) => {
         poolAddresses['usdtPrizeStrategy'],
         poolData.usdtPool
       )
-      chainData.wbtcPrizeStrategy = await fetchGenericChainData(
-        provider,
-        poolAddresses['wbtcPrizeStrategy'],
-        poolData.wbtcPool
-      )
-      chainData.zrxPrizeStrategy = await fetchGenericChainData(
-        provider,
-        poolAddresses['zrxPrizeStrategy'],
-        poolData.zrxPool
-      )
-      chainData.batPrizeStrategy = await fetchGenericChainData(
-        provider,
-        poolAddresses['batPrizeStrategy'],
-        poolData.batPool
-      )
+      // chainData.wbtcPrizeStrategy = await fetchGenericChainData(
+      //   provider,
+      //   poolAddresses['wbtcPrizeStrategy'],
+      //   poolData.wbtcPool
+      // )
+      // chainData.zrxPrizeStrategy = await fetchGenericChainData(
+      //   provider,
+      //   poolAddresses['zrxPrizeStrategy'],
+      //   poolData.zrxPool
+      // )
+      // chainData.batPrizeStrategy = await fetchGenericChainData(
+      //   provider,
+      //   poolAddresses['batPrizeStrategy'],
+      //   poolData.batPool
+      // )
     }
     catch (e) {
       console.warn(e)
