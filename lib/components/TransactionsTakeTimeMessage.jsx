@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useQuery } from '@apollo/client'
-
 import { differenceInMinutes } from 'date-fns'
 
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { gasStationDataQuery } from 'lib/queries/gasStationDataQuery'
-
 
 export const TransactionsTakeTimeMessage = (props) => {
   const { t } = useTranslation()
 
   const { tx } = props
+  const { ethersTx } = tx || {}
+  console.log(ethersTx)
+
+  const { chainId } = useContext(AuthControllerContext)
 
   const [waitTime, setWaitTime] = useState(null)
 
@@ -20,7 +23,13 @@ export const TransactionsTakeTimeMessage = (props) => {
   const gasStationData = gasStationDataQueryResult?.data?.gasStationData
 
   useEffect(() => {
-    if (tx && gasStationData && gasStationData['fast']) {
+    if (chainId !== 1) {
+      setWaitTime(0.10)
+    }
+  })
+
+  useEffect(() => {
+    if (chainId === 1 && ethersTx && gasStationData && gasStationData['fast']) {
       window.differenceInMinutes = differenceInMinutes
       const gasPairs = ['average', 'fast', 'fastest', 'safeLow'].map(pair => {
         const gasInGwei = gasStationData[pair] / 10
@@ -44,7 +53,7 @@ export const TransactionsTakeTimeMessage = (props) => {
       }
 
       const txGasPriceInGwei = parseInt(
-        ethers.utils.formatUnits(tx.ethersTx.gasPrice, 'gwei'),
+        ethers.utils.formatUnits(ethersTx.gasPrice, 'gwei'),
         10
       )
       
