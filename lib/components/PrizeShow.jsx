@@ -73,7 +73,7 @@ export const PrizeShow = (
   if (isCurrentPrize) {
     prize = {
       awardedBlock: null,
-      net: pool?.estimatePrize
+      net: pool?.estimatePrize * 1000
     }
   }
 

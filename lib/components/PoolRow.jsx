@@ -77,7 +77,7 @@ export const PoolRow = (
                 i18nKey="prizeAndAmount"
                 defaults="Prize ${{amount}}"
                 values={{
-                  amount: numberWithCommas(pool?.estimatePrize, { precision: 2 })
+                  amount: numberWithCommas(pool?.estimatePrize * 1000, { precision: 2 })
                 }}
               />
             </div>

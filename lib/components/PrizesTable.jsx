@@ -140,7 +140,7 @@ export const PrizesTable = (
     if (lastPrize.awardedBlock) {
       const currentPrizeId = extractPrizeNumberFromPrize(lastPrize) + 1
       const amount = numberWithCommas(
-        pool.estimatePrize,
+        pool.estimatePrize * 1000,
         { precision: 2 }
       )
 

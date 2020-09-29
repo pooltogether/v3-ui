@@ -58,7 +58,7 @@ export const AccountPoolRow = (
             >
               {t('prizeAmount', {
                 amount: numberWithCommas(
-                  pool?.estimatePrize,
+                  pool?.estimatePrize * 1000,
                   { precision: 2 }
                 )
               })}

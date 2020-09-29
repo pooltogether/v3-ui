@@ -192,7 +192,7 @@ export const PoolShow = (
               >
                 <h2>
                   {t('prizeAmountAndTicker', {
-                    amount: numberWithCommas(pool?.estimatePrize, { precision: 2 }),
+                    amount: numberWithCommas(pool?.estimatePrize * 1000, { precision: 2 }),
                     ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
                   })}
                 </h2>
