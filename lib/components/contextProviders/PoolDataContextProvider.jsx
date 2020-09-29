@@ -75,31 +75,40 @@ export const PoolDataContextProvider = (props) => {
             if (!graphDataLoading) {
               pools = [
                 {
-                  ...genericChainData.daiPrizeStrategy,
+                  ...genericChainData.dai,
                   ...dynamicPoolData.daiPool,
                   ...dynamicPrizeStrategiesData.daiPrizeStrategy,
                   name: 'DAI Pool',
                   frequency: 'Weekly',
                   symbol: 'PT-cDAI',
-                  estimatePrize: calculateEstimatedPoolPrize(dynamicPoolData.daiPool),
+                  estimatePrize: calculateEstimatedPoolPrize({
+                    ...dynamicPoolData.daiPool,
+                    ...genericChainData.dai
+                  }),
                 },
                 {
-                  ...genericChainData.usdcPrizeStrategy,
+                  ...genericChainData.usdc,
                   ...dynamicPoolData.usdcPool,
                   ...dynamicPrizeStrategiesData.usdcPrizeStrategy,
                   name: 'USDC Pool',
                   frequency: 'Weekly',
                   symbol: 'PT-cUSDC',
-                  estimatePrize: calculateEstimatedPoolPrize(dynamicPoolData.usdcPool),
+                  estimatePrize: calculateEstimatedPoolPrize({
+                    ...dynamicPoolData.usdcPool,
+                    ...genericChainData.usdc
+                  }),
                 },
                 {
-                  ...genericChainData.usdtPrizeStrategy,
+                  ...genericChainData.usdt,
                   ...dynamicPoolData.usdtPool,
                   ...dynamicPrizeStrategiesData.usdtPrizeStrategy,
                   name: 'Tether Pool',
                   frequency: 'Weekly',
                   symbol: 'PT-cUSDT',
-                  estimatePrize: calculateEstimatedPoolPrize(dynamicPoolData.usdtPool),
+                  estimatePrize: calculateEstimatedPoolPrize({
+                    ...dynamicPoolData.usdtPool,
+                    ...genericChainData.usdt
+                  }),
                 },
                 // {
                 //   ...genericChainData.wbtcPrizeStrategy,

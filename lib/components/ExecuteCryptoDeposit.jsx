@@ -62,7 +62,7 @@ export const ExecuteCryptoDeposit = (props) => {
         ethers.utils.getAddress(referrerAddress)
       } catch (e) {
         referrerAddress = ethers.constants.AddressZero
-        console.error(`referrer address was an invalid Ethereum address:`, e.message)
+        console.log(`referrer address was an invalid Ethereum address:`, e.message)
       }
 
       const params = [

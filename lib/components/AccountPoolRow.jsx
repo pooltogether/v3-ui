@@ -57,9 +57,9 @@ export const AccountPoolRow = (
               }}
             >
               {t('prizeAmount', {
-                amount: displayAmountInEther(
+                amount: numberWithCommas(
                   pool?.estimatePrize,
-                  { decimals, precision: 2 }
+                  { precision: 2 }
                 )
               })}
             </div>

@@ -20,7 +20,7 @@ export const TransactionsTakeTimeMessage = (props) => {
   const gasStationData = gasStationDataQueryResult?.data?.gasStationData
 
   useEffect(() => {
-    if (gasStationData && gasStationData['fast']) {
+    if (tx && gasStationData && gasStationData['fast']) {
       window.differenceInMinutes = differenceInMinutes
       const gasPairs = ['average', 'fast', 'fastest', 'safeLow'].map(pair => {
         const gasInGwei = gasStationData[pair] / 10

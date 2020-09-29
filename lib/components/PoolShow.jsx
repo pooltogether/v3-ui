@@ -23,8 +23,9 @@ import { Meta } from 'lib/components/Meta'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
 import { Tagline } from 'lib/components/Tagline'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import CompoundFinanceIcon from 'assets/images/icon-compoundfinance.svg'
 import PrizeStrategyIcon from 'assets/images/icon-prizestrategy@2x.png'
@@ -191,10 +192,7 @@ export const PoolShow = (
               >
                 <h2>
                   {t('prizeAmountAndTicker', {
-                    amount: displayAmountInEther(
-                      pool?.estimatePrize || 0,
-                      { decimals: pool?.underlyingCollateralDecimals, precision: 2 }
-                    ),
+                    amount: numberWithCommas(pool?.estimatePrize, { precision: 2 }),
                     ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
                   })}
                 </h2>
