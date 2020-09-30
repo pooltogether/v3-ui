@@ -115,7 +115,7 @@ function MyApp({ Component, pageProps, router }) {
   useEffect(() => {
     const initi18next = async () => {
       await i18next.initPromise.then(() => {
-        // setInitialized(true)
+        setInitialized(true)
       })
     }
     initi18next()
@@ -151,6 +151,7 @@ function MyApp({ Component, pageProps, router }) {
       <img
         src={PoolTogetherMark}
         className='w-8 outline-none -mt-20'
+        style={{ borderWidth: 0 }}
       />
 
       <V3LoadingDots />
