@@ -16,17 +16,25 @@ export const TxRefetchListener = (props) => {
     .filter(t => !t.completed)
 
   const runRefetch = (tx) => {
-    if (tx.method === 'depositTo') {
-      refetchPlayerQuery()
+    const playerBalanceTransaction = tx.method === 'depositTo' ||
+      tx.method === 'approve' ||
+      tx.method === 'withdrawInstantlyFrom' ||
+      tx.method === 'withdrawWithTimelockFrom' ||
+      tx.method === 'sweepTimelockBalances'
+
+    if (playerBalanceTransaction) {
+      // refetchPlayerQuery()
 
       // we don't know when the Graph will have processed the new block data or when it has
       // so simply query a few times for the updated data
       setTimeout(() => {
         refetchPlayerQuery()
+        console.log('refetch!')
       }, 500)
 
       setTimeout(() => {
         refetchPlayerQuery()
+        console.log('refetch!')
       }, 2000)
     }
   }
