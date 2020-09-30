@@ -73,7 +73,7 @@ export const AccountPoolRow = (
               <span
                 className='uppercase'
               >
-                {t(pool.frequency)}
+                {t(pool?.frequency?.toLowerCase())}
               </span>
             </div>
           </div>

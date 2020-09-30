@@ -43,7 +43,7 @@ export const TxRefetchListener = (props) => {
     const storedTxId = tx.id
     const currentTxState = transactions.find((_tx) => _tx.id === storedTxId)
 
-    if (currentTxState.completed && !currentTxState.error) {
+    if (currentTxState && currentTxState.completed && !currentTxState.error) {
       runRefetch(tx)
     }
   })

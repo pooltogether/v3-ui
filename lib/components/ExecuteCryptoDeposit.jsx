@@ -124,21 +124,16 @@ export const ExecuteCryptoDeposit = (props) => {
         amount: quantity,
         ticker: tickerUpcased
       })}
-      {/* For ${quantity} {tickerUpcased} */}
-       {/* = {quantity} tickets */}
     </PaneTitle>
 
     <DepositInfoList />
 
-    <PaneTitle small>
-      {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
-
-      {tx?.inWallet && t('confirmDepositInYourWallet')}
-      {tx?.sent && t('depositConfirming')}
-    </PaneTitle>
-
     {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage
       tx={tx}
+      paneMessage={<>
+        {tx?.inWallet && t('confirmDepositInYourWallet')}
+        {tx?.sent && t('depositConfirming')}
+      </>}
     />}
   </>
 }

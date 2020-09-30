@@ -99,7 +99,9 @@ export const AccountPoolShowUI = (props) => {
     />
 
     {!dynamicPlayerData ? <>
-      <IndexUILoader />
+      <div className='mt-6'>
+        <IndexUILoader />
+      </div>
     </> :
       !playerData ? <>
         <div
@@ -139,7 +141,7 @@ export const AccountPoolShowUI = (props) => {
         />
 
         <NonInteractableCard
-          className='ticket-card my-8 sm:mt-20 sm:mb-12'
+          className='ticket-card my-8 sm:mt-8 sm:mb-8'
         >
           <div className='flex items-center pb-2'>
             <div
@@ -176,7 +178,7 @@ export const AccountPoolShowUI = (props) => {
                   <span
                     className='uppercase text-caption'
                   >
-                    {t(pool?.frequency.toLowerCase())}
+                    {t(pool?.frequency?.toLowerCase())}
                   </span>
                 </div>
               </div>

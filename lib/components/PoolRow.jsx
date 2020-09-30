@@ -93,7 +93,7 @@ export const PoolRow = (
               <span
                 className='uppercase text-caption'
               >
-                {t(pool?.frequency.toLowerCase())}
+                {t(pool?.frequency?.toLowerCase())}
               </span>
             </div>
           </div>

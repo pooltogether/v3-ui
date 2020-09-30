@@ -4,14 +4,15 @@ import { useQuery } from '@apollo/client'
 import { differenceInMinutes } from 'date-fns'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { Trans, useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'lib/../i18n'
+import { PaneTitle } from 'lib/components/PaneTitle'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { gasStationDataQuery } from 'lib/queries/gasStationDataQuery'
 
 export const TransactionsTakeTimeMessage = (props) => {
   const { t } = useTranslation()
 
-  const { tx } = props
+  const { tx, paneMessage } = props
   const { ethersTx } = tx || {}
 
   const { chainId } = useContext(AuthControllerContext)
@@ -65,8 +66,14 @@ export const TransactionsTakeTimeMessage = (props) => {
   }, [gasStationData])  
 
   return <>
-    <div className='mx-auto -mb-6 -mt-6'>
+    <div className='mx-auto mt-10'>
       <V3LoadingDots />
+    </div>
+
+    <div className='-mt-8 mb-6'>
+      <PaneTitle small>
+        {paneMessage}
+      </PaneTitle>
     </div>
 
     <div

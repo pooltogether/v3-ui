@@ -1,9 +1,10 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Link from 'next/link'
 import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
+import { useInterval } from 'beautiful-react-hooks'
 
 import {
   SHOW_MANAGE_LINKS,
@@ -48,6 +49,8 @@ export const PoolShow = (
   const symbol = pool?.symbol
   const decimals = pool?.underlyingCollateralDecimals
 
+  const [cookieShowAward, setCookieShowAward] = useState(false)
+
   let error
 
   try {
@@ -65,7 +68,9 @@ export const PoolShow = (
     return <PoolShowLoader />
   }
 
-  const cookieShowAward = Cookies.get(SHOW_MANAGE_LINKS)
+  useInterval(() => {
+    setCookieShowAward(Cookies.get(SHOW_MANAGE_LINKS))
+  }, 1000)
 
   const handleGetTicketsClick = (e) => {
     e.preventDefault()

@@ -28,7 +28,16 @@ export const TransactionsListItem = (props) => {
       </div>
 
       <div className='w-5'>
-        {!tx.completed && <LoadingSpinner />}
+        {!tx.completed && <>
+          <div
+            className='-l-1 -t-2'
+            style={{
+              transform: 'scale(0.9)'
+            }}
+          >
+            <LoadingSpinner />
+          </div>
+        </>}
 
         {tx.completed && !tx.error && <>
           <EtherscanTxLink

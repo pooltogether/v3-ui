@@ -30,6 +30,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const quantity = router.query.net
   // const net = router.query.net
   const scheduledWithdrawal = withdrawType && withdrawType === 'scheduled'
+  const instantWithdrawal = withdrawType && withdrawType === 'instant'
 
   let formattedFutureDate
   if (timelockDurationSeconds) {
@@ -53,14 +54,18 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
 
   const [txId, setTxId] = useState()
 
-  let method = 'withdrawInstantlyFrom'
+  let method
   if (scheduledWithdrawal) {
     method = 'withdrawWithTimelockFrom'
+  } else if (instantWithdrawal) {
+    method = 'withdrawInstantlyFrom'
   }
 
-  let txName = `Withdraw ${quantity} ${tickerUpcased} instantly (fee: $${fee} ${tickerUpcased})`
+  let txName
   if (scheduledWithdrawal) {
     txName = `Schedule withdrawal ${quantity} ${tickerUpcased}`
+  } else if (instantWithdrawal) {
+    txName = `Withdraw ${quantity} ${tickerUpcased} instantly (fee: $${fee} ${tickerUpcased})`
   }
 
   const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
@@ -87,7 +92,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
         controlledTokenAddress,
       ]
 
-      if (!scheduledWithdrawal) {
+      if (instantWithdrawal) {
         params.push(
           ethers.utils.parseEther(fee)
         )
@@ -123,11 +128,24 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
     }
   }, [tx])
 
-  const withdrawTypeKey = scheduledWithdrawal ? 'scheduled' : 'instant'
+  let withdrawTypeKey
+  if (scheduledWithdrawal) {
+    withdrawTypeKey = 'scheduled'
+  } else if (instantWithdrawal) {
+    withdrawTypeKey = 'instant'
+  }
 
   return <>
     <PaneTitle small>
-      {txInWallet && t('withdrawAmountTickets', { 
+      {scheduledWithdrawal && <>
+        <span
+          className={`text-xl`}
+          role='img'
+          aria-label='alarm clock'
+        >⏰</span>
+        <br />
+      </>}
+      {t('withdrawAmountTickets', { 
         amount: quantity
       })}
     </PaneTitle>
@@ -147,7 +165,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
           style={{
             color: 'rgba(255, 255, 255, 0.75)'
           }}
-        >{t('note')}</span> {scheduledWithdrawal ? <>
+        >{t('note')}</span> {scheduledWithdrawal && <>
           <Trans
             i18nKey='youAreSchedulingAndYourFundsWillBeReadyInFutureDate'
             defaults='You are scheduling <bold>{{amount}} {{ticker}}</bold>. Your funds will be ready for withdrawal in: '
@@ -159,7 +177,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
               ticker: tickerUpcased,
             }}
           /> <span className='font-bold'>{formattedFutureDate}</span>
-        </> : <>
+        </>} {instantWithdrawal && <>
           <Trans
             i18nKey='youAreWithdrawingYourFundsLessFeeRightNow'
             defaults='You are withdrawing <bold>{{amount}} {{ticker}}</bold> of your funds right now, less the <bold>{{fee}} {{ticker}}</bold></span> fairness fee'
@@ -177,17 +195,12 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
       </span>
     </div>
 
-    <div className='mt-10'>
-      <PaneTitle small>
-        {tx?.sent && <>
-          {t(withdrawTypeKey)} - {t('withdrawalConfirming')}
-        </>}
-      </PaneTitle>
-    </div>
-
-    <TransactionsTakeTimeMessage
+    {tx?.sent && <TransactionsTakeTimeMessage
       tx={tx}
-    />
+      paneMessage={<>
+        {t(withdrawTypeKey)} - {t('withdrawalConfirming')}
+      </>}
+    />}
     
   </>
 }

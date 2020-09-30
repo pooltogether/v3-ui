@@ -51,7 +51,7 @@ export const OrderComplete = (props) => {
         className='mb-6'
       >
         {t('youNowHaveAmountTicketsInTheTickerPool', {
-          amount: numberWithCommas(usersTicketBalance),
+          amount: numberWithCommas(usersTicketBalance, { precision: 0 }),
           ticker: pool?.underlyingCollateralSymbol
         })}
       </div>

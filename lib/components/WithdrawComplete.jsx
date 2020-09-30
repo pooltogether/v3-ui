@@ -74,17 +74,15 @@ export const WithdrawComplete = (props) => {
     </PaneTitle>
 
     {!instantNoFee && <>
-      <div className='-mt-6 mb-10'>
-        <PaneTitle small>
-          {scheduledWithdrawal ? <>
-            {t('yourFundsWillBeReadyInDate', { date: formattedFutureDate })}
-          </> : <>
-            {t('andForfeitedAFairnessFeeOfAmountTicker', {
-              amount: fee,
-              ticker: tickerUpcased
-            })}
-          </>}
-        </PaneTitle>
+      <div className='-mt-6 mb-10 text-blue font-bold text-lg'>
+        {scheduledWithdrawal ? <>
+          {t('yourFundsWillBeReadyInDate', { date: formattedFutureDate })}
+        </> : <>
+          {t('andForfeitedAFairnessFeeOfAmountTicker', {
+            amount: fee,
+            ticker: tickerUpcased
+          })}
+        </>}
       </div>
     </>}
 
