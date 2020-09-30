@@ -21,7 +21,6 @@ import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { prizeQuery } from 'lib/queries/prizeQuery'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatDate } from 'lib/utils/formatDate'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
 
 import TicketsIcon from 'assets/images/icon-ticket@2x.png'
@@ -73,7 +72,7 @@ export const PrizeShow = (
   if (isCurrentPrize) {
     prize = {
       awardedBlock: null,
-      net: pool?.estimatePrize * 1000
+      net: pool?.prizeEstimate
     }
   }
 
@@ -181,7 +180,7 @@ export const PrizeShow = (
             <PoolCurrencyIcon
               pool={pool}
               className='inline-block mx-auto -mt-1'
-            /> ${numberWithCommas(
+            /> ${displayAmountInEther(
                 prize?.net || 0,
                 { precision: 2 }
               )} {pool?.underlyingCollateralSymbol?.toUpperCase()}

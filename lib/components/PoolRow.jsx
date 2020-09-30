@@ -15,7 +15,6 @@ import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const PoolRow = (
   props,
@@ -77,7 +76,7 @@ export const PoolRow = (
                 i18nKey="prizeAndAmount"
                 defaults="Prize ${{amount}}"
                 values={{
-                  amount: numberWithCommas(pool?.estimatePrize * 1000, { precision: 2 })
+                  amount: displayAmountInEther(pool?.prizeEstimate, { precision: 2 })
                 }}
               />
             </div>

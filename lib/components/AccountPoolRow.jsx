@@ -57,8 +57,8 @@ export const AccountPoolRow = (
               }}
             >
               {t('prizeAmount', {
-                amount: numberWithCommas(
-                  pool?.estimatePrize * 1000,
+                amount: displayAmountInEther(
+                  pool?.prizeEstimate,
                   { precision: 2 }
                 )
               })}

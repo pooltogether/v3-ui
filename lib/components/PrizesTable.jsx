@@ -8,7 +8,6 @@ import { BasicTable } from 'lib/components/BasicTable'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { formatDate } from 'lib/utils/formatDate'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
 
 const prizeLink = (t, pool, prize) => {
@@ -139,8 +138,8 @@ export const PrizesTable = (
     // If we have a prize amount then we know the last prize has been rewarded
     if (lastPrize.awardedBlock) {
       const currentPrizeId = extractPrizeNumberFromPrize(lastPrize) + 1
-      const amount = numberWithCommas(
-        pool.estimatePrize * 1000,
+      const amount = displayAmountInEther(
+        pool.prizeEstimate,
         { precision: 2 }
       )
 

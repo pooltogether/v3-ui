@@ -25,7 +25,6 @@ import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceT
 import { Tagline } from 'lib/components/Tagline'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import CompoundFinanceIcon from 'assets/images/icon-compoundfinance.svg'
 import PrizeStrategyIcon from 'assets/images/icon-prizestrategy@2x.png'
@@ -192,7 +191,7 @@ export const PoolShow = (
               >
                 <h2>
                   {t('prizeAmountAndTicker', {
-                    amount: numberWithCommas(pool?.estimatePrize * 1000, { precision: 2 }),
+                    amount: displayAmountInEther(pool?.prizeEstimate, { precision: 2 }),
                     ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
                   })}
                 </h2>

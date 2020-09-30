@@ -81,7 +81,7 @@ export const PoolDataContextProvider = (props) => {
                   name: 'DAI Pool',
                   frequency: 'Weekly',
                   symbol: 'PT-cDAI',
-                  estimatePrize: calculateEstimatedPoolPrize({
+                  prizeEstimate: calculateEstimatedPoolPrize({
                     ...dynamicPoolData.daiPool,
                     ...genericChainData.dai
                   }),
@@ -93,7 +93,7 @@ export const PoolDataContextProvider = (props) => {
                   name: 'USDC Pool',
                   frequency: 'Weekly',
                   symbol: 'PT-cUSDC',
-                  estimatePrize: calculateEstimatedPoolPrize({
+                  prizeEstimate: calculateEstimatedPoolPrize({
                     ...dynamicPoolData.usdcPool,
                     ...genericChainData.usdc
                   }),
@@ -105,41 +105,12 @@ export const PoolDataContextProvider = (props) => {
                   name: 'Tether Pool',
                   frequency: 'Weekly',
                   symbol: 'PT-cUSDT',
-                  estimatePrize: calculateEstimatedPoolPrize({
+                  prizeEstimate: calculateEstimatedPoolPrize({
                     ...dynamicPoolData.usdtPool,
                     ...genericChainData.usdt
                   }),
                 },
-                // {
-                //   ...genericChainData.wbtcPrizeStrategy,
-                //   ...dynamicPoolData.wbtcPool,
-                //   ...dynamicPrizeStrategiesData.wbtcPrizeStrategy,
-                //   name: 'Bitcoin Pool',
-                //   frequency: 'Weekly',
-                //   symbol: 'PT-cWBTC',
-                //   estimatePrize: calculateEstimatedPoolPrize(dynamicPoolData.wbtcPool),
-                // },
-                // {
-                //   ...genericChainData.zrxPrizeStrategy,
-                //   ...dynamicPoolData.zrxPool,
-                //   ...dynamicPrizeStrategiesData.zrxPrizeStrategy,
-                //   name: '0x Pool',
-                //   frequency: 'Weekly',
-                //   symbol: 'PT-cZRX',
-                //   estimatePrize: calculateEstimatedPoolPrize(dynamicPoolData.zrxPool),
-                // },
-                // {
-                //   ...genericChainData.batPrizeStrategy,
-                //   ...dynamicPoolData.batPool,
-                //   ...dynamicPrizeStrategiesData.batPrizeStrategy,
-                //   name: 'BAT Pool',
-                //   frequency: 'Weekly',
-                //   symbol: 'PT-cBAT',
-                //   estimatePrize: calculateEstimatedPoolPrize(dynamicPoolData.batPool),
-                // },
               ]
-
-              // console.log('PoolDataContextProvider', {pools})
             }
 
             let pool

@@ -2,9 +2,7 @@ import React from 'react'
 import { padStart } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
-import { PTHint } from 'lib/components/PTHint'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const PrizeAmount = (
   props,
@@ -39,26 +37,11 @@ export const PrizeAmount = (
       <span
         className='font-number'
       >
-        ${numberWithCommas(
-          pool?.estimatePrize,
+        ${displayAmountInEther(
+          pool?.prizeEstimate,
           { precision: 2 }
         )}
         
-        {/* <PTHint
-          label=""
-          tip={<>
-            {pool && pool.estimatePrize && <>
-              <span className='text-xxs text-yellow'>
-                ({padStart(pool.estimatePrize.toString(), Number(decimals) + 1, 0)} {collatSymbol})
-              </span>
-            </>}
-          </>}
-        >
-          <>
-            ${displayAmountInEther(pool.estimatePrize, { decimals })}
-          </>
-        </PTHint> */}
-       {/* / week */}
       </span>
     </div>
   </>
