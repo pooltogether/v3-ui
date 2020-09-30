@@ -115,7 +115,7 @@ function MyApp({ Component, pageProps, router }) {
   useEffect(() => {
     const initi18next = async () => {
       await i18next.initPromise.then(() => {
-        setInitialized(true)
+        // setInitialized(true)
       })
     }
     initi18next()
