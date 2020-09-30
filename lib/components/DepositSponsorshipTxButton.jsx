@@ -93,7 +93,6 @@ export const DepositSponsorshipTxButton = (props) => {
     {t('depositSponsorship')}
   </Button>
 
-
   return <>
     {needsApproval ? <>
       <PTHint

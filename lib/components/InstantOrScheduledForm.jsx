@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -58,12 +58,22 @@ export const InstantOrScheduledForm = (props) => {
   )
 
   const tipJsx = <>
-    To maintain fairness your funds need to contribute interest towards the prize each week. You can:
-    <br /><br />1) SCHEDULE: receive ${quantity} DAI once enough interest has been provided to the prize
-    <br /><br />2) INSTANT: pay ${displayAmountInEther(
-      exitFee,
-      { decimals: underlyingCollateralDecimals }
-    )} to withdraw right now and forfeit the interest that would otherwise go towards the prize
+    {t('toMaintainFairnessDescription')}
+
+    <br /><br />
+    {t('withdrawScheduledDescription', {
+      amount: quantity,
+      ticker: underlyingCollateralSymbol
+    })}
+
+    <br /><br />
+    {t('withdrawInstantDescription', {
+      amount: displayAmountInEther(
+        exitFee,
+        { decimals: underlyingCollateralDecimals }
+      ),
+      ticker: underlyingCollateralSymbol
+    })}
   </>
 
   const updateParamsAndNextStep = (e) => {
@@ -94,11 +104,13 @@ export const InstantOrScheduledForm = (props) => {
     className='text-inverse'
   >
     <PaneTitle>
-      Withdraw {quantity} tickets
+      {t('withdrawAmountTickets', {
+        amount: quantity
+      })}
     </PaneTitle>
 
     <PaneTitle small>
-      Choose how to receive your funds:
+      {t('chooseHowToReceiveYourFunds')}
     </PaneTitle>
 
     <RadioInputGroup
@@ -110,19 +122,37 @@ export const InstantOrScheduledForm = (props) => {
         {
           value: 'scheduled',
           label: <>
-            I want <span className='font-bold'>${scheduledFullFormatted}</span> <span className='font-bold'>{underlyingCollateralSymbol}</span> back in: <br />{formattedFutureDate}
+            <Trans
+              i18nKey='iWantAmountTickerBackInFutureDate'
+              defaults='I want <bold>${{amount}} {{ticker}}</bold> back in:'
+              components={{
+                bold: <span className='font-bold' />,
+              }}
+              values={{
+                amount: scheduledFullFormatted,
+                ticker: underlyingCollateralSymbol,
+              }}
+            /> {formattedFutureDate}
           </>
         },
         {
           value: 'instant',
           label: <>
-            I want <span className='font-bold'>${instantPartialFormatted}</span> <span className='font-bold'>{underlyingCollateralSymbol}</span> now, and will forfeit the interest
+            <Trans
+              i18nKey='iWantAmountTickerBackNow'
+              defaults='I want <bold>${{amount}} {{ticker}}</bold> now, and will forfeit the interest'
+              components={{
+                bold: <span className='font-bold' />,
+              }}
+              values={{
+                amount: instantPartialFormatted,
+                ticker: underlyingCollateralSymbol,
+              }}
+            />
           </>
         }
       ]}
     />
-
-
 
     {withdrawType === 'scheduled' ? <>
       <div
@@ -138,7 +168,17 @@ export const InstantOrScheduledForm = (props) => {
             <div className='w-10 mx-auto mb-2'>
               <QuestionMarkCircle />
             </div>
-            Your <span className='font-bold'>${scheduledFullFormatted}</span> worth of <span className='font-bold'>{underlyingCollateralSymbol}</span> will be scheduled and ready to withdraw in: {formattedFutureDate}
+            <Trans
+              i18nKey='yourAmountWorthOfTickerWillBeScheduled'
+              defaults='Your <bold>${{amount}}</bold> worth of <bold>{{ticker}}</bold> will be scheduled and ready to withdraw in:'
+              components={{
+                bold: <span className='font-bold' />,
+              }}
+              values={{
+                amount: instantPartialFormatted,
+                ticker: underlyingCollateralSymbol,
+              }}
+            /> {formattedFutureDate}
           </>
         </PTHint>
       </div>
@@ -149,7 +189,7 @@ export const InstantOrScheduledForm = (props) => {
           setWithdrawType('instant')
         }}
       >
-        Need your funds right now?
+        {t('needYourFundsRightNowQuestion')}
       </button>
     </> : <>
       <div
@@ -165,10 +205,19 @@ export const InstantOrScheduledForm = (props) => {
               <div className='w-10 mx-auto mb-2'>
                 <QuestionMarkCircle />
               </div>
-              You will receive <span className='font-bold'>${instantPartialFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> now and {exitFee.eq(0)
-                ? <>burn <span className='font-bold'>${displayAmountInEther(instantCredit)}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> from your fairness credit</>
-                : <>forfeit <span className='font-bold'>${exitFeeFormatted}</span> in <span className='font-bold'>{underlyingCollateralSymbol}</span> as interest to the pool</>
-            } </>
+              <Trans
+                i18nKey='youWillReceiveAmountTickerNowAndForfeitAmountTwo'
+                defaults='You will receive <bold>${{amount}} {{ticker}}</bold> now and forfeit <bold>${{amountTwo}} {{ticker}}</bold> as interest to the pool.'
+                components={{
+                  bold: <span className='font-bold' />,
+                }}
+                values={{
+                  amount: instantPartialFormatted,
+                  amountTwo: exitFeeFormatted,
+                  ticker: underlyingCollateralSymbol,
+                }}
+              />
+            </>
         </PTHint>
       </div>
       <button
@@ -178,7 +227,10 @@ export const InstantOrScheduledForm = (props) => {
           setWithdrawType('scheduled')
         }}
       >
-          Don't want to forfeit a ${exitFeeFormatted} {underlyingCollateralSymbol} fairness fee?
+        {t('dontWantToForfeitAnAmountTickerFairnessFee', {
+          amount: exitFeeFormatted,
+          ticker: underlyingCollateralSymbol
+        })}
       </button>
     </>}
 

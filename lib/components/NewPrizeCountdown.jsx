@@ -4,7 +4,7 @@ import addSeconds from 'date-fns/addSeconds'
 import { useInterval } from 'beautiful-react-hooks'
 
 import { useTranslation } from 'lib/../i18n'
-import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
+// import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 import { subtractDates } from 'lib/utils/subtractDates'
 
 const ONE_SECOND = 1000

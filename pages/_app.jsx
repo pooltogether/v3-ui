@@ -172,13 +172,13 @@ function MyApp({ Component, pageProps, router }) {
               key={router.route}
               transition={{ duration: 0.3, ease: 'easeIn' }}
               initial={{
-                opacity: 0.01
+                opacity: 0
               }}
               exit={{
-                opacity: 0.01
+                opacity: 0
               }}
               animate={{
-                opacity: 0.99
+                opacity: 1
               }}
             >
               <Component {...pageProps} />

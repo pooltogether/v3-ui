@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
+import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
 import { ButtonLink } from 'lib/components/ButtonLink'
@@ -9,6 +10,8 @@ import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWord
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const OrderComplete = (props) => {
+  const [t] = useTranslation()
+
   const router = useRouter()
   const quantity = router.query.quantity
 
@@ -32,11 +35,13 @@ export const OrderComplete = (props) => {
 
   return <>
     <PaneTitle small>
-      Deposit complete
+      {t('depositComplete')}
     </PaneTitle>
 
     <PaneTitle>
-      You got {quantity} tickets!
+      {t('youGotAmountTickets', {
+        amount: quantity
+      })}
     </PaneTitle>
 
     <div
@@ -45,17 +50,22 @@ export const OrderComplete = (props) => {
       <div
         className='mb-6'
       >
-        You now have {numberWithCommas(usersTicketBalance)} tickets in the {pool?.underlyingCollateralSymbol} pool!
+        {t('youNowHaveAmountTicketsInTheTickerPool', {
+          amount: numberWithCommas(usersTicketBalance),
+          ticker: pool?.underlyingCollateralSymbol
+        })}
       </div>
       <div
         className='mb-6'
       >
-        You will be eligible to win a prize every {pool?.frequency === 'Weekly' ? 'week' : 'day'}
+        {t('youWillBeEligibleToWinPrizeEveryFrequency', {
+          frequency: pool?.frequency === 'Weekly' ? t('week') : t('day')
+        })}
       </div>
       <div
         className='mb-3'
       >
-        The next prize will be awarded in: <span className='font-bold'><NewPrizeCountdownInWords
+        {t('theNextPrizeWillBeAwardedIn')} <span className='font-bold'><NewPrizeCountdownInWords
           pool={pool}
         /></span>
       </div>
@@ -67,7 +77,7 @@ export const OrderComplete = (props) => {
         as='/account'
         textSize='lg'
       >
-        View your account
+        {t('viewYourAccount')}
       </ButtonLink>
     </div>
   </>

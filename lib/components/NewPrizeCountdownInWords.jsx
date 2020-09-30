@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import addSeconds from 'date-fns/addSeconds'
 import { useInterval } from 'beautiful-react-hooks'
 
+import { useTranslation } from 'lib/../i18n'
 import { subtractDates } from 'lib/utils/subtractDates'
 
 const ONE_SECOND = 1000
@@ -9,8 +10,8 @@ const ONE_SECOND = 1000
 export const NewPrizeCountdownInWords = (
   props,
 ) => {
+  const { t } = useTranslation()
   const { pool } = props
-  let flashy = props.flashy === false ? false : true
 
   const [secondsRemaining, setSecondsRemaining] = useState(null)
 
@@ -39,9 +40,13 @@ export const NewPrizeCountdownInWords = (
 
   let content
   if (pool?.isRngRequested) {
-    content = <>Prize is being awarded now!</>
+    content = <>
+      {t('prizeIsBeingAwarded')}
+    </>
   } else if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
-    content = <>Prize will be awarded soon...</>
+    content = <>
+      {t('prizeAwardedSoon')}
+    </>
   } else {
     const daysArray = ('' + days).split('')
     const hoursArray = ('' + hours).split('')

@@ -216,7 +216,7 @@ export const AccountPoolShowUI = (props) => {
             >
               <PoolCountUp
                 fontSansRegular
-                end={Number.parseFloat(usersTicketBalance).toFixed(0)}
+                end={Math.floor(Number.parseFloat(usersTicketBalance))}
                 decimals={null}
               /> {t('tickets')}
               <span className='block text-caption uppercase'>

@@ -73,7 +73,7 @@ export const AccountPoolRow = (
               <span
                 className='uppercase'
               >
-                {pool.frequency}
+                {t(pool.frequency)}
               </span>
             </div>
           </div>
@@ -122,7 +122,7 @@ export const AccountPoolRow = (
         >
           <PoolCountUp
             fontSansRegular
-            end={Number.parseFloat(usersBalance).toFixed(0)}
+            end={Math.floor(Number.parseFloat(usersBalance))}
             decimals={null}
           /> {t('tickets')}
           <span className='block text-caption uppercase'>

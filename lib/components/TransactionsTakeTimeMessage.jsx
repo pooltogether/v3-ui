@@ -13,7 +13,6 @@ export const TransactionsTakeTimeMessage = (props) => {
 
   const { tx } = props
   const { ethersTx } = tx || {}
-  console.log(ethersTx)
 
   const { chainId } = useContext(AuthControllerContext)
 

@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
@@ -123,18 +123,19 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
     }
   }, [tx])
 
-  const formattedWithdrawType = scheduledWithdrawal ? 'Schedule' : 'Instant'
-  // yes this string is different:
-  const formattedWithdrawTypePastTense = scheduledWithdrawal ? 'Scheduled' : 'Instant'
+  const withdrawTypeKey = scheduledWithdrawal ? 'scheduled' : 'instant'
 
   return <>
     <PaneTitle small>
-      {txInWallet && `Withdraw ${quantity} tickets`}
+      {txInWallet && t('withdrawAmountTickets', { 
+        amount: quantity
+      })}
     </PaneTitle>
 
     <PaneTitle>
-      {txInWallet && `Confirm ${formattedWithdrawTypePastTense} withdrawal`}
-      {txSent && `${formattedWithdrawType} Withdrawal confirming...`}
+      {txInWallet && t('confirmWithdrawTypePastTense', {
+        withdrawType: withdrawTypeKey
+      })}
     </PaneTitle>
 
     <div className='text-white bg-yellow py-4 sm:py-6 px-5 sm:px-8 rounded-xl w-full sm:w-2/3 mx-auto'>
@@ -146,18 +147,41 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
           style={{
             color: 'rgba(255, 255, 255, 0.75)'
           }}
-        >Note: </span>{scheduledWithdrawal ? <>
-          You are scheduling <span className='font-bold'>${quantity} DAI</span>. Your funds will be ready for withdrawal in: <br />
-          <span className='font-bold'>{formattedFutureDate}</span>
+        >{t('note')}</span> {scheduledWithdrawal ? <>
+          <Trans
+            i18nKey='youAreSchedulingAndYourFundsWillBeReadyInFutureDate'
+            defaults='You are scheduling <bold>{{amount}} {{ticker}}</bold>. Your funds will be ready for withdrawal in: '
+            components={{
+              bold: <span className='font-bold' />,
+            }}
+            values={{
+              amount: quantity,
+              ticker: tickerUpcased,
+            }}
+          /> <span className='font-bold'>{formattedFutureDate}</span>
         </> : <>
-          You are withdrawing <span className='font-bold'>${quantity} {tickerUpcased}</span> of your funds right now, less the <span className='font-bold'>${fee} {tickerUpcased}</span> fairness fee
+          <Trans
+            i18nKey='youAreWithdrawingYourFundsLessFeeRightNow'
+            defaults='You are withdrawing <bold>{{amount}} {{ticker}}</bold> of your funds right now, less the <bold>{{fee}} {{ticker}}</bold></span> fairness fee'
+            components={{
+              bold: <span className='font-bold' />,
+            }}
+            values={{
+              amount: quantity,
+              fee: fee,
+              ticker: tickerUpcased,
+            }}
+          />
         </>}
+
       </span>
     </div>
 
     <div className='mt-10'>
       <PaneTitle small>
-        {tx?.sent && <>{formattedWithdrawTypePastTense} {t('withdrawalConfirming')}</>}
+        {tx?.sent && <>
+          {t(withdrawTypeKey)} - {t('withdrawalConfirming')}
+        </>}
       </PaneTitle>
     </div>
 
