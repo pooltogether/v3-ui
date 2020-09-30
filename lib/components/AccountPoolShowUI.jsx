@@ -162,7 +162,7 @@ export const AccountPoolShowUI = (props) => {
                   {t('prizeAmount', {
                     amount: displayAmountInEther(
                       pool?.prizeEstimate,
-                      { precision: 2 }
+                      { precision: 2, decimals }
                     )
                   })}
                 </div>

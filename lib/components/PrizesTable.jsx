@@ -140,7 +140,7 @@ export const PrizesTable = (
       const currentPrizeId = extractPrizeNumberFromPrize(lastPrize) + 1
       const amount = displayAmountInEther(
         pool.prizeEstimate,
-        { precision: 2 }
+        { precision: 2, decimals }
       )
 
       currentPrize = {

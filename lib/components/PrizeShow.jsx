@@ -182,7 +182,7 @@ export const PrizeShow = (
               className='inline-block mx-auto -mt-1'
             /> ${displayAmountInEther(
                 prize?.net || 0,
-                { precision: 2 }
+                { precision: 2, decimals }
               )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
           </h2>
 

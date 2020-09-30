@@ -76,7 +76,10 @@ export const PoolRow = (
                 i18nKey="prizeAndAmount"
                 defaults="Prize ${{amount}}"
                 values={{
-                  amount: displayAmountInEther(pool?.prizeEstimate, { precision: 2 })
+                  amount: displayAmountInEther(
+                    pool?.prizeEstimate,
+                    { precision: 2, decimals }
+                  )
                 }}
               />
             </div>

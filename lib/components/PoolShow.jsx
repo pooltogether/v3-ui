@@ -46,6 +46,7 @@ export const PoolShow = (
   const { pool } = props
 
   const symbol = pool?.symbol
+  const decimals = pool?.underlyingCollateralDecimals
 
   let error
 
@@ -191,7 +192,10 @@ export const PoolShow = (
               >
                 <h2>
                   {t('prizeAmountAndTicker', {
-                    amount: displayAmountInEther(pool?.prizeEstimate, { precision: 2 }),
+                    amount: displayAmountInEther(
+                      pool?.prizeEstimate,
+                      { precision: 2, decimals }
+                    ),
                     ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
                   })}
                 </h2>
@@ -249,7 +253,7 @@ export const PoolShow = (
                   >
                     {displayAmountInEther(pool.totalSupply, {
                       precision: 0,
-                      decimals: pool.underlyingCollateralDecimals
+                      decimals
                     })}
                   </h3>
                 </>
@@ -286,7 +290,7 @@ export const PoolShow = (
                     ${displayAmountInEther(
                       pool.cumulativePrizeNet, {
                         precision: 2,
-                        decimals: pool.underlyingCollateralDecimals
+                        decimals
                       })
                     } {pool.underlyingCollateralSymbol}
                   </h3>
