@@ -27,45 +27,45 @@ export const FetchGenericChainData = (props) => {
 
   const fetchDataFromInfura = async () => {
     const chainData = {
-      daiPrizeStrategy: {},
-      usdcPrizeStrategy: {},
-      usdtPrizeStrategy: {},
-      wbtcPrizeStrategy: {},
-      zrxPrizeStrategy: {},
-      batPrizeStrategy: {},
+      dai: {},
+      usdc: {},
+      usdt: {},
+      // wbtc: {},
+      // zrx: {},
+      // bat: {},
     }
 
     try {
-      chainData.daiPrizeStrategy = await fetchGenericChainData(
+      chainData.dai = await fetchGenericChainData(
         provider,
-        poolAddresses['daiPrizeStrategy'],
+        poolAddresses['daiPrizeStrategy'], // TODO: can get from poolData.daiPool so can remove this
         poolData.daiPool
       )
-      chainData.usdcPrizeStrategy = await fetchGenericChainData(
+      chainData.usdc = await fetchGenericChainData(
         provider,
         poolAddresses['usdcPrizeStrategy'],
         poolData.usdcPool
       )
-      chainData.usdtPrizeStrategy = await fetchGenericChainData(
+      chainData.usdt = await fetchGenericChainData(
         provider,
         poolAddresses['usdtPrizeStrategy'],
         poolData.usdtPool
       )
-      chainData.wbtcPrizeStrategy = await fetchGenericChainData(
-        provider,
-        poolAddresses['wbtcPrizeStrategy'],
-        poolData.wbtcPool
-      )
-      chainData.zrxPrizeStrategy = await fetchGenericChainData(
-        provider,
-        poolAddresses['zrxPrizeStrategy'],
-        poolData.zrxPool
-      )
-      chainData.batPrizeStrategy = await fetchGenericChainData(
-        provider,
-        poolAddresses['batPrizeStrategy'],
-        poolData.batPool
-      )
+      // chainData.wbtc = await fetchGenericChainData(
+      //   provider,
+      //   poolAddresses['wbtcPrizeStrategy'],
+      //   poolData.wbtcPool
+      // )
+      // chainData.zrx = await fetchGenericChainData(
+      //   provider,
+      //   poolAddresses['zrxPrizeStrategy'],
+      //   poolData.zrxPool
+      // )
+      // chainData.bat = await fetchGenericChainData(
+      //   provider,
+      //   poolAddresses['batPrizeStrategy'],
+      //   poolData.batPool
+      // )
     }
     catch (e) {
       console.warn(e)
@@ -91,10 +91,10 @@ export const FetchGenericChainData = (props) => {
     const conditionallyGetChainData = async () => {
       const genericData = await fetchDataFromInfura()
 
-      if (isEmptyObject(genericData.daiPrizeStrategy)) {
+      if (isEmptyObject(genericData.dai)) {
         // console.log('NO HIT, resetting ....')
         setAlreadyExecuted(false)
-      } else if (!isEmptyObject(genericData.daiPrizeStrategy)) {
+      } else if (!isEmptyObject(genericData.dai)) {
         // console.log('got data!')
         setGenericChainData(genericData)
       }

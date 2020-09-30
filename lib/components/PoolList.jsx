@@ -7,7 +7,6 @@ export const PoolList = (
   props,
 ) => {
   const { pools } = props
-  // const { pools, selectedId } = props
 
   return <>
     <AnimatePresence exitBeforeEnter>

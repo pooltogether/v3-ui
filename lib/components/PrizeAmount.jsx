@@ -4,6 +4,7 @@ import { padStart } from 'lodash'
 import { useTranslation } from 'lib/../i18n'
 import { PTHint } from 'lib/components/PTHint'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const PrizeAmount = (
   props,
@@ -38,9 +39,9 @@ export const PrizeAmount = (
       <span
         className='font-number'
       >
-        ${displayAmountInEther(
+        ${numberWithCommas(
           pool?.estimatePrize,
-          { decimals, precision: 2 }
+          { precision: 2 }
         )}
         
         {/* <PTHint

@@ -160,9 +160,9 @@ export const AccountPoolShowUI = (props) => {
                   }}
                 >
                   {t('prizeAmount', {
-                    amount: displayAmountInEther(
-                      pool?.estimatePrize,
-                      { decimals, precision: 2 }
+                    amount: numberWithCommas(
+                      pool?.estimatePrize * 1000,
+                      { precision: 2 }
                     )
                   })}
                 </div>
