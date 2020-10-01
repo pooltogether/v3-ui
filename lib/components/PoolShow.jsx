@@ -64,13 +64,14 @@ export const PoolShow = (
     }
   }
   
+  useInterval(() => {
+    setCookieShowAward(Cookies.get(SHOW_MANAGE_LINKS))
+  }, 1000)
+  
   if (!pool) {
     return <PoolShowLoader />
   }
 
-  useInterval(() => {
-    setCookieShowAward(Cookies.get(SHOW_MANAGE_LINKS))
-  }, 1000)
 
   const handleGetTicketsClick = (e) => {
     e.preventDefault()

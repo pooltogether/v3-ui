@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useQuery } from '@apollo/client'
 import { compact } from 'lodash'
 
+import { useTranslation } from 'lib/../i18n'
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
@@ -13,6 +14,7 @@ import { shorten } from 'lib/utils/shorten'
 export const LastWinnersListing = (
   props,
 ) => {
+  const { t } = useTranslation()
   const { pool } = props
 
   const decimals = pool?.underlyingCollateralDecimals
@@ -36,12 +38,13 @@ export const LastWinnersListing = (
     console.error(error)
   }
 
-  let prizes = compact([].concat(data?.prizePools?.prizes))
+  let prizes = compact([].concat(data?.prizePools?.[0]?.prizes))
+
   const players = prizes?.reduce(function (result, prize) {
     if (prize.winners && prize.winners.length > 0) {
       result.push({
         address: prize?.winners[0],
-        winnings: prize?.net
+        winnings: prize?.amount
       })
     }
     return result
@@ -55,13 +58,13 @@ export const LastWinnersListing = (
 
   return <>
     {error && <>
-      There was an issue loading last 5 winners:
+      {t('thereWasAnErrorLoadingTheLastFiveWinners')}
       {error.message}
     </>}
 
     {players && players?.length === 0 ? <>
       <h6>
-        No winners awarded yet...
+        {t('noWinnersAwardedYet')}
       </h6>
     </> : <>
       {players.map(player => {

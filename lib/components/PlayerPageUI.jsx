@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
@@ -19,18 +19,25 @@ export const PlayerPageUI = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
   
-  const playerAddress = router.query?.playerAddress
+  const playerAddress = router?.query?.playerAddress
 
   const [error, setError] = useState('')
 
-  try {
-    ethers.utils.getAddress(playerAddress)
-  } catch (e) {
-    console.error(e)
-    if (!error && e.message.match('invalid address')) {
-      setError('Incorrectly formatted Ethereum address!')
+  useEffect(() => {
+    try {
+      ethers.utils.getAddress(playerAddress)
+      setError(false)
+    } catch (e) {
+      // this setTimeout is to prevent the flashing of the error msg when the component is unloading
+      // and because of that we don't have a playerAddress
+      setTimeout(() => {
+        console.error(e)
+        if (!error && e.message.match('invalid address')) {
+          setError('Incorrectly formatted Ethereum address!')
+        }
+      }, 1000)
     }
-  }
+  }, [playerAddress])
 
   const playerDataContext = useContext(PlayerDataContext)
   const { playerData } = playerDataContext
@@ -41,11 +48,11 @@ export const PlayerPageUI = (props) => {
   
   return <>
     <Meta
-      title={`${t('player')} ${playerAddress}`}
+      title={`${t('player')} ${playerAddress ? playerAddress : ''}`}
     />
 
     <PageTitleAndBreadcrumbs
-      title={`${t('player')} ${shorten(playerAddress)}`}
+      title={`${t('player')} ${playerAddress ? shorten(playerAddress) : ''}`}
       breadcrumbs={[
         {
           name: t('players'),
@@ -53,7 +60,7 @@ export const PlayerPageUI = (props) => {
         {
           href: '/players/[playerAddress]',
           as: `/players/${playerAddress}`,
-          name: `${t('player')} ${shorten(playerAddress)}`
+          name: `${t('player')} ${playerAddress ? shorten(playerAddress) : ''}`
         }
       ]}
     />
@@ -124,6 +131,9 @@ export const PlayerPageUI = (props) => {
                 }
 
                 return <AccountPoolRow
+                  noLinks
+                  href='/players/[playerAddress]'
+                  as={`/players/${playerAddress}`}
                   key={`account-pool-row-${pool.poolAddress}`}
                   pool={pool}
                   player={playerData}

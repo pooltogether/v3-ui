@@ -29,9 +29,9 @@ const AWARD_STARTED = 'AwardStarted'
 const UNAWARDED = 'Unawarded'
 
 const prizeState = (prize) => {
-  if (prize.net) {
+  if (prize.amount) {
     return AWARDED
-  } else if (prize.net === null) {
+  } else if (prize.amount === null) {
     return AWARD_STARTED
   } else {
     return UNAWARDED
@@ -55,9 +55,9 @@ const prizeStatusString = (t, prize) => {
 const formatPrizeObject = (t, pool, prize) => {
   const id = extractPrizeNumberFromPrize(prize)
   const decimals = pool.underlyingCollateralDecimals
-  const prizeAmount = prize.net && decimals ?
+  const prizeAmount = prize.amount && decimals ?
     displayAmountInEther(
-      prize.net,
+      prize.amount,
       { decimals, precision: 2 }
     ) : ethers.utils.bigNumberify(0)
 
@@ -86,10 +86,6 @@ export const PrizesTable = (
   const { pool, prizes } = props
 
   const decimals = pool?.underlyingCollateralDecimals
-  
-  if (!prizes || prizes?.length === 0) {
-    return null
-  }
 
   const columns = React.useMemo(() => {
     return [

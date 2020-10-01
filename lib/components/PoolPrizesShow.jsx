@@ -51,7 +51,7 @@ export const PoolPrizesShow = (
 
   return <>
     <Meta
-      title={`${pool?.name} ${t('prizes')}`} 
+      title={`${pool ? pool.name : ''} ${t('prizes')}`} 
     />
 
     <PrizesPageHeader
@@ -90,7 +90,7 @@ export const PoolPrizesShow = (
     <h6
       className='text-accent-2 mb-0 mt-8'
     >
-      Prize history:
+      {t('prizeHistory')}
     </h6>
 
     <PoolPrizeListing

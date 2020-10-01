@@ -16,9 +16,6 @@ export const DDChip = (
   const classes = classnames(
     'relative inline-block tracking-wide',
     sizeClasses,
-    {
-      
-    }
   )
 
   return <>
@@ -33,7 +30,7 @@ export const DDChip = (
         src={DDChipSvg}
         className={imgClasses}
       /> <span
-          className='uppercase absolute l-0 t-0 r-0 b-0 text-xxxs text-secondary font-number'
+          className='uppercase absolute l-0 t-0 r-0 b-0 text-xxxs text-primary font-number'
           style={{
             top: 1
           }}

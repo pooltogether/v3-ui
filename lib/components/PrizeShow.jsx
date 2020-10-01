@@ -50,14 +50,14 @@ export const PrizeShow = (
   }
 
   const isCurrentPrize = Number(pool?.prizesCount) + 1 === Number(prizeNumber)
-  const prizeStrategyAddress = pool?.prizeStrategyAddress
+  const poolAddress = pool?.poolAddress
 
-  const prizeId = `${prizeStrategyAddress}-${prizeNumber}`
+  const prizeId = `${poolAddress}-${prizeNumber}`
   const { loading, error, data } = useQuery(prizeQuery, {
     variables: {
       prizeId
     },
-    skip: !prizeStrategyAddress || !prizeNumber || isCurrentPrize,
+    skip: !poolAddress || !prizeNumber || isCurrentPrize,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
   })
@@ -98,7 +98,7 @@ export const PrizeShow = (
 
   return <>
     {pool?.name && <>
-      <Meta title={`${t('prize')} #${prizeNumber} - ${pool?.name}`} />
+      <Meta title={`${t('prize')} #${prizeNumber} - ${pool ? pool?.name : ''}`} />
     </>}
 
     <PageTitleAndBreadcrumbs
@@ -181,7 +181,7 @@ export const PrizeShow = (
               pool={pool}
               className='inline-block mx-auto -mt-1'
             /> ${displayAmountInEther(
-                prize?.net || 0,
+                prize?.amount || 0,
                 { precision: 2, decimals }
               )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
           </h2>

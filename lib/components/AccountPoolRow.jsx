@@ -17,7 +17,13 @@ export const AccountPoolRow = (
 ) => {
   const { t } = useTranslation()
   
-  const { pool, player } = props
+  const { noLinks, pool, player } = props
+  let { href, as } = props
+
+  if (!href && !as) {
+    href = '/account/pools/[symbol]'
+    as = `/account/pools/${pool.symbol}`
+  }
 
   const decimals = pool?.underlyingCollateralDecimals
 
@@ -33,9 +39,9 @@ export const AccountPoolRow = (
   
   return <>
     <InteractableCard
+      href={href}
+      as={as}
       key={`account-pool-row-li-${pool.poolAddress}`}
-      href='/account/pools/[symbol]'
-      as={`/account/pools/${pool.symbol}`}
       className='ticket-card'
     >
       <div className='flex items-center pb-2'>
@@ -130,31 +136,33 @@ export const AccountPoolRow = (
           </span>
         </div>
 
-        <div
-          className='w-2/12 text-right'
-          style={{
-            lineHeight: 1.2,
-          }}
-        >
-          <Link
-            href='/account/pools/[symbol]'
-            as={`/account/pools/${pool.symbol}`}
+        {!noLinks && <>
+          <div
+            className='w-2/12 text-right'
+            style={{
+              lineHeight: 1.2,
+            }}
           >
-            <a
-              className='flex items-center justify-center font-bold text-highlight-3 uppercase pt-12'
+            <Link
+              href='/account/pools/[symbol]'
+              as={`/account/pools/${pool.symbol}`}
             >
-              <FeatherIcon
-                strokeWidth='0.09rem'
-                icon='arrow-right-circle'
-                className='relative w-5 h-5 ml-auto mr-2'
-                style={{
-                  left: -1,
-                  top: '0.05rem'
-                }}
-              /> {t('details')}
-            </a>
-          </Link>
-        </div>
+              <a
+                className='flex items-center justify-center font-bold text-highlight-3 uppercase pt-12'
+              >
+                <FeatherIcon
+                  strokeWidth='0.09rem'
+                  icon='arrow-right-circle'
+                  className='relative w-5 h-5 ml-auto mr-2'
+                  style={{
+                    left: -1,
+                    top: '0.05rem'
+                  }}
+                /> {t('details')}
+              </a>
+            </Link>
+          </div>
+        </>}
       </div>
     </InteractableCard>
   </>

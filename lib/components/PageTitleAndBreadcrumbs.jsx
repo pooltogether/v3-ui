@@ -16,7 +16,7 @@ export const PageTitleAndBreadcrumbs = (
       className='flex flex-col items-start justify-between w-full leading-none'
     >
       <div
-        className='inline-block text-left text-xl sm:text-3xl font-bold text-accent-2 relative'
+        className='inline-block text-left text-xl sm:text-3xl font-bold text-accent-2 relative capitalize'
       >
         {title}
       </div>
