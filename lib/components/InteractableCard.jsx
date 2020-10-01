@@ -21,8 +21,8 @@ export const InteractableCard = (
         className,
         'interactable-card bg-card hover:bg-card-selected border-card w-full px-4 xs:px-6 mb-4 py-5 sm:py-6 trans rounded-lg text-inverse hover:text-inverse',
         {
-          'border-card hover:shadow-xl cursor-pointer': !selected,
-          'border-card border-dashed': selected,
+          'hover:shadow-xl cursor-pointer': !selected,
+          'selected': selected,
         }
       )}
       style={{
