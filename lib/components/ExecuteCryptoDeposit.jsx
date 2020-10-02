@@ -115,7 +115,7 @@ export const ExecuteCryptoDeposit = (props) => {
   }, [tx])
 
   return <>
-    <PaneTitle small>
+    <PaneTitle>
       <Trans
         i18nKey='depositAmountTicker'
         defaults='Deposit <number>{{amount}}</number> {{ticker}}'
@@ -129,7 +129,7 @@ export const ExecuteCryptoDeposit = (props) => {
       />
     </PaneTitle>
 
-    <PaneTitle>
+    <PaneTitle small>
       <Trans
         i18nKey='forAmountTicker'
         defaults='For <number>{{amount}}</number> {{ticker}}'

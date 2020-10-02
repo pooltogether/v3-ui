@@ -123,15 +123,13 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
     </PaneTitle>
 
     {tx?.sent && !tx?.completed && <>
-      <div className='mt-10'>
-        <TransactionsTakeTimeMessage
-          tx={tx}
-          paneMessage={<>
-            {tx?.sent && t('withdrawalConfirming')}
-            {tx?.inWallet && t('confirmWithdrawal')}
-          </>}
-        />
-      </div>
+      <TransactionsTakeTimeMessage
+        tx={tx}
+        paneMessage={<>
+          {tx?.sent && t('withdrawalConfirming')}
+          {tx?.inWallet && t('confirmWithdrawal')}
+        </>}
+      />
     </>}
   </>
 }

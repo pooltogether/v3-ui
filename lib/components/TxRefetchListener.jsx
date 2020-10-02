@@ -36,6 +36,11 @@ export const TxRefetchListener = (props) => {
         refetchPlayerQuery()
         console.log('refetch!')
       }, 5000)
+      
+      setTimeout(() => {
+        refetchPlayerQuery()
+        console.log('refetch!')
+      }, 10000)
     }
   }
 
