@@ -132,8 +132,7 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
                   setValue('quantity', contextualBalance, { shouldValidate: true })
                 }}
               >
-                {/* Balance:  */}
-                {numberWithCommas(contextualBalance, { precision: 4 })} {tickerUpcased}
+                {numberWithCommas(contextualBalance, { precision: 2 })} {tickerUpcased}
               </button>
             </>}
           />

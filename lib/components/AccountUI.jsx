@@ -4,7 +4,7 @@ import { useTranslation } from 'lib/../i18n'
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountPoolsUI } from 'lib/components/AccountPoolsUI'
 import { AccountRewardsUI } from 'lib/components/AccountRewardsUI'
-import { DDChip } from 'lib/components/DDChip'
+import { ChipRainbowNew } from 'lib/components/ChipRainbowNew'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Tab, Tabs, Content, ContentPane } from 'lib/components/Tabs'
@@ -64,7 +64,7 @@ export const AccountUI = () => {
           isSelected={visible === REWARDS}
           onClick={handleShowRewards}
         >
-          {t('rewards')} <DDChip text='new' />
+          {t('rewards')} <ChipRainbowNew text='new' />
         </Tab>
       </Tabs>
 

@@ -3,7 +3,7 @@ import classnames from 'classnames'
 
 import DDChipSvg from 'assets/images/d-d-chip.svg'
 
-export const DDChip = (
+export const ChipRainbowNew = (
   props,
 ) => {
   const {

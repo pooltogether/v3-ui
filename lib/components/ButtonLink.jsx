@@ -88,6 +88,10 @@ export const getButtonClasses = (props) => {
 
 const getTextSize = (size) => {
   switch (size) {
+    case 'xxxs':
+      return `text-xxxxs xs:text-xxxs sm:text-xxs lg:text-xs`
+    case 'xxs':
+      return `text-xxxs xs:text-xxs sm:text-xs lg:text-sm`
     case 'xs':
       return `text-xxs xs:text-xs sm:text-sm lg:text-base`
     case 'sm':

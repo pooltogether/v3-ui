@@ -115,7 +115,7 @@ export const ExecuteCryptoDeposit = (props) => {
   }, [tx])
 
   return <>
-    <PaneTitle>
+    <PaneTitle short>
       <Trans
         i18nKey='depositAmountTicker'
         defaults='Deposit <number>{{amount}}</number> {{ticker}}'
@@ -131,8 +131,8 @@ export const ExecuteCryptoDeposit = (props) => {
 
     <PaneTitle small>
       <Trans
-        i18nKey='forAmountTicker'
-        defaults='For <number>{{amount}}</number> {{ticker}}'
+        i18nKey='forAmountTickets'
+        defaults='for <number>{{amount}}</number> tickets'
         components={{
           number: <PoolNumber />,
         }}
@@ -143,7 +143,9 @@ export const ExecuteCryptoDeposit = (props) => {
       />
     </PaneTitle>
 
-    <DepositInfoList />
+    <div className='mt-4'>
+      <DepositInfoList />
+    </div>
 
     {!tx?.completed && <>
       <TransactionsTakeTimeMessage

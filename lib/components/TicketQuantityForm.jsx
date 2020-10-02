@@ -172,7 +172,7 @@ export const TicketQuantityForm = (props) => {
               }}
             >
               {/* Balance:  */}
-              {numberWithCommas(contextualBalance, { precision: 4 })} {tickerUpcased}
+              {numberWithCommas(contextualBalance, { precision: 2 })} {tickerUpcased}
             </button>
           </>}
         />
@@ -192,13 +192,13 @@ export const TicketQuantityForm = (props) => {
             className='odds-box'
           >
             <Odds
+              sayEveryWeek
               showLabel
               splitLines
               pool={pool}
               usersBalance={usersTicketBalance}
               additionalQuantity={watchQuantity}
               isWithdraw={isWithdraw}
-              // hide={parseFloat(watchQuantity) > usersTicketBalance}
             />
           </div>
         </>}

@@ -14,6 +14,7 @@ export const Odds = (props) => {
     isWithdraw,
     pool,
     showLabel,
+    sayEveryWeek,
     splitLines,
     style,
     timeTravelTotalSupply,
@@ -84,7 +85,7 @@ export const Odds = (props) => {
         fontSansRegular
         start={result}
         end={result}
-      />
+      /> {sayEveryWeek && t('everyWeek')}
     </>
   }
 

@@ -11,6 +11,7 @@ import {
 import { Trans, useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
+import { Chip } from 'lib/components/Chip'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
@@ -84,17 +85,18 @@ export const PoolRow = (
               />
             </div>
             <div
-              className='inline-block text-left text-caption-2 relative'
+              className='inline-block text-left text-caption-2 relative mt-1'
               style={{
-                left: 2,
-                bottom: -4
+                left: -2
               }}
             >
-              <span
-                className='uppercase text-caption'
-              >
-                {t(pool?.frequency?.toLowerCase())}
-              </span>
+              <Chip
+                color='accent-3'
+                text={t(pool?.name)}
+              /> <Chip
+                color='green'
+                text={t(pool?.frequency)}
+              />
             </div>
           </div>
         </div>
@@ -109,10 +111,10 @@ export const PoolRow = (
       </div>
 
       <div
-        className='mt-5 flex items-center justify-between'
+        className='mt-5 flex items-end justify-between'
       >
         <div
-          className='w-full xs:w-7/12 sm:w-4/12 lg:w-6/12 pr-2'
+          className='w-1/2 sm:w-4/12 lg:w-6/12 pr-2'
         >
           <Button
             onClick={handleGetTicketsClick}
@@ -124,22 +126,21 @@ export const PoolRow = (
         </div>
 
         <div
-          className='w-2/12 text-right'
-          style={{
-            lineHeight: 1.2,
-          }}
+          className='w-1/2 sm:w-2/12 text-right'
+          
         >
           <ButtonLink
-            border='accent-2 border-2'
-            text='accent-2'
-            bg='primary'
-            hoverBorder='highlight-2'
+            noAnim
+            border='transparent'
+            text='highlight-3'
+            bg='transparent'
+            hoverBorder='transparent'
             hoverText='highlight-2'
-            hoverBg='primary'
+            hoverBg='transparent'
 
-            padding='pl-2 pr-0 py-2 sm:py-2'
-            width='w-10 h-10 lg:w-12 lg:h-12'
-            className='inline-flex items-center justify-center'
+            padding='pl-2 pr-0'
+            className='inline-flex justify-between items-center uppercase'
+            textSize='xxxs'
 
             rounded='full'
             href='/pools/[symbol]'
@@ -147,13 +148,13 @@ export const PoolRow = (
 
           >
             <FeatherIcon
-              strokeWidth='2'
-              icon='arrow-right'
-              className='relative w-7 h-7 mx-auto'
+              strokeWidth='0.15rem'
+              icon='arrow-right-circle'
+              className='inline-block relative w-4 h-4 mx-auto mr-1'
               style={{
-                left: -4
+                top: 1
               }}
-            />
+            /> {t('viewPool')}
           </ButtonLink>
         </div>
       </div>
