@@ -51,7 +51,7 @@ export const AccountSummary = () => {
 
   return <>
     <div
-      className='bg-accent-grey-2 rounded-lg px-4 xs:px-6 sm:px-8 pt-4 pb-6 text-inverse my-8 sm:mt-20 sm:mb-12 mx-auto'
+      className='bg-accent-grey-2 rounded-lg px-4 xs:px-6 sm:px-10 pt-4 pb-6 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'
     >
       <div
         className='flex flex-col items-start justify-between mt-4'

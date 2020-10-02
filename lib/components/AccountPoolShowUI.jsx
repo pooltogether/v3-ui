@@ -85,12 +85,7 @@ export const AccountPoolShowUI = (props) => {
         {
           href: '/account',
           as: '/account',
-          name: t('account'),
-        },
-        {
-          href: '/account',
-          as: '/account',
-          name: t('myAccount')
+          name: t('accountOverview'),
         },
         {
           name: pool?.name

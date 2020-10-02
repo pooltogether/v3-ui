@@ -27,7 +27,7 @@ export const PageTitleAndBreadcrumbs = (
           bottom: 2
         }}
       >
-        {breadcrumbs.map((crumb, index) => (
+        {breadcrumbs?.map((crumb, index) => (
           <span
             key={`crumb-${index}`}
           >

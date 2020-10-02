@@ -19,7 +19,7 @@ export const InteractableCard = (
       whileTap={{ y: 1, scale: 0.98 }}
       className={classnames(
         className,
-        'interactable-card bg-card hover:bg-card-selected border-card w-full px-4 xs:px-6 mb-4 py-5 sm:py-6 trans rounded-lg text-inverse hover:text-inverse',
+        'interactable-card bg-card hover:bg-card-selected border-card w-full px-4 sm:px-10 mb-4 py-5 sm:py-8 trans rounded-lg text-inverse hover:text-inverse',
         {
           'hover:shadow-xl cursor-pointer': !selected,
           'selected': selected,

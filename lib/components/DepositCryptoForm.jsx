@@ -189,7 +189,7 @@ export const DepositCryptoForm = (props) => {
       <DepositAndWithdrawFormUsersBalance
         bold={false}
         start={cachedUsersBalance || usersTokenBalance}
-        end={numberWithCommas(usersTokenBalance, { precision: 8 })}
+        end={numberWithCommas(usersTokenBalance, { precision: 4 })}
         units={tickerUpcased}
       />
 
@@ -201,7 +201,7 @@ export const DepositCryptoForm = (props) => {
         </div>
         <div>
           <PoolNumber>
-            {numberWithCommas(quantity, { precision: 8 })}
+            {numberWithCommas(quantity, { precision: 4 })}
           </PoolNumber> {tickerUpcased}
         </div>
       </div>

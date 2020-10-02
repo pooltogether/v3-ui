@@ -129,19 +129,21 @@ export const ExecuteCryptoDeposit = (props) => {
       />
     </PaneTitle>
 
-    <PaneTitle small>
-      <Trans
-        i18nKey='forAmountTickets'
-        defaults='for <number>{{amount}}</number> tickets'
-        components={{
-          number: <PoolNumber />,
-        }}
-        values={{
-          amount: quantity,
-          ticker: tickerUpcased,
-        }}
-      />
-    </PaneTitle>
+    <div className='-mt-2'>
+      <PaneTitle small>
+        <Trans
+          i18nKey='forAmountTickets'
+          defaults='for <number>{{amount}}</number> tickets'
+          components={{
+            number: <PoolNumber />,
+          }}
+          values={{
+            amount: quantity,
+            ticker: tickerUpcased,
+          }}
+        />
+      </PaneTitle>
+    </div>
 
     <div className='mt-4'>
       <DepositInfoList />

@@ -39,7 +39,7 @@ export const PoolNumber = (props) => {
 
       {secondPart && <>
         .{secondPart}<span
-          className='opacity-40'
+          className='opacity-30'
         >
           {thirdPart}
         </span>

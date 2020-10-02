@@ -16,6 +16,7 @@ export const Odds = (props) => {
     showLabel,
     sayEveryWeek,
     splitLines,
+    altSplitLines,
     style,
     timeTravelTotalSupply,
     usersBalance,
@@ -24,7 +25,6 @@ export const Odds = (props) => {
   let { additionalQuantity } = props
 
   const font = fontSansRegular ? 'font-sans-regular' : ''
-
 
   let content = null
 
@@ -78,14 +78,22 @@ export const Odds = (props) => {
   } else if (isWithdraw && !isFinite(result)) {
     content = t('withdrawingEverythingMakeYouIneligible')
   } else if (!hide && (hasBalance || hasAdditionalQuantity)) {
+    const totalOdds = <PoolCountUp
+      fontSansRegular
+      start={result}
+      end={result}
+    />
+
     content = <>
       {label} {splitLines && <br />}<span
         className={`${font} font-bold`}
-      >1</span> {t('in')} <PoolCountUp
-        fontSansRegular
-        start={result}
-        end={result}
-      /> {sayEveryWeek && t('everyWeek')}
+      >1</span>
+
+      {altSplitLines ? <>
+        <div className='-mt-1 text-xs sm:text-sm'>{t('in')} {totalOdds}</div>
+      </> : <>
+        &nbsp;{t('in')} {totalOdds}
+      </>} {sayEveryWeek && t('everyWeek')}
     </>
   }
 

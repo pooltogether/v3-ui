@@ -31,27 +31,24 @@ export const AccountUI = () => {
 
   return <>
     <Meta
-      title={t('myAccount')}
+      title={t('accountOverview')}
     />
 
     <PageTitleAndBreadcrumbs
-      title={t('account')}
-      breadcrumbs={[
-        {
-          href: '/account',
-          as: '/account',
-          name: t('account'),
-        },
-        {
-          name: t('myAccount')
-        }
-      ]}
+      title={t('accountOverview')}
+      // breadcrumbs={[
+      //   {
+      //     href: '/account',
+      //     as: '/account',
+      //     name: t('accountOverview'),
+      //   },
+      // ]}
     />
 
     <AccountSummary />
 
     <div
-      className='mt-24'
+      className='mt-16'
     >
       <Tabs>
         <Tab

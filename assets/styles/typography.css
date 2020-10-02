@@ -148,18 +148,6 @@ h6 {
   @apply text-accent-1 text-xxs;
 }
 
-@screen sm {
-  .text-caption {
-    @apply text-xs;
-  }
-}
-
-@screen lg {
-  .text-caption {
-    @apply text-sm;
-  }
-}
-
 .text-caption-2 {
   @apply text-accent-2 text-xxxxs font-number;
 }

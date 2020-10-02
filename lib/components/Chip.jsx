@@ -23,8 +23,10 @@ export const Chip = (
     <span
       className={classes}
       style={{
+        lineHeight: 0.75,
         top: -4,
         left: 4,
+        paddingTop: 5
       }}
     >
       {text}

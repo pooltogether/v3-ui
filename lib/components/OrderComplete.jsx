@@ -39,18 +39,20 @@ export const OrderComplete = (props) => {
       {t('depositComplete')}
     </PaneTitle>
 
-    <PaneTitle>
-      <Trans
-        i18nKey='youGotAmountTickets'
-        defaults='You got <number>{{amount}}</number> tickets!'
-        components={{
-          number: <PoolNumber />,
-        }}
-        values={{
-          amount: quantity,
-        }}
-      />
-    </PaneTitle>
+    <div className='-mt-2'>
+      <PaneTitle>
+        <Trans
+          i18nKey='youGotAmountTickets'
+          defaults='You got <number>{{amount}}</number> tickets!'
+          components={{
+            number: <PoolNumber />,
+          }}
+          values={{
+            amount: quantity,
+          }}
+        />
+      </PaneTitle>
+    </div>
 
     <div
       className='mb-6 text-highlight-3 text-sm'

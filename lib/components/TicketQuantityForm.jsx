@@ -51,6 +51,8 @@ export const TicketQuantityForm = (props) => {
   useEffect(() => {
     if (quantity) {
       setValue('quantity', quantity, { shouldValidate: true })
+    } else if (!isWithdraw) {
+      setValue('quantity', 100, { shouldValidate: true })
     }
   }, [])
 

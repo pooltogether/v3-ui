@@ -47,7 +47,7 @@ export const PoolCurrencyIcon = (
     sizeClasses = 'w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8'
   }
   else if (lg) {
-    sizeClasses = 'w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16'
+    sizeClasses = 'w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16'
   } else if (xl) {
     sizeClasses = 'w-12 h-12 sm:w-16 sm:h-16 lg:w-18 lg:h-18'
   }
@@ -57,7 +57,7 @@ export const PoolCurrencyIcon = (
     {
       [className]: className,
       'inline-block': !className,
-      'mr-2': !noMargin,
+      'mr-1': !noMargin,
     }
   )
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
-import Link from 'next/link'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
@@ -62,13 +61,14 @@ export const PoolRow = (
           <PoolCurrencyIcon
             lg
             pool={pool}
+            className='-mt-2'
           />
 
           <div
             className='flex flex-col items-start justify-between w-full ml-1 sm:ml-4 leading-none'
           >
             <div
-              className='inline-block text-left text-sm xs:text-xl sm:text-3xl font-bold text-inverse relative'
+              className='inline-block text-left text-sm xs:text-xl sm:text-2xl font-bold text-inverse relative'
               style={{
                 top: -6
               }}
@@ -85,16 +85,16 @@ export const PoolRow = (
               />
             </div>
             <div
-              className='inline-block text-left text-caption-2 relative mt-1'
+              className='inline-block text-left text-caption-2 relative mt-2'
               style={{
                 left: -2
               }}
             >
               <Chip
-                color='accent-3'
+                color='accent-1'
                 text={t(pool?.name)}
               /> <Chip
-                color='green'
+                color='highlight-6'
                 text={t(pool?.frequency)}
               />
             </div>
@@ -127,7 +127,6 @@ export const PoolRow = (
 
         <div
           className='w-1/2 sm:w-2/12 text-right'
-          
         >
           <ButtonLink
             noAnim
@@ -147,14 +146,14 @@ export const PoolRow = (
             as={`/pools/${pool.symbol}`}
 
           >
-            <FeatherIcon
+            {t('viewPool')} <FeatherIcon
               strokeWidth='0.15rem'
               icon='arrow-right-circle'
-              className='inline-block relative w-4 h-4 mx-auto mr-1'
+              className='inline-block relative w-4 h-4 mx-auto ml-1'
               style={{
                 top: 1
               }}
-            /> {t('viewPool')}
+            />
           </ButtonLink>
         </div>
       </div>
