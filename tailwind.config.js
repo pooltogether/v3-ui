@@ -99,6 +99,8 @@ module.exports = {
         inverse: 'var(--color-border-inverse)',
         'highlight-1': 'var(--color-border-highlight-1)',
         'highlight-2': 'var(--color-border-highlight-2)',
+        'highlight-3': 'var(--color-border-highlight-3)',
+        'highlight-4': 'var(--color-border-highlight-4)',
         red: 'var(--color-border-red)',
         green: 'var(--color-border-green)',
       },

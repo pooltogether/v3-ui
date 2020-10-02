@@ -11,6 +11,7 @@ import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
 import { WithdrawInstantOrScheduled } from 'lib/components/WithdrawInstantOrScheduled'
 import { WizardLayout } from 'lib/components/WizardLayout'
+import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const WithdrawWizardContainer = (props) => {
   const { t } = useTranslation()
@@ -62,9 +63,14 @@ export const WithdrawWizardContainer = (props) => {
         (wizard) => {
           const { activeStepIndex, previousStep, moveToStep } = wizard
 
+          const back = (e) => {
+            queryParamUpdater.remove(router, 'withdrawType')
+            previousStep()
+          } 
+
           return <WizardLayout
             currentWizardStep={activeStepIndex + 1}
-            handlePreviousStep={previousStep}
+            handlePreviousStep={back}
             moveToStep={moveToStep}
             totalWizardSteps={totalWizardSteps}
           >
@@ -87,11 +93,17 @@ export const WithdrawWizardContainer = (props) => {
                 if (!step.isActive) {
                   return null
                 }
+
+                const back = (e) => {
+                  queryParamUpdater.remove(router, 'withdrawType')
+                  step.previousStep()
+                } 
+
                 return <WithdrawInstantOrScheduled
                   pool={pool}
                   quantity={quantity}
                   nextStep={step.nextStep}
-                  previousStep={step.previousStep}
+                  previousStep={back}
                   setTotalWizardSteps={setTotalWizardSteps}
                 />
               }}
@@ -100,10 +112,15 @@ export const WithdrawWizardContainer = (props) => {
             {totalWizardSteps === 4 && <>
               <WizardStep>
                 {(step) => {
+                  const back = (e) => {
+                    queryParamUpdater.remove(router, 'withdrawType')
+                    step.previousStep()
+                  } 
+
                   return step.isActive && <>
                     <ExecuteWithdrawScheduledOrInstantWithFee
                       nextStep={step.nextStep}
-                      previousStep={step.previousStep}
+                      previousStep={back}
                     />
                   </>
                 }}

@@ -93,7 +93,6 @@ export const InstantOrScheduledForm = (props) => {
         timelockDurationSeconds: exitFees.timelockDurationSeconds,
       })
     }
-    console.log({ withdrawType})
 
     nextStep()
   }

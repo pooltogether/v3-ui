@@ -61,7 +61,7 @@ export const DepositWizardContainer = (props) => {
             }
             
             previousStep()
-          } 
+          }
 
           return <WizardLayout
             currentWizardStep={activeStepIndex + 1}

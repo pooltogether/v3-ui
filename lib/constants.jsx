@@ -1,6 +1,6 @@
 export const SUPPORTED_CHAIN_IDS = [4, 42, 31337, 1234]
 
-export const CREATOR_ADDRESS = '0xa847db8fcea81f5652166de4c073e698de884b40'
+export const CREATOR_ADDRESS = '0x38e842cfc75951d08e9e13bf6a8def90c639c136'
 
 export const SECONDS_PER_BLOCK = 14
 

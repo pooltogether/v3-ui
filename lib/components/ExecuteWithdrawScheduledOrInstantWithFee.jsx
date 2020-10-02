@@ -33,8 +33,6 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
 
   const router = useRouter()
   const withdrawType = router.query.withdrawType
-  // console.log({ withdrawType})
-  // console.log(router.query.withdrawType)
 
   const [txExecuted, setTxExecuted] = useState(false)
 
@@ -93,9 +91,6 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
     const runTx = () => {
       setTxExecuted(true)
 
-      console.log(quantityForParseUnits(net, decimals))
-      console.log(parseInt(decimals, 10))
-
       const params = [
         usersAddress,
         ethers.utils.parseUnits(
@@ -106,7 +101,6 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
       ]
 
       if (instantWithdrawal) {
-        console.log(quantityForParseUnits(fee, decimals))
         params.push(
           ethers.utils.parseUnits(
             quantityForParseUnits(fee, decimals),
@@ -114,12 +108,10 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
           )
         )
       }
-      console.log(params)
       
       params.push({
         gasLimit: 500000
       })
-
 
       const id = sendTx(
         t,
@@ -134,10 +126,10 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
       setTxId(id)
     }
 
-    if (!txExecuted && net) {
+    if (!txExecuted && net && method) {
       runTx()
     }
-  }, [net])
+  }, [net, method])
 
   useEffect(() => {
     if (tx?.cancelled || tx?.error) {

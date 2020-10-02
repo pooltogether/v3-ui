@@ -156,28 +156,32 @@ export const DepositCryptoForm = (props) => {
   </Button>
 
   return <>
-    <PaneTitle small>
-      <Trans
-        i18nKey='amountTickets'
-        defaults='<number>{{amount}}</number> tickets'
-        components={{
-          number: <PoolNumber />,
-        }}
-        values={{
-          amount: quantity,
-        }}
-      />
-    </PaneTitle>
-
-    <PaneTitle>
-      {t('depositTicker', {
-        ticker: tickerUpcased
-      })} <div className='inline-block relative -t-1 ml-3'>
+    <PaneTitle short>
+      <div className='inline-block sm:block relative -t-1 -mr-2'>
         <PoolCurrencyIcon
           pool={pool}
         />
-      </div>
+      </div> {t('depositTicker', {
+        ticker: tickerUpcased
+      })}
     </PaneTitle>
+
+    <div className='mb-6 -mt-2'>
+      <PaneTitle small>
+        <Trans
+          i18nKey='amountTickets'
+          defaults='<number>{{amount}}</number> tickets'
+          components={{
+            number: <PoolNumber />,
+          }}
+          values={{
+            amount: quantity,
+          }}
+        />
+      </PaneTitle>
+    </div>
+
+    
 
     <div
       className='text-sm xs:text-base sm:text-lg lg:text-xl'

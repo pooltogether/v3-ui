@@ -40,7 +40,7 @@ export const getButtonClasses = (props) => {
   let defaultBg = 'bg-transparent'
   let defaultText = 'text-highlight-2'
 
-  let defaultHoverBorder = 'hover:border-highlight-2'
+  let defaultHoverBorder = 'hover:border-highlight-4'
   let defaultHoverBg = 'hover:bg-highlight-4'
   let defaultHoverText = 'hover:text-secondary'
 
