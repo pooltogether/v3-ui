@@ -7,14 +7,16 @@ import { useQuery } from '@apollo/client'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { DepositInfoList } from 'lib/components/DepositInfoList'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const ExecuteCryptoDeposit = (props) => {
   const { t } = useTranslation()
@@ -37,9 +39,7 @@ export const ExecuteCryptoDeposit = (props) => {
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
-  const txMainName = t(`depositAmountTickets`, {
-    amount: quantity,
-  })
+  const txMainName = `${t('deposit')} ${numberWithCommas(quantity, { precision: 4 })} ${t('tickets')}`
   const txSubName = `${quantity} ${tickerUpcased}`
   const txName = `${txMainName} (${txSubName})`
   
@@ -116,14 +116,31 @@ export const ExecuteCryptoDeposit = (props) => {
 
   return <>
     <PaneTitle small>
-      {txName}
+      <Trans
+        i18nKey='depositAmountTicker'
+        defaults='Deposit <number>{{amount}}</number> {{ticker}}'
+        components={{
+          number: <PoolNumber />,
+        }}
+        values={{
+          amount: quantity,
+          ticker: tickerUpcased,
+        }}
+      />
     </PaneTitle>
 
     <PaneTitle>
-      {t('forAmountTicker', {
-        amount: quantity,
-        ticker: tickerUpcased
-      })}
+      <Trans
+        i18nKey='forAmountTicker'
+        defaults='For <number>{{amount}}</number> {{ticker}}'
+        components={{
+          number: <PoolNumber />,
+        }}
+        values={{
+          amount: quantity,
+          ticker: tickerUpcased,
+        }}
+      />
     </PaneTitle>
 
     <DepositInfoList />

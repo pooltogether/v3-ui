@@ -52,9 +52,11 @@ export const PoolCountUp = (props) => {
       <CountUp
         start={prev || 0}
         end={value}
-        duration={1.8}
+        duration={1.4}
         separator={','}
         decimals={decimalsToUse}
+        // onEnd={() => console.log('Ended! 👏')}
+        // onStart={() => console.log('Started! 💨')}
       />
     </span>
   </>

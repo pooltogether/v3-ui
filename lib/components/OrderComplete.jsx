@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -39,9 +40,16 @@ export const OrderComplete = (props) => {
     </PaneTitle>
 
     <PaneTitle>
-      {t('youGotAmountTickets', {
-        amount: quantity
-      })}
+      <Trans
+        i18nKey='youGotAmountTickets'
+        defaults='You got <number>{{amount}}</number> tickets!'
+        components={{
+          number: <PoolNumber />,
+        }}
+        values={{
+          amount: quantity,
+        }}
+      />
     </PaneTitle>
 
     <div

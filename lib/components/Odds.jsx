@@ -48,7 +48,7 @@ export const Odds = (props) => {
 
   let postPurchaseBalance = usersBalance
   if (hasAdditionalQuantity) {
-    postPurchaseBalance = usersBalance + additionalQuantity
+    postPurchaseBalance = Number(usersBalance) + additionalQuantity
     totalSupplyFloat = totalSupplyFloat + additionalQuantity
   }
 
@@ -59,7 +59,6 @@ export const Odds = (props) => {
     result = totalSupplyFloat / postPurchaseBalance
   }
  
-  // console.log({ hasAdditionalQuantity})
   let label = showLabel && <>
     {hasAdditionalQuantity && additionalQuantity !== 0 ? <>
       {!isWithdraw && <span className='font-bold text-flashy'>{t('newOddsOfWinning')}</span>}

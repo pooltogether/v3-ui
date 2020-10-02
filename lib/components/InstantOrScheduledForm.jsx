@@ -6,6 +6,7 @@ import { Trans, useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { PTHint } from 'lib/components/PTHint'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
@@ -35,26 +36,26 @@ export const InstantOrScheduledForm = (props) => {
   if (quantity && underlyingCollateralDecimals) {
     instantPartial = ethers.utils.parseUnits(
       quantity,
-      Number(underlyingCollateralDecimals)
+      parseInt(underlyingCollateralDecimals, 10)
     ).sub(exitFee)
 
     instantFull = ethers.utils.parseUnits(
       quantity,
-      Number(underlyingCollateralDecimals)
+      parseInt(underlyingCollateralDecimals, 10)
     )
   }
  
   const scheduledFullFormatted = displayAmountInEther(
     instantFull,
-    { decimals: underlyingCollateralDecimals }
+    { decimals: underlyingCollateralDecimals, precision: 8 }
   )
   const instantPartialFormatted = displayAmountInEther(
     instantPartial,
-    { decimals: underlyingCollateralDecimals }
+    { decimals: underlyingCollateralDecimals, precision: 8 }
   )
   const exitFeeFormatted = displayAmountInEther(
     exitFee,
-    { decimals: underlyingCollateralDecimals }
+    { decimals: underlyingCollateralDecimals, precision: 8 }
   )
 
   const tipJsx = <>
@@ -70,13 +71,13 @@ export const InstantOrScheduledForm = (props) => {
     {t('withdrawInstantDescription', {
       amount: displayAmountInEther(
         exitFee,
-        { decimals: underlyingCollateralDecimals }
+        { decimals: underlyingCollateralDecimals, precision: 8}
       ),
       ticker: underlyingCollateralSymbol
     })}
   </>
 
-  const updateParamsAndNextStep = (e) => {
+  const updateParamsAndNextStep = async (e) => {
     e.preventDefault()
 
     if (withdrawType === 'instant') {
@@ -92,6 +93,7 @@ export const InstantOrScheduledForm = (props) => {
         timelockDurationSeconds: exitFees.timelockDurationSeconds,
       })
     }
+    console.log({ withdrawType})
 
     nextStep()
   }
@@ -104,9 +106,16 @@ export const InstantOrScheduledForm = (props) => {
     className='text-inverse'
   >
     <PaneTitle>
-      {t('withdrawAmountTickets', {
-        amount: quantity
-      })}
+      <Trans
+        i18nKey='withdrawAmountTickets'
+        defaults='Withdraw <number>{{amount}}</number> tickets'
+        components={{
+          number: <PoolNumber />,
+        }}
+        values={{
+          amount: quantity
+        }}
+      />
     </PaneTitle>
 
     <PaneTitle small>
@@ -124,9 +133,10 @@ export const InstantOrScheduledForm = (props) => {
           label: <>
             <Trans
               i18nKey='iWantAmountTickerBackInFutureDate'
-              defaults='I want <bold>${{amount}} {{ticker}}</bold> back in:'
+              defaults='I want <bold><number>{{amount}}</number> {{ticker}}</bold> back in:'
               components={{
                 bold: <span className='font-bold' />,
+                number: <PoolNumber />,
               }}
               values={{
                 amount: scheduledFullFormatted,
@@ -140,9 +150,10 @@ export const InstantOrScheduledForm = (props) => {
           label: <>
             <Trans
               i18nKey='iWantAmountTickerBackNow'
-              defaults='I want <bold>${{amount}} {{ticker}}</bold> now, and will forfeit the interest'
+              defaults='I want <bold><number>{{amount}}</number> {{ticker}}</bold> now, and will forfeit the interest'
               components={{
                 bold: <span className='font-bold' />,
+                number: <PoolNumber />,
               }}
               values={{
                 amount: instantPartialFormatted,
@@ -170,9 +181,10 @@ export const InstantOrScheduledForm = (props) => {
             </div>
             <Trans
               i18nKey='yourAmountWorthOfTickerWillBeScheduled'
-              defaults='Your <bold>${{amount}}</bold> worth of <bold>{{ticker}}</bold> will be scheduled and ready to withdraw in:'
+              defaults='Your <bold><number>{{amount}}</number></bold> worth of <bold>{{ticker}}</bold> will be scheduled and ready to withdraw in:'
               components={{
                 bold: <span className='font-bold' />,
+                number: <PoolNumber />,
               }}
               values={{
                 amount: instantPartialFormatted,
@@ -205,11 +217,13 @@ export const InstantOrScheduledForm = (props) => {
               <div className='w-10 mx-auto mb-2'>
                 <QuestionMarkCircle />
               </div>
+              
               <Trans
                 i18nKey='youWillReceiveAmountTickerNowAndForfeitAmountTwo'
-                defaults='You will receive <bold>${{amount}} {{ticker}}</bold> now and forfeit <bold>${{amountTwo}} {{ticker}}</bold> as interest to the pool.'
+                defaults='You will receive <bold><number>{{amount}}</number> {{ticker}}</bold> now and forfeit <bold><number>{{amountTwo}}</number> {{ticker}}</bold> as interest to the pool.'
                 components={{
                   bold: <span className='font-bold' />,
+                  number: <PoolNumber />,
                 }}
                 values={{
                   amount: instantPartialFormatted,

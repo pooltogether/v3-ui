@@ -10,9 +10,21 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+
+const quantityForParseUnits = (quantity, decimals) => {
+  const quantityParts = quantity.split('.')
+  let quantityForParseUnits = quantityParts?.[0]
+
+  if (quantityParts[1]) {
+    quantityForParseUnits += `.${quantityParts[1].substr(0, parseInt(decimals, 10))}`
+  }
+
+  return quantityForParseUnits
+}
 
 export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const { t } = useTranslation()
@@ -21,19 +33,20 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
 
   const router = useRouter()
   const withdrawType = router.query.withdrawType
+  // console.log({ withdrawType})
+  // console.log(router.query.withdrawType)
 
   const [txExecuted, setTxExecuted] = useState(false)
 
-  // const quantity = router.query.quantity
   const timelockDurationSeconds = router.query.timelockDurationSeconds
   const fee = router.query.fee
-  const quantity = router.query.net
-  // const net = router.query.net
+  const net = router.query.net
+
   const scheduledWithdrawal = withdrawType && withdrawType === 'scheduled'
   const instantWithdrawal = withdrawType && withdrawType === 'instant'
 
   let formattedFutureDate
-  if (timelockDurationSeconds) {
+  if (scheduledWithdrawal && timelockDurationSeconds) {
     formattedFutureDate = <FormattedFutureDateCountdown
       futureDate={Number(timelockDurationSeconds)}
     />
@@ -63,9 +76,9 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
 
   let txName
   if (scheduledWithdrawal) {
-    txName = `Schedule withdrawal ${quantity} ${tickerUpcased}`
+    txName = `Schedule withdrawal ${net} ${tickerUpcased}`
   } else if (instantWithdrawal) {
-    txName = `Withdraw ${quantity} ${tickerUpcased} instantly (fee: $${fee} ${tickerUpcased})`
+    txName = `Withdraw ${net} ${tickerUpcased} instantly (fee: ${fee} ${tickerUpcased})`
   }
 
   const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
@@ -75,32 +88,38 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const tx = transactions?.find((tx) => tx.id === txId)
 
   const txInWallet = tx?.inWallet && !tx?.sent
-  const txSent = tx?.sent && !tx?.completed
-  const txCompleted = tx?.completed
-  const txError = tx?.error
 
   useEffect(() => {
     const runTx = () => {
       setTxExecuted(true)
 
+      console.log(quantityForParseUnits(net, decimals))
+      console.log(parseInt(decimals, 10))
+
       const params = [
         usersAddress,
         ethers.utils.parseUnits(
-          quantity,  
-          Number(decimals)
+          quantityForParseUnits(net, decimals),
+          parseInt(decimals, 10)
         ),
         controlledTokenAddress,
       ]
 
       if (instantWithdrawal) {
+        console.log(quantityForParseUnits(fee, decimals))
         params.push(
-          ethers.utils.parseEther(fee)
+          ethers.utils.parseUnits(
+            quantityForParseUnits(fee, decimals),
+            parseInt(decimals, 10)
+          )
         )
       }
+      console.log(params)
       
       params.push({
         gasLimit: 500000
       })
+
 
       const id = sendTx(
         t,
@@ -115,10 +134,10 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
       setTxId(id)
     }
 
-    if (!txExecuted && quantity) {
+    if (!txExecuted && net) {
       runTx()
     }
-  }, [quantity])
+  }, [net])
 
   useEffect(() => {
     if (tx?.cancelled || tx?.error) {
@@ -145,9 +164,17 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
         >⏰</span>
         <br />
       </>}
-      {t('withdrawAmountTickets', { 
-        amount: quantity
-      })}
+      
+      <Trans
+        i18nKey='withdrawAmountTickets'
+        defaults='Withdraw <number>{{amount}}</number> tickets'
+        components={{
+          number: <PoolNumber />,
+        }}
+        values={{
+          amount: net
+        }}
+      />
     </PaneTitle>
 
     <PaneTitle>
@@ -168,24 +195,26 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
         >{t('note')}</span> {scheduledWithdrawal && <>
           <Trans
             i18nKey='youAreSchedulingAndYourFundsWillBeReadyInFutureDate'
-            defaults='You are scheduling <bold>{{amount}} {{ticker}}</bold>. Your funds will be ready for withdrawal in: '
+            defaults='You are scheduling <bold><number>{{amount}}</number> {{ticker}}</bold>. Your funds will be ready for withdrawal in: '
             components={{
               bold: <span className='font-bold' />,
+              number: <PoolNumber />,
             }}
             values={{
-              amount: quantity,
+              amount: net,
               ticker: tickerUpcased,
             }}
           /> <span className='font-bold'>{formattedFutureDate}</span>
         </>} {instantWithdrawal && <>
           <Trans
             i18nKey='youAreWithdrawingYourFundsLessFeeRightNow'
-            defaults='You are withdrawing <bold>{{amount}} {{ticker}}</bold> of your funds right now, less the <bold>{{fee}} {{ticker}}</bold></span> fairness fee'
+            defaults='You are withdrawing <bold><number>{{amount}}</number> {{ticker}}</bold> of your funds right now, less the <bold><number>{{fee}}</number> {{ticker}}</bold></span> fairness fee'
             components={{
               bold: <span className='font-bold' />,
+              number: <PoolNumber />,
             }}
             values={{
-              amount: quantity,
+              amount: net,
               fee: fee,
               ticker: tickerUpcased,
             }}

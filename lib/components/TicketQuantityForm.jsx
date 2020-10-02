@@ -85,7 +85,7 @@ export const TicketQuantityForm = (props) => {
     textSize='lg'
     disabled={!formState.isValid}
     onClick={handleSubmit(onSubmit)}
-    className={'mx-auto w-full'}
+    className={'mx-auto'}
   >
     {t('continue')}
   </Button>
@@ -168,7 +168,6 @@ export const TicketQuantityForm = (props) => {
               className='font-bold'
               onClick={(e) => {
                 e.preventDefault()
-                console.log('clicked!')
                 setValue('quantity', contextualBalance, { shouldValidate: true })
               }}
             >

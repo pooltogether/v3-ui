@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 
 export const WithdrawComplete = (props) => {
@@ -59,17 +60,29 @@ export const WithdrawComplete = (props) => {
 
     <PaneTitle>
       {scheduledWithdrawal || instantNoFee ? <>
-        {t('amountTickerEqualsAmountTickets', {
-          amount: quantity,
-          ticker: tickerUpcased
-        })}
-        {/* ${quantity} {tickerUpcased} = {quantity} tickets */}
+        <Trans
+          i18nKey='amountTickerEqualsAmountTickets'
+          defaults='You received <number>{{amount}}</number> {{ticker}}'
+          components={{
+            number: <PoolNumber />,
+          }}
+          values={{
+            amount: quantity,
+            ticker: tickerUpcased
+          }}
+        />
       </> : <>
-        {t('youReceivedAmountTicker', {
-          amount: net,
-          ticker: tickerUpcased
-        })}
-        
+        <Trans
+          i18nKey='youReceivedAmountTicker'
+          defaults='You received <number>{{amount}}</number> {{ticker}}'
+          components={{
+            number: <PoolNumber />,
+          }}
+          values={{
+            amount: net,
+            ticker: tickerUpcased,
+          }}
+        />
       </>}
     </PaneTitle>
 
@@ -78,10 +91,17 @@ export const WithdrawComplete = (props) => {
         {scheduledWithdrawal ? <>
           {t('yourFundsWillBeReadyInDate', { date: formattedFutureDate })}
         </> : <>
-          {t('andForfeitedAFairnessFeeOfAmountTicker', {
-            amount: fee,
-            ticker: tickerUpcased
-          })}
+          <Trans
+            i18nKey='andForfeitedAFairnessFeeOfAmountTicker'
+            defaults='... and forfeited a fairness fee of <number>{{amount}}</number> {{ticker}} to the pool'
+            components={{
+              number: <PoolNumber />,
+            }}
+            values={{
+              amount: fee,
+              ticker: tickerUpcased
+            }}
+          />
         </>}
       </div>
     </>}

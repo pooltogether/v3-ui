@@ -67,7 +67,7 @@
 
 @screen sm {
   [data-reach-menu-item] {
-    @apply px-10 py-2;
+    @apply px-6 py-2;
   } 
 }
 

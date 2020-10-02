@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 
 import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
@@ -14,6 +14,7 @@ import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositTxButton } from 'lib/components/DepositTxButton'
 import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PTHint } from 'lib/components/PTHint'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
@@ -140,22 +141,38 @@ export const DepositCryptoForm = (props) => {
     disabled={!needsApproval || unlockTxInFlight}
     className={approveButtonClassName}
   >
-    {t('allowTicker', {
+    {!needsApproval && <>
+      <FeatherIcon
+        strokeWidth='0.25rem'
+        icon='check'
+        className='inline-block relative w-5 h-5 ml-auto mr-1'
+        style={{
+          top: '-0.05rem'
+        }}
+      />
+    </>} {t('allowTicker', {
       ticker: tickerUpcased
     })}
   </Button>
 
   return <>
     <PaneTitle small>
-      {t('amountTickets', {
-        amount: quantity
-      })}
+      <Trans
+        i18nKey='amountTickets'
+        defaults='<number>{{amount}}</number> tickets'
+        components={{
+          number: <PoolNumber />,
+        }}
+        values={{
+          amount: quantity,
+        }}
+      />
     </PaneTitle>
 
     <PaneTitle>
       {t('depositTicker', {
         ticker: tickerUpcased
-      })} <div className='inline-block relative -t-1'>
+      })} <div className='inline-block relative -t-1 ml-3'>
         <PoolCurrencyIcon
           pool={pool}
         />
@@ -168,7 +185,7 @@ export const DepositCryptoForm = (props) => {
       <DepositAndWithdrawFormUsersBalance
         bold={false}
         start={cachedUsersBalance || usersTokenBalance}
-        end={numberWithCommas(usersTokenBalance, { precision: 4 })}
+        end={numberWithCommas(usersTokenBalance, { precision: 8 })}
         units={tickerUpcased}
       />
 
@@ -179,11 +196,9 @@ export const DepositCryptoForm = (props) => {
           {t('total')}
         </div>
         <div>
-          <span
-            className='font-number'
-          >
-            {numberWithCommas(quantity, { precision: 4 })}
-          </span> {tickerUpcased}
+          <PoolNumber>
+            {numberWithCommas(quantity, { precision: 8 })}
+          </PoolNumber> {tickerUpcased}
         </div>
       </div>
     </div>

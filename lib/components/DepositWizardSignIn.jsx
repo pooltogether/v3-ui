@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { SignInForm } from 'lib/components/SignInForm'
 
 export const DepositWizardSignIn = (props) => {
@@ -24,9 +25,16 @@ export const DepositWizardSignIn = (props) => {
 
   return <>
     <PaneTitle small>
-      {t('amountTickets', {
-        amount: quantity
-      })}
+      <Trans
+        i18nKey='depositAmountTickets'
+        defaults='Deposit <number>{{amount}}</number> tickets'
+        components={{
+          number: <PoolNumber />,
+        }}
+        values={{
+          amount: quantity,
+        }}
+      />
     </PaneTitle>
 
     <PaneTitle>

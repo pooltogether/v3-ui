@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
 
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ExecuteCryptoDeposit } from 'lib/components/ExecuteCryptoDeposit'
@@ -10,9 +10,10 @@ import { ConfirmFiatDeposit } from 'lib/components/ConfirmFiatDeposit'
 import { DepositCryptoForm } from 'lib/components/DepositCryptoForm'
 import { DepositFiatForm } from 'lib/components/DepositFiatForm'
 import { DepositWizardSignIn } from 'lib/components/DepositWizardSignIn'
-import { FiatOrCryptoForm } from 'lib/components/FiatOrCryptoForm'
+// import { FiatOrCryptoForm } from 'lib/components/FiatOrCryptoForm'
 import { Meta } from 'lib/components/Meta'
 import { OrderComplete } from 'lib/components/OrderComplete'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
@@ -73,10 +74,17 @@ export const DepositWizardContainer = (props) => {
                 return step.isActive && <>
                   <TicketQuantityForm
                     formName={t('getTickets')}
-                    formSubName={t('amountTickerEqualsAmountTickets', { 
-                      amount: '1',
-                      ticker: tickerUpcased
-                    })}
+                    formSubName={<Trans
+                      i18nKey='amountTickerEqualsAmountTickets'
+                      defaults='$<number>{{amount}}</number> {{ticker}} = <number>{{amount}}</number> tickets'
+                      components={{
+                        number: <PoolNumber />,
+                      }}
+                      values={{
+                        amount: '1',
+                        ticker: tickerUpcased
+                      }}
+                    />}
                     nextStep={step.nextStep}
                   />
                 </>

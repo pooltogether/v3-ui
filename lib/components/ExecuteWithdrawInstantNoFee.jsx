@@ -5,10 +5,11 @@ import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
@@ -36,9 +37,7 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
-  const txMainName = t(`withdrawAmountTickets`, {
-    amount: quantity,
-  })
+  const txMainName = `${t('withdraw')}: ${quantity} ${t('tickets')}`
   const txSubName = `${quantity} ${tickerUpcased}`
   const txName = `${txMainName} (${txSubName})`
   const method = 'withdrawInstantlyFrom'
@@ -104,7 +103,17 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
   return <>
     <PaneTitle small>
       {tx?.inWallet && <>
-        {txMainName}
+        <Trans
+          i18nKey='withdrawAmountTickets'
+          defaults='Withdraw <number>{{amount}}</number> tickets'
+          components={{
+            number: <PoolNumber />,
+          }}
+          values={{
+            amount: quantity,
+          }}
+        />
+
         <span
           className='text-accent-3 opacity-50'
         >

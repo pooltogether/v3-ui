@@ -8,7 +8,7 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
-import { PoolCountUp } from 'lib/components/PoolCountUp'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
@@ -86,7 +86,7 @@ export const TimelockedBalanceUI = (props) => {
     )
     setTxId(id)
   }
-  
+
   return <>
     {usersTimelockedBalance > 0 && <>
       <div
@@ -97,10 +97,9 @@ export const TimelockedBalanceUI = (props) => {
         >
           {t('yourTimelockedBalance')}
           <div className='text-highlight-3 text-xl'> 
-            <PoolCountUp
-              end={usersTimelockedBalance}
-              decimals={0}
-            /> {tickerUpcased}
+            <PoolNumber>
+              {usersTimelockedBalance}
+            </PoolNumber> {tickerUpcased}
           </div>
         </h4>
 
