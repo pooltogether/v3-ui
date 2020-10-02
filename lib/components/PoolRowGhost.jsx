@@ -17,12 +17,12 @@ export const PoolRowGhost = (
       href='https://discord.gg/hxPhPDW'
       as={`https://discord.gg/hxPhPDW`}
     >
-      <div className='flex flex-col items-center'>
-        <div
-          className='flex justify-center font-bold w-full text-primary mb-4'
+      <div className='flex flex-col items-center py-6'>
+        <h6
+          className='flex justify-center font-bold w-full text-default-soft mb-4 text-center'
         >
           {t('suggestANewPool')}
-        </div>
+        </h6>
 
         <ButtonLink
           secondary
