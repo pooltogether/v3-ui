@@ -66,7 +66,7 @@ export const TransactionsTakeTimeMessage = (props) => {
   }, [gasStationData])  
 
   return <>
-    <div className='mx-auto mt-10'>
+    <div className='mx-auto'>
       <V3LoadingDots />
     </div>
 

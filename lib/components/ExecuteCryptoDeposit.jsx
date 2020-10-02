@@ -145,12 +145,14 @@ export const ExecuteCryptoDeposit = (props) => {
 
     <DepositInfoList />
 
-    {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage
-      tx={tx}
-      paneMessage={<>
-        {tx?.inWallet && t('confirmDepositInYourWallet')}
-        {tx?.sent && t('depositConfirming')}
-      </>}
-    />}
+    {!tx?.completed && <>
+      <TransactionsTakeTimeMessage
+        tx={tx}
+        paneMessage={<>
+          {tx?.inWallet && t('confirmDepositInYourWallet')}
+          {tx?.sent && t('depositConfirming')}
+        </>}
+      />
+    </>}
   </>
 }

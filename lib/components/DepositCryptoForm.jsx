@@ -266,24 +266,26 @@ export const DepositCryptoForm = (props) => {
                 minHeight: 97
               }}
             >
-              <PaneTitle small>
-                {needsApproval && !unlockTxInFlight && t('yourApprovalIsNecessary')}
+              {!unlockTxInFlight && <>
+                <PaneTitle small>
+                  {needsApproval && t('yourApprovalIsNecessary')}
 
-                {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
-                {tx?.inWallet && !tx?.cancelled && t('confirmApprovalInWallet')}
-                {tx?.sent && !tx?.completed && t('approvalConfirming')}
-              </PaneTitle>
+                  {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
+                  {tx?.inWallet && !tx?.cancelled && t('confirmApprovalInWallet')}
+                </PaneTitle>
+              </>}
 
-              <span className='font-bold'>
-                {needsApproval && !unlockTxInFlight && <>
+              {!unlockTxInFlight && needsApproval && <>
+                <span className='font-bold'>
                   {t('unlockToDepositTicker', {
                     ticker: tickerUpcased
                   })}
-                </>}
-              </span>
+                </span>
+              </>}
 
               {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage
                 tx={tx}
+                paneMessage={t('approvalConfirming')}
               />}
             </div>
           </>}

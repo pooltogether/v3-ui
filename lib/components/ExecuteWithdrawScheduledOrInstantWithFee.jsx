@@ -216,12 +216,16 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
       </span>
     </div>
 
-    {tx?.sent && <TransactionsTakeTimeMessage
-      tx={tx}
-      paneMessage={<>
-        {t(withdrawTypeKey)} - {t('withdrawalConfirming')}
-      </>}
-    />}
+    {tx?.sent && <>
+      <div className='mt-10'>
+        <TransactionsTakeTimeMessage
+          tx={tx}
+          paneMessage={<>
+            {t(withdrawTypeKey)} - {t('withdrawalConfirming')}
+          </>}
+        />
+      </div>
+    </>}
     
   </>
 }
