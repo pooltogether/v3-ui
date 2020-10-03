@@ -35,7 +35,6 @@ import 'assets/styles/pool-toast.css'
 import 'assets/styles/animations.css'
 import 'assets/styles/transitions.css'
 
-import 'assets/styles/radios.css'
 import 'assets/styles/interactable-cards.css'
 import 'assets/styles/tabs.css'
 

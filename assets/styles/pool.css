@@ -16,12 +16,10 @@
 
 html {
   height: 100%;
-  /* overflow: auto; */
 }
 
 body {
   height: 100%;
-  /* overflow-x: hidden; */
 }
 
 html, body, table {
@@ -75,7 +73,6 @@ form:after {
 
 .pt-button {
   min-width: 120px;
-  /* max-width: 340px; */
 }
 
 button {
@@ -141,7 +138,6 @@ input[type='submit'][disabled] {
   --borderFlashyWidth: 6px;
   position: relative;
   border-radius: var(--borderFlashyRadius);
-  /* width: calc(100% - calc(var(--borderFlashyWidth) * 2)); */
 }
 
 @screen sm {
@@ -401,11 +397,6 @@ input[type='submit'][disabled] {
   }
 }
 
-/* .list-item:hover {
-  @apply bg-accent-grey-1;
-  transition: all 120ms ease-in-out;
-} */
-
 .list-item--icon {
   top: 0;
 }
@@ -455,4 +446,30 @@ input[type=number]::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance:textfield;
+}
+
+
+.radio-input {
+  @apply mr-2 sm:mx-6;
+  min-height: 240px;
+}
+
+.radio-input:first-child {
+  @apply mr-2 sm:mr-6 ml-0;
+}
+
+.radio-input:last-child {
+  @apply ml-2 sm:ml-6 mr-0;
+}
+
+@screen sm {
+  .radio-input {
+    max-width: 340px;
+  }
+}
+
+@screen lg {
+  .radio-input {
+    max-width: 370px;
+  }
 }

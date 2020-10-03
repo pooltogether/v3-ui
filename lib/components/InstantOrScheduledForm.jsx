@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
+import { motion } from 'framer-motion'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
@@ -19,8 +21,15 @@ import IconWinky from 'assets/images/icon-winky.svg'
 export const InstantOrScheduledForm = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
-
+  
   const { nextStep, pool, exitFees, quantity } = props
+
+  const [iUnderstandChecked, setIUnderstandChecked] = useState(false)
+
+  const handleIUnderstandChange = (e) => {
+    setIUnderstandChecked(!iUnderstandChecked)
+  }
+
   const [withdrawType, setWithdrawType] = useState(null)
 
   const handleWithdrawTypeChange = (e) => {
@@ -124,6 +133,7 @@ export const InstantOrScheduledForm = (props) => {
       {t('chooseHowToReceiveYourFunds')}
     </PaneTitle>
 
+        
     <RadioInputGroup
       label=''
       name='withdrawType'
@@ -132,7 +142,7 @@ export const InstantOrScheduledForm = (props) => {
       radios={[
         {
           value: 'scheduled',
-          icon: <img src={IconWinky} />,
+          icon: <img src={IconWinky} className='w-7 h-7 xs:w-auto xs:h-auto' />,
           label: <>
             {t('zeroFees')}
             {/* <Trans
@@ -150,18 +160,24 @@ export const InstantOrScheduledForm = (props) => {
           </>,
           description: <>
             <div
+              className='mb-2 xs:mb-0'
             >
-              {t('finalAmount')} <span className='font-bold'>{scheduledFullFormatted}</span>
+              {t('finalAmount')} <span
+                className='block xs:inline font-bold'
+              ><PoolNumber>{scheduledFullFormatted}</PoolNumber></span>
             </div>
             <div
+              className='mb-2 xs:mb-0'
             >
-              {t('when')} <span className='font-bold'>{formattedFutureDate}</span>
+              {t('when')} <span
+                className='block xs:inline font-bold'
+              >{formattedFutureDate}</span>
             </div>
           </>
         },
         {
           value: 'instant',
-          icon: <img src={IconLightning} />,
+          icon: <img src={IconLightning} className='w-7 h-7 xs:w-auto xs:h-auto' />,
           label: <>
             {t('instantly')}
             {/* <Trans
@@ -179,29 +195,102 @@ export const InstantOrScheduledForm = (props) => {
           </>,
           description: <>
             <div
-              className='mb-1'
+              className='mb-2 xs:mb-0'
             >
-              {t('finalAmount')} <span className='font-bold'>{instantPartialFormatted}</span>
+              {t('finalAmount')} <span
+                className='block xs:inline font-bold'
+              ><PoolNumber>{instantPartialFormatted}</PoolNumber></span>
             </div>
             <div
-              className='mb-1'
+              className='mb-2 xs:mb-0'
             >
-              {t('when')} <span className='font-bold'>{t('now')}</span>
+              {t('when')} <span
+                className='block xs:inline font-bold'
+              >{t('now')}</span>
             </div>
           </>
         }
       ]}
     />
 
-    <div
-      className='flex items-center justify-center py-4 px-10 sm:w-7/12 mx-auto rounded-xl -mx-6 sm:mx-auto bg-yellow text-inverse'
-      style={{
-        minHeight: 70
+    <motion.div
+      animate={withdrawType ? 'enter' : 'exit'}
+      initial='exit'
+      variants={{
+        enter: {
+          scale: 1,
+          height: 'auto',
+          transition: {
+            duration: 0.25
+          }
+        },
+        exit: {
+          scale: 0,
+          height: 0,
+        }
       }}
+      className={classnames(
+        'flex flex-col sm:flex-row items-center justify-between sm:w-11/12 lg:w-full mx-auto rounded-xl sm:mx-auto text-inverse',
+        'bg-yellow-darkened border-2 border-dashed border-yellow overflow-hidden py-4 px-6',
+        {
+          'h-0': !withdrawType,
+          'h-40': withdrawType,
+        }
+      )}
     >
+      <div
+        className='order-last sm:order-first mt-2 sm:mt-0'
+      >
+        <label
+          htmlFor='i-understand-checkbox'
+          className='m-0 font-bold'
+        >
+          <input
+            onChange={handleIUnderstandChange}
+            id='i-understand-checkbox'
+            type='checkbox'
+            className='mr-2'
+          /> {t('iUnderstand')}
+        </label>
+      </div>
 
-      {withdrawType === 'scheduled' ? <>
-      
+      <div
+        className='order-first sm:order-last'
+      >
+        {withdrawType === 'scheduled' ? <>
+          <Trans
+            i18nKey='youAreSchedulingAmountTickerForFutureDate'
+            defaults='You are scheduling <bold>{{amount}} {{ticker}}</bold> ready in: '
+            // for {{ futureDate }} from now
+            components={{
+              bold: <span className='font-bold' />,
+              number: <PoolNumber />,
+            }}
+            values={{
+              amount: instantPartialFormatted,
+              ticker: underlyingCollateralSymbol,
+              futureDate: formattedFutureDate,
+            }}
+          /> {formattedFutureDate}
+          
+        </> : <>
+            <Trans
+              i18nKey='youAreWithdrawingAmountTickerAndPayingFee'
+              defaults='You are withdrawing <bold>{{amount}} {{ticker}}</bold> and paying a <bold>{{amountTwo}} {{ticker}}</bold> fee'
+              components={{
+                bold: <span className='font-bold' />,
+                number: <PoolNumber />,
+              }}
+              values={{
+                amount: instantPartialFormatted,
+                amountTwo: exitFeeFormatted,
+                ticker: underlyingCollateralSymbol,
+              }}
+            />
+        </>}
+      </div>
+
+      {/* {withdrawType === 'scheduled' ? <>
         <PTHint
           tip={tipJsx}
         >
@@ -223,20 +312,11 @@ export const InstantOrScheduledForm = (props) => {
             /> {formattedFutureDate}
           </>
         </PTHint>
-      {/* <button
-        className='active:outline-none focus:outline-none trans text-blue hover:text-secondary underline rounded-xl outline-none mt-4 mx-8'
-        onClick={(e) => {
-          e.preventDefault()
-          setWithdrawType('instant')
-        }}
-      >
-        {t('needYourFundsRightNowQuestion')}
-      </button> */}
-    </> : <>
-    
-      <PTHint
-        tip={tipJsx}
-      >
+      </> : <>
+      
+        <PTHint
+          tip={tipJsx}
+        >
           <>
             <div className='w-10 mx-auto mb-2'>
               <QuestionMarkCircle />
@@ -257,30 +337,17 @@ export const InstantOrScheduledForm = (props) => {
             />
           </>
         </PTHint>
-        {/* <button
-          className='active:outline-none focus:outline-none trans text-blue hover:text-secondary underline rounded-xl outline-none mt-4 mx-8'
-          onClick={(e) => {
-            e.preventDefault()
-            setWithdrawType('scheduled')
-          }}
-        >
-          {t('dontWantToForfeitAnAmountTickerFairnessFee', {
-            amount: exitFeeFormatted,
-            ticker: underlyingCollateralSymbol
-          })}
-        </button> */}
-      </>}
-    </div>
+      </>} */}
+    </motion.div>
 
     <div className='mt-8'>
       <Button
-        disabled={!withdrawType}
+        disabled={!withdrawType || !iUnderstandChecked}
         textSize='lg'
         onClick={updateParamsAndNextStep}
       >
         {t('continue')}
       </Button>
     </div> 
-      
   </div> 
 }

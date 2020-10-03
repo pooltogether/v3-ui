@@ -12,12 +12,7 @@ export const RadioInputGroup = (
     
     return <div
       key={`radios-${radio.value}`}
-      className='flex items-center justify-center radio-input-group trans w-full text-base sm:text-xl lg:text-2xl bg-white rounded-xl relative hover:text-white hover:bg-highlight-3 mx-6 bg-card'
-      style={{
-        maxWidth: 370,
-        minHeight: 240,
-        // width: '45%'
-      }}
+      className='radio-input flex items-center justify-center trans w-full text-base sm:text-xl lg:text-2xl bg-white rounded-xl relative hover:text-white hover:bg-highlight-3 bg-card'
     >
       <input
         id={id}
@@ -32,16 +27,17 @@ export const RadioInputGroup = (
         htmlFor={id}
         className={classnames(
           'flex flex-col items-center text-xs sm:text-base h-full text-inverse rounded-lg',
-          'hover:text-white absolute t-0 l-0 r-0 b-0 px-8 py-8 w-full block trans mt-0',
+          'hover:text-white absolute t-0 l-0 r-0 b-0 px-2 py-8 xs:px-4 sm:px-8 sm:py-10 w-full block trans mt-0',
+          'border-2 border-dashed border-transparent',
           {
-            'bg-card-selected border-2 border-dashed border-highlight-2': checked            
+            'bg-card-selected border-highlight-2': checked            
           }
         )}
       >
         {radio.icon}
 
         <h1
-          className='text-2xl sm:text-5xl'
+          className='text-base xs:text-2xl sm:text-5xl my-2 sm:my-0 text-center'
         >
           {radio.label}
         </h1>
@@ -63,7 +59,7 @@ export const RadioInputGroup = (
         {label}
       </label>
 
-      <div className='flex items-center justify-center mt-4'>
+      <div className='flex items-center justify-between sm:justify-center mt-4'>
         {radioElements}
       </div>
     </div>
