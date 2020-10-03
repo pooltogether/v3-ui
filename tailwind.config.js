@@ -47,6 +47,7 @@ module.exports = {
         darkened: 'var(--color-bg-darkened)',
         inverse: 'var(--color-bg-inverse)',
         overlay: 'var(--color-bg-overlay)',
+        'overlay-white': 'var(--color-bg-overlay-white)',
         black: 'var(--color-bg-black)',
         'highlight-1': 'var(--color-bg-highlight-1)',
         'highlight-2': 'var(--color-bg-highlight-2)',

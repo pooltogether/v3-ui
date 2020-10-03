@@ -144,7 +144,16 @@ export const InstantOrScheduledForm = (props) => {
           value: 'scheduled',
           icon: <img src={IconWinky} className='w-7 h-7 xs:w-auto xs:h-auto' />,
           label: <>
-            {t('zeroFees')}
+            {t('zeroFees')} <PTHint
+              className='inline-block relative -t-6 r-2'
+              tip={tipJsx}
+            >
+              <>
+                <div className='inline-bold relative'>
+                  <QuestionMarkCircle />
+                </div>
+              </>
+            </PTHint>
             {/* <Trans
               i18nKey='iWantAmountTickerBackInFutureDate'
               defaults='I want <bold><number>{{amount}}</number> {{ticker}}</bold> back in:'
@@ -179,7 +188,16 @@ export const InstantOrScheduledForm = (props) => {
           value: 'instant',
           icon: <img src={IconLightning} className='w-7 h-7 xs:w-auto xs:h-auto' />,
           label: <>
-            {t('instantly')}
+            {t('instantly')} <PTHint
+              className='inline-block relative -t-6 r-2'
+              tip={tipJsx}
+            >
+              <>
+                <div className='inline-bold relative'>
+                  <QuestionMarkCircle />
+                </div>
+              </>
+            </PTHint>
             {/* <Trans
               i18nKey='iWantAmountTickerBackNow'
               defaults='I want <bold><number>{{amount}}</number> {{ticker}}</bold> now, and will forfeit the interest'
@@ -291,27 +309,7 @@ export const InstantOrScheduledForm = (props) => {
       </div>
 
       {/* {withdrawType === 'scheduled' ? <>
-        <PTHint
-          tip={tipJsx}
-        >
-          <>
-            <div className='w-10 mx-auto mb-2'>
-              <QuestionMarkCircle />
-            </div>
-            <Trans
-              i18nKey='yourAmountWorthOfTickerWillBeScheduled'
-              defaults='Your <bold><number>{{amount}}</number></bold> worth of <bold>{{ticker}}</bold> will be scheduled and ready to withdraw in:'
-              components={{
-                bold: <span className='font-bold' />,
-                number: <PoolNumber />,
-              }}
-              values={{
-                amount: instantPartialFormatted,
-                ticker: underlyingCollateralSymbol,
-              }}
-            /> {formattedFutureDate}
-          </>
-        </PTHint>
+        
       </> : <>
       
         <PTHint
