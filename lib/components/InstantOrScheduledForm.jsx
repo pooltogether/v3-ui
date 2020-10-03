@@ -13,12 +13,15 @@ import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
+import IconLightning from 'assets/images/icon-lightning.svg'
+import IconWinky from 'assets/images/icon-winky.svg'
+
 export const InstantOrScheduledForm = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
   const { nextStep, pool, exitFees, quantity } = props
-  const [withdrawType, setWithdrawType] = useState('scheduled')
+  const [withdrawType, setWithdrawType] = useState(null)
 
   const handleWithdrawTypeChange = (e) => {
     setWithdrawType(e.target.value)
@@ -129,8 +132,10 @@ export const InstantOrScheduledForm = (props) => {
       radios={[
         {
           value: 'scheduled',
+          icon: <img src={IconWinky} />,
           label: <>
-            <Trans
+            {t('zeroFees')}
+            {/* <Trans
               i18nKey='iWantAmountTickerBackInFutureDate'
               defaults='I want <bold><number>{{amount}}</number> {{ticker}}</bold> back in:'
               components={{
@@ -141,13 +146,25 @@ export const InstantOrScheduledForm = (props) => {
                 amount: scheduledFullFormatted,
                 ticker: underlyingCollateralSymbol,
               }}
-            /> {formattedFutureDate}
+            />  */}
+          </>,
+          description: <>
+            <div
+            >
+              {t('finalAmount')} <span className='font-bold'>{scheduledFullFormatted}</span>
+            </div>
+            <div
+            >
+              {t('when')} <span className='font-bold'>{formattedFutureDate}</span>
+            </div>
           </>
         },
         {
           value: 'instant',
+          icon: <img src={IconLightning} />,
           label: <>
-            <Trans
+            {t('instantly')}
+            {/* <Trans
               i18nKey='iWantAmountTickerBackNow'
               defaults='I want <bold><number>{{amount}}</number> {{ticker}}</bold> now, and will forfeit the interest'
               components={{
@@ -158,19 +175,33 @@ export const InstantOrScheduledForm = (props) => {
                 amount: instantPartialFormatted,
                 ticker: underlyingCollateralSymbol,
               }}
-            />
+            /> */}
+          </>,
+          description: <>
+            <div
+              className='mb-1'
+            >
+              {t('finalAmount')} <span className='font-bold'>{instantPartialFormatted}</span>
+            </div>
+            <div
+              className='mb-1'
+            >
+              {t('when')} <span className='font-bold'>{t('now')}</span>
+            </div>
           </>
         }
       ]}
     />
 
-    {withdrawType === 'scheduled' ? <>
-      <div
-        className='flex items-center justify-center py-4 px-10 sm:w-7/12 mx-auto rounded-xl -mx-6 sm:mx-auto bg-card-selected text-inverse'
-        style={{
-          minHeight: 70
-        }}
-      >
+    <div
+      className='flex items-center justify-center py-4 px-10 sm:w-7/12 mx-auto rounded-xl -mx-6 sm:mx-auto bg-yellow text-inverse'
+      style={{
+        minHeight: 70
+      }}
+    >
+
+      {withdrawType === 'scheduled' ? <>
+      
         <PTHint
           tip={tipJsx}
         >
@@ -192,8 +223,7 @@ export const InstantOrScheduledForm = (props) => {
             /> {formattedFutureDate}
           </>
         </PTHint>
-      </div>
-      <button
+      {/* <button
         className='active:outline-none focus:outline-none trans text-blue hover:text-secondary underline rounded-xl outline-none mt-4 mx-8'
         onClick={(e) => {
           e.preventDefault()
@@ -201,54 +231,50 @@ export const InstantOrScheduledForm = (props) => {
         }}
       >
         {t('needYourFundsRightNowQuestion')}
-      </button>
+      </button> */}
     </> : <>
-      <div
-        className='flex items-center justify-center py-4 px-10 sm:w-7/12 mx-auto rounded-xl -mx-6 sm:mx-auto bg-card-selected text-inverse'
-        style={{
-          minHeight: 70
-        }}
+    
+      <PTHint
+        tip={tipJsx}
       >
-        <PTHint
-          tip={tipJsx}
-        >
-            <>
-              <div className='w-10 mx-auto mb-2'>
-                <QuestionMarkCircle />
-              </div>
-              
-              <Trans
-                i18nKey='youWillReceiveAmountTickerNowAndForfeitAmountTwo'
-                defaults='You will receive <bold><number>{{amount}}</number> {{ticker}}</bold> now and forfeit <bold><number>{{amountTwo}}</number> {{ticker}}</bold> as interest to the pool.'
-                components={{
-                  bold: <span className='font-bold' />,
-                  number: <PoolNumber />,
-                }}
-                values={{
-                  amount: instantPartialFormatted,
-                  amountTwo: exitFeeFormatted,
-                  ticker: underlyingCollateralSymbol,
-                }}
-              />
-            </>
+          <>
+            <div className='w-10 mx-auto mb-2'>
+              <QuestionMarkCircle />
+            </div>
+            
+            <Trans
+              i18nKey='youWillReceiveAmountTickerNowAndForfeitAmountTwo'
+              defaults='You will receive <bold><number>{{amount}}</number> {{ticker}}</bold> now and forfeit <bold><number>{{amountTwo}}</number> {{ticker}}</bold> as interest to the pool.'
+              components={{
+                bold: <span className='font-bold' />,
+                number: <PoolNumber />,
+              }}
+              values={{
+                amount: instantPartialFormatted,
+                amountTwo: exitFeeFormatted,
+                ticker: underlyingCollateralSymbol,
+              }}
+            />
+          </>
         </PTHint>
-      </div>
-      <button
-        className='active:outline-none focus:outline-none trans text-blue hover:text-secondary underline rounded-xl outline-none mt-4 mx-8'
-        onClick={(e) => {
-          e.preventDefault()
-          setWithdrawType('scheduled')
-        }}
-      >
-        {t('dontWantToForfeitAnAmountTickerFairnessFee', {
-          amount: exitFeeFormatted,
-          ticker: underlyingCollateralSymbol
-        })}
-      </button>
-    </>}
+        {/* <button
+          className='active:outline-none focus:outline-none trans text-blue hover:text-secondary underline rounded-xl outline-none mt-4 mx-8'
+          onClick={(e) => {
+            e.preventDefault()
+            setWithdrawType('scheduled')
+          }}
+        >
+          {t('dontWantToForfeitAnAmountTickerFairnessFee', {
+            amount: exitFeeFormatted,
+            ticker: underlyingCollateralSymbol
+          })}
+        </button> */}
+      </>}
+    </div>
 
     <div className='mt-8'>
       <Button
+        disabled={!withdrawType}
         textSize='lg'
         onClick={updateParamsAndNextStep}
       >

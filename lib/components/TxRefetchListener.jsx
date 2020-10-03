@@ -13,7 +13,7 @@ export const TxRefetchListener = (props) => {
   const transactions = transactionsQueryResult?.data?.transactions
 
   const pendingTransactions = transactions
-    .filter(t => !t.completed)
+    .filter(t => !t.completed && !t.cancelled)
 
   const runRefetch = (tx) => {
     const playerBalanceTransaction = tx.method === 'depositTo' ||
@@ -30,17 +30,17 @@ export const TxRefetchListener = (props) => {
       setTimeout(() => {
         refetchPlayerQuery()
         console.log('refetch!')
-      }, 500)
+      }, 2000)
 
       setTimeout(() => {
         refetchPlayerQuery()
         console.log('refetch!')
-      }, 5000)
+      }, 6000)
       
       setTimeout(() => {
         refetchPlayerQuery()
         console.log('refetch!')
-      }, 10000)
+      }, 12000)
     }
   }
 

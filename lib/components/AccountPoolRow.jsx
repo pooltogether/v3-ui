@@ -214,7 +214,7 @@ export const AccountPoolRow = (
               as={`/account/pools/${pool.symbol}`}
             >
               <a
-                className='inline-flex items-center justify-center text-center font-bold text-highlight-3 rounded-full border-highlight-3 border py-1 px-6 mr-0 sm:mr-3 uppercase'
+                className='inline-flex items-center justify-center text-center font-bold text-highlight-3 rounded-full border-highlight-3 border py-1 px-6 mr-0 sm:mr-3'
               >
                 {t('manageTickets')}
               </a>
