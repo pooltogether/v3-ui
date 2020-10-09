@@ -1,8 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { ethers } from 'ethers'
-import { map, find, defaultTo } from 'lodash'
+import { isEmpty, map, find, defaultTo } from 'lodash'
+import { useQuery } from '@apollo/client'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import FeatherIcon from 'feather-icons-react'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
 
@@ -11,10 +13,10 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 
 import { useTranslation } from 'lib/../i18n'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { transactionsQuery } from 'lib/queries/transactionQueries'
 
-import { Button } from 'lib/components/Button'
 import { poolToast } from 'lib/utils/poolToast'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
 import { shorten } from 'lib/utils/shorten'
 import { DRIP_TOKENS } from 'lib/constants'
@@ -32,13 +34,16 @@ export const AccountRewardsUI = () => {
   const shortReferralAddress = `pooltogether.com/?referrer=${shorten(usersAddress)}`
   const referralAddress = `pooltogether.com/?referrer=${usersAddress}`
 
-  // const [txId, setTxId] = useState()
+  const [txId, setTxId] = useState(0)
 
   const txName = 'Update and Claim Rewards' // t(`updateAndClaimDrips`, { poolName: pool?.name })
   const method = 'updateAndClaimDrips'
 
   const [sendTx] = useSendTransaction(txName)
 
+  const transactionsQueryResult = useQuery(transactionsQuery)
+  const transactions = transactionsQueryResult?.data?.transactions
+  const txInFlight = transactions?.find((tx) => tx.id === txId)
 
   const handleCopy = () => {
     poolToast.success(`Copied to clipboard!`)
@@ -60,8 +65,7 @@ export const AccountRewardsUI = () => {
 
     console.log('sendTx', params)
 
-    // const id = sendTx(
-    sendTx(
+    const id = sendTx(
       t,
       provider,
       usersAddress,
@@ -70,8 +74,7 @@ export const AccountRewardsUI = () => {
       method,
       params,
     )
-
-    // setTxId(id)
+    setTxId(id)
   }
 
   const getParamsForClaim = (drips = []) => {
@@ -90,7 +93,6 @@ export const AccountRewardsUI = () => {
       ] = drips[i].split('-')
 
       isReferral = Boolean(parseInt(isReferral, 10))
-      console.log({comptrollerAddress, sourceAddress, measureTokenAddress, dripTokenAddress, isReferral, playerAddress})
 
       updatePairs.push({
         source: sourceAddress,
@@ -132,9 +134,48 @@ export const AccountRewardsUI = () => {
     //   "claimable" will be the amount of tokens they can claim
     //   "balance" will be the amount of tokens in their wallet
     userDripTokenData.claimable = userDripTokenData.balance
-    userDripTokenData.balance = usersDripBalance[dripTokenAddress].balance || zero
+    userDripTokenData.balance = usersDripBalance ? usersDripBalance[dripTokenAddress].balance : zero
 
     return userDripTokenData
+  }
+
+  const _getClaimButton = (dripData) => {
+    if (!(dripData.claimable > 0)) {
+      return ''
+    }
+
+    // TODO: Handle multiple claims at once
+    if (txInFlight && !txInFlight.completed) {
+      return (
+        <div className="whitespace-no-wrap">
+          {
+            !isEmpty(txInFlight.hash) && (
+              <EtherscanTxLink
+                chainId={txInFlight.ethersTx.chainId}
+                hash={txInFlight.hash}
+                className='text-xxxs text-teal mr-3'
+              >
+                Etherscan
+              </EtherscanTxLink>
+            )
+          }
+          <ClipLoader
+            size={14}
+            color={'#049c9c'}
+          />
+          <span className="text-teal font-bold ml-2 mt-1">Claiming...</span>
+        </div>
+      )
+    }
+
+    return (
+      <a
+        className="underline cursor-pointer stroke-current text-xs font-bold"
+        onClick={handleClaim(dripData.id)}
+      >
+        Claim
+      </a>
+    )
   }
 
   const getRewardsDripRows = () => {
@@ -152,14 +193,7 @@ export const AccountRewardsUI = () => {
           </td>
           <td className='px-4 py-2 text-right'>
             {
-              dripData.claimable > 0 && (
-                <a
-                  className="underline cursor-pointer stroke-current text-xs font-bold"
-                  onClick={handleClaim(dripData.id)}
-                >
-                  Claim
-                </a>
-              )
+              _getClaimButton(dripData)
             }
           </td>
         </tr>
@@ -236,10 +270,10 @@ export const AccountRewardsUI = () => {
         <table className="table-fixed w-full divide-y divide-indigo-300">
           <thead>
             <tr>
-              <th className='w-1/4 px-4 py-2 text-left'>Token</th>
-              <th className='w-1/4 px-4 py-2 text-left font-bold'>Balance</th>
-              <th className='w-1/4 px-4 py-2 text-left'>Claimable</th>
-              <th className='w-1/4 px-4 py-2'>&nbsp;</th>
+              <th className='w-1/5 px-4 py-2 text-left'>Token</th>
+              <th className='w-1/5 px-4 py-2 text-left font-bold'>Balance</th>
+              <th className='w-1/5 px-4 py-2 text-left'>Claimable</th>
+              <th className='w-2/5 px-4 py-2'>&nbsp;</th>
             </tr>
           </thead>
           <tbody>
