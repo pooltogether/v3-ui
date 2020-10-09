@@ -16,6 +16,7 @@
   --color-bg-black: #111;
   --color-bg-accent-grey-1: rgba(53, 240, 208, 0.2);
   --color-bg-accent-grey-2: #43286E;
+  --color-bg-accent-grey-3: #BBB2CE;
   --color-bg-highlight-1: #35F0D0;
   --color-bg-highlight-2: #35F0D0;
   --color-bg-highlight-3: #401C94;
@@ -158,6 +159,14 @@
 
 .theme-light .pool-logo:after {
   background-image: url('/pooltogether-purple-mark.svg');
+}
+
+.theme-dark .pool-gradient-1 {
+  background: linear-gradient(71.84deg, #4C249F 27.59%, rgba(255, 119, 225, 0.9) 164.53%), #290B5A;
+}
+
+.theme-light .pool-gradient-1 {
+  background: linear-gradient(71.84deg, #EEE6FF 27.59%, rgba(255, 185, 240, 0.9) 164.53%);
 }
 
 @screen sm {

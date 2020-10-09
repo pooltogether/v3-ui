@@ -41,7 +41,7 @@ export const FetchUsersChainData = (props) => {
   }
 
   const updateOrDelete = async () => {
-    if (poolAddress && usersAddress) {
+    if (usersAddress) {
       const usersData = await fetchUsersDataFromInfura()
       setUsersChainData(usersData)
     } else {
@@ -55,10 +55,10 @@ export const FetchUsersChainData = (props) => {
     updateOrDelete()
   }, paused ? null : MAINNET_POLLING_INTERVAL)
 
-  useEffect(() => {    
+  useEffect(() => {
     updateOrDelete()
     // OPTIMIZE: Could reset the interval loop here since we just grabbed fresh data!
-  }, [poolAddress])
+  }, [usersAddress])
 
   return children({ usersChainData })
 }

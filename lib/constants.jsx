@@ -30,8 +30,9 @@ export const COOKIE_OPTIONS = {
   domain
 }
 
+// Must be all lower-case addresses
 export const DRIP_TOKENS = {
-  '0xdb75b845960c835b6086db1bd3087ea01e7d8bde': {name: 'Balance Drip Token', symbol: 'BDRIP'},
-  '0xe5723dcaad584418f2ba31678743e194e9d042d0': {name: 'Volume Drip Token', symbol: 'VDRIP'},
-  // '': {name: 'Referral Volume Drip Token', symbol: 'RVDRIP'},
+  '0xdb86318ef943027359ecd236b16ad4f82245ad0e': {name: 'Dai Ticket', symbol: 'PT-cDAI'},
+  // '0x6540db1f2e837cb2aadeeeb355f7730786c10383': {name: 'Volume Drip Token', symbol: 'VDRIP'},
+  // '0x36c75bfb55c69f16c676788587e7e37884d450e8': {name: 'Referral Volume Drip Token', symbol: 'RVDRIP'},
 }

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
+import { isEmpty } from 'lodash'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
@@ -72,7 +73,7 @@ export const PoolDataContextProvider = (props) => {
           {({ genericChainData }) => {
             let pools = []
 
-            if (!graphDataLoading) {
+            if (!graphDataLoading && !isEmpty(genericChainData)) {
               pools = [
                 {
                   ...genericChainData.dai,
@@ -136,7 +137,7 @@ export const PoolDataContextProvider = (props) => {
 
             let usersTicketBalance = 0
             let usersTicketBalanceBN = ethers.utils.bigNumberify(0)
-            
+
 
             if (pool && dynamicPlayerData) {
               const player = dynamicPlayerData.find(data => data.prizePool.id === poolAddress)

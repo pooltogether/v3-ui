@@ -20,7 +20,8 @@ export const TxRefetchListener = (props) => {
       tx.method === 'approve' ||
       tx.method === 'withdrawInstantlyFrom' ||
       tx.method === 'withdrawWithTimelockFrom' ||
-      tx.method === 'sweepTimelockBalances'
+      tx.method === 'sweepTimelockBalances' ||
+      tx.method === 'updateAndClaimDrips'
 
     if (playerBalanceTransaction) {
       // refetchPlayerQuery()
@@ -36,7 +37,7 @@ export const TxRefetchListener = (props) => {
         refetchPlayerQuery()
         console.log('refetch!')
       }, 6000)
-      
+
       setTimeout(() => {
         refetchPlayerQuery()
         console.log('refetch!')
