@@ -55,6 +55,9 @@ export const AccountPoolRow = (
   }
 
   const ticker = pool?.underlyingCollateralSymbol
+  const bucketClasses = usersTimelockedBalance > 0 ?
+    'w-1/2 xs:w-4/12 sm:w-4/12 lg:w-4/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse' :
+    'w-1/2 xs:w-6/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse'
   
   return <>
     <InteractableCard
@@ -62,9 +65,9 @@ export const AccountPoolRow = (
       as={as}
       key={`account-pool-row-li-${pool.poolAddress}`}
     >
-      <div className='flex items-center pb-2'>
+      <div className='flex items-center xs:pb-2'>
         <div
-          className='flex items-center font-bold w-8/12 sm:w-6/12 pb-2'
+          className='flex items-center font-bold w-8/12 sm:w-6/12 xs:pb-2'
         >
           <PoolCurrencyIcon
             lg
@@ -98,7 +101,7 @@ export const AccountPoolRow = (
                 left: -2
               }}
             >
-              <span className='mr-2'>
+              <span className='mr-1 sm:mr-2'>
                 <Chip
                   color='accent-1'
                   text={t(pool?.name)}
@@ -112,7 +115,7 @@ export const AccountPoolRow = (
         </div>
 
         <div
-          className='flex flex-col items-end w-4/12 sm:w-6/12 lg:w-9/12'
+          className='flex flex-col items-end w-5/12 xs:w-4/12 sm:w-6/12 lg:w-9/12'
         >
           <NewPrizeCountdown
             pool={pool}
@@ -121,19 +124,17 @@ export const AccountPoolRow = (
       </div>
 
       <div
-        className='flex flex-col xs:flex-row items-end justify-between pt-4'
+        className='flex flex-col xs:flex-row items-end justify-between xs:pt-4'
       >
-
-
         <div
-          className='flex items-center justify-between pt-4 w-full xs:w-7/12'
+          className='flex flex-col xs:flex-row xs:items-center justify-between xs:pt-4 w-full xs:w-7/12 sm:w-5/12'
         >
           <div
-            className='w-full xs:w-4/12 sm:w-4/12 lg:w-4/12'
+            className={bucketClasses}
           >
             {usersBalance < 1 ? <>
               <div
-                className='font-bold text-xl sm:text-2xl text-accent-3 text-default-soft'
+                className='font-bold text-accent-3 text-default-soft'
                 style={{
                   marginTop: 23
                 }}
@@ -144,21 +145,24 @@ export const AccountPoolRow = (
               <Odds
                 altSplitLines
                 fontSansRegular
-                className='font-bold text-flashy text-xl sm:text-2xl'
+                className='font-bold text-flashy'
                 pool={pool}
                 usersBalance={usersBalance}
               />
             </>}
             
             <span
-              className='block text-caption uppercase font-number mt-1'
+              className='relative block text-caption uppercase font-number mt-0'
+              style={{
+                top: 1
+              }}
             >
               {t('winningOdds')}
             </span>
           </div>
 
           <div
-            className='w-full xs:w-4/12 sm:w-4/12 lg:w-4/12 text-xl sm:text-2xl text-inverse'
+            className={bucketClasses}
           >
             <span className='font-bold'>
               <PoolCountUp
@@ -166,45 +170,46 @@ export const AccountPoolRow = (
                 end={Math.floor(Number.parseFloat(usersBalance))}
                 decimals={null}
               />
-              <div className='-mt-1 text-xs sm:text-sm'>
+              <div className='inline-block xs:block ml-1 xs:ml-0 -mt-1 text-xs sm:text-sm'>
                 {t('tickets')}
               </div>
             </span>
             <span
-              className='block text-caption uppercase font-number mt-1'
+              className='block text-caption uppercase font-number mt-0 xs:mt-1'
             >
               ${numberWithCommas(usersBalance, { precision: 4 })} {ticker}
             </span>
           </div>
 
-          <div
-            className='w-full xs:w-4/12 sm:w-4/12 lg:w-4/12 text-xl sm:text-2xl text-inverse'
-          >
-            {usersTimelockedBalance > 0 && <>
+          {usersTimelockedBalance > 0 && <>
+            <div
+              className={bucketClasses}
+            >
               <span className='font-bold'>
                 <PoolCountUp
                   fontSansRegular
                   end={Math.floor(Number.parseFloat(usersTimelockedBalance))}
                   decimals={null}
                 />
-                <div className='-mt-1 text-xs sm:text-sm'>
+                <div className='inline-block xs:block ml-1 xs:ml-0 -mt-1 text-xs sm:text-sm'>
                   {t('lockedTicker', {
                     ticker: ticker?.toUpperCase()
                   })}
                 </div>
               </span>
               <span
-                className='block text-caption uppercase font-number mt-1'
+                className='block text-caption uppercase font-number mt-0 xs:mt-1'
               >
                 {formattedFutureDate}
               </span>
-            </>}
-          </div>
+            </div>
+          </>}
+          
         </div>
 
         {!noLinks && <>
           <div
-            className='w-5/12 text-right'
+            className='w-full xs:w-5/12 xs:text-right'
             style={{
               lineHeight: 1.2,
             }}
@@ -214,7 +219,7 @@ export const AccountPoolRow = (
               as={`/account/pools/${pool.symbol}`}
             >
               <a
-                className='inline-flex items-center justify-center text-center font-bold text-highlight-3 rounded-full border-highlight-3 border py-1 px-6 mr-0 sm:mr-3'
+                className='uppercase inline-block xs:inline-flex items-center justify-center text-center font-bold text-highlight-3 rounded-full border-highlight-3 xs:border py-1 xs:px-6 mr-1 sm:mr-3 mb-1 xs:mb-0'
               >
                 {t('manageTickets')}
               </a>

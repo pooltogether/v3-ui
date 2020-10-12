@@ -19,7 +19,7 @@ export const NavMobile = (props) => {
 
   return <>
     <nav
-      className='w-full flex justify-between items-center fixed b-0 l-0 r-0 bg-darkened sm:hidden z-20 border-card border-t-2'
+      className='w-screen flex justify-between items-center fixed b-0 l-0 r-0 bg-card-selected sm:hidden z-20 border-accent-4 border-t-2'
       style={{
         boxShadow: '0 -2px 6px -1px rgba(0, 0, 0, .05), 0 -3px 8px 0 rgba(0, 0, 0, .02)',
         height: 76

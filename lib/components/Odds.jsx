@@ -90,7 +90,7 @@ export const Odds = (props) => {
       >1</span>
 
       {altSplitLines ? <>
-        <div className='-mt-1 text-xs sm:text-sm'>{t('in')} {totalOdds}</div>
+        <div className='inline-block xs:block ml-1 xs:ml-0 -mt-1 text-xs sm:text-sm'>{t('in')} {totalOdds}</div>
       </> : <>
         &nbsp;{t('in')} {totalOdds}
       </>} {sayEveryWeek && t('everyWeek')}
