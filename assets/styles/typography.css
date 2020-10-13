@@ -145,7 +145,13 @@ h6 {
 }
 
 .text-caption {
-  @apply text-accent-1 text-xxs;
+  @apply text-accent-1 text-xxxxs;
+}
+
+@screen sm {
+  .text-caption {
+    @apply text-xxs;
+  }
 }
 
 .text-caption-2 {

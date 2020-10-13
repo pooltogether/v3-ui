@@ -172,6 +172,7 @@ module.exports = {
         // base: ['16px', '24px'],
         // lg: ['20px', '28px'], // line height!
         // xl: ['24px', '32px'],
+        'xxxxxs': '0.5rem',
         'xxxxs': '0.625rem',
         'xxxs': '0.75rem',
         'xxs': '0.875rem',

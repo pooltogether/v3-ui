@@ -96,7 +96,7 @@ export const NewPrizeCountdown = (
   
   return <>
     <div
-      className='flex text-center sm:text-xl'
+      className='flex text-center text-xxxs sm:text-xl'
     >
       <div
         className='flex flex-col sm:mr-2'

@@ -56,7 +56,7 @@ export const PoolRow = (
     >
       <div className='flex items-center'>
         <div
-          className='flex items-center font-bold w-8/12 sm:w-6/12 lg:w-6/12'
+          className='flex items-center font-bold w-full xs:w-8/12 sm:w-6/12 lg:w-6/12'
         >
           <PoolCurrencyIcon
             lg
@@ -68,9 +68,9 @@ export const PoolRow = (
             className='flex flex-col items-start justify-between w-full ml-1 sm:ml-4 leading-none'
           >
             <div
-              className='inline-block text-left text-sm xs:text-xl sm:text-2xl font-bold text-inverse relative'
+              className='inline-block text-left text-xs xs:text-sm xs:text-xl sm:text-2xl font-bold text-inverse relative'
               style={{
-                top: -6
+                top: -4
               }}
             >
               <Trans
@@ -87,6 +87,7 @@ export const PoolRow = (
             <div
               className='inline-block text-left text-caption-2 relative mt-2'
               style={{
+                top: -1,
                 left: -2
               }}
             >
@@ -102,7 +103,7 @@ export const PoolRow = (
         </div>
 
         <div
-          className='flex flex-col items-end w-4/12 sm:w-9/12 lg:w-9/12'
+          className='flex flex-col items-end w-5/12 xs:w-4/12 sm:w-9/12 lg:w-9/12'
         >
           <NewPrizeCountdown
             pool={pool}
@@ -119,7 +120,7 @@ export const PoolRow = (
           <Button
             onClick={handleGetTicketsClick}
             width='w-full'
-            textSize='lg'
+            textSize='sm'
           >
             {t('getTickets')}
           </Button>
@@ -139,20 +140,16 @@ export const PoolRow = (
 
             padding='pl-2 pr-0'
             className='inline-flex justify-between items-center uppercase'
-            textSize='xxxs'
+            textSize='xxs'
 
             rounded='full'
             href='/pools/[symbol]'
             as={`/pools/${pool.symbol}`}
-
           >
             {t('viewPool')} <FeatherIcon
               strokeWidth='0.15rem'
               icon='arrow-right-circle'
               className='inline-block relative w-4 h-4 mx-auto ml-1'
-              style={{
-                top: 1
-              }}
             />
           </ButtonLink>
         </div>
