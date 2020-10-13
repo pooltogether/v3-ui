@@ -87,6 +87,7 @@
   --color-bg-black: #111;
   --color-bg-accent-grey-1: #f6f2ff;
   --color-bg-accent-grey-2: #f6f2ff;
+  --color-bg-accent-grey-3: #f6f2ff;
   --color-bg-highlight-1: #4c249f;
   --color-bg-highlight-2: #7F51D1;
   --color-bg-highlight-3: #4c249f;
@@ -162,11 +163,11 @@
 }
 
 .theme-dark .pool-gradient-1 {
-  background: linear-gradient(71.84deg, #4C249F 27.59%, rgba(255, 119, 225, 0.9) 164.53%), #290B5A;
+  background: linear-gradient(72deg, #4C249F 28%, rgba(255, 119, 225, 0.9) 164%), #290B5A;
 }
 
 .theme-light .pool-gradient-1 {
-  background: linear-gradient(71.84deg, #EEE6FF 27.59%, rgba(255, 185, 240, 0.9) 164.53%);
+  background: linear-gradient(72deg, #EEE6FF 28%, rgba(255, 185, 240, 0.9) 164%);
 }
 
 @screen sm {

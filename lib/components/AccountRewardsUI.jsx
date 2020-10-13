@@ -8,19 +8,16 @@ import ClipLoader from 'react-spinners/ClipLoader'
 
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
 
+import { useTranslation } from 'lib/../i18n'
+import { DEFAULT_TOKEN_PRECISION, DRIP_TOKENS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-
-import { useTranslation } from 'lib/../i18n'
+import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
-
 import { poolToast } from 'lib/utils/poolToast'
-import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
 import { shorten } from 'lib/utils/shorten'
-import { DRIP_TOKENS } from 'lib/constants'
-
 
 export const AccountRewardsUI = () => {
   const { t } = useTranslation()
@@ -29,14 +26,13 @@ export const AccountRewardsUI = () => {
 
   const poolAddresses = map(pools, 'poolAddress')
   const playerRewards = extractPoolRewardsFromUserDrips({poolAddresses, dynamicPlayerDrips})
-  console.log({playerRewards, usersChainData})
 
+  const referralAddress = `https://pooltogether.com/?referrer=${usersAddress}`
   const shortReferralAddress = `pooltogether.com/?referrer=${shorten(usersAddress)}`
-  const referralAddress = `pooltogether.com/?referrer=${usersAddress}`
 
   const [txId, setTxId] = useState(0)
 
-  const txName = 'Update and Claim Rewards' // t(`updateAndClaimDrips`, { poolName: pool?.name })
+  const txName = t(`claimRewards`)
   const method = 'updateAndClaimDrips'
 
   const [sendTx] = useSendTransaction(txName)
@@ -46,7 +42,7 @@ export const AccountRewardsUI = () => {
   const txInFlight = transactions?.find((tx) => tx.id === txId)
 
   const handleCopy = () => {
-    poolToast.success(`Copied to clipboard!`)
+    poolToast.success(t('copiedToClipboard'))
   }
 
   const handleClaim = (dripId) => (e) => {
@@ -62,8 +58,6 @@ export const AccountRewardsUI = () => {
         gasLimit: 400000
       }
     ]
-
-    console.log('sendTx', params)
 
     const id = sendTx(
       t,
@@ -105,9 +99,10 @@ export const AccountRewardsUI = () => {
     return {comptroller, updatePairs, dripTokens}
   }
 
-  const getFormattedNumber = (value) => {
-    const formatted = ethers.utils.formatEther(value)
+  const getFormattedNumber = (value, decimals) => {
+    const formatted = ethers.utils.formatEther(value, decimals ||  DEFAULT_TOKEN_PRECISION)
     const [integer, fraction] = formatted.split('.')
+
     return (
       <div className='font-semibold'>
         {integer}.{fraction.slice(0, 3)}
@@ -117,8 +112,9 @@ export const AccountRewardsUI = () => {
   }
 
   const getDripDataByAddress = (dripTokenAddress, dripTokenData) => {
-    const dripTokens = playerRewards?.allDrips || []
     const { usersDripBalance } = usersChainData
+    const dripTokens = playerRewards?.allDrips || []
+
     const zero = ethers.utils.parseEther('0')
 
     const userDripTokenData = defaultTo(find(dripTokens, d => d.dripToken.address === dripTokenAddress), {
@@ -131,8 +127,8 @@ export const AccountRewardsUI = () => {
     })
 
     // Drip token balance is the claimable balance; let's rename it
-    //   "claimable" will be the amount of tokens they can claim
-    //   "balance" will be the amount of tokens in their wallet
+    //   'claimable' will be the amount of tokens they can claim
+    //   'balance' will be the amount of tokens in their wallet
     userDripTokenData.claimable = userDripTokenData.balance
     userDripTokenData.balance = usersDripBalance ? usersDripBalance[dripTokenAddress].balance : zero
 
@@ -147,7 +143,7 @@ export const AccountRewardsUI = () => {
     // TODO: Handle multiple claims at once
     if (txInFlight && !txInFlight.completed) {
       return (
-        <div className="whitespace-no-wrap">
+        <div className='whitespace-no-wrap'>
           {
             !isEmpty(txInFlight.hash) && (
               <EtherscanTxLink
@@ -163,25 +159,25 @@ export const AccountRewardsUI = () => {
             size={14}
             color={'#049c9c'}
           />
-          <span className="text-teal font-bold ml-2 mt-1">Claiming...</span>
+          <span className='text-teal font-bold ml-2 mt-1'>{t('claiming')}</span>
         </div>
       )
     }
 
     return (
       <a
-        className="underline cursor-pointer stroke-current text-xs font-bold"
+        className='underline cursor-pointer stroke-current text-xs font-bold'
         onClick={handleClaim(dripData.id)}
       >
-        Claim
+        {t('claim')}
       </a>
     )
   }
 
   const getRewardsDripRows = () => {
     return map(DRIP_TOKENS, (dripTokenData, dripTokenAddress) => {
-
       const dripData = getDripDataByAddress(dripTokenAddress, dripTokenData)
+
       return (
         <tr key={dripData.id}>
           <td className='px-4 py-2 text-left font-bold'>{dripData.dripToken.name}</td>
@@ -192,9 +188,7 @@ export const AccountRewardsUI = () => {
             {getFormattedNumber(dripData.claimable)}
           </td>
           <td className='px-4 py-2 text-right'>
-            {
-              _getClaimButton(dripData)
-            }
+            {_getClaimButton(dripData)}
           </td>
         </tr>
       )
@@ -203,32 +197,30 @@ export const AccountRewardsUI = () => {
 
   return <>
     <div
-      className='non-interactable-card mt-2 py-3 px-3 bg-card rounded-lg card-min-height-desktop'
+      className='non-interactable-card mt-2 sm:py-3 sm:px-3 sm:bg-card rounded-lg card-min-height-desktop'
     >
       <div
-        className='bg-primary px-4 py-2 text-inverse flex items-center justify-between rounded-lg'
+        className='flex flex-col sm:flex-row items-center justify-between bg-primary px-4 py-2 text-inverse rounded-lg'
       >
-        <div className='flex-1 uppercase font-semibold text-xxs text-accent-1'>
-          invite friends &amp; earn referral rewards
+        <div className='flex-grow uppercase font-semibold text-xxs text-accent-1 pb-2 sm:pb-0'>
+          {t('inviteFriendsAndEarnReferralRewards')}
         </div>
 
-        <div className='flex-1 rounded-sm bg-accent-grey-3'>
-          <CopyToClipboard
-            text={referralAddress}
-            onCopy={handleCopy}
+        <CopyToClipboard
+          text={referralAddress}
+          onCopy={handleCopy}
+        >
+          <a
+            className='flex sm:w-1/2 items-center cursor-pointer stroke-current hover:text-secondary text-primary w-full h-8 py-1 mb-2 sm:mb-0 bg-accent-grey-3 hover:bg-highlight-2 rounded-sm'
+            title='Copy to clipboard'
           >
-            <a
-              className='flex cursor-pointer stroke-current hover:text-secondary text-primary w-full h-8 py-1'
-              title='Copy to clipboard'
-            >
-              <span className='mx-2 flex-grow font-bold'>{shortReferralAddress}</span>
-              <FeatherIcon
-                icon='copy'
-                className='w-4 h-4 mx-2 my-1 justify-self-end'
-              />
-            </a>
-          </CopyToClipboard>
-        </div>
+            <span className='mx-2 flex-grow font-bold text-xxxs xs:text-xs'>{shortReferralAddress}</span>
+            <FeatherIcon
+              icon='copy'
+              className='w-4 h-4 mx-2 my-1 justify-self-end'
+            />
+          </a>
+        </CopyToClipboard>
       </div>
 
 {/*
@@ -261,25 +253,23 @@ export const AccountRewardsUI = () => {
 */}
 
       <div className='py-2 px-1'>
-        <h3>Rewards</h3>
+        <h3>{t('rewards')}</h3>
       </div>
 
       <div
         className='bg-primary text-inverse flex justify-between rounded-lg px-4 py-4 mt-2'
       >
-        <table className="table-fixed w-full divide-y divide-indigo-300">
+        <table className='table-fixed w-full'>
           <thead>
             <tr>
-              <th className='w-1/5 px-4 py-2 text-left'>Token</th>
-              <th className='w-1/5 px-4 py-2 text-left font-bold'>Balance</th>
-              <th className='w-1/5 px-4 py-2 text-left'>Claimable</th>
+              <th className='w-1/5 px-4 py-2 text-left'>{t('token')}</th>
+              <th className='w-1/5 px-4 py-2 text-left font-bold'>{t('balance')}</th>
+              <th className='w-1/5 px-4 py-2 text-left'>{t('claimable')}</th>
               <th className='w-2/5 px-4 py-2'>&nbsp;</th>
             </tr>
           </thead>
           <tbody>
-            {
-              getRewardsDripRows()
-            }
+            {getRewardsDripRows()}
           </tbody>
         </table>
       </div>

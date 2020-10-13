@@ -232,7 +232,8 @@ module.exports = {
     backgroundColor: [
       'hover',
       'focus',
-      'active'
+      'active',
+      'responsive'
     ],
     borderRadius: [
       'responsive'
