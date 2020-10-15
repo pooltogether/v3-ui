@@ -50,10 +50,11 @@ export const AccountRewardsUI = () => {
     poolToast.success(t('copiedToClipboard'))
   }
 
-  const handleClaim = (dripId) => (e) => {
-    e.preventDefault()
+  const handleClaim = (drip) => {
+    console.log({ drip })
+    console.log(drip.id)
 
-    const { comptroller, updatePairs, dripTokens } = getParamsForClaim([dripId])
+    const { comptroller, updatePairs, dripTokens } = getParamsForClaim([drip.id])
 
     const params = [
       updatePairs,
@@ -82,6 +83,11 @@ export const AccountRewardsUI = () => {
     let comptroller
 
     for (let i = 0; i < drips.length; i++) {
+      let drip = graphDripData.balanceDrips.find(drip => drip.dripToken.toLowerCase() === drips[i].toLowerCase())
+      if (!drip) {
+        graphDripData.volumeDrips.find(drip => drip.dripToken.toLowerCase() === drips[i].toLowerCase())
+      }
+
       let [
         comptrollerAddress,
         sourceAddress,
@@ -89,7 +95,7 @@ export const AccountRewardsUI = () => {
         dripTokenAddress,
         isReferral,
         playerAddress
-      ] = drips[i].split('-')
+      ] = drip.id.split('-')
 
       isReferral = Boolean(parseInt(isReferral, 10))
 
@@ -138,8 +144,9 @@ export const AccountRewardsUI = () => {
     return dripData
   }
 
-  const _getClaimButton = (dripData) => {
-    if (!(dripData.claimable > 0)) {
+  const getClaimButton = (dripData) => {
+    console.log({ claimable: dripData.claimable.toString()})
+    if (!(dripData.claimable.gt(0))) {
       return ''
     }
 
@@ -170,7 +177,10 @@ export const AccountRewardsUI = () => {
     return (
       <a
         className='underline cursor-pointer stroke-current text-xs font-bold'
-        onClick={handleClaim(dripData.id)}
+        onClick={(e) => {
+          e.preventDefault()
+          handleClaim(dripData)
+        }}
       >
         {t('claim')}
       </a>
@@ -191,7 +201,7 @@ export const AccountRewardsUI = () => {
             {getFormattedNumber(dripData.claimable, dripData.dripToken.decimals)}
           </td>
           <td className='px-4 py-2 text-right'>
-            {_getClaimButton(dripData)}
+            {getClaimButton(dripData)}
           </td>
         </tr>
       )
