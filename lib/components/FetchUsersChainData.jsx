@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
+import { uniqWith, isEqual } from 'lodash'
 
 import {
   MAINNET_POLLING_INTERVAL
@@ -12,6 +13,7 @@ const debug = require('debug')('pool-app:FetchUsersChainData')
 export const FetchUsersChainData = (props) => {
   const {
     children,
+    graphDripData,
     pool,
     provider,
     usersAddress,
@@ -24,12 +26,32 @@ export const FetchUsersChainData = (props) => {
 
   const [usersChainData, setUsersChainData] = useState({})
 
+  let pairs = []
+  let dripTokens = []
+  let comptrollerAddress
+  if (graphDripData?.balanceDrips) {
+    const balanceDripPairs = graphDripData?.balanceDrips.map((drip) => [drip.sourceAddress, drip.measureToken])
+    const volumeDripPairs = graphDripData?.volumeDrips.map((drip) => [drip.sourceAddress, drip.measureToken])
+
+    pairs = uniqWith(balanceDripPairs?.concat(volumeDripPairs), isEqual)
+
+    const balanceDripTokens = graphDripData?.balanceDrips.map((drip) => drip.dripToken)
+    const volumeDripTokens = graphDripData?.volumeDrips.map((drip) => drip.dripToken)
+
+    dripTokens = uniqWith(balanceDripTokens?.concat(volumeDripTokens), isEqual)
+
+    comptrollerAddress = graphDripData?.balanceDrips?.[0].comptroller.id
+  }
+
   const fetchUsersDataFromInfura = async () => {
     try {
       const data = await fetchUsersChainData(
         provider,
         pool,
+        comptrollerAddress,
+        dripTokens,
         usersAddress,
+        pairs,
       )
 
       return data
@@ -58,7 +80,7 @@ export const FetchUsersChainData = (props) => {
   useEffect(() => {
     updateOrDelete()
     // OPTIMIZE: Could reset the interval loop here since we just grabbed fresh data!
-  }, [usersAddress])
+  }, [poolAddress, usersAddress])
 
   return children({ usersChainData })
 }

@@ -4,6 +4,10 @@ export const playerFragment = gql`
   fragment playerFragment on Player {
     id
 
+    prizePool {
+      id
+    }
+
     address
     balance
 
@@ -30,14 +34,16 @@ export const playerBalanceDripFragment = gql`
 
     balanceDrip {
       id
+
+      # prizePool {
+      #   id
+      # }
+
       dripRatePerSecond
       exchangeRateMantissa
       timestamp
       deactivated
 
-      prizePool {
-        id
-      }
       measureToken
       dripToken
     }
@@ -53,17 +59,20 @@ export const playerVolumeDripFragment = gql`
 
     volumeDrip {
       id
+
+      measureToken
+      dripToken
+
+      # prizePool {
+      #   id
+      # }
+
       referral
       periodSeconds
       dripAmount
+      
       periodCount
       deactivated
-
-      prizePool {
-        id
-      }
-      measureToken
-      dripToken
     }
   }
 `

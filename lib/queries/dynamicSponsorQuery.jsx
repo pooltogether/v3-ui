@@ -7,10 +7,6 @@ export const dynamicSponsorQuery = gql`
       id
       balance
       address
-      
-      prizePool {
-        id
-      }
     }
   }
 `

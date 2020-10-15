@@ -1,27 +1,30 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { ethers } from 'ethers'
-import { isEmpty, map, find, defaultTo } from 'lodash'
-import { useQuery } from '@apollo/client'
+import React, { useContext, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import FeatherIcon from 'feather-icons-react'
 import ClipLoader from 'react-spinners/ClipLoader'
+import { ethers } from 'ethers'
+import { useQuery } from '@apollo/client'
+import { uniqWith, isEqual, isEmpty, map, find, defaultTo } from 'lodash'
 
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
 
 import { useTranslation } from 'lib/../i18n'
-import { DEFAULT_TOKEN_PRECISION, DRIP_TOKENS } from 'lib/constants'
+import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { poolToast } from 'lib/utils/poolToast'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
 
 export const AccountRewardsUI = () => {
   const { t } = useTranslation()
-  const { pools, dynamicPlayerDrips, usersChainData } = useContext(PoolDataContext)
+  
+  const { pools, dynamicPlayerDrips, usersChainData, graphDripData } = useContext(PoolDataContext)
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
   const poolAddresses = map(pools, 'poolAddress')
@@ -29,6 +32,8 @@ export const AccountRewardsUI = () => {
 
   const referralAddress = `https://pooltogether.com/?referrer=${usersAddress}`
   const shortReferralAddress = `pooltogether.com/?referrer=${shorten(usersAddress)}`
+
+  const { usersDripTokenData } = usersChainData
 
   const [txId, setTxId] = useState(0)
 
@@ -101,38 +106,36 @@ export const AccountRewardsUI = () => {
 
   const getFormattedNumber = (value, decimals) => {
     const formatted = ethers.utils.formatEther(value, decimals ||  DEFAULT_TOKEN_PRECISION)
-    const [integer, fraction] = formatted.split('.')
 
-    return (
-      <div className='font-semibold'>
-        {integer}.{fraction.slice(0, 3)}
-        <span className='font-semibold text-accent-1'>{fraction.slice(3, 6)}</span>
+    return <>
+      <div className='font-bold'>
+        <PoolNumber>
+          {numberWithCommas(formatted, { precision: 4 })}
+        </PoolNumber>
       </div>
-    )
+    </>
   }
 
   const getDripDataByAddress = (dripTokenAddress, dripTokenData) => {
-    const { usersDripBalance } = usersChainData
+    const { usersDripTokenData } = usersChainData
     const dripTokens = playerRewards?.allDrips || []
 
     const zero = ethers.utils.parseEther('0')
 
-    const userDripTokenData = defaultTo(find(dripTokens, d => d.dripToken.address === dripTokenAddress), {
+    const dripData = defaultTo(find(dripTokens, d => d.dripToken.address === dripTokenAddress), {
       id: dripTokenAddress,
       dripToken: {
         address: dripTokenAddress,
         ...dripTokenData
       },
+      claimable: zero,
       balance: zero
     })
 
-    // Drip token balance is the claimable balance; let's rename it
-    //   'claimable' will be the amount of tokens they can claim
-    //   'balance' will be the amount of tokens in their wallet
-    userDripTokenData.claimable = userDripTokenData.balance
-    userDripTokenData.balance = usersDripBalance ? usersDripBalance[dripTokenAddress].balance : zero
+    dripData.claimable = usersDripTokenData ? usersDripTokenData[dripTokenAddress].claimable : zero
+    dripData.balance = usersDripTokenData ? usersDripTokenData[dripTokenAddress].balance : zero
 
-    return userDripTokenData
+    return dripData
   }
 
   const _getClaimButton = (dripData) => {
@@ -175,17 +178,17 @@ export const AccountRewardsUI = () => {
   }
 
   const getRewardsDripRows = () => {
-    return map(DRIP_TOKENS, (dripTokenData, dripTokenAddress) => {
+    return map(usersDripTokenData, (dripTokenData, dripTokenAddress) => {
       const dripData = getDripDataByAddress(dripTokenAddress, dripTokenData)
 
       return (
         <tr key={dripData.id}>
           <td className='px-4 py-2 text-left font-bold'>{dripData.dripToken.name}</td>
           <td className='px-4 py-2 text-left'>
-            {getFormattedNumber(dripData.balance)}
+            {getFormattedNumber(dripData.balance, dripData.dripToken.decimals)}
           </td>
           <td className='px-4 py-2 text-left'>
-            {getFormattedNumber(dripData.claimable)}
+            {getFormattedNumber(dripData.claimable, dripData.dripToken.decimals)}
           </td>
           <td className='px-4 py-2 text-right'>
             {_getClaimButton(dripData)}

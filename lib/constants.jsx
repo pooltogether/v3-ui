@@ -29,10 +29,3 @@ export const COOKIE_OPTIONS = {
   secure: process.env.NEXT_JS_DOMAIN_NAME === 'pooltogether.com',
   domain
 }
-
-// Must be all lower-case addresses
-export const DRIP_TOKENS = {
-  '0xdb86318ef943027359ecd236b16ad4f82245ad0e': {name: 'Dai Ticket', symbol: 'PT-cDAI'},
-  // '0x6540db1f2e837cb2aadeeeb355f7730786c10383': {name: 'Volume Drip Token', symbol: 'VDRIP'},
-  // '0x36c75bfb55c69f16c676788587e7e37884d450e8': {name: 'Referral Volume Drip Token', symbol: 'RVDRIP'},
-}

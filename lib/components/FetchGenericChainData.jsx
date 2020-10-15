@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
+import { isEmpty } from 'lodash'
 
 import {
   MAINNET_POLLING_INTERVAL
@@ -6,7 +7,6 @@ import {
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchGenericChainData } from 'lib/utils/fetchGenericChainData'
-import { isEmptyObject } from 'lib/utils/isEmptyObject'
 
 const debug = require('debug')('pool-app:FetchGenericChainData')
 
@@ -29,7 +29,7 @@ export const FetchGenericChainData = (props) => {
     const chainData = {
       dai: {},
       usdc: {},
-      usdt: {},
+      // usdt: {},
       // wbtc: {},
       // zrx: {},
       // bat: {},
@@ -38,19 +38,17 @@ export const FetchGenericChainData = (props) => {
     try {
       chainData.dai = await fetchGenericChainData(
         provider,
-        poolAddresses['daiPrizeStrategy'], // TODO: can get from poolData.daiPool so can remove this
         poolData.daiPool
       )
       chainData.usdc = await fetchGenericChainData(
         provider,
-        poolAddresses['usdcPrizeStrategy'],
         poolData.usdcPool
       )
-      chainData.usdt = await fetchGenericChainData(
-        provider,
-        poolAddresses['usdtPrizeStrategy'],
-        poolData.usdtPool
-      )
+      // chainData.usdt = await fetchGenericChainData(
+      //   provider,
+      //   poolAddresses.usdtPrizeStrategy,
+      //   poolData.usdtPool
+      // )
       // chainData.wbtc = await fetchGenericChainData(
       //   provider,
       //   poolAddresses['wbtcPrizeStrategy'],
@@ -91,16 +89,18 @@ export const FetchGenericChainData = (props) => {
     const conditionallyGetChainData = async () => {
       const genericData = await fetchDataFromInfura()
 
-      if (isEmptyObject(genericData.dai)) {
+      // console.log(genericData)
+
+      if (isEmpty(genericData.dai)) {
         // console.log('NO HIT, resetting ....')
         setAlreadyExecuted(false)
-      } else if (!isEmptyObject(genericData.dai)) {
+      } else if (!isEmpty(genericData.dai)) {
         // console.log('got data!')
         setGenericChainData(genericData)
       }
     }
 
-    const ready = !isEmptyObject(provider) && !isEmptyObject(poolData.daiPool)
+    const ready = !isEmpty(provider) && !isEmpty(poolData.daiPool)
 
     if (!alreadyExecuted && ready) {
       // console.log('ready and trying')

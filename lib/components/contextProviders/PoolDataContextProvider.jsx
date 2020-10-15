@@ -7,6 +7,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
+import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPoolPrize'
 import { poolToast } from 'lib/utils/poolToast'
@@ -62,7 +63,6 @@ export const PoolDataContextProvider = (props) => {
         refetchSponsorQuery,
         dynamicPlayerDrips,
       }) => {
-
         return <FetchGenericChainData
           {...props}
           chainId={chainId}
@@ -99,37 +99,28 @@ export const PoolDataContextProvider = (props) => {
                     ...genericChainData.usdc
                   }),
                 },
-                {
-                  ...genericChainData.usdt,
-                  ...dynamicPoolData.usdtPool,
-                  ...dynamicPrizeStrategiesData.usdtPrizeStrategy,
-                  name: 'Tether Pool',
-                  frequency: 'Weekly',
-                  symbol: 'PT-cUSDT',
-                  prizeEstimate: calculateEstimatedPoolPrize({
-                    ...dynamicPoolData.usdtPool,
-                    ...genericChainData.usdt
-                  }),
-                },
+                // {
+                //   ...genericChainData.usdt,
+                //   ...dynamicPoolData.usdtPool,
+                //   ...dynamicPrizeStrategiesData.usdtPrizeStrategy,
+                //   name: 'Tether Pool',
+                //   frequency: 'Weekly',
+                //   symbol: 'PT-cUSDT',
+                //   prizeEstimate: calculateEstimatedPoolPrize({
+                //     ...dynamicPoolData.usdtPool,
+                //     ...genericChainData.usdt
+                //   }),
+                // },
               ]
             }
 
-            let pool
+            let pool = null
             if (querySymbol && pools?.length > 0) {
               pool = pools.find(_pool => {
-                let symbol
-                if (_pool && _pool.symbol) {
-                  symbol = _pool.symbol.toLowerCase()
-                }
+                let symbol = _pool?.symbol?.toLowerCase()
 
-                if (_pool && symbol) {
-                  return symbol === querySymbol
-                }
+                return symbol === querySymbol
               })
-
-              if (!pool) {
-                pool = null
-              }
             }
 
             const poolAddress = pool?.poolAddress
@@ -167,38 +158,49 @@ export const PoolDataContextProvider = (props) => {
             }
 
 
-            return <FetchUsersChainData
-              {...props}
-              provider={defaultReadProvider}
-              pool={pool}
-              usersAddress={usersAddress}
+            // TODO!
+            /// hard-coded to just the DAI pool for now since that's all we're gonna launch with
+            const daiPool = pools.find(_pool => _pool?.symbol === 'PT-cDAI')
+            return <GraphPoolDripQueries
+              pool={daiPool}
             >
-              {({ usersChainData }) => {
-                return <PoolDataContext.Provider
-                  value={{
-                    loading: graphDataLoading,
-                    pool,
-                    pools,
-                    poolAddresses,
-                    dynamicPoolData,
-                    dynamicPlayerData,
-                    dynamicPlayerDrips,
-                    genericChainData,
-                    refetchPlayerQuery,
-                    refetchSponsorQuery,
-                    usersChainData,
-                    usersSponsorshipBalance,
-                    usersSponsorshipBalanceBN,
-                    usersTicketBalance,
-                    usersTicketBalanceBN,
-                  }}
+              {({ dripDataLoading, graphDripData }) => {
+                return <FetchUsersChainData
+                  {...props}
+                  provider={defaultReadProvider}
+                  pool={pool}
+                  usersAddress={usersAddress}
+                  graphDripData={graphDripData}
                 >
-                  {props.children}
-                </PoolDataContext.Provider>
+                  {({ usersChainData }) => {
+                    return <PoolDataContext.Provider
+                      value={{
+                        loading: graphDataLoading || dripDataLoading,
+                        pool,
+                        pools,
+                        poolAddresses,
+                        dynamicPoolData,
+                        dynamicPlayerData,
+                        dynamicPlayerDrips,
+                        genericChainData,
+                        refetchPlayerQuery,
+                        refetchSponsorQuery,
+                        graphDripData,
+                        usersChainData,
+                        usersSponsorshipBalance,
+                        usersSponsorshipBalanceBN,
+                        usersTicketBalance,
+                        usersTicketBalanceBN,
+                      }}
+                    >
+                      {props.children}
+                    </PoolDataContext.Provider>
 
 
+                  }}
+                </FetchUsersChainData>
               }}
-            </FetchUsersChainData>
+            </GraphPoolDripQueries>
           }}
         </FetchGenericChainData>
       }}
