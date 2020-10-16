@@ -20,13 +20,14 @@ export const DripQueries = (
   let graphDripData
 
   const variables = {
-    prizeStrategyAddress: pool.prizeStrategy.id
+    prizeStrategyAddress: pool?.prizeStrategy?.id
   }
 
   const { loading, error, data } = useQuery(prizePoolDripsQuery, {
     variables,
     fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
+    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
+    skip: !pool?.prizeStrategy,
   })
 
   if (error) {

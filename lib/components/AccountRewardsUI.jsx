@@ -111,12 +111,15 @@ export const AccountRewardsUI = () => {
   }
 
   const getFormattedNumber = (value, decimals) => {
-    const formatted = ethers.utils.formatEther(value, decimals ||  DEFAULT_TOKEN_PRECISION)
+    const formatted = ethers.utils.formatUnits(
+      value,
+      decimals || DEFAULT_TOKEN_PRECISION
+    )
 
     return <>
       <div className='font-bold'>
         <PoolNumber>
-          {numberWithCommas(formatted, { precision: 4 })}
+          {numberWithCommas(formatted, { precision: 6 })}
         </PoolNumber>
       </div>
     </>
@@ -145,7 +148,6 @@ export const AccountRewardsUI = () => {
   }
 
   const getClaimButton = (dripData) => {
-    console.log({ claimable: dripData.claimable.toString()})
     if (!(dripData.claimable.gt(0))) {
       return ''
     }

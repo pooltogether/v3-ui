@@ -80,7 +80,7 @@ export const FetchUsersChainData = (props) => {
   useEffect(() => {
     updateOrDelete()
     // OPTIMIZE: Could reset the interval loop here since we just grabbed fresh data!
-  }, [poolAddress, usersAddress])
+  }, [poolAddress, usersAddress, comptrollerAddress])
 
   return children({ usersChainData })
 }
