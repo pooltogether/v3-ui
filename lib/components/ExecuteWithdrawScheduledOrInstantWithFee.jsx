@@ -37,8 +37,9 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const [txExecuted, setTxExecuted] = useState(false)
 
   const timelockDurationSeconds = router.query.timelockDurationSeconds
-  const fee = router.query.fee
+  const gross = router.query.gross
   const net = router.query.net
+  const fee = router.query.fee
 
   const scheduledWithdrawal = withdrawType && withdrawType === 'scheduled'
   const instantWithdrawal = withdrawType && withdrawType === 'instant'
@@ -94,7 +95,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
       const params = [
         usersAddress,
         ethers.utils.parseUnits(
-          quantityForParseUnits(net, decimals),
+          quantityForParseUnits(gross, decimals),
           parseInt(decimals, 10)
         ),
         controlledTokenAddress,
@@ -110,7 +111,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
       }
       
       params.push({
-        gasLimit: 500000
+        gasLimit: 350000
       })
 
       const id = sendTx(

@@ -95,6 +95,7 @@ export const InstantOrScheduledForm = (props) => {
     if (withdrawType === 'instant') {
       queryParamUpdater.add(router, {
         withdrawType,
+        gross: quantity,
         net: instantPartialFormatted,
         fee: exitFeeFormatted,
       })
