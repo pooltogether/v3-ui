@@ -6,6 +6,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ProfileAvatar } from 'lib/components/ProfileAvatar'
 import { ProfileName } from 'lib/components/ProfileName'
+import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -90,7 +91,11 @@ export const AccountSummary = () => {
           className='mt-6'
         >
           {totalTickets && <>
-            {parseInt(totalTickets, 10)}
+            <PoolCountUp
+              fontSansRegular
+              end={parseInt(totalTickets, 10)}
+              decimals={null}
+            />
           </>} {t('tickets')}
         </h3>
 
@@ -106,7 +111,7 @@ export const AccountSummary = () => {
           className='w-full flex sm:items-center justify-start flex-col sm:flex-row mt-12 sm:mt-8'
         >
           <div
-            className='flex flex-col w-full xs:w-7/12 sm:w-4/12 lg:w-4/12 sm:border-r border-accent-4 sm:pr-2 mb-4 sm:mb-0'
+            className='flex flex-col w-full xs:w-7/12 sm:w-4/12 lg:w-4/12 sm:pr-2 mb-4 sm:mb-0'
           >
             <h4>
               ${displayAmountInEther(
@@ -121,7 +126,7 @@ export const AccountSummary = () => {
             </div>
           </div>
 
-          <div
+          {/* <div
             className='flex flex-col w-full xs:w-7/12 sm:w-6/12 lg:w-6/12 sm:pl-16'
           >
             <h4>
@@ -132,7 +137,7 @@ export const AccountSummary = () => {
             >
               {t('allTimeEarnedRewards')}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

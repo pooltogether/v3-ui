@@ -1,4 +1,4 @@
-export const SUPPORTED_CHAIN_IDS = [4, 42, 31337, 1234]
+export const SUPPORTED_CHAIN_IDS = [3, 4, 31337, 1234]
 
 export const CREATOR_ADDRESS = '0x38e842cfc75951d08e9e13bf6a8def90c639c136'
 

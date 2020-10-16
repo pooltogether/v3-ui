@@ -257,7 +257,7 @@ export const PoolShow = (
                   <h3
                     className='mt-2'
                   >
-                    {displayAmountInEther(pool.totalSupply, {
+                    {displayAmountInEther(pool.ticketSupply, {
                       precision: 0,
                       decimals
                     })}

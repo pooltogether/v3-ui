@@ -15,6 +15,7 @@ export const TxRefetchListener = (props) => {
   const pendingTransactions = transactions
     .filter(t => !t.completed && !t.cancelled)
 
+
   const runRefetch = (tx) => {
     const playerBalanceTransaction = tx.method === 'depositTo' ||
       tx.method === 'approve' ||
@@ -49,7 +50,12 @@ export const TxRefetchListener = (props) => {
     const storedTxId = tx.id
     const currentTxState = transactions.find((_tx) => _tx.id === storedTxId)
 
-    if (currentTxState && currentTxState.completed && !currentTxState.error) {
+    if (
+      currentTxState &&
+      currentTxState.completed &&
+      !currentTxState.error && 
+      !currentTxState.cancelled
+    ) {
       runRefetch(tx)
     }
   })

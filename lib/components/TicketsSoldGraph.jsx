@@ -58,7 +58,7 @@ export const TicketsSoldGraph = (
     // unsure why we need to divide by 1000 here when we do it again
     // when compiling the array ...
     currentPrize = {
-      totalTicketSupply: pool.totalSupply,
+      ticketSupply: pool.ticketSupply,
       awardedTimestamp: Date.now() / 1000
     }
 
@@ -71,7 +71,7 @@ export const TicketsSoldGraph = (
       console.warn('why no prize here?', prize)
     }
     const ticketsSold = ethers.utils.formatUnits(
-      prize?.totalTicketSupply || '0',
+      prize?.ticketSupply || '0',
       decimals
     )
 

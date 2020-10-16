@@ -95,7 +95,7 @@ export const PrizePlayerListing = (
       >
         {(timeTravelPool) => {
           return <PlayersTable
-            timeTravelTotalSupply={timeTravelPool?.totalSupply}
+            timeTravelTicketSupply={timeTravelPool?.ticketSupply}
             pool={pool}
             players={players}
           />

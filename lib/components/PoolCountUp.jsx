@@ -9,11 +9,12 @@ export const PoolCountUp = (props) => {
 
   // The CountUp library only works with floats and ints, not strings
   if (
-    isNaN(props.start) ||
-    isNaN(props.end) ||
     typeof props.start === 'string' ||
     typeof props.end === 'string'
   ) {
+    console.warn('PoolCountUp exiting early on values:')
+    console.warn('start:', props.start)
+    console.warn('end:', props.end)
     return props.end
   }
 

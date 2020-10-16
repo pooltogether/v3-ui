@@ -23,7 +23,7 @@ const playerLink = (t, player) => {
   </Link>
 }
 
-const formatPlayerObject = (t, pool, player, timeTravelTotalSupply) => {
+const formatPlayerObject = (t, pool, player, timeTravelTicketSupply) => {
   const decimals = pool.underlyingCollateralDecimals
   const balance = player.balance && decimals ?
     ethers.utils.formatUnits(
@@ -39,7 +39,7 @@ const formatPlayerObject = (t, pool, player, timeTravelTotalSupply) => {
     )}`,
     address: shorten(player.address),
     odds: <Odds
-      timeTravelTotalSupply={timeTravelTotalSupply}
+      timeTravelTicketSupply={timeTravelTicketSupply}
       pool={pool}
       usersBalance={balance}
     />,
@@ -57,7 +57,7 @@ export const PlayersTable = (
     players = props.players
   }
 
-  const { timeTravelTotalSupply, pool } = props
+  const { timeTravelTicketSupply, pool } = props
 
   const columns = React.useMemo(() => {
     return [
@@ -86,9 +86,9 @@ export const PlayersTable = (
       t,
       pool,
       player,
-      timeTravelTotalSupply
+      timeTravelTicketSupply
     ))
-  }, [players, pool, timeTravelTotalSupply])
+  }, [players, pool, timeTravelTicketSupply])
   
   const tableInstance = useTable({
     columns,

@@ -250,9 +250,9 @@ export const PrizeShow = (
                 prize={prize}
               >
                 {(timeTravelPool) => {
-                  return timeTravelPool?.totalSupply ?
+                  return timeTravelPool?.ticketSupply ?
                     displayAmountInEther(
-                      timeTravelPool.totalSupply,
+                      timeTravelPool.ticketSupply,
                       { decimals, precision: 0 }
                     ) : null
                 }}

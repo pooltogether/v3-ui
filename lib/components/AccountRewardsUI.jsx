@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import FeatherIcon from 'feather-icons-react'
 import ClipLoader from 'react-spinners/ClipLoader'
 import { ethers } from 'ethers'
 import { useQuery } from '@apollo/client'
-import { uniqWith, isEqual, isEmpty, map, find, defaultTo } from 'lodash'
+import { isEmpty, map, find, defaultTo } from 'lodash'
 
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
 
@@ -14,6 +14,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { poolToast } from 'lib/utils/poolToast'
@@ -35,6 +36,8 @@ export const AccountRewardsUI = () => {
 
   const { usersDripTokenData } = usersChainData
 
+  const [activeTxDripIds, setActiveTxDripIds] = useState([])
+
   const [txId, setTxId] = useState(0)
 
   const txName = t(`claimRewards`)
@@ -46,14 +49,23 @@ export const AccountRewardsUI = () => {
   const transactions = transactionsQueryResult?.data?.transactions
   const txInFlight = transactions?.find((tx) => tx.id === txId)
 
+  // const txsNotCompleted = transactions
+  //   ?.filter(t => !t.completed && !t.cancelled)
+  // useEffect(() => {
+  //   // this is a heavy-handed reset of active tx rows and should be improved but will require 
+  //   // putting params/identifying data into the tx object
+  //   console.log(txsNotCompleted)
+  //   if (activeTxDripIds.length > 0 && txsNotCompleted && txsNotCompleted.length === 0) {
+  //     console.log('resetting!')
+  //     setActiveTxDripIds([])
+  //   }
+  // }, [txsNotCompleted])
+
   const handleCopy = () => {
     poolToast.success(t('copiedToClipboard'))
   }
 
   const handleClaim = (drip) => {
-    console.log({ drip })
-    console.log(drip.id)
-
     const { comptroller, updatePairs, dripTokens } = getParamsForClaim([drip.id])
 
     const params = [
@@ -61,7 +73,7 @@ export const AccountRewardsUI = () => {
       usersAddress,
       dripTokens,
       {
-        gasLimit: 400000
+        gasLimit: 500000
       }
     ]
 
@@ -117,10 +129,15 @@ export const AccountRewardsUI = () => {
     )
 
     return <>
-      <div className='font-bold'>
-        <PoolNumber>
+      <div className='font-bold text-flashy'>
+        <PoolCountUp
+          fontSansRegular
+          end={Number.parseFloat(formatted)}
+          decimals={8}
+        />
+        {/* <PoolNumber>
           {numberWithCommas(formatted, { precision: 6 })}
-        </PoolNumber>
+        </PoolNumber> */}
       </div>
     </>
   }
@@ -153,69 +170,83 @@ export const AccountRewardsUI = () => {
     }
 
     // TODO: Handle multiple claims at once
-    if (txInFlight && !txInFlight.completed) {
-      return (
-        <div className='whitespace-no-wrap'>
-          {
-            !isEmpty(txInFlight.hash) && (
+    if (txInFlight && !txInFlight.completed && activeTxDripIds.includes(dripData.id)) {
+      return <>
+        <div
+          className='flex flex-col sm:flex-row items-center justify-end'
+        >
+          <span
+            className='order-1 sm:order-2'
+          >
+            <ClipLoader
+              size={14}
+              color={'#049c9c'}
+            />
+            <span className='text-teal font-bold ml-2 mt-1'>{t('claiming')}</span>
+          </span>
+
+          <span
+            className='order-2 sm:order-1'
+          >
+            {!isEmpty(txInFlight.hash) && <>
               <EtherscanTxLink
                 chainId={txInFlight.ethersTx.chainId}
                 hash={txInFlight.hash}
-                className='text-xxxs text-teal mr-3'
+                className='text-xxxs text-teal sm:mr-3'
               >
                 Etherscan
               </EtherscanTxLink>
-            )
-          }
-          <ClipLoader
-            size={14}
-            color={'#049c9c'}
-          />
-          <span className='text-teal font-bold ml-2 mt-1'>{t('claiming')}</span>
+            </>}
+          </span>
         </div>
-      )
+      </>
     }
 
-    return (
+    return <>
       <a
-        className='underline cursor-pointer stroke-current text-xs font-bold'
+        className='underline cursor-pointer stroke-current font-bold'
         onClick={(e) => {
           e.preventDefault()
+
+          setActiveTxDripIds([...activeTxDripIds, dripData.id])
+
           handleClaim(dripData)
         }}
       >
         {t('claim')}
       </a>
-    )
+    </>
   }
 
   const getRewardsDripRows = () => {
     return map(usersDripTokenData, (dripTokenData, dripTokenAddress) => {
       const dripData = getDripDataByAddress(dripTokenAddress, dripTokenData)
 
-      return (
+      return <>
         <tr key={dripData.id}>
-          <td className='px-4 py-2 text-left font-bold'>{dripData.dripToken.name}</td>
-          <td className='px-4 py-2 text-left'>
-            {getFormattedNumber(dripData.balance, dripData.dripToken.decimals)}
+          <td className='px-2 sm:px-3 py-2 text-left font-bold'>
+            {dripData.dripToken.name}
           </td>
-          <td className='px-4 py-2 text-left'>
+          {/* <td className='px-2 sm:px-3 py-2 text-left'>
+            {getFormattedNumber(dripData.balance, dripData.dripToken.decimals)}
+          </td> */}
+          <td className='px-2 sm:px-3 py-2 text-left'>
             {getFormattedNumber(dripData.claimable, dripData.dripToken.decimals)}
           </td>
-          <td className='px-4 py-2 text-right'>
+          <td className='px-2 sm:px-3 py-2 text-right'>
             {getClaimButton(dripData)}
           </td>
         </tr>
-      )
+      </>
     })
   }
 
   return <>
     <div
-      className='non-interactable-card mt-2 sm:py-3 sm:px-3 sm:bg-card rounded-lg card-min-height-desktop'
+      className='xs:mt-2 bg-card rounded-lg -mx-10 xs:mx-0 px-8 xs:px-2 sm:px-3 py-3'
     >
       <div
-        className='flex flex-col sm:flex-row items-center justify-between bg-primary px-4 py-2 text-inverse rounded-lg'
+        className='flex flex-col sm:flex-row items-center justify-between bg-primary px-2 sm:px-3 py-2 text-inverse rounded-lg'
       >
         <div className='flex-grow uppercase font-semibold text-xxs text-accent-1 pb-2 sm:pb-0'>
           {t('inviteFriendsAndEarnReferralRewards')}
@@ -226,7 +257,7 @@ export const AccountRewardsUI = () => {
           onCopy={handleCopy}
         >
           <a
-            className='flex sm:w-1/2 items-center cursor-pointer stroke-current hover:text-secondary text-primary w-full h-8 py-1 mb-2 sm:mb-0 bg-accent-grey-3 hover:bg-highlight-2 rounded-sm'
+            className='flex sm:w-1/2 items-center cursor-pointer stroke-current hover:text-secondary text-primary w-full h-8 py-1 xs:mb-2 sm:mb-0 bg-accent-grey-3 hover:bg-highlight-2 rounded-sm'
             title='Copy to clipboard'
           >
             <span className='mx-2 flex-grow font-bold text-xxxs xs:text-xs'>{shortReferralAddress}</span>
@@ -267,20 +298,22 @@ export const AccountRewardsUI = () => {
       </div>
 */}
 
-      <div className='py-2 px-1'>
+      <div className='pt-4 pb-0 px-2'>
         <h3>{t('rewards')}</h3>
       </div>
 
       <div
-        className='bg-primary text-inverse flex justify-between rounded-lg px-4 py-4 mt-2'
+        className='bg-primary text-inverse flex justify-between rounded-lg p-2 sm:p-3 mt-2'
       >
-        <table className='table-fixed w-full'>
+        <table
+          className='table-fixed w-full text-xs xs:text-sm sm:text-xl'
+        >
           <thead>
             <tr>
-              <th className='w-1/5 px-4 py-2 text-left'>{t('token')}</th>
-              <th className='w-1/5 px-4 py-2 text-left font-bold'>{t('balance')}</th>
-              <th className='w-1/5 px-4 py-2 text-left'>{t('claimable')}</th>
-              <th className='w-2/5 px-4 py-2'>&nbsp;</th>
+              <th className='w-1/3 px-2 sm:px-3 py-2 text-left'>{t('token')}</th>
+              {/* <th className='w-1/3 px-2 sm:px-3 py-2 text-left font-bold'>{t('balance')}</th> */}
+              <th className='w-1/3 px-2 sm:px-3 py-2 text-left'>{t('claimable')}</th>
+              <th className='w-1/3 px-2 sm:px-3 py-2'>&nbsp;</th>
             </tr>
           </thead>
           <tbody>

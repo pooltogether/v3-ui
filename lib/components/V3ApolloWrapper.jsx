@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { ApolloProvider } from '@apollo/client'
+import { isEmpty } from 'lodash'
 
 import { v3ApolloClient } from 'lib/apollo/v3ApolloClient'
-import { isEmptyObject } from 'lib/utils/isEmptyObject'
 
 let clientPromise
 export const V3ApolloWrapper = (props) => {
@@ -23,7 +23,7 @@ export const V3ApolloWrapper = (props) => {
     getClient()
   }, [])
 
-  if (isEmptyObject(client)) {
+  if (isEmpty(client)) {
     return null
   } else {
     return <ApolloProvider

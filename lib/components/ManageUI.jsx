@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
+import { isEmpty } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-// import { FetchExtendedChainData } from 'lib/components/FetchExtendedChainData'
 import { Button } from 'lib/components/Button'
 import { CardGrid } from 'lib/components/CardGrid'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
@@ -17,7 +17,6 @@ import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Tagline } from 'lib/components/Tagline'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { isEmptyObject } from 'lib/utils/isEmptyObject'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const ManageUI = (
@@ -170,14 +169,7 @@ export const ManageUI = (
       usersAddress={usersAddress}
     />
 
-    {/* <FetchExtendedChainData>
-      {({ extendedChainData }) => {
-        console.log({ extendedChainData})
-        return <pre>{JSON.stringify(extendedChainData, null, 2)}</pre>
-      }}
-    </FetchExtendedChainData> */}
-
-    {pool && !isEmptyObject(pool) && <>
+    {pool && !isEmpty(pool) && <>
       <CardGrid
         cardGroupId='manage-pool-cards'
         cards={[

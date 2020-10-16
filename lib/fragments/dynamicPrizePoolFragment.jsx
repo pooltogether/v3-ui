@@ -29,8 +29,8 @@ export const dynamicPrizePoolFragment = gql`
     liquidityCap
 
     playerCount
-    totalSupply
-    totalSponsorship
+    ticketSupply: totalSupply
+    sponsorshipSupply: totalSponsorship
 
     cumulativePrizeGross
     cumulativePrizeReserveFee

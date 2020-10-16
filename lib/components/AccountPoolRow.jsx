@@ -152,7 +152,7 @@ export const AccountPoolRow = (
             </>}
             
             <span
-              className='relative block text-caption uppercase font-number mt-0'
+              className='relative block text-caption uppercase font-number mt-0 opacity-70'
               style={{
                 top: 1
               }}
@@ -175,7 +175,7 @@ export const AccountPoolRow = (
               </div>
             </span>
             <span
-              className='block text-caption uppercase font-number mt-0 xs:mt-1'
+              className='block text-caption uppercase font-number mt-0 xs:mt-1 opacity-70'
             >
               ${numberWithCommas(usersBalance, { precision: 4 })} {ticker}
             </span>

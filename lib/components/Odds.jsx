@@ -18,7 +18,7 @@ export const Odds = (props) => {
     splitLines,
     altSplitLines,
     style,
-    timeTravelTotalSupply,
+    timeTravelTicketSupply,
     usersBalance,
   } = props
 
@@ -31,12 +31,12 @@ export const Odds = (props) => {
   const hasBalance = !isNaN(usersBalance) && usersBalance > 0
 
   const underlyingCollateralDecimals = pool?.underlyingCollateralDecimals
-  const totalSupply = timeTravelTotalSupply || pool?.totalSupply
+  const ticketSupply = timeTravelTicketSupply || pool?.ticketSupply
 
-  let totalSupplyFloat
-  if (totalSupply && underlyingCollateralDecimals) {
-    totalSupplyFloat = Number(ethers.utils.formatUnits(
-      totalSupply,
+  let ticketSupplyFloat
+  if (ticketSupply && underlyingCollateralDecimals) {
+    ticketSupplyFloat = Number(ethers.utils.formatUnits(
+      ticketSupply,
       Number(underlyingCollateralDecimals)
     ))
   }
@@ -50,14 +50,14 @@ export const Odds = (props) => {
   let postPurchaseBalance = usersBalance
   if (hasAdditionalQuantity) {
     postPurchaseBalance = Number(usersBalance) + additionalQuantity
-    totalSupplyFloat = totalSupplyFloat + additionalQuantity
+    ticketSupplyFloat = ticketSupplyFloat + additionalQuantity
   }
 
   let result = null
   if (postPurchaseBalance < 1) {
     result = 0
   } else {
-    result = totalSupplyFloat / postPurchaseBalance
+    result = ticketSupplyFloat / postPurchaseBalance
   }
  
   let label = showLabel && <>
