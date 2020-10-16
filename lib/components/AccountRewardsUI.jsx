@@ -85,7 +85,7 @@ export const AccountRewardsUI = () => {
     for (let i = 0; i < drips.length; i++) {
       let drip = graphDripData.balanceDrips.find(drip => drip.dripToken.toLowerCase() === drips[i].toLowerCase())
       if (!drip) {
-        graphDripData.volumeDrips.find(drip => drip.dripToken.toLowerCase() === drips[i].toLowerCase())
+        drip = graphDripData.volumeDrips.find(drip => drip.dripToken.toLowerCase() === drips[i].toLowerCase())
       }
 
       let [
