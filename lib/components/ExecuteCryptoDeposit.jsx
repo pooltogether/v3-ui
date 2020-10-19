@@ -4,8 +4,6 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/client'
 
-import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
-
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -33,6 +31,7 @@ export const ExecuteCryptoDeposit = (props) => {
 
   const decimals = pool?.underlyingCollateralDecimals
   const ticker = pool?.underlyingCollateralSymbol
+  const tokenAddress = pool?.underlyingCollateralToken
   const poolAddress = pool?.poolAddress
   const controlledTokenAddress = pool?.ticket?.id
 
@@ -41,12 +40,14 @@ export const ExecuteCryptoDeposit = (props) => {
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
-  const txMainName = `${t('deposit')} ${numberWithCommas(quantity, { precision: 4 })} ${t('tickets')}`
+  let txMainName = `${t('deposit')} ${numberWithCommas(quantity, { precision: 4 })} ${t('tickets')}`
+  if (poolTokenSupportsPermitSign(tokenAddress)) {
+    txMainName = `${t('permitAnd')} ${txMainName}`
+  }
+
   const txSubName = `${quantity} ${tickerUpcased}`
   const txName = `${txMainName} (${txSubName})`
   
-  const method = 'depositTo'
-
   const [sendTx] = useSendTransaction(txName)
 
   const transactionsQueryResult = useQuery(transactionsQuery)
@@ -67,7 +68,7 @@ export const ExecuteCryptoDeposit = (props) => {
         console.log(`referrer address was an invalid Ethereum address:`, e.message)
       }
 
-      const params = [
+      const sharedParams = [
         usersAddress,
         ethers.utils.parseUnits(
           quantity,

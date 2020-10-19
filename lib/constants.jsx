@@ -1,3 +1,7 @@
+// const PermitAndDepositDaiMainnet = require(`@pooltogether/pooltogether-contracts/deployments/mainnet/PermitAndDepositDai.json`)
+const PermitAndDepositDaiRinkeby = require(`@pooltogether/pooltogether-contracts/deployments/rinkeby/PermitAndDepositDai.json`)
+// const PermitAndDepositDaiRopsten = require(`@pooltogether/pooltogether-contracts/deployments/ropsten/PermitAndDepositDai.json`)
+
 export const SUPPORTED_CHAIN_IDS = [3, 4, 31337, 1234]
 
 export const CREATOR_ADDRESS = '0x38e842cfc75951d08e9e13bf6a8def90c639c136'
@@ -28,4 +32,17 @@ export const COOKIE_OPTIONS = {
   sameSite: 'strict',
   secure: process.env.NEXT_JS_DOMAIN_NAME === 'pooltogether.com',
   domain
+}
+
+export const CONTRACT_ADDRESSES = {
+  1: {
+    Dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
+    // PermitAndDepositDai: PermitAndDepositDaiMainnet.address
+  },
+  3: {
+    // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
+  },
+  4: {
+    PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
+  },
 }

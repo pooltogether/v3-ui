@@ -23,6 +23,7 @@ import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
+import { poolTokenSupportsPermitSign } from 'lib/utils/poolTokenSupportsPermitSign'
 
 export const DepositCryptoForm = (props) => {
   const { t } = useTranslation()
@@ -70,8 +71,11 @@ export const DepositCryptoForm = (props) => {
 
   useEffect(() => {
     if (
-      quantityBN.gt(0) &&
-      usersTokenAllowance.gte(quantityBN)
+      poolTokenSupportsPermitSign(tokenAddress) ||
+      (
+        quantityBN.gt(0) &&
+        usersTokenAllowance.gte(quantityBN)
+      )
     ) {
       setNeedsApproval(false)
     } else {
@@ -261,7 +265,7 @@ export const DepositCryptoForm = (props) => {
 
           {needsApproval && <>
             <div
-              className='px-6 sm:px-10 text-sm mb-6'
+              className='text-sm mb-6 px-6 sm:px-10 pt-10'
               style={{
                 minHeight: 97
               }}
