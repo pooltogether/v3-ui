@@ -17,6 +17,8 @@ import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTime
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { poolTokenSupportsPermitSign } from 'lib/utils/poolTokenSupportsPermitSign'
+import { permitSignOrRegularDeposit } from 'lib/utils/permitSignOrRegularDeposit'
 
 export const ExecuteCryptoDeposit = (props) => {
   const { t } = useTranslation()
@@ -26,7 +28,7 @@ export const ExecuteCryptoDeposit = (props) => {
   const router = useRouter()
   const quantity = router.query.quantity
 
-  const { usersAddress, provider } = useContext(AuthControllerContext)
+  const { chainId, usersAddress, provider } = useContext(AuthControllerContext)
   const { pool } = useContext(PoolDataContext)
 
   const decimals = pool?.underlyingCollateralDecimals
@@ -73,19 +75,21 @@ export const ExecuteCryptoDeposit = (props) => {
         ),
         controlledTokenAddress,
         referrerAddress,
-        {
-          gasLimit: 650000
-        }
+        // {
+        //   gasLimit: 650000
+        // }
       ]
+      console.log({ sharedParams})
 
-      const id = sendTx(
+      const id = permitSignOrRegularDeposit(
         t,
         provider,
+        chainId,
         usersAddress,
-        PrizePoolAbi,
         poolAddress,
-        method,
-        params
+        tokenAddress,
+        sendTx,
+        sharedParams
       )
       setTxId(id)
     }
