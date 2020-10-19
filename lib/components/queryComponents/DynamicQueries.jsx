@@ -132,6 +132,10 @@ export const DynamicQueries = (
   if (sponsorQueryError) {
   //   poolToast.error(sponsorQueryError)
     console.log(sponsorQueryError)
+    
+    if (sponsorQueryError.message.match('service is overloaded')) {
+      poolToast.warn('The Graph protocol service is currently overloaded, please try again in a few minutes')
+    }
   }
 
   if (sponsorQueryData) {

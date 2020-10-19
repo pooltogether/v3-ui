@@ -31,7 +31,7 @@ export const TicketsSoldGraph = (
     console.error(error)
   }
 
-  let prizes = compact([].concat(data?.prizePools?.prizes))
+  let prizes = compact([].concat(data?.prizePools?.[0]?.prizes))
 
   // console.log('======================')
   // console.log('======================')
@@ -41,6 +41,7 @@ export const TicketsSoldGraph = (
   if (error) {
     console.error(error)
   }
+
 
   if (!prizes.length || loading) {
     return null
@@ -80,6 +81,7 @@ export const TicketsSoldGraph = (
       date: fromUnixTime(prize.awardedTimestamp / 1000),
     }
   })
+
 
   return <>
     <DateValueLineGraph
