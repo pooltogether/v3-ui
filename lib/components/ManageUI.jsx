@@ -173,42 +173,42 @@ export const ManageUI = (
       <CardGrid
         cardGroupId='manage-pool-cards'
         cards={[
-          {
-            icon: null,
-            title: <>
-              {t('exitFee')} (<a
-                href='https://docs.pooltogether.com/tutorials/withdrawing-from-a-prize-pool#withdrawing-funds-instantly'
-                target='_blank'
-                rel='noreferrer nofollow'
-              >exitFeeMantissa</a>)
-            </>,
-            content: <>
-              <h3>
-                {displayAmountInEther(
-                  ethers.utils.bigNumberify(exitFeeMantissa).mul(100).toString(),
-                  { precision: 6 }
-                )} %
-              </h3>
-            </>
-          },
-          {
-            icon: null,
-            title: <>
-              {t('creditRate')} (<a
-                href='https://docs.pooltogether.com/tutorials/withdrawing-from-a-prize-pool#withdrawing-funds-instantly'
-                target='_blank'
-                rel='noreferrer nofollow'
-              >creditRateMantissa</a>)
-            </>,
-            content: <>
-              <h3>
-                {displayAmountInEther(
-                  ethers.utils.bigNumberify(creditRateMantissa).mul(100).toString(),
-                  { precision: 6 }
-                )} %
-              </h3>
-            </>
-          },
+          // {
+          //   icon: null,
+          //   title: <>
+          //     {t('exitFee')} (<a
+          //       href='https://docs.pooltogether.com/tutorials/withdrawing-from-a-prize-pool#withdrawing-funds-instantly'
+          //       target='_blank'
+          //       rel='noreferrer nofollow'
+          //     >exitFeeMantissa</a>)
+          //   </>,
+          //   content: <>
+          //     <h3>
+          //       {displayAmountInEther(
+          //         ethers.utils.bigNumberify(exitFeeMantissa).mul(100).toString(),
+          //         { precision: 6 }
+          //       )} %
+          //     </h3>
+          //   </>
+          // },
+          // {
+          //   icon: null,
+          //   title: <>
+          //     {t('creditRate')} (<a
+          //       href='https://docs.pooltogether.com/tutorials/withdrawing-from-a-prize-pool#withdrawing-funds-instantly'
+          //       target='_blank'
+          //       rel='noreferrer nofollow'
+          //     >creditRateMantissa</a>)
+          //   </>,
+          //   content: <>
+          //     <h3>
+          //       {displayAmountInEther(
+          //         ethers.utils.bigNumberify(creditRateMantissa).mul(100).toString(),
+          //         { precision: 6 }
+          //       )} %
+          //     </h3>
+          //   </>
+          // },
           {
             icon: null,
             title: t('prizePeriodInSeconds'),
