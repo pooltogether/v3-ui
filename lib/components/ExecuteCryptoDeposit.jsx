@@ -74,7 +74,7 @@ export const ExecuteCryptoDeposit = (props) => {
         controlledTokenAddress,
         referrerAddress,
         {
-          gasLimit: 600000
+          gasLimit: 650000
         }
       ]
 
