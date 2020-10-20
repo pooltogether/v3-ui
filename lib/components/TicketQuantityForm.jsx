@@ -145,13 +145,16 @@ export const TicketQuantityForm = (props) => {
           label={t('ticketAmount')}
           required={t('ticketQuantityRequired')}
           autoComplete='off'
-          centerLabel={!isWithdraw && usersAddress && tickerUpcased && <>
+          bottomRightLabel={!isWithdraw && usersAddress && tickerUpcased && <>
             <WyreTopUpBalanceDropdown
               label={<>
                 <Trans
                   i18nKey='topUpBalance'
-                  defaults='Top up<hiddenMobile> balance</hiddenMobile>:'
+                  defaults='<visibleMobile>Buy crypto</visibleMobile><hiddenMobile>Buy more crypto</hiddenMobile>'
                   components={{
+                    visibleMobile: <span
+                      className='xs:hidden ml-1'
+                    />,
                     hiddenMobile: <span
                       className='hidden xs:inline-block ml-1'
                     />
