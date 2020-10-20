@@ -4,6 +4,8 @@ import { useQuery } from '@apollo/client'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 
+const debug = require('debug')('pool-app:TxRefetchListener')
+
 export const TxRefetchListener = (props) => {
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
@@ -40,25 +42,25 @@ export const TxRefetchListener = (props) => {
       setTimeout(() => {
         refetchPlayerQuery()
         refetchSponsorQuery()
-        console.log('refetch!')
+        debug('refetch!')
       }, 2000)
 
       setTimeout(() => {
         refetchPlayerQuery()
         refetchSponsorQuery()
-        console.log('refetch!')
+        debug('refetch!')
       }, 8000)
 
       setTimeout(() => {
         refetchPlayerQuery()
         refetchSponsorQuery()
-        console.log('refetch!')
+        debug('refetch!')
       }, 16000)
     } else if (poolStateTransaction) {
       setTimeout(() => {
         refetchPoolQuery()
         refetchPrizeStrategyQuery()
-        console.log('refetch pool/prize!')
+        debug('refetch pool/prize!')
       }, 6000)
     }
   }

@@ -26,6 +26,7 @@ import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceT
 import { Tagline } from 'lib/components/Tagline'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 
 import CompoundFinanceIcon from 'assets/images/icon-compoundfinance.svg'
 import PrizeStrategyIcon from 'assets/images/icon-prizestrategy@2x.png'
@@ -42,12 +43,14 @@ export const PoolShow = (
   const router = useRouter()
 
   const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress, walletName } = authControllerContext
+  const { networkName, usersAddress, walletName } = authControllerContext
 
   const { pool } = props
 
   const symbol = pool?.symbol
   const decimals = pool?.underlyingCollateralDecimals
+  
+  const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
 
   const [cookieShowAward, setCookieShowAward] = useState(false)
 
@@ -90,29 +93,7 @@ export const PoolShow = (
 
   const handleAddTokenToMetaMask = (e) => {
     e.preventDefault()
-    addTokenToMetaMask(pool)
-  }
-
-  const handleRevokeAllowance = async (e) => {
-    e.preventDefault()
-
-    const params = [
-      [usersAddress],
-      {
-        gasLimit: 500000
-      }
-    ]
-
-    const id = sendTx(
-      t,
-      provider,
-      usersAddress,
-      PrizePoolAbi,
-      poolAddress,
-      method,
-      params
-    )
-    setTxId(id)
+    addTokenToMetaMask(networkName, pool)
   }
 
   return <>
@@ -213,7 +194,7 @@ export const PoolShow = (
               </div>
 
               <div
-                className='flex flex-col items-end justify-center pt-4 w-4/12 sm:w-5/12'
+                className='flex flex-col items-end justify-center pt-2 w-4/12 sm:w-5/12'
               >
                 <NewPrizeCountdown
                   pool={pool}
@@ -363,7 +344,7 @@ export const PoolShow = (
                 onClick={handleAddTokenToMetaMask}
               >
                 {t('addTicketTokenToMetamask', {
-                  token: pool?.symbol
+                  token: symbolForMetaMask
                 })}
               </Button>
             </div>

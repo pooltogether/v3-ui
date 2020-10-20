@@ -39,7 +39,6 @@ export const FetchUsersChainData = (props) => {
     const volumeDripTokens = graphDripData?.volumeDrips.map((drip) => drip.dripToken)
 
     dripTokens = uniqWith(balanceDripTokens?.concat(volumeDripTokens), isEqual)
-    console.log(graphDripData?.balanceDrips)
 
     if (graphDripData.balanceDrips.length > 0) {
       comptrollerAddress = graphDripData.balanceDrips[0].comptroller.id
