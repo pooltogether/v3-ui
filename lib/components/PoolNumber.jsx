@@ -18,7 +18,7 @@ export const PoolNumber = (props) => {
         setFirstPart(parts[0])
       }
   
-      if (parts[1] && parts[1].length > SPLIT_LENGTH) {
+      if (parts[1] && parts[1].length >= SPLIT_LENGTH) {
         setSecondPart(parts[1].substring(0, 2 + (SPLIT_LENGTH - 2)))
 
         const firstSpaceIndex = parts[1].indexOf(' ')
