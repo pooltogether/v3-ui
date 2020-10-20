@@ -30,9 +30,6 @@ export const FetchUsersChainData = (props) => {
   let dripTokens = []
   let comptrollerAddress
   if (graphDripData?.balanceDrips) {
-    console.log(graphDripData)
-    console.log(graphDripData.balanceDrips)
-
     const balanceDripPairs = graphDripData?.balanceDrips.map((drip) => [drip.sourceAddress, drip.measureToken])
     const volumeDripPairs = graphDripData?.volumeDrips.map((drip) => [drip.sourceAddress, drip.measureToken])
 
@@ -42,8 +39,11 @@ export const FetchUsersChainData = (props) => {
     const volumeDripTokens = graphDripData?.volumeDrips.map((drip) => drip.dripToken)
 
     dripTokens = uniqWith(balanceDripTokens?.concat(volumeDripTokens), isEqual)
+    console.log(graphDripData?.balanceDrips)
 
-    comptrollerAddress = graphDripData?.balanceDrips?.[0].comptroller.id
+    if (graphDripData.balanceDrips.length > 0) {
+      comptrollerAddress = graphDripData.balanceDrips[0].comptroller.id
+    }
   }
 
   const fetchUsersDataFromInfura = async () => {
