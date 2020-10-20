@@ -46,7 +46,7 @@ export const StartAwardUI = (props) => {
 
     const params = [
       {
-        gasLimit: 250000
+        gasLimit: 325000
       }
     ]
 

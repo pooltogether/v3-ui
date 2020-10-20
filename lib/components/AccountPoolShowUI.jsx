@@ -184,7 +184,7 @@ export const AccountPoolShowUI = (props) => {
             className='mt-0 xs:mt-5 flex flex-col xs:flex-row items-center justify-between pt-2'
           >
             <div
-              className='w-full pb-10 xs:pb-0 xs:w-4/12 sm:w-4/12 lg:w-4/12 sm:border-r border-accent-4'
+              className='w-full pb-2 xs:pb-0 xs:w-4/12 sm:w-3/12 lg:w-3/12'
             >
               {usersTicketBalance < 1 ? <>
                 <span
@@ -209,7 +209,7 @@ export const AccountPoolShowUI = (props) => {
             </div>
 
             <div
-              className='w-full mt-2 xs:mt-0 xs:w-4/12 sm:w-4/12 lg:w-4/12 sm:pl-16 font-bold text-xl sm:text-2xl lg:text-3xl text-inverse'
+              className='w-full mt-2 xs:mt-0 xs:w-4/12 sm:w-5/12 lg:w-5/12 sm:pl-16 font-bold text-xl sm:text-2xl lg:text-3xl text-inverse'
             >
               <PoolCountUp
                 fontSansRegular

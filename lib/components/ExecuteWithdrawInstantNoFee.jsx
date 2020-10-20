@@ -70,7 +70,7 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
         controlledTokenAddress,
         ethers.utils.parseEther(maxExitFee),
         {
-          gasLimit: 500000
+          gasLimit: 700000
         }
       ]
 

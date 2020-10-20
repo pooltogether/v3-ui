@@ -221,15 +221,12 @@ export const ManageUI = (
             icon: null,
             title: t('sponsorship'),
             content: <h3>{displayAmountInEther(
-              pool.totalSponsorship,
+              pool.sponsorship?.totalSupply,
               { decimals, precision: 4 }
             )} {tickerUpcased}</h3>
           },
         ]}
       />
-
-      {/* <br />
-      <br /> */}
 
       {/* {pool && <pre>{JSON.stringify(pool, null, 2)}</pre>} */}
     </>}

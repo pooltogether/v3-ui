@@ -59,7 +59,6 @@ export const DynamicQueries = (
   dynamicPoolData = getPoolDataFromQueryResult(poolAddresses, poolQueryData)
 
 
-
   let dynamicPrizeStrategiesData
 
   const {

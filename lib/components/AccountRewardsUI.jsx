@@ -9,7 +9,7 @@ import { isEmpty, map, find, defaultTo } from 'lodash'
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
 
 import { useTranslation } from 'lib/../i18n'
-import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
+import { DOMAIN, DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
@@ -31,8 +31,9 @@ export const AccountRewardsUI = () => {
   const poolAddresses = map(pools, 'poolAddress')
   const playerRewards = extractPoolRewardsFromUserDrips({poolAddresses, dynamicPlayerDrips})
 
-  const referralAddress = `https://pooltogether.com/?referrer=${usersAddress}`
-  const shortReferralAddress = `pooltogether.com/?referrer=${shorten(usersAddress)}`
+  const _domain = DOMAIN === '.pooltogether.com' ? 'app.pooltogether.com' : DOMAIN.substr(1, DOMAIN.length)
+  const referralAddress = `https://${_domain}/?referrer=${usersAddress}`
+  const shortReferralAddress = `${_domain}/?referrer=${shorten(usersAddress)}`
 
   const { usersDripTokenData } = usersChainData
 

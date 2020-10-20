@@ -12,8 +12,15 @@ export const timeTravelPoolQuery = (number) => {
       timeTravelPrizePool: prizePool(id: $prizePoolAddress ${blockFilter}) {
         id
         playerCount
-        ticketSupply: totalSupply
-        # cumulativePrizeNet
+        prizeStrategy {
+          id
+          singleRandomWinner {
+            ticket {
+              id
+              totalSupply
+            }
+          }
+        }
       }
     }
   `

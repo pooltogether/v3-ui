@@ -14,7 +14,7 @@ export const PoolRowGhost = (
       className='hover:bg-default border-accent-4 border-dashed border-2 w-full px-4 xs:px-6 mb-4 py-5 sm:py-6 trans rounded-lg text-inverse'
     >
 
-      <div className='flex flex-col items-center py-6 opacity-80 hover:opacity-100 trans'>
+      <div className='flex flex-col items-center py-6 opacity-70 hover:opacity-100 trans'>
         <h6
           className='flex justify-center font-bold w-full text-default-soft mb-4 text-center'
         >

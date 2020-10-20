@@ -139,7 +139,6 @@ export const DepositCryptoForm = (props) => {
   const approveButtonClassName = !needsApproval ? 'w-full' : 'w-48-percent'
 
   const approveButton = <Button
-    noAnim
     textSize='lg'
     onClick={handleUnlockClick}
     disabled={!needsApproval || unlockTxInFlight}
@@ -329,7 +328,7 @@ export const DepositCryptoForm = (props) => {
             <DepositTxButton
               needsApproval={needsApproval}
               quantity={quantity}
-              disabled={needsApproval || overBalance}
+              disabled={poolIsLocked || needsApproval || overBalance}
               poolIsLocked={poolIsLocked}
               nextStep={nextStep}
             />

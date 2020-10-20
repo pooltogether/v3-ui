@@ -85,8 +85,9 @@ export const PoolDataContextProvider = (props) => {
                   frequency: 'Weekly',
                   symbol: 'PT-cDAI',
                   prizeEstimate: calculateEstimatedPoolPrize({
+                    ...genericChainData.dai,
                     ...dynamicPoolData.daiPool,
-                    ...genericChainData.dai
+                    ...dynamicPrizeStrategiesData.daiPrizeStrategy,
                   }),
                 },
                 // {

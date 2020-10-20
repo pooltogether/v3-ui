@@ -5,9 +5,16 @@ export const dynamicSingleRandomWinnerFragment = gql`
     id
 
     owner
-    ticket { id }
-    sponsorship { id }
     rng
+    
+    ticket {
+      id
+      totalSupply
+    }
+    sponsorship {
+      id
+      totalSupply
+    }
 
     prizePeriodSeconds
     prizePeriodStartedAt

@@ -16,6 +16,7 @@ export const NewPrizeCountdownInWords = (
   const [secondsRemaining, setSecondsRemaining] = useState(null)
 
   // console.log('b', pool?.prizePeriodRemainingSeconds?.toString())
+  // console.log({ secondsRemaining: secondsRemaining })
 
   const secs = pool?.prizePeriodRemainingSeconds &&
     parseInt(pool?.prizePeriodRemainingSeconds.toString(), 10)
