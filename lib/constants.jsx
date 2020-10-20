@@ -40,6 +40,7 @@ export const CONTRACT_ADDRESSES = {
     // PermitAndDepositDai: PermitAndDepositDaiMainnet.address
   },
   3: {
+    // Dai: '0xc2118d4d90b274016cb7a54c03ef52e6c537d957',
     // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
   },
   4: {

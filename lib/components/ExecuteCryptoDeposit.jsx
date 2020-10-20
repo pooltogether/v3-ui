@@ -41,7 +41,7 @@ export const ExecuteCryptoDeposit = (props) => {
   const [txId, setTxId] = useState()
 
   let txMainName = `${t('deposit')} ${numberWithCommas(quantity, { precision: 2 })} ${t('tickets')}`
-  if (poolTokenSupportsPermitSign(tokenAddress)) {
+  if (poolTokenSupportsPermitSign(chainId, tokenAddress)) {
     txMainName = `${t('permitAnd')} ${txMainName}`
   }
 
@@ -53,8 +53,6 @@ export const ExecuteCryptoDeposit = (props) => {
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
   const tx = transactions?.find((tx) => tx.id === txId)
-
-
 
   useEffect(() => {
     const runTx = async () => {
@@ -81,7 +79,7 @@ export const ExecuteCryptoDeposit = (props) => {
         }
       ]
 
-      const id = permitSignOrRegularDeposit(
+      const id = await permitSignOrRegularDeposit(
         t,
         provider,
         chainId,
@@ -99,11 +97,12 @@ export const ExecuteCryptoDeposit = (props) => {
     }
   }, [quantity, decimals])
   
-  console.log(tx)
   useEffect(() => {
     if (tx?.cancelled || tx?.error) {
       previousStep()
     } else if (tx?.completed) {
+      nextStep()
+
       const valueInCentsWithDecimals = Number(quantity) * 100
       const valueInCents = parseInt(valueInCentsWithDecimals, 10)
 
@@ -115,7 +114,6 @@ export const ExecuteCryptoDeposit = (props) => {
         // the same page until the tx confirms, so it won't be accurate anyways
         // window.fathom.trackGoal('L4PBHM0U', valueInCents)
       }
-      nextStep()
     }
   }, [tx])
 

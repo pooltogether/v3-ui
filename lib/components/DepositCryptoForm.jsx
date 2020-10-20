@@ -34,7 +34,7 @@ export const DepositCryptoForm = (props) => {
   const quantity = router.query.quantity
   
   const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress, provider } = authControllerContext
+  const { chainId, usersAddress, provider } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
   const { pool, usersChainData } = poolData
@@ -71,7 +71,7 @@ export const DepositCryptoForm = (props) => {
 
   useEffect(() => {
     if (
-      poolTokenSupportsPermitSign(tokenAddress) ||
+      poolTokenSupportsPermitSign(chainId, tokenAddress) ||
       (
         quantityBN.gt(0) &&
         usersTokenAllowance.gte(quantityBN)
