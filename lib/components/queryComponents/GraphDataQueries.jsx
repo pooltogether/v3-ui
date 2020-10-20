@@ -15,6 +15,8 @@ export const GraphDataQueries = (props) => {
       dynamicPlayerData,
       dynamicPlayerDrips,
       dynamicSponsorData,
+      refetchPoolQuery,
+      refetchPrizeStrategyQuery,
       refetchPlayerQuery,
       refetchSponsorQuery,
     }) => {
@@ -33,6 +35,8 @@ export const GraphDataQueries = (props) => {
         dynamicPlayerDrips,
         dynamicSponsorData,
         graphDataLoading: loading,
+        refetchPoolQuery,
+        refetchPrizeStrategyQuery,
         refetchPlayerQuery,
         refetchSponsorQuery,
       })

@@ -76,9 +76,9 @@ export const ExecuteCryptoDeposit = (props) => {
         ),
         controlledTokenAddress,
         referrerAddress,
-        {
-          gasLimit: 650000
-        }
+        // {
+        //   gasLimit: 650000
+        // }
       ]
 
       const id = permitSignOrRegularDeposit(
@@ -99,6 +99,7 @@ export const ExecuteCryptoDeposit = (props) => {
     }
   }, [quantity, decimals])
   
+  console.log(tx)
   useEffect(() => {
     if (tx?.cancelled || tx?.error) {
       previousStep()

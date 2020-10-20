@@ -45,9 +45,9 @@ export const StartAwardUI = (props) => {
     e.preventDefault()
 
     const params = [
-      {
-        gasLimit: 200000
-      }
+      // {
+      //   gasLimit: 200000
+      // }
     ]
 
     const id = sendTx(
@@ -66,9 +66,9 @@ export const StartAwardUI = (props) => {
   return <>
     {canStartAward && <>
       <ButtonTx
-        bg='highlight-4'
-        hoverBg='green'
-        hoverText='primary'
+        text='green'
+        border='green'
+        hoverBorder='green'
         textSize='lg'
         onClick={handleStartAwardClick}
         usersAddress={usersAddress}

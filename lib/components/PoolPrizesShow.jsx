@@ -77,7 +77,10 @@ export const PoolPrizesShow = (
 
       <div className='text-center xs:text-right w-3/4 xs:w-1/3'>
         <Button
-          bg='highlight-4'
+          bg='purple'
+          border='green'
+          text='green'
+          hoverBorder='green'
           textSize='lg'
           onClick={handleGetTicketsClick}
         >

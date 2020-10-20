@@ -68,7 +68,7 @@ export const PoolRow = (
             className='flex flex-col items-start justify-between w-full ml-1 sm:ml-4 leading-none'
           >
             <div
-              className='inline-block text-left text-xs xs:text-sm xs:text-xl sm:text-2xl font-bold text-inverse relative'
+              className='inline-block text-left text-xs xs:text-sm xs:text-xl sm:text-4xl font-bold text-inverse relative'
               style={{
                 top: -4
               }}
@@ -82,21 +82,6 @@ export const PoolRow = (
                     { precision: 2, decimals }
                   )
                 }}
-              />
-            </div>
-            <div
-              className='inline-block text-left text-caption-2 relative mt-2'
-              style={{
-                top: -1,
-                left: -2
-              }}
-            >
-              <Chip
-                color='accent-1'
-                text={t(pool?.name)}
-              /> <Chip
-                color='highlight-6'
-                text={t(pool?.frequency)}
               />
             </div>
           </div>
@@ -127,8 +112,20 @@ export const PoolRow = (
         </div>
 
         <div
-          className='w-1/2 sm:w-2/12 text-right'
+          className='w-5/12 sm:w-2/12 text-right'
         >
+          <div
+            className='inline-block text-left text-caption-2 relative mr-2'
+          >
+            <Chip
+              color='accent-1'
+              text={t(pool?.name)}
+            /> <Chip
+              color='default'
+              text={t(pool?.frequency)}
+            />
+          </div>
+
           <ButtonLink
             noAnim
             border='transparent'

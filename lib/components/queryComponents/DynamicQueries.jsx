@@ -31,7 +31,12 @@ export const DynamicQueries = (
   let dynamicPoolData
 
   // multiple queries at the same time this (or use apollo-link-batch) to prevent multiple re-renders
-  const { loading: poolQueryLoading, error: poolQueryError, data: poolQueryData } = useQuery(dynamicPrizePoolsQuery, {
+  const {
+    loading: poolQueryLoading,
+    error: poolQueryError,
+    data: poolQueryData,
+    refetch: refetchPoolQuery
+  } = useQuery(dynamicPrizePoolsQuery, {
     variables,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
@@ -60,7 +65,8 @@ export const DynamicQueries = (
   const {
     loading: prizeStrategyQueryLoading,
     error: prizeStrategyQueryError,
-    data: prizeStrategyQueryData
+    data: prizeStrategyQueryData,
+    refetch: refetchPrizeStrategyQuery
   } = useQuery(dynamicSingleRandomWinnerQuery, {
     variables,
     fetchPolicy: 'network-only',
@@ -153,6 +159,8 @@ export const DynamicQueries = (
     dynamicPlayerData,
     dynamicPlayerDrips,
     dynamicSponsorData,
+    refetchPoolQuery,
+    refetchPrizeStrategyQuery,
     refetchPlayerQuery,
     refetchSponsorQuery,
   })

@@ -7,7 +7,12 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 export const TxRefetchListener = (props) => {
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
-  const { refetchPlayerQuery } = useContext(PoolDataContext)
+  const {
+    refetchPoolQuery,
+    refetchPrizeStrategyQuery,
+    refetchPlayerQuery,
+    refetchSponsorQuery,
+  } = useContext(PoolDataContext)
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
@@ -24,6 +29,9 @@ export const TxRefetchListener = (props) => {
       tx.method === 'sweepTimelockBalances' ||
       tx.method === 'updateAndClaimDrips'
 
+    const poolStateTransaction = tx.method === 'startAward' ||
+      tx.method === 'completeAward'
+
     if (playerBalanceTransaction) {
       // refetchPlayerQuery()
 
@@ -31,18 +39,27 @@ export const TxRefetchListener = (props) => {
       // so simply query a few times for the updated data
       setTimeout(() => {
         refetchPlayerQuery()
+        refetchSponsorQuery()
         console.log('refetch!')
       }, 2000)
 
       setTimeout(() => {
         refetchPlayerQuery()
+        refetchSponsorQuery()
         console.log('refetch!')
-      }, 6000)
+      }, 8000)
 
       setTimeout(() => {
         refetchPlayerQuery()
+        refetchSponsorQuery()
         console.log('refetch!')
-      }, 12000)
+      }, 16000)
+    } else if (poolStateTransaction) {
+      setTimeout(() => {
+        refetchPoolQuery()
+        refetchPrizeStrategyQuery()
+        console.log('refetch pool/prize!')
+      }, 6000)
     }
   }
 
