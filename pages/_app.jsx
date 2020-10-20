@@ -75,6 +75,7 @@ function MyApp({ Component, pageProps, router }) {
 
     function onRouteChangeComplete() {
       // TODO: We shouldn't need `if (Fathom)` here! Why is it somtimes undefined?
+      console.log(Fathom)
       if (Fathom) {
         Fathom.trackPageview()
       }
