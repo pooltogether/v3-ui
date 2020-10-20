@@ -31,9 +31,12 @@ export const AccountRewardsUI = () => {
   const poolAddresses = map(pools, 'poolAddress')
   const playerRewards = extractPoolRewardsFromUserDrips({poolAddresses, dynamicPlayerDrips})
 
-  const _domain = DOMAIN === '.pooltogether.com' ? 'app.pooltogether.com' : DOMAIN.substr(1, DOMAIN.length)
-  const referralAddress = `https://${_domain}/?referrer=${usersAddress}`
-  const shortReferralAddress = `${_domain}/?referrer=${shorten(usersAddress)}`
+  const domain = ''
+  if (window && window.location) {
+    domain = window.location.hostname
+  }
+  const referralAddress = `https://${domain}/?referrer=${usersAddress}`
+  const shortReferralAddress = `${domain}/?referrer=${shorten(usersAddress)}`
 
   const { usersDripTokenData } = usersChainData
 
