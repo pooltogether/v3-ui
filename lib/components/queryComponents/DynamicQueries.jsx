@@ -56,6 +56,7 @@ export const DynamicQueries = (
     console.error(poolQueryError)
   }
 
+  console.log({ poolQueryData})
   dynamicPoolData = getPoolDataFromQueryResult(poolAddresses, poolQueryData)
 
 

@@ -28,7 +28,7 @@ export const FetchGenericChainData = (props) => {
   const fetchDataFromInfura = async () => {
     const chainData = {
       dai: {},
-      usdc: {},
+      // usdc: {},
       // usdt: {},
       // wbtc: {},
       // zrx: {},
@@ -40,10 +40,10 @@ export const FetchGenericChainData = (props) => {
         provider,
         poolData.daiPool
       )
-      chainData.usdc = await fetchGenericChainData(
-        provider,
-        poolData.usdcPool
-      )
+      // chainData.usdc = await fetchGenericChainData(
+      //   provider,
+      //   poolData.usdcPool
+      // )
       // chainData.usdt = await fetchGenericChainData(
       //   provider,
       //   poolAddresses.usdtPrizeStrategy,

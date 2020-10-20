@@ -87,18 +87,18 @@ export const PoolDataContextProvider = (props) => {
                     ...genericChainData.dai
                   }),
                 },
-                {
-                  ...genericChainData.usdc,
-                  ...dynamicPoolData.usdcPool,
-                  ...dynamicPrizeStrategiesData.usdcPrizeStrategy,
-                  name: 'USDC Pool',
-                  frequency: 'Weekly',
-                  symbol: 'PT-cUSDC',
-                  prizeEstimate: calculateEstimatedPoolPrize({
-                    ...dynamicPoolData.usdcPool,
-                    ...genericChainData.usdc
-                  }),
-                },
+                // {
+                //   ...genericChainData.usdc,
+                //   ...dynamicPoolData.usdcPool,
+                //   ...dynamicPrizeStrategiesData.usdcPrizeStrategy,
+                //   name: 'USDC Pool',
+                //   frequency: 'Weekly',
+                //   symbol: 'PT-cUSDC',
+                //   prizeEstimate: calculateEstimatedPoolPrize({
+                //     ...dynamicPoolData.usdcPool,
+                //     ...genericChainData.usdc
+                //   }),
+                // },
                 // {
                 //   ...genericChainData.usdt,
                 //   ...dynamicPoolData.usdtPool,

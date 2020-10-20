@@ -4,7 +4,7 @@ const PermitAndDepositDaiRinkeby = require(`@pooltogether/pooltogether-contracts
 
 export const SUPPORTED_CHAIN_IDS = [3, 4, 31337, 1234]
 
-export const CREATOR_ADDRESS = '0x38e842cfc75951d08e9e13bf6a8def90c639c136'
+export const CREATOR_ADDRESS = '0xe0f4217390221af47855e094f6e112d43c8698fe'
 
 export const SECONDS_PER_BLOCK = 14
 

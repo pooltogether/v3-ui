@@ -112,7 +112,7 @@ export const PoolRow = (
         </div>
 
         <div
-          className='w-5/12 sm:w-2/12 text-right'
+          className='w-5/12 sm:w-4/12 text-right'
         >
           <div
             className='inline-block text-left text-caption-2 relative mr-2'
