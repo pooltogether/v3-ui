@@ -41,9 +41,9 @@ export const ExecuteCryptoDeposit = (props) => {
   const [txId, setTxId] = useState()
 
   let txMainName = `${t('deposit')} ${numberWithCommas(quantity, { precision: 2 })} ${t('tickets')}`
-  if (poolTokenSupportsPermitSign(chainId, tokenAddress)) {
-    txMainName = `${t('permitAnd')} ${txMainName}`
-  }
+  // if (poolTokenSupportsPermitSign(chainId, tokenAddress)) {
+  //   txMainName = `${t('permitAnd')} ${txMainName}`
+  // }
 
   const txSubName = `${quantity} ${tickerUpcased}`
   const txName = `${txMainName} (${txSubName})`
@@ -74,9 +74,6 @@ export const ExecuteCryptoDeposit = (props) => {
         ),
         controlledTokenAddress,
         referrerAddress,
-        {
-          gasLimit: 650000
-        }
       ]
 
       const id = await permitSignOrRegularDeposit(
