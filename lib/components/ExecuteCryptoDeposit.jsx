@@ -15,8 +15,10 @@ import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTime
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { poolTokenSupportsPermitSign } from 'lib/utils/poolTokenSupportsPermitSign'
 import { permitSignOrRegularDeposit } from 'lib/utils/permitSignOrRegularDeposit'
+import { usersDataForPool } from 'lib/utils/usersDataForPool'
+
+const bn = ethers.utils.bigNumberify
 
 export const ExecuteCryptoDeposit = (props) => {
   const { t } = useTranslation()
@@ -27,15 +29,18 @@ export const ExecuteCryptoDeposit = (props) => {
   const quantity = router.query.quantity
 
   const { chainId, usersAddress, provider } = useContext(AuthControllerContext)
-  const { pool } = useContext(PoolDataContext)
+  const { usersChainData, pool } = useContext(PoolDataContext)
 
   const decimals = pool?.underlyingCollateralDecimals
   const ticker = pool?.underlyingCollateralSymbol
   const tokenAddress = pool?.underlyingCollateralToken
   const poolAddress = pool?.poolAddress
   const controlledTokenAddress = pool?.ticket?.id
-
   const tickerUpcased = ticker?.toUpperCase()
+
+  const {
+    usersDaiPermitAllowance,
+  } = usersDataForPool(pool, usersChainData)
 
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
@@ -66,6 +71,9 @@ export const ExecuteCryptoDeposit = (props) => {
         console.log(`referrer address was an invalid Ethereum address:`, e.message)
       }
 
+      const quantityBN = quantity ? bn(quantity) : bn(0)
+      const needsPermit = quantityBN.gt(0) && usersDaiPermitAllowance.lt(quantityBN)
+
       const sharedParams = [
         usersAddress,
         ethers.utils.parseUnits(
@@ -84,7 +92,8 @@ export const ExecuteCryptoDeposit = (props) => {
         poolAddress,
         tokenAddress,
         sendTx,
-        sharedParams
+        sharedParams,
+        needsPermit
       )
       setTxId(id)
     }

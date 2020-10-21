@@ -1,5 +1,5 @@
 const PermitAndDepositDaiMainnet = require(`@pooltogether/pooltogether-contracts/deployments/mainnet/PermitAndDepositDai.json`)
-const PermitAndDepositDaiRinkeby = require(`@pooltogether/pooltogether-contracts/deployments/rinkeby/PermitAndDepositDai.json`)
+// const PermitAndDepositDaiRinkeby = require(`@pooltogether/pooltogether-contracts/deployments/rinkeby/PermitAndDepositDai.json`)
 // const PermitAndDepositDaiRopsten = require(`@pooltogether/pooltogether-contracts/deployments/ropsten/PermitAndDepositDai.json`)
 
 export const SUPPORTED_CHAIN_IDS = [1, 3, 4, 31337, 1234]
@@ -43,6 +43,6 @@ export const CONTRACT_ADDRESSES = {
     // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
   },
   4: {
-    PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
+    // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
   },
 }

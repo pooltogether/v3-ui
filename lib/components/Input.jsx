@@ -63,6 +63,7 @@ export function Input(props) {
     'unsignedWholeNumber',
     'centerLabel',
     'rightLabel',
+    'bottomRightLabel',
   ])
 
   return <>

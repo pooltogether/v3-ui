@@ -174,6 +174,7 @@ export const PoolDataContextProvider = (props) => {
                   pool={pool}
                   usersAddress={usersAddress}
                   graphDripData={graphDripData}
+                  poolAddresses={poolAddresses}
                 >
                   {({ usersChainData }) => {
                     return <PoolDataContext.Provider

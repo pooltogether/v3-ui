@@ -17,6 +17,7 @@ export const FetchUsersChainData = (props) => {
     pool,
     provider,
     usersAddress,
+    poolAddresses,
   } = props
 
   const generalContext = useContext(GeneralContext)
@@ -54,6 +55,7 @@ export const FetchUsersChainData = (props) => {
         dripTokens,
         usersAddress,
         pairs,
+        poolAddresses,
       )
 
       return data
