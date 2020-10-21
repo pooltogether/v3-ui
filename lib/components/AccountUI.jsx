@@ -18,7 +18,7 @@ export const AccountUI = () => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const [visible, setVisible] = useState(POOLS)
+  const [visible, setVisible] = useState(REWARDS)
 
   const handleShowRewards = (e) => {
     e.preventDefault()
@@ -68,16 +68,16 @@ export const AccountUI = () => {
     >
       <Tabs>
         <Tab
-          isSelected={visible === POOLS}
-          onClick={handleShowPools}
-        >
-          {t('pools')}
-        </Tab>
-        <Tab
           isSelected={visible === REWARDS}
           onClick={handleShowRewards}
         >
           {t('rewards')} <ChipRainbowNew text='new' />
+        </Tab>
+        <Tab
+          isSelected={visible === POOLS}
+          onClick={handleShowPools}
+        >
+          {t('pools')}
         </Tab>
       </Tabs>
 

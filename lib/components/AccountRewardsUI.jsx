@@ -31,9 +31,9 @@ export const AccountRewardsUI = () => {
   const poolAddresses = map(pools, 'poolAddress')
   const playerRewards = extractPoolRewardsFromUserDrips({poolAddresses, dynamicPlayerDrips})
 
-  const domain = ''
+  let domain = ''
   if (window && window.location) {
-    domain = window.location.hostname
+    domain = `${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`
   }
   const referralAddress = `https://${domain}/?referrer=${usersAddress}`
   const shortReferralAddress = `${domain}/?referrer=${shorten(usersAddress)}`
