@@ -13,6 +13,7 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { Chip } from 'lib/components/Chip'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
+import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
@@ -74,8 +75,15 @@ export const PoolRow = (
               }}
             >
               <Trans
-                i18nKey='prizeAndAmount'
-                defaults='Prize ${{amount}}'
+                i18nKey='prizeAmount'
+                defaults='Prize $<prize>{{amount}}</prize>'
+                components={{
+                  prize: <PoolCountUp
+                    fontSansRegular
+                    decimals={2}
+                    duration={3}
+                  />
+                }}
                 values={{
                   amount: displayAmountInEther(
                     pool?.prizeEstimate,

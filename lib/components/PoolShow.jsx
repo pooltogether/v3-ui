@@ -11,16 +11,18 @@ import {
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
+import { Chip } from 'lib/components/Chip'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Meta } from 'lib/components/Meta'
+import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
 import { Tagline } from 'lib/components/Tagline'
@@ -175,26 +177,42 @@ export const PoolShow = (
               className='flex items-center justify-between'
             >
               <div
-                className='w-full sm:w-7/12'
+                className='w-1/2 sm:w-7/12'
               >
                 <h2>
-                  {t('prizeAmountAndTicker', {
-                    amount: displayAmountInEther(
-                      pool?.prizeEstimate,
-                      { precision: 2, decimals }
-                    ),
-                    ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
-                  })}
+                  <Trans
+                    i18nKey='prizeAmountAndTicker'
+                    defaults='Prize $<prize>{{amount}}</prize> {{ticker}}'
+                    components={{
+                      prize: <PoolCountUp
+                        fontSansRegular
+                        decimals={2}
+                        duration={3}
+                      />
+                    }}
+                    values={{
+                      amount: displayAmountInEther(
+                        pool?.prizeEstimate,
+                        { precision: 2, decimals }
+                      ),
+                      ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
+                    }}
+                  />
                 </h2>
                 <div
                   className='text-caption -mt-2 uppercase font-bold'
                 >
-                  {t(pool?.frequency?.toLowerCase())}
+                  <div className='mt-2'>
+                    <Chip
+                      color='highlight-6'
+                      text={t(pool?.frequency?.toLowerCase())}
+                    />
+                  </div>
                 </div>
               </div>
 
               <div
-                className='flex flex-col items-end justify-center pt-2 w-4/12 sm:w-5/12'
+                className='flex flex-col items-end justify-center pt-2 w-6/12 sm:w-5/12'
               >
                 <NewPrizeCountdown
                   pool={pool}

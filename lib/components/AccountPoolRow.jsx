@@ -85,7 +85,7 @@ export const AccountPoolRow = (
               }}
             >
               <Trans
-                i18nKey='prizeAndAmount'
+                i18nKey='prizeAmount'
                 defaults='Prize ${{amount}}'
                 values={{
                   amount: displayAmountInEther(

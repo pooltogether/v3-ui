@@ -4,18 +4,27 @@ import CountUp from 'react-countup'
 import { usePreviousValue } from 'beautiful-react-hooks'; 
 
 export const PoolCountUp = (props) => {
-  const { bold, duration, fontSansRegular } = props
+  const { bold, children, duration, fontSansRegular } = props
 
+  let end = props.end
+  if (children) {
+    end = children
+
+    if (Array.isArray(end)) {
+      end = end[0]
+    }
+    end = parseFloat(end)
+  }
 
   // The CountUp library only works with floats and ints, not strings
   if (
     typeof props.start === 'string' ||
-    typeof props.end === 'string'
+    typeof end === 'string'
   ) {
     console.warn('PoolCountUp exiting early on values:')
     console.warn('start:', props.start)
-    console.warn('end:', props.end)
-    return props.end
+    console.warn('end:', end)
+    return end
   }
 
 
@@ -23,8 +32,8 @@ export const PoolCountUp = (props) => {
   let [value, setValue] = useState(0)
   let prev = usePreviousValue(value)
   useEffect(() => {
-    setValue(props.end)
-  }, [props.end])
+    setValue(end)
+  }, [end])
 
   let fontBold = bold === undefined ? true : false
 
