@@ -35,8 +35,8 @@ export const AccountRewardsUI = () => {
   if (window && window.location) {
     domain = `${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`
   }
-  const referralAddress = `https://${domain}/?referrer=${usersAddress}`
-  const shortReferralAddress = `${domain}/?referrer=${shorten(usersAddress)}`
+  const referralAddress = `https://${domain}/?referrer=${usersAddress ? usersAddress : ''}`
+  const shortReferralAddress = `${domain}/?referrer=${usersAddress ? shorten(usersAddress) : ''}`
 
   const { usersDripTokenData } = usersChainData
 

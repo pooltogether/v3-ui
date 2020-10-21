@@ -86,7 +86,14 @@ export const AccountPoolRow = (
             >
               <Trans
                 i18nKey='prizeAmount'
-                defaults='Prize ${{amount}}'
+                defaults='Prize $<prize>{{amount}}</prize>'
+                components={{
+                  prize: <PoolCountUp
+                    fontSansRegular
+                    decimals={2}
+                    duration={3}
+                  />
+                }}
                 values={{
                   amount: displayAmountInEther(
                     pool?.prizeEstimate,

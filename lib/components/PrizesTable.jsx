@@ -94,7 +94,7 @@ export const PrizesTable = (
         accessor: 'prizeNumber',
       },
       {
-        Header: t('prizeAmount'),
+        Header: t('prize'),
         accessor: 'prizeAmount', // accessor is the "key" in the data
       },
       {

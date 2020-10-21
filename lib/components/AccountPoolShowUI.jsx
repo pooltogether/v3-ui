@@ -156,12 +156,23 @@ export const AccountPoolShowUI = (props) => {
                     top: -6
                   }}
                 >
-                  {t('prizeAmount', {
-                    amount: displayAmountInEther(
-                      pool?.prizeEstimate,
-                      { precision: 2, decimals }
-                    )
-                  })}
+                  <Trans
+                    i18nKey='prizeAmount'
+                    defaults='Prize $<prize>{{amount}}</prize>'
+                    components={{
+                      prize: <PoolCountUp
+                        fontSansRegular
+                        decimals={2}
+                        duration={3}
+                      />
+                    }}
+                    values={{
+                      amount: displayAmountInEther(
+                        pool?.prizeEstimate,
+                        { precision: 2, decimals }
+                      )
+                    }}
+                  />
                 </div>
                 <div
                   className='inline-block text-left text-caption-2 relative'
