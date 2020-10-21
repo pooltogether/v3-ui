@@ -73,7 +73,8 @@ function MyApp({ Component, pageProps, router }) {
       includedDomains: ['staging-v3.pooltogether.com']
     })
 
-    function onRouteChangeComplete() {
+    function onRouteChangeComplete(url) {
+      console.log(url)
       // TODO: We shouldn't need `if (Fathom)` here! Why is it somtimes undefined?
       console.log(Fathom)
       if (Fathom) {
