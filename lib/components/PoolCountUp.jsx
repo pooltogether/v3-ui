@@ -4,7 +4,7 @@ import CountUp from 'react-countup'
 import { usePreviousValue } from 'beautiful-react-hooks'; 
 
 export const PoolCountUp = (props) => {
-  const { bold, fontSansRegular } = props
+  const { bold, duration, fontSansRegular } = props
 
 
   // The CountUp library only works with floats and ints, not strings
@@ -53,7 +53,7 @@ export const PoolCountUp = (props) => {
       <CountUp
         start={prev || 0}
         end={value}
-        duration={1.4}
+        duration={duration || 1.4}
         separator={','}
         decimals={decimalsToUse}
         // onEnd={() => console.log('Ended! 👏')}

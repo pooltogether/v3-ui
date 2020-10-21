@@ -135,6 +135,7 @@ export const AccountRewardsUI = () => {
     return <>
       <div className='font-bold text-flashy'>
         <PoolCountUp
+          duration={14}
           fontSansRegular
           end={Number.parseFloat(formatted)}
           decimals={8}
