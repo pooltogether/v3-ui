@@ -15,9 +15,6 @@ export const NewPrizeCountdownInWords = (
 
   const [secondsRemaining, setSecondsRemaining] = useState(null)
 
-  // console.log('b', pool?.prizePeriodRemainingSeconds?.toString())
-  // console.log({ secondsRemaining: secondsRemaining })
-
   const secs = pool?.prizePeriodRemainingSeconds &&
     parseInt(pool?.prizePeriodRemainingSeconds.toString(), 10)
 
@@ -55,13 +52,13 @@ export const NewPrizeCountdownInWords = (
     const secondsArray = ('' + seconds).split('')
 
     content = <>
-      {daysArray.length > 1 ? daysArray[1] : daysArray[0]} days,&nbsp;
+      {daysArray.length > 1 ? daysArray.join('') : daysArray[0]} days,&nbsp;
 
-      {hoursArray.length > 1 ? hoursArray[1] : hoursArray[0]} hours,&nbsp;
+      {hoursArray.length > 1 ? hoursArray.join('') : hoursArray[0]} hours,&nbsp;
 
-      {minutesArray.length > 1 ? minutesArray[1] : minutesArray[0]} minutes, and&nbsp;
+      {minutesArray.length > 1 ? minutesArray.join('') : minutesArray[0]} minutes, and&nbsp;
 
-      {secondsArray.length > 1 ? secondsArray[1] : secondsArray[0]} seconds
+      {secondsArray.length > 1 ? secondsArray.join('') : secondsArray[0]} seconds
     </>
   }
 

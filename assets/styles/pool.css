@@ -473,3 +473,16 @@ input[type=number] {
     max-width: 370px;
   }
 }
+
+.glow {
+  animation: glow 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow:  0 0 1px rgb(212, 230, 52), 1px 1px 2px #fff, 2px 2px 5px #fff;
+  }
+  to {
+    text-shadow:  0 0 2px #fff, 0 0 3px #0ff, 5px 5px 4px #fff;
+  }
+}
