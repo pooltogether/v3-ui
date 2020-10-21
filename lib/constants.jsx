@@ -20,7 +20,7 @@ export const WIZARD_REFERRER_HREF = 'wizardReferrerHref'
 export const WIZARD_REFERRER_AS_PATH = 'wizardReferrerAsPath'
 export const STORED_CHAIN_ID_KEY = 'chainId'
 export const TRANSACTIONS_KEY = 'txs'
-export const SHOW_MANAGE_LINKS = 'showAwardFeatures'
+export const SHOW_MANAGE_LINKS = 'showManageLinks'
 export const MAGIC_EMAIL = 'magicEmail'
 export const SELECTED_WALLET_COOKIE_KEY = 'selectedWallet'
 

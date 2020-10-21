@@ -13,7 +13,7 @@ export const NewPrizeCountdown = (
   props,
 ) => {
   const { t } = useTranslation()
-  const { pool } = props
+  const { pool, textAlign, textSize } = props
   let flashy = props.flashy === false ? false : true
 
   const [secondsRemaining, setSecondsRemaining] = useState(null)
@@ -47,9 +47,12 @@ export const NewPrizeCountdown = (
     return <>
       <p
         className={classnames(
-          'font-bold text-right text-xs xs:text-sm sm:text-xl lg:text-2xl',
+          textSize,
+          'font-bold',
           {
-            'text-flashy': flashy
+            'text-flashy': flashy,
+            'text-xs xs:text-sm sm:text-xl lg:text-2xl': !textSize,
+            'text-right': !textAlign
           }
         )}
       >

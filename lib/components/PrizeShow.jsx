@@ -162,13 +162,20 @@ export const PrizeShow = (
             </div>
           </> : <>
             <h6
-              className='mt-4 mb-4'
+              className={classnames(
+                'mt-4',
+                {
+                  'mb-3': !pool?.isRngRequested
+                }
+              )}
             >
               {t('willBeAwardedIn')}
             </h6>
             <NewPrizeCountdown
+              textAlign='left'
+              textSize='text-xs xs:text-sm sm:text-lg lg:text-xl'
               pool={pool}
-              flashy={false}
+              flashy
             />
           </>}
         </div>
