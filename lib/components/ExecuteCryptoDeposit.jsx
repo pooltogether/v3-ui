@@ -71,15 +71,12 @@ export const ExecuteCryptoDeposit = (props) => {
         console.log(`referrer address was an invalid Ethereum address:`, e.message)
       }
 
-      const quantityBN = quantity ? bn(quantity) : bn(0)
+      const quantityBN = ethers.utils.parseUnits(quantity, Number(decimals))
       const needsPermit = quantityBN.gt(0) && usersDaiPermitAllowance.lt(quantityBN)
 
       const sharedParams = [
         usersAddress,
-        ethers.utils.parseUnits(
-          quantity,
-          Number(decimals)
-        ),
+        quantityBN,
         controlledTokenAddress,
         referrerAddress,
       ]
