@@ -77,7 +77,7 @@ export const AccountUI = () => {
           isSelected={visible === POOLS}
           onClick={handleShowPools}
         >
-          {t('pools')}
+          {t('tickets')}
         </Tab>
       </Tabs>
 
