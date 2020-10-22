@@ -105,12 +105,14 @@ function MyApp({ Component, pageProps, router }) {
 
   useEffect(() => {
     const fathomSiteId = process.env.NEXT_JS_FATHOM_SITE_ID
+    console.log(fathomSiteId)
 
     if (fathomSiteId) {
       Fathom.load(process.env.NEXT_JS_FATHOM_SITE_ID, {
         url: 'https://goose.pooltogether.com/script.js',
         includedDomains: [
-          'pooltogether.com'
+          'app-v3.pooltogether.com',
+          'app.pooltogether.com',
         ]
       })
   

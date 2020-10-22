@@ -253,7 +253,7 @@ export const AccountRewardsUI = () => {
       <div
         className='flex flex-col sm:flex-row items-center justify-between bg-primary px-2 sm:px-3 py-2 text-inverse rounded-lg'
       >
-        <div className='flex-grow uppercase font-semibold text-xxs text-accent-1 pb-2 sm:pb-0'>
+        <div className='flex-grow sm:w-3/12 lg:w-1/2 uppercase font-semibold text-xxs text-accent-1 pb-2 sm:pb-0'>
           {t('inviteFriendsAndEarnReferralRewards')}
         </div>
 
@@ -262,7 +262,7 @@ export const AccountRewardsUI = () => {
           onCopy={handleCopy}
         >
           <a
-            className='flex sm:w-1/2 items-center cursor-pointer stroke-current hover:text-secondary text-primary w-full h-8 py-1 xs:mb-2 sm:mb-0 bg-accent-grey-3 hover:bg-highlight-2 rounded-sm'
+            className='flex sm:w-9/12 lg:w-1/2 items-center cursor-pointer stroke-current hover:text-secondary text-primary w-full h-8 py-1 xs:mb-2 sm:mb-0 bg-accent-grey-3 hover:bg-highlight-2 rounded-sm'
             title='Copy to clipboard'
           >
             <span className='mx-2 flex-grow font-bold text-xxxs xs:text-xs'>{shortReferralAddress}</span>
