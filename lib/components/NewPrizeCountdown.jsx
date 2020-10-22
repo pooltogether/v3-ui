@@ -66,10 +66,10 @@ export const NewPrizeCountdown = (
   const minutesArray = ('' + minutes).split('')
   const secondsArray = ('' + seconds).split('')
 
-  // 360 minutes = 6 hours
-  const textColor = minutes >= 360 ?
+  // 3600 seconds = 1 hour
+  const textColor = secondsRemaining >= 3600 ?
     'green' :
-    minutes >= 30 ?
+    secondsRemaining >= 600 ?
       'yellow' :
       'red'
 
