@@ -69,9 +69,9 @@ export const ExecuteWithdrawInstantNoFee = (props) => {
         ),
         controlledTokenAddress,
         ethers.utils.parseEther(maxExitFee),
-        {
-          gasLimit: 700000
-        }
+        // {
+        //   gasLimit: 700000
+        // }
       ]
 
       const id = sendTx(

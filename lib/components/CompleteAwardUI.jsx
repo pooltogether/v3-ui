@@ -38,9 +38,9 @@ export const CompleteAwardUI = (props) => {
     e.preventDefault()
 
     const params = [
-      {
-        gasLimit: 500000
-      }
+      // {
+      //   gasLimit: 500000
+      // }
     ]
 
     const id = sendTx(

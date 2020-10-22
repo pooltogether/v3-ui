@@ -76,9 +76,9 @@ export const AccountRewardsUI = () => {
       updatePairs,
       usersAddress,
       dripTokens,
-      {
-        gasLimit: 500000
-      }
+      // {
+      //   gasLimit: 500000
+      // }
     ]
 
     const id = sendTx(

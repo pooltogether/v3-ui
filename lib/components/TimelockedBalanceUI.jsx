@@ -70,9 +70,9 @@ export const TimelockedBalanceUI = (props) => {
 
     const params = [
       [usersAddress],
-      {
-        gasLimit: 500000
-      }
+      // {
+      //   gasLimit: 500000
+      // }
     ]
 
     const id = sendTx(

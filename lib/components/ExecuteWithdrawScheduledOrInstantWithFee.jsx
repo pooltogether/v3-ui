@@ -122,9 +122,9 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
         )
       }
       
-      params.push({
-        gasLimit: 400000
-      })
+      // params.push({
+      //   gasLimit: 400000
+      // })
 
       const id = sendTx(
         t,

@@ -118,9 +118,9 @@ export const DepositCryptoForm = (props) => {
       //   quantity,
       //   Number(decimals)
       // ),
-      {
-        gasLimit: 200000
-      }
+      // {
+      //   gasLimit: 200000
+      // }
     ]
 
     const id = sendTx(

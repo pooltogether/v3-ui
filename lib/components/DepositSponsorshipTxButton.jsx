@@ -63,9 +63,9 @@ export const DepositSponsorshipTxButton = (props) => {
       ),
       sponsorshipAddress,
       ethers.constants.AddressZero,
-      {
-        gasLimit: 550000
-      }
+      // {
+      //   gasLimit: 550000
+      // }
     ]
 
     const id = sendTx(

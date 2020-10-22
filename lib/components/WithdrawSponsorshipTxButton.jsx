@@ -69,9 +69,9 @@ export const WithdrawSponsorshipTxButton = (props) => {
       ),
       sponsorshipAddress,
       ethers.utils.parseEther(maxExitFee),
-      {
-        gasLimit: 550000
-      }
+      // {
+      //   gasLimit: 550000
+      // }
     ]
 
     const id = sendTx(

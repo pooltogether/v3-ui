@@ -50,9 +50,9 @@ export const ApproveSponsorshipTxButton = (props) => {
     const params = [
       poolAddress,
       ethers.utils.parseUnits('9999999999', Number(decimals)),
-      {
-        gasLimit: 200000
-      }
+      // {
+      //   gasLimit: 200000
+      // }
     ]
 
     const id = sendTx(
