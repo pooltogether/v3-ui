@@ -7,6 +7,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { ProfileAvatar } from 'lib/components/ProfileAvatar'
 import { ProfileName } from 'lib/components/ProfileName'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -103,7 +104,7 @@ export const AccountSummary = () => {
           <div
             className='text-caption uppercase font-bold'
           >
-            ${numberWithCommas(totalTickets, { precision: 4 })}
+            $<PoolNumber>{numberWithCommas(totalTickets, { precision: 18 })}</PoolNumber>
           </div>
         </>}
 

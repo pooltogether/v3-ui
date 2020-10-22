@@ -45,6 +45,7 @@ export const InstantOrScheduledForm = (props) => {
 
   let instantFull = ethers.utils.bigNumberify(0)
   let instantPartial = ethers.utils.bigNumberify(0)
+
   if (quantity && underlyingCollateralDecimals) {
     instantPartial = ethers.utils.parseUnits(
       quantity,
@@ -65,6 +66,7 @@ export const InstantOrScheduledForm = (props) => {
     instantPartial,
     { decimals: underlyingCollateralDecimals, precision: 8 }
   )
+  
   const exitFeeFormatted = displayAmountInEther(
     exitFee,
     { decimals: underlyingCollateralDecimals, precision: 8 }
@@ -92,20 +94,26 @@ export const InstantOrScheduledForm = (props) => {
   const updateParamsAndNextStep = async (e) => {
     e.preventDefault()
 
-    if (withdrawType === 'instant') {
+    const gross = ethers.utils.parseUnits(
+      quantity,
+      parseInt(underlyingCollateralDecimals, 10)
+    )
+
+    // if (withdrawType === 'instant') {
       queryParamUpdater.add(router, {
         withdrawType,
-        gross: quantity,
-        net: instantPartialFormatted,
-        fee: exitFeeFormatted,
+        gross: gross.toString(),
+        net: instantPartial.toString(),
+        fee: exitFee.toString(),
       })
-    } else if (withdrawType === 'scheduled') {
-      queryParamUpdater.add(router, {
-        withdrawType,
-        net: quantity,
-        timelockDurationSeconds: exitFees.timelockDurationSeconds,
-      })
-    }
+    // }
+    // else if (withdrawType === 'scheduled') {
+    //   queryParamUpdater.add(router, {
+    //     withdrawType,
+    //     net: quantity,
+    //     timelockDurationSeconds: exitFees.timelockDurationSeconds,
+    //   })
+    // }
 
     nextStep()
   }
@@ -130,9 +138,9 @@ export const InstantOrScheduledForm = (props) => {
       />
     </PaneTitle>
 
-    <PaneTitle small>
+    {/* <PaneTitle small>
       {t('chooseHowToReceiveYourFunds')}
-    </PaneTitle>
+    </PaneTitle> */}
 
         
     <RadioInputGroup
@@ -141,50 +149,50 @@ export const InstantOrScheduledForm = (props) => {
       onChange={handleWithdrawTypeChange}
       value={withdrawType}
       radios={[
-        {
-          value: 'scheduled',
-          icon: <img src={IconWinky} className='w-7 h-7 xs:w-auto xs:h-auto' />,
-          label: <>
-            {t('zeroFees')} <PTHint
-              className='inline-block relative -t-6 r-2'
-              tip={tipJsx}
-            >
-              <>
-                <div className='inline-bold relative'>
-                  <QuestionMarkCircle />
-                </div>
-              </>
-            </PTHint>
-            {/* <Trans
-              i18nKey='iWantAmountTickerBackInFutureDate'
-              defaults='I want <bold><number>{{amount}}</number> {{ticker}}</bold> back in:'
-              components={{
-                bold: <span className='font-bold' />,
-                number: <PoolNumber />,
-              }}
-              values={{
-                amount: scheduledFullFormatted,
-                ticker: underlyingCollateralSymbol,
-              }}
-            />  */}
-          </>,
-          description: <>
-            <div
-              className='mb-2 xs:mb-0'
-            >
-              {t('finalAmount')} <span
-                className='block xs:inline font-bold'
-              ><PoolNumber>{scheduledFullFormatted}</PoolNumber></span>
-            </div>
-            <div
-              className='mb-2 xs:mb-0'
-            >
-              {t('when')} <span
-                className='block xs:inline font-bold'
-              >{formattedFutureDate}</span>
-            </div>
-          </>
-        },
+        // {
+        //   value: 'scheduled',
+        //   icon: <img src={IconWinky} className='w-7 h-7 xs:w-auto xs:h-auto' />,
+        //   label: <>
+        //     {t('zeroFees')} <PTHint
+        //       className='inline-block relative -t-6 r-2'
+        //       tip={tipJsx}
+        //     >
+        //       <>
+        //         <div className='inline-bold relative'>
+        //           <QuestionMarkCircle />
+        //         </div>
+        //       </>
+        //     </PTHint>
+        //     {/* <Trans
+        //       i18nKey='iWantAmountTickerBackInFutureDate'
+        //       defaults='I want <bold><number>{{amount}}</number> {{ticker}}</bold> back in:'
+        //       components={{
+        //         bold: <span className='font-bold' />,
+        //         number: <PoolNumber />,
+        //       }}
+        //       values={{
+        //         amount: scheduledFullFormatted,
+        //         ticker: underlyingCollateralSymbol,
+        //       }}
+        //     />  */}
+        //   </>,
+        //   description: <>
+        //     <div
+        //       className='mb-2 xs:mb-0'
+        //     >
+        //       {t('finalAmount')} <span
+        //         className='block xs:inline font-bold'
+        //       ><PoolNumber>{scheduledFullFormatted}</PoolNumber></span>
+        //     </div>
+        //     <div
+        //       className='mb-2 xs:mb-0'
+        //     >
+        //       {t('when')} <span
+        //         className='block xs:inline font-bold'
+        //       >{formattedFutureDate}</span>
+        //     </div>
+        //   </>
+        // },
         {
           value: 'instant',
           icon: <img src={IconLightning} className='w-7 h-7 xs:w-auto xs:h-auto' />,
@@ -258,7 +266,7 @@ export const InstantOrScheduledForm = (props) => {
       )}
     >
       <div
-        className='order-last sm:order-first mt-2 sm:mt-0'
+        className='order-last sm:order-first sm:w-3/12 mt-2 sm:mt-0'
       >
         <label
           htmlFor='i-understand-checkbox'
@@ -274,39 +282,21 @@ export const InstantOrScheduledForm = (props) => {
       </div>
 
       <div
-        className='order-first sm:order-last'
+        className='order-first sm:order-last sm:w-9/12'
       >
-        {withdrawType === 'scheduled' ? <>
-          <Trans
-            i18nKey='youAreSchedulingAmountTickerForFutureDate'
-            defaults='You are scheduling <bold>{{amount}} {{ticker}}</bold> ready in: '
-            // for {{ futureDate }} from now
-            components={{
-              bold: <span className='font-bold' />,
-              number: <PoolNumber />,
-            }}
-            values={{
-              amount: instantPartialFormatted,
-              ticker: underlyingCollateralSymbol,
-              futureDate: formattedFutureDate,
-            }}
-          /> {formattedFutureDate}
-          
-        </> : <>
-            <Trans
-              i18nKey='youAreWithdrawingAmountTickerAndPayingFee'
-              defaults='You are withdrawing <bold>{{amount}} {{ticker}}</bold> and paying a <bold>{{amountTwo}} {{ticker}}</bold> fee'
-              components={{
-                bold: <span className='font-bold' />,
-                number: <PoolNumber />,
-              }}
-              values={{
-                amount: instantPartialFormatted,
-                amountTwo: exitFeeFormatted,
-                ticker: underlyingCollateralSymbol,
-              }}
-            />
-        </>}
+        <Trans
+          i18nKey='youAreWithdrawingAmountTickerAndPayingFee'
+          defaults='You are withdrawing <bold>{{amount}} {{ticker}}</bold> and paying a <bold>{{amountTwo}} {{ticker}}</bold> fee'
+          components={{
+            bold: <span className='font-bold' />,
+            number: <PoolNumber />,
+          }}
+          values={{
+            amount: instantPartialFormatted,
+            amountTwo: exitFeeFormatted,
+            ticker: underlyingCollateralSymbol,
+          }}
+        />
       </div>
 
       {/* {withdrawType === 'scheduled' ? <>

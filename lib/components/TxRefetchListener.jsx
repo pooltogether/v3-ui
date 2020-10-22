@@ -27,8 +27,6 @@ export const TxRefetchListener = (props) => {
     const playerBalanceTransaction = tx.method === 'depositTo' ||
       tx.method === 'approve' ||
       tx.method === 'withdrawInstantlyFrom' ||
-      tx.method === 'withdrawWithTimelockFrom' ||
-      tx.method === 'sweepTimelockBalances' ||
       tx.method === 'updateAndClaimDrips'
 
     const poolStateTransaction = tx.method === 'startAward' ||

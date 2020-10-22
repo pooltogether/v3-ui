@@ -6,6 +6,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 
 export const WithdrawComplete = (props) => {
@@ -19,6 +20,20 @@ export const WithdrawComplete = (props) => {
   const fee = router.query.fee
   const net = router.query.net
 
+  const poolData = useContext(PoolDataContext)
+  const { pool } = poolData
+  
+  const decimals = pool?.underlyingCollateralDecimals
+
+  const netFormatted = displayAmountInEther(
+    net,
+    { decimals, precision: 8 }
+  )
+  const feeFormatted = displayAmountInEther(
+    fee,
+    { decimals, precision: 8 }
+  )
+
   const scheduledWithdrawal = withdrawType && withdrawType === 'scheduled'
   const instantNoFee = withdrawType === 'instantNoFee'
 
@@ -29,21 +44,18 @@ export const WithdrawComplete = (props) => {
     )
   }
 
-  const poolData = useContext(PoolDataContext)
-  const { pool } = poolData
-
-  const underlyingCollateralSymbol = pool && pool.underlyingCollateralSymbol
-  const tickerUpcased = underlyingCollateralSymbol && underlyingCollateralSymbol.toUpperCase()
+  const underlyingCollateralSymbol = pool?.underlyingCollateralSymbol
+  const tickerUpcased = underlyingCollateralSymbol?.toUpperCase()
 
   if (!withdrawType) {
     return null
   }
 
-  const handleShowAccount = (e) => {
-    e.preventDefault()
+  // const handleShowAccount = (e) => {
+  //   e.preventDefault()
 
-    router.push('/account', '/account', { shallow: true })
-  }
+  //   router.push('/account', '/account', { shallow: true })
+  // }
 
   // TODO: show what happened here!
   // 3. your new odds are:
@@ -79,7 +91,7 @@ export const WithdrawComplete = (props) => {
             number: <PoolNumber />,
           }}
           values={{
-            amount: net,
+            amount: netFormatted,
             ticker: tickerUpcased,
           }}
         />
@@ -98,7 +110,7 @@ export const WithdrawComplete = (props) => {
               number: <PoolNumber />,
             }}
             values={{
-              amount: fee,
+              amount: feeFormatted,
               ticker: tickerUpcased
             }}
           />

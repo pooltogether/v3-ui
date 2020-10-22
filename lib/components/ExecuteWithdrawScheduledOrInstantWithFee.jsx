@@ -13,6 +13,7 @@ import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 const quantityForParseUnits = (quantity, decimals) => {
@@ -36,21 +37,6 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
 
   const [txExecuted, setTxExecuted] = useState(false)
 
-  const timelockDurationSeconds = router.query.timelockDurationSeconds
-  const gross = router.query.gross
-  const net = router.query.net
-  const fee = router.query.fee
-
-  const scheduledWithdrawal = withdrawType && withdrawType === 'scheduled'
-  const instantWithdrawal = withdrawType && withdrawType === 'instant'
-
-  let formattedFutureDate
-  if (scheduledWithdrawal && timelockDurationSeconds) {
-    formattedFutureDate = <FormattedFutureDateCountdown
-      futureDate={Number(timelockDurationSeconds)}
-    />
-  }
-
   const { usersAddress, provider } = useContext(AuthControllerContext)
   const { pool, refetchPlayerQuery } = useContext(PoolDataContext)
 
@@ -62,23 +48,55 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const tickerUpcased = ticker?.toUpperCase()
 
 
+  const timelockDurationSeconds = router.query.timelockDurationSeconds
+  const gross = router.query.gross
+  const net = router.query.net
+  const fee = router.query.fee
 
+  const grossFormatted = displayAmountInEther(
+    gross,
+    { decimals, precision: 8 }
+  )
+  const netFormatted = displayAmountInEther(
+    net,
+    { decimals, precision: 8 }
+  )
+  const feeFormatted = displayAmountInEther(
+    fee,
+    { decimals, precision: 8 }
+  )
+
+
+
+  const scheduledWithdrawal = withdrawType && withdrawType === 'scheduled'
+  const instantWithdrawal = withdrawType && withdrawType === 'instant'
+
+  let formattedFutureDate
+  if (scheduledWithdrawal && timelockDurationSeconds) {
+    formattedFutureDate = <FormattedFutureDateCountdown
+      futureDate={Number(timelockDurationSeconds)}
+    />
+  }
+
+  
 
   const [txId, setTxId] = useState()
 
-  let method
-  if (scheduledWithdrawal) {
-    method = 'withdrawWithTimelockFrom'
-  } else if (instantWithdrawal) {
-    method = 'withdrawInstantlyFrom'
-  }
+  const method = 'withdrawInstantlyFrom'
+  // let method = 'withdrawInstantlyFrom'
+  // if (scheduledWithdrawal) {
+  //   method = 'withdrawWithTimelockFrom'
+  // } else if (instantWithdrawal) {
+  //   method = 'withdrawInstantlyFrom'
+  // }
 
-  let txName
-  if (scheduledWithdrawal) {
-    txName = `Schedule withdrawal ${net} ${tickerUpcased}`
-  } else if (instantWithdrawal) {
-    txName = `Withdraw ${net} ${tickerUpcased} instantly (fee: ${fee} ${tickerUpcased})`
-  }
+  const txName = `Withdraw ${netFormatted} ${tickerUpcased} instantly (fee: ${feeFormatted} ${tickerUpcased})`
+  // let txName
+  // if (scheduledWithdrawal) {
+  //   txName = `Schedule withdrawal ${netFormatted} ${tickerUpcased}`
+  // } else if (instantWithdrawal) {
+  //   txName = `Withdraw ${netFormatted} ${tickerUpcased} instantly (fee: ${feeFormatted} ${tickerUpcased})`
+  // }
 
   const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
 
@@ -94,19 +112,13 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
 
       const params = [
         usersAddress,
-        ethers.utils.parseUnits(
-          quantityForParseUnits(gross, decimals),
-          parseInt(decimals, 10)
-        ),
+        ethers.utils.bigNumberify(gross),
         controlledTokenAddress,
       ]
 
       if (instantWithdrawal) {
         params.push(
-          ethers.utils.parseUnits(
-            quantityForParseUnits(fee, decimals),
-            parseInt(decimals, 10)
-          )
+          ethers.utils.bigNumberify(fee)
         )
       }
       
@@ -165,7 +177,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
           number: <PoolNumber />,
         }}
         values={{
-          amount: net
+          amount: netFormatted
         }}
       />
     </PaneTitle>
@@ -194,7 +206,7 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
               number: <PoolNumber />,
             }}
             values={{
-              amount: net,
+              amount: netFormatted,
               ticker: tickerUpcased,
             }}
           /> <span className='font-bold'>{formattedFutureDate}</span>
@@ -207,8 +219,8 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
               number: <PoolNumber />,
             }}
             values={{
-              amount: net,
-              fee: fee,
+              amount: netFormatted,
+              fee: feeFormatted,
               ticker: tickerUpcased,
             }}
           />

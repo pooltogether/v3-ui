@@ -130,10 +130,10 @@ export const AccountPoolShowUI = (props) => {
         </BlankStateMessage>
       </> : <>
 
-        <TimelockedBalanceUI
+        {/* <TimelockedBalanceUI
           pool={pool}
           playerData={playerData}
-        />
+        /> */}
 
         <NonInteractableCard
           className='ticket-card my-8 sm:mt-8 sm:mb-8'
@@ -167,9 +167,9 @@ export const AccountPoolShowUI = (props) => {
                       />
                     }}
                     values={{
-                      amount: displayAmountInEther(
+                      amount: ethers.utils.formatUnits(
                         pool?.prizeEstimate,
-                        { precision: 2, decimals }
+                        decimals
                       )
                     }}
                   />

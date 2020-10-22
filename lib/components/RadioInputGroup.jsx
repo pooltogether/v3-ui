@@ -12,7 +12,7 @@ export const RadioInputGroup = (
     
     return <div
       key={`radios-${radio.value}`}
-      className='radio-input flex items-center justify-center trans w-full text-base sm:text-xl lg:text-2xl bg-white rounded-xl relative hover:text-white hover:bg-highlight-3 bg-card'
+      className='radio-input flex items-center justify-center trans w-full text-base sm:text-xl lg:text-2xl bg-white rounded-xl relative hover:text-inverse hover:bg-highlight-3 bg-card'
     >
       <input
         id={id}
@@ -27,7 +27,7 @@ export const RadioInputGroup = (
         htmlFor={id}
         className={classnames(
           'flex flex-col items-center text-xs sm:text-base h-full text-inverse rounded-lg',
-          'hover:text-white absolute t-0 l-0 r-0 b-0 px-2 py-8 xs:px-4 sm:px-8 sm:py-10 w-full block trans mt-0',
+          'hover:text-inverse absolute t-0 l-0 r-0 b-0 px-2 py-8 xs:px-4 sm:px-8 sm:py-10 w-full block trans mt-0',
           'border-2 border-dashed border-transparent',
           {
             'bg-card-selected border-highlight-2': checked            

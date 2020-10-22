@@ -37,11 +37,10 @@ export const PrizeAmount = (
       <span
         className='font-number'
       >
-        ${displayAmountInEther(
+        ${ethers.utils.formatUnits(
           pool?.prizeEstimate,
-          { precision: 2, decimals }
+          decimals
         )}
-        
       </span>
     </div>
   </>

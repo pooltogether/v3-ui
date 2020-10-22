@@ -134,9 +134,9 @@ export const PrizesTable = (
     // If we have a prize amount then we know the last prize has been rewarded
     if (lastPrize.awardedBlock) {
       const currentPrizeId = extractPrizeNumberFromPrize(lastPrize) + 1
-      const amount = displayAmountInEther(
-        pool.prizeEstimate,
-        { precision: 2, decimals }
+      const amount = ethers.utils.formatUnits(
+        pool?.prizeEstimate,
+        decimals
       )
 
       currentPrize = {

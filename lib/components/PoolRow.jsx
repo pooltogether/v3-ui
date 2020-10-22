@@ -81,13 +81,13 @@ export const PoolRow = (
                   prize: <PoolCountUp
                     fontSansRegular
                     decimals={2}
-                    duration={3}
+                    duration={6}
                   />
                 }}
                 values={{
-                  amount: displayAmountInEther(
+                  amount: ethers.utils.formatUnits(
                     pool?.prizeEstimate,
-                    { precision: 2, decimals }
+                    decimals
                   )
                 }}
               />
