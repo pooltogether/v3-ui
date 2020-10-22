@@ -14,7 +14,7 @@ export const V2MessageLarge = (
   const { t } = useTranslation()
   
   const { usersAddress } = useContext(AuthControllerContext)
-  
+  // const {  } = useContext(AuthControllerContext)
 
   let usersTotalV2Balance = ethers.utils.parseEther('1.1')
   // normalizeTo18Decimals support USDC!
@@ -23,9 +23,9 @@ export const V2MessageLarge = (
     bn('1000000000000000000')
   )
 
-  if (!userHasV2Balance) {
-    return false
-  }
+  // if (!userHasV2Balance) {
+  //   return false
+  // }
 
   return <>
     <div
@@ -51,7 +51,7 @@ export const V2MessageLarge = (
             {t('nowLiveV3MoreFun')} <br
               className='hidden sm:block'
             />{t('youCanManuallyWithdrawAmountFunds', {
-              amount: displayAmountInEther(usersTotalV2Balance)
+              amount: ''
             })} 
           </div>
         </div>
