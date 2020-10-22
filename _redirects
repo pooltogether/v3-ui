@@ -5,8 +5,9 @@ https://app.pooltogether.us/*   https://app.pooltogether.com 301!
 /account/pools/:symbol          /account/pools/[symbol].html          200
 /account/pools/:symbol/withdraw /account/pools/[symbol]/withdraw.html 200
 
-/pools/:symbol                  /pools/[symbol].html         200
 /pools/:symbol/deposit          /pools/[symbol]/deposit.html 200
+/pools/:symbol/manage           /pools/[symbol]/manage.html  200
+/pools/:symbol                  /pools/[symbol].html         200
 
 /prizes/:symbol/:prizeNumber /prizes/[symbol]/[prizeNumber].html 200
 /prizes/:symbol              /prizes/[symbol].html               200
