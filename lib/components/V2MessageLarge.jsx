@@ -103,8 +103,8 @@ export const V2MessageLarge = (
           <ButtonLink
             bg='highlight-2'
             text='primary'
-            as='https://v2.pooltogether.com'
-            href='https://v2.pooltogether.com'
+            as='https://v2.pooltogether.com/en/account'
+            href='https://v2.pooltogether.com/en/account'
           >
             {t('openPoolTogetherV2')}
           </ButtonLink>
