@@ -32,7 +32,13 @@ export const TicketQuantityForm = (props) => {
   const quantity = router.query.quantity
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { pool, usersTicketBalance, usersChainData } = useContext(PoolDataContext)
+  const { pool, usersTicketBalanceBN, usersChainData } = useContext(PoolDataContext)
+
+  const decimals = pool?.underlyingCollateralDecimals
+  const usersTicketBalance = ethers.utils.formatUnits(
+    usersTicketBalanceBN.toString(),
+    decimals || 18
+  )
 
   const ticker = pool?.underlyingCollateralSymbol
   const tickerUpcased = ticker?.toUpperCase()
@@ -64,7 +70,10 @@ export const TicketQuantityForm = (props) => {
 
   const onSubmit = (values) => {
     if (formState.isValid) {
-      queryParamUpdater.add(router, { quantity: values.quantity })
+      queryParamUpdater.add(router, {
+        quantity: values.quantity,
+        prevBalance: usersTicketBalanceBN.toString()
+      })
 
       nextStep()
     }

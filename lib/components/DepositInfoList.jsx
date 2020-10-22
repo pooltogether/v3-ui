@@ -14,11 +14,11 @@ export const DepositInfoList = (props) => {
       >
         {t('ticketsAreInstantAndPerpetual')}
       </li>
-      <li
+      {/* <li
         className='mb-3'
       >
         {t('tenDayMinimumForFairness')}
-      </li>
+      </li> */}
       <li
         className='mb-3'
       >

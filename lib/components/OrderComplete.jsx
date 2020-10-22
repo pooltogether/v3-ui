@@ -15,12 +15,21 @@ export const OrderComplete = (props) => {
 
   const router = useRouter()
   const quantity = router.query.quantity
+  let prevBalance = router.query.prevBalance
 
   const confettiContext = useContext(ConfettiContext)
   const { confetti } = confettiContext
 
   const poolData = useContext(PoolDataContext)
   const { pool, usersTicketBalance } = poolData
+
+  const decimals = pool?.underlyingCollateralDecimals
+  if (prevBalance) {
+    prevBalance = ethers.utils.formatUnits(
+      prevBalance,
+      decimals || 18
+    )
+  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -61,7 +70,7 @@ export const OrderComplete = (props) => {
         className='mb-6'
       >
         {t('youNowHaveAmountTicketsInTheTickerPool', {
-          amount: numberWithCommas(usersTicketBalance, { precision: 0 }),
+          amount: numberWithCommas(Number(prevBalance) + Number(quantity), { precision: 4 }),
           ticker: pool?.underlyingCollateralSymbol
         })}
       </div>
