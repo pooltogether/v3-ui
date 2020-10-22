@@ -29,25 +29,27 @@ export const V2MessageLarge = (
 
   return <>
     <div
-      className='bg-raspberry text-white border-highlight-7 py-4 px-8 xs:p-6 sm:p-10 mb-10 rounded-lg border-2'
+      className='bg-raspberry text-white border-highlight-7 py-4 px-8 sm:p-6 sm:p-10 mb-10 rounded-lg border-2'
     >
-      <div className='flex flex-col items-center xs:flex-row text-center xs:text-left justify-between'>
+      <div className='flex flex-col items-center sm:flex-row text-center sm:text-left justify-between'>
         <div
-          className='w-full xs:w-2/3 xs:mr-2'
+          className='w-full sm:w-2/3 sm:mr-2'
         >
-          <h4>
+          <h4
+            className='sm:leading-10 mb-2'
+          >
             <span
-              className={`text-2xl block xs:inline`}
+              className={`text-2xl block sm:inline`}
               role='img'
               aria-label='alarm clock'
             >💸</span> {t('itsTimeToMoveYourFunds')}
           </h4>
 
           <div
-            className='sm:text-sm lg:text-lg my-2 xs:my-0'
+            className='sm:text-sm lg:text-lg my-2 sm:my-0'
           >
             {t('nowLiveV3MoreFun')} <br
-              className='hidden xs:block'
+              className='hidden sm:block'
             />{t('youCanManuallyWithdrawAmountFunds', {
               amount: displayAmountInEther(usersTotalV2Balance)
             })} 
@@ -55,7 +57,7 @@ export const V2MessageLarge = (
         </div>
 
         <div
-          className='w-full xs:w-1/3 mt-4 mb-2 xs:my-0'
+          className='w-full sm:w-1/3 mt-4 mb-2 sm:my-0'
         >
           <ButtonLink
             bg='highlight-2'
