@@ -176,6 +176,7 @@ export const AccountPoolRow = (
                 fontSansRegular
                 end={Math.floor(Number.parseFloat(usersBalance))}
                 decimals={null}
+                duration={0.5}
               />
               <div className='inline-block xs:block ml-1 xs:ml-0 -mt-1 text-xs sm:text-sm'>
                 {t('tickets')}

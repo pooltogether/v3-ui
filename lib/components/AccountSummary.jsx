@@ -96,6 +96,7 @@ export const AccountSummary = () => {
               fontSansRegular
               end={parseInt(totalTickets, 10)}
               decimals={null}
+              duration={0.5}
             />
           </>} {t('tickets')}
         </h3>

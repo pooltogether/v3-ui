@@ -235,6 +235,7 @@ export const AccountPoolShowUI = (props) => {
                 fontSansRegular
                 end={Math.floor(Number.parseFloat(usersTicketBalance))}
                 decimals={null}
+                duration={0.5}
               /> {t('tickets')}
               <span className='block text-caption uppercase'>
                 ${numberWithCommas(usersTicketBalance, { precision: 4 })} {ticker}
