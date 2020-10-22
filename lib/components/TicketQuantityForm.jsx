@@ -51,7 +51,8 @@ export const TicketQuantityForm = (props) => {
     watch,
     setValue
   } = useForm({
-    mode: 'all', reValidateMode: 'onChange',
+    mode: 'all',
+    reValidateMode: 'onChange',
   })
 
   useEffect(() => {
