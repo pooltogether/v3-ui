@@ -60,7 +60,7 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 function MyApp({ Component, pageProps, router }) {
   const [initialized, setInitialized] = useState(false)
   
-  useInterval(() => {
+  const redirectIfBorked = () => {
     const badPaths = [
       'http://localhost:3000/en',
       'https://app.pooltogether.com/en',
@@ -82,6 +82,14 @@ function MyApp({ Component, pageProps, router }) {
         { shallow: true }
       )
     }
+  }
+  
+  useEffect(() => {
+    redirectIfBorked()
+  }, [])
+  
+  useInterval(() => {
+    redirectIfBorked()
   }, 1000)
   
 
