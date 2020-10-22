@@ -82,7 +82,7 @@ function MyApp({ Component, pageProps, router }) {
         { shallow: true }
       )
     }
-  }, 2000)
+  }, 1000)
   
 
   useEffect(() => {

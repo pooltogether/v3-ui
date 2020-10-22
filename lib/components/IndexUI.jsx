@@ -37,7 +37,7 @@ export const IndexUI = (
   })
 
   return <>
-    {/* <V2MessageLarge /> */}
+    <V2MessageLarge />
 
     <motion.h1
       animate={totalPrizes.gt(0) ? 'enter' : 'exit'}

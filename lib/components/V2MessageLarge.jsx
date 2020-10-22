@@ -15,7 +15,6 @@ export const V2MessageLarge = (
   const { t } = useTranslation()
   
   const { usersChainData } = useContext(PoolDataContext)
-  console.log({ usersChainData})
 
   let usersTotalV2Balance = ethers.utils.bigNumberify(0)
 
