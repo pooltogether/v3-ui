@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
@@ -13,10 +13,30 @@ export const V2MessageLarge = (
 ) => {
   const { t } = useTranslation()
   
-  const { usersAddress } = useContext(AuthControllerContext)
+  const { usersChainData } = useContext(PoolDataContext)
+  console.log({ usersChainData})
   // const {  } = useContext(AuthControllerContext)
 
-  let usersTotalV2Balance = ethers.utils.parseEther('1.1')
+  let usersTotalV2Balance = ethers.utils.parseEther(0)
+
+  const daiBalances = [
+    usersChainData?.v2DaiPoolCommittedBalance,
+    usersChainData?.v2DaiPoolOpenBalance,
+    usersChainData?.v2DaiPodCommittedBalance,
+    usersChainData?.v2DaiPodOpenBalance
+  ]
+
+  const usdcBalances = [
+    usersChainData?.v2UsdcPoolCommittedBalance,
+    usersChainData?.v2UsdcPoolOpenBalance,
+    usersChainData?.v2UsdcPodCommittedBalance,
+    usersChainData?.v2UsdcPodOpenBalance
+  ]
+
+  daiBalances.map(bal => {
+
+  })
+
   // normalizeTo18Decimals support USDC!
 
   const userHasV2Balance = usersTotalV2Balance.gte(

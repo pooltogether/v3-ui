@@ -38,9 +38,9 @@ export const ExecuteCryptoDeposit = (props) => {
   const controlledTokenAddress = pool?.ticket?.id
   const tickerUpcased = ticker?.toUpperCase()
 
-  const {
-    usersDaiPermitAllowance,
-  } = usersDataForPool(pool, usersChainData)
+  // const {
+  //   usersDaiPermitAllowance,
+  // } = usersDataForPool(pool, usersChainData)
 
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
@@ -72,7 +72,7 @@ export const ExecuteCryptoDeposit = (props) => {
       }
 
       const quantityBN = ethers.utils.parseUnits(quantity, Number(decimals))
-      const needsPermit = quantityBN.gt(0) && usersDaiPermitAllowance.lt(quantityBN)
+      // const needsPermit = quantityBN.gt(0) && usersDaiPermitAllowance.lt(quantityBN)
 
       const sharedParams = [
         usersAddress,
@@ -90,7 +90,7 @@ export const ExecuteCryptoDeposit = (props) => {
         tokenAddress,
         sendTx,
         sharedParams,
-        needsPermit
+        // needsPermit
       )
       setTxId(id)
     }
