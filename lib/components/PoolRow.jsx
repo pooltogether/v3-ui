@@ -57,7 +57,7 @@ export const PoolRow = (
     >
       <div className='flex items-center'>
         <div
-          className='flex items-center font-bold w-full xs:w-8/12 sm:w-6/12 lg:w-6/12'
+          className='flex items-center font-bold w-full xs:w-8/12 sm:w-7/12 lg:w-1/2'
         >
           <PoolCurrencyIcon
             lg
@@ -96,7 +96,7 @@ export const PoolRow = (
         </div>
 
         <div
-          className='flex flex-col items-end w-5/12 xs:w-4/12 sm:w-9/12 lg:w-9/12'
+          className='flex flex-col items-end w-5/12 xs:w-4/12 sm:w-5/12 lg:w-1/2'
         >
           <NewPrizeCountdown
             pool={pool}

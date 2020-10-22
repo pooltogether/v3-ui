@@ -111,12 +111,12 @@ export const ExecuteCryptoDeposit = (props) => {
 
       // console.log('value in cents', valueInCents)
       // console.log(window.fathom)
-      if (window && window.fathom) {
+      // if (window && window.Fathom) {
         // console.log('send fathom')
         // this is naive as the user would have to stay on
         // the same page until the tx confirms, so it won't be accurate anyways
-        // window.fathom.trackGoal('L4PBHM0U', valueInCents)
-      }
+        // (from app.jsx) Fathom.trackGoal('L4PBHM0U', valueInCents)
+      // }
     }
   }, [tx])
 

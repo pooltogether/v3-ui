@@ -44,6 +44,10 @@ import 'assets/styles/vx--custom.css'
 
 import PoolTogetherMark from 'assets/images/pooltogether-white-mark.svg'
 
+if (typeof window !== 'undefined') {
+  window.ethers = ethers
+}
+
 if (process.env.NEXT_JS_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.NEXT_JS_SENTRY_DSN,
@@ -69,23 +73,28 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   useEffect(() => {
-    Fathom.load('ESRNTJKP', {
-      includedDomains: ['staging-v3.pooltogether.com']
-    })
+    const fathomSiteId = process.env.NEXT_JS_FATHOM_SITE_ID
 
-    function onRouteChangeComplete(url) {
-      console.log(url)
-      // TODO: We shouldn't need `if (Fathom)` here! Why is it somtimes undefined?
-      console.log(Fathom)
-      if (Fathom) {
-        Fathom.trackPageview()
+    if (fathomSiteId) {
+      Fathom.load(process.env.NEXT_JS_FATHOM_SITE_ID, {
+        url: 'https://goose.pooltogether.com/script.js',
+        includedDomains: [
+          'pooltogether.com'
+        ]
+      })
+  
+      function onRouteChangeComplete(url) {
+        console.log(window['fathom'])
+        if (window['fathom']) {
+          window['fathom'].trackPageview()
+        }
       }
-    }
-
-    router.events.on('routeChangeComplete', onRouteChangeComplete)
-
-    return () => {
-      router.events.off('routeChangeComplete', onRouteChangeComplete)
+  
+      router.events.on('routeChangeComplete', onRouteChangeComplete)
+  
+      return () => {
+        router.events.off('routeChangeComplete', onRouteChangeComplete)
+      }
     }
   }, [])
 
