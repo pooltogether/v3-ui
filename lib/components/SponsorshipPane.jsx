@@ -64,7 +64,7 @@ export const SponsorshipPane = (
         <div className='uppercase text-caption mb-4 font-bold'>
           {t('balance')} {numberWithCommas(
             usersSponsorshipBalance,
-            { precision: 4 }
+            { precision: 0 }
           )} {tickerUpcased}
         </div>
 

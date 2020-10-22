@@ -18,6 +18,7 @@ export const DepositSponsorshipTxButton = (props) => {
   const {
     decimals,
     quantity,
+    quantityBN,
     needsApproval,
     tickerUpcased,
   } = props
@@ -57,16 +58,11 @@ export const DepositSponsorshipTxButton = (props) => {
 
     const params = [
       usersAddress,
-      ethers.utils.parseUnits(
-        quantity,
-        Number(decimals)
-      ),
+      quantityBN,
       sponsorshipAddress,
-      ethers.constants.AddressZero,
-      // {
-      //   gasLimit: 550000
-      // }
+      ethers.constants.AddressZero
     ]
+    console.log(params)
 
     const id = sendTx(
       t,

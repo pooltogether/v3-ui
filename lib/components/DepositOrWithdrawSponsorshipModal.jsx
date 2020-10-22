@@ -34,6 +34,7 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
   const {
     pool,
     usersSponsorshipBalance,
+    usersSponsorshipBalanceBN,
     usersChainData
   } = poolData
   
@@ -49,16 +50,16 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
     mode: 'all', reValidateMode: 'onChange',
   })
 
-
-
+  const onSubmit = () => {}
 
   const {
+    usersTokenBalanceBN,
     usersTokenBalance,
     usersTokenAllowance,
   } = usersDataForPool(pool, usersChainData)
 
   const quantity = getValues('quantity')
-  
+
   let quantityBN = ethers.utils.bigNumberify(0)
   if (decimals) {
     quantityBN = ethers.utils.parseUnits(
@@ -72,28 +73,27 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
       quantityBN.gt(0) &&
       usersTokenAllowance.gte(quantityBN)
     ) {
-
       setNeedsApproval(false)
     } else if (quantity) {
       setNeedsApproval(true)
     }
   }, [quantityBN, usersTokenAllowance])
 
-  const onSubmit = () => {
-    
-  }
 
+  let contextualBalanceBN = usersTokenBalanceBN
   let contextualBalance = usersTokenBalance
   let validate = null
   if (isWithdraw) {
+    contextualBalanceBN = usersSponsorshipBalanceBN
     contextualBalance = usersSponsorshipBalance
+
     validate = {
-      greaterThanBalance: value => parseFloat(value) <= usersSponsorshipBalance ||
+      greaterThanBalance: (value) => ethers.utils.parseUnits(value, decimals).lte(usersSponsorshipBalanceBN) ||
         t('enterAmountLowerThanSponsorshipBalance'),
     }
   } else {
     validate = {
-      greaterThanBalance: value => parseFloat(value) <= usersTokenBalance ||
+      greaterThanBalance: value => ethers.utils.parseUnits(value, decimals).lte(usersTokenBalanceBN) ||
         t('enterAmountLowerThanTokenBalance'),
     }
   }
@@ -103,7 +103,7 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
       handleClose={handleClose}
       visible={visible}
       header={<>
-        {t('depositSponsorship')}
+        {isWithdraw ? t('withdrawSponsorship') : t('depositSponsorship')}
       </>}
     >
       <form
@@ -129,7 +129,11 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
                 className='font-bold'
                 onClick={(e) => {
                   e.preventDefault()
-                  setValue('quantity', contextualBalance, { shouldValidate: true })
+                  setValue(
+                    'quantity',
+                    ethers.utils.formatUnits(contextualBalanceBN, decimals),
+                    { shouldValidate: true }
+                  )
                 }}
               >
                 {numberWithCommas(contextualBalance, { precision: 2 })} {tickerUpcased}
@@ -159,6 +163,7 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
               <WithdrawSponsorshipTxButton
                 {...props}
                 quantity={quantity}
+                quantityBN={quantityBN}
               />
             </> : <>
               <ApproveSponsorshipTxButton
@@ -169,6 +174,7 @@ export const DepositOrWithdrawSponsorshipModal = (props) => {
               <DepositSponsorshipTxButton
                 {...props}
                 quantity={quantity}
+                quantityBN={quantityBN}
                 needsApproval={needsApproval}
               />
             </>}

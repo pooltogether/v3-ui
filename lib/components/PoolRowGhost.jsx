@@ -15,11 +15,11 @@ export const PoolRowGhost = (
     >
 
       <div className='flex flex-col items-center py-6 opacity-70 hover:opacity-100 trans'>
-        <h6
-          className='flex justify-center font-bold w-full text-default-soft mb-4 text-center'
+        <div
+          className='flex justify-center font-bold w-full text-default-soft mb-4 text-center text-sm sm:text-xl'
         >
           {t('suggestANewPool')}
-        </h6>
+        </div>
 
         <ButtonLink
           secondary

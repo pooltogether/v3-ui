@@ -16,7 +16,7 @@ export const WithdrawSponsorshipTxButton = (props) => {
   const { t } = useTranslation()
   
   const {
-    decimals,
+    quantityBN,
     quantity,
     needsApproval,
     tickerUpcased,
@@ -63,15 +63,9 @@ export const WithdrawSponsorshipTxButton = (props) => {
 
     const params = [
       usersAddress,
-      ethers.utils.parseUnits(
-        quantity,
-        Number(decimals)
-      ),
+      quantityBN,
       sponsorshipAddress,
       ethers.utils.parseEther(maxExitFee),
-      // {
-      //   gasLimit: 550000
-      // }
     ]
 
     const id = sendTx(
