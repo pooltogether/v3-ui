@@ -7,7 +7,7 @@ import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import { REFERRER_ADDRESS_KEY } from 'lib/constants'
+import { COOKIE_OPTIONS, REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
 // import { GasStationQuery } from 'lib/components/GasStationQuery'
@@ -65,7 +65,11 @@ function MyApp({ Component, pageProps, router }) {
       try {
         ethers.utils.getAddress(referrerAddress)
 
-        Cookies.set(REFERRER_ADDRESS_KEY, referrerAddress)
+        Cookies.set(
+          REFERRER_ADDRESS_KEY,
+          referrerAddress,
+          COOKIE_OPTIONS
+        )
       } catch (e) {
         console.error(`referrer address was an invalid Ethereum address:`, e.message)
       }

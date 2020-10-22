@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { useInterval } from 'beautiful-react-hooks'
 
 import {
+  COOKIE_OPTIONS,
   SHOW_MANAGE_LINKS,
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
@@ -81,8 +82,16 @@ export const PoolShow = (
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
 
-    Cookies.set(WIZARD_REFERRER_HREF, '/pools/[symbol]')
-    Cookies.set(WIZARD_REFERRER_AS_PATH, `/pools/${pool?.symbol}`)
+    Cookies.set(
+      WIZARD_REFERRER_HREF,
+      '/pools/[symbol]',
+      COOKIE_OPTIONS
+    )
+    Cookies.set(
+      WIZARD_REFERRER_AS_PATH,
+      `/pools/${pool?.symbol}`,
+      COOKIE_OPTIONS
+    )
 
     router.push(
       `/pools/[symbol]/deposit`,

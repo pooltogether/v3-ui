@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
 import {
+  COOKIE_OPTIONS,
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
@@ -55,8 +56,16 @@ export const AccountPoolShowUI = (props) => {
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
 
-    Cookies.set(WIZARD_REFERRER_HREF, '/account/pools/[symbol]')
-    Cookies.set(WIZARD_REFERRER_AS_PATH, `/account/pools/${pool?.symbol}`)
+    Cookies.set(
+      WIZARD_REFERRER_HREF,
+      '/account/pools/[symbol]',
+      COOKIE_OPTIONS
+    )
+    Cookies.set(
+      WIZARD_REFERRER_AS_PATH,
+      `/account/pools/${pool?.symbol}`,
+      COOKIE_OPTIONS
+    )
 
     router.push(
       `/pools/[symbol]/deposit`,

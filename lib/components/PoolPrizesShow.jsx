@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
 import {
+  COOKIE_OPTIONS,
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
@@ -37,8 +38,16 @@ export const PoolPrizesShow = (
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
 
-    Cookies.set(WIZARD_REFERRER_HREF, '/prizes/[symbol]')
-    Cookies.set(WIZARD_REFERRER_AS_PATH, `/prizes/${pool?.symbol}`)
+    Cookies.set(
+      WIZARD_REFERRER_HREF,
+      '/prizes/[symbol]',
+      COOKIE_OPTIONS
+    )
+    Cookies.set(
+      WIZARD_REFERRER_AS_PATH,
+      `/prizes/${pool?.symbol}`,
+      COOKIE_OPTIONS
+    )
 
     router.push(
       `/pools/[symbol]/deposit`,

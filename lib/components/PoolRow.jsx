@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
 import {
+  COOKIE_OPTIONS,
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
@@ -37,8 +38,16 @@ export const PoolRow = (
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
 
-    Cookies.set(WIZARD_REFERRER_HREF, '/')
-    Cookies.set(WIZARD_REFERRER_AS_PATH, `/`)
+    Cookies.set(
+      WIZARD_REFERRER_HREF,
+      '/',
+      COOKIE_OPTIONS
+    )
+    Cookies.set(
+      WIZARD_REFERRER_AS_PATH,
+      `/`,
+      COOKIE_OPTIONS
+    )
 
     router.push(
       `/pools/[symbol]/deposit`,
