@@ -42,13 +42,6 @@ export const PrizeShow = (
 
   const decimals = pool?.underlyingCollateralDecimals || 18
 
-  if (pool === null) {
-    const querySymbol = router.query?.symbol
-    return <BlankStateMessage>
-      Could not find pool with symbol: ${querySymbol}
-    </BlankStateMessage>
-  }
-
   const isCurrentPrize = Number(pool?.prizesCount) + 1 === Number(prizeNumber)
   const poolAddress = pool?.poolAddress
 
@@ -61,6 +54,15 @@ export const PrizeShow = (
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
   })
+
+
+  if (pool === null) {
+    const querySymbol = router.query?.symbol
+    return <BlankStateMessage>
+      Could not find pool with symbol: ${querySymbol}
+    </BlankStateMessage>
+  }
+  
 
   if (error) {
     console.error(error)
@@ -138,7 +140,7 @@ export const PrizeShow = (
         className='flex flex-col sm:flex-row justify-between'
       >
         <div
-          className='w-full sm:w-1/3'
+          className='w-full sm:w-5/12'
         >
           <h2>
             {t('prize')} #{prizeNumber}
@@ -181,7 +183,7 @@ export const PrizeShow = (
         </div>
 
         <div
-          className='w-full sm:w-2/3 mt-8 sm:mt-0'
+          className='w-full sm:w-7/12 mt-8 sm:mt-0'
         >
           <h2>
             <PoolCurrencyIcon
@@ -198,8 +200,8 @@ export const PrizeShow = (
           >
             {t('winner')}:
           </h6>
+
           {prize?.awardedTimestamp ? <>
-            
             <Link
               href='/players/[playerAddress]'
               as={`/players/${winnerAddress}`}
