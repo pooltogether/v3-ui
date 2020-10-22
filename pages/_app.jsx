@@ -105,7 +105,6 @@ function MyApp({ Component, pageProps, router }) {
 
   useEffect(() => {
     const fathomSiteId = process.env.NEXT_JS_FATHOM_SITE_ID
-    console.log(fathomSiteId)
 
     if (fathomSiteId) {
       Fathom.load(process.env.NEXT_JS_FATHOM_SITE_ID, {
@@ -113,6 +112,7 @@ function MyApp({ Component, pageProps, router }) {
         includedDomains: [
           'app-v3.pooltogether.com',
           'app.pooltogether.com',
+          'staging.pooltogether.com',
         ]
       })
   
