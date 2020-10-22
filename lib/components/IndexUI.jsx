@@ -7,6 +7,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PoolList } from 'lib/components/PoolList'
 import { Tagline } from 'lib/components/Tagline'
+import { V2MessageLarge } from 'lib/components/V2MessageLarge'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 
@@ -36,6 +37,8 @@ export const IndexUI = (
   })
 
   return <>
+    <V2MessageLarge />
+
     <motion.h1
       animate={totalPrizes.gt(0) ? 'enter' : 'exit'}
       initial='exit'
