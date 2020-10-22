@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { ethers } from 'ethers'
 
-import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { Trans, useTranslation } from 'lib/../i18n'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 
 const bn = ethers.utils.bigNumberify
 
@@ -13,19 +14,51 @@ export const V2MessageLarge = (
 ) => {
   const { t } = useTranslation()
   
-  const { usersAddress } = useContext(AuthControllerContext)
-  // const {  } = useContext(AuthControllerContext)
+  const { usersChainData } = useContext(PoolDataContext)
+  console.log({ usersChainData})
 
-  let usersTotalV2Balance = ethers.utils.parseEther('1.1')
-  // normalizeTo18Decimals support USDC!
+  let usersTotalV2Balance = ethers.utils.bigNumberify(0)
 
+  if (usersChainData?.v2DaiPoolCommittedBalance) {
+    const daiBalances = [
+      usersChainData?.v2DaiPoolCommittedBalance,
+      usersChainData?.v2DaiPoolOpenBalance,
+      usersChainData?.v2DaiPodCommittedBalance,
+      usersChainData?.v2DaiPodOpenBalance
+    ]
+
+    const usdcBalances = [
+      usersChainData?.v2UsdcPoolCommittedBalance,
+      usersChainData?.v2UsdcPoolOpenBalance,
+      usersChainData?.v2UsdcPodCommittedBalance,
+      usersChainData?.v2UsdcPodOpenBalance
+    ]
+
+    let usersTotalDaiBalance = ethers.utils.bigNumberify(0)
+    daiBalances.map(bal => {
+      usersTotalDaiBalance = usersTotalDaiBalance.add(bal)
+    })
+
+    let usersTotalUsdcBalance = ethers.utils.bigNumberify(0)
+    usdcBalances.map(bal => {
+      usersTotalUsdcBalance = usersTotalUsdcBalance.add(bal)
+    })
+
+    const usersTotalUsdcBalanceNormalized = normalizeTo18Decimals(
+      usersTotalUsdcBalance,
+      6
+    )
+
+    usersTotalV2Balance = usersTotalDaiBalance.add(usersTotalUsdcBalanceNormalized)
+  }
+  
   const userHasV2Balance = usersTotalV2Balance.gte(
     bn('1000000000000000000')
   )
 
-  // if (!userHasV2Balance) {
-  //   return false
-  // }
+  if (!userHasV2Balance) {
+    return false
+  }
 
   return <>
     <div
@@ -50,9 +83,18 @@ export const V2MessageLarge = (
           >
             {t('nowLiveV3MoreFun')} <br
               className='hidden sm:block'
-            />{t('youCanManuallyWithdrawAmountFunds', {
-              amount: ''
-            })} 
+            /><Trans
+              i18nKey='youCanManuallyWithdrawAmountFunds'
+              defaults='If you deposited into V2, you can now <bold>withdraw your ${{amount}}</bold> and deposit in V3 today!'
+              components={{
+                bold: <span
+                  className='font-bold'
+                />
+              }}
+              values={{
+                amount: displayAmountInEther(usersTotalV2Balance)
+              }}
+            />
           </div>
         </div>
 

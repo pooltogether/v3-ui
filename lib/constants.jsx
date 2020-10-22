@@ -1,4 +1,4 @@
-const PermitAndDepositDaiMainnet = require(`@pooltogether/pooltogether-contracts/deployments/mainnet/PermitAndDepositDai.json`)
+// const PermitAndDepositDaiMainnet = require(`@pooltogether/pooltogether-contracts/deployments/mainnet/PermitAndDepositDai.json`)
 // const PermitAndDepositDaiRinkeby = require(`@pooltogether/pooltogether-contracts/deployments/rinkeby/PermitAndDepositDai.json`)
 // const PermitAndDepositDaiRopsten = require(`@pooltogether/pooltogether-contracts/deployments/ropsten/PermitAndDepositDai.json`)
 
@@ -35,8 +35,8 @@ export const COOKIE_OPTIONS = {
 
 export const CONTRACT_ADDRESSES = {
   1: {
-    Dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
-    PermitAndDepositDai: PermitAndDepositDaiMainnet.address
+    // Dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
+    // PermitAndDepositDai: PermitAndDepositDaiMainnet.address
   },
   3: {
     // Dai: '0xc2118d4d90b274016cb7a54c03ef52e6c537d957',

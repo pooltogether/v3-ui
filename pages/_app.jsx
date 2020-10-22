@@ -7,6 +7,8 @@ import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
 import { motion, AnimatePresence } from 'framer-motion'
 
+import { useInterval } from 'lib/hooks/useInterval'
+
 import { COOKIE_OPTIONS, REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
@@ -57,6 +59,31 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 
 function MyApp({ Component, pageProps, router }) {
   const [initialized, setInitialized] = useState(false)
+  
+  useInterval(() => {
+    const badPaths = [
+      'http://localhost:3000/en',
+      'https://app.pooltogether.com/en',
+      'https://app.pooltogether.com/es',
+      'https://app.pooltogether.com/it',
+      'https://app.pooltogether.com/ja',
+      'https://app.pooltogether.com/zh',
+      'https://app.pooltogether.com/hr',
+      'https://app.pooltogether.com/ko',
+      'https://app.pooltogether.com/tr',
+      'https://app.pooltogether.com/de',
+    ]
+    // console.log('checking')
+
+    if (badPaths.includes(window.location.href)) {
+      router.push(
+        '/',
+        '/',
+        { shallow: true }
+      )
+    }
+  }, 2000)
+  
 
   useEffect(() => {
     if (router?.query?.referrer) {
