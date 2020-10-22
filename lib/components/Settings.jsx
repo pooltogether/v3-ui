@@ -25,7 +25,7 @@ export const Settings = (props) => {
     e.preventDefault()
 
     if (showManageLinks) {
-      Cookies.remove(SHOW_MANAGE_LINKS)
+      Cookies.remove(SHOW_MANAGE_LINKS, COOKIE_OPTIONS)
     } else {
       Cookies.set(SHOW_MANAGE_LINKS, 1, COOKIE_OPTIONS)
     }

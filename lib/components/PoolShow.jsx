@@ -107,6 +107,14 @@ export const PoolShow = (
     addTokenToMetaMask(networkName, pool)
   }
 
+  let amountFormatted
+  if (pool?.prizeEstimate) {
+    amountFormatted = ethers.utils.formatUnits(
+      pool?.prizeEstimate,
+      decimals
+    )
+  }
+
   return <>
     <Meta
       title={`${pool?.name} - ${t('pools')}`}
@@ -200,10 +208,7 @@ export const PoolShow = (
                       />
                     }}
                     values={{
-                      amount: ethers.utils.formatUnits(
-                        pool?.prizeEstimate,
-                        decimals
-                      ),
+                      amount: amountFormatted,
                       ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
                     }}
                   />

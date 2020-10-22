@@ -2,7 +2,6 @@ import React from 'react'
 
 import { useTranslation } from 'lib/../i18n'
 import { ButtonLink } from 'lib/components/ButtonLink'
-import { NonInteractableCard } from 'lib/components/NonInteractableCard'
 
 export const PoolRowGhost = (
   props,
@@ -11,7 +10,7 @@ export const PoolRowGhost = (
   
   return <>
     <div
-      className='hover:bg-default border-accent-4 border-dashed border-2 w-full px-4 xs:px-6 mb-4 py-5 sm:py-6 trans rounded-lg text-inverse'
+      className='hover:bg-default border-accent-4 border-dashed border-2 w-full px-4 xs:px-6 sm:px-10 mb-4 py-5 sm:py-6 trans rounded-lg text-inverse'
     >
 
       <div className='flex flex-col items-center py-6 opacity-70 hover:opacity-100 trans'>

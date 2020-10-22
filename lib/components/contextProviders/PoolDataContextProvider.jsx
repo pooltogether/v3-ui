@@ -16,13 +16,12 @@ import { readProvider } from 'lib/utils/readProvider'
 export const PoolDataContext = React.createContext()
 
 export const PoolDataContextProvider = (props) => {
-  const authControllerContext = useContext(AuthControllerContext)
   const {
     supportedNetwork,
     networkName,
     chainId,
     usersAddress
-  } = authControllerContext
+  } = useContext(AuthControllerContext)
 
   const [defaultReadProvider, setDefaultReadProvider] = useState({})
 
@@ -69,8 +68,8 @@ export const PoolDataContextProvider = (props) => {
           {...props}
           chainId={chainId}
           provider={defaultReadProvider}
-          poolAddresses={poolAddresses}
           poolData={dynamicPoolData}
+          graphDataLoading={graphDataLoading}
         >
           {({ genericChainData }) => {
             let pools = []

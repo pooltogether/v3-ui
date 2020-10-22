@@ -87,7 +87,7 @@ export const MagicContextProvider = (props) => {
     
     const logout = await magic.user.logout()
     if (logout) {
-      Cookies.remove(MAGIC_EMAIL)
+      Cookies.remove(MAGIC_EMAIL, COOKIE_OPTIONS)
 
       setSignedIn(false)
       setEmail(undefined)
