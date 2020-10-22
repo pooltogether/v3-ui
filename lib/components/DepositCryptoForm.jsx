@@ -71,7 +71,7 @@ export const DepositCryptoForm = (props) => {
 
   useEffect(() => {
     if (
-      poolTokenSupportsPermitSign(chainId, tokenAddress) ||
+      // poolTokenSupportsPermitSign(chainId, tokenAddress) ||
       (
         quantityBN.gt(0) &&
         usersTokenAllowance.gte(quantityBN)
