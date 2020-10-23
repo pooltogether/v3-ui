@@ -18,6 +18,7 @@ export const PoolCurrencyIcon = (
     sm,
     lg,
     xl,
+    xs,
     pool
   } = props
   
@@ -43,10 +44,11 @@ export const PoolCurrencyIcon = (
   }
 
   let sizeClasses = 'w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10'
-  if (sm) {
+  if (xs) {
+    sizeClasses = 'w-3 h-3 sm:w-5 sm:h-5 lg:w-6 lg:h-6'
+  } else if (sm) {
     sizeClasses = 'w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8'
-  }
-  else if (lg) {
+  } else if (lg) {
     sizeClasses = 'w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16'
   } else if (xl) {
     sizeClasses = 'w-12 h-12 sm:w-16 sm:h-16 lg:w-18 lg:h-18'

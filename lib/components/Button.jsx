@@ -7,6 +7,11 @@ export const Button = (props) => {
   const classes = getButtonClasses(props)
 
   let newProps = omit(props, [
+    'border',
+    'text',
+    'bg',
+    'hoverBorder',
+    'hoverText',
     'hoverBg',
     'noAnim',
     'outline',

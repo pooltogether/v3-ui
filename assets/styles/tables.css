@@ -73,3 +73,19 @@ th:last-child,
 td:last-child {
   border-right: 0;
 }
+
+
+
+
+.table--small-headers thead tr {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.table--small-headers th {
+  @apply text-xxxs pb-0 uppercase;
+}
+
+.table--nested th,
+.table--nested td {
+  @apply p-0;
+}

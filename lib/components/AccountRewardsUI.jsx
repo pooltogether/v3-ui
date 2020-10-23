@@ -13,6 +13,7 @@ import { DOMAIN, DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
+import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -248,12 +249,12 @@ export const AccountRewardsUI = () => {
 
   return <>
     <div
-      className='xs:mt-2 bg-card rounded-lg -mx-10 xs:mx-0 px-8 xs:px-2 sm:px-3 py-3'
+      className='xs:mt-2 bg-card rounded-lg xs:mx-0 px-2 sm:px-3 py-2 xs:py-3'
     >
       <div
-        className='flex flex-col sm:flex-row items-center justify-between bg-primary px-2 sm:px-3 py-2 text-inverse rounded-lg'
+        className='flex flex-col sm:flex-row items-center justify-between bg-primary px-4 sm:px-8 py-4 text-inverse rounded-lg border border-highlight-2'
       >
-        <div className='flex-grow sm:w-3/12 lg:w-1/2 uppercase font-semibold text-xxs text-accent-1 pb-2 sm:pb-0'>
+        <div className='flex-grow sm:w-4/12 lg:w-1/2 sm:mr-3 uppercase text-xxs sm:text-xs text-accent-1 pb-2 sm:pb-0 tracking-widest font-bold'>
           {t('inviteFriendsAndEarnReferralRewards')}
         </div>
 
@@ -262,13 +263,15 @@ export const AccountRewardsUI = () => {
           onCopy={handleCopy}
         >
           <a
-            className='flex sm:w-9/12 lg:w-1/2 items-center cursor-pointer stroke-current hover:text-secondary text-primary w-full h-8 py-1 xs:mb-2 sm:mb-0 bg-accent-grey-3 hover:bg-highlight-2 rounded-sm'
+            className='flex w-full sm:w-8/12 lg:w-1/2 items-center cursor-pointer stroke-current hover:text-secondary text-primary h-8 py-1 xs:mb-2 sm:mb-0 bg-accent-grey-3 hover:bg-highlight-2 rounded-sm'
             title='Copy to clipboard'
           >
-            <span className='mx-2 flex-grow font-bold text-xxxs xs:text-xs'>{shortReferralAddress}</span>
+            <span
+              className='px-2 flex-grow font-bold text-xxs xs:text-xs w-16 truncate'
+            >{shortReferralAddress}</span>
             <FeatherIcon
               icon='copy'
-              className='w-4 h-4 mx-2 my-1 justify-self-end'
+              className='w-4 h-4 mx-1 my-1 justify-self-end'
             />
           </a>
         </CopyToClipboard>
@@ -303,22 +306,74 @@ export const AccountRewardsUI = () => {
       </div>
 */}
 
-      <div className='pt-4 pb-0 px-2'>
+      <div className='pt-4 pb-0 px-2 sm:px-4'>
         <h3>{t('rewards')}</h3>
       </div>
 
+      <div className='xs:pt-4 pb-0 px-2 sm:px-4'>
+        <h6
+          className='flex items-center'
+        >
+          <PoolCurrencyIcon
+            xs
+            className='mr-2'
+            pool={{ underlyingCollateralSymbol: 'dai' }}
+          /> DAI Pool
+        </h6>
+      </div>
+
       <div
-        className='bg-primary text-inverse flex justify-between rounded-lg p-2 sm:p-3 mt-2'
+        className='xs:bg-primary text-inverse flex flex-col justify-between rounded-lg p-3 sm:p-8 mt-2'
       >
+        <div
+          className='border-b border-accent-3 pb-4'
+          style={{ 
+            borderBottomWidth: '0.001rem'
+          }}
+        >
+          <div
+            className='flex items-center justify-center text-center'
+          >
+            <div
+              className='mx-2 sm:mx-6 my-2'
+            >
+              <div
+                className='text-lg sm:text-3xl font-bold'
+              >
+                {numberWithCommas('1000')}
+              </div>
+              <div
+                className='text-xxxs xs:text-sm sm:text-lg'
+              >
+                {t('weeklyDepositRewards')}
+              </div>
+            </div>
+            <div
+              className='mx-2 sm:mx-6 my-2'
+            >
+              <div
+                className='text-lg sm:text-3xl font-bold'
+              >
+                {numberWithCommas('1000')}
+              </div>
+              <div
+                className='text-xxxs xs:text-sm sm:text-lg'
+              >
+                {t('weeklyReferralRewards')}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <table
-          className='table-fixed w-full text-xs xs:text-sm sm:text-xl'
+          className='table-fixed table--small-headers table--nested w-full text-xs xs:text-sm sm:text-xl mt-6'
         >
           <thead>
             <tr>
-              <th className='w-1/3 px-2 sm:px-3 py-2 text-left'>{t('token')}</th>
-              {/* <th className='w-1/3 px-2 sm:px-3 py-2 text-left font-bold'>{t('balance')}</th> */}
-              <th className='w-1/3 px-2 sm:px-3 py-2 text-left'>{t('claimable')}</th>
-              <th className='w-1/3 px-2 sm:px-3 py-2'>&nbsp;</th>
+              <th className='w-1/3 text-caption text-left'>{t('token')}</th>
+              {/* <th className='w-1/3 text-caption text-left font-bold'>{t('balance')}</th> */}
+              <th className='w-1/3 text-caption text-left'>{t('claimable')}</th>
+              <th className='w-1/3 text-caption'>&nbsp;</th>
             </tr>
           </thead>
           <tbody>
