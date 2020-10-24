@@ -43,7 +43,7 @@ class MyDocument extends Document {
             />
 
             <div
-              className='fixed mx-auto xs:inset-4 bg-black text-white border-2 border-green rounded-lg px-6 py-4 font-bold mt-32 w-98-percent xs:w-2/3 sm:w-1/2 lg:w-1/3'
+              className='graph-modal fixed xs:inset-4 bg-black text-white border-2 border-green rounded-lg px-6 py-4 font-bold mt-32'
               style={{
                 height: '20rem',
                 zIndex: 200
@@ -58,11 +58,15 @@ class MyDocument extends Document {
                     alt='The Graph Protocol'
                     className='w-24 h-auto mx-auto mb-4'
                   />
-                  PoolTogether relies on The Graph Protocol. Unfortunately, we are temporarily unable to fetch data from The Graph Protocol. Please try again soon...
-                  <br /><br />
+                  PoolTogether relies on The Graph Protocol. Unfortunately, we are temporarily unable to fetch data from The Graph Protocol. 
+                  <div
+                    className='mt-4'
+                  >
+                    Please try again soon...
+                  </div>
                   <a
                     href='https://status.thegraph.com/'
-                    className='border-b border-green hover:border-0'
+                    className='inline-block border-b border-green hover:border-0 text-xxs mt-10'
                     target='_blank'
                     rel='noreferrer noopener'
                   >View Graph status</a>

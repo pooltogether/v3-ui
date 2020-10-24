@@ -506,3 +506,27 @@ input[type=number] {
     line-height: 3.25rem;
   }
 }
+
+.graph-modal {
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 90%;
+}
+
+@screen xs {
+  .graph-modal {
+    @apply w-2/3 mx-auto;
+  }
+}
+
+@screen sm {
+  .graph-modal {
+    @apply w-1/2;
+  }
+}
+
+@screen lg {
+  .graph-modal {
+    @apply w-1/3;
+  }
+}
