@@ -53,7 +53,7 @@ export const AccountSummary = () => {
 
   return <>
     <div
-      className='bg-accent-grey-2 rounded-lg px-4 xs:px-6 sm:px-10 pt-4 pb-6 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'
+      className='purple-pink-gradient rounded-lg px-4 xs:px-6 sm:px-10 pt-4 pb-6 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'
     >
       <div
         className='flex flex-col items-start justify-between mt-4'
@@ -65,82 +65,91 @@ export const AccountSummary = () => {
           }}
         >
           {usersAddress ? <>
-            <ProfileAvatar
-              xl
-            />
-            <h2
-              className='ml-4'
+            <ProfileAvatar />
+            <h6
+              className='ml-2 font-normal'
             >
-              <ProfileName
-                xl
-              />
-            </h2>
+              <ProfileName />
+            </h6>
           </> : <>
             <img
               alt='profile avatar placeholder'
               src={AccountPlaceholderImg}
-              className='profile-img relative inline-block rounded-full mr-1 w-12 h-12'
-            /> <h2
-              className='ml-4'
+              className='profile-img relative inline-block rounded-full mr-1 w-6 h-6'
+            /> <h6
+              className='ml-2 font-normal'
             >
               {t('accountName')}
-            </h2>
+            </h6>
           </>}
         </div>
 
-        <h3
-          className='mt-6'
-        >
-          {totalTickets && <>
-            <PoolCountUp
-              fontSansRegular
-              end={parseInt(totalTickets, 10)}
-              decimals={null}
-              duration={0.5}
-            />
-          </>} {t('tickets')}
-        </h3>
-
-        {usersAddress && <>
-          <div
-            className='text-caption uppercase font-bold'
-          >
-            $<PoolNumber>{numberWithCommas(totalTickets, { precision: 18 })}</PoolNumber>
-          </div>
-        </>}
 
         <div
-          className='w-full flex sm:items-center justify-start flex-col sm:flex-row mt-12 sm:mt-8'
+          className='flex flex-col sm:flex-row sm:items-center justify-start w-full'
         >
           <div
-            className='flex flex-col w-full xs:w-7/12 sm:w-4/12 lg:w-4/12 sm:pr-2 mb-4 sm:mb-0'
+            className='sm:w-1/3'
           >
-            <h4>
-              ${displayAmountInEther(
-                cumulativeWinningsAllPools,
-                { decimals: 18 }
-              )}
-            </h4>
-            <div
-              className='text-caption uppercase font-bold'
+            <h2
+              className='mt-6 tickets-line-height'
             >
-              {t('allTimePrizesWon')}
-            </div>
+              {totalTickets && <>
+                <PoolCountUp
+                  fontSansRegular
+                  end={parseInt(totalTickets, 10)}
+                  decimals={null}
+                  duration={0.5}
+                />
+              </>} {t('tickets')}
+            </h2>
+
+            {usersAddress && <>
+              <div
+                className='text-caption uppercase font-bold'
+              >
+                $<PoolNumber>{numberWithCommas(totalTickets, { precision: 18 })}</PoolNumber>
+              </div>
+            </>}
           </div>
 
-          {/* <div
-            className='flex flex-col w-full xs:w-7/12 sm:w-6/12 lg:w-6/12 sm:pl-16'
-          >
-            <h4>
-              $XX.YY
-            </h4>
+          <div>
             <div
-              className='text-caption uppercase font-bold'
+              className='w-full flex sm:items-center justify-start flex-col sm:flex-row mt-4 sm:mt-12 sm:mt-8'
             >
-              {t('allTimeEarnedRewards')}
+              <div
+                className='flex flex-col w-full sm:pr-2 mb-4 sm:mb-0'
+              >
+                <h4>
+                  ${displayAmountInEther(
+                    cumulativeWinningsAllPools,
+                    { decimals: 18 }
+                  )}
+                </h4>
+                <div
+                  className='text-caption uppercase font-bold'
+                >
+                  {t('allTimePrizesWon')}
+                </div>
+              </div>
+
+              {/* <div
+                className='flex flex-col w-full xs:w-7/12 sm:w-6/12 lg:w-6/12 sm:pl-16'
+              >
+                <h4>
+                  $XX.YY
+                </h4>
+                <div
+                  className='text-caption uppercase font-bold'
+                >
+                  {t('allTimeEarnedRewards')}
+                </div>
+              </div> */}
             </div>
-          </div> */}
+          </div>
         </div>
+
+        
       </div>
     </div>
 

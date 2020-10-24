@@ -1,5 +1,6 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { useQuery } from '@apollo/client'
+import { isEmpty } from 'lodash'
 
 import {
   CREATOR_ADDRESS,
@@ -150,6 +151,10 @@ export const DynamicQueries = (
 
 
   const dynamicDataLoading = poolQueryLoading || prizeStrategyQueryLoading || playerQueryLoading || sponsorQueryLoading
+
+  if (!poolQueryLoading && !isEmpty(dynamicPoolData)) {
+    window.hideGraphError()
+  }
 
   return children({
     dynamicDataLoading,

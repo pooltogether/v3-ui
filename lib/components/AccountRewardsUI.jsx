@@ -228,10 +228,13 @@ export const AccountRewardsUI = () => {
     return map(usersDripTokenData, (dripTokenData, dripTokenAddress) => {
       const dripData = getDripDataByAddress(dripTokenAddress, dripTokenData)
 
+      const isPoolDaiTickets = dripData.name === 'PoolTogether Dai Ticket (Compound)'
+        || dripData.name === 'DAI Ticket'
+
       return <>
         <tr key={dripData.id}>
           <td className='px-2 sm:px-3 py-2 text-left font-bold'>
-            {dripData.dripToken.name}
+            {isPoolDaiTickets ? t('daiTickets') : dripData.dripToken.name}
           </td>
           {/* <td className='px-2 sm:px-3 py-2 text-left'>
             {getFormattedNumber(dripData.balance, dripData.dripToken.decimals)}
