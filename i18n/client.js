@@ -20,7 +20,7 @@ const nextI18NextInstance = new NextI18Next({
   },
   defaultLanguage: 'en',
   fallbackLng: 'en',
-  otherLanguages: ['es', 'fr', 'ko', 'zh'], // list all languages here
+  otherLanguages: ['es', 'fr', 'ko', 'tr', 'zh'], // list all languages here
   detection: {
     // check if language is cached in cookies, if not check local storage
     order: ['querystring', 'cookie', 'localStorage', 'navigator', 'path'],
