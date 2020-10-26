@@ -39,25 +39,26 @@ export const AccountPoolRow = (
       Number(decimals)
     ))
 
-    usersTimelockedBalance = Number(ethers.utils.formatUnits(
-      player.timelockedBalance,
-      Number(decimals)
-    ))
+    // usersTimelockedBalance = Number(ethers.utils.formatUnits(
+    //   player.timelockedBalance,
+    //   Number(decimals)
+    // ))
 
-    if (player.unlockTimestamp) {
-      const currentUnixTimestamp = parseInt(Date.now() / 1000, 10)
-      const unlockUnixTimestamp = parseInt(player.unlockTimestamp, 10)
+    // if (player.unlockTimestamp) {
+    //   const currentUnixTimestamp = parseInt(Date.now() / 1000, 10)
+    //   const unlockUnixTimestamp = parseInt(player.unlockTimestamp, 10)
 
-      formattedFutureDate = <FormattedFutureDateCountdown
-        futureDate={unlockUnixTimestamp - currentUnixTimestamp}
-      />
-    }
+    //   formattedFutureDate = <FormattedFutureDateCountdown
+    //     futureDate={unlockUnixTimestamp - currentUnixTimestamp}
+    //   />
+    // }
   }
 
   const ticker = pool?.underlyingCollateralSymbol
-  const bucketClasses = usersTimelockedBalance > 0 ?
-    'w-1/2 xs:w-4/12 sm:w-4/12 lg:w-4/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse' :
-    'w-1/2 xs:w-6/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse'
+  const bucketClasses = 'w-1/2 xs:w-6/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse'
+  // const bucketClasses = usersTimelockedBalance > 0 ?
+  //   'w-1/2 xs:w-4/12 sm:w-4/12 lg:w-4/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse' :
+  //   'w-1/2 xs:w-6/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse'
   
   return <>
     <InteractableCard
@@ -227,7 +228,7 @@ export const AccountPoolRow = (
               as={`/account/pools/${pool.symbol}`}
             >
               <a
-                className='uppercase inline-block xs:inline-flex items-center justify-center text-center font-bold text-highlight-3 rounded-full border-highlight-3 xs:border py-1 xs:px-6 mr-1 sm:mr-3 mb-1 xs:mb-0'
+                className='uppercase inline-block xs:inline-flex items-center justify-center text-center font-bold text-highlight-3 rounded-full border-highlight-3 xs:border-2 py-1 xs:px-6 mr-1 sm:mr-3 mb-1 xs:mb-0'
               >
                 {t('manageTickets')}
               </a>

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import FeatherIcon from 'feather-icons-react'
 import ClipLoader from 'react-spinners/ClipLoader'
+import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { useQuery } from '@apollo/client'
 import { isEmpty, map, find, defaultTo } from 'lodash'
@@ -171,8 +172,9 @@ export const AccountRewardsUI = () => {
   }
 
   const getClaimButton = (dripData) => {
+    let disabled
     if (!(dripData.claimable.gt(0))) {
-      return ''
+      disabled = true
     }
 
     // TODO: Handle multiple claims at once
@@ -210,9 +212,18 @@ export const AccountRewardsUI = () => {
 
     return <>
       <a
-        className='underline cursor-pointer stroke-current font-bold'
+        className={classnames(
+          'underline cursor-pointer stroke-current font-bold',
+          {
+            'cursor-not-allowed opacity-20': disabled
+          }
+        )}
         onClick={(e) => {
           e.preventDefault()
+
+          if (disabled) {
+            return
+          }
 
           setActiveTxDripIds([...activeTxDripIds, dripData.id])
 
@@ -228,8 +239,8 @@ export const AccountRewardsUI = () => {
     return map(usersDripTokenData, (dripTokenData, dripTokenAddress) => {
       const dripData = getDripDataByAddress(dripTokenAddress, dripTokenData)
 
-      const isPoolDaiTickets = dripData.name === 'PoolTogether Dai Ticket (Compound)'
-        || dripData.name === 'DAI Ticket'
+      const isPoolDaiTickets = dripTokenData.name === 'PoolTogether Dai Ticket (Compound)'
+        || dripTokenData.name === 'DAI Ticket'
 
       return <>
         <tr key={dripData.id}>
@@ -369,13 +380,13 @@ export const AccountRewardsUI = () => {
         </div>
 
         <table
-          className='table-fixed table--small-headers table--nested w-full text-xs xs:text-sm sm:text-xl mt-6'
+          className='table-fixed table--small-headers table--nested w-full text-xxs xs:text-base sm:text-xl mt-6'
         >
           <thead>
             <tr>
-              <th className='w-1/3 text-caption text-left'>{t('token')}</th>
+              <th className='w-1/4 text-caption text-left'>{t('token')}</th>
               {/* <th className='w-1/3 text-caption text-left font-bold'>{t('balance')}</th> */}
-              <th className='w-1/3 text-caption text-left'>{t('claimable')}</th>
+              <th className='w-1/4 text-caption text-left'>{t('claimable')}</th>
               <th className='w-1/3 text-caption'>&nbsp;</th>
             </tr>
           </thead>
