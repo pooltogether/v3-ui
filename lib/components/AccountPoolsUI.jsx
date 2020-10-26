@@ -28,10 +28,10 @@ export const AccountPoolsUI = () => {
   }
 
   let hasNoV2Balance = true
-  hasNoV2Balance = daiBalances?.poolBalance?.lt(1) &&
-    daiBalances?.podBalance?.lt(1) &&
-    usdcBalances?.poolBalance?.lt(1) &&
-    usdcBalances?.podBalance?.lt(1)
+  hasNoV2Balance = daiBalances?.poolBalance?.lt('1000000') &&
+    daiBalances?.podBalance?.lt('1000000') &&
+    usdcBalances?.poolBalance?.lt('1000000') &&
+    usdcBalances?.podBalance?.lt('1000000')
 
   return <>
     {!dynamicPlayerData ? <>
@@ -75,6 +75,8 @@ export const AccountPoolsUI = () => {
             {dynamicPlayerData.map(playerData => {
               const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
 
+              console.log(dynamicPlayerData)
+              console.log(pool)
               if (!pool) {
                 return
               }

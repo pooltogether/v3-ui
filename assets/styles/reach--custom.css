@@ -88,10 +88,6 @@
 }
 
 /* DIALOG / MODALS */
-.dialog-inner {
-  border-radius: 6px;
-}
-
 .dialog-inner-content {
   flex: 1;
 }
@@ -148,6 +144,7 @@
 
   .dialog-inner {
     border: 0;
+    border-radius: 6px;
     height: auto;
     width: 100%;
   }

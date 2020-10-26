@@ -50,6 +50,10 @@ hr {
   width: 90%;
 }
 
+.theme-light hr {
+  border-color: var(--color-bg-accent-grey-3);
+}
+
 a,
 button {
   @apply text-highlight-3;

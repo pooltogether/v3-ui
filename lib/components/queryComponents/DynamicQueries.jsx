@@ -109,6 +109,9 @@ export const DynamicQueries = (
   }
 
   if (playerQueryData) {
+    // TODO: Filter out any prize pools we're not interested in (ie not in the poolAddresses listing)
+    // dynamicPlayerData = getPlayerDataFromQueryResult(poolAddresses, playerQueryData)
+
     dynamicPlayerData = playerQueryData.player
     dynamicPlayerDrips = {
       dripTokens: playerQueryData.playerDripToken,
