@@ -10,6 +10,7 @@ export const GraphDataQueries = (props) => {
   >
     {({
       dynamicDataLoading,
+      dynamicExternalAwardsData,
       dynamicPoolData,
       dynamicPrizeStrategiesData,
       dynamicPlayerData,
@@ -29,6 +30,7 @@ export const GraphDataQueries = (props) => {
       }
 
       return children({
+        dynamicExternalAwardsData,
         dynamicPoolData,
         dynamicPrizeStrategiesData,
         dynamicPlayerData,

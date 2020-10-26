@@ -15,10 +15,12 @@ export const FetchGenericChainData = (props) => {
   const {
     chainId,
     children,
+    dynamicExternalAwardsData,
     provider,
     poolData,
     graphDataLoading,
   } = props
+  console.log({ dynamicExternalAwardsData})
 
   const { disconnectWallet } = useContext(WalletContext)
 
@@ -60,6 +62,7 @@ export const FetchGenericChainData = (props) => {
     try {
       chainData.dai = await fetchGenericChainData(
         provider,
+        dynamicExternalAwardsData,
         poolData.daiPool
       )
       // chainData.usdc = await fetchGenericChainData(

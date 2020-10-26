@@ -54,6 +54,7 @@ export const PoolDataContextProvider = (props) => {
     >
       {({
         graphDataLoading,
+        dynamicExternalAwardsData,
         dynamicPoolData,
         dynamicPrizeStrategiesData,
         dynamicPlayerData,
@@ -64,10 +65,13 @@ export const PoolDataContextProvider = (props) => {
         refetchSponsorQuery,
         dynamicPlayerDrips,
       }) => {
+        console.log({dynamicExternalAwardsData})
+
         return <FetchGenericChainData
           {...props}
           chainId={chainId}
           provider={defaultReadProvider}
+          dynamicExternalAwardsData={dynamicExternalAwardsData}
           poolData={dynamicPoolData}
           graphDataLoading={graphDataLoading}
         >
@@ -77,6 +81,7 @@ export const PoolDataContextProvider = (props) => {
             if (!graphDataLoading && !isEmpty(genericChainData)) {
               pools = [
                 {
+                  ...dynamicExternalAwardsData,
                   ...genericChainData.dai,
                   ...dynamicPoolData.daiPool,
                   ...dynamicPrizeStrategiesData.daiPrizeStrategy,
@@ -182,6 +187,7 @@ export const PoolDataContextProvider = (props) => {
                         pool,
                         pools,
                         poolAddresses,
+                        dynamicExternalAwardsData,
                         dynamicPoolData,
                         dynamicPlayerData,
                         dynamicPlayerDrips,

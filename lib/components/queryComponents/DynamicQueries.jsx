@@ -125,7 +125,6 @@ export const DynamicQueries = (
 
 
 
-
   let dynamicPlayerData
   let dynamicPlayerDrips
 
@@ -198,6 +197,7 @@ export const DynamicQueries = (
 
   return children({
     dynamicDataLoading,
+    dynamicExternalAwardsData,
     dynamicPoolData,
     dynamicPrizeStrategiesData,
     dynamicPlayerData,
