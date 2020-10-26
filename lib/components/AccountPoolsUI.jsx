@@ -17,12 +17,14 @@ export const AccountPoolsUI = () => {
 
   const daiBalances = {
     poolBalance: usersChainData?.v2DaiPoolCommittedBalance,
-    podBalance: usersChainData?.v2DaiPodCommittedBalance
+    podBalance: usersChainData?.v2DaiPodCommittedBalance,
+    podSharesBalance: usersChainData?.v2DaiPodSharesBalance,
   }
 
   const usdcBalances = {
     poolBalance: usersChainData?.v2UsdcPoolCommittedBalance,
-    podBalance: usersChainData?.v2UsdcPodCommittedBalance
+    podBalance: usersChainData?.v2UsdcPodCommittedBalance,
+    podSharesBalance: usersChainData?.v2UsdcPodSharesBalance,
   }
 
   let hasNoV2Balance = true
@@ -58,6 +60,18 @@ export const AccountPoolsUI = () => {
       </> : <>
         <>
           <motion.ul>
+            <V2AccountPoolRow
+              v2dai
+              key={`v2-dai-account-pool-row`}
+            />
+          
+            <V2AccountPoolRow
+              v2usdc
+              key={`v2-usdc-account-pool-row`}
+            />
+
+            {!hasNoV2Balance && <hr />}
+
             {dynamicPlayerData.map(playerData => {
               const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
 
@@ -71,18 +85,6 @@ export const AccountPoolsUI = () => {
                 player={playerData}
               />
             })}
-
-            <hr />
-
-            <V2AccountPoolRow
-              v2dai
-              key={`v2-dai-account-pool-row`}
-            />
-            
-            <V2AccountPoolRow
-              v2usdc
-              key={`v2-usdc-account-pool-row`}
-            />
           </motion.ul>
         </>
       </>

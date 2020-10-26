@@ -27,8 +27,10 @@ export const V2AccountPoolRow = (
   const {
     v2DaiPoolCommittedBalance,
     v2DaiPodCommittedBalance,
+    v2DaiPodSharesBalance,
     v2UsdcPoolCommittedBalance,
     v2UsdcPodCommittedBalance,
+    v2UsdcPodSharesBalance,
   } = usersChainData || {}
 
   let balances = {}
@@ -36,12 +38,14 @@ export const V2AccountPoolRow = (
   if (v2dai) {
     balances = {
       poolBalance: v2DaiPoolCommittedBalance,
-      podBalance: v2DaiPodCommittedBalance
+      podBalance: v2DaiPodCommittedBalance,
+      podShares: v2DaiPodSharesBalance,
     }
   } else {
     balances = {
       poolBalance: v2UsdcPoolCommittedBalance,
-      podBalance: v2UsdcPodCommittedBalance
+      podBalance: v2UsdcPodCommittedBalance,
+      podShares: v2UsdcPodSharesBalance,
     }
   }
 
@@ -64,33 +68,21 @@ export const V2AccountPoolRow = (
     let erc777ContractAddress
 
     if (v2dai && type === 'pool') {
-      erc777ContractAddress = poolAddresses.v2DAIPool
+      erc777ContractAddress = poolAddresses.v2PoolDAIToken
     } else if (v2dai && type === 'pod') {
       erc777ContractAddress = poolAddresses.v2DAIPod
     } else if (type === 'pool') {
-      erc777ContractAddress = poolAddresses.v2USDCPool
+      erc777ContractAddress = poolAddresses.v2PoolUSDCToken
     } else {
       erc777ContractAddress = poolAddresses.v2USDCPod
     }
 
-    const balanceNormalized = normalizeTo18Decimals(balance, decimals)
-    console.log(decimals)
+    // send shares / balanceOf for Pods
+    // const balanceNormalized = normalizeTo18Decimals(balance, decimals)
     const params = [
       '0x071911fA06AB97447D644eE4d5BCFdD63C1081a0',
-      balanceNormalized
+      balance
     ]
-    console.log(params)
-    console.log(balanceNormalized.toString())
-
-    console.log({
-      t,
-      provider,
-      usersAddress,
-      ERC20Abi,
-      erc777ContractAddress,
-      method,
-      params,
-    })
 
     const id = sendTx(
       t,
@@ -102,6 +94,12 @@ export const V2AccountPoolRow = (
       params,
     )
     setTxId(id)
+  }
+
+  console.log(balances?.podBalance.toString())
+  // console.log(balances?.poolBalance?.lt(1) && balances?.podBalance?.lt(1))
+  if (balances?.poolBalance?.lt(1) && balances?.podBalance?.lt(1)) {
+    return null
   }
 
   return <>
@@ -118,7 +116,7 @@ export const V2AccountPoolRow = (
         <div
           className='flex w-full ml-1 sm:ml-4 leading-none'
         >
-          {balances?.poolBalance?.gt(1) && <>
+          {balances?.poolBalance?.gte(1) && <>
             <div
               className='w-1/2 xs:w-48 inline-block text-left text-xs xs:text-lg text-inverse relative mr-3 xs:mr-6 sm:mr-9 lg:mr-12'
             >
@@ -165,7 +163,7 @@ export const V2AccountPoolRow = (
             </div>
           </>}
 
-          {balances?.podBalance?.gt(1) && <>
+          {balances?.podBalance?.gte(1) && <>
             <div
               className='w-5/12 inline-block text-left text-xs xs:text-lg text-inverse relative'
             >
@@ -193,7 +191,7 @@ export const V2AccountPoolRow = (
                   balances.podBalance,
                   decimals
                 ), {
-                  precision: 8
+                  precision: 18
                 })} {ticker})
               </div>
 
@@ -204,7 +202,7 @@ export const V2AccountPoolRow = (
                   disabled={txInFlight}
                   onClick={(e) => {
                     e.preventDefault()
-                    migrateToV3(balances.podBalance, 'pod')
+                    migrateToV3(balances.podShares, 'pod')
                   }}
                 >
                   {t('migrateToV3')}
