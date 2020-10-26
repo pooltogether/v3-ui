@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import {
+  COOKIE_OPTIONS,
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
@@ -31,8 +32,8 @@ export const WizardLayout = (props) => {
     const pathname = Cookies.get(WIZARD_REFERRER_HREF) || '/'
     const asPath = Cookies.get(WIZARD_REFERRER_AS_PATH) || '/'
 
-    Cookies.remove(WIZARD_REFERRER_HREF)
-    Cookies.remove(WIZARD_REFERRER_AS_PATH)
+    Cookies.remove(WIZARD_REFERRER_HREF, COOKIE_OPTIONS)
+    Cookies.remove(WIZARD_REFERRER_AS_PATH, COOKIE_OPTIONS)
 
     router.push(
       `${pathname}`,

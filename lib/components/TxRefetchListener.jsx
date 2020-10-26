@@ -4,30 +4,62 @@ import { useQuery } from '@apollo/client'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 
+const debug = require('debug')('pool-app:TxRefetchListener')
+
 export const TxRefetchListener = (props) => {
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
-  const { refetchPlayerQuery } = useContext(PoolDataContext)
+  const {
+    refetchPoolQuery,
+    refetchPrizeStrategyQuery,
+    refetchPlayerQuery,
+    refetchSponsorQuery,
+  } = useContext(PoolDataContext)
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
 
   const pendingTransactions = transactions
-    .filter(t => !t.completed)
+    .filter(t => !t.completed && !t.cancelled)
+
 
   const runRefetch = (tx) => {
-    if (tx.method === 'depositTo') {
-      refetchPlayerQuery()
+    const playerBalanceTransaction = tx.method === 'depositTo' ||
+      tx.method === 'approve' ||
+      tx.method === 'withdrawInstantlyFrom' ||
+      tx.method === 'updateAndClaimDrips'
+
+    const poolStateTransaction = tx.method === 'startAward' ||
+      tx.method === 'completeAward'
+
+    if (playerBalanceTransaction) {
+      // refetchPlayerQuery()
 
       // we don't know when the Graph will have processed the new block data or when it has
       // so simply query a few times for the updated data
       setTimeout(() => {
         refetchPlayerQuery()
-      }, 500)
+        refetchSponsorQuery()
+        debug('refetch!')
+      }, 2000)
 
       setTimeout(() => {
         refetchPlayerQuery()
-      }, 2000)
+        refetchSponsorQuery()
+        debug('refetch!')
+      }, 8000)
+
+      setTimeout(() => {
+        refetchPlayerQuery()
+        refetchSponsorQuery()
+        debug('refetch!')
+      }, 16000)
+    } else if (poolStateTransaction) {
+      setTimeout(() => {
+        refetchPoolQuery()
+        refetchPrizeStrategyQuery()
+        debug('refetch pool/prize!')
+      }, 6000)
     }
   }
 
@@ -35,7 +67,12 @@ export const TxRefetchListener = (props) => {
     const storedTxId = tx.id
     const currentTxState = transactions.find((_tx) => _tx.id === storedTxId)
 
-    if (currentTxState.completed && !currentTxState.error) {
+    if (
+      currentTxState &&
+      currentTxState.completed &&
+      !currentTxState.error && 
+      !currentTxState.cancelled
+    ) {
       runRefetch(tx)
     }
   })

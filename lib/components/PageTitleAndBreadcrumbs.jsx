@@ -16,7 +16,7 @@ export const PageTitleAndBreadcrumbs = (
       className='flex flex-col items-start justify-between w-full leading-none'
     >
       <div
-        className='inline-block text-left text-xl sm:text-3xl font-bold text-accent-2 relative'
+        className='inline-block text-left text-xl sm:text-3xl font-bold text-accent-2 relative capitalize'
       >
         {title}
       </div>
@@ -27,7 +27,7 @@ export const PageTitleAndBreadcrumbs = (
           bottom: 2
         }}
       >
-        {breadcrumbs.map((crumb, index) => (
+        {breadcrumbs?.map((crumb, index) => (
           <span
             key={`crumb-${index}`}
           >

@@ -3,7 +3,9 @@ import FeatherIcon from 'feather-icons-react'
 import Link from 'next/link'
 import { ethers } from 'ethers'
 
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
+import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
+import { Chip } from 'lib/components/Chip'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Odds } from 'lib/components/Odds'
@@ -17,71 +19,110 @@ export const AccountPoolRow = (
 ) => {
   const { t } = useTranslation()
   
-  const { pool, player } = props
+  const { noLinks, pool, player } = props
+  let { href, as } = props
+
+  if (!href && !as) {
+    href = '/account/pools/[symbol]'
+    as = `/account/pools/${pool.symbol}`
+  }
+
 
   const decimals = pool?.underlyingCollateralDecimals
 
+  let formattedFutureDate
   let usersBalance = 0
+  let usersTimelockedBalance = 0
   if (player && player.balance && !isNaN(decimals)) {
     usersBalance = Number(ethers.utils.formatUnits(
       player.balance,
       Number(decimals)
     ))
+
+    usersTimelockedBalance = Number(ethers.utils.formatUnits(
+      player.timelockedBalance,
+      Number(decimals)
+    ))
+
+    if (player.unlockTimestamp) {
+      const currentUnixTimestamp = parseInt(Date.now() / 1000, 10)
+      const unlockUnixTimestamp = parseInt(player.unlockTimestamp, 10)
+
+      formattedFutureDate = <FormattedFutureDateCountdown
+        futureDate={unlockUnixTimestamp - currentUnixTimestamp}
+      />
+    }
   }
 
   const ticker = pool?.underlyingCollateralSymbol
+  const bucketClasses = usersTimelockedBalance > 0 ?
+    'w-1/2 xs:w-4/12 sm:w-4/12 lg:w-4/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse' :
+    'w-1/2 xs:w-6/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse'
   
   return <>
     <InteractableCard
+      href={href}
+      as={as}
       key={`account-pool-row-li-${pool.poolAddress}`}
-      href='/account/pools/[symbol]'
-      as={`/account/pools/${pool.symbol}`}
-      className='ticket-card'
     >
-      <div className='flex items-center pb-2'>
+      <div className='flex items-center xs:pb-2'>
         <div
-          className='flex items-center font-bold w-8/12 sm:w-6/12 pb-2'
+          className='flex items-center font-bold w-8/12 sm:w-6/12 xs:pb-2'
         >
           <PoolCurrencyIcon
             lg
             pool={pool}
+            className='-mt-2'
           />
 
           <div
-            className='flex flex-col items-start justify-between w-full ml-1 sm:ml-6 leading-none'
+            className='flex flex-col items-start justify-between w-full ml-1 sm:ml-4 leading-none'
           >
             <div
-              className='inline-block text-left text-xl sm:text-2xl lg:text-3xl font-bold text-inverse relative'
+              className='inline-block text-left text-sm xs:text-xl sm:text-2xl font-bold text-inverse relative'
               style={{
                 top: -6
               }}
             >
-              {t('prizeAmount', {
-                amount: displayAmountInEther(
-                  pool?.estimatePrize,
-                  { decimals, precision: 2 }
-                )
-              })}
+              <Trans
+                i18nKey='prizeAmount'
+                defaults='Prize $<prize>{{amount}}</prize>'
+                components={{
+                  prize: <PoolCountUp
+                    fontSansRegular
+                    decimals={2}
+                    duration={3}
+                  />
+                }}
+                values={{
+                  amount: ethers.utils.formatUnits(
+                    pool?.prizeEstimate,
+                    decimals
+                  )
+                }}
+              />
             </div>
             <div
-              className='inline-block text-left text-caption-2 relative'
+              className='inline-block text-left text-caption-2 relative mt-2'
               style={{
-                left: 2,
-                bottom: -4
+                left: -2
               }}
             >
-              <span
-                className='uppercase'
-              >
-                {pool.frequency}
-              </span>
+              <span className='mr-1 sm:mr-2'>
+                <Chip
+                  color='accent-1'
+                  text={t(pool?.name)}
+                />
+              </span> <Chip
+                color='highlight-6'
+                text={t(pool?.frequency)}
+              />
             </div>
           </div>
-
         </div>
 
         <div
-          className='flex flex-col items-end w-4/12 sm:w-6/12 lg:w-9/12'
+          className='flex flex-col items-end w-5/12 xs:w-4/12 sm:w-6/12 lg:w-9/12'
         >
           <NewPrizeCountdown
             pool={pool}
@@ -90,71 +131,125 @@ export const AccountPoolRow = (
       </div>
 
       <div
-        className='mt-6 flex items-center justify-between pt-4'
+        className='flex flex-col xs:flex-row items-end justify-between xs:pt-4'
       >
         <div
-          className='w-full xs:w-4/12 sm:w-4/12 lg:w-4/12 sm:border-r border-accent-4'
+          className='flex flex-col xs:flex-row xs:items-center justify-between xs:pt-4 w-full xs:w-7/12 sm:w-5/12'
         >
-          {usersBalance < 1 ? <>
+          <div
+            className={bucketClasses}
+          >
+            {usersBalance < 1 ? <>
+              <div
+                className='font-bold text-accent-3 text-default-soft'
+                style={{
+                  marginTop: 23
+                }}
+              >
+                {t('notAvailableAbbreviation')}
+              </div>
+            </> : <>
+              <Odds
+                altSplitLines
+                fontSansRegular
+                className='font-bold text-flashy'
+                pool={pool}
+                usersBalance={usersBalance}
+              />
+            </>}
+            
             <span
-              className='font-bold text-xl sm:text-2xl lg:text-3xl text-accent-3'
+              className='relative block text-caption uppercase font-number mt-0 opacity-70'
+              style={{
+                top: 1
+              }}
             >
-              {t('notAvailableAbbreviation')}
+              {t('winningOdds')}
             </span>
-          </> : <>
-            <Odds
-              fontSansRegular
-              className='font-bold text-flashy text-xl sm:text-2xl lg:text-3xl'
-              pool={pool}
-              usersBalance={usersBalance}
-            />
+          </div>
+
+          <div
+            className={bucketClasses}
+          >
+            <span className='font-bold'>
+              <PoolCountUp
+                fontSansRegular
+                end={Math.floor(Number.parseFloat(usersBalance))}
+                decimals={null}
+                duration={0.5}
+              />
+              <div className='inline-block xs:block ml-1 xs:ml-0 -mt-1 text-xs sm:text-sm'>
+                {t('tickets')}
+              </div>
+            </span>
+            <span
+              className='block text-caption uppercase font-number mt-0 xs:mt-1 opacity-70'
+            >
+              ${numberWithCommas(usersBalance, { precision: 4 })} {ticker}
+            </span>
+          </div>
+
+          {usersTimelockedBalance > 0 && <>
+            <div
+              className={bucketClasses}
+            >
+              <span className='font-bold'>
+                <PoolCountUp
+                  fontSansRegular
+                  end={Math.floor(Number.parseFloat(usersTimelockedBalance))}
+                  decimals={null}
+                />
+                <div className='inline-block xs:block ml-1 xs:ml-0 -mt-1 text-xs sm:text-sm'>
+                  {t('lockedTicker', {
+                    ticker: ticker?.toUpperCase()
+                  })}
+                </div>
+              </span>
+              <span
+                className='block text-caption uppercase font-number mt-0 xs:mt-1'
+              >
+                {formattedFutureDate}
+              </span>
+            </div>
           </>}
           
-          <span
-            className='block text-caption uppercase font-bold'
-          >
-            {t('winningOdds')}
-          </span>
         </div>
 
-        <div
-          className='w-full xs:w-6/12 sm:w-6/12 lg:w-6/12 sm:pl-16 font-bold text-xl sm:text-2xl lg:text-3xl text-inverse'
-        >
-          <PoolCountUp
-            fontSansRegular
-            end={Number.parseFloat(usersBalance).toFixed(0)}
-            decimals={null}
-          /> {t('tickets')}
-          <span className='block text-caption uppercase'>
-            ${numberWithCommas(usersBalance, { precision: 4 })} {ticker}
-          </span>
-        </div>
-
-        <div
-          className='w-2/12 text-right'
-          style={{
-            lineHeight: 1.2,
-          }}
-        >
-          <Link
-            href='/account/pools/[symbol]'
-            as={`/account/pools/${pool.symbol}`}
+        {!noLinks && <>
+          <div
+            className='w-full xs:w-5/12 xs:text-right'
+            style={{
+              lineHeight: 1.2,
+            }}
           >
-            <a
-              className='flex items-center justify-center font-bold text-highlight-3 uppercase pt-12'
+            <Link
+              href='/account/pools/[symbol]'
+              as={`/account/pools/${pool.symbol}`}
             >
-              <FeatherIcon
-                strokeWidth='0.09rem'
-                icon='arrow-right-circle'
-                className='relative w-5 h-5 ml-auto mr-2'
-                style={{
-                  left: -1,
-                  top: '0.05rem'
-                }}
-              /> {t('details')}
-            </a>
-          </Link>
-        </div>
+              <a
+                className='uppercase inline-block xs:inline-flex items-center justify-center text-center font-bold text-highlight-3 rounded-full border-highlight-3 xs:border py-1 xs:px-6 mr-1 sm:mr-3 mb-1 xs:mb-0'
+              >
+                {t('manageTickets')}
+              </a>
+            </Link> <Link
+              href='/pools/[symbol]'
+              as={`/pools/${pool.symbol}`}
+            >
+              <a
+                className='inline-flex items-center justify-center font-bold text-highlight-3 rounded-full py-1 uppercase'
+              >
+                {t('poolDetails')} <FeatherIcon
+                  strokeWidth='0.15rem'
+                  icon='arrow-right-circle'
+                  className='inline-block relative w-4 h-4 mx-auto ml-1'
+                  style={{
+                    top: 0
+                  }}
+                />
+              </a>
+            </Link>
+          </div>
+        </>}
       </div>
     </InteractableCard>
   </>

@@ -32,7 +32,7 @@ export const PoolPrizeListing = (
     console.error(error)
   }
 
-  let prizes = data?.prizePools?.prizes
+  let prizes = data?.prizePools?.[0]?.prizes
 
   if (loading) {
     return <div
@@ -75,10 +75,12 @@ export const PoolPrizeListing = (
         </BlankStateMessage>
       </>}
 
-      <PrizesTable
-        pool={pool}
-        prizes={prizes}
-      />
+      {prizes?.length > 0 && <>
+        <PrizesTable
+          pool={pool}
+          prizes={prizes}
+        />
+      </>}
     </div>
 
   </>

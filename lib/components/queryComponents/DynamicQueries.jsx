@@ -1,5 +1,6 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { useQuery } from '@apollo/client'
+import { isEmpty } from 'lodash'
 
 import {
   CREATOR_ADDRESS,
@@ -31,7 +32,12 @@ export const DynamicQueries = (
   let dynamicPoolData
 
   // multiple queries at the same time this (or use apollo-link-batch) to prevent multiple re-renders
-  const { loading: poolQueryLoading, error: poolQueryError, data: poolQueryData } = useQuery(dynamicPrizePoolsQuery, {
+  const {
+    loading: poolQueryLoading,
+    error: poolQueryError,
+    data: poolQueryData,
+    refetch: refetchPoolQuery
+  } = useQuery(dynamicPrizePoolsQuery, {
     variables,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
@@ -54,13 +60,13 @@ export const DynamicQueries = (
   dynamicPoolData = getPoolDataFromQueryResult(poolAddresses, poolQueryData)
 
 
-
   let dynamicPrizeStrategiesData
 
   const {
     loading: prizeStrategyQueryLoading,
     error: prizeStrategyQueryError,
-    data: prizeStrategyQueryData
+    data: prizeStrategyQueryData,
+    refetch: refetchPrizeStrategyQuery
   } = useQuery(dynamicSingleRandomWinnerQuery, {
     variables,
     fetchPolicy: 'network-only',
@@ -73,6 +79,8 @@ export const DynamicQueries = (
   }
 
   dynamicPrizeStrategiesData = getPrizeStrategyDataFromQueryResult(poolAddresses, prizeStrategyQueryData)
+
+
 
 
 
@@ -130,6 +138,10 @@ export const DynamicQueries = (
   if (sponsorQueryError) {
   //   poolToast.error(sponsorQueryError)
     console.log(sponsorQueryError)
+    
+    if (sponsorQueryError.message.match('service is overloaded')) {
+      poolToast.warn('The Graph protocol service is currently overloaded, please try again in a few minutes')
+    }
   }
 
   if (sponsorQueryData) {
@@ -140,6 +152,10 @@ export const DynamicQueries = (
 
   const dynamicDataLoading = poolQueryLoading || prizeStrategyQueryLoading || playerQueryLoading || sponsorQueryLoading
 
+  if (!poolQueryLoading && !isEmpty(dynamicPoolData)) {
+    window.hideGraphError()
+  }
+
   return children({
     dynamicDataLoading,
     dynamicPoolData,
@@ -147,6 +163,8 @@ export const DynamicQueries = (
     dynamicPlayerData,
     dynamicPlayerDrips,
     dynamicSponsorData,
+    refetchPoolQuery,
+    refetchPrizeStrategyQuery,
     refetchPlayerQuery,
     refetchSponsorQuery,
   })

@@ -42,25 +42,27 @@ export const PrizeShow = (
 
   const decimals = pool?.underlyingCollateralDecimals || 18
 
+  const isCurrentPrize = Number(pool?.prizesCount) + 1 === Number(prizeNumber)
+  const poolAddress = pool?.poolAddress
+
+  const prizeId = `${poolAddress}-${prizeNumber}`
+  const { loading, error, data } = useQuery(prizeQuery, {
+    variables: {
+      prizeId
+    },
+    skip: !poolAddress || !prizeNumber || isCurrentPrize,
+    fetchPolicy: 'network-only',
+    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
+  })
+
+
   if (pool === null) {
     const querySymbol = router.query?.symbol
     return <BlankStateMessage>
       Could not find pool with symbol: ${querySymbol}
     </BlankStateMessage>
   }
-
-  const isCurrentPrize = Number(pool?.prizesCount) + 1 === Number(prizeNumber)
-  const prizeStrategyAddress = pool?.prizeStrategyAddress
-
-  const prizeId = `${prizeStrategyAddress}-${prizeNumber}`
-  const { loading, error, data } = useQuery(prizeQuery, {
-    variables: {
-      prizeId
-    },
-    skip: !prizeStrategyAddress || !prizeNumber || isCurrentPrize,
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
-  })
+  
 
   if (error) {
     console.error(error)
@@ -72,7 +74,7 @@ export const PrizeShow = (
   if (isCurrentPrize) {
     prize = {
       awardedBlock: null,
-      net: pool?.estimatePrize
+      net: pool?.prizeEstimate
     }
   }
 
@@ -98,7 +100,7 @@ export const PrizeShow = (
 
   return <>
     {pool?.name && <>
-      <Meta title={`${t('prize')} #${prizeNumber} - ${pool?.name}`} />
+      <Meta title={`${t('prize')} #${prizeNumber} - ${pool ? pool?.name : ''}`} />
     </>}
 
     <PageTitleAndBreadcrumbs
@@ -138,7 +140,7 @@ export const PrizeShow = (
         className='flex flex-col sm:flex-row justify-between'
       >
         <div
-          className='w-full sm:w-1/3'
+          className='w-full sm:w-5/12'
         >
           <h2>
             {t('prize')} #{prizeNumber}
@@ -162,27 +164,34 @@ export const PrizeShow = (
             </div>
           </> : <>
             <h6
-              className='mt-4 mb-4'
+              className={classnames(
+                'mt-4',
+                {
+                  'mb-3': !pool?.isRngRequested
+                }
+              )}
             >
               {t('willBeAwardedIn')}
             </h6>
             <NewPrizeCountdown
+              textAlign='left'
+              textSize='text-xs xs:text-sm sm:text-lg lg:text-xl'
               pool={pool}
-              flashy={false}
+              flashy
             />
           </>}
         </div>
 
         <div
-          className='w-full sm:w-2/3 mt-8 sm:mt-0'
+          className='w-full sm:w-7/12 mt-8 sm:mt-0'
         >
           <h2>
             <PoolCurrencyIcon
               pool={pool}
               className='inline-block mx-auto -mt-1'
             /> ${displayAmountInEther(
-                prize?.net || 0,
-                { decimals, precision: 2 }
+                prize?.amount || 0,
+                { precision: 2, decimals }
               )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
           </h2>
 
@@ -191,8 +200,8 @@ export const PrizeShow = (
           >
             {t('winner')}:
           </h6>
+
           {prize?.awardedTimestamp ? <>
-            
             <Link
               href='/players/[playerAddress]'
               as={`/players/${winnerAddress}`}
@@ -250,9 +259,9 @@ export const PrizeShow = (
                 prize={prize}
               >
                 {(timeTravelPool) => {
-                  return timeTravelPool?.totalSupply ?
+                  return timeTravelPool?.ticketSupply ?
                     displayAmountInEther(
-                      timeTravelPool.totalSupply,
+                      timeTravelPool.ticketSupply,
                       { decimals, precision: 0 }
                     ) : null
                 }}

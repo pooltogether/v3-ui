@@ -5,9 +5,9 @@
     #ff04ea 10%,
     #9b4beb 20%,
     #0e8dd6 30%,
-    #3be8ff 40%,
+    #0bc6df 40%,
     #07d464 50%,
-    #ebf831 60%,
+    #dfd105 60%,
     #ff04ab 78%,
     #8933eb 90%,
     #3b89ff 100%
@@ -16,12 +16,10 @@
 
 html {
   height: 100%;
-  /* overflow: auto; */
 }
 
 body {
   height: 100%;
-  /* overflow-x: hidden; */
 }
 
 html, body, table {
@@ -75,7 +73,6 @@ form:after {
 
 .pt-button {
   min-width: 120px;
-  /* max-width: 340px; */
 }
 
 button {
@@ -87,12 +84,12 @@ button:focus {
 }
 
 button[disabled] {
-  @apply opacity-20 cursor-not-allowed !important;
+  @apply opacity-40 cursor-not-allowed !important;
 }
 
 input:not([type='submit'])[disabled],
 textarea[disabled] {
-  @apply border-transparent opacity-50 cursor-not-allowed !important;
+  @apply border-transparent opacity-60 cursor-not-allowed !important;
 } 
 
 input[type='submit'][disabled] {
@@ -141,7 +138,6 @@ input[type='submit'][disabled] {
   --borderFlashyWidth: 6px;
   position: relative;
   border-radius: var(--borderFlashyRadius);
-  /* width: calc(100% - calc(var(--borderFlashyWidth) * 2)); */
 }
 
 @screen sm {
@@ -401,11 +397,6 @@ input[type='submit'][disabled] {
   }
 }
 
-/* .list-item:hover {
-  @apply bg-accent-grey-1;
-  transition: all 120ms ease-in-out;
-} */
-
 .list-item--icon {
   top: 0;
 }
@@ -455,4 +446,87 @@ input[type=number]::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance:textfield;
+}
+
+
+.radio-input {
+  @apply mr-2 sm:mx-6;
+  min-height: 240px;
+}
+
+.radio-input:first-child {
+  @apply mr-2 sm:mr-6 ml-0;
+}
+
+.radio-input:last-child {
+  @apply ml-2 sm:ml-6 mr-0;
+}
+
+@screen sm {
+  .radio-input {
+    max-width: 340px;
+  }
+}
+
+@screen lg {
+  .radio-input {
+    max-width: 370px;
+  }
+}
+
+.glow {
+  animation: glow 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow:  0 0 1px rgb(212, 230, 52), 1px 1px 2px #fff, 2px 2px 5px #fff;
+  }
+  to {
+    text-shadow:  0 0 2px #fff, 0 0 3px #0ff, 5px 5px 4px #fff;
+  }
+}
+
+.purple-pink-gradient {
+  background-image: linear-gradient(
+    40deg,
+    #4C249F 30%,
+    #9C48BA 81%
+  )
+}
+
+@screen sm {
+  .tickets-line-height {
+    line-height: 2.75rem;
+  }
+}
+
+@screen lg {
+  .tickets-line-height {
+    line-height: 3.25rem;
+  }
+}
+
+.graph-modal {
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 90%;
+}
+
+@screen xs {
+  .graph-modal {
+    @apply w-2/3 mx-auto;
+  }
+}
+
+@screen sm {
+  .graph-modal {
+    @apply w-1/2;
+  }
+}
+
+@screen lg {
+  .graph-modal {
+    @apply w-1/3;
+  }
 }

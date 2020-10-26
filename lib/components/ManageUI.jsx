@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
+import { isEmpty } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-// import { FetchExtendedChainData } from 'lib/components/FetchExtendedChainData'
 import { Button } from 'lib/components/Button'
 import { CardGrid } from 'lib/components/CardGrid'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
@@ -17,7 +17,6 @@ import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Tagline } from 'lib/components/Tagline'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { isEmptyObject } from 'lib/utils/isEmptyObject'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const ManageUI = (
@@ -170,53 +169,46 @@ export const ManageUI = (
       usersAddress={usersAddress}
     />
 
-    {/* <FetchExtendedChainData>
-      {({ extendedChainData }) => {
-        console.log({ extendedChainData})
-        return <pre>{JSON.stringify(extendedChainData, null, 2)}</pre>
-      }}
-    </FetchExtendedChainData> */}
-
-    {pool && !isEmptyObject(pool) && <>
+    {pool && !isEmpty(pool) && <>
       <CardGrid
         cardGroupId='manage-pool-cards'
         cards={[
-          {
-            icon: null,
-            title: <>
-              {t('exitFee')} (<a
-                href='https://docs.pooltogether.com/tutorials/withdrawing-from-a-prize-pool#withdrawing-funds-instantly'
-                target='_blank'
-                rel='noreferrer nofollow'
-              >exitFeeMantissa</a>)
-            </>,
-            content: <>
-              <h3>
-                {displayAmountInEther(
-                  ethers.utils.bigNumberify(exitFeeMantissa).mul(100).toString(),
-                  { precision: 6 }
-                )} %
-              </h3>
-            </>
-          },
-          {
-            icon: null,
-            title: <>
-              {t('creditRate')} (<a
-                href='https://docs.pooltogether.com/tutorials/withdrawing-from-a-prize-pool#withdrawing-funds-instantly'
-                target='_blank'
-                rel='noreferrer nofollow'
-              >creditRateMantissa</a>)
-            </>,
-            content: <>
-              <h3>
-                {displayAmountInEther(
-                  ethers.utils.bigNumberify(creditRateMantissa).mul(100).toString(),
-                  { precision: 6 }
-                )} %
-              </h3>
-            </>
-          },
+          // {
+          //   icon: null,
+          //   title: <>
+          //     {t('exitFee')} (<a
+          //       href='https://docs.pooltogether.com/tutorials/withdrawing-from-a-prize-pool#withdrawing-funds-instantly'
+          //       target='_blank'
+          //       rel='noreferrer nofollow'
+          //     >exitFeeMantissa</a>)
+          //   </>,
+          //   content: <>
+          //     <h3>
+          //       {displayAmountInEther(
+          //         ethers.utils.bigNumberify(exitFeeMantissa).mul(100).toString(),
+          //         { precision: 6 }
+          //       )} %
+          //     </h3>
+          //   </>
+          // },
+          // {
+          //   icon: null,
+          //   title: <>
+          //     {t('creditRate')} (<a
+          //       href='https://docs.pooltogether.com/tutorials/withdrawing-from-a-prize-pool#withdrawing-funds-instantly'
+          //       target='_blank'
+          //       rel='noreferrer nofollow'
+          //     >creditRateMantissa</a>)
+          //   </>,
+          //   content: <>
+          //     <h3>
+          //       {displayAmountInEther(
+          //         ethers.utils.bigNumberify(creditRateMantissa).mul(100).toString(),
+          //         { precision: 6 }
+          //       )} %
+          //     </h3>
+          //   </>
+          // },
           {
             icon: null,
             title: t('prizePeriodInSeconds'),
@@ -229,15 +221,12 @@ export const ManageUI = (
             icon: null,
             title: t('sponsorship'),
             content: <h3>{displayAmountInEther(
-              pool.totalSponsorship,
+              pool.sponsorship?.totalSupply,
               { decimals, precision: 4 }
             )} {tickerUpcased}</h3>
           },
         ]}
       />
-
-      {/* <br />
-      <br /> */}
 
       {/* {pool && <pre>{JSON.stringify(pool, null, 2)}</pre>} */}
     </>}

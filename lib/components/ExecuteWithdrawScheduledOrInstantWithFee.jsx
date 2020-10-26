@@ -5,14 +5,27 @@ import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+
+const quantityForParseUnits = (quantity, decimals) => {
+  const quantityParts = quantity.split('.')
+  let quantityForParseUnits = quantityParts?.[0]
+
+  if (quantityParts[1]) {
+    quantityForParseUnits += `.${quantityParts[1].substr(0, parseInt(decimals, 10))}`
+  }
+
+  return quantityForParseUnits
+}
 
 export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const { t } = useTranslation()
@@ -23,20 +36,6 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const withdrawType = router.query.withdrawType
 
   const [txExecuted, setTxExecuted] = useState(false)
-
-  // const quantity = router.query.quantity
-  const timelockDurationSeconds = router.query.timelockDurationSeconds
-  const fee = router.query.fee
-  const quantity = router.query.net
-  // const net = router.query.net
-  const scheduledWithdrawal = withdrawType && withdrawType === 'scheduled'
-
-  let formattedFutureDate
-  if (timelockDurationSeconds) {
-    formattedFutureDate = <FormattedFutureDateCountdown
-      futureDate={Number(timelockDurationSeconds)}
-    />
-  }
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
   const { pool, refetchPlayerQuery } = useContext(PoolDataContext)
@@ -49,19 +48,55 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const tickerUpcased = ticker?.toUpperCase()
 
 
+  const timelockDurationSeconds = router.query.timelockDurationSeconds
+  const gross = router.query.gross
+  const net = router.query.net
+  const fee = router.query.fee
 
+  const grossFormatted = displayAmountInEther(
+    gross,
+    { decimals, precision: 8 }
+  )
+  const netFormatted = displayAmountInEther(
+    net,
+    { decimals, precision: 8 }
+  )
+  const feeFormatted = displayAmountInEther(
+    fee,
+    { decimals, precision: 8 }
+  )
+
+
+
+  const scheduledWithdrawal = withdrawType && withdrawType === 'scheduled'
+  const instantWithdrawal = withdrawType && withdrawType === 'instant'
+
+  let formattedFutureDate
+  if (scheduledWithdrawal && timelockDurationSeconds) {
+    formattedFutureDate = <FormattedFutureDateCountdown
+      futureDate={Number(timelockDurationSeconds)}
+    />
+  }
+
+  
 
   const [txId, setTxId] = useState()
 
-  let method = 'withdrawInstantlyFrom'
-  if (scheduledWithdrawal) {
-    method = 'withdrawWithTimelockFrom'
-  }
+  const method = 'withdrawInstantlyFrom'
+  // let method = 'withdrawInstantlyFrom'
+  // if (scheduledWithdrawal) {
+  //   method = 'withdrawWithTimelockFrom'
+  // } else if (instantWithdrawal) {
+  //   method = 'withdrawInstantlyFrom'
+  // }
 
-  let txName = `Withdraw ${quantity} ${tickerUpcased} instantly (fee: $${fee} ${tickerUpcased})`
-  if (scheduledWithdrawal) {
-    txName = `Schedule withdrawal ${quantity} ${tickerUpcased}`
-  }
+  const txName = `Withdraw ${netFormatted} ${tickerUpcased} instantly (fee: ${feeFormatted} ${tickerUpcased})`
+  // let txName
+  // if (scheduledWithdrawal) {
+  //   txName = `Schedule withdrawal ${netFormatted} ${tickerUpcased}`
+  // } else if (instantWithdrawal) {
+  //   txName = `Withdraw ${netFormatted} ${tickerUpcased} instantly (fee: ${feeFormatted} ${tickerUpcased})`
+  // }
 
   const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
 
@@ -70,9 +105,6 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
   const tx = transactions?.find((tx) => tx.id === txId)
 
   const txInWallet = tx?.inWallet && !tx?.sent
-  const txSent = tx?.sent && !tx?.completed
-  const txCompleted = tx?.completed
-  const txError = tx?.error
 
   useEffect(() => {
     const runTx = () => {
@@ -80,22 +112,19 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
 
       const params = [
         usersAddress,
-        ethers.utils.parseUnits(
-          quantity,  
-          Number(decimals)
-        ),
+        ethers.utils.bigNumberify(gross),
         controlledTokenAddress,
       ]
 
-      if (!scheduledWithdrawal) {
+      if (instantWithdrawal) {
         params.push(
-          ethers.utils.parseEther(fee)
+          ethers.utils.bigNumberify(fee)
         )
       }
       
-      params.push({
-        gasLimit: 500000
-      })
+      // params.push({
+      //   gasLimit: 400000
+      // })
 
       const id = sendTx(
         t,
@@ -110,10 +139,10 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
       setTxId(id)
     }
 
-    if (!txExecuted && quantity) {
+    if (!txExecuted && net && method) {
       runTx()
     }
-  }, [quantity])
+  }, [net, method])
 
   useEffect(() => {
     if (tx?.cancelled || tx?.error) {
@@ -123,18 +152,40 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
     }
   }, [tx])
 
-  const formattedWithdrawType = scheduledWithdrawal ? 'Schedule' : 'Instant'
-  // yes this string is different:
-  const formattedWithdrawTypePastTense = scheduledWithdrawal ? 'Scheduled' : 'Instant'
+  let withdrawTypeKey
+  if (scheduledWithdrawal) {
+    withdrawTypeKey = 'scheduled'
+  } else if (instantWithdrawal) {
+    withdrawTypeKey = 'instant'
+  }
 
   return <>
     <PaneTitle small>
-      {txInWallet && `Withdraw ${quantity} tickets`}
+      {scheduledWithdrawal && <>
+        <span
+          className={`text-xl`}
+          role='img'
+          aria-label='alarm clock'
+        >⏰</span>
+        <br />
+      </>}
+      
+      <Trans
+        i18nKey='withdrawAmountTickets'
+        defaults='Withdraw <number>{{amount}}</number> tickets'
+        components={{
+          number: <PoolNumber />,
+        }}
+        values={{
+          amount: netFormatted
+        }}
+      />
     </PaneTitle>
 
     <PaneTitle>
-      {txInWallet && `Confirm ${formattedWithdrawTypePastTense} withdrawal`}
-      {txSent && `${formattedWithdrawType} Withdrawal confirming...`}
+      {txInWallet && t('confirmWithdrawTypePastTense', {
+        withdrawType: withdrawTypeKey
+      })}
     </PaneTitle>
 
     <div className='text-white bg-yellow py-4 sm:py-6 px-5 sm:px-8 rounded-xl w-full sm:w-2/3 mx-auto'>
@@ -146,24 +197,48 @@ export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
           style={{
             color: 'rgba(255, 255, 255, 0.75)'
           }}
-        >Note: </span>{scheduledWithdrawal ? <>
-          You are scheduling <span className='font-bold'>${quantity} DAI</span>. Your funds will be ready for withdrawal in: <br />
-          <span className='font-bold'>{formattedFutureDate}</span>
-        </> : <>
-          You are withdrawing <span className='font-bold'>${quantity} {tickerUpcased}</span> of your funds right now, less the <span className='font-bold'>${fee} {tickerUpcased}</span> fairness fee
+        >{t('note')}</span> {scheduledWithdrawal && <>
+          <Trans
+            i18nKey='youAreSchedulingAndYourFundsWillBeReadyInFutureDate'
+            defaults='You are scheduling <bold><number>{{amount}}</number> {{ticker}}</bold>. Your funds will be ready for withdrawal in: '
+            components={{
+              bold: <span className='font-bold' />,
+              number: <PoolNumber />,
+            }}
+            values={{
+              amount: netFormatted,
+              ticker: tickerUpcased,
+            }}
+          /> <span className='font-bold'>{formattedFutureDate}</span>
+        </>} {instantWithdrawal && <>
+          <Trans
+            i18nKey='youAreWithdrawingYourFundsLessFeeRightNow'
+            defaults='You are withdrawing <bold><number>{{amount}}</number> {{ticker}}</bold> of your funds right now, less the <bold><number>{{fee}}</number> {{ticker}}</bold></span> fairness fee'
+            components={{
+              bold: <span className='font-bold' />,
+              number: <PoolNumber />,
+            }}
+            values={{
+              amount: netFormatted,
+              fee: feeFormatted,
+              ticker: tickerUpcased,
+            }}
+          />
         </>}
+
       </span>
     </div>
 
-    <div className='mt-10'>
-      <PaneTitle small>
-        {tx?.sent && <>{formattedWithdrawTypePastTense} {t('withdrawalConfirming')}</>}
-      </PaneTitle>
-    </div>
-
-    <TransactionsTakeTimeMessage
-      tx={tx}
-    />
+    {tx?.sent && <>
+      <div className='mt-10'>
+        <TransactionsTakeTimeMessage
+          tx={tx}
+          paneMessage={<>
+            {t(withdrawTypeKey)} - {t('withdrawalConfirming')}
+          </>}
+        />
+      </div>
+    </>}
     
   </>
 }

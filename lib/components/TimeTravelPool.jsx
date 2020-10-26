@@ -23,5 +23,10 @@ export const TimeTravelPool = (
     console.error(error)
   }
 
-  return children(data?.timeTravelPrizePool)
+  const formattedData = {
+    ...data?.timeTravelPrizePool,
+    ticketSupply: data?.timeTravelPrizePool?.prizeStrategy?.singleRandomWinner?.ticket?.totalSupply
+  }
+
+  return children(formattedData)
 }

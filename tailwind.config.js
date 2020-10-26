@@ -14,7 +14,7 @@ module.exports = {
     // sm (1041px - 1481px)
     // lg (1481px+)
     screens: {
-      'xs': '501px',
+      'xs': '531px',
       'sm': '1041px',
       'lg': '1481px'
     },
@@ -47,19 +47,25 @@ module.exports = {
         darkened: 'var(--color-bg-darkened)',
         inverse: 'var(--color-bg-inverse)',
         overlay: 'var(--color-bg-overlay)',
+        'overlay-white': 'var(--color-bg-overlay-white)',
         black: 'var(--color-bg-black)',
         'highlight-1': 'var(--color-bg-highlight-1)',
         'highlight-2': 'var(--color-bg-highlight-2)',
         'highlight-3': 'var(--color-bg-highlight-3)',
         'highlight-4': 'var(--color-bg-highlight-4)',
         'highlight-5': 'var(--color-bg-highlight-5)',
+        'highlight-6': 'var(--color-bg-highlight-6)',
+        'highlight-7': 'var(--color-bg-highlight-7)',
+        raspberry: 'var(--color-bg-raspberry)',
         red: 'var(--color-bg-red)',
         green: 'var(--color-bg-green)',
         yellow: 'var(--color-bg-yellow)',
+        'yellow-darkened': 'var(--color-bg-yellow-darkened)',
         blue: 'var(--color-bg-blue)',
         teal: 'var(--color-bg-teal)',
         'accent-grey-1': 'var(--color-bg-accent-grey-1)',
         'accent-grey-2': 'var(--color-bg-accent-grey-2)',
+        'accent-grey-3': 'var(--color-bg-accent-grey-3)',
         purple: 'var(--color-bg-purple)',
       },
       textColor: {
@@ -78,6 +84,9 @@ module.exports = {
         'highlight-1': 'var(--color-text-highlight-1)',
         'highlight-2': 'var(--color-text-highlight-2)',
         'highlight-3': 'var(--color-text-highlight-3)',
+        'highlight-6': 'var(--color-text-highlight-6)',
+        'highlight-7': 'var(--color-text-highlight-7)',
+        raspberry: 'var(--color-text-raspberry)',
         red: 'var(--color-text-red)',
         green: 'var(--color-text-green)',
         yellow: 'var(--color-text-yellow)',
@@ -95,12 +104,19 @@ module.exports = {
         card: 'var(--color-border-card)',
         secondary: 'var(--color-border-secondary)',
         default: 'var(--color-border-default)',
-        transparent: 'var(--color-border-transparent)',
         inverse: 'var(--color-border-inverse)',
         'highlight-1': 'var(--color-border-highlight-1)',
         'highlight-2': 'var(--color-border-highlight-2)',
+        'highlight-3': 'var(--color-border-highlight-3)',
+        'highlight-4': 'var(--color-border-highlight-4)',
+        'highlight-5': 'var(--color-border-highlight-5)',
+        'highlight-6': 'var(--color-border-highlight-6)',
+        'highlight-7': 'var(--color-border-highlight-7)',
+        raspberry: 'var(--color-border-raspberry)',
         red: 'var(--color-border-red)',
         green: 'var(--color-border-green)',
+        yellow: 'var(--color-border-yellow)',
+        transparent: 'var(--color-border-transparent)',
       },
       boxShadow: {
         'sm': '0 2px 6px 0 rgba(0, 0, 0, .07), 0 1px 2px -1px rgba(0, 0, 0, .04)',
@@ -162,6 +178,7 @@ module.exports = {
         // base: ['16px', '24px'],
         // lg: ['20px', '28px'], // line height!
         // xl: ['24px', '32px'],
+        'xxxxxs': '0.5rem',
         'xxxxs': '0.625rem',
         'xxxs': '0.75rem',
         'xxs': '0.875rem',
@@ -221,7 +238,8 @@ module.exports = {
     backgroundColor: [
       'hover',
       'focus',
-      'active'
+      'active',
+      'responsive'
     ],
     borderRadius: [
       'responsive'

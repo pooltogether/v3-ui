@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
+import { uniqWith, isEqual } from 'lodash'
 
 import {
   MAINNET_POLLING_INTERVAL
@@ -12,9 +13,11 @@ const debug = require('debug')('pool-app:FetchUsersChainData')
 export const FetchUsersChainData = (props) => {
   const {
     children,
+    graphDripData,
     pool,
     provider,
     usersAddress,
+    poolAddresses,
   } = props
 
   const generalContext = useContext(GeneralContext)
@@ -24,12 +27,35 @@ export const FetchUsersChainData = (props) => {
 
   const [usersChainData, setUsersChainData] = useState({})
 
+  let pairs = []
+  let dripTokens = []
+  let comptrollerAddress
+  if (graphDripData?.balanceDrips) {
+    const balanceDripPairs = graphDripData?.balanceDrips.map((drip) => [drip.sourceAddress, drip.measureToken])
+    const volumeDripPairs = graphDripData?.volumeDrips.map((drip) => [drip.sourceAddress, drip.measureToken])
+
+    pairs = uniqWith(balanceDripPairs?.concat(volumeDripPairs), isEqual)
+
+    const balanceDripTokens = graphDripData?.balanceDrips.map((drip) => drip.dripToken)
+    const volumeDripTokens = graphDripData?.volumeDrips.map((drip) => drip.dripToken)
+
+    dripTokens = uniqWith(balanceDripTokens?.concat(volumeDripTokens), isEqual)
+
+    if (graphDripData.balanceDrips.length > 0) {
+      comptrollerAddress = graphDripData.balanceDrips[0].comptroller.id
+    }
+  }
+
   const fetchUsersDataFromInfura = async () => {
     try {
       const data = await fetchUsersChainData(
         provider,
         pool,
+        comptrollerAddress,
+        dripTokens,
         usersAddress,
+        pairs,
+        poolAddresses,
       )
 
       return data
@@ -41,7 +67,7 @@ export const FetchUsersChainData = (props) => {
   }
 
   const updateOrDelete = async () => {
-    if (poolAddress && usersAddress) {
+    if (usersAddress) {
       const usersData = await fetchUsersDataFromInfura()
       setUsersChainData(usersData)
     } else {
@@ -55,10 +81,10 @@ export const FetchUsersChainData = (props) => {
     updateOrDelete()
   }, paused ? null : MAINNET_POLLING_INTERVAL)
 
-  useEffect(() => {    
+  useEffect(() => {
     updateOrDelete()
     // OPTIMIZE: Could reset the interval loop here since we just grabbed fresh data!
-  }, [poolAddress])
+  }, [poolAddress, usersAddress, comptrollerAddress])
 
   return children({ usersChainData })
 }

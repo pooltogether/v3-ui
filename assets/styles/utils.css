@@ -6,6 +6,10 @@
   width: 48%;
 }
 
+.w-98-percent {
+  width: 98%;
+}
+
 .rotate-0 {
   transform: rotate(0deg);
 }

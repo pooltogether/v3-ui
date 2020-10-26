@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 
 import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
@@ -14,6 +14,7 @@ import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositTxButton } from 'lib/components/DepositTxButton'
 import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PTHint } from 'lib/components/PTHint'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
@@ -22,6 +23,7 @@ import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
+import { poolTokenSupportsPermitSign } from 'lib/utils/poolTokenSupportsPermitSign'
 
 export const DepositCryptoForm = (props) => {
   const { t } = useTranslation()
@@ -32,7 +34,7 @@ export const DepositCryptoForm = (props) => {
   const quantity = router.query.quantity
   
   const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress, provider } = authControllerContext
+  const { chainId, usersAddress, provider } = authControllerContext
 
   const poolData = useContext(PoolDataContext)
   const { pool, usersChainData } = poolData
@@ -69,8 +71,11 @@ export const DepositCryptoForm = (props) => {
 
   useEffect(() => {
     if (
-      quantityBN.gt(0) &&
-      usersTokenAllowance.gte(quantityBN)
+      // poolTokenSupportsPermitSign(chainId, tokenAddress) ||
+      (
+        quantityBN.gt(0) &&
+        usersTokenAllowance.gte(quantityBN)
+      )
     ) {
       setNeedsApproval(false)
     } else {
@@ -113,9 +118,9 @@ export const DepositCryptoForm = (props) => {
       //   quantity,
       //   Number(decimals)
       // ),
-      {
-        gasLimit: 200000
-      }
+      // {
+      //   gasLimit: 200000
+      // }
     ]
 
     const id = sendTx(
@@ -134,33 +139,52 @@ export const DepositCryptoForm = (props) => {
   const approveButtonClassName = !needsApproval ? 'w-full' : 'w-48-percent'
 
   const approveButton = <Button
-    noAnim
     textSize='lg'
     onClick={handleUnlockClick}
     disabled={!needsApproval || unlockTxInFlight}
     className={approveButtonClassName}
   >
-    {t('allowTicker', {
+    {!needsApproval && <>
+      <FeatherIcon
+        strokeWidth='0.25rem'
+        icon='check'
+        className='inline-block relative w-5 h-5 ml-auto mr-1'
+        style={{
+          top: '-0.05rem'
+        }}
+      />
+    </>} {t('allowTicker', {
       ticker: tickerUpcased
     })}
   </Button>
 
   return <>
-    <PaneTitle small>
-      {t('amountTickets', {
-        amount: quantity
-      })}
-    </PaneTitle>
-
-    <PaneTitle>
-      {t('depositTicker', {
-        ticker: tickerUpcased
-      })} <div className='inline-block relative -t-1'>
+    <PaneTitle short>
+      <div className='inline-block sm:block relative -t-1 -mr-2'>
         <PoolCurrencyIcon
           pool={pool}
         />
-      </div>
+      </div> {t('depositTicker', {
+        ticker: tickerUpcased
+      })}
     </PaneTitle>
+
+    <div className='mb-6 -mt-2'>
+      <PaneTitle small>
+        <Trans
+          i18nKey='amountTickets'
+          defaults='<number>{{amount}}</number> tickets'
+          components={{
+            number: <PoolNumber />,
+          }}
+          values={{
+            amount: quantity,
+          }}
+        />
+      </PaneTitle>
+    </div>
+
+    
 
     <div
       className='text-sm xs:text-base sm:text-lg lg:text-xl'
@@ -179,11 +203,9 @@ export const DepositCryptoForm = (props) => {
           {t('total')}
         </div>
         <div>
-          <span
-            className='font-number'
-          >
+          <PoolNumber>
             {numberWithCommas(quantity, { precision: 4 })}
-          </span> {tickerUpcased}
+          </PoolNumber> {tickerUpcased}
         </div>
       </div>
     </div>
@@ -206,7 +228,18 @@ export const DepositCryptoForm = (props) => {
           >
             <WyreTopUpBalanceDropdown
               showSuggestion
-              label={t('topUpMyBalance')}
+              label={<Trans
+                i18nKey='topUpBalance'
+                defaults='<visibleMobile>Buy crypto</visibleMobile><hiddenMobile>Buy more crypto</hiddenMobile>'
+                components={{
+                  visibleMobile: <span
+                    className='xs:hidden ml-1'
+                  />,
+                  hiddenMobile: <span
+                    className='hidden xs:inline-block ml-1'
+                  />
+                }}
+              />}
               textColor='text-highlight-2'
               hoverTextColor='text-highlight-1'
               className='button-scale mt-4 mb-20 px-10 py-2 text-sm sm:text-xl lg:text-2xl rounded-lg border-highlight-2 border-2 bg-default hover:border-highlight-1 hover:bg-body'
@@ -242,29 +275,35 @@ export const DepositCryptoForm = (props) => {
 
           {needsApproval && <>
             <div
-              className='px-6 sm:px-10 text-sm my-6'
+              className='text-sm mb-6 px-6 sm:px-10'
               style={{
                 minHeight: 97
               }}
             >
-              <PaneTitle small>
-                {needsApproval && !unlockTxInFlight && t('yourApprovalIsNecessary')}
+              {!unlockTxInFlight && <>
+                <div
+                  className='pt-6'
+                >
+                  <PaneTitle small>
+                    {needsApproval && t('yourApprovalIsNecessary')}
 
-                {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
-                {tx?.inWallet && !tx?.cancelled && t('confirmApprovalInWallet')}
-                {tx?.sent && !tx?.completed && t('approvalConfirming')}
-              </PaneTitle>
+                    {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
+                    {tx?.inWallet && !tx?.cancelled && t('confirmApprovalInWallet')}
+                  </PaneTitle>
+                </div>
+              </>}
 
-              <span className='font-bold'>
-                {needsApproval && !unlockTxInFlight && <>
+              {!unlockTxInFlight && needsApproval && <>
+                <span className='font-bold'>
                   {t('unlockToDepositTicker', {
                     ticker: tickerUpcased
                   })}
-                </>}
-              </span>
+                </span>
+              </>}
 
               {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage
                 tx={tx}
+                paneMessage={t('approvalConfirming')}
               />}
             </div>
           </>}
@@ -289,7 +328,7 @@ export const DepositCryptoForm = (props) => {
             <DepositTxButton
               needsApproval={needsApproval}
               quantity={quantity}
-              disabled={needsApproval || overBalance}
+              disabled={poolIsLocked || needsApproval || overBalance}
               poolIsLocked={poolIsLocked}
               nextStep={nextStep}
             />

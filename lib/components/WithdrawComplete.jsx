@@ -1,10 +1,12 @@
 import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolNumber } from 'lib/components/PoolNumber'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 
 export const WithdrawComplete = (props) => {
@@ -18,6 +20,20 @@ export const WithdrawComplete = (props) => {
   const fee = router.query.fee
   const net = router.query.net
 
+  const poolData = useContext(PoolDataContext)
+  const { pool } = poolData
+  
+  const decimals = pool?.underlyingCollateralDecimals
+
+  const netFormatted = displayAmountInEther(
+    net,
+    { decimals, precision: 8 }
+  )
+  const feeFormatted = displayAmountInEther(
+    fee,
+    { decimals, precision: 8 }
+  )
+
   const scheduledWithdrawal = withdrawType && withdrawType === 'scheduled'
   const instantNoFee = withdrawType === 'instantNoFee'
 
@@ -28,21 +44,18 @@ export const WithdrawComplete = (props) => {
     )
   }
 
-  const poolData = useContext(PoolDataContext)
-  const { pool } = poolData
-
-  const underlyingCollateralSymbol = pool && pool.underlyingCollateralSymbol
-  const tickerUpcased = underlyingCollateralSymbol && underlyingCollateralSymbol.toUpperCase()
+  const underlyingCollateralSymbol = pool?.underlyingCollateralSymbol
+  const tickerUpcased = underlyingCollateralSymbol?.toUpperCase()
 
   if (!withdrawType) {
     return null
   }
 
-  const handleShowAccount = (e) => {
-    e.preventDefault()
+  // const handleShowAccount = (e) => {
+  //   e.preventDefault()
 
-    router.push('/account', '/account', { shallow: true })
-  }
+  //   router.push('/account', '/account', { shallow: true })
+  // }
 
   // TODO: show what happened here!
   // 3. your new odds are:
@@ -59,32 +72,49 @@ export const WithdrawComplete = (props) => {
 
     <PaneTitle>
       {scheduledWithdrawal || instantNoFee ? <>
-        {t('amountTickerEqualsAmountTickets', {
-          amount: quantity,
-          ticker: tickerUpcased
-        })}
-        {/* ${quantity} {tickerUpcased} = {quantity} tickets */}
+        <Trans
+          i18nKey='amountTickerEqualsAmountTickets'
+          defaults='You received <number>{{amount}}</number> {{ticker}}'
+          components={{
+            number: <PoolNumber />,
+          }}
+          values={{
+            amount: quantity,
+            ticker: tickerUpcased
+          }}
+        />
       </> : <>
-        {t('youReceivedAmountTicker', {
-          amount: net,
-          ticker: tickerUpcased
-        })}
-        
+        <Trans
+          i18nKey='youReceivedAmountTicker'
+          defaults='You received <number>{{amount}}</number> {{ticker}}'
+          components={{
+            number: <PoolNumber />,
+          }}
+          values={{
+            amount: netFormatted,
+            ticker: tickerUpcased,
+          }}
+        />
       </>}
     </PaneTitle>
 
     {!instantNoFee && <>
-      <div className='-mt-6 mb-10'>
-        <PaneTitle small>
-          {scheduledWithdrawal ? <>
-            {t('yourFundsWillBeReadyInDate', { date: formattedFutureDate })}
-          </> : <>
-            {t('andForfeitedAFairnessFeeOfAmountTicker', {
-              amount: fee,
+      <div className='-mt-6 mb-10 text-blue font-bold text-lg'>
+        {scheduledWithdrawal ? <>
+          {t('yourFundsWillBeReadyInDate', { date: formattedFutureDate })}
+        </> : <>
+          <Trans
+            i18nKey='andForfeitedAFairnessFeeOfAmountTicker'
+            defaults='... and forfeited a fairness fee of <number>{{amount}}</number> {{ticker}} to the pool'
+            components={{
+              number: <PoolNumber />,
+            }}
+            values={{
+              amount: feeFormatted,
               ticker: tickerUpcased
-            })}
-          </>}
-        </PaneTitle>
+            }}
+          />
+        </>}
       </div>
     </>}
 

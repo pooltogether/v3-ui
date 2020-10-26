@@ -79,20 +79,34 @@ export const AuthControllerContextProvider = (props) => {
   }, [onboardProvider, magicContext.signedIn])
 
   useEffect(() => {
-    // TODO: Add && if supportedNetwork here!
-    if (onboardNetwork && onboardNetwork !== chainId) {
-      setChangingNetwork(true)
-
-      window.destroyApollo()
-
-      setChainId(onboardNetwork)
-
-      window.createAndStartApollo()
-
-      setTimeout(() => {
-        setChangingNetwork(false)
-      }, 200)
+    const storeChainIdCookie = async (newChainId) => {
+      await Cookies.set(
+        STORED_CHAIN_ID_KEY,
+        newChainId,
+        COOKIE_OPTIONS
+      )
     }
+
+    const updateChainId = async () => {
+      if (onboardNetwork && onboardNetwork !== chainId) {
+        setChangingNetwork(true)
+        
+        // TODO: Add && if supportedNetwork here!
+        window.destroyApollo()
+
+        setChainId(onboardNetwork)
+        await storeChainIdCookie(onboardNetwork)
+
+        window.createAndStartApollo()
+
+        setTimeout(() => {
+          setChangingNetwork(false)
+        }, 200)
+      }
+    }
+
+
+    updateChainId()
   }, [onboardNetwork])
 
   useEffect(() => {
@@ -166,12 +180,6 @@ export const AuthControllerContextProvider = (props) => {
 
   const networkName = chainIdToNetworkName(chainId)
   const supportedNetwork = SUPPORTED_CHAIN_IDS.includes(chainId)
-
-  Cookies.set(
-    STORED_CHAIN_ID_KEY,
-    chainId,
-    COOKIE_OPTIONS
-  )
 
   return <AuthControllerContext.Provider
     value={{

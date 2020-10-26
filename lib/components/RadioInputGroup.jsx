@@ -1,4 +1,5 @@
 import React from 'react'
+import classnames from 'classnames'
 
 export const RadioInputGroup = (
   props,
@@ -7,15 +8,11 @@ export const RadioInputGroup = (
 
   const radioElements = radios.map((radio) => {
     const id = `${radio.value}-radio`
+    const checked = value === radio.value
     
     return <div
       key={`radios-${radio.value}`}
-      className='flex items-center justify-center radio-input-group trans w-full text-base sm:text-xl lg:text-2xl bg-white rounded-xl relative hover:text-white hover:bg-highlight-3 mx-2'
-      style={{
-        maxWidth: 300,
-        minHeight: 200,
-        width: '45%'
-      }}
+      className='radio-input flex items-center justify-center trans w-full text-base sm:text-xl lg:text-2xl bg-white rounded-xl relative hover:text-inverse hover:bg-highlight-3 bg-card'
     >
       <input
         id={id}
@@ -23,15 +20,30 @@ export const RadioInputGroup = (
         type='radio'
         onChange={onChange}
         value={radio.value}
-        checked={value === radio.value}
+        checked={checked}
         className='absolute hidden'
       />
       <label
         htmlFor={id}
-        className='flex items-center text-xs sm:text-base h-full text-primary hover:text-white absolute t-0 l-0 r-0 b-0 px-4 w-full block  trans mt-0'
+        className={classnames(
+          'flex flex-col items-center text-xs sm:text-base h-full text-inverse rounded-lg',
+          'hover:text-inverse absolute t-0 l-0 r-0 b-0 px-2 py-8 xs:px-4 sm:px-8 sm:py-10 w-full block trans mt-0',
+          'border-2 border-dashed border-transparent',
+          {
+            'bg-card-selected border-highlight-2': checked            
+          }
+        )}
       >
-        <div className='-mt-4 text-center mx-auto'>
+        {radio.icon}
+
+        <h1
+          className='text-base xs:text-2xl sm:text-5xl my-2 sm:my-0 text-center'
+        >
           {radio.label}
+        </h1>
+
+        <div className='text-xxs sm:text-xs text-accent-1 text-center'>
+          {radio.description}
         </div>
       </label>
     </div>
@@ -47,7 +59,7 @@ export const RadioInputGroup = (
         {label}
       </label>
 
-      <div className='flex items-center justify-center mt-4'>
+      <div className='flex items-center justify-between sm:justify-center mt-4'>
         {radioElements}
       </div>
     </div>

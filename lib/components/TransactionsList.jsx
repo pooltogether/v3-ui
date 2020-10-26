@@ -22,11 +22,11 @@ export const TransactionsList = (props) => {
     .reverse()
 
   const pendingTransactionsCount = transactions
-    .filter(t => !t.completed)
+    .filter(t => !t.completed && !t.cancelled)
     .length
   
   const pastTransactionsCount = transactions
-    .filter(t => t.completed)
+    .filter(t => t.completed && !t.cancelled)
     .length
 
   const handleClearPrevious = (e) => {

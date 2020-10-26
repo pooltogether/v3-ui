@@ -4,7 +4,7 @@ import addSeconds from 'date-fns/addSeconds'
 import { useInterval } from 'beautiful-react-hooks'
 
 import { useTranslation } from 'lib/../i18n'
-import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
+// import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 import { subtractDates } from 'lib/utils/subtractDates'
 
 const ONE_SECOND = 1000
@@ -13,7 +13,7 @@ export const NewPrizeCountdown = (
   props,
 ) => {
   const { t } = useTranslation()
-  const { pool } = props
+  const { pool, textAlign, textSize } = props
   let flashy = props.flashy === false ? false : true
 
   const [secondsRemaining, setSecondsRemaining] = useState(null)
@@ -47,9 +47,12 @@ export const NewPrizeCountdown = (
     return <>
       <p
         className={classnames(
-          'font-bold text-right text-xs xs:text-sm sm:text-xl lg:text-2xl',
+          textSize,
+          'font-bold',
           {
-            'text-flashy': flashy
+            'text-flashy': flashy,
+            'text-xs xs:text-sm sm:text-xl lg:text-2xl': !textSize,
+            'text-right': !textAlign
           }
         )}
       >
@@ -63,10 +66,10 @@ export const NewPrizeCountdown = (
   const minutesArray = ('' + minutes).split('')
   const secondsArray = ('' + seconds).split('')
 
-  // 360 minutes = 6 hours
-  const textColor = minutes >= 360 ?
+  // 3600 seconds = 1 hour
+  const textColor = secondsRemaining >= 3600 ?
     'green' :
-    minutes >= 30 ?
+    secondsRemaining >= 600 ?
       'yellow' :
       'red'
 
@@ -96,7 +99,7 @@ export const NewPrizeCountdown = (
   
   return <>
     <div
-      className='flex text-center'
+      className='flex text-center text-xxxs sm:text-xl'
     >
       <div
         className='flex flex-col sm:mr-2'

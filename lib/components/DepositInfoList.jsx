@@ -1,25 +1,28 @@
 import React from 'react'
 
+import { useTranslation } from 'lib/../i18n'
+
 export const DepositInfoList = (props) => {
+  const { t } = useTranslation()
   
   return <>
     <ol
-      className='mb-6 text-highlight-3 text-sm font-bold'
+      className='mb-6 text-highlight-3 text-sm'
     >
       <li
         className='mb-3'
       >
-        Tickets are instant &amp; perpetual
+        {t('ticketsAreInstantAndPerpetual')}
       </li>
+      {/* <li
+        className='mb-3'
+      >
+        {t('tenDayMinimumForFairness')}
+      </li> */}
       <li
         className='mb-3'
       >
-        10 day minimum deposit length for fairness
-      </li>
-      <li
-        className='mb-3'
-      >
-        Winnings are automatically added to your ticket balance
+        {t('winningsAutomaticallyAdded')}
       </li>
     </ol>
   </>

@@ -1,8 +1,16 @@
-export const SUPPORTED_CHAIN_IDS = [4, 42, 31337, 1234]
+// const PermitAndDepositDaiMainnet = require(`@pooltogether/pooltogether-contracts/deployments/mainnet/PermitAndDepositDai.json`)
+// const PermitAndDepositDaiRinkeby = require(`@pooltogether/pooltogether-contracts/deployments/rinkeby/PermitAndDepositDai.json`)
+// const PermitAndDepositDaiRopsten = require(`@pooltogether/pooltogether-contracts/deployments/ropsten/PermitAndDepositDai.json`)
 
-export const CREATOR_ADDRESS = '0xa847db8fcea81f5652166de4c073e698de884b40'
+export const SUPPORTED_CHAIN_IDS = [1, 3, 4, 31337, 1234]
 
-export const MAINNET_POLLING_INTERVAL = 30000
+export const CREATOR_ADDRESS = '0xe0f4217390221af47855e094f6e112d43c8698fe'
+
+export const SECONDS_PER_BLOCK = 14
+
+export const DEFAULT_TOKEN_PRECISION = 18
+
+export const MAINNET_POLLING_INTERVAL = 20000
 
 export const MAX_SAFE_INTEGER = 9007199254740991
 
@@ -12,14 +20,13 @@ export const WIZARD_REFERRER_HREF = 'wizardReferrerHref'
 export const WIZARD_REFERRER_AS_PATH = 'wizardReferrerAsPath'
 export const STORED_CHAIN_ID_KEY = 'chainId'
 export const TRANSACTIONS_KEY = 'txs'
-export const SHOW_MANAGE_LINKS = 'showAwardFeatures'
+export const SHOW_MANAGE_LINKS = 'showManageLinks'
 export const MAGIC_EMAIL = 'magicEmail'
 export const SELECTED_WALLET_COOKIE_KEY = 'selectedWallet'
 
 export const CONFETTI_DURATION_MS = 12000
 
 const domain = process.env.NEXT_JS_DOMAIN_NAME && `.${process.env.NEXT_JS_DOMAIN_NAME}`
-
 export const COOKIE_OPTIONS = {
   sameSite: 'strict',
   secure: process.env.NEXT_JS_DOMAIN_NAME === 'pooltogether.com',
@@ -28,45 +35,14 @@ export const COOKIE_OPTIONS = {
 
 export const CONTRACT_ADDRESSES = {
   1: {
-    DAI_POOL_CONTRACT_ADDRESS: '',
-    USDC_POOL_CONTRACT_ADDRESS: '',
-    USDT_POOL_CONTRACT_ADDRESS: '',
+    // Dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
+    // PermitAndDepositDai: PermitAndDepositDaiMainnet.address
   },
-  31337: {
-    DAI_POOL_CONTRACT_ADDRESS: '',
-    USDC_POOL_CONTRACT_ADDRESS: '',
-    USDT_POOL_CONTRACT_ADDRESS: '',
+  3: {
+    // Dai: '0xc2118d4d90b274016cb7a54c03ef52e6c537d957',
+    // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
   },
   4: {
-    DAI_POOL_CONTRACT_ADDRESS: '0xcfE8B7281D2bEc8325cba02E0957FBfF4a6262f6',
-    DAI_PRIZE_STRATEGY_CONTRACT_ADDRESS: '0x93cdCEC6F27F61Fa820C8f0F15dc90D4e4eDC054',
-
-    USDC_POOL_CONTRACT_ADDRESS: '0x546349619F5C229267B37996DE7146C466e7B9Cc',
-    USDC_PRIZE_STRATEGY_CONTRACT_ADDRESS: '0x0c09cE9050792845DbAc83C2Fb6D81c302DcA99a',
-
-    USDT_POOL_CONTRACT_ADDRESS: '0x9C877ECa3010B48e7C8A5Ff86160a9476B5d6866',
-    USDT_PRIZE_STRATEGY_CONTRACT_ADDRESS: '0x86ef829a2032ee0f5527ca3cf7935bc0c29a685d',
-
-    WBTC_POOL_CONTRACT_ADDRESS: '0x607d70Cd424D0522eF285F98522A3c53cB93B2a3',
-    WBTC_PRIZE_STRATEGY_CONTRACT_ADDRESS: '0xb683e56f2cabd38d18f2a865d40013776e56f975',
-
-    ZRX_POOL_CONTRACT_ADDRESS: '0xb09D3C159066dA3c7609b08F1Bd4F4Fd046F160a',
-    ZRX_PRIZE_STRATEGY_CONTRACT_ADDRESS: '0xdfb25daa8743b6b0250b165aa0965b37cc1897c8',
-
-    BAT_POOL_CONTRACT_ADDRESS: '0x3feea533B789aF732990381508AC8e4eF15098Ac',
-    BAT_PRIZE_STRATEGY_CONTRACT_ADDRESS: '0x322d94782f3bebb731301a48a0e550197fa7bf9f',
+    // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
   },
-  42: {
-    DAI_POOL_CONTRACT_ADDRESS: '0xf8FF07Bfa9B1Cb327f72528B07c9008D090CEa69',
-    DAI_PRIZE_STRATEGY_CONTRACT_ADDRESS: '0x384740D9D28f41EC4C129C201572675D281cA9f5',
-
-    USDC_POOL_CONTRACT_ADDRESS: '0xa81Aa0d2BB8a0AEB35b0F7360eD74f343C2b6977',
-    USDC_PRIZE_STRATEGY_CONTRACT_ADDRESS: '0xE29705ABDCeE0D944716b36AF9892F6B04663B72',
-  }
-}
-
-export const DRIP_TOKENS = {
-  '0xdb75b845960c835b6086db1bd3087ea01e7d8bde': {name: 'Balance Drip Token', symbol: 'BDRIP'},
-  '0xe5723dcaad584418f2ba31678743e194e9d042d0': {name: 'Volume Drip Token', symbol: 'VDRIP'},
-  // '': {name: 'Referral Volume Drip Token', symbol: 'RVDRIP'},
 }

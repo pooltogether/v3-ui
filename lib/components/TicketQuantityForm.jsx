@@ -32,7 +32,13 @@ export const TicketQuantityForm = (props) => {
   const quantity = router.query.quantity
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { pool, usersTicketBalance, usersChainData } = useContext(PoolDataContext)
+  const { pool, usersTicketBalanceBN, usersChainData } = useContext(PoolDataContext)
+
+  const decimals = pool?.underlyingCollateralDecimals
+  const usersTicketBalance = ethers.utils.formatUnits(
+    usersTicketBalanceBN.toString(),
+    decimals || 18
+  )
 
   const ticker = pool?.underlyingCollateralSymbol
   const tickerUpcased = ticker?.toUpperCase()
@@ -45,12 +51,15 @@ export const TicketQuantityForm = (props) => {
     watch,
     setValue
   } = useForm({
-    mode: 'all', reValidateMode: 'onChange',
+    mode: 'all',
+    reValidateMode: 'onChange',
   })
 
   useEffect(() => {
     if (quantity) {
       setValue('quantity', quantity, { shouldValidate: true })
+    } else if (!isWithdraw) {
+      setValue('quantity', 100, { shouldValidate: true })
     }
   }, [])
 
@@ -62,7 +71,10 @@ export const TicketQuantityForm = (props) => {
 
   const onSubmit = (values) => {
     if (formState.isValid) {
-      queryParamUpdater.add(router, { quantity: values.quantity })
+      queryParamUpdater.add(router, {
+        quantity: values.quantity,
+        prevBalance: usersTicketBalanceBN.toString()
+      })
 
       nextStep()
     }
@@ -85,7 +97,7 @@ export const TicketQuantityForm = (props) => {
     textSize='lg'
     disabled={!formState.isValid}
     onClick={handleSubmit(onSubmit)}
-    className={'mx-auto w-full'}
+    className={'mx-auto'}
   >
     {t('continue')}
   </Button>
@@ -143,13 +155,16 @@ export const TicketQuantityForm = (props) => {
           label={t('ticketAmount')}
           required={t('ticketQuantityRequired')}
           autoComplete='off'
-          centerLabel={!isWithdraw && usersAddress && tickerUpcased && <>
+          bottomRightLabel={!isWithdraw && usersAddress && tickerUpcased && <>
             <WyreTopUpBalanceDropdown
               label={<>
                 <Trans
                   i18nKey='topUpBalance'
-                  defaults='Top up<hiddenMobile> balance</hiddenMobile>:'
+                  defaults='<visibleMobile>Buy crypto</visibleMobile><hiddenMobile>Buy more crypto</hiddenMobile>'
                   components={{
+                    visibleMobile: <span
+                      className='xs:hidden ml-1'
+                    />,
                     hiddenMobile: <span
                       className='hidden xs:inline-block ml-1'
                     />
@@ -168,12 +183,11 @@ export const TicketQuantityForm = (props) => {
               className='font-bold'
               onClick={(e) => {
                 e.preventDefault()
-                console.log('clicked!')
                 setValue('quantity', contextualBalance, { shouldValidate: true })
               }}
             >
               {/* Balance:  */}
-              {numberWithCommas(contextualBalance, { precision: 4 })} {tickerUpcased}
+              {numberWithCommas(contextualBalance, { precision: 2 })} {tickerUpcased}
             </button>
           </>}
         />
@@ -193,13 +207,13 @@ export const TicketQuantityForm = (props) => {
             className='odds-box'
           >
             <Odds
+              sayEveryWeek
               showLabel
               splitLines
               pool={pool}
               usersBalance={usersTicketBalance}
               additionalQuantity={watchQuantity}
               isWithdraw={isWithdraw}
-              // hide={parseFloat(watchQuantity) > usersTicketBalance}
             />
           </div>
         </>}

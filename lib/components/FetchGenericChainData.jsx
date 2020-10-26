@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from 'react'
+import { isEmpty } from 'lodash'
 
 import {
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchGenericChainData } from 'lib/utils/fetchGenericChainData'
-import { isEmptyObject } from 'lib/utils/isEmptyObject'
 
 const debug = require('debug')('pool-app:FetchGenericChainData')
 
@@ -15,11 +16,32 @@ export const FetchGenericChainData = (props) => {
     chainId,
     children,
     provider,
-    poolAddresses,
     poolData,
+    graphDataLoading,
   } = props
 
+  const { disconnectWallet } = useContext(WalletContext)
+
   const { paused } = useContext(GeneralContext)
+
+  const [retryAttempts, setRetryAttempts] = useState(0)
+
+  useEffect(() => {
+    const owner = poolData?.daiPool?.owner
+    if (!owner) {
+      setRetryAttempts(retryAttempts + 1)
+    }
+  }, [poolData])
+
+  // major meltdown, this typically happens when the Graph URI is out of sync with Onboard JS's chainId
+  useEffect(() => {
+    // console.log({ retryAttempts})
+    if (retryAttempts > 12) {
+      disconnectWallet()
+      window.location.reload()
+    }
+  }, [retryAttempts])
+  
 
   const [alreadyExecuted, setAlreadyExecuted] = useState(false)
   const [genericChainData, setGenericChainData] = useState({})
@@ -27,45 +49,43 @@ export const FetchGenericChainData = (props) => {
 
   const fetchDataFromInfura = async () => {
     const chainData = {
-      daiPrizeStrategy: {},
-      usdcPrizeStrategy: {},
-      usdtPrizeStrategy: {},
-      wbtcPrizeStrategy: {},
-      zrxPrizeStrategy: {},
-      batPrizeStrategy: {},
+      dai: {},
+      // usdc: {},
+      // usdt: {},
+      // wbtc: {},
+      // zrx: {},
+      // bat: {},
     }
 
     try {
-      chainData.daiPrizeStrategy = await fetchGenericChainData(
+      chainData.dai = await fetchGenericChainData(
         provider,
-        poolAddresses['daiPrizeStrategy'],
         poolData.daiPool
       )
-      chainData.usdcPrizeStrategy = await fetchGenericChainData(
-        provider,
-        poolAddresses['usdcPrizeStrategy'],
-        poolData.usdcPool
-      )
-      chainData.usdtPrizeStrategy = await fetchGenericChainData(
-        provider,
-        poolAddresses['usdtPrizeStrategy'],
-        poolData.usdtPool
-      )
-      chainData.wbtcPrizeStrategy = await fetchGenericChainData(
-        provider,
-        poolAddresses['wbtcPrizeStrategy'],
-        poolData.wbtcPool
-      )
-      chainData.zrxPrizeStrategy = await fetchGenericChainData(
-        provider,
-        poolAddresses['zrxPrizeStrategy'],
-        poolData.zrxPool
-      )
-      chainData.batPrizeStrategy = await fetchGenericChainData(
-        provider,
-        poolAddresses['batPrizeStrategy'],
-        poolData.batPool
-      )
+      // chainData.usdc = await fetchGenericChainData(
+      //   provider,
+      //   poolData.usdcPool
+      // )
+      // chainData.usdt = await fetchGenericChainData(
+      //   provider,
+      //   poolAddresses.usdtPrizeStrategy,
+      //   poolData.usdtPool
+      // )
+      // chainData.wbtc = await fetchGenericChainData(
+      //   provider,
+      //   poolAddresses['wbtcPrizeStrategy'],
+      //   poolData.wbtcPool
+      // )
+      // chainData.zrx = await fetchGenericChainData(
+      //   provider,
+      //   poolAddresses['zrxPrizeStrategy'],
+      //   poolData.zrxPool
+      // )
+      // chainData.bat = await fetchGenericChainData(
+      //   provider,
+      //   poolAddresses['batPrizeStrategy'],
+      //   poolData.batPool
+      // )
     }
     catch (e) {
       console.warn(e)
@@ -91,16 +111,18 @@ export const FetchGenericChainData = (props) => {
     const conditionallyGetChainData = async () => {
       const genericData = await fetchDataFromInfura()
 
-      if (isEmptyObject(genericData.daiPrizeStrategy)) {
+      // console.log(genericData)
+
+      if (isEmpty(genericData.dai)) {
         // console.log('NO HIT, resetting ....')
         setAlreadyExecuted(false)
-      } else if (!isEmptyObject(genericData.daiPrizeStrategy)) {
+      } else if (!isEmpty(genericData.dai)) {
         // console.log('got data!')
         setGenericChainData(genericData)
       }
     }
 
-    const ready = !isEmptyObject(provider) && !isEmptyObject(poolData.daiPool)
+    const ready = !isEmpty(provider) && !isEmpty(poolData.daiPool)
 
     if (!alreadyExecuted && ready) {
       // console.log('ready and trying')
@@ -114,6 +136,7 @@ export const FetchGenericChainData = (props) => {
       if (chainId !== storedChainId) {
         setAlreadyExecuted(false)
         setStoredChainId(chainId)
+        setRetryAttempts(0)
       }
     }
 

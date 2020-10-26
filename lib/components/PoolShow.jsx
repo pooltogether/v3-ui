@@ -1,30 +1,35 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Link from 'next/link'
 import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
+import { useInterval } from 'beautiful-react-hooks'
 
 import {
+  COOKIE_OPTIONS,
   SHOW_MANAGE_LINKS,
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
+import { Chip } from 'lib/components/Chip'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Meta } from 'lib/components/Meta'
+import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
 import { Tagline } from 'lib/components/Tagline'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 
 import CompoundFinanceIcon from 'assets/images/icon-compoundfinance.svg'
 import PrizeStrategyIcon from 'assets/images/icon-prizestrategy@2x.png'
@@ -41,11 +46,16 @@ export const PoolShow = (
   const router = useRouter()
 
   const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress, walletName } = authControllerContext
+  const { networkName, usersAddress, walletName } = authControllerContext
 
   const { pool } = props
 
   const symbol = pool?.symbol
+  const decimals = pool?.underlyingCollateralDecimals
+  
+  const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
+
+  const [cookieShowAward, setCookieShowAward] = useState(false)
 
   let error
 
@@ -60,17 +70,28 @@ export const PoolShow = (
     }
   }
   
+  useInterval(() => {
+    setCookieShowAward(Cookies.get(SHOW_MANAGE_LINKS))
+  }, 1000)
+  
   if (!pool) {
     return <PoolShowLoader />
   }
 
-  const cookieShowAward = Cookies.get(SHOW_MANAGE_LINKS)
 
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
 
-    Cookies.set(WIZARD_REFERRER_HREF, '/pools/[symbol]')
-    Cookies.set(WIZARD_REFERRER_AS_PATH, `/pools/${pool?.symbol}`)
+    Cookies.set(
+      WIZARD_REFERRER_HREF,
+      '/pools/[symbol]',
+      COOKIE_OPTIONS
+    )
+    Cookies.set(
+      WIZARD_REFERRER_AS_PATH,
+      `/pools/${pool?.symbol}`,
+      COOKIE_OPTIONS
+    )
 
     router.push(
       `/pools/[symbol]/deposit`,
@@ -83,29 +104,15 @@ export const PoolShow = (
 
   const handleAddTokenToMetaMask = (e) => {
     e.preventDefault()
-    addTokenToMetaMask(pool)
+    addTokenToMetaMask(networkName, pool)
   }
 
-  const handleRevokeAllowance = async (e) => {
-    e.preventDefault()
-
-    const params = [
-      [usersAddress],
-      {
-        gasLimit: 500000
-      }
-    ]
-
-    const id = sendTx(
-      t,
-      provider,
-      usersAddress,
-      PrizePoolAbi,
-      poolAddress,
-      method,
-      params
+  let amountFormatted
+  if (pool?.prizeEstimate) {
+    amountFormatted = ethers.utils.formatUnits(
+      pool?.prizeEstimate,
+      decimals
     )
-    setTxId(id)
   }
 
   return <>
@@ -187,26 +194,39 @@ export const PoolShow = (
               className='flex items-center justify-between'
             >
               <div
-                className='w-full sm:w-7/12'
+                className='w-1/2 sm:w-7/12'
               >
                 <h2>
-                  {t('prizeAmountAndTicker', {
-                    amount: displayAmountInEther(
-                      pool?.estimatePrize || 0,
-                      { decimals: pool?.underlyingCollateralDecimals, precision: 2 }
-                    ),
-                    ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
-                  })}
+                  <Trans
+                    i18nKey='prizeAmountAndTicker'
+                    defaults='Prize $<prize>{{amount}}</prize> {{ticker}}'
+                    components={{
+                      prize: <PoolCountUp
+                        fontSansRegular
+                        decimals={2}
+                        duration={6}
+                      />
+                    }}
+                    values={{
+                      amount: amountFormatted,
+                      ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
+                    }}
+                  />
                 </h2>
                 <div
                   className='text-caption -mt-2 uppercase font-bold'
                 >
-                  {t(pool?.frequency?.toLowerCase())}
+                  <div className='mt-2'>
+                    <Chip
+                      color='highlight-6'
+                      text={t(pool?.frequency?.toLowerCase())}
+                    />
+                  </div>
                 </div>
               </div>
 
               <div
-                className='flex flex-col items-end justify-center pt-4 w-4/12 sm:w-5/12'
+                className='flex flex-col items-end justify-center pt-2 w-6/12 sm:w-5/12'
               >
                 <NewPrizeCountdown
                   pool={pool}
@@ -250,9 +270,9 @@ export const PoolShow = (
                   <h3
                     className='mt-2'
                   >
-                    {displayAmountInEther(pool.totalSupply, {
+                    {displayAmountInEther(pool.ticketSupply, {
                       precision: 0,
-                      decimals: pool.underlyingCollateralDecimals
+                      decimals
                     })}
                   </h3>
                 </>
@@ -289,7 +309,7 @@ export const PoolShow = (
                     ${displayAmountInEther(
                       pool.cumulativePrizeNet, {
                         precision: 2,
-                        decimals: pool.underlyingCollateralDecimals
+                        decimals
                       })
                     } {pool.underlyingCollateralSymbol}
                   </h3>
@@ -356,7 +376,7 @@ export const PoolShow = (
                 onClick={handleAddTokenToMetaMask}
               >
                 {t('addTicketTokenToMetamask', {
-                  token: pool?.symbol
+                  token: symbolForMetaMask
                 })}
               </Button>
             </div>

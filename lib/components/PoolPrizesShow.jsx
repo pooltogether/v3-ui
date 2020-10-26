@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
 import {
+  COOKIE_OPTIONS,
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
@@ -37,8 +38,16 @@ export const PoolPrizesShow = (
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
 
-    Cookies.set(WIZARD_REFERRER_HREF, '/prizes/[symbol]')
-    Cookies.set(WIZARD_REFERRER_AS_PATH, `/prizes/${pool?.symbol}`)
+    Cookies.set(
+      WIZARD_REFERRER_HREF,
+      '/prizes/[symbol]',
+      COOKIE_OPTIONS
+    )
+    Cookies.set(
+      WIZARD_REFERRER_AS_PATH,
+      `/prizes/${pool?.symbol}`,
+      COOKIE_OPTIONS
+    )
 
     router.push(
       `/pools/[symbol]/deposit`,
@@ -51,7 +60,7 @@ export const PoolPrizesShow = (
 
   return <>
     <Meta
-      title={`${pool?.name} ${t('prizes')}`} 
+      title={`${pool ? pool.name : ''} ${t('prizes')}`} 
     />
 
     <PrizesPageHeader
@@ -77,7 +86,10 @@ export const PoolPrizesShow = (
 
       <div className='text-center xs:text-right w-3/4 xs:w-1/3'>
         <Button
-          bg='highlight-4'
+          bg='purple'
+          border='green'
+          text='green'
+          hoverBorder='green'
           textSize='lg'
           onClick={handleGetTicketsClick}
         >
@@ -90,7 +102,7 @@ export const PoolPrizesShow = (
     <h6
       className='text-accent-2 mb-0 mt-8'
     >
-      Prize history:
+      {t('prizeHistory')}
     </h6>
 
     <PoolPrizeListing

@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
+import { isEmpty } from 'lodash'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
+import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPoolPrize'
 import { poolToast } from 'lib/utils/poolToast'
@@ -14,13 +16,12 @@ import { readProvider } from 'lib/utils/readProvider'
 export const PoolDataContext = React.createContext()
 
 export const PoolDataContextProvider = (props) => {
-  const authControllerContext = useContext(AuthControllerContext)
   const {
     supportedNetwork,
     networkName,
     chainId,
     usersAddress
-  } = authControllerContext
+  } = useContext(AuthControllerContext)
 
   const [defaultReadProvider, setDefaultReadProvider] = useState({})
 
@@ -57,98 +58,71 @@ export const PoolDataContextProvider = (props) => {
         dynamicPrizeStrategiesData,
         dynamicPlayerData,
         dynamicSponsorData,
+        refetchPoolQuery,
+        refetchPrizeStrategyQuery,
         refetchPlayerQuery,
         refetchSponsorQuery,
         dynamicPlayerDrips,
       }) => {
-
         return <FetchGenericChainData
           {...props}
           chainId={chainId}
           provider={defaultReadProvider}
-          poolAddresses={poolAddresses}
           poolData={dynamicPoolData}
+          graphDataLoading={graphDataLoading}
         >
           {({ genericChainData }) => {
             let pools = []
 
-            if (!graphDataLoading) {
+            if (!graphDataLoading && !isEmpty(genericChainData)) {
               pools = [
                 {
-                  ...genericChainData.daiPrizeStrategy,
+                  ...genericChainData.dai,
                   ...dynamicPoolData.daiPool,
                   ...dynamicPrizeStrategiesData.daiPrizeStrategy,
                   name: 'DAI Pool',
                   frequency: 'Weekly',
                   symbol: 'PT-cDAI',
-                  estimatePrize: calculateEstimatedPoolPrize(dynamicPoolData.daiPool),
+                  prizeEstimate: calculateEstimatedPoolPrize({
+                    ...genericChainData.dai,
+                    ...dynamicPoolData.daiPool,
+                    ...dynamicPrizeStrategiesData.daiPrizeStrategy,
+                  }),
                 },
-                {
-                  ...genericChainData.usdcPrizeStrategy,
-                  ...dynamicPoolData.usdcPool,
-                  ...dynamicPrizeStrategiesData.usdcPrizeStrategy,
-                  name: 'USDC Pool',
-                  frequency: 'Weekly',
-                  symbol: 'PT-cUSDC',
-                  estimatePrize: calculateEstimatedPoolPrize(dynamicPoolData.usdcPool),
-                },
-                {
-                  ...genericChainData.usdtPrizeStrategy,
-                  ...dynamicPoolData.usdtPool,
-                  ...dynamicPrizeStrategiesData.usdtPrizeStrategy,
-                  name: 'Tether Pool',
-                  frequency: 'Weekly',
-                  symbol: 'PT-cUSDT',
-                  estimatePrize: calculateEstimatedPoolPrize(dynamicPoolData.usdtPool),
-                },
-                {
-                  ...genericChainData.wbtcPrizeStrategy,
-                  ...dynamicPoolData.wbtcPool,
-                  ...dynamicPrizeStrategiesData.wbtcPrizeStrategy,
-                  name: 'Bitcoin Pool',
-                  frequency: 'Weekly',
-                  symbol: 'PT-cWBTC',
-                  estimatePrize: calculateEstimatedPoolPrize(dynamicPoolData.wbtcPool),
-                },
-                {
-                  ...genericChainData.zrxPrizeStrategy,
-                  ...dynamicPoolData.zrxPool,
-                  ...dynamicPrizeStrategiesData.zrxPrizeStrategy,
-                  name: '0x Pool',
-                  frequency: 'Weekly',
-                  symbol: 'PT-cZRX',
-                  estimatePrize: calculateEstimatedPoolPrize(dynamicPoolData.zrxPool),
-                },
-                {
-                  ...genericChainData.batPrizeStrategy,
-                  ...dynamicPoolData.batPool,
-                  ...dynamicPrizeStrategiesData.batPrizeStrategy,
-                  name: 'BAT Pool',
-                  frequency: 'Weekly',
-                  symbol: 'PT-cBAT',
-                  estimatePrize: calculateEstimatedPoolPrize(dynamicPoolData.batPool),
-                },
+                // {
+                //   ...genericChainData.usdc,
+                //   ...dynamicPoolData.usdcPool,
+                //   ...dynamicPrizeStrategiesData.usdcPrizeStrategy,
+                //   name: 'USDC Pool',
+                //   frequency: 'Weekly',
+                //   symbol: 'PT-cUSDC',
+                //   prizeEstimate: calculateEstimatedPoolPrize({
+                //     ...dynamicPoolData.usdcPool,
+                //     ...genericChainData.usdc
+                //   }),
+                // },
+                // {
+                //   ...genericChainData.usdt,
+                //   ...dynamicPoolData.usdtPool,
+                //   ...dynamicPrizeStrategiesData.usdtPrizeStrategy,
+                //   name: 'Tether Pool',
+                //   frequency: 'Weekly',
+                //   symbol: 'PT-cUSDT',
+                //   prizeEstimate: calculateEstimatedPoolPrize({
+                //     ...dynamicPoolData.usdtPool,
+                //     ...genericChainData.usdt
+                //   }),
+                // },
               ]
-
-              // console.log('PoolDataContextProvider', {pools})
             }
 
-            let pool
+            let pool = null
             if (querySymbol && pools?.length > 0) {
               pool = pools.find(_pool => {
-                let symbol
-                if (_pool && _pool.symbol) {
-                  symbol = _pool.symbol.toLowerCase()
-                }
+                let symbol = _pool?.symbol?.toLowerCase()
 
-                if (_pool && symbol) {
-                  return symbol === querySymbol
-                }
+                return symbol === querySymbol
               })
-
-              if (!pool) {
-                pool = null
-              }
             }
 
             const poolAddress = pool?.poolAddress
@@ -157,14 +131,15 @@ export const PoolDataContextProvider = (props) => {
             let usersTicketBalance = 0
             let usersTicketBalanceBN = ethers.utils.bigNumberify(0)
 
+
             if (pool && dynamicPlayerData) {
               const player = dynamicPlayerData.find(data => data.prizePool.id === poolAddress)
 
               if (player && underlyingCollateralDecimals) {
-                usersTicketBalance = Number(ethers.utils.formatUnits(
+                usersTicketBalance = ethers.utils.formatUnits(
                   player.balance,
-                  Number(underlyingCollateralDecimals)
-                ))
+                  underlyingCollateralDecimals
+                )
                 usersTicketBalanceBN = ethers.utils.bigNumberify(player.balance)
               }
             }
@@ -185,38 +160,52 @@ export const PoolDataContextProvider = (props) => {
             }
 
 
-            return <FetchUsersChainData
-              {...props}
-              provider={defaultReadProvider}
-              pool={pool}
-              usersAddress={usersAddress}
+            // TODO!
+            /// hard-coded to just the DAI pool for now since that's all we're gonna launch with
+            const daiPool = pools.find(_pool => _pool?.symbol === 'PT-cDAI')
+            return <GraphPoolDripQueries
+              pool={daiPool}
             >
-              {({ usersChainData }) => {
-                return <PoolDataContext.Provider
-                  value={{
-                    loading: graphDataLoading,
-                    pool,
-                    pools,
-                    poolAddresses,
-                    dynamicPoolData,
-                    dynamicPlayerData,
-                    dynamicPlayerDrips,
-                    genericChainData,
-                    refetchPlayerQuery,
-                    refetchSponsorQuery,
-                    usersChainData,
-                    usersSponsorshipBalance,
-                    usersSponsorshipBalanceBN,
-                    usersTicketBalance,
-                    usersTicketBalanceBN,
-                  }}
+              {({ dripDataLoading, graphDripData }) => {
+                return <FetchUsersChainData
+                  {...props}
+                  provider={defaultReadProvider}
+                  pool={pool}
+                  usersAddress={usersAddress}
+                  graphDripData={graphDripData}
+                  poolAddresses={poolAddresses}
                 >
-                  {props.children}
-                </PoolDataContext.Provider>
+                  {({ usersChainData }) => {
+                    return <PoolDataContext.Provider
+                      value={{
+                        loading: graphDataLoading || dripDataLoading,
+                        pool,
+                        pools,
+                        poolAddresses,
+                        dynamicPoolData,
+                        dynamicPlayerData,
+                        dynamicPlayerDrips,
+                        genericChainData,
+                        refetchPoolQuery,
+                        refetchPrizeStrategyQuery,
+                        refetchPlayerQuery,
+                        refetchSponsorQuery,
+                        graphDripData,
+                        usersChainData,
+                        usersSponsorshipBalance,
+                        usersSponsorshipBalanceBN,
+                        usersTicketBalance,
+                        usersTicketBalanceBN,
+                      }}
+                    >
+                      {props.children}
+                    </PoolDataContext.Provider>
 
 
+                  }}
+                </FetchUsersChainData>
               }}
-            </FetchUsersChainData>
+            </GraphPoolDripQueries>
           }}
         </FetchGenericChainData>
       }}

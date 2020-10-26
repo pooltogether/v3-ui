@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountPoolsUI } from 'lib/components/AccountPoolsUI'
 import { AccountRewardsUI } from 'lib/components/AccountRewardsUI'
-import { DDChip } from 'lib/components/DDChip'
+import { ChipRainbowNew } from 'lib/components/ChipRainbowNew'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Tab, Tabs, Content, ContentPane } from 'lib/components/Tabs'
@@ -15,56 +16,68 @@ export const AccountUI = () => {
   const REWARDS = 'REWARDS'
 
   const { t } = useTranslation()
-  const [visible, setVisible] = useState(POOLS)
+  const router = useRouter()
+
+  const [visible, setVisible] = useState(REWARDS)
 
   const handleShowRewards = (e) => {
     e.preventDefault()
 
+    router.push(
+      `#rewards`,
+      `#rewards`,
+      {
+        shallow: true
+      }
+    )
     setVisible(REWARDS)
   }
 
   const handleShowPools = (e) => {
     e.preventDefault()
 
+    router.push(
+      `#pools`,
+      `#pools`,
+      {
+        shallow: true
+      }
+    )
     setVisible(POOLS)
   }
 
+  useEffect(() => {
+    if (window && window.location.hash === '#rewards') {
+      setVisible(REWARDS)
+    }
+  }, [])
+
   return <>
     <Meta
-      title={t('myAccount')}
+      title={t('accountOverview')}
     />
 
     <PageTitleAndBreadcrumbs
-      title={t('account')}
-      breadcrumbs={[
-        {
-          href: '/account',
-          as: '/account',
-          name: t('account'),
-        },
-        {
-          name: t('myAccount')
-        }
-      ]}
+      title={t('accountOverview')}
     />
 
     <AccountSummary />
 
     <div
-      className='mt-24'
+      className='mt-16'
     >
       <Tabs>
-        <Tab
-          isSelected={visible === POOLS}
-          onClick={handleShowPools}
-        >
-          {t('pools')}
-        </Tab>
         <Tab
           isSelected={visible === REWARDS}
           onClick={handleShowRewards}
         >
-          {t('rewards')} <DDChip text='new' />
+          {t('rewards')} <ChipRainbowNew text='new' />
+        </Tab>
+        <Tab
+          isSelected={visible === POOLS}
+          onClick={handleShowPools}
+        >
+          {t('tickets')}
         </Tab>
       </Tabs>
 

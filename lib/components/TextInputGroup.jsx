@@ -12,6 +12,7 @@ export const TextInputGroup = (
     disabled,
     unsignedNumber,
     unsignedWholeNumber,
+    bottomRightLabel,
     centerLabel,
     rightLabel,
   } = props
@@ -104,6 +105,16 @@ export const TextInputGroup = (
         pattern={pattern}
         type={type || 'text'}
       />
+
+      {bottomRightLabel && <>
+        <label
+          className={classnames(
+            'mt-0 pb-1 sm:pr-8 sm:pl-2 trans w-full text-right font-bold text-default-soft hover:text-default',
+          )}
+        >
+          {bottomRightLabel}
+        </label>
+      </>}
     </div>
   </>
 }

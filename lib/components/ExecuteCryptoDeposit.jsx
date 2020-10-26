@@ -4,17 +4,21 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/client'
 
-import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
-
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { DepositInfoList } from 'lib/components/DepositInfoList'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { permitSignOrRegularDeposit } from 'lib/utils/permitSignOrRegularDeposit'
+import { usersDataForPool } from 'lib/utils/usersDataForPool'
+
+const bn = ethers.utils.bigNumberify
 
 export const ExecuteCryptoDeposit = (props) => {
   const { t } = useTranslation()
@@ -24,34 +28,36 @@ export const ExecuteCryptoDeposit = (props) => {
   const router = useRouter()
   const quantity = router.query.quantity
 
-  const { usersAddress, provider } = useContext(AuthControllerContext)
-  const { pool } = useContext(PoolDataContext)
+  const { chainId, usersAddress, provider } = useContext(AuthControllerContext)
+  const { usersChainData, pool } = useContext(PoolDataContext)
 
   const decimals = pool?.underlyingCollateralDecimals
   const ticker = pool?.underlyingCollateralSymbol
+  const tokenAddress = pool?.underlyingCollateralToken
   const poolAddress = pool?.poolAddress
   const controlledTokenAddress = pool?.ticket?.id
-
   const tickerUpcased = ticker?.toUpperCase()
+
+  // const {
+  //   usersDaiPermitAllowance,
+  // } = usersDataForPool(pool, usersChainData)
 
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
-  const txMainName = t(`depositAmountTickets`, {
-    amount: quantity,
-  })
+  let txMainName = `${t('deposit')} ${numberWithCommas(quantity, { precision: 2 })} ${t('tickets')}`
+  // if (poolTokenSupportsPermitSign(chainId, tokenAddress)) {
+  //   txMainName = `${t('permitAnd')} ${txMainName}`
+  // }
+
   const txSubName = `${quantity} ${tickerUpcased}`
   const txName = `${txMainName} (${txSubName})`
   
-  const method = 'depositTo'
-
   const [sendTx] = useSendTransaction(txName)
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
   const tx = transactions?.find((tx) => tx.id === txId)
-
-
 
   useEffect(() => {
     const runTx = async () => {
@@ -62,30 +68,29 @@ export const ExecuteCryptoDeposit = (props) => {
         ethers.utils.getAddress(referrerAddress)
       } catch (e) {
         referrerAddress = ethers.constants.AddressZero
-        console.error(`referrer address was an invalid Ethereum address:`, e.message)
+        console.log(`referrer address was an invalid Ethereum address:`, e.message)
       }
 
-      const params = [
+      const quantityBN = ethers.utils.parseUnits(quantity, Number(decimals))
+      // const needsPermit = quantityBN.gt(0) && usersDaiPermitAllowance.lt(quantityBN)
+
+      const sharedParams = [
         usersAddress,
-        ethers.utils.parseUnits(
-          quantity,
-          Number(decimals)
-        ),
+        quantityBN,
         controlledTokenAddress,
         referrerAddress,
-        {
-          gasLimit: 600000
-        }
       ]
 
-      const id = sendTx(
+      const id = await permitSignOrRegularDeposit(
         t,
         provider,
+        chainId,
         usersAddress,
-        PrizePoolAbi,
         poolAddress,
-        method,
-        params
+        tokenAddress,
+        sendTx,
+        sharedParams,
+        // needsPermit
       )
       setTxId(id)
     }
@@ -99,46 +104,65 @@ export const ExecuteCryptoDeposit = (props) => {
     if (tx?.cancelled || tx?.error) {
       previousStep()
     } else if (tx?.completed) {
+      nextStep()
+
       const valueInCentsWithDecimals = Number(quantity) * 100
       const valueInCents = parseInt(valueInCentsWithDecimals, 10)
 
       // console.log('value in cents', valueInCents)
       // console.log(window.fathom)
-      if (window && window.fathom) {
+      // if (window && window.Fathom) {
         // console.log('send fathom')
         // this is naive as the user would have to stay on
         // the same page until the tx confirms, so it won't be accurate anyways
-        // window.fathom.trackGoal('L4PBHM0U', valueInCents)
-      }
-      nextStep()
+        // (from app.jsx) Fathom.trackGoal('L4PBHM0U', valueInCents)
+      // }
     }
   }, [tx])
 
   return <>
-    <PaneTitle small>
-      {txName}
+    <PaneTitle short>
+      <Trans
+        i18nKey='depositAmountTicker'
+        defaults='Deposit <number>{{amount}}</number> {{ticker}}'
+        components={{
+          number: <PoolNumber />,
+        }}
+        values={{
+          amount: quantity,
+          ticker: tickerUpcased,
+        }}
+      />
     </PaneTitle>
 
-    <PaneTitle>
-      {t('forAmountTicker', {
-        amount: quantity,
-        ticker: tickerUpcased
-      })}
-      {/* For ${quantity} {tickerUpcased} */}
-       {/* = {quantity} tickets */}
-    </PaneTitle>
+    <div className='-mt-2'>
+      <PaneTitle small>
+        <Trans
+          i18nKey='forAmountTickets'
+          defaults='for <number>{{amount}}</number> tickets'
+          components={{
+            number: <PoolNumber />,
+          }}
+          values={{
+            amount: quantity,
+            ticker: tickerUpcased,
+          }}
+        />
+      </PaneTitle>
+    </div>
 
-    <DepositInfoList />
+    <div className='mt-4'>
+      <DepositInfoList />
+    </div>
 
-    <PaneTitle small>
-      {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
-
-      {tx?.inWallet && t('confirmDepositInYourWallet')}
-      {tx?.sent && t('depositConfirming')}
-    </PaneTitle>
-
-    {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage
-      tx={tx}
-    />}
+    {!tx?.completed && <>
+      <TransactionsTakeTimeMessage
+        tx={tx}
+        paneMessage={<>
+          {tx?.inWallet && t('confirmDepositInYourWallet')}
+          {tx?.sent && t('depositConfirming')}
+        </>}
+      />
+    </>}
   </>
 }

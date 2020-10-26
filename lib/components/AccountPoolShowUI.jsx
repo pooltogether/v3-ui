@@ -4,10 +4,11 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
 import {
+  COOKIE_OPTIONS,
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { Button } from 'lib/components/Button'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
@@ -55,8 +56,16 @@ export const AccountPoolShowUI = (props) => {
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
 
-    Cookies.set(WIZARD_REFERRER_HREF, '/account/pools/[symbol]')
-    Cookies.set(WIZARD_REFERRER_AS_PATH, `/account/pools/${pool?.symbol}`)
+    Cookies.set(
+      WIZARD_REFERRER_HREF,
+      '/account/pools/[symbol]',
+      COOKIE_OPTIONS
+    )
+    Cookies.set(
+      WIZARD_REFERRER_AS_PATH,
+      `/account/pools/${pool?.symbol}`,
+      COOKIE_OPTIONS
+    )
 
     router.push(
       `/pools/[symbol]/deposit`,
@@ -85,12 +94,7 @@ export const AccountPoolShowUI = (props) => {
         {
           href: '/account',
           as: '/account',
-          name: t('account'),
-        },
-        {
-          href: '/account',
-          as: '/account',
-          name: t('myAccount')
+          name: t('accountOverview'),
         },
         {
           name: pool?.name
@@ -99,7 +103,9 @@ export const AccountPoolShowUI = (props) => {
     />
 
     {!dynamicPlayerData ? <>
-      <IndexUILoader />
+      <div className='mt-6'>
+        <IndexUILoader />
+      </div>
     </> :
       !playerData ? <>
         <div
@@ -133,13 +139,13 @@ export const AccountPoolShowUI = (props) => {
         </BlankStateMessage>
       </> : <>
 
-        <TimelockedBalanceUI
+        {/* <TimelockedBalanceUI
           pool={pool}
           playerData={playerData}
-        />
+        /> */}
 
         <NonInteractableCard
-          className='ticket-card my-8 sm:mt-20 sm:mb-12'
+          className='ticket-card my-8 sm:mt-8 sm:mb-8'
         >
           <div className='flex items-center pb-2'>
             <div
@@ -159,12 +165,23 @@ export const AccountPoolShowUI = (props) => {
                     top: -6
                   }}
                 >
-                  {t('prizeAmount', {
-                    amount: displayAmountInEther(
-                      pool?.estimatePrize,
-                      { decimals, precision: 2 }
-                    )
-                  })}
+                  <Trans
+                    i18nKey='prizeAmount'
+                    defaults='Prize $<prize>{{amount}}</prize>'
+                    components={{
+                      prize: <PoolCountUp
+                        fontSansRegular
+                        decimals={2}
+                        duration={3}
+                      />
+                    }}
+                    values={{
+                      amount: ethers.utils.formatUnits(
+                        pool?.prizeEstimate,
+                        decimals
+                      )
+                    }}
+                  />
                 </div>
                 <div
                   className='inline-block text-left text-caption-2 relative'
@@ -176,7 +193,7 @@ export const AccountPoolShowUI = (props) => {
                   <span
                     className='uppercase text-caption'
                   >
-                    {t(pool?.frequency.toLowerCase())}
+                    {t(pool?.frequency?.toLowerCase())}
                   </span>
                 </div>
               </div>
@@ -187,7 +204,7 @@ export const AccountPoolShowUI = (props) => {
             className='mt-0 xs:mt-5 flex flex-col xs:flex-row items-center justify-between pt-2'
           >
             <div
-              className='w-full pb-10 xs:pb-0 xs:w-4/12 sm:w-4/12 lg:w-4/12 sm:border-r border-accent-4'
+              className='w-full pb-2 xs:pb-0 xs:w-4/12 sm:w-3/12 lg:w-3/12'
             >
               {usersTicketBalance < 1 ? <>
                 <span
@@ -212,12 +229,13 @@ export const AccountPoolShowUI = (props) => {
             </div>
 
             <div
-              className='w-full mt-2 xs:mt-0 xs:w-4/12 sm:w-4/12 lg:w-4/12 sm:pl-16 font-bold text-xl sm:text-2xl lg:text-3xl text-inverse'
+              className='w-full mt-2 xs:mt-0 xs:w-4/12 sm:w-5/12 lg:w-5/12 sm:pl-16 font-bold text-xl sm:text-2xl lg:text-3xl text-inverse'
             >
               <PoolCountUp
                 fontSansRegular
-                end={Number.parseFloat(usersTicketBalance).toFixed(0)}
+                end={Math.floor(Number.parseFloat(usersTicketBalance))}
                 decimals={null}
+                duration={0.5}
               /> {t('tickets')}
               <span className='block text-caption uppercase'>
                 ${numberWithCommas(usersTicketBalance, { precision: 4 })} {ticker}

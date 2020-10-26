@@ -60,14 +60,14 @@ export const WyreTopUpBalanceDropdown = (props) => {
 
   const currencies = {
     [tickerUpcased]: {
-      'label': <span className='text-lg'>
+      'label': <span className='text-xs'>
         {t('buyTickerDebitCreditCard', {
           ticker: tickerUpcased
         })}{applePay}
       </span>,
     },
     'ETH': {
-      'label': <span className='text-lg'>
+      'label': <span className='text-xs'>
         {t('buyEthDebitCreditCard')}{applePay}
       </span>,
     },

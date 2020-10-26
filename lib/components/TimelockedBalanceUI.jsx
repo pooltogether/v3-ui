@@ -8,7 +8,7 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
-import { PoolCountUp } from 'lib/components/PoolCountUp'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
@@ -70,9 +70,9 @@ export const TimelockedBalanceUI = (props) => {
 
     const params = [
       [usersAddress],
-      {
-        gasLimit: 500000
-      }
+      // {
+      //   gasLimit: 500000
+      // }
     ]
 
     const id = sendTx(
@@ -86,21 +86,20 @@ export const TimelockedBalanceUI = (props) => {
     )
     setTxId(id)
   }
-  
+
   return <>
     {usersTimelockedBalance > 0 && <>
       <div
-        className='border-highlight-1 border-2 bg-accent-grey-1 rounded-lg my-8 sm:mt-20 sm:mb-12 p-4 xs:px-8 xs:py-6'
+        className='border-highlight-1 border-2 bg-accent-grey-1 rounded-lg my-8 sm:mt-8 sm:mb-0 p-4 xs:px-8 xs:py-6'
       > 
         <h4
           className='text-inverse text-sm'
         >
           {t('yourTimelockedBalance')}
           <div className='text-highlight-3 text-xl'> 
-            <PoolCountUp
-              end={usersTimelockedBalance}
-              decimals={0}
-            /> {tickerUpcased}
+            <PoolNumber>
+              {usersTimelockedBalance}
+            </PoolNumber> {tickerUpcased}
           </div>
         </h4>
 
@@ -110,7 +109,7 @@ export const TimelockedBalanceUI = (props) => {
             <div className='mt-2'>
               <Button
                 onClick={handleSweepTimelocked}
-                disabled={tx?.sent && !tx?.completed}
+                // disabled={tx?.sent && !tx?.completed}
               >
                 {t('returnTimelockedFunds')}
               </Button>

@@ -14,9 +14,11 @@ export const Odds = (props) => {
     isWithdraw,
     pool,
     showLabel,
+    sayEveryWeek,
     splitLines,
+    altSplitLines,
     style,
-    timeTravelTotalSupply,
+    timeTravelTicketSupply,
     usersBalance,
   } = props
 
@@ -24,18 +26,17 @@ export const Odds = (props) => {
 
   const font = fontSansRegular ? 'font-sans-regular' : ''
 
-
   let content = null
 
   const hasBalance = !isNaN(usersBalance) && usersBalance > 0
 
   const underlyingCollateralDecimals = pool?.underlyingCollateralDecimals
-  const totalSupply = timeTravelTotalSupply || pool?.totalSupply
+  const ticketSupply = timeTravelTicketSupply || pool?.ticket?.totalSupply
 
-  let totalSupplyFloat
-  if (totalSupply && underlyingCollateralDecimals) {
-    totalSupplyFloat = Number(ethers.utils.formatUnits(
-      totalSupply,
+  let ticketSupplyFloat
+  if (ticketSupply && underlyingCollateralDecimals) {
+    ticketSupplyFloat = Number(ethers.utils.formatUnits(
+      ticketSupply,
       Number(underlyingCollateralDecimals)
     ))
   }
@@ -48,18 +49,17 @@ export const Odds = (props) => {
 
   let postPurchaseBalance = usersBalance
   if (hasAdditionalQuantity) {
-    postPurchaseBalance = usersBalance + additionalQuantity
-    totalSupplyFloat = totalSupplyFloat + additionalQuantity
+    postPurchaseBalance = Number(usersBalance) + additionalQuantity
+    ticketSupplyFloat = ticketSupplyFloat + additionalQuantity
   }
 
   let result = null
   if (postPurchaseBalance < 1) {
     result = 0
   } else {
-    result = totalSupplyFloat / postPurchaseBalance
+    result = ticketSupplyFloat / postPurchaseBalance
   }
  
-  // console.log({ hasAdditionalQuantity})
   let label = showLabel && <>
     {hasAdditionalQuantity && additionalQuantity !== 0 ? <>
       {!isWithdraw && <span className='font-bold text-flashy'>{t('newOddsOfWinning')}</span>}
@@ -78,14 +78,22 @@ export const Odds = (props) => {
   } else if (isWithdraw && !isFinite(result)) {
     content = t('withdrawingEverythingMakeYouIneligible')
   } else if (!hide && (hasBalance || hasAdditionalQuantity)) {
+    const totalOdds = <PoolCountUp
+      fontSansRegular
+      start={result}
+      end={result}
+    />
+
     content = <>
       {label} {splitLines && <br />}<span
         className={`${font} font-bold`}
-      >1</span> {t('in')} <PoolCountUp
-        fontSansRegular
-        start={result}
-        end={result}
-      />
+      >1</span>
+
+      {altSplitLines ? <>
+        <div className='inline-block xs:block ml-1 xs:ml-0 -mt-1 text-xs sm:text-sm'>{t('in')} {totalOdds}</div>
+      </> : <>
+        &nbsp;{t('in')} {totalOdds}
+      </>} {sayEveryWeek && t('everyWeek')}
     </>
   }
 

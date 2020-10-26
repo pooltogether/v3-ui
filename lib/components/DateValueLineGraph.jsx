@@ -78,8 +78,8 @@ export const DateValueLineGraph = (props) => {
                 className='vx-chart-tooltip'
               >
                 {props.valueLabel || 'Value'}: <strong>
-                  {tooltipData.value}
-                  {/* {numberWithCommas(tooltipData.value)} */}
+                  {/* {tooltipData.value} */}
+                  {numberWithCommas(tooltipData.value, { precision: 0 })}
                 </strong>
                 <span className='block mt-2'>
                   Date: <strong>{formatDate(

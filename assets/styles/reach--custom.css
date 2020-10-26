@@ -11,7 +11,7 @@
 }
 
 [data-reach-tooltip] {
-  @apply text-inverse bg-primary;
+  @apply text-inverse bg-primary rounded-lg;
   box-shadow: 0 -10px 10px -1px rgba(0, 0, 0, .1),
     0 20px 20px -3px rgba(0, 0, 0, .1), rgba(14, 16, 40, 0.2) 0px 15px 30px;
   border: 0;
@@ -67,7 +67,7 @@
 
 @screen sm {
   [data-reach-menu-item] {
-    @apply px-10 py-2;
+    @apply px-6 py-2;
   } 
 }
 

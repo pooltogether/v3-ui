@@ -1,10 +1,18 @@
 import React from 'react'
 import classnames from 'classnames'
 
+import IconInfo from 'assets/images/icon-info.svg'
+
 export const QuestionMarkCircle = (props) => {
   const { white } = props
 
-  let defaultClasses = 'bg-highlight-2 text-white'
+  if (!white) {
+    return <>
+      <img src={IconInfo} />
+    </>
+  }
+
+  let defaultClasses = 'bg-overlay-white text-primary'
   if (white) {
     defaultClasses = 'bg-transparent text-white border-white border-2'
   }
@@ -13,13 +21,14 @@ export const QuestionMarkCircle = (props) => {
     <span
       className={classnames(
         defaultClasses,
-        'flex items-center justify-center rounded-full w-6 h-6 sm:w-5 sm:h-5 mx-1',
+        'flex items-center justify-center rounded-full w-4 h-4 mx-1',
       )}
     >
       <span
         className='relative font-number font-bold text-xs'
         style={{
-          left: '0.02rem'
+          left: '0.02rem',
+          top: '0.04rem'
         }}
       >
         ?

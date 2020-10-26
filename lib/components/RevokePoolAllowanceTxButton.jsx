@@ -50,9 +50,9 @@ export const RevokePoolAllowanceTxButton = (props) => {
     const params = [
       poolAddress,
       ethers.utils.parseEther('0'),
-      {
-        gasLimit: 200000
-      }
+      // {
+      //   gasLimit: 200000
+      // }
     ]
 
     const id = sendTx(

@@ -4,14 +4,17 @@ export const dynamicSingleRandomWinnerFragment = gql`
   fragment dynamicSingleRandomWinnerFragment on SingleRandomWinner {
     id
 
-    prizePool {
-      id
-    }
-
     owner
-    ticket { id }
-    sponsorship { id }
     rng
+    
+    ticket {
+      id
+      totalSupply
+    }
+    sponsorship {
+      id
+      totalSupply
+    }
 
     prizePeriodSeconds
     prizePeriodStartedAt

@@ -1,13 +1,13 @@
 import React from 'react'
-import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import { PoolRow } from 'lib/components/PoolRow'
+import { PoolRowGhost } from 'lib/components/PoolRowGhost'
 
 export const PoolList = (
   props,
 ) => {
   const { pools } = props
-  // const { pools, selectedId } = props
 
   return <>
     <AnimatePresence exitBeforeEnter>
@@ -50,11 +50,16 @@ export const PoolList = (
           // const selected = selectedId === pool.poolAddress
 
           return <PoolRow
-            key={`pool-${pool.poolAddress}`}
+            key={`pool-row-${pool.poolAddress}`}
             pool={pool}
             // selected={selected}
           />
         })}
+
+        <PoolRowGhost
+          key={`pool-row-ghost`}
+          pool={null}
+        />
       </motion.ul>
     </AnimatePresence>
   </>

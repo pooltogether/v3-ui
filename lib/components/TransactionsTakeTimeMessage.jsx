@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useQuery } from '@apollo/client'
-
 import { differenceInMinutes } from 'date-fns'
 
-import { Trans, useTranslation } from 'lib/../i18n'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { useTranslation } from 'lib/../i18n'
+import { PaneTitle } from 'lib/components/PaneTitle'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { gasStationDataQuery } from 'lib/queries/gasStationDataQuery'
-
 
 export const TransactionsTakeTimeMessage = (props) => {
   const { t } = useTranslation()
 
-  const { tx } = props
+  const { tx, paneMessage } = props
+  const { ethersTx } = tx || {}
+
+  const { chainId } = useContext(AuthControllerContext)
 
   const [waitTime, setWaitTime] = useState(null)
 
@@ -20,7 +23,13 @@ export const TransactionsTakeTimeMessage = (props) => {
   const gasStationData = gasStationDataQueryResult?.data?.gasStationData
 
   useEffect(() => {
-    if (gasStationData && gasStationData['fast']) {
+    if (chainId !== 1) {
+      setWaitTime(0.10)
+    }
+  })
+
+  useEffect(() => {
+    if (chainId === 1 && ethersTx && gasStationData && gasStationData['fast']) {
       window.differenceInMinutes = differenceInMinutes
       const gasPairs = ['average', 'fast', 'fastest', 'safeLow'].map(pair => {
         const gasInGwei = gasStationData[pair] / 10
@@ -44,7 +53,7 @@ export const TransactionsTakeTimeMessage = (props) => {
       }
 
       const txGasPriceInGwei = parseInt(
-        ethers.utils.formatUnits(tx.ethersTx.gasPrice, 'gwei'),
+        ethers.utils.formatUnits(ethersTx.gasPrice, 'gwei'),
         10
       )
       
@@ -57,8 +66,14 @@ export const TransactionsTakeTimeMessage = (props) => {
   }, [gasStationData])  
 
   return <>
-    <div className='mx-auto -mb-6 -mt-6'>
+    <div className='mx-auto'>
       <V3LoadingDots />
+    </div>
+
+    <div className='-mt-8 mb-6'>
+      <PaneTitle small>
+        {paneMessage}
+      </PaneTitle>
     </div>
 
     <div

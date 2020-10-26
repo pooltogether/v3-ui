@@ -6,7 +6,7 @@ import VisuallyHidden from '@reach/visually-hidden'
 import { motion } from 'framer-motion'
 
 import { useTranslation } from 'lib/../i18n'
-import { SHOW_MANAGE_LINKS } from 'lib/constants'
+import { COOKIE_OPTIONS, SHOW_MANAGE_LINKS } from 'lib/constants'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { PTHint } from 'lib/components/PTHint'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
@@ -25,9 +25,9 @@ export const Settings = (props) => {
     e.preventDefault()
 
     if (showManageLinks) {
-      Cookies.remove(SHOW_MANAGE_LINKS)
+      Cookies.remove(SHOW_MANAGE_LINKS, COOKIE_OPTIONS)
     } else {
-      Cookies.set(SHOW_MANAGE_LINKS, 1)
+      Cookies.set(SHOW_MANAGE_LINKS, 1, COOKIE_OPTIONS)
     }
 
     setShowManageLinks(!showManageLinks)

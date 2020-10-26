@@ -38,9 +38,9 @@ export const CompleteAwardUI = (props) => {
     e.preventDefault()
 
     const params = [
-      {
-        gasLimit: 400000
-      }
+      // {
+      //   gasLimit: 500000
+      // }
     ]
 
     const id = sendTx(
@@ -59,9 +59,9 @@ export const CompleteAwardUI = (props) => {
   return <>
     {pool?.canCompleteAward && <>
       <Button
-        bg='highlight-4'
-        hoverBg='green'
-        hoverText='primary'
+        text='green'
+        border='green'
+        hoverBorder='green'
         textSize='lg'
         onClick={handleCompleteAwardClick}
         // disabled={disabled}

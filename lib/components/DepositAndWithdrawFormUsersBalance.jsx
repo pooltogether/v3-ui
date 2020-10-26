@@ -2,7 +2,8 @@ import React from 'react'
 import classnames from 'classnames'
 
 import { useTranslation } from 'lib/../i18n'
-import { PoolCountUp } from 'lib/components/PoolCountUp'
+import { PoolNumber } from 'lib/components/PoolNumber'
+// import { PoolCountUp } from 'lib/components/PoolCountUp'
 
 export const DepositAndWithdrawFormUsersBalance = (
   props,
@@ -24,13 +25,10 @@ export const DepositAndWithdrawFormUsersBalance = (
       <div>
         {label || t('yourBalance')}
       </div>
-      <div>
-        <PoolCountUp
-          {...props}
-          start={start}
-          end={end}
-          decimals={4}
-        /> {units}
+      <div className='number'>
+        <PoolNumber>
+          {end}
+        </PoolNumber> {units}
       </div>
     </div>
   </>

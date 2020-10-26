@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
 import {
+  COOKIE_OPTIONS,
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
@@ -19,8 +20,16 @@ export const WithdrawButton = (props) => {
   const handleWithdrawClick = (e) => {
     e.preventDefault()
 
-    Cookies.set(WIZARD_REFERRER_HREF, '/account/pools/[symbol]')
-    Cookies.set(WIZARD_REFERRER_AS_PATH, `/account/pools/${poolSymbol}`)
+    Cookies.set(
+      WIZARD_REFERRER_HREF,
+      '/account/pools/[symbol]',
+      COOKIE_OPTIONS
+    )
+    Cookies.set(
+      WIZARD_REFERRER_AS_PATH,
+      `/account/pools/${poolSymbol}`,
+      COOKIE_OPTIONS
+    )
 
     router.push(
       `/account/pools/[symbol]/withdraw`,

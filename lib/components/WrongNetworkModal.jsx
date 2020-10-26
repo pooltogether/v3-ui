@@ -47,7 +47,7 @@ export const WrongNetworkModal = (props) => {
           bottom: '10vh'
         }}
       >
-        {t('unsupportedNetwork')}: {networkName}
+        {t('unsupportedNetwork')} {networkName}
       </div>
     </>}
 

@@ -21,7 +21,7 @@ export const getButtonClasses = (props) => {
     width,
   } = props
 
-  let defaultClasses = 'font-bold relative inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
+  let defaultClasses = 'font-bold border-2 relative inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
   let animClass = noAnim ? '' : 'button-scale'
   
   if (selected) {
@@ -33,20 +33,20 @@ export const getButtonClasses = (props) => {
   textSize = getTextSize(textSize)
 
   let defaultPadding = 'px-4 xs:px-6 sm:px-10 lg:px-12 py-2 sm:py-2'
-  let defaultRounded = 'rounded-lg'
+  let defaultRounded = 'rounded-full'
   let defaultTrans = 'trans trans-fast'
 
-  let defaultBorder = 'border-highlight-1'
-  let defaultBg = 'bg-highlight-1'
-  let defaultText = 'text-secondary'
+  let defaultBorder = 'border-highlight-2'
+  let defaultBg = 'bg-transparent'
+  let defaultText = 'text-highlight-2'
 
-  let defaultHoverBorder = 'hover:border-highlight-2'
+  let defaultHoverBorder = 'hover:border-highlight-4'
   let defaultHoverBg = 'hover:bg-highlight-4'
   let defaultHoverText = 'hover:text-secondary'
 
   if (secondary) {
     defaultBorder = 'border-highlight-2 border-2'
-    defaultBg = 'bg-default'
+    defaultBg = 'bg-primary'
     defaultText = 'text-highlight-2'
 
     defaultHoverBorder = 'hover:border-highlight-1'
@@ -88,6 +88,10 @@ export const getButtonClasses = (props) => {
 
 const getTextSize = (size) => {
   switch (size) {
+    case 'xxxs':
+      return `text-xxxxs xs:text-xxxs sm:text-xxs lg:text-xs`
+    case 'xxs':
+      return `text-xxxs xs:text-xxs sm:text-xs lg:text-sm`
     case 'xs':
       return `text-xxs xs:text-xs sm:text-sm lg:text-base`
     case 'sm':

@@ -1,4 +1,3 @@
-
 table {
   @apply text-xxxs;
   border-spacing: 0;
@@ -34,20 +33,26 @@ td {
   margin: 0;
 }
 
-th:first-child,
-td:first-child {
-  @apply rounded-tl-lg rounded-bl-lg pl-4 pr-2;
+th:first-child {
+  @apply rounded-tl-sm px-2 py-2;
 }
 
-th:last-child,
+th:last-child {
+  @apply rounded-tr-sm px-2 py-2;
+}
+
+td:first-child {
+  @apply rounded-tl-sm rounded-bl-sm px-2 py-2;
+}
+
 td:last-child {
-  @apply rounded-tr-lg rounded-br-lg pr-4 pl-2;
+  @apply rounded-tr-sm rounded-br-sm px-2 py-2;
 }
 
 @screen sm {
   th,
   td {
-    @apply px-1 py-2;
+    @apply px-3;
   }
 }
 
@@ -67,4 +72,24 @@ thead tr {
 th:last-child,
 td:last-child {
   border-right: 0;
+}
+
+
+
+
+.table--small-headers thead tr {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.table--small-headers th {
+  @apply text-xxxs pb-0 uppercase;
+}
+
+.table--nested th,
+.table--nested td {
+  @apply p-0;
+}
+
+.table--nested tr:hover {
+  background-color: rgba(0, 0, 0, 0);
 }
