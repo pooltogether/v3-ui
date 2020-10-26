@@ -18,6 +18,7 @@ import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
 import { Chip } from 'lib/components/Chip'
+import { Erc20AwardsModal } from 'lib/components/Erc20AwardsModal'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
@@ -234,6 +235,8 @@ export const PoolShow = (
                 />
               </div>
             </div>
+            
+            <Erc20AwardsModal />
           </div>
 
           <CardGrid

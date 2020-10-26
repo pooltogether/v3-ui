@@ -115,7 +115,7 @@ export const AccountSummary = () => {
 
           <div>
             <div
-              className='w-full flex sm:items-center justify-start flex-col sm:flex-row mt-4 sm:mt-12 sm:mt-8'
+              className='w-full flex sm:items-center justify-start flex-col sm:flex-row mt-4 sm:mt-8'
             >
               <div
                 className='flex flex-col w-full sm:pr-2 mb-4 sm:mb-0'

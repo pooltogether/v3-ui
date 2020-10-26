@@ -77,6 +77,7 @@ export const PoolDataContextProvider = (props) => {
             let pools = []
 
             if (!graphDataLoading && !isEmpty(genericChainData)) {
+              console.log(genericChainData.dai)
               pools = [
                 {
                   name: 'DAI Pool',
@@ -85,7 +86,7 @@ export const PoolDataContextProvider = (props) => {
                   ...genericChainData.dai,
                   ...dynamicPoolData.daiPool,
                   ...dynamicPrizeStrategiesData.daiPrizeStrategy,
-                  externalErc20AwardsChainData: genericChainData.externalErc20AwardsChainData,
+                  externalErc20Awards: genericChainData.dai.externalErc20AwardsChainData,
                   prizeEstimate: calculateEstimatedPoolPrize({
                     ...genericChainData.dai,
                     ...dynamicPoolData.daiPool,
@@ -94,15 +95,7 @@ export const PoolDataContextProvider = (props) => {
                 },
                 // {
                   //   name: 'Tether Pool',
-                  //   frequency: 'Weekly',
-                  //   symbol: 'PT-cUSDT',
-                //   ...genericChainData.usdt,
-                //   ...dynamicPoolData.usdtPool,
-                //   ...dynamicPrizeStrategiesData.usdtPrizeStrategy,
-                //   prizeEstimate: calculateEstimatedPoolPrize({
-                //     ...dynamicPoolData.usdtPool,
-                //     ...genericChainData.usdt
-                //   }),
+                  // ...
                 // },
               ]
             }
