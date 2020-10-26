@@ -78,7 +78,7 @@ export const V2MessageLarge = (
           </h4>
 
           <div
-            className='sm:text-sm lg:text-lg my-2 sm:my-0'
+            className='sm:text-xs lg:text-sm my-2 sm:my-0'
           >
             {t('nowLiveV3MoreFun')} <br
               className='hidden sm:block'
@@ -98,15 +98,16 @@ export const V2MessageLarge = (
         </div>
 
         <div
-          className='w-full sm:w-1/3 mt-4 mb-2 sm:my-0'
+          className='w-full sm:w-1/3 mt-4 mb-2 sm:my-0 sm:text-right'
         >
           <ButtonLink
-            bg='highlight-2'
+            bg='green'
+            border='green'
             text='primary'
-            as='https://v2.pooltogether.com/en/account'
-            href='https://v2.pooltogether.com/en/account'
+            as='/account#tickets'
+            href='/account#tickets'
           >
-            {t('openPoolTogetherV2')}
+            {t('viewTickets')}
           </ButtonLink>
         </div>
       </div>
