@@ -4,14 +4,12 @@ import Link from 'next/link'
 import { ethers } from 'ethers'
 
 import { Trans, useTranslation } from 'lib/../i18n'
-import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
 import { Chip } from 'lib/components/Chip'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const AccountPoolRow = (
@@ -39,25 +37,26 @@ export const AccountPoolRow = (
       Number(decimals)
     ))
 
-    usersTimelockedBalance = Number(ethers.utils.formatUnits(
-      player.timelockedBalance,
-      Number(decimals)
-    ))
+    // usersTimelockedBalance = Number(ethers.utils.formatUnits(
+    //   player.timelockedBalance,
+    //   Number(decimals)
+    // ))
 
-    if (player.unlockTimestamp) {
-      const currentUnixTimestamp = parseInt(Date.now() / 1000, 10)
-      const unlockUnixTimestamp = parseInt(player.unlockTimestamp, 10)
+    // if (player.unlockTimestamp) {
+    //   const currentUnixTimestamp = parseInt(Date.now() / 1000, 10)
+    //   const unlockUnixTimestamp = parseInt(player.unlockTimestamp, 10)
 
-      formattedFutureDate = <FormattedFutureDateCountdown
-        futureDate={unlockUnixTimestamp - currentUnixTimestamp}
-      />
-    }
+    //   formattedFutureDate = <FormattedFutureDateCountdown
+    //     futureDate={unlockUnixTimestamp - currentUnixTimestamp}
+    //   />
+    // }
   }
 
   const ticker = pool?.underlyingCollateralSymbol
-  const bucketClasses = usersTimelockedBalance > 0 ?
-    'w-1/2 xs:w-4/12 sm:w-4/12 lg:w-4/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse' :
-    'w-1/2 xs:w-6/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse'
+  const bucketClasses = 'w-1/2 xs:w-40 lg:w-48 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse'
+  // const bucketClasses = usersTimelockedBalance > 0 ?
+  //   'w-1/2 xs:w-4/12 sm:w-4/12 lg:w-4/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse' :
+  //   'w-1/2 xs:w-4/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse'
   
   return <>
     <InteractableCard
@@ -131,10 +130,10 @@ export const AccountPoolRow = (
       </div>
 
       <div
-        className='flex flex-col xs:flex-row items-end justify-between xs:pt-4'
+        className='flex flex-col lg:flex-row items-end justify-between lg:pt-4'
       >
         <div
-          className='flex flex-col xs:flex-row xs:items-center justify-between xs:pt-4 w-full xs:w-7/12 sm:w-5/12'
+          className='flex flex-col xs:flex-row xs:items-center xs:pt-2 w-full lg:w-6/12'
         >
           <div
             className={bucketClasses}
@@ -217,35 +216,35 @@ export const AccountPoolRow = (
 
         {!noLinks && <>
           <div
-            className='w-full xs:w-5/12 xs:text-right'
+            className='w-full flex justify-between sm:justify-end lg:block lg:w-6/12 xs:text-right mt-4 lg:mt-0'
             style={{
               lineHeight: 1.2,
             }}
           >
             <Link
-              href='/account/pools/[symbol]'
-              as={`/account/pools/${pool.symbol}`}
-            >
-              <a
-                className='uppercase inline-block xs:inline-flex items-center justify-center text-center font-bold text-highlight-3 rounded-full border-highlight-3 xs:border py-1 xs:px-6 mr-1 sm:mr-3 mb-1 xs:mb-0'
-              >
-                {t('manageTickets')}
-              </a>
-            </Link> <Link
               href='/pools/[symbol]'
               as={`/pools/${pool.symbol}`}
             >
               <a
-                className='inline-flex items-center justify-center font-bold text-highlight-3 rounded-full py-1 uppercase'
+                className='inline-flex items-center justify-center font-bold text-highlight-3 rounded-full py-1 uppercase mr-3'
               >
                 {t('poolDetails')} <FeatherIcon
                   strokeWidth='0.15rem'
                   icon='arrow-right-circle'
                   className='inline-block relative w-4 h-4 mx-auto ml-1'
                   style={{
-                    top: 0
+                    top: -1
                   }}
                 />
+              </a>
+            </Link> <Link
+              href='/account/pools/[symbol]'
+              as={`/account/pools/${pool.symbol}`}
+            >
+              <a
+                className='uppercase inline-block xs:inline-flex items-center justify-center text-center font-bold text-highlight-3 rounded-full border-highlight-3 xs:border py-1 xs:px-6 lg:mr-3 mb-1 xs:mb-0'
+              >
+                {t('manageTickets')}
               </a>
             </Link>
           </div>

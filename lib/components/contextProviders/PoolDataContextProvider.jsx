@@ -65,8 +65,6 @@ export const PoolDataContextProvider = (props) => {
         refetchSponsorQuery,
         dynamicPlayerDrips,
       }) => {
-        console.log({dynamicExternalAwardsData})
-
         return <FetchGenericChainData
           {...props}
           chainId={chainId}
@@ -81,13 +79,13 @@ export const PoolDataContextProvider = (props) => {
             if (!graphDataLoading && !isEmpty(genericChainData)) {
               pools = [
                 {
-                  ...dynamicExternalAwardsData,
-                  ...genericChainData.dai,
-                  ...dynamicPoolData.daiPool,
-                  ...dynamicPrizeStrategiesData.daiPrizeStrategy,
                   name: 'DAI Pool',
                   frequency: 'Weekly',
                   symbol: 'PT-cDAI',
+                  ...genericChainData.dai,
+                  ...dynamicPoolData.daiPool,
+                  ...dynamicPrizeStrategiesData.daiPrizeStrategy,
+                  externalErc20AwardsChainData: genericChainData.externalErc20AwardsChainData,
                   prizeEstimate: calculateEstimatedPoolPrize({
                     ...genericChainData.dai,
                     ...dynamicPoolData.daiPool,
@@ -95,24 +93,12 @@ export const PoolDataContextProvider = (props) => {
                   }),
                 },
                 // {
-                //   ...genericChainData.usdc,
-                //   ...dynamicPoolData.usdcPool,
-                //   ...dynamicPrizeStrategiesData.usdcPrizeStrategy,
-                //   name: 'USDC Pool',
-                //   frequency: 'Weekly',
-                //   symbol: 'PT-cUSDC',
-                //   prizeEstimate: calculateEstimatedPoolPrize({
-                //     ...dynamicPoolData.usdcPool,
-                //     ...genericChainData.usdc
-                //   }),
-                // },
-                // {
+                  //   name: 'Tether Pool',
+                  //   frequency: 'Weekly',
+                  //   symbol: 'PT-cUSDT',
                 //   ...genericChainData.usdt,
                 //   ...dynamicPoolData.usdtPool,
                 //   ...dynamicPrizeStrategiesData.usdtPrizeStrategy,
-                //   name: 'Tether Pool',
-                //   frequency: 'Weekly',
-                //   symbol: 'PT-cUSDT',
                 //   prizeEstimate: calculateEstimatedPoolPrize({
                 //     ...dynamicPoolData.usdtPool,
                 //     ...genericChainData.usdt
