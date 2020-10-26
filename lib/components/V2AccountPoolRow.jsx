@@ -10,6 +10,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { Button } from 'lib/components/Button'
 import { NonInteractableCard } from 'lib/components/NonInteractableCard'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
@@ -96,7 +97,7 @@ export const V2AccountPoolRow = (
     setTxId(id)
   }
 
-  console.log(balances?.podBalance.toString())
+  console.log(balances?.podBalance?.toString())
   // console.log(balances?.poolBalance?.lt(1) && balances?.podBalance?.lt(1))
   if (balances?.poolBalance?.lt(1) && balances?.podBalance?.lt(1)) {
     return null
@@ -140,18 +141,19 @@ export const V2AccountPoolRow = (
               <div
                 className='text-caption font-bold mt-1 opacity-70'
               >
-                ({numberWithCommas(ethers.utils.formatUnits(
+                (<PoolNumber>{numberWithCommas(ethers.utils.formatUnits(
                   balances.poolBalance,
                   decimals
                 ), {
                   precision: 8
-                })} {ticker})
+                })}</PoolNumber> {ticker})
               </div>
 
               <div className='mt-2'>
                 <Button
                   textSize='xxxs'
-                  padding='px-2 py-1'
+                  padding='px-4 py-1'
+                  className='uppercase'
                   onClick={(e) => {
                     e.preventDefault()
                     migrateToV3(balances.poolBalance, 'pool')
@@ -187,18 +189,19 @@ export const V2AccountPoolRow = (
               <div
                 className='text-caption font-bold mt-1 opacity-70'
               >
-                ({numberWithCommas(ethers.utils.formatUnits(
+                (<PoolNumber>{numberWithCommas(ethers.utils.formatUnits(
                   balances.podBalance,
                   decimals
                 ), {
-                  precision: 18
-                })} {ticker})
+                  precision: 10
+                })}</PoolNumber> {ticker})
               </div>
 
               <div className='mt-2'>
                 <Button
                   textSize='xxxs'
-                  padding='px-2 py-1'
+                  padding='px-4 py-1'
+                  className='uppercase'
                   disabled={txInFlight}
                   onClick={(e) => {
                     e.preventDefault()
