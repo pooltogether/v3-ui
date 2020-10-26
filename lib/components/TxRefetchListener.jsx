@@ -25,6 +25,7 @@ export const TxRefetchListener = (props) => {
 
   const runRefetch = (tx) => {
     const playerBalanceTransaction = tx.method === 'depositTo' ||
+      tx.method === 'transfer' ||
       tx.method === 'approve' ||
       tx.method === 'withdrawInstantlyFrom' ||
       tx.method === 'updateAndClaimDrips'

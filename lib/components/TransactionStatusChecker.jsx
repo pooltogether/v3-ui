@@ -12,7 +12,6 @@ const readTransactions = (chainId, usersAddress, provider) => {
     let txs = []
     if (typeof window !== 'undefined') {
       const storageKey = `${chainId}-${usersAddress.toLowerCase()}-${TRANSACTIONS_KEY}`
-      // console.log({ storageKey })
       
       txs = JSON.parse(
         localStorage.getItem(storageKey)
@@ -25,8 +24,7 @@ const readTransactions = (chainId, usersAddress, provider) => {
     // re-write IDs so transactions are ordered properly
     txs = txs.map((tx, index) => (tx.id = index + 1) && tx)
 
-    console.log(`Loading ${txs.length} transactions from storage:`)
-    // console.log({ txs })
+    // console.log(`Loading ${txs.length} transactions from storage:`)
 
     transactionsVar([...txs])
     checkTransactionStatuses(txs, provider)

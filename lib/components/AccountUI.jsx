@@ -12,7 +12,7 @@ import { Tab, Tabs, Content, ContentPane } from 'lib/components/Tabs'
 import { Tagline } from 'lib/components/Tagline'
 
 export const AccountUI = () => {
-  const POOLS = 'POOLS'
+  const TICKETS = 'TICKETS'
   const REWARDS = 'REWARDS'
 
   const { t } = useTranslation()
@@ -33,22 +33,24 @@ export const AccountUI = () => {
     setVisible(REWARDS)
   }
 
-  const handleShowPools = (e) => {
+  const handleShowTickets = (e) => {
     e.preventDefault()
 
     router.push(
-      `#pools`,
-      `#pools`,
+      `#tickets`,
+      `#tickets`,
       {
         shallow: true
       }
     )
-    setVisible(POOLS)
+    setVisible(TICKETS)
   }
 
   useEffect(() => {
     if (window && window.location.hash === '#rewards') {
       setVisible(REWARDS)
+    } else if (window && window.location.hash === '#tickets' || window.location.hash === '#pools') {
+      setVisible(TICKETS)
     }
   }, [])
 
@@ -74,20 +76,20 @@ export const AccountUI = () => {
           {t('rewards')} <ChipRainbowNew text='new' />
         </Tab>
         <Tab
-          isSelected={visible === POOLS}
-          onClick={handleShowPools}
+          isSelected={visible === TICKETS}
+          onClick={handleShowTickets}
         >
           {t('tickets')}
         </Tab>
       </Tabs>
 
       <Content>
-        <ContentPane isSelected={visible === POOLS}>
-          <AccountPoolsUI />
-        </ContentPane>
-
         <ContentPane isSelected={visible === REWARDS}>
           <AccountRewardsUI />
+        </ContentPane>
+        
+        <ContentPane isSelected={visible === TICKETS}>
+          <AccountPoolsUI />
         </ContentPane>
       </Content>
     </div>
