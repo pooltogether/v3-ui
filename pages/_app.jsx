@@ -12,6 +12,7 @@ import { useInterval } from 'lib/hooks/useInterval'
 import { COOKIE_OPTIONS, REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
+import { CoingeckoQuery } from 'lib/components/CoingeckoQuery'
 // import { GasStationQuery } from 'lib/components/GasStationQuery'
 import { Layout } from 'lib/components/Layout'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
@@ -215,6 +216,8 @@ function MyApp({ Component, pageProps, router }) {
       <AllContextProviders>
         <TxRefetchListener />
 
+        <CoingeckoQuery />
+
         <Layout
           props={pageProps}
         >
@@ -248,8 +251,6 @@ function MyApp({ Component, pageProps, router }) {
       />
 
     </V3ApolloWrapper>
-
-    {/* <GasStationQuery /> */}
   </>
 }
 
