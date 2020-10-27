@@ -36,14 +36,12 @@ export const CoingeckoQuery = (props) => {
 
   useInterval(() => {
     if (!isEmpty(externalErc20Awards)) {
-      console.log('************** QUERYING COINGECKO using INTERVAL')
       getCoingeckoData()
     }
   }, MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {
     if (!isEmpty(externalErc20Awards)) {
-      console.log('************** QUERYING COINGECKO')
       getCoingeckoData()
     }
   }, [externalErc20Awards])

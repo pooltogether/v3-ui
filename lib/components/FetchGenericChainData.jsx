@@ -107,7 +107,6 @@ export const FetchGenericChainData = (props) => {
       }
     }
 
-    console.log(dynamicExternalAwardsData?.daiPool)
     const ready = !isEmpty(provider) &&
       !isEmpty(poolData.daiPool) &&
       !isEmpty(dynamicExternalAwardsData?.daiPool)
