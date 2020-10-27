@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react'
+import React, { Fragment, useContext, useState } from 'react'
 import { motion } from 'framer-motion'
-import { useQuery } from '@apollo/client'
+import { useRouter } from 'next/router'
+import { orderBy, sortBy } from 'lodash'
 
 import { TOKEN_IMAGES } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
@@ -8,7 +9,6 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { coingeckoQuery } from 'lib/queries/coingeckoQueries'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -19,14 +19,15 @@ const Erc20Image = (props) => {
 
   return src ? <img
     src={src}
-    className='inline-block mr-1 w-6 h-6 rounded-full'
+    className='inline-block mr-2 w-4 h-4 xs:w-6 xs:h-6 rounded-full'
   /> : <div
-    className='inline-block mr-1 bg-black w-6 h-6 rounded-full'
+    className='inline-block mr-2 bg-black w-4 h-4 xs:w-6 xs:h-6 rounded-full'
   />
 }
 
 export const Erc20AwardsTable = (props) => {
   const { t } = useTranslation()
+  const router = useRouter()
 
   const [moreVisible, setMoreVisible] = useState(false)
   
@@ -36,10 +37,13 @@ export const Erc20AwardsTable = (props) => {
     e.preventDefault()
 
     setMoreVisible(true)
+
+    router.push(
+      `/pools/[symbol]#awards-table`,
+      `/pools/${pool?.symbol}#awards-table`,
+    )
   }
 
-  const coingeckoQueryResult = useQuery(coingeckoQuery)
-  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData
 
 
   if (!pool || pool?.externalErc20Awards === null) {
@@ -47,7 +51,8 @@ export const Erc20AwardsTable = (props) => {
   }
 
   const externalAwards = pool?.externalErc20Awards || []
-  const sortedAwards = externalAwards || []
+  // const sortedAwards = externalAwards ? sortBy(externalAwards, 'value').reverse() : []
+  const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])
   const awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 5)
 
   return <>
@@ -56,13 +61,14 @@ export const Erc20AwardsTable = (props) => {
     >
       {awards.length === 0 && <>
         <BlankStateMessage>
-          Currently no other awards, check back soon!
+          {t('currentlyNoOtherPrizes')}
         </BlankStateMessage>
       </>}
       
       
       {awards.length > 0 && <>
         <div
+          id='awards-table'
           className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-10 bg-card rounded-lg card-min-height-desktop'
         >
           <div className='mt-1'>
@@ -73,7 +79,7 @@ export const Erc20AwardsTable = (props) => {
               <img
                 src={GiftIcon}
                 className='inline-block mr-2 card-icon'
-              /> Bonus Prizes
+              /> {t('bonusPrizes')}
             </div>
 
             
@@ -81,23 +87,25 @@ export const Erc20AwardsTable = (props) => {
               <h3
                 className='mb-1'
               >
-                Value ${numberWithCommas(pool?.externalAwardsEstimate)}
+                ${numberWithCommas(pool?.externalAwardsEstimate)} Value
               </h3>
             </>} 
 
             <p
               className='mb-6 sm:text-sm'
             >
-              The winner of each prize period will receive external rewards in additional to the main prize.
+              {t('otherPrizesDescription')}
             </p>
             
             <div
-              className='xs:bg-primary text-inverse flex flex-col justify-between rounded-lg p-3 sm:p-8 mt-2'
+              className='xs:bg-primary text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:p-8 mt-2'
             >
               <h6
                 className='text-green text-left ml-2 -mb-2'
               >
-                Tokens
+                {t('amountTokens', {
+                  amount: sortedAwards.length
+                })}
               </h6>
 
               <table
@@ -105,23 +113,18 @@ export const Erc20AwardsTable = (props) => {
               >
                 <tbody>
                   {awards.map(award => {
-                    const priceData = coingeckoData[award.address]
-                    const priceUsd = priceData?.usd
-                    const balance = ethers.utils.formatUnits(award.balance, award.decimals)
-                    const value = priceUsd ? parseFloat(balance) * priceUsd : ''
-
-                    return <>
-                      <tr
-                        key={award.address}
-                      >
+                    return <Fragment
+                      key={award.address}
+                    >
+                      <tr>
                         <td
-                          className='flex items-center px-0 py-2 text-left font-bold'
+                          className='flex items-center py-2 text-left font-bold'
                         >
                           <Erc20Image
                             address={award.address}
                           /> <EtherscanAddressLink
                             address={award.address}
-                            className='text-white'
+                            className='text-inverse'
                           >
                             {award.name.length > 20 ? <span className='truncate'>{award.name.substr(0, 20)}</span> : award.name}
                           </EtherscanAddressLink>
@@ -141,10 +144,10 @@ export const Erc20AwardsTable = (props) => {
                         <td
                           className='py-2 text-right w-2/12 font-bold'
                         >
-                          {value ? `$${numberWithCommas(value, { precision: 2 })}` : 'n/a'}
+                          {award.value ? `$${numberWithCommas(award.value, { precision: 2 })}` : ''}
                         </td>
                       </tr>
-                    </>
+                    </Fragment>
                   })}
                 </tbody>
               </table>
@@ -167,7 +170,7 @@ export const Erc20AwardsTable = (props) => {
                     }
                   }}
                 >
-                  Show more
+                  {t('showMore')}
                 </motion.button>
               </div>
             </div>

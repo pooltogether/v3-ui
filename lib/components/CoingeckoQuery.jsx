@@ -1,33 +1,20 @@
-import { useContext, useEffect } from 'react'
-import { useQuery } from '@apollo/client'
+import { useEffect } from 'react'
 import { useInterval } from 'beautiful-react-hooks'
+import { isEmpty } from 'lodash'
 
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
-import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
-import { externalAwardsQuery } from 'lib/queries/externalAwardsQuery'
 import { coingeckoDataVar } from 'lib/apollo/cache'
 
 const COINGECKO_LAMBDA_PATH = `/.netlify/functions/coingecko-price-api`
 
 export const CoingeckoQuery = (props) => {
-  const { paused } = useContext(GeneralContext)
+  const { externalAwards } = props
 
-  const {
-    loading,
-    error,
-    data
-  } = useQuery(externalAwardsQuery, {
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
-  })
+  const externalErc20Awards = externalAwards?.daiPool?.externalErc20Awards
 
-  if (error) {
-    console.error(error)
-  }
-  
   const getCoingeckoData = async () => {
     try {
-      const addressesString = data.externalErc20Awards.map(award => award.address).join(',')
+      const addressesString = externalErc20Awards.map(award => award.address).join(',')
       const postData = {
         addressesString
       }
@@ -48,16 +35,18 @@ export const CoingeckoQuery = (props) => {
   }
 
   useInterval(() => {
-    if (!loading && data) {
+    if (!isEmpty(externalErc20Awards)) {
+      console.log('************** QUERYING COINGECKO using INTERVAL')
       getCoingeckoData()
     }
-  }, 30000)
+  }, MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {
-    if (!loading && data) {
+    if (!isEmpty(externalErc20Awards)) {
+      console.log('************** QUERYING COINGECKO')
       getCoingeckoData()
     }
-  }, [])
+  }, [externalErc20Awards])
 
   return null
 }

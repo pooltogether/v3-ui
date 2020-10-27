@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { isEmpty } from 'lodash'
+import { useQuery } from '@apollo/client'
 
 import {
   MAINNET_POLLING_INTERVAL
@@ -7,6 +8,7 @@ import {
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
+import { coingeckoQuery } from 'lib/queries/coingeckoQueries'
 import { fetchGenericChainData } from 'lib/utils/fetchGenericChainData'
 
 const debug = require('debug')('pool-app:FetchGenericChainData')
@@ -26,6 +28,9 @@ export const FetchGenericChainData = (props) => {
   const { paused } = useContext(GeneralContext)
 
   const [retryAttempts, setRetryAttempts] = useState(0)
+
+  const coingeckoQueryResult = useQuery(coingeckoQuery)
+  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData
 
   useEffect(() => {
     const owner = poolData?.daiPool?.owner
@@ -51,42 +56,20 @@ export const FetchGenericChainData = (props) => {
   const fetchDataFromInfura = async () => {
     const chainData = {
       dai: {},
-      // usdc: {},
       // usdt: {},
-      // wbtc: {},
-      // zrx: {},
-      // bat: {},
     }
 
     try {
       chainData.dai = await fetchGenericChainData(
         provider,
         dynamicExternalAwardsData.daiPool,
-        poolData.daiPool
+        poolData.daiPool,
+        coingeckoData
       )
-      // chainData.usdc = await fetchGenericChainData(
-      //   provider,
-      //   poolData.usdcPool
-      // )
       // chainData.usdt = await fetchGenericChainData(
       //   provider,
       //   poolAddresses.usdtPrizeStrategy,
       //   poolData.usdtPool
-      // )
-      // chainData.wbtc = await fetchGenericChainData(
-      //   provider,
-      //   poolAddresses['wbtcPrizeStrategy'],
-      //   poolData.wbtcPool
-      // )
-      // chainData.zrx = await fetchGenericChainData(
-      //   provider,
-      //   poolAddresses['zrxPrizeStrategy'],
-      //   poolData.zrxPool
-      // )
-      // chainData.bat = await fetchGenericChainData(
-      //   provider,
-      //   poolAddresses['batPrizeStrategy'],
-      //   poolData.batPool
       // )
     }
     catch (e) {
@@ -124,7 +107,10 @@ export const FetchGenericChainData = (props) => {
       }
     }
 
-    const ready = !isEmpty(provider) && !isEmpty(poolData.daiPool)
+    console.log(dynamicExternalAwardsData?.daiPool)
+    const ready = !isEmpty(provider) &&
+      !isEmpty(poolData.daiPool) &&
+      !isEmpty(dynamicExternalAwardsData?.daiPool)
 
     if (!alreadyExecuted && ready) {
       // console.log('ready and trying')
