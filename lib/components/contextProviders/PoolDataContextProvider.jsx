@@ -2,14 +2,17 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { isEmpty } from 'lodash'
+import { useQuery } from '@apollo/client'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
+import { coingeckoQuery } from 'lib/queries/coingeckoQueries'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPoolPrize'
+import { calculateEstimatedExternalAwards } from 'lib/services/calculateEstimatedExternalAwards'
 import { poolToast } from 'lib/utils/poolToast'
 import { readProvider } from 'lib/utils/readProvider'
 
@@ -46,6 +49,9 @@ export const PoolDataContextProvider = (props) => {
     console.error(e)
   }
 
+  const coingeckoQueryResult = useQuery(coingeckoQuery)
+  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData
+
   return <>
     <GraphDataQueries
       {...props}
@@ -77,6 +83,22 @@ export const PoolDataContextProvider = (props) => {
             let pools = []
 
             if (!graphDataLoading && !isEmpty(genericChainData)) {
+              const externalAwardsEstimate = calculateEstimatedExternalAwards(
+                coingeckoData,
+                genericChainData.dai.externalErc20AwardsChainData
+              )
+              const interestPrizeEstimate = calculateEstimatedPoolPrize({
+                ...genericChainData.dai,
+                ...dynamicPoolData.daiPool,
+                ...dynamicPrizeStrategiesData.daiPrizeStrategy,
+              })
+
+              const totalPrizeEstimate = externalAwardsEstimate ?
+                interestPrizeEstimate.add(ethers.utils.parseEther(
+                  externalAwardsEstimate.toString()
+                )) :
+                interestPrizeEstimate
+
               pools = [
                 {
                   name: 'DAI Pool',
@@ -86,11 +108,9 @@ export const PoolDataContextProvider = (props) => {
                   ...dynamicPoolData.daiPool,
                   ...dynamicPrizeStrategiesData.daiPrizeStrategy,
                   externalErc20Awards: genericChainData.dai.externalErc20AwardsChainData,
-                  prizeEstimate: calculateEstimatedPoolPrize({
-                    ...genericChainData.dai,
-                    ...dynamicPoolData.daiPool,
-                    ...dynamicPrizeStrategiesData.daiPrizeStrategy,
-                  }),
+                  prizeEstimate: totalPrizeEstimate,
+                  interestPrizeEstimate,
+                  externalAwardsEstimate,
                 },
                 // {
                   //   name: 'Tether Pool',

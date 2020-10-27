@@ -2,6 +2,7 @@ const request = require("request")
 
 exports.handler = (event, context, callback) => {
   const { addressesString } = JSON.parse(event.body)
+  // console.log(addressesString)
 
   request({
     method: 'GET',

@@ -39,6 +39,7 @@ import PlayersIcon from 'assets/images/players@2x.png'
 import YieldSourceIcon from 'assets/images/icon-yieldsource@2x.png'
 import TotalAwardedIcon from 'assets/images/icon-total@2x.png'
 import PrizeIcon from 'assets/images/icon-prize@2x.png'
+import GiftIcon from 'assets/images/icon-gift@2x.png'
 
 export const PoolShow = (
   props,
@@ -108,9 +109,9 @@ export const PoolShow = (
     addTokenToMetaMask(networkName, pool)
   }
 
-  let amountFormatted
+  let prizeEstimateFormatted
   if (pool?.prizeEstimate) {
-    amountFormatted = ethers.utils.formatUnits(
+    prizeEstimateFormatted = ethers.utils.formatUnits(
       pool?.prizeEstimate,
       decimals
     )
@@ -209,7 +210,7 @@ export const PoolShow = (
                       />
                     }}
                     values={{
-                      amount: amountFormatted,
+                      amount: prizeEstimateFormatted,
                       ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
                     }}
                   />
@@ -235,6 +236,25 @@ export const PoolShow = (
                 />
               </div>
             </div>
+          </div>
+
+          <div
+            className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-10 bg-card rounded-lg card-min-height-desktop'
+          >
+            <div className='mt-1 text-caption uppercase mb-3'>
+              <img
+                src={GiftIcon}
+                className='inline-block mr-2 card-icon'
+              /> Prize from interest
+            </div>
+
+            <h3
+              className='mb-1'
+            >
+              ${displayAmountInEther(pool?.interestPrizeEstimate, {
+                decimals
+              })}
+            </h3>
           </div>
 
           <Erc20AwardsTable />

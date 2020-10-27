@@ -40,7 +40,6 @@ export const CoingeckoQuery = (props) => {
         body: JSON.stringify(postData) // body data type must match "Content-Type" header
       })
       const result = await response.json()
-      console.log(result)
 
       coingeckoDataVar(result)
     } catch (error) {
