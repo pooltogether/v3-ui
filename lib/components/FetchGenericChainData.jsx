@@ -29,11 +29,8 @@ export const FetchGenericChainData = (props) => {
 
   const [retryAttempts, setRetryAttempts] = useState(0)
 
-  console.log('pool effing data context prov')
-  console.log(coingeckoQuery)
   const coingeckoQueryResult = useQuery(coingeckoQuery)
-  console.log({ coingeckoQueryResult})
-  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData
+  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData?.[0]
 
   useEffect(() => {
     const owner = poolData?.daiPool?.owner

@@ -54,7 +54,7 @@ export const PoolDataContextProvider = (props) => {
   debug(coingeckoQuery)
   const coingeckoQueryResult = useQuery(coingeckoQuery)
   debug({ coingeckoQueryResult})
-  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData
+  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData?.[0]
 
   return <>
     <GraphDataQueries

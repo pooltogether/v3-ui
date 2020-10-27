@@ -32,11 +32,11 @@ export const CoingeckoQuery = (props) => {
       const result = await response.json()
       debug({ result })
 
-      coingeckoDataVar({
-        __typename: 'coingeckoshit',
-        id: 1,
-        ...result
-      })
+      coingeckoDataVar([result])
+      // coingeckoDataVar({
+      //   id: 1,
+      //   ...result
+      // })
     } catch (error) {
       console.error(error)
     }
@@ -46,12 +46,14 @@ export const CoingeckoQuery = (props) => {
     if (!isEmpty(externalErc20Awards)) {
       _getCoingeckoData()
     }
+    return () => {}
   }, MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {
     if (!isEmpty(externalErc20Awards)) {
       _getCoingeckoData()
     }
+    return () => {}
   }, [externalErc20Awards])
 
   return null
