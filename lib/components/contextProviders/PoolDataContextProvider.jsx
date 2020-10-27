@@ -2,14 +2,17 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { isEmpty } from 'lodash'
+import { useQuery } from '@apollo/client'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
+import { coingeckoQuery } from 'lib/queries/coingeckoQueries'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPoolPrize'
+import { calculateEstimatedExternalAwards } from 'lib/services/calculateEstimatedExternalAwards'
 import { poolToast } from 'lib/utils/poolToast'
 import { readProvider } from 'lib/utils/readProvider'
 
@@ -46,6 +49,9 @@ export const PoolDataContextProvider = (props) => {
     console.error(e)
   }
 
+  const coingeckoQueryResult = useQuery(coingeckoQuery)
+  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData
+
   return <>
     <GraphDataQueries
       {...props}
@@ -54,6 +60,7 @@ export const PoolDataContextProvider = (props) => {
     >
       {({
         graphDataLoading,
+        dynamicExternalAwardsData,
         dynamicPoolData,
         dynamicPrizeStrategiesData,
         dynamicPlayerData,
@@ -68,6 +75,7 @@ export const PoolDataContextProvider = (props) => {
           {...props}
           chainId={chainId}
           provider={defaultReadProvider}
+          dynamicExternalAwardsData={dynamicExternalAwardsData}
           poolData={dynamicPoolData}
           graphDataLoading={graphDataLoading}
         >
@@ -75,43 +83,38 @@ export const PoolDataContextProvider = (props) => {
             let pools = []
 
             if (!graphDataLoading && !isEmpty(genericChainData)) {
+              const externalAwardsEstimate = calculateEstimatedExternalAwards(
+                coingeckoData,
+                genericChainData.dai.externalErc20AwardsChainData
+              )
+              const interestPrizeEstimate = calculateEstimatedPoolPrize({
+                ...genericChainData.dai,
+                ...dynamicPoolData.daiPool,
+                ...dynamicPrizeStrategiesData.daiPrizeStrategy,
+              })
+
+              const totalPrizeEstimate = externalAwardsEstimate ?
+                interestPrizeEstimate.add(ethers.utils.parseEther(
+                  externalAwardsEstimate.toString()
+                )) :
+                interestPrizeEstimate
+
               pools = [
                 {
-                  ...genericChainData.dai,
-                  ...dynamicPoolData.daiPool,
-                  ...dynamicPrizeStrategiesData.daiPrizeStrategy,
                   name: 'DAI Pool',
                   frequency: 'Weekly',
                   symbol: 'PT-cDAI',
-                  prizeEstimate: calculateEstimatedPoolPrize({
-                    ...genericChainData.dai,
-                    ...dynamicPoolData.daiPool,
-                    ...dynamicPrizeStrategiesData.daiPrizeStrategy,
-                  }),
+                  ...genericChainData.dai,
+                  ...dynamicPoolData.daiPool,
+                  ...dynamicPrizeStrategiesData.daiPrizeStrategy,
+                  externalErc20Awards: genericChainData.dai.externalErc20AwardsChainData,
+                  prizeEstimate: totalPrizeEstimate,
+                  interestPrizeEstimate,
+                  externalAwardsEstimate,
                 },
                 // {
-                //   ...genericChainData.usdc,
-                //   ...dynamicPoolData.usdcPool,
-                //   ...dynamicPrizeStrategiesData.usdcPrizeStrategy,
-                //   name: 'USDC Pool',
-                //   frequency: 'Weekly',
-                //   symbol: 'PT-cUSDC',
-                //   prizeEstimate: calculateEstimatedPoolPrize({
-                //     ...dynamicPoolData.usdcPool,
-                //     ...genericChainData.usdc
-                //   }),
-                // },
-                // {
-                //   ...genericChainData.usdt,
-                //   ...dynamicPoolData.usdtPool,
-                //   ...dynamicPrizeStrategiesData.usdtPrizeStrategy,
-                //   name: 'Tether Pool',
-                //   frequency: 'Weekly',
-                //   symbol: 'PT-cUSDT',
-                //   prizeEstimate: calculateEstimatedPoolPrize({
-                //     ...dynamicPoolData.usdtPool,
-                //     ...genericChainData.usdt
-                //   }),
+                  //   name: 'Tether Pool',
+                  // ...
                 // },
               ]
             }
@@ -182,6 +185,7 @@ export const PoolDataContextProvider = (props) => {
                         pool,
                         pools,
                         poolAddresses,
+                        dynamicExternalAwardsData,
                         dynamicPoolData,
                         dynamicPlayerData,
                         dynamicPlayerDrips,

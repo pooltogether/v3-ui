@@ -11,8 +11,7 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 export const TransactionsList = (props) => {
   const { t } = useTranslation()
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { chainId, usersAddress } = authControllerContext
+  const { chainId, usersAddress } = useContext(AuthControllerContext)
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions

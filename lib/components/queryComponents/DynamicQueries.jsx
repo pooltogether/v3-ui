@@ -11,6 +11,8 @@ import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
 import { dynamicSponsorQuery } from 'lib/queries/dynamicSponsorQuery'
 import { dynamicPrizePoolsQuery } from 'lib/queries/dynamicPrizePoolsQuery'
 import { dynamicSingleRandomWinnerQuery } from 'lib/queries/dynamicSingleRandomWinnerQuery'
+import { externalAwardsQuery } from 'lib/queries/externalAwardsQuery'
+import { getExternalAwardsDataFromQueryResult } from 'lib/services/getExternalAwardsDataFromQueryResult'
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
 import { getPrizeStrategyDataFromQueryResult } from 'lib/services/getPrizeStrategyDataFromQueryResult'
 import { poolToast } from 'lib/utils/poolToast'
@@ -22,8 +24,7 @@ export const DynamicQueries = (
 ) => {
   const { poolAddresses, usersAddress, children } = props
 
-  const generalContext = useContext(GeneralContext)
-  const { paused } = generalContext
+  const { paused } = useContext(GeneralContext)
 
   const variables = {
     owner: CREATOR_ADDRESS
@@ -60,6 +61,14 @@ export const DynamicQueries = (
   dynamicPoolData = getPoolDataFromQueryResult(poolAddresses, poolQueryData)
 
 
+
+
+
+
+
+
+
+
   let dynamicPrizeStrategiesData
 
   const {
@@ -79,6 +88,34 @@ export const DynamicQueries = (
   }
 
   dynamicPrizeStrategiesData = getPrizeStrategyDataFromQueryResult(poolAddresses, prizeStrategyQueryData)
+
+
+
+
+
+
+  let dynamicExternalAwardsData
+
+  const {
+    loading: externalAwardsLoading,
+    error: externalAwardsError,
+    data: externalAwardsData,
+    refetch: refetchExternalAwards
+  } = useQuery(externalAwardsQuery, {
+    fetchPolicy: 'network-only',
+    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
+  })
+
+  if (externalAwardsError) {
+    poolToast.error(externalAwardsError)
+    console.error(externalAwardsError)
+  }
+
+  // TODO: We shouldn't need this, we should be able to just get the external awards for a particular prize
+  // strategy
+  dynamicExternalAwardsData = getExternalAwardsDataFromQueryResult(poolAddresses, externalAwardsData)
+
+
 
 
 
@@ -139,9 +176,6 @@ export const DynamicQueries = (
   })
 
   if (sponsorQueryError) {
-  //   poolToast.error(sponsorQueryError)
-    console.log(sponsorQueryError)
-    
     if (sponsorQueryError.message.match('service is overloaded')) {
       poolToast.warn('The Graph protocol service is currently overloaded, please try again in a few minutes')
     }
@@ -153,7 +187,7 @@ export const DynamicQueries = (
 
 
 
-  const dynamicDataLoading = poolQueryLoading || prizeStrategyQueryLoading || playerQueryLoading || sponsorQueryLoading
+  const dynamicDataLoading = poolQueryLoading || prizeStrategyQueryLoading || externalAwardsLoading || playerQueryLoading || sponsorQueryLoading
 
   if (!poolQueryLoading && !isEmpty(dynamicPoolData)) {
     window.hideGraphError()
@@ -161,6 +195,7 @@ export const DynamicQueries = (
 
   return children({
     dynamicDataLoading,
+    dynamicExternalAwardsData,
     dynamicPoolData,
     dynamicPrizeStrategiesData,
     dynamicPlayerData,

@@ -15,6 +15,7 @@ export const FetchGenericChainData = (props) => {
   const {
     chainId,
     children,
+    dynamicExternalAwardsData,
     provider,
     poolData,
     graphDataLoading,
@@ -60,6 +61,7 @@ export const FetchGenericChainData = (props) => {
     try {
       chainData.dai = await fetchGenericChainData(
         provider,
+        dynamicExternalAwardsData.daiPool,
         poolData.daiPool
       )
       // chainData.usdc = await fetchGenericChainData(
@@ -111,7 +113,7 @@ export const FetchGenericChainData = (props) => {
     const conditionallyGetChainData = async () => {
       const genericData = await fetchDataFromInfura()
 
-      // console.log(genericData)
+      // TODO: Looks like this DOESN'T support multiple pools as Dai is hard-coded here ...
 
       if (isEmpty(genericData.dai)) {
         // console.log('NO HIT, resetting ....')

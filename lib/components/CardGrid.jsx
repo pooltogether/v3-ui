@@ -18,7 +18,7 @@ export const Card = (props) => {
           className='inline-block mr-2 card-icon'
         />} {title}
       </div>
-      <div className='mt-4'>
+      <div className='mt-1'>
         {content}
       </div>
     </div>

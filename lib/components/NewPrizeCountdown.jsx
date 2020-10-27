@@ -167,12 +167,12 @@ export const NewPrizeCountdown = (
         </div>
       </div>
       <div
-        className='px-0 sm:px-1 hidden xs:block'
+        className='px-0 sm:px-1'
       >
         :
       </div>
       <div
-        className='flex flex-col hidden xs:block'
+        className='flex flex-col'
         style={{
           // minWidth: 50
           paddingLeft: 1,
