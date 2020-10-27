@@ -125,7 +125,6 @@ function MyApp({ Component, pageProps, router }) {
       })
   
       function onRouteChangeComplete(url) {
-        console.log(window['fathom'])
         if (window['fathom']) {
           window['fathom'].trackPageview()
         }

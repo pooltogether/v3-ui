@@ -10,7 +10,7 @@ import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
-import { getCoingeckoQuery } from 'lib/queries/coingeckoQueries'
+import { coingeckoQuery } from 'lib/queries/coingeckoQueries'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPoolPrize'
 import { calculateEstimatedExternalAwards } from 'lib/services/calculateEstimatedExternalAwards'
@@ -50,9 +50,11 @@ export const PoolDataContextProvider = (props) => {
     console.error(e)
   }
 
-  const coingeckoQueryResult = useQuery(getCoingeckoQuery)
+  console.log('pool effing data context prov')
+  console.log(coingeckoQuery)
+  const coingeckoQueryResult = useQuery(coingeckoQuery)
   console.log({ coingeckoQueryResult})
-  const coingeckoData = coingeckoQueryResult?.data?.getCoingeckoData
+  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData
 
   return <>
     <GraphDataQueries
@@ -90,7 +92,6 @@ export const PoolDataContextProvider = (props) => {
               let pools = []
 
               if (!graphDataLoading && !isEmpty(genericChainData)) {
-                console.log({ coingeckoData})
                 const externalAwardsEstimate = calculateEstimatedExternalAwards(
                   coingeckoData,
                   genericChainData.dai.externalErc20AwardsChainData

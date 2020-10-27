@@ -13,8 +13,11 @@ export const TransactionsList = (props) => {
 
   const { chainId, usersAddress } = useContext(AuthControllerContext)
 
+  console.log({ transactionsQuery})
   const transactionsQueryResult = useQuery(transactionsQuery)
+  console.log({ transactionsQueryResult })
   const transactions = transactionsQueryResult?.data?.transactions
+  console.log({ transactions })
 
   const notCancelledTransactions = transactions
     .filter(t => !t.cancelled)
