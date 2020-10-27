@@ -24,8 +24,7 @@ export const DynamicQueries = (
 ) => {
   const { poolAddresses, usersAddress, children } = props
 
-  const generalContext = useContext(GeneralContext)
-  const { paused } = generalContext
+  const { paused } = useContext(GeneralContext)
 
   const variables = {
     owner: CREATOR_ADDRESS
@@ -103,7 +102,6 @@ export const DynamicQueries = (
     data: externalAwardsData,
     refetch: refetchExternalAwards
   } = useQuery(externalAwardsQuery, {
-    variables,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
   })

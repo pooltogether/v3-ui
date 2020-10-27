@@ -18,7 +18,7 @@ import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
 import { Chip } from 'lib/components/Chip'
-import { Erc20AwardsModal } from 'lib/components/Erc20AwardsModal'
+import { Erc20AwardsTable } from 'lib/components/Erc20AwardsTable'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
@@ -189,7 +189,7 @@ export const PoolShow = (
           </div>
 
           <div
-            className='bg-highlight-3 rounded-lg px-6 pt-4 pb-6 text-white my-8 sm:mt-20 sm:mb-12 border-flashy mx-auto'
+            className='bg-highlight-3 rounded-lg px-4 xs:px-10 pt-4 pb-6 text-white my-8 sm:mt-20 sm:mb-12 border-flashy mx-auto'
           >
             <div
               className='flex items-center justify-between'
@@ -235,9 +235,11 @@ export const PoolShow = (
                 />
               </div>
             </div>
-            
-            <Erc20AwardsModal />
           </div>
+
+          <Erc20AwardsTable />
+          
+          {/* <Erc721AwardsTable /> */}
 
           <CardGrid
             cardGroupId='pool-cards'

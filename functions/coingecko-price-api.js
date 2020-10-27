@@ -1,9 +1,11 @@
 const request = require("request")
 
 exports.handler = (event, context, callback) => {
+  const { addressesString } = JSON.parse(event.body)
+
   request({
     method: 'GET',
-    url: `https://api.coingecko.com/api/v3/simple/price?ids=dai&vs_currencies=eth,usd,cad`
+    url: `https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${addressesString}&vs_currencies=eth%2Cusd%2Ccad`
     // url: `https://api.coingecko.com/api/v3/simple/price?ids=dai,usd-coin,tether&vs_currencies=eth,usd,cad`
   }, (error, response, body) => {
     if (error) {

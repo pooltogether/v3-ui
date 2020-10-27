@@ -145,6 +145,5 @@ export const FetchGenericChainData = (props) => {
     resetGenericChainData()
   }, [chainId])
 
-  console.log({genericChainData})
   return children({ genericChainData })
 }

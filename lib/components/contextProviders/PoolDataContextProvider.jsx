@@ -77,7 +77,6 @@ export const PoolDataContextProvider = (props) => {
             let pools = []
 
             if (!graphDataLoading && !isEmpty(genericChainData)) {
-              console.log(genericChainData.dai)
               pools = [
                 {
                   name: 'DAI Pool',
