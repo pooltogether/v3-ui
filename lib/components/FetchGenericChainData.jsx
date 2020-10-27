@@ -49,11 +49,12 @@ export const FetchGenericChainData = (props) => {
   }, [retryAttempts])
   
 
+  const [cachedCoingeckoData, setCachedCoingeckoData] = useState(null)
   const [alreadyExecuted, setAlreadyExecuted] = useState(false)
   const [genericChainData, setGenericChainData] = useState({})
   const [storedChainId, setStoredChainId] = useState(null)
 
-  const fetchDataFromInfura = async () => {
+  const _fetchDataFromInfura = async () => {
     const chainData = {
       dai: {},
       // usdt: {},
@@ -80,33 +81,33 @@ export const FetchGenericChainData = (props) => {
     }
   }
 
-  useInterval(() => {
-    const getChainDataAsync = async () => {
-      debug('fetching new chain data after MAINNET_POLLING_INTERVAL expired', MAINNET_POLLING_INTERVAL)
-      const genericData = await fetchDataFromInfura()
+  const _getChainDataAsync = async () => {
+    debug('fetching new chain data after MAINNET_POLLING_INTERVAL expired', MAINNET_POLLING_INTERVAL)
+    const genericData = await _fetchDataFromInfura()
+    setGenericChainData(genericData)
+  }
+
+  const _conditionallyGetChainData = async () => {
+    const genericData = await _fetchDataFromInfura()
+
+    // TODO: Looks like this DOESN'T support multiple pools as Dai is hard-coded here ...
+
+    if (isEmpty(genericData.dai)) {
+      // console.log('NO HIT, resetting ....')
+      setAlreadyExecuted(false)
+    } else if (!isEmpty(genericData.dai)) {
+      // console.log('got data!')
       setGenericChainData(genericData)
     }
+  }
 
-    getChainDataAsync()
+  useInterval(() => {
+    _getChainDataAsync()
   }, paused ? null : MAINNET_POLLING_INTERVAL)
-
+  
   // This only runs once when the component is mounted or when we reset the
   // `alreadyExecuted` state var if the user changes network, etc
   useEffect(() => {
-    const conditionallyGetChainData = async () => {
-      const genericData = await fetchDataFromInfura()
-
-      // TODO: Looks like this DOESN'T support multiple pools as Dai is hard-coded here ...
-
-      if (isEmpty(genericData.dai)) {
-        // console.log('NO HIT, resetting ....')
-        setAlreadyExecuted(false)
-      } else if (!isEmpty(genericData.dai)) {
-        // console.log('got data!')
-        setGenericChainData(genericData)
-      }
-    }
-
     const ready = !isEmpty(provider) &&
       !isEmpty(poolData.daiPool) &&
       !isEmpty(dynamicExternalAwardsData?.daiPool)
@@ -114,9 +115,18 @@ export const FetchGenericChainData = (props) => {
     if (!alreadyExecuted && ready) {
       // console.log('ready and trying')
       setAlreadyExecuted(true)
-      conditionallyGetChainData()
+      _conditionallyGetChainData()
     }
   }, [provider, chainId, poolData])
+  
+  useEffect(() => {
+    if (isEmpty(cachedCoingeckoData) && !isEmpty(coingeckoData)) {
+      debug('fetching new chain data since we now have coingecko data')
+      _getChainDataAsync()
+    }
+
+    setCachedCoingeckoData(coingeckoData)
+  }, [coingeckoData])
 
   useEffect(() => {
     const resetGenericChainData = () => {
