@@ -33,7 +33,7 @@ export const FetchGenericChainData = (props) => {
   console.log(coingeckoQuery)
   const coingeckoQueryResult = useQuery(coingeckoQuery)
   console.log({ coingeckoQueryResult})
-  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData?.[0]
+  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData
 
   useEffect(() => {
     const owner = poolData?.daiPool?.owner

@@ -200,8 +200,8 @@ export const PoolShow = (
               >
                 <h2>
                   <Trans
-                    i18nKey='prizeAmountAndTicker'
-                    defaults='Prize $<prize>{{amount}}</prize> {{ticker}}'
+                    i18nKey='prizeAmount'
+                    defaults='Prize $<prize>{{amount}}</prize>'
                     components={{
                       prize: <PoolCountUp
                         fontSansRegular
@@ -211,7 +211,6 @@ export const PoolShow = (
                     }}
                     values={{
                       amount: prizeEstimateFormatted,
-                      ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
                     }}
                   />
                 </h2>
