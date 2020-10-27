@@ -18,6 +18,7 @@ import { poolToast } from 'lib/utils/poolToast'
 import { readProvider } from 'lib/utils/readProvider'
 
 export const PoolDataContext = React.createContext()
+const debug = require('debug')('pool-app:PoolDataContext')
 
 export const PoolDataContextProvider = (props) => {
   const {
@@ -50,10 +51,9 @@ export const PoolDataContextProvider = (props) => {
     console.error(e)
   }
 
-  console.log('pool effing data context prov')
-  console.log(coingeckoQuery)
+  debug(coingeckoQuery)
   const coingeckoQueryResult = useQuery(coingeckoQuery)
-  console.log({ coingeckoQueryResult})
+  debug({ coingeckoQueryResult})
   const coingeckoData = coingeckoQueryResult?.data?.coingeckoData
 
   return <>

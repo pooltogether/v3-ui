@@ -7,6 +7,8 @@ import { coingeckoDataVar } from 'lib/apollo/cache'
 
 const COINGECKO_LAMBDA_PATH = `/.netlify/functions/coingecko-price-api`
 
+const debug = require('debug')('pool-app:CoingeckoQuery')
+
 export const CoingeckoQuery = (props) => {
   const { externalAwards } = props
 
@@ -18,6 +20,7 @@ export const CoingeckoQuery = (props) => {
       const postData = {
         addressesString
       }
+      debug({addressesString})
       
       const response = await fetch(COINGECKO_LAMBDA_PATH, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -27,6 +30,7 @@ export const CoingeckoQuery = (props) => {
         body: JSON.stringify(postData) // body data type must match "Content-Type" header
       })
       const result = await response.json()
+      debug({ result })
 
       coingeckoDataVar(result)
     } catch (error) {

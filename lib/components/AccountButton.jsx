@@ -16,7 +16,9 @@ export const AccountButton = (props) => {
   const authControllerContext = useContext(AuthControllerContext)
   const { ethBalance } = authControllerContext
 
+  console.log({ transactionsQuery})
   const transactionsQueryResult = useQuery(transactionsQuery)
+  console.log({ transactionsQueryResult})
   const transactions = transactionsQueryResult?.data?.transactions
 
   const pendingTransactionsCount = transactions
