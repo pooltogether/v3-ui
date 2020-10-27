@@ -32,11 +32,11 @@ export const CoingeckoQuery = (props) => {
       const result = await response.json()
       debug({ result })
 
-      coingeckoDataVar([result])
-      // coingeckoDataVar({
-      //   id: 1,
-      //   ...result
-      // })
+      // coingeckoDataVar([result])
+      coingeckoDataVar({
+        id: 0,
+        ...result
+      })
     } catch (error) {
       console.error(error)
     }

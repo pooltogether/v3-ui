@@ -30,7 +30,7 @@ export const FetchGenericChainData = (props) => {
   const [retryAttempts, setRetryAttempts] = useState(0)
 
   const coingeckoQueryResult = useQuery(coingeckoQuery)
-  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData?.[0]
+  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData
 
   useEffect(() => {
     const owner = poolData?.daiPool?.owner
