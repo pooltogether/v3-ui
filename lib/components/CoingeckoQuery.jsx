@@ -32,7 +32,7 @@ export const CoingeckoQuery = (props) => {
       const result = await response.json()
       debug({ result })
 
-      coingeckoDataVar(result)
+      coingeckoDataVar([result])
     } catch (error) {
       console.error(error)
     }
