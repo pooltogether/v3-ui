@@ -8,7 +8,7 @@ import {
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
-import { coingeckoQuery } from 'lib/queries/coingeckoQueries'
+import { getCoingeckoQuery } from 'lib/queries/coingeckoQueries'
 import { fetchGenericChainData } from 'lib/utils/fetchGenericChainData'
 
 const debug = require('debug')('pool-app:FetchGenericChainData')
@@ -29,8 +29,10 @@ export const FetchGenericChainData = (props) => {
 
   const [retryAttempts, setRetryAttempts] = useState(0)
 
-  const coingeckoQueryResult = useQuery(coingeckoQuery)
-  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData
+  const coingeckoQueryResult = useQuery(getCoingeckoQuery)
+  console.log({ coingeckoQueryResult })
+
+  const coingeckoData = coingeckoQueryResult?.data?.getCoingeckoData
 
   useEffect(() => {
     const owner = poolData?.daiPool?.owner

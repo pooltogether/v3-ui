@@ -5,3 +5,9 @@ export const coingeckoQuery = gql`
     coingeckoData @client
   }
 `
+
+export const getCoingeckoQuery = gql`
+  query readCoingeckoData {
+    getCoingeckoData @client
+  }
+`

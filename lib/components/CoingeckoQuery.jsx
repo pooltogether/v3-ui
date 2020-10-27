@@ -12,7 +12,7 @@ export const CoingeckoQuery = (props) => {
 
   const externalErc20Awards = externalAwards?.daiPool?.externalErc20Awards
 
-  const getCoingeckoData = async () => {
+  const _getCoingeckoData = async () => {
     try {
       const addressesString = externalErc20Awards.map(award => award.address).join(',')
       const postData = {
@@ -36,13 +36,13 @@ export const CoingeckoQuery = (props) => {
 
   useInterval(() => {
     if (!isEmpty(externalErc20Awards)) {
-      getCoingeckoData()
+      _getCoingeckoData()
     }
   }, MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {
     if (!isEmpty(externalErc20Awards)) {
-      getCoingeckoData()
+      _getCoingeckoData()
     }
   }, [externalErc20Awards])
 

@@ -10,7 +10,7 @@ import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
-import { coingeckoQuery } from 'lib/queries/coingeckoQueries'
+import { getCoingeckoQuery } from 'lib/queries/coingeckoQueries'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPoolPrize'
 import { calculateEstimatedExternalAwards } from 'lib/services/calculateEstimatedExternalAwards'
@@ -50,8 +50,9 @@ export const PoolDataContextProvider = (props) => {
     console.error(e)
   }
 
-  const coingeckoQueryResult = useQuery(coingeckoQuery)
-  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData
+  const coingeckoQueryResult = useQuery(getCoingeckoQuery)
+  console.log({ coingeckoQueryResult})
+  const coingeckoData = coingeckoQueryResult?.data?.getCoingeckoData
 
   return <>
     <GraphDataQueries
