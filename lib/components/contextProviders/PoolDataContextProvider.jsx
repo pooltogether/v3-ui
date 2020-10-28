@@ -88,7 +88,6 @@ export const PoolDataContextProvider = (props) => {
 
               if (!graphDataLoading && !isEmpty(genericChainData)) {
                 const externalAwardsEstimate = calculateEstimatedExternalAwards(
-                  coingeckoData,
                   genericChainData?.dai?.externalErc20AwardsChainData
                 )
                 const interestPrizeEstimate = calculateEstimatedPoolPrize({

@@ -39,7 +39,6 @@ export const FetchGenericChainData = (props) => {
 
 
   const externalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
-  let coingeckoData = {}
 
   const _getCoingeckoData = async () => {
     // console.log(externalErc20Awards)
