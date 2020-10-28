@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
 import { isEmpty } from 'lodash'
-import { useQuery } from '@apollo/client'
 
 import {
   MAINNET_POLLING_INTERVAL
@@ -8,8 +7,9 @@ import {
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
-import { coingeckoQuery } from 'lib/queries/coingeckoQueries'
 import { fetchGenericChainData } from 'lib/utils/fetchGenericChainData'
+
+const COINGECKO_LAMBDA_PATH = `/.netlify/functions/coingecko-price-api`
 
 const debug = require('debug')('pool-app:FetchGenericChainData')
 
@@ -33,8 +33,61 @@ export const FetchGenericChainData = (props) => {
   const [storedChainId, setStoredChainId] = useState(null)
   const [cachedCoingeckoData, setCachedCoingeckoData] = useState(null)
   
-  const coingeckoQueryResult = useQuery(coingeckoQuery)
-  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData?.[0]
+
+
+
+
+
+  const externalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
+  let coingeckoData = {}
+
+  const _getCoingeckoData = async () => {
+    // console.log(externalErc20Awards)
+
+    try {
+      const addressesString = externalErc20Awards.map(award => award.address).join(',')
+      const postData = {
+        addressesString
+      }
+      // debug({ addressesString })
+      // console.log({ addressesString })
+
+      const response = await fetch(COINGECKO_LAMBDA_PATH, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData) // body data type must match "Content-Type" header
+      })
+
+      setCachedCoingeckoData(await response.json())
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  // console.log(cachedCoingeckoData)
+
+  useInterval(() => {
+    if (!isEmpty(externalErc20Awards)) {
+      _getCoingeckoData()
+    }
+  }, MAINNET_POLLING_INTERVAL)
+
+  useEffect(() => {
+    if (!isEmpty(externalErc20Awards)) {
+      _getCoingeckoData()
+    }
+  }, [externalErc20Awards])
+
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     const owner = poolData?.daiPool?.owner
@@ -64,7 +117,7 @@ export const FetchGenericChainData = (props) => {
         provider,
         dynamicExternalAwardsData.daiPool,
         poolData.daiPool,
-        coingeckoData
+        cachedCoingeckoData
       )
       // chainData.usdt = await fetchGenericChainData(
       //   provider,
@@ -111,14 +164,20 @@ export const FetchGenericChainData = (props) => {
     _getChainDataAsync()
   }, paused ? null : MAINNET_POLLING_INTERVAL)
 
-  useEffect(() => {
-    if (isEmpty(cachedCoingeckoData)) {
-      debug('fetching new chain data since we now have coingecko price data')
-      _getChainDataAsync()
-    }
 
-    setCachedCoingeckoData(coingeckoData)
-  }, [coingeckoData])
+  useEffect(() => {
+    // debug('fetching new chain data since we now have coingecko price data')
+    _getChainDataAsync()
+  }, [])
+
+  // useEffect(() => {
+  //   if (isEmpty(cachedCoingeckoData)) {
+  //     debug('fetching new chain data since we now have coingecko price data')
+  //     _getChainDataAsync()
+  //   }
+
+  //   setCachedCoingeckoData(coingeckoData)
+  // }, [coingeckoData])
 
   // This only runs once when the component is mounted or when we reset the
   // `alreadyExecuted` state var if the user changes network, etc
@@ -138,5 +197,8 @@ export const FetchGenericChainData = (props) => {
     _resetGenericChainData()
   }, [chainId])
 
-  return children({ genericChainData, coingeckoData })
+  return children({ 
+    coingeckoData: cachedCoingeckoData,
+    genericChainData
+  })
 }

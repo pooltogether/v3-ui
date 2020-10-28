@@ -48,6 +48,13 @@ export const PoolDataContextProvider = (props) => {
     console.error(e)
   }
 
+
+
+
+
+
+
+
   return <>
     <GraphDataQueries
       {...props}
