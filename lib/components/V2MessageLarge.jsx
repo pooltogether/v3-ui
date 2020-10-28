@@ -21,16 +21,16 @@ export const V2MessageLarge = (
   if (usersChainData?.v2DaiPoolCommittedBalance) {
     const daiBalances = [
       usersChainData?.v2DaiPoolCommittedBalance,
-      usersChainData?.v2DaiPoolOpenBalance,
+      // usersChainData?.v2DaiPoolOpenBalance,
       usersChainData?.v2DaiPodCommittedBalance,
-      usersChainData?.v2DaiPodOpenBalance
+      // usersChainData?.v2DaiPodOpenBalance
     ]
 
     const usdcBalances = [
       usersChainData?.v2UsdcPoolCommittedBalance,
-      usersChainData?.v2UsdcPoolOpenBalance,
+      // usersChainData?.v2UsdcPoolOpenBalance,
       usersChainData?.v2UsdcPodCommittedBalance,
-      usersChainData?.v2UsdcPodOpenBalance
+      // usersChainData?.v2UsdcPodOpenBalance
     ]
 
     let usersTotalDaiBalance = ethers.utils.bigNumberify(0)
