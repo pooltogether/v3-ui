@@ -82,7 +82,7 @@
 
 .theme-light {
   --color-bg-body: #fff;
-  --color-bg-card: #fbfbfb;
+  --color-bg-card: #fff;
   --color-bg-card-selected: #fff;
   --color-bg-primary: #fff;
   --color-bg-secondary: #35F0D0;
@@ -322,4 +322,17 @@
 .theme-light .nav--account-transactions-button:hover div,
 .theme-light .nav--account-transactions-button:hover .nav--account-transactions-button__address {
   @apply bg-green text-white;
+}
+
+.theme-light .theme-light--no-padding {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.theme-light .theme-light--no-padding th:first-child,
+.theme-light .theme-light--no-padding th:last-child,
+.theme-light .theme-light--no-padding td:first-child,
+.theme-light .theme-light--no-padding td:last-child {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }

@@ -337,7 +337,7 @@ export const AccountRewardsUI = () => {
       </div>
 
       <div
-        className='xs:bg-primary text-inverse flex flex-col justify-between rounded-lg p-3 sm:p-8 mt-2'
+        className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-3 sm:p-8 mt-2'
       >
         <div
           className='border-b border-accent-3 pb-4'

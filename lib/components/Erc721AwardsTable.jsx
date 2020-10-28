@@ -13,18 +13,18 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import GiftIcon from 'assets/images/icon-gift@2x.png'
 
-const Erc20Image = (props) => {
+const Erc721Image = (props) => {
   const src = TOKEN_IMAGES[props.address]
 
   return src ? <img
     src={src}
-    className='inline-block mr-2 w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full'
+    className='inline-block mr-2 w-4 h-4 xs:w-6 xs:h-6 rounded-full'
   /> : <div
-    className='inline-block mr-2 bg-black w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full'
+    className='inline-block mr-2 bg-black w-4 h-4 xs:w-6 xs:h-6 rounded-full'
   />
 }
 
-export const Erc20AwardsTable = (props) => {
+export const Erc721AwardsTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
@@ -45,17 +45,18 @@ export const Erc20AwardsTable = (props) => {
 
 
 
-  if (!pool || pool.externalErc20AwardsChainData === null) {
+  if (!pool || pool.externalErc721AwardsChainData === null) {
     return null
   }
 
-  const externalAwards = pool.externalErc20AwardsChainData || []
+  const externalAwards = pool.externalErc721AwardsChainData || []
+  // const sortedAwards = externalAwards ? sortBy(externalAwards, 'value').reverse() : []
   const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])
   const awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 5)
 
   return <>
     <div
-      id='awards-table'
+      id='item-awards-table'
       className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
       <div
@@ -64,52 +65,52 @@ export const Erc20AwardsTable = (props) => {
         <img
           src={GiftIcon}
           className='inline-block mr-2 card-icon'
-        /> {t('bonusPrizes')}
+        /> {t('itemPrizes')}
       </div>
-
+      
       {awards.length === 0 && <>
-        {t('currentlyNoOtherPrizes')}
+        {t('currentlyNoItemPrizes')}
       </>}
       
       {awards.length > 0 && <>
-        {pool?.externalAwardsEstimate && <>
+        {pool?.externalItemAwardsEstimate && <>
           <h3
             className='mb-1'
           >
-            ${numberWithCommas(pool?.externalAwardsEstimate)} Value
+            ${numberWithCommas(pool?.externalItemAwardsEstimate)} Value
           </h3>
         </>} 
 
         <p
           className='mb-6 sm:text-sm'
         >
-          {t('otherPrizesDescription')}
+          {t('otherItemPrizesDescription')}
         </p>
         
         <div
           className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8'
         >
+
           <table
             className='table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
           >
             <thead>
               <th
-                className='w-6/12'
+                className='w-1/2'
               >
                 <h6
                   className='text-green text-left -mb-2'
                 >
-                  {t('amountTokens', {
+                  {t('amountItems', {
                     amount: sortedAwards.length
                   })}
                 </h6>
               </th>
               <th
-                className='w-4/12'
-              ></th>
-              <th
-                className='w-2/12'
-              ></th>
+                className='w-1/2'
+              >
+
+              </th>
             </thead>
             <tbody>
               {awards.map(award => {
@@ -120,32 +121,26 @@ export const Erc20AwardsTable = (props) => {
                     <td
                       className='flex items-center py-2 text-left font-bold'
                     >
-                      <Erc20Image
+                      {/* <Erc20Image
                         address={award.address}
-                      /> <EtherscanAddressLink
+                      /> */}
+                      <EtherscanAddressLink
                         address={award.address}
                         className='text-inverse'
                       >
-                        {award.name.length > 20 ? <span className='truncate'>{award.name.substr(0, 20)}</span> : award.name}
+                        {award.name.length > 30 ? <span className='truncate'>{award.name.substr(0, 30)}</span> : award.name}
                       </EtherscanAddressLink>
                     </td>
                     <td
                       className='px-2 sm:px-3 py-2 text-left text-accent-1 truncate'
                     >
-                      <PoolNumber>
-                        {displayAmountInEther(
-                          award.balance, {
-                            precision: 6,
-                            decimals: award.decimals
-                          }
-                        )}
-                      </PoolNumber> {award.symbol.length > 20 ? <span className='truncate'>{award.symbol.substr(0, 20)}</span> : award.symbol}
+                      {award.balance.eq(0) ? '1' : award.balance.toString()} {award.symbol.length > 30 ? <span className='truncate'>{award.symbol.substr(0, 30)}</span> : award.symbol}
                     </td>
-                    <td
-                      className='py-2 text-right font-bold'
+                    {/* <td
+                      className='py-2 text-right w-2/12 font-bold'
                     >
                       {award.value ? `$${numberWithCommas(award.value, { precision: 2 })}` : ''}
-                    </td>
+                    </td> */}
                   </tr>
                 </Fragment>
               })}
@@ -176,7 +171,6 @@ export const Erc20AwardsTable = (props) => {
             </div>
           </>}
         </div>
-
 
       </>}
 

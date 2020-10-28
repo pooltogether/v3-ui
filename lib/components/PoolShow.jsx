@@ -19,6 +19,7 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
 import { Chip } from 'lib/components/Chip'
 import { Erc20AwardsTable } from 'lib/components/Erc20AwardsTable'
+import { Erc721AwardsTable } from 'lib/components/Erc721AwardsTable'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
@@ -258,7 +259,7 @@ export const PoolShow = (
 
           <Erc20AwardsTable />
           
-          {/* <Erc721AwardsTable /> */}
+          <Erc721AwardsTable />
 
           <CardGrid
             cardGroupId='pool-cards'

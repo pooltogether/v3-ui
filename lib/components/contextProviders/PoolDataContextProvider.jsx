@@ -10,7 +10,8 @@ import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQuerie
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPoolPrize'
-import { calculateEstimatedExternalAwards } from 'lib/services/calculateEstimatedExternalAwards'
+import { calculateEstimatedExternalAwardsValue } from 'lib/services/calculateEstimatedExternalAwardsValue'
+import { calculateEstimatedExternalItemAwardsValue } from 'lib/services/calculateEstimatedExternalItemAwardsValue'
 import { poolToast } from 'lib/utils/poolToast'
 import { readProvider } from 'lib/utils/readProvider'
 
@@ -87,8 +88,11 @@ export const PoolDataContextProvider = (props) => {
               let pools = []
 
               if (!graphDataLoading && !isEmpty(genericChainData)) {
-                const externalAwardsEstimate = calculateEstimatedExternalAwards(
+                const externalAwardsEstimate = calculateEstimatedExternalAwardsValue(
                   genericChainData?.dai?.externalErc20AwardsChainData
+                )
+                const externalItemAwardsEstimate = calculateEstimatedExternalItemAwardsValue(
+                  genericChainData?.dai?.externalErc721AwardsChainData
                 )
                 const interestPrizeEstimate = calculateEstimatedPoolPrize({
                   ...genericChainData.dai,
@@ -110,10 +114,10 @@ export const PoolDataContextProvider = (props) => {
                     ...genericChainData.dai,
                     ...dynamicPoolData.daiPool,
                     ...dynamicPrizeStrategiesData.daiPrizeStrategy,
-                    externalErc20Awards: genericChainData?.dai?.externalErc20AwardsChainData,
                     prizeEstimate: totalPrizeEstimate,
                     interestPrizeEstimate,
                     externalAwardsEstimate,
+                    externalItemAwardsEstimate,
                   },
                   // {
                   //   name: 'Tether Pool',

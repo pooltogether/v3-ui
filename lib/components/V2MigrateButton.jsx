@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { useQuery } from '@apollo/client'
 
-import ERC20Abi from 'ERC20Abi'
+import ERC20Abi from 'lib/../abis/ERC20Abi'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
