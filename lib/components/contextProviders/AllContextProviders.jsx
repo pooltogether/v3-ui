@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
 import { AuthControllerContextProvider } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { CoingeckoDataContextProvider } from 'lib/components/contextProviders/CoingeckoDataContextProvider'
 import { ConfettiContextProvider } from 'lib/components/contextProviders/ConfettiContextProvider'
 import { GeneralContextProvider } from 'lib/components/contextProviders/GeneralContextProvider'
 import { PlayerDataContextProvider } from 'lib/components/contextProviders/PlayerDataContextProvider'
@@ -42,9 +43,11 @@ export const AllContextProviders = (props) => {
             <AuthControllerContextProvider>
               <GeneralContextProvider>
                 <PoolDataContextProvider>
-                  <PlayerDataContextProvider>
-                    {children}
-                  </PlayerDataContextProvider>
+                  <CoingeckoDataContextProvider>
+                    <PlayerDataContextProvider>
+                      {children}
+                    </PlayerDataContextProvider>
+                  </CoingeckoDataContextProvider>
                 </PoolDataContextProvider>
               </GeneralContextProvider>
             </AuthControllerContextProvider>

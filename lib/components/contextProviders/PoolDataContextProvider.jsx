@@ -2,15 +2,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { isEmpty } from 'lodash'
-import { useQuery } from '@apollo/client'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { CoingeckoQuery } from 'lib/components/CoingeckoQuery'
 import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
-import { coingeckoQuery } from 'lib/queries/coingeckoQueries'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPoolPrize'
 import { calculateEstimatedExternalAwards } from 'lib/services/calculateEstimatedExternalAwards'
@@ -51,11 +48,6 @@ export const PoolDataContextProvider = (props) => {
     console.error(e)
   }
 
-  // debug(coingeckoQuery)
-  // const coingeckoQueryResult = useQuery(coingeckoQuery)
-  // debug({ coingeckoQueryResult})
-  // const coingeckoData = coingeckoQueryResult?.data?.coingeckoData?.[0]
-
   return <>
     <GraphDataQueries
       {...props}
@@ -76,10 +68,6 @@ export const PoolDataContextProvider = (props) => {
         dynamicPlayerDrips,
       }) => {
         return <>
-          <CoingeckoQuery
-            externalAwards={dynamicExternalAwardsData}
-          />
-
           <FetchGenericChainData
             {...props}
             chainId={chainId}
