@@ -83,7 +83,7 @@ export const PoolDataContextProvider = (props) => {
             poolData={dynamicPoolData}
             graphDataLoading={graphDataLoading}
           >
-            {({ genericChainData, coingeckoData }) => {
+            {({ genericChainData }) => {
               let pools = []
 
               if (!graphDataLoading && !isEmpty(genericChainData)) {
