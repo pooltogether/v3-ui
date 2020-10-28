@@ -51,10 +51,10 @@ export const PoolDataContextProvider = (props) => {
     console.error(e)
   }
 
-  debug(coingeckoQuery)
-  const coingeckoQueryResult = useQuery(coingeckoQuery)
-  debug({ coingeckoQueryResult})
-  const coingeckoData = coingeckoQueryResult?.data?.coingeckoData?.[0]
+  // debug(coingeckoQuery)
+  // const coingeckoQueryResult = useQuery(coingeckoQuery)
+  // debug({ coingeckoQueryResult})
+  // const coingeckoData = coingeckoQueryResult?.data?.coingeckoData?.[0]
 
   return <>
     <GraphDataQueries
@@ -88,13 +88,13 @@ export const PoolDataContextProvider = (props) => {
             poolData={dynamicPoolData}
             graphDataLoading={graphDataLoading}
           >
-            {({ genericChainData }) => {
+            {({ genericChainData, coingeckoData }) => {
               let pools = []
 
               if (!graphDataLoading && !isEmpty(genericChainData)) {
                 const externalAwardsEstimate = calculateEstimatedExternalAwards(
                   coingeckoData,
-                  genericChainData.dai.externalErc20AwardsChainData
+                  genericChainData?.dai?.externalErc20AwardsChainData
                 )
                 const interestPrizeEstimate = calculateEstimatedPoolPrize({
                   ...genericChainData.dai,
@@ -116,7 +116,7 @@ export const PoolDataContextProvider = (props) => {
                     ...genericChainData.dai,
                     ...dynamicPoolData.daiPool,
                     ...dynamicPrizeStrategiesData.daiPrizeStrategy,
-                    externalErc20Awards: genericChainData.dai.externalErc20AwardsChainData,
+                    externalErc20Awards: genericChainData?.dai?.externalErc20AwardsChainData,
                     prizeEstimate: totalPrizeEstimate,
                     interestPrizeEstimate,
                     externalAwardsEstimate,
