@@ -33,10 +33,7 @@ export const FetchGenericChainData = (props) => {
   const [storedChainId, setStoredChainId] = useState(null)
   const [cachedCoingeckoData, setCachedCoingeckoData] = useState(null)
   
-  // console.log('pool effing data context prov')
-  // console.log(coingeckoQuery)
   const coingeckoQueryResult = useQuery(coingeckoQuery)
-  // console.log({ coingeckoQueryResult})
   const coingeckoData = coingeckoQueryResult?.data?.coingeckoData?.[0]
 
   useEffect(() => {

@@ -18,11 +18,7 @@ export const AllPoolsTotalAwarded = (
   pools?.forEach(_pool => {
     if (_pool.cumulativePrizeNet) {
       const decimals = _pool?.underlyingCollateralDecimals
-      // const poolCumNorm = normalizeTo18Decimals(
-      //   _pool.cumulativePrizeNet,
-      //   decimals
-      // )
-      // console.log(poolCumNorm.toString())
+
       const cumulativePrizeNetForPool = normalizeTo18Decimals(
         _pool.cumulativePrizeNet,
         decimals
