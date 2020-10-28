@@ -169,14 +169,16 @@ export const FetchGenericChainData = (props) => {
     _getChainDataAsync()
   }, [])
 
-  // useEffect(() => {
-  //   if (isEmpty(cachedCoingeckoData)) {
-  //     debug('fetching new chain data since we now have coingecko price data')
-  //     _getChainDataAsync()
-  //   }
+  
 
-  //   setCachedCoingeckoData(coingeckoData)
-  // }, [coingeckoData])
+  useEffect(() => {
+    if (!isEmpty(cachedCoingeckoData)) {
+      debug('fetching new chain data since we now have coingecko price data')
+      _getChainDataAsync()
+    }
+  }, [cachedCoingeckoData])
+
+
 
   // This only runs once when the component is mounted or when we reset the
   // `alreadyExecuted` state var if the user changes network, etc
@@ -195,6 +197,8 @@ export const FetchGenericChainData = (props) => {
   useEffect(() => {
     _resetGenericChainData()
   }, [chainId])
+
+
 
   return children({ 
     coingeckoData: cachedCoingeckoData,
