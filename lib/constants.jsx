@@ -47,6 +47,13 @@ export const CONTRACT_ADDRESSES = {
   },
 }
 
+export const TOKEN_VALUES = {
+  '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
+  // '0x2e703d658f8dd21709a7b458967ab4081f8d3d05': ,
+  // '0x8b9c35c79af5319c70dd9a3e3850f368822ed64e': ,
+  '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
+}
+
 export const TOKEN_IMAGES = {
   '0x6b175474e89094c44da98b954eedeac495271d0f': 'https://assets.coingecko.com/coins/images/9956/thumb/dai-multi-collateral-mcd.png',
   '0x06f65b8cfcb13a9fe37d836fe9708da38ecb29b2': 'https://assets.coingecko.com/coins/images/11521/thumb/FAME.png?1590622461',
@@ -65,5 +72,14 @@ export const TOKEN_IMAGES = {
   '0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f': 'https://assets.coingecko.com/coins/images/3406/thumb/SNX.png?1598631139',
   '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2': 'https://assets.coingecko.com/coins/images/2518/thumb/weth.png?1547036627',
   '0xd533a949740bb3306d119cc777fa900ba034cd52': 'https://assets.coingecko.com/coins/images/12124/thumb/Curve.png?1597369484',
-  '0xe2f2a5c287993345a840db3b0845fbc70f5935a5': 'https://assets.coingecko.com/coins/images/11576/thumb/mStable_USD.png?1595591803'
+  '0xe2f2a5c287993345a840db3b0845fbc70f5935a5': 'https://assets.coingecko.com/coins/images/11576/thumb/mStable_USD.png?1595591803',
+  '0x117c2aca45d87958ba054cb85af0fd57be00d624': '/tokens/0x117c2aca45d87958ba054cb85af0fd57be00d624.png',
+  // '0x2e703d658f8dd21709a7b458967ab4081f8d3d05': '',
+  '0x8b9c35c79af5319c70dd9a3e3850f368822ed64e': '/tokens/0x8b9c35c79af5319c70dd9a3e3850f368822ed64e.png',
+  // '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': '',
+  '0xa91ac63d040deb1b7a5e4d4134ad23eb0ba07e14': 'https://assets.coingecko.com/coins/images/12478/thumb/Bella.png?1602230054',
+  '0x08d32b0da63e2c3bcf8019c9c5d849d7a9d791e6': 'https://assets.coingecko.com/coins/images/850/thumb/dentacoin.png?1547034647',
+  '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2': 'https://assets.coingecko.com/coins/images/12271/thumb/sushi.jpg?1598623048',
+  '0x0954906da0bf32d5479e25f46056d22f08464cab': '/tokens/0x0954906da0bf32d5479e25f46056d22f08464cab.png',
+  '0xd291e7a03283640fdc51b121ac401383a46cc623': 'https://assets.coingecko.com/coins/images/12900/thumb/rgt_logo.png?1603340632',
 }

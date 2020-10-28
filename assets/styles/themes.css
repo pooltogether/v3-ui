@@ -8,6 +8,7 @@
   --color-bg-card-selected: #43286E;
   --color-bg-primary: #290b5a;
   --color-bg-secondary: #4C249F;
+  --color-bg-tertiary: #290b5a;
   --color-bg-default: #341762;
   --color-bg-darkened: #1a083a;
   --color-bg-inverse: #fff;
@@ -81,10 +82,11 @@
 
 .theme-light {
   --color-bg-body: #fff;
-  --color-bg-card: #fff;
+  --color-bg-card: #fbfbfb;
   --color-bg-card-selected: #fff;
   --color-bg-primary: #fff;
   --color-bg-secondary: #35F0D0;
+  --color-bg-tertiary: #290b5a;
   --color-bg-default: #f7f7f7;
   --color-bg-darkened: #e9e9e9;
   --color-bg-inverse: #111;

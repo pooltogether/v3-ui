@@ -69,7 +69,7 @@ export const Erc20AwardsTable = (props) => {
       {awards.length > 0 && <>
         <div
           id='awards-table'
-          className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-10 bg-card rounded-lg card-min-height-desktop'
+          className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
         >
           <div className='mt-1'>
             

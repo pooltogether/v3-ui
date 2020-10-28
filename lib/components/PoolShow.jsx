@@ -158,7 +158,7 @@ export const PoolShow = (
             className='flex flex-col xs:flex-row justify-between xs:items-center'
           >
             <div
-              className='flex justify-between items-center xs:w-1/2'
+              className='flex justify-between items-center sm:w-1/2'
             >
               <PageTitleAndBreadcrumbs
                 title={pool?.name}
@@ -177,7 +177,7 @@ export const PoolShow = (
             </div>
 
             <div
-              className='flex w-full xs:justify-end items-start mt-4 xs:mt-0'
+              className='flex xs:w-1/2 sm:w-full xs:justify-end items-start mt-4 xs:mt-0'
             >
               <Button
                 width='w-full xs:w-9/12 sm:w-8/12 lg:w-6/12'
@@ -190,7 +190,7 @@ export const PoolShow = (
           </div>
 
           <div
-            className='bg-highlight-3 rounded-lg px-4 xs:px-10 pt-4 pb-6 text-white my-8 sm:mt-20 sm:mb-12 border-flashy mx-auto'
+            className='bg-highlight-3 rounded-lg px-4 xs:px-4 sm:px-10 pt-4 pb-6 text-white my-8 sm:mt-20 sm:mb-12 border-flashy mx-auto'
           >
             <div
               className='flex items-center justify-between'
@@ -238,7 +238,7 @@ export const PoolShow = (
           </div>
 
           <div
-            className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-10 bg-card rounded-lg card-min-height-desktop'
+            className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
           >
             <div className='mt-1 text-caption uppercase mb-3'>
               <img
