@@ -62,7 +62,6 @@ export const DepositSponsorshipTxButton = (props) => {
       sponsorshipAddress,
       ethers.constants.AddressZero
     ]
-    console.log(params)
 
     const id = sendTx(
       t,

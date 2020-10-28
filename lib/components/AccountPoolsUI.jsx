@@ -75,8 +75,6 @@ export const AccountPoolsUI = () => {
             {dynamicPlayerData.map(playerData => {
               const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
 
-              console.log(dynamicPlayerData)
-              console.log(pool)
               if (!pool) {
                 return
               }

@@ -14,11 +14,8 @@ export const AccountLoggedIn = (props) => {
   useEffect(() => {
     let redirectTimeoutHandler
 
-    console.log('mount')
-
     if (!usersAddress) {
       redirectTimeoutHandler = setTimeout(() => {
-        console.log('show')
         router.push(
           '/account?signIn=1',
           '/account?signIn=1',
@@ -26,12 +23,10 @@ export const AccountLoggedIn = (props) => {
         )
       }, MILLISECONDS_BEFORE_REDIRECT)
     } else if (redirectTimeoutHandler) {
-      console.log('clear')
       clearTimeout(redirectTimeoutHandler)
     }
 
     return () => {
-      console.log('clear')
       clearTimeout(redirectTimeoutHandler)
     }
   }, [usersAddress])

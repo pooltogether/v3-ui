@@ -30,7 +30,6 @@ export const AllContextProviders = (props) => {
         <MagicContextProviderDynamic>
           <WalletContextProviderDynamic
             postConnectCallback={async () => {
-              console.log('og postConnectCallback')
               router.push(
                 `${router.pathname}`,
                 `${router.asPath}`,
