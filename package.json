@@ -6,7 +6,7 @@
   "repository": "git@github.com:pooltogether/pool-app.git",
   "scripts": {
     "reinstall": "rm -rf ./node_modules && yarn",
-    "dev": "NODE_ENV=dev npm-run-all --parallel start:app start:server",
+    "dev": "npm-run-all --parallel start:app start:server",
     "start:app": "PORT=3000 node --max-old-space-size=8192 server.js",
     "start:server": "netlify-lambda serve functions",
     "postinstall": "netlify-lambda install",
