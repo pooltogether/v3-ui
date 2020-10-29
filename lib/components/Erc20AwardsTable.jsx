@@ -76,7 +76,7 @@ export const Erc20AwardsTable = (props) => {
           <h3
             className='mb-1'
           >
-            ${numberWithCommas(pool?.externalAwardsEstimate)} Value
+            ${numberWithCommas(pool?.externalAwardsEstimate)} {t('value')}
           </h3>
         </>} 
         

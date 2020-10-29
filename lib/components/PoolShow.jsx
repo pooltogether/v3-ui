@@ -245,7 +245,7 @@ export const PoolShow = (
               <img
                 src={GiftIcon}
                 className='inline-block mr-2 card-icon'
-              /> Prize from interest
+              /> {t('prizeFromInterest')}
             </div>
 
             <h3
