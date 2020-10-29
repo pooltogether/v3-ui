@@ -19,17 +19,18 @@ export const GeneralContextProvider = (props) => {
   const { changingNetwork, supportedNetwork } = authControllerContext
 
   const windowFocused = true || useWindowFocus()
-  const isOnline = useOnlineState()
-  const paused = !windowFocused || !isOnline || !supportedNetwork || changingNetwork
+  // const isOnline = useOnlineState()
+  const paused = !windowFocused || !supportedNetwork || changingNetwork
+  // const paused = !windowFocused || !isOnline || !supportedNetwork || changingNetwork
 
   return <GeneralContext.Provider
     value={{
-      isOnline,
+      // isOnline,
       paused,
       windowFocused,
     }}
   >
-    <Modal
+    {/* <Modal
       zIndex={2000000}
       visible={!isOnline}
       header={t('noInternetConnection')}
@@ -40,7 +41,7 @@ export const GeneralContextProvider = (props) => {
       <p>
         {t('pleaseReconnectToInternet')}
       </p>
-    </Modal>
+    </Modal> */}
 
     {props.children}
   </GeneralContext.Provider>

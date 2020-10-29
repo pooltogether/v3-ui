@@ -79,12 +79,6 @@ export const Erc20AwardsTable = (props) => {
             ${numberWithCommas(pool?.externalAwardsEstimate)} Value
           </h3>
         </>} 
-
-        <p
-          className='mb-6 sm:text-sm'
-        >
-          {t('otherPrizesDescription')}
-        </p>
         
         <div
           className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8'
