@@ -1,16 +1,11 @@
 import React, { useContext, useEffect } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
-import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import {
-  COOKIE_OPTIONS,
-  WIZARD_REFERRER_HREF,
-  WIZARD_REFERRER_AS_PATH
-} from 'lib/constants'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 
 function range1(i) { return i ? range1(i - 1).concat(i) : [] }
 
@@ -29,19 +24,7 @@ export const WizardLayout = (props) => {
   const action = router.asPath.match('withdraw') ? 'withdraw' : 'deposit'
 
   const handleClose = () => {
-    const pathname = Cookies.get(WIZARD_REFERRER_HREF) || '/'
-    const asPath = Cookies.get(WIZARD_REFERRER_AS_PATH) || '/'
-
-    Cookies.remove(WIZARD_REFERRER_HREF, COOKIE_OPTIONS)
-    Cookies.remove(WIZARD_REFERRER_AS_PATH, COOKIE_OPTIONS)
-
-    router.push(
-      `${pathname}`,
-      `${asPath}`,
-      {
-        shallow: true
-      }
-    )
+    handleCloseWizard(router)
   }
 
   // could easily refactor into a custom hook

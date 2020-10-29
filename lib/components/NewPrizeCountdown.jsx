@@ -13,7 +13,7 @@ export const NewPrizeCountdown = (
   props,
 ) => {
   const { t } = useTranslation()
-  const { pool, textAlign, textSize } = props
+  const { pool, center, textAlign, textSize } = props
   let flashy = props.flashy === false ? false : true
 
   const [secondsRemaining, setSecondsRemaining] = useState(null)
@@ -99,7 +99,14 @@ export const NewPrizeCountdown = (
   
   return <>
     <div
-      className='flex text-center text-xxxs sm:text-xl'
+      className={classnames(
+        textSize,
+        'flex text-center',
+        {
+          'justify-center': center,
+          'text-xxxs sm:text-xl': !textSize,
+        }
+      )}
     >
       <div
         className='flex flex-col sm:mr-2'

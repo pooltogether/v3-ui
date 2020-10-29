@@ -8,15 +8,13 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
-import { DepositInfoList } from 'lib/components/DepositInfoList'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
-import { Modal } from 'lib/components/Modal'
-import { PaneTitle } from 'lib/components/PaneTitle'
+import { NoMoreTicketsPane } from 'lib/components/NoMoreTicketsPane'
 import { Odds } from 'lib/components/Odds'
+import { PaneTitle } from 'lib/components/PaneTitle'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { WyreTopUpBalanceDropdown } from 'lib/components/WyreTopUpBalanceDropdown'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
@@ -42,7 +40,7 @@ export const TicketQuantityForm = (props) => {
   let remainingTickets
   if (liquidityCap.gt(0)) {
     remainingTickets = liquidityCap
-      .sub(pool.ticketSupply)
+      .sub(pool.ticketSupply).div(ethers.constants.WeiPerEther)
   }
 
   const decimals = pool?.underlyingCollateralDecimals
@@ -112,6 +110,10 @@ export const TicketQuantityForm = (props) => {
   >
     {t('continue')}
   </Button>
+
+  if (remainingTickets && remainingTickets.lt('1')) {
+    return <NoMoreTicketsPane />
+  }
 
   return <>
     <div
@@ -243,7 +245,7 @@ export const TicketQuantityForm = (props) => {
 
     </form>
 
-    {remainingTickets && <>
+    {remainingTickets && remainingTickets.lt('200000') && <>
       <div
         className='mt-4 xs:mt-10 sm:mt-20 p-2 liquidity-cap text-xxs xs:text-xs sm:text-base text-white bg-raspberry border-highlight-7 border-2 rounded-sm'
       >
@@ -255,7 +257,7 @@ export const TicketQuantityForm = (props) => {
             top: 1
           }}
         >&#x203c;</span> {t('onlyAmountTicketsRemaining', {
-          amount: displayAmountInEther(remainingTickets, { precision: 0 })
+          amount: numberWithCommas(remainingTickets.toString(), { precision: 0 })
         })} <span
           className={`text-red font-bold hidden sm:inline-block sm:relative`}
           role='img'
