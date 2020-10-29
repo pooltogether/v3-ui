@@ -76,7 +76,7 @@ export const DepositWizardContainer = (props) => {
                     formName={t('getTickets')}
                     formSubName={<Trans
                       i18nKey='amountTickerEqualsAmountTickets'
-                      defaults='$<number>{{amount}}</number> {{ticker}} = <number>{{amount}}</number> tickets'
+                      defaults='$<number>{{amount}}</number> {{ticker}} = <number>{{amount}}</number> ticket'
                       components={{
                         number: <PoolNumber />,
                       }}

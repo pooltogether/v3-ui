@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react'
+import { ethers } from 'ethers'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
@@ -15,8 +16,11 @@ import { Odds } from 'lib/components/Odds'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { WyreTopUpBalanceDropdown } from 'lib/components/WyreTopUpBalanceDropdown'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
+
+const bn = ethers.utils.bigNumberify
 
 export const TicketQuantityForm = (props) => {
   const { t } = useTranslation()
@@ -33,6 +37,13 @@ export const TicketQuantityForm = (props) => {
 
   const { usersAddress } = useContext(AuthControllerContext)
   const { pool, usersTicketBalanceBN, usersChainData } = useContext(PoolDataContext)
+
+  const liquidityCap = pool?.liquidityCap ? bn(pool?.liquidityCap) : bn(0)
+  let remainingTickets
+  if (liquidityCap.gt(0)) {
+    remainingTickets = liquidityCap
+      .sub(pool.ticketSupply)
+  }
 
   const decimals = pool?.underlyingCollateralDecimals
   const usersTicketBalance = ethers.utils.formatUnits(
@@ -219,6 +230,8 @@ export const TicketQuantityForm = (props) => {
         </>}
       </div>
 
+      
+
       <div
         className='flex flex-col mx-auto w-full mx-auto items-center justify-center'
       >
@@ -229,5 +242,29 @@ export const TicketQuantityForm = (props) => {
 
 
     </form>
+
+    {remainingTickets && <>
+      <div
+        className='mt-4 xs:mt-10 sm:mt-20 p-2 liquidity-cap text-xxs xs:text-xs sm:text-base text-white bg-raspberry border-highlight-7 border-2 rounded-sm'
+      >
+        <span
+          className={`text-red font-bold block sm:inline-block text-lg sm:text-base sm:relative`}
+          role='img'
+          aria-label='double exclaimation'
+          style={{
+            top: 1
+          }}
+        >&#x203c;</span> {t('onlyAmountTicketsRemaining', {
+          amount: displayAmountInEther(remainingTickets, { precision: 0 })
+        })} <span
+          className={`text-red font-bold hidden sm:inline-block sm:relative`}
+          role='img'
+          aria-label='double exclaimation'
+          style={{
+            top: 1
+          }}
+        >&#x203c;</span>
+      </div>
+    </>}
   </>
 }

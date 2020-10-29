@@ -32,6 +32,7 @@ export const FetchGenericChainData = (props) => {
   const [genericChainData, setGenericChainData] = useState({})
   const [storedChainId, setStoredChainId] = useState(null)
   const [cachedCoingeckoData, setCachedCoingeckoData] = useState(null)
+  const [getCoingeckoDataExecuting, setGetCoingeckoDataExecuting] = useState(null)
   
 
 
@@ -41,15 +42,17 @@ export const FetchGenericChainData = (props) => {
   const externalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
 
   const _getCoingeckoData = async () => {
-    // console.log(externalErc20Awards)
+    if (getCoingeckoDataExecuting) {
+      return
+    }
+
+    setGetCoingeckoDataExecuting(true)
 
     try {
       const addressesString = externalErc20Awards.map(award => award.address).join(',')
       const postData = {
         addressesString
       }
-      // debug({ addressesString })
-      // console.log({ addressesString })
 
       const response = await fetch(COINGECKO_LAMBDA_PATH, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -62,6 +65,11 @@ export const FetchGenericChainData = (props) => {
       setCachedCoingeckoData(await response.json())
     } catch (error) {
       console.error(error)
+    } finally {
+      const COINGECKO_POLL_INTERVAL = 60000
+      setTimeout(() => {
+        setGetCoingeckoDataExecuting(false)
+      }, COINGECKO_POLL_INTERVAL)
     }
   }
   // console.log(cachedCoingeckoData)
@@ -169,10 +177,8 @@ export const FetchGenericChainData = (props) => {
     _getChainDataAsync()
   }, [])
 
-  
-
   useEffect(() => {
-    if (!isEmpty(cachedCoingeckoData)) {
+    if (!isEmpty(cachedCoingeckoData) && !genericChainData.dai) {
       debug('fetching new chain data since we now have coingecko price data')
       _getChainDataAsync()
     }

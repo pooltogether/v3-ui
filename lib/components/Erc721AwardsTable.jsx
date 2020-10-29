@@ -82,7 +82,7 @@ export const Erc721AwardsTable = (props) => {
         </>} 
 
         <div
-          className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8'
+          className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8 mt-4'
         >
 
           <table
@@ -93,7 +93,7 @@ export const Erc721AwardsTable = (props) => {
                 className='w-1/2'
               >
                 <h6
-                  className='text-green text-left -mb-2'
+                  className='text-green text-left'
                 >
                   {t('amountItems', {
                     amount: sortedAwards.length

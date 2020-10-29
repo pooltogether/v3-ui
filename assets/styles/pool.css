@@ -428,6 +428,7 @@ input[type='submit'][disabled] {
 }
 
 @media screen and (max-height: 460px) {
+  .liquidity-cap { display: none; }
   .odds-box { display: none; }
   .pane-title { display: none; }
 }

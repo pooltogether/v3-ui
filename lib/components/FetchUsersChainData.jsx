@@ -73,6 +73,9 @@ export const FetchUsersChainData = (props) => {
     } else {
       setUsersChainData({})
     }
+
+
+    
   }
 
 
