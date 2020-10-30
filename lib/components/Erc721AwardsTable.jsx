@@ -3,18 +3,18 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { orderBy } from 'lodash'
 
-import { TOKEN_IMAGES } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
-import { PoolNumber } from 'lib/components/PoolNumber'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import GiftIcon from 'assets/images/icon-gift@2x.png'
 
-const Erc721Image = (props) => {
-  const src = TOKEN_IMAGES[props.address]
+const debug = require('debug')('pool-app:Erc721AwardsTable')
+
+const Erc721TokenImage = (props) => {
+  const { token } = props
+  const src = token.image || token.image_url
 
   return src ? <img
     src={src}
@@ -30,7 +30,9 @@ export const Erc721AwardsTable = (props) => {
 
   const [moreVisible, setMoreVisible] = useState(false)
   
-  const { pool } = useContext(PoolDataContext)
+  const { dynamicExternalAwardsData, pool } = useContext(PoolDataContext)
+  const awardsGraphData = dynamicExternalAwardsData
+  const awardsChainData = pool?.external721ChainData?.dai
 
   const handleShowMore = (e) => {
     e.preventDefault()
@@ -43,16 +45,22 @@ export const Erc721AwardsTable = (props) => {
     )
   }
 
-
-
-  if (!pool || pool.externalErc721AwardsChainData === null) {
+  if (!pool || !awardsGraphData) {
     return null
   }
 
-  const externalAwards = pool.externalErc721AwardsChainData || []
-  // const sortedAwards = externalAwards ? sortBy(externalAwards, 'value').reverse() : []
-  const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])
-  const awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 5)
+  const has721Awards = awardsGraphData?.daiPool?.externalErc721Awards?.length > 0
+
+  let awards = []
+  let sortedAwards = []
+  if (awardsChainData) {
+    const externalAwards = Object.keys(awardsChainData)
+      .map(key => awardsChainData[key])
+    sortedAwards = orderBy(externalAwards, ({ name }) => name || '', ['asc'])
+    awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 8)
+  }
+
+  debug(awards)
 
   return <>
     <div
@@ -68,8 +76,12 @@ export const Erc721AwardsTable = (props) => {
         /> {t('itemPrizes')}
       </div>
       
-      {awards.length === 0 && <>
+      {awards.length === 0 && !has721Awards && <>
         {t('currentlyNoItemPrizes')}
+      </>}
+
+      {awards.length === 0 && has721Awards && <>
+        <TableRowUILoader />
       </>}
       
       {awards.length > 0 && <>
@@ -118,17 +130,22 @@ export const Erc721AwardsTable = (props) => {
                       {/* <Erc20Image
                         address={award.address}
                       /> */}
-                      <EtherscanAddressLink
+                      <span
+                        className='text-inverse'
+                      >
+                        {award?.name?.length > 30 ? <span className='truncate'>{award.name.substr(0, 30)}</span> : award?.name}
+                      </span>
+                      {/* <EtherscanAddressLink
                         address={award.address}
                         className='text-inverse'
                       >
-                        {award.name.length > 30 ? <span className='truncate'>{award.name.substr(0, 30)}</span> : award.name}
-                      </EtherscanAddressLink>
+                        {award?.name?.length > 30 ? <span className='truncate'>{award.name.substr(0, 30)}</span> : award?.name}
+                      </EtherscanAddressLink> */}
                     </td>
                     <td
                       className='px-2 sm:px-3 py-2 text-left text-accent-1 truncate'
                     >
-                      {award.balance.eq(0) ? '1' : award.balance.toString()} {award.symbol.length > 30 ? <span className='truncate'>{award.symbol.substr(0, 30)}</span> : award.symbol}
+                      {award?.balance?.eq(0) ? '1' : award?.balance?.toString()} {award?.symbol?.length > 30 ? <span className='truncate'>{award.symbol.substr(0, 30)}</span> : award?.symbol}
                     </td>
                     {/* <td
                       className='py-2 text-right w-2/12 font-bold'
@@ -136,12 +153,37 @@ export const Erc721AwardsTable = (props) => {
                       {award.value ? `$${numberWithCommas(award.value, { precision: 2 })}` : ''}
                     </td> */}
                   </tr>
+
+                  {award.tokenIds.map(tokenId => {
+                    const token = award.tokens[tokenId]
+                    const src = token.image || token.image_url
+
+                    if (!src) {
+                      console.log(award.tokens[tokenId])
+                      console.log(token)
+                    }
+
+                    return <tr>
+                      <td
+                        className='flex items-center py-2 text-left font-bold text-accent-1'
+                      >
+                        <Erc721TokenImage
+                          token={token}
+                        />
+                      </td>
+                      <td
+                        className='px-2 sm:px-3 py-2 text-left text-accent-1 truncate'
+                      >
+                        
+                      </td>
+                    </tr>
+                  })}
                 </Fragment>
               })}
             </tbody>
           </table>
 
-          {externalAwards.length > 5 && <>
+          {sortedAwards.length > 5 && <>
             <div className='text-center'>
               <motion.button
                 border='none'

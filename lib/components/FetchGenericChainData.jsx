@@ -8,6 +8,7 @@ import { GeneralContext } from 'lib/components/contextProviders/GeneralContextPr
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchGenericChainData } from 'lib/utils/fetchGenericChainData'
+import { fetchExternalErc721Awards } from 'lib/utils/fetchExternalErc721Awards'
 
 const COINGECKO_LAMBDA_PATH = `/.netlify/functions/coingecko-price-api`
 
@@ -31,22 +32,23 @@ export const FetchGenericChainData = (props) => {
   const [alreadyExecuted, setAlreadyExecuted] = useState(false)
   const [genericChainData, setGenericChainData] = useState({})
   const [storedChainId, setStoredChainId] = useState(null)
-  const [cachedCoingeckoData, setCachedCoingeckoData] = useState(null)
-  const [getCoingeckoDataExecuting, setGetCoingeckoDataExecuting] = useState(null)
   
-
-
+  const [cachedCoingeckoData, setCachedCoingeckoData] = useState(null)
+  const [fetchingCoingeckoData, setFetchingCoingeckoData] = useState(null)
+  
+  const [external721ChainData, setExternal721ChainData] = useState({})
+  const [fetching721s, setFetching721s] = useState(null)
 
 
 
   const externalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
 
   const _getCoingeckoData = async () => {
-    if (getCoingeckoDataExecuting) {
+    if (fetchingCoingeckoData) {
       return
     }
 
-    setGetCoingeckoDataExecuting(true)
+    setFetchingCoingeckoData(true)
 
     try {
       const addressesString = externalErc20Awards.map(award => award.address).join(',')
@@ -55,11 +57,11 @@ export const FetchGenericChainData = (props) => {
       }
 
       const response = await fetch(COINGECKO_LAMBDA_PATH, {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(postData) // body data type must match "Content-Type" header
+        body: JSON.stringify(postData)
       })
 
       setCachedCoingeckoData(await response.json())
@@ -68,11 +70,11 @@ export const FetchGenericChainData = (props) => {
     } finally {
       const COINGECKO_POLL_INTERVAL = 60000
       setTimeout(() => {
-        setGetCoingeckoDataExecuting(false)
+        setFetchingCoingeckoData(false)
       }, COINGECKO_POLL_INTERVAL)
     }
   }
-  // console.log(cachedCoingeckoData)
+  debug(cachedCoingeckoData)
 
   useInterval(() => {
     if (!isEmpty(externalErc20Awards)) {
@@ -131,11 +133,35 @@ export const FetchGenericChainData = (props) => {
       //   poolAddresses.usdtPrizeStrategy,
       //   poolData.usdtPool
       // )
-    }
-    catch (e) {
+    } catch (e) {
       console.warn(e)
+    } finally {
+      return chainData
     }
-    finally {
+  }
+  
+  const _fetch721sFromInfura = async () => {
+    const chainData = {
+      dai: {},
+      // usdt: {},
+    }
+
+    try {
+      if (
+        isEmpty(external721ChainData) &&
+        !fetching721s
+      ) {
+        setFetching721s(true)
+        chainData.dai = await fetchExternalErc721Awards(
+          provider,
+          dynamicExternalAwardsData.daiPool,
+          poolData.daiPool,
+        )
+        setFetching721s(false)
+      }
+    } catch (e) {
+      console.warn(e)
+    } finally {
       return chainData
     }
   }
@@ -148,6 +174,14 @@ export const FetchGenericChainData = (props) => {
     }
   }
 
+  const _get721ChainDataAsync = async () => {
+    const _result = await _fetch721sFromInfura()
+
+    setExternal721ChainData(
+      _result
+    )
+  }
+  
   const _getChainDataAsync = async () => {
     const genericData = await _fetchDataFromInfura()
     setGenericChainData(genericData)
@@ -197,6 +231,7 @@ export const FetchGenericChainData = (props) => {
       // console.log('ready and trying')
       setAlreadyExecuted(true)
       _conditionallyGetChainData()
+      _get721ChainDataAsync()
     }
   }, [provider, chainId, poolData])
 
@@ -208,6 +243,7 @@ export const FetchGenericChainData = (props) => {
 
   return children({ 
     coingeckoData: cachedCoingeckoData,
-    genericChainData
+    genericChainData,
+    external721ChainData
   })
 }

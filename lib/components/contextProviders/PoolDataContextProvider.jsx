@@ -84,7 +84,7 @@ export const PoolDataContextProvider = (props) => {
             poolData={dynamicPoolData}
             graphDataLoading={graphDataLoading}
           >
-            {({ genericChainData }) => {
+            {({ external721ChainData, genericChainData }) => {
               let pools = []
 
               if (!graphDataLoading && !isEmpty(genericChainData)) {
@@ -92,7 +92,7 @@ export const PoolDataContextProvider = (props) => {
                   genericChainData?.dai?.externalErc20AwardsChainData
                 )
                 const externalItemAwardsEstimate = calculateEstimatedExternalItemAwardsValue(
-                  genericChainData?.dai?.externalErc721AwardsChainData
+                  external721ChainData?.dai
                 )
                 const interestPrizeEstimate = calculateEstimatedPoolPrize({
                   ...genericChainData.dai,
@@ -118,6 +118,7 @@ export const PoolDataContextProvider = (props) => {
                     interestPrizeEstimate,
                     externalAwardsEstimate,
                     externalItemAwardsEstimate,
+                    external721ChainData,
                   },
                   // {
                   //   name: 'Tether Pool',
