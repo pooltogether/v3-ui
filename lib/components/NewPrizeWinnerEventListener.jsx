@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
+import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { ButtonLink } from 'lib/components/ButtonLink'
+import { Button } from 'lib/components/Button'
 import { Modal } from 'lib/components/Modal'
 import { prizeQuery } from 'lib/queries/prizeQuery'
 
@@ -14,6 +15,7 @@ const debug = require('debug')('pool-app:NewPrizeWinnerEventListener')
 
 export const NewPrizeWinnerEventListener = (props) => {
   const { t } = useTranslation()
+  const router = useRouter()
 
   const [storedRecentPrizeId, setStoredRecentPrizeId] = useState(null)
   const [newPrizeModalVisible, setNewPrizeModalVisible] = useState(null)
@@ -53,8 +55,6 @@ export const NewPrizeWinnerEventListener = (props) => {
       debug('showingModal!')
       setNewPrizeModalVisible(true)
     }
-
-    console.log('setting stored recent prize id to: ', recentPrizeId)
   }, [pool])
 
 
@@ -125,17 +125,25 @@ export const NewPrizeWinnerEventListener = (props) => {
       </>}
 
       <div className='mt-4'>
-        <ButtonLink
+        <Button
           secondary
-          href='/prizes/[symbol]/[prizeNumber]'
-          as={`/prizes/${pool?.symbol}/${pool?.currentPrizeId - 1}`}
+          onClick={(e) => {
+            e.preventDefault()
+
+            setNewPrizeModalVisible(false)
+
+            const href = '/prizes/[symbol]/[prizeNumber]'
+            const as = `/prizes/${pool?.symbol}/${pool?.currentPrizeId - 1}`
+
+            router.push(
+              href,
+              as,
+              { shallow: true }
+            )
+          }}
         >
-          <a
-            className='inline-block font-bold trans'
-          >
-            {t('viewPrize')}
-          </a>
-        </ButtonLink>
+          {t('viewPrize')}
+        </Button>
       </div>
     </Modal>
   </>
