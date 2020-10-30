@@ -55,7 +55,7 @@ export const TOKEN_VALUES = {
 }
 
 export const TOKEN_IMAGES = {
-  '0x6b175474e89094c44da98b954eedeac495271d0f': 'https://assets.coingecko.com/coins/images/9956/thumb/dai-multi-collateral-mcd.png',
+  '0x6b175474e89094c44da98b954eedeac495271d0f': '/tokens/dai-new-transparent.png',
   '0x06f65b8cfcb13a9fe37d836fe9708da38ecb29b2': 'https://assets.coingecko.com/coins/images/11521/thumb/FAME.png?1590622461',
   '0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b': 'https://assets.coingecko.com/coins/images/12465/thumb/defi_pulse_index_set.png',
   '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984': 'https://assets.coingecko.com/coins/images/12504/thumb/uniswap-uni.png?1600306604',
