@@ -111,6 +111,10 @@ export const Erc20AwardsTable = (props) => {
             </thead>
             <tbody>
               {awards.map(award => {
+                if (award.balance.eq(0)) {
+                  return null
+                }
+
                 return <Fragment
                   key={award.address}
                 >
