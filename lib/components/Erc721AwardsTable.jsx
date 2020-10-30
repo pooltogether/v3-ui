@@ -22,9 +22,9 @@ const Erc721TokenImage = (props) => {
 
   return src ? <img
     src={src}
-    className='inline-block mr-2 w-4 h-4 xs:w-6 xs:h-6 rounded-full'
+    className='inline-block mr-2 w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full'
   /> : <div
-    className='inline-block mr-2 bg-flashy w-4 h-4 xs:w-6 xs:h-6 rounded-full'
+    className='inline-block mr-2 bg-overlay-white w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full'
   />
 }
 
@@ -162,7 +162,9 @@ export const Erc721AwardsTable = (props) => {
                       debug(token)
                     }
 
-                    return <tr>
+                    return <tr
+                      key={`${award.address}-${tokenId}`}
+                    >
                       <td
                         className='flex items-center py-2 text-left font-bold text-accent-1 ml-4'
                       >
