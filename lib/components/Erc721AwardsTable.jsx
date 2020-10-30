@@ -14,13 +14,17 @@ const debug = require('debug')('pool-app:Erc721AwardsTable')
 
 const Erc721TokenImage = (props) => {
   const { token } = props
-  const src = token.image || token.image_url
+  let src = token.image || token.image_url
+
+  if (src && !src.match('http://') && !src.match('https://')) {
+    src = null
+  }
 
   return src ? <img
     src={src}
     className='inline-block mr-2 w-4 h-4 xs:w-6 xs:h-6 rounded-full'
   /> : <div
-    className='inline-block mr-2 bg-black w-4 h-4 xs:w-6 xs:h-6 rounded-full'
+    className='inline-block mr-2 bg-flashy w-4 h-4 xs:w-6 xs:h-6 rounded-full'
   />
 }
 
@@ -101,22 +105,24 @@ export const Erc721AwardsTable = (props) => {
             className='table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
           >
             <thead>
-              <th
-                className='w-1/2'
+              <tr
+                style={{ background: 'none' }}
               >
-                <h6
-                  className='text-green text-left'
+                <th
+                  className='w-1/2'
                 >
-                  {t('amountItems', {
-                    amount: sortedAwards.length
-                  })}
-                </h6>
-              </th>
-              <th
-                className='w-1/2'
-              >
-
-              </th>
+                  <h6
+                    className='text-green text-left'
+                  >
+                    {t('amountItems', {
+                      amount: sortedAwards.length
+                    })}
+                  </h6>
+                </th>
+                <th
+                  className='w-1/2'
+                ></th>
+              </tr>
             </thead>
             <tbody>
               {awards.map(award => {
@@ -125,16 +131,9 @@ export const Erc721AwardsTable = (props) => {
                 >
                   <tr>
                     <td
-                      className='flex items-center py-2 text-left font-bold'
+                      className='flex items-center py-2 text-left font-bold truncate'
                     >
-                      {/* <Erc20Image
-                        address={award.address}
-                      /> */}
-                      <span
-                        className='text-inverse'
-                      >
-                        {award?.name?.length > 30 ? <span className='truncate'>{award.name.substr(0, 30)}</span> : award?.name}
-                      </span>
+                      {award?.name}
                       {/* <EtherscanAddressLink
                         address={award.address}
                         className='text-inverse'
@@ -143,9 +142,9 @@ export const Erc721AwardsTable = (props) => {
                       </EtherscanAddressLink> */}
                     </td>
                     <td
-                      className='px-2 sm:px-3 py-2 text-left text-accent-1 truncate'
+                      className='px-2 sm:px-3 py-2 text-left text-accent-1 truncate font-bold text-xxxs xs:text-xxs sm:text-xs'
                     >
-                      {award?.balance?.eq(0) ? '1' : award?.balance?.toString()} {award?.symbol?.length > 30 ? <span className='truncate'>{award.symbol.substr(0, 30)}</span> : award?.symbol}
+                      {award?.balance?.eq(0) ? '1' : award?.balance?.toString()} {award?.symbol}
                     </td>
                     {/* <td
                       className='py-2 text-right w-2/12 font-bold'
@@ -159,22 +158,22 @@ export const Erc721AwardsTable = (props) => {
                     const src = token.image || token.image_url
 
                     if (!src) {
-                      console.log(award.tokens[tokenId])
-                      console.log(token)
+                      debug(award.tokens[tokenId])
+                      debug(token)
                     }
 
                     return <tr>
                       <td
-                        className='flex items-center py-2 text-left font-bold text-accent-1'
+                        className='flex items-center py-2 text-left font-bold text-accent-1 ml-4'
                       >
                         <Erc721TokenImage
                           token={token}
                         />
                       </td>
                       <td
-                        className='px-2 sm:px-3 py-2 text-left text-accent-1 truncate'
+                        className='px-2 sm:px-3 py-2 text-left text-default truncate text-xxxs xs:text-xxs sm:text-xs mr-4'
                       >
-                        
+                        {token?.name}
                       </td>
                     </tr>
                   })}
@@ -183,7 +182,7 @@ export const Erc721AwardsTable = (props) => {
             </tbody>
           </table>
 
-          {sortedAwards.length > 5 && <>
+          {sortedAwards.length > 8 && <>
             <div className='text-center'>
               <motion.button
                 border='none'

@@ -108,6 +108,10 @@ input[type='submit'][disabled] {
   @apply border-transparent cursor-not-allowed;
 }
 
+.bg-flashy {
+  background: var(--flashyGradient);
+}
+
 .is-etherscan-arrow {
   height: 1em;
   position: relative;

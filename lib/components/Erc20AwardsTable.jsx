@@ -87,23 +87,27 @@ export const Erc20AwardsTable = (props) => {
             className='table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
           >
             <thead>
-              <th
-                className='w-6/12'
+              <tr
+                style={{ background: 'none' }}
               >
-                <h6
-                  className='text-green text-left'
+                <th
+                  className='w-6/12'
                 >
-                  {t('amountTokens', {
-                    amount: sortedAwards.length
-                  })}
-                </h6>
-              </th>
-              <th
-                className='w-4/12'
-              ></th>
-              <th
-                className='w-2/12'
-              ></th>
+                  <h6
+                    className='text-green text-left'
+                  >
+                    {t('amountTokens', {
+                      amount: sortedAwards.length
+                    })}
+                  </h6>
+                </th>
+                <th
+                  className='w-4/12'
+                ></th>
+                <th
+                  className='w-2/12'
+                ></th>
+              </tr>
             </thead>
             <tbody>
               {awards.map(award => {
