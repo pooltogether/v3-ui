@@ -132,8 +132,13 @@ export const NewPrizeWinnerEventListener = (props) => {
 
             setNewPrizeModalVisible(false)
 
-            const href = '/prizes/[symbol]/[prizeNumber]'
-            const as = `/prizes/${pool?.symbol}/${pool?.currentPrizeId - 1}`
+            let href = '/prizes/[symbol]/[prizeNumber]'
+            let as = `/prizes/${pool?.symbol}/${pool?.currentPrizeId - 1}`
+
+            if (!usersAddress) {
+              href = `${href}?signIn=1`
+              as = `${as}?signIn=1`
+            }
 
             router.push(
               href,
