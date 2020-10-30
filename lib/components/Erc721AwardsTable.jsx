@@ -29,6 +29,7 @@ const Erc721TokenImage = (props) => {
 }
 
 export const Erc721AwardsTable = (props) => {
+  return null
   const { t } = useTranslation()
   const router = useRouter()
 

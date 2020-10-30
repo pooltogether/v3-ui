@@ -20,7 +20,7 @@ const Erc20Image = (props) => {
     src={src}
     className='inline-block mr-2 w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full'
   /> : <div
-    className='inline-block mr-2 bg-black w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full'
+    className='inline-block mr-2 bg-overlay-white w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full'
   />
 }
 
@@ -45,11 +45,13 @@ export const Erc20AwardsTable = (props) => {
 
 
 
-  if (!pool || pool.externalErc20AwardsChainData === null) {
+  if (!pool || !pool.externalErc20AwardsChainData) {
     return null
   }
 
-  const externalAwards = pool.externalErc20AwardsChainData || []
+  let externalAwards = []
+  externalAwards = pool.externalErc20AwardsChainData
+    .filter(award => award.balance.gt(0))
   const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])
   const awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 5)
 
@@ -64,7 +66,7 @@ export const Erc20AwardsTable = (props) => {
         <img
           src={GiftIcon}
           className='inline-block mr-2 card-icon'
-        /> {t('bonusPrizes')}
+        /> {t('lootBox')}
       </div>
 
       {awards.length === 0 && <>
@@ -111,10 +113,6 @@ export const Erc20AwardsTable = (props) => {
             </thead>
             <tbody>
               {awards.map(award => {
-                if (award.balance.eq(0)) {
-                  return null
-                }
-
                 return <Fragment
                   key={award.address}
                 >
