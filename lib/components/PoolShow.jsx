@@ -111,9 +111,13 @@ export const PoolShow = (
   }
 
   let prizeEstimateFormatted
-  if (pool?.prizeEstimate) {
+  if (pool.prizeEstimate && pool.prizeEstimate.gt(0)) {
+    console.log('pool.prizeEstimate')
+    console.log(pool.prizeEstimate)
+    console.log('decimals')
+    console.log(decimals)
     prizeEstimateFormatted = ethers.utils.formatUnits(
-      pool?.prizeEstimate,
+      pool.prizeEstimate,
       decimals
     )
   }

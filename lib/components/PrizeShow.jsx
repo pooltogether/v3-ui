@@ -96,6 +96,11 @@ export const PrizeShow = (
     </div>
   }
 
+  let prizeAmountOrEstimate = pool?.prizeEstimate
+  if (prize?.awardedTimestamp) {
+    prizeAmountOrEstimate = prize?.amount || 0
+  }
+     
   const winnerAddress = prize?.winners?.[0]
 
   return <>
@@ -190,7 +195,7 @@ export const PrizeShow = (
               pool={pool}
               className='inline-block mx-auto -mt-1'
             /> ${displayAmountInEther(
-                prize?.amount || 0,
+                prizeAmountOrEstimate,
                 { precision: 2, decimals }
               )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
           </h2>

@@ -108,7 +108,7 @@ export const AccountSummary = () => {
               <div
                 className='text-caption uppercase font-bold'
               >
-                $<PoolNumber>{numberWithCommas(totalTickets, { precision: 18 })}</PoolNumber>
+                $<PoolNumber>{numberWithCommas(totalTickets, { precision: 12 })}</PoolNumber>
               </div>
             </>}
           </div>

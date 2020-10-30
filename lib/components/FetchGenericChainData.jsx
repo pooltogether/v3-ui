@@ -74,7 +74,7 @@ export const FetchGenericChainData = (props) => {
       }, COINGECKO_POLL_INTERVAL)
     }
   }
-  debug(cachedCoingeckoData)
+  // debug(cachedCoingeckoData)
 
   useInterval(() => {
     if (!isEmpty(externalErc20Awards)) {

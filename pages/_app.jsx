@@ -14,6 +14,7 @@ import { AllContextProviders } from 'lib/components/contextProviders/AllContextP
 import { BodyClasses } from 'lib/components/BodyClasses'
 // import { GasStationQuery } from 'lib/components/GasStationQuery'
 import { Layout } from 'lib/components/Layout'
+import { NewPrizeWinnerEventListener } from 'lib/components/NewPrizeWinnerEventListener'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
@@ -212,6 +213,8 @@ function MyApp({ Component, pageProps, router }) {
 
     <V3ApolloWrapper>
       <AllContextProviders>
+        <NewPrizeWinnerEventListener />
+
         <TxRefetchListener />
 
         <Layout
