@@ -5,6 +5,7 @@ import { orderBy } from 'lodash'
 
 import { TOKEN_IMAGES } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
+import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -69,19 +70,29 @@ export const Erc20AwardsTable = (props) => {
         /> {t('lootBox')}
       </div>
 
-      {awards.length === 0 && <>
-        {t('currentlyNoOtherPrizes')}
-      </>}
+      <div className='flex flex-col sm:flex-row justify-between sm:items-center'>
+        <div>
+          {awards.length === 0 ? <>
+            {t('currentlyNoOtherPrizes')}
+          </> : <>
+            {pool?.externalAwardsEstimate && <>
+              <div
+                className='font-bold text-lg sm:text-2xl sm:text-3xl'
+              >
+                ${numberWithCommas(pool?.externalAwardsEstimate)} {t('value')}
+              </div>
+            </>} 
+          </>}
+        </div>
+
+        <div>
+          <ContributeToLootBoxDropdown
+            pool={pool}
+          />
+        </div>
+      </div> 
       
       {awards.length > 0 && <>
-        {pool?.externalAwardsEstimate && <>
-          <h3
-            className='mb-1'
-          >
-            ${numberWithCommas(pool?.externalAwardsEstimate)} {t('value')}
-          </h3>
-        </>} 
-        
         <div
           className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8 mt-4'
         >

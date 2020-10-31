@@ -1,3 +1,21 @@
+@keyframes slide-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-down[data-reach-menu-list],
+.slide-down[data-reach-menu-items] {
+  border-radius: 5px;
+  animation: slide-down 0.2s ease;
+}
+
+
 /* TOOLTIPS / PTHINTS */
 .device-is-touch [data-reach-tooltip] {
   top: 0 !important;
@@ -51,7 +69,7 @@
 
 [data-reach-menu-list],
 [data-reach-menu-items] {
-  @apply py-1 text-xs sm:text-sm rounded-lg shadow-lg;
+  @apply py-1 text-xxxs sm:text-sm rounded-lg shadow-lg;
 }
 
 @screen sm {
@@ -62,7 +80,7 @@
 }
 
 [data-reach-menu-item] {
-  @apply px-2 py-1 font-bold text-primary rounded-lg;
+  @apply px-2 py-1 font-bold text-primary rounded-lg my-1 sm:my-0;
 }
 
 @screen sm {
@@ -159,3 +177,4 @@
     max-width: 56rem;
   }
 }
+

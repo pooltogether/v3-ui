@@ -4,54 +4,20 @@ import FeatherIcon from 'feather-icons-react'
 import {
   Menu,
   MenuList,
+  MenuPopover,
   MenuButton,
   MenuItem,
+  MenuItems,
 } from '@reach/menu-button'
 
-export const DropdownInputGroup = (props) => {
+export const DropdownGeneric = (props) => {
   const {
-    id,
+    children,
     className,
-    current,
-    formatValue,
     hoverTextColor,
     label,
     textColor,
-    values,
-    onValueSet
   } = props
-
-  const [currentValue, setCurrentValue] = useState(current ? current : '')
-
-  const handleChangeValueClick = (newValue) => {
-    if (current !== null) {
-      setCurrentValue(newValue)
-    }
-    onValueSet(newValue)
-  }
-
-  let valuesArray = []
-  if (typeof values === 'object') {
-    valuesArray = Object.keys(values).map(v => v)
-  }
-
-  const menuItems = valuesArray.map(valueItem => {
-    let value = valueItem
-
-    const selected = value === currentValue
-
-    return <MenuItem
-      key={`${id}-value-picker-item-${value}`}
-      onSelect={() => { handleChangeValueClick(value) }}
-      className={classnames(
-        {
-          selected
-        }
-      )}
-    >
-      {formatValue ? formatValue(value) : value}
-    </MenuItem>
-  })
 
   const inactiveTextColorClasses = `${textColor} hover:${hoverTextColor}`
   const activeTextColorClasses = `${hoverTextColor} hover:${hoverTextColor}`
@@ -77,9 +43,13 @@ export const DropdownInputGroup = (props) => {
             />
           </MenuButton>
 
-          <MenuList className='slide-down'>
+          <MenuPopover>
+            {children}
+          </MenuPopover>
+
+          {/* <MenuList className='slide-down'>
             {menuItems}
-          </MenuList>
+          </MenuList> */}
         </>
       )}
     </Menu>
