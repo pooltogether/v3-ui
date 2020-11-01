@@ -13,6 +13,7 @@ import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { CardGrid } from 'lib/components/CardGrid'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { Meta } from 'lib/components/Meta'
+import { PrizeWinner } from 'lib/components/PrizeWinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -101,7 +102,7 @@ export const PrizeShow = (
     prizeAmountOrEstimate = prize?.amount || 0
   }
      
-  const winnerAddress = prize?.winners?.[0]
+  const winnersAddress = prize?.winners?.[0]
 
   return <>
     {pool?.name && <>
@@ -158,7 +159,7 @@ export const PrizeShow = (
               {t('awardedOn')}
             </h6>
             <div
-              className='text-caption uppercase font-bold text-sm xs:text-base sm:text-lg'
+              className='uppercase font-bold text-sm xs:text-base sm:text-lg text-accent-1'
             >
               {formatDate(
                 prize?.awardedTimestamp,
@@ -188,7 +189,7 @@ export const PrizeShow = (
         </div>
 
         <div
-          className='w-full sm:w-7/12 mt-8 sm:mt-0'
+          className='w-full sm:w-7/12 mt-2 sm:mt-0'
         >
           <h2>
             <PoolCurrencyIcon
@@ -207,21 +208,10 @@ export const PrizeShow = (
           </h6>
 
           {prize?.awardedTimestamp ? <>
-            <Link
-              href='/players/[playerAddress]'
-              as={`/players/${winnerAddress}`}
-            >
-              <a
-                className='block font-bold text-sm xs:text-base sm:text-lg text-green hover:text-white'
-              >
-                <div className='block lg:hidden'>
-                  {shorten(winnerAddress)}
-                </div>
-                <div className='hidden lg:block'>
-                  {winnerAddress}
-                </div>
-              </a>
-            </Link>
+            <PrizeWinner
+              prize={prize}
+              winnersAddress={winnersAddress}
+            />
           </> : <>
             <span
               className='block font-bold text-caption uppercase mt-2'

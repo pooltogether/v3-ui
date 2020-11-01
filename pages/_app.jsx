@@ -143,7 +143,7 @@ function MyApp({ Component, pageProps, router }) {
 
     const handleExitComplete = () => {
       if (typeof window !== 'undefined') {
-        window.scrollTo({ top: 0 })
+        // window.scrollTo({ top: 0 })
 
         // make sure opacity gets set back to 1 after page transitions!
         setTimeout(() => {

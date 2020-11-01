@@ -98,6 +98,7 @@ export const PrizePlayerListing = (
             timeTravelTicketSupply={timeTravelPool?.ticketSupply}
             pool={pool}
             players={players}
+            prize={prize}
           />
         }}
       </TimeTravelPool>
