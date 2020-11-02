@@ -32,7 +32,12 @@ export const PrizePlayerListing = (
   const skip = (page - 1) * pageSize
   const pages = Math.ceil(Number(playerCount / pageSize, 10))
 
-  const timeTravelPlayersQuery = prizePlayersQuery(prize?.awardedBlock)
+  let blockNumber
+  if (prize?.awardedBlock) {
+    blockNumber = prize?.awardedBlock - 1
+  }
+
+  const timeTravelPlayersQuery = prizePlayersQuery(blockNumber)
 
   const variables = {
     prizePoolAddress: pool.poolAddress,

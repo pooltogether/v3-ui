@@ -25,7 +25,7 @@ export const PrizeWinner = (
 
   const variables = { playerAddress: winnersAddress }
 
-  const query = timeTravelPlayerQuery(prize?.blockNumber)
+  const query = timeTravelPlayerQuery(prize?.awardedBlock - 1)
 
   const { loading, error, data } = useQuery(query, {
     variables
@@ -49,8 +49,6 @@ export const PrizeWinner = (
   if (loading || !playerData) {
     return <V3LoadingDots />
   }
-
-  console.log(numberWithCommas(usersTicketBalance, { precision: 0 }))
 
   return <>
     <Link
