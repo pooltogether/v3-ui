@@ -9,6 +9,7 @@ import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { formatDate } from 'lib/utils/formatDate'
 import { shorten } from 'lib/utils/shorten'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 const prizeLink = (t, pool, prize) => {
   return <Link 
@@ -140,7 +141,7 @@ export const PrizesTable = (
       )
 
       currentPrize = {
-        prizeAmount: `$${amount} ${pool.underlyingCollateralSymbol}`,
+        prizeAmount: `$${numberWithCommas(amount, { precision: 2 })} ${pool.underlyingCollateralSymbol}`,
         status: t('current'),
         view: prizeLink(t, pool, { id: currentPrizeId })
       }
