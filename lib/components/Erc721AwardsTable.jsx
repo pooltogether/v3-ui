@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { orderBy } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
+import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -29,7 +30,6 @@ const Erc721TokenImage = (props) => {
 }
 
 export const Erc721AwardsTable = (props) => {
-  return null
   const { t } = useTranslation()
   const router = useRouter()
 
@@ -134,13 +134,12 @@ export const Erc721AwardsTable = (props) => {
                     <td
                       className='flex items-center py-2 text-left font-bold truncate'
                     >
-                      {award?.name}
-                      {/* <EtherscanAddressLink
+                      <EtherscanAddressLink
                         address={award.address}
                         className='text-inverse'
                       >
-                        {award?.name?.length > 30 ? <span className='truncate'>{award.name.substr(0, 30)}</span> : award?.name}
-                      </EtherscanAddressLink> */}
+                        {award?.name}
+                      </EtherscanAddressLink>
                     </td>
                     <td
                       className='px-2 sm:px-3 py-2 text-left text-accent-1 truncate font-bold text-xxxs xs:text-xxs sm:text-xs'
