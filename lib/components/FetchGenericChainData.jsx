@@ -8,6 +8,7 @@ import { GeneralContext } from 'lib/components/contextProviders/GeneralContextPr
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchGenericChainData } from 'lib/utils/fetchGenericChainData'
+import { fetchExternalErc20Awards } from 'lib/utils/fetchExternalErc20Awards'
 import { fetchExternalErc721Awards } from 'lib/utils/fetchExternalErc721Awards'
 
 const COINGECKO_LAMBDA_PATH = `/.netlify/functions/coingecko-price-api`
@@ -21,7 +22,6 @@ export const FetchGenericChainData = (props) => {
     dynamicExternalAwardsData,
     provider,
     poolData,
-    graphDataLoading,
   } = props
 
   const { disconnectWallet } = useContext(WalletContext)
@@ -36,12 +36,15 @@ export const FetchGenericChainData = (props) => {
   const [cachedCoingeckoData, setCachedCoingeckoData] = useState(null)
   const [fetchingCoingeckoData, setFetchingCoingeckoData] = useState(null)
   
+  const [external20ChainData, setExternal20ChainData] = useState({})
+  const [fetching20s, setFetching20s] = useState(null)
+  
   const [external721ChainData, setExternal721ChainData] = useState({})
   const [fetching721s, setFetching721s] = useState(null)
 
 
 
-  const externalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
+  const graphExternalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
 
   const _getCoingeckoData = async () => {
     if (fetchingCoingeckoData) {
@@ -51,7 +54,7 @@ export const FetchGenericChainData = (props) => {
     setFetchingCoingeckoData(true)
 
     try {
-      const addressesString = externalErc20Awards.map(award => award.address).join(',')
+      const addressesString = graphExternalErc20Awards.map(award => award.address).join(',')
       const postData = {
         addressesString
       }
@@ -63,6 +66,7 @@ export const FetchGenericChainData = (props) => {
         },
         body: JSON.stringify(postData)
       })
+      debug('response from coingecko good!')
 
       setCachedCoingeckoData(await response.json())
     } catch (error) {
@@ -77,23 +81,16 @@ export const FetchGenericChainData = (props) => {
   // debug(cachedCoingeckoData)
 
   useInterval(() => {
-    if (!isEmpty(externalErc20Awards)) {
+    if (!isEmpty(graphExternalErc20Awards)) {
       _getCoingeckoData()
     }
   }, MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {
-    if (!isEmpty(externalErc20Awards)) {
+    if (!isEmpty(graphExternalErc20Awards)) {
       _getCoingeckoData()
     }
-  }, [externalErc20Awards])
-
-
-
-
-
-
-
+  }, [graphExternalErc20Awards])
 
 
 
@@ -105,7 +102,7 @@ export const FetchGenericChainData = (props) => {
     }
   }, [poolData])
 
-  // major meltdown, this typically happens when the Graph URI is out of sync with Onboard JS's chainId
+  // Forget wallet and releoad -  this typically happens when the Graph URI is out of sync with Onboard JS's chainId
   useEffect(() => {
     // console.log({ retryAttempts})
     if (retryAttempts > 12) {
@@ -118,52 +115,57 @@ export const FetchGenericChainData = (props) => {
   const _fetchDataFromInfura = async () => {
     const chainData = {
       dai: {},
-      // usdt: {},
     }
 
-    try {
-      chainData.dai = await fetchGenericChainData(
+    chainData.dai = await fetchGenericChainData(
+      provider,
+      poolData.daiPool
+    )
+    
+    return chainData
+  }
+
+  const _fetch20sFromInfura = async () => {
+    const chainData = {
+      dai: {},
+    }
+
+    if (
+      isEmpty(external20ChainData) &&
+      !fetching20s
+    ) {
+      setFetching20s(true)
+      chainData.dai = await fetchExternalErc20Awards(
         provider,
-        dynamicExternalAwardsData.daiPool,
+        graphExternalErc20Awards,
         poolData.daiPool,
         cachedCoingeckoData
       )
-      // chainData.usdt = await fetchGenericChainData(
-      //   provider,
-      //   poolAddresses.usdtPrizeStrategy,
-      //   poolData.usdtPool
-      // )
-    } catch (e) {
-      console.warn(e)
-    } finally {
-      return chainData
+      setFetching20s(false)
     }
+
+    return chainData
   }
   
   const _fetch721sFromInfura = async () => {
     const chainData = {
       dai: {},
-      // usdt: {},
     }
 
-    try {
-      if (
-        isEmpty(external721ChainData) &&
-        !fetching721s
-      ) {
-        setFetching721s(true)
-        chainData.dai = await fetchExternalErc721Awards(
-          provider,
-          dynamicExternalAwardsData.daiPool,
-          poolData.daiPool,
-        )
-        setFetching721s(false)
-      }
-    } catch (e) {
-      console.warn(e)
-    } finally {
-      return chainData
+    if (
+      isEmpty(external721ChainData) &&
+      !fetching721s
+    ) {
+      setFetching721s(true)
+      chainData.dai = await fetchExternalErc721Awards(
+        provider,
+        dynamicExternalAwardsData.daiPool,
+        poolData.daiPool,
+      )
+      setFetching721s(false)
     }
+
+    return chainData
   }
 
   const _resetGenericChainData = () => {
@@ -172,6 +174,14 @@ export const FetchGenericChainData = (props) => {
       setStoredChainId(chainId)
       setRetryAttempts(0)
     }
+  }
+
+  const _get20ChainDataAsync = async () => {
+    const _result = await _fetch20sFromInfura()
+
+    setExternal20ChainData(
+      _result
+    )
   }
 
   const _get721ChainDataAsync = async () => {
@@ -191,11 +201,11 @@ export const FetchGenericChainData = (props) => {
     const genericData = await _fetchDataFromInfura()
 
     // TODO: Looks like this DOESN'T support multiple pools as Dai is hard-coded here ...
+    //
     if (isEmpty(genericData.dai)) {
-      // console.log('NO HIT, resetting ....')
+      // this happens when switching networks:
       setAlreadyExecuted(false)
-    } else if (!isEmpty(genericData.dai)) {
-      // console.log('got data!')
+    } else {
       setGenericChainData(genericData)
     }
   }
@@ -205,14 +215,9 @@ export const FetchGenericChainData = (props) => {
     _getChainDataAsync()
   }, paused ? null : MAINNET_POLLING_INTERVAL)
 
-
-  useEffect(() => {
-    // debug('fetching new chain data since we now have coingecko price data')
-    _getChainDataAsync()
-  }, [])
-
   useEffect(() => {
     if (!isEmpty(cachedCoingeckoData) && !genericChainData.dai) {
+      debug(cachedCoingeckoData)
       debug('fetching new chain data since we now have coingecko price data')
       _getChainDataAsync()
     }
@@ -228,9 +233,9 @@ export const FetchGenericChainData = (props) => {
       !isEmpty(dynamicExternalAwardsData?.daiPool)
 
     if (!alreadyExecuted && ready) {
-      // console.log('ready and trying')
       setAlreadyExecuted(true)
       _conditionallyGetChainData()
+      _get20ChainDataAsync()
       _get721ChainDataAsync()
     }
   }, [provider, chainId, poolData])
@@ -240,10 +245,10 @@ export const FetchGenericChainData = (props) => {
   }, [chainId])
 
 
-
   return children({ 
     coingeckoData: cachedCoingeckoData,
     genericChainData,
-    external721ChainData
+    external20ChainData,
+    external721ChainData,
   })
 }

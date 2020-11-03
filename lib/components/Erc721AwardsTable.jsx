@@ -37,7 +37,7 @@ export const Erc721AwardsTable = (props) => {
   
   const { dynamicExternalAwardsData, pool } = useContext(PoolDataContext)
   const awardsGraphData = dynamicExternalAwardsData
-  const awardsChainData = pool?.external721ChainData?.dai
+  const awardsChainData = pool?.external721ChainData
 
   const handleShowMore = (e) => {
     e.preventDefault()

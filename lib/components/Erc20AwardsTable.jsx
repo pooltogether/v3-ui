@@ -32,6 +32,7 @@ export const Erc20AwardsTable = (props) => {
   const [moreVisible, setMoreVisible] = useState(false)
   
   const { pool } = useContext(PoolDataContext)
+  const awardsChainData = pool?.external20ChainData
 
   const handleShowMore = (e) => {
     e.preventDefault()
@@ -46,13 +47,14 @@ export const Erc20AwardsTable = (props) => {
 
 
 
-  if (!pool || !pool.externalErc20AwardsChainData) {
+  if (!awardsChainData) {
     return null
   }
 
-  let externalAwards = []
-  externalAwards = pool.externalErc20AwardsChainData
-    .filter(award => award.balance.gt(0))
+  let externalAwards = Object.keys(awardsChainData)
+    .map(key => awardsChainData[key])
+    .filter(award => award?.balance?.gt(0))
+
   const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])
   const awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 5)
 

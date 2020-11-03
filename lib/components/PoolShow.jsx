@@ -196,7 +196,7 @@ export const PoolShow = (
           </div>
 
           <div
-            className='bg-highlight-3 rounded-lg px-4 xs:px-4 sm:px-10 pt-4 pb-6 text-white my-8 sm:mt-20 sm:mb-12 border-flashy mx-auto'
+            className='bg-highlight-3 rounded-lg px-4 xs:px-4 sm:px-10 pt-4 pb-6 text-white my-8 sm:my-12 border-flashy mx-auto'
           >
             <div
               className='flex items-center justify-between'
