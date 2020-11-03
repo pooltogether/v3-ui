@@ -3,7 +3,7 @@ import FeatherIcon from 'feather-icons-react'
 
 import { formatEtherscanTxUrl } from 'lib/utils/formatEtherscanTxUrl'
 
-export const EtherscanTxLink = (props) => {
+export function EtherscanTxLink(props) {
   const {
     children,
     className,

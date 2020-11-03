@@ -9,7 +9,7 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 
-export const WithdrawComplete = (props) => {
+export function WithdrawComplete(props) {
   const { t } = useTranslation()
 
   const router = useRouter()

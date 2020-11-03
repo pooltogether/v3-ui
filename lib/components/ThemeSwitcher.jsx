@@ -3,7 +3,7 @@ import FeatherIcon from 'feather-icons-react'
 
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
-export const ThemeSwitcher = (props) => {
+export function ThemeSwitcher(props) {
   const { toggleTheme } = useContext(ThemeContext)
 
   return <div

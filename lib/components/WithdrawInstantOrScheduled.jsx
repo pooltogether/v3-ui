@@ -13,7 +13,7 @@ import { PaneTitle } from 'lib/components/PaneTitle'
 import { fetchExitFees } from 'lib/utils/fetchExitFees'
 import { useInterval } from 'lib/hooks/useInterval'
 
-export const WithdrawInstantOrScheduled = (props) => {
+export function WithdrawInstantOrScheduled(props) {
   const { t } = useTranslation()
 
   const {

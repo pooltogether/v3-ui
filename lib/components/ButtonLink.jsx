@@ -2,7 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import Link from 'next/link'
 
-export const getButtonClasses = (props) => {
+export function getButtonClasses(props) {
   let {
     border,
     bg,
@@ -107,7 +107,7 @@ const getTextSize = (size) => {
   }
 }
 
-export const ButtonLink = (props) => {
+export function ButtonLink(props) {
   let {
     children,
     as,

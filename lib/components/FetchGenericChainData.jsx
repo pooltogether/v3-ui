@@ -13,7 +13,7 @@ import { fetchExternalErc721Awards } from 'lib/utils/fetchExternalErc721Awards'
 
 const debug = require('debug')('pool-app:FetchGenericChainData')
 
-export const FetchGenericChainData = (props) => {
+export function FetchGenericChainData(props) {
   const {
     chainId,
     children,

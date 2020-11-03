@@ -3,7 +3,7 @@ import { omit } from 'lodash'
 
 import { getButtonClasses } from 'lib/components/ButtonLink'
 
-export const Button = (props) => {
+export function Button(props) {
   const classes = getButtonClasses(props)
 
   let newProps = omit(props, [

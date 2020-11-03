@@ -27,7 +27,7 @@ const quantityForParseUnits = (quantity, decimals) => {
   return quantityForParseUnits
 }
 
-export const ExecuteWithdrawScheduledOrInstantWithFee = (props) => {
+export function ExecuteWithdrawScheduledOrInstantWithFee(props) {
   const { t } = useTranslation()
 
   const { nextStep, previousStep } = props

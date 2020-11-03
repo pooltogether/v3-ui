@@ -5,7 +5,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 
 const MILLISECONDS_BEFORE_REDIRECT = 2000
 
-export const AccountLoggedIn = (props) => {
+export function AccountLoggedIn(props) {
   const router = useRouter()
 
   const authDataContext = useContext(AuthControllerContext)

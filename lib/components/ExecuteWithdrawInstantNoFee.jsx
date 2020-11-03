@@ -15,7 +15,7 @@ import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
-export const ExecuteWithdrawInstantNoFee = (props) => {
+export function ExecuteWithdrawInstantNoFee(props) {
   const { t } = useTranslation()
 
   const router = useRouter()

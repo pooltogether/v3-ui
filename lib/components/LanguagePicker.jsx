@@ -16,7 +16,7 @@ import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
   zh: 普通话 (Mandarin)
 */}
 
-export const LanguagePicker = (props) => {
+export function LanguagePicker(props) {
   const [langs, setLangs] = useState(
     {
       en: {

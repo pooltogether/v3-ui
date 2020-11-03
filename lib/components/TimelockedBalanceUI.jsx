@@ -12,7 +12,7 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
-export const TimelockedBalanceUI = (props) => {
+export function TimelockedBalanceUI(props) {
   const { t } = useTranslation()
   
   const {

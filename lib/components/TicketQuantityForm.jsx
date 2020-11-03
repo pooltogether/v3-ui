@@ -20,7 +20,7 @@ import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
 const bn = ethers.utils.bigNumberify
 
-export const TicketQuantityForm = (props) => {
+export function TicketQuantityForm(props) {
   const { t } = useTranslation()
 
   const {

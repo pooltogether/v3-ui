@@ -18,7 +18,7 @@ import { readProvider } from 'lib/utils/readProvider'
 export const PoolDataContext = React.createContext()
 const debug = require('debug')('pool-app:PoolDataContext')
 
-export const PoolDataContextProvider = (props) => {
+export function PoolDataContextProvider(props) {
   const {
     supportedNetwork,
     networkName,

@@ -12,7 +12,7 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
-export const RevokePoolAllowanceTxButton = (props) => {
+export function RevokePoolAllowanceTxButton(props) {
   const { t } = useTranslation()
   
   const { provider, usersAddress } = useContext(AuthControllerContext)

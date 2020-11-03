@@ -25,7 +25,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 import { poolTokenSupportsPermitSign } from 'lib/utils/poolTokenSupportsPermitSign'
 
-export const DepositCryptoForm = (props) => {
+export function DepositCryptoForm(props) {
   const { t } = useTranslation()
 
   const { nextStep, previousStep } = props

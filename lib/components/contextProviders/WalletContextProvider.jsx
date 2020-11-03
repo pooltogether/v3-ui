@@ -15,7 +15,7 @@ let provider
 
 export const WalletContext = React.createContext()
 
-export const WalletContextProvider = (props) => {
+export function WalletContextProvider(props) {
   const {
     children,
     postConnectCallback,

@@ -20,7 +20,7 @@ const custom = (triggerRect, tooltipRect) => {
   };
 };
 
-export const PTHint = (props) => {
+export function PTHint(props) {
   const { t } = useTranslation()
   const { children, className, isButton, title } = props
   let { tip } = props

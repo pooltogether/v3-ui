@@ -5,7 +5,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 
-export const NetworkText = (props) => {
+export function NetworkText(props) {
   const { openTransactions } = props
 
   const authControllerContext = useContext(AuthControllerContext)

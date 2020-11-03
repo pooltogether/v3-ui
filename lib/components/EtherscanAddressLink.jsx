@@ -4,7 +4,7 @@ import FeatherIcon from 'feather-icons-react'
 import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
 
-export const EtherscanAddressLink = (props) => {
+export function EtherscanAddressLink(props) {
   const {
     address,
     children,

@@ -10,7 +10,7 @@ import {
   MenuItems,
 } from '@reach/menu-button'
 
-export const DropdownGeneric = (props) => {
+export function DropdownGeneric(props) {
   const {
     children,
     className,

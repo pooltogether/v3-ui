@@ -10,7 +10,7 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-export const OrderComplete = (props) => {
+export function OrderComplete(props) {
   const [t] = useTranslation()
 
   const router = useRouter()

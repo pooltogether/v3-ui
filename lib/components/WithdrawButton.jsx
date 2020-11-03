@@ -11,7 +11,7 @@ import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
 
-export const WithdrawButton = (props) => {
+export function WithdrawButton(props) {
   const { t } = useTranslation()
   const router = useRouter()
 

@@ -8,7 +8,7 @@ import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 
-export const NoMoreTicketsPane = (props) => {
+export function NoMoreTicketsPane(props) {
   const { t } = useTranslation()
 
   const router = useRouter()

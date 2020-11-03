@@ -12,7 +12,7 @@ import { poolToast } from 'lib/utils/poolToast'
 
 export const MagicContext = React.createContext()
 
-export const MagicContextProvider = (props) => {
+export function MagicContextProvider(props) {
   return <MagicContext.Provider
     value={{
       address,

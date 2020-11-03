@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Card = (props) => {
+export function Card(props) {
   const { card } = props
   const { content, icon, title } = card
 
@@ -25,7 +25,7 @@ export const Card = (props) => {
   </div>
 }
 
-export const CardGrid = (props) => {
+export function CardGrid(props) {
   const { cards, cardGroupId } = props
 
   return <>

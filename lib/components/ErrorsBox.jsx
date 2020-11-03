@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const ErrorsBox = (props) => {
+export function ErrorsBox(props) {
   const { errors } = props
 
   const errorMessages = Object.values(errors).map(error => error.message)

@@ -13,7 +13,7 @@ import { WithdrawInstantOrScheduled } from 'lib/components/WithdrawInstantOrSche
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
-export const WithdrawWizardContainer = (props) => {
+export function WithdrawWizardContainer(props) {
   const { t } = useTranslation()
   const router = useRouter()
   const quantity = router.query.quantity

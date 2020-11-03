@@ -8,7 +8,7 @@ import {
   MenuItem,
 } from '@reach/menu-button'
 
-export const DropdownInputGroup = (props) => {
+export function DropdownInputGroup(props) {
   const {
     id,
     className,

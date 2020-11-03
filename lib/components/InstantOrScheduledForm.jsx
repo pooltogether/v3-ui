@@ -18,7 +18,7 @@ import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import IconLightning from 'assets/images/icon-lightning.svg'
 import IconWinky from 'assets/images/icon-winky.svg'
 
-export const InstantOrScheduledForm = (props) => {
+export function InstantOrScheduledForm(props) {
   const { t } = useTranslation()
   const router = useRouter()
   

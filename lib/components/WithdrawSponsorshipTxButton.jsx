@@ -12,7 +12,7 @@ import { PTHint } from 'lib/components/PTHint'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
-export const WithdrawSponsorshipTxButton = (props) => {
+export function WithdrawSponsorshipTxButton(props) {
   const { t } = useTranslation()
   
   const {

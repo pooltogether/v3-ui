@@ -5,7 +5,7 @@ import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
-export const FiatOrCryptoForm = (props) => {
+export function FiatOrCryptoForm(props) {
   const { nextStep } = props
 
   const router = useRouter()

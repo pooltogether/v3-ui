@@ -10,7 +10,7 @@ import { Meta } from 'lib/components/Meta'
 import { SignInForm } from 'lib/components/SignInForm'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
-export const SignInFormContainer = (props) => {
+export function SignInFormContainer(props) {
   const { t } = useTranslation()
   const router = useRouter()
   const showSelectMenu = router.query.showSelectMenu

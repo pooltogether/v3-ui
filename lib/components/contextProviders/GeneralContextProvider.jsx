@@ -8,7 +8,7 @@ import { Modal } from 'lib/components/Modal'
 
 export const GeneralContext = React.createContext()
 
-export const GeneralContextProvider = (props) => {
+export function GeneralContextProvider(props) {
   if (!window) {
     return null
   }

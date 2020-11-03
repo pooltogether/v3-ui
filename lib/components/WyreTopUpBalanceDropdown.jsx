@@ -13,7 +13,7 @@ const wyreDomain = () => {
     'testwyre'
 }
 
-export const WyreTopUpBalanceDropdown = (props) => {
+export function WyreTopUpBalanceDropdown(props) {
   const { t } = useTranslation()
 
   const {

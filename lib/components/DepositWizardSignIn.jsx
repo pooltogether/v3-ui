@@ -7,7 +7,7 @@ import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { SignInForm } from 'lib/components/SignInForm'
 
-export const DepositWizardSignIn = (props) => {
+export function DepositWizardSignIn(props) {
   const { t } = useTranslation()
   const { nextStep } = props
 

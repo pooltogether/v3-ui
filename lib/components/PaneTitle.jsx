@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const PaneTitle = (props) => {
+export function PaneTitle(props) {
   const {
     children,
     small,

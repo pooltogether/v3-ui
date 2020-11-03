@@ -4,7 +4,7 @@ import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
 
-export const DepositTxButton = (props) => {
+export function DepositTxButton(props) {
   const { t } = useTranslation()
   const { poolIsLocked, disabled, nextStep } = props
 

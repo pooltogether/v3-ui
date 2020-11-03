@@ -11,7 +11,7 @@ import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { PTHint } from 'lib/components/PTHint'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
 
-export const Settings = (props) => {
+export function Settings(props) {
   const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
 

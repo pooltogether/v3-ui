@@ -1,6 +1,6 @@
 import { useCoingeckoData } from 'lib/hooks/useCoingeckoData'
 
-export const CoingeckoData = (props) => {
+export function CoingeckoData(props) {
   const {
     children,
     dynamicExternalAwardsData,

@@ -8,7 +8,7 @@ import { transactionsVar } from 'lib/apollo/cache'
 import { clearPreviousTransactionsFactory } from 'lib/apollo/clearPreviousTransactionsFactory'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 
-export const TransactionsList = (props) => {
+export function TransactionsList(props) {
   const { t } = useTranslation()
 
   const { chainId, usersAddress } = useContext(AuthControllerContext)
