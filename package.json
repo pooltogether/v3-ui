@@ -87,7 +87,6 @@
     "i18next-locize-backend": "^4.1.2",
     "i18next-node-locize-backend": "^3.1.2",
     "js-cookie": "^2.2.1",
-    "magic-sdk": "^2.4.7",
     "next": "9.5.3",
     "next-i18next": "^4.5.0",
     "next-images": "^1.4.1",

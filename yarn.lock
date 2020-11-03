@@ -256,7 +256,7 @@
     semver "^5.4.1"
     source-map "^0.5.0"
 
-"@babel/core@^7.0.0", "@babel/core@^7.1.0", "@babel/core@^7.7.5", "@babel/core@^7.9.6":
+"@babel/core@^7.0.0", "@babel/core@^7.1.0", "@babel/core@^7.7.5":
   version "7.10.3"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.10.3.tgz#73b0e8ddeec1e3fdd7a2de587a60e17c440ec77e"
   integrity sha512-5YqWxYE3pyhIi84L84YcwjeEgS+fa7ZjK6IBVGTjDVfm64njkR2lfDhVR5OudLk8x2GK59YoSyVv+L/03k1q9w==
@@ -1954,14 +1954,14 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.10.1", "@babel/runtime@^7.3.1", "@babel/runtime@^7.9.6":
+"@babel/runtime@^7.10.1", "@babel/runtime@^7.3.1":
   version "7.10.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.10.3.tgz#670d002655a7c366540c67f6fd3342cd09500364"
   integrity sha512-RzGO0RLSdokm9Ipe/YD+7ww8X2Ro79qiXZF3HU9ljrM+qnJmH1Vqth+hbiQZy761LnMJTMitHDuKVYTk3k4dLw==
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.11.2":
+"@babel/runtime@^7.10.5", "@babel/runtime@^7.11.2":
   version "7.12.1"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.1.tgz#b4116a6b6711d010b2dad3b7b6e43bf1b9954740"
   integrity sha512-J5AIf3vPj3UwXaAzb5j1xM4WAQDX3EMgemF8rjCP3SoW09LfRKAXQKt6CoVYl230P6iWdRcBbnLDDdnqWxZSCA==
@@ -3431,19 +3431,6 @@
   version "5.28.0"
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-5.28.0.tgz#bbbd54598fbf9436e02d3b5033c9151fc465295a"
   integrity sha512-O+p30yQCJVMHkYRt4mEy2My61JNTyqg9FEs9ZmXXPvXbod85snD6oGaKtDtcvbWCYjiaQt4alD+w/J56hkNBWQ==
-
-"@magic-sdk/provider@^2.5.6":
-  version "2.5.6"
-  resolved "https://registry.yarnpkg.com/@magic-sdk/provider/-/provider-2.5.6.tgz#d93c44b174cd5d3f7310ce8a40d300ab0b2c2730"
-  integrity sha512-AiKQqNqb312tDhu2NUN2HmcbbngUsqFgV/C99rpQNLkhF1dAOQ3ItFUQwSd4IfevgjERcqZFKaz5K7SQ7vvTdg==
-  dependencies:
-    "@magic-sdk/types" "^1.4.6"
-    eventemitter3 "^4.0.4"
-
-"@magic-sdk/types@^1.4.6":
-  version "1.4.6"
-  resolved "https://registry.yarnpkg.com/@magic-sdk/types/-/types-1.4.6.tgz#1bc645160fa2fddf0ef5818a1aea57f7a348ab4b"
-  integrity sha512-7tIbQ+bkG+GLAUJi0eOQ8Iy6uronsolkSR3gsTwWmeUbnT2CrlgdVGWzABBBD0Il2hOnsDy1ToWdgS38v9AO+w==
 
 "@next/bundle-analyzer@^9.5.2":
   version "9.5.2"
@@ -14607,30 +14594,10 @@ loader-utils@^1.2.3, loader-utils@^1.4.0:
     emojis-list "^3.0.0"
     json5 "^1.0.1"
 
-localforage-driver-commons@^1.0.1:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/localforage-driver-commons/-/localforage-driver-commons-1.0.3.tgz#2ead4a270ccd1b69bf58f8aa25bff1183110d9eb"
-  integrity sha512-K9PiNNXcyX98lQVyCADjv+QKxFD71y0DtVUhqMjwCkFY/d/g7GdJLPN9U92M7RUvfkL8mzPhC+mWEKo9tur5oQ==
-
-localforage-driver-memory@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/localforage-driver-memory/-/localforage-driver-memory-1.0.5.tgz#897f5ef5e96dcd8ff59ced8f75d99f2cf060baf1"
-  integrity sha512-m4v478ixdT3hA7gKv+pAxDIWgMKiUV2GuYem5jnpOBQFVJbrHU7jmNlrj8a0MfD9qff3i48E3Yfip5Eu1AN6Qg==
-  dependencies:
-    localforage-driver-commons "^1.0.1"
-    tslib "^1.6.0"
-
 localforage@^1.3.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/localforage/-/localforage-1.9.0.tgz#f3e4d32a8300b362b4634cc4e066d9d00d2f09d1"
   integrity sha512-rR1oyNrKulpe+VM9cYmcFn6tsHuokyVHFaCM3+osEmxaHTbEk8oQu6eGDfS6DQLWi/N67XRmB8ECG37OES368g==
-  dependencies:
-    lie "3.1.1"
-
-localforage@^1.7.4:
-  version "1.7.4"
-  resolved "https://registry.yarnpkg.com/localforage/-/localforage-1.7.4.tgz#88b59cc9b25ae54c76bb2c080b21ec832c22d3f6"
-  integrity sha512-3EmVZatmNVeCo/t6Te7P06h2alGwbq8wXlSkcSXMvDE2/edPmsVqTPlzGnZaqwZZDBs6v+kxWpqjVsqsNJT8jA==
   dependencies:
     lie "3.1.1"
 
@@ -14894,19 +14861,6 @@ mafmt@^7.0.0, mafmt@^7.0.1, mafmt@^7.1.0:
   integrity sha512-vpeo9S+hepT3k2h5iFxzEHvvR0GPBx9uKaErmnRzYNcaKb03DgOArjEMlgG4a9LcuZZ89a3I8xbeto487n26eA==
   dependencies:
     multiaddr "^7.3.0"
-
-magic-sdk@^2.4.7:
-  version "2.4.7"
-  resolved "https://registry.yarnpkg.com/magic-sdk/-/magic-sdk-2.4.7.tgz#9bfd3d34acd03c89112610897576f7752e7ec4d7"
-  integrity sha512-zuJ4BZtk93UwXmOSiOYXOgGsT2sNmZFZX9Buq5SEbBfbYnOw73+oxMfDrSZ4mRD1zCFNWY0BYHLPUuOfuMDWZA==
-  dependencies:
-    "@babel/core" "^7.9.6"
-    "@babel/runtime" "^7.9.6"
-    "@magic-sdk/provider" "^2.5.6"
-    "@magic-sdk/types" "^1.4.6"
-    localforage "^1.7.4"
-    localforage-driver-memory "^1.0.5"
-    regenerator-runtime "0.13.5"
 
 make-dir@^1.0.0, make-dir@^1.2.0:
   version "1.3.0"
@@ -18215,15 +18169,15 @@ regenerate@^1.4.0:
   resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
   integrity sha512-1G6jJVDWrt0rK99kBjvEtziZNCICAuvIPkSiUFIQxVP06RCVpq3dmDo2oi6ABpYaDYaTRr67BEhL8r1wgEZZKg==
 
-regenerator-runtime@0.13.5, regenerator-runtime@^0.13.4:
-  version "0.13.5"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.5.tgz#d878a1d094b4306d10b9096484b33ebd55e26697"
-  integrity sha512-ZS5w8CpKFinUzOwW3c83oPeVXoNsrLsaCoLtJvAClH135j/R77RuymhiSErhm2lKcwSCIpmvIWSbDkIfAqKQlA==
-
 regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
+
+regenerator-runtime@^0.13.4:
+  version "0.13.5"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.5.tgz#d878a1d094b4306d10b9096484b33ebd55e26697"
+  integrity sha512-ZS5w8CpKFinUzOwW3c83oPeVXoNsrLsaCoLtJvAClH135j/R77RuymhiSErhm2lKcwSCIpmvIWSbDkIfAqKQlA==
 
 regenerator-runtime@^0.13.7:
   version "0.13.7"
@@ -20400,7 +20354,7 @@ ts-pnp@^1.1.6:
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.2.0.tgz#a500ad084b0798f1c3071af391e65912c86bca92"
   integrity sha512-csd+vJOb/gkzvcCHgTGSChYpy5f1/XKNsmvBGO4JXS+z1v2HobugDz4s1IeFXM3wZB44uczs+eazB5Q/ccdhQw==
 
-tslib@^1.0.0, tslib@^1.10.0, tslib@^1.6.0:
+tslib@^1.0.0, tslib@^1.10.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
   integrity sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==
