@@ -98,4 +98,5 @@ export const V2_CONTRACT_ADDRESSES = [
 export const QUERY_KEYS = {
   coingeckoDataQuery: 'coingeckoDataQuery',
   ethereumErc20s: 'ethereumErc20s',
+  ethereumErc721s: 'ethereumErc721s',
 }

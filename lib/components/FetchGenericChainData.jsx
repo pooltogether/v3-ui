@@ -7,9 +7,10 @@ import {
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
+import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchGenericChainData } from 'lib/utils/fetchGenericChainData'
-import { fetchExternalErc721Awards } from 'lib/utils/fetchExternalErc721Awards'
+// import { fetchExternalErc721Awards } from 'lib/utils/fetchExternalErc721Awards'
 
 const debug = require('debug')('pool-app:FetchGenericChainData')
 
@@ -23,21 +24,21 @@ export function FetchGenericChainData(props) {
     poolData,
   } = props
   
-  
   const { disconnectWallet } = useContext(WalletContext)
 
   const { paused } = useContext(GeneralContext)
 
+  const [genericChainData, setGenericChainData] = useState({})
+
   const [retryAttempts, setRetryAttempts] = useState(0)
   const [alreadyExecuted, setAlreadyExecuted] = useState(false)
-  const [genericChainData, setGenericChainData] = useState({})
   const [storedChainId, setStoredChainId] = useState(null)
   
   // const [external20ChainData, setExternal20ChainData] = useState({})
   // const [fetching20s, setFetching20s] = useState(null)
   
-  const [external721ChainData, setExternal721ChainData] = useState({})
-  const [fetching721s, setFetching721s] = useState(null)
+  // const [external721ChainData, setExternal721ChainData] = useState({})
+  // const [fetching721s, setFetching721s] = useState(null)
 
 
 
@@ -65,7 +66,22 @@ export function FetchGenericChainData(props) {
 
 
 
+  const graphExternalErc721Awards = dynamicExternalAwardsData?.daiPool?.externalErc721Awards
 
+  const {
+    status: external721ChainStatus,
+    data: external721ChainData,
+    error: external721ChainError,
+    isFetching: external721IsFetching
+  } = useEthereumErc721Query({
+    provider,
+    graphErc721Awards: graphExternalErc721Awards,
+    poolAddress,
+  })
+
+  if (external721ChainError) {
+    console.warn(external721ChainError)
+  }
 
 
   useEffect(() => {
@@ -98,50 +114,6 @@ export function FetchGenericChainData(props) {
     return chainData
   }
 
-  // const _fetch20sFromInfura = async () => {
-  //   const chainData = {
-  //     dai: {},
-  //   }
-
-  //   if (
-  //     isEmpty(external20ChainData) &&
-  //     !fetching20s
-  //   ) {
-  //     setFetching20s(true)
-  //     console.log(coingeckoData)
-  //     chainData.dai = await fetchExternalErc20Awards(
-  //       provider,
-  //       graphExternalErc20Awards,
-  //       poolData.daiPool,
-  //       coingeckoData
-  //     )
-  //     setFetching20s(false)
-  //   }
-
-  //   return chainData
-  // }
-  
-  const _fetch721sFromInfura = async () => {
-    const chainData = {
-      dai: {},
-    }
-
-    if (
-      isEmpty(external721ChainData) &&
-      !fetching721s
-    ) {
-      setFetching721s(true)
-      chainData.dai = await fetchExternalErc721Awards(
-        provider,
-        dynamicExternalAwardsData.daiPool,
-        poolData.daiPool,
-      )
-      setFetching721s(false)
-    }
-
-    return chainData
-  }
-
   const _resetGenericChainData = () => {
     if (chainId !== storedChainId) {
       setAlreadyExecuted(false)
@@ -150,22 +122,6 @@ export function FetchGenericChainData(props) {
     }
   }
 
-  // const _get20ChainDataAsync = async () => {
-  //   const _result = await _fetch20sFromInfura()
-
-  //   setExternal20ChainData(
-  //     _result
-  //   )
-  // }
-
-  const _get721ChainDataAsync = async () => {
-    const _result = await _fetch721sFromInfura()
-
-    setExternal721ChainData(
-      _result
-    )
-  }
-  
   const _getChainDataAsync = async () => {
     const genericData = await _fetchDataFromInfura()
     setGenericChainData(genericData)
@@ -209,8 +165,6 @@ export function FetchGenericChainData(props) {
     if (!alreadyExecuted && ready) {
       setAlreadyExecuted(true)
       _conditionallyGetChainData()
-      // _get20ChainDataAsync()
-      _get721ChainDataAsync()
     }
   }, [provider, chainId, poolData])
 
@@ -220,7 +174,5 @@ export function FetchGenericChainData(props) {
 
   return children({ 
     genericChainData,
-    external20ChainData,
-    external721ChainData,
   })
 }

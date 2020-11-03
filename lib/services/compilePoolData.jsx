@@ -13,29 +13,22 @@ export const compilePoolData = (
   poolChainData,
   poolGraphData,
   prizeStrategyGraphData,
-  external721ChainData
 ) => {
-  const externalErc20Awards = cache.getQueryData([QUERY_KEYS.ethereumErc20s, poolAddress])
-  // console.log({externalErc20Awards})
-
-  const externalAwardsEstimate = calculateEstimatedExternalAwardsValue(externalErc20Awards)
-  const externalItemAwardsEstimate = null
-  // const externalItemAwardsEstimate = calculateEstimatedExternalItemAwardsValue(
-  //   external721ChainData?.dai
-  // )
-
   const poolObj = {
     ...poolChainData,
     ...poolGraphData,
     ...prizeStrategyGraphData
   }
-  const interestPrizeEstimate = calculateEstimatedPoolPrize(poolObj
-    // {
-    // ...genericChainData.dai,
-    // ...dynamicPoolData.daiPool,
-    // ...dynamicPrizeStrategiesData.daiPrizeStrategy,
-    // }
+
+  const externalErc20Awards = cache.getQueryData([QUERY_KEYS.ethereumErc20s, poolAddress])
+  const externalErc721Awards = cache.getQueryData([QUERY_KEYS.ethereumErc721s, poolAddress])
+
+  const externalAwardsEstimate = calculateEstimatedExternalAwardsValue(externalErc20Awards)
+  const externalItemAwardsEstimate = calculateEstimatedExternalItemAwardsValue(
+    externalErc721Awards
   )
+
+  const interestPrizeEstimate = calculateEstimatedPoolPrize(poolObj)
 
   const totalPrizeEstimate = externalAwardsEstimate ?
     interestPrizeEstimate.add(ethers.utils.parseEther(
@@ -51,6 +44,6 @@ export const compilePoolData = (
     externalAwardsEstimate,
     externalItemAwardsEstimate,
     external20ChainData: externalErc20Awards,
-    external721ChainData: external721ChainData?.dai,
+    external721ChainData: externalErc721Awards
   }
 }

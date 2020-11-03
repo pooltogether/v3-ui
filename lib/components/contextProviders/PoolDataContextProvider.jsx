@@ -91,7 +91,8 @@ export function PoolDataContextProvider(props) {
                 poolData={dynamicPoolData}
                 graphDataLoading={graphDataLoading}
               >
-                {({ genericChainData, external20ChainData, external721ChainData }) => {
+                {({ genericChainData }) => {
+                  console.log(genericChainData)
                   let pools = []
 
                   if (!graphDataLoading && !isEmpty(genericChainData)) {
@@ -107,8 +108,8 @@ export function PoolDataContextProvider(props) {
                       genericChainData.dai,
                       dynamicPoolData.daiPool,
                       dynamicPrizeStrategiesData.daiPrizeStrategy,
-                      external721ChainData
                     )
+                    console.log({ daiPool})
 
                     pools = [
                       daiPool,
