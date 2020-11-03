@@ -42,8 +42,6 @@ export function FetchGenericChainData(props) {
 
 
 
-
-
   const graphExternalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
   const poolAddress = poolData.daiPool.poolAddress
 
