@@ -6,9 +6,9 @@ import {
 } from 'lib/constants'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
+import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchGenericChainData } from 'lib/utils/fetchGenericChainData'
-import { fetchExternalErc20Awards } from 'lib/utils/fetchExternalErc20Awards'
 import { fetchExternalErc721Awards } from 'lib/utils/fetchExternalErc721Awards'
 
 const debug = require('debug')('pool-app:FetchGenericChainData')
@@ -23,7 +23,6 @@ export const FetchGenericChainData = (props) => {
     poolData,
   } = props
   
-  const graphExternalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
   
   const { disconnectWallet } = useContext(WalletContext)
 
@@ -34,11 +33,37 @@ export const FetchGenericChainData = (props) => {
   const [genericChainData, setGenericChainData] = useState({})
   const [storedChainId, setStoredChainId] = useState(null)
   
-  const [external20ChainData, setExternal20ChainData] = useState({})
-  const [fetching20s, setFetching20s] = useState(null)
+  // const [external20ChainData, setExternal20ChainData] = useState({})
+  // const [fetching20s, setFetching20s] = useState(null)
   
   const [external721ChainData, setExternal721ChainData] = useState({})
   const [fetching721s, setFetching721s] = useState(null)
+
+
+
+
+
+  const graphExternalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
+  const poolAddress = poolData.daiPool.poolAddress
+
+  const {
+    status: external20ChainStatus,
+    data: external20ChainData,
+    error: external20ChainError,
+    isFetching: external20IsFetching
+  } = useEthereumErc20Query({
+    provider,
+    graphErc20Awards: graphExternalErc20Awards,
+    coingeckoData,
+    poolAddress,
+  })
+
+  if (external20ChainError) {
+    console.warn(external20ChainError)
+  }
+
+
+
 
 
 
@@ -73,27 +98,28 @@ export const FetchGenericChainData = (props) => {
     return chainData
   }
 
-  const _fetch20sFromInfura = async () => {
-    const chainData = {
-      dai: {},
-    }
+  // const _fetch20sFromInfura = async () => {
+  //   const chainData = {
+  //     dai: {},
+  //   }
 
-    if (
-      isEmpty(external20ChainData) &&
-      !fetching20s
-    ) {
-      setFetching20s(true)
-      chainData.dai = await fetchExternalErc20Awards(
-        provider,
-        graphExternalErc20Awards,
-        poolData.daiPool,
-        coingeckoData
-      )
-      setFetching20s(false)
-    }
+  //   if (
+  //     isEmpty(external20ChainData) &&
+  //     !fetching20s
+  //   ) {
+  //     setFetching20s(true)
+  //     console.log(coingeckoData)
+  //     chainData.dai = await fetchExternalErc20Awards(
+  //       provider,
+  //       graphExternalErc20Awards,
+  //       poolData.daiPool,
+  //       coingeckoData
+  //     )
+  //     setFetching20s(false)
+  //   }
 
-    return chainData
-  }
+  //   return chainData
+  // }
   
   const _fetch721sFromInfura = async () => {
     const chainData = {
@@ -124,13 +150,13 @@ export const FetchGenericChainData = (props) => {
     }
   }
 
-  const _get20ChainDataAsync = async () => {
-    const _result = await _fetch20sFromInfura()
+  // const _get20ChainDataAsync = async () => {
+  //   const _result = await _fetch20sFromInfura()
 
-    setExternal20ChainData(
-      _result
-    )
-  }
+  //   setExternal20ChainData(
+  //     _result
+  //   )
+  // }
 
   const _get721ChainDataAsync = async () => {
     const _result = await _fetch721sFromInfura()
@@ -183,7 +209,7 @@ export const FetchGenericChainData = (props) => {
     if (!alreadyExecuted && ready) {
       setAlreadyExecuted(true)
       _conditionallyGetChainData()
-      _get20ChainDataAsync()
+      // _get20ChainDataAsync()
       _get721ChainDataAsync()
     }
   }, [provider, chainId, poolData])

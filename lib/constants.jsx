@@ -10,8 +10,8 @@ export const SECONDS_PER_BLOCK = 14
 
 export const DEFAULT_TOKEN_PRECISION = 18
 
-export const COINGECKO_POLLING_INTERVAL = 60000
-export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? 30000 : 2000000
+export const COINGECKO_POLLING_INTERVAL = 120 * 1000
+export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? (30 * 1000) : (20 * 1000)
 
 export const MAX_SAFE_INTEGER = 9007199254740991
 
@@ -94,3 +94,8 @@ export const V2_CONTRACT_ADDRESSES = [
   '0xBD87447F48ad729C5c4b8bcb503e1395F62e8B98'.toLowerCase(),
   '0x801b4872a635dccc7e679eeaf04bef08e562972a'.toLowerCase(),
 ]
+
+export const QUERY_KEYS = {
+  coingeckoDataQuery: 'coingeckoDataQuery',
+  ethereumErc20s: 'ethereumErc20s',
+}

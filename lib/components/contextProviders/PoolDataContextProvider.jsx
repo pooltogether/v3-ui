@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { isEmpty } from 'lodash'
+import { useQueryCache } from 'react-query'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { CoingeckoData } from 'lib/components/CoingeckoData'
@@ -10,9 +11,7 @@ import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
-import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPoolPrize'
-import { calculateEstimatedExternalAwardsValue } from 'lib/services/calculateEstimatedExternalAwardsValue'
-import { calculateEstimatedExternalItemAwardsValue } from 'lib/services/calculateEstimatedExternalItemAwardsValue'
+import { compilePoolData } from 'lib/services/compilePoolData'
 import { poolToast } from 'lib/utils/poolToast'
 import { readProvider } from 'lib/utils/readProvider'
 
@@ -26,6 +25,8 @@ export const PoolDataContextProvider = (props) => {
     chainId,
     usersAddress
   } = useContext(AuthControllerContext)
+
+  const cache = useQueryCache()
 
   const [defaultReadProvider, setDefaultReadProvider] = useState({})
 
@@ -94,39 +95,23 @@ export const PoolDataContextProvider = (props) => {
                   let pools = []
 
                   if (!graphDataLoading && !isEmpty(genericChainData)) {
-                    const externalAwardsEstimate = calculateEstimatedExternalAwardsValue(
-                      external20ChainData?.dai
+                    const DAI_POOL_INFO = {
+                      name: 'DAI Pool',
+                      frequency: 'Weekly',
+                      symbol: 'PT-cDAI'
+                    }
+                    const daiPool = compilePoolData(
+                      DAI_POOL_INFO,
+                      poolAddresses.daiPool,
+                      cache,
+                      genericChainData.dai,
+                      dynamicPoolData.daiPool,
+                      dynamicPrizeStrategiesData.daiPrizeStrategy,
+                      external721ChainData
                     )
-                    const externalItemAwardsEstimate = calculateEstimatedExternalItemAwardsValue(
-                      external721ChainData?.dai
-                    )
-                    const interestPrizeEstimate = calculateEstimatedPoolPrize({
-                      ...genericChainData.dai,
-                      ...dynamicPoolData.daiPool,
-                      ...dynamicPrizeStrategiesData.daiPrizeStrategy,
-                    })
-
-                    const totalPrizeEstimate = externalAwardsEstimate ?
-                      interestPrizeEstimate.add(ethers.utils.parseEther(
-                        externalAwardsEstimate.toString()
-                      )) :
-                      interestPrizeEstimate
 
                     pools = [
-                      {
-                        name: 'DAI Pool',
-                        frequency: 'Weekly',
-                        symbol: 'PT-cDAI',
-                        ...genericChainData.dai,
-                        ...dynamicPoolData.daiPool,
-                        ...dynamicPrizeStrategiesData.daiPrizeStrategy,
-                        prizeEstimate: totalPrizeEstimate,
-                        interestPrizeEstimate,
-                        externalAwardsEstimate,
-                        externalItemAwardsEstimate,
-                        external20ChainData: external20ChainData.dai,
-                        external721ChainData: external721ChainData.dai,
-                      },
+                      daiPool,
                       // {
                       //   name: 'Tether Pool',
                       // ...

@@ -8,7 +8,6 @@ import { ToastContainer } from 'react-toastify'
 import { ReactQueryDevtools } from 'react-query-devtools'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  useQueryCache,
   QueryCache,
   ReactQueryCacheProvider,
 } from "react-query"
@@ -260,7 +259,7 @@ function MyApp({ Component, pageProps, router }) {
 
       </V3ApolloWrapper>
 
-      <ReactQueryDevtools initialIsOpen />
+      <ReactQueryDevtools />
     </ReactQueryCacheProvider>
   </>
 }
