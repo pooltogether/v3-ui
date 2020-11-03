@@ -25,7 +25,7 @@ export const Meta = ({ title }) => {
           
           <link rel='stylesheet' href='/animate.css' />
 
-          <meta name='theme-color' content='#240C4B' />
+          <meta name='theme-color' content='#1e0b43' />
           <meta name='description' content={description} />
           <meta name='keywords' content={keywords} />
           <meta name='author' content='PoolTogether LLC' />

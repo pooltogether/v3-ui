@@ -52,7 +52,7 @@
 }
 
 .bn-onboard-custom .bn-onboard-modal-content-header {
-  background: #290b5a !important;
+  background: #341762 !important;
   height: 70px !important;
   margin: 0 -2rem !important;
   padding: 1rem 2rem !important;
@@ -208,10 +208,25 @@
 
 @media only screen and (max-width: 450px) {
   .bn-onboard-custom.bn-onboard-modal-select-wallets {
+    background: #1f0549;
     box-shadow: inset 0 0 50px rgba(0, 0, 0, .1),
       inset 0 0 5px rgba(0, 0, 0, .05);
     margin: 0 -2rem 1.5rem -2rem !important;
     max-height: 400px !important;
+    overflow-y: scroll;
     padding: 1rem 2rem !important;
   }
 }
+
+@media only screen and (max-height: 600px) {
+  .bn-onboard-custom.bn-onboard-modal-select-wallets {
+    background: #1f0549;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, .1),
+      inset 0 0 5px rgba(0, 0, 0, .05);
+    margin: 0 -2rem 1.5rem -2rem !important;
+    max-height: 400px !important;
+    overflow-y: scroll;
+    padding: 1rem 2rem !important;
+  }
+}
+/* bn-onboard-custom bn-onboard-modal-select-wallets svelte-q1527 */
