@@ -72,6 +72,11 @@
   @apply py-1 text-xxxs sm:text-sm rounded-lg shadow-lg;
 }
 
+.theme-dark [data-reach-menu-list],
+.theme-dark [data-reach-menu-items] {
+  @apply bg-card;
+}
+
 @screen sm {
   [data-reach-menu-list],
   [data-reach-menu-items] {
@@ -83,18 +88,22 @@
   @apply px-2 py-1 font-bold text-primary rounded-lg my-1 sm:my-0;
 }
 
+.theme-dark [data-reach-menu-item] {
+  @apply text-accent-1;
+}
+
 @screen sm {
   [data-reach-menu-item] {
-    @apply px-6 py-2;
+    @apply px-3 py-2;
   } 
 }
 
 .theme-dark [data-reach-menu-item].selected {
-  @apply text-default bg-accent-grey-1;
+  @apply text-default bg-card-selected;
 }
 
 .theme-dark [data-reach-menu-item]:hover {
-  @apply bg-highlight-1 text-inverse;
+  @apply text-white bg-highlight-5;
 }
 
 .theme-light [data-reach-menu-item].selected {

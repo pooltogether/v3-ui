@@ -11,15 +11,15 @@ exports.handler = (event, context, callback) => {
   }, (error, response, body) => {
     if (error) {
       console.log(error)
-      console.log(response)
-      console.log(body)
+      // console.log(response)
+      // console.log(body)
       callback(error, null)
     }
 
-    console.log("Status Code: " + response.statusCode)
+    // console.log("Status Code: " + response.statusCode)
 
     if (response.statusCode < 300) {
-      console.log("Body: " + JSON.parse(body))
+      // console.log("Body: " + JSON.parse(body))
 
       callback(null, {
         statusCode: 201,
@@ -31,12 +31,7 @@ exports.handler = (event, context, callback) => {
         body
       })
     } else {
-      console.log("Error", bodyObject)
-      // callback(bodyObject, {
-      //   body: JSON.stringify({
-          
-      //   })
-      // })
+      callback(error)
     }
 
   })
