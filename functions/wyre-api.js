@@ -6,26 +6,6 @@ function wyreApiUrl() {
     'https://api.testwyre.com'
 }
 
-//       "amount": 10,
-//       "sourceCurrency": "EUR",
-//       "destCurrency": "ETH",
-//       "referrerAccountId": "AC_CVZ4AYV8CN8",
-//       "email": "user@sendwyre.com",
-//       "dest": "ethereum:0x9E01E0E60dF079136a7a1d4ed97d709D5Fe3e341",
-//       "firstName": "",
-//       "city": "",
-//       "phone": "+111111111",
-//       "street1": "",
-//       "country": "", //alpha2 country code
-//       "redirectUrl": "https://google.com",
-//       "failureRedirectUrl": "https://google.com",
-//       "paymentMethod": "debit-card",        
-//       "state": "", // state code  
-//       "postalCode": "", 
-//       "lastName": "surname",
-//       "lockFields": [
-//         "amount"...
-//       ]
 async function reserveOrder(event, callback) {
   const {
     path,
