@@ -1,5 +1,4 @@
-import React, { useContext } from 'react'
-import { motion } from 'framer-motion'
+import React from 'react'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { ButtonLink } from 'lib/components/ButtonLink'
@@ -30,7 +29,7 @@ export const VoteUI = (
         className='mb-6 text-sm xs:text-base sm:text-lg text-green'
       >
         Community is at the heart of our success. Therefore, only those with tickets will be able participate.
-        <br />Each ticket holder will receive 1 vote per proposal.
+        <br />Each ticket holder can vote once per proposal.
       </div>
 
       <ButtonLink
