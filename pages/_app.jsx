@@ -7,10 +7,7 @@ import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
 import { ReactQueryDevtools } from 'react-query-devtools'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-  QueryCache,
-  ReactQueryCacheProvider,
-} from "react-query"
+import { ReactQueryCacheProvider } from 'react-query'
 
 import { useInterval } from 'lib/hooks/useInterval'
 

@@ -11,7 +11,8 @@ export const SECONDS_PER_BLOCK = 14
 export const DEFAULT_TOKEN_PRECISION = 18
 
 export const COINGECKO_POLLING_INTERVAL = 120 * 1000
-export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? (30 * 1000) : (20 * 1000)
+export const ERC_721_POLLING_INTERVAL = 120 * 1000
+export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? (30 * 1000) : (15 * 1000)
 
 export const MAX_SAFE_INTEGER = 9007199254740991
 
@@ -97,6 +98,7 @@ export const V2_CONTRACT_ADDRESSES = [
 
 export const QUERY_KEYS = {
   coingeckoDataQuery: 'coingeckoDataQuery',
-  ethereumErc20s: 'ethereumErc20s',
-  ethereumErc721s: 'ethereumErc721s',
+  ethereumErc20sQuery: 'ethereumErc20sQuery',
+  ethereumErc721sQuery: 'ethereumErc721sQuery',
+  ethereumGenericQuery: 'ethereumGenericQuery',
 }
