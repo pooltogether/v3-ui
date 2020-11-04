@@ -18,7 +18,7 @@
 
 /* TOOLTIPS / PTHINTS */
 .device-is-touch [data-reach-tooltip] {
-  top: 0 !important;
+  top: 154px !important;
   bottom: 0 !important;
   right: 0 !important;
   left: 0 !important;

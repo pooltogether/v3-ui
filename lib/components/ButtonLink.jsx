@@ -97,7 +97,7 @@ const getTextSize = (size) => {
     case 'sm':
       return `text-xs xs:text-sm sm:text-base lg:text-lg`
     case 'lg':
-      return `text-base xs:text-lg sm:text-xl lg:text-2xl`
+      return `text-sm xs:text-lg sm:text-xl lg:text-2xl`
     case 'xl':
       return `text-lg xs:text-xl sm:text-2xl lg:text-3xl`
     case '2xl':

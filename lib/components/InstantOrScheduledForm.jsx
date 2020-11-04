@@ -137,11 +137,6 @@ export function InstantOrScheduledForm(props) {
         }}
       />
     </PaneTitle>
-
-    {/* <PaneTitle small>
-      {t('chooseHowToReceiveYourFunds')}
-    </PaneTitle> */}
-
         
     <RadioInputGroup
       label=''
@@ -149,50 +144,6 @@ export function InstantOrScheduledForm(props) {
       onChange={handleWithdrawTypeChange}
       value={withdrawType}
       radios={[
-        // {
-        //   value: 'scheduled',
-        //   icon: <img src={IconWinky} className='w-7 h-7 xs:w-auto xs:h-auto' />,
-        //   label: <>
-        //     {t('zeroFees')} <PTHint
-        //       className='inline-block relative -t-6 r-2'
-        //       tip={tipJsx}
-        //     >
-        //       <>
-        //         <div className='inline-bold relative'>
-        //           <QuestionMarkCircle />
-        //         </div>
-        //       </>
-        //     </PTHint>
-        //     {/* <Trans
-        //       i18nKey='iWantAmountTickerBackInFutureDate'
-        //       defaults='I want <bold><number>{{amount}}</number> {{ticker}}</bold> back in:'
-        //       components={{
-        //         bold: <span className='font-bold' />,
-        //         number: <PoolNumber />,
-        //       }}
-        //       values={{
-        //         amount: scheduledFullFormatted,
-        //         ticker: underlyingCollateralSymbol,
-        //       }}
-        //     />  */}
-        //   </>,
-        //   description: <>
-        //     <div
-        //       className='mb-2 xs:mb-0'
-        //     >
-        //       {t('finalAmount')} <span
-        //         className='block xs:inline font-bold'
-        //       ><PoolNumber>{scheduledFullFormatted}</PoolNumber></span>
-        //     </div>
-        //     <div
-        //       className='mb-2 xs:mb-0'
-        //     >
-        //       {t('when')} <span
-        //         className='block xs:inline font-bold'
-        //       >{formattedFutureDate}</span>
-        //     </div>
-        //   </>
-        // },
         {
           value: 'instant',
           icon: <img src={IconLightning} className='w-7 h-7 xs:w-auto xs:h-auto' />,
@@ -258,7 +209,7 @@ export function InstantOrScheduledForm(props) {
       }}
       className={classnames(
         'flex flex-col sm:flex-row items-center justify-between sm:w-11/12 lg:w-full mx-auto rounded-xl sm:mx-auto text-inverse',
-        'bg-yellow-darkened border-2 border-dashed border-yellow overflow-hidden py-4 px-6',
+        'bg-yellow-darkened border-2 border-dashed border-yellow overflow-hidden py-2 xs:py-4 px-6',
         {
           'h-0': !withdrawType,
           'h-40': withdrawType,
@@ -266,7 +217,7 @@ export function InstantOrScheduledForm(props) {
       )}
     >
       <div
-        className='order-last sm:order-first sm:w-3/12 mt-2 sm:mt-0'
+        className='order-last sm:order-first sm:w-3/12'
       >
         <label
           htmlFor='i-understand-checkbox'
@@ -282,7 +233,7 @@ export function InstantOrScheduledForm(props) {
       </div>
 
       <div
-        className='order-first sm:order-last sm:w-9/12'
+        className='order-first sm:order-last sm:w-9/12 text-xxxs xs:text-sm sm:text-base'
       >
         <Trans
           i18nKey='youAreWithdrawingAmountTickerAndPayingFee'
@@ -329,7 +280,7 @@ export function InstantOrScheduledForm(props) {
       </>} */}
     </motion.div>
 
-    <div className='mt-8'>
+    <div className='mt-3 xs:mt-8'>
       <Button
         disabled={!withdrawType || !iUnderstandChecked}
         textSize='lg'

@@ -460,7 +460,7 @@ input[type=number] {
 
 .radio-input {
   @apply mr-2 sm:mx-6;
-  min-height: 240px;
+  min-height: 200px;
 }
 
 .radio-input:first-child {
@@ -474,6 +474,7 @@ input[type=number] {
 @screen sm {
   .radio-input {
     max-width: 340px;
+    min-height: 240px;
   }
 }
 

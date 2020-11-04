@@ -41,6 +41,20 @@ export function PTHint(props) {
     setIsVisible(!isVisible)
   }
 
+  tip = <div>
+    {tip}
+
+    <div
+      className='sm:hidden my-4'
+    >
+      <Button
+        onClick={toggleVisible}
+      >
+        {t('close')}
+      </Button>
+    </div>
+  </div>
+
   if (title) {
     tip = <>
       <div
@@ -53,20 +67,8 @@ export function PTHint(props) {
         </h5>
       </div>
 
-      <div
-        className='pt-4'
-      >
+      <div className='pt-4'>
         {tip}
-
-        <div
-          className='sm:hidden my-4'
-        >
-          <Button
-            onClick={toggleVisible}
-          >
-            {t('close')}
-          </Button>
-        </div>
       </div>
     </>
   }

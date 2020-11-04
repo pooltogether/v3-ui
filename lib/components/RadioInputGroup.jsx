@@ -27,7 +27,7 @@ export const RadioInputGroup = (
         htmlFor={id}
         className={classnames(
           'flex flex-col items-center text-xs sm:text-base h-full text-inverse rounded-lg',
-          'hover:text-inverse absolute t-0 l-0 r-0 b-0 px-2 py-8 xs:px-4 sm:px-8 sm:py-10 w-full block trans mt-0',
+          'hover:text-inverse absolute t-0 l-0 r-0 b-0 px-2 py-4 xs:px-4 sm:px-8 sm:py-10 w-full block trans mt-0',
           'border-2 border-dashed border-transparent',
           {
             'bg-card-selected border-highlight-2': checked            
@@ -59,7 +59,7 @@ export const RadioInputGroup = (
         {label}
       </label>
 
-      <div className='flex items-center justify-between sm:justify-center mt-4'>
+      <div className='flex items-center justify-between sm:justify-center mt-0 xs:mt-4'>
         {radioElements}
       </div>
     </div>
