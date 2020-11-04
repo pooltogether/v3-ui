@@ -3653,10 +3653,10 @@
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-3.2.0.tgz#3e6b3a7662d8ed64271ade96ef42655db983fd9d"
   integrity sha512-bUOmkSoPkjnUyMiKo6RYnb0VHBk5D9KKDAgNLzF41aqAM3TeE0yGdFF5dVRcV60pZdJLlyFT/jjXIZCWyyEzAQ==
 
-"@pooltogether/bnc-onboard@^1.14.0":
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.14.0.tgz#c9c09f6eaf68ece007c0dbfdb5105af58841fd2f"
-  integrity sha512-Ys/A9/wlml0RCPu/jfSurYstCMO7dJwlXlkMPS6wywfIlBrm3Ti1vsQSeSPQgz0zK2fgSOKk+I0gCSXQ8oPoRA==
+"@pooltogether/bnc-onboard@1.14.0-b":
+  version "1.14.0-b"
+  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.14.0-b.tgz#0c3d3f720dc1f1d23e941fa464aef8b253498b41"
+  integrity sha512-kPlSNWi01of7DOS9pP6NfGFsoTK5nKqYiUU3sd2aSwCsCJUkteSgo+Rh+nYOF5dITAVoaDxwuwVvlkQaBJ2NNQ==
   dependencies:
     "@ledgerhq/hw-app-eth" "^5.21.0"
     "@ledgerhq/hw-transport-u2f" "^5.21.0"
