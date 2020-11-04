@@ -2,16 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { isSafari } from 'react-device-detect'
 
 import { useTranslation } from 'lib/../i18n'
+import { axiosInstance } from 'lib/axiosInstance'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
+import { poolToast } from 'lib/utils/poolToast'
 
 // import GooglePay from 'assets/images/googlepay.svg'
 import ApplePay from 'assets/images/applepay.svg'
 
-const wyreDomain = () => {
-  return process.env.NEXT_JS_WYRE_PRODUCTION_ACCOUNT_ID ?
-    'sendwyre' :
-    'testwyre'
-}
+const WYRE_LAMBDA_PATH = `/.netlify/functions/wyre-api`
 
 export function WyreTopUpBalanceDropdown(props) {
   const { t } = useTranslation()
@@ -26,25 +24,27 @@ export function WyreTopUpBalanceDropdown(props) {
   } = props
   
 
-  const [canBuy, setCanBuy] = useState(null)
+  // const [canBuy, setCanBuy] = useState(null)
 
-  const checkIfCanBuy = async () => {
-    const url = `https://api.${wyreDomain()}.com/v2/location/widget`
+  // const checkIfCanBuy = async () => {
+  //   const url = `${wyrePayUrl()}/v2/location/widget`
 
-    try {
-      const response = await fetch(url)
-      const data = await response.json()
+  //   try {
+  //     const response = await fetch(url)
+  //     console.log(url)
+  //     const data = await response.json()
+  //     console.log(data)
 
-      setCanBuy(!data.hasRestrictions)
-    } catch (error) {
-      console.error('There was an issue in WyreTopUpBalanceDropdown:', error.message)
-      setCanBuy(false)
-    }
-  }
+  //     setCanBuy(!data.hasRestrictions)
+  //   } catch (error) {
+  //     console.error('There was an issue in WyreTopUpBalanceDropdown:', error.message)
+  //     setCanBuy(false)
+  //   }
+  // }
 
-  useEffect(() => {
-    checkIfCanBuy()
-  }, [])
+  // useEffect(() => {
+  //   checkIfCanBuy()
+  // }, [])
 
   const onValueSet = (currency) => {
     handleOpenWyre(currency)
@@ -73,33 +73,54 @@ export function WyreTopUpBalanceDropdown(props) {
     },
   }
 
-  const handleOpenWyre = (currency) => {
+  const handleOpenWyre = async (currency) => {
     const {
       usersAddress
     } = props
 
+
+    const params = {
+      path: `/v3/orders/reserve`,
+      dest: `ethereum:${usersAddress}`,
+      destCurrency: currency.toUpperCase()
+    }
+
+    const response = await axiosInstance.post(
+      `${WYRE_LAMBDA_PATH}`,
+      params
+    )
+    console.log({response})
+
     // dropdownRef.handleClose()
 
-    const WYRE_ACCOUNT_ID = process.env.NEXT_JS_WYRE_PRODUCTION_ACCOUNT_ID || process.env.NEXT_JS_WYRE_ACCOUNT_ID
+    const url = response?.data?.url
 
-    const dest = `dest=${usersAddress}`
-    const destCurrency = `destCurrency=${currency.toUpperCase()}`
+    if (url) {
+      window.open(url)
+    } else {
+      poolToast.error(`Wyre reservation error`)
+    }
 
-    // this gets hard-coded so the user can't adjust the amount :(
-    // const sourceAmount = `sourceAmount=${amount}`
+    // const WYRE_ACCOUNT_ID = process.env.NEXT_JS_WYRE_PRODUCTION_ACCOUNT_ID || process.env.NEXT_JS_WYRE_ACCOUNT_ID
 
-    const accountId = `accountId=${WYRE_ACCOUNT_ID}`
+    // const dest = `dest=${usersAddress}`
+    // const destCurrency = `destCurrency=${currency.toUpperCase()}`
 
-    // trackGAEvent('Wyre', currency, 'Opened')
+    // // this gets hard-coded so the user can't adjust the amount :(
+    // // const sourceAmount = `sourceAmount=${amount}`
 
-    const url = `https://pay.${wyreDomain()}.com/purchase?${dest}&${destCurrency}&${accountId}`
+    // const accountId = `accountId=${WYRE_ACCOUNT_ID}`
 
-    // For analytics, etc
-    // const redirectUrl = `redirectUrl=${window.location}`
-    //&${redirectUrl}
-    // window.location.href = url
+    // // trackGAEvent('Wyre', currency, 'Opened')
 
-    window.open(url)
+    // const url = `${wyrePayUrl()}/purchase?${dest}&${destCurrency}&${accountId}`
+
+    // // For analytics, etc
+    // // const redirectUrl = `redirectUrl=${window.location}`
+    // //&${redirectUrl}
+    // // window.location.href = url
+
+    // window.open(url)
   }
 
   const formatValue = (key) => {
@@ -112,7 +133,7 @@ export function WyreTopUpBalanceDropdown(props) {
 
   return <>
     <span className='relative z-50'>
-      {canBuy && <>
+      {/* {canBuy && <> */}
         <DropdownInputGroup
           id='topup-dropdown'
           label={label}
@@ -124,11 +145,11 @@ export function WyreTopUpBalanceDropdown(props) {
           current={null}
           values={currencies}
         />
-      </>}
+      {/* </>} */}
 
-      {!canBuy && showSuggestion && <>
+      {/* {!canBuy && showSuggestion && <>
         {t('needToAcquireCurrencyFromExchange')}
-      </>}
+      </>} */}
     </span>
   </>
 }
