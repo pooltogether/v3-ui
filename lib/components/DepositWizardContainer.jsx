@@ -18,7 +18,7 @@ import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
-export const DepositWizardContainer = (props) => {
+export function DepositWizardContainer(props) {
   const { t } = useTranslation()
   const router = useRouter()
   

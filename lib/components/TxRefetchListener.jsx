@@ -6,7 +6,7 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 
 const debug = require('debug')('pool-app:TxRefetchListener')
 
-export const TxRefetchListener = (props) => {
+export function TxRefetchListener(props) {
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
   const {

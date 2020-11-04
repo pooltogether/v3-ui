@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useTranslation } from 'lib/../i18n'
 
-export const Tagline = (props) => {
+export function Tagline(props) {
   const { t } = useTranslation()
 
   return <>

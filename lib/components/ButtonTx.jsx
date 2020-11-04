@@ -6,7 +6,7 @@ import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PTHint } from 'lib/components/PTHint'
 
-export const ButtonTx = (props) => {
+export function ButtonTx(props) {
   const { children, usersAddress } = props
 
   const router = useRouter()

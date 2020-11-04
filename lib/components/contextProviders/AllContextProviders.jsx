@@ -19,7 +19,7 @@ const WalletContextProviderDynamic = dynamic(() =>
   { ssr: false }
 )
 
-export const AllContextProviders = (props) => {
+export function AllContextProviders(props) {
   const { children } = props
 
   const router = useRouter()

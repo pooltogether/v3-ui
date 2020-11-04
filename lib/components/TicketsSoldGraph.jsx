@@ -4,7 +4,10 @@ import { useQuery } from '@apollo/client'
 import { fromUnixTime } from 'date-fns'
 import { compact } from 'lodash'
 
-import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
+import {
+  DEFAULT_TOKEN_PRECISION,
+  MAINNET_POLLING_INTERVAL,
+} from 'lib/constants'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { DateValueLineGraph } from 'lib/components/DateValueLineGraph'
 import { poolPrizesQuery } from 'lib/queries/poolPrizesQuery'
@@ -42,13 +45,11 @@ export const TicketsSoldGraph = (
     console.error(error)
   }
 
+  const decimals = pool?.underlyingCollateralDecimals
 
-  if (!prizes.length || loading) {
+  if (!decimals || !prizes.length || loading) {
     return null
   }
-
-  const decimals = pool.underlyingCollateralDecimals
-
 
 
   const lastPrize = prizes[0]
@@ -71,9 +72,10 @@ export const TicketsSoldGraph = (
     if (!prize) {
       console.warn('why no prize here?', prize)
     }
+
     const ticketsSold = ethers.utils.formatUnits(
       prize?.ticketSupply || '0',
-      decimals
+      decimals || DEFAULT_TOKEN_PRECISION
     )
 
     return {

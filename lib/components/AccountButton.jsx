@@ -10,7 +10,7 @@ import { ProfileName } from 'lib/components/ProfileName'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
-export const AccountButton = (props) => {
+export function AccountButton(props) {
   const { openTransactions } = props
 
   const authControllerContext = useContext(AuthControllerContext)

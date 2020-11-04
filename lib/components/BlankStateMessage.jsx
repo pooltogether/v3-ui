@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const BlankStateMessage = (props) => {
+export function BlankStateMessage(props) {
   return <div
     className='non-interactable-card rounded-lg bg-card flex flex-col sm:flex-wrap sm:flex-row items-center justify-center text-center text-xl'
   >

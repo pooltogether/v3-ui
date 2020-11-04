@@ -12,7 +12,7 @@ import { PTHint } from 'lib/components/PTHint'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
-export const ApproveSponsorshipTxButton = (props) => {
+export function ApproveSponsorshipTxButton(props) {
   const { t } = useTranslation()
   const {
     decimals,

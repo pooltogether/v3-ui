@@ -69,7 +69,22 @@ class MyDocument extends Document {
                     className='inline-block border-b border-green hover:border-0 text-xxs mt-10'
                     target='_blank'
                     rel='noreferrer noopener'
-                  >View Graph status</a>
+                  >
+                    View Graph status
+                  </a>
+                  <br />
+                  <a
+                    onClick={(e) => {
+                      e.preventDefault()
+                      window.location.reload()
+                    }}
+                    href=''
+                    className='inline-block text-white border-b border-white hover:border-0 text-xxxs mt-2 opacity-40 hover:opacity-100'
+                    target='_blank'
+                    rel='noreferrer noopener'
+                  >
+                    refresh page
+                  </a>
                 </span>
               </div>
             </div>

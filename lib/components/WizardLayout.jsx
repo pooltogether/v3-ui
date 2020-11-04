@@ -9,7 +9,7 @@ import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 
 function range1(i) { return i ? range1(i - 1).concat(i) : [] }
 
-export const WizardLayout = (props) => {
+export function WizardLayout(props) {
   const {
     currentWizardStep,
     handlePreviousStep,

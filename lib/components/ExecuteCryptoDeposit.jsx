@@ -20,7 +20,7 @@ import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
 const bn = ethers.utils.bigNumberify
 
-export const ExecuteCryptoDeposit = (props) => {
+export function ExecuteCryptoDeposit(props) {
   const { t } = useTranslation()
 
   const { nextStep, previousStep } = props

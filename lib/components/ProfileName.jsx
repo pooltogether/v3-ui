@@ -5,7 +5,7 @@ import { shorten } from 'lib/utils/shorten'
 
 const { getProfile } = require('3box/lib/api')
 
-export const ProfileName = (props) => {
+export function ProfileName(props) {
   const [profile, setProfile] = useState()
 
   const authControllerContext = useContext(AuthControllerContext)

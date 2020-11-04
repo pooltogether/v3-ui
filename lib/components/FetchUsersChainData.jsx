@@ -10,7 +10,7 @@ import { fetchUsersChainData } from 'lib/utils/fetchUsersChainData'
 
 const debug = require('debug')('pool-app:FetchUsersChainData')
 
-export const FetchUsersChainData = (props) => {
+export function FetchUsersChainData(props) {
   const {
     children,
     graphDripData,

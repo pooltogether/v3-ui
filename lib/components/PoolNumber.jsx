@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 const SPLIT_LENGTH = 2
 
-export const PoolNumber = (props) => {
+export function PoolNumber(props) {
   const [firstPart, setFirstPart] = useState(null)
   const [secondPart, setSecondPart] = useState(null)
   const [thirdPart, setThirdPart] = useState(null)

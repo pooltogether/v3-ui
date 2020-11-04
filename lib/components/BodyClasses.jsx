@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { isMobile } from 'react-device-detect'
 
-export const BodyClasses = (props) => {
+export function BodyClasses(props) {
   useEffect(() => {
     const body = document.body
 

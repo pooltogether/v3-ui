@@ -7,7 +7,7 @@ import { PTHint } from 'lib/components/PTHint'
 
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
 
-export const SignInForm = (props) => {
+export function SignInForm(props) {
   const { t } = useTranslation()
   // const { handleSubmit, register, errors, formState } = useForm({ mode: 'onBlur' })
 

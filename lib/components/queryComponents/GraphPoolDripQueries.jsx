@@ -2,7 +2,7 @@ import React from 'react'
 
 import { DripQueries } from 'lib/components/queryComponents/DripQueries'
 
-export const GraphPoolDripQueries = (props) => {
+export function GraphPoolDripQueries(props) {
   const { children, pool } = props
 
   if (!pool) {

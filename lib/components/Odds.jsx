@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { useTranslation } from 'lib/../i18n'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 
-export const Odds = (props) => {
+export function Odds(props) {
   const { t } = useTranslation()
 
   const {

@@ -9,7 +9,7 @@ import { PaneTitle } from 'lib/components/PaneTitle'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { gasStationDataQuery } from 'lib/queries/gasStationDataQuery'
 
-export const TransactionsTakeTimeMessage = (props) => {
+export function TransactionsTakeTimeMessage(props) {
   const { t } = useTranslation()
 
   const { tx, paneMessage } = props

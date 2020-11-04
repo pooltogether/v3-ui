@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useTranslation } from 'lib/../i18n'
 
-export const DepositInfoList = (props) => {
+export function DepositInfoList(props) {
   const { t } = useTranslation()
   
   return <>

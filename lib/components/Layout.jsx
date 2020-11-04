@@ -25,7 +25,7 @@ const onlyUnique = (value, index, self) => {
   return self.indexOf(value) === index
 }
 
-export const Layout = (props) => {
+export function Layout(props) {
   const {
     children
   } = props

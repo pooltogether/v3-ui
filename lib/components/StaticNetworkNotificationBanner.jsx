@@ -5,7 +5,7 @@
 // import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 // import { networkBgColorClassname } from 'lib/utils/networkColorClassnames'
 
-// export const StaticNetworkNotificationBanner = (props) => {
+// export function StaticNetworkNotificationBanner(props) {
 //   const authControllerContext = useContext(AuthControllerContext)
 //   const { supportedNetwork, chainId, usersAddress } = authControllerContext
 

@@ -14,7 +14,7 @@ const isValidImage = (image) => {
   return false
 }
 
-export const ProfileAvatar = (props) => {
+export function ProfileAvatar(props) {
   const { xl } = props
 
   const [profile, setProfile] = useState()

@@ -3,7 +3,7 @@ import classnames from 'classnames'
 
 import IconInfo from 'assets/images/icon-info.svg'
 
-export const QuestionMarkCircle = (props) => {
+export function QuestionMarkCircle(props) {
   const { white } = props
 
   if (!white) {

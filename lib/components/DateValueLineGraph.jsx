@@ -24,7 +24,7 @@ const margin = {
   right: 20,
 }
 
-export const DateValueLineGraph = (props) => {
+export function DateValueLineGraph(props) {
   const {
     tooltipOpen,
     tooltipLeft,

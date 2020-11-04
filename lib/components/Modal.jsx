@@ -2,7 +2,7 @@ import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { Dialog } from '@reach/dialog'
 
-export const Modal = (props) => {
+export function Modal(props) {
   const { handleClose, header, children, visible, zIndex } = props
 
   const nullFxn = (e) => { e.preventDefault() }

@@ -7,7 +7,7 @@ import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { shorten } from 'lib/utils/shorten'
 
-export const WalletInfo = (props) => {
+export function WalletInfo(props) {
   const { t } = useTranslation()
   const { closeTransactions } = props
 

@@ -14,7 +14,7 @@ const onlyUnique = (value, index, self) => {
   return self.indexOf(value) === index
 }
 
-export const WrongNetworkModal = (props) => {
+export function WrongNetworkModal(props) {
   const { t } = useTranslation()
 
   const [bypassed, setBypassed] = useState(false)

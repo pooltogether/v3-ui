@@ -15,7 +15,7 @@ import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { shorten } from 'lib/utils/shorten'
 
-export const PlayerPageUI = (props) => {
+export function PlayerPageUI(props) {
   const { t } = useTranslation()
   const router = useRouter()
   

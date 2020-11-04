@@ -5,7 +5,12 @@ import * as Sentry from '@sentry/browser'
 import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
+import { ReactQueryDevtools } from 'react-query-devtools'
 import { motion, AnimatePresence } from 'framer-motion'
+import { 
+  QueryCache,
+  ReactQueryCacheProvider
+} from 'react-query'
 
 import { useInterval } from 'lib/hooks/useInterval'
 
@@ -46,6 +51,8 @@ import 'assets/styles/reach--custom.css'
 import 'assets/styles/vx--custom.css'
 
 import PoolTogetherMark from 'assets/images/pooltogether-white-mark.svg'
+
+const queryCache = new QueryCache()
 
 if (typeof window !== 'undefined') {
   window.ethers = ethers
@@ -176,80 +183,84 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   return <>
-    <BodyClasses />
+    <ReactQueryCacheProvider queryCache={queryCache}>
+      <BodyClasses />
 
-    <motion.div
-      animate={!initialized ? 'enter' : 'exit'}
-      transition={{ duration: 0.5, ease: 'easeIn' }}
-      variants={{
-        initial: {
-          opacity: 1,
-        },
-        enter: {
-          opacity: 1,
-        },
-        exit: {
-          opacity: 0,
-          transitionEnd: {
-            display: "none",
+      <motion.div
+        animate={!initialized ? 'enter' : 'exit'}
+        transition={{ duration: 0.5, ease: 'easeIn' }}
+        variants={{
+          initial: {
+            opacity: 1,
           },
-        }
-      }}
-      className='h-screen w-screen fixed t-0 r-0 l-0 b-0 text-white flex flex-col items-center justify-center'
-      style={{
-        backgroundColor: '#1E0B43',
-        color: 'white',
-        zIndex: 12345678
-      }}
-    >
-      <img
-        src={PoolTogetherMark}
-        className='w-8 outline-none -mt-20'
-        style={{ borderWidth: 0 }}
-      />
+          enter: {
+            opacity: 1,
+          },
+          exit: {
+            opacity: 0,
+            transitionEnd: {
+              display: "none",
+            },
+          }
+        }}
+        className='h-screen w-screen fixed t-0 r-0 l-0 b-0 text-white flex flex-col items-center justify-center'
+        style={{
+          backgroundColor: '#1E0B43',
+          color: 'white',
+          zIndex: 12345678
+        }}
+      >
+        <img
+          src={PoolTogetherMark}
+          className='w-8 outline-none -mt-20'
+          style={{ borderWidth: 0 }}
+        />
 
-      <V3LoadingDots />
-    </motion.div>
+        <V3LoadingDots />
+      </motion.div>
 
-    <V3ApolloWrapper>
-      <AllContextProviders>
-        <NewPrizeWinnerEventListener />
+      <V3ApolloWrapper>
+        <AllContextProviders>
+          <NewPrizeWinnerEventListener />
 
-        <TxRefetchListener />
+          <TxRefetchListener />
 
-        <Layout
-          props={pageProps}
-        >
-          <AnimatePresence
-            exitBeforeEnter
+          <Layout
+            props={pageProps}
           >
-            <motion.div
-              id='content-animation-wrapper'
-              key={router.route}
-              transition={{ duration: 0.3, ease: 'easeIn' }}
-              initial={{
-                opacity: 0
-              }}
-              exit={{
-                opacity: 0
-              }}
-              animate={{
-                opacity: 1
-              }}
+            <AnimatePresence
+              exitBeforeEnter
             >
-              <Component {...pageProps} />
-            </motion.div>
-          </AnimatePresence>
-        </Layout>
-      </AllContextProviders>
+              <motion.div
+                id='content-animation-wrapper'
+                key={router.route}
+                transition={{ duration: 0.3, ease: 'easeIn' }}
+                initial={{
+                  opacity: 0
+                }}
+                exit={{
+                  opacity: 0
+                }}
+                animate={{
+                  opacity: 1
+                }}
+              >
+                <Component {...pageProps} />
+              </motion.div>
+            </AnimatePresence>
+          </Layout>
+        </AllContextProviders>
 
-      <ToastContainer
-        className='pool-toast'
-        position='top-center'
-        autoClose={7000}
-      />
+        <ToastContainer
+          className='pool-toast'
+          position='top-center'
+          autoClose={7000}
+        />
 
-    </V3ApolloWrapper>
+      </V3ApolloWrapper>
+
+      <ReactQueryDevtools />
+    </ReactQueryCacheProvider>
   </>
 }
 

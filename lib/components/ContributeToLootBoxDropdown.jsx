@@ -6,7 +6,7 @@ import { useTranslation } from 'lib/../i18n'
 import { DropdownGeneric } from 'lib/components/DropdownGeneric'
 import { poolToast } from 'lib/utils/poolToast'
 
-export const ContributeToLootBoxDropdown = (props) => {
+export function ContributeToLootBoxDropdown(props) {
   const { t } = useTranslation()
 
   const { pool } = props

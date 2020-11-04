@@ -6,7 +6,7 @@ import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 
-export const DepositFiatForm = (props) => {
+export function DepositFiatForm(props) {
   const { handleSubmit, register, errors, formState } = useForm({ mode: 'all' })
 
   const { nextStep } = props

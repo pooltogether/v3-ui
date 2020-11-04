@@ -33,7 +33,7 @@ const readTransactions = (chainId, usersAddress, provider) => {
   }
 }
 
-export const TransactionStatusChecker = (props) => {
+export function TransactionStatusChecker(props) {
   const authControllerContext = useContext(AuthControllerContext)
   const { chainId, usersAddress, provider } = authControllerContext
 

@@ -13,7 +13,7 @@ import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
 
 export const PlayerDataContext = React.createContext()
 
-export const PlayerDataContextProvider = (props) => {
+export function PlayerDataContextProvider(props) {
   const authControllerContext = useContext(AuthControllerContext)
   const { chainId } = authControllerContext
 

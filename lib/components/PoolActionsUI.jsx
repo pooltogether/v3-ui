@@ -5,7 +5,7 @@ import { SHOW_MANAGE_LINKS } from 'lib/constants'
 import { CompleteAwardUI } from 'lib/components/CompleteAwardUI'
 import { StartAwardUI } from 'lib/components/StartAwardUI'
 
-export const PoolActionsUI = (props) => {
+export function PoolActionsUI(props) {
   const cookieShowAward = Cookies.get(SHOW_MANAGE_LINKS)
 
   return <>

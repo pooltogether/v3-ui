@@ -10,7 +10,7 @@ import { TransactionsList } from 'lib/components/TransactionsList'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { WalletInfo } from 'lib/components/WalletInfo'
 
-export const NavAccount = (props) => {
+export function NavAccount(props) {
   const { openTransactions, closeTransactions, showTransactionsDialog } = props
 
   const authControllerContext = useContext(AuthControllerContext)

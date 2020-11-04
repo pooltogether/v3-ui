@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 
-export const HeaderLogo = (props) => {
+export function HeaderLogo(props) {
   return <>
     <div
       className='nav--pool-logo-container justify-start flex items-center truncate'

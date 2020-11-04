@@ -5,7 +5,7 @@ import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { PTHint } from 'lib/components/PTHint'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 
-export const TransactionsListItem = (props) => {
+export function TransactionsListItem(props) {
   const { tx } = props
 
   return <li

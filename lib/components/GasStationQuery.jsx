@@ -5,7 +5,7 @@ import { gasStationDataVar } from 'lib/apollo/cache'
 
 const GAS_STATION_LAMBDA_PATH = `/.netlify/functions/eth-gas-station`
 
-export const GasStationQuery = (props) => {
+export function GasStationQuery(props) {
   // const getNewGasStationData = async () => {
   //   try {
   //     const response = await fetch(GAS_STATION_LAMBDA_PATH)

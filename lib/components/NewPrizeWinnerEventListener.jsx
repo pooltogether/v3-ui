@@ -13,7 +13,7 @@ import PrizeIllustration from 'assets/images/prize-illustration@2x.png'
 
 const debug = require('debug')('pool-app:NewPrizeWinnerEventListener')
 
-export const NewPrizeWinnerEventListener = (props) => {
+export function NewPrizeWinnerEventListener(props) {
   const { t } = useTranslation()
   const router = useRouter()
 

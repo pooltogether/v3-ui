@@ -10,7 +10,7 @@ import { ButtonTx } from 'lib/components/ButtonTx'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 
-export const StartAwardUI = (props) => {
+export function StartAwardUI(props) {
   const { t } = useTranslation()
 
   const authControllerContext = useContext(AuthControllerContext)

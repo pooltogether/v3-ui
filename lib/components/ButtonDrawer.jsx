@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-export const ButtonDrawer = (props) => {
+export function ButtonDrawer(props) {
   const { children } = props
 
   return <>

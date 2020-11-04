@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 
-export const Nav = (props) => {
+export function Nav(props) {
   const { t } = useTranslation()
   const router = useRouter()
 

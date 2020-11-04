@@ -27,7 +27,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 
-export const AccountPoolShowUI = (props) => {
+export function AccountPoolShowUI(props) {
   const { t } = useTranslation()
   const router = useRouter()
 
