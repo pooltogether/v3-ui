@@ -8,6 +8,7 @@ import { useInterval } from 'beautiful-react-hooks'
 
 import {
   COOKIE_OPTIONS,
+  DEFAULT_TOKEN_PRECISION,
   SHOW_MANAGE_LINKS,
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
@@ -112,14 +113,9 @@ export const PoolShow = (
 
   let prizeEstimateFormatted
   if (pool.prizeEstimate && pool.prizeEstimate.gt(0)) {
-    // there is a bug here if you have two tabs open and change networks (edge case)
-    // console.log('pool.prizeEstimate')
-    // console.log(pool.prizeEstimate)
-    // console.log('decimals')
-    // console.log(decimals)
     prizeEstimateFormatted = ethers.utils.formatUnits(
       pool.prizeEstimate,
-      decimals
+      decimals || DEFAULT_TOKEN_PRECISION
     )
   }
 

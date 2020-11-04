@@ -7,7 +7,10 @@ import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
 import { ReactQueryDevtools } from 'react-query-devtools'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ReactQueryCacheProvider } from 'react-query'
+import { 
+  QueryCache,
+  ReactQueryCacheProvider
+} from 'react-query'
 
 import { useInterval } from 'lib/hooks/useInterval'
 
@@ -49,7 +52,7 @@ import 'assets/styles/vx--custom.css'
 
 import PoolTogetherMark from 'assets/images/pooltogether-white-mark.svg'
 
-const queryCache = new QueryCache();
+const queryCache = new QueryCache()
 
 if (typeof window !== 'undefined') {
   window.ethers = ethers

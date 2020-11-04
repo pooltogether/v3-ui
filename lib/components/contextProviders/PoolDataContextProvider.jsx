@@ -6,7 +6,7 @@ import { useQueryCache } from 'react-query'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { CoingeckoData } from 'lib/components/CoingeckoData'
-import { FetchGenericChainData } from 'lib/components/FetchGenericChainData'
+import { ChainDataQueries } from 'lib/components/ChainDataQueries'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
@@ -82,7 +82,7 @@ export function PoolDataContextProvider(props) {
             dynamicExternalAwardsData={dynamicExternalAwardsData}
           >
             {({ coingeckoData }) => {
-              return <FetchGenericChainData
+              return <ChainDataQueries
                 {...props}
                 coingeckoData={coingeckoData}
                 chainId={chainId}
@@ -92,7 +92,6 @@ export function PoolDataContextProvider(props) {
                 graphDataLoading={graphDataLoading}
               >
                 {({ genericChainData }) => {
-                  console.log(genericChainData)
                   let pools = []
 
                   if (!graphDataLoading && !isEmpty(genericChainData)) {
@@ -109,7 +108,6 @@ export function PoolDataContextProvider(props) {
                       dynamicPoolData.daiPool,
                       dynamicPrizeStrategiesData.daiPrizeStrategy,
                     )
-                    console.log({ daiPool})
 
                     pools = [
                       daiPool,
@@ -212,7 +210,7 @@ export function PoolDataContextProvider(props) {
                     }}
                   </GraphPoolDripQueries>
                 }}
-              </FetchGenericChainData>
+              </ChainDataQueries>
             }}
           </CoingeckoData>
 
