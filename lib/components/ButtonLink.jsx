@@ -1,6 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import Link from 'next/link'
+import { pick } from 'lodash'
 
 export function getButtonClasses(props) {
   let {
@@ -115,6 +116,11 @@ export function ButtonLink(props) {
   } = props
 
   const classes = getButtonClasses(props)
+
+  const linkProps = pick(props, [
+    'target',
+    'rel',
+  ])
   
   return <Link
     href={href}
@@ -122,7 +128,7 @@ export function ButtonLink(props) {
     scroll={false}
   >
     <a
-      // {...linkProps}
+      {...linkProps}
       className={classes}
       onClick={(e) => e.stopPropagation()}
     >
