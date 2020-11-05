@@ -33,7 +33,9 @@ async function reserveOrder(event, callback) {
     referrerAccountId
   }
 
+  console.log(url)
   console.log(params)
+  console.log(config)
 
   let result
   try {
@@ -42,8 +44,9 @@ async function reserveOrder(event, callback) {
       params,
       config
     )
+    console.log(result)
 
-    if (result.status < 300) {
+    if (result.status < 400) {
       callback(null, {
         statusCode: 200,
         body: JSON.stringify(result.data)

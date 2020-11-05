@@ -85,20 +85,28 @@ export function WyreTopUpBalanceDropdown(props) {
       destCurrency: currency.toUpperCase()
     }
 
-    const response = await axiosInstance.post(
-      `${WYRE_LAMBDA_PATH}`,
-      params
-    )
-    console.log({response})
 
-    // dropdownRef.handleClose()
+    let response
 
-    const url = response?.data?.url
+    try {
+      response = await axiosInstance.post(
+        `${WYRE_LAMBDA_PATH}`,
+        params
+      )
+      console.log(response)
 
-    if (url) {
-      window.open(url)
-    } else {
-      poolToast.error(`Wyre reservation error`)
+      // dropdownRef.handleClose()
+
+      const url = response?.data?.url
+
+      if (url) {
+        window.open(url)
+      } else {
+        console.log(response.error)
+      }
+    } catch (e) {
+      poolToast.error(`Buy crypto with Wyre error, please message support`)
+      console.error(e)
     }
 
     // const WYRE_ACCOUNT_ID = process.env.NEXT_JS_WYRE_PRODUCTION_ACCOUNT_ID || process.env.NEXT_JS_WYRE_ACCOUNT_ID
