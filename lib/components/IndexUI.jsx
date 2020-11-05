@@ -39,7 +39,7 @@ export const IndexUI = (
   return <>
     <V2MessageLarge />
 
-    <motion.h1
+    {/* <motion.h1
       animate={totalPrizes.gt(0) ? 'enter' : 'exit'}
       initial='exit'
       variants={{
@@ -56,17 +56,17 @@ export const IndexUI = (
         }
       }}
       className='banner-text mx-auto font-bold text-center'
-    >
+    > */}
       {/* You could <span className='text-flashy'>win $4,527 every week</span> just by saving your money. */}
-      <Trans
+      {/* <Trans
         i18nKey='youCouldWin'
         defaults='You could <flashy>win ${{totalPrizes}} every week</flashy> just by saving your money.'
         values={{ totalPrizes: displayAmountInEther(totalPrizes, { precision: 0 }) }}
         components={{
           flashy: <span className='text-flashy' />
         }}
-      />
-    </motion.h1>
+      /> */}
+    {/* </motion.h1> */}
 
     <h6
       className='text-accent-2 mb-6 capitalize'

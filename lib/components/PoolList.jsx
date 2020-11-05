@@ -1,7 +1,8 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import { PoolRow } from 'lib/components/PoolRow'
+import { PoolRowNew } from 'lib/components/PoolRowNew'
+// import { PoolRow } from 'lib/components/PoolRow'
 import { PoolRowGhost } from 'lib/components/PoolRowGhost'
 
 export const PoolList = (
@@ -29,7 +30,6 @@ export const PoolList = (
             staggerChildren: 0.5,
             delayChildren: 0.2
           }
-          // transition: { staggerChildren: 0.07, delayChildren: 0.2 }
         }}
         exit={{
           scale: 0,
@@ -47,13 +47,14 @@ export const PoolList = (
             return null
           }
 
-          // const selected = selectedId === pool.poolAddress
-
-          return <PoolRow
+          return <PoolRowNew
             key={`pool-row-${pool.poolAddress}`}
             pool={pool}
-            // selected={selected}
           />
+          // return <PoolRow
+          //   key={`pool-row-${pool.poolAddress}`}
+          //   pool={pool}
+          // />
         })}
 
         <PoolRowGhost

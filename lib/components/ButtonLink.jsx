@@ -1,11 +1,13 @@
 import React from 'react'
 import classnames from 'classnames'
 import Link from 'next/link'
+import { isUndefined } from 'lodash'
 
 export function getButtonClasses(props) {
   let {
     border,
     bg,
+    bold,
     text,
     hoverBg,
     hoverBorder,
@@ -21,7 +23,7 @@ export function getButtonClasses(props) {
     width,
   } = props
 
-  let defaultClasses = 'font-bold border-2 relative inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
+  let defaultClasses = 'border-2 relative inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline'
   let animClass = noAnim ? '' : 'button-scale'
   
   if (selected) {
@@ -54,6 +56,8 @@ export function getButtonClasses(props) {
     defaultHoverText = 'hover:text-highlight-1'
   }
 
+  bold = isUndefined(bold) ? 'font-bold' : ''
+
   padding = padding ? `${padding}` : defaultPadding
   rounded = rounded ? `rounded-${rounded}` : defaultRounded
   transition = transition ? `${transition}` : defaultTrans
@@ -72,6 +76,7 @@ export function getButtonClasses(props) {
     className,
     defaultClasses,
     animClass,
+    bold,
     bg,
     border,
     padding,
