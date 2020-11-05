@@ -15,22 +15,20 @@ async function reserveOrder(event, callback) {
 
   const url = `${wyreApiUrl()}${path}`
 
-  const token = process.env.SENDWYRE_API_SECRET || process.env.TESTWYRE_API_SECRET
+  const referrerAccountId = process.env.NEXT_JS_SENDWYRE_ACCOUNT_ID || process.env.NEXT_JS_TESTWYRE_ACCOUNT_ID
+  const params = {
+    dest,
+    destCurrency,
+    referrerAccountId
+  }
 
+  const token = process.env.SENDWYRE_API_SECRET || process.env.TESTWYRE_API_SECRET
   const config = {
     headers: {
       'Authorization': `Bearer ${token}`,
       'cache-control': 'no-cache',
       'Content-Type': 'application/json',
     }
-  }
-
-  const referrerAccountId = process.env.NEXT_JS_SENDWYRE_ACCOUNT_ID || process.env.NEXT_JS_TESTWYRE_ACCOUNT_ID
-
-  const params = {
-    dest,
-    destCurrency,
-    referrerAccountId
   }
 
   console.log(url)

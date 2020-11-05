@@ -105,7 +105,7 @@ export function WyreTopUpBalanceDropdown(props) {
         console.log(response.error)
       }
     } catch (e) {
-      poolToast.error(`Buy crypto with Wyre error, please message support`)
+      poolToast.error(`Wyre - Buy crypto error, please message PoolTogether support`)
       console.error(e)
     }
 

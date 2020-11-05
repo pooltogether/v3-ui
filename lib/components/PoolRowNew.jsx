@@ -85,9 +85,6 @@ export const PoolRowNew = (
         >
           {t('prizeValue')}*
         </div>
-        <p className='text-xxxxs xs:text-xxxs sm:text-xxs text-accent-1 -t-1 relative'>
-          {t('approx')}
-        </p>
 
         <div
           className='my-4'
