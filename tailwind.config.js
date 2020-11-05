@@ -57,6 +57,7 @@ module.exports = {
         'highlight-5': 'var(--color-bg-highlight-5)',
         'highlight-6': 'var(--color-bg-highlight-6)',
         'highlight-7': 'var(--color-bg-highlight-7)',
+        'highlight-8': 'var(--color-bg-highlight-8)',
         raspberry: 'var(--color-bg-raspberry)',
         red: 'var(--color-bg-red)',
         green: 'var(--color-bg-green)',

@@ -75,7 +75,7 @@ export const NewPrizeCountdown = (
 
   const LeftSideJsx = ({ digit }) => {
     return <span
-      className={`bg-tertiary text-${textColor} font-bold border border-primary rounded-tl-sm rounded-bl-sm`}
+      className={`bg-tertiary text-${textColor} font-bold border border-secondary rounded-tl-sm rounded-bl-sm`}
       style={{
         padding: '1px 4px',
         borderWidth: '0.015rem'
@@ -87,7 +87,7 @@ export const NewPrizeCountdown = (
 
   const RightSideJsx = ({ digit }) => {
     return <span
-      className={`bg-tertiary text-${textColor} font-bold border border-primary rounded-tr-sm rounded-br-sm border-l-0`}
+      className={`bg-tertiary text-${textColor} font-bold border border-secondary rounded-tr-sm rounded-br-sm border-l-0`}
       style={{
         padding: '1px 4px',
         borderWidth: '0.015rem'

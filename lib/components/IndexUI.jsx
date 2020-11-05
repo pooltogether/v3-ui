@@ -5,6 +5,7 @@ import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolList } from 'lib/components/PoolList'
 import { Tagline } from 'lib/components/Tagline'
 import { V2MessageLarge } from 'lib/components/V2MessageLarge'
@@ -68,11 +69,16 @@ export const IndexUI = (
       /> */}
     {/* </motion.h1> */}
 
-    <h6
-      className='text-accent-2 mb-6 capitalize'
-    >
-      {t('pools')}
-    </h6>
+    <PageTitleAndBreadcrumbs
+      title={`${t('pools')}`}
+      breadcrumbs={[
+        // {
+        //   href: '/',
+        //   as: '/',
+        //   name: t('pools'),
+        // },
+      ]}
+    />
 
     {loading ?
       <IndexUILoader /> :

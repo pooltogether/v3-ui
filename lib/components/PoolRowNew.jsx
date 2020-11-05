@@ -62,6 +62,7 @@ export const PoolRowNew = (
       key={`pool-row-${pool.poolAddress}`}
       href='/pools/[symbol]'
       as={`/pools/${symbol}`}
+      className='mt-4 xs:mt-8'
     >
       <div className='flex flex-col items-center justify-center text-inverse'>
 
@@ -96,13 +97,13 @@ export const PoolRowNew = (
         </div>
 
         <Button
-          border='highlight-2'
+          border='green'
           text='primary'
-          bg='highlight-2'
+          bg='green'
 
-          hoverBorder='highlight-2'
+          hoverBorder='green'
           hoverText='primary'
-          hoverBg='highlight-2'
+          hoverBg='green'
 
           onClick={handleGetTicketsClick}
           width='w-full xs:w-8/12 sm:w-7/12 lg:w-5/12'

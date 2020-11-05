@@ -10,12 +10,27 @@ export const PoolRowGhost = (
   
   return <>
     <div
-      className='hover:bg-default border-accent-4 border-dashed border-2 w-full px-4 xs:px-6 sm:px-10 mb-4 py-5 sm:py-6 trans rounded-lg text-inverse'
+      className='bg-highlight-8 w-full px-6 sm:px-10 mb-4 py-4 trans rounded-lg text-inverse mt-4'
     >
 
-      <div className='flex flex-col items-center py-6 opacity-70 hover:opacity-100 trans'>
+      <div className='flex flex-col items-center py-6 trans'>
+        <div className='text-xl xs:text-2xl sm:text-3xl'>
+          <span
+            className={`mx-4`}
+            role='img'
+            aria-label='ticket emoji'
+          >🎟️</span> <span
+            className={`mx-4`}
+            role='img'
+            aria-label='trophy'
+          >🏆</span> <span
+            className={`mx-4`}
+            role='img'
+            aria-label='ticket emoji'
+          >🎟️</span>
+        </div>
         <div
-          className='flex justify-center font-bold w-full text-default-soft mb-4 text-center text-sm sm:text-xl'
+          className='flex justify-center w-full text-inverse mb-4 text-center text-xxs xs:text-sm sm:text-xl'
         >
           {t('suggestANewPool')}
         </div>
@@ -24,7 +39,7 @@ export const PoolRowGhost = (
           secondary
           href='https://discord.gg/hxPhPDW'
           as='https://discord.gg/hxPhPDW'
-          width='w-7/12 sm:w-1/2'
+          // width='w-7/12 sm:w-1/2'
         >
           {t('suggestPool')}
         </ButtonLink>

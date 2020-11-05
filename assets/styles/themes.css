@@ -9,6 +9,7 @@
   --color-bg-primary: #290b5a;
   --color-bg-secondary: #4C249F;
   --color-bg-tertiary: #290b5a;
+  --color-bg-tertiary: #290b5a;
   --color-bg-default: #341762;
   --color-bg-darkened: #1a083a;
   --color-bg-inverse: #fff;
@@ -25,6 +26,7 @@
   --color-bg-highlight-5: #4C1FA0;
   --color-bg-highlight-6: #FF46ED;
   --color-bg-highlight-7: #C00C99;
+  --color-bg-highlight-8: #2A1660;
   --color-bg-raspberry: #4C1967;
   --color-bg-red: #e61b1b;
   --color-bg-green: #3EF3D4;
@@ -103,6 +105,7 @@
   --color-bg-highlight-5: #f9f9f9;
   --color-bg-highlight-6: #FF46ED;
   --color-bg-highlight-7: #C00C99;
+  --color-bg-highlight-8: #f9f9f9;
   --color-bg-raspberry: #4C1967;
   --color-bg-red: #e61b1b;
   --color-bg-green: #1ef7d6;
