@@ -120,7 +120,7 @@ export const Erc20AwardsTable = (props) => {
                   className='w-4/12'
                 ></th>
                 <th
-                  className='w-2/12'
+                  className='w-2/12 sm:w-1/12'
                 ></th>
               </tr>
             </thead>
@@ -155,7 +155,7 @@ export const Erc20AwardsTable = (props) => {
                       </PoolNumber> {award.symbol.length > 20 ? <span className='truncate'>{award.symbol.substr(0, 20)}</span> : award.symbol}
                     </td>
                     <td
-                      className='py-2 text-right font-bold'
+                      className='py-2 font-bold'
                     >
                       {award.value ? `$${numberWithCommas(award.value, { precision: 2 })}` : ''}
                     </td>
