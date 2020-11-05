@@ -1,4 +1,5 @@
 import { useCoingeckoData } from 'lib/hooks/useCoingeckoData'
+import { useCoingeckoEthPriceQuery } from 'lib/hooks/useCoingeckoEthPriceQuery'
 
 export function CoingeckoData(props) {
   const {
@@ -15,8 +16,25 @@ export function CoingeckoData(props) {
     console.warn(error)
   }
 
+
+  const {
+    status: ethPriceStatus,
+    data: ethPriceData,
+    error: ethPriceError,
+    isFetching: ethPriceFetching
+  } = useCoingeckoEthPriceQuery()
+
+  if (error) {
+    console.warn(error)
+  }
+
+  const coingeckoData = {
+    ...ethPriceData,
+    ...data,
+  }
+
   return children({ 
-    coingeckoData: data
+    coingeckoData
   })
 
 }
