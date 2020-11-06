@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Trans, useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'lib/../i18n'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { Tagline } from 'lib/components/Tagline'
 
@@ -9,6 +9,7 @@ import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
 export const VoteUI = (
   props,
 ) => {
+  const { t } = useTranslation()
 
   return <>
     <div className='sm:w-2/3 lg:w-7/12 text-center mx-auto mb-20'>
@@ -23,23 +24,23 @@ export const VoteUI = (
       <h4
         className='mb-6'
       >
-        Direct the future of PoolTogether!
+        {t('directTheFuture')}
       </h4>
       <div
         className='mb-6 text-sm xs:text-base sm:text-lg text-green'
       >
-        Community is at the heart of our success. Therefore, only those with tickets will be able participate.
-        <br />Each ticket holder can vote once per proposal.
+        {t('communityHeartOfSuccess')}
+        <br />
       </div>
 
       <ButtonLink
-        as='https://snapshot.page/#/pooltogether'
-        href='https://snapshot.page/#/pooltogether'
+        as='https://vote.pooltogether.com/#/pooltogether/proposal/Qme4k2JuwFcmsw8FBHZQpiJjr9zAyshbt2Ko3WcjDoWNfU'
+        href='https://vote.pooltogether.com/#/pooltogether/proposal/Qme4k2JuwFcmsw8FBHZQpiJjr9zAyshbt2Ko3WcjDoWNfU'
         target='_blank'
         rel='noreferrer noopener'
       >
-        See proposals
-        </ButtonLink>
+        {t('voteNow')}
+      </ButtonLink>
       </div>
     <Tagline />
   </>
