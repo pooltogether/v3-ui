@@ -1,39 +1,27 @@
-const request = require("request")
+import { axiosInstance } from '../lib/axiosInstance'
 
 exports.handler = (event, context, callback) => {
   const { addressesString } = JSON.parse(event.body)
   // console.log(addressesString)
 
-  request({
-    method: 'GET',
-    url: `https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${addressesString}&vs_currencies=eth%2Cusd%2Ccad`
-    // url: `https://api.coingecko.com/api/v3/simple/price?ids=dai,usd-coin,tether&vs_currencies=eth,usd,cad`
-  }, (error, response, body) => {
-    if (error) {
-      console.log(error)
-      // console.log(response)
-      // console.log(body)
-      callback(error, null)
-    }
+  const url = `https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${addressesString}&vs_currencies=eth%2Cusd%2Ccad`
 
-    // console.log("Status Code: " + response.statusCode)
+  try {
+    const result = await axiosInstance.get(
+      url,
+    )
+    console.log(result)
 
-    if (response.statusCode < 300) {
-      // console.log("Body: " + JSON.parse(body))
-
+    if (result.status < 400) {
       callback(null, {
-        statusCode: 201,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": "true"
-        },
-        body
+        statusCode: 200,
+        body: JSON.stringify(result.data)
       })
     } else {
-      callback(error)
+      callback(result.error)
     }
-
-  })
+  } catch (e) {
+    callback(e)
+  }
 
 }

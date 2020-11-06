@@ -61,7 +61,7 @@ export const V2MessageLarge = (
 
   return <>
     <div
-      className='bg-raspberry text-white border-highlight-7 py-4 px-8 sm:p-6 sm:p-10 mb-10 rounded-lg border-2'
+      className='bg-raspberry text-white border-highlight-7 py-4 px-8 sm:p-6 sm:px-10 sm:py-8 mb-10 rounded-lg border-2'
     >
       <div className='flex flex-col items-center sm:flex-row text-center sm:text-left justify-between'>
         <div
@@ -80,9 +80,7 @@ export const V2MessageLarge = (
           <div
             className='sm:text-xs lg:text-sm my-2 sm:my-0'
           >
-            {t('nowLiveV3MoreFun')} <br
-              className='hidden sm:block'
-            /><Trans
+            {t('nowLiveV3MoreFun')} <Trans
               i18nKey='youCanManuallyWithdrawAmountFunds'
               defaults='If you deposited into V2, you can now <bold>withdraw your ${{amount}}</bold> and deposit in V3 today!'
               components={{
