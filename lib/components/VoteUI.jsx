@@ -27,15 +27,15 @@ export const VoteUI = (
         {t('directTheFuture')}
       </h4>
       <div
-        className='mb-6 text-sm xs:text-base sm:text-lg text-green'
+        className='mb-6 text-sm lg:text-lg text-highlight-2'
       >
         {t('communityHeartOfSuccess')}
         <br />
       </div>
 
       <ButtonLink
-        as='https://vote.pooltogether.com/#/pooltogether/proposal/Qme4k2JuwFcmsw8FBHZQpiJjr9zAyshbt2Ko3WcjDoWNfU'
-        href='https://vote.pooltogether.com/#/pooltogether/proposal/Qme4k2JuwFcmsw8FBHZQpiJjr9zAyshbt2Ko3WcjDoWNfU'
+        as='https://snapshot.page/#/pooltogether/proposal/QmdReunoq1ioD6KakketmE8Jk3TU83DXViUnYAFGT7q1Tz'
+        href='https://snapshot.page/#/pooltogether/proposal/QmdReunoq1ioD6KakketmE8Jk3TU83DXViUnYAFGT7q1Tz'
         target='_blank'
         rel='noreferrer noopener'
       >
