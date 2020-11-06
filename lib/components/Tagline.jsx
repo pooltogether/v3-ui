@@ -17,7 +17,7 @@ export function Tagline(props) {
       <p
         className='text-caption mt-2 opacity-70'
       >
-        Powered by CoinGecko API
+        {t('poweredByCoingeckoAPI')}
       </p>
     </div>
   </>
