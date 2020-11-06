@@ -1,9 +1,9 @@
-import React, { Fragment, useContext, useRef } from 'react'
+import React, { Fragment, useContext } from 'react'
 import ParentSize from '@vx/responsive/lib/components/ParentSize'
 import { localPoint } from '@vx/event'
 import { Group } from '@vx/group'
 import { LinePath } from '@vx/shape'
-import { useTooltip, TooltipWithBounds, defaultStyles } from '@vx/tooltip';
+import { useTooltip, useTooltipInPortal, TooltipWithBounds, defaultStyles } from '@vx/tooltip';
 import { scaleTime, scaleLinear } from '@vx/scale'
 import { extent, max } from 'd3-array'
 import { LinearGradient } from '@vx/gradient'
@@ -34,7 +34,13 @@ export function DateValueLineGraph(props) {
     showTooltip,
   } = useTooltip()
 
-  const svgRef = useRef(null)
+  const {
+    containerRef,
+    TooltipInPortal,
+  } = useTooltipInPortal({
+    detectBounds: true,
+    scroll: true,
+  })
 
   const themeContext = useContext(ThemeContext)
   const theme = themeContext.theme
@@ -71,14 +77,13 @@ export function DateValueLineGraph(props) {
             key={`${id}-fragment`}
           >
             {tooltipOpen && tooltipData && <>
-              <TooltipWithBounds
+              <TooltipInPortal
                 key={Math.random()}
                 top={tooltipTop}
                 left={tooltipLeft}
                 className='vx-chart-tooltip'
               >
                 {props.valueLabel || 'Value'}: <strong>
-                  {/* {tooltipData.value} */}
                   {numberWithCommas(tooltipData.value, { precision: 0 })}
                 </strong>
                 <span className='block mt-2'>
@@ -90,11 +95,11 @@ export function DateValueLineGraph(props) {
                   )}
                   </strong>
                 </span>
-              </TooltipWithBounds>
+              </TooltipInPortal>
             </>}
 
             <svg
-              ref={svgRef}
+              ref={containerRef}
               width={width}
               height={height}
             >
@@ -147,20 +152,20 @@ export function DateValueLineGraph(props) {
                         className='cursor-pointer'
                         onMouseLeave={hideTooltip}
                         onTouchMove={(event) => {
-                          const point = localPoint(svgRef.current, event) || { x: 0, y: 0 }
+                          const coords = localPoint(event.target.ownerSVGElement, event);
 
                           showTooltip({
-                            tooltipLeft: point.x + 180,
-                            tooltipTop: point.y + 340,
+                            tooltipLeft: coords.x,
+                            tooltipTop: coords.y,
                             tooltipData: data
                           })
                         }}
                         onMouseMove={(event) => {
-                          const point = localPoint(svgRef.current, event) || { x: 0, y: 0 }
+                          const coords = localPoint(event.target.ownerSVGElement, event);
 
                           showTooltip({
-                            tooltipLeft: point.x + 180,
-                            tooltipTop: point.y + 340,
+                            tooltipLeft: coords.x,
+                            tooltipTop: coords.y,
                             tooltipData: data
                           })
                         }}
