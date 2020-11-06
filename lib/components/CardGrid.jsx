@@ -1,14 +1,18 @@
 import React from 'react'
+import classnames from 'classnames'
 
 export function Card(props) {
-  const { card } = props
+  const { card, className } = props
   const { content, icon, title } = card
 
   return <div
-    className='w-full sm:w-1/2 lg:w-1/3 px-4'
+    className={classnames(
+      className,
+      'w-full px-4 mt-4 sm:mt-10',
+    )}
   >
     <div
-      className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
+      className='non-interactable-card mb-2 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
       <div
         className='text-caption uppercase'
@@ -33,9 +37,15 @@ export function CardGrid(props) {
       className='flex flex-col sm:flex-row sm:flex-wrap -mx-4'
     >
       {cards.map((card, index) => {
-        return <Card 
+        return <Card
           key={`${cardGroupId}-card-${index}`}
           card={card}
+          className={classnames(
+            {
+              'sm:w-1/2': cards.length < 3,
+              'sm:w-1/2 lg:w-1/3': cards.length >= 3,
+            }
+          )}
         />
       })}
     </div>

@@ -23,7 +23,7 @@ import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
-import { poolTokenSupportsPermitSign } from 'lib/utils/poolTokenSupportsPermitSign'
+// import { poolTokenSupportsPermitSign } from 'lib/utils/poolTokenSupportsPermitSign'
 
 export function DepositCryptoForm(props) {
   const { t } = useTranslation()

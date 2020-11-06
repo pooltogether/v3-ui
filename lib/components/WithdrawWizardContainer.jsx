@@ -13,6 +13,8 @@ import { WithdrawInstantOrScheduled } from 'lib/components/WithdrawInstantOrSche
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
+import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
+
 export function WithdrawWizardContainer(props) {
   const { t } = useTranslation()
   const router = useRouter()
@@ -78,6 +80,7 @@ export function WithdrawWizardContainer(props) {
               {(step) => {
                 return step.isActive && <>
                   <TicketQuantityForm
+                    iconSrc={TicketIcon}
                     balanceJsx={balanceJsx}
                     formName={t('withdraw')}
                     nextStep={step.nextStep}
