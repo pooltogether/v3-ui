@@ -27,6 +27,7 @@ export function TicketQuantityForm(props) {
     balanceJsx,
     formName,
     formSubName,
+    iconSrc,
     nextStep,
   } = props
   
@@ -191,17 +192,20 @@ export function TicketQuantityForm(props) {
             />
           </>}
           rightLabel={usersAddress && tickerUpcased && <>
-            <button
-              type='button'
-              className='font-bold'
-              onClick={(e) => {
-                e.preventDefault()
-                setValue('quantity', contextualBalance, { shouldValidate: true })
-              }}
-            >
-              {/* Balance:  */}
-              {numberWithCommas(contextualBalance, { precision: 2 })} {tickerUpcased}
-            </button>
+              <button
+                type='button'
+                className='font-bold inline-flex items-center'
+                onClick={(e) => {
+                  e.preventDefault()
+                  setValue('quantity', contextualBalance, { shouldValidate: true })
+                }}
+              >
+                <img
+                  src={iconSrc}
+                  className='mr-2'
+                  style={{ maxHeight: 12 }}
+                /> {numberWithCommas(contextualBalance, { precision: 2 })} {tickerUpcased}
+              </button>
           </>}
         />
       </div>

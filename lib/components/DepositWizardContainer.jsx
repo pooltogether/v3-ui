@@ -18,6 +18,8 @@ import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
+import WalletIcon from 'assets/images/icon-wallet.svg'
+
 export function DepositWizardContainer(props) {
   const { t } = useTranslation()
   const router = useRouter()
@@ -73,6 +75,7 @@ export function DepositWizardContainer(props) {
               {(step) => {
                 return step.isActive && <>
                   <TicketQuantityForm
+                    iconSrc={WalletIcon}
                     formName={t('getTickets')}
                     formSubName={<Trans
                       i18nKey='amountTickerEqualsAmountTickets'

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import FeatherIcon from 'feather-icons-react'
 import ClipLoader from 'react-spinners/ClipLoader'
@@ -9,8 +9,8 @@ import { isEmpty, map, find, defaultTo } from 'lodash'
 
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
 
-import { useTranslation } from 'lib/../i18n'
-import { DOMAIN, DEFAULT_TOKEN_PRECISION } from 'lib/constants'
+import { useTranslation, Trans } from 'lib/../i18n'
+import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
@@ -354,7 +354,16 @@ export const AccountRewardsUI = () => {
               <div
                 className='text-lg sm:text-3xl font-bold'
               >
-                {numberWithCommas('1000')}
+                <Trans
+                  i18nKey='amountTickets'
+                  defaults='<number>{{amount}}</number> tickets'
+                  components={{
+                    number: <PoolNumber />,
+                  }}
+                  values={{
+                    amount: numberWithCommas('1000', { precision: 0 }),
+                  }}
+                />
               </div>
               <div
                 className='text-xxxs xs:text-sm sm:text-lg'
@@ -368,7 +377,16 @@ export const AccountRewardsUI = () => {
               <div
                 className='text-lg sm:text-3xl font-bold'
               >
-                {numberWithCommas('1000')}
+                <Trans
+                  i18nKey='amountTickets'
+                  defaults='<number>{{amount}}</number> tickets'
+                  components={{
+                    number: <PoolNumber />,
+                  }}
+                  values={{
+                    amount: numberWithCommas('1000', { precision: 0 })
+                  }}
+                />
               </div>
               <div
                 className='text-xxxs xs:text-sm sm:text-lg'

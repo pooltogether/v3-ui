@@ -10,14 +10,14 @@ export function Tagline(props) {
       className='text-center mt-12 opacity-60 pb-40'
     >
       <div
-        className='text-accent-1 text-base sm:text-lg lg:text-xl'
+        className='text-accent-1 text-xs xs:text-sm sm:text-base'
       >
         {t('theMoreYouPoolTagline')}
       </div>
       <p
-        className='text-caption mt-2 opacity-70'
+        className='text-accent-1 mt-2 opacity-50 text-xxxxs xs:text-xxxs sm:text-xxs'
       >
-        Powered by CoinGecko API
+        {t('poweredByCoingeckoAPI')}
       </p>
     </div>
   </>

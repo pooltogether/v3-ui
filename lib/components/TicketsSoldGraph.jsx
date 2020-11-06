@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { ethers } from 'ethers'
 import { useQuery } from '@apollo/client'
-import { fromUnixTime } from 'date-fns'
+import { sub, fromUnixTime } from 'date-fns'
 import { compact } from 'lodash'
 
 import {
@@ -11,6 +11,8 @@ import {
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { DateValueLineGraph } from 'lib/components/DateValueLineGraph'
 import { poolPrizesQuery } from 'lib/queries/poolPrizesQuery'
+
+const NUMBER_OF_POINTS = 7
 
 export const TicketsSoldGraph = (
   props,
@@ -23,7 +25,7 @@ export const TicketsSoldGraph = (
   const { loading, error, data } = useQuery(poolPrizesQuery, {
     variables: {
       prizePoolAddress: pool?.poolAddress,
-      first: 7,
+      first: NUMBER_OF_POINTS,
     },
     skip: !pool?.poolAddress,
     fetchPolicy: 'network-only',
@@ -73,17 +75,36 @@ export const TicketsSoldGraph = (
       console.warn('why no prize here?', prize)
     }
 
+    const tickets = prize?.awardedBlock ? prize?.totalTicketSupply : prize?.ticketSupply
+
     const ticketsSold = ethers.utils.formatUnits(
-      prize?.ticketSupply || '0',
+      tickets || '0',
       decimals || DEFAULT_TOKEN_PRECISION
     )
 
     return {
       value: parseInt(ticketsSold, 10),
-      date: fromUnixTime(prize.awardedTimestamp / 1000),
+      date: fromUnixTime(prize.awardedTimestamp),
     }
   })
 
+  if (dataArray.length < NUMBER_OF_POINTS) {
+    dataArray.push({
+      value: 0,
+      date: sub(
+        dataArray[dataArray.length-1].date,
+        {
+          years: 0,
+          months: 0,
+          weeks: 1,
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0
+        }
+      )
+    })
+  }
 
   return <>
     <DateValueLineGraph

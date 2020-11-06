@@ -27,14 +27,18 @@ import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Meta } from 'lib/components/Meta'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
 import { Tagline } from 'lib/components/Tagline'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import CompoundFinanceIcon from 'assets/images/icon-compoundfinance.svg'
+import DepositRewardsIcon from 'assets/images/icon-deposit-rewards.svg'
+import ReferralRewardsIcon from 'assets/images/icon-referral-rewards.svg'
 import PrizeStrategyIcon from 'assets/images/icon-prizestrategy@2x.png'
 import TicketsIcon from 'assets/images/icon-ticket@2x.png'
 import PlayersIcon from 'assets/images/players@2x.png'
@@ -262,6 +266,65 @@ export const PoolShow = (
           
           <Erc721AwardsTable />
 
+
+          <CardGrid
+            cardGroupId='pool-rewards-cards'
+            cards={[
+              {
+                icon: DepositRewardsIcon,
+                title: t('depositRewards'),
+                content: <>
+                  <h3>
+                    <Trans
+                      i18nKey='amountTickets'
+                      defaults='<number>{{amount}}</number> tickets'
+                      components={{
+                        number: <PoolNumber />,
+                      }}
+                      values={{
+                        amount: numberWithCommas('1000', { precision: 0 }),
+                      }}
+                    />
+                  </h3>
+                  
+                  <p>
+                    {t('depositRewardsDescription')}
+                    
+                  </p>
+                </>
+              },
+              {
+                icon: ReferralRewardsIcon,
+                title: t('referralRewards'),
+                content: <>
+                  <h3>
+                    <Trans
+                      i18nKey='amountTickets'
+                      defaults='<number>{{amount}}</number> tickets'
+                      components={{
+                        number: <PoolNumber />,
+                      }}
+                      values={{
+                        amount: numberWithCommas('1000', { precision: 0 }),
+                      }}
+                    />
+                  </h3>
+
+                  <p>
+                    {t('referralRewardsDescription')}
+                  </p>
+                </>
+              },
+              
+            ]}
+          />
+
+          <h6
+            className='text-accent-1 mt-8 mb-0 sm:t-4 relative'
+          >
+            {t('prizePoolStats')}
+          </h6>
+          
           <CardGrid
             cardGroupId='pool-cards'
             cards={[
