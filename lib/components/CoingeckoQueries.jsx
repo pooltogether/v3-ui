@@ -1,7 +1,7 @@
-import { useCoingeckoData } from 'lib/hooks/useCoingeckoData'
+import { useCoingeckoTokensQuery } from 'lib/hooks/useCoingeckoTokensQuery'
 import { useCoingeckoEthPriceQuery } from 'lib/hooks/useCoingeckoEthPriceQuery'
 
-export function CoingeckoData(props) {
+export function CoingeckoQueries(props) {
   const {
     children,
     dynamicExternalAwardsData,
@@ -10,7 +10,7 @@ export function CoingeckoData(props) {
   const graphExternalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
   const addressesString = graphExternalErc20Awards?.map(award => award.address).join(',')
 
-  const { status, data, error, isFetching } = useCoingeckoData(addressesString)
+  const { status, data, error, isFetching } = useCoingeckoTokensQuery(addressesString)
 
   if (error) {
     console.warn(error)

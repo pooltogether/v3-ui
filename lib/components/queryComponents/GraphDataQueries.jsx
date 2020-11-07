@@ -111,8 +111,7 @@ export const GraphDataQueries = (
     console.error(externalAwardsError)
   }
 
-  // TODO: We shouldn't need this, we should be able to just get the external awards for a particular prize
-  // strategy
+  // TODO: We shouldn't need this, we should be able to just get the external awards for a particular prize strategy
   dynamicExternalAwardsData = getExternalAwardsDataFromQueryResult(poolAddresses, externalAwardsData)
 
 

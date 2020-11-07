@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import Link from 'next/link'
 import classnames from 'classnames'
 import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
+import { useTimeTravelUniswapTokensQuery } from 'lib/hooks/useTimeTravelUniswapTokensQuery'
 
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
@@ -20,6 +20,8 @@ import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { prizeQuery } from 'lib/queries/prizeQuery'
+import { timeTravelExternalAwardsQuery } from 'lib/queries/timeTravelExternalAwardsQuery'
+import { getExternalAwardsDataFromQueryResult } from 'lib/services/getExternalAwardsDataFromQueryResult'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatDate } from 'lib/utils/formatDate'
 import { shorten } from 'lib/utils/shorten'
@@ -39,7 +41,7 @@ export const PrizeShow = (
   const { paused } = generalContext
 
   const poolData = useContext(PoolDataContext)
-  const { pool } = poolData
+  const { pool, poolAddresses } = poolData
 
   const decimals = pool?.underlyingCollateralDecimals || 18
 
@@ -56,6 +58,53 @@ export const PrizeShow = (
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
   })
 
+  let prize = data?.prize
+
+
+
+
+  const awardsQuery = timeTravelExternalAwardsQuery(prize?.awardedBlock)
+  const {
+    loading: externalAwardsLoading,
+    error: externalAwardsError,
+    data: externalAwardsData,
+    refetch: refetchExternalAwards
+  } = useQuery(awardsQuery, {
+    variables: {
+      prizeStrategyAddress: poolData?.prizeStrategy?.id
+    },
+    fetchPolicy: 'network-only',
+    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
+    skip: !prize?.awardedBlock || !poolData?.prizeStrategy?.id
+  })
+
+  if (externalAwardsError) {
+    poolToast.error(externalAwardsError)
+    console.error(externalAwardsError)
+  }
+  console.log(externalAwardsData)
+
+  // TODO: We shouldn't need this, we should be able to just get the external awards for a particular prize strategy
+  const compiledExternalAwardsData = getExternalAwardsDataFromQueryResult(poolAddresses, externalAwardsData)
+
+
+
+
+  const {
+    status: timeTravelUniswapTokensStatus,
+    data: timeTravelUniswapTokensData,
+    error: timeTravelUniswapTokensError,
+    isFetching: timeTravelUniswapTokensFetching
+  } = useTimeTravelUniswapTokensQuery(compiledExternalAwardsData, prize?.awardedBlock)
+
+  if (error) {
+    console.warn(error)
+  }
+
+
+
+
+
 
   if (pool === null) {
     const querySymbol = router.query?.symbol
@@ -71,7 +120,6 @@ export const PrizeShow = (
 
   
 
-  let prize = data?.prize
   if (isCurrentPrize) {
     prize = {
       awardedBlock: null,

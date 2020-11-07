@@ -7,10 +7,7 @@ export function UniswapData(props) {
     dynamicExternalAwardsData,
   } = props
 
-  const graphExternalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
-  const addresses = graphExternalErc20Awards?.map(award => award.address)
-
-  const { status, data, error, isFetching } = useUniswapTokensQuery(addresses, blockNumber)
+  const { status, data, error, isFetching } = useUniswapTokensQuery(dynamicExternalAwardsData, blockNumber)
 
   if (error) {
     console.warn(error)

@@ -7,7 +7,7 @@ import { useEthereumGenericQuery } from 'lib/hooks/useEthereumGenericQuery'
 
 const debug = require('debug')('pool-app:FetchGenericChainData')
 
-export function ChainDataQueries(props) {
+export function ChainQueries(props) {
   const {
     children,
     coingeckoData,

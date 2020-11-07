@@ -5,8 +5,8 @@ import { isEmpty } from 'lodash'
 import { useQueryCache } from 'react-query'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { CoingeckoData } from 'lib/components/CoingeckoData'
-import { ChainDataQueries } from 'lib/components/ChainDataQueries'
+import { ChainQueries } from 'lib/components/ChainQueries'
+import { CoingeckoQueries } from 'lib/components/CoingeckoQueries'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
@@ -79,7 +79,7 @@ export function PoolDataContextProvider(props) {
         dynamicPlayerDrips,
       }) => {
         return <>
-          <CoingeckoData
+          <CoingeckoQueries
             dynamicExternalAwardsData={dynamicExternalAwardsData}
           >
             {({ coingeckoData }) => {
@@ -87,7 +87,7 @@ export function PoolDataContextProvider(props) {
                 dynamicExternalAwardsData={dynamicExternalAwardsData}
               >
                 {() => {
-                  return <ChainDataQueries
+                  return <ChainQueries
                     {...props}
                     coingeckoData={coingeckoData}
                     chainId={chainId}
@@ -215,11 +215,11 @@ export function PoolDataContextProvider(props) {
                         }}
                       </GraphPoolDripQueries>
                     }}
-                  </ChainDataQueries>
+                  </ChainQueries>
                 }}
               </UniswapData>
             }}
-          </CoingeckoData>
+          </CoingeckoQueries>
 
           
         </>
