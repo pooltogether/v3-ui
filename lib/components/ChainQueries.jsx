@@ -41,10 +41,10 @@ export function ChainQueries(props) {
   const poolAddress = poolData.daiPool.poolAddress
 
   const {
-    status: external20ChainStatus,
-    data: external20ChainData,
-    error: external20ChainError,
-    isFetching: external20IsFetching
+    status: externalErc20ChainStatus,
+    data: externalErc20ChainData,
+    error: externalErc20ChainError,
+    isFetching: externalErc20IsFetching
   } = useEthereumErc20Query({
     provider,
     graphErc20Awards: graphExternalErc20Awards,
@@ -52,8 +52,8 @@ export function ChainQueries(props) {
     poolAddress,
   })
 
-  if (external20ChainError) {
-    console.warn(external20ChainError)
+  if (externalErc20ChainError) {
+    console.warn(externalErc20ChainError)
   }
 
 
@@ -62,18 +62,18 @@ export function ChainQueries(props) {
   const graphExternalErc721Awards = dynamicExternalAwardsData?.daiPool?.externalErc721Awards
 
   const {
-    status: external721ChainStatus,
-    data: external721ChainData,
-    error: external721ChainError,
-    isFetching: external721IsFetching
+    status: externalErc721ChainStatus,
+    data: externalErc721ChainData,
+    error: externalErc721ChainError,
+    isFetching: externalErc721IsFetching
   } = useEthereumErc721Query({
     provider,
     graphErc721Awards: graphExternalErc721Awards,
     poolAddress,
   })
 
-  if (external721ChainError) {
-    console.warn(external721ChainError)
+  if (externalErc721ChainError) {
+    console.warn(externalErc721ChainError)
   }
 
   // useEffect(() => {

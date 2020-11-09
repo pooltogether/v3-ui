@@ -33,11 +33,14 @@ export const Erc721AwardsTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
+  const { externalErc721ChainData, externalErc721GraphData } = props
+
   const [moreVisible, setMoreVisible] = useState(false)
   
-  const { dynamicExternalAwardsData, pool } = useContext(PoolDataContext)
-  const awardsGraphData = dynamicExternalAwardsData
-  const awardsChainData = pool?.external721ChainData
+  const { pool } = useContext(PoolDataContext)
+  // const { dynamicExternalAwardsData, pool } = useContext(PoolDataContext)
+  // const awardsGraphData = dynamicExternalAwardsData
+  // const awardsChainData = pool?.externalErc721ChainData
 
   const handleShowMore = (e) => {
     e.preventDefault()
@@ -50,17 +53,17 @@ export const Erc721AwardsTable = (props) => {
     )
   }
 
-  if (!pool || !awardsGraphData) {
+  if (!pool || !externalErc721GraphData) {
     return null
   }
 
-  const has721Awards = awardsGraphData?.daiPool?.externalErc721Awards?.length > 0
+  const has721Awards = externalErc721GraphData?.daiPool?.externalErc721Awards?.length > 0
 
   let awards = []
   let sortedAwards = []
-  if (awardsChainData) {
-    const externalAwards = Object.keys(awardsChainData)
-      .map(key => awardsChainData[key])
+  if (externalErc721ChainData) {
+    const externalAwards = Object.keys(externalErc721ChainData)
+      .map(key => externalErc721ChainData[key])
     sortedAwards = orderBy(externalAwards, ({ name }) => name || '', ['asc'])
     awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 8)
   }

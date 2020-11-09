@@ -116,10 +116,6 @@ export function PoolDataContextProvider(props) {
 
                         pools = [
                           daiPool,
-                          // {
-                          //   name: 'Tether Pool',
-                          // ...
-                          // },
                         ]
                       }
 
@@ -186,9 +182,11 @@ export function PoolDataContextProvider(props) {
                               return <PoolDataContext.Provider
                                 value={{
                                   loading: graphDataLoading || dripDataLoading,
+                                  coingeckoData,
                                   pool,
                                   pools,
                                   poolAddresses,
+                                  defaultReadProvider,
                                   dynamicExternalAwardsData,
                                   dynamicPoolData,
                                   dynamicPlayerData,

@@ -8,9 +8,11 @@ import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
-import { AllPoolsTotalAwarded } from 'lib/components/AllPoolsTotalAwarded'
+// import { AllPoolsTotalAwarded } from 'lib/components/AllPoolsTotalAwarded'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { CardGrid } from 'lib/components/CardGrid'
+import { Erc20AwardsTable } from 'lib/components/Erc20AwardsTable'
+import { Erc721AwardsTable } from 'lib/components/Erc721AwardsTable'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { Meta } from 'lib/components/Meta'
 import { PrizeWinner } from 'lib/components/PrizeWinner'
@@ -18,6 +20,7 @@ import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
+import { PrizeFromInterestCard } from 'lib/components/PrizeFromInterestCard'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { prizeQuery } from 'lib/queries/prizeQuery'
 import { timeTravelExternalAwardsQuery } from 'lib/queries/timeTravelExternalAwardsQuery'
@@ -29,129 +32,33 @@ import { shorten } from 'lib/utils/shorten'
 import TicketsIcon from 'assets/images/icon-ticket@2x.png'
 import PlayersIcon from 'assets/images/players@2x.png'
 
-export const PrizeShow = (
-  props,
-) => {
+export function PrizeShow(props) {
   const { t } = useTranslation()
   const router = useRouter()
 
+  const {
+    externalErc20ChainData,
+    externalErc721ChainData,
+    externalErc721GraphData,
+    pool,
+    prize
+  } = props
+
   const prizeNumber = router.query?.prizeNumber
-
-  const generalContext = useContext(GeneralContext)
-  const { paused } = generalContext
-
-  const poolData = useContext(PoolDataContext)
-  const { pool, poolAddresses } = poolData
 
   const decimals = pool?.underlyingCollateralDecimals || 18
 
   const isCurrentPrize = Number(pool?.prizesCount) + 1 === Number(prizeNumber)
-  const poolAddress = pool?.poolAddress
-
-  const prizeId = `${poolAddress}-${prizeNumber}`
-  const { loading, error, data } = useQuery(prizeQuery, {
-    variables: {
-      prizeId
-    },
-    skip: !poolAddress || !prizeNumber || isCurrentPrize,
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
-  })
-
-  let prize = data?.prize
 
 
-
-
-  const awardsQuery = timeTravelExternalAwardsQuery(prize?.awardedBlock)
-  const {
-    loading: externalAwardsLoading,
-    error: externalAwardsError,
-    data: externalAwardsData,
-    refetch: refetchExternalAwards
-  } = useQuery(awardsQuery, {
-    variables: {
-      prizeStrategyAddress: poolData?.prizeStrategy?.id
-    },
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
-    skip: !prize?.awardedBlock || !poolData?.prizeStrategy?.id
-  })
-
-  if (externalAwardsError) {
-    poolToast.error(externalAwardsError)
-    console.error(externalAwardsError)
-  }
-  console.log(externalAwardsData)
-
-  // TODO: We shouldn't need this, we should be able to just get the external awards for a particular prize strategy
-  const compiledExternalAwardsData = getExternalAwardsDataFromQueryResult(poolAddresses, externalAwardsData)
-
-
-
-
-  const {
-    status: timeTravelUniswapTokensStatus,
-    data: timeTravelUniswapTokensData,
-    error: timeTravelUniswapTokensError,
-    isFetching: timeTravelUniswapTokensFetching
-  } = useTimeTravelUniswapTokensQuery(compiledExternalAwardsData, prize?.awardedBlock)
-
-  if (error) {
-    console.warn(error)
-  }
-
-
-
-
-
-
-  if (pool === null) {
-    const querySymbol = router.query?.symbol
-    return <BlankStateMessage>
-      Could not find pool with symbol: ${querySymbol}
-    </BlankStateMessage>
-  }
-  
-
-  if (error) {
-    console.error(error)
-  }
-
-  
-
-  if (isCurrentPrize) {
-    prize = {
-      awardedBlock: null,
-      net: pool?.prizeEstimate
-    }
-  }
-
-  if (prize === null) {
-    return <div
-      className='mt-10'
-    >
-      {t('couldntFindPrize')}
-    </div>
-  }
-
-  if (!prize) {
-    return <div
-      className='mt-10'
-    >
-      <TableRowUILoader
-        rows={5}
-      />
-    </div>
-  }
 
   let prizeAmountOrEstimate = pool?.prizeEstimate
   if (prize?.awardedTimestamp) {
     prizeAmountOrEstimate = prize?.amount || 0
   }
-     
-  const winnersAddress = prize?.winners?.[0]
 
+  const winnersAddress = prize?.winners?.[0]
+  
   return <>
     {pool?.name && <>
       <Meta title={`${t('prize')} #${prizeNumber} - ${pool ? pool?.name : ''}`} />
@@ -273,6 +180,21 @@ export const PrizeShow = (
       </div>
     </div>
 
+    <PrizeFromInterestCard
+      decimals={decimals}
+      interestPrize={prizeAmountOrEstimate}
+    />
+
+    <Erc20AwardsTable
+      hideContributeUI
+      externalErc20ChainData={externalErc20ChainData}
+    />
+
+    <Erc721AwardsTable
+      externalErc721ChainData={externalErc721ChainData}
+      externalErc721GraphData={externalErc721GraphData}
+    />
+
     <CardGrid
       cardGroupId='prize-cards'
       cards={[
@@ -328,6 +250,6 @@ export const PrizeShow = (
       prize={prize}
     />
 
-    <AllPoolsTotalAwarded />
+    {/* <AllPoolsTotalAwarded /> */}
   </>
 }

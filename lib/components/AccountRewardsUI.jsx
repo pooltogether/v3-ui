@@ -251,7 +251,7 @@ export const AccountRewardsUI = () => {
             {getFormattedNumber(dripData.balance, dripData.dripToken.decimals)}
           </td> */}
           <td className='px-2 sm:px-3 py-2 text-left'>
-            {getFormattedNumber(dripData.claimable, dripData.dripToken.decimals)}
+            {getFormattedNumber(dripData.claimable.mul(2000), dripData.dripToken.decimals)}
           </td>
           <td className='px-2 sm:px-3 py-2 text-right'>
             {getClaimButton(dripData)}

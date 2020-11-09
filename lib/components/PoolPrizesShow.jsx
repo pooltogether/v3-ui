@@ -109,6 +109,6 @@ export const PoolPrizesShow = (
       pool={pool}
     />
 
-    <AllPoolsTotalAwarded />
+    {/* <AllPoolsTotalAwarded /> */}
   </>
 }

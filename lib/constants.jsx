@@ -38,14 +38,17 @@ export const COOKIE_OPTIONS = {
 
 export const CONTRACT_ADDRESSES = {
   1: {
+    Usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',
     // Dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
     // PermitAndDepositDai: PermitAndDepositDaiMainnet.address
   },
   3: {
+    Usdt: '0x0736d0c130b2ead47476cc262dbed90d7c4eeabd',
     // Dai: '0xc2118d4d90b274016cb7a54c03ef52e6c537d957',
     // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
   },
   4: {
+    Usdt: '0x3B00Ef435fA4FcFF5C209a37d1f3dcff37c705aD',
     // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
   },
 }

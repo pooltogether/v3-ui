@@ -43,7 +43,7 @@ export const compilePoolData = (
     interestPrizeEstimate,
     externalAwardsEstimate,
     externalItemAwardsEstimate,
-    external20ChainData: externalErc20Awards,
-    external721ChainData: externalErc721Awards
+    externalErc20ChainData: externalErc20Awards,
+    externalErc721ChainData: externalErc721Awards
   }
 }

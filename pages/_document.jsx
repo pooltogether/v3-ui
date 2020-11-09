@@ -80,8 +80,6 @@ class MyDocument extends Document {
                     }}
                     href=''
                     className='inline-block text-white border-b border-white hover:border-0 text-xxxs mt-2 opacity-40 hover:opacity-100'
-                    target='_blank'
-                    rel='noreferrer noopener'
                   >
                     refresh page
                   </a>

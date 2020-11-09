@@ -1,3 +1,6 @@
+import { useContext } from 'react'
+
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 
 export function UniswapData(props) {
@@ -7,7 +10,9 @@ export function UniswapData(props) {
     dynamicExternalAwardsData,
   } = props
 
-  const { status, data, error, isFetching } = useUniswapTokensQuery(dynamicExternalAwardsData, blockNumber)
+  const { chainId } = useContext(AuthControllerContext)
+
+  const { status, data, error, isFetching } = useUniswapTokensQuery(chainId, dynamicExternalAwardsData, blockNumber)
 
   if (error) {
     console.warn(error)

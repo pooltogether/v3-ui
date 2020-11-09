@@ -29,10 +29,12 @@ export const Erc20AwardsTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
+  const { externalErc20ChainData, hideContributeUI } = props
+
   const [moreVisible, setMoreVisible] = useState(false)
   
   const { pool } = useContext(PoolDataContext)
-  const awardsChainData = pool?.external20ChainData
+  // const awardsChainData = pool?.externalErc20ChainData
 
   const handleShowMore = (e) => {
     e.preventDefault()
@@ -47,12 +49,12 @@ export const Erc20AwardsTable = (props) => {
 
 
 
-  if (!awardsChainData) {
+  if (!externalErc20ChainData) {
     return null
   }
 
-  let externalAwards = Object.keys(awardsChainData)
-    .map(key => awardsChainData[key])
+  let externalAwards = Object.keys(externalErc20ChainData)
+    .map(key => externalErc20ChainData[key])
     .filter(award => award?.balance?.gt(0))
 
   const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])
@@ -78,19 +80,21 @@ export const Erc20AwardsTable = (props) => {
             {t('currentlyNoOtherPrizes')}
           </> : <>
             {pool?.externalAwardsEstimate && <>
-              <div
-                className='font-bold text-lg sm:text-2xl sm:text-3xl'
+              <h3
+                className='mb-1'
               >
                 ${numberWithCommas(pool?.externalAwardsEstimate)} {t('value')}
-              </div>
+              </h3>
             </>} 
           </>}
         </div>
 
         <div>
-          <ContributeToLootBoxDropdown
-            pool={pool}
-          />
+          {!hideContributeUI && <>
+            <ContributeToLootBoxDropdown
+              pool={pool}
+            />
+          </>}
         </div>
       </div> 
       
