@@ -253,10 +253,12 @@ export const PoolShow = (
           />
 
           <Erc20AwardsTable
+            basePath={`/pools/${pool?.symbol}`}
             externalErc20ChainData={externalErc20ChainData}
           />
           
           <Erc721AwardsTable
+            basePath={`/pools/${pool?.symbol}`}
             externalErc721ChainData={externalErc721ChainData}
             externalErc721GraphData={externalErc721GraphData}
           />
@@ -385,31 +387,31 @@ export const PoolShow = (
                   </h6>
                 </>
               },
-              {
-                icon: TotalAwardedIcon,
-                title: t('totalAwarded'),
-                content: <>
-                  <h3>
-                    ${displayAmountInEther(
-                      pool.cumulativePrizeNet, {
-                        precision: 0,
-                        decimals
-                      })
-                    }
-                  </h3>
+              // {
+              //   icon: TotalAwardedIcon,
+              //   title: t('totalAwarded'),
+              //   content: <>
+              //     <h3>
+              //       ${displayAmountInEther(
+              //         pool.cumulativePrizeNet, {
+              //           precision: 0,
+              //           decimals
+              //         })
+              //       }
+              //     </h3>
                   
-                  <Link
-                    href='/prizes/[symbol]'
-                    as={`/prizes/${pool?.symbol}`}
-                  >
-                    <a
-                      className='inline-block font-bold trans'
-                    >
-                      {t('viewPreviousWinners')}
-                    </a>
-                  </Link>
-                </>
-              },
+              //     <Link
+              //       href='/prizes/[symbol]'
+              //       as={`/prizes/${pool?.symbol}`}
+              //     >
+              //       <a
+              //         className='inline-block font-bold trans'
+              //       >
+              //         {t('viewPreviousWinners')}
+              //       </a>
+              //     </Link>
+              //   </>
+              // },
               {
                 icon: PrizeIcon,
                 title: t('pastFiveWinners'),

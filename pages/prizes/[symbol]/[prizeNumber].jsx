@@ -93,42 +93,42 @@ export default function PrizeShowPage(props) {
 
 
 
-  console.log(externalErc20GraphData)
-  const {
-    status: externalErc20ChainStatus,
-    data: externalErc20ChainData,
-    error: externalErc20ChainError,
-    isFetching: externalErc20IsFetching
-  } = useEthereumErc20Query({
-    blockNumber: prize?.awardedBlock,
-    provider: defaultReadProvider,
-    graphErc20Awards: externalErc20GraphData,
-    coingeckoData, // replace coingecko with uniswap data!
-    poolAddress,
-  })
+  // console.log(externalErc20GraphData)
+  // const {
+  //   status: externalErc20ChainStatus,
+  //   data: externalErc20ChainData,
+  //   error: externalErc20ChainError,
+  //   isFetching: externalErc20IsFetching
+  // } = useEthereumErc20Query({
+  //   blockNumber: prize?.awardedBlock,
+  //   provider: defaultReadProvider,
+  //   graphErc20Awards: externalErc20GraphData,
+  //   coingeckoData, // replace coingecko with uniswap data!
+  //   poolAddress,
+  // })
 
-  if (externalErc20ChainError) {
-    console.warn(externalErc20ChainError)
-  }
-  console.log(externalErc20ChainData)
+  // if (externalErc20ChainError) {
+  //   console.warn(externalErc20ChainError)
+  // }
+  // console.log(externalErc20ChainData)
 
 
 
-  const {
-    status: externalErc721ChainStatus,
-    data: externalErc721ChainData,
-    error: externalErc721ChainError,
-    isFetching: externalErc721IsFetching
-  } = useEthereumErc721Query({
-    blockNumber: prize?.awardedBlock,
-    provider: defaultReadProvider,
-    graphErc721Awards: externalErc721GraphData,
-    poolAddress,
-  })
+  // const {
+  //   status: externalErc721ChainStatus,
+  //   data: externalErc721ChainData,
+  //   error: externalErc721ChainError,
+  //   isFetching: externalErc721IsFetching
+  // } = useEthereumErc721Query({
+  //   blockNumber: prize?.awardedBlock,
+  //   provider: defaultReadProvider,
+  //   graphErc721Awards: externalErc721GraphData,
+  //   poolAddress,
+  // })
 
-  if (externalErc721ChainError) {
-    console.warn(externalErc721ChainError)
-  }
+  // if (externalErc721ChainError) {
+  //   console.warn(externalErc721ChainError)
+  // }
 
 
 

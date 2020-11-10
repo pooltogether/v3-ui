@@ -29,12 +29,11 @@ export const Erc20AwardsTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { externalErc20ChainData, hideContributeUI } = props
+  const { basePath, externalErc20ChainData, hideContributeUI } = props
 
   const [moreVisible, setMoreVisible] = useState(false)
   
   const { pool } = useContext(PoolDataContext)
-  // const awardsChainData = pool?.externalErc20ChainData
 
   const handleShowMore = (e) => {
     e.preventDefault()
@@ -42,8 +41,7 @@ export const Erc20AwardsTable = (props) => {
     setMoreVisible(true)
 
     router.push(
-      `/pools/[symbol]#awards-table`,
-      `/pools/${pool?.symbol}#awards-table`,
+      `${basePath}#awards-table`,
     )
   }
 

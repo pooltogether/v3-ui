@@ -20,8 +20,8 @@ export const compilePoolData = (
     ...prizeStrategyGraphData
   }
 
-  const externalErc20Awards = cache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, poolAddress])
-  const externalErc721Awards = cache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, poolAddress])
+  const externalErc20Awards = cache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, poolAddress, -1])
+  const externalErc721Awards = cache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, poolAddress, -1])
 
   const externalAwardsEstimate = calculateEstimatedExternalAwardsValue(externalErc20Awards)
   const externalItemAwardsEstimate = calculateEstimatedExternalItemAwardsValue(

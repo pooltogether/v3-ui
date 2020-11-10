@@ -9,6 +9,7 @@ import { GeneralContext } from 'lib/components/contextProviders/GeneralContextPr
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { poolPrizesQuery } from 'lib/queries/poolPrizesQuery'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { shorten } from 'lib/utils/shorten'
 
 export const LastWinnersListing = (
@@ -40,9 +41,10 @@ export const LastWinnersListing = (
 
   let prizes = compact([].concat(data?.prizePools?.[0]?.prizes))
 
-  const players = prizes?.reduce(function (result, prize) {
+  prizes = prizes?.reduce(function (result, prize) {
     if (prize.winners && prize.winners.length > 0) {
       result.push({
+        prizeNumber: extractPrizeNumberFromPrize(prize),
         address: prize?.winners[0],
         winnings: prize?.amount
       })
@@ -50,7 +52,7 @@ export const LastWinnersListing = (
     return result
   }, [])
 
-  if (!players && players !== null) {
+  if (!prizes && prizes !== null) {
     return <TableRowUILoader
       rows={5}
     />
@@ -62,16 +64,16 @@ export const LastWinnersListing = (
       {error.message}
     </>}
 
-    {players && players?.length === 0 ? <>
+    {prizes && prizes?.length === 0 ? <>
       <h6>
         {t('noWinnersAwardedYet')}
       </h6>
     </> : <>
-      {players.map(player => {
+      {prizes.map(prize => {
         return <Link
-          key={`last-winners-${player?.address}-${player?.winnings}`}
-          href='/players/[playerAddress]'
-          as={`/players/${player?.address}`}
+          key={`last-winners-${prize?.address}-${prize?.winnings}`}
+          href='/prizes/[symbol]/[prizeNumber]'
+          as={`/prizes/${pool?.symbol}/${prize?.prizeNumber}`}
         >
           <a
             className='block font-bold bg-default mb-2 rounded-lg px-2 trans'
@@ -79,13 +81,13 @@ export const LastWinnersListing = (
             <span
               className='inline-block w-1/2 sm:w-1/2'
             >
-              {shorten(player?.address)}
+              {shorten(prize?.address)}
             </span>
             <span
               className='inline-block w-1/2 sm:w-1/2 text-left'
             >
               ${displayAmountInEther(
-                player?.winnings,
+                prize?.winnings,
                 { decimals, precision: 2 }
               )} {tickerUpcased}
             </span>

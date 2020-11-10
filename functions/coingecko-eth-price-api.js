@@ -7,7 +7,6 @@ exports.handler = async (event, context, callback) => {
     const result = await axiosInstance.get(
       url,
     )
-    console.log(result)
 
     if (result.status < 400) {
       callback(null, {

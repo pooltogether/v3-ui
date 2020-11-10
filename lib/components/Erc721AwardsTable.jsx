@@ -33,14 +33,11 @@ export const Erc721AwardsTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { externalErc721ChainData, externalErc721GraphData } = props
+  const { basePath, externalErc721ChainData, externalErc721GraphData } = props
 
   const [moreVisible, setMoreVisible] = useState(false)
   
   const { pool } = useContext(PoolDataContext)
-  // const { dynamicExternalAwardsData, pool } = useContext(PoolDataContext)
-  // const awardsGraphData = dynamicExternalAwardsData
-  // const awardsChainData = pool?.externalErc721ChainData
 
   const handleShowMore = (e) => {
     e.preventDefault()
@@ -48,8 +45,7 @@ export const Erc721AwardsTable = (props) => {
     setMoreVisible(true)
 
     router.push(
-      `/pools/[symbol]#awards-table`,
-      `/pools/${pool?.symbol}#awards-table`,
+      `${basePath}#awards-table`,
     )
   }
 

@@ -1,19 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import classnames from 'classnames'
-import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
-import { useTimeTravelUniswapTokensQuery } from 'lib/hooks/useTimeTravelUniswapTokensQuery'
 
-import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
-// import { AllPoolsTotalAwarded } from 'lib/components/AllPoolsTotalAwarded'
-import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { CardGrid } from 'lib/components/CardGrid'
 import { Erc20AwardsTable } from 'lib/components/Erc20AwardsTable'
 import { Erc721AwardsTable } from 'lib/components/Erc721AwardsTable'
-import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { Meta } from 'lib/components/Meta'
 import { PrizeWinner } from 'lib/components/PrizeWinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
@@ -22,12 +14,8 @@ import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { PrizeFromInterestCard } from 'lib/components/PrizeFromInterestCard'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
-import { prizeQuery } from 'lib/queries/prizeQuery'
-import { timeTravelExternalAwardsQuery } from 'lib/queries/timeTravelExternalAwardsQuery'
-import { getExternalAwardsDataFromQueryResult } from 'lib/services/getExternalAwardsDataFromQueryResult'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatDate } from 'lib/utils/formatDate'
-import { shorten } from 'lib/utils/shorten'
 
 import TicketsIcon from 'assets/images/icon-ticket@2x.png'
 import PlayersIcon from 'assets/images/players@2x.png'
@@ -187,10 +175,12 @@ export function PrizeShow(props) {
 
     <Erc20AwardsTable
       hideContributeUI
+      basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
       externalErc20ChainData={externalErc20ChainData}
     />
 
     <Erc721AwardsTable
+      basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
       externalErc721ChainData={externalErc721ChainData}
       externalErc721GraphData={externalErc721GraphData}
     />
@@ -251,5 +241,9 @@ export function PrizeShow(props) {
     />
 
     {/* <AllPoolsTotalAwarded /> */}
+
+    <div
+      className='text-inverse mt-12 pb-40 text-center'
+    ></div>
   </>
 }
