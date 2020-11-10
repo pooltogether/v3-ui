@@ -7,12 +7,12 @@ export function UniswapData(props) {
   const {
     blockNumber,
     children,
-    dynamicExternalAwardsData,
+    poolData,
   } = props
 
   const { chainId } = useContext(AuthControllerContext)
 
-  const { status, data, error, isFetching } = useUniswapTokensQuery(chainId, dynamicExternalAwardsData, blockNumber)
+  const { status, data, error, isFetching } = useUniswapTokensQuery(chainId, poolData, blockNumber)
 
   if (error) {
     console.warn(error)

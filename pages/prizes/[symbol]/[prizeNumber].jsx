@@ -10,10 +10,10 @@ import { GeneralContext } from 'lib/components/contextProviders/GeneralContextPr
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PrizeShow } from 'lib/components/PrizeShow'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
-import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
-import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
+// import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
+// import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
+import { externalAwardsQuery } from 'lib/queries/externalAwardsQuery'
 import { prizeQuery } from 'lib/queries/prizeQuery'
-import { timeTravelExternalAwardsQuery } from 'lib/queries/timeTravelExternalAwardsQuery'
 import { getExternalAwardsDataFromQueryResult } from 'lib/services/getExternalAwardsDataFromQueryResult'
 
 export default function PrizeShowPage(props) {
@@ -49,12 +49,12 @@ export default function PrizeShowPage(props) {
 
 
 
-  const timeTravelAwardsQuery = timeTravelExternalAwardsQuery(prize?.awardedBlock)
+  const externalAwardsQuery = externalAwardsQuery(prize?.awardedBlock)
   const {
     loading: timeTravelExternalAwardsLoading,
     error: timeTravelExternalAwardsError,
     data: timeTravelExternalAwardsData,
-  } = useQuery(timeTravelAwardsQuery, {
+  } = useQuery(externalAwardsQuery, {
     variables: {
       prizeStrategyAddress: pool?.prizeStrategyAddress
     },

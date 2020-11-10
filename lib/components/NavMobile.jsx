@@ -17,9 +17,8 @@ export function NavMobile(props) {
 
   return <>
     <nav
-      className='w-screen flex justify-between items-center fixed b-0 l-0 r-0 bg-card-selected sm:hidden z-20 border-accent-4 border-t-2'
+      className='w-screen flex justify-between items-center fixed b-0 l-0 r-0 bg-card-purple sm:hidden z-20'
       style={{
-        boxShadow: '0 -2px 6px -1px rgba(0, 0, 0, .05), 0 -3px 8px 0 rgba(0, 0, 0, .02)',
         height: 76
       }}
     >
@@ -32,8 +31,8 @@ export function NavMobile(props) {
           className={classnames(
             mobileNavClasses,
             {
-              'text-accent-3 hover:text-highlight-2': !poolPage,
-              'text-highlight-2 hover:text-highlight-2': poolPage
+              'text-accent-4 hover:text-highlight-9': !poolPage,
+              'text-highlight-9 hover:text-highlight-9': poolPage
             }
           )}
         >
@@ -57,8 +56,8 @@ export function NavMobile(props) {
           className={classnames(
             mobileNavClasses,
             {
-              'text-accent-3 hover:text-highlight-2': !accountPage,
-              'text-highlight-2 hover:text-highlight-2': accountPage
+              'text-accent-4 hover:text-highlight-9': !accountPage,
+              'text-highlight-9 hover:text-highlight-9': accountPage
             }
           )}
         >
@@ -79,8 +78,8 @@ export function NavMobile(props) {
           className={classnames(
             mobileNavClasses,
             {
-              'text-accent-3 hover:text-highlight-2': !votePage,
-              'text-highlight-2 hover:text-highlight-2': votePage
+              'text-accent-4 hover:text-highlight-9': !votePage,
+              'text-highlight-9 hover:text-highlight-9': votePage
             }
           )}
         >

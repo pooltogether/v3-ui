@@ -6,7 +6,6 @@ import { useQueryCache } from 'react-query'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ChainQueries } from 'lib/components/ChainQueries'
-import { CoingeckoQueries } from 'lib/components/CoingeckoQueries'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphDataQueries } from 'lib/components/queryComponents/GraphDataQueries'
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
@@ -67,160 +66,150 @@ export function PoolDataContextProvider(props) {
     >
       {({
         graphDataLoading,
-        dynamicExternalAwardsData,
-        dynamicPoolData,
-        dynamicPrizeStrategiesData,
+        // dynamicExternalAwardsData,
+        poolData,
+        // dynamicPrizeStrategiesData,
         dynamicPlayerData,
         dynamicSponsorData,
         refetchPoolQuery,
-        refetchPrizeStrategyQuery,
+        // refetchPrizeStrategyQuery,
         refetchPlayerQuery,
         refetchSponsorQuery,
         dynamicPlayerDrips,
       }) => {
-        return <>
-          <CoingeckoQueries
-            dynamicExternalAwardsData={dynamicExternalAwardsData}
-          >
-            {({ coingeckoData }) => {
-              return <UniswapData
-                dynamicExternalAwardsData={dynamicExternalAwardsData}
-              >
-                {() => {
-                  return <ChainQueries
-                    {...props}
-                    coingeckoData={coingeckoData}
-                    chainId={chainId}
-                    provider={defaultReadProvider}
-                    dynamicExternalAwardsData={dynamicExternalAwardsData}
-                    poolData={dynamicPoolData}
-                    graphDataLoading={graphDataLoading}
-                  >
-                    {({ genericChainData }) => {
-                      let pools = []
+        return <UniswapData
+          poolData={poolData}
+        >
+          {() => {
+            return <ChainQueries
+              {...props}
+              // coingeckoData={coingeckoData}
+              chainId={chainId}
+              provider={defaultReadProvider}
+              // dynamicExternalAwardsData={dynamicExternalAwardsData}
+              poolData={poolData}
+              graphDataLoading={graphDataLoading}
+            >
+              {({ genericChainData }) => {
+                let pools = []
 
-                      if (!graphDataLoading && !isEmpty(genericChainData)) {
-                        const DAI_POOL_INFO = {
-                          name: 'DAI Pool',
-                          frequency: 'Weekly',
-                          symbol: 'PT-cDAI'
-                        }
-                        const daiPool = compilePoolData(
-                          DAI_POOL_INFO,
-                          poolAddresses.daiPool,
-                          cache,
-                          genericChainData.dai,
-                          dynamicPoolData.daiPool,
-                          dynamicPrizeStrategiesData.daiPrizeStrategy,
-                        )
+                if (!graphDataLoading && !isEmpty(genericChainData)) {
+                  const DAI_POOL_INFO = {
+                    name: 'DAI Pool',
+                    frequency: 'Weekly',
+                    symbol: 'PT-cDAI'
+                  }
+                  const daiPool = compilePoolData(
+                    DAI_POOL_INFO,
+                    poolAddresses.daiPool,
+                    cache,
+                    genericChainData.dai,
+                    poolData.daiPool,
+                    // dynamicPrizeStrategiesData.daiPrizeStrategy,
+                  )
 
-                        pools = [
-                          daiPool,
-                        ]
-                      }
+                  pools = [
+                    daiPool,
+                  ]
+                }
 
-                      let pool = null
-                      if (querySymbol && pools?.length > 0) {
-                        pool = pools.find(_pool => {
-                          let symbol = _pool?.symbol?.toLowerCase()
+                let pool = null
+                if (querySymbol && pools?.length > 0) {
+                  pool = pools.find(_pool => {
+                    let symbol = _pool?.symbol?.toLowerCase()
 
-                          return symbol === querySymbol
-                        })
-                      }
+                    return symbol === querySymbol
+                  })
+                }
 
-                      const poolAddress = pool?.poolAddress
-                      const underlyingCollateralDecimals = pool?.underlyingCollateralDecimals
+                const poolAddress = pool?.poolAddress
+                const underlyingCollateralDecimals = pool?.underlyingCollateralDecimals
 
-                      let usersTicketBalance = 0
-                      let usersTicketBalanceBN = ethers.utils.bigNumberify(0)
+                let usersTicketBalance = 0
+                let usersTicketBalanceBN = ethers.utils.bigNumberify(0)
 
 
-                      if (pool && dynamicPlayerData) {
-                        const player = dynamicPlayerData.find(data => data.prizePool.id === poolAddress)
+                if (pool && dynamicPlayerData) {
+                  const player = dynamicPlayerData.find(data => data.prizePool.id === poolAddress)
 
-                        if (player && underlyingCollateralDecimals) {
-                          usersTicketBalance = ethers.utils.formatUnits(
-                            player.balance,
-                            underlyingCollateralDecimals
-                          )
-                          usersTicketBalanceBN = ethers.utils.bigNumberify(player.balance)
-                        }
-                      }
+                  if (player && underlyingCollateralDecimals) {
+                    usersTicketBalance = ethers.utils.formatUnits(
+                      player.balance,
+                      underlyingCollateralDecimals
+                    )
+                    usersTicketBalanceBN = ethers.utils.bigNumberify(player.balance)
+                  }
+                }
 
-                      let usersSponsorshipBalance = 0
-                      let usersSponsorshipBalanceBN = ethers.utils.bigNumberify(0)
+                let usersSponsorshipBalance = 0
+                let usersSponsorshipBalanceBN = ethers.utils.bigNumberify(0)
 
-                      if (pool && dynamicSponsorData) {
-                        const sponsor = dynamicSponsorData.find(data => data.prizePool.id === poolAddress)
+                if (pool && dynamicSponsorData) {
+                  const sponsor = dynamicSponsorData.find(data => data.prizePool.id === poolAddress)
 
-                        if (sponsor && underlyingCollateralDecimals) {
-                          usersSponsorshipBalance = Number(ethers.utils.formatUnits(
-                            sponsor.balance,
-                            Number(underlyingCollateralDecimals)
-                          ))
-                          usersSponsorshipBalanceBN = ethers.utils.bigNumberify(sponsor.balance)
-                        }
-                      }
-
-
-                      // TODO!
-                      /// hard-coded to just the DAI pool for now since that's all we're gonna launch with
-                      const daiPool = pools.find(_pool => _pool?.symbol === 'PT-cDAI')
-                      return <GraphPoolDripQueries
-                        pool={daiPool}
-                      >
-                        {({ dripDataLoading, graphDripData }) => {
-                          return <FetchUsersChainData
-                            {...props}
-                            provider={defaultReadProvider}
-                            pool={pool}
-                            usersAddress={usersAddress}
-                            graphDripData={graphDripData}
-                            poolAddresses={poolAddresses}
-                          >
-                            {({ usersChainData }) => {
-                              return <PoolDataContext.Provider
-                                value={{
-                                  loading: graphDataLoading || dripDataLoading,
-                                  coingeckoData,
-                                  pool,
-                                  pools,
-                                  poolAddresses,
-                                  defaultReadProvider,
-                                  dynamicExternalAwardsData,
-                                  dynamicPoolData,
-                                  dynamicPlayerData,
-                                  dynamicPlayerDrips,
-                                  genericChainData,
-                                  refetchPoolQuery,
-                                  refetchPrizeStrategyQuery,
-                                  refetchPlayerQuery,
-                                  refetchSponsorQuery,
-                                  graphDripData,
-                                  usersChainData,
-                                  usersSponsorshipBalance,
-                                  usersSponsorshipBalanceBN,
-                                  usersTicketBalance,
-                                  usersTicketBalanceBN,
-                                }}
-                              >
-                                {props.children}
-                              </PoolDataContext.Provider>
+                  if (sponsor && underlyingCollateralDecimals) {
+                    usersSponsorshipBalance = Number(ethers.utils.formatUnits(
+                      sponsor.balance,
+                      Number(underlyingCollateralDecimals)
+                    ))
+                    usersSponsorshipBalanceBN = ethers.utils.bigNumberify(sponsor.balance)
+                  }
+                }
 
 
-                            }}
-                          </FetchUsersChainData>
-                        }}
-                      </GraphPoolDripQueries>
-                    }}
-                  </ChainQueries>
-                }}
-              </UniswapData>
-            }}
-          </CoingeckoQueries>
+                // TODO!
+                /// hard-coded to just the DAI pool for now since that's all we're gonna launch with
+                const daiPool = pools.find(_pool => _pool?.symbol === 'PT-cDAI')
+                return <GraphPoolDripQueries
+                  pool={daiPool}
+                >
+                  {({ dripDataLoading, graphDripData }) => {
+                    return <FetchUsersChainData
+                      {...props}
+                      provider={defaultReadProvider}
+                      pool={pool}
+                      usersAddress={usersAddress}
+                      graphDripData={graphDripData}
+                      poolAddresses={poolAddresses}
+                    >
+                      {({ usersChainData }) => {
+                        return <PoolDataContext.Provider
+                          value={{
+                            loading: graphDataLoading || dripDataLoading,
+                            // coingeckoData,
+                            pool,
+                            pools,
+                            poolAddresses,
+                            defaultReadProvider,
+                            // dynamicExternalAwardsData,
+                            poolData,
+                            dynamicPlayerData,
+                            dynamicPlayerDrips,
+                            genericChainData,
+                            refetchPoolQuery,
+                            // refetchPrizeStrategyQuery,
+                            refetchPlayerQuery,
+                            refetchSponsorQuery,
+                            graphDripData,
+                            usersChainData,
+                            usersSponsorshipBalance,
+                            usersSponsorshipBalanceBN,
+                            usersTicketBalance,
+                            usersTicketBalanceBN,
+                          }}
+                        >
+                          {props.children}
+                        </PoolDataContext.Provider>
 
-          
-        </>
+
+                      }}
+                    </FetchUsersChainData>
+                  }}
+                </GraphPoolDripQueries>
+              }}
+            </ChainQueries>
+          }}
+        </UniswapData>
       }}
     </GraphDataQueries>
   </>

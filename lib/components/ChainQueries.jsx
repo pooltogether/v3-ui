@@ -10,7 +10,7 @@ const debug = require('debug')('pool-app:FetchGenericChainData')
 export function ChainQueries(props) {
   const {
     children,
-    coingeckoData,
+    // coingeckoData,
     dynamicExternalAwardsData,
     provider,
     poolData,
@@ -26,7 +26,7 @@ export function ChainQueries(props) {
     isFetching: genericIsFetching
   } = useEthereumGenericQuery({
     provider,
-    poolData: poolData.daiPool
+    poolData: poolData?.daiPool
   })
 
   if (genericChainError) {
@@ -37,44 +37,50 @@ export function ChainQueries(props) {
 
 
 
-  const graphExternalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
-  const poolAddress = poolData.daiPool.poolAddress
+  // const graphExternalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
+  // const poolAddress = poolData.daiPool.poolAddress
 
-  const {
-    status: externalErc20ChainStatus,
-    data: externalErc20ChainData,
-    error: externalErc20ChainError,
-    isFetching: externalErc20IsFetching
-  } = useEthereumErc20Query({
-    provider,
-    graphErc20Awards: graphExternalErc20Awards,
-    coingeckoData,
-    poolAddress,
-  })
+  // const {
+  //   status: externalErc20ChainStatus,
+  //   data: externalErc20ChainData,
+  //   error: externalErc20ChainError,
+  //   isFetching: externalErc20IsFetching
+  // } = useEthereumErc20Query({
+  //   provider,
+  //   graphErc20Awards: graphExternalErc20Awards,
+  //   priceData,
+  //   // coingeckoData,
+  //   poolAddress,
+  // })
 
-  if (externalErc20ChainError) {
-    console.warn(externalErc20ChainError)
-  }
+  // if (externalErc20ChainError) {
+  //   console.warn(externalErc20ChainError)
+  // }
 
 
 
 
-  const graphExternalErc721Awards = dynamicExternalAwardsData?.daiPool?.externalErc721Awards
+  // const graphExternalErc721Awards = dynamicExternalAwardsData?.daiPool?.externalErc721Awards
 
-  const {
-    status: externalErc721ChainStatus,
-    data: externalErc721ChainData,
-    error: externalErc721ChainError,
-    isFetching: externalErc721IsFetching
-  } = useEthereumErc721Query({
-    provider,
-    graphErc721Awards: graphExternalErc721Awards,
-    poolAddress,
-  })
+  // const {
+  //   status: externalErc721ChainStatus,
+  //   data: externalErc721ChainData,
+  //   error: externalErc721ChainError,
+  //   isFetching: externalErc721IsFetching
+  // } = useEthereumErc721Query({
+  //   provider,
+  //   graphErc721Awards: graphExternalErc721Awards,
+  //   poolAddress,
+  // })
 
-  if (externalErc721ChainError) {
-    console.warn(externalErc721ChainError)
-  }
+  // if (externalErc721ChainError) {
+  //   console.warn(externalErc721ChainError)
+  // }
+
+
+
+
+  
 
   // useEffect(() => {
   //   const owner = poolData?.daiPool?.owner

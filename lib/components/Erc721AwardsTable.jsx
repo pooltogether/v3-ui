@@ -89,13 +89,13 @@ export const Erc721AwardsTable = (props) => {
       </>}
       
       {awards.length > 0 && <>
-        {pool?.externalItemAwardsEstimate && <>
+        {/* {pool?.externalItemAwardsEstimate && <>
           <h3
             className='mb-1'
           >
             ${numberWithCommas(pool?.externalItemAwardsEstimate)} Value
           </h3>
-        </>} 
+        </>}  */}
 
         <div
           className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8 mt-4'
