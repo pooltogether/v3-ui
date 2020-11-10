@@ -1,6 +1,6 @@
-// import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
-// import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
 import { useEthereumGenericQuery } from 'lib/hooks/useEthereumGenericQuery'
@@ -16,8 +16,8 @@ export function ChainDataQueries(props) {
     poolData,
   } = props
   
-  // const { disconnectWallet } = useContext(WalletContext)
-  // const [retryAttempts, setRetryAttempts] = useState(0)
+  const { disconnectWallet } = useContext(WalletContext)
+  const [retryAttempts, setRetryAttempts] = useState(0)
   
   const {
     status: genericChainStatus,
@@ -76,21 +76,21 @@ export function ChainDataQueries(props) {
     console.warn(external721ChainError)
   }
 
-  // useEffect(() => {
-  //   const owner = poolData?.daiPool?.owner
-  //   if (!owner) {
-  //     setRetryAttempts(retryAttempts + 1)
-  //   }
-  // }, [poolData])
+  useEffect(() => {
+    const underlyingCollateralName = poolData?.daiPool?.underlyingCollateralName
+    if (!underlyingCollateralName) {
+      setRetryAttempts(retryAttempts + 1)
+    }
+  }, [poolData])
 
-  // // Forget wallet and releoad -  this typically happens when the Graph URI is out of sync with Onboard JS's chainId
-  // useEffect(() => {
-  //   // console.log({ retryAttempts})
-  //   if (retryAttempts > 12) {
-  //     disconnectWallet()
-  //     window.location.reload()
-  //   }
-  // }, [retryAttempts])
+  // Forget wallet and releoad -  this typically happens when the Graph URI is out of sync with Onboard JS's chainId
+  useEffect(() => {
+    // console.log({ retryAttempts})
+    if (retryAttempts > 12) {
+      disconnectWallet()
+      window.location.reload()
+    }
+  }, [retryAttempts])
   
   return children({ 
     genericChainData,
