@@ -55,12 +55,13 @@ export const PoolShow = (
   const router = useRouter()
 
   const { networkName, usersAddress, walletName } = useContext(AuthControllerContext)
-  const { pool, dynamicExternalAwardsData } = useContext(PoolDataContext)
+  const { pool } = useContext(PoolDataContext)
 
-  const externalErc20ChainData = pool?.externalErc20ChainData
 
-  const externalErc721ChainData = pool?.externalErc721ChainData
-  const externalErc721GraphData = dynamicExternalAwardsData?.daiPool?.externalErc721Awards
+  // we should run a compilePool for each pool row and pool show, and a compilePoolWithBlockNumber() for
+  // a previous prize, etc
+  const externalErc20Awards = pool?.externalErc20Awards
+  const externalErc721Awards = pool?.externalErc721Awards
 
   const symbol = pool?.symbol
   const decimals = pool?.underlyingCollateralDecimals
@@ -254,13 +255,12 @@ export const PoolShow = (
 
           <Erc20AwardsTable
             basePath={`/pools/${pool?.symbol}`}
-            externalErc20ChainData={externalErc20ChainData}
+            externalErc20Awards={externalErc20Awards}
           />
           
           <Erc721AwardsTable
             basePath={`/pools/${pool?.symbol}`}
-            externalErc721ChainData={externalErc721ChainData}
-            externalErc721GraphData={externalErc721GraphData}
+            externalErc721Awards={externalErc721Awards}
           />
 
 

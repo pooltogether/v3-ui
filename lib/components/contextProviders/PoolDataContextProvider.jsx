@@ -77,13 +77,18 @@ export function PoolDataContextProvider(props) {
         refetchSponsorQuery,
         dynamicPlayerDrips,
       }) => {
+        const addresses = poolData?.daiPool?.prizeStrategy?.externalErc20Awards?.map(award => award.address)
+
         return <UniswapData
+          addresses={addresses}
+          poolAddress={poolData?.daiPool?.poolAddress}
           poolData={poolData}
         >
           {() => {
             return <ChainQueries
               {...props}
               // coingeckoData={coingeckoData}
+              cache={cache}
               chainId={chainId}
               provider={defaultReadProvider}
               // dynamicExternalAwardsData={dynamicExternalAwardsData}

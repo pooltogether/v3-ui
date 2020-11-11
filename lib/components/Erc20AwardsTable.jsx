@@ -29,7 +29,7 @@ export const Erc20AwardsTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { basePath, externalErc20ChainData, hideContributeUI } = props
+  const { basePath, externalErc20Awards, hideContributeUI } = props
 
   const [moreVisible, setMoreVisible] = useState(false)
   
@@ -47,12 +47,12 @@ export const Erc20AwardsTable = (props) => {
 
 
 
-  if (!externalErc20ChainData) {
+  if (!externalErc20Awards) {
     return null
   }
 
-  let externalAwards = Object.keys(externalErc20ChainData)
-    .map(key => externalErc20ChainData[key])
+  let externalAwards = Object.keys(externalErc20Awards)
+    .map(key => externalErc20Awards[key])
     .filter(award => award?.balance?.gt(0))
 
   const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])
@@ -128,6 +128,10 @@ export const Erc20AwardsTable = (props) => {
             </thead>
             <tbody>
               {awards.map(award => {
+                if (!award.name) {
+                  return
+                }
+
                 return <Fragment
                   key={award.address}
                 >
