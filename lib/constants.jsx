@@ -36,6 +36,14 @@ export const COOKIE_OPTIONS = {
   domain
 }
 
+export const POOLS = [
+  {
+    name: 'DAI Pool',
+    frequency: 'Weekly',
+    symbol: 'PT-cDAI'
+  }
+]
+
 export const CONTRACT_ADDRESSES = {
   1: {
     Usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',

@@ -3,7 +3,11 @@ import React from 'react'
 import { DripQueries } from 'lib/components/queryComponents/DripQueries'
 
 export function GraphPoolDripQueries(props) {
-  const { children, pool } = props
+  const { children, pools } = props
+
+  // TODO!
+  /// hard-coded to just the DAI pool for now since that's all we have at the moment
+  const pool = pools?.find(_pool => _pool?.symbol === 'PT-cDAI')
 
   if (!pool) {
     return children({
@@ -14,6 +18,7 @@ export function GraphPoolDripQueries(props) {
 
   return <DripQueries
     {...props}
+    pool={pool}
   >
     {({
       dripDataLoading,
