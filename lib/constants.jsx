@@ -53,13 +53,6 @@ export const CONTRACT_ADDRESSES = {
   },
 }
 
-export const TOKEN_VALUES = {
-  '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
-  // '0x2e703d658f8dd21709a7b458967ab4081f8d3d05': ,
-  // '0x8b9c35c79af5319c70dd9a3e3850f368822ed64e': ,
-  '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
-}
-
 export const TOKEN_IMAGES = {
   '0x6b175474e89094c44da98b954eedeac495271d0f': '/tokens/dai-new-transparent.png',
   '0x06f65b8cfcb13a9fe37d836fe9708da38ecb29b2': 'https://assets.coingecko.com/coins/images/11521/thumb/FAME.png?1590622461',
@@ -101,8 +94,8 @@ export const V2_CONTRACT_ADDRESSES = [
 ]
 
 export const QUERY_KEYS = {
-  coingeckoEthPriceQuery: 'coingeckoEthPriceQuery',
-  coingeckoTokensQuery: 'coingeckoTokensQuery',
+  // coingeckoEthPriceQuery: 'coingeckoEthPriceQuery',
+  // coingeckoTokensQuery: 'coingeckoTokensQuery',
   ethereumErc20sQuery: 'ethereumErc20sQuery',
   ethereumErc721sQuery: 'ethereumErc721sQuery',
   ethereumGenericQuery: 'ethereumGenericQuery',
