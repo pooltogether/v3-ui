@@ -31,16 +31,12 @@ export const AllPoolsTotalAwarded = (
   })
  
   return <>
-    <div
-      className='text-inverse mt-12 pb-40 text-center'
-    >
-      <h4>
-        {t('totalAwardedForAllPools')} <span className='text-flashy'>${displayAmountInEther(
-          cumulativePrizeNetAllPools,
-          { decimals: 18, precision: 2 }
-        )}
-        </span>
-      </h4>
-    </div>
+    <h4>
+      {t('totalAwardedForAllPools')} <span className='text-flashy'>${displayAmountInEther(
+        cumulativePrizeNetAllPools,
+        { decimals: 18, precision: 2 }
+      )}
+      </span>
+    </h4>
   </>
 }

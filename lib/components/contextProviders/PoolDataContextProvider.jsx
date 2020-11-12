@@ -83,7 +83,6 @@ export function PoolDataContextProvider(props) {
         return <UniswapData
           addresses={addresses}
           poolAddress={poolData?.daiPool?.poolAddress}
-          poolData={poolData}
         >
           {() => {
             return <ChainQueries

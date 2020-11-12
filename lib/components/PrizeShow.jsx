@@ -13,7 +13,6 @@ import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { PrizeFromInterestCard } from 'lib/components/PrizeFromInterestCard'
-import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatDate } from 'lib/utils/formatDate'
 
@@ -193,14 +192,7 @@ export function PrizeShow(props) {
           title: t('players'),
           content: <>
             <h3>
-              <TimeTravelPool
-                pool={pool}
-                prize={prize}
-              >
-                {(timeTravelPool) => {
-                  return timeTravelPool?.playerCount || null
-                }}
-              </TimeTravelPool>
+              {pool?.playerCount || null}
             </h3>
           </>
         },
@@ -209,18 +201,12 @@ export function PrizeShow(props) {
           title: t('ticketsSold'),
           content: <>
             <h3>
-              <TimeTravelPool
-                pool={pool}
-                prize={prize}
-              >
-                {(timeTravelPool) => {
-                  return timeTravelPool?.ticketSupply ?
-                    displayAmountInEther(
-                      timeTravelPool.ticketSupply,
-                      { decimals, precision: 0 }
-                    ) : null
-                }}
-              </TimeTravelPool>
+              {pool?.ticketSupply ?
+                displayAmountInEther(
+                  pool.ticketSupply,
+                  { decimals, precision: 0 }
+                ) : null
+              }
             </h3>
           </>
         }
@@ -235,15 +221,15 @@ export function PrizeShow(props) {
       {t('players')}
     </h4>
 
-    <PrizePlayerListing
+    {/* <PrizePlayerListing
       pool={pool}
       prize={prize}
-    />
-
-    {/* <AllPoolsTotalAwarded /> */}
+    /> */}
 
     <div
       className='text-inverse mt-12 pb-40 text-center'
-    ></div>
+    >
+      {/* <AllPoolsTotalAwarded /> */}
+    </div>
   </>
 }

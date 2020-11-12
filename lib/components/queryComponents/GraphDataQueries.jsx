@@ -11,8 +11,6 @@ import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
 import { dynamicSponsorQuery } from 'lib/queries/dynamicSponsorQuery'
 import { prizePoolsQuery } from 'lib/queries/prizePoolsQuery'
 // import { singleRandomWinnerQuery } from 'lib/queries/singleRandomWinnerQuery'
-import { externalAwardsQuery } from 'lib/queries/externalAwardsQuery'
-import { getExternalAwardsDataFromQueryResult } from 'lib/services/getExternalAwardsDataFromQueryResult'
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
 import { getPrizeStrategyDataFromQueryResult } from 'lib/services/getPrizeStrategyDataFromQueryResult'
 import { poolToast } from 'lib/utils/poolToast'
@@ -110,34 +108,6 @@ export const GraphDataQueries = (
   // }
 
   // dynamicPrizeStrategiesData = getPrizeStrategyDataFromQueryResult(poolAddresses, prizeStrategyQueryData)
-
-
-
-
-
-
-
-  // const {
-  //   loading: externalAwardsLoading,
-  //   error: externalAwardsError,
-  //   data: externalAwardsData,
-  //   refetch: refetchExternalAwards
-  // } = useQuery(externalAwardsQuery(), {
-  //   variables: {
-  //     prizeStrategyId: 
-  //   },
-  //   fetchPolicy: 'network-only',
-  //   pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
-  // })
-
-  // if (externalAwardsError) {
-  //   poolToast.error(externalAwardsError)
-  //   console.error(externalAwardsError)
-  // }
-
-  // TODO: We shouldn't need this, we should be able to just get the external awards for a particular prize strategy
-  // const dynamicExternalAwardsData = getExternalAwardsDataFromQueryResult(poolAddresses, externalAwardsData)
-
 
 
 
