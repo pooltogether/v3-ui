@@ -52,7 +52,6 @@ export function TimeTravelPool(
           //   ...timeTravelPool,
           //   // ticketSupply: timeTravelPool?.prizeStrategy?.singleRandomWinner?.ticket?.totalSupply
           // }
-          console.log(timeTravelPool)
 
           return children(timeTravelPool)
         }}

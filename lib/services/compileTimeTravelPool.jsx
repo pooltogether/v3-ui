@@ -41,6 +41,7 @@ export const compileTimeTravelPool = (
   return {
     ...poolInfo,
     ...poolObj,
+    poolAddress: poolAddress,
     prizeAmount: totalPrize,
     interestPrize,
     externalAwardsValue,

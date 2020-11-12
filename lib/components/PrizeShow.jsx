@@ -10,14 +10,12 @@ import { Meta } from 'lib/components/Meta'
 import { PrizeWinner } from 'lib/components/PrizeWinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
-import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { PrizeFromInterestCard } from 'lib/components/PrizeFromInterestCard'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatDate } from 'lib/utils/formatDate'
 
 import TicketsIcon from 'assets/images/icon-ticket@2x.png'
-import PlayersIcon from 'assets/images/players@2x.png'
 
 export function PrizeShow(props) {
   const { t } = useTranslation()
@@ -179,15 +177,6 @@ export function PrizeShow(props) {
       cardGroupId='prize-cards'
       cards={[
         {
-          icon: PlayersIcon,
-          title: t('players'),
-          content: <>
-            <h3>
-              {pool?.playerCount || null}
-            </h3>
-          </>
-        },
-        {
           icon: TicketsIcon,
           title: t('ticketsSold'),
           content: <>
@@ -205,17 +194,10 @@ export function PrizeShow(props) {
     />
 
       
-
-    <h4
-      className='mt-16'
-    >
-      {t('players')}
-    </h4>
-
-    {/* <PrizePlayerListing
+    <PrizePlayerListing
       pool={pool}
       prize={prize}
-    /> */}
+    />
 
     <div
       className='text-inverse mt-12 pb-40 text-center'
