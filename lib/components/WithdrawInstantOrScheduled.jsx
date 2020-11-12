@@ -31,7 +31,7 @@ export function WithdrawInstantOrScheduled(props) {
   const { usersAddress, networkName } = authControllerContext
 
   const poolAddress = pool?.poolAddress
-  const ticketAddress = pool?.ticket?.id
+  const ticketAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
 
   const [exitFees, setExitFees] = useState({})
  
