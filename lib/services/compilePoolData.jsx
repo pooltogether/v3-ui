@@ -1,4 +1,3 @@
-import { isEmpty } from 'lodash'
 import { ethers } from 'ethers'
 
 import {
@@ -7,7 +6,7 @@ import {
 
 import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPoolPrize'
 import { calculateEstimatedExternalAwardsValue } from 'lib/services/calculateEstimatedExternalAwardsValue'
-import { calculateEstimatedExternalItemAwardsValue } from 'lib/services/calculateEstimatedExternalItemAwardsValue'
+// import { calculateEstimatedExternalItemAwardsValue } from 'lib/services/calculateEstimatedExternalItemAwardsValue'
 import { compileErc20Awards } from 'lib/services/compileErc20Awards'
 import { compileErc721Awards } from 'lib/services/compileErc721Awards'
 
@@ -25,12 +24,10 @@ export const compilePoolData = (
   cache,
   poolChainData,
   poolGraphData,
-  // prizeStrategyGraphData,
 ) => {
   const poolObj = {
     ...poolChainData,
     ...poolGraphData,
-    // ...prizeStrategyGraphData
   }
 
   const uniswapPriceData = cache.getQueryData([QUERY_KEYS.uniswapTokensQuery, poolAddress, -1])
@@ -64,4 +61,3 @@ export const compilePoolData = (
     externalErc721Awards
   }
 }
-// ethereumErc721Awards

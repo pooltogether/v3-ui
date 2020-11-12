@@ -1,6 +1,6 @@
 import { usePoolQuery } from 'lib/hooks/usePoolQuery'
 
-export function PoolData(props) {
+export function PoolQuery(props) {
   const {
     blockNumber,
     children,

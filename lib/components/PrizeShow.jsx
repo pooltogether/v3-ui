@@ -38,10 +38,15 @@ export function PrizeShow(props) {
   const isCurrentPrize = Number(pool?.prizesCount) + 1 === Number(prizeNumber)
 
 
-
+  
+  let interestPrizeOrEstimate = pool?.prizeEstimate
+  if (pool?.interestPrize) {
+    interestPrizeOrEstimate = pool?.interestPrize || 0
+  }
+  
   let prizeAmountOrEstimate = pool?.prizeEstimate
-  if (prize?.awardedTimestamp) {
-    prizeAmountOrEstimate = prize?.amount || 0
+  if (pool?.prizeAmount) {
+    prizeAmountOrEstimate = pool?.prizeAmount || 0
   }
 
   const winnersAddress = prize?.winners?.[0]
@@ -78,98 +83,84 @@ export function PrizeShow(props) {
 
     <div
       className={classnames(
-        'bg-highlight-3 rounded-lg px-6 pt-4 pb-6 text-white my-10 sm:mt-10',
+        'purple-pink-gradient rounded-lg px-4 xs:px-6 sm:px-10 pt-4 pb-6 text-white my-4 sm:mt-8 sm:mb-12 mx-auto',
         {
           'border-flashy': isCurrentPrize
         }
       )}
     >
-      <div
-        className='flex flex-col sm:flex-row justify-between'
+      <h6
+        className='mt-4'
       >
-        <div
-          className='w-full sm:w-5/12'
-        >
-          <h2>
-            {t('prize')} #{prizeNumber}
-          </h2>
-          
-          {prize?.awardedTimestamp ? <>
-            <h6
-              className='mt-4'
-            >
-              {t('awardedOn')}
-            </h6>
-            <div
-              className='uppercase font-bold text-sm xs:text-base sm:text-lg text-accent-1'
-            >
-              {formatDate(
-                prize?.awardedTimestamp,
-                {
-                  short: true
-                }
-              )}
-            </div>
-          </> : <>
-            <h6
-              className={classnames(
-                'mt-4',
-                {
-                  'mb-3': !pool?.isRngRequested
-                }
-              )}
-            >
-              {t('willBeAwardedIn')}
-            </h6>
-            <NewPrizeCountdown
-              textAlign='left'
-              textSize='text-xs xs:text-sm sm:text-lg lg:text-xl'
-              pool={pool}
-              flashy
-            />
-          </>}
-        </div>
+        {t('prize')} #{prizeNumber}
+      </h6>
+      <h2>
+        ${displayAmountInEther(
+          prizeAmountOrEstimate,
+          { precision: 2, decimals }
+        )}
+      </h2>
+    </div>
 
-        <div
-          className='w-full sm:w-7/12 mt-2 sm:mt-0'
-        >
-          <h2>
-            <PoolCurrencyIcon
-              pool={pool}
-              className='inline-block mx-auto -mt-1'
-            /> ${displayAmountInEther(
-                prizeAmountOrEstimate,
-                { precision: 2, decimals }
-              )} {pool?.underlyingCollateralSymbol?.toUpperCase()}
-          </h2>
 
+
+      {prize?.awardedTimestamp ? <>
+        <h6
+          className='mt-4'
+        >
+          {t('awardedOn')}: {formatDate(prize?.awardedTimestamp)}
+        </h6>
+      </> : <>
           <h6
-            className='mt-4'
+            className={classnames(
+              'mt-4',
+              {
+                'mb-3': !pool?.isRngRequested
+              }
+            )}
           >
-            {t('winner')}:
+            {t('willBeAwardedIn')}
           </h6>
+          <NewPrizeCountdown
+            textAlign='left'
+            textSize='text-xs xs:text-sm sm:text-lg lg:text-xl'
+            pool={pool}
+            flashy
+          />
+        </>}
 
-          {prize?.awardedTimestamp ? <>
-            <PrizeWinner
-              prize={prize}
-              winnersAddress={winnersAddress}
-            />
-          </> : <>
+
+
+
+      <div
+        className='w-full sm:w-7/12 mt-2 sm:mt-0'
+      >
+        
+
+        <span
+          className='mt-4 text-sm'
+        >
+        {t('winner')}: {prize?.awardedTimestamp ? <>
+          <PrizeWinner
+            prize={prize}
+            winnersAddress={winnersAddress}
+          />
+        </> : <>
             <span
               className='block font-bold text-caption uppercase mt-2'
             >
               {t('yetToBeAwarded')}
             </span>
           </>}
+        </span>
+    </div>     
 
-          
-        </div>
-      </div>
-    </div>
+
+
 
     <PrizeFromInterestCard
       decimals={decimals}
-      interestPrize={prizeAmountOrEstimate}
+      interestPrize={interestPrizeOrEstimate}
     />
 
     <Erc20AwardsTable

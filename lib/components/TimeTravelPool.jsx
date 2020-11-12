@@ -1,61 +1,64 @@
-import { PoolData } from 'lib/components/PoolData'
+import { ethers } from 'ethers'
+import { useQueryCache } from 'react-query'
+
+import { POOLS } from 'lib/constants'
+import { PoolQuery } from 'lib/components/PoolQuery'
 import { UniswapData } from 'lib/components/UniswapData'
-// import { timeTravelPoolQuery } from 'lib/queries/timeTravelPoolQuery'
+import { compileTimeTravelPool } from 'lib/services/compileTimeTravelPool'
 
-export const TimeTravelPool = (
+export function TimeTravelPool(
   props,
-) => {
-  const { blockNumber, children, poolAddress } = props
+){
+  const {
+    children,
+    blockNumber,
+    poolAddress,
+    querySymbol
+  } = props
 
-  // const query = timeTravelPoolQuery(blockNumber)
+  const interestPrize = ethers.utils.bigNumberify(
+    props.interestPrize
+  )
 
-  // const { loading, error, data } = useQuery(query, {
-  //   variables: {
-  //     prizePoolAddress
-  //   },
-  //   skip: !prizePoolAddress || !blockNumber,
-  //   fetchPolicy: 'network-only',
-  // })
+  const cache = useQueryCache()
 
-  // if (error) {
-  //   console.error(error)
-  // }
-
-
-
-  // console.log(poolAddress, blockNumber)
-
-  return <PoolData
+  return <PoolQuery
     poolAddress={poolAddress}
     blockNumber={blockNumber}
   >
-    {(pools) => {
-      if (!pools) {
-        return children({
-          loading: true
-        })
-      }
+    {(graphPools) => {
+      // if (!graphPools) {
+      //   return children({
+      //     loading: true
+      //   })
+      // }
 
-      let pool = pools?.find(_pool => _pool.id === poolAddress)
+      const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
+      const addresses = graphPool?.prizeStrategy?.externalErc20Awards?.map(award => award.address)
 
-      pool = {
-        ...pool,
-        ticketSupply: pool.prizeStrategy?.singleRandomWinner?.ticket?.totalSupply
-      }
-
-      const addresses = pool?.prizeStrategy?.externalErc20Awards?.map(award => award.address)
       
       return <UniswapData
         addresses={addresses}
         blockNumber={blockNumber}
         poolAddress={poolAddress}
       >
-        {(uniswapData) => {
-          return children(pool)
+        {() => {
+          const poolInfo = POOLS.find(POOL => POOL.symbol === querySymbol)
+
+
+          const timeTravelPool = compileTimeTravelPool(poolInfo, cache, graphPool, poolAddress, blockNumber, interestPrize)
+          // const pool = {
+          //   ...graphPool,
+          //   ...timeTravelPool,
+          //   // ticketSupply: timeTravelPool?.prizeStrategy?.singleRandomWinner?.ticket?.totalSupply
+          // }
+          console.log(timeTravelPool)
+
+          return children(timeTravelPool)
         }}
-      </UniswapData>
+      </UniswapData>    
     }}
-  </PoolData>
+  </PoolQuery>
 
    
 }

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 
-import { Trans } from 'lib/../i18n'
+import { useTranslation, Trans } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Odds } from 'lib/components/Odds'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -15,7 +15,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 export const PrizeWinner = (
   props,
 ) => {
-  const router = useRouter()
+  const { t } = useTranslation()
 
   const { prize, winnersAddress } = props
 
@@ -56,19 +56,28 @@ export const PrizeWinner = (
       as={`/players/${winnersAddress}`}
     >
       <a
-        className='block font-bold text-sm xs:text-base sm:text-lg text-green hover:text-white'
+        className='font-bold'
       >
-        <div className='block lg:hidden'>
+        <span className='inline-block lg:hidden'>
           {shorten(winnersAddress)}
-        </div>
-        <div className='hidden lg:block'>
+        </span>
+        <span className='hidden lg:inline-block'>
           {winnersAddress}
-        </div>
+        </span>
       </a>
     </Link>
 
-    <div
-      className='font-bold'
+    <span className='block xs:inline-block'>
+      {t('odds')}: <Odds
+        fontSansRegular
+        className='font-bold text-flashy'
+        pool={pool}
+        usersBalance={usersTicketBalance}
+      />
+    </span>
+
+    <span
+      className='ml-0 sm:ml-4 mr-4'
     >
       <Trans
         i18nKey='amountTickets'
@@ -80,13 +89,6 @@ export const PrizeWinner = (
           amount: numberWithCommas(usersTicketBalance, { precision: 0 })
         }}
       />
-    </div>
-
-    <Odds
-      fontSansRegular
-      className='font-bold text-flashy'
-      pool={pool}
-      usersBalance={usersTicketBalance}
-    />
+    </span>
   </>
 }

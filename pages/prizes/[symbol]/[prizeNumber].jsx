@@ -16,14 +16,16 @@ export default function PrizeShowPage(props) {
   const { t } = useTranslation()
   const router = useRouter()
 
+  const querySymbol = router.query?.symbol
   const prizeNumber = router.query?.prizeNumber
 
   const { paused } = useContext(GeneralContext)
   const { pool } = useContext(PoolDataContext)
 
+  // We use the pre-existing / current pool information we've downloaded from the Graph to learn
+  // if this is a historical prize or an upcoming prize
   const isCurrentPrize = Number(pool?.prizesCount) + 1 === Number(prizeNumber)
   const poolAddress = pool?.poolAddress
-
 
 
   const prizeId = `${poolAddress}-${prizeNumber}`
@@ -36,41 +38,11 @@ export default function PrizeShowPage(props) {
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
   })
 
-  let prize = data?.prize
-
-
-
-
-
-  if (pool === null) {
-    const querySymbol = router.query?.symbol
-    return <BlankStateMessage>
-      Could not find pool with symbol: ${querySymbol}
-    </BlankStateMessage>
-  }
-
-
   if (error) {
     console.error(error)
   }
-
-  if (prize === null) {
-    return <div
-      className='mt-10'
-    >
-      {t('couldntFindPrize')}
-    </div>
-  }
-
-  if (!prize) {
-    return <div
-      className='mt-10'
-    >
-      <TableRowUILoader
-        rows={5}
-      />
-    </div>
-  }
+  
+  let prize = data?.prize
 
 
   if (isCurrentPrize) {
@@ -83,19 +55,51 @@ export default function PrizeShowPage(props) {
       pool={pool}
       prize={prize}
     />
-  } else {
-    return <TimeTravelPool
-      blockNumber={parseInt(prize?.awardedBlock, 10)}
-      poolAddress={poolAddress}
-    >
-      {(timeTravelPool) => {
-        return <PrizeShow
-          pool={timeTravelPool}
-          prize={prize}
-        />
-      }}
-    </TimeTravelPool>
-    
   }
+  
+
+
+
+  if (pool === null) {
+    return <BlankStateMessage>
+      Could not find pool with symbol: ${querySymbol}
+    </BlankStateMessage>
+  }
+
+
+
+
+  if (!prize) {
+    return <div
+      className='mt-10'
+    >
+      {prize === null ? <>
+        {t('couldntFindPrize')}
+      </> : <>
+        <TableRowUILoader
+          rows={5}
+        />
+      </>}
+    </div>
+  }
+
+
+  
+
+
+  
+  return <TimeTravelPool
+    blockNumber={parseInt(prize?.awardedBlock, 10)}
+    poolAddress={poolAddress}
+    querySymbol={querySymbol}
+    interestPrize={prize?.amount || 0}
+  >
+    {(timeTravelPool) => {
+      return <PrizeShow
+        pool={timeTravelPool}
+        prize={prize}
+      />
+    }}
+  </TimeTravelPool>
 
 }

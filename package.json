@@ -74,6 +74,7 @@
     "bn.js": "4.11.0",
     "classnames": "^2.2.6",
     "date-fns": "^2.15.0",
+    "date-fns-tz": "^1.0.12",
     "email-validator": "^2.0.4",
     "eth-revert-reason": "^1.0.3",
     "ethers": "^4.0.47",
