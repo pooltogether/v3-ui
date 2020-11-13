@@ -136,7 +136,7 @@ export const PrizesTable = (
     if (lastPrize.awardedBlock) {
       const currentPrizeId = extractPrizeNumberFromPrize(lastPrize) + 1
       const amount = ethers.utils.formatUnits(
-        pool?.prizeEstimate,
+        pool?.prizeAmountUSD,
         decimals
       )
 

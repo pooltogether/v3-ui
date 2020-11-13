@@ -4,9 +4,9 @@ import { ethers } from 'ethers'
 import { HISTORICAL_TOKEN_VALUES } from 'lib/constants'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 
-export const compileHistoricalErc20Awards = (graphPool, uniswapPriceData, prize) => {
+export const compileHistoricalErc20Awards = (prize, uniswapPriceData) => {
   const prizeNumber = extractPrizeNumberFromPrize(prize)
-  const erc20GraphData = graphPool?.prizeStrategy?.externalErc20Awards
+  const erc20GraphData = prize?.awardedExternalErc20Tokens
 
   if (
     isEmpty(erc20GraphData) ||

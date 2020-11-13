@@ -6,13 +6,14 @@ import {
 
 import { calculateExternalAwardsValue } from 'lib/services/calculateExternalAwardsValue'
 import { compileHistoricalErc20Awards } from 'lib/services/compileHistoricalErc20Awards'
+import { compileHistoricalErc721Awards } from 'lib/services/compileHistoricalErc721Awards'
 
 // This gathers historical data for a pool and prize
 //
 // It uses the ERC20/721 balances pulled from the pooltogether subgraph as we want the balance
 // at the time the prize was awarded, etc (called balanceAwarded)
 
-export const compileTimeTravelPool = (
+export const compileHistoricalPool = (
   poolInfo,
   cache,
   graphPool,
@@ -20,7 +21,7 @@ export const compileTimeTravelPool = (
   blockNumber,
   prize,
 ) => {
-  const interestPrize = ethers.utils.bigNumberify(prize?.amount || 0)
+  const interestPrizeUSD = ethers.utils.bigNumberify(prize?.amount || 0)
 
   const poolObj = {
     ...poolInfo,
@@ -29,24 +30,26 @@ export const compileTimeTravelPool = (
 
   const uniswapPriceData = cache.getQueryData([QUERY_KEYS.uniswapTokensQuery, poolAddress, blockNumber])
 
-  const externalErc20Awards = compileHistoricalErc20Awards(graphPool, uniswapPriceData, prize)
-  const externalErc721Awards = graphPool?.prizeStrategy?.externalErc721Awards
+  const externalErc20Awards = compileHistoricalErc20Awards(prize, uniswapPriceData)
 
-  const externalAwardsValue = calculateExternalAwardsValue(externalErc20Awards)
+  const ethereumErc721Awards = cache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, poolAddress, blockNumber])
+  const externalErc721Awards = compileHistoricalErc721Awards(ethereumErc721Awards, prize)
 
-  const totalPrize = externalAwardsValue ?
-    interestPrize.add(ethers.utils.parseEther(
-      externalAwardsValue.toString()
+  const externalAwardsUSD = calculateExternalAwardsValue(externalErc20Awards)
+
+  const totalPrizeUSD = externalAwardsUSD ?
+    interestPrizeUSD.add(ethers.utils.parseEther(
+      externalAwardsUSD.toString()
     )) :
-    interestPrize
+    interestPrizeUSD
 
   return {
     ...poolInfo,
     ...poolObj,
     poolAddress: poolAddress,
-    prizeAmount: totalPrize,
-    interestPrize,
-    externalAwardsValue,
+    prizeAmountUSD: totalPrizeUSD,
+    interestPrizeUSD,
+    externalAwardsUSD,
     // externalItemAwardsValue,
     externalErc20Awards,
     externalErc721Awards

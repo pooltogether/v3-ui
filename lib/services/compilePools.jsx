@@ -1,14 +1,14 @@
 import { isEmpty } from 'lodash'
 
 import { POOLS } from 'lib/constants'
-import { compilePoolData } from 'lib/services/compilePoolData'
+import { compilePool } from 'lib/services/compilePool'
 
 export const compilePools = (poolAddresses, cache, graphPoolData, graphDataLoading, genericChainData) => {
   let pools = []
 
   if (!graphDataLoading && !isEmpty(genericChainData)) {
     POOLS.forEach(POOL => {
-      const _pool = compilePoolData(
+      const _pool = compilePool(
         POOL,
         poolAddresses.daiPool,
         cache,

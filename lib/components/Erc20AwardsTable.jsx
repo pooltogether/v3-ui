@@ -49,12 +49,6 @@ export const Erc20AwardsTable = (props) => {
     return null
   }
 
-  let externalAwardsValue = pool?.externalAwardsEstimateUSD
-  if (historical) {
-    externalAwardsValue = pool?.externalAwardsValue || 0
-  }
-  
-
   const balanceProperty = historical ? 'balanceAwardedBN' : 'balance'
 
   let externalAwards = Object.keys(externalErc20Awards)
@@ -83,11 +77,11 @@ export const Erc20AwardsTable = (props) => {
           {awards.length === 0 ? <>
             {t('currentlyNoOtherPrizes')}
           </> : <>
-            {externalAwardsValue && <>
+            {pool?.externalAwardsUSD && <>
               <h3
                 className='mb-1'
               >
-                ${numberWithCommas(externalAwardsValue)} {t('value')}
+                ${numberWithCommas(pool?.externalAwardsUSD)} {t('value')}
               </h3>
             </>} 
           </>}

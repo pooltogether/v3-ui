@@ -18,7 +18,7 @@ import { compileErc721Awards } from 'lib/services/compileErc721Awards'
 // in the compilePoolWithBlockNumber(), the balance is pulled from the pooltogether subgraph as we want the balance
 // at the time the prize was awarded, etc
 
-export const compilePoolData = (
+export const compilePool = (
   poolInfo,
   poolAddress,
   cache,
@@ -32,9 +32,12 @@ export const compilePoolData = (
 
   const uniswapPriceData = cache.getQueryData([QUERY_KEYS.uniswapTokensQuery, poolAddress, -1])
   const ethereumErc20Awards = cache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, poolAddress])
-  const ethereumErc721Awards = cache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, poolAddress])
+  const ethereumErc721Awards = cache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, poolAddress, -1])
 
   const externalErc20Awards = compileErc20Awards(ethereumErc20Awards, poolGraphData, uniswapPriceData)
+
+  console.log(ethereumErc721Awards)
+  console.log(poolGraphData)
   const externalErc721Awards = compileErc721Awards(ethereumErc721Awards, poolGraphData)
 
   const externalAwardsEstimateUSD = calculateEstimatedExternalAwardsValue(externalErc20Awards)
@@ -42,20 +45,20 @@ export const compilePoolData = (
   //   ethereumErc721Awards
   // )
 
-  const interestPrizeEstimate = calculateEstimatedPoolPrize(poolObj)
+  const interestPrizeEstimateUSD = calculateEstimatedPoolPrize(poolObj)
 
-  const totalPrizeEstimate = externalAwardsEstimateUSD ?
-    interestPrizeEstimate.add(ethers.utils.parseEther(
+  const totalPrizeEstimateUSD = externalAwardsEstimateUSD ?
+    interestPrizeEstimateUSD.add(ethers.utils.parseEther(
       externalAwardsEstimateUSD.toString()
     )) :
-    interestPrizeEstimate
+    interestPrizeEstimateUSD
 
   return {
     ...poolInfo,
     ...poolObj,
-    prizeEstimate: totalPrizeEstimate,
-    interestPrizeEstimate,
-    externalAwardsEstimateUSD,
+    prizeAmountUSD: totalPrizeEstimateUSD,
+    interestPrizeUSD: interestPrizeEstimateUSD,
+    externalAwardsUSD: externalAwardsEstimateUSD,
     // externalItemAwardsEstimate,
     externalErc20Awards,
     externalErc721Awards

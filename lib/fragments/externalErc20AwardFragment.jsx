@@ -5,7 +5,6 @@ export const externalErc20AwardFragment = gql`
     id
 
     address
-    balanceAwarded
 
     name
     symbol

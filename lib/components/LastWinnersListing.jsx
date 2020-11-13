@@ -7,6 +7,7 @@ import { useTranslation } from 'lib/../i18n'
 import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
+import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { poolPrizesQuery } from 'lib/queries/poolPrizesQuery'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
@@ -20,7 +21,6 @@ export const LastWinnersListing = (
 
   const decimals = pool?.underlyingCollateralDecimals
   const ticker = pool?.underlyingCollateralSymbol
-  const tickerUpcased = ticker?.toUpperCase()
 
   const generalContext = useContext(GeneralContext)
   const { paused } = generalContext
@@ -44,6 +44,7 @@ export const LastWinnersListing = (
   prizes = prizes?.reduce(function (result, prize) {
     if (prize.winners && prize.winners.length > 0) {
       result.push({
+        ...prize,
         prizeNumber: extractPrizeNumberFromPrize(prize),
         address: prize?.winners[0],
         winnings: prize?.amount
@@ -86,10 +87,22 @@ export const LastWinnersListing = (
             <span
               className='inline-block w-1/2 sm:w-1/2 text-left'
             >
-              ${displayAmountInEther(
-                prize?.winnings,
-                { decimals, precision: 2 }
-              )} {tickerUpcased}
+              <TimeTravelPool
+                blockNumber={parseInt(prize?.awardedBlock, 10)}
+                poolAddress={pool?.poolAddress}
+                querySymbol={pool?.symbol}
+                prize={prize}
+              >
+                {(timeTravelPool) => {
+                  return <>
+                    ${displayAmountInEther(
+                      timeTravelPool?.prizeAmountUSD.toString(),
+                      { decimals, precision: 2 }
+                    )}
+                  </>
+                }}
+              </TimeTravelPool>
+              
             </span>
           </a>
         </Link>

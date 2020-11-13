@@ -28,7 +28,7 @@ export const IndexUI = (
     const decimals = _pool?.underlyingCollateralDecimals
 
     const cumulativePrizeAmountsForPool = normalizeTo18Decimals(
-      _pool.prizeEstimate,
+      _pool.prizeAmountUSD,
       decimals
     )
 

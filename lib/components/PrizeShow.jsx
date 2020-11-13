@@ -35,19 +35,6 @@ export function PrizeShow(props) {
 
   const isCurrentPrize = Number(pool?.prizesCount) + 1 === Number(prizeNumber)
 
-
-
-  let prizeAmountOrEstimate = pool?.prizeEstimate
-  if (pool?.prizeAmount) {
-    prizeAmountOrEstimate = pool?.prizeAmount || 0
-  }
-  
-  let interestPrizeOrEstimate = pool?.prizeEstimate
-  if (pool?.interestPrize) {
-    interestPrizeOrEstimate = pool?.interestPrize || 0
-  }
- 
-
   const winnersAddress = prize?.winners?.[0]
   
   return <>
@@ -96,7 +83,7 @@ export function PrizeShow(props) {
         </h6>
         <h1>
           ${displayAmountInEther(
-            prizeAmountOrEstimate,
+            pool?.prizeAmountUSD || 0,
             { precision: 2, decimals }
           )}
         </h1>
@@ -156,8 +143,8 @@ export function PrizeShow(props) {
 
     <PrizeBreakdown
       decimals={decimals}
-      interestPrize={interestPrizeOrEstimate}
-      externalAwardsValue={pool?.externalAwardsValue}
+      interestPrize={pool?.interestPrizeUSD}
+      externalAwardsValue={pool?.externalAwardsUSD}
     />
 
     <Erc20AwardsTable
@@ -169,8 +156,7 @@ export function PrizeShow(props) {
 
     <Erc721AwardsTable
       basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
-      externalErc721ChainData={externalErc721ChainData}
-      externalErc721GraphData={externalErc721GraphData}
+      externalErc721Awards={pool?.externalErc721Awards}
     />
 
     <CardGrid

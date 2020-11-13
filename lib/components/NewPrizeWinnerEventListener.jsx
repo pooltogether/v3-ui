@@ -9,7 +9,7 @@ import { Button } from 'lib/components/Button'
 import { Modal } from 'lib/components/Modal'
 import { prizeQuery } from 'lib/queries/prizeQuery'
 
-import PrizeIllustration from 'assets/images/prize-illustration@2x.png'
+import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
 
 const debug = require('debug')('pool-app:NewPrizeWinnerEventListener')
 

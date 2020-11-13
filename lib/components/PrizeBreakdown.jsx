@@ -59,7 +59,12 @@ export const PrizeBreakdown = (props) => {
             src={LootBoxIllustration}
             className='w-40 mx-auto -mt-8'
           />
-          <div>
+          <div
+            className='relative'
+            style={{
+              top: 3
+            }}
+          >
             <h3>
               ${numberWithCommas(externalAwardsValue)}
             </h3>

@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import classnames from 'classnames'
 
 import { useTranslation } from 'lib/../i18n'
 
@@ -26,7 +27,7 @@ export function PaginationUI({
 
   const nextPrevPageClasses = 'no-underline rounded-lg text-green border-2 border-green hover:bg-primary text-xxxs xs:text-xs sm:text-base lg:text-lg py-2 sm:py-2 px-3 sm:px-3 lg:px-5 trans whitespace-normal inline-flex sm:inline-block text-center h-10 sm:h-auto items-center justify-center leading-tight'
   const pageNumClasses = 'inline-flex items-center justify-center no-underline text-green bg-card trans p-2 sm:p-2 rounded-lg text-sm sm:text-base mx-1 leading-none shadow-md'
-  const ellipsisClasses = 'mx-2 lg:mx-3 mt-1 hidden sm:block text-inverse'
+  const ellipsisClasses = 'mx-1 mt-1 xs:block text-default-soft'
   const listItemClasses = 'lg:mx-2 mt-1 lg:mt-2'
 
   return (
@@ -109,7 +110,10 @@ export function PaginationUI({
               >
                 <a
                   href={prevPath}
-                  className={pageNumClasses}
+                  className={classnames(
+                    pageNumClasses,
+                    'hidden xs:inline-flex'
+                  )}
                 >
                   {prevPage}
                 </a>
@@ -118,7 +122,6 @@ export function PaginationUI({
           }
           <li
             id='current-page-num'
-            className={listItemClasses}
           >
             <Link
               as={prevPath}
@@ -131,7 +134,10 @@ export function PaginationUI({
               scroll={false}
             >
               <a
-                className={pageNumClasses}
+                className={classnames(
+                  pageNumClasses,
+                  'text-default'
+                )}
               >
                 {nextPage - 1}
               </a>
@@ -153,7 +159,10 @@ export function PaginationUI({
               >
                 <a
                   href={nextPath}
-                  className={pageNumClasses}
+                  className={classnames(
+                    pageNumClasses,
+                    'hidden xs:inline-flex'
+                  )}
                 >
                   {nextPage}
                 </a>

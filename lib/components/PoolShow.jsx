@@ -57,12 +57,6 @@ export const PoolShow = (
   const { networkName, usersAddress, walletName } = useContext(AuthControllerContext)
   const { pool } = useContext(PoolDataContext)
 
-
-  // we should run a compilePool for each pool row and pool show, and a compilePoolWithBlockNumber() for
-  // a previous prize, etc
-  const externalErc20Awards = pool?.externalErc20Awards
-  const externalErc721Awards = pool?.externalErc721Awards
-
   const symbol = pool?.symbol
   const decimals = pool?.underlyingCollateralDecimals
   
@@ -121,9 +115,9 @@ export const PoolShow = (
   }
 
   let prizeEstimateFormatted
-  if (pool.prizeEstimate && pool.prizeEstimate.gt(0)) {
+  if (pool.prizeAmountUSD && pool.prizeAmountUSD.gt(0)) {
     prizeEstimateFormatted = ethers.utils.formatUnits(
-      pool.prizeEstimate,
+      pool.prizeAmountUSD,
       decimals || DEFAULT_TOKEN_PRECISION
     )
   }
@@ -250,18 +244,18 @@ export const PoolShow = (
 
           <PrizeFromInterestCard
             decimals={decimals}
-            interestPrize={pool?.interestPrizeEstimate}
+            interestPrize={pool?.interestPrizeUSD}
           />
 
           <Erc20AwardsTable
             pool={pool}
             basePath={`/pools/${pool?.symbol}`}
-            externalErc20Awards={externalErc20Awards}
+            externalErc20Awards={pool?.externalErc20Awards}
           />
           
           <Erc721AwardsTable
             basePath={`/pools/${pool?.symbol}`}
-            externalErc721Awards={externalErc721Awards}
+            externalErc721Awards={pool?.externalErc721Awards}
           />
 
 

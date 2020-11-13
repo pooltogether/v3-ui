@@ -33,7 +33,7 @@ export const Erc721AwardsTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { basePath, externalErc721ChainData, externalErc721GraphData } = props
+  const { basePath, externalErc721Awards } = props
 
   const [moreVisible, setMoreVisible] = useState(false)
   
@@ -49,17 +49,17 @@ export const Erc721AwardsTable = (props) => {
     )
   }
 
-  if (!pool || !externalErc721GraphData) {
+  if (!pool || !externalErc721Awards) {
     return null
   }
 
-  const has721Awards = externalErc721GraphData?.daiPool?.externalErc721Awards?.length > 0
+  const has721Awards = externalErc721Awards?.length > 0
 
   let awards = []
   let sortedAwards = []
-  if (externalErc721ChainData) {
-    const externalAwards = Object.keys(externalErc721ChainData)
-      .map(key => externalErc721ChainData[key])
+  if (externalErc721Awards) {
+    const externalAwards = Object.keys(externalErc721Awards)
+      .map(key => externalErc721Awards[key])
     sortedAwards = orderBy(externalAwards, ({ name }) => name || '', ['asc'])
     awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 8)
   }
@@ -153,8 +153,8 @@ export const Erc721AwardsTable = (props) => {
                   </tr>
 
                   {award.tokenIds.map(tokenId => {
-                    const token = award.tokens[tokenId]
-                    const src = token.image || token.image_url
+                    const token = award?.tokens?.[tokenId]
+                    const src = token?.image || token?.image_url
 
                     if (!src) {
                       debug(award.tokens[tokenId])
