@@ -29,12 +29,10 @@ export const Erc20AwardsTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { basePath, externalErc20Awards, hideContributeUI } = props
+  const { basePath, externalErc20Awards, historical, pool } = props
 
   const [moreVisible, setMoreVisible] = useState(false)
   
-  const { pool } = useContext(PoolDataContext)
-
   const handleShowMore = (e) => {
     e.preventDefault()
 
@@ -51,9 +49,17 @@ export const Erc20AwardsTable = (props) => {
     return null
   }
 
+  let externalAwardsValue = pool?.externalAwardsEstimateUSD
+  if (historical) {
+    externalAwardsValue = pool?.externalAwardsValue || 0
+  }
+  
+
+  const balanceProperty = historical ? 'balanceAwardedBN' : 'balance'
+
   let externalAwards = Object.keys(externalErc20Awards)
     .map(key => externalErc20Awards[key])
-    .filter(award => award?.balance?.gt(0))
+    .filter(award => award?.[balanceProperty]?.gt(0))
 
   const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])
   const awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 5)
@@ -77,18 +83,18 @@ export const Erc20AwardsTable = (props) => {
           {awards.length === 0 ? <>
             {t('currentlyNoOtherPrizes')}
           </> : <>
-            {pool?.externalAwardsEstimate && <>
+            {externalAwardsValue && <>
               <h3
                 className='mb-1'
               >
-                ${numberWithCommas(pool?.externalAwardsEstimate)} {t('value')}
+                ${numberWithCommas(externalAwardsValue)} {t('value')}
               </h3>
             </>} 
           </>}
         </div>
 
         <div>
-          {!hideContributeUI && <>
+          {!historical && <>
             <ContributeToLootBoxDropdown
               pool={pool}
             />
@@ -153,7 +159,7 @@ export const Erc20AwardsTable = (props) => {
                     >
                       <PoolNumber>
                         {displayAmountInEther(
-                          award.balance, {
+                          award[balanceProperty], {
                             precision: 6,
                             decimals: award.decimals
                           }

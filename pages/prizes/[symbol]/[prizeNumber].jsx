@@ -95,6 +95,7 @@ export default function PrizeShowPage(props) {
     interestPrize={prize?.amount || 0}
   >
     {(timeTravelPool) => {
+      console.log(timeTravelPool)
       return <PrizeShow
         pool={timeTravelPool}
         prize={prize}

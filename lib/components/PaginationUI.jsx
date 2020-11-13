@@ -31,7 +31,7 @@ export function PaginationUI({
 
   return (
     <div
-      className={'mt-10 flex w-full'}
+      className={'mt-10 mb-4 flex w-full'}
     >
       <div
         className='w-1/4 text-left'

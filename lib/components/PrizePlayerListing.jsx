@@ -45,7 +45,6 @@ export const PrizePlayerListing = (
     first: pageSize,
     skip
   }
-  console.log(variables)
 
   let fetchAndPoolOptions = {
     fetchPolicy: 'network-only',

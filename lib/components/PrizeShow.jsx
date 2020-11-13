@@ -36,16 +36,17 @@ export function PrizeShow(props) {
   const isCurrentPrize = Number(pool?.prizesCount) + 1 === Number(prizeNumber)
 
 
+
+  let prizeAmountOrEstimate = pool?.prizeEstimate
+  if (pool?.prizeAmount) {
+    prizeAmountOrEstimate = pool?.prizeAmount || 0
+  }
   
   let interestPrizeOrEstimate = pool?.prizeEstimate
   if (pool?.interestPrize) {
     interestPrizeOrEstimate = pool?.interestPrize || 0
   }
-  
-  let prizeAmountOrEstimate = pool?.prizeEstimate
-  if (pool?.prizeAmount) {
-    prizeAmountOrEstimate = pool?.prizeAmount || 0
-  }
+ 
 
   const winnersAddress = prize?.winners?.[0]
   
@@ -87,28 +88,22 @@ export function PrizeShow(props) {
         }
       )}
     >
-      <h6
-        className='mt-4'
-      >
-        {t('prize')} #{prizeNumber}
-      </h6>
-      <h2>
-        ${displayAmountInEther(
-          prizeAmountOrEstimate,
-          { precision: 2, decimals }
-        )}
-      </h2>
-    </div>
-
-
-
-      {prize?.awardedTimestamp ? <>
+      <div>
         <h6
           className='mt-4'
         >
-          {t('awardedOn')}: {formatDate(prize?.awardedTimestamp)}
+          {t('prize')} #{prizeNumber}
         </h6>
-      </> : <>
+        <h1>
+          ${displayAmountInEther(
+            prizeAmountOrEstimate,
+            { precision: 2, decimals }
+          )}
+        </h1>
+      </div>
+
+      {!prize?.awardedTimestamp && <>
+        <div>
           <h6
             className={classnames(
               'mt-4',
@@ -125,33 +120,38 @@ export function PrizeShow(props) {
             pool={pool}
             flashy
           />
-        </>}
+        </div>
+      </>}
+    </div>
 
 
 
-
-      <div
-        className='w-full sm:w-7/12 mt-2 sm:mt-0'
+    {prize?.awardedTimestamp && <>
+      <h6
+        className='mt-4'
       >
-        
+        {t('awardedOn')}: {formatDate(prize?.awardedTimestamp)}
+      </h6>
+    </>}
 
+
+
+
+    {prize?.awardedTimestamp && <>
+      <div
+        className='mt-2 xs:mt-0'
+      >
         <span
           className='mt-4 text-sm'
         >
-        {t('winner')}: {prize?.awardedTimestamp ? <>
-          <PrizeWinner
+          {t('winner')}: <PrizeWinner
             prize={prize}
             winnersAddress={winnersAddress}
           />
-        </> : <>
-            <span
-              className='block font-bold text-caption uppercase mt-2'
-            >
-              {t('yetToBeAwarded')}
-            </span>
-          </>}
         </span>
-    </div>     
+      </div>
+    </>}
+    
 
 
 
@@ -162,9 +162,10 @@ export function PrizeShow(props) {
     />
 
     <Erc20AwardsTable
-      hideContributeUI
+      historical={!!prize?.awardedBlock}
+      pool={pool}
       basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
-      externalErc20ChainData={externalErc20ChainData}
+      externalErc20Awards={pool?.externalErc20Awards}
     />
 
     <Erc721AwardsTable

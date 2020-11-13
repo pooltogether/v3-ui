@@ -254,6 +254,7 @@ export const PoolShow = (
           />
 
           <Erc20AwardsTable
+            pool={pool}
             basePath={`/pools/${pool?.symbol}`}
             externalErc20Awards={externalErc20Awards}
           />

@@ -67,7 +67,7 @@ export const PrizeWinner = (
       </a>
     </Link>
 
-    <span className='block xs:inline-block'>
+    <span className='ml-0 xs:ml-6 block xs:inline-block'>
       {t('odds')}: <Odds
         fontSansRegular
         className='font-bold text-flashy'
@@ -77,7 +77,7 @@ export const PrizeWinner = (
     </span>
 
     <span
-      className='ml-0 sm:ml-4 mr-4'
+      className='ml-0 xs:ml-6'
     >
       <Trans
         i18nKey='amountTickets'

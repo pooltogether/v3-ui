@@ -37,16 +37,16 @@ export const compilePoolData = (
   const externalErc20Awards = compileErc20Awards(ethereumErc20Awards, poolGraphData, uniswapPriceData)
   const externalErc721Awards = compileErc721Awards(ethereumErc721Awards, poolGraphData)
 
-  const externalAwardsEstimate = calculateEstimatedExternalAwardsValue(externalErc20Awards)
+  const externalAwardsEstimateUSD = calculateEstimatedExternalAwardsValue(externalErc20Awards)
   // const externalItemAwardsEstimate = calculateEstimatedExternalItemAwardsValue(
   //   ethereumErc721Awards
   // )
 
   const interestPrizeEstimate = calculateEstimatedPoolPrize(poolObj)
 
-  const totalPrizeEstimate = externalAwardsEstimate ?
+  const totalPrizeEstimate = externalAwardsEstimateUSD ?
     interestPrizeEstimate.add(ethers.utils.parseEther(
-      externalAwardsEstimate.toString()
+      externalAwardsEstimateUSD.toString()
     )) :
     interestPrizeEstimate
 
@@ -55,7 +55,7 @@ export const compilePoolData = (
     ...poolObj,
     prizeEstimate: totalPrizeEstimate,
     interestPrizeEstimate,
-    externalAwardsEstimate,
+    externalAwardsEstimateUSD,
     // externalItemAwardsEstimate,
     externalErc20Awards,
     externalErc721Awards

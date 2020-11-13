@@ -16,12 +16,14 @@ export const compileHistoricalErc20Awards = (graphPool, uniswapPriceData) => {
   erc20GraphData.forEach(obj => {
     const priceData = uniswapPriceData[obj.address]
 
+    const balanceAwardedBN = ethers.utils.bigNumberify(obj.balanceAwarded)
     const balanceFormatted = ethers.utils.formatUnits(obj.balanceAwarded, parseInt(obj.decimals, 10))
     const value = priceData?.usd && parseFloat(balanceFormatted) * priceData.usd
 
     data[obj.address] = {
       ...obj,
       ...priceData,
+      balanceAwardedBN,
       value
     }
   })

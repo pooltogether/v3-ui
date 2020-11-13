@@ -31,6 +31,7 @@ export const compileTimeTravelPool = (
   const externalErc721Awards = graphPool?.prizeStrategy?.externalErc721Awards
 
   const externalAwardsValue = calculateExternalAwardsValue(externalErc20Awards)
+  console.log({ externalAwardsValue})
 
   const totalPrize = externalAwardsValue ?
     interestPrize.add(ethers.utils.parseEther(
