@@ -9,6 +9,7 @@ import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PaginationUI } from 'lib/components/PaginationUI'
 import { PlayersTable } from 'lib/components/PlayersTable'
 import { prizePlayersQuery } from 'lib/queries/prizePlayersQuery'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import PlayersIcon from 'assets/images/players@2x.png'
 
@@ -96,7 +97,7 @@ export const PrizePlayerListing = (
         /> {t('players')}
       </div>
       <h3>
-        {pool?.playerCount || null}
+        {numberWithCommas(pool?.playerCount || 0, { precision: 0 })}
       </h3>
 
 

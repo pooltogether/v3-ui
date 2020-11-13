@@ -92,10 +92,9 @@ export default function PrizeShowPage(props) {
     blockNumber={parseInt(prize?.awardedBlock, 10)}
     poolAddress={poolAddress}
     querySymbol={querySymbol}
-    interestPrize={prize?.amount || 0}
+    prize={prize}
   >
     {(timeTravelPool) => {
-      console.log(timeTravelPool)
       return <PrizeShow
         pool={timeTravelPool}
         prize={prize}

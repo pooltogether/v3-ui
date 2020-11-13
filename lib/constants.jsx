@@ -110,3 +110,18 @@ export const QUERY_KEYS = {
   poolQuery: 'poolQuery',
   uniswapTokensQuery: 'uniswapTokensQuery',
 }
+
+export const TOKEN_VALUES = {
+  // '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
+  // '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
+}
+
+export const HISTORICAL_TOKEN_VALUES = {
+  prizeNumber: {
+    1: {
+      '0x06f65b8cfcb13a9fe37d836fe9708da38ecb29b2': 970.23,
+      '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
+      '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
+    }
+  }
+}

@@ -1,7 +1,11 @@
 import { isEmpty } from 'lodash'
 import { ethers } from 'ethers'
 
-export const compileHistoricalErc20Awards = (graphPool, uniswapPriceData) => {
+import { HISTORICAL_TOKEN_VALUES } from 'lib/constants'
+import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
+
+export const compileHistoricalErc20Awards = (graphPool, uniswapPriceData, prize) => {
+  const prizeNumber = extractPrizeNumberFromPrize(prize)
   const erc20GraphData = graphPool?.prizeStrategy?.externalErc20Awards
 
   if (
@@ -16,9 +20,15 @@ export const compileHistoricalErc20Awards = (graphPool, uniswapPriceData) => {
   erc20GraphData.forEach(obj => {
     const priceData = uniswapPriceData[obj.address]
 
+    let priceUSD = HISTORICAL_TOKEN_VALUES['prizeNumber']?.[prizeNumber]?.[obj.address]
+    if (!priceUSD) {
+      priceUSD = priceData?.usd
+    }
+
     const balanceAwardedBN = ethers.utils.bigNumberify(obj.balanceAwarded)
     const balanceFormatted = ethers.utils.formatUnits(obj.balanceAwarded, parseInt(obj.decimals, 10))
-    const value = priceData?.usd && parseFloat(balanceFormatted) * priceData.usd
+
+    const value = priceUSD && parseFloat(balanceFormatted) * priceUSD
 
     data[obj.address] = {
       ...obj,

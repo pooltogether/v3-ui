@@ -13,12 +13,9 @@ export function TimeTravelPool(
     children,
     blockNumber,
     poolAddress,
+    prize,
     querySymbol
   } = props
-
-  const interestPrize = ethers.utils.bigNumberify(
-    props.interestPrize
-  )
 
   const cache = useQueryCache()
 
@@ -45,13 +42,7 @@ export function TimeTravelPool(
         {() => {
           const poolInfo = POOLS.find(POOL => POOL.symbol === querySymbol)
 
-
-          const timeTravelPool = compileTimeTravelPool(poolInfo, cache, graphPool, poolAddress, blockNumber, interestPrize)
-          // const pool = {
-          //   ...graphPool,
-          //   ...timeTravelPool,
-          //   // ticketSupply: timeTravelPool?.prizeStrategy?.singleRandomWinner?.ticket?.totalSupply
-          // }
+          const timeTravelPool = compileTimeTravelPool(poolInfo, cache, graphPool, poolAddress, blockNumber, prize)
 
           return children(timeTravelPool)
         }}

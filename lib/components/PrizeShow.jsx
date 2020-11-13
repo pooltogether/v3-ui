@@ -10,8 +10,8 @@ import { Meta } from 'lib/components/Meta'
 import { PrizeWinner } from 'lib/components/PrizeWinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
+import { PrizeBreakdown } from 'lib/components/PrizeBreakdown'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
-import { PrizeFromInterestCard } from 'lib/components/PrizeFromInterestCard'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatDate } from 'lib/utils/formatDate'
 
@@ -154,11 +154,10 @@ export function PrizeShow(props) {
     
 
 
-
-
-    <PrizeFromInterestCard
+    <PrizeBreakdown
       decimals={decimals}
       interestPrize={interestPrizeOrEstimate}
+      externalAwardsValue={pool?.externalAwardsValue}
     />
 
     <Erc20AwardsTable

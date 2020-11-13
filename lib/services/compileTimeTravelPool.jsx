@@ -18,8 +18,10 @@ export const compileTimeTravelPool = (
   graphPool,
   poolAddress,
   blockNumber,
-  interestPrize,
-) => {  
+  prize,
+) => {
+  const interestPrize = ethers.utils.bigNumberify(prize?.amount || 0)
+
   const poolObj = {
     ...poolInfo,
     ...graphPool,
@@ -27,11 +29,10 @@ export const compileTimeTravelPool = (
 
   const uniswapPriceData = cache.getQueryData([QUERY_KEYS.uniswapTokensQuery, poolAddress, blockNumber])
 
-  const externalErc20Awards = compileHistoricalErc20Awards(graphPool, uniswapPriceData)
+  const externalErc20Awards = compileHistoricalErc20Awards(graphPool, uniswapPriceData, prize)
   const externalErc721Awards = graphPool?.prizeStrategy?.externalErc721Awards
 
   const externalAwardsValue = calculateExternalAwardsValue(externalErc20Awards)
-  console.log({ externalAwardsValue})
 
   const totalPrize = externalAwardsValue ?
     interestPrize.add(ethers.utils.parseEther(
