@@ -46,8 +46,6 @@ export function ChainQueries(props) {
 
   const graphExternalErc20Awards = poolData?.daiPool?.prizeStrategy?.externalErc20Awards
 
-  const uniswapPriceData = cache.getQueryData([QUERY_KEYS.uniswapTokensQuery, poolData?.daiPool?.poolAddress, -1])
-
   const {
     status: externalErc20ChainStatus,
     data: externalErc20ChainData,
@@ -56,8 +54,6 @@ export function ChainQueries(props) {
   } = useEthereumErc20Query({
     provider,
     graphErc20Awards: graphExternalErc20Awards,
-    priceData: uniswapPriceData,
-    // coingeckoData,
     poolAddress,
   })
 

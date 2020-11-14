@@ -18,11 +18,12 @@ import { COOKIE_OPTIONS, REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
 // import { GasStationQuery } from 'lib/components/GasStationQuery'
+import { GraphErrorModal } from 'lib/components/GraphErrorModal'
 import { Layout } from 'lib/components/Layout'
+import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { NewPrizeWinnerEventListener } from 'lib/components/NewPrizeWinnerEventListener'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
-import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 
 import '@reach/dialog/styles.css'
 import '@reach/menu-button/styles.css'
@@ -49,8 +50,6 @@ import 'assets/styles/tabs.css'
 import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'
 import 'assets/styles/vx--custom.css'
-
-import PoolTogetherMark from 'assets/images/pooltogether-white-mark.svg'
 
 const queryCache = new QueryCache()
 
@@ -183,41 +182,15 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   return <>
+
     <ReactQueryCacheProvider queryCache={queryCache}>
       <BodyClasses />
 
-      <motion.div
-        animate={!initialized ? 'enter' : 'exit'}
-        transition={{ duration: 0.5, ease: 'easeIn' }}
-        variants={{
-          initial: {
-            opacity: 1,
-          },
-          enter: {
-            opacity: 1,
-          },
-          exit: {
-            opacity: 0,
-            transitionEnd: {
-              display: "none",
-            },
-          }
-        }}
-        className='h-screen w-screen fixed t-0 r-0 l-0 b-0 text-white flex flex-col items-center justify-center'
-        style={{
-          backgroundColor: '#1E0B43',
-          color: 'white',
-          zIndex: 12345678
-        }}
-      >
-        <img
-          src={PoolTogetherMark}
-          className='w-8 outline-none -mt-20'
-          style={{ borderWidth: 0 }}
-        />
+      <GraphErrorModal />
 
-        <V3LoadingDots />
-      </motion.div>
+      <LoadingScreen
+        initialized={initialized}
+      />
 
       <V3ApolloWrapper>
         <AllContextProviders>

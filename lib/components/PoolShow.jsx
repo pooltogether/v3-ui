@@ -258,7 +258,6 @@ export const PoolShow = (
             externalErc721Awards={pool?.externalErc721Awards}
           />
 
-
           <CardGrid
             cardGroupId='pool-rewards-cards'
             cards={[
