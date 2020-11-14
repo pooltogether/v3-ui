@@ -20,7 +20,7 @@ export default function PrizeShowPage(props) {
   const prizeNumber = router.query?.prizeNumber
 
   const { paused } = useContext(GeneralContext)
-  const { pool } = useContext(PoolDataContext)
+  const { pool, pools } = useContext(PoolDataContext)
 
   // We use the pre-existing / current pool information we've downloaded from the Graph to learn
   // if this is a historical prize or an upcoming prize
@@ -60,9 +60,11 @@ export default function PrizeShowPage(props) {
 
 
 
-  if (pool === null) {
+  if (pools?.length > 0 && !pool) {
     return <BlankStateMessage>
-      Could not find pool with symbol: ${querySymbol}
+      {t('couldNotFindPoolWithSymbol', {
+        symbol: querySymbol
+      })}
     </BlankStateMessage>
   }
 

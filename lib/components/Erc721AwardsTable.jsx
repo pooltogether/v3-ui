@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
-import { orderBy } from 'lodash'
+import { isEmpty, orderBy } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
@@ -15,6 +15,7 @@ const debug = require('debug')('pool-app:Erc721AwardsTable')
 
 const Erc721TokenImage = (props) => {
   const { token } = props
+  
   let src = token.image || token.image_url
 
   if (src && !src.match('http://') && !src.match('https://')) {
@@ -33,7 +34,7 @@ export const Erc721AwardsTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { basePath, externalErc721Awards } = props
+  const { basePath, historical, externalErc721Awards, ethErc721Awards } = props
 
   const [moreVisible, setMoreVisible] = useState(false)
   
@@ -53,7 +54,7 @@ export const Erc721AwardsTable = (props) => {
     return null
   }
 
-  const has721Awards = externalErc721Awards?.length > 0
+  const has721Awards = !isEmpty(ethErc721Awards)
 
   let awards = []
   let sortedAwards = []
@@ -81,7 +82,7 @@ export const Erc721AwardsTable = (props) => {
       </div>
       
       {awards.length === 0 && !has721Awards && <>
-        {t('currentlyNoItemPrizes')}
+        {historical ? t('noItemPrizesAwarded') : t('currentlyNoItemPrizes')}
       </>}
 
       {awards.length === 0 && has721Awards && <>
@@ -132,6 +133,9 @@ export const Erc721AwardsTable = (props) => {
                   <tr>
                     <td
                       className='flex items-center py-2 text-left font-bold truncate'
+                      style={{
+                        padding: '0.5rem 0.5rem 0.25rem'
+                      }}
                     >
                       <EtherscanAddressLink
                         address={award.address}
@@ -142,6 +146,9 @@ export const Erc721AwardsTable = (props) => {
                     </td>
                     <td
                       className='px-2 sm:px-3 py-2 text-left text-accent-1 truncate font-bold text-xxxs xs:text-xxs sm:text-xs'
+                      style={{
+                        padding: '0.5rem 0.5rem 0.25rem'
+                      }}
                     >
                       {award?.balance?.eq(0) ? '1' : award?.balance?.toString()} {award?.symbol}
                     </td>
@@ -166,13 +173,19 @@ export const Erc721AwardsTable = (props) => {
                     >
                       <td
                         className='flex items-center py-2 text-left font-bold text-accent-1 ml-4'
+                        style={{
+                          padding: '0 0.5rem 0.25rem'
+                        }}
                       >
                         <Erc721TokenImage
                           token={token}
                         />
                       </td>
                       <td
-                        className='px-2 sm:px-3 py-2 text-left text-default truncate text-xxxs xs:text-xxs sm:text-xs mr-4'
+                        className='text-left text-default truncate text-xxxs xs:text-xxs sm:text-xs mr-4'
+                        style={{ 
+                          padding: '0 0.5rem 0.25rem'
+                        }}
                       >
                         {token?.name}
                       </td>

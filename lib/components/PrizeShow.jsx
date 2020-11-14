@@ -22,9 +22,6 @@ export function PrizeShow(props) {
   const router = useRouter()
 
   const {
-    externalErc20ChainData,
-    externalErc721ChainData,
-    externalErc721GraphData,
     pool,
     prize
   } = props
@@ -155,8 +152,10 @@ export function PrizeShow(props) {
     />
 
     <Erc721AwardsTable
+      historical={!!prize?.awardedBlock}
       basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
       externalErc721Awards={pool?.externalErc721Awards}
+      ethErc721Awards={pool?.ethErc721Awards}
     />
 
     <CardGrid

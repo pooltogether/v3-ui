@@ -29,11 +29,10 @@ export const compileHistoricalPool = (
   }
 
   const uniswapPriceData = cache.getQueryData([QUERY_KEYS.uniswapTokensQuery, poolAddress, blockNumber])
-
   const externalErc20Awards = compileHistoricalErc20Awards(prize, uniswapPriceData)
 
-  const ethereumErc721Awards = cache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, poolAddress, blockNumber])
-  const externalErc721Awards = compileHistoricalErc721Awards(ethereumErc721Awards, prize)
+  const ethErc721Awards = cache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, poolAddress, blockNumber])
+  const externalErc721Awards = compileHistoricalErc721Awards(ethErc721Awards, prize)
 
   const externalAwardsUSD = calculateExternalAwardsValue(externalErc20Awards)
 
@@ -52,6 +51,7 @@ export const compileHistoricalPool = (
     externalAwardsUSD,
     // externalItemAwardsValue,
     externalErc20Awards,
-    externalErc721Awards
+    externalErc721Awards,
+    ethErc721Awards
   }
 }

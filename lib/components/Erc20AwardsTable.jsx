@@ -75,7 +75,7 @@ export const Erc20AwardsTable = (props) => {
       <div className='flex flex-col sm:flex-row justify-between sm:items-center'>
         <div>
           {awards.length === 0 ? <>
-            {t('currentlyNoOtherPrizes')}
+            {historical ? t('noOtherPrizesAwarded') : t('currentlyNoOtherPrizes')}
           </> : <>
             {pool?.externalAwardsUSD && <>
               <h3
