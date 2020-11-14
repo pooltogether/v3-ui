@@ -4,15 +4,16 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 
 export function UniswapData(props) {
+  let blockNumber = props.blockNumber || -1
+
   const {
-    blockNumber,
     children,
     poolAddress,
     addresses,
   } = props
 
   const { chainId } = useContext(AuthControllerContext)
-  
+
   const { status, data, error, isFetching } = useUniswapTokensQuery(chainId, poolAddress, blockNumber, addresses)
 
   if (error) {

@@ -36,8 +36,6 @@ export const compilePool = (
 
   const externalErc20Awards = compileErc20Awards(ethereumErc20Awards, poolGraphData, uniswapPriceData)
 
-  console.log(ethereumErc721Awards)
-  console.log(poolGraphData)
   const externalErc721Awards = compileErc721Awards(ethereumErc721Awards, poolGraphData)
 
   const externalAwardsEstimateUSD = calculateEstimatedExternalAwardsValue(externalErc20Awards)

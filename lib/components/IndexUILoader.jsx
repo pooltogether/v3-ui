@@ -20,7 +20,7 @@ export const IndexUILoader = (
       gradientRatio={2.5}
       interval={0.05}
       speed={0.6}
-      viewBox="0 0 600 600"
+      viewBox="0 0 600 300"
       backgroundColor={bgColor}
       foregroundColor={foreColor}
     >
