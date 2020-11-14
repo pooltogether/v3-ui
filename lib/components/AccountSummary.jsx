@@ -8,11 +8,13 @@ import { ProfileAvatar } from 'lib/components/ProfileAvatar'
 import { ProfileName } from 'lib/components/ProfileName'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { SmallLoader } from 'lib/components/SmallLoader'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import AccountPlaceholderImg from 'assets/images/avatar-placeholder.svg'
+import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
 
 export const AccountSummary = () => {
   const { t } = useTranslation()
@@ -53,100 +55,43 @@ export const AccountSummary = () => {
 
   return <>
     <div
-      className='purple-pink-gradient rounded-lg px-4 xs:px-6 sm:px-10 pt-4 pb-6 text-white my-4 sm:mt-8 sm:mb-12 mx-auto'
+      className='purple-pink-gradient rounded-lg px-10 xs:px-12 sm:px-20 pt-4 pb-6 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'
     >
       <div
-        className='flex flex-col items-start justify-between mt-4'
+        className='flex justify-between items-center'
       >
         <div
-          className='flex items-center justify-center'
-          style={{
-            lineHeight: 0
-          }}
+          className='leading-none'
         >
-          {usersAddress ? <>
-            <ProfileAvatar />
-            <h6
-              className='ml-2 font-normal'
-            >
-              <ProfileName />
-            </h6>
-          </> : <>
-            <img
-              alt='profile avatar placeholder'
-              src={AccountPlaceholderImg}
-              className='profile-img relative inline-block rounded-full mr-1 w-6 h-6'
-            /> <h6
-              className='ml-2 font-normal'
-            >
-              {t('accountName')}
-            </h6>
-          </>}
+          <h6
+            className='font-normal'
+          >
+            {t('assets')}
+          </h6>
+          <h1>
+            {usersAddress ? <>
+              $<PoolCountUp
+                fontSansRegular
+                end={parseInt(totalTickets, 10)}
+                decimals={null}
+                duration={0.5}
+              />
+            </> : <>
+              <SmallLoader />
+            </>}
+          </h1>
         </div>
 
-
-        <div
-          className='flex flex-col sm:flex-row sm:items-center justify-start w-full'
-        >
-          <div
-            className='sm:w-1/3'
-          >
-            <h2
-              className='mt-6 tickets-line-height'
-            >
-              {totalTickets && <>
-                <PoolCountUp
-                  fontSansRegular
-                  end={parseInt(totalTickets, 10)}
-                  decimals={null}
-                  duration={0.5}
-                />
-              </>} {t('tickets')}
-            </h2>
-
-            {usersAddress && <>
-              <div
-                className='text-caption uppercase font-bold'
-              >
-                $<PoolNumber>{numberWithCommas(totalTickets, { precision: 12 })}</PoolNumber>
-              </div>
-            </>}
-          </div>
-
-          <div>
-            <div
-              className='w-full flex sm:items-center justify-start flex-col sm:flex-row mt-4 sm:mt-8'
-            >
-              <div
-                className='flex flex-col w-full sm:pr-2 mb-4 sm:mb-0'
-              >
-                <h4>
-                  ${displayAmountInEther(
-                    cumulativeWinningsAllPools,
-                    { decimals: 18 }
-                  )}
-                </h4>
-                <div
-                  className='text-caption uppercase font-bold'
-                >
-                  {t('allTimePrizesWon')}
-                </div>
-              </div>
-
-              {/* <div
-                className='flex flex-col w-full xs:w-7/12 sm:w-6/12 lg:w-6/12 sm:pl-16'
-              >
-                <h4>
-                  $XX.YY
-                </h4>
-                <div
-                  className='text-caption uppercase font-bold'
-                >
-                  {t('allTimeEarnedRewards')}
-                </div>
-              </div> */}
-            </div>
-          </div>
+        <div>
+          <img
+            src={ChillWalletIllustration}
+            alt={`chillin' wallet illustration`}
+            className='w-40 mx-auto relative mb-4'
+            style={{
+              right: -10,
+              top: 17
+            }}
+          />
         </div>
 
         

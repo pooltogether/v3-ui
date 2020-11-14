@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { AccountSummary } from 'lib/components/AccountSummary'
-import { AccountPoolsUI } from 'lib/components/AccountPoolsUI'
+import { AccountTickets } from 'lib/components/AccountTickets'
 import { AccountRewardsUI } from 'lib/components/AccountRewardsUI'
 import { ChipRainbowNew } from 'lib/components/ChipRainbowNew'
 import { Meta } from 'lib/components/Meta'
@@ -56,43 +56,23 @@ export const AccountUI = () => {
 
   return <>
     <Meta
-      title={t('accountOverview')}
+      title={t('account')}
     />
 
     <PageTitleAndBreadcrumbs
-      title={t('accountOverview')}
+      title={t('account')}
+      breadcrumbs={[
+        {
+          name: t('accountOverview'),
+        },
+      ]}
     />
 
     <AccountSummary />
 
-    <div
-      className='mt-16'
-    >
-      <Tabs>
-        <Tab
-          isSelected={visible === REWARDS}
-          onClick={handleShowRewards}
-        >
-          {t('rewards')} <ChipRainbowNew text='new' />
-        </Tab>
-        <Tab
-          isSelected={visible === TICKETS}
-          onClick={handleShowTickets}
-        >
-          {t('tickets')}
-        </Tab>
-      </Tabs>
+    <AccountTickets />
 
-      <Content>
-        <ContentPane isSelected={visible === REWARDS}>
-          <AccountRewardsUI />
-        </ContentPane>
-        
-        <ContentPane isSelected={visible === TICKETS}>
-          <AccountPoolsUI />
-        </ContentPane>
-      </Content>
-    </div>
+    
 
     <Tagline />
   </>

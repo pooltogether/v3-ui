@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import addSeconds from 'date-fns/addSeconds'
+import classnames from 'classnames'
 import { useInterval } from 'beautiful-react-hooks'
 
 import { useTranslation } from 'lib/../i18n'
@@ -11,7 +12,7 @@ export const NewPrizeCountdownInWords = (
   props,
 ) => {
   const { t } = useTranslation()
-  const { pool } = props
+  const { pool, extraShort, text } = props
 
   const [secondsRemaining, setSecondsRemaining] = useState(null)
 
@@ -62,10 +63,43 @@ export const NewPrizeCountdownInWords = (
     </>
   }
 
+
+  if (extraShort && pool?.isRngRequested) {
+    content = <>
+      {t('beingAwarded')}
+    </>
+  } else if (extraShort && days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
+    content = <>
+      {t('awardedSoon')}
+    </>
+  } else if (extraShort) {
+    const daysArray = ('' + days).split('')
+    const hoursArray = ('' + hours).split('')
+    const minutesArray = ('' + minutes).split('')
+    const secondsArray = ('' + seconds).split('')
+
+    content = <>
+      prize in
+      {daysArray.length > 1 ? daysArray.join('') : daysArray[0]}d,&nbsp;
+
+      {hoursArray.length > 1 ? hoursArray.join('') : hoursArray[0]}h,&nbsp;
+
+      {minutesArray.length > 1 ? minutesArray.join('') : minutesArray[0]}m,&nbsp;
+
+      {secondsArray.length > 1 ? secondsArray.join('') : secondsArray[0]}s
+    </>
+  }
+
   
   return <>
     <div
-      className='text-inverse font-bold text-flashy'
+      className={classnames(
+        'font-bold',
+        {
+          [`text-${text}`]: text,
+          'text-flashy': !text
+        }
+      )}
       style={{
         display: 'block'
       }}

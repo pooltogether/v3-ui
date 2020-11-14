@@ -177,6 +177,14 @@
   background-image: url('/pooltogether-purple-trophy-and-mark.svg');
 } */
 
+.theme-dark .ticket-bg {
+  background-image: url('/ticket-bg--dark.svg');
+}
+
+.theme-light .ticket-bg {
+  background-image: url('/ticket-bg--light.svg');
+}
+
 .theme-dark .pool-logo:after {
   background-image: url('/pooltogether-white-mark.svg');
 }

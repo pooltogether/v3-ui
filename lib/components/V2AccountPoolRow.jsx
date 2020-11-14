@@ -66,7 +66,12 @@ export const V2AccountPoolRow = (
   }
 
   return <>
-    <NonInteractableCard
+    <div
+      className='ticket-bg'
+      style={{
+        height: 197,
+        width: 410
+      }}
       key={`v2-account-pool-row-li-${ticker}`}
     >
       <div className='flex items-center'>
@@ -162,6 +167,6 @@ export const V2AccountPoolRow = (
         
         </div>
       </div>
-    </NonInteractableCard>
+    </div>
   </>
 }

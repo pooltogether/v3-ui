@@ -1,21 +1,20 @@
 import React from 'react'
-import FeatherIcon from 'feather-icons-react'
-import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 
 import { Trans, useTranslation } from 'lib/../i18n'
-import { Chip } from 'lib/components/Chip'
-import { InteractableCard } from 'lib/components/InteractableCard'
-import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
+import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
 import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-export const AccountPoolRow = (
+export const AccountTicket = (
   props,
 ) => {
   const { t } = useTranslation()
+  const router = useRouter()
   
   const { noLinks, pool, player } = props
   let { href, as } = props
@@ -36,96 +35,123 @@ export const AccountPoolRow = (
       player.balance,
       Number(decimals)
     ))
-
-    // usersTimelockedBalance = Number(ethers.utils.formatUnits(
-    //   player.timelockedBalance,
-    //   Number(decimals)
-    // ))
-
-    // if (player.unlockTimestamp) {
-    //   const currentUnixTimestamp = parseInt(Date.now() / 1000, 10)
-    //   const unlockUnixTimestamp = parseInt(player.unlockTimestamp, 10)
-
-    //   formattedFutureDate = <FormattedFutureDateCountdown
-    //     futureDate={unlockUnixTimestamp - currentUnixTimestamp}
-    //   />
-    // }
   }
 
   const ticker = pool?.underlyingCollateralSymbol
   const bucketClasses = 'w-1/2 xs:w-6/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse'
-  // const bucketClasses = usersTimelockedBalance > 0 ?
-  //   'w-1/2 xs:w-4/12 sm:w-4/12 lg:w-4/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse' :
-  //   'w-1/2 xs:w-6/12 pb-2 xs:pb-0 text-xl sm:text-2xl text-inverse'
   
+
+  const handleManageClick = (e) => {
+    e.preventDefault()
+
+    Cookies.set(
+      WIZARD_REFERRER_HREF,
+      '/account',
+      COOKIE_OPTIONS
+    )
+    Cookies.set(
+      WIZARD_REFERRER_AS_PATH,
+      `/account`,
+      COOKIE_OPTIONS
+    )
+
+    router.push(
+      `/account/pools/[symbol]/withdraw`,
+      `/account/pools/${pool?.symbol}/withdraw`,
+      {
+        shallow: true
+      }
+    )
+  }
+
   return <>
-    <InteractableCard
-      href={href}
-      as={as}
-      key={`account-pool-row-li-${pool.poolAddress}`}
+    <motion.div
+      onClick={handleManageClick}
+      key={`account-pool-ticket-${pool.poolAddress}`}
+      className='relative ticket-bg cursor-pointer'
+      style={{
+        height: 196,
+        width: 409
+      }}
+      whileHover={{
+        y: -5, scale: 1.05
+      }}
+      whileTap={{ y: 1, scale: 0.98 }}
+      animate={{
+        scale: 1,
+        opacity: 1,
+        transition: {
+          duration: 0.2,
+          staggerChildren: 0.5,
+          delayChildren: 0.2
+        }
+      }}
+      exit={{
+        scale: 0,
+        opacity: 0,
+        transition: { staggerChildren: 0.05, staggerDirection: -1 }
+      }}
     >
+      <div
+        className='absolute rounded-b-lg'
+        style={{
+          backgroundImage: 'url(/ticket-bg--dai.svg)',
+          bottom: 3,
+          left: 2,
+          width: 405,
+          height: 50,
+        }}
+      >
+
+      </div>
+
       <div className='flex items-center xs:pb-2'>
         <div
-          className='flex items-center font-bold w-8/12 sm:w-6/12 xs:pb-2'
+          className='flex items-center font-bold w-3/4 xs:pb-2'
         >
-          <PoolCurrencyIcon
-            lg
-            pool={pool}
-            className='-mt-2'
-          />
+          
 
           <div
-            className='flex flex-col items-start justify-between w-full ml-1 sm:ml-4 leading-none'
+            className='flex items-center justify-start w-full pl-4 leading-none'
           >
             <div
               className='inline-block text-left text-sm xs:text-xl sm:text-2xl font-bold text-inverse relative'
-              style={{
-                top: -6
-              }}
             >
-              <Trans
-                i18nKey='prizeAmount'
-                defaults='Prize $<prize>{{amount}}</prize>'
-                components={{
-                  prize: <PoolCountUp
-                    fontSansRegular
-                    decimals={2}
-                    duration={3}
-                  />
-                }}
-                values={{
-                  amount: ethers.utils.formatUnits(
-                    pool?.prizeAmountUSD,
-                    decimals
-                  )
-                }}
+              $<PoolCountUp
+                fontSansRegular
+                decimals={2}
+                duration={3}
+                end={Math.floor(Number.parseFloat(
+                  ethers.utils.formatUnits(pool?.prizeAmountUSD, decimals)
+                ))}
               />
             </div>
-            <div
-              className='inline-block text-left text-caption-2 relative mt-2'
-              style={{
-                left: -2
-              }}
-            >
-              <span className='mr-1 sm:mr-2'>
-                <Chip
-                  color='accent-1'
-                  text={t(pool?.name)}
-                />
-              </span> <Chip
-                color='highlight-6'
-                text={t(pool?.frequency)}
-              />
-            </div>
+            <NewPrizeCountdownInWords
+              extraShort
+              text='primary'
+              pool={pool}
+            />
+            
           </div>
         </div>
 
         <div
-          className='flex flex-col items-end w-5/12 xs:w-4/12 sm:w-6/12 lg:w-9/12'
+          className='flex flex-col items-center'
+          style={{
+            width: 114
+          }}
         >
-          <NewPrizeCountdown
+          <PoolCurrencyIcon
             pool={pool}
+            className='-mt-2'
           />
+          <h4
+            className='capitalize'
+          >
+            {ticker.toLowerCase()}
+          </h4>
+          
+          
         </div>
       </div>
 
@@ -221,35 +247,14 @@ export const AccountPoolRow = (
               lineHeight: 1.2,
             }}
           >
-            <Link
-              href='/account/pools/[symbol]'
-              as={`/account/pools/${pool.symbol}`}
+            <span
+              className='uppercase inline-block xs:inline-flex items-center justify-center text-center font-bold py-1 xs:px-6 mr-1 sm:mr-3 mb-1 xs:mb-0'
             >
-              <a
-                className='uppercase inline-block xs:inline-flex items-center justify-center text-center font-bold text-highlight-3 rounded-full border-highlight-3 xs:border-2 py-1 xs:px-6 mr-1 sm:mr-3 mb-1 xs:mb-0'
-              >
-                {t('manageTickets')}
-              </a>
-            </Link> <Link
-              href='/pools/[symbol]'
-              as={`/pools/${pool.symbol}`}
-            >
-              <a
-                className='inline-flex items-center justify-center font-bold text-highlight-3 rounded-full py-1 uppercase mr-3'
-              >
-                {t('poolDetails')} <FeatherIcon
-                  strokeWidth='0.15rem'
-                  icon='arrow-right-circle'
-                  className='inline-block relative w-4 h-4 mx-auto ml-1'
-                  style={{
-                    top: -1
-                  }}
-                />
-              </a>
-            </Link>
+              {t('manageTickets')}
+            </span>
           </div>
         </>}
       </div>
-    </InteractableCard>
+    </motion.div>
   </>
 }
