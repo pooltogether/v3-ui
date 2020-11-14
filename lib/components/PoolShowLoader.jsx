@@ -28,9 +28,9 @@ export const PoolShowLoader = (
 
       <rect x='0' y='80' rx='5' ry='5' width='600' height='80' />
 
-      <rect x='0' y='200' rx='5' ry='5' width='190' height='100' /> <rect x='205' y='200' rx='5' ry='5' width='190' height='100' /> <rect x='410' y='200' rx='5' ry='5' width='190' height='100' />
+      <rect x='0' y='200' rx='5' ry='5' width='600' height='160' /> 
 
-      <rect x='0' y='310' rx='5' ry='5' width='190' height='100' /> <rect x='205' y='310' rx='5' ry='5' width='190' height='100' /> <rect x='410' y='310' rx='5' ry='5' width='190' height='100' />
+      <rect x='0' y='370' rx='5' ry='5' width='600' height='160' /> 
     </ContentLoader>
   </> 
 }
