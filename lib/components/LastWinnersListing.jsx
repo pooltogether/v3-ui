@@ -77,7 +77,7 @@ export const LastWinnersListing = (
           as={`/prizes/${pool?.symbol}/${prize?.prizeNumber}`}
         >
           <a
-            className='block font-bold bg-default mb-2 rounded-lg px-2 trans'
+            className='block font-bold mb-2 rounded-lg trans'
           >
             <span
               className='inline-block w-1/2 sm:w-1/2'

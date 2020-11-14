@@ -83,7 +83,7 @@ export const TOKEN_IMAGES = {
   '0x117c2aca45d87958ba054cb85af0fd57be00d624': '/tokens/0x117c2aca45d87958ba054cb85af0fd57be00d624.png',
   // '0x2e703d658f8dd21709a7b458967ab4081f8d3d05': '',
   '0x8b9c35c79af5319c70dd9a3e3850f368822ed64e': '/tokens/0x8b9c35c79af5319c70dd9a3e3850f368822ed64e.png',
-  // '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': '',
+  '0xdac17f958d2ee523a2206206994597c13d831ec7': 'https://assets.coingecko.com/coins/images/325/thumb/Tether-logo.png?1602230054',
   '0xa91ac63d040deb1b7a5e4d4134ad23eb0ba07e14': 'https://assets.coingecko.com/coins/images/12478/thumb/Bella.png?1602230054',
   '0x08d32b0da63e2c3bcf8019c9c5d849d7a9d791e6': 'https://assets.coingecko.com/coins/images/850/thumb/dentacoin.png?1547034647',
   '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2': 'https://assets.coingecko.com/coins/images/12271/thumb/sushi.jpg?1598623048',
