@@ -112,6 +112,7 @@ export const PlayersTable = (
   }
 
   return <BasicTable
+    {...props}
     tableInstance={tableInstance}
   />
 

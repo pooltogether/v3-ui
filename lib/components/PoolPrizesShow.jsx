@@ -71,7 +71,7 @@ export const PoolPrizesShow = (
       className='bg-highlight-3 mt-8 mb-8 text-sm py-6 px-6 flex flex-col xs:flex-row items-center justify-center xs:justify-between text-center xs:text-left rounded-lg'
     >
       <div className='text-2xl text-white mb-6 xs:mb-0 xs:w-1/3 lg:w-1/5'>
-        <div
+        {/* <div
           className='xs:h-12 font-bold'
         >
           ${displayAmountInEther(
@@ -81,7 +81,7 @@ export const PoolPrizesShow = (
         </div>
         <div className='text-xs xs:text-base -mt-2 xs:mt-1 font-bold'>
           {t('awardedSoFar')}
-        </div>
+        </div> */}
       </div>
 
       <div className='text-center xs:text-right w-3/4 xs:w-1/3'>
@@ -109,6 +109,6 @@ export const PoolPrizesShow = (
       pool={pool}
     />
 
-    <AllPoolsTotalAwarded />
+    {/* <AllPoolsTotalAwarded /> */}
   </>
 }

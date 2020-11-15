@@ -10,7 +10,7 @@ export function Tagline(props) {
       className='text-center mt-12 opacity-60 pb-40'
     >
       <div
-        className='text-accent-1 text-xs xs:text-sm sm:text-base'
+        className='text-accent-1 text-xxs xs:text-xs sm:text-base'
       >
         {t('theMoreYouPoolTagline')}
       </div>

@@ -177,7 +177,7 @@ export function AccountPoolShowUI(props) {
                     }}
                     values={{
                       amount: ethers.utils.formatUnits(
-                        pool?.prizeEstimate,
+                        pool?.prizeAmountUSD,
                         decimals
                       )
                     }}

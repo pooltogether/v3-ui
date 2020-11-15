@@ -62,7 +62,7 @@ export const PoolRowNew = (
       key={`pool-row-${pool.poolAddress}`}
       href='/pools/[symbol]'
       as={`/pools/${symbol}`}
-      className='mt-4 xs:mt-8'
+      className='mt-2 sm:mt-4'
     >
       <div className='flex flex-col items-center justify-center text-inverse'>
 
@@ -75,7 +75,7 @@ export const PoolRowNew = (
             duration={6}
           >
             {ethers.utils.formatUnits(
-              pool?.prizeEstimate,
+              pool?.prizeAmountUSD,
               decimals
             )}
           </PoolCountUp>

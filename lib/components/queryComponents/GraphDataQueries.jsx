@@ -9,10 +9,8 @@ import {
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
 import { dynamicSponsorQuery } from 'lib/queries/dynamicSponsorQuery'
-import { dynamicPrizePoolsQuery } from 'lib/queries/dynamicPrizePoolsQuery'
-import { dynamicSingleRandomWinnerQuery } from 'lib/queries/dynamicSingleRandomWinnerQuery'
-import { externalAwardsQuery } from 'lib/queries/externalAwardsQuery'
-import { getExternalAwardsDataFromQueryResult } from 'lib/services/getExternalAwardsDataFromQueryResult'
+import { prizePoolsQuery } from 'lib/queries/prizePoolsQuery'
+// import { singleRandomWinnerQuery } from 'lib/queries/singleRandomWinnerQuery'
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
 import { getPrizeStrategyDataFromQueryResult } from 'lib/services/getPrizeStrategyDataFromQueryResult'
 import { poolToast } from 'lib/utils/poolToast'
@@ -30,7 +28,7 @@ export const GraphDataQueries = (
     owner: CREATOR_ADDRESS
   }
 
-  let dynamicPoolData
+  let poolData
 
   // multiple queries at the same time this (or use apollo-link-batch) to prevent multiple re-renders
   const {
@@ -38,7 +36,7 @@ export const GraphDataQueries = (
     error: poolQueryError,
     data: poolQueryData,
     refetch: refetchPoolQuery
-  } = useQuery(dynamicPrizePoolsQuery, {
+  } = useQuery(prizePoolsQuery, {
     variables,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
@@ -58,7 +56,7 @@ export const GraphDataQueries = (
     console.error(poolQueryError)
   }
 
-  dynamicPoolData = getPoolDataFromQueryResult(poolAddresses, poolQueryData)
+  poolData = getPoolDataFromQueryResult(poolAddresses, poolQueryData)
 
 
 
@@ -66,55 +64,50 @@ export const GraphDataQueries = (
 
 
 
+  // let dynamicPrizeStrategiesData
 
+  // const {
+  //   loading: prizeStrategyQueryLoading,
+  //   error: prizeStrategyQueryError,
+  //   data: prizeStrategyQueryData,
+  //   refetch: refetchPrizeStrategyQuery
+  // } = useQuery(dynamicSingleRandomWinnerQuery, {
+  //   fetchPolicy: 'network-only',
+  //   pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
+  // })
 
+  // if (prizeStrategyQueryError) {
+  //   poolToast.error(prizeStrategyQueryError)
+  //   console.error(prizeStrategyQueryError)
+  // }
 
-  let dynamicPrizeStrategiesData
-
-  const {
-    loading: prizeStrategyQueryLoading,
-    error: prizeStrategyQueryError,
-    data: prizeStrategyQueryData,
-    refetch: refetchPrizeStrategyQuery
-  } = useQuery(dynamicSingleRandomWinnerQuery, {
-    variables,
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
-  })
-
-  if (prizeStrategyQueryError) {
-    poolToast.error(prizeStrategyQueryError)
-    console.error(prizeStrategyQueryError)
-  }
-
-  dynamicPrizeStrategiesData = getPrizeStrategyDataFromQueryResult(poolAddresses, prizeStrategyQueryData)
+  // dynamicPrizeStrategiesData = getPrizeStrategyDataFromQueryResult(poolAddresses, prizeStrategyQueryData)
 
 
 
 
 
 
-  let dynamicExternalAwardsData
 
-  const {
-    loading: externalAwardsLoading,
-    error: externalAwardsError,
-    data: externalAwardsData,
-    refetch: refetchExternalAwards
-  } = useQuery(externalAwardsQuery, {
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
-  })
+  // let dynamicPrizeStrategiesData
 
-  if (externalAwardsError) {
-    poolToast.error(externalAwardsError)
-    console.error(externalAwardsError)
-  }
+  // const {
+  //   loading: prizeStrategyQueryLoading,
+  //   error: prizeStrategyQueryError,
+  //   data: prizeStrategyQueryData,
+  //   refetch: refetchPrizeStrategyQuery
+  // } = useQuery(dynamicSingleRandomWinnerQuery, {
+  //   variables,
+  //   fetchPolicy: 'network-only',
+  //   pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
+  // })
 
-  // TODO: We shouldn't need this, we should be able to just get the external awards for a particular prize
-  // strategy
-  dynamicExternalAwardsData = getExternalAwardsDataFromQueryResult(poolAddresses, externalAwardsData)
+  // if (prizeStrategyQueryError) {
+  //   poolToast.error(prizeStrategyQueryError)
+  //   console.error(prizeStrategyQueryError)
+  // }
 
+  // dynamicPrizeStrategiesData = getPrizeStrategyDataFromQueryResult(poolAddresses, prizeStrategyQueryData)
 
 
 
@@ -187,31 +180,31 @@ export const GraphDataQueries = (
 
 
   let graphDataLoading = poolQueryLoading ||
-    prizeStrategyQueryLoading ||
-    externalAwardsLoading ||
+    // prizeStrategyQueryLoading ||
+    // externalAwardsLoading ||
     playerQueryLoading ||
     sponsorQueryLoading ||
-    !dynamicPrizeStrategiesData ||
-    !dynamicPoolData
+    // !dynamicPrizeStrategiesData ||
+    !poolData
 
   if (usersAddress) {
     graphDataLoading = (graphDataLoading || !dynamicPlayerData || !dynamicSponsorData)
   }
 
-  if (!poolQueryLoading && !isEmpty(dynamicPoolData)) {
+  if (!poolQueryLoading && !isEmpty(poolData)) {
     window.hideGraphError()
   }
 
   return children({
     graphDataLoading,
-    dynamicExternalAwardsData,
-    dynamicPoolData,
-    dynamicPrizeStrategiesData,
+    // dynamicExternalAwardsData,
+    poolData,
+    // dynamicPrizeStrategiesData,
     dynamicPlayerData,
     dynamicPlayerDrips,
     dynamicSponsorData,
     refetchPoolQuery,
-    refetchPrizeStrategyQuery,
+    // refetchPrizeStrategyQuery,
     refetchPlayerQuery,
     refetchSponsorQuery,
   })

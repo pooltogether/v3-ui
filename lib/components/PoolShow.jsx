@@ -15,6 +15,7 @@ import {
 } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
@@ -22,6 +23,7 @@ import { Chip } from 'lib/components/Chip'
 import { Erc20AwardsTable } from 'lib/components/Erc20AwardsTable'
 import { Erc721AwardsTable } from 'lib/components/Erc721AwardsTable'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
+import { PrizeFromInterestCard } from 'lib/components/PrizeFromInterestCard'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
@@ -45,7 +47,6 @@ import PlayersIcon from 'assets/images/players@2x.png'
 import YieldSourceIcon from 'assets/images/icon-yieldsource@2x.png'
 import TotalAwardedIcon from 'assets/images/icon-total@2x.png'
 import PrizeIcon from 'assets/images/icon-prize@2x.png'
-import GiftIcon from 'assets/images/icon-gift@2x.png'
 
 export const PoolShow = (
   props,
@@ -53,10 +54,8 @@ export const PoolShow = (
   const { t } = useTranslation()
   const router = useRouter()
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { networkName, usersAddress, walletName } = authControllerContext
-
-  const { pool } = props
+  const { networkName, usersAddress, walletName } = useContext(AuthControllerContext)
+  const { pool } = useContext(PoolDataContext)
 
   const symbol = pool?.symbol
   const decimals = pool?.underlyingCollateralDecimals
@@ -116,9 +115,9 @@ export const PoolShow = (
   }
 
   let prizeEstimateFormatted
-  if (pool.prizeEstimate && pool.prizeEstimate.gt(0)) {
+  if (pool.prizeAmountUSD && pool.prizeAmountUSD.gt(0)) {
     prizeEstimateFormatted = ethers.utils.formatUnits(
-      pool.prizeEstimate,
+      pool.prizeAmountUSD,
       decimals || DEFAULT_TOKEN_PRECISION
     )
   }
@@ -243,29 +242,21 @@ export const PoolShow = (
             </div>
           </div>
 
-          <div
-            className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
-          >
-            <div className='mt-1 text-caption uppercase mb-3'>
-              <img
-                src={GiftIcon}
-                className='inline-block mr-2 card-icon'
-              /> {t('prizeFromInterest')}
-            </div>
+          <PrizeFromInterestCard
+            decimals={decimals}
+            interestPrize={pool?.interestPrizeUSD}
+          />
 
-            <h3
-              className='mb-1'
-            >
-              ${displayAmountInEther(pool?.interestPrizeEstimate, {
-                decimals
-              })}
-            </h3>
-          </div>
-
-          <Erc20AwardsTable />
+          <Erc20AwardsTable
+            pool={pool}
+            basePath={`/pools/${pool?.symbol}`}
+            externalErc20Awards={pool?.externalErc20Awards}
+          />
           
-          <Erc721AwardsTable />
-
+          <Erc721AwardsTable
+            basePath={`/pools/${pool?.symbol}`}
+            externalErc721Awards={pool?.externalErc721Awards}
+          />
 
           <CardGrid
             cardGroupId='pool-rewards-cards'
@@ -333,7 +324,7 @@ export const PoolShow = (
                 title: t('players'),
                 content: <>
                   <h3>
-                    {pool?.playerCount}
+                    {numberWithCommas(pool?.playerCount, { precision: 0 })}
                   </h3>
 
                   <Link
@@ -350,7 +341,7 @@ export const PoolShow = (
               },
               {
                 icon: TicketsIcon,
-                title: t('ticketsSold'),
+                title: t('totalTickets'),
                 content: <>
                   <TicketsSoldGraph
                     pool={pool}
@@ -390,31 +381,31 @@ export const PoolShow = (
                   </h6>
                 </>
               },
-              {
-                icon: TotalAwardedIcon,
-                title: t('totalAwarded'),
-                content: <>
-                  <h3>
-                    ${displayAmountInEther(
-                      pool.cumulativePrizeNet, {
-                        precision: 2,
-                        decimals
-                      })
-                    } {pool.underlyingCollateralSymbol}
-                  </h3>
+              // {
+              //   icon: TotalAwardedIcon,
+              //   title: t('totalAwarded'),
+              //   content: <>
+              //     <h3>
+              //       ${displayAmountInEther(
+              //         pool.cumulativePrizeNet, {
+              //           precision: 0,
+              //           decimals
+              //         })
+              //       }
+              //     </h3>
                   
-                  <Link
-                    href='/prizes/[symbol]'
-                    as={`/prizes/${pool?.symbol}`}
-                  >
-                    <a
-                      className='inline-block font-bold trans'
-                    >
-                      {t('viewPreviousWinners')}
-                    </a>
-                  </Link>
-                </>
-              },
+              //     <Link
+              //       href='/prizes/[symbol]'
+              //       as={`/prizes/${pool?.symbol}`}
+              //     >
+              //       <a
+              //         className='inline-block font-bold trans'
+              //       >
+              //         {t('viewPreviousWinners')}
+              //       </a>
+              //     </Link>
+              //   </>
+              // },
               {
                 icon: PrizeIcon,
                 title: t('pastFiveWinners'),

@@ -30,8 +30,7 @@ export function DepositSponsorshipTxButton(props) {
   const { pool, refetchSponsorQuery } = poolData
 
   const poolAddress = pool?.poolAddress
-  const sponsorshipAddress = pool?.sponsorship?.id
-  
+  const sponsorshipAddress = pool?.prizeStrategy?.singleRandomWinner?.sponsorship?.id
 
 
 

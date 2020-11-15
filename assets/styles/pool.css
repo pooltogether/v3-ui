@@ -146,11 +146,13 @@ input[type='submit'][disabled] {
   --borderFlashyWidth: 6px;
   position: relative;
   border-radius: var(--borderFlashyRadius);
+  width: calc(100% - 13px);
 }
 
 @screen sm {
   .border-flashy {
     --borderFlashyWidth: 10px;
+    width: calc(100% - 17px);
   }
 }
 

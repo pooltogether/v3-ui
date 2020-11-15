@@ -1,13 +1,13 @@
 import gql from 'graphql-tag'
 
-export const dynamicPrizePoolFragment = gql`
-  fragment dynamicPrizePoolFragment on PrizePool {
+import { prizeStrategyFragment } from 'lib/fragments/prizeStrategyFragment'
+
+export const prizePoolFragment = gql`
+  fragment prizePoolFragment on PrizePool {
     id
 
-    owner
-
     prizeStrategy {
-      id
+      ...prizeStrategyFragment
     }
 
     prizePoolType
@@ -15,8 +15,6 @@ export const dynamicPrizePoolFragment = gql`
       id
       cToken
     }
-
-    reserveFeeControlledToken
 
     underlyingCollateralToken
     underlyingCollateralDecimals
@@ -31,8 +29,6 @@ export const dynamicPrizePoolFragment = gql`
     playerCount
     ticketSupply: totalSupply
 
-    cumulativePrizeGross
-    cumulativePrizeReserveFee
     cumulativePrizeNet
 
     currentPrizeId
@@ -40,4 +36,5 @@ export const dynamicPrizePoolFragment = gql`
 
     prizesCount
   }
+  ${prizeStrategyFragment}
 `

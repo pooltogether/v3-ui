@@ -32,7 +32,7 @@ export function ExecuteWithdrawInstantNoFee(props) {
   const decimals = pool?.underlyingCollateralDecimals
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
   const poolAddress = pool?.poolAddress
-  const controlledTokenAddress = pool?.ticket?.id
+  const controlledTokenAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
 
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()

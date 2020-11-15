@@ -1,6 +1,7 @@
 import gql from 'graphql-tag'
 
-import { playerFragment } from 'lib/fragments/playerFragment'
+import { awardedExternalErc20TokenFragment } from 'lib/fragments/awardedExternalErc20TokenFragment'
+import { awardedExternalErc721NftFragment } from 'lib/fragments/awardedExternalErc721NftFragment'
 
 export const prizeFragment = gql`
   fragment prizeFragment on Prize {
@@ -16,6 +17,15 @@ export const prizeFragment = gql`
     lockBlock
 
     winners
+
+    awardedExternalErc20Tokens {
+      ...awardedExternalErc20TokenFragment
+    }
+    
+    awardedExternalErc721Nfts {
+      ...awardedExternalErc721NftFragment
+    }
   }
-  ${playerFragment}
+  ${awardedExternalErc20TokenFragment}
+  ${awardedExternalErc721NftFragment}
 `

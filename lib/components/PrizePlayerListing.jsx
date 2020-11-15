@@ -8,8 +8,10 @@ import { GeneralContext } from 'lib/components/contextProviders/GeneralContextPr
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PaginationUI } from 'lib/components/PaginationUI'
 import { PlayersTable } from 'lib/components/PlayersTable'
-import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { prizePlayersQuery } from 'lib/queries/prizePlayersQuery'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
+
+import PlayersIcon from 'assets/images/players@2x.png'
 
 export const PrizePlayerListing = (
   props,
@@ -57,7 +59,7 @@ export const PrizePlayerListing = (
 
   const { loading, error, data } = useQuery(timeTravelPlayersQuery, {
     variables,
-    skip: !pool || !prize,
+    skip: !pool || !pool.poolAddress || !prize,
     ...fetchAndPoolOptions
   })
 
@@ -83,8 +85,24 @@ export const PrizePlayerListing = (
 
   return <>
     <div
-      className='flex flex-col items-center text-center mt-8'
+      id='awards-table'
+      className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
+      <div
+        className='text-caption uppercase mb-3'
+      >
+        <img
+          src={PlayersIcon}
+          className='inline-block mr-2 card-icon'
+        /> {t('players')}
+      </div>
+      <h3>
+        {numberWithCommas(pool?.playerCount || 0, { precision: 0 })}
+      </h3>
+
+
+
+
       {error && <>
         There was an issue loading data:
         <br />{error.message}
@@ -94,36 +112,47 @@ export const PrizePlayerListing = (
         {t('noPlayers')}
       </>}
 
-      <TimeTravelPool
-        pool={pool}
-        prize={prize}
-      >
-        {(timeTravelPool) => {
-          return <PlayersTable
-            timeTravelTicketSupply={timeTravelPool?.ticketSupply}
+
+      
+
+
+
+      {players?.length > 0 && <>
+        <div
+          className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8 mt-4'
+        >
+
+          <PlayersTable
+            nestedTable
+            timeTravelTicketSupply={pool?.ticketSupply}
             pool={pool}
             players={players}
             prize={prize}
           />
-        }}
-      </TimeTravelPool>
 
-      <PaginationUI
-        prevPath={prevPath}
-        nextPath={nextPath}
-        prevPage={prevPage}
-        nextPage={nextPage}
-        currentPage={page}
-        currentPath={asPath(page)}
-        firstPath={asPath(1)}
-        lastPath={asPath(pages)}
-        hrefPathname='/prizes/[symbol]/[prizeNumber]'
-        lastPage={pages}
-        showFirst={page > 2}
-        showLast={pages > 2 && page < pages - 1}
-        showPrev={page > 1}
-        showNext={pages > page}
-      />
+          <PaginationUI
+            prevPath={prevPath}
+            nextPath={nextPath}
+            prevPage={prevPage}
+            nextPage={nextPage}
+            currentPage={page}
+            currentPath={asPath(page)}
+            firstPath={asPath(1)}
+            lastPath={asPath(pages)}
+            hrefPathname='/prizes/[symbol]/[prizeNumber]'
+            lastPage={pages}
+            showFirst={page > 2}
+            showLast={pages > 2 && page < pages - 1}
+            showPrev={page > 1}
+            showNext={pages > page}
+          />
+
+        </div>
+
+
+      </>}
+
+
     </div>
 
   </>

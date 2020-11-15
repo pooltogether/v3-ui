@@ -11,8 +11,9 @@ export const SECONDS_PER_BLOCK = 14
 export const DEFAULT_TOKEN_PRECISION = 18
 
 export const COINGECKO_POLLING_INTERVAL = 120 * 1000
+export const UNISWAP_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? (120 * 1000) : (60 * 1000)
 export const ERC_721_POLLING_INTERVAL = 120 * 1000
-export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? (30 * 1000) : (15 * 1000)
+export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? (22 * 1000) : (15 * 1000)
 
 export const MAX_SAFE_INTEGER = 9007199254740991
 
@@ -35,25 +36,29 @@ export const COOKIE_OPTIONS = {
   domain
 }
 
+export const POOLS = [
+  {
+    name: 'DAI Pool',
+    frequency: 'Weekly',
+    symbol: 'PT-cDAI'
+  }
+]
+
 export const CONTRACT_ADDRESSES = {
   1: {
+    Usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',
     // Dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
     // PermitAndDepositDai: PermitAndDepositDaiMainnet.address
   },
   3: {
+    Usdt: '0x0736d0c130b2ead47476cc262dbed90d7c4eeabd',
     // Dai: '0xc2118d4d90b274016cb7a54c03ef52e6c537d957',
     // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
   },
   4: {
+    Usdt: '0x3B00Ef435fA4FcFF5C209a37d1f3dcff37c705aD',
     // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
   },
-}
-
-export const TOKEN_VALUES = {
-  '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
-  // '0x2e703d658f8dd21709a7b458967ab4081f8d3d05': ,
-  // '0x8b9c35c79af5319c70dd9a3e3850f368822ed64e': ,
-  '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
 }
 
 export const TOKEN_IMAGES = {
@@ -78,7 +83,7 @@ export const TOKEN_IMAGES = {
   '0x117c2aca45d87958ba054cb85af0fd57be00d624': '/tokens/0x117c2aca45d87958ba054cb85af0fd57be00d624.png',
   // '0x2e703d658f8dd21709a7b458967ab4081f8d3d05': '',
   '0x8b9c35c79af5319c70dd9a3e3850f368822ed64e': '/tokens/0x8b9c35c79af5319c70dd9a3e3850f368822ed64e.png',
-  // '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': '',
+  '0xdac17f958d2ee523a2206206994597c13d831ec7': 'https://assets.coingecko.com/coins/images/325/thumb/Tether-logo.png?1602230054',
   '0xa91ac63d040deb1b7a5e4d4134ad23eb0ba07e14': 'https://assets.coingecko.com/coins/images/12478/thumb/Bella.png?1602230054',
   '0x08d32b0da63e2c3bcf8019c9c5d849d7a9d791e6': 'https://assets.coingecko.com/coins/images/850/thumb/dentacoin.png?1547034647',
   '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2': 'https://assets.coingecko.com/coins/images/12271/thumb/sushi.jpg?1598623048',
@@ -97,8 +102,26 @@ export const V2_CONTRACT_ADDRESSES = [
 ]
 
 export const QUERY_KEYS = {
-  coingeckoDataQuery: 'coingeckoDataQuery',
+  // coingeckoEthPriceQuery: 'coingeckoEthPriceQuery',
+  // coingeckoTokensQuery: 'coingeckoTokensQuery',
   ethereumErc20sQuery: 'ethereumErc20sQuery',
   ethereumErc721sQuery: 'ethereumErc721sQuery',
   ethereumGenericQuery: 'ethereumGenericQuery',
+  poolQuery: 'poolQuery',
+  uniswapTokensQuery: 'uniswapTokensQuery',
+}
+
+export const TOKEN_VALUES = {
+  // '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
+  // '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
+}
+
+export const HISTORICAL_TOKEN_VALUES = {
+  prizeNumber: {
+    1: {
+      '0x06f65b8cfcb13a9fe37d836fe9708da38ecb29b2': 970.23,
+      '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
+      '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
+    }
+  }
 }

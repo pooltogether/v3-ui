@@ -1,5 +1,8 @@
 import { useContext, useEffect, useState } from 'react'
 
+import {
+  QUERY_KEYS,
+} from 'lib/constants'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
@@ -7,10 +10,11 @@ import { useEthereumGenericQuery } from 'lib/hooks/useEthereumGenericQuery'
 
 const debug = require('debug')('pool-app:FetchGenericChainData')
 
-export function ChainDataQueries(props) {
+export function ChainQueries(props) {
   const {
+    cache,
     children,
-    coingeckoData,
+    // coingeckoData,
     dynamicExternalAwardsData,
     provider,
     poolData,
@@ -26,7 +30,7 @@ export function ChainDataQueries(props) {
     isFetching: genericIsFetching
   } = useEthereumGenericQuery({
     provider,
-    poolData: poolData.daiPool
+    poolData: poolData?.daiPool
   })
 
   if (genericChainError) {
@@ -37,44 +41,50 @@ export function ChainDataQueries(props) {
 
 
 
-  const graphExternalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
-  const poolAddress = poolData.daiPool.poolAddress
+  // const graphExternalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
+  const poolAddress = poolData?.daiPool?.poolAddress
+
+  const graphExternalErc20Awards = poolData?.daiPool?.prizeStrategy?.externalErc20Awards
 
   const {
-    status: external20ChainStatus,
-    data: external20ChainData,
-    error: external20ChainError,
-    isFetching: external20IsFetching
+    status: externalErc20ChainStatus,
+    data: externalErc20ChainData,
+    error: externalErc20ChainError,
+    isFetching: externalErc20IsFetching
   } = useEthereumErc20Query({
     provider,
     graphErc20Awards: graphExternalErc20Awards,
-    coingeckoData,
     poolAddress,
   })
 
-  if (external20ChainError) {
-    console.warn(external20ChainError)
+  if (externalErc20ChainError) {
+    console.warn(externalErc20ChainError)
   }
 
 
 
-
-  const graphExternalErc721Awards = dynamicExternalAwardsData?.daiPool?.externalErc721Awards
+  const graphExternalErc721Awards = poolData?.daiPool?.prizeStrategy?.externalErc721Awards
+  // const graphExternalErc721Awards = dynamicExternalAwardsData?.daiPool?.externalErc721Awards
 
   const {
-    status: external721ChainStatus,
-    data: external721ChainData,
-    error: external721ChainError,
-    isFetching: external721IsFetching
+    status: externalErc721ChainStatus,
+    data: externalErc721ChainData,
+    error: externalErc721ChainError,
+    isFetching: externalErc721IsFetching
   } = useEthereumErc721Query({
     provider,
     graphErc721Awards: graphExternalErc721Awards,
     poolAddress,
   })
 
-  if (external721ChainError) {
-    console.warn(external721ChainError)
+  if (externalErc721ChainError) {
+    console.warn(externalErc721ChainError)
   }
+
+
+
+
+  
 
   useEffect(() => {
     const underlyingCollateralName = poolData?.daiPool?.underlyingCollateralName

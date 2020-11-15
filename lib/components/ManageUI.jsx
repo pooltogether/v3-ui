@@ -213,7 +213,7 @@ export const ManageUI = (
             icon: null,
             title: t('prizePeriodInSeconds'),
             content: <h3>{numberWithCommas(
-              pool.prizePeriodSeconds,
+              pool?.prizeStrategy?.singleRandomWinner?.prizePeriodSeconds,
               { precision: 0 }
             )}</h3>
           },
@@ -221,7 +221,7 @@ export const ManageUI = (
             icon: null,
             title: t('sponsorship'),
             content: <h3>{displayAmountInEther(
-              pool.sponsorship?.totalSupply,
+              pool?.prizeStrategy?.singleRandomWinner?.sponsorship?.totalSupply,
               { decimals, precision: 4 }
             )} {tickerUpcased}</h3>
           },

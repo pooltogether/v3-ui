@@ -3,7 +3,7 @@ import React from 'react'
 export const BasicTable = (
   props,
 ) => {
-  const { tableInstance } = props
+  const { nestedTable, tableInstance } = props
 
   const {
     getTableProps,
@@ -13,10 +13,15 @@ export const BasicTable = (
     prepareRow,
   } = tableInstance
 
+  let className = 'w-full'
+  if (nestedTable) {
+    className = 'table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
+  }
+
   return <>
     <table
       {...getTableProps()}
-      className='w-full'
+      className={className}
     >
       <thead>
         {
@@ -24,6 +29,7 @@ export const BasicTable = (
             return <tr
               key={`header-group-${index}`}
               {...headerGroup.getHeaderGroupProps()}
+              style={nestedTable ? { background: 'none' } : {}}
             >
               {
                 headerGroup.headers.map(column => {

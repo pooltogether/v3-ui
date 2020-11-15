@@ -1,5 +1,7 @@
 import gql from 'graphql-tag'
 
+import { prizePoolFragment } from 'lib/fragments/prizePoolFragment'
+
 export const timeTravelPoolQuery = (number) => {
   let blockFilter = ''
 
@@ -10,18 +12,9 @@ export const timeTravelPoolQuery = (number) => {
   return gql`
     query timeTravelPoolQuery($prizePoolAddress: ID!) {
       timeTravelPrizePool: prizePool(id: $prizePoolAddress ${blockFilter}) {
-        id
-        playerCount
-        prizeStrategy {
-          id
-          singleRandomWinner {
-            ticket {
-              id
-              totalSupply
-            }
-          }
-        }
+        ...prizePoolFragment
       }
     }
+    ${prizePoolFragment}
   `
 }

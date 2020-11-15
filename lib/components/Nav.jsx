@@ -33,7 +33,7 @@ export function Nav(props) {
           className={classnames(
             navParentClasses,
             {
-              'text-accent-3 hover:text-highlight-2': !poolPage,
+              'text-accent-4 hover:text-highlight-2': !poolPage,
               'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': poolPage
             }
           )}
@@ -74,7 +74,7 @@ export function Nav(props) {
             className={classnames(
               navChildClasses,
               {
-                'text-accent-3 hover:text-highlight-2': !daiPoolPage,
+                'text-accent-4 hover:text-highlight-2': !daiPoolPage,
                 'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': daiPoolPage
               }
             )}
@@ -92,7 +92,7 @@ export function Nav(props) {
             className={classnames(
               navChildClasses,
               {
-                'text-accent-3 hover:text-highlight-2': !usdcPoolPage,
+                'text-accent-4 hover:text-highlight-2': !usdcPoolPage,
                 'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': usdcPoolPage
               }
             )}
@@ -110,7 +110,7 @@ export function Nav(props) {
             className={classnames(
               navChildClasses,
               {
-                'text-accent-3 hover:text-highlight-2': !usdtPoolPage,
+                'text-accent-4 hover:text-highlight-2': !usdtPoolPage,
                 'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': usdtPoolPage
               }
             )}
@@ -131,7 +131,7 @@ export function Nav(props) {
           className={classnames(
             navParentClasses,
             {
-              'text-accent-3 hover:text-highlight-2': !accountPage,
+              'text-accent-4 hover:text-highlight-2': !accountPage,
               'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': accountPage
             }
           )}
@@ -168,7 +168,7 @@ export function Nav(props) {
           className={classnames(
             navParentClasses,
             {
-              'text-accent-3 hover:text-highlight-2': !votePage,
+              'text-accent-4 hover:text-highlight-2': !votePage,
               'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': votePage
             }
           )}

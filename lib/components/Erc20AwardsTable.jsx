@@ -29,31 +29,31 @@ export const Erc20AwardsTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
+  const { basePath, externalErc20Awards, historical, pool } = props
+
   const [moreVisible, setMoreVisible] = useState(false)
   
-  const { pool } = useContext(PoolDataContext)
-  const awardsChainData = pool?.external20ChainData
-
   const handleShowMore = (e) => {
     e.preventDefault()
 
     setMoreVisible(true)
 
     router.push(
-      `/pools/[symbol]#awards-table`,
-      `/pools/${pool?.symbol}#awards-table`,
+      `${basePath}#awards-table`,
     )
   }
 
 
 
-  if (!awardsChainData) {
+  if (!externalErc20Awards) {
     return null
   }
 
-  let externalAwards = Object.keys(awardsChainData)
-    .map(key => awardsChainData[key])
-    .filter(award => award?.balance?.gt(0))
+  const balanceProperty = historical ? 'balanceAwardedBN' : 'balance'
+
+  let externalAwards = Object.keys(externalErc20Awards)
+    .map(key => externalErc20Awards[key])
+    .filter(award => award?.[balanceProperty]?.gt(0))
 
   const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])
   const awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 5)
@@ -75,22 +75,24 @@ export const Erc20AwardsTable = (props) => {
       <div className='flex flex-col sm:flex-row justify-between sm:items-center'>
         <div>
           {awards.length === 0 ? <>
-            {t('currentlyNoOtherPrizes')}
+            {historical ? t('noOtherPrizesAwarded') : t('currentlyNoOtherPrizes')}
           </> : <>
-            {pool?.externalAwardsEstimate && <>
-              <div
-                className='font-bold text-lg sm:text-2xl sm:text-3xl'
+            {pool?.externalAwardsUSD && <>
+              <h3
+                className='mb-1'
               >
-                ${numberWithCommas(pool?.externalAwardsEstimate)} {t('value')}
-              </div>
+                ${numberWithCommas(pool?.externalAwardsUSD)} {t('value')}
+              </h3>
             </>} 
           </>}
         </div>
 
         <div>
-          <ContributeToLootBoxDropdown
-            pool={pool}
-          />
+          {!historical && <>
+            <ContributeToLootBoxDropdown
+              pool={pool}
+            />
+          </>}
         </div>
       </div> 
       
@@ -126,6 +128,10 @@ export const Erc20AwardsTable = (props) => {
             </thead>
             <tbody>
               {awards.map(award => {
+                if (!award.name) {
+                  return
+                }
+
                 return <Fragment
                   key={award.address}
                 >
@@ -147,7 +153,7 @@ export const Erc20AwardsTable = (props) => {
                     >
                       <PoolNumber>
                         {displayAmountInEther(
-                          award.balance, {
+                          award[balanceProperty], {
                             precision: 6,
                             decimals: award.decimals
                           }
