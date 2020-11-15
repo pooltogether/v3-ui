@@ -163,7 +163,7 @@ export function PrizeShow(props) {
       cards={[
         {
           icon: TicketsIcon,
-          title: t('ticketsSold'),
+          title: t('totalTickets'),
           content: <>
             <h3>
               {pool?.ticketSupply ?
