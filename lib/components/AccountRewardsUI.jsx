@@ -242,6 +242,9 @@ export const AccountRewardsUI = () => {
       const isPoolDaiTickets = dripTokenData.name === 'PoolTogether Dai Ticket (Compound)'
         || dripTokenData.name === 'DAI Ticket'
 
+
+      console.log(dripData.claimable)
+      console.log(dripData.dripToken.decimals)
       return <>
         <tr key={dripData.id}>
           <td className='px-2 sm:px-3 py-2 text-left font-bold'>
@@ -251,7 +254,7 @@ export const AccountRewardsUI = () => {
             {getFormattedNumber(dripData.balance, dripData.dripToken.decimals)}
           </td> */}
           <td className='px-2 sm:px-3 py-2 text-left'>
-            {getFormattedNumber(dripData.claimable.mul(2000), dripData.dripToken.decimals)}
+            {getFormattedNumber(dripData.claimable, dripData.dripToken.decimals)}
           </td>
           <td className='px-2 sm:px-3 py-2 text-right'>
             {getClaimButton(dripData)}
