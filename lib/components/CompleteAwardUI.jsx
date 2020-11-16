@@ -48,7 +48,7 @@ export function CompleteAwardUI(props) {
       provider,
       usersAddress,
       SingleRandomWinnerAbi,
-      pool?.prizeStrategyAddress,
+      pool?.prizeStrategy?.id,
       method,
       params,
     )

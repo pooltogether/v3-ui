@@ -58,7 +58,6 @@ export function TimeTravelPool(
       >
         {() => {
           const poolInfo = POOLS.find(POOL => POOL.symbol === querySymbol)
-
           const timeTravelPool = compileHistoricalPool(poolInfo, cache, graphPool, poolAddress, blockNumber, prize)
 
           return children(timeTravelPool)

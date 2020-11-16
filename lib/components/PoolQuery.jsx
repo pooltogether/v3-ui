@@ -1,3 +1,6 @@
+import { useContext } from 'react'
+
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { usePoolQuery } from 'lib/hooks/usePoolQuery'
 
 export function PoolQuery(props) {
@@ -7,7 +10,9 @@ export function PoolQuery(props) {
     poolAddress,
   } = props
 
-  const { status, data, error, isFetching } = usePoolQuery(poolAddress, blockNumber)
+  const { chainId } = useContext(AuthControllerContext)
+
+  const { status, data, error, isFetching } = usePoolQuery(chainId, poolAddress, blockNumber)
 
   if (error) {
     console.warn(error)

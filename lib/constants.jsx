@@ -4,8 +4,6 @@
 
 export const SUPPORTED_CHAIN_IDS = [1, 3, 4, 31337, 1234]
 
-export const CREATOR_ADDRESS = '0x029aa20dcc15c022b1b61d420aacf7f179a9c73f'
-
 export const SECONDS_PER_BLOCK = 14
 
 export const DEFAULT_TOKEN_PRECISION = 18
@@ -56,7 +54,7 @@ export const CONTRACT_ADDRESSES = {
     // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
   },
   4: {
-    Usdt: '0x3B00Ef435fA4FcFF5C209a37d1f3dcff37c705aD',
+    Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
     // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
   },
 }
@@ -124,4 +122,16 @@ export const HISTORICAL_TOKEN_VALUES = {
       '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
     }
   }
+}
+
+export const POOLTOGETHER_GRAPH_URIS = {
+  1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
+  3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
+  4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY,
+}
+
+export const UNISWAP_GRAPH_URIS = {
+  1: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_MAINNET, // https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2
+  3: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_ROPSTEN,
+  4: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_RINKEBY, // https://api.thegraph.com/subgraphs/name/blockrockettech/uniswap-v2-subgraph-rinkeby
 }

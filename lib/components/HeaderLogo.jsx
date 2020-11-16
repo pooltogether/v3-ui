@@ -12,7 +12,7 @@ export function HeaderLogo(props) {
         shallow
       >
         <a
-          title={'Back to home'}
+          title={'home'}
           className='pool-logo border-0 trans block w-full'
         />
       </Link>

@@ -43,10 +43,10 @@ export function PoolDataContextProvider(props) {
     getReadProvider()
   }, [networkName])
 
-  let poolAddresses
+  let contractAddresses
   try {
     if (supportedNetwork) {
-      poolAddresses = getContractAddresses(chainId)
+      contractAddresses = getContractAddresses(chainId)
     }
   } catch (e) {
     poolToast.error(e)
@@ -63,7 +63,7 @@ export function PoolDataContextProvider(props) {
   return <>
     <GraphDataQueries
       {...props}
-      poolAddresses={poolAddresses}
+      contractAddresses={contractAddresses}
       usersAddress={usersAddress}
     >
       {({
@@ -76,7 +76,6 @@ export function PoolDataContextProvider(props) {
         refetchSponsorQuery,
         dynamicPlayerDrips,
       }) => {
-    
         return <ChainQueries
           {...props}
           cache={cache}
@@ -86,7 +85,7 @@ export function PoolDataContextProvider(props) {
           graphDataLoading={graphDataLoading}
         >
           {({ genericChainData }) => {
-            const pools = compilePools(poolAddresses, cache, poolData, graphDataLoading, genericChainData)
+            const pools = compilePools(contractAddresses, cache, poolData, graphDataLoading, genericChainData)
 
             const currentPool = getCurrentPool(querySymbol, pools)
             
@@ -121,7 +120,7 @@ export function PoolDataContextProvider(props) {
                       pool={currentPool}
                       usersAddress={usersAddress}
                       graphDripData={graphDripData}
-                      poolAddresses={poolAddresses}
+                      contractAddresses={contractAddresses}
                     >
                       {({ usersChainData }) => {
                         return <PoolDataContext.Provider
@@ -129,7 +128,7 @@ export function PoolDataContextProvider(props) {
                             loading: graphDataLoading || dripDataLoading,
                             pool: currentPool,
                             pools,
-                            poolAddresses,
+                            contractAddresses,
                             defaultReadProvider,
                             poolData,
                             dynamicPlayerData,

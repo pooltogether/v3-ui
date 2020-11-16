@@ -16,7 +16,7 @@ export const V2MigrateButton = (
   const { balance, balanceFormatted, type, ticker } = props
   
   const { t } = useTranslation()
-  const { poolAddresses } = useContext(PoolDataContext)
+  const { contractAddresses } = useContext(PoolDataContext)
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
   const [txId, setTxId] = useState(0)
@@ -39,19 +39,19 @@ export const V2MigrateButton = (
     const dai = ticker === 'DAI'
 
     if (dai && type === 'pool') {
-      erc777ContractAddress = poolAddresses.v2PoolDAIToken
+      erc777ContractAddress = contractAddresses.v2PoolDAIToken
     } else if (dai && type === 'pod') {
-      erc777ContractAddress = poolAddresses.v2DAIPod
+      erc777ContractAddress = contractAddresses.v2DAIPod
     } else if (type === 'pool') {
-      erc777ContractAddress = poolAddresses.v2PoolUSDCToken
+      erc777ContractAddress = contractAddresses.v2PoolUSDCToken
     } else {
-      erc777ContractAddress = poolAddresses.v2USDCPod
+      erc777ContractAddress = contractAddresses.v2USDCPod
     }
 
     // send shares / balanceOf for Pods
     // const balanceNormalized = normalizeTo18Decimals(balance, decimals)
     const params = [
-      poolAddresses.v2MigrationContractAddress,
+      contractAddresses.v2MigrationContractAddress,
       balance
     ]
 

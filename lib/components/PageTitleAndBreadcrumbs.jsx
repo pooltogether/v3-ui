@@ -51,17 +51,6 @@ export const PageTitleAndBreadcrumbs = (
             {index + 1 !== breadcrumbs.length && <> &gt; </>}
           </span>
         ))}
-        {/* <Link
-            href='/'
-            as='/'
-            shallow
-          >
-            <a
-              className='underline'
-            >
-              Pools
-            </a>
-          </Link> &gt; {pool?.name} */}
       </div>
     </div>
   </>
@@ -69,7 +58,6 @@ export const PageTitleAndBreadcrumbs = (
   return <>
     {pool ? <>
       <div
-        // xs:w-3/4 sm:w-3/4
         className='flex justify-start items-center'
       >
         <PoolCurrencyIcon
