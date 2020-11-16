@@ -243,8 +243,6 @@ export const AccountRewardsUI = () => {
         || dripTokenData.name === 'DAI Ticket'
 
 
-      console.log(dripData.claimable)
-      console.log(dripData.dripToken.decimals)
       return <>
         <tr key={dripData.id}>
           <td className='px-2 sm:px-3 py-2 text-left font-bold'>
