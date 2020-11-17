@@ -107,7 +107,7 @@ export const QUERY_KEYS = {
   ethereumErc20sQuery: 'ethereumErc20sQuery',
   ethereumErc721sQuery: 'ethereumErc721sQuery',
   ethereumGenericQuery: 'ethereumGenericQuery',
-  poolQuery: 'poolQuery',
+  poolsQuery: 'poolsQuery',
   uniswapTokensQuery: 'uniswapTokensQuery',
 }
 
@@ -124,4 +124,16 @@ export const HISTORICAL_TOKEN_VALUES = {
       '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
     }
   }
+}
+
+export const POOLTOGETHER_GRAPH_URIS = {
+  1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
+  3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
+  4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY,
+}
+
+export const UNISWAP_GRAPH_URIS = {
+  1: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_MAINNET, // https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2
+  3: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_ROPSTEN,
+  4: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_RINKEBY, // https://api.thegraph.com/subgraphs/name/blockrockettech/uniswap-v2-subgraph-rinkeby
 }

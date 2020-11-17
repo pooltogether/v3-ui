@@ -14,8 +14,8 @@ import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { getCurrentPool } from 'lib/services/getCurrentPool'
 import { getUsersSponsorshipBalance } from 'lib/services/getUsersSponsorshipBalance'
 import { getUsersTicketBalance } from 'lib/services/getUsersTicketBalance'
+import { readProvider } from 'lib/services/readProvider'
 import { poolToast } from 'lib/utils/poolToast'
-import { readProvider } from 'lib/utils/readProvider'
 
 export const PoolDataContext = React.createContext()
 const debug = require('debug')('pool-app:PoolDataContext')
