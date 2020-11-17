@@ -74,7 +74,7 @@ export function NewPrizeWinnerEventListener(props) {
   debug({recentPrize})
 
   let winner
-  if (recentPrize.winners.length > 0) {
+  if (recentPrize?.winners?.length > 0) {
     winner = data.prize.winners[0]
   }
   const isWinner = winner?.toLowerCase() === usersAddress?.toLowerCase()

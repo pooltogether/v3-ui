@@ -51,14 +51,13 @@ export const NewPrizeCountdownInWords = (
     const minutesArray = ('' + minutes).split('')
     const secondsArray = ('' + seconds).split('')
 
+    const daysWords    = daysArray.length > 1 ? daysArray.join('') : daysArray[0]
+    const hoursWords   = hoursArray.length > 1 ? hoursArray.join('') : hoursArray[0]
+    const minutesWords = minutesArray.length > 1 ? minutesArray.join('') : minutesArray[0]
+    const secondsWords = secondsArray.length > 1 ? secondsArray.join('') : secondsArray[0]
+    
     content = <>
-      {daysArray.length > 1 ? daysArray.join('') : daysArray[0]} days,&nbsp;
-
-      {hoursArray.length > 1 ? hoursArray.join('') : hoursArray[0]} hours,&nbsp;
-
-      {minutesArray.length > 1 ? minutesArray.join('') : minutesArray[0]} minutes, and&nbsp;
-
-      {secondsArray.length > 1 ? secondsArray.join('') : secondsArray[0]} seconds
+      {t('numDays', { days: daysWords })}, {t('numHours', { hours: hoursWords })}, {t('numMinutes', { minutes: minutesWords })}, {t('numSeconds', { seconds: secondsWords })}
     </>
   }
 
