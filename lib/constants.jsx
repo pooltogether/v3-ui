@@ -4,8 +4,6 @@
 
 export const SUPPORTED_CHAIN_IDS = [1, 3, 4, 31337, 1234]
 
-export const CREATOR_ADDRESS = '0x029aa20dcc15c022b1b61d420aacf7f179a9c73f'
-
 export const SECONDS_PER_BLOCK = 14
 
 export const DEFAULT_TOKEN_PRECISION = 18
@@ -56,7 +54,7 @@ export const CONTRACT_ADDRESSES = {
     // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
   },
   4: {
-    Usdt: '0x3B00Ef435fA4FcFF5C209a37d1f3dcff37c705aD',
+    Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
     // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
   },
 }

@@ -88,7 +88,7 @@ export function DateValueLineGraph(props) {
                 </strong>
                 <span className='block mt-2'>
                   Date: <strong>{formatDate(
-                    Date.parse(tooltipData.date),
+                    tooltipData.date / 1000,
                     {
                       short: true
                     }

@@ -20,7 +20,7 @@ export function StartAwardUI(props) {
   const { pool } = poolDataContext
 
   const canStartAward = pool?.canStartAward
-  const prizeStrategyAddress = pool?.prizeStrategyAddress
+  const prizeStrategyAddress = pool?.prizeStrategy?.id
 
   const [txId, setTxId] = useState()
 

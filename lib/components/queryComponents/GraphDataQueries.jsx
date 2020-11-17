@@ -3,16 +3,13 @@ import { useQuery } from '@apollo/client'
 import { isEmpty } from 'lodash'
 
 import {
-  CREATOR_ADDRESS,
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
 import { dynamicSponsorQuery } from 'lib/queries/dynamicSponsorQuery'
 import { prizePoolsQuery } from 'lib/queries/prizePoolsQuery'
-// import { singleRandomWinnerQuery } from 'lib/queries/singleRandomWinnerQuery'
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
-import { getPrizeStrategyDataFromQueryResult } from 'lib/services/getPrizeStrategyDataFromQueryResult'
 import { poolToast } from 'lib/utils/poolToast'
 
 const debug = require('debug')('pool-app:GraphDataQueries')
@@ -20,17 +17,16 @@ const debug = require('debug')('pool-app:GraphDataQueries')
 export const GraphDataQueries = (
   props,
 ) => {
-  const { poolAddresses, usersAddress, children } = props
+  const { contractAddresses, usersAddress, children } = props
 
   const { paused } = useContext(GeneralContext)
 
   const variables = {
-    owner: CREATOR_ADDRESS
+    poolAddresses: contractAddresses.pools
   }
 
   let poolData
 
-  // multiple queries at the same time this (or use apollo-link-batch) to prevent multiple re-renders
   const {
     loading: poolQueryLoading,
     error: poolQueryError,
@@ -42,72 +38,12 @@ export const GraphDataQueries = (
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
   })
 
-  // useEffect(() => {
-  //   const onCompleted = (data) => {
-  //     debug('updating dynamic prize pool data after MAINNET_POLLING_INTERVAL expired', MAINNET_POLLING_INTERVAL)
-  //   };
-  //   if (onCompleted && !poolQueryLoading && !poolQueryError) {
-  //     onCompleted(poolQueryData)
-  //   }
-  // }, [poolQueryLoading, poolQueryData, poolQueryError]);
-
   if (poolQueryError) {
     poolToast.error(poolQueryError)
     console.error(poolQueryError)
   }
 
-  poolData = getPoolDataFromQueryResult(poolAddresses, poolQueryData)
-
-
-
-
-
-
-
-  // let dynamicPrizeStrategiesData
-
-  // const {
-  //   loading: prizeStrategyQueryLoading,
-  //   error: prizeStrategyQueryError,
-  //   data: prizeStrategyQueryData,
-  //   refetch: refetchPrizeStrategyQuery
-  // } = useQuery(dynamicSingleRandomWinnerQuery, {
-  //   fetchPolicy: 'network-only',
-  //   pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
-  // })
-
-  // if (prizeStrategyQueryError) {
-  //   poolToast.error(prizeStrategyQueryError)
-  //   console.error(prizeStrategyQueryError)
-  // }
-
-  // dynamicPrizeStrategiesData = getPrizeStrategyDataFromQueryResult(poolAddresses, prizeStrategyQueryData)
-
-
-
-
-
-
-
-  // let dynamicPrizeStrategiesData
-
-  // const {
-  //   loading: prizeStrategyQueryLoading,
-  //   error: prizeStrategyQueryError,
-  //   data: prizeStrategyQueryData,
-  //   refetch: refetchPrizeStrategyQuery
-  // } = useQuery(dynamicSingleRandomWinnerQuery, {
-  //   variables,
-  //   fetchPolicy: 'network-only',
-  //   pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL
-  // })
-
-  // if (prizeStrategyQueryError) {
-  //   poolToast.error(prizeStrategyQueryError)
-  //   console.error(prizeStrategyQueryError)
-  // }
-
-  // dynamicPrizeStrategiesData = getPrizeStrategyDataFromQueryResult(poolAddresses, prizeStrategyQueryData)
+  poolData = getPoolDataFromQueryResult(contractAddresses, poolQueryData)
 
 
 
@@ -139,8 +75,8 @@ export const GraphDataQueries = (
   }
 
   if (playerQueryData) {
-    // TODO: Filter out any prize pools we're not interested in (ie not in the poolAddresses listing)
-    // dynamicPlayerData = getPlayerDataFromQueryResult(poolAddresses, playerQueryData)
+    // TODO: Filter out any prize pools we're not interested in (ie not in the contractAddresses listing)
+    // dynamicPlayerData = getPlayerDataFromQueryResult(contractAddresses, playerQueryData)
 
     dynamicPlayerData = playerQueryData.player
     dynamicPlayerDrips = {

@@ -24,9 +24,8 @@ export const IndexUILoader = (
       backgroundColor={bgColor}
       foregroundColor={foreColor}
     >
-      <rect x="0" y="0"   rx="5" ry="5" width="600" height="80" />
-      <rect x="0" y="90"  rx="5" ry="5" width="600" height="80" />
-      <rect x="0" y="180" rx="5" ry="5" width="600" height="80" />
+      <rect x="0" y="0"   rx="5" ry="5" width="600" height="300" />
+      {/* <rect x="0" y="180" rx="5" ry="5" width="600" height="80" /> */}
     </ContentLoader>
   </> 
 }

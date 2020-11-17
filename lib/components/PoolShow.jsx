@@ -341,7 +341,7 @@ export const PoolShow = (
               },
               {
                 icon: TicketsIcon,
-                title: t('ticketsSold'),
+                title: t('totalTickets'),
                 content: <>
                   <TicketsSoldGraph
                     pool={pool}

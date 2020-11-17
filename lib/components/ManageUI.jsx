@@ -30,7 +30,7 @@ export const ManageUI = (
   const poolDataContext = useContext(PoolDataContext)
   const {
     loading,
-    poolAddresses,
+    contractAddresses,
     pool,
   } = poolDataContext
 
@@ -156,7 +156,7 @@ export const ManageUI = (
           />
         </> : <>
           <PoolActionsUI
-            poolAddresses={poolAddresses}
+            contractAddresses={contractAddresses}
             usersAddress={usersAddress}
           />
         </>}

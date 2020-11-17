@@ -11,7 +11,6 @@ export function TxRefetchListener(props) {
 
   const {
     refetchPoolQuery,
-    refetchPrizeStrategyQuery,
     refetchPlayerQuery,
     refetchSponsorQuery,
   } = useContext(PoolDataContext)
@@ -58,7 +57,6 @@ export function TxRefetchListener(props) {
     } else if (poolStateTransaction) {
       setTimeout(() => {
         refetchPoolQuery()
-        refetchPrizeStrategyQuery()
         debug('refetch pool/prize!')
       }, 6000)
     }

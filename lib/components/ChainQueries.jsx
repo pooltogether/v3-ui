@@ -93,10 +93,9 @@ export function ChainQueries(props) {
     }
   }, [poolData])
 
-  // Forget wallet and releoad -  this typically happens when the Graph URI is out of sync with Onboard JS's chainId
+  // Forget wallet and reload -  this typically happens when the Graph URI is out of sync with Onboard JS's chainId
   useEffect(() => {
-    // console.log({ retryAttempts})
-    if (retryAttempts > 12) {
+    if (retryAttempts > 20) {
       disconnectWallet()
       window.location.reload()
     }

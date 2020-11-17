@@ -249,7 +249,7 @@ export function TicketQuantityForm(props) {
 
     </form>
 
-    {remainingTickets && remainingTickets.lt('200000') && <>
+    {remainingTickets && remainingTickets.lt('1000000') && <>
       <div
         className='mt-4 xs:mt-10 sm:mt-20 p-2 liquidity-cap text-xxs xs:text-xs sm:text-base text-white bg-raspberry border-highlight-7 border-2 rounded-sm'
       >

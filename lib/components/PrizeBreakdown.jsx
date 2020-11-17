@@ -66,7 +66,7 @@ export const PrizeBreakdown = (props) => {
             }}
           >
             <h3>
-              ${numberWithCommas(externalAwardsValue)}
+              ${externalAwardsValue ? numberWithCommas(externalAwardsValue) : '0.00'}
             </h3>
             <span
               className='text-sm xs:text-base sm:text-xl'
