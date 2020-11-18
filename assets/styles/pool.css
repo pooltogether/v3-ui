@@ -553,20 +553,12 @@ input[type=number] {
 }
 
 .tickets-container {
-  transform: scale(0.75);
-  transform-origin: left top;
 }
 
 @screen xs {
-  .tickets-container {
-    transform: scale(0.825);
-  }
 }
 
 @screen sm {
-  .tickets-container {
-    transform: scale(1);
-  }
 }
 
 .ticket--blue {

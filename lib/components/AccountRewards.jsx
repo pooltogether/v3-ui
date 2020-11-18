@@ -5,7 +5,7 @@ import ClipLoader from 'react-spinners/ClipLoader'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { useQuery } from '@apollo/client'
-import { isEmpty, map, find, defaultTo } from 'lodash'
+import { isEmpty, map, find, defaultTo, sum } from 'lodash'
 
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
 
@@ -23,6 +23,8 @@ import { poolToast } from 'lib/utils/poolToast'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
+
+import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
 
 export const AccountRewards = () => {
   const { t } = useTranslation()
@@ -242,15 +244,14 @@ export const AccountRewards = () => {
       const isPoolDaiTickets = dripTokenData.name === 'PoolTogether Dai Ticket (Compound)'
         || dripTokenData.name === 'DAI Ticket'
 
-
       return <>
         <tr key={dripData.id}>
           <td className='px-2 sm:px-3 py-2 text-left font-bold'>
             {isPoolDaiTickets ? t('daiTickets') : dripData.dripToken.name}
           </td>
-          {/* <td className='px-2 sm:px-3 py-2 text-left'>
-            {getFormattedNumber(dripData.balance, dripData.dripToken.decimals)}
-          </td> */}
+          <td className='px-2 sm:px-3 py-2 text-left opacity-60'>
+            5.04% APR
+          </td>
           <td className='px-2 sm:px-3 py-2 text-left'>
             {getFormattedNumber(dripData.claimable, dripData.dripToken.decimals)}
           </td>
@@ -261,101 +262,70 @@ export const AccountRewards = () => {
       </>
     })
   }
+ 
+  const getTotalRewards = () => {
+    const amounts = map(usersDripTokenData, (dripTokenData, dripTokenAddress) => {
+      const dripData = getDripDataByAddress(dripTokenAddress, dripTokenData)
+
+      return parseFloat(
+        ethers.utils.formatUnits(
+          dripData.claimable,
+          dripData.dripToken.decimals
+        )
+      )
+    })
+
+    return sum(amounts)
+  }
 
   return <>
     <div
-      className='xs:mt-2 bg-card rounded-lg xs:mx-0 px-2 sm:px-3 py-2 xs:py-3'
+      className='xs:mt-3 bg-card rounded-lg xs:mx-0 px-2 sm:px-6 py-2 xs:py-3'
     >
-      
+      <div className='flex  justify-between xs:pt-4 pb-0 px-2 xs:px-4'>
 
-      <div className='xs:pt-4 pb-0 px-2 sm:px-4'>
-        <h6
-          className='flex items-center'
-        >
-          <PoolCurrencyIcon
-            xs
-            className='mr-2'
-            pool={{ underlyingCollateralSymbol: 'dai' }}
-          /> DAI Pool
-        </h6>
-      </div>
+        <div className='flex-col'>
+          <h6
+            className='flex items-center font-normal'
+          >
+            {t('totalRewards')}
+          </h6>
 
-      <div
-        className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-3 sm:p-8 mt-2'
-      >
-        
-        <div
-          className='flex items-center justify-center text-center'
-        >
+          <h3>
+            <PoolNumber>
+              {numberWithCommas(getTotalRewards(), { precision: 6 })}
+            </PoolNumber>
+          </h3>
           <div
-            className='mx-2 sm:mx-6 my-2'
+            className='opacity-60'
           >
-            <div
-              className='text-lg sm:text-3xl font-bold'
-            >
-              <Trans
-                i18nKey='amountTickets'
-                defaults='<number>{{amount}}</number> tickets'
-                components={{
-                  number: <PoolNumber />,
-                }}
-                values={{
-                  amount: numberWithCommas('1000', { precision: 0 }),
-                }}
-              />
-            </div>
-            <div
-              className='text-xxxs xs:text-sm sm:text-lg'
-            >
-              {t('weeklyDepositRewards')}
-            </div>
-          </div>
-          <div
-            className='mx-2 sm:mx-6 my-2'
-          >
-            <div
-              className='text-lg sm:text-3xl font-bold'
-            >
-              <Trans
-                i18nKey='amountTickets'
-                defaults='<number>{{amount}}</number> tickets'
-                components={{
-                  number: <PoolNumber />,
-                }}
-                values={{
-                  amount: numberWithCommas('1000', { precision: 0 })
-                }}
-              />
-            </div>
-            <div
-              className='text-xxxs xs:text-sm sm:text-lg'
-            >
-              {t('weeklyReferralRewards')}
-            </div>
+            ${numberWithCommas(getTotalRewards(), { precision: 6 })}
           </div>
         </div>
 
+        <div>
+          <img
+            src={PrizeIllustration}
+            className='w-32 mx-auto'
+          />
+        </div>
+      </div>
+
+      <div
+        className='text-inverse flex flex-col justify-between xs:px-2'
+      >
         <table
-          className='table-fixed table--small-headers w-full text-xxs xs:text-base sm:text-xl mt-6'
+          className='table-fixed w-full text-xxs xs:text-base sm:text-xl mt-6'
         >
-          <thead>
-            <tr>
-              <th className='w-1/4 text-caption text-left'>{t('token')}</th>
-              {/* <th className='w-1/3 text-caption text-left font-bold'>{t('balance')}</th> */}
-              <th className='w-1/4 text-caption text-left'>{t('claimable')}</th>
-              <th className='w-1/3 text-caption'>&nbsp;</th>
-            </tr>
-          </thead>
           <tbody>
             {getRewardsDripRows()}
           </tbody>
         </table>
       </div>
-
     </div>
 
     <div
-      className='flex flex-col sm:flex-row items-center justify-between bg-accent-grey-2 px-4 sm:px-8 py-4 text-inverse rounded-lg mt-4'
+      className='flex flex-col sm:flex-row items-center justify-between bg-accent-grey-4 px-4 sm:px-8 py-4 text-inverse rounded-lg mt-4'
     >
       <div className='flex-grow sm:w-4/12 lg:w-1/2 sm:mr-3 text-xxs sm:text-xs pb-2 sm:pb-0'>
         {t('inviteFriendsAndEarnReferralRewards')}

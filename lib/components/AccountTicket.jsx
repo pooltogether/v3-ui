@@ -117,7 +117,7 @@ export const AccountTicket = (
           className='flex items-center w-3/4'
         >
           <div
-            className='flex flex-col justify-start w-full pl-8 pt-8 leading-none'
+            className='flex flex-col justify-start w-full pl-10 pt-8 leading-none'
           >
             <div
               className='text-4xl font-bold'
@@ -158,7 +158,7 @@ export const AccountTicket = (
             </div>
 
             <div
-              className='flex text-left text-sm xs:text-xl font-bold text-darkened relative mt-12 pt-1'
+              className='flex items-center text-left text-sm xs:text-xl font-bold text-darkened relative mt-12 pt-1'
             >
               <div
                 className='w-5/12'
