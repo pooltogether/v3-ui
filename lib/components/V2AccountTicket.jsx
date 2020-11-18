@@ -100,7 +100,7 @@ export const V2AccountTicket = (
         }}
       />
 
-      <div className='flex items-center p-4 pt-10'>
+      <div className='flex items-center p-4 pt-6'>
         
         <div
           className='flex w-full ml-1 sm:ml-4 leading-none'
@@ -188,20 +188,22 @@ export const V2AccountTicket = (
         
         </div>
         <div
-          className='flex flex-col items-center'
+          className='flex flex-col items-center pt-4'
           style={{
             width: 114
           }}
         >
           <PoolCurrencyIcon
+            noMediaQueries
+            noMargin
             pool={{ underlyingCollateralSymbol: ticker }}
             className='-mt-2'
           />
-          <h4
-            className='capitalize'
+          <div
+            className='capitalize mt-1 text-lg font-bold'
           >
             {ticker.toLowerCase()}
-          </h4>
+          </div>
         </div>
       </div>
 

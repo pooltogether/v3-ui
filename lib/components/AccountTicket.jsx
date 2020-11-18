@@ -6,6 +6,11 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 
+import {
+  COOKIE_OPTIONS,
+  WIZARD_REFERRER_HREF,
+  WIZARD_REFERRER_AS_PATH
+} from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
 import { Odds } from 'lib/components/Odds'
