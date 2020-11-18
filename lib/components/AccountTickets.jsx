@@ -69,7 +69,9 @@ export const AccountTickets = () => {
           </BlankStateMessage>
         </> : <>
           <>
-            <motion.div>
+            <motion.div
+              className='tickets-container'
+            >
               <div className='flex flex-wrap'>
                 <V2AccountTicket
                   v2dai

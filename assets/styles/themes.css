@@ -171,11 +171,11 @@
   --color-border-transparent: rgba(0,0,0,0);
 }
 
-.theme-dark .ticket-bg {
+.theme-dark .ticket {
   background-image: url('/ticket-bg--dark.svg');
 }
 
-.theme-light .ticket-bg {
+.theme-light .ticket {
   background-image: url('/ticket-bg--light.svg');
 }
 

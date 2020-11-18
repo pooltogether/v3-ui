@@ -76,7 +76,7 @@ export const V2AccountTicket = (
 
   return <>
     <div
-      className='relative ticket-bg bg-no-repeat mr-6 mb-6'
+      className='relative ticket bg-no-repeat mr-6 mb-6'
       style={{
         height: 197,
         width: 410
@@ -87,7 +87,7 @@ export const V2AccountTicket = (
         className={classnames(
           'absolute rounded-b-lg bg-no-repeat',
           {
-            'ticket-bg--blue': ticker.toLowerCase() === 'usdc'
+            'ticket--blue': ticker.toLowerCase() === 'usdc'
           }
         )}
         style={{

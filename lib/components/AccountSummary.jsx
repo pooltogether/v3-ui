@@ -4,21 +4,16 @@ import { ethers } from 'ethers'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { ProfileAvatar } from 'lib/components/ProfileAvatar'
-import { ProfileName } from 'lib/components/ProfileName'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
-import { PoolNumber } from 'lib/components/PoolNumber'
 import { SmallLoader } from 'lib/components/SmallLoader'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import AccountPlaceholderImg from 'assets/images/avatar-placeholder.svg'
 import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
 
 export const AccountSummary = () => {
   const { t } = useTranslation()
-  const { pools, dynamicPlayerData } = useContext(PoolDataContext)
+  const { pools, dynamicPlayerData, usersChainData } = useContext(PoolDataContext)
   const { usersAddress } = useContext(AuthControllerContext)
 
   let totalTickets = null
@@ -48,6 +43,26 @@ export const AccountSummary = () => {
       winnings
     )
   })
+
+
+  const daiBalances = {
+    poolBalance: usersChainData?.v2DaiPoolCommittedBalance,
+    podBalance: usersChainData?.v2DaiPodCommittedBalance,
+    podSharesBalance: usersChainData?.v2DaiPodSharesBalance,
+  }
+
+  const usdcBalances = {
+    poolBalance: usersChainData?.v2UsdcPoolCommittedBalance,
+    podBalance: usersChainData?.v2UsdcPodCommittedBalance,
+    podSharesBalance: usersChainData?.v2UsdcPodSharesBalance,
+  }
+
+  if (daiBalances.poolBalance) {
+    totalTickets = totalTickets + parseFloat(ethers.utils.formatUnits(daiBalances?.poolBalance, 18))
+    totalTickets = totalTickets + parseFloat(ethers.utils.formatUnits(daiBalances?.podBalance, 18))
+    totalTickets = totalTickets + parseFloat(ethers.utils.formatUnits(usdcBalances?.poolBalance, 6))
+    totalTickets = totalTickets + parseFloat(ethers.utils.formatUnits(usdcBalances?.podBalance, 6))
+  }
 
   if (!totalTickets) {
     totalTickets = 0

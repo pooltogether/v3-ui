@@ -4,11 +4,8 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'lib/../i18n'
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountTickets } from 'lib/components/AccountTickets'
-import { AccountRewardsUI } from 'lib/components/AccountRewardsUI'
-import { ChipRainbowNew } from 'lib/components/ChipRainbowNew'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
-import { Tab, Tabs, Content, ContentPane } from 'lib/components/Tabs'
 import { Tagline } from 'lib/components/Tagline'
 
 export const AccountUI = () => {

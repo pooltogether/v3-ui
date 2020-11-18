@@ -552,6 +552,23 @@ input[type=number] {
   }
 }
 
-.ticket-bg--blue {
+.tickets-container {
+  transform: scale(0.75);
+  transform-origin: left top;
+}
+
+@screen xs {
+  .tickets-container {
+    transform: scale(0.825);
+  }
+}
+
+@screen sm {
+  .tickets-container {
+    transform: scale(1);
+  }
+}
+
+.ticket--blue {
   filter: brightness(1.1) saturate(200%) contrast(100%) hue-rotate(162deg);
 }

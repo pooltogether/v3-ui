@@ -66,7 +66,7 @@ export const AccountTicket = (
     <motion.div
       onClick={handleManageClick}
       key={`account-pool-ticket-${pool.poolAddress}`}
-      className='relative ticket-bg cursor-pointer bg-no-repeat'
+      className='relative ticket cursor-pointer bg-no-repeat'
       style={{
         height: 197,
         width: 410
@@ -94,7 +94,7 @@ export const AccountTicket = (
         className={classnames(
           'absolute rounded-b-lg bg-no-repeat',
           {
-            'ticket-bg--blue': ticker.toLowerCase() === 'usdc'
+            'ticket--blue': ticker.toLowerCase() === 'usdc'
           }
         )}
         style={{
