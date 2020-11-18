@@ -37,11 +37,11 @@ export const AccountTickets = () => {
     <div
       className='mt-16'
     >
-      <h6
+      <h5
         className='font-normal text-accent-2 mb-4'
       >
         {t('myTickets')}
-      </h6>
+      </h5>
 
         
       {!dynamicPlayerData ? <>
@@ -92,23 +92,22 @@ export const AccountTickets = () => {
                   v2usdc
                   key={`v2-usdc-account-ticket-pod`}
                 />
+                
+                {dynamicPlayerData.map(playerData => {
+                  const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
+
+                  if (!pool) {
+                    return
+                  }
+                  
+                  return <AccountTicket
+                    key={`account-pool-row-${pool.poolAddress}`}
+                    pool={pool}
+                    player={playerData}
+                  />
+                })}
               </div>
 
-              {!hasNoV2Balance && <hr />}
-
-              {dynamicPlayerData.map(playerData => {
-                const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
-
-                if (!pool) {
-                  return
-                }
-                
-                return <AccountTicket
-                  key={`account-pool-row-${pool.poolAddress}`}
-                  pool={pool}
-                  player={playerData}
-                />
-              })}
             </motion.div>
           </>
         </>
