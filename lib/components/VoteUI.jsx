@@ -34,8 +34,8 @@ export const VoteUI = (
       </div>
 
       <ButtonLink
-        as='https://snapshot.page/#/pooltogether/proposal/QmdReunoq1ioD6KakketmE8Jk3TU83DXViUnYAFGT7q1Tz'
-        href='https://snapshot.page/#/pooltogether/proposal/QmdReunoq1ioD6KakketmE8Jk3TU83DXViUnYAFGT7q1Tz'
+        as='https://snapshot.page/#/pooltogether/core'
+        href='https://snapshot.page/#/pooltogether/core'
         target='_blank'
         rel='noreferrer noopener'
       >
