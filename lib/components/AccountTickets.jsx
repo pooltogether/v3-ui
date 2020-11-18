@@ -7,7 +7,7 @@ import { AccountTicket } from 'lib/components/AccountTicket'
 import { V2AccountTicket } from 'lib/components/V2AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
-import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { TicketsLoader } from 'lib/components/TicketsLoader'
 
 import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 
@@ -33,6 +33,7 @@ export const AccountTickets = () => {
     usdcBalances?.poolBalance?.lt('1000000') &&
     usdcBalances?.podBalance?.lt('1000000')
 
+        
   return <>
     <div
       className='mt-16'
@@ -45,7 +46,7 @@ export const AccountTickets = () => {
 
         
       {!dynamicPlayerData ? <>
-        <IndexUILoader />
+        <TicketsLoader />
       </> :
         (dynamicPlayerData.length === 0 && hasNoV2Balance) ? <>
           <BlankStateMessage>

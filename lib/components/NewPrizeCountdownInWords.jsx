@@ -37,6 +37,16 @@ export const NewPrizeCountdownInWords = (
   const futureDate = addSeconds(currentDate, secondsRemaining)
   const { days, hours, minutes, seconds } = subtractDates(futureDate, currentDate)
 
+  const daysArray = ('' + days).split('')
+  const hoursArray = ('' + hours).split('')
+  const minutesArray = ('' + minutes).split('')
+  const secondsArray = ('' + seconds).split('')
+
+  const daysWords = daysArray.length > 1 ? daysArray.join('') : daysArray[0]
+  const hoursWords = hoursArray.length > 1 ? hoursArray.join('') : hoursArray[0]
+  const minutesWords = minutesArray.length > 1 ? minutesArray.join('') : minutesArray[0]
+  const secondsWords = secondsArray.length > 1 ? secondsArray.join('') : secondsArray[0]
+
   let content
   if (pool?.isRngRequested) {
     content = <>
@@ -47,16 +57,6 @@ export const NewPrizeCountdownInWords = (
       {t('prizeAwardedSoon')}
     </>
   } else {
-    const daysArray = ('' + days).split('')
-    const hoursArray = ('' + hours).split('')
-    const minutesArray = ('' + minutes).split('')
-    const secondsArray = ('' + seconds).split('')
-
-    const daysWords    = daysArray.length > 1 ? daysArray.join('') : daysArray[0]
-    const hoursWords   = hoursArray.length > 1 ? hoursArray.join('') : hoursArray[0]
-    const minutesWords = minutesArray.length > 1 ? minutesArray.join('') : minutesArray[0]
-    const secondsWords = secondsArray.length > 1 ? secondsArray.join('') : secondsArray[0]
-    
     content = <>
       {t('numDays', { days: daysWords })}, {t('numHours', { hours: hoursWords })}, {t('numMinutes', { minutes: minutesWords })}, {t('numSeconds', { seconds: secondsWords })}
     </>
@@ -72,21 +72,11 @@ export const NewPrizeCountdownInWords = (
       {t('awardedSoon')}
     </>
   } else if (extraShort) {
-    const daysArray = ('' + days).split('')
-    const hoursArray = ('' + hours).split('')
-    const minutesArray = ('' + minutes).split('')
-    const secondsArray = ('' + seconds).split('')
-
     content = <>
       <div
         className='font-normal'
-      >{t('prizeIn')}</div> {daysArray.length > 1 ? daysArray.join('') : daysArray[0]}d,&nbsp;
-
-      {hoursArray.length > 1 ? hoursArray.join('') : hoursArray[0]}h,&nbsp;
-
-      {minutesArray.length > 1 ? minutesArray.join('') : minutesArray[0]}m,&nbsp;
-
-      {secondsArray.length > 1 ? secondsArray.join('') : secondsArray[0]}s
+      >{t('prizeIn')}</div> 
+      {t('numDaysShort', { days: daysWords })}, {t('numHoursShort', { hours: hoursWords })}, {t('numMinutesShort', { minutes: minutesWords })}, {t('numSecondsShort', { seconds: secondsWords })}
     </>
   }
 
