@@ -71,7 +71,7 @@ export const AccountTicket = (
     <motion.div
       onClick={handleManageClick}
       key={`account-pool-ticket-${pool.poolAddress}`}
-      className='relative ticket cursor-pointer bg-no-repeat'
+      className='relative ticket cursor-pointer bg-no-repeat mr-6 mb-6'
       style={{
         height: 197,
         width: 410

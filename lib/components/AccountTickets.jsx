@@ -73,6 +73,22 @@ export const AccountTickets = () => {
               className='tickets-container'
             >
               <div className='flex flex-wrap'>
+
+                {dynamicPlayerData.map(playerData => {
+                  const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
+
+                  if (!pool) {
+                    return
+                  }
+
+                  return <AccountTicket
+                    key={`account-pool-row-${pool.poolAddress}`}
+                    pool={pool}
+                    player={playerData}
+                  />
+                })}
+
+
                 <V2AccountTicket
                   v2dai
                   key={`v2-dai-account-ticket-pool`}
@@ -93,19 +109,7 @@ export const AccountTickets = () => {
                   key={`v2-usdc-account-ticket-pod`}
                 />
                 
-                {dynamicPlayerData.map(playerData => {
-                  const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
-
-                  if (!pool) {
-                    return
-                  }
-                  
-                  return <AccountTicket
-                    key={`account-pool-row-${pool.poolAddress}`}
-                    pool={pool}
-                    player={playerData}
-                  />
-                })}
+                
               </div>
 
             </motion.div>

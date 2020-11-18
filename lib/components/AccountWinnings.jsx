@@ -24,9 +24,9 @@ import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFro
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
 
-import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
+import IconTarget from 'assets/images/icon-target.svg'
 
-export const AccountRewards = () => {
+export const AccountWinnings = () => {
   const { t } = useTranslation()
   
   const { pools, dynamicPlayerDrips, usersChainData, graphDripData } = useContext(PoolDataContext)
@@ -305,7 +305,7 @@ export const AccountRewards = () => {
 
         <div>
           <img
-            src={PrizeIllustration}
+            src={IconTarget}
             className='w-32 mx-auto'
           />
         </div>

@@ -4,6 +4,7 @@ import { useTranslation } from 'lib/../i18n'
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountTickets } from 'lib/components/AccountTickets'
 import { AccountRewards } from 'lib/components/AccountRewards'
+import { AccountWinnings } from 'lib/components/AccountWinnings'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Tagline } from 'lib/components/Tagline'
@@ -30,6 +31,8 @@ export const AccountUI = () => {
     <AccountTickets />
 
     <AccountRewards />
+
+    <AccountWinnings />
 
     <Tagline />
   </>
