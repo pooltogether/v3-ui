@@ -296,7 +296,7 @@ export const AccountRewards = () => {
     </h5>
 
     <div
-      className='xs:mt-3 bg-card rounded-lg xs:mx-0 px-2 sm:px-6 py-2 xs:py-3'
+      className='xs:mt-3 bg-card rounded-lg xs:mx-0 px-2 sm:px-6 py-3'
     >
       <div className='flex  justify-between xs:pt-4 pb-0 px-2 xs:px-4'>
 

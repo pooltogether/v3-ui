@@ -1,51 +1,46 @@
-import React, { useContext, useState } from 'react'
-import CopyToClipboard from 'react-copy-to-clipboard'
-import FeatherIcon from 'feather-icons-react'
-import ClipLoader from 'react-spinners/ClipLoader'
-import classnames from 'classnames'
+import React, { useContext } from 'react'
 import { ethers } from 'ethers'
-import { useQuery } from '@apollo/client'
-import { isEmpty, map, find, defaultTo, sum } from 'lodash'
 
-import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
-
-import { useTranslation, Trans } from 'lib/../i18n'
-import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
-import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { PoolCountUp } from 'lib/components/PoolCountUp'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
-import { poolToast } from 'lib/utils/poolToast'
-import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { shorten } from 'lib/utils/shorten'
+import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 import IconTarget from 'assets/images/icon-target.svg'
 
 export const AccountWinnings = () => {
   const { t } = useTranslation()
   
-  const { pools, dynamicPlayerDrips, usersChainData, graphDripData } = useContext(PoolDataContext)
-  const { usersAddress, provider } = useContext(AuthControllerContext)
- 
-  const getTotalWinnings = () => {
-    const amounts = map(usersDripTokenData, (dripTokenData, dripTokenAddress) => {
-      const dripData = getDripDataByAddress(dripTokenAddress, dripTokenData)
+  const { pools, dynamicPlayerData } = useContext(PoolDataContext)
 
-      return parseFloat(
-        ethers.utils.formatUnits(
-          dripData.claimable,
-          dripData.dripToken.decimals
-        )
+  const totalWinnings = () => {
+    let cumulativeWinningsAllPools = ethers.utils.bigNumberify(0)
+
+    dynamicPlayerData?.forEach(playerData => {
+      const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
+
+      if (!pool || !playerData.balance) {
+        return
+      }
+
+      const decimals = parseInt(pool?.underlyingCollateralDecimals, 10)
+
+      console.log(playerData.cumulativeWinnings)
+      // Calculate winnings
+      const winnings = normalizeTo18Decimals(
+        playerData.cumulativeWinnings,
+        decimals
+      )
+
+      cumulativeWinningsAllPools = cumulativeWinningsAllPools.add(
+        winnings
       )
     })
 
-    return sum(amounts)
+    return cumulativeWinningsAllPools
   }
+  console.log(totalWinnings())
 
   return <>
     <h5
@@ -55,7 +50,7 @@ export const AccountWinnings = () => {
     </h5>
 
     <div
-      className='xs:mt-3 bg-card rounded-lg xs:mx-0 px-2 sm:px-6 py-2 xs:py-3'
+      className='xs:mt-3 bg-card rounded-lg xs:mx-0 px-2 sm:px-6 py-3'
     >
       <div className='flex  justify-between xs:pt-4 pb-0 px-2 xs:px-4'>
 
@@ -67,15 +62,10 @@ export const AccountWinnings = () => {
           </h6>
 
           <h3>
-            <PoolNumber>
-              {numberWithCommas(getTotalWinnings(), { precision: 6 })}
+            $<PoolNumber>
+              {displayAmountInEther(totalWinnings(), { precision: 2 })}
             </PoolNumber>
           </h3>
-          <div
-            className='opacity-60'
-          >
-            ${numberWithCommas(getTotalWinnings(), { precision: 6 })}
-          </div>
         </div>
 
         <div>
@@ -95,6 +85,15 @@ export const AccountWinnings = () => {
           <tbody>
           </tbody>
         </table>
+      </div>
+
+      <div
+        className='text-xxxs xs:text-xxs sm:text-xs opacity-70 px-2 xs:px-4 py-4'
+      >
+        {t('seeAllPastWinnersOn')} <a
+          href='#'
+          className='text-accent-grey-1 underline'
+        >{t('pastWinnersPrizeHistoryLink')}</a>
       </div>
     </div>
   </>
