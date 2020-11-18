@@ -1,0 +1,55 @@
+.ticket {
+  background-size: cover;
+  height: 141px;
+  width: 288px;
+}
+
+@screen xs {
+  .ticket {
+    height: 197px;
+    width: 410px;
+  }
+}
+
+.theme-dark .ticket {
+  background-image: url('/ticket-bg--dark-sm.svg');
+}
+
+.theme-light .ticket {
+  background-image: url('/ticket-bg--light-sm.svg');
+}
+
+@screen xs {
+  .theme-dark .ticket {
+    background-image: url('/ticket-bg--dark.svg');
+  }
+
+  .theme-light .ticket {
+    background-image: url('/ticket-bg--light.svg');
+  }
+}
+
+.ticket--blue {
+  filter: brightness(1.1) saturate(200%) contrast(100%) hue-rotate(162deg);
+}
+
+.ticket-strip {
+  background-image: url('/ticket-bg--dai-sm.svg');
+  background-position: 0 -1px;
+  background-size: cover;
+  bottom: 1px;
+  left: 1px;
+  height: 46px;
+  width: 287px;
+}
+
+@screen xs {
+  .ticket-strip {
+    background-image: url('/ticket-bg--dai.svg');
+    background-position: 0 -1px;
+    bottom: 1px;
+    left: 1px;
+    height: 66px;
+    width: 408px;
+  }
+}

@@ -78,6 +78,7 @@ export function ManageTicketsForm(props) {
 
     <div className='mx-auto mt-4'>
       <AccountTicket
+        noMargin
         key={`account-pool-row-${pool?.poolAddress}`}
         pool={pool}
         player={playerData}
@@ -89,15 +90,9 @@ export function ManageTicketsForm(props) {
     >
       
 
-      <div
-        className='flex flex-col mx-auto w-full mx-auto items-center justify-center'
-      >
-        <ButtonDrawer>
-          {continueButton}
-        </ButtonDrawer>
-      </div>
-
-
+      <ButtonDrawer>
+        {continueButton}
+      </ButtonDrawer>
     </form>
 
   </>

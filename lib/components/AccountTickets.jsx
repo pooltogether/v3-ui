@@ -69,9 +69,7 @@ export const AccountTickets = () => {
           </BlankStateMessage>
         </> : <>
           <>
-            <motion.div
-              className='tickets-container'
-            >
+            <motion.div>
               <div className='flex flex-wrap'>
 
                 {dynamicPlayerData.map(playerData => {

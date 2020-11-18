@@ -174,14 +174,6 @@
   --color-border-transparent: rgba(0,0,0,0);
 }
 
-.theme-dark .ticket {
-  background-image: url('/ticket-bg--dark.svg');
-}
-
-.theme-light .ticket {
-  background-image: url('/ticket-bg--light.svg');
-}
-
 .theme-dark .pool-logo:after {
   background-image: url('/pooltogether-white-mark.svg');
 }

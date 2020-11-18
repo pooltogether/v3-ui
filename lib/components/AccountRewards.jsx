@@ -290,9 +290,9 @@ export const AccountRewards = () => {
 
   return <>
     <h5
-      className='font-normal text-accent-2 mt-16 mb-4'
+      className='font-normal text-accent-2 mt-12 mb-4'
     >
-      {t('rewards')}
+      {t('myRewards')}
     </h5>
 
     <div

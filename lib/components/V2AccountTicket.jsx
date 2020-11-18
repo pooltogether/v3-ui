@@ -76,31 +76,19 @@ export const V2AccountTicket = (
 
   return <>
     <div
-      className='relative ticket bg-no-repeat mr-6 mb-6'
-      style={{
-        height: 197,
-        width: 410
-      }}
+      className='relative ticket bg-no-repeat xs:mr-6 mb-6'
       key={`v2-account-pool-row-li-${ticker}`}
     >
       <div
         className={classnames(
-          'absolute rounded-b-lg bg-no-repeat',
+          'absolute rounded-b-lg bg-no-repeat ticket-strip',
           {
-            'ticket--blue': ticker.toLowerCase() === 'usdc'
+            'ticket--blue': ticker?.toLowerCase() === 'usdc'
           }
         )}
-        style={{
-          backgroundImage: 'url(/ticket-bg--dai.svg)',
-          backgroundPosition: '0 -1px',
-          bottom: 2,
-          left: 1,
-          width: 406,
-          height: 66,
-        }}
       />
 
-      <div className='flex items-center p-4 pt-6'>
+      <div className='flex items-center pl-4 pt-4 xs:p-4 xs:pt-6'>
         
         <div
           className='flex w-full ml-1 sm:ml-4 leading-none'

@@ -46,6 +46,7 @@ import 'assets/styles/transitions.css'
 
 import 'assets/styles/interactable-cards.css'
 import 'assets/styles/tabs.css'
+import 'assets/styles/tickets.css'
 
 import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'

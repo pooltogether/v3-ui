@@ -23,7 +23,7 @@ export const AccountTicket = (
   const { t } = useTranslation()
   const router = useRouter()
   
-  const { isLink, pool, player } = props
+  const { noMargin, isLink, pool, player } = props
   let { href, as } = props
 
   if (!href && !as) {
@@ -76,15 +76,12 @@ export const AccountTicket = (
       onClick={handleManageClick}
       key={`account-pool-ticket-${pool?.poolAddress}`}
       className={classnames(
-        'relative ticket bg-no-repeat mr-6 mb-6',
+        'relative ticket bg-no-repeat text-xxxs xs:text-xs',
         {
+          'xs:mr-6 mb-6': !noMargin,
           'cursor-pointer': isLink
         }
       )}
-      style={{
-        height: 197,
-        width: 410
-      }}
       whileHover={{
         scale: isLink ? 1.025 : 1
       }}
@@ -109,19 +106,11 @@ export const AccountTicket = (
     >
       <div
         className={classnames(
-          'absolute rounded-b-lg bg-no-repeat',
+          'absolute rounded-b-lg bg-no-repeat ticket-strip',
           {
             'ticket--blue': ticker?.toLowerCase() === 'usdc'
           }
         )}
-        style={{
-          backgroundImage: 'url(/ticket-bg--dai.svg)',
-          backgroundPosition: '0 -1px',
-          bottom: 2,
-          left: 1,
-          width: 406,
-          height: 66,
-        }}
       />
 
       <div className='flex items-start text-left'>
@@ -129,10 +118,10 @@ export const AccountTicket = (
           className='flex items-center w-3/4'
         >
           <div
-            className='flex flex-col justify-start w-full pl-10 pt-8 leading-none'
+            className='flex flex-col justify-start w-full pl-6 pt-6 xs:pl-10 xs:pt-8 leading-none'
           >
             <div
-              className='text-4xl font-bold text-inverse-purple'
+              className='text-xl xs:text-4xl font-bold text-inverse-purple'
             >
               <PoolCountUp
                 fontSansRegular
@@ -170,7 +159,7 @@ export const AccountTicket = (
             </div>
 
             <div
-              className='flex items-center text-left text-sm xs:text-xl font-bold text-darkened relative mt-12 pt-1'
+              className='flex items-center text-left text-xs xs:text-xl font-bold text-darkened relative mt-8 xs:mt-12 pt-1'
             >
               <div
                 className='w-5/12'
@@ -192,7 +181,7 @@ export const AccountTicket = (
               >
                 <NewPrizeCountdownInWords
                   extraShort
-                  text='xxxs'
+                  text='xxxxs xs:text-xxxs'
                   pool={pool}
                 />
               </div>
@@ -201,7 +190,7 @@ export const AccountTicket = (
         </div>
 
         <div
-          className='pt-10 leading-none'
+          className='pt-5 xs:pt-10 leading-none'
           style={{
             width: 86
           }}
@@ -213,7 +202,7 @@ export const AccountTicket = (
               pool={pool}
             />
             <div
-              className='capitalize mt-1 text-lg font-bold text-inverse-purple'
+              className='capitalize mt-1 text-xs xs:text-lg font-bold text-inverse-purple'
             >
               {ticker?.toLowerCase()}
             </div>
@@ -221,7 +210,7 @@ export const AccountTicket = (
 
             {isLink && <>
               <span
-                className='inline-flex items-center justify-center text-center font-bold mt-12 pt-2 z-10 text-darkened pl-2'
+                className='inline-flex items-center justify-center text-center font-bold mt-8 xs:mt-12 pt-1 xs:pt-2 z-10 text-darkened pl-2'
               >
                 {t('manage')} <FeatherIcon
                   icon='chevron-right'
