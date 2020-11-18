@@ -116,13 +116,6 @@ export const AccountTickets = () => {
           </>
         </>
       }
-
-      <h5
-        className='font-normal text-accent-2 mt-16 mb-4'
-      >
-        {t('rewards')}
-      </h5>
-
     </div>
 
   </>

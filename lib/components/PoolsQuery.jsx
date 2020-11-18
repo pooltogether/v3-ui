@@ -11,9 +11,9 @@ export function PoolsQuery(props) {
   } = props
 
   const { chainId } = useContext(AuthControllerContext)
-  const { poolAddresses } = useContext(PoolDataContext)
+  const { contractAddresses } = useContext(PoolDataContext)
 
-  const { status, data, error, isFetching } = usePoolsQuery(chainId, poolAddresses, blockNumber)
+  const { status, data, error, isFetching } = usePoolsQuery(chainId, contractAddresses.pools, blockNumber)
 
   if (error) {
     console.warn(error)

@@ -244,13 +244,23 @@ export const AccountRewards = () => {
       const isPoolDaiTickets = dripTokenData.name === 'PoolTogether Dai Ticket (Compound)'
         || dripTokenData.name === 'DAI Ticket'
 
+      // this is using the only pool in the array, but if we wanted to do this properly
+      // we would first iterate by pool and use the current rewards for that pool to do the calculation
+      const daiPoolTickets = parseFloat(ethers.utils.formatUnits(pools?.[0]?.ticketSupply, pools?.[0]?.underlyingCollateralDecimals))
+      const apr = numberWithCommas(((1000 * 52) / daiPoolTickets) * 100)
+
       return <>
         <tr key={dripData.id}>
           <td className='px-2 sm:px-3 py-2 text-left font-bold'>
-            {isPoolDaiTickets ? t('daiTickets') : dripData.dripToken.name}
+            {isPoolDaiTickets && <>
+              <PoolCurrencyIcon
+                sm
+                pool={{ underlyingCollateralSymbol: 'dai' }}
+              />
+            </>} {isPoolDaiTickets ? t('daiTickets') : dripData.dripToken.name}
           </td>
           <td className='px-2 sm:px-3 py-2 text-left opacity-60'>
-            5.04% APR
+            {apr}% APR
           </td>
           <td className='px-2 sm:px-3 py-2 text-left'>
             {getFormattedNumber(dripData.claimable, dripData.dripToken.decimals)}
@@ -279,6 +289,12 @@ export const AccountRewards = () => {
   }
 
   return <>
+    <h5
+      className='font-normal text-accent-2 mt-16 mb-4'
+    >
+      {t('rewards')}
+    </h5>
+
     <div
       className='xs:mt-3 bg-card rounded-lg xs:mx-0 px-2 sm:px-6 py-2 xs:py-3'
     >
@@ -315,7 +331,7 @@ export const AccountRewards = () => {
         className='text-inverse flex flex-col justify-between xs:px-2'
       >
         <table
-          className='table-fixed w-full text-xxs xs:text-base sm:text-xl mt-6'
+          className='table-fixed w-full text-xxs xs:text-base mt-6'
         >
           <tbody>
             {getRewardsDripRows()}

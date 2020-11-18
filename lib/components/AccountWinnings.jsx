@@ -279,6 +279,12 @@ export const AccountWinnings = () => {
   }
 
   return <>
+    <h5
+      className='font-normal text-accent-2 mt-16 mb-4'
+    >
+      {t('myWinnings')}
+    </h5>
+
     <div
       className='xs:mt-3 bg-card rounded-lg xs:mx-0 px-2 sm:px-6 py-2 xs:py-3'
     >
