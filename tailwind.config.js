@@ -85,6 +85,7 @@ module.exports = {
         darkened: 'var(--color-text-darkened)',
         'default-soft': 'var(--color-text-default-soft)',
         inverse: 'var(--color-text-inverse)',
+        'inverse-purple': 'var(--color-text-inverse-purple)',
         'inverse-soft': 'var(--color-text-inverse-soft)',
         match: 'var(--color-text-match)',
         'highlight-1': 'var(--color-text-highlight-1)',

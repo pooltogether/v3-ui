@@ -132,7 +132,7 @@ export const AccountTicket = (
             className='flex flex-col justify-start w-full pl-10 pt-8 leading-none'
           >
             <div
-              className='text-4xl font-bold text-primary'
+              className='text-4xl font-bold text-inverse-purple'
             >
               <PoolCountUp
                 fontSansRegular
@@ -213,7 +213,7 @@ export const AccountTicket = (
               pool={pool}
             />
             <div
-              className='capitalize mt-1 text-lg font-bold text-primary'
+              className='capitalize mt-1 text-lg font-bold text-inverse-purple'
             >
               {ticker?.toLowerCase()}
             </div>

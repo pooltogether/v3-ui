@@ -48,6 +48,7 @@
   --color-text-default-soft: #7458df;
   --color-text-darkened: #341762;
   --color-text-inverse: #fff;
+  --color-text-inverse-purple: #fff;
   --color-text-match: #111;
   --color-text-black: #111;
   --color-text-highlight-1: #1ef7d6;
@@ -132,6 +133,7 @@
   --color-text-default-soft: #946fdf;
   --color-text-darkened: #341762;
   --color-text-inverse: #4c249f;
+  --color-text-inverse-purple: #4c249f;
   --color-text-match: #fff;
   --color-text-black: #111;
   --color-text-highlight-1: #4c249f;
