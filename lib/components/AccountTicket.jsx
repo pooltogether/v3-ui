@@ -23,19 +23,19 @@ export const AccountTicket = (
   const { t } = useTranslation()
   const router = useRouter()
   
-  const { pool, player } = props
+  const { isLink, pool, player } = props
   let { href, as } = props
 
   if (!href && !as) {
     href = '/account/pools/[symbol]'
-    as = `/account/pools/${pool.symbol}`
+    as = `/account/pools/${pool?.symbol}`
   }
 
 
   const decimals = pool?.underlyingCollateralDecimals
 
   let usersBalance = 0
-  if (player && player.balance && !isNaN(decimals)) {
+  if (player?.balance && !isNaN(decimals)) {
     usersBalance = Number(ethers.utils.formatUnits(
       player.balance,
       Number(decimals)
@@ -46,6 +46,10 @@ export const AccountTicket = (
 
   const handleManageClick = (e) => {
     e.preventDefault()
+
+    if (!isLink) {
+      return
+    }
 
     Cookies.set(
       WIZARD_REFERRER_HREF,
@@ -59,8 +63,8 @@ export const AccountTicket = (
     )
 
     router.push(
-      `/account/pools/[symbol]/withdraw`,
-      `/account/pools/${pool?.symbol}/withdraw`,
+      `/account/pools/[symbol]/manage`,
+      `/account/pools/${pool?.symbol}/manage`,
       {
         shallow: true
       }
@@ -70,16 +74,19 @@ export const AccountTicket = (
   return <>
     <motion.div
       onClick={handleManageClick}
-      key={`account-pool-ticket-${pool.poolAddress}`}
+      key={`account-pool-ticket-${pool?.poolAddress}`}
       className='relative ticket cursor-pointer bg-no-repeat mr-6 mb-6'
       style={{
         height: 197,
         width: 410
       }}
       whileHover={{
-        scale: 1.025
+        scale: isLink ? 1.025 : 1
       }}
-      whileTap={{ y: 1, scale: 0.98 }}
+      whileTap={{
+        y: 1,
+        scale: 0.98
+      }}
       animate={{
         scale: 1,
         opacity: 1,
@@ -99,7 +106,7 @@ export const AccountTicket = (
         className={classnames(
           'absolute rounded-b-lg bg-no-repeat',
           {
-            'ticket--blue': ticker.toLowerCase() === 'usdc'
+            'ticket--blue': ticker?.toLowerCase() === 'usdc'
           }
         )}
         style={{
@@ -112,7 +119,7 @@ export const AccountTicket = (
         }}
       />
 
-      <div className='flex items-start'>
+      <div className='flex items-start text-left'>
         <div
           className='flex items-center w-3/4'
         >
@@ -120,7 +127,7 @@ export const AccountTicket = (
             className='flex flex-col justify-start w-full pl-10 pt-8 leading-none'
           >
             <div
-              className='text-4xl font-bold'
+              className='text-4xl font-bold text-primary'
             >
               <PoolCountUp
                 fontSansRegular
@@ -167,9 +174,12 @@ export const AccountTicket = (
                   fontSansRegular
                   decimals={2}
                   duration={3}
-                  end={Math.floor(Number.parseFloat(
-                    ethers.utils.formatUnits(pool?.prizeAmountUSD, decimals)
-                  ))}
+                  end={pool?.prizeAmountUSD ?
+                    Math.floor(Number.parseFloat(
+                      ethers.utils.formatUnits(pool?.prizeAmountUSD, decimals)
+                    )) : 
+                    0
+                  }
                 />
               </div>
               <div
@@ -198,9 +208,9 @@ export const AccountTicket = (
               pool={pool}
             />
             <div
-              className='capitalize mt-1 text-lg font-bold'
+              className='capitalize mt-1 text-lg font-bold text-primary'
             >
-              {ticker.toLowerCase()}
+              {ticker?.toLowerCase()}
             </div>
 
 

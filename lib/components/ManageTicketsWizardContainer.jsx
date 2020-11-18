@@ -4,9 +4,9 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-// import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
 import { ExecuteWithdrawScheduledOrInstantWithFee } from 'lib/components/ExecuteWithdrawScheduledOrInstantWithFee'
 import { Meta } from 'lib/components/Meta'
+import { ManageTicketsForm } from 'lib/components/ManageTicketsForm'
 import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
 import { WithdrawInstantOrScheduled } from 'lib/components/WithdrawInstantOrScheduled'
@@ -15,11 +15,11 @@ import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
 
-export function WithdrawWizardContainer(props) {
+export function ManageTicketsWizardContainer(props) {
   const { t } = useTranslation()
   const router = useRouter()
   const quantity = router.query.quantity
-
+    
   let initialStepIndex = 0
   if (quantity) {
     initialStepIndex = 1
@@ -34,24 +34,9 @@ export function WithdrawWizardContainer(props) {
   let underlyingCollateralDecimals = 18
   underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
   
-  const [cachedUsersBalance, setCachedUsersBalance] = useState(usersTicketBalance)
-  const [totalWizardSteps, setTotalWizardSteps] = useState(3)
-
-  useEffect(() => {
-    setCachedUsersBalance(usersTicketBalance)
-  }, [usersTicketBalance])
+  const [totalWizardSteps, setTotalWizardSteps] = useState(4)
 
   let balanceJsx = null
-  // if (pool) {
-  //   balanceJsx = <DepositAndWithdrawFormUsersBalance
-  //     widthClasses={'w-full xs:w-7/12'}
-  //     roundedClasses='rounded-lg'
-  //     label='Your ticket balance:'
-  //     start={cachedUsersBalance || usersTicketBalance}
-  //     end={usersTicketBalance}
-  //   />
-  // }
-
 
   return <>
     <Meta
@@ -76,6 +61,18 @@ export function WithdrawWizardContainer(props) {
             moveToStep={moveToStep}
             totalWizardSteps={totalWizardSteps}
           >
+            <WizardStep>
+              {(step) => {
+                return step.isActive && <>
+                  <ManageTicketsForm
+                    nextStep={step.nextStep}
+                    usersTicketBalance={usersTicketBalance}
+                    underlyingCollateralDecimals={underlyingCollateralDecimals}
+                  />
+                </>
+              }}
+            </WizardStep>
+
             <WizardStep>
               {(step) => {
                 return step.isActive && <>

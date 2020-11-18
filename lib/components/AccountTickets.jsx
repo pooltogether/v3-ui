@@ -82,6 +82,7 @@ export const AccountTickets = () => {
                   }
 
                   return <AccountTicket
+                    isLink
                     key={`account-pool-row-${pool.poolAddress}`}
                     pool={pool}
                     player={playerData}

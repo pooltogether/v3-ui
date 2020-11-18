@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import Link from 'next/link'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
@@ -26,7 +27,6 @@ export const AccountWinnings = () => {
 
       const decimals = parseInt(pool?.underlyingCollateralDecimals, 10)
 
-      console.log(playerData.cumulativeWinnings)
       // Calculate winnings
       const winnings = normalizeTo18Decimals(
         playerData.cumulativeWinnings,
@@ -40,7 +40,6 @@ export const AccountWinnings = () => {
 
     return cumulativeWinningsAllPools
   }
-  console.log(totalWinnings())
 
   return <>
     <h5
@@ -50,7 +49,7 @@ export const AccountWinnings = () => {
     </h5>
 
     <div
-      className='xs:mt-3 bg-card rounded-lg xs:mx-0 px-2 sm:px-6 py-3'
+      className='xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-2 sm:px-6 py-3'
     >
       <div className='flex  justify-between xs:pt-4 pb-0 px-2 xs:px-4'>
 
@@ -90,10 +89,16 @@ export const AccountWinnings = () => {
       <div
         className='text-xxxs xs:text-xxs sm:text-xs opacity-70 px-2 xs:px-4 py-4'
       >
-        {t('seeAllPastWinnersOn')} <a
-          href='#'
-          className='text-accent-grey-1 underline'
-        >{t('pastWinnersPrizeHistoryLink')}</a>
+        {t('seeAllPastWinnersOn')} <Link
+          href='/prizes/PT-cDAI'
+          shallow
+        >
+          <a 
+            className='text-accent-grey-1 underline'
+          >
+            {t('pastWinnersPrizeHistoryLink')}
+          </a>
+        </Link>
       </div>
     </div>
   </>

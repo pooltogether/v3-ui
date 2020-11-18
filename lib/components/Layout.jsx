@@ -12,7 +12,7 @@ import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
 import { NavMobile } from 'lib/components/NavMobile'
 import { NetworkText } from 'lib/components/NetworkText'
-import { WithdrawWizardContainer } from 'lib/components/WithdrawWizardContainer'
+import { ManageTicketsWizardContainer } from 'lib/components/ManageTicketsWizardContainer'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
 import { LanguagePicker } from 'lib/components/LanguagePicker'
@@ -55,7 +55,7 @@ export function Layout(props) {
 
   const signIn = router.query.signIn
   const deposit = /deposit/.test(router.asPath)
-  const withdraw = /withdraw/.test(router.asPath)
+  const manage = /manage/.test(router.asPath)
 
 
   const authControllerContext = useContext(AuthControllerContext)
@@ -83,7 +83,7 @@ export function Layout(props) {
     </AnimatePresence>
 
     <AnimatePresence>
-      {withdraw && <WithdrawWizardContainer
+      {manage && <ManageTicketsWizardContainer
         {...props}
       />}
     </AnimatePresence>
