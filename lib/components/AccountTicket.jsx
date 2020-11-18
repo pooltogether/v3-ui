@@ -75,7 +75,12 @@ export const AccountTicket = (
     <motion.div
       onClick={handleManageClick}
       key={`account-pool-ticket-${pool?.poolAddress}`}
-      className='relative ticket cursor-pointer bg-no-repeat mr-6 mb-6'
+      className={classnames(
+        'relative ticket bg-no-repeat mr-6 mb-6',
+        {
+          'cursor-pointer': isLink
+        }
+      )}
       style={{
         height: 197,
         width: 410
@@ -214,15 +219,17 @@ export const AccountTicket = (
             </div>
 
 
-            <span
-              className='inline-flex items-center justify-center text-center font-bold mt-12 pt-2 z-10 text-darkened pl-2'
-            >
-              {t('manage')} <FeatherIcon
-                icon='chevron-right'
-                strokeWidth='0.25rem'
-                className='w-3 h-3 mx-1'
-              />
-            </span>
+            {isLink && <>
+              <span
+                className='inline-flex items-center justify-center text-center font-bold mt-12 pt-2 z-10 text-darkened pl-2'
+              >
+                {t('manage')} <FeatherIcon
+                  icon='chevron-right'
+                  strokeWidth='0.25rem'
+                  className='w-3 h-3 mx-1'
+                />
+              </span>
+            </>}
           </div>
         </div>
       </div>
