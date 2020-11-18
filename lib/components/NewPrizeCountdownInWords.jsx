@@ -79,8 +79,9 @@ export const NewPrizeCountdownInWords = (
     const secondsArray = ('' + seconds).split('')
 
     content = <>
-      prize in
-      {daysArray.length > 1 ? daysArray.join('') : daysArray[0]}d,&nbsp;
+      <div
+        className='font-normal'
+      >{t('prizeIn')}</div> {daysArray.length > 1 ? daysArray.join('') : daysArray[0]}d,&nbsp;
 
       {hoursArray.length > 1 ? hoursArray.join('') : hoursArray[0]}h,&nbsp;
 

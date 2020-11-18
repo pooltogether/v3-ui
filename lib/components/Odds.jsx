@@ -8,6 +8,7 @@ export function Odds(props) {
   const { t } = useTranslation()
 
   const {
+    asSpan,
     className,
     hide,
     fontSansRegular,
@@ -97,13 +98,22 @@ export function Odds(props) {
     </>
   }
 
-  return <div
-    style={{
-      minHeight: 24
-    }}
-    className={className}
-    style={style}
-  >
-    {content}
-  </div>
+  if (asSpan) {
+    return <span
+      className={className}
+      style={style}
+    >
+      {content}
+    </span>
+  } else {
+    return <div
+      style={{
+        minHeight: 24
+      }}
+      className={className}
+      style={style}
+    >
+      {content}
+    </div>
+  }
 }

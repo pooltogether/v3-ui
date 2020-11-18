@@ -46,6 +46,7 @@
   --color-text-secondary: #4C249F;
   --color-text-default: #a472f7;
   --color-text-default-soft: #7458df;
+  --color-text-darkened: #341762;
   --color-text-inverse: #fff;
   --color-text-match: #111;
   --color-text-black: #111;
@@ -128,6 +129,7 @@
   --color-text-secondary: #35F0D0;
   --color-text-default: #4c249f;
   --color-text-default-soft: #946fdf;
+  --color-text-darkened: #341762;
   --color-text-inverse: #4c249f;
   --color-text-match: #fff;
   --color-text-black: #111;
@@ -168,14 +170,6 @@
   --color-border-green: #3EF3D4;
   --color-border-transparent: rgba(0,0,0,0);
 }
-
-/* .theme-dark .pool-logo:after {
-  background-image: url('/pooltogether-white-trophy-and-mark.svg');
-}
-
-.theme-light .pool-logo:after {
-  background-image: url('/pooltogether-purple-trophy-and-mark.svg');
-} */
 
 .theme-dark .ticket-bg {
   background-image: url('/ticket-bg--dark.svg');

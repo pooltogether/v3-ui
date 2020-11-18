@@ -81,6 +81,7 @@ module.exports = {
         'primary-soft': 'var(--color-text-primary-soft)',
         secondary: 'var(--color-text-secondary)',
         default: 'var(--color-text-default)',
+        darkened: 'var(--color-text-darkened)',
         'default-soft': 'var(--color-text-default-soft)',
         inverse: 'var(--color-text-inverse)',
         'inverse-soft': 'var(--color-text-inverse-soft)',

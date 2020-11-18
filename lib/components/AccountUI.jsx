@@ -56,11 +56,11 @@ export const AccountUI = () => {
 
   return <>
     <Meta
-      title={t('account')}
+      title={t('myAccount')}
     />
 
     <PageTitleAndBreadcrumbs
-      title={t('account')}
+      title={t('myAccount')}
       breadcrumbs={[
         {
           name: t('accountOverview'),
@@ -71,8 +71,6 @@ export const AccountUI = () => {
     <AccountSummary />
 
     <AccountTickets />
-
-    
 
     <Tagline />
   </>

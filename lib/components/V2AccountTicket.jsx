@@ -1,18 +1,18 @@
 import React, { useContext } from 'react'
+import classnames from 'classnames'
 import { ethers } from 'ethers'
 
 import { Trans } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { V2MigrateButton } from 'lib/components/V2MigrateButton'
-import { NonInteractableCard } from 'lib/components/NonInteractableCard'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-export const V2AccountPoolRow = (
+export const V2AccountTicket = (
   props,
 ) => {
-  const { v2dai } = props
+  const { isPod, v2dai } = props
   
   const { usersChainData } = useContext(PoolDataContext)
 
@@ -61,30 +61,51 @@ export const V2AccountPoolRow = (
     }
   }
 
-  if (!balances.poolBalance || balances?.poolBalance?.lt('1000000') && balances?.podBalance?.lt('1000000')) {
-    return null
+  const havePoolBalance = balances.poolBalance
+  const havePodBalance = balances.podBalance
+
+  if (isPod) {
+    if (!havePodBalance || balances.poolBalance && balances?.podBalance?.lt('1000000')) {
+      return null
+    }
+  } else {
+    if (!havePoolBalance || balances?.poolBalance?.lt('1000000')) {
+      return null
+    }
   }
 
   return <>
     <div
-      className='ticket-bg'
+      className='relative ticket-bg bg-no-repeat mr-6 mb-6'
       style={{
         height: 197,
         width: 410
       }}
       key={`v2-account-pool-row-li-${ticker}`}
     >
-      <div className='flex items-center'>
-        <PoolCurrencyIcon
-          lg
-          pool={{ underlyingCollateralSymbol: ticker }}
-          className='-mt-2'
-        />
+      <div
+        className={classnames(
+          'absolute rounded-b-lg bg-no-repeat',
+          {
+            'ticket-bg--blue': ticker.toLowerCase() === 'usdc'
+          }
+        )}
+        style={{
+          backgroundImage: 'url(/ticket-bg--dai.svg)',
+          backgroundPosition: '0 -1px',
+          bottom: 2,
+          left: 1,
+          width: 406,
+          height: 66,
+        }}
+      />
 
+      <div className='flex items-center p-4 pt-10'>
+        
         <div
           className='flex w-full ml-1 sm:ml-4 leading-none'
         >
-          {balances?.poolBalance?.gte('1000000') && <>
+          {!isPod && balances?.poolBalance?.gte('1000000') && <>
             <div
               className='w-1/2 xs:w-48 inline-block text-left text-xs xs:text-lg text-inverse relative mr-3 xs:mr-6 sm:mr-9 lg:mr-12'
             >
@@ -106,9 +127,9 @@ export const V2AccountPoolRow = (
                 }}
               />
               <div
-                className='text-caption font-bold mt-1 opacity-70'
+                className='font-bold mt-1 opacity-40 text-xxxs'
               >
-                (<PoolNumber>{balances.poolBalanceFormatted}</PoolNumber> {ticker})
+                <PoolNumber>{balances.poolBalanceFormatted}</PoolNumber> {ticker}
               </div>
 
               <div className='mt-2'>
@@ -122,9 +143,9 @@ export const V2AccountPoolRow = (
             </div>
           </>}
 
-          {balances?.podBalance?.gte('1000000') && <>
+          {isPod && balances?.podBalance?.gte('1000000') && <>
             <div
-              className='w-5/12 inline-block text-left text-xs xs:text-lg text-inverse relative'
+              className='w-9/12 inline-block text-left text-xs xs:text-lg text-inverse relative'
             >
               <Trans
                 i18nKey='v2PodTickets'
@@ -144,14 +165,14 @@ export const V2AccountPoolRow = (
                 }}
               />
               <div
-                className='text-caption font-bold mt-1 opacity-70'
+                className='font-bold mt-1 opacity-40 text-xxxs'
               >
-                (<PoolNumber>{numberWithCommas(ethers.utils.formatUnits(
+                <PoolNumber>{numberWithCommas(ethers.utils.formatUnits(
                   balances.podBalance,
                   decimals
                 ), {
-                  precision: 10
-                })}</PoolNumber> {ticker})
+                  precision: 6
+                })}</PoolNumber> {ticker}
               </div>
 
               <div className='mt-2'>
@@ -166,7 +187,24 @@ export const V2AccountPoolRow = (
           </>}
         
         </div>
+        <div
+          className='flex flex-col items-center'
+          style={{
+            width: 114
+          }}
+        >
+          <PoolCurrencyIcon
+            pool={{ underlyingCollateralSymbol: ticker }}
+            className='-mt-2'
+          />
+          <h4
+            className='capitalize'
+          >
+            {ticker.toLowerCase()}
+          </h4>
+        </div>
       </div>
+
     </div>
   </>
 }

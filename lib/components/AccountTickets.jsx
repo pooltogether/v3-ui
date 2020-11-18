@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountTicket } from 'lib/components/AccountTicket'
-import { V2AccountPoolRow } from 'lib/components/V2AccountPoolRow'
+import { V2AccountTicket } from 'lib/components/V2AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
@@ -69,16 +69,28 @@ export const AccountTickets = () => {
           </BlankStateMessage>
         </> : <>
           <>
-            <motion.ul>
-              <V2AccountPoolRow
-                v2dai
-                key={`v2-dai-account-pool-row`}
-              />
-            
-              <V2AccountPoolRow
-                v2usdc
-                key={`v2-usdc-account-pool-row`}
-              />
+            <motion.div>
+              <div className='flex flex-wrap'>
+                <V2AccountTicket
+                  v2dai
+                  key={`v2-dai-account-ticket-pool`}
+                />
+                <V2AccountTicket
+                  isPod
+                  v2dai
+                  key={`v2-dai-account-ticket-pod`}
+                />
+              
+                <V2AccountTicket
+                  v2usdc
+                  key={`v2-usdc-account-ticket-pool`}
+                />
+                <V2AccountTicket
+                  isPod
+                  v2usdc
+                  key={`v2-usdc-account-ticket-pod`}
+                />
+              </div>
 
               {!hasNoV2Balance && <hr />}
 
@@ -95,7 +107,7 @@ export const AccountTickets = () => {
                   player={playerData}
                 />
               })}
-            </motion.ul>
+            </motion.div>
           </>
         </>
       }
