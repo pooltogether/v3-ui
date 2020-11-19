@@ -25,7 +25,7 @@ export function Odds(props) {
 
   let { additionalQuantity } = props
 
-  const font = fontSansRegular ? 'font-sans-regular' : ''
+  const font = fontSansRegular ? 'font-sans' : ''
 
   let content = null
 

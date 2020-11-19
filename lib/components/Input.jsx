@@ -43,7 +43,6 @@ export function Input(props) {
     props.className, 
     {
       'text-red': isError,
-      'font-number': props.type === 'number'
     }
   )
 

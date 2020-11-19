@@ -35,7 +35,7 @@ export function TicketQuantityForm(props) {
   const quantity = router.query.quantity
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { pool, usersTicketBalanceBN, usersChainData } = useContext(PoolDataContext)
+  const { pool, usersTicketBalance, usersTicketBalanceBN, usersChainData } = useContext(PoolDataContext)
 
   const liquidityCap = pool?.liquidityCap ? bn(pool?.liquidityCap) : bn(0)
   let remainingTickets
@@ -43,12 +43,6 @@ export function TicketQuantityForm(props) {
     remainingTickets = liquidityCap
       .sub(pool.ticketSupply).div(ethers.constants.WeiPerEther)
   }
-
-  const decimals = pool?.underlyingCollateralDecimals
-  const usersTicketBalance = ethers.utils.formatUnits(
-    usersTicketBalanceBN.toString(),
-    decimals || 18
-  )
 
   const ticker = pool?.underlyingCollateralSymbol
   const tickerUpcased = ticker?.toUpperCase()

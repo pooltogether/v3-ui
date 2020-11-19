@@ -36,7 +36,7 @@ html, body, table {
 }
 
 body {
-  @apply font-sans-regular tracking-wide;
+  @apply font-sans tracking-wide;
 }
 
 h1,
@@ -155,7 +155,7 @@ h6 {
 }
 
 .text-caption-2 {
-  @apply text-accent-2 text-xxxxs font-number;
+  @apply text-accent-2 text-xxxxs font-mono;
 }
 
 @screen sm {

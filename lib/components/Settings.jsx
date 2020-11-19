@@ -151,7 +151,7 @@ export function Settings(props) {
 
       <div className='my-12'>
         <label
-          className='uppercase text-caption font-number mb-4'
+          className='uppercase text-caption font-mono mb-4'
         >
           {t('theme')}:
         </label>
@@ -161,7 +161,7 @@ export function Settings(props) {
 
       <div className='my-12'>
         <label
-          className='uppercase text-caption font-number mb-2'
+          className='uppercase text-caption font-mono mb-2'
         >
           {t('manage')}:
         </label>

@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
 import { Trans, useTranslation } from 'lib/../i18n'
+import { STRINGS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountTicket } from 'lib/components/AccountTicket'
@@ -15,6 +16,8 @@ import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
+import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
+
 export function ManageTicketsForm(props) {
   const { t } = useTranslation()
 
@@ -25,7 +28,7 @@ export function ManageTicketsForm(props) {
   const router = useRouter()
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { pool, dynamicPlayerData, usersTicketBalanceBN } = useContext(PoolDataContext)
+  const { pool, dynamicPlayerData, usersTicketBalance, usersTicketBalanceBN } = useContext(PoolDataContext)
 
   const ticker = pool?.underlyingCollateralSymbol
   const tickerUpcased = ticker?.toUpperCase()
@@ -43,6 +46,15 @@ export function ManageTicketsForm(props) {
   })
 
   const watchQuantity = watch('quantity')
+
+  // const {
+  //   usersTokenBalance,
+  // } = usersDataForPool(pool, usersChainData)
+  
+  const validate = {
+    greaterThanBalance: value => parseFloat(value) <= usersTicketBalance ||
+      t('pleaseEnterAmountLowerThanTicketBalance'),
+  }
 
   const onSubmit = (values) => {
     if (formState.isValid) {
@@ -69,8 +81,7 @@ export function ManageTicketsForm(props) {
 
 
 
-  const [action, setAction] = useState(null)
-  console.log(action)
+  const [action, setAction] = useState(STRINGS.withdraw)
 
   return <>
     <div
@@ -101,10 +112,46 @@ export function ManageTicketsForm(props) {
         current={action}
         setCurrent={setAction}
         options={{
-          'withdraw': t('withdraw'),
-          'transfer': t('transfer')
+          [STRINGS.withdraw]: t('withdraw'),
+          [STRINGS.transfer]: t('transfer')
         }}
       />
+
+      {action === STRINGS.transfer && <>
+        <h6 className='mt-2 text-inverse'>Transfer feature coming soon ...</h6>
+      </>}
+
+      {action === STRINGS.withdraw && <>
+        <TextInputGroup
+          large
+          unsignedNumber
+          id='quantity'
+          name='quantity'
+          register={register}
+          validate={validate}
+          label={t('enterAmountToBeWithdrawn')}
+          required={t('ticketQuantityRequired')}
+          autoComplete='off'
+
+          rightLabel={usersAddress && usersTicketBalance && <>
+            <button
+              type='button'
+              className='font-bold inline-flex items-center'
+              onClick={(e) => {
+                e.preventDefault()
+                setValue('quantity', usersTicketBalance, { shouldValidate: true })
+              }}
+            >
+              <img
+                src={TicketIcon}
+                className='mr-2'
+                style={{ maxHeight: 12 }}
+              /> {numberWithCommas(usersTicketBalance, { precision: 2 })} {tickerUpcased}
+            </button>
+          </>}
+        />
+      </>}
+
 
       <ButtonDrawer>
         {continueButton}

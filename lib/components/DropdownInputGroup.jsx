@@ -25,8 +25,6 @@ export function DropdownInputGroup(props) {
     optionsArray = Object.keys(options).map(v => v)
   }
 
-  console.log(current)
-  console.log(optionsArray)
   const currentValue = current ? current : optionsArray?.[0]
 
   const handleChange = (newValue) => {
@@ -53,8 +51,6 @@ export function DropdownInputGroup(props) {
 
   const inactiveTextColorClasses = `${textColor} hover:${hoverTextColor}`
   const activeTextColorClasses = `${hoverTextColor} hover:${hoverTextColor}`
-
-  console.log(currentValue)
 
   return <>
     <div

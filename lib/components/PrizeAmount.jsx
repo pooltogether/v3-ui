@@ -35,7 +35,7 @@ export const PrizeAmount = (
       className={`${amountSize} text-inverse`}
     >
       <span
-        className='font-number'
+        className='font-mono'
       >
         ${ethers.utils.formatUnits(
           pool?.prizeAmountUSD,

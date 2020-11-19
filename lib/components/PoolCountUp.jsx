@@ -53,8 +53,8 @@ export function PoolCountUp(props) {
     <span
       className={classnames(
         {
-          'font-sans-regular': fontSansRegular,
-          'font-number': !fontSansRegular,
+          'font-sans': fontSansRegular,
+          'font-mono': !fontSansRegular,
           'font-bold': fontBold,
         }
       )}

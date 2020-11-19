@@ -135,3 +135,8 @@ export const UNISWAP_GRAPH_URIS = {
   3: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_ROPSTEN,
   4: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_RINKEBY, // https://api.thegraph.com/subgraphs/name/blockrockettech/uniswap-v2-subgraph-rinkeby
 }
+
+export const STRINGS = {
+  transfer: 'transfer',
+  withdraw: 'withdraw',
+}

@@ -30,7 +30,7 @@ export const ChipRainbowNew = (
         src={DDChipSvg}
         className={imgClasses}
       /> <span
-          className='uppercase absolute l-0 t-0 r-0 b-0 text-xxxs text-primary font-number'
+          className='uppercase absolute l-0 t-0 r-0 b-0 text-xxxs text-primary font-mono'
           style={{
             top: 1
           }}

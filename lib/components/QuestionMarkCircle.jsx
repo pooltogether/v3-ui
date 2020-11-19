@@ -25,7 +25,7 @@ export function QuestionMarkCircle(props) {
       )}
     >
       <span
-        className='relative font-number font-bold text-xs'
+        className='relative font-mono font-bold text-xs'
         style={{
           left: '0.02rem',
           top: '0.04rem'
