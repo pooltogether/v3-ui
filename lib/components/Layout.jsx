@@ -55,8 +55,7 @@ export function Layout(props) {
 
   const signIn = router.query.signIn
   const deposit = /deposit/.test(router.asPath)
-  const manage = /manage/.test(router.asPath)
-
+  const manage = /\/account\/pools\/[A-Za-z-]*\/manage-tickets/.test(router.asPath)
 
   const authControllerContext = useContext(AuthControllerContext)
   const { supportedNetwork, usersAddress, chainId } = authControllerContext

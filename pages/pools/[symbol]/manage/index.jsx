@@ -1,6 +1,6 @@
 import { ManageUI } from 'lib/components/ManageUI'
 
-export default function IndexPage(props) {
+export default function ManagePool(props) {
   return <>
     <ManageUI
       {...props}

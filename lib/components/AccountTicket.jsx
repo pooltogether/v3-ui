@@ -63,8 +63,8 @@ export const AccountTicket = (
     )
 
     router.push(
-      `/account/pools/[symbol]/manage`,
-      `/account/pools/${pool?.symbol}/manage`,
+      `/account/pools/[symbol]/manage-tickets`,
+      `/account/pools/${pool?.symbol}/manage-tickets`,
       {
         shallow: true
       }

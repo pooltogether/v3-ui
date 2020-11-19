@@ -54,14 +54,9 @@ export function DropdownInputGroup(props) {
 
   return <>
     <div
-      className='mx-auto'
-      style={{
-        maxWidth: 500
-      }}
+      className='fieldset'
     >
-      <label
-        className='text-accent-3 font-bold text-xxxs xs:text-xxs pl-8'
-      >
+      <label>
         {label}
       </label>
       <Menu>
@@ -70,7 +65,7 @@ export function DropdownInputGroup(props) {
             <MenuButton
               className={classnames(
                 className,
-                'w-full text-xxs xs:text-sm sm:text-base lg:text-xl bg-transparent border rounded-full inline-flex px-8 py-3 items-center justify-between trans font-bold',
+                'w-full text-xxs xs:text-sm sm:text-base lg:text-xl bg-darkened border rounded-full inline-flex px-8 py-3 items-center justify-between trans font-bold',
                 {
                   [inactiveTextColorClasses]: !isExpanded,
                   [activeTextColorClasses]: isExpanded,

@@ -44,15 +44,11 @@ export const TextInputGroup = (
 
   return <>
     <div
-      className='input-fieldset py-2 mb-0'
+      className='fieldset'
     >
       <div
         className={classnames(
-          'flex',
-          {
-            'justify-between': rightLabel,
-            'justify-center': !rightLabel,
-          }
+          'flex justify-between',
         )}>
         <label
           htmlFor={id}

@@ -20,11 +20,10 @@ export function Input(props) {
     validate,
   } = props
 
-  const defaultClasses = 'text-white bg-purple trans rounded-full focus:outline-none focus:outline-none leading-none px-6 py-2 lg:py-2'
-  // const defaultClasses = 'text-white border-2 border-primary bg-purple trans rounded-lg focus:outline-none focus:outline-none leading-none px-6 py-2 lg:py-2'
+  const defaultClasses = 'w-full bg-darkened border inline-flex px-8 py-3 items-center justify-between trans font-bold text-inverse'
 
   if (roundedClasses === undefined) {
-    roundedClasses = 'rounded'
+    roundedClasses = 'rounded-full'
   }
 
   if (marginClasses === undefined) {
@@ -32,7 +31,7 @@ export function Input(props) {
   }
 
   if (textClasses === undefined) {
-    textClasses = large ? 'font-bold text-3xl sm:text-5xl' : 'text-xl sm:text-2xl'
+    textClasses = large ? 'font-bold text-3xl sm:text-5xl' : 'text-xxs xs:text-sm sm:text-base lg:text-xl'
   }
 
   const className = classnames(
@@ -78,7 +77,7 @@ export function Input(props) {
       // rounded-full
       className={classnames(
         className,
-        'bg-primary text-inverse w-full focus:outline-none leading-none pl-6',
+        'focus:outline-none pl-6',
       )}
     />
 

@@ -1,8 +1,9 @@
-import { AccountLoggedIn } from 'lib/components/AccountLoggedIn'
-import { AccountUI } from 'lib/components/AccountUI'
+import { ManageUI } from 'lib/components/ManageUI'
 
-export default function AccountManage(props) {
-  return <AccountLoggedIn>
-    <AccountUI />
-  </AccountLoggedIn>
+export default function ManagePool(props) {
+  return <>
+    <ManageUI
+      {...props}
+    />
+  </>
 }

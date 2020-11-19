@@ -123,13 +123,12 @@ export function ManageTicketsForm(props) {
 
       {action === STRINGS.withdraw && <>
         <TextInputGroup
-          large
           unsignedNumber
           id='quantity'
           name='quantity'
           register={register}
           validate={validate}
-          label={t('enterAmountToBeWithdrawn')}
+          label={t('enterAmountToWithdraw')}
           required={t('ticketQuantityRequired')}
           autoComplete='off'
 
