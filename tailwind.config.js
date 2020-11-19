@@ -11,11 +11,11 @@ module.exports = {
     // this gives us:
     // null (mobile),
     // xs (tablet),
-    // sm (1041px - 1481px)
+    // sm (941px - 1481px)
     // lg (1481px+)
     screens: {
       'xs': '531px',
-      'sm': '1041px',
+      'sm': '941px',
       'lg': '1481px'
     },
     colors: {

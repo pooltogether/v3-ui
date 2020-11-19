@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
@@ -8,6 +8,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
+import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
@@ -65,12 +66,18 @@ export function ManageTicketsForm(props) {
 
   const playerData = dynamicPlayerData?.find(playerData => playerData?.prizePool?.id === pool?.id)
 
+
+
+
+  const [action, setAction] = useState(null)
+  console.log(action)
+
   return <>
     <div
       className='pane-title'
     >
       <div
-        className={`leading-tight font-bold text-lg xs:text-3xl lg:text-4xl text-inverse`}
+        className={`leading-tight font-bold text-lg xs:text-3xl lg:text-4xl text-inverse mb-4 xs:mb-10`}
       >
         {t('manageYourTickets')}
       </div>
@@ -88,7 +95,16 @@ export function ManageTicketsForm(props) {
     <form
       onSubmit={handleSubmit(onSubmit)}
     >
-      
+      <DropdownInputGroup
+        id='action-dropdown'
+        label={t('whatWouldYouLikeToDoQuestion')}
+        current={action}
+        setCurrent={setAction}
+        options={{
+          'withdraw': t('withdraw'),
+          'transfer': t('transfer')
+        }}
+      />
 
       <ButtonDrawer>
         {continueButton}

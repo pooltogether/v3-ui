@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { i18n } from 'lib/../i18n'
-import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
+import { DropdownList } from 'lib/components/DropdownList'
 
 {/*
   de: Deutsch (German)
@@ -78,7 +78,7 @@ export function LanguagePicker(props) {
   }
 
   return <>
-    <DropdownInputGroup
+    <DropdownList
       id='language-picker-dropdown'
       className='ml-8 xs:ml-6 sm:ml-6 mr-2 sm:mr-4 my-2 text-xxs sm:text-base text-lg'
       label={currentLang?.toUpperCase()}
