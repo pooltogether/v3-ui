@@ -33,8 +33,6 @@ export function TxRefetchListener(props) {
       tx.method === 'completeAward'
 
     if (playerBalanceTransaction) {
-      // refetchPlayerQuery()
-
       // we don't know when the Graph will have processed the new block data or when it has
       // so simply query a few times for the updated data
       setTimeout(() => {

@@ -97,7 +97,7 @@ export function PoolDataContextProvider(props) {
             const {
               usersSponsorshipBalance,
               usersSponsorshipBalanceBN
-            } = getUsersSponsorshipBalance(currentPool, dynamicPlayerData)
+            } = getUsersSponsorshipBalance(currentPool, dynamicSponsorData)
 
 
             const ethereumErc20Awards = cache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, poolData?.daiPool?.poolAddress, -1])

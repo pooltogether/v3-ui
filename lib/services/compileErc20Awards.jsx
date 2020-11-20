@@ -1,6 +1,8 @@
 import { isEmpty } from 'lodash'
 import { ethers } from 'ethers'
 
+import { TOKEN_VALUES } from 'lib/constants'
+
 export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) => {
   const erc20GraphData = poolData?.prizeStrategy?.externalErc20Awards
 
@@ -18,8 +20,13 @@ export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) =
     const chainData = erc20ChainData.find(token => obj.address === token.address)
     const priceData = uniswapPriceData[obj.address]
 
+    let priceUSD = TOKEN_VALUES?.[obj.address]
+    if (!priceUSD) {
+      priceUSD = priceData?.usd
+    }
+
     const balanceFormatted = ethers.utils.formatUnits(chainData.balance, parseInt(obj.decimals, 10))
-    const value = priceData?.usd && parseFloat(balanceFormatted) * priceData.usd
+    const value = priceUSD && parseFloat(balanceFormatted) * priceUSD
 
     data[obj.address] = {
       ...obj,

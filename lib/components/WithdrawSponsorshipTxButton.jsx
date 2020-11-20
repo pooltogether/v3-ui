@@ -8,7 +8,6 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
-import { PTHint } from 'lib/components/PTHint'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 

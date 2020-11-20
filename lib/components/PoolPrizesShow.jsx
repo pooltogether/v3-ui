@@ -25,11 +25,10 @@ export const PoolPrizesShow = (
 
   const poolData = useContext(PoolDataContext)
   const { pool } = poolData
-  
-  const decimals = pool?.underlyingCollateralDecimals
+
+  const querySymbol = router.query?.symbol
 
   if (pool === null) {
-    const querySymbol = router.query?.symbol
     return <BlankStateMessage>
       Could not find pool with symbol: ${querySymbol}
     </BlankStateMessage>
@@ -66,39 +65,6 @@ export const PoolPrizesShow = (
     <PrizesPageHeader
       pool={pool}
     />
-
-    <div
-      className='bg-highlight-3 mt-8 mb-8 text-sm py-6 px-6 flex flex-col xs:flex-row items-center justify-center xs:justify-between text-center xs:text-left rounded-lg'
-    >
-      <div className='text-2xl text-white mb-6 xs:mb-0 xs:w-1/3 lg:w-1/5'>
-        {/* <div
-          className='xs:h-12 font-bold'
-        >
-          ${displayAmountInEther(
-            pool?.cumulativePrizeNet,
-            { decimals, precision: 2 }
-          )}
-        </div>
-        <div className='text-xs xs:text-base -mt-2 xs:mt-1 font-bold'>
-          {t('awardedSoFar')}
-        </div> */}
-      </div>
-
-      <div className='text-center xs:text-right w-3/4 xs:w-1/3'>
-        <Button
-          bg='purple'
-          border='green'
-          text='green'
-          hoverBorder='green'
-          textSize='lg'
-          onClick={handleGetTicketsClick}
-        >
-          {t('getTickets')}
-        </Button>
-      </div>
-    </div>
-
-
     <h6
       className='text-accent-2 mb-0 mt-8'
     >
@@ -107,8 +73,19 @@ export const PoolPrizesShow = (
 
     <PoolPrizeListing
       pool={pool}
+      querySymbol={querySymbol}
     />
 
+    <div className='mx-auto mt-10 text-center'>
+      <Button
+        border='green'
+        text='green'
+        hoverBorder='green'
+        onClick={handleGetTicketsClick}
+      >
+        {t('getTickets')}
+      </Button>
+    </div>
     {/* <AllPoolsTotalAwarded /> */}
   </>
 }

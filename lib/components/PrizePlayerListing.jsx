@@ -42,7 +42,7 @@ export const PrizePlayerListing = (
   const timeTravelPlayersQuery = prizePlayersQuery(blockNumber)
 
   const variables = {
-    prizePoolAddress: pool.poolAddress,
+    prizePoolAddress: pool?.poolAddress,
     first: pageSize,
     skip
   }

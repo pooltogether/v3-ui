@@ -5,6 +5,7 @@ import { useTable } from 'react-table'
 
 import { useTranslation } from 'lib/../i18n'
 import { BasicTable } from 'lib/components/BasicTable'
+import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { formatDate } from 'lib/utils/formatDate'
@@ -53,7 +54,7 @@ const prizeStatusString = (t, prize) => {
   }
 }
 
-const formatPrizeObject = (t, pool, prize) => {
+const formatPrizeObject = (t, pool, prize, querySymbol) => {
   const id = extractPrizeNumberFromPrize(prize)
   const decimals = pool.underlyingCollateralDecimals
   const prizeAmount = prize.amount && decimals ?
@@ -74,7 +75,23 @@ const formatPrizeObject = (t, pool, prize) => {
         {formatDate(prize?.awardedTimestamp)}
       </span>
     </>,
-    prizeAmount: `$${prizeAmount.toString()} ${pool?.underlyingCollateralSymbol}`,
+    prizeAmount: <>
+      <TimeTravelPool
+        blockNumber={parseInt(prize?.awardedBlock, 10)}
+        poolAddress={pool?.id}
+        querySymbol={querySymbol}
+        prize={prize}
+      >
+        {(timeTravelPool) => {
+          return <>
+            ${displayAmountInEther(
+              timeTravelPool?.prizeAmountUSD,
+              { decimals: pool?.underlyingCollateralDecimals, precision: 2 }
+            )}
+          </>
+        }}
+      </TimeTravelPool>
+    </>,
     status: prizeStatusString(t, prize),
     view: prizeLink(t, pool, { id })
   }
@@ -84,7 +101,7 @@ export const PrizesTable = (
   props,
 ) => {
   const { t } = useTranslation()
-  const { pool, prizes } = props
+  const { pool, prizes, querySymbol } = props
 
   const decimals = pool?.underlyingCollateralDecimals
 
@@ -126,7 +143,7 @@ export const PrizesTable = (
   }, [] )
 
   const data = React.useMemo(() => {
-    const prizeRows = prizes.map(prize => formatPrizeObject(t, pool, prize))
+    const prizeRows = prizes.map(prize => formatPrizeObject(t, pool, prize, querySymbol))
 
     const lastPrize = prizes[0]
 

@@ -77,6 +77,7 @@ export const PoolPrizeListing = (
 
       {prizes?.length > 0 && <>
         <PrizesTable
+          {...props}
           pool={pool}
           prizes={prizes}
         />

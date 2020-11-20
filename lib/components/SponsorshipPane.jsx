@@ -15,8 +15,7 @@ export const SponsorshipPane = (
   const [depositVisible, setDepositVisible] = useState(false)
   const [withdrawVisible, setWithdrawVisible] = useState(false)
   
-  const poolData = useContext(PoolDataContext)
-  const { usersSponsorshipBalance } = poolData
+  const { usersSponsorshipBalance } = useContext(PoolDataContext)
   
   const handleDepositSponsorshipClick = (e) => {
     e.preventDefault()

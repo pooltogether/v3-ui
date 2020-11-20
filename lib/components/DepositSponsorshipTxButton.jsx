@@ -16,7 +16,6 @@ export function DepositSponsorshipTxButton(props) {
   const { t } = useTranslation()
   
   const {
-    decimals,
     quantity,
     quantityBN,
     needsApproval,
