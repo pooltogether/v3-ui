@@ -5,11 +5,12 @@ import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
-import { Trans, useTranslation } from 'lib/../i18n'
+import { useTranslation, Trans } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
@@ -23,11 +24,8 @@ export function ExecuteWithdrawInstantNoFee(props) {
 
   const { nextStep, previousStep } = props
   
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress, provider } = authControllerContext
-
-  const poolData = useContext(PoolDataContext)
-  const { pool, refetchPlayerQuery } = poolData
+  const { usersAddress, provider } = useContext(AuthControllerContext)
+  const { pool, usersTicketBalance, refetchPlayerQuery } = useContext(PoolDataContext)
 
   const decimals = pool?.underlyingCollateralDecimals
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
@@ -47,12 +45,6 @@ export function ExecuteWithdrawInstantNoFee(props) {
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
   const tx = transactions?.find((tx) => tx.id === txId)
-
-  const updateParamsAndNextStep = () => {
-    queryParamUpdater.add(router, { withdrawType: 'instantNoFee' })
-
-    nextStep()
-  }
 
   useEffect(() => {
     const runTx = async () => {
@@ -101,11 +93,26 @@ export function ExecuteWithdrawInstantNoFee(props) {
   }, [tx])
 
   return <>
-    <PaneTitle small>
+    <PaneTitle>
       {tx?.inWallet && <>
-        <Trans
-          i18nKey='withdrawAmountTickets'
-          defaults='Withdraw <number>{{amount}}</number> tickets'
+        {t('confirmWithdrawalOfTickets')}
+      </>}
+    </PaneTitle>
+
+    <div
+      className='text-center mx-auto rounded-xl text-orange bg-orange-darkened border-2 border-orange py-2 xs:py-8 px-2 xs:px-8'
+      style={{
+        maxWidth: 500
+      }}
+    >
+      <h4
+        className='text-orange'
+      >
+        <span className='font-normal'>
+          {t('amountToBeWithdrawn')} 
+        </span> -<Trans
+          i18nKey='amountTickets'
+          defaults='<number>{{amount}}</number> tickets'
           components={{
             number: <PoolNumber />,
           }}
@@ -113,14 +120,14 @@ export function ExecuteWithdrawInstantNoFee(props) {
             amount: quantity,
           }}
         />
+      </h4>
 
-        <span
-          className='text-accent-3 opacity-50'
-        >
-          <br />{txSubName}
-        </span>
-      </> }
-    </PaneTitle>
+      <WithdrawOdds
+        pool={pool}
+        usersBalance={usersTicketBalance}
+        quantity={quantity}
+      />
+    </div>
 
     {tx?.sent && !tx?.completed && <>
       <TransactionsTakeTimeMessage

@@ -4,11 +4,11 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { ExecuteWithdrawScheduledOrInstantWithFee } from 'lib/components/ExecuteWithdrawScheduledOrInstantWithFee'
+import { ExecuteWithdrawInstantWithFee } from 'lib/components/ExecuteWithdrawInstantWithFee'
 import { Meta } from 'lib/components/Meta'
 import { ManageTicketsForm } from 'lib/components/ManageTicketsForm'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
-import { WithdrawInstantOrScheduled } from 'lib/components/WithdrawInstantOrScheduled'
+import { WithdrawInstant } from 'lib/components/WithdrawInstant'
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
@@ -31,7 +31,7 @@ export function ManageTicketsWizardContainer(props) {
   let underlyingCollateralDecimals = 18
   underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
   
-  const [totalWizardSteps, setTotalWizardSteps] = useState(3)
+  const [totalWizardSteps, setTotalWizardSteps] = useState(4)
 
   return <>
     <Meta
@@ -43,12 +43,7 @@ export function ManageTicketsWizardContainer(props) {
     >
       {
         (wizard) => {
-          const { activeStepIndex, previousStep, moveToStep } = wizard
-
-          const back = (e) => {
-            queryParamUpdater.remove(router, 'withdrawType')
-            previousStep()
-          } 
+          const { activeStepIndex, moveToStep } = wizard
 
           return <WizardLayout
             currentWizardStep={activeStepIndex + 1}
@@ -70,35 +65,37 @@ export function ManageTicketsWizardContainer(props) {
 
             <WizardStep>
               {(step) => {
-                if (!step.isActive) {
-                  return null
-                }
+                return step.isActive && <>
+                  <WithdrawInstant
+                    pool={pool}
+                    quantity={quantity}
+                    nextStep={step.nextStep}
+                    previousStep={back}
+                    setTotalWizardSteps={setTotalWizardSteps}
+                  />
+                </>
+              }}
+            </WizardStep>
 
-                const back = (e) => {
-                  queryParamUpdater.remove(router, 'withdrawType')
-                  step.previousStep()
-                } 
-
-                return <WithdrawInstantOrScheduled
-                  pool={pool}
-                  quantity={quantity}
-                  nextStep={step.nextStep}
-                  previousStep={back}
-                  setTotalWizardSteps={setTotalWizardSteps}
-                />
+            <WizardStep>
+              {(step) => {
+                return step.isActive && <>
+                  <WithdrawInstant
+                    pool={pool}
+                    quantity={quantity}
+                    nextStep={step.nextStep}
+                    previousStep={back}
+                    setTotalWizardSteps={setTotalWizardSteps}
+                  />
+                </>
               }}
             </WizardStep>
             
             {totalWizardSteps === 4 && <>
               <WizardStep>
                 {(step) => {
-                  const back = (e) => {
-                    queryParamUpdater.remove(router, 'withdrawType')
-                    step.previousStep()
-                  } 
-
                   return step.isActive && <>
-                    <ExecuteWithdrawScheduledOrInstantWithFee
+                    <ExecuteWithdrawInstantWithFee
                       nextStep={step.nextStep}
                       previousStep={back}
                     />

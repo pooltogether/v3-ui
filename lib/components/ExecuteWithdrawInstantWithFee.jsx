@@ -8,7 +8,6 @@ import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
@@ -16,24 +15,12 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
-const quantityForParseUnits = (quantity, decimals) => {
-  const quantityParts = quantity.split('.')
-  let quantityForParseUnits = quantityParts?.[0]
-
-  if (quantityParts[1]) {
-    quantityForParseUnits += `.${quantityParts[1].substr(0, parseInt(decimals, 10))}`
-  }
-
-  return quantityForParseUnits
-}
-
-export function ExecuteWithdrawScheduledOrInstantWithFee(props) {
+export function ExecuteWithdrawInstantWithFee(props) {
   const { t } = useTranslation()
 
   const { nextStep, previousStep } = props
 
   const router = useRouter()
-  const withdrawType = router.query.withdrawType
 
   const [txExecuted, setTxExecuted] = useState(false)
 
@@ -47,16 +34,10 @@ export function ExecuteWithdrawScheduledOrInstantWithFee(props) {
 
   const tickerUpcased = ticker?.toUpperCase()
 
-
-  const timelockDurationSeconds = router.query.timelockDurationSeconds
   const gross = router.query.gross
   const net = router.query.net
   const fee = router.query.fee
 
-  const grossFormatted = displayAmountInEther(
-    gross,
-    { decimals, precision: 8 }
-  )
   const netFormatted = displayAmountInEther(
     net,
     { decimals, precision: 8 }
@@ -66,37 +47,11 @@ export function ExecuteWithdrawScheduledOrInstantWithFee(props) {
     { decimals, precision: 8 }
   )
 
-
-
-  const scheduledWithdrawal = withdrawType && withdrawType === 'scheduled'
-  const instantWithdrawal = withdrawType && withdrawType === 'instant'
-
-  let formattedFutureDate
-  if (scheduledWithdrawal && timelockDurationSeconds) {
-    formattedFutureDate = <FormattedFutureDateCountdown
-      futureDate={Number(timelockDurationSeconds)}
-    />
-  }
-
-  
-
   const [txId, setTxId] = useState()
 
   const method = 'withdrawInstantlyFrom'
-  // let method = 'withdrawInstantlyFrom'
-  // if (scheduledWithdrawal) {
-  //   method = 'withdrawWithTimelockFrom'
-  // } else if (instantWithdrawal) {
-  //   method = 'withdrawInstantlyFrom'
-  // }
 
   const txName = `Withdraw ${netFormatted} ${tickerUpcased} instantly (fee: ${feeFormatted} ${tickerUpcased})`
-  // let txName
-  // if (scheduledWithdrawal) {
-  //   txName = `Schedule withdrawal ${netFormatted} ${tickerUpcased}`
-  // } else if (instantWithdrawal) {
-  //   txName = `Withdraw ${netFormatted} ${tickerUpcased} instantly (fee: ${feeFormatted} ${tickerUpcased})`
-  // }
 
   const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
 
@@ -114,18 +69,9 @@ export function ExecuteWithdrawScheduledOrInstantWithFee(props) {
         usersAddress,
         ethers.utils.bigNumberify(gross),
         controlledTokenAddress,
+        ethers.utils.bigNumberify(fee)
       ]
-
-      if (instantWithdrawal) {
-        params.push(
-          ethers.utils.bigNumberify(fee)
-        )
-      }
       
-      // params.push({
-      //   gasLimit: 400000
-      // })
-
       const id = sendTx(
         t,
         provider,
@@ -152,24 +98,8 @@ export function ExecuteWithdrawScheduledOrInstantWithFee(props) {
     }
   }, [tx])
 
-  let withdrawTypeKey
-  if (scheduledWithdrawal) {
-    withdrawTypeKey = 'scheduled'
-  } else if (instantWithdrawal) {
-    withdrawTypeKey = 'instant'
-  }
-
   return <>
     <PaneTitle small>
-      {scheduledWithdrawal && <>
-        <span
-          className={`text-xl`}
-          role='img'
-          aria-label='alarm clock'
-        >⏰</span>
-        <br />
-      </>}
-      
       <Trans
         i18nKey='withdrawAmountTickets'
         defaults='Withdraw <number>{{amount}}</number> tickets'
@@ -184,7 +114,7 @@ export function ExecuteWithdrawScheduledOrInstantWithFee(props) {
 
     <PaneTitle>
       {txInWallet && t('confirmWithdrawTypePastTense', {
-        withdrawType: withdrawTypeKey
+        withdrawType: 'instant'
       })}
     </PaneTitle>
 
@@ -197,21 +127,7 @@ export function ExecuteWithdrawScheduledOrInstantWithFee(props) {
           style={{
             color: 'rgba(255, 255, 255, 0.75)'
           }}
-        >{t('note')}</span> {scheduledWithdrawal && <>
-          <Trans
-            i18nKey='youAreSchedulingAndYourFundsWillBeReadyInFutureDate'
-            defaults='You are scheduling <bold><number>{{amount}}</number> {{ticker}}</bold>. Your funds will be ready for withdrawal in: '
-            components={{
-              bold: <span className='font-bold' />,
-              number: <PoolNumber />,
-            }}
-            values={{
-              amount: netFormatted,
-              ticker: tickerUpcased,
-            }}
-          /> <span className='font-bold'>{formattedFutureDate}</span>
-        </>} {instantWithdrawal && <>
-          <Trans
+        >{t('note')}</span> <Trans
             i18nKey='youAreWithdrawingYourFundsLessFeeRightNow'
             defaults='You are withdrawing <bold><number>{{amount}}</number> {{ticker}}</bold> of your funds right now, less the <bold><number>{{fee}}</number> {{ticker}}</bold></span> fairness fee'
             components={{
@@ -224,7 +140,6 @@ export function ExecuteWithdrawScheduledOrInstantWithFee(props) {
               ticker: tickerUpcased,
             }}
           />
-        </>}
 
       </span>
     </div>
@@ -234,7 +149,7 @@ export function ExecuteWithdrawScheduledOrInstantWithFee(props) {
         <TransactionsTakeTimeMessage
           tx={tx}
           paneMessage={<>
-            {t(withdrawTypeKey)} - {t('withdrawalConfirming')}
+            {t('instant')} - {t('withdrawalConfirming')}
           </>}
         />
       </div>

@@ -8,12 +8,12 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { ExecuteWithdrawInstantNoFee } from 'lib/components/ExecuteWithdrawInstantNoFee'
-import { InstantOrScheduledForm } from 'lib/components/InstantOrScheduledForm'
+import { InstantForm } from 'lib/components/InstantForm'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { fetchExitFees } from 'lib/utils/fetchExitFees'
 import { useInterval } from 'lib/hooks/useInterval'
 
-export function WithdrawInstantOrScheduled(props) {
+export function WithdrawInstant(props) {
   const { t } = useTranslation()
 
   const {
@@ -100,7 +100,7 @@ export function WithdrawInstantOrScheduled(props) {
       </PaneTitle>
     </> :
       notEnoughCredit ?
-        <InstantOrScheduledForm
+        <InstantForm
           pool={pool}
           exitFees={exitFees}
           nextStep={nextStep}

@@ -15,65 +15,9 @@ import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 export function ManageTicketsForm(props) {
   const { t } = useTranslation()
 
-  const {
-    nextStep,
-  } = props
-  
-  const router = useRouter()
-
-  const { usersAddress } = useContext(AuthControllerContext)
-  const { pool, dynamicPlayerData, usersTicketBalance, usersTicketBalanceBN } = useContext(PoolDataContext)
-
-  const ticker = pool?.underlyingCollateralSymbol
-  const tickerUpcased = ticker?.toUpperCase()
-
-  const {
-    handleSubmit,
-    register,
-    errors,
-    formState,
-    watch,
-    setValue
-  } = useForm({
-    mode: 'all',
-    reValidateMode: 'onChange',
-  })
-
-  const watchQuantity = watch('quantity')
-
-  // const {
-  //   usersTokenBalance,
-  // } = usersDataForPool(pool, usersChainData)
-  
-  const validate = {
-    greaterThanBalance: value => parseFloat(value) <= usersTicketBalance ||
-      t('pleaseEnterAmountLowerThanTicketBalance'),
-  }
-
-  const onSubmit = (values) => {
-    if (formState.isValid) {
-      queryParamUpdater.add(router, {
-        quantity: values.quantity,
-        prevBalance: usersTicketBalanceBN.toString()
-      })
-
-      nextStep()
-    }
-  }
-
-  const continueButton = <Button
-    textSize='lg'
-    disabled={!formState.isValid}
-    onClick={handleSubmit(onSubmit)}
-    className={'mx-auto'}
-  >
-    {t('continue')}
-  </Button>
+  const { pool, dynamicPlayerData } = useContext(PoolDataContext)
 
   const playerData = dynamicPlayerData?.find(playerData => playerData?.prizePool?.id === pool?.id)
-
-
-
 
   const [action, setAction] = useState(STRINGS.withdraw)
 
@@ -82,13 +26,13 @@ export function ManageTicketsForm(props) {
       className='pane-title'
     >
       <div
-        className={`leading-tight font-bold text-lg xs:text-3xl lg:text-4xl text-inverse mb-4 xs:mb-10`}
+        className={`leading-tight font-bold text-lg xs:text-3xl lg:text-4xl text-inverse mb-4 xs:mb-8`}
       >
         {t('manageYourTickets')}
       </div>
     </div>
 
-    <div className='mx-auto mt-4'>
+    <div className='mx-auto mt-4 xs:mb-8'>
       <AccountTicket
         noMargin
         key={`account-pool-row-${pool?.poolAddress}`}

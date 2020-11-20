@@ -6,7 +6,6 @@ import { motion } from 'framer-motion'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
-import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PTHint } from 'lib/components/PTHint'
@@ -16,9 +15,8 @@ import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 import IconLightning from 'assets/images/icon-lightning.svg'
-import IconWinky from 'assets/images/icon-winky.svg'
 
-export function InstantOrScheduledForm(props) {
+export function InstantForm(props) {
   const { t } = useTranslation()
   const router = useRouter()
   
@@ -30,12 +28,6 @@ export function InstantOrScheduledForm(props) {
     setIUnderstandChecked(!iUnderstandChecked)
   }
 
-  const [withdrawType, setWithdrawType] = useState(null)
-
-  const handleWithdrawTypeChange = (e) => {
-    setWithdrawType(e.target.value)
-  }
-
   const underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
   const underlyingCollateralSymbol = pool && pool.underlyingCollateralSymbol
 
@@ -43,7 +35,6 @@ export function InstantOrScheduledForm(props) {
     exitFee
   } = exitFees
 
-  let instantFull = ethers.utils.bigNumberify(0)
   let instantPartial = ethers.utils.bigNumberify(0)
 
   if (quantity && underlyingCollateralDecimals) {
@@ -51,17 +42,8 @@ export function InstantOrScheduledForm(props) {
       quantity,
       parseInt(underlyingCollateralDecimals, 10)
     ).sub(exitFee)
-
-    instantFull = ethers.utils.parseUnits(
-      quantity,
-      parseInt(underlyingCollateralDecimals, 10)
-    )
   }
  
-  const scheduledFullFormatted = displayAmountInEther(
-    instantFull,
-    { decimals: underlyingCollateralDecimals, precision: 8 }
-  )
   const instantPartialFormatted = displayAmountInEther(
     instantPartial,
     { decimals: underlyingCollateralDecimals, precision: 8 }
@@ -99,28 +81,14 @@ export function InstantOrScheduledForm(props) {
       parseInt(underlyingCollateralDecimals, 10)
     )
 
-    // if (withdrawType === 'instant') {
-      queryParamUpdater.add(router, {
-        withdrawType,
-        gross: gross.toString(),
-        net: instantPartial.toString(),
-        fee: exitFee.toString(),
-      })
-    // }
-    // else if (withdrawType === 'scheduled') {
-    //   queryParamUpdater.add(router, {
-    //     withdrawType,
-    //     net: quantity,
-    //     timelockDurationSeconds: exitFees.timelockDurationSeconds,
-    //   })
-    // }
+    queryParamUpdater.add(router, {
+      gross: gross.toString(),
+      net: instantPartial.toString(),
+      fee: exitFee.toString(),
+    })
 
     nextStep()
   }
-
-  const formattedFutureDate = <FormattedFutureDateCountdown
-    futureDate={Number(exitFees.timelockDurationSeconds)}
-  />
 
   return <div
     className='text-inverse'
@@ -142,7 +110,7 @@ export function InstantOrScheduledForm(props) {
       label=''
       name='withdrawType'
       onChange={handleWithdrawTypeChange}
-      value={withdrawType}
+      value={'instant'}
       radios={[
         {
           value: 'instant',
@@ -158,18 +126,6 @@ export function InstantOrScheduledForm(props) {
                 </div>
               </>
             </PTHint>
-            {/* <Trans
-              i18nKey='iWantAmountTickerBackNow'
-              defaults='I want <bold><number>{{amount}}</number> {{ticker}}</bold> now, and will forfeit the interest'
-              components={{
-                bold: <span className='font-bold' />,
-                number: <PoolNumber />,
-              }}
-              values={{
-                amount: instantPartialFormatted,
-                ticker: underlyingCollateralSymbol,
-              }}
-            /> */}
           </>,
           description: <>
             <div
@@ -192,7 +148,7 @@ export function InstantOrScheduledForm(props) {
     />
 
     <motion.div
-      animate={withdrawType ? 'enter' : 'exit'}
+      animate='enter'
       initial='exit'
       variants={{
         enter: {
@@ -210,10 +166,7 @@ export function InstantOrScheduledForm(props) {
       className={classnames(
         'flex flex-col sm:flex-row items-center justify-between sm:w-11/12 lg:w-full mx-auto rounded-xl sm:mx-auto text-inverse',
         'bg-orange-darkened border-2 border-dashed border-orange overflow-hidden py-2 xs:py-4 px-6',
-        {
-          'h-0': !withdrawType,
-          'h-40': withdrawType,
-        }
+        'h-40'
       )}
     >
       <div
@@ -249,35 +202,6 @@ export function InstantOrScheduledForm(props) {
           }}
         />
       </div>
-
-      {/* {withdrawType === 'scheduled' ? <>
-        
-      </> : <>
-      
-        <PTHint
-          tip={tipJsx}
-        >
-          <>
-            <div className='w-10 mx-auto mb-2'>
-              <QuestionMarkCircle />
-            </div>
-            
-            <Trans
-              i18nKey='youWillReceiveAmountTickerNowAndForfeitAmountTwo'
-              defaults='You will receive <bold><number>{{amount}}</number> {{ticker}}</bold> now and forfeit <bold><number>{{amountTwo}}</number> {{ticker}}</bold> as interest to the pool.'
-              components={{
-                bold: <span className='font-bold' />,
-                number: <PoolNumber />,
-              }}
-              values={{
-                amount: instantPartialFormatted,
-                amountTwo: exitFeeFormatted,
-                ticker: underlyingCollateralSymbol,
-              }}
-            />
-          </>
-        </PTHint>
-      </>} */}
     </motion.div>
 
     <div className='mt-3 xs:mt-8'>
