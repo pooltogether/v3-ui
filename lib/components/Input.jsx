@@ -3,6 +3,8 @@ import classnames from 'classnames'
 import { omit } from 'lodash'
 import { isBrowser } from 'react-device-detect'
 
+import { DEFAULT_INPUT_CLASSES } from 'lib/constants'
+
 export function Input(props) {
   let {
     autoFocus,
@@ -20,8 +22,6 @@ export function Input(props) {
     validate,
   } = props
 
-  const defaultClasses = 'w-full bg-darkened border inline-flex px-8 py-3 items-center justify-between trans font-bold text-inverse'
-
   if (roundedClasses === undefined) {
     roundedClasses = 'rounded-full'
   }
@@ -31,11 +31,11 @@ export function Input(props) {
   }
 
   if (textClasses === undefined) {
-    textClasses = large ? 'font-bold text-3xl sm:text-5xl' : 'text-xxs xs:text-sm sm:text-base lg:text-xl'
+    textClasses = large ? 'font-bold text-3xl sm:text-5xl' : 'text-xxs xs:text-sm sm:text-xl lg:text-2xl'
   }
 
   const className = classnames(
-    defaultClasses,
+    DEFAULT_INPUT_CLASSES,
     marginClasses,
     textClasses,
     roundedClasses,

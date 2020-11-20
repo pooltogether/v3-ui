@@ -1,6 +1,4 @@
 import React, { useContext, useState } from 'react'
-import CopyToClipboard from 'react-copy-to-clipboard'
-import FeatherIcon from 'feather-icons-react'
 import ClipLoader from 'react-spinners/ClipLoader'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
@@ -9,7 +7,7 @@ import { isEmpty, map, find, defaultTo, sum } from 'lodash'
 
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
 
-import { useTranslation, Trans } from 'lib/../i18n'
+import { useTranslation } from 'lib/../i18n'
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
@@ -17,9 +15,9 @@ import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
+import { PTCopyToClipboard } from 'lib/components/PTCopyToClipboard'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
-import { poolToast } from 'lib/utils/poolToast'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
@@ -68,10 +66,6 @@ export const AccountRewards = () => {
   //     setActiveTxDripIds([])
   //   }
   // }, [txsNotCompleted])
-
-  const handleCopy = () => {
-    poolToast.success(t('copiedToClipboard'))
-  }
 
   const handleClaim = (drip) => {
     const { comptroller, updatePairs, dripTokens } = getParamsForClaim([drip.id])
@@ -347,23 +341,10 @@ export const AccountRewards = () => {
         {t('inviteFriendsAndEarnReferralRewards')}
       </div>
 
-      <CopyToClipboard
+      <PTCopyToClipboard
         text={referralAddress}
-        onCopy={handleCopy}
-      >
-        <a
-          className='flex w-full sm:w-8/12 lg:w-1/2 items-center cursor-pointer stroke-current text-inverse hover:text-white h-8 py-1 xs:mb-2 sm:mb-0 bg-primary hover:bg-highlight-2 rounded-sm trans'
-          title='Copy to clipboard'
-        >
-          <span
-            className='px-2 sm:px-6 flex-grow text-xxs xs:text-xs w-16 truncate'
-          >{shortReferralAddress}</span>
-          <FeatherIcon
-            icon='copy'
-            className='w-4 h-4 mx-1 sm:mx-6 my-1 justify-self-end'
-          />
-        </a>
-      </CopyToClipboard>
+        textShort={shortReferralAddress}
+      />
     </div>
   </>
 }

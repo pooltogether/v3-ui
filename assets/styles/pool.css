@@ -346,8 +346,10 @@ a:hover {
 }
 
 @media screen and (max-height: 460px) {
+  #manage-tickets-action-dropdown { display: none; }
   .liquidity-cap { display: none; }
   .odds-box { display: none; }
+  .ticket { display: none; }
   .pane-title { display: none; }
 }
 

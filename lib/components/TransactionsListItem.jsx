@@ -69,7 +69,7 @@ export function TransactionsListItem(props) {
 
     {tx.inWallet && <>
       <span
-        className='text-yellow'
+        className='text-orange'
       >
         {tx.inWallet && <>
           Please confirm in your wallet...

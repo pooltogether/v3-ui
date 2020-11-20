@@ -215,7 +215,7 @@ export function DepositCryptoForm(props) {
     >
       
       {overBalance ? <>
-        <div className='text-yellow my-6 flex flex-col'>
+        <div className='text-orange my-6 flex flex-col'>
           <h4
             className=''
           >

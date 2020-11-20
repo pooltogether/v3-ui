@@ -209,7 +209,7 @@ export function InstantOrScheduledForm(props) {
       }}
       className={classnames(
         'flex flex-col sm:flex-row items-center justify-between sm:w-11/12 lg:w-full mx-auto rounded-xl sm:mx-auto text-inverse',
-        'bg-yellow-darkened border-2 border-dashed border-yellow overflow-hidden py-2 xs:py-4 px-6',
+        'bg-orange-darkened border-2 border-dashed border-orange overflow-hidden py-2 xs:py-4 px-6',
         {
           'h-0': !withdrawType,
           'h-40': withdrawType,

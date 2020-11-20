@@ -70,7 +70,7 @@ export const NewPrizeCountdown = (
   const textColor = secondsRemaining >= 3600 ?
     'green' :
     secondsRemaining >= 600 ?
-      'yellow' :
+      'orange' :
       'red'
 
   const LeftSideJsx = ({ digit }) => {

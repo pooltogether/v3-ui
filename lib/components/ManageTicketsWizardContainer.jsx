@@ -7,13 +7,10 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { ExecuteWithdrawScheduledOrInstantWithFee } from 'lib/components/ExecuteWithdrawScheduledOrInstantWithFee'
 import { Meta } from 'lib/components/Meta'
 import { ManageTicketsForm } from 'lib/components/ManageTicketsForm'
-import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
 import { WithdrawInstantOrScheduled } from 'lib/components/WithdrawInstantOrScheduled'
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
-
-import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
 
 export function ManageTicketsWizardContainer(props) {
   const { t } = useTranslation()
@@ -34,9 +31,7 @@ export function ManageTicketsWizardContainer(props) {
   let underlyingCollateralDecimals = 18
   underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
   
-  const [totalWizardSteps, setTotalWizardSteps] = useState(4)
-
-  let balanceJsx = null
+  const [totalWizardSteps, setTotalWizardSteps] = useState(3)
 
   return <>
     <Meta
@@ -65,21 +60,6 @@ export function ManageTicketsWizardContainer(props) {
               {(step) => {
                 return step.isActive && <>
                   <ManageTicketsForm
-                    nextStep={step.nextStep}
-                    usersTicketBalance={usersTicketBalance}
-                    underlyingCollateralDecimals={underlyingCollateralDecimals}
-                  />
-                </>
-              }}
-            </WizardStep>
-
-            <WizardStep>
-              {(step) => {
-                return step.isActive && <>
-                  <TicketQuantityForm
-                    iconSrc={TicketIcon}
-                    balanceJsx={balanceJsx}
-                    formName={t('withdraw')}
                     nextStep={step.nextStep}
                     usersTicketBalance={usersTicketBalance}
                     underlyingCollateralDecimals={underlyingCollateralDecimals}

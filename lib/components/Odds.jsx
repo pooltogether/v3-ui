@@ -18,6 +18,7 @@ export function Odds(props) {
     sayEveryWeek,
     splitLines,
     altSplitLines,
+    previousOdds,
     style,
     timeTravelTicketSupply,
     usersBalance,
@@ -43,7 +44,7 @@ export function Odds(props) {
   }
 
   additionalQuantity = isWithdraw ?
-    Number(additionalQuantity) * - 1 :
+    Number(additionalQuantity) * -1 :
     Number(additionalQuantity)
   const hasAdditionalQuantity = !isNaN(additionalQuantity)
     && additionalQuantity !== 0
@@ -61,10 +62,14 @@ export function Odds(props) {
     result = ticketSupplyFloat / postPurchaseBalance
   }
  
+  const currentOdds = ticketSupply / usersBalance
+
   let label = showLabel && <>
     {hasAdditionalQuantity && additionalQuantity !== 0 ? <>
       {!isWithdraw && <span className='font-bold text-flashy'>{t('newOddsOfWinning')}</span>}
-      {isWithdraw && t('newOddsOfWinning')}
+      {isWithdraw && t('yourOddsWillReduceTo', {
+        currentOdds
+      })}
     </>
        :
       t('currentOddsOfWinning')

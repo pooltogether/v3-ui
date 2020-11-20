@@ -188,7 +188,7 @@ export function ExecuteWithdrawScheduledOrInstantWithFee(props) {
       })}
     </PaneTitle>
 
-    <div className='text-white bg-yellow py-4 sm:py-6 px-5 sm:px-8 rounded-xl w-full sm:w-2/3 mx-auto'>
+    <div className='text-white bg-orange py-4 sm:py-6 px-5 sm:px-8 rounded-xl w-full sm:w-2/3 mx-auto'>
       <span
         className='font-bold mt-0 mb-0 text-xs xs:text-base'
       >

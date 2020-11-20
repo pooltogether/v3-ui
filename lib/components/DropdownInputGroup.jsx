@@ -8,6 +8,8 @@ import {
   MenuItem,
 } from '@reach/menu-button'
 
+import { DEFAULT_INPUT_CLASSES } from 'lib/constants'
+
 export function DropdownInputGroup(props) {
   const {
     id,
@@ -54,18 +56,24 @@ export function DropdownInputGroup(props) {
 
   return <>
     <div
+      id={id}
       className='fieldset'
     >
-      <label>
-        {label}
-      </label>
+      <div className='flex justify-between'>
+        <label>
+          {label}
+        </label>
+      </div>
       <Menu>
         {({ isExpanded }) => (
           <>
             <MenuButton
               className={classnames(
+                'text-xxs xs:text-sm sm:text-xl lg:text-2xl',
+                'mb-2 lg:mb-2',
+                'rounded-full',
+                DEFAULT_INPUT_CLASSES,
                 className,
-                'w-full text-xxs xs:text-sm sm:text-base lg:text-xl bg-darkened border rounded-full inline-flex px-8 py-3 items-center justify-between trans font-bold',
                 {
                   [inactiveTextColorClasses]: !isExpanded,
                   [activeTextColorClasses]: isExpanded,
