@@ -43,11 +43,11 @@ export function ManageTicketsWizardContainer(props) {
     >
       {
         (wizard) => {
-          const { activeStepIndex, moveToStep } = wizard
+          const { activeStepIndex, previousStep, moveToStep } = wizard
 
           return <WizardLayout
             currentWizardStep={activeStepIndex + 1}
-            handlePreviousStep={back}
+            handlePreviousStep={previousStep}
             moveToStep={moveToStep}
             totalWizardSteps={totalWizardSteps}
           >
@@ -70,7 +70,7 @@ export function ManageTicketsWizardContainer(props) {
                     pool={pool}
                     quantity={quantity}
                     nextStep={step.nextStep}
-                    previousStep={back}
+                    previousStep={step.previousStep}
                     setTotalWizardSteps={setTotalWizardSteps}
                   />
                 </>
@@ -84,7 +84,7 @@ export function ManageTicketsWizardContainer(props) {
                     pool={pool}
                     quantity={quantity}
                     nextStep={step.nextStep}
-                    previousStep={back}
+                    previousStep={step.previousStep}
                     setTotalWizardSteps={setTotalWizardSteps}
                   />
                 </>
@@ -97,7 +97,7 @@ export function ManageTicketsWizardContainer(props) {
                   return step.isActive && <>
                     <ExecuteWithdrawInstantWithFee
                       nextStep={step.nextStep}
-                      previousStep={back}
+                      previousStep={step.previousStep}
                     />
                   </>
                 }}
