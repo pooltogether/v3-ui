@@ -19,8 +19,7 @@ export function ProfileAvatar(props) {
 
   const [profile, setProfile] = useState()
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress } = authControllerContext
+  const { usersAddress } = useContext(AuthControllerContext)
 
   const diameter = xl ? 40 : 20
 

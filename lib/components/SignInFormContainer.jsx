@@ -12,13 +12,13 @@ import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export function SignInFormContainer(props) {
   const { t } = useTranslation()
+  
   const router = useRouter()
   const showSelectMenu = router.query.showSelectMenu
 
-  const walletContext = useContext(WalletContext)
-  const { handleLoadOnboard } = walletContext
+  const { handleLoadOnboard } = useContext(WalletContext)
 
-  const authControllerContext = useContext(AuthControllerContext)
+  const { connectWallet } = useContext(AuthControllerContext)
 
   // lazy load onboardjs when sign-in is shown
   useEffect(() => {
@@ -30,7 +30,7 @@ export function SignInFormContainer(props) {
         queryParamUpdater.remove(router, 'signIn')
       }
 
-      authControllerContext.connectWallet(postSignInCallback)
+      connectWallet(postSignInCallback)
     }
   }, [])
   

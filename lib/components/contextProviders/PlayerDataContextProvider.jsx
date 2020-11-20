@@ -14,11 +14,8 @@ import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
 export const PlayerDataContext = React.createContext()
 
 export function PlayerDataContextProvider(props) {
-  const authControllerContext = useContext(AuthControllerContext)
-  const { chainId } = authControllerContext
-
-  const generalContext = useContext(GeneralContext)
-  const { paused } = generalContext
+  const { chainId } = useContext(AuthControllerContext)
+  const { paused } = useContext(GeneralContext)
 
   const router = useRouter()
   const playerAddress = router.query?.playerAddress?.toLowerCase()

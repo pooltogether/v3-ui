@@ -17,7 +17,7 @@ export function SignInForm(props) {
     postSignInCallback
   } = props
 
-  const authControllerContext = useContext(AuthControllerContext)
+  const { connectWallet } = useContext(AuthControllerContext)
 
   // const onSubmit = (values) => {
   //   if (formState.isValid) {
@@ -46,7 +46,7 @@ export function SignInForm(props) {
         textSize='lg'
         onClick={(e) => {
           e.preventDefault()
-          authControllerContext.connectWallet(postSignInCallback)
+          connectWallet(postSignInCallback)
         }}
       >
         {t('connectWallet')}
@@ -117,7 +117,7 @@ export function SignInForm(props) {
       <button
         onClick={(e) => {
           e.preventDefault()
-          authControllerContext.connectWallet(postSignInCallback)
+          connectWallet(postSignInCallback)
         }}
         className='font-bold inline mb-2 py-2 text-sm sm:text-base text-primary-soft hover:text-primary trans border-b-2 border-transparent hover:border-secondary'
       >

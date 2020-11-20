@@ -57,8 +57,7 @@ export function Layout(props) {
   const deposit = /deposit/.test(router.asPath)
   const manage = /\/account\/pools\/[A-Za-z-]*\/manage-tickets/.test(router.asPath)
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { supportedNetwork, usersAddress, chainId } = authControllerContext
+  const { usersAddress, chainId } = useContext(AuthControllerContext)
 
   // this is useful for showing a big banner at the top that catches
   // people's attention

@@ -21,11 +21,8 @@ export function WithdrawSponsorshipTxButton(props) {
     tickerUpcased,
   } = props
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress, provider } = authControllerContext
-
-  const poolData = useContext(PoolDataContext)
-  const { pool, refetchSponsorQuery } = poolData
+  const { usersAddress, provider } = useContext(AuthControllerContext)
+  const { pool } = useContext(PoolDataContext)
 
   const poolAddress = pool?.poolAddress
   const sponsorshipAddress = pool?.prizeStrategy?.singleRandomWinner?.sponsorship?.id
@@ -44,7 +41,7 @@ export function WithdrawSponsorshipTxButton(props) {
   // const txName = `Withdraw Sponsorship (${quantity} ${tickerUpcased})`
   const method = 'withdrawInstantlyFrom'
 
-  const [sendTx] = useSendTransaction(txName, refetchSponsorQuery)
+  const [sendTx] = useSendTransaction(txName)
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions

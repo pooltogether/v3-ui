@@ -13,8 +13,7 @@ import { WalletInfo } from 'lib/components/WalletInfo'
 export function NavAccount(props) {
   const { openTransactions, closeTransactions, showTransactionsDialog } = props
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress } = authControllerContext
+  const { usersAddress } = useContext(AuthControllerContext)
 
   return <>
     {usersAddress && <>

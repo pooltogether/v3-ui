@@ -17,8 +17,7 @@ export function OrderComplete(props) {
   const quantity = router.query.quantity
   let prevBalance = router.query.prevBalance
 
-  const confettiContext = useContext(ConfettiContext)
-  const { confetti } = confettiContext
+  const { confetti } = useContext(ConfettiContext)
 
   const poolData = useContext(PoolDataContext)
   const { pool, usersTicketBalance } = poolData

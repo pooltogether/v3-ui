@@ -34,8 +34,7 @@ const readTransactions = (chainId, usersAddress, provider) => {
 }
 
 export function TransactionStatusChecker(props) {
-  const authControllerContext = useContext(AuthControllerContext)
-  const { chainId, usersAddress, provider } = authControllerContext
+  const { chainId, usersAddress, provider } = useContext(AuthControllerContext)
 
   useEffect(() => {
     if (chainId && usersAddress && provider) {

@@ -11,8 +11,7 @@ const MILLISECONDS_BEFORE_REDIRECT = 2000
 export function AccountLoggedIn(props) {
   const router = useRouter()
 
-  const authDataContext = useContext(AuthControllerContext)
-  const { usersAddress } = authDataContext
+  const { usersAddress } = useContext(AuthControllerContext)
 
   const selectedWallet = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
 

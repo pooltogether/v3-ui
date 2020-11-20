@@ -28,8 +28,7 @@ export function WalletContextProvider(props) {
   
   const [onboard, setOnboard] = useState(null)
 
-  const magicContext = useContext(MagicContext)
-  const { magic } = magicContext
+  const { magic } = useContext(MagicContext)
 
   const disconnectWallet = () => {
     if (onboard) {

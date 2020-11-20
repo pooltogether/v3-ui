@@ -21,8 +21,7 @@ export const PrizePlayerListing = (
 
   const router = useRouter()
 
-  const generalContext = useContext(GeneralContext)
-  const { paused } = generalContext
+  const { paused } = useContext(GeneralContext)
 
   const playerCount = pool?.playerCount
 

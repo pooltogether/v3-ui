@@ -33,11 +33,8 @@ export function DepositCryptoForm(props) {
   const router = useRouter()
   const quantity = router.query.quantity
   
-  const authControllerContext = useContext(AuthControllerContext)
-  const { chainId, usersAddress, provider } = authControllerContext
-
-  const poolData = useContext(PoolDataContext)
-  const { pool, usersChainData } = poolData
+  const { usersAddress, provider } = useContext(AuthControllerContext)
+  const { pool, usersChainData } = useContext(PoolDataContext)
 
   const decimals = pool?.underlyingCollateralDecimals
   const tokenAddress = pool?.underlyingCollateralToken

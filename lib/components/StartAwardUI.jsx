@@ -13,11 +13,8 @@ import { transactionsQuery } from 'lib/queries/transactionQueries'
 export function StartAwardUI(props) {
   const { t } = useTranslation()
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { provider, usersAddress } = authControllerContext
-
-  const poolDataContext = useContext(PoolDataContext)
-  const { pool } = poolDataContext
+  const { provider, usersAddress } = useContext(AuthControllerContext)
+  const { pool } = useContext(PoolDataContext)
 
   const canStartAward = pool?.canStartAward
   const prizeStrategyAddress = pool?.prizeStrategy?.id

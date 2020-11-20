@@ -24,15 +24,12 @@ export const ManageUI = (
 ) => {
   const { t } = useTranslation()
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress } = authControllerContext
-  
-  const poolDataContext = useContext(PoolDataContext)
+  const { usersAddress } = useContext(AuthControllerContext)
   const {
     loading,
     contractAddresses,
     pool,
-  } = poolDataContext
+  } = useContext(PoolDataContext)
 
   if (loading) {
     return <IndexUILoader />

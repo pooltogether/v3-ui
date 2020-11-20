@@ -35,11 +35,8 @@ export function DepositWizardContainer(props) {
     initialStepIndex = 2
   }
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress } = authControllerContext
-
-  const poolDataContext = useContext(PoolDataContext)
-  const { pool } = poolDataContext
+  const { usersAddress } = useContext(AuthControllerContext)
+  const { pool } = useContext(PoolDataContext)
 
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
   

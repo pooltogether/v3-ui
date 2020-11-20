@@ -14,8 +14,7 @@ export const DripQueries = (
 ) => {
   const { pool, children } = props
 
-  const generalContext = useContext(GeneralContext)
-  const { paused } = generalContext
+  const { paused } = useContext(GeneralContext)
 
   let graphDripData
 

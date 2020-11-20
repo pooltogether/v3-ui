@@ -20,8 +20,7 @@ export function TimelockedBalanceUI(props) {
     playerData,
   } = props
 
-  const authContext = useContext(AuthControllerContext)
-  const { provider, usersAddress } = authContext
+  const { provider, usersAddress } = useContext(AuthControllerContext)
   
   const poolAddress = pool?.poolAddress
 

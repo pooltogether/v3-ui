@@ -8,8 +8,7 @@ import { PaneTitle } from 'lib/components/PaneTitle'
 export function WithdrawComplete(props) {
   const { t } = useTranslation()
 
-  const poolData = useContext(PoolDataContext)
-  const { pool } = poolData
+  const { pool } = useContext(PoolDataContext)
 
   // TODO: show what happened here!
   // 3. your new odds are:

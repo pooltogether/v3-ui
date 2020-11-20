@@ -42,8 +42,7 @@ export function DateValueLineGraph(props) {
     scroll: true,
   })
 
-  const themeContext = useContext(ThemeContext)
-  const theme = themeContext.theme
+  const { theme } = useContext(ThemeContext)
 
   const circleColor = theme === 'light' ? '#401C94' : '#ffffff'
 

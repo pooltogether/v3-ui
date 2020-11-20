@@ -10,8 +10,7 @@ export function GeneralContextProvider(props) {
     return null
   }
   
-  const authControllerContext = useContext(AuthControllerContext)
-  const { changingNetwork, supportedNetwork } = authControllerContext
+  const { changingNetwork, supportedNetwork } = useContext(AuthControllerContext)
 
   const windowFocused = true || useWindowFocus()
   const paused = !windowFocused || !supportedNetwork || changingNetwork

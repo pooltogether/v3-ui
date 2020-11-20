@@ -18,8 +18,6 @@ export function WizardLayout(props) {
     children
   } = props
 
-  const poolData = useContext(PoolDataContext)
-
   const router = useRouter()
   const action = router.asPath.match('withdraw') ? 'withdraw' : 'deposit'
 
@@ -149,23 +147,6 @@ export function WizardLayout(props) {
         {children}
       </div>
 
-      {/* <div
-        className='fixed b-0 l-0 r-0 w-full px-4 pb-16 flex flex-col items-center justify-center h-20'
-      >
-       <div className='mb-2'>
-          <PoolCurrencyIcon
-            pool={poolData.pool}
-          />
-        </div>
-
-         <div
-          className='text-inverse bg-primary rounded-lg px-2 uppercase text-xxs sm:text-sm font-bold'
-        >
-          {poolData.pool && <>
-            {poolData.pool.name}
-          </>}
-        </div> 
-      </div> */}
     </motion.div>
   </>
 }

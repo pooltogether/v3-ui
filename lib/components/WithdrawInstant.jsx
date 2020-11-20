@@ -7,7 +7,7 @@ import {
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
-import { ExecuteWithdrawInstantNoFee } from 'lib/components/ExecuteWithdrawInstantNoFee'
+import { ConfirmWithdrawInstantNoFee } from 'lib/components/ConfirmWithdrawInstantNoFee'
 import { InstantForm } from 'lib/components/InstantForm'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { fetchExitFees } from 'lib/utils/fetchExitFees'
@@ -24,11 +24,8 @@ export function WithdrawInstant(props) {
     setTotalWizardSteps,
   } = props
 
-  const generalContext = useContext(GeneralContext)
-  const { paused } = generalContext
-
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress, networkName } = authControllerContext
+  const { paused } = useContext(GeneralContext)
+  const { usersAddress, networkName } = useContext(AuthControllerContext)
 
   const poolAddress = pool?.poolAddress
   const ticketAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
@@ -106,7 +103,7 @@ export function WithdrawInstant(props) {
           nextStep={nextStep}
           quantity={quantity}
         /> :
-        <ExecuteWithdrawInstantNoFee
+        <ConfirmWithdrawInstantNoFee
           nextStep={nextStep}
           previousStep={previousStep}
         />

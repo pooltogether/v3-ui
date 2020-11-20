@@ -8,8 +8,7 @@ import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 export function NetworkText(props) {
   const { openTransactions } = props
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { supportedNetwork, chainId } = authControllerContext
+  const { supportedNetwork, chainId } = useContext(AuthControllerContext)
 
   let networkName = null
   if (chainId && supportedNetwork) {

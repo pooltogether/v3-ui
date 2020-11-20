@@ -32,7 +32,6 @@ export function AuthControllerContextProvider(props) {
 
   const [changingNetwork, setChangingNetwork] = useState(false)
 
-  const walletContext = useContext(WalletContext)
   const {
     onboard,
     onboardAddress,
@@ -42,10 +41,9 @@ export function AuthControllerContextProvider(props) {
     onboardWallet,
     reconnectWallet,
     connectWallet,
-  } = walletContext
+  } = useContext(WalletContext)
 
-  const magicContext = useContext(MagicContext)
-  const { magic } = magicContext
+  const { address, magic, signIn, signedIn, signOut: magicSignOut } = useContext(MagicContext)
  
   // TODO: extend this to also pull the eth balance from the magic session
   // may need state / ethereum event listener
@@ -58,7 +56,7 @@ export function AuthControllerContextProvider(props) {
   // }, [])
 
   let walletName = 'Unknown'
-  if (magic && magicContext.signedIn) {
+  if (magic && signedIn) {
     walletName = 'Magic'
   } else if (onboardWallet) {
     walletName = onboardWallet.name
@@ -72,11 +70,11 @@ export function AuthControllerContextProvider(props) {
 
   useEffect(() => {
     let provider = onboardProvider
-    // if (!provider && magicContext.signedIn) {
-    //   provider = magicContext.provider
+    // if (!provider && signedIn) {
+    //   provider = provider
     // }
     setProvider(provider)
-  }, [onboardProvider, magicContext.signedIn])
+  }, [onboardProvider, signedIn])
 
   useEffect(() => {
     const storeChainIdCookie = async (newChainId) => {
@@ -116,12 +114,12 @@ export function AuthControllerContextProvider(props) {
       usersAddress = onboardAddress
     }
 
-    if (!usersAddress && magicContext.address) {
-      usersAddress = magicContext.address
+    if (!usersAddress && address) {
+      usersAddress = address
     }
 
     setUsersAddress(usersAddress)
-  }, [magicContext.address, onboardAddress])
+  }, [address, onboardAddress])
 
   const postDisconnectRedirect = () => {
     queryParamUpdater.add(router, { signIn: '1' })
@@ -132,14 +130,14 @@ export function AuthControllerContextProvider(props) {
       e.preventDefault()
     }
 
-    // magicContext.signOut()
+    // magicSignOut()
     walletContext.disconnectWallet()
 
     postDisconnectRedirect()
   }
 
   const signInMagic = async (formEmail, postSignInCallback) => {
-    magicContext.signIn(formEmail, postSignInCallback)
+    signIn(formEmail, postSignInCallback)
     walletContext.disconnectWallet()
   }
 

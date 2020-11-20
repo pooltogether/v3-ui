@@ -21,11 +21,8 @@ export function ApproveSponsorshipTxButton(props) {
     tickerUpcased,
   } = props
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress, provider } = authControllerContext
-
-  const poolData = useContext(PoolDataContext)
-  const { pool } = poolData
+  const { usersAddress, provider } = useContext(AuthControllerContext)
+  const { pool } = useContext(PoolDataContext)
 
   const poolAddress = pool?.poolAddress
   const tokenAddress = pool?.underlyingCollateralToken

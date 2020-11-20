@@ -16,12 +16,8 @@ export const IndexUI = (
   props,
 ) => {
   const { t } = useTranslation()
-  const poolDataContext = useContext(PoolDataContext)
-  const {
-    loading,
-    pools,
-    // pool,
-  } = poolDataContext
+  
+  const { loading, pools } = useContext(PoolDataContext)
 
   let totalPrizes = ethers.utils.bigNumberify(0)
   pools?.forEach(_pool => {

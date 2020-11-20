@@ -14,15 +14,14 @@ import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
-import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
-export function ExecuteWithdrawInstantNoFee(props) {
+export function ConfirmWithdrawInstantNoFee(props) {
   const { t } = useTranslation()
 
   const router = useRouter()
   const quantity = router.query.quantity
 
-  const { nextStep, previousStep } = props
+  const { previousStep } = props
   
   const { usersAddress, provider } = useContext(AuthControllerContext)
   const { pool, usersTicketBalance, refetchPlayerQuery } = useContext(PoolDataContext)
@@ -52,6 +51,10 @@ export function ExecuteWithdrawInstantNoFee(props) {
 
       // there should be no exit fee when we do an instant no-fee withdrawal
       const maxExitFee = '0'
+
+      console.log(quantity)
+      console.log(Number(decimals))
+      console.log(maxExitFee)
 
       const params = [
         usersAddress,

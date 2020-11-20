@@ -19,8 +19,7 @@ export function WrongNetworkModal(props) {
 
   const [bypassed, setBypassed] = useState(false)
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { networkName, supportedNetwork } = authControllerContext
+  const { networkName, supportedNetwork } = useContext(AuthControllerContext)
 
   let supportedNetworkNames = SUPPORTED_CHAIN_IDS.map(_chainId => 
     chainIdToNetworkName(_chainId)

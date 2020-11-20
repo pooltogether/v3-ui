@@ -6,8 +6,7 @@
 // import { networkBgColorClassname } from 'lib/utils/networkColorClassnames'
 
 // export function StaticNetworkNotificationBanner(props) {
-//   const authControllerContext = useContext(AuthControllerContext)
-//   const { supportedNetwork, chainId, usersAddress } = authControllerContext
+//   const { supportedNetwork, chainId, usersAddress } = useContext(AuthControllerContext)
 
 //   // if (!usersAddress) {
 //   //   return null

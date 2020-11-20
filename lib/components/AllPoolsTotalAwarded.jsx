@@ -11,8 +11,7 @@ export const AllPoolsTotalAwarded = (
 ) => {
   const { t } = useTranslation()
 
-  const poolData = useContext(PoolDataContext)
-  const { pools } = poolData
+  const { pools } = useContext(PoolDataContext)
 
   let cumulativePrizeNetAllPools = ethers.utils.bigNumberify(0)
   pools?.forEach(_pool => {

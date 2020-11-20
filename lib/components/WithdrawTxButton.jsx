@@ -8,16 +8,15 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
-import { PTHint } from 'lib/components/PTHint'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
-export function DepositSponsorshipTxButton(props) {
+export function WithdrawTxButton(props) {
   const { t } = useTranslation()
   
   const {
-    quantity,
     quantityBN,
+    quantity,
     needsApproval,
     tickerUpcased,
   } = props
@@ -26,36 +25,42 @@ export function DepositSponsorshipTxButton(props) {
   const { pool } = useContext(PoolDataContext)
 
   const poolAddress = pool?.poolAddress
-  const sponsorshipAddress = pool?.prizeStrategy?.singleRandomWinner?.sponsorship?.id
+  
 
 
 
   const [txId, setTxId] = useState()
 
-  const txName = t(`depositAmountTickerToSponsorship`, {
+  // const txName = `Withdraw Sponsorship (${quantity} ${tickerUpcased})`
+  const txName = t(`withdrawSponsorshipAmountTicker`, {
     amount: quantity,
     ticker: tickerUpcased
   })
-  const method = 'depositTo'
 
-  const [sendTx] = useSendTransaction(txName)
+  // const txName = `Withdraw Sponsorship (${quantity} ${tickerUpcased})`
+  const method = 'withdrawInstantlyFrom'
+
+  const [sendTx] = useSendTransaction(txName, refetchSponsorQuery)
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
   const tx = transactions?.find((tx) => tx.id === txId)
 
-  const depositSponsorshipTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)
+  const withdrawSponsorshipTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)
 
 
 
-  const handleDepositSponsorshipClick = async (e) => {
+  const handleWithdrawSponsorshipClick = async (e) => {
     e.preventDefault()
+
+    // there should be no exit fee when withdrawing sponsorship
+    const maxExitFee = '0'
 
     const params = [
       usersAddress,
       quantityBN,
       sponsorshipAddress,
-      ethers.constants.AddressZero
+      ethers.utils.parseEther(maxExitFee),
     ]
 
     const id = sendTx(
@@ -71,31 +76,15 @@ export function DepositSponsorshipTxButton(props) {
   }
 
 
-  const depositSponsorshipButtonClassName = needsApproval ? 'w-full' : 'w-48-percent'
-
-  const depositSponsorshipButton = <Button
-    noAnim
-    textSize='lg'
-    onClick={handleDepositSponsorshipClick}
-    disabled={!quantity || needsApproval || depositSponsorshipTxInFlight}
-    className={depositSponsorshipButtonClassName}
-  >
-    {t('depositSponsorship')}
-  </Button>
-
   return <>
-    {needsApproval ? <>
-      <PTHint
-        title='Allowance'
-        tip={<>
-          <div className='my-2 text-xs sm:text-sm'>
-            {t('needToProvideEnoughAllowance')}
-          </div>
-        </>}
-        className='w-48-percent'
-      >
-        {depositSponsorshipButton}
-      </PTHint>
-    </> : depositSponsorshipButton}
+    <Button
+      noAnim
+      textSize='lg'
+      onClick={handleWithdrawSponsorshipClick}
+      disabled={!quantity || needsApproval || withdrawSponsorshipTxInFlight}
+      className={'w-full'}
+    >
+      Withdraw sponsorship
+    </Button>
   </>
 }

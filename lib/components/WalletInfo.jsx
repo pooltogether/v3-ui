@@ -11,8 +11,7 @@ export function WalletInfo(props) {
   const { t } = useTranslation()
   const { closeTransactions } = props
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress, chainId, walletName } = authControllerContext
+  const { usersAddress, chainId, walletName } = useContext(AuthControllerContext)
 
   let content = null
   let networkName = null

@@ -19,8 +19,7 @@ export const TicketsSoldGraph = (
 ) => {
   const { pool } = props
 
-  const generalContext = useContext(GeneralContext)
-  const { paused } = generalContext
+  const { paused } = useContext(GeneralContext)
 
   const { loading, error, data } = useQuery(poolPrizesQuery, {
     variables: {

@@ -8,8 +8,7 @@ const { getProfile } = require('3box/lib/api')
 export function ProfileName(props) {
   const [profile, setProfile] = useState()
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress } = authControllerContext
+  const { usersAddress } = useContext(AuthControllerContext)
 
   useEffect(() => {
     const get3BoxProfile = async () => {

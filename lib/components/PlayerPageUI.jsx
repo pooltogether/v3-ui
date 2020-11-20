@@ -39,12 +39,8 @@ export function PlayerPageUI(props) {
     }
   }, [playerAddress])
 
-  const playerDataContext = useContext(PlayerDataContext)
-  const { playerData } = playerDataContext
-
-  const poolData = useContext(PoolDataContext)
-  const { pools } = poolData
-
+  const { playerData } = useContext(PlayerDataContext)
+  const { pools } = useContext(PoolDataContext)
   
   return <>
     <Meta

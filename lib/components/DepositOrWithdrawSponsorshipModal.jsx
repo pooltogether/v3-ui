@@ -27,17 +27,14 @@ export function DepositOrWithdrawSponsorshipModal(props) {
 
   const [needsApproval, setNeedsApproval] = useState(null)
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { usersAddress } = authControllerContext
-
-  const poolData = useContext(PoolDataContext)
+  const { usersAddress } = useContext(AuthControllerContext)
   const {
     pool,
     usersSponsorshipBalance,
     usersSponsorshipBalanceBN,
     usersChainData
-  } = poolData
-  
+  } = useContext(PoolDataContext)
+
   
   const {
     register,

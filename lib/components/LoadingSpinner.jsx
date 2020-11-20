@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
 export const LoadingSpinner = ({}) => {
-  const theme = useContext(ThemeContext).theme
+  const { theme } = useContext(ThemeContext)
 
   const lightClass = theme === 'dark' && 'white'
 

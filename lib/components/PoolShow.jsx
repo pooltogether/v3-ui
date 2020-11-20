@@ -441,8 +441,8 @@ export const PoolShow = (
             <div className='m-2'>
               <ButtonLink
                 secondary
-                href='/pools/[symbol]'
-                as={`/pools/${symbol}`}
+                href='/pools/[symbol]/manage'
+                as={`/pools/${symbol}/manage`}
               >
                 {t('managePool')}
               </ButtonLink>

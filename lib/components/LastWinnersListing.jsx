@@ -21,10 +21,8 @@ export const LastWinnersListing = (
   const { pool } = props
 
   const decimals = pool?.underlyingCollateralDecimals
-  const ticker = pool?.underlyingCollateralSymbol
 
-  const generalContext = useContext(GeneralContext)
-  const { paused } = generalContext
+  const { paused } = useContext(GeneralContext)
 
   const { loading, error, data } = useQuery(poolPrizesQuery, {
     variables: {

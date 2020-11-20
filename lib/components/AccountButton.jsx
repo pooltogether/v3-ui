@@ -13,8 +13,7 @@ import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 export function AccountButton(props) {
   const { openTransactions } = props
 
-  const authControllerContext = useContext(AuthControllerContext)
-  const { ethBalance } = authControllerContext
+  const { ethBalance } = useContext(AuthControllerContext)
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions

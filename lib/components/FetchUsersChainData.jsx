@@ -20,8 +20,7 @@ export function FetchUsersChainData(props) {
     contractAddresses,
   } = props
 
-  const generalContext = useContext(GeneralContext)
-  const { paused } = generalContext
+  const { paused } = useContext(GeneralContext)
 
   const poolAddress = pool?.poolAddress
 
