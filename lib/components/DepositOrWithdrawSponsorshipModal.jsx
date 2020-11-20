@@ -40,10 +40,8 @@ export function DepositOrWithdrawSponsorshipModal(props) {
   
   
   const {
-    handleSubmit,
     register,
     errors,
-    getValues,
     watch,
     setValue
   } = useForm({
@@ -58,12 +56,12 @@ export function DepositOrWithdrawSponsorshipModal(props) {
     usersTokenAllowance,
   } = usersDataForPool(pool, usersChainData)
 
-  const quantity = getValues('quantity')
+  const quantity = watch('quantity')
 
   let quantityBN = ethers.utils.bigNumberify(0)
   if (decimals) {
     quantityBN = ethers.utils.parseUnits(
-      getValues('quantity') || '0',
+      quantity || '0',
       Number(decimals)
     )
   }

@@ -22,9 +22,6 @@ export default function PrizeShowPage(props) {
   const { paused } = useContext(GeneralContext)
   const { pool, pools } = useContext(PoolDataContext)
 
-  // We use the pre-existing / current pool information we've downloaded from the Graph to learn
-  // if this is a historical prize or an upcoming prize
-  const isCurrentPrize = Number(pool?.prizesCount) + 1 === Number(prizeNumber)
   const poolAddress = pool?.poolAddress
 
 
@@ -33,7 +30,7 @@ export default function PrizeShowPage(props) {
     variables: {
       prizeId
     },
-    skip: !poolAddress || !prizeNumber || isCurrentPrize,
+    skip: !poolAddress || !prizeNumber,// || isCurrentPrize,
     fetchPolicy: 'network-only',
     pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
   })
@@ -44,8 +41,7 @@ export default function PrizeShowPage(props) {
   
   let prize = data?.prize
 
-
-  if (isCurrentPrize) {
+  if (!prize?.awardedBlock) {
     prize = {
       awardedBlock: null,
       net: pool?.prizeAmountUSD

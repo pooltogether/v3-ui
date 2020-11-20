@@ -60,6 +60,7 @@ export const CONTRACT_ADDRESSES = {
 }
 
 export const TOKEN_IMAGES = {
+  '0x9d942bd31169ed25a1ca78c776dab92de104e50e': '/tokens/0x9d942bd31169ed25a1ca78c776dab92de104e50e.png',
   '0x6b175474e89094c44da98b954eedeac495271d0f': '/tokens/dai-new-transparent.png',
   '0x06f65b8cfcb13a9fe37d836fe9708da38ecb29b2': 'https://assets.coingecko.com/coins/images/11521/thumb/FAME.png?1590622461',
   '0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b': 'https://assets.coingecko.com/coins/images/12465/thumb/defi_pulse_index_set.png',
@@ -89,6 +90,22 @@ export const TOKEN_IMAGES = {
   '0xd291e7a03283640fdc51b121ac401383a46cc623': 'https://assets.coingecko.com/coins/images/12900/thumb/rgt_logo.png?1603340632',
 }
 
+export const TOKEN_VALUES = {
+  '0x9d942bd31169ed25a1ca78c776dab92de104e50e': 279.31
+  // '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
+  // '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
+}
+
+export const HISTORICAL_TOKEN_VALUES = {
+  prizeNumber: {
+    1: {
+      '0x06f65b8cfcb13a9fe37d836fe9708da38ecb29b2': 970.23,
+      '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
+      '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
+    }
+  }
+}
+
 export const V2_CONTRACT_ADDRESSES = [
   '0x29fe7D60DdF151E5b52e5FAB4f1325da6b2bD958'.toLowerCase(),
   '0x0034Ea9808E620A0EF79261c51AF20614B742B24'.toLowerCase(),
@@ -107,21 +124,6 @@ export const QUERY_KEYS = {
   ethereumGenericQuery: 'ethereumGenericQuery',
   poolQuery: 'poolQuery',
   uniswapTokensQuery: 'uniswapTokensQuery',
-}
-
-export const TOKEN_VALUES = {
-  // '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
-  // '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
-}
-
-export const HISTORICAL_TOKEN_VALUES = {
-  prizeNumber: {
-    1: {
-      '0x06f65b8cfcb13a9fe37d836fe9708da38ecb29b2': 970.23,
-      '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
-      '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
-    }
-  }
 }
 
 export const POOLTOGETHER_GRAPH_URIS = {
