@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 export const uniswapTokensQuery = (number) => {
   let blockFilter = ''
 
-  if (number) {
+  if (number > 0) {
     blockFilter = `, block: { number: ${number} }`
   } 
 

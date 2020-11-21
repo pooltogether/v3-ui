@@ -24,18 +24,13 @@ export function PlayerPageUI(props) {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    try {
-      ethers.utils.getAddress(playerAddress)
-      setError(false)
-    } catch (e) {
-      // this setTimeout is to prevent the flashing of the error msg when the component is unloading
-      // and because of that we don't have a playerAddress
-      setTimeout(() => {
-        console.error(e)
-        if (!error && e.message.match('invalid address')) {
-          setError('Incorrectly formatted Ethereum address!')
-        }
-      }, 1000)
+    if (playerAddress) {
+      try {
+        ethers.utils.getAddress(playerAddress)
+        setError(false)
+      } catch (e) {
+        setError('Incorrectly formatted Ethereum address!')
+      }
     }
   }, [playerAddress])
 
@@ -60,7 +55,7 @@ export function PlayerPageUI(props) {
         {
           href: '/players/[playerAddress]',
           as: `/players/${playerAddress}`,
-          name: `${t('player')} ${playerAddress ? shorten(playerAddress) : ''}`
+          name: `${t('player')} ${playerAddress ? playerAddress : ''}`
         }
       ]}
     />

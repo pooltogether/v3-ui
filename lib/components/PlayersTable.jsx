@@ -23,7 +23,7 @@ const playerLink = (t, player) => {
   </Link>
 }
 
-const formatPlayerObject = (t, pool, player, timeTravelTicketSupply, winnersAddress) => {
+const formatPlayerObject = (t, pool, player, winnersAddress) => {
   const decimals = pool.underlyingCollateralDecimals
   const balance = player.balance && decimals ?
     ethers.utils.formatUnits(
@@ -48,7 +48,7 @@ const formatPlayerObject = (t, pool, player, timeTravelTicketSupply, winnersAddr
     )}`,
     address,
     odds: <Odds
-      timeTravelTicketSupply={timeTravelTicketSupply}
+      timeTravelTicketSupply={pool.ticketSupply}
       pool={pool}
       usersBalance={balance}
     />,
@@ -66,7 +66,7 @@ export const PlayersTable = (
     players = props.players
   }
 
-  const { timeTravelTicketSupply, pool, prize } = props
+  const { pool, prize } = props
 
   const columns = React.useMemo(() => {
     return [
@@ -92,16 +92,17 @@ export const PlayersTable = (
 
   const winnersAddress = prize.winners?.[0]
 
-  const data = React.useMemo(() => {
-    return players.map(player => formatPlayerObject(
-      t,
-      pool,
-      player,
-      timeTravelTicketSupply,
-      winnersAddress
-    ))
-  }, [players, pool, timeTravelTicketSupply])
-  
+  let data = React.useMemo(() => {
+    return players.map(player => {
+      return formatPlayerObject(
+        t,
+        pool,
+        player,
+        winnersAddress
+      )
+    })
+  }, [players, pool, pool?.ticketSupply])
+
   const tableInstance = useTable({
     columns,
     data

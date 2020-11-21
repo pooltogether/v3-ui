@@ -1,9 +1,9 @@
 import { useContext } from 'react'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePoolQuery } from 'lib/hooks/usePoolQuery'
+import { useTimeTravelPoolQuery } from 'lib/hooks/useTimeTravelPoolQuery'
 
-export function PoolQuery(props) {
+export function TimeTravelPoolQuery(props) {
   const {
     blockNumber,
     children,
@@ -12,7 +12,7 @@ export function PoolQuery(props) {
 
   const { chainId } = useContext(AuthControllerContext)
 
-  const { status, data, error, isFetching } = usePoolQuery(chainId, poolAddress, blockNumber)
+  const { status, data, error, isFetching } = useTimeTravelPoolQuery(chainId, poolAddress, blockNumber)
 
   if (error) {
     console.warn(error)

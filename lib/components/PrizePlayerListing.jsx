@@ -1,14 +1,14 @@
-import React, { useContext } from 'react'
-import { useQuery } from '@apollo/client'
+import React from 'react'
 import { useRouter } from 'next/router'
 
-import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
+import { PLAYER_PAGE_SIZE } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
-import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PaginationUI } from 'lib/components/PaginationUI'
 import { PlayersTable } from 'lib/components/PlayersTable'
-import { prizePlayersQuery } from 'lib/queries/prizePlayersQuery'
+// import { prizePlayersQuery } from 'lib/queries/prizePlayersQuery'
+// import { timeTravelPrizePlayersQuery } from 'lib/queries/timeTravelPrizePlayersQuery'
+import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import PlayersIcon from 'assets/images/players@2x.png'
@@ -17,57 +17,16 @@ export const PrizePlayerListing = (
   props,
 ) => {
   const { t } = useTranslation()
-  const { pool, prize } = props
-
-  const router = useRouter()
-
-  const generalContext = useContext(GeneralContext)
-  const { paused } = generalContext
+  const { isFetching, players, pool, prize } = props
 
   const playerCount = pool?.playerCount
 
+  const router = useRouter()
   const prizeNumber = router?.query?.prizeNumber
-  const pageSize = 10
   const page = router?.query?.page ?
     parseInt(router.query.page, 10) :
     1
-  const skip = (page - 1) * pageSize
-  const pages = Math.ceil(Number(playerCount / pageSize, 10))
-
-  let blockNumber
-  if (prize?.awardedBlock) {
-    blockNumber = prize?.awardedBlock - 1
-  }
-
-  const timeTravelPlayersQuery = prizePlayersQuery(blockNumber)
-
-  const variables = {
-    prizePoolAddress: pool?.poolAddress,
-    first: pageSize,
-    skip
-  }
-
-  let fetchAndPoolOptions = {
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
-  }
-
-  // only historical, don't ping the graph multiple times
-  if (prize?.awardedBlock) {
-    fetchAndPoolOptions = {}
-  }
-
-  const { loading, error, data } = useQuery(timeTravelPlayersQuery, {
-    variables,
-    skip: !pool || !pool.poolAddress || !prize,
-    ...fetchAndPoolOptions
-  })
-
-  if (error) {
-    console.error(error)
-  }
-
-  let players = data?.players
+  const pages = Math.ceil(Number(playerCount / PLAYER_PAGE_SIZE))
 
   if (!prize && prize !== null) {
     return <div
@@ -101,30 +60,22 @@ export const PrizePlayerListing = (
       </h3>
 
 
-
-
-      {error && <>
-        There was an issue loading data:
-        <br />{error.message}
-      </>}
-
       {players?.length === 0 && <>
         {t('noPlayers')}
       </>}
 
+      <div
+        className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8 mt-4'
+        style={{
+          minHeight: 540
+        }}
+      >
 
-      
+        {isFetching && <V3LoadingDots />}
 
-
-
-      {players?.length > 0 && <>
-        <div
-          className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8 mt-4'
-        >
-
+        {players?.length > 0 && <>
           <PlayersTable
             nestedTable
-            timeTravelTicketSupply={pool?.ticketSupply}
             pool={pool}
             players={players}
             prize={prize}
@@ -146,13 +97,9 @@ export const PrizePlayerListing = (
             showPrev={page > 1}
             showNext={pages > page}
           />
+        </>}
 
-        </div>
-
-
-      </>}
-
-
+      </div>
     </div>
 
   </>
