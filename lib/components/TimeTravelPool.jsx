@@ -3,7 +3,7 @@ import { useQueryCache } from 'react-query'
 
 import { POOLS } from 'lib/constants'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { PoolsQuery } from 'lib/components/PoolsQuery'
+import { TimeTravelPoolQuery } from 'lib/components/TimeTravelPoolQuery'
 import { UniswapData } from 'lib/components/UniswapData'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
 import { compileHistoricalPool } from 'lib/services/compileHistoricalPool'
@@ -43,7 +43,8 @@ export function TimeTravelPool(
 
 
 
-  return <PoolsQuery
+  return <TimeTravelPoolQuery
+    poolAddress={poolAddress}
     blockNumber={blockNumber}
   >
     {(graphPools) => {
@@ -63,7 +64,7 @@ export function TimeTravelPool(
         }}
       </UniswapData>    
     }}
-  </PoolsQuery>
+  </TimeTravelPoolQuery>
 
    
 }

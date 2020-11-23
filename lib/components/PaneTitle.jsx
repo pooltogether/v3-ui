@@ -7,6 +7,10 @@ export function PaneTitle(props) {
     short,
   } = props
 
+  if (!children) {
+    return null
+  }
+
   let fontClasses = 'text-lg sm:text-3xl lg:text-4xl text-inverse'
   let spacingClasses = 'pb-2 xs:pb-8'
 

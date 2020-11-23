@@ -12,7 +12,7 @@ import { gasStationDataQuery } from 'lib/queries/gasStationDataQuery'
 export function TransactionsTakeTimeMessage(props) {
   const { t } = useTranslation()
 
-  const { tx, paneMessage } = props
+  const { tx, title, subtitle, paneMessage } = props
   const { ethersTx } = tx || {}
 
   const { chainId } = useContext(AuthControllerContext)
@@ -66,33 +66,53 @@ export function TransactionsTakeTimeMessage(props) {
   }, [gasStationData])  
 
   return <>
-    <div className='mx-auto'>
-      <V3LoadingDots />
-    </div>
+    {(title || subtitle) && <>
+      <div className='-mt-8 mb-6'>
+        <PaneTitle short>
+          {title}
+        </PaneTitle>
 
-    <div className='-mt-8 mb-6'>
-      <PaneTitle small>
-        {paneMessage}
-      </PaneTitle>
-    </div>
+        <PaneTitle short>
+          {subtitle}
+        </PaneTitle>
 
-    <div
-      className='leading-tight font-bold text-xs xs:text-base sm:text-lg text-default pb-1'
-    >
-      {t('transactionsMayTakeAFewMinutes')}
-    </div>
-
-    {waitTime && <>
-      <div
-        className='text-blue'
-      >
-        <span className='font-bold'>
-          {t('estimatedWaitTime')}
-        </span> {waitTime > 1 ?
-          t('waitTimeMinutes', { waitTime }) :
-          t('lessThanAMinute')
-        }
+        <div className='mx-auto'>
+          <V3LoadingDots />
+        </div>
       </div>
     </>}
+    
+    
+    {paneMessage && <>
+      <div className='mx-auto'>
+        <V3LoadingDots />
+      </div>
+
+      <div className='-mt-8 mb-6'>
+        <PaneTitle small>
+          {paneMessage}
+        </PaneTitle>
+      </div>
+
+      <div
+        className='leading-tight font-bold text-xs xs:text-base sm:text-lg text-default pb-1'
+      >
+        {t('transactionsMayTakeAFewMinutes')}
+      </div>
+
+      {/* {waitTime && <>
+        <div
+          className='text-blue'
+        >
+          <span className='font-bold'>
+            {t('estimatedWaitTime')}
+          </span> {waitTime > 1 ?
+            t('waitTimeMinutes', { waitTime }) :
+            t('lessThanAMinute')
+          }
+        </div>
+      </>} */}
+    </>}
+
   </>
 }

@@ -1,14 +1,12 @@
 import React, { useContext } from 'react'
 import Link from 'next/link'
-import { useQuery } from '@apollo/client'
-import { useRouter } from 'next/router'
 
 import { useTranslation, Trans } from 'lib/../i18n'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Odds } from 'lib/components/Odds'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
-import { timeTravelPlayerQuery } from 'lib/queries/timeTravelPlayerQuery'
+import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { shorten } from 'lib/utils/shorten'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -17,22 +15,17 @@ export const PrizeWinner = (
 ) => {
   const { t } = useTranslation()
 
-  const { prize, winnersAddress } = props
+  const { pool, prize, winnersAddress } = props
 
-  const { pool } = useContext(PoolDataContext)
+  const { chainId } = useContext(AuthControllerContext)
+
+  const blockNumber = prize?.awardedBlock - 1
+  
+  const { status, data, error, isFetching } = usePlayerQuery(chainId, pool, winnersAddress, blockNumber)
+
+  const playerData = data
 
   const decimals = pool?.underlyingCollateralDecimals || 18
-
-  const variables = { playerAddress: winnersAddress }
-
-  const query = timeTravelPlayerQuery(prize?.awardedBlock - 1)
-
-  const { loading, error, data } = useQuery(query, {
-    variables
-  })
-
-  const playerData = data?.player?.[0]
-
   let usersTicketBalance = 0
   if (pool && playerData && decimals) {
     usersTicketBalance = Number(ethers.utils.formatUnits(
@@ -46,7 +39,7 @@ export const PrizeWinner = (
     console.error(error)
   }
 
-  if (loading || !playerData) {
+  if (isFetching || !playerData) {
     return <V3LoadingDots />
   }
 

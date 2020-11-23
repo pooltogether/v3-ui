@@ -8,6 +8,8 @@ import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 import { useTranslation, Trans } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { ButtonDrawer } from 'lib/components/ButtonDrawer'
+import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { WithdrawOdds } from 'lib/components/WithdrawOdds'
@@ -21,7 +23,7 @@ export function ConfirmWithdrawInstantNoFee(props) {
   const router = useRouter()
   const quantity = router.query.quantity
 
-  const { previousStep } = props
+  const { nextStep, previousStep } = props
   
   const { usersAddress, provider } = useContext(AuthControllerContext)
   const { pool, usersTicketBalance, refetchPlayerQuery } = useContext(PoolDataContext)
@@ -45,75 +47,104 @@ export function ConfirmWithdrawInstantNoFee(props) {
   const transactions = transactionsQueryResult?.data?.transactions
   const tx = transactions?.find((tx) => tx.id === txId)
 
-  useEffect(() => {
-    const runTx = async () => {
-      setTxExecuted(true)
+  
+  const runTx = async () => {
+    setTxExecuted(true)
 
-      // there should be no exit fee when we do an instant no-fee withdrawal
-      const maxExitFee = '0'
+    // there should be no exit fee when we do an instant no-fee withdrawal
+    const maxExitFee = '0'
 
-      console.log(quantity)
-      console.log(Number(decimals))
-      console.log(maxExitFee)
+    const params = [
+      usersAddress,
+      ethers.utils.parseUnits(
+        quantity,
+        Number(decimals)
+      ),
+      controlledTokenAddress,
+      ethers.utils.parseEther(maxExitFee),
+      // {
+      //   gasLimit: 700000
+      // }
+    ]
 
-      const params = [
-        usersAddress,
-        ethers.utils.parseUnits(
-          quantity,
-          Number(decimals)
-        ),
-        controlledTokenAddress,
-        ethers.utils.parseEther(maxExitFee),
-        // {
-        //   gasLimit: 700000
-        // }
-      ]
+    const id = sendTx(
+      t,
+      provider,
+      usersAddress,
+      PrizePoolAbi,
+      poolAddress,
+      method,
+      params
+    )
+    
+    setTxId(id)
+  }
 
-      const id = sendTx(
-        t,
-        provider,
-        usersAddress,
-        PrizePoolAbi,
-        poolAddress,
-        method,
-        params
-      )
-      
-      setTxId(id)
-    }
-
-    if (!txExecuted && quantity && decimals) {
-      runTx()
-    }
-  }, [quantity, decimals])
+  // if (!txExecuted && quantity && decimals) {
+  //   runTx()
+  // }
 
   useEffect(() => {
     if (tx?.cancelled || tx?.error) {
       previousStep()
     } else if (tx?.completed) {
-      updateParamsAndNextStep()
+      nextStep()
     }
   }, [tx])
 
   return <>
-    <PaneTitle>
-      {tx?.inWallet && <>
+    {!tx?.sent && <>
+      <PaneTitle>
         {t('confirmWithdrawalOfTickets')}
-      </>}
-    </PaneTitle>
+      </PaneTitle>
 
-    <div
-      className='text-center mx-auto rounded-xl text-orange bg-orange-darkened border-2 border-orange py-2 xs:py-8 px-2 xs:px-8'
-      style={{
-        maxWidth: 500
-      }}
-    >
-      <h4
-        className='text-orange'
+      <div
+        className='text-center mx-auto rounded-xl text-orange bg-orange-darkened border-2 border-orange py-2 xs:py-8 px-2 xs:px-8'
+        style={{
+          maxWidth: 600
+        }}
       >
-        <span className='font-normal'>
-          {t('amountToBeWithdrawn')} 
-        </span> -<Trans
+        <h4
+          className='text-orange'
+        >
+          <span className='font-normal'>
+            {t('amountToBeWithdrawn')} 
+          </span> -<Trans
+            i18nKey='amountTickets'
+            defaults='<number>{{amount}}</number> tickets'
+            components={{
+              number: <PoolNumber />,
+            }}
+            values={{
+              amount: quantity,
+            }}
+          />
+        </h4>
+
+        <WithdrawOdds
+          pool={pool}
+          usersBalance={usersTicketBalance}
+          quantity={quantity}
+        />
+      </div>
+
+      <ButtonDrawer>
+        <Button
+          onClick={runTx}
+          textSize='lg'
+          // disabled={poolIsLocked}
+          className={'mx-auto sm:mt-16'}
+        >
+          {t('confirmWithdrawal')}
+        </Button>
+      </ButtonDrawer>
+    </>}
+
+    {tx?.sent && !tx?.completed && <>
+      <TransactionsTakeTimeMessage
+        tx={tx}
+        title={t('withdrawing')}
+        subtitle={<Trans
           i18nKey='amountTickets'
           defaults='<number>{{amount}}</number> tickets'
           components={{
@@ -122,23 +153,7 @@ export function ConfirmWithdrawInstantNoFee(props) {
           values={{
             amount: quantity,
           }}
-        />
-      </h4>
-
-      <WithdrawOdds
-        pool={pool}
-        usersBalance={usersTicketBalance}
-        quantity={quantity}
-      />
-    </div>
-
-    {tx?.sent && !tx?.completed && <>
-      <TransactionsTakeTimeMessage
-        tx={tx}
-        paneMessage={<>
-          {tx?.sent && t('withdrawalConfirming')}
-          {tx?.inWallet && t('confirmWithdrawal')}
-        </>}
+        />}
       />
     </>}
   </>

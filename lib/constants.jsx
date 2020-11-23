@@ -13,6 +13,8 @@ export const UNISWAP_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? (120 *
 export const ERC_721_POLLING_INTERVAL = 120 * 1000
 export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? (22 * 1000) : (15 * 1000)
 
+export const PLAYER_PAGE_SIZE = 10
+
 export const MAX_SAFE_INTEGER = 9007199254740991
 
 // cookie names
@@ -119,12 +121,13 @@ export const V2_CONTRACT_ADDRESSES = [
 ]
 
 export const QUERY_KEYS = {
-  // coingeckoEthPriceQuery: 'coingeckoEthPriceQuery',
-  // coingeckoTokensQuery: 'coingeckoTokensQuery',
   ethereumErc20sQuery: 'ethereumErc20sQuery',
   ethereumErc721sQuery: 'ethereumErc721sQuery',
   ethereumGenericQuery: 'ethereumGenericQuery',
+  poolQuery: 'poolQuery',
   poolsQuery: 'poolsQuery',
+  playerQuery: 'playerQuery',
+  prizePlayersQuery: 'prizePlayersQuery',
   uniswapTokensQuery: 'uniswapTokensQuery',
 }
 

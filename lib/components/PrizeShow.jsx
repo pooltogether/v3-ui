@@ -11,6 +11,7 @@ import { PrizeWinner } from 'lib/components/PrizeWinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PrizeBreakdown } from 'lib/components/PrizeBreakdown'
+import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatDate } from 'lib/utils/formatDate'
@@ -129,6 +130,7 @@ export function PrizeShow(props) {
           className='mt-4 text-sm'
         >
           {t('winner')}: <PrizeWinner
+            pool={pool}
             prize={prize}
             winnersAddress={winnersAddress}
           />
@@ -178,11 +180,28 @@ export function PrizeShow(props) {
       ]}
     />
 
-      
-    <PrizePlayerListing
+    <PrizePlayersQuery
       pool={pool}
       prize={prize}
-    />
+    >
+      {({ data, error, isFetching }) => {
+        if (error) {
+          return <>
+            {error && <>
+              There was an issue loading data:
+              <br />{error.message}
+            </>}
+          </>
+        }
+
+        return <PrizePlayerListing
+          isFetching={isFetching}
+          players={data}
+          pool={pool}
+          prize={prize}
+        />
+      }}
+    </PrizePlayersQuery>
 
     <div
       className='text-inverse mt-12 pb-40 text-center'

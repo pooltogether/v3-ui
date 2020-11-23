@@ -58,10 +58,6 @@ export function WalletContextProvider(props) {
     return initOnboardModule.initOnboard({
       address: setAddress,
       network: setNetwork,
-      //     network: async (n) => {
-      //       await onboard.config({ networkId: n })
-      //       setNetwork(n)
-      //     },
       balance: setBalance,
       wallet: wallet => {
         if (wallet.provider) {

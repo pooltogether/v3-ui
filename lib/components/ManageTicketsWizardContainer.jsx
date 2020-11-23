@@ -10,7 +10,6 @@ import { ManageTicketsForm } from 'lib/components/ManageTicketsForm'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
 import { WithdrawInstant } from 'lib/components/WithdrawInstant'
 import { WizardLayout } from 'lib/components/WizardLayout'
-import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export function ManageTicketsWizardContainer(props) {
   const { t } = useTranslation()
@@ -31,7 +30,7 @@ export function ManageTicketsWizardContainer(props) {
   let underlyingCollateralDecimals = 18
   underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
   
-  const [totalWizardSteps, setTotalWizardSteps] = useState(4)
+  const [totalWizardSteps, setTotalWizardSteps] = useState(3)
 
   return <>
     <Meta
@@ -76,20 +75,6 @@ export function ManageTicketsWizardContainer(props) {
                 </>
               }}
             </WizardStep>
-
-            <WizardStep>
-              {(step) => {
-                return step.isActive && <>
-                  <WithdrawInstant
-                    pool={pool}
-                    quantity={quantity}
-                    nextStep={step.nextStep}
-                    previousStep={step.previousStep}
-                    setTotalWizardSteps={setTotalWizardSteps}
-                  />
-                </>
-              }}
-            </WizardStep>
             
             {totalWizardSteps === 4 && <>
               <WizardStep>
@@ -107,7 +92,9 @@ export function ManageTicketsWizardContainer(props) {
             <WizardStep>
               {(step) => {
                 return step.isActive && <>
-                  <WithdrawComplete />
+                  <WithdrawComplete
+                    quantity={quantity}
+                  />
                 </>
               }}
             </WizardStep>

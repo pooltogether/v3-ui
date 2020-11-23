@@ -112,7 +112,7 @@ export function PaginationUI({
                   href={prevPath}
                   className={classnames(
                     pageNumClasses,
-                    'hidden xs:inline-flex'
+                    'hidden sm:inline-flex'
                   )}
                 >
                   {prevPage}
@@ -161,7 +161,7 @@ export function PaginationUI({
                   href={nextPath}
                   className={classnames(
                     pageNumClasses,
-                    'hidden xs:inline-flex'
+                    'hidden sm:inline-flex'
                   )}
                 >
                   {nextPage}
