@@ -1,47 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React from 'react'
 import FeatherIcon from 'feather-icons-react'
-import { useRouter } from 'next/router'
 
 import { Trans, useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export function ConfirmWithdrawWithFee(props) {
   const { t } = useTranslation()
 
-  const { nextStep, previousStep } = props
-
-  const router = useRouter()
-
-  const [txExecuted, setTxExecuted] = useState(false)
-
-  const { usersAddress, provider } = useContext(AuthControllerContext)
-  const { pool, refetchPlayerQuery } = useContext(PoolDataContext)
-
-  const ticker = pool?.underlyingCollateralSymbol
-  const decimals = pool?.underlyingCollateralDecimals
-  const poolAddress = pool?.poolAddress
-  const controlledTokenAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
-
-  const tickerUpcased = ticker?.toUpperCase()
-
-  const gross = router.query.gross
-  const net = router.query.net
-  const fee = router.query.fee
-
-  const netFormatted = displayAmountInEther(
-    net,
-    { decimals, precision: 8 }
-  )
-  const feeFormatted = displayAmountInEther(
-    fee,
-    { decimals, precision: 8 }
-  )
-
+  const { nextStep, pool } = props
 
   return <>
     <div
@@ -65,7 +33,7 @@ export function ConfirmWithdrawWithFee(props) {
       />
     </PaneTitle>
 
-        <div className='text-inverse'>
+        <div className='text-flashy mt-4 text-lg'>
       CHART
     </div>
 

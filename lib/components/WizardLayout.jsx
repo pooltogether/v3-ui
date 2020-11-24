@@ -4,7 +4,6 @@ import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 
 function range1(i) { return i ? range1(i - 1).concat(i) : [] }

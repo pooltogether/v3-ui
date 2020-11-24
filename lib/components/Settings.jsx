@@ -8,7 +8,6 @@ import { motion } from 'framer-motion'
 import { useTranslation } from 'lib/../i18n'
 import { COOKIE_OPTIONS, SHOW_MANAGE_LINKS } from 'lib/constants'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
-import { PTHint } from 'lib/components/PTHint'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
 
 export function Settings(props) {

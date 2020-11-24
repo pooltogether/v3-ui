@@ -38,15 +38,15 @@ export const CheckboxInputGroup = (
     >
       <div
         className={classnames(
-          'flex items-center justify-center mr-3 text-3xl leading-none mt-1'
+          'flex items-center justify-center mr-3 text-3xl leading-none'
         )}
       >
         <div
           className={classnames(
             'flex items-center rounded-lg w-6 h-6 border-2 trans',
             {
-              'text-white bg-white border-secondary hover:border-secondary': checked,
-              'text-darkened bg-white border-secondary hover:border-primary': !checked,
+              'text-white border-highlight-2 hover:border-highlight-2': checked,
+              'text-darkened border-highlight-2 hover:border-primary': !checked,
             }
           )}
         >

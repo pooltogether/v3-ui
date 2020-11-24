@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import useWindowFocus from 'use-window-focus'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 
@@ -12,13 +11,11 @@ export function GeneralContextProvider(props) {
   
   const { changingNetwork, supportedNetwork } = useContext(AuthControllerContext)
 
-  const windowFocused = true || useWindowFocus()
-  const paused = !windowFocused || !supportedNetwork || changingNetwork
+  const paused = !supportedNetwork || changingNetwork
 
   return <GeneralContext.Provider
     value={{
       paused,
-      windowFocused,
     }}
   >
     {props.children}

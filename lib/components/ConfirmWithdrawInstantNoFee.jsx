@@ -26,7 +26,7 @@ export function ConfirmWithdrawInstantNoFee(props) {
   const { nextStep, previousStep } = props
   
   const { usersAddress, provider } = useContext(AuthControllerContext)
-  const { pool, usersTicketBalance, refetchPlayerQuery } = useContext(PoolDataContext)
+  const { pool, usersTicketBalance } = useContext(PoolDataContext)
 
   const decimals = pool?.underlyingCollateralDecimals
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
@@ -41,7 +41,7 @@ export function ConfirmWithdrawInstantNoFee(props) {
   const txName = `${txMainName} (${txSubName})`
   const method = 'withdrawInstantlyFrom'
 
-  const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
+  const [sendTx] = useSendTransaction(txName)
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions

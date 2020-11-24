@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
@@ -8,17 +8,21 @@ import { useQuery } from '@apollo/client'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { Trans, useTranslation } from 'lib/../i18n'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
+import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PTHint } from 'lib/components/PTHint'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
+import { useExitFees } from 'lib/hooks/useExitFees'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
+// import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
+import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 
 import IconLightning from 'assets/images/icon-lightning.svg'
 
@@ -26,7 +30,26 @@ export function ConfirmWithdrawWithFeeForm(props) {
   const { t } = useTranslation()
   const router = useRouter()
   
-  const { nextStep, pool, exitFees, quantity } = props
+  const { nextStep, pool, quantity } = props
+
+  const { usersAddress, provider } = useContext(AuthControllerContext)
+
+  const ticker = pool?.underlyingCollateralSymbol
+  const decimals = pool?.underlyingCollateralDecimals
+  const poolAddress = pool?.poolAddress
+  const controlledTokenAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
+
+  const tickerUpcased = ticker?.toUpperCase()
+
+  const { exitFees } = useExitFees(quantity)
+  const { exitFee } = exitFees
+
+  useEffect(() => {
+    if (exitFees === 'error') {
+      poolToast.error('There was an error fetching exit fees')
+      previousStep()
+    }
+  }, [exitFees])
 
   const [iUnderstandChecked, setIUnderstandChecked] = useState(false)
 
@@ -34,115 +57,93 @@ export function ConfirmWithdrawWithFeeForm(props) {
     setIUnderstandChecked(!iUnderstandChecked)
   }
 
-  const underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals
-  const underlyingCollateralSymbol = pool && pool.underlyingCollateralSymbol
 
-  const {
-    exitFee
-  } = exitFees
 
-  let instantPartial = ethers.utils.bigNumberify(0)
+  let tipJsx = null
+  let gross = ethers.utils.bigNumberify(0)
+  let grossFormatted,
+    feeFormatted
 
-  if (quantity && underlyingCollateralDecimals) {
-    instantPartial = ethers.utils.parseUnits(
+  if (exitFee && quantity && decimals) {
+    gross = ethers.utils.parseUnits(
       quantity,
-      parseInt(underlyingCollateralDecimals, 10)
+      parseInt(decimals, 10)
     ).sub(exitFee)
-  }
- 
-  const instantPartialFormatted = displayAmountInEther(
-    instantPartial,
-    { decimals: underlyingCollateralDecimals, precision: 8 }
-  )
-  
-  const exitFeeFormatted = displayAmountInEther(
-    exitFee,
-    { decimals: underlyingCollateralDecimals, precision: 8 }
-  )
 
-  const tipJsx = <>
-    {t('toMaintainFairnessDescription')}
-
-    <br /><br />
-    {t('withdrawScheduledDescription', {
-      amount: quantity,
-      ticker: underlyingCollateralSymbol
-    })}
-
-    <br /><br />
-    {t('withdrawInstantDescription', {
-      amount: displayAmountInEther(
-        exitFee,
-        { decimals: underlyingCollateralDecimals, precision: 8}
-      ),
-      ticker: underlyingCollateralSymbol
-    })}
-  </>
-
-  const updateParamsAndNextStep = async (e) => {
-    e.preventDefault()
-
-    const gross = ethers.utils.parseUnits(
-      quantity,
-      parseInt(underlyingCollateralDecimals, 10)
+    grossFormatted = displayAmountInEther(
+      gross,
+      { decimals, precision: 8 }
     )
 
-    queryParamUpdater.add(router, {
-      gross: gross.toString(),
-      net: instantPartial.toString(),
-      fee: exitFee.toString(),
-    })
+    feeFormatted = displayAmountInEther(
+      exitFee,
+      { decimals, precision: 2 }
+    )
+  
+    tipJsx = <>
+      {t('toMaintainFairnessDescription')}
 
-    nextStep()
+      <br /><br />
+      {t('withdrawScheduledDescription', {
+        amount: quantity,
+        ticker
+      })}
+
+      <br /><br />
+      {t('withdrawInstantDescription', {
+        amount: displayAmountInEther(
+          exitFee,
+          { decimals, precision: 8}
+        ),
+        ticker
+      })}
+    </>
   }
 
-  const handleWithdrawTypeChange = (e) => {
 
-  }
 
 
   const [txId, setTxId] = useState()
 
   const method = 'withdrawInstantlyFrom'
 
-  const txName = `Withdraw ${netFormatted} ${tickerUpcased} instantly (fee: ${feeFormatted} ${tickerUpcased})`
+  // `Withdraw ${quantity} ${tickerUpcased} (fee: $${feeFormatted})`
+  const txName = t('withdrawWithFeeTxName',
+    {
+      quantity,
+      tickerUpcased,
+      feeFormatted
+    }
+  )
 
-  const [sendTx] = useSendTransaction(txName, refetchPlayerQuery)
+  const [sendTx] = useSendTransaction(txName)
 
   const transactionsQueryResult = useQuery(transactionsQuery)
   const transactions = transactionsQueryResult?.data?.transactions
   const tx = transactions?.find((tx) => tx.id === txId)
 
-  const txInWallet = tx?.inWallet && !tx?.sent
+  // const txInWallet = tx?.inWallet && !tx?.sent
 
-  useEffect(() => {
-    const runTx = () => {
-      setTxExecuted(true)
+  const runTx = () => {
+    const params = [
+      usersAddress,
+      ethers.utils.bigNumberify(gross),
+      controlledTokenAddress,
+      ethers.utils.bigNumberify(exitFee)
+    ]
 
-      const params = [
-        usersAddress,
-        ethers.utils.bigNumberify(gross),
-        controlledTokenAddress,
-        ethers.utils.bigNumberify(fee)
-      ]
+    const id = sendTx(
+      t,
+      provider,
+      usersAddress,
+      PrizePoolAbi,
+      poolAddress,
+      method,
+      params,
+    )
 
-      const id = sendTx(
-        t,
-        provider,
-        usersAddress,
-        PrizePoolAbi,
-        poolAddress,
-        method,
-        params,
-      )
-
-      setTxId(id)
-    }
-
-    if (!txExecuted && net && method) {
-      runTx()
-    }
-  }, [net, method])
+    setTxId(id)
+  }
 
   useEffect(() => {
     if (tx?.cancelled || tx?.error) {
@@ -153,7 +154,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
   }, [tx])
 
   return <>
-    {!tx?.sent && <>
+    {grossFormatted && !tx?.sent && <>
       <div
         className='text-inverse'
       >
@@ -173,7 +174,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
         <RadioInputGroup
           label=''
           name='withdrawType'
-          onChange={handleWithdrawTypeChange}
+          onChange={() => {}}
           value={'instant'}
           radios={[
             {
@@ -197,7 +198,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
                 >
                   {t('finalAmount')} <span
                     className='block xs:inline font-bold'
-                  ><PoolNumber>{instantPartialFormatted}</PoolNumber></span>
+                  ><PoolNumber>{grossFormatted}</PoolNumber></span>
                 </div>
                 <div
                   className='mb-2 xs:mb-0'
@@ -228,41 +229,46 @@ export function ConfirmWithdrawWithFeeForm(props) {
             }
           }}
           className={classnames(
-            'flex flex-col sm:flex-row items-center justify-between sm:w-11/12 lg:w-full mx-auto rounded-xl sm:mx-auto text-inverse',
-            'bg-orange-darkened border-2 border-dashed border-orange overflow-hidden py-2 xs:py-4 px-6',
-            'h-40'
+            'flex flex-col items-center justify-between w-full mx-auto rounded-xl sm:mx-auto text-inverse text-xs xs:text-sm sm:text-lg',
+            'overflow-hidden py-2 xs:py-4 px-6 h-40',
           )}
+          style={{
+            maxWidth: 420
+          }}
         >
-          <div
-            className='order-last sm:order-first sm:w-3/12'
+          <CheckboxInputGroup
+            large
+            id='withdraw-i-understand'
+            name='withdraw-i-understand'
+            label={t('iUnderstand')}
+            title={''}
+            hint={null}
+            checked={iUnderstandChecked}
+            handleClick={handleIUnderstandChange}
+          />
+{/*           
+          <label
+            htmlFor='i-understand-checkbox'
+            className='m-0 font-bold'
           >
-            <label
-              htmlFor='i-understand-checkbox'
-              className='m-0 font-bold'
-            >
-              <input
-                onChange={handleIUnderstandChange}
-                id='i-understand-checkbox'
-                type='checkbox'
-                className='mr-2'
-              /> {t('iUnderstand')}
-            </label>
-          </div>
+            <input
+              onChange={handleIUnderstandChange}
+              id='i-understand-checkbox'
+              type='checkbox'
+              className='mr-2'
+            /> {t('iUnderstand')}
+          </label> */}
 
-          <div
-            className='order-first sm:order-last sm:w-9/12 text-xxxs xs:text-sm sm:text-base'
-          >
+          <div>
             <Trans
-              i18nKey='youAreWithdrawingAmountTickerAndPayingFee'
-              defaults='You are withdrawing <bold>{{amount}} {{ticker}}</bold> and paying a <bold>{{amountTwo}} {{ticker}}</bold> fee'
+              i18nKey='youChooseToPayFairnessFeeOfAmountTicker'
+              defaults='You choose to pay a Fairness Fee of <bold>{{amount}} {{ticker}}</bold> in order to withdraw early.'
               components={{
                 bold: <span className='font-bold' />,
-                number: <PoolNumber />,
               }}
               values={{
-                amount: instantPartialFormatted,
-                amountTwo: exitFeeFormatted,
-                ticker: underlyingCollateralSymbol,
+                amount: feeFormatted,
+                ticker
               }}
             />
           </div>
@@ -272,11 +278,20 @@ export function ConfirmWithdrawWithFeeForm(props) {
           <Button
             textSize='lg'
             disabled={!iUnderstandChecked}
-            onClick={updateParamsAndNextStep}
+            onClick={runTx}
           >
             {t('continue')}
           </Button>
         </div> 
+
+        <button
+          onClick={(e) => {
+            handleCloseWizard(router)
+          }}
+          className='mt-6 underline text-xxs xs:text-xs sm:text-sm'
+        >
+          {t('cancelWithdrawal')}
+        </button>
       </div> 
       
     </>}

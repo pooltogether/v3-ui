@@ -82,8 +82,7 @@ export function ManageTicketsWizardContainer(props) {
                   return step.isActive && <>
                     <ConfirmWithdrawWithFeeForm
                       pool={pool}
-                      exitFees={exitFees}
-                      nextStep={nextStep}
+                      nextStep={step.nextStep}
                       quantity={quantity}
                     />
                   </>
