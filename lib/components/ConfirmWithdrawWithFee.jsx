@@ -1,15 +1,19 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
+import { ethers } from 'ethers'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
+import { WithdrawalTimeRemainingChart } from 'lib/components/WithdrawalTimeRemainingChart'
 
 export function ConfirmWithdrawWithFee(props) {
   const { t } = useTranslation()
 
-  const { nextStep, pool } = props
+  const { pool, exitFees, nextStep } = props
+
+  const timelockDurationSeconds = exitFees.timelockDurationSeconds
 
   return <>
     <div
@@ -33,15 +37,16 @@ export function ConfirmWithdrawWithFee(props) {
       />
     </PaneTitle>
 
-        <div className='text-flashy mt-4 text-lg'>
-      CHART
-    </div>
+    <WithdrawalTimeRemainingChart
+      pool={pool}
+      timelockDurationSeconds={timelockDurationSeconds}
+    />
 
     <ButtonDrawer>
       <Button
         onClick={nextStep}
         textSize='lg'
-        className={'mx-auto sm:mt-16'}
+        className={'mx-auto'}
       >
         {t('withdrawAnyway')}
       </Button>
@@ -51,7 +56,7 @@ export function ConfirmWithdrawWithFee(props) {
       href='https://docs.pooltogether.com/protocol/prize-pool/fairness'
       target='_blank'
       rel='noopener noreferrer'
-      className='mt-6 underline text-xxs xs:text-xs sm:text-sm'
+      className='mt-6 underline text-xxs xs:text-xs sm:text-sm mx-auto leading-tight w-full sm:w-1/4'
     >
       {t('readMoreAboutTheFairnessFee')} <FeatherIcon
         icon='external-link'

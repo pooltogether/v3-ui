@@ -37,8 +37,6 @@ export const NewPrizeCountdown = (
   }
 
   const currentDate = new Date(Date.now())
-  // for testing:
-  // const futureDate = addSeconds(currentDate, secondsRemaining + 950044)
   const futureDate = addSeconds(currentDate, secondsRemaining)
   const { days, hours, minutes, seconds } = subtractDates(futureDate, currentDate)
 

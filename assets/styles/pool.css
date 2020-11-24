@@ -416,3 +416,14 @@ a:hover {
     @apply w-1/3;
   }
 }
+
+
+.time-remaining-chart--big-num {
+  max-height: 76px;
+}
+
+@screen sm {
+  .time-remaining-chart--big-num {
+    max-height: 100px;
+  }
+}

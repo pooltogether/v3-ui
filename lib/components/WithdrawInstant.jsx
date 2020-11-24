@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { useTranslation } from 'lib/../i18n'
-import { ConfirmWithdrawInstantNoFee } from 'lib/components/ConfirmWithdrawInstantNoFee'
+import { ConfirmWithdrawNoFee } from 'lib/components/ConfirmWithdrawNoFee'
 import { ConfirmWithdrawWithFee } from 'lib/components/ConfirmWithdrawWithFee'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { useExitFees } from 'lib/hooks/useExitFees'
@@ -14,13 +14,13 @@ export function WithdrawInstant(props) {
     nextStep,
     previousStep,
     setTotalWizardSteps,
+    pool,
   } = props
 
   const { exitFees } = useExitFees(quantity)
 
   let notEnoughCredit = null
   if (exitFees && exitFees.exitFee) {
-    // notEnoughCredit = true
     notEnoughCredit = exitFees.exitFee.gt(0)
   }
 
@@ -43,10 +43,12 @@ export function WithdrawInstant(props) {
     </> :
       notEnoughCredit ?
         <ConfirmWithdrawWithFee
+          pool={pool}
           nextStep={nextStep}
           previousStep={previousStep}
+          exitFees={exitFees}
         /> :
-        <ConfirmWithdrawInstantNoFee
+        <ConfirmWithdrawNoFee
           nextStep={nextStep}
           previousStep={previousStep}
         />

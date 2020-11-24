@@ -17,7 +17,7 @@ import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTime
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsQuery } from 'lib/queries/transactionQueries'
 
-export function ConfirmWithdrawInstantNoFee(props) {
+export function ConfirmWithdrawNoFee(props) {
   const { t } = useTranslation()
 
   const router = useRouter()
