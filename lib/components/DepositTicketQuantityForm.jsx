@@ -20,7 +20,7 @@ import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
 const bn = ethers.utils.bigNumberify
 
-export function TicketQuantityForm(props) {
+export function DepositTicketQuantityForm(props) {
   const { t } = useTranslation()
 
   const {
@@ -62,8 +62,6 @@ export function TicketQuantityForm(props) {
   useEffect(() => {
     if (quantity) {
       setValue('quantity', quantity, { shouldValidate: true })
-    } else if (!isWithdraw) {
-      setValue('quantity', 100, { shouldValidate: true })
     }
   }, [])
 
@@ -81,19 +79,6 @@ export function TicketQuantityForm(props) {
       })
 
       nextStep()
-    }
-  }
-
-  const isWithdraw = formName === t('withdraw')
-
-  let contextualBalance = usersTokenBalance
-
-  let validate = null
-  if (isWithdraw) {
-    contextualBalance = usersTicketBalance
-    validate = {
-      greaterThanBalance: value => parseFloat(value) <= usersTicketBalance ||
-        t('pleaseEnterAmountLowerThanTicketBalance'),
     }
   }
 
@@ -119,11 +104,13 @@ export function TicketQuantityForm(props) {
       >
         {formName}
       </PaneTitle>
-      <PaneTitle
-        small
-      >
-        {formSubName}
-      </PaneTitle>
+      <div className='mb-6 -mt-2'>
+        <PaneTitle
+          small
+        >
+          {formSubName}
+        </PaneTitle>
+      </div>
     </div>
 
     {balanceJsx && <>
@@ -153,17 +140,15 @@ export function TicketQuantityForm(props) {
         className='w-full mx-auto'
       >
         <TextInputGroup
-          large
           unsignedNumber
           autoFocus
           id='quantity'
           name='quantity'
           register={register}
-          validate={validate}
           label={t('ticketAmount')}
           required={t('ticketQuantityRequired')}
           autoComplete='off'
-          bottomRightLabel={!isWithdraw && usersAddress && tickerUpcased && <>
+          bottomRightLabel={usersAddress && tickerUpcased && <>
             <WyreTopUpBalanceDropdown
               label={<>
                 <Trans
@@ -191,14 +176,14 @@ export function TicketQuantityForm(props) {
                 className='font-bold inline-flex items-center'
                 onClick={(e) => {
                   e.preventDefault()
-                  setValue('quantity', contextualBalance, { shouldValidate: true })
+                  setValue('quantity', usersTokenBalance, { shouldValidate: true })
                 }}
               >
                 <img
                   src={iconSrc}
                   className='mr-2'
                   style={{ maxHeight: 12 }}
-                /> {numberWithCommas(contextualBalance, { precision: 2 })} {tickerUpcased}
+                /> {numberWithCommas(usersTokenBalance, { precision: 2 })} {tickerUpcased}
               </button>
           </>}
         />
@@ -224,7 +209,6 @@ export function TicketQuantityForm(props) {
               pool={pool}
               usersBalance={usersTicketBalance}
               additionalQuantity={watchQuantity}
-              isWithdraw={isWithdraw}
             />
           </div>
         </>}

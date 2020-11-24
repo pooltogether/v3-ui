@@ -3,13 +3,12 @@ import classnames from 'classnames'
 
 import { useTranslation } from 'lib/../i18n'
 import { PoolNumber } from 'lib/components/PoolNumber'
-// import { PoolCountUp } from 'lib/components/PoolCountUp'
 
-export const DepositAndWithdrawFormUsersBalance = (
+export const DepositFormUsersBalance = (
   props,
 ) => {
   const { t } = useTranslation()
-  const { label, start, end, units } = props
+  const { label, end, units } = props
 
   let roundedClasses = props.roundedClasses || 'rounded-tl-lg rounded-tr-lg'
   let widthClasses = props.widthClasses || 'w-full'

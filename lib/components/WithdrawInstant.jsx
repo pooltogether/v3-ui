@@ -8,7 +8,7 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { ConfirmWithdrawInstantNoFee } from 'lib/components/ConfirmWithdrawInstantNoFee'
-import { InstantForm } from 'lib/components/InstantForm'
+import { ConfirmWithdrawWithFee } from 'lib/components/ConfirmWithdrawWithFee'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { fetchExitFees } from 'lib/utils/fetchExitFees'
 import { useInterval } from 'lib/hooks/useInterval'
@@ -38,7 +38,8 @@ export function WithdrawInstant(props) {
 
   let notEnoughCredit = null
   if (exitFees && exitFees.exitFee) {
-    notEnoughCredit = exitFees.exitFee.gt(0)
+    notEnoughCredit = true
+    // notEnoughCredit = exitFees.exitFee.gt(0)
   }
 
   useEffect(() => {
@@ -92,16 +93,14 @@ export function WithdrawInstant(props) {
   
   return <>
     {notEnoughCredit === null ? <>
-      <PaneTitle small>
+      <PaneTitle>
         {t('gettingAvailableCredit')}
       </PaneTitle>
     </> :
       notEnoughCredit ?
-        <InstantForm
-          pool={pool}
-          exitFees={exitFees}
+        <ConfirmWithdrawWithFee
           nextStep={nextStep}
-          quantity={quantity}
+          previousStep={previousStep}
         /> :
         <ConfirmWithdrawInstantNoFee
           nextStep={nextStep}

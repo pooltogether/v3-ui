@@ -23,7 +23,6 @@ export const PrizePlayerListing = (
 
   const playerCount = pool?.playerCount
 
-  const router = useRouter()
   const prizeNumber = router?.query?.prizeNumber
   const page = router?.query?.page ?
     parseInt(router.query.page, 10) :

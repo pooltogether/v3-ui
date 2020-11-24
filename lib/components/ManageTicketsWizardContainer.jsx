@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { ExecuteWithdrawInstantWithFee } from 'lib/components/ExecuteWithdrawInstantWithFee'
+import { ConfirmWithdrawWithFeeForm } from 'lib/components/ConfirmWithdrawWithFeeForm'
 import { Meta } from 'lib/components/Meta'
 import { ManageTicketsForm } from 'lib/components/ManageTicketsForm'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
@@ -80,9 +80,11 @@ export function ManageTicketsWizardContainer(props) {
               <WizardStep>
                 {(step) => {
                   return step.isActive && <>
-                    <ExecuteWithdrawInstantWithFee
-                      nextStep={step.nextStep}
-                      previousStep={step.previousStep}
+                    <ConfirmWithdrawWithFeeForm
+                      pool={pool}
+                      exitFees={exitFees}
+                      nextStep={nextStep}
+                      quantity={quantity}
                     />
                   </>
                 }}

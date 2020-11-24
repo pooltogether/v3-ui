@@ -14,7 +14,7 @@ import { DepositWizardSignIn } from 'lib/components/DepositWizardSignIn'
 import { Meta } from 'lib/components/Meta'
 import { OrderComplete } from 'lib/components/OrderComplete'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { TicketQuantityForm } from 'lib/components/TicketQuantityForm'
+import { DepositTicketQuantityForm } from 'lib/components/DepositTicketQuantityForm'
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
@@ -71,7 +71,7 @@ export function DepositWizardContainer(props) {
             <WizardStep>
               {(step) => {
                 return step.isActive && <>
-                  <TicketQuantityForm
+                  <DepositTicketQuantityForm
                     iconSrc={WalletIcon}
                     formName={t('getTickets')}
                     formSubName={<Trans

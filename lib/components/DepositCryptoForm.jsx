@@ -12,7 +12,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositTxButton } from 'lib/components/DepositTxButton'
-import { DepositAndWithdrawFormUsersBalance } from 'lib/components/DepositAndWithdrawFormUsersBalance'
+import { DepositFormUsersBalance } from 'lib/components/DepositFormUsersBalance'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -186,7 +186,7 @@ export function DepositCryptoForm(props) {
     <div
       className='text-sm xs:text-base sm:text-lg lg:text-xl'
     >
-      <DepositAndWithdrawFormUsersBalance
+      <DepositFormUsersBalance
         bold={false}
         start={cachedUsersBalance || usersTokenBalance}
         end={numberWithCommas(usersTokenBalance, { precision: 4 })}

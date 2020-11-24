@@ -12,7 +12,6 @@ export function Odds(props) {
     className,
     hide,
     fontSansRegular,
-    isWithdraw,
     pool,
     showLabel,
     sayEveryWeek,
@@ -43,9 +42,7 @@ export function Odds(props) {
     ))
   }
 
-  additionalQuantity = isWithdraw ?
-    Number(additionalQuantity) * -1 :
-    Number(additionalQuantity)
+  additionalQuantity = Number(additionalQuantity)
   const hasAdditionalQuantity = !isNaN(additionalQuantity)
     && additionalQuantity !== 0
 
@@ -66,14 +63,8 @@ export function Odds(props) {
 
   let label = showLabel && <>
     {hasAdditionalQuantity && additionalQuantity !== 0 ? <>
-      {!isWithdraw && <span className='font-bold text-flashy'>{t('newOddsOfWinning')}</span>}
-      {isWithdraw && t('yourOddsWillReduceTo', {
-        currentOdds
-      })}
-    </>
-       :
-      t('currentOddsOfWinning')
-    }
+      <span className='font-bold text-flashy'>{t('newOddsOfWinning')}</span>
+    </> : t('currentOddsOfWinning')}
   </>
 
   if (result === 0) {
@@ -81,8 +72,6 @@ export function Odds(props) {
       {label}
       <br />{t('notAvailableAbbreviation')}
     </>
-  } else if (isWithdraw && !isFinite(result)) {
-    content = t('withdrawingEverythingMakeYouIneligible')
   } else if (!hide && (hasBalance || hasAdditionalQuantity)) {
     const totalOdds = <PoolCountUp
       fontSansRegular

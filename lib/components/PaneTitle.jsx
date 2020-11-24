@@ -11,11 +11,11 @@ export function PaneTitle(props) {
     return null
   }
 
-  let fontClasses = 'text-lg sm:text-3xl lg:text-4xl text-inverse'
-  let spacingClasses = 'pb-2 xs:pb-8'
+  let fontClasses = 'text-lg sm:text-2xl lg:text-3xl text-inverse font-bold'
+  let spacingClasses = 'pb-2 xs:pb-6'
 
   if (small) {
-    fontClasses = 'text-sm sm:text-xl lg:text-2xl text-default-soft'
+    fontClasses = 'text-sm sm:text-lg lg:text-xl text-inverse'
     spacingClasses = 'pb-1'
   }
 
@@ -25,7 +25,7 @@ export function PaneTitle(props) {
 
   return <>
     <div
-      className={`leading-tight font-bold ${fontClasses} ${spacingClasses}`}
+      className={`leading-tight ${fontClasses} ${spacingClasses}`}
     >
       {children}
     </div>
