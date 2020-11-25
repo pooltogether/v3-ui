@@ -1,8 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
+import { isEmpty } from 'lodash'
+import { useInterval } from 'beautiful-react-hooks'
 
-import {
-  QUERY_KEYS,
-} from 'lib/constants'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
@@ -12,16 +11,13 @@ const debug = require('debug')('pool-app:FetchGenericChainData')
 
 export function ChainQueries(props) {
   const {
-    cache,
     children,
-    // coingeckoData,
-    dynamicExternalAwardsData,
     provider,
     poolData,
   } = props
   
   const { disconnectWallet } = useContext(WalletContext)
-  const [retryAttempts, setRetryAttempts] = useState(0)
+  const [reloadTimer, setReloadTimer] = useState(null)
   
   const {
     status: genericChainStatus,
@@ -83,23 +79,19 @@ export function ChainQueries(props) {
 
 
 
-
-  
-
-  useEffect(() => {
-    const underlyingCollateralName = poolData?.daiPool?.underlyingCollateralName
-    if (!underlyingCollateralName) {
-      setRetryAttempts(retryAttempts + 1)
+  // Forget wallet and reload -  this typically happens when the Apollo Graph URI is out of sync with Onboard JS's chainId
+  useInterval(() => {
+    if (poolData.daiPool === null || !poolData.daiPool?.currentState) {
+      if (reloadTimer) {
+        disconnectWallet()
+        window.location.reload()
+      } else {
+        setReloadTimer(1)
+      }
+    } else {
+      setReloadTimer(null)
     }
-  }, [poolData])
-
-  // Forget wallet and reload -  this typically happens when the Graph URI is out of sync with Onboard JS's chainId
-  useEffect(() => {
-    if (retryAttempts > 20) {
-      disconnectWallet()
-      window.location.reload()
-    }
-  }, [retryAttempts])
+  }, 3000)
   
   return children({ 
     genericChainData,
