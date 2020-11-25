@@ -1,8 +1,8 @@
 https://app.pooltogether.us     https://app.pooltogether.com         301!
 https://app.pooltogether.us/*   https://app.pooltogether.com         301!
 
-/account                        /account.html                        200
-/account/pools/:symbol/manage   /account/pools/[symbol]/manage.html  200
+/account                                /account.html                                200
+/account/pools/:symbol/manage-tickets   /account/pools/[symbol]/manage-tickets.html  200
 
 /players/:playerAddress         /players/[playerAddress].html        200
 

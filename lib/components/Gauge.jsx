@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { arc } from 'd3-shape'
 import { scaleLinear } from 'd3-scale'
 // import { format } from 'd3-format'
+
+import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
 export function Gauge({
   value = 50,
@@ -10,6 +12,10 @@ export function Gauge({
   label,
   units,
 }) {
+  const { theme } = useContext(ThemeContext)
+
+  const backgroundFillColor = theme === 'light' ? '#9f82d7' : '#222B45'
+
   const startAngle = (-Math.PI / 2) - 0.6
   const endAngle = (Math.PI / 2) + 0.6
 
@@ -85,7 +91,7 @@ export function Gauge({
         </defs>
         <path
           d={backgroundArc}
-          fill="#222B45"
+          fill={backgroundFillColor}
         />
         <path
           d={filledArc}
