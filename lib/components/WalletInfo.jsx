@@ -11,7 +11,7 @@ export function WalletInfo(props) {
   const { t } = useTranslation()
   const { closeTransactions } = props
 
-  const { usersAddress, chainId, walletName } = useContext(AuthControllerContext)
+  const { usersAddress, chainId, signOut, walletName } = useContext(AuthControllerContext)
 
   let content = null
   let networkName = null
@@ -80,7 +80,7 @@ export function WalletInfo(props) {
                   e.preventDefault()
 
                   closeTransactions()
-                  authControllerContext.signOut()
+                  signOut()
                 }}
                 className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 px-2 trans trans-fastest font-bold'
               >
