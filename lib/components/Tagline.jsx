@@ -14,11 +14,6 @@ export function Tagline(props) {
       >
         {t('theMoreYouPoolTagline')}
       </div>
-      <p
-        className='text-accent-1 mt-2 opacity-50 text-xxxxs xs:text-xxxs sm:text-xxs'
-      >
-        {t('poweredByCoingeckoAPI')}
-      </p>
     </div>
   </>
 }
