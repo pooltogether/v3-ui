@@ -4,9 +4,6 @@ const next = require("next")
 
 const i18next = require("./i18n/server")
 const nextI18NextMiddleware = require("next-i18next/middleware").default
-// const NextI18Next = require('next-i18next').default
-// const nextI18NextOptions = require('./lib/nextI18NextOptions').nextI18NextOptions
-// const nextI18next = new NextI18Next(nextI18NextOptions)
 
 var os = require('os');
 var ifaces = os.networkInterfaces();
@@ -59,7 +56,6 @@ app
 
     // Set up the proxy for Netlify lambda functions
     if (dev && devProxy) {
-      // const proxyMiddleware = require("http-proxy-middleware")
       const { createProxyMiddleware } = require('http-proxy-middleware')
       Object.keys(devProxy).forEach(function (context) {
         server.use(createProxyMiddleware(context, devProxy[context]))
@@ -69,11 +65,8 @@ app
     await i18next.initPromise
     server.use(nextI18NextMiddleware(i18next))
 
-    // server.use(nextI18NextMiddleware(nextI18next))
-
     // Default catch-all handler to allow Next.js to handle all other routes
     server.all("*", (req, res) => handle(req, res))
-
 
     server.listen(port, err => {
       if (err) {
