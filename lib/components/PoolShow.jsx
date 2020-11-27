@@ -22,6 +22,7 @@ import { CardGrid } from 'lib/components/CardGrid'
 import { Chip } from 'lib/components/Chip'
 import { Erc20AwardsTable } from 'lib/components/Erc20AwardsTable'
 import { Erc721AwardsTable } from 'lib/components/Erc721AwardsTable'
+import { LootBox } from 'lib/components/LootBox'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
 import { PrizeFromInterestCard } from 'lib/components/PrizeFromInterestCard'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
@@ -245,6 +246,10 @@ export const PoolShow = (
           <PrizeFromInterestCard
             decimals={decimals}
             interestPrize={pool?.interestPrizeUSD}
+          />
+
+          <LootBox
+            pool={pool}
           />
 
           <Erc20AwardsTable

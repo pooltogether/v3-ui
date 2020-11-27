@@ -48,16 +48,19 @@ export const POOLS = [
 
 export const CONTRACT_ADDRESSES = {
   1: {
+    LootBox: '0x',
     Usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',
     // Dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
     // PermitAndDepositDai: PermitAndDepositDaiMainnet.address
   },
   3: {
+    LootBox: '0x',
     Usdt: '0x0736d0c130b2ead47476cc262dbed90d7c4eeabd',
     // Dai: '0xc2118d4d90b274016cb7a54c03ef52e6c537d957',
     // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
   },
   4: {
+    LootBox: '0x2cb260f1313454386262373773124f6bc912cf28',
     Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
     // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
   },
