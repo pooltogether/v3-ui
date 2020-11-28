@@ -27,10 +27,10 @@ export const V2MigrateButton = (
   })
   const method = 'transfer'
 
-  const [sendTx] = useSendTransaction(txName)
+  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  
+  
   const txInFlight = transactions?.find((tx) => (tx.id === txId) && !tx.completed && !tx.cancelled)
 
   const migrateToV3 = () => {

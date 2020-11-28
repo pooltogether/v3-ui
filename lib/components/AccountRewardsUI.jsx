@@ -49,10 +49,10 @@
 //   const txName = t(`claimRewards`)
 //   const method = 'updateAndClaimDrips'
 
-//   const [sendTx] = useSendTransaction(txName)
+//   const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
 
-//   const transactionsQueryResult = useQuery(transactionsQuery)
-//   const transactions = transactionsQueryResult?.data?.transactions
+//   
+//   
 //   const txInFlight = transactions?.find((tx) => tx.id === txId)
 
 //   // const txsNotCompleted = transactions

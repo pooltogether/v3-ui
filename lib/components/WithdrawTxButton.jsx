@@ -40,10 +40,10 @@ export function WithdrawTxButton(props) {
   // const txName = `Withdraw Sponsorship (${quantity} ${tickerUpcased})`
   const method = 'withdrawInstantlyFrom'
 
-  const [sendTx] = useSendTransaction(txName, refetchSponsorQuery)
+  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  
+  
   const tx = transactions?.find((tx) => tx.id === txId)
 
   const withdrawSponsorshipTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)

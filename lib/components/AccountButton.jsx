@@ -1,22 +1,24 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
-import { useQuery } from '@apollo/client'
+import { useAtom } from 'jotai'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { ProfileAvatar } from 'lib/components/ProfileAvatar'
 import { ProfileName } from 'lib/components/ProfileName'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export function AccountButton(props) {
   const { openTransactions } = props
 
+  const [transactions] = useAtom(transactionsAtom)
+
   const { ethBalance } = useContext(AuthControllerContext)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  
+  
 
   const pendingTransactionsCount = transactions
     .filter(t => !t.completed)

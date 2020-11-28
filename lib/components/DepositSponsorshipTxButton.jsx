@@ -38,10 +38,10 @@ export function DepositSponsorshipTxButton(props) {
   })
   const method = 'depositTo'
 
-  const [sendTx] = useSendTransaction(txName)
+  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  
+  
   const tx = transactions?.find((tx) => tx.id === txId)
 
   const depositSponsorshipTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)

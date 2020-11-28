@@ -32,10 +32,10 @@ export function ApproveSponsorshipTxButton(props) {
   const txName = t(`allowTickerPoolSponsorship`, { ticker: tickerUpcased })
   const method = 'approve'
 
-  const [sendTx] = useSendTransaction(txName)
+  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  
+  
   const tx = transactions?.find((tx) => tx.id === txId)
 
   const unlockTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)

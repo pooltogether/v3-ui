@@ -11,6 +11,7 @@ import {
   QueryCache,
   ReactQueryCacheProvider
 } from 'react-query'
+import { Provider } from 'jotai'
 
 import { useInterval } from 'lib/hooks/useInterval'
 
@@ -184,58 +185,59 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   return <>
+    <Provider>
+      <ReactQueryCacheProvider queryCache={queryCache}>
+        <BodyClasses />
 
-    <ReactQueryCacheProvider queryCache={queryCache}>
-      <BodyClasses />
+        <GraphErrorModal />
 
-      <GraphErrorModal />
-
-      <LoadingScreen
-        initialized={initialized}
-      />
-
-      <V3ApolloWrapper>
-        <AllContextProviders>
-          <NewPrizeWinnerEventListener />
-
-          <TxRefetchListener />
-
-          <Layout
-            props={pageProps}
-          >
-            <AnimatePresence
-              exitBeforeEnter
-            >
-              <motion.div
-                id='content-animation-wrapper'
-                key={router.route}
-                transition={{ duration: 0.3, ease: 'easeIn' }}
-                initial={{
-                  opacity: 0
-                }}
-                exit={{
-                  opacity: 0
-                }}
-                animate={{
-                  opacity: 1
-                }}
-              >
-                <Component {...pageProps} />
-              </motion.div>
-            </AnimatePresence>
-          </Layout>
-        </AllContextProviders>
-
-        <ToastContainer
-          className='pool-toast'
-          position='top-center'
-          autoClose={7000}
+        <LoadingScreen
+          initialized={initialized}
         />
 
-      </V3ApolloWrapper>
+        <V3ApolloWrapper>
+          <AllContextProviders>
+            <NewPrizeWinnerEventListener />
 
-      <ReactQueryDevtools />
-    </ReactQueryCacheProvider>
+            <TxRefetchListener />
+
+            <Layout
+              props={pageProps}
+            >
+              <AnimatePresence
+                exitBeforeEnter
+              >
+                <motion.div
+                  id='content-animation-wrapper'
+                  key={router.route}
+                  transition={{ duration: 0.3, ease: 'easeIn' }}
+                  initial={{
+                    opacity: 0
+                  }}
+                  exit={{
+                    opacity: 0
+                  }}
+                  animate={{
+                    opacity: 1
+                  }}
+                >
+                  <Component {...pageProps} />
+                </motion.div>
+              </AnimatePresence>
+            </Layout>
+          </AllContextProviders>
+
+          <ToastContainer
+            className='pool-toast'
+            position='top-center'
+            autoClose={7000}
+          />
+
+        </V3ApolloWrapper>
+
+        <ReactQueryDevtools />
+      </ReactQueryCacheProvider>
+    </Provider>
   </>
 }
 

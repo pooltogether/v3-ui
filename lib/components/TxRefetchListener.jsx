@@ -1,12 +1,14 @@
 import { useContext, useState } from 'react'
-import { useQuery } from '@apollo/client'
+import { useAtom } from 'jotai'
 
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 
 const debug = require('debug')('pool-app:TxRefetchListener')
 
 export function TxRefetchListener(props) {
+  const [transactions] = useAtom(transactionsAtom)
+
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
   const {
@@ -14,9 +16,6 @@ export function TxRefetchListener(props) {
     refetchPlayerQuery,
     refetchSponsorQuery,
   } = useContext(PoolDataContext)
-
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
 
   const pendingTransactions = transactions
     .filter(t => !t.completed && !t.cancelled)

@@ -116,10 +116,10 @@ export function ConfirmWithdrawWithFeeForm(props) {
     }
   )
 
-  const [sendTx] = useSendTransaction(txName)
+  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  
+  
   const tx = transactions?.find((tx) => tx.id === txId)
 
   // const txInWallet = tx?.inWallet && !tx?.sent
