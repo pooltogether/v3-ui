@@ -1,19 +1,23 @@
 import React, { useContext, useState } from 'react'
+import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
-import { useQuery } from '@apollo/client'
 
 import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 export function ApproveSponsorshipTxButton(props) {
   const { t } = useTranslation()
+
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
+  console.log(transactions)
+
   const {
     decimals,
     disabled,

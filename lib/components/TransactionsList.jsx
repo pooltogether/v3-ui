@@ -5,9 +5,7 @@ import { useTranslation } from 'lib/../i18n'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TransactionsListItem } from 'lib/components/TransactionsListItem'
-// import { transactionsVar } from 'lib/apollo/cache'
-import { clearPreviousTransactionsFactory } from 'lib/apollo/clearPreviousTransactionsFactory'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
+import { clearPreviousTransactions } from 'lib/apollo/clearPreviousTransactions'
 
 export function TransactionsList(props) {
   const { t } = useTranslation()
@@ -15,9 +13,6 @@ export function TransactionsList(props) {
   const [transactions, setTransactions] = useAtom(transactionsAtom)
 
   const { chainId, usersAddress } = useContext(AuthControllerContext)
-
-  // 
-  // 
 
   const notCancelledTransactions = transactions
     .filter(t => !t.cancelled)
@@ -35,11 +30,12 @@ export function TransactionsList(props) {
     e.preventDefault()
 
     if (usersAddress, chainId) {
-      const clearFxn = clearPreviousTransactionsFactory(
+      clearPreviousTransactions(
+        transactions,
+        setTransactions,
         usersAddress,
         chainId
       )
-      clearFxn()
     }
   }
 

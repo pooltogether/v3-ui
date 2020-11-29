@@ -1,13 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { ethers } from 'ethers'
+import { useAtom } from 'jotai'
 import { useRouter } from 'next/router'
-import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { useTranslation, Trans } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -15,10 +16,12 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
 
 export function ConfirmWithdrawNoFee(props) {
   const { t } = useTranslation()
+
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
+  console.log(transactions)
 
   const router = useRouter()
   const quantity = router.query.quantity
@@ -32,6 +35,7 @@ export function ConfirmWithdrawNoFee(props) {
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
   const poolAddress = pool?.poolAddress
   const controlledTokenAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
+  console.log(controlledTokenAddress)
 
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()

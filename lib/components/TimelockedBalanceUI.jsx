@@ -1,20 +1,23 @@
 import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
-import { useQuery } from '@apollo/client'
+import { useAtom } from 'jotai'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 export function TimelockedBalanceUI(props) {
   const { t } = useTranslation()
-  
+
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
+  console.log(transactions)
+
   const {
     pool,
     playerData,

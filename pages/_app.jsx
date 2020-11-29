@@ -23,6 +23,7 @@ import { GraphErrorModal } from 'lib/components/GraphErrorModal'
 import { Layout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { NewPrizeWinnerEventListener } from 'lib/components/NewPrizeWinnerEventListener'
+import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
 import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 
@@ -198,6 +199,8 @@ function MyApp({ Component, pageProps, router }) {
         <V3ApolloWrapper>
           <AllContextProviders>
             <NewPrizeWinnerEventListener />
+
+            <TransactionStatusChecker />
 
             <TxRefetchListener />
 

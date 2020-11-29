@@ -3,12 +3,13 @@ import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
-import { useQuery } from '@apollo/client'
+import { useAtom } from 'jotai'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -19,9 +20,7 @@ import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useExitFees } from 'lib/hooks/useExitFees'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-// import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 
 import IconLightning from 'assets/images/icon-lightning.svg'
@@ -29,6 +28,9 @@ import IconLightning from 'assets/images/icon-lightning.svg'
 export function ConfirmWithdrawWithFeeForm(props) {
   const { t } = useTranslation()
   const router = useRouter()
+
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
+  console.log(transactions)
   
   const { nextStep, pool, quantity } = props
 
@@ -38,6 +40,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
   const decimals = pool?.underlyingCollateralDecimals
   const poolAddress = pool?.poolAddress
   const controlledTokenAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
+  console.log(controlledTokenAddress)
 
   const tickerUpcased = ticker?.toUpperCase()
 

@@ -7,7 +7,6 @@ import { Dialog } from '@reach/dialog'
 import { AccountButton } from 'lib/components/AccountButton'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TransactionsList } from 'lib/components/TransactionsList'
-import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { WalletInfo } from 'lib/components/WalletInfo'
 
 export function NavAccount(props) {
@@ -84,7 +83,6 @@ export function NavAccount(props) {
                 </button>
               </div>
 
-              <TransactionStatusChecker />
               <TransactionsList
                 closeTransactions={closeTransactions}
                 showTransactionsDialog={showTransactionsDialog}

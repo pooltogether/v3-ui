@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
-import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
+import { useAtom } from 'jotai'
 
 import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositTxButton } from 'lib/components/DepositTxButton'
@@ -20,13 +21,15 @@ import { PTHint } from 'lib/components/PTHint'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { WyreTopUpBalanceDropdown } from 'lib/components/WyreTopUpBalanceDropdown'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 // import { poolTokenSupportsPermitSign } from 'lib/utils/poolTokenSupportsPermitSign'
 
 export function DepositCryptoForm(props) {
   const { t } = useTranslation()
+
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
+  console.log(transactions)
 
   const { nextStep, previousStep } = props
 

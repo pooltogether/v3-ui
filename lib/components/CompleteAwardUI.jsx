@@ -14,7 +14,6 @@ export function CompleteAwardUI(props) {
   const { t } = useTranslation()
 
   const [transactions, setTransactions] = useAtom(transactionsAtom)
-  console.log(transactions)
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
   const { pool } = useContext(PoolDataContext)
