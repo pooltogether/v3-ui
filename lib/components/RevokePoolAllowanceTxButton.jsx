@@ -16,7 +16,6 @@ export function RevokePoolAllowanceTxButton(props) {
   const { t } = useTranslation()
 
   const [transactions, setTransactions] = useAtom(transactionsAtom)
-  console.log(transactions)
 
   const { provider, usersAddress } = useContext(AuthControllerContext)
   const { pool, usersChainData } = useContext(PoolDataContext)

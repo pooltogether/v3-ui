@@ -1,14 +1,12 @@
 import React, { useContext } from 'react'
-import { useQuery } from '@apollo/client'
 
-import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
-import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { PrizesTable } from 'lib/components/PrizesTable'
-import { poolPrizesQuery } from 'lib/queries/poolPrizesQuery'
+import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 
 export const PoolPrizeListing = (
   props,
@@ -16,24 +14,13 @@ export const PoolPrizeListing = (
   const { t } = useTranslation()
   const { pool } = props
 
-  const { paused } = useContext(GeneralContext)
+  const { chainId } = useContext(AuthControllerContext)
 
-  const { loading, error, data } = useQuery(poolPrizesQuery, {
-    variables: {
-      prizePoolAddress: pool?.poolAddress
-    },
-    skip: !pool?.poolAddress,
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
-  })
+  const { status, data, error, isFetching } = usePoolPrizesQuery(chainId, pool)
 
-  if (error) {
-    console.error(error)
-  }
+  let prizes = data?.prizePool?.prizes
 
-  let prizes = data?.prizePools?.[0]?.prizes
-
-  if (loading) {
+  if (isFetching) {
     return <div
       className='mt-10'
     >
@@ -47,7 +34,7 @@ export const PoolPrizeListing = (
     <div
       className='flex flex-col items-center text-center mt-4'
     >
-      {!prizes || loading && <>
+      {!prizes || isFetching && <>
         <IndexUILoader />
       </>}
 

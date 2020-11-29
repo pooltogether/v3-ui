@@ -1,46 +1,29 @@
 import React, { useContext } from 'react'
 import { ethers } from 'ethers'
-import { useQuery } from '@apollo/client'
 import { sub, fromUnixTime } from 'date-fns'
 import { compact } from 'lodash'
 
 import {
   DEFAULT_TOKEN_PRECISION,
-  MAINNET_POLLING_INTERVAL,
 } from 'lib/constants'
-import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { DateValueLineGraph } from 'lib/components/DateValueLineGraph'
-import { poolPrizesQuery } from 'lib/queries/poolPrizesQuery'
+import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 
-const NUMBER_OF_POINTS = 7
+const NUMBER_OF_POINTS = 10
 
 export const TicketsSoldGraph = (
   props,
 ) => {
   const { pool } = props
 
-  const { paused } = useContext(GeneralContext)
+  // const { paused } = useContext(GeneralContext)
+  const { chainId } = useContext(AuthControllerContext)
 
-  const { loading, error, data } = useQuery(poolPrizesQuery, {
-    variables: {
-      prizePoolAddress: pool?.poolAddress,
-      first: NUMBER_OF_POINTS,
-    },
-    skip: !pool?.poolAddress,
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
-  })
+  const first = NUMBER_OF_POINTS
+  const { status, data, error, isFetching } = usePoolPrizesQuery(chainId, pool, first)
 
-  if (error) {
-    console.error(error)
-  }
-
-  let prizes = compact([].concat(data?.prizePools?.[0]?.prizes))
-
-  // console.log('======================')
-  // console.log('======================')
-  // console.log('======================')
-  // console.log({data, prizes})
+  let prizes = compact([].concat(data?.prizePool?.prizes))
 
   if (error) {
     console.error(error)
@@ -48,7 +31,7 @@ export const TicketsSoldGraph = (
 
   const decimals = pool?.underlyingCollateralDecimals
 
-  if (!decimals || !prizes.length || loading) {
+  if (!decimals || !prizes.length || isFetching) {
     return null
   }
 
