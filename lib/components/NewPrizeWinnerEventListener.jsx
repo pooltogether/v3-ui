@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react'
-import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
@@ -7,7 +6,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
 import { Modal } from 'lib/components/Modal'
-import { prizeQuery } from 'lib/queries/prizeQuery'
+import { usePrizeQuery } from 'lib/hooks/usePrizeQuery'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
 
@@ -20,25 +19,21 @@ export function NewPrizeWinnerEventListener(props) {
   const [storedRecentPrizeId, setStoredRecentPrizeId] = useState(null)
   const [newPrizeModalVisible, setNewPrizeModalVisible] = useState(null)
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const { chainId, usersAddress } = useContext(AuthControllerContext)
   const { pools } = useContext(PoolDataContext)
 
   // TODO: Expand this to work for every pool!
   const pool = pools?.[0]
+  console.log(pools)
 
   const recentPrizeId = pool?.currentPrizeId - 1
   debug('recentPrizeId', recentPrizeId)
 
-  const prizeId = `${pool?.poolAddress}-${recentPrizeId}`
-  const variables = {
-    prizeId
-  }
 
-  const { loading, error, data } = useQuery(prizeQuery, {
-    variables,
-    skip: !pool?.poolAddress || !prizeId,
-    fetchPolicy: 'network-only',
-  })
+  const prizeId = `${pool?.poolAddress}-${recentPrizeId}`
+
+  const { status, data, error, isFetching } = usePrizeQuery(chainId, pool, prizeId)
+  
   const recentPrize = data?.prize
   
   useEffect(() => {

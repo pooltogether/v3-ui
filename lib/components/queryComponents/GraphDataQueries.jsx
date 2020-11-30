@@ -5,8 +5,9 @@ import { isEmpty } from 'lodash'
 import {
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
-import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
+import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { dynamicSponsorQuery } from 'lib/queries/dynamicSponsorQuery'
 import { prizePoolsQuery } from 'lib/queries/prizePoolsQuery'
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
@@ -19,6 +20,7 @@ export const GraphDataQueries = (
 ) => {
   const { contractAddresses, usersAddress, children } = props
 
+  const { chainId } = useContext(AuthControllerContext)
   const { paused } = useContext(GeneralContext)
 
   const variables = {
@@ -52,33 +54,55 @@ export const GraphDataQueries = (
 
 
 
-  let dynamicPlayerData
-  let dynamicPlayerDrips
+  const playerAddress = usersAddress
 
-  const {
-    loading: playerQueryLoading,
-    error: playerQueryError,
-    data: playerQueryData,
-    refetch: refetchPlayerQuery
-  } = useQuery(dynamicPlayerQuery, {
-    variables: {
-      playerAddress: usersAddress
-    },
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
-    skip: !usersAddress
-  })
+  let playerAddressError
+  if (playerAddress) {
+    try {
+      ethers.utils.getAddress(playerAddress)
+    } catch (e) {
+      console.error(e)
 
-  if (playerQueryError) {
-    poolToast.error(playerQueryError)
-    console.error(playerQueryError)
+      if (e.message.match('invalid address')) {
+        playerAddressError = 'Incorrectly formatted Ethereum address!'
+        console.error(playerAddressError)
+      }
+    }
   }
 
-  if (playerQueryData) {
-    // TODO: Filter out any prize pools we're not interested in (ie not in the contractAddresses listing)
-    // dynamicPlayerData = getPlayerDataFromQueryResult(contractAddresses, playerQueryData)
+  let dynamicPlayerDrips
 
-    dynamicPlayerData = playerQueryData.player
+  const blockNumber = -1
+  const { status, data: playerQueryData, error, isFetching: playerQueryFetching } = usePlayerQuery(chainId, playerAddress, blockNumber, playerAddressError)
+  const refetchPlayerQuery = () => { console.warn('implement refetchPlayerQuery!') }
+  if (error) {
+    console.error(error)
+  }
+
+
+  // const {
+  //   loading: playerQueryFetching,
+  //   error: playerQueryError,
+  //   data: playerQueryData,
+  //   refetch: refetchPlayerQuery
+  // } = useQuery(dynamicPlayerQuery, {
+  //   variables: {
+  //     playerAddress: usersAddress
+  //   },
+  //   fetchPolicy: 'network-only',
+  //   pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
+  //   skip: !usersAddress
+  // })
+
+  // if (playerQueryError) {
+  //   poolToast.error(playerQueryError)
+  //   console.error(playerQueryError)
+  // }
+
+  console.log(playerQueryData)
+  let dynamicPlayerData
+  if (playerQueryData) {
+    dynamicPlayerData = playerQueryData
     dynamicPlayerDrips = {
       dripTokens: playerQueryData.playerDripToken,
       balanceDrips: playerQueryData.playerBalanceDrip,
@@ -118,7 +142,7 @@ export const GraphDataQueries = (
   let graphDataLoading = poolQueryLoading ||
     // prizeStrategyQueryLoading ||
     // externalAwardsLoading ||
-    playerQueryLoading ||
+    playerQueryFetching ||
     sponsorQueryLoading ||
     // !dynamicPrizeStrategiesData ||
     !poolData

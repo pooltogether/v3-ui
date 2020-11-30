@@ -1,77 +1,62 @@
-import React, { useContext } from 'react'
-import { ethers } from 'ethers'
-import { useRouter } from 'next/router'
-import { useQuery } from '@apollo/client'
+// import React, { useContext } from 'react'
+// import { ethers } from 'ethers'
+// import { useRouter } from 'next/router'
 
-import {
-  MAINNET_POLLING_INTERVAL,
-  SUPPORTED_CHAIN_IDS
-} from 'lib/constants'
-import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
+// import {
+//   SUPPORTED_CHAIN_IDS
+// } from 'lib/constants'
+// import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+// import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
+// import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 
-export const PlayerDataContext = React.createContext()
+// export const PlayerDataContext = React.createContext()
 
-export function PlayerDataContextProvider(props) {
-  const { chainId } = useContext(AuthControllerContext)
-  const { paused } = useContext(GeneralContext)
+// export function PlayerDataContextProvider(props) {
+//   const { chainId } = useContext(AuthControllerContext)
+//   // const { paused } = useContext(GeneralContext)
 
-  const router = useRouter()
-  const playerAddress = router.query?.playerAddress?.toLowerCase()
+//   const router = useRouter()
+//   const playerAddress = router.query?.playerAddress?.toLowerCase()
 
-  if (!SUPPORTED_CHAIN_IDS.includes(chainId)) {
-    console.log('Network not supported')
-  }
+//   if (!SUPPORTED_CHAIN_IDS.includes(chainId)) {
+//     console.log('Network not supported')
+//   }
 
-  let playerAddressError
-  if (playerAddress) {
-    try {
-      ethers.utils.getAddress(playerAddress)
-    } catch (e) {
-      console.error(e)
+//   let playerAddressError
+//   if (playerAddress) {
+//     try {
+//       ethers.utils.getAddress(playerAddress)
+//     } catch (e) {
+//       console.error(e)
 
-      if (e.message.match('invalid address')) {
-        playerAddressError = 'Incorrectly formatted Ethereum address!'
-        console.error(playerAddressError)
-      }
-    }
-  }
+//       if (e.message.match('invalid address')) {
+//         playerAddressError = true
+//       }
+//     }
+//   }
 
+//   let playerData
+//   let playerDripTokenData
+//   let playerBalanceDripData
+//   let playerVolumeDripData
 
-  let playerData
-  let playerDripTokenData
-  let playerBalanceDripData
-  let playerVolumeDripData
+//   const { status, data, error, isFetching } = usePlayerQuery(chainId, playerAddress, blockNumber, playerAddressError)
 
-  const { loading, error, data } = useQuery(dynamicPlayerQuery, {
-    variables: {
-      playerAddress
-    },
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
-    skip: !playerAddress || playerAddressError
-  })
+//   playerData = data?.player
+//   playerDripTokenData = data?.playerDripToken
+//   playerBalanceDripData = data?.playerBalanceDrip
+//   playerVolumeDripData = data?.playerVolumeDrip
 
-  if (error) {
-    console.error(error)
-  }
+//   return <PlayerDataContext.Provider
+//     value={{
+//       // loading,
+//       playerData,
+//       playerDripTokenData,
+//       playerBalanceDripData,
+//       playerVolumeDripData,
+//     }}
+//   >
+//     {props.children}
+//   </PlayerDataContext.Provider>
 
-  playerData = data?.player
-  playerDripTokenData = data?.playerDripToken
-  playerBalanceDripData = data?.playerBalanceDrip
-  playerVolumeDripData = data?.playerVolumeDrip
-
-  return <PlayerDataContext.Provider
-    value={{
-      // loading,
-      playerData,
-      playerDripTokenData,
-      playerBalanceDripData,
-      playerVolumeDripData,
-    }}
-  >
-    {props.children}
-  </PlayerDataContext.Provider>
-
-}
+// }

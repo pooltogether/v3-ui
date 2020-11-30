@@ -6,7 +6,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { Odds } from 'lib/components/Odds'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
-import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
+import { usePoolPlayerQuery } from 'lib/hooks/usePoolPlayerQuery'
 import { shorten } from 'lib/utils/shorten'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -20,8 +20,22 @@ export const PrizeWinner = (
   const { chainId } = useContext(AuthControllerContext)
 
   const blockNumber = prize?.awardedBlock - 1
-  
-  const { status, data, error, isFetching } = usePlayerQuery(chainId, pool, winnersAddress, blockNumber)
+
+
+  let playerAddressError
+  if (playerAddress) {
+    try {
+      ethers.utils.getAddress(playerAddress)
+    } catch (e) {
+      console.error(e)
+
+      if (e.message.match('invalid address')) {
+        playerAddressError = true
+      }
+    }
+  }
+
+  const { status, data, error, isFetching } = usePoolPlayerQuery(chainId, pool, winnersAddress, blockNumber, playerAddressError)
 
   const playerData = data
 

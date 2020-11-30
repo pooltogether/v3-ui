@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
 import { useTranslation } from 'lib/../i18n'
-import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
@@ -13,6 +12,7 @@ import { ErrorMessage } from 'lib/components/ErrorMessage'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { shorten } from 'lib/utils/shorten'
 
 export function PlayerPageUI(props) {
@@ -34,10 +34,35 @@ export function PlayerPageUI(props) {
     }
   }, [playerAddress])
 
-  const { playerData } = useContext(PlayerDataContext)
   const { pools } = useContext(PoolDataContext)
-  
-  return <>
+
+
+  let playerAddressError
+  if (playerAddress) {
+    try {
+      ethers.utils.getAddress(playerAddress)
+    } catch (e) {
+      console.error(e)
+
+      if (e.message.match('invalid address')) {
+        playerAddressError = true
+      }
+    }
+  }
+
+  let playerData
+  // let playerDripTokenData
+  // let playerBalanceDripData
+  // let playerVolumeDripData
+
+  const { status, data, error, isFetching } = usePlayerQuery(chainId, playerAddress, blockNumber, playerAddressError)
+
+  playerData = data?.player
+  // playerDripTokenData = data?.playerDripToken
+  // playerBalanceDripData = data?.playerBalanceDrip
+  // playerVolumeDripData = data?.playerVolumeDrip
+
+return <>
     <Meta
       title={`${t('player')} ${playerAddress ? playerAddress : ''}`}
     />
