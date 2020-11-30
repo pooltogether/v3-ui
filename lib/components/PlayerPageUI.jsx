@@ -150,7 +150,7 @@ export function PlayerPageUI(props) {
               className='mt-8'
             >
               {playerData.map(playerData => {
-                const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
+                const pool = pools?.find(pool => pool.poolAddress === playerData.prizePool.id)
 
                 if (!pool) {
                   return

@@ -1,62 +1,55 @@
-// import React, { useContext } from 'react'
-// import { ethers } from 'ethers'
-// import { useRouter } from 'next/router'
+import React, { useContext, useEffect, useState } from 'react'
 
-// import {
-//   SUPPORTED_CHAIN_IDS
-// } from 'lib/constants'
-// import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-// import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
-// import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
+import { getUsersSponsorshipBalance } from 'lib/services/getUsersSponsorshipBalance'
+import { getUsersTicketBalance } from 'lib/services/getUsersTicketBalance'
+import { testAddress } from 'lib/utils/testAddress'
 
-// export const PlayerDataContext = React.createContext()
+export const PlayerDataContext = React.createContext()
+const debug = require('debug')('pool-app:PoolDataContext')
 
-// export function PlayerDataContextProvider(props) {
-//   const { chainId } = useContext(AuthControllerContext)
-//   // const { paused } = useContext(GeneralContext)
+export function PlayerDataContextProvider(props) {
+  const { chainId, usersAddress } = useContext(AuthControllerContext)
+  const { pool } = useContext(PoolDataContext)
 
-//   const router = useRouter()
-//   const playerAddress = router.query?.playerAddress?.toLowerCase()
 
-//   if (!SUPPORTED_CHAIN_IDS.includes(chainId)) {
-//     console.log('Network not supported')
-//   }
+  const playerAddressError = testAddress(usersAddress)
 
-//   let playerAddressError
-//   if (playerAddress) {
-//     try {
-//       ethers.utils.getAddress(playerAddress)
-//     } catch (e) {
-//       console.error(e)
+  const blockNumber = -1
+  const {
+    status,
+    data: playerData,
+    error,
+    isFetching
+  } = usePlayerQuery(chainId, usersAddress, blockNumber, playerAddressError)
 
-//       if (e.message.match('invalid address')) {
-//         playerAddressError = true
-//       }
-//     }
-//   }
+  if (error) {
+    console.error(error)
+  }
 
-//   let playerData
-//   let playerDripTokenData
-//   let playerBalanceDripData
-//   let playerVolumeDripData
 
-//   const { status, data, error, isFetching } = usePlayerQuery(chainId, playerAddress, blockNumber, playerAddressError)
+  const {
+    usersTicketBalance,
+    usersTicketBalanceBN
+  } = getUsersTicketBalance(pool, playerData)
 
-//   playerData = data?.player
-//   playerDripTokenData = data?.playerDripToken
-//   playerBalanceDripData = data?.playerBalanceDrip
-//   playerVolumeDripData = data?.playerVolumeDrip
+  // const {
+  //   usersSponsorshipBalance,
+  //   usersSponsorshipBalanceBN
+  // } = getUsersSponsorshipBalance(pool, dynamicSponsorData)
 
-//   return <PlayerDataContext.Provider
-//     value={{
-//       // loading,
-//       playerData,
-//       playerDripTokenData,
-//       playerBalanceDripData,
-//       playerVolumeDripData,
-//     }}
-//   >
-//     {props.children}
-//   </PlayerDataContext.Provider>
-
-// }
+  return <>
+    <PlayerDataContext.Provider
+      value={{
+        // usersSponsorshipBalance,
+        // usersSponsorshipBalanceBN,
+        usersTicketBalance,
+        usersTicketBalanceBN,
+      }}
+    >
+      {props.children}
+    </PlayerDataContext.Provider>
+  </>
+}

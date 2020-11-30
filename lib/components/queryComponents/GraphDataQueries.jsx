@@ -7,8 +7,7 @@ import {
 } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
-import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
-import { dynamicSponsorQuery } from 'lib/queries/dynamicSponsorQuery'
+// import { dynamicSponsorQuery } from 'lib/queries/dynamicSponsorQuery'
 import { prizePoolsQuery } from 'lib/queries/prizePoolsQuery'
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
 import { poolToast } from 'lib/utils/poolToast'
@@ -54,35 +53,35 @@ export const GraphDataQueries = (
 
 
 
-  const playerAddress = usersAddress
+  // const playerAddress = usersAddress
 
-  let playerAddressError
-  if (playerAddress) {
-    try {
-      ethers.utils.getAddress(playerAddress)
-    } catch (e) {
-      console.error(e)
+  // let playerAddressError
+  // if (playerAddress) {
+  //   try {
+  //     ethers.utils.getAddress(playerAddress)
+  //   } catch (e) {
+  //     console.error(e)
 
-      if (e.message.match('invalid address')) {
-        playerAddressError = 'Incorrectly formatted Ethereum address!'
-        console.error(playerAddressError)
-      }
-    }
-  }
+  //     if (e.message.match('invalid address')) {
+  //       playerAddressError = 'Incorrectly formatted Ethereum address!'
+  //       console.error(playerAddressError)
+  //     }
+  //   }
+  // }
 
-  let dynamicPlayerDrips
+  // let dynamicPlayerDrips
 
-  const blockNumber = -1
-  const {
-    status,
-    data: playerQueryData,
-    error,
-    isFetching: playerQueryFetching
-  } = usePlayerQuery(chainId, playerAddress, blockNumber, playerAddressError)
-  const refetchPlayerQuery = () => { console.warn('implement refetchPlayerQuery!') }
-  if (error) {
-    console.error(error)
-  }
+  // const blockNumber = -1
+  // const {
+  //   status,
+  //   data: playerQueryData,
+  //   error,
+  //   isFetching: playerQueryFetching
+  // } = usePlayerQuery(chainId, playerAddress, blockNumber, playerAddressError)
+  // const refetchPlayerQuery = () => { console.warn('implement refetchPlayerQuery!') }
+  // if (error) {
+  //   console.error(error)
+  // }
 
 
   // const {
@@ -104,57 +103,47 @@ export const GraphDataQueries = (
   //   console.error(playerQueryError)
   // }
 
-  console.log(playerQueryData)
-  let dynamicPlayerData
-  if (playerQueryData) {
-    dynamicPlayerData = playerQueryData
-    dynamicPlayerDrips = {
-      dripTokens: playerQueryData.playerDripToken,
-      balanceDrips: playerQueryData.playerBalanceDrip,
-      volumeDrips: playerQueryData.playerVolumeDrip,
-    }
-  }
+  // let dynamicPlayerData
+  // if (playerQueryData) {
+  //   dynamicPlayerData = playerQueryData
+  //   dynamicPlayerDrips = {
+  //     dripTokens: playerQueryData.playerDripToken,
+  //     balanceDrips: playerQueryData.playerBalanceDrip,
+  //     volumeDrips: playerQueryData.playerVolumeDrip,
+  //   }
+  // }
 
 
 
-  let dynamicSponsorData
+  // let dynamicSponsorData
 
-  const {
-    loading: sponsorQueryLoading,
-    error: sponsorQueryError,
-    data: sponsorQueryData,
-    refetch: refetchSponsorQuery
-  } = useQuery(dynamicSponsorQuery, {
-    variables: {
-      sponsorAddress: usersAddress
-    },
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
-    skip: !usersAddress
-  })
+  // const {
+  //   loading: sponsorQueryLoading,
+  //   error: sponsorQueryError,
+  //   data: sponsorQueryData,
+  //   refetch: refetchSponsorQuery
+  // } = useQuery(dynamicSponsorQuery, {
+  //   variables: {
+  //     sponsorAddress: usersAddress
+  //   },
+  //   fetchPolicy: 'network-only',
+  //   pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
+  //   skip: !usersAddress
+  // })
 
-  if (sponsorQueryError) {
-    if (sponsorQueryError.message.match('service is overloaded')) {
-      poolToast.warn('The Graph protocol service is currently overloaded, please try again in a few minutes')
-    }
-  }
+  // if (sponsorQueryError) {
+  //   if (sponsorQueryError.message.match('service is overloaded')) {
+  //     poolToast.warn('The Graph protocol service is currently overloaded, please try again in a few minutes')
+  //   }
+  // }
 
-  if (sponsorQueryData) {
-    dynamicSponsorData = sponsorQueryData.sponsor
-  }
+  // if (sponsorQueryData) {
+  //   dynamicSponsorData = sponsorQueryData.sponsor
+  // }
 
 
   let graphDataLoading = poolQueryLoading ||
-    // prizeStrategyQueryLoading ||
-    // externalAwardsLoading ||
-    playerQueryFetching ||
-    sponsorQueryLoading ||
-    // !dynamicPrizeStrategiesData ||
     !poolData
-
-  if (usersAddress) {
-    graphDataLoading = (graphDataLoading || !dynamicPlayerData || !dynamicSponsorData)
-  }
 
   if (!poolQueryLoading && !isEmpty(poolData)) {
     window.hideGraphError()
@@ -162,15 +151,7 @@ export const GraphDataQueries = (
 
   return children({
     graphDataLoading,
-    // dynamicExternalAwardsData,
     poolData,
-    // dynamicPrizeStrategiesData,
-    dynamicPlayerData,
-    dynamicPlayerDrips,
-    dynamicSponsorData,
     refetchPoolQuery,
-    // refetchPrizeStrategyQuery,
-    refetchPlayerQuery,
-    refetchSponsorQuery,
   })
 }

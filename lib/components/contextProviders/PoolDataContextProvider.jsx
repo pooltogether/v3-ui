@@ -59,7 +59,6 @@ export function PoolDataContextProvider(props) {
 
 
 
-
   return <>
     <GraphDataQueries
       {...props}

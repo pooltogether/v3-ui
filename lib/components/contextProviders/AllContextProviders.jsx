@@ -6,6 +6,7 @@ import { AuthControllerContextProvider } from 'lib/components/contextProviders/A
 import { ConfettiContextProvider } from 'lib/components/contextProviders/ConfettiContextProvider'
 import { GeneralContextProvider } from 'lib/components/contextProviders/GeneralContextProvider'
 import { PoolDataContextProvider } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { PlayerDataContextProvider } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { ThemeContextProvider } from 'lib/components/contextProviders/ThemeContextProvider'
 
 const MagicContextProviderDynamic = dynamic(() =>
@@ -41,7 +42,9 @@ export function AllContextProviders(props) {
             <AuthControllerContextProvider>
               <GeneralContextProvider>
                 <PoolDataContextProvider>
-                  {children}
+                  <PlayerDataContextProvider>
+                    {children}
+                  </PlayerDataContextProvider>
                 </PoolDataContextProvider>
               </GeneralContextProvider>
             </AuthControllerContextProvider>

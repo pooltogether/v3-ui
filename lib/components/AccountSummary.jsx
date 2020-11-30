@@ -6,20 +6,40 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { SmallLoader } from 'lib/components/SmallLoader'
+import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
+import { testAddress } from 'lib/utils/testAddress'
 
-import AccountPlaceholderImg from 'assets/images/avatar-placeholder.svg'
+// import AccountPlaceholderImg from 'assets/images/avatar-placeholder.svg'
 import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
 
 export const AccountSummary = () => {
   const { t } = useTranslation()
-  const { pools, dynamicPlayerData, usersChainData } = useContext(PoolDataContext)
-  const { usersAddress } = useContext(AuthControllerContext)
+
+  const { pools, usersChainData } = useContext(PoolDataContext)
+  const { chainId, usersAddress } = useContext(AuthControllerContext)
+
+
+
+  const playerAddressError = testAddress(usersAddress)
+  
+  const blockNumber = -1
+  const {
+    status,
+    data: playerData,
+    error,
+    isFetching
+  } = usePlayerQuery(chainId, usersAddress, blockNumber, playerAddressError)
+
+  if (error) {
+    console.error(error)
+  }
+
 
   let totalTickets = null
   let cumulativeWinningsAllPools = ethers.utils.bigNumberify(0)
-  dynamicPlayerData?.forEach(playerData => {
-    const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
+  playerData?.forEach(playerData => {
+    const pool = pools?.find(pool => pool.poolAddress === playerData.prizePool.id)
 
     if (!pool || !playerData.balance) {
       return

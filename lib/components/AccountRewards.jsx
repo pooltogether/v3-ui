@@ -42,7 +42,7 @@ export const AccountRewards = () => {
   const referralAddress = `https://${domain}/?referrer=${usersAddress ? usersAddress : ''}`
   const shortReferralAddress = `${domain}/?referrer=${usersAddress ? shorten(usersAddress) : ''}`
 
-  const { usersDripTokenData } = usersChainData
+  const { usersDripTokenData } = usersChainData || {}
 
   const [activeTxDripIds, setActiveTxDripIds] = useState([])
 

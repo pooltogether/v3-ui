@@ -16,7 +16,6 @@ export const V2MigrateButton = (
   const { balance, balanceFormatted, type, ticker } = props
   
   const [transactions, setTransactions] = useAtom(transactionsAtom)
-  console.log(transactions)
 
   const { t } = useTranslation()
   const { contractAddresses } = useContext(PoolDataContext)
