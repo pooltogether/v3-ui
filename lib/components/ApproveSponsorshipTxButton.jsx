@@ -16,7 +16,6 @@ export function ApproveSponsorshipTxButton(props) {
   const { t } = useTranslation()
 
   const [transactions, setTransactions] = useAtom(transactionsAtom)
-  console.log(transactions)
 
   const {
     decimals,

@@ -29,7 +29,6 @@ export function DepositCryptoForm(props) {
   const { t } = useTranslation()
 
   const [transactions, setTransactions] = useAtom(transactionsAtom)
-  console.log(transactions)
 
   const { nextStep, previousStep } = props
 

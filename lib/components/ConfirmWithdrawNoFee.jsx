@@ -22,7 +22,6 @@ export function ConfirmWithdrawNoFee(props) {
   const { t } = useTranslation()
 
   const [transactions, setTransactions] = useAtom(transactionsAtom)
-  console.log(transactions)
 
   const router = useRouter()
   const quantity = router.query.quantity
@@ -37,7 +36,6 @@ export function ConfirmWithdrawNoFee(props) {
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
   const poolAddress = pool?.poolAddress
   const controlledTokenAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
-  console.log(controlledTokenAddress)
 
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()

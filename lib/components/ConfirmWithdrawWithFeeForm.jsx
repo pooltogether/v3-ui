@@ -30,7 +30,6 @@ export function ConfirmWithdrawWithFeeForm(props) {
   const router = useRouter()
 
   const [transactions, setTransactions] = useAtom(transactionsAtom)
-  console.log(transactions)
   
   const { nextStep, pool, quantity } = props
 

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ApproveSponsorshipTxButton } from 'lib/components/ApproveSponsorshipTxButton'
 import { DepositSponsorshipTxButton } from 'lib/components/DepositSponsorshipTxButton'
@@ -28,13 +29,8 @@ export function DepositOrWithdrawSponsorshipModal(props) {
   const [needsApproval, setNeedsApproval] = useState(null)
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const {
-    pool,
-    usersSponsorshipBalance,
-    usersSponsorshipBalanceBN,
-    usersChainData
-  } = useContext(PoolDataContext)
-
+  const { pool, usersChainData } = useContext(PoolDataContext)
+  const { usersSponsorshipBalance, usersSponsorshipBalanceBN } = useContext(PlayerDataContext)
   
   const {
     register,

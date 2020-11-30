@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
@@ -35,7 +36,8 @@ export function DepositTicketQuantityForm(props) {
   const quantity = router.query.quantity
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { pool, usersTicketBalance, usersTicketBalanceBN, usersChainData } = useContext(PoolDataContext)
+  const { pool, usersChainData } = useContext(PoolDataContext)
+  const { usersTicketBalance, usersTicketBalanceBN } = useContext(PlayerDataContext)
 
   const liquidityCap = pool?.liquidityCap ? bn(pool?.liquidityCap) : bn(0)
   let remainingTickets

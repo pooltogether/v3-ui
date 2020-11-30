@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { DepositOrWithdrawSponsorshipModal } from 'lib/components/DepositOrWithdrawSponsorshipModal'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const SponsorshipPane = (
@@ -15,7 +15,7 @@ export const SponsorshipPane = (
   const [depositVisible, setDepositVisible] = useState(false)
   const [withdrawVisible, setWithdrawVisible] = useState(false)
   
-  const { usersSponsorshipBalance } = useContext(PoolDataContext)
+  const { usersSponsorshipBalance } = useContext(PlayerDataContext)
   
   const handleDepositSponsorshipClick = (e) => {
     e.preventDefault()

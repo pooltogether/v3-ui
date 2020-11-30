@@ -15,7 +15,6 @@ export function WithdrawSponsorshipTxButton(props) {
   const { t } = useTranslation()
   
   const [transactions, setTransactions] = useAtom(transactionsAtom)
-  console.log(transactions)
 
   const {
     quantityBN,
@@ -35,13 +34,11 @@ export function WithdrawSponsorshipTxButton(props) {
 
   const [txId, setTxId] = useState()
 
-  // const txName = `Withdraw Sponsorship (${quantity} ${tickerUpcased})`
   const txName = t(`withdrawSponsorshipAmountTicker`, {
     amount: quantity,
     ticker: tickerUpcased
   })
 
-  // const txName = `Withdraw Sponsorship (${quantity} ${tickerUpcased})`
   const method = 'withdrawInstantlyFrom'
 
   const [sendTx] = useSendTransaction(txName, transactions, setTransactions)

@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
@@ -27,7 +28,8 @@ export function WithdrawTicketsForm(props) {
   const router = useRouter()
 
   const { chainId, usersAddress } = useContext(AuthControllerContext)
-  const { pool, usersTicketBalance, usersTicketBalanceBN } = useContext(PoolDataContext)
+  const { pool } = useContext(PoolDataContext)
+  const { usersTicketBalance, usersTicketBalanceBN } = useContext(PlayerDataContext)
 
 
   const playerAddressError = testAddress(usersAddress)

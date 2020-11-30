@@ -12,8 +12,6 @@ import { UniswapData } from 'lib/components/UniswapData'
 import { compilePools } from 'lib/services/compilePools'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { getCurrentPool } from 'lib/services/getCurrentPool'
-import { getUsersSponsorshipBalance } from 'lib/services/getUsersSponsorshipBalance'
-import { getUsersTicketBalance } from 'lib/services/getUsersTicketBalance'
 import { readProvider } from 'lib/services/readProvider'
 import { poolToast } from 'lib/utils/poolToast'
 
@@ -68,11 +66,7 @@ export function PoolDataContextProvider(props) {
       {({
         graphDataLoading,
         poolData,
-        dynamicPlayerData,
-        dynamicSponsorData,
         refetchPoolQuery,
-        refetchPlayerQuery,
-        refetchSponsorQuery,
         dynamicPlayerDrips,
       }) => {
         return <ChainQueries
@@ -88,17 +82,6 @@ export function PoolDataContextProvider(props) {
 
             const currentPool = getCurrentPool(querySymbol, pools)
             
-            const {
-              usersTicketBalance,
-              usersTicketBalanceBN
-            } = getUsersTicketBalance(currentPool, dynamicPlayerData)
-
-            const {
-              usersSponsorshipBalance,
-              usersSponsorshipBalanceBN
-            } = getUsersSponsorshipBalance(currentPool, dynamicSponsorData)
-
-
             const ethereumErc20Awards = cache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, poolData?.daiPool?.poolAddress, -1])
             const addresses = ethereumErc20Awards
               ?.filter(award => award.balance.gt(0))
@@ -130,19 +113,11 @@ export function PoolDataContextProvider(props) {
                             contractAddresses,
                             defaultReadProvider,
                             poolData,
-                            dynamicPlayerData,
-                            dynamicSponsorData,
                             dynamicPlayerDrips,
                             genericChainData,
                             refetchPoolQuery,
-                            refetchPlayerQuery,
-                            refetchSponsorQuery,
                             graphDripData,
                             usersChainData,
-                            usersSponsorshipBalance,
-                            usersSponsorshipBalanceBN,
-                            usersTicketBalance,
-                            usersTicketBalanceBN,
                           }}
                         >
                           {props.children}
