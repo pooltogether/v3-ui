@@ -24,7 +24,6 @@ export function NewPrizeWinnerEventListener(props) {
 
   // TODO: Expand this to work for every pool!
   const pool = pools?.[0]
-  console.log(pools)
 
   const recentPrizeId = pool?.currentPrizeId - 1
   debug('recentPrizeId', recentPrizeId)

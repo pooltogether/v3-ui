@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
 import { useTranslation } from 'lib/../i18n'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
@@ -18,7 +19,10 @@ import { shorten } from 'lib/utils/shorten'
 export function PlayerPageUI(props) {
   const { t } = useTranslation()
   const router = useRouter()
-  
+
+  const { pools } = useContext(PoolDataContext)
+  const { chainId } = useContext(AuthControllerContext)
+
   const playerAddress = router?.query?.playerAddress
 
   const [error, setError] = useState('')
@@ -34,7 +38,6 @@ export function PlayerPageUI(props) {
     }
   }, [playerAddress])
 
-  const { pools } = useContext(PoolDataContext)
 
 
   let playerAddressError
@@ -55,14 +58,21 @@ export function PlayerPageUI(props) {
   // let playerBalanceDripData
   // let playerVolumeDripData
 
-  const { status, data, error, isFetching } = usePlayerQuery(chainId, playerAddress, blockNumber, playerAddressError)
+  const blockNumber = -1
 
-  playerData = data?.player
+  const {
+    status,
+    data,
+    error: playerQueryError,
+    isFetching
+  } = usePlayerQuery(chainId, playerAddress, blockNumber, playerAddressError)
+
+  playerData = data
   // playerDripTokenData = data?.playerDripToken
   // playerBalanceDripData = data?.playerBalanceDrip
   // playerVolumeDripData = data?.playerVolumeDrip
 
-return <>
+  return <>
     <Meta
       title={`${t('player')} ${playerAddress ? playerAddress : ''}`}
     />

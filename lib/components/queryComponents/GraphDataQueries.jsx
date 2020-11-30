@@ -73,7 +73,12 @@ export const GraphDataQueries = (
   let dynamicPlayerDrips
 
   const blockNumber = -1
-  const { status, data: playerQueryData, error, isFetching: playerQueryFetching } = usePlayerQuery(chainId, playerAddress, blockNumber, playerAddressError)
+  const {
+    status,
+    data: playerQueryData,
+    error,
+    isFetching: playerQueryFetching
+  } = usePlayerQuery(chainId, playerAddress, blockNumber, playerAddressError)
   const refetchPlayerQuery = () => { console.warn('implement refetchPlayerQuery!') }
   if (error) {
     console.error(error)

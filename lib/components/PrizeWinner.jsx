@@ -23,9 +23,9 @@ export const PrizeWinner = (
 
 
   let playerAddressError
-  if (playerAddress) {
+  if (winnersAddress) {
     try {
-      ethers.utils.getAddress(playerAddress)
+      ethers.utils.getAddress(winnersAddress)
     } catch (e) {
       console.error(e)
 
