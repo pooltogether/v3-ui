@@ -89,14 +89,11 @@ export function AuthControllerContextProvider(props) {
     const updateChainId = async () => {
       if (onboardNetwork && onboardNetwork !== chainId) {
         setChangingNetwork(true)
-        
-        // TODO: Add && if supportedNetwork here!
-        window.destroyApollo()
 
+        
         setChainId(onboardNetwork)
         await storeChainIdCookie(onboardNetwork)
 
-        window.createAndStartApollo()
 
         setTimeout(() => {
           setChangingNetwork(false)

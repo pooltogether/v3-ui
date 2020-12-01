@@ -18,14 +18,12 @@ import { useInterval } from 'lib/hooks/useInterval'
 import { COOKIE_OPTIONS, REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
-// import { GasStationQuery } from 'lib/components/GasStationQuery'
 import { GraphErrorModal } from 'lib/components/GraphErrorModal'
 import { Layout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { NewPrizeWinnerEventListener } from 'lib/components/NewPrizeWinnerEventListener'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
-import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 
 import '@reach/dialog/styles.css'
 import '@reach/menu-button/styles.css'
@@ -196,47 +194,44 @@ function MyApp({ Component, pageProps, router }) {
           initialized={initialized}
         />
 
-        <V3ApolloWrapper>
-          <AllContextProviders>
-            <NewPrizeWinnerEventListener />
+        <AllContextProviders>
+          <NewPrizeWinnerEventListener />
 
-            <TransactionStatusChecker />
+          <TransactionStatusChecker />
 
-            <TxRefetchListener />
+          <TxRefetchListener />
 
-            <Layout
-              props={pageProps}
+          <Layout
+            props={pageProps}
+          >
+            <AnimatePresence
+              exitBeforeEnter
             >
-              <AnimatePresence
-                exitBeforeEnter
+              <motion.div
+                id='content-animation-wrapper'
+                key={router.route}
+                transition={{ duration: 0.3, ease: 'easeIn' }}
+                initial={{
+                  opacity: 0
+                }}
+                exit={{
+                  opacity: 0
+                }}
+                animate={{
+                  opacity: 1
+                }}
               >
-                <motion.div
-                  id='content-animation-wrapper'
-                  key={router.route}
-                  transition={{ duration: 0.3, ease: 'easeIn' }}
-                  initial={{
-                    opacity: 0
-                  }}
-                  exit={{
-                    opacity: 0
-                  }}
-                  animate={{
-                    opacity: 1
-                  }}
-                >
-                  <Component {...pageProps} />
-                </motion.div>
-              </AnimatePresence>
-            </Layout>
-          </AllContextProviders>
+                <Component {...pageProps} />
+              </motion.div>
+            </AnimatePresence>
+          </Layout>
+        </AllContextProviders>
 
-          <ToastContainer
-            className='pool-toast'
-            position='top-center'
-            autoClose={7000}
-          />
-
-        </V3ApolloWrapper>
+        <ToastContainer
+          className='pool-toast'
+          position='top-center'
+          autoClose={7000}
+        />
 
         <ReactQueryDevtools />
       </ReactQueryCacheProvider>

@@ -5,7 +5,7 @@ import { useTranslation } from 'lib/../i18n'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TransactionsListItem } from 'lib/components/TransactionsListItem'
-import { clearPreviousTransactions } from 'lib/apollo/clearPreviousTransactions'
+import { clearPreviousTransactions } from 'lib/services/clearPreviousTransactions'
 
 export function TransactionsList(props) {
   const { t } = useTranslation()

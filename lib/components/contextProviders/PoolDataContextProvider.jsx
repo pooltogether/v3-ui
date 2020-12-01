@@ -62,7 +62,7 @@ export function PoolDataContextProvider(props) {
 
   const blockNumber = -1
   const {
-    status: poolsStatus,
+    refetch: refetchPoolsData,
     data: poolsGraphData,
     error: poolsError,
     isFetching: poolsIsFetching,
@@ -91,11 +91,16 @@ export function PoolDataContextProvider(props) {
       poolData={poolData}
     >
       {({ genericChainData }) => {
-        const pools = compilePools(contractAddresses, cache, poolData, poolsDataLoading, genericChainData)
+        const pools = compilePools(chainId, contractAddresses, cache, poolData, genericChainData)
 
         const currentPool = getCurrentPool(querySymbol, pools)
         
-        const ethereumErc20Awards = cache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, poolData?.daiPool?.poolAddress, -1])
+        const ethereumErc20Awards = cache.getQueryData([
+          QUERY_KEYS.ethereumErc20sQuery,
+          chainId,
+          poolData?.daiPool?.poolAddress,
+          -1
+        ])
         const addresses = ethereumErc20Awards
           ?.filter(award => award.balance.gt(0))
           ?.map(award => award.address)
@@ -125,18 +130,14 @@ export function PoolDataContextProvider(props) {
                         pools,
                         contractAddresses,
                         defaultReadProvider,
-                        // poolData: poolsGraphData,
-                        // dynamicPlayerDrips,
                         genericChainData,
-                        // refetchPoolQuery,
+                        refetchPoolsData,
                         graphDripData,
                         usersChainData,
                       }}
                     >
                       {props.children}
                     </PoolDataContext.Provider>
-
-
                   }}
                 </FetchUsersChainData>
               }}

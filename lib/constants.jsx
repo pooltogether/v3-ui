@@ -126,6 +126,7 @@ export const QUERY_KEYS = {
   ethereumGenericQuery: 'ethereumGenericQuery',
   poolQuery: 'poolQuery',
   poolsQuery: 'poolsQuery',
+  poolDripsQuery: 'poolDripsQuery',
   poolPlayerQuery: 'poolPlayerQuery',
   poolPrizesQuery: 'poolPrizesQuery',
   playerQuery: 'playerQuery',

@@ -35,7 +35,13 @@ export const PrizeWinner = (
     }
   }
 
-  const { status, data, error, isFetching } = usePoolPlayerQuery(chainId, pool, winnersAddress, blockNumber, playerAddressError)
+  const { status, data, error, isFetching } = usePoolPlayerQuery(
+    chainId,
+    pool,
+    winnersAddress,
+    blockNumber,
+    playerAddressError
+  )
 
   const playerData = data
 

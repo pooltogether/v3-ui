@@ -3,7 +3,6 @@ import { useAtom } from 'jotai'
 
 import { TRANSACTIONS_KEY } from 'lib/constants'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
-// import { transactionsVar } from 'lib/apollo/cache'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { checkTransactionStatuses } from 'lib/utils/checkTransactionStatuses'
 

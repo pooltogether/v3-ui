@@ -16,6 +16,7 @@ export function NewPrizeWinnerEventListener(props) {
   const { t } = useTranslation()
   const router = useRouter()
 
+  const [cachedChainId, setCachedChainId] = useState(null)
   const [storedRecentPrizeId, setStoredRecentPrizeId] = useState(null)
   const [newPrizeModalVisible, setNewPrizeModalVisible] = useState(null)
 
@@ -43,13 +44,23 @@ export function NewPrizeWinnerEventListener(props) {
       setStoredRecentPrizeId(recentPrizeId)
     }
 
-    if (!newPrizeModalVisible && storedRecentPrizeId !== null && recentPrizeId !== storedRecentPrizeId) {
+    if (!newPrizeModalVisible && storedRecentPrizeId !== null && storedRecentPrizeId !== recentPrizeId) {
       debug('storedRecentPrizeId', storedRecentPrizeId)
       debug('storedRecentPrizeId', storedRecentPrizeId)
       debug('showingModal!')
       setNewPrizeModalVisible(true)
     }
   }, [pool])
+
+
+  useEffect(() => {
+    if (chainId !== cachedChainId) {
+      debug('clearing state!')
+      setNewPrizeModalVisible(false)
+      setStoredRecentPrizeId(null)
+      setCachedChainId(chainId)
+    }
+  }, [chainId])
 
 
   if (recentPrizeId === 0 || !recentPrize || !storedRecentPrizeId) {
@@ -75,9 +86,9 @@ export function NewPrizeWinnerEventListener(props) {
 
   const recentPrizeAwarded = recentPrize.awardedTimestamp
   debug('newPrizeModalVisible', newPrizeModalVisible)
-  debug('!!recentPrizeAwarded', !!recentPrizeAwarded)
+  debug('Boolean(recentPrizeAwarded)', Boolean(recentPrizeAwarded))
 
-  const show = newPrizeModalVisible && !!recentPrizeAwarded && !isNaN(recentPrizeId)
+  const show = newPrizeModalVisible && Boolean(recentPrizeAwarded) && !isNaN(recentPrizeId)
   debug('show', show)
 
   return <>

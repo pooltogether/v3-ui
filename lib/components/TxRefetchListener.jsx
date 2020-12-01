@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import { useAtom } from 'jotai'
 
+import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 
@@ -11,11 +12,8 @@ export function TxRefetchListener(props) {
 
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
-  const {
-    refetchPoolQuery,
-    refetchPlayerQuery,
-    refetchSponsorQuery,
-  } = useContext(PoolDataContext)
+  const { refetchPoolsData } = useContext(PoolDataContext)
+  const { refetchPlayerData, refetchSponsorData } = useContext(PlayerDataContext)
 
   const pendingTransactions = transactions
     .filter(t => !t.completed && !t.cancelled)
@@ -35,25 +33,27 @@ export function TxRefetchListener(props) {
       // we don't know when the Graph will have processed the new block data or when it has
       // so simply query a few times for the updated data
       setTimeout(() => {
-        refetchPlayerQuery()
-        refetchSponsorQuery()
+        console.log('running')
+        refetchPlayerData()
+        refetchSponsorData()
         debug('refetch!')
       }, 2000)
 
       setTimeout(() => {
-        refetchPlayerQuery()
-        refetchSponsorQuery()
+        refetchPlayerData()
+        refetchSponsorData()
         debug('refetch!')
       }, 8000)
 
       setTimeout(() => {
-        refetchPlayerQuery()
-        refetchSponsorQuery()
+        refetchPlayerData()
+        refetchSponsorData()
         debug('refetch!')
       }, 16000)
     } else if (poolStateTransaction) {
       setTimeout(() => {
-        refetchPoolQuery()
+        console.log('pool')
+        refetchPoolsData()
         debug('refetch pool/prize!')
       }, 6000)
     }

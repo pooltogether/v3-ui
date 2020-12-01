@@ -20,7 +20,7 @@ export function PlayerDataContextProvider(props) {
 
   const blockNumber = -1
   const {
-    status,
+    refetch: refetchPlayerData,
     data: playerData,
     error,
     isFetching
@@ -33,7 +33,7 @@ export function PlayerDataContextProvider(props) {
 
 
   const {
-    status: sponsorStatus,
+    refetch: refetchSponsorData,
     data: sponsorData,
     error: sponsorError,
     isFetching: sponsorIsFetching
@@ -58,6 +58,8 @@ export function PlayerDataContextProvider(props) {
   return <>
     <PlayerDataContext.Provider
       value={{
+        refetchPlayerData,
+        refetchSponsorData,
         usersSponsorshipBalance,
         usersSponsorshipBalanceBN,
         usersTicketBalance,
