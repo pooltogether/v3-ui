@@ -27,8 +27,6 @@ export function NewPrizeWinnerEventListener(props) {
   const pool = pools?.[0]
 
   const recentPrizeId = pool?.currentPrizeId - 1
-  debug('recentPrizeId', recentPrizeId)
-
 
   const prizeId = `${pool?.poolAddress}-${recentPrizeId}`
 
@@ -39,13 +37,10 @@ export function NewPrizeWinnerEventListener(props) {
   useEffect(() => {
     if (recentPrizeId && storedRecentPrizeId !== recentPrizeId) {
       debug('setting new stored prize count! prize awarded?')
-      debug('setting new stored prize count! prize awarded?')
-      debug('setting new stored prize count! prize awarded?')
       setStoredRecentPrizeId(recentPrizeId)
     }
 
     if (!newPrizeModalVisible && storedRecentPrizeId !== null && storedRecentPrizeId !== recentPrizeId) {
-      debug('storedRecentPrizeId', storedRecentPrizeId)
       debug('storedRecentPrizeId', storedRecentPrizeId)
       debug('showingModal!')
       setNewPrizeModalVisible(true)
@@ -76,8 +71,6 @@ export function NewPrizeWinnerEventListener(props) {
     setNewPrizeModalVisible(false)
   }
 
-  debug({recentPrize})
-
   let winner
   if (recentPrize?.winners?.length > 0) {
     winner = data.prize.winners[0]
@@ -89,7 +82,6 @@ export function NewPrizeWinnerEventListener(props) {
   debug('Boolean(recentPrizeAwarded)', Boolean(recentPrizeAwarded))
 
   const show = newPrizeModalVisible && Boolean(recentPrizeAwarded) && !isNaN(recentPrizeId)
-  debug('show', show)
 
   return <>
     <Modal

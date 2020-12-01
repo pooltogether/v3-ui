@@ -33,7 +33,6 @@ export function TxRefetchListener(props) {
       // we don't know when the Graph will have processed the new block data or when it has
       // so simply query a few times for the updated data
       setTimeout(() => {
-        console.log('running')
         refetchPlayerData()
         refetchSponsorData()
         debug('refetch!')
@@ -52,7 +51,6 @@ export function TxRefetchListener(props) {
       }, 16000)
     } else if (poolStateTransaction) {
       setTimeout(() => {
-        console.log('pool')
         refetchPoolsData()
         debug('refetch pool/prize!')
       }, 6000)
