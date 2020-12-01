@@ -6,7 +6,8 @@ import { compilePool } from 'lib/services/compilePool'
 export const compilePools = (contractAddresses, cache, graphPoolData, graphDataLoading, genericChainData) => {
   let pools = []
 
-  if (!graphDataLoading && !isEmpty(genericChainData)) {
+  if (!isEmpty(genericChainData)) {
+  // if (!graphDataLoading && !isEmpty(genericChainData)) {
     POOLS.forEach(POOL => {
       const _pool = compilePool(
         POOL,

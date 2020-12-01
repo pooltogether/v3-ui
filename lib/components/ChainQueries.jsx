@@ -7,7 +7,7 @@ import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
 import { useEthereumGenericQuery } from 'lib/hooks/useEthereumGenericQuery'
 
-const debug = require('debug')('pool-app:FetchGenericChainData')
+const debug = require('debug')('pool-app:ChainQueries')
 
 export function ChainQueries(props) {
   const {
