@@ -30,7 +30,7 @@ export const PoolRowGhost = (
           >🎟️</span>
         </div>
         <div
-          className='flex justify-center w-full text-inverse mb-4 text-center text-xxs xs:text-sm sm:text-xl'
+          className='flex justify-center w-full text-inverse mb-4 text-center text-xxs xs:text-sm sm:text-base lg:text-lg'
         >
           {t('suggestANewPool')}
         </div>
