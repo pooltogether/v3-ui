@@ -43,6 +43,7 @@ class MyDocument extends Document {
             <meta property='og:image:height' content='630' />
 
             <meta property='twitter:title' content={title} />
+            <meta property='twitter:description' content={description} />
             <meta property='twitter:card' content='summary_large_image' />
             <meta property='twitter:site' content={twitterHandle} />
             <meta property='twitter:image:src' content={`${url}/pooltogether-twitter-share-image-1200-675@2x.png`} />
