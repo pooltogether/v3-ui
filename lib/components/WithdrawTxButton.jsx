@@ -1,19 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
-import { useQuery } from '@apollo/client'
+import { useAtom } from 'jotai'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 export function WithdrawTxButton(props) {
   const { t } = useTranslation()
   
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
+
   const {
     quantityBN,
     quantity,
@@ -40,10 +42,10 @@ export function WithdrawTxButton(props) {
   // const txName = `Withdraw Sponsorship (${quantity} ${tickerUpcased})`
   const method = 'withdrawInstantlyFrom'
 
-  const [sendTx] = useSendTransaction(txName, refetchSponsorQuery)
+  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  
+  
   const tx = transactions?.find((tx) => tx.id === txId)
 
   const withdrawSponsorshipTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)

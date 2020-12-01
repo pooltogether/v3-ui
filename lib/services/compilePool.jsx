@@ -19,6 +19,7 @@ import { compileErc721Awards } from 'lib/services/compileErc721Awards'
 // at the time the prize was awarded, etc
 
 export const compilePool = (
+  chainId,
   poolInfo,
   poolAddress,
   cache,
@@ -30,9 +31,9 @@ export const compilePool = (
     ...poolGraphData,
   }
 
-  const uniswapPriceData = cache.getQueryData([QUERY_KEYS.uniswapTokensQuery, poolAddress, -1])
-  const ethereumErc20Awards = cache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, poolAddress, -1])
-  const ethereumErc721Awards = cache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, poolAddress, -1])
+  const uniswapPriceData = cache.getQueryData([QUERY_KEYS.uniswapTokensQuery, chainId, poolAddress, -1])
+  const ethereumErc20Awards = cache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, chainId, poolAddress, -1])
+  const ethereumErc721Awards = cache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, chainId, poolAddress, -1])
 
   const externalErc20Awards = compileErc20Awards(ethereumErc20Awards, poolGraphData, uniswapPriceData)
 

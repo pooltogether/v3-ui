@@ -1,20 +1,22 @@
 import React, { useContext, useState } from 'react'
-import { useQuery } from '@apollo/client'
+import { useAtom } from 'jotai'
 
 import ERC20Abi from 'lib/../abis/ERC20Abi'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
 
 export const V2MigrateButton = (
   props,
 ) => {
   const { balance, balanceFormatted, type, ticker } = props
   
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
+
   const { t } = useTranslation()
   const { contractAddresses } = useContext(PoolDataContext)
   const { usersAddress, provider } = useContext(AuthControllerContext)
@@ -27,10 +29,10 @@ export const V2MigrateButton = (
   })
   const method = 'transfer'
 
-  const [sendTx] = useSendTransaction(txName)
+  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  
+  
   const txInFlight = transactions?.find((tx) => (tx.id === txId) && !tx.completed && !tx.cancelled)
 
   const migrateToV3 = () => {

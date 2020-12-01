@@ -14,7 +14,12 @@ export function UniswapData(props) {
 
   const { chainId } = useContext(AuthControllerContext)
 
-  const { status, data, error, isFetching } = useUniswapTokensQuery(chainId, poolAddress, blockNumber, addresses)
+  const { status, data, error, isFetching } = useUniswapTokensQuery(
+    chainId,
+    poolAddress,
+    blockNumber,
+    addresses
+  )
 
   if (error) {
     console.warn(error)

@@ -8,9 +8,9 @@ const THEME = 'theme'
 export const ThemeContext = React.createContext()
 
 export function ThemeContextProvider(props) {
-  if (!window) {
-    return null
-  }
+  // if (!window) {
+  //   return null
+  // }
 
   const [theme, setTheme] = useState('dark')
 
@@ -20,7 +20,7 @@ export function ThemeContextProvider(props) {
     const body = document.body
     body.classList.add('theme-dark')
 
-    if (window.matchMedia) {
+    if (typeof window !== 'undefined' && window.matchMedia) {
       const setThemeAutomatically = (newValue) => {
         if (newValue === 'dark') {
           body.classList.add('theme-dark')
@@ -34,34 +34,6 @@ export function ThemeContextProvider(props) {
           setTheme('light')
         }
       }
-
-      // register an onChange listener if we don't have a cookie set
-      // if (!stored && window.matchMedia) {
-      //   const mm = window.matchMedia('(prefers-color-scheme: dark)')
-
-      //   const prefersDark = mm.matches
-      //   stored = prefersDark ? 'dark' : 'light'
-
-      //   try {
-      //     mm.addListener(e => {
-      //       const newValue = e.matches ? 'theme-dark' : 'theme-light'
-      //       setThemeAutomatically(newValue)
-      //     })
-      //   } catch (e) {
-      //     // console.warn(e)
-      //     // console.warn('swallowing matchmediaquery addListener call')
-      //   }
-        
-      //   try {
-      //     mm.addEventListener('change', e => {
-      //       const newValue = e.matches ? 'theme-dark' : 'theme-light'
-      //       setThemeAutomatically(newValue)
-      //     })
-      //   } catch (e) {
-      //     // console.warn(e)
-      //     // console.warn('swallowing matchmediaquery addEventListener call')
-      //   }
-      // }
 
       // onLoad
       setThemeAutomatically(stored)

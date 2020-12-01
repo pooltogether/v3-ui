@@ -1,11 +1,8 @@
 import { useContext } from 'react'
-import { useQuery } from '@apollo/client'
 
-import {
-  MAINNET_POLLING_INTERVAL
-} from 'lib/constants'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
-import { prizePoolDripsQuery } from 'lib/queries/prizePoolDripsQuery'
+import { usePoolDripsQuery } from 'lib/hooks/usePoolDripsQuery'
 
 const debug = require('debug')('pool-app:DripQueries')
 
@@ -14,29 +11,22 @@ export const DripQueries = (
 ) => {
   const { pool, children } = props
 
+  const { chainId } = useContext(AuthControllerContext)
   const { paused } = useContext(GeneralContext)
 
-  let graphDripData
-
-  const variables = {
-    prizeStrategyAddress: pool?.prizeStrategy?.id
-  }
-
-  const { loading, error, data } = useQuery(prizePoolDripsQuery, {
-    variables,
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
-    skip: !pool?.prizeStrategy,
-  })
+  const {
+    status,
+    data: graphDripData,
+    error,
+    isFetching
+  } = usePoolDripsQuery(chainId, pool)
 
   if (error) {
     console.error(error)
   }
 
-  graphDripData = data
-
   return children({
-    dripDataLoading: loading,
+    dripDataLoading: isFetching,
     graphDripData,
   })
 }

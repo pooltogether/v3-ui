@@ -1,20 +1,18 @@
 import React, { useContext } from 'react'
-import { useQuery } from '@apollo/client'
+import { useAtom } from 'jotai'
 
 import { useTranslation } from 'lib/../i18n'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TransactionsListItem } from 'lib/components/TransactionsListItem'
-import { transactionsVar } from 'lib/apollo/cache'
-import { clearPreviousTransactionsFactory } from 'lib/apollo/clearPreviousTransactionsFactory'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
+import { clearPreviousTransactions } from 'lib/services/clearPreviousTransactions'
 
 export function TransactionsList(props) {
   const { t } = useTranslation()
 
-  const { chainId, usersAddress } = useContext(AuthControllerContext)
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  const { chainId, usersAddress } = useContext(AuthControllerContext)
 
   const notCancelledTransactions = transactions
     .filter(t => !t.cancelled)
@@ -32,12 +30,12 @@ export function TransactionsList(props) {
     e.preventDefault()
 
     if (usersAddress, chainId) {
-      const clearFxn = clearPreviousTransactionsFactory(
-        transactionsVar,
+      clearPreviousTransactions(
+        transactions,
+        setTransactions,
         usersAddress,
         chainId
       )
-      clearFxn()
     }
   }
 

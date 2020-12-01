@@ -2,7 +2,6 @@ import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import { PoolRowNew } from 'lib/components/PoolRowNew'
-// import { PoolRow } from 'lib/components/PoolRow'
 import { PoolRowGhost } from 'lib/components/PoolRowGhost'
 
 export const PoolList = (
@@ -42,7 +41,7 @@ export const PoolList = (
           }
         }}
       >
-        {pools.map(pool => {
+        {pools?.map(pool => {
           if (!pool || !pool.poolAddress) {
             return null
           }
@@ -51,10 +50,6 @@ export const PoolList = (
             key={`pool-row-${pool.poolAddress}`}
             pool={pool}
           />
-          // return <PoolRow
-          //   key={`pool-row-${pool.poolAddress}`}
-          //   pool={pool}
-          // />
         })}
 
         <PoolRowGhost

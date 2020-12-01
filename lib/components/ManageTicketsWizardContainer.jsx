@@ -3,6 +3,7 @@ import { Wizard, WizardStep } from 'react-wizard-primitive'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
+import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ConfirmWithdrawWithFeeForm } from 'lib/components/ConfirmWithdrawWithFeeForm'
 import { Meta } from 'lib/components/Meta'
@@ -21,11 +22,8 @@ export function ManageTicketsWizardContainer(props) {
     initialStepIndex = 1
   }
 
-  const poolData = useContext(PoolDataContext)
-  const {
-    pool,
-    usersTicketBalance
-  } = poolData
+  const { pool } = useContext(PoolDataContext)
+  const { usersTicketBalance } = useContext(PlayerDataContext)
 
   let underlyingCollateralDecimals = 18
   underlyingCollateralDecimals = pool && pool.underlyingCollateralDecimals

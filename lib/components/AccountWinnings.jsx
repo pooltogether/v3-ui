@@ -3,23 +3,44 @@ import Link from 'next/link'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { testAddress } from 'lib/utils/testAddress'
 
 import IconTarget from 'assets/images/icon-target.svg'
 
 export const AccountWinnings = () => {
   const { t } = useTranslation()
   
-  const { pools, dynamicPlayerData } = useContext(PoolDataContext)
+  const { chainId, usersAddress } = useContext(AuthControllerContext)
+  const { pools } = useContext(PoolDataContext)
+
+
+  const playerAddressError = testAddress(usersAddress)
+
+  const blockNumber = -1
+  const {
+    status,
+    data: playerData,
+    error,
+    isFetching
+  } = usePlayerQuery(chainId, usersAddress, blockNumber, playerAddressError)
+
+  if (error) {
+    console.error(error)
+  }
+
+
 
   const totalWinnings = () => {
     let cumulativeWinningsAllPools = ethers.utils.bigNumberify(0)
 
-    dynamicPlayerData?.forEach(playerData => {
-      const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
+    playerData?.forEach(playerData => {
+      const pool = pools?.find(pool => pool.poolAddress === playerData.prizePool.id)
 
       if (!pool || !playerData.balance) {
         return

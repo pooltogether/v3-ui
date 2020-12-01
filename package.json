@@ -88,6 +88,7 @@
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-locize-backend": "^4.1.2",
     "i18next-node-locize-backend": "^3.1.2",
+    "jotai": "^0.11.2",
     "js-cookie": "^2.2.1",
     "next": "10.0.0",
     "next-i18next": "^4.5.0",
@@ -111,6 +112,7 @@
     "react-wizard-primitive": "^2.4.0",
     "request": "2.88.2",
     "rollup": "2.17.1",
+    "scheduler": "^0.20.1",
     "tailwindcss": "^1.8.6",
     "use-window-focus": "^1.1.1",
     "webpack": "4.44.1"

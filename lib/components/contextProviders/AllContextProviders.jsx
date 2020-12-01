@@ -5,8 +5,8 @@ import { useRouter } from 'next/router'
 import { AuthControllerContextProvider } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ConfettiContextProvider } from 'lib/components/contextProviders/ConfettiContextProvider'
 import { GeneralContextProvider } from 'lib/components/contextProviders/GeneralContextProvider'
-import { PlayerDataContextProvider } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContextProvider } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { PlayerDataContextProvider } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { ThemeContextProvider } from 'lib/components/contextProviders/ThemeContextProvider'
 
 const MagicContextProviderDynamic = dynamic(() =>

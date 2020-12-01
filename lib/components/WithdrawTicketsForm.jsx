@@ -4,14 +4,17 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
+import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { testAddress } from 'lib/utils/testAddress'
 
 import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
 
@@ -24,8 +27,25 @@ export function WithdrawTicketsForm(props) {
   
   const router = useRouter()
 
-  const { usersAddress } = useContext(AuthControllerContext)
-  const { pool, usersTicketBalance, usersTicketBalanceBN } = useContext(PoolDataContext)
+  const { chainId, usersAddress } = useContext(AuthControllerContext)
+  const { pool } = useContext(PoolDataContext)
+  const { usersTicketBalance, usersTicketBalanceBN } = useContext(PlayerDataContext)
+
+
+  const playerAddressError = testAddress(usersAddress)
+
+  const blockNumber = -1
+  const {
+    status,
+    data: playerData,
+    error,
+    isFetching
+  } = usePlayerQuery(chainId, usersAddress, blockNumber, playerAddressError)
+
+  if (error) {
+    console.error(error)
+  }
+
 
   const ticker = pool?.underlyingCollateralSymbol
   const tickerUpcased = ticker?.toUpperCase()

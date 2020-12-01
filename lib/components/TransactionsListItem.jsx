@@ -8,6 +8,11 @@ import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 export function TransactionsListItem(props) {
   const { tx } = props
 
+  const errorIcon = <FeatherIcon
+    icon='help-circle'
+    className='list-item--icon relative w-5 h-5 text-red'
+  />
+
   return <li
     key={tx.hash || Date.now()}
     className='list-item rounded-lg relative p-2 -mx-2'
@@ -56,11 +61,18 @@ export function TransactionsListItem(props) {
           <PTHint
             tip={tx.reason}
           >
-            <FeatherIcon
-              icon='help-circle'
-              className='list-item--icon relative w-5 h-5 text-red'
-            />
+            {errorIcon}
           </PTHint>
+        </>}
+
+        {tx.error && !tx.reason && <>
+          <EtherscanTxLink
+            noIcon
+            chainId={tx.ethersTx.chainId}
+            hash={tx.hash}
+          >
+            {errorIcon}
+          </EtherscanTxLink>
         </>}
       </div>
       
