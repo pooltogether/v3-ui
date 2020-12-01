@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import i18next from "../i18n"
+import i18next from '../i18n'
 import * as Fathom from 'fathom-client'
-import * as Sentry from '@sentry/browser'
+import * as Sentry from '@sentry/react'
 import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
@@ -13,11 +13,10 @@ import {
 } from 'react-query'
 import { Provider } from 'jotai'
 
-import { useInterval } from 'lib/hooks/useInterval'
-
 import { COOKIE_OPTIONS, REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
+import { ErrorPage } from 'lib/components/ErrorPage'
 import { GraphErrorModal } from 'lib/components/GraphErrorModal'
 import { Layout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
@@ -69,37 +68,37 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 function MyApp({ Component, pageProps, router }) {
   const [initialized, setInitialized] = useState(false)
   
-  const redirectIfBorked = () => {
-    const badPaths = [
-      'http://localhost:3000/en',
-      'https://app.pooltogether.com/en',
-      'https://app.pooltogether.com/es',
-      'https://app.pooltogether.com/it',
-      'https://app.pooltogether.com/ja',
-      'https://app.pooltogether.com/zh',
-      'https://app.pooltogether.com/hr',
-      'https://app.pooltogether.com/ko',
-      'https://app.pooltogether.com/tr',
-      'https://app.pooltogether.com/de',
-    ]
-    // console.log('checking')
+  // const redirectIfBorked = () => {
+  //   const badPaths = [
+  //     'http://localhost:3000/en',
+  //     'https://app.pooltogether.com/en',
+  //     'https://app.pooltogether.com/es',
+  //     'https://app.pooltogether.com/it',
+  //     'https://app.pooltogether.com/ja',
+  //     'https://app.pooltogether.com/zh',
+  //     'https://app.pooltogether.com/hr',
+  //     'https://app.pooltogether.com/ko',
+  //     'https://app.pooltogether.com/tr',
+  //     'https://app.pooltogether.com/de',
+  //   ]
+  //   // console.log('checking')
 
-    if (badPaths.includes(window.location.href)) {
-      router.push(
-        '/',
-        '/',
-        { shallow: true }
-      )
-    }
-  }
+  //   if (badPaths.includes(window.location.href)) {
+  //     router.push(
+  //       '/',
+  //       '/',
+  //       { shallow: true }
+  //     )
+  //   }
+  // }
   
-  useEffect(() => {
-    redirectIfBorked()
-  }, [])
+  // useEffect(() => {
+  //   redirectIfBorked()
+  // }, [])
   
-  useInterval(() => {
-    redirectIfBorked()
-  }, 1000)
+  // useInterval(() => {
+  //   redirectIfBorked()
+  // }, 1000)
   
 
   useEffect(() => {
@@ -184,58 +183,64 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   return <>
-    <Provider>
-      <ReactQueryCacheProvider queryCache={queryCache}>
-        <BodyClasses />
+    <Sentry.ErrorBoundary
+      fallback={({ error, componentStack, resetError }) => (
+        <ErrorPage />
+      )}
+    >
+      <Provider>
+        <ReactQueryCacheProvider queryCache={queryCache}>
+          <BodyClasses />
 
-        <GraphErrorModal />
+          <GraphErrorModal />
 
-        <LoadingScreen
-          initialized={initialized}
-        />
+          <LoadingScreen
+            initialized={initialized}
+          />
 
-        <AllContextProviders>
-          <NewPrizeWinnerEventListener />
+          <AllContextProviders>
+            <NewPrizeWinnerEventListener />
 
-          <TransactionStatusChecker />
+            <TransactionStatusChecker />
 
-          <TxRefetchListener />
+            <TxRefetchListener />
 
-          <Layout
-            props={pageProps}
-          >
-            <AnimatePresence
-              exitBeforeEnter
+            <Layout
+              props={pageProps}
             >
-              <motion.div
-                id='content-animation-wrapper'
-                key={router.route}
-                transition={{ duration: 0.3, ease: 'easeIn' }}
-                initial={{
-                  opacity: 0
-                }}
-                exit={{
-                  opacity: 0
-                }}
-                animate={{
-                  opacity: 1
-                }}
+              <AnimatePresence
+                exitBeforeEnter
               >
-                <Component {...pageProps} />
-              </motion.div>
-            </AnimatePresence>
-          </Layout>
-        </AllContextProviders>
+                <motion.div
+                  id='content-animation-wrapper'
+                  key={router.route}
+                  transition={{ duration: 0.3, ease: 'easeIn' }}
+                  initial={{
+                    opacity: 0
+                  }}
+                  exit={{
+                    opacity: 0
+                  }}
+                  animate={{
+                    opacity: 1
+                  }}
+                >
+                  <Component {...pageProps} />
+                </motion.div>
+              </AnimatePresence>
+            </Layout>
+          </AllContextProviders>
 
-        <ToastContainer
-          className='pool-toast'
-          position='top-center'
-          autoClose={7000}
-        />
+          <ToastContainer
+            className='pool-toast'
+            position='top-center'
+            autoClose={7000}
+          />
 
-        <ReactQueryDevtools />
-      </ReactQueryCacheProvider>
-    </Provider>
+          <ReactQueryDevtools />
+        </ReactQueryCacheProvider>
+      </Provider>
+    </Sentry.ErrorBoundary>
   </>
 }
 
