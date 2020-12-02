@@ -48,7 +48,6 @@
   },
   "dependencies": {
     "3box": "^1.21.0",
-    "@apollo/client": "3.2.5",
     "@argent/smartwallet-utils": "^0.0.11",
     "@pooltogether/bnc-onboard": "1.16.0",
     "@pooltogether/current-pool-data": "3.0.1",
@@ -60,6 +59,7 @@
     "@reach/visually-hidden": "^0.10.4",
     "@sentry/cli": "^1.55.2",
     "@sentry/react": "^5.28.0",
+    "@sentry/tracing": "^5.28.0",
     "@vx/event": "^0.0.199",
     "@vx/gradient": "^0.0.199",
     "@vx/group": "^0.0.199",
