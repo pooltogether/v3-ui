@@ -4,7 +4,7 @@ import { uniqWith, isEqual } from 'lodash'
 import {
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
-import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
 import { fetchUsersChainData } from 'lib/utils/fetchUsersChainData'
 
@@ -20,7 +20,7 @@ export function FetchUsersChainData(props) {
     contractAddresses,
   } = props
 
-  const { paused } = useContext(GeneralContext)
+  const { pauseQueries } = useContext(AuthControllerContext)
 
   const poolAddress = pool?.poolAddress
 
@@ -81,7 +81,7 @@ export function FetchUsersChainData(props) {
   useInterval(() => {
     debug('fetching new users chain data after MAINNET_POLLING_INTERVAL expired', MAINNET_POLLING_INTERVAL)
     updateOrDelete()
-  }, paused ? null : MAINNET_POLLING_INTERVAL)
+  }, pauseQueries ? null : MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {
     updateOrDelete()

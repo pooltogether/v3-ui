@@ -1,17 +1,19 @@
 import React, { useContext, useState } from 'react'
-import { useQuery } from '@apollo/client'
+import { useAtom } from 'jotai'
 
 import SingleRandomWinnerAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinner'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
 
 export function CompleteAwardUI(props) {
   const { t } = useTranslation()
+
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
   const { pool } = useContext(PoolDataContext)
@@ -21,10 +23,10 @@ export function CompleteAwardUI(props) {
   const txName = t(`completeAwardPoolName`, { poolName: pool?.name })
   const method = 'completeAward'
 
-  const [sendTx] = useSendTransaction(txName)
+  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  
+  
   const tx = transactions?.find((tx) => tx.id === txId)
 
   const ongoingCompleteAwardTransactions = transactions?.

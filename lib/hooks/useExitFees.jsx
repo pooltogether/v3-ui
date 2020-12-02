@@ -5,14 +5,12 @@ import {
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { fetchExitFees } from 'lib/utils/fetchExitFees'
 import { useInterval } from 'lib/hooks/useInterval'
 
 export function useExitFees(quantity) {
-  const { paused } = useContext(GeneralContext)
-  const { usersAddress, networkName } = useContext(AuthControllerContext)
+  const { pauseQueries, usersAddress, networkName } = useContext(AuthControllerContext)
   const { pool } = useContext(PoolDataContext)
 
   const poolAddress = pool?.poolAddress
@@ -42,7 +40,7 @@ export function useExitFees(quantity) {
 
   useInterval(() => {
     getFees()
-  }, paused ? null : MAINNET_POLLING_INTERVAL)
+  }, pauseQueries ? null : MAINNET_POLLING_INTERVAL)
 
   useEffect(() => {
     const ready = quantity && usersAddress && networkName && ticketAddress && poolAddress && networkName

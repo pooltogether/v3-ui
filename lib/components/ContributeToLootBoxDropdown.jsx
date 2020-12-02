@@ -16,13 +16,14 @@ export function ContributeToLootBoxDropdown(props) {
       label={t('contributeToTheLootBox')}
     >
       <div
-        className='text-inverse text-xxs xs:text-xs mr-4 xs:mr-10 w-40 xs:w-auto sm:w-auto px-5 py-3 bg-card border-2 border-secondary rounded-lg'
+        className='text-inverse text-xxs xs:text-xs mr-4 xs:mr-10 w-64 xs:w-auto sm:w-auto px-5 py-3 bg-card border-2 border-secondary rounded-lg'
       >
         <div className='mb-2'>
           {t('transferTokensToLootBoxContractAddress')}
         </div>
 
         <PTCopyToClipboard
+          widths='w-full'
           text={pool.poolAddress}
         />
       </div>

@@ -11,7 +11,7 @@ export const DEFAULT_TOKEN_PRECISION = 18
 export const COINGECKO_POLLING_INTERVAL = 120 * 1000
 export const UNISWAP_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? (120 * 1000) : (60 * 1000)
 export const ERC_721_POLLING_INTERVAL = 120 * 1000
-export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? (22 * 1000) : (15 * 1000)
+export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? (22 * 1000) : (16 * 1000)
 
 export const PLAYER_PAGE_SIZE = 10
 
@@ -129,8 +129,13 @@ export const QUERY_KEYS = {
   ethereumGenericQuery: 'ethereumGenericQuery',
   poolQuery: 'poolQuery',
   poolsQuery: 'poolsQuery',
+  poolDripsQuery: 'poolDripsQuery',
+  poolPlayerQuery: 'poolPlayerQuery',
+  poolPrizesQuery: 'poolPrizesQuery',
   playerQuery: 'playerQuery',
+  prizeQuery: 'prizeQuery',
   prizePlayersQuery: 'prizePlayersQuery',
+  sponsorQuery: 'sponsorQuery',
   uniswapTokensQuery: 'uniswapTokensQuery',
 }
 

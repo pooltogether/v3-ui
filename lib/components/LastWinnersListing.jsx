@@ -1,14 +1,13 @@
 import React, { useContext } from 'react'
 import Link from 'next/link'
-import { useQuery } from '@apollo/client'
 import { compact } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
-import { MAINNET_POLLING_INTERVAL } from 'lib/constants'
-import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+// import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
-import { poolPrizesQuery } from 'lib/queries/poolPrizesQuery'
+import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { formatDate } from 'lib/utils/formatDate'
@@ -22,23 +21,17 @@ export const LastWinnersListing = (
 
   const decimals = pool?.underlyingCollateralDecimals
 
-  const { paused } = useContext(GeneralContext)
+  const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
-  const { loading, error, data } = useQuery(poolPrizesQuery, {
-    variables: {
-      prizePoolAddress: pool?.poolAddress,
-      first: 5,
-    },
-    skip: !pool?.poolAddress,
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
-  })
 
-  if (error) {
-    console.error(error)
-  }
 
-  let prizes = compact([].concat(data?.prizePools?.[0]?.prizes))
+  const first = 5
+  const { status, data, error, isFetching } = usePoolPrizesQuery(pauseQueries, chainId, pool, first)
+
+
+
+
+  let prizes = compact([].concat(data?.prizePool?.prizes))
 
   prizes = prizes?.reduce(function (result, prize) {
     if (prize.winners && prize.winners.length > 0) {

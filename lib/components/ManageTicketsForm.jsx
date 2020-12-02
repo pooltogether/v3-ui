@@ -1,18 +1,37 @@
 import React, { useContext, useState } from 'react'
 
-import { useTranslation } from 'lib/../i18n'
 import { STRINGS } from 'lib/constants'
+import { useTranslation } from 'lib/../i18n'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
+import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
+import { testAddress } from 'lib/utils/testAddress'
 
 export function ManageTicketsForm(props) {
   const { t } = useTranslation()
 
-  const { pool, dynamicPlayerData } = useContext(PoolDataContext)
+  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
+  const { pool } = useContext(PoolDataContext)
 
-  const playerData = dynamicPlayerData?.find(playerData => playerData?.prizePool?.id === pool?.id)
+  const playerAddressError = testAddress(usersAddress)
+
+  const blockNumber = -1
+  let {
+    status,
+    data: playerData,
+    error,
+    isFetching
+  } = usePlayerQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+
+  if (error) {
+    console.error(error)
+  }
+
+
+  playerData = playerData?.find(playerData => playerData?.prizePool?.id === pool?.id)
 
   const [action, setAction] = useState(STRINGS.withdraw)
 

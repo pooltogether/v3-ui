@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
+import { useQueryCache } from 'react-query'
 
 import {
   COOKIE_OPTIONS,
@@ -29,6 +30,7 @@ export function AuthControllerContextProvider(props) {
   const { children } = props
 
   const router = useRouter()
+  const queryCache = useQueryCache()
 
   const [changingNetwork, setChangingNetwork] = useState(false)
 
@@ -88,15 +90,13 @@ export function AuthControllerContextProvider(props) {
 
     const updateChainId = async () => {
       if (onboardNetwork && onboardNetwork !== chainId) {
+        queryCache.clear()
         setChangingNetwork(true)
         
-        // TODO: Add && if supportedNetwork here!
-        window.destroyApollo()
 
         setChainId(onboardNetwork)
         await storeChainIdCookie(onboardNetwork)
 
-        window.createAndStartApollo()
 
         setTimeout(() => {
           setChangingNetwork(false)
@@ -180,11 +180,14 @@ export function AuthControllerContextProvider(props) {
   const networkName = chainIdToNetworkName(chainId)
   const supportedNetwork = SUPPORTED_CHAIN_IDS.includes(chainId)
 
+  const pauseQueries = !supportedNetwork || changingNetwork
+
   return <AuthControllerContext.Provider
     value={{
       changingNetwork,
       ethBalance,
       chainId,
+      pauseQueries,
       provider,
       usersAddress,
       walletName,
