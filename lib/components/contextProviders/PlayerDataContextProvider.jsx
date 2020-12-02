@@ -18,7 +18,6 @@ export function PlayerDataContextProvider(props) {
   const addressError = testAddress(usersAddress)
 
   const blockNumber = -1
-  console.log({pauseQueries})
   const {
     refetch: refetchPlayerData,
     data: playerData,

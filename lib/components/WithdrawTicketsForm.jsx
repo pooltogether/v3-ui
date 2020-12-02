@@ -27,7 +27,7 @@ export function WithdrawTicketsForm(props) {
   
   const router = useRouter()
 
-  const { chainId, usersAddress } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
   const { pool } = useContext(PoolDataContext)
   const { usersTicketBalance, usersTicketBalanceBN } = useContext(PlayerDataContext)
 

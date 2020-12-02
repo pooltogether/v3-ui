@@ -16,7 +16,7 @@ import IconTarget from 'assets/images/icon-target.svg'
 export const AccountWinnings = () => {
   const { t } = useTranslation()
   
-  const { chainId, usersAddress } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
   const { pools } = useContext(PoolDataContext)
 
 

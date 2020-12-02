@@ -21,7 +21,7 @@ export const LastWinnersListing = (
 
   const decimals = pool?.underlyingCollateralDecimals
 
-  const { chainId } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
 
 

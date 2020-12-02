@@ -13,7 +13,7 @@ import { testAddress } from 'lib/utils/testAddress'
 export function ManageTicketsForm(props) {
   const { t } = useTranslation()
 
-  const { chainId, usersAddress } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
   const { pool } = useContext(PoolDataContext)
 
   const playerAddressError = testAddress(usersAddress)

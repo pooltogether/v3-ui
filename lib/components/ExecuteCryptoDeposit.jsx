@@ -37,7 +37,6 @@ export function ExecuteCryptoDeposit(props) {
   const tokenAddress = pool?.underlyingCollateralToken
   const poolAddress = pool?.poolAddress
   const controlledTokenAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
-  console.log(controlledTokenAddress)
   const tickerUpcased = ticker?.toUpperCase()
 
   // const {

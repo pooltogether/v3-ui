@@ -31,7 +31,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
 
   const [transactions, setTransactions] = useAtom(transactionsAtom)
   
-  const { nextStep, pool, quantity } = props
+  const { nextStep, previousStep, pool, quantity } = props
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
@@ -39,7 +39,6 @@ export function ConfirmWithdrawWithFeeForm(props) {
   const decimals = pool?.underlyingCollateralDecimals
   const poolAddress = pool?.poolAddress
   const controlledTokenAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
-  console.log(controlledTokenAddress)
 
   const tickerUpcased = ticker?.toUpperCase()
 
@@ -63,19 +62,34 @@ export function ConfirmWithdrawWithFeeForm(props) {
 
   let tipJsx = null
   let gross = ethers.utils.bigNumberify(0)
+  let net = ethers.utils.bigNumberify(0)
   let grossFormatted,
+    netFormatted,
     feeFormatted
 
   if (exitFee && quantity && decimals) {
     gross = ethers.utils.parseUnits(
       quantity,
       parseInt(decimals, 10)
-    ).sub(exitFee)
+    )
 
     grossFormatted = displayAmountInEther(
       gross,
       { decimals, precision: 8 }
     )
+
+
+    net = ethers.utils.parseUnits(
+      quantity,
+      parseInt(decimals, 10)
+    ).sub(exitFee)
+
+    netFormatted = displayAmountInEther(
+      net,
+      { decimals, precision: 8 }
+    )
+    
+
 
     feeFormatted = displayAmountInEther(
       exitFee,
@@ -123,8 +137,6 @@ export function ConfirmWithdrawWithFeeForm(props) {
   
   
   const tx = transactions?.find((tx) => tx.id === txId)
-
-  // const txInWallet = tx?.inWallet && !tx?.sent
 
   const runTx = () => {
     const params = [
@@ -200,7 +212,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
                 >
                   {t('finalAmount')} <span
                     className='block xs:inline font-bold'
-                  ><PoolNumber>{grossFormatted}</PoolNumber></span>
+                  ><PoolNumber>{netFormatted}</PoolNumber></span>
                 </div>
                 <div
                   className='mb-2 xs:mb-0'

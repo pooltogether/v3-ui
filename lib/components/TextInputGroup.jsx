@@ -48,7 +48,7 @@ export const TextInputGroup = (
     >
       <div
         className={classnames(
-          'flex justify-between',
+          'flex justify-between items-end',
         )}>
         <label
           htmlFor={id}

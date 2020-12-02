@@ -17,7 +17,7 @@ import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 export const AccountTickets = () => {
   const { t } = useTranslation()
   
-  const { chainId, usersAddress } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
   const { pools, usersChainData } = useContext(PoolDataContext)
 
 

@@ -14,7 +14,7 @@ export const PoolPrizeListing = (
   const { t } = useTranslation()
   const { pool } = props
 
-  const { chainId } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
   const { status, data, error, isFetching } = usePoolPrizesQuery(pauseQueries, chainId, pool)
 
