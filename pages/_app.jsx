@@ -129,7 +129,7 @@ function MyApp({ Component, pageProps, router }) {
         includedDomains: [
           'app-v3.pooltogether.com',
           'app.pooltogether.com',
-          'staging.pooltogether.com',
+          'staging-v3.pooltogether.com',
         ]
       })
   
