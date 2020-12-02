@@ -16,6 +16,7 @@ import { Provider } from 'jotai'
 import { COOKIE_OPTIONS, REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
+import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
 import { ErrorPage } from 'lib/components/ErrorPage'
 import { GraphErrorModal } from 'lib/components/GraphErrorModal'
 import { Layout } from 'lib/components/Layout'
@@ -183,22 +184,25 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   return <>
-    <Sentry.ErrorBoundary
-      fallback={({ error, componentStack, resetError }) => (
-        <ErrorPage />
-      )}
-    >
-      <Provider>
-        <ReactQueryCacheProvider queryCache={queryCache}>
-          <BodyClasses />
+    <Provider>
+      <ReactQueryCacheProvider queryCache={queryCache}>
+        <BodyClasses />
 
-          <GraphErrorModal />
+        <GraphErrorModal />
 
-          <LoadingScreen
-            initialized={initialized}
-          />
+        <LoadingScreen
+          initialized={initialized}
+        />
 
-          <AllContextProviders>
+        <ToastContainer
+          className='pool-toast'
+          position='top-center'
+          autoClose={7000}
+        />
+
+        <AllContextProviders>
+          <CustomErrorBoundary>
+          
             <NewPrizeWinnerEventListener />
 
             <TransactionStatusChecker />
@@ -229,18 +233,12 @@ function MyApp({ Component, pageProps, router }) {
                 </motion.div>
               </AnimatePresence>
             </Layout>
-          </AllContextProviders>
 
-          <ToastContainer
-            className='pool-toast'
-            position='top-center'
-            autoClose={7000}
-          />
-
-          <ReactQueryDevtools />
-        </ReactQueryCacheProvider>
-      </Provider>
-    </Sentry.ErrorBoundary>
+            <ReactQueryDevtools />
+          </CustomErrorBoundary>
+        </AllContextProviders>
+      </ReactQueryCacheProvider>
+    </Provider>
   </>
 }
 
