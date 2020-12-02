@@ -65,7 +65,7 @@ export function PlayerPageUI(props) {
     data,
     error: playerQueryError,
     isFetching
-  } = usePlayerQuery(chainId, playerAddress, blockNumber, playerAddressError)
+  } = usePlayerQuery(pauseQueries, chainId, playerAddress, blockNumber, playerAddressError)
 
   playerData = data
   // playerDripTokenData = data?.playerDripToken

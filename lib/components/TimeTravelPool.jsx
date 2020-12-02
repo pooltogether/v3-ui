@@ -18,7 +18,7 @@ export function TimeTravelPool(props){
     querySymbol
   } = props
 
-  const cache = useQueryCache()
+  const queryCache = useQueryCache()
   
   const { chainId } = useContext(AuthControllerContext)
   const { defaultReadProvider } = useContext(PoolDataContext)
@@ -61,7 +61,7 @@ export function TimeTravelPool(props){
           const timeTravelPool = compileHistoricalPool(
             chainId,
             poolInfo,
-            cache,
+            queryCache,
             graphPool,
             poolAddress,
             blockNumber,

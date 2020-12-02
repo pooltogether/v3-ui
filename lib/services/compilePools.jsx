@@ -6,7 +6,7 @@ import { compilePool } from 'lib/services/compilePool'
 export const compilePools = (
   chainId,
   contractAddresses,
-  cache,
+  queryCache,
   graphPoolData,
   genericChainData
 ) => {
@@ -19,7 +19,7 @@ export const compilePools = (
         chainId,
         POOL,
         contractAddresses.daiPool,
-        cache,
+        queryCache,
         genericChainData.dai,
         graphPoolData.daiPool,
       )

@@ -20,7 +20,7 @@ export function NewPrizeWinnerEventListener(props) {
   const [storedRecentPrizeId, setStoredRecentPrizeId] = useState(null)
   const [newPrizeModalVisible, setNewPrizeModalVisible] = useState(null)
 
-  const { chainId, usersAddress } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
   const { pools } = useContext(PoolDataContext)
 
   // TODO: Expand this to work for every pool!
@@ -30,7 +30,7 @@ export function NewPrizeWinnerEventListener(props) {
 
   const prizeId = `${pool?.poolAddress}-${recentPrizeId}`
 
-  const { status, data, error, isFetching } = usePrizeQuery(chainId, pool, prizeId)
+  const { status, data, error, isFetching } = usePrizeQuery(pauseQueries, chainId, pool, prizeId)
   
   const recentPrize = data?.prize
   

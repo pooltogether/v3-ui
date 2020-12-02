@@ -4,7 +4,7 @@ import { compact } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-// import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
+// import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
@@ -26,7 +26,7 @@ export const LastWinnersListing = (
 
 
   const first = 5
-  const { status, data, error, isFetching } = usePoolPrizesQuery(chainId, pool, first)
+  const { status, data, error, isFetching } = usePoolPrizesQuery(pauseQueries, chainId, pool, first)
 
 
 

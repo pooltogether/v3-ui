@@ -24,7 +24,7 @@ export function PrizePlayersQuery(props) {
 
   const { chainId } = useContext(AuthControllerContext)
 
-  const { status, data, error, isFetching } = usePrizePlayersQuery(chainId, pool, blockNumber, page, skip)
+  const { status, data, error, isFetching } = usePrizePlayersQuery(pauseQueries, chainId, pool, blockNumber, page, skip)
 
   if (error) {
     console.warn(error)

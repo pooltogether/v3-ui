@@ -17,9 +17,7 @@ export function ChainQueries(props) {
     poolData,
   } = props
   
-  const { chainId } = useContext(AuthControllerContext)
-  // const { disconnectWallet } = useContext(WalletContext)
-  // const [reloadTimer, setReloadTimer] = useState(null)
+  const { chainId, pauseQueries } = useContext(AuthControllerContext)
   
   const {
     status: genericChainStatus,
@@ -27,9 +25,10 @@ export function ChainQueries(props) {
     error: genericChainError,
     isFetching: genericIsFetching
   } = useEthereumGenericQuery({
+    pauseQueries,
     chainId,
     provider,
-    poolData: poolData?.daiPool
+    poolData: poolData?.daiPool,
   })
 
   if (genericChainError) {
@@ -40,7 +39,7 @@ export function ChainQueries(props) {
 
 
 
-  // const graphExternalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
+  
   const poolAddress = poolData?.daiPool?.poolAddress
 
   const graphExternalErc20Awards = poolData?.daiPool?.prizeStrategy?.externalErc20Awards
@@ -51,6 +50,7 @@ export function ChainQueries(props) {
     error: externalErc20ChainError,
     isFetching: externalErc20IsFetching
   } = useEthereumErc20Query({
+    pauseQueries,
     chainId,
     provider,
     graphErc20Awards: graphExternalErc20Awards,
@@ -64,7 +64,6 @@ export function ChainQueries(props) {
 
 
   const graphExternalErc721Awards = poolData?.daiPool?.prizeStrategy?.externalErc721Awards
-  // const graphExternalErc721Awards = dynamicExternalAwardsData?.daiPool?.externalErc721Awards
 
   const {
     status: externalErc721ChainStatus,
@@ -72,6 +71,7 @@ export function ChainQueries(props) {
     error: externalErc721ChainError,
     isFetching: externalErc721IsFetching
   } = useEthereumErc721Query({
+    pauseQueries,
     chainId,
     provider,
     graphErc721Awards: graphExternalErc721Awards,
@@ -81,22 +81,6 @@ export function ChainQueries(props) {
   if (externalErc721ChainError) {
     console.warn(externalErc721ChainError)
   }
-
-
-
-  // Forget wallet and reload -  this typically happens when the Graph URI is out of sync with Onboard JS's chainId
-  // useInterval(() => {
-  //   if (poolData.daiPool === null || !poolData.daiPool?.currentState) {
-  //     if (reloadTimer) {
-  //       disconnectWallet()
-  //       window.location.reload()
-  //     } else {
-  //       setReloadTimer(1)
-  //     }
-  //   } else {
-  //     setReloadTimer(null)
-  //   }
-  // }, 3000)
   
   return children({ 
     genericChainData,

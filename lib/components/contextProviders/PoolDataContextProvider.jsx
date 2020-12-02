@@ -5,7 +5,6 @@ import { isEmpty } from 'lodash'
 
 import { QUERY_KEYS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { ChainQueries } from 'lib/components/ChainQueries'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
@@ -22,16 +21,15 @@ export const PoolDataContext = React.createContext()
 const debug = require('debug')('pool-app:PoolDataContext')
 
 export function PoolDataContextProvider(props) {
-  const cache = useQueryCache()
+  const queryCache = useQueryCache()
 
   const {
     supportedNetwork,
     networkName,
     chainId,
+    pauseQueries,
     usersAddress
   } = useContext(AuthControllerContext)
-
-  const { paused } = useContext(GeneralContext)
 
   const [defaultReadProvider, setDefaultReadProvider] = useState({})
 
@@ -66,7 +64,7 @@ export function PoolDataContextProvider(props) {
     data: poolsGraphData,
     error: poolsError,
     isFetching: poolsIsFetching,
-  } = usePoolsQuery(chainId, contractAddresses, blockNumber)
+  } = usePoolsQuery(pauseQueries, chainId, contractAddresses, blockNumber)
 
   if (poolsError) {
     poolToast.error(poolsError)
@@ -85,17 +83,16 @@ export function PoolDataContextProvider(props) {
   return <>
     <ChainQueries
       {...props}
-      cache={cache}
       chainId={chainId}
       provider={defaultReadProvider}
       poolData={poolData}
     >
       {({ genericChainData }) => {
-        const pools = compilePools(chainId, contractAddresses, cache, poolData, genericChainData)
+        const pools = compilePools(chainId, contractAddresses, queryCache, poolData, genericChainData)
 
         const currentPool = getCurrentPool(querySymbol, pools)
         
-        const ethereumErc20Awards = cache.getQueryData([
+        const ethereumErc20Awards = queryCache.getQueryData([
           QUERY_KEYS.ethereumErc20sQuery,
           chainId,
           poolData?.daiPool?.poolAddress,

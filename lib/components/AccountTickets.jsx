@@ -29,7 +29,7 @@ export const AccountTickets = () => {
     data: playerData,
     error,
     isFetching
-  } = usePlayerQuery(chainId, usersAddress, blockNumber, playerAddressError)
+  } = usePlayerQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
 
   const daiBalances = {
     poolBalance: usersChainData?.v2DaiPoolCommittedBalance,

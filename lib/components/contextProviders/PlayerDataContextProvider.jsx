@@ -12,19 +12,19 @@ export const PlayerDataContext = React.createContext()
 const debug = require('debug')('pool-app:PoolDataContext')
 
 export function PlayerDataContextProvider(props) {
-  const { chainId, usersAddress } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
   const { pool } = useContext(PoolDataContext)
-
 
   const addressError = testAddress(usersAddress)
 
   const blockNumber = -1
+  console.log({pauseQueries})
   const {
     refetch: refetchPlayerData,
     data: playerData,
     error,
     isFetching
-  } = usePlayerQuery(chainId, usersAddress, blockNumber, addressError)
+  } = usePlayerQuery(pauseQueries, chainId, usersAddress, blockNumber, addressError)
 
   if (error) {
     console.error(error)
@@ -37,7 +37,7 @@ export function PlayerDataContextProvider(props) {
     data: sponsorData,
     error: sponsorError,
     isFetching: sponsorIsFetching
-  } = useSponsorQuery(chainId, usersAddress, blockNumber, addressError)
+  } = useSponsorQuery(pauseQueries, chainId, usersAddress, blockNumber, addressError)
 
   if (sponsorError) {
     console.error(sponsorError)

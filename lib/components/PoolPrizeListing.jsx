@@ -16,7 +16,7 @@ export const PoolPrizeListing = (
 
   const { chainId } = useContext(AuthControllerContext)
 
-  const { status, data, error, isFetching } = usePoolPrizesQuery(chainId, pool)
+  const { status, data, error, isFetching } = usePoolPrizesQuery(pauseQueries, chainId, pool)
 
   let prizes = data?.prizePool?.prizes
 

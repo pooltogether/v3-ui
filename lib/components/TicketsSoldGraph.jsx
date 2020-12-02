@@ -17,11 +17,10 @@ export const TicketsSoldGraph = (
 ) => {
   const { pool } = props
 
-  // const { paused } = useContext(GeneralContext)
-  const { chainId } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
   const first = NUMBER_OF_POINTS
-  const { status, data, error, isFetching } = usePoolPrizesQuery(chainId, pool, first)
+  const { status, data, error, isFetching } = usePoolPrizesQuery(pauseQueries, chainId, pool, first)
 
   let prizes = compact([].concat(data?.prizePool?.prizes))
 

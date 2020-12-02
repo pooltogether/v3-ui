@@ -28,7 +28,7 @@ export const AccountWinnings = () => {
     data: playerData,
     error,
     isFetching
-  } = usePlayerQuery(chainId, usersAddress, blockNumber, playerAddressError)
+  } = usePlayerQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
 
   if (error) {
     console.error(error)

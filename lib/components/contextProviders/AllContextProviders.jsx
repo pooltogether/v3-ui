@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 
 import { AuthControllerContextProvider } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ConfettiContextProvider } from 'lib/components/contextProviders/ConfettiContextProvider'
-import { GeneralContextProvider } from 'lib/components/contextProviders/GeneralContextProvider'
 import { PoolDataContextProvider } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PlayerDataContextProvider } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { ThemeContextProvider } from 'lib/components/contextProviders/ThemeContextProvider'
@@ -40,13 +39,11 @@ export function AllContextProviders(props) {
             }}
           >
             <AuthControllerContextProvider>
-              <GeneralContextProvider>
-                <PoolDataContextProvider>
-                  <PlayerDataContextProvider>
-                    {children}
-                  </PlayerDataContextProvider>
-                </PoolDataContextProvider>
-              </GeneralContextProvider>
+              <PoolDataContextProvider>
+                <PlayerDataContextProvider>
+                  {children}
+                </PlayerDataContextProvider>
+              </PoolDataContextProvider>
             </AuthControllerContextProvider>
           </WalletContextProviderDynamic>
         </MagicContextProviderDynamic>
