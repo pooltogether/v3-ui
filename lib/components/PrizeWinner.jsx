@@ -17,7 +17,7 @@ export const PrizeWinner = (
 
   const { pool, prize, winnersAddress } = props
 
-  const { chainId } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
   const blockNumber = prize?.awardedBlock - 1
 
@@ -36,6 +36,7 @@ export const PrizeWinner = (
   }
 
   const { status, data, error, isFetching } = usePoolPlayerQuery(
+    pauseQueries,
     chainId,
     pool,
     winnersAddress,

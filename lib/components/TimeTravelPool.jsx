@@ -20,7 +20,7 @@ export function TimeTravelPool(props){
 
   const queryCache = useQueryCache()
   
-  const { chainId } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries } = useContext(AuthControllerContext)
   const { defaultReadProvider } = useContext(PoolDataContext)
 
   const graphExternalErc721Awards = prize?.awardedExternalErc721Nfts
@@ -31,6 +31,7 @@ export function TimeTravelPool(props){
     error: externalErc721ChainError,
     isFetching: externalErc721IsFetching
   } = useEthereumErc721Query({
+    pauseQueries,
     blockNumber,
     provider: defaultReadProvider,
     graphErc721Awards: graphExternalErc721Awards,

@@ -12,9 +12,10 @@ export function UniswapData(props) {
     addresses,
   } = props
 
-  const { chainId } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
   const { status, data, error, isFetching } = useUniswapTokensQuery(
+    pauseQueries,
     chainId,
     poolAddress,
     blockNumber,
