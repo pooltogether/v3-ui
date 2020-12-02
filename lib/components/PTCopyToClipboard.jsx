@@ -1,12 +1,13 @@
 import React from 'react'
-import CopyToClipboard from 'react-copy-to-clipboard'
+import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
+import CopyToClipboard from 'react-copy-to-clipboard'
 
 import { useTranslation } from 'lib/../i18n'
 import { poolToast } from 'lib/utils/poolToast'
 
 export const PTCopyToClipboard = (props) => {
-  const { text, textShort } = props
+  const { text, textShort, widths } = props
 
   const { t } = useTranslation()
 
@@ -14,13 +15,19 @@ export const PTCopyToClipboard = (props) => {
     poolToast.success(t('copiedToClipboard'))
   }
 
+  const defaultWidths = 'w-full sm:w-8/12 lg:w-1/2'
+
   return <>
     <CopyToClipboard
       text={text}
       onCopy={handleCopy}
     >
       <a
-        className='flex w-full sm:w-8/12 lg:w-1/2 items-center cursor-pointer stroke-current text-inverse hover:text-white h-8 py-1 xs:mb-2 sm:mb-0 bg-primary hover:bg-highlight-2 rounded-sm trans'
+        className={classnames(
+          widths ? widths : defaultWidths,
+          'flex items-center cursor-pointer stroke-current text-inverse hover:text-white',
+          'h-8 py-1 xs:mb-2 sm:mb-0 bg-primary hover:bg-highlight-2 rounded-sm trans',
+        )}
         title='Copy to clipboard'
       >
         <span
