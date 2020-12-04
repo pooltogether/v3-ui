@@ -22,21 +22,19 @@ export function ErrorPage() {
         </div>
       </div>
 
-      <div className='grid-wrapper'>
-        <div className='content'>
-          <div className='my-0 text-inverse p-10'>
-            <PageTitleAndBreadcrumbs
-              title={`${t('error')}`}
-              breadcrumbs={[]}
-            />
+      <div className='content mx-auto' style={{ maxWidth: 700 }}>
+        <div className='my-0 text-inverse pt-32 px-6 xs:pt-32 xs:px-20'>
+          <PageTitleAndBreadcrumbs
+            title={`${t('error')}`}
+            breadcrumbs={[]}
+          />
 
-            <h3>
-              {t('anErrorOccurredAndWeveBeenNotified')}
-            </h3>
-            <h5>
-              {t('pleaseTryAgainSoon')}
-            </h5>
-          </div>
+          <h4>
+            {t('anErrorOccurredAndWeveBeenNotified')}
+          </h4>
+          <h6>
+            {t('pleaseTryAgainSoon')}
+          </h6>
         </div>
       </div>
 

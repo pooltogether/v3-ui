@@ -21,7 +21,7 @@ export function PlayerPageUI(props) {
   const router = useRouter()
 
   const { pools } = useContext(PoolDataContext)
-  const { chainId } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
   const playerAddress = router?.query?.playerAddress
 
