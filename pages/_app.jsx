@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import i18next from '../i18n'
 import * as Fathom from 'fathom-client'
 import * as Sentry from '@sentry/react'
+import { Integrations } from '@sentry/tracing'
 import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
@@ -17,7 +18,6 @@ import { COOKIE_OPTIONS, REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
 import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
-import { ErrorPage } from 'lib/components/ErrorPage'
 import { GraphErrorModal } from 'lib/components/GraphErrorModal'
 import { Layout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
@@ -62,7 +62,10 @@ if (typeof window !== 'undefined') {
 if (process.env.NEXT_JS_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.NEXT_JS_SENTRY_DSN,
-    release: process.env.NEXT_JS_RELEASE_VERSION
+    release: process.env.NEXT_JS_RELEASE_VERSION,
+    integrations: [
+      new Integrations.BrowserTracing(),
+    ],
   })
 }
 

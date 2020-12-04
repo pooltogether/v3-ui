@@ -248,9 +248,9 @@ export const PoolShow = (
             interestPrize={pool?.interestPrizeUSD}
           />
 
-          <LootBox
+          {/* <LootBox
             pool={pool}
-          />
+          /> */}
 
           <Erc20AwardsTable
             pool={pool}

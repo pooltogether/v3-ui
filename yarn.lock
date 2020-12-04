@@ -173,25 +173,6 @@
   dependencies:
     cross-fetch "3.0.5"
 
-"@apollo/client@3.2.5":
-  version "3.2.5"
-  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.2.5.tgz#24e0a6faa1d231ab44807af237c6227410c75c4d"
-  integrity sha512-zpruxnFMz6K94gs2pqc3sidzFDbQpKT5D6P/J/I9s8ekHZ5eczgnRp6pqXC86Bh7+44j/btpmOT0kwiboyqTnA==
-  dependencies:
-    "@graphql-typed-document-node/core" "^3.0.0"
-    "@types/zen-observable" "^0.8.0"
-    "@wry/context" "^0.5.2"
-    "@wry/equality" "^0.2.0"
-    fast-json-stable-stringify "^2.0.0"
-    graphql-tag "^2.11.0"
-    hoist-non-react-statics "^3.3.2"
-    optimism "^0.13.0"
-    prop-types "^15.7.2"
-    symbol-observable "^2.0.0"
-    ts-invariant "^0.4.4"
-    tslib "^1.10.0"
-    zen-observable "^0.8.14"
-
 "@argent/smartwallet-utils@^0.0.11":
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/@argent/smartwallet-utils/-/smartwallet-utils-0.0.11.tgz#52aae85bf9f72f7bc37e594ab86bd69d426d8346"
@@ -2895,11 +2876,6 @@
     postcss "7.0.28"
     purgecss "^2.2.0"
 
-"@graphql-typed-document-node/core@^3.0.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.0.tgz#0eee6373e11418bfe0b5638f654df7a4ca6a3950"
-  integrity sha512-wYn6r8zVZyQJ6rQaALBEln5B1pzxb9shV5Ef97kTvn6yVGrqyXVnDqnU24MXnFubR+rZjBY9NWuxX3FB2sTsjg==
-
 "@hapi/accept@5.0.1":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@hapi/accept/-/accept-5.0.1.tgz#068553e867f0f63225a506ed74e899441af53e10"
@@ -4046,6 +4022,17 @@
     "@sentry/utils" "5.24.2"
     tslib "^1.9.3"
 
+"@sentry/tracing@^5.28.0":
+  version "5.28.0"
+  resolved "https://registry.yarnpkg.com/@sentry/tracing/-/tracing-5.28.0.tgz#c61338f7766e17f0d3a9262b1f895f5a66c6d64f"
+  integrity sha512-7UOgwpMTcSDrWDORY5PpOgw+yzJ9GcyKfqWK7eBqn2NqMdjVNvkZ51eOCSrNUuQ6Nrk7Q7uoPe/hW32Ch/zxvA==
+  dependencies:
+    "@sentry/hub" "5.28.0"
+    "@sentry/minimal" "5.28.0"
+    "@sentry/types" "5.28.0"
+    "@sentry/utils" "5.28.0"
+    tslib "^1.9.3"
+
 "@sentry/types@5.24.2":
   version "5.24.2"
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-5.24.2.tgz#e2c25d1e75d8dbec5dbbd9a309a321425b61c2ca"
@@ -4798,11 +4785,6 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@types/zen-observable@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.0.tgz#8b63ab7f1aa5321248aad5ac890a485656dcea4d"
-  integrity sha512-te5lMAWii1uEJ4FwLjzdlbw3+n0FZNOvFXHxQDKeT0dilh7HOzdMzV2TrJVUzq8ep7J4Na8OUYPRLSQkJHAlrg==
-
 "@unilogin/provider@^0.6.1":
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/@unilogin/provider/-/provider-0.6.1.tgz#427247f0cb0899d8b0d00c04a4b90ae2a3c2cb40"
@@ -5177,20 +5159,6 @@
     "@webassemblyjs/ast" "1.9.0"
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
-
-"@wry/context@^0.5.2":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@wry/context/-/context-0.5.2.tgz#f2a5d5ab9227343aa74c81e06533c1ef84598ec7"
-  integrity sha512-B/JLuRZ/vbEKHRUiGj6xiMojST1kHhu4WcreLfNN7q9DqQFrb97cWgf/kiYsPSUCAMVN0HzfFc8XjJdzgZzfjw==
-  dependencies:
-    tslib "^1.9.3"
-
-"@wry/equality@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@wry/equality/-/equality-0.2.0.tgz#a312d1b6a682d0909904c2bcd355b02303104fb7"
-  integrity sha512-Y4d+WH6hs+KZJUC8YKLYGarjGekBrhslDbf/R20oV+AakHPINSitHfDRQz3EGcEWc1luXYNUvMhawWtZVWNGvQ==
-  dependencies:
-    tslib "^1.9.3"
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -16505,13 +16473,6 @@ opener@^1.5.1:
   resolved "https://registry.yarnpkg.com/opener/-/opener-1.5.1.tgz#6d2f0e77f1a0af0032aca716c2c1fbb8e7e8abed"
   integrity sha512-goYSy5c2UXE4Ra1xixabeVh1guIX/ZV/YokJksb6q2lubWu6UbvPQ20p542/sFIll1nl8JnCyK9oBaOcCWXwvA==
 
-optimism@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/optimism/-/optimism-0.13.0.tgz#c08904e1439a0eb9e7f86183dafa06cc715ff351"
-  integrity sha512-6JAh3dH+YUE4QUdsgUw8nUQyrNeBKfAEKOHMlLkQ168KhIYFIxzPsHakWrRXDnTO+x61RJrS3/2uEt6W0xlocA==
-  dependencies:
-    "@wry/context" "^0.5.2"
-
 optimist@~0.3.5:
   version "0.3.7"
   resolved "https://registry.yarnpkg.com/optimist/-/optimist-0.3.7.tgz#c90941ad59e4273328923074d2cf2e7cbc6ec0d9"
@@ -20168,11 +20129,6 @@ swarm-js@^0.1.40:
     tar "^4.0.2"
     xhr-request "^1.0.1"
 
-symbol-observable@^2.0.0:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-2.0.3.tgz#5b521d3d07a43c351055fa43b8355b62d33fd16a"
-  integrity sha512-sQV7phh2WCYAn81oAkakC5qjq2Ml0g8ozqz03wOGnx9dDlG1de6yrF+0RAzSJD8fPUow3PTSMf2SAbOGxb93BA==
-
 symbol-tree@^3.2.4:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
@@ -20641,13 +20597,6 @@ ts-essentials@^2.0.7:
   version "2.0.12"
   resolved "https://registry.yarnpkg.com/ts-essentials/-/ts-essentials-2.0.12.tgz#c9303f3d74f75fa7528c3d49b80e089ab09d8745"
   integrity sha512-3IVX4nI6B5cc31/GFFE+i8ey/N2eA0CZDbo6n0yrz0zDX8ZJ8djmU1p+XRz7G3is0F3bB3pu2pAroFdAWQKU3w==
-
-ts-invariant@^0.4.4:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/ts-invariant/-/ts-invariant-0.4.4.tgz#97a523518688f93aafad01b0e80eb803eb2abd86"
-  integrity sha512-uEtWkFM/sdZvRNNDL3Ehu4WVpwaulhwQszV8mrtcdeE8nN00BV9mAmQ88RkrBhFgl9gMgvjJLAQcZbnPXI9mlA==
-  dependencies:
-    tslib "^1.9.3"
 
 ts-node@^8.6.2:
   version "8.10.2"
@@ -22964,7 +22913,7 @@ zen-observable-ts@^0.8.20:
     tslib "^1.9.3"
     zen-observable "^0.8.0"
 
-zen-observable@^0.8.0, zen-observable@^0.8.14:
+zen-observable@^0.8.0:
   version "0.8.15"
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==

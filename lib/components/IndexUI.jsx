@@ -31,6 +31,10 @@ export const IndexUI = (
     )
   })
 
+  const nope = (e) => {
+    methodDoesNotExist
+  }
+
   return <>
     <V2MessageLarge />
 
@@ -47,5 +51,6 @@ export const IndexUI = (
     }
 
     <Tagline />
+    <button onClick={nope}>.</button>
   </>
 }

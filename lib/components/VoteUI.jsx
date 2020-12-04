@@ -41,7 +41,8 @@ export const VoteUI = (
       >
         {t('voteNow')}
       </ButtonLink>
-      </div>
+    </div>
+    
     <Tagline />
   </>
 }
