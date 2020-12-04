@@ -22,7 +22,7 @@ export function PrizePlayersQuery(props) {
     prize?.awardedBlock - 1 :
     undefined
 
-  const { chainId } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
   const { status, data, error, isFetching } = usePrizePlayersQuery(pauseQueries, chainId, pool, blockNumber, page, skip)
 
