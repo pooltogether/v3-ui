@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
+import { AccountEmailSignup } from 'lib/components/AccountEmailSignup'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -88,7 +89,11 @@ export function OrderComplete(props) {
       </div>
     </div>
 
-    <div>
+    <AccountEmailSignup />
+
+    <div
+      className='mt-4'
+    >
       <ButtonLink
         href='/account'
         as='/account'

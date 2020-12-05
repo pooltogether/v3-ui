@@ -8,11 +8,12 @@ import { DEFAULT_INPUT_CLASSES } from 'lib/constants'
 export function Input(props) {
   let {
     autoFocus,
-    // placeholder,
-    // handleChange,
-    // value,
-    marginClasses,
     large,
+    small,
+    marginClasses,
+    paddingClasses,
+    borderClasses,
+    bgClasses,
     textClasses,
     roundedClasses,
     pattern,
@@ -22,6 +23,8 @@ export function Input(props) {
     validate,
   } = props
 
+  const defaultTextClasses = 'text-xxs xs:text-sm sm:text-xl lg:text-2xl'
+
   if (roundedClasses === undefined) {
     roundedClasses = 'rounded-full'
   }
@@ -30,13 +33,34 @@ export function Input(props) {
     marginClasses = 'mb-2 lg:mb-2'
   }
 
+  if (paddingClasses === undefined) {
+    paddingClasses = 'px-8 py-3'
+  }
+
+  if (borderClasses === undefined) {
+    borderClasses = 'border'
+  }
+
+  if (bgClasses === undefined) {
+    bgClasses = 'bg-input'
+  }
+
   if (textClasses === undefined) {
-    textClasses = large ? 'font-bold text-3xl sm:text-5xl' : 'text-xxs xs:text-sm sm:text-xl lg:text-2xl'
+    if (large) {
+      textClasses = 'font-bold text-3xl sm:text-5xl'  
+    } else if (small) {
+      textClasses = 'text-xxs xs:text-xs sm:text-sm lg:text-base'
+    } else {
+      textClasses = defaultTextClasses
+    }
   }
 
   const className = classnames(
     DEFAULT_INPUT_CLASSES,
     marginClasses,
+    paddingClasses,
+    borderClasses,
+    bgClasses,
     textClasses,
     roundedClasses,
     props.className, 
@@ -49,6 +73,10 @@ export function Input(props) {
     'label',
     'large',
     'marginClasses',
+    'paddingClasses',
+    'borderClasses',
+    'bgClasses',
+    'inlineButton',
     'roundedClasses',
     'textClasses',
     'isError',

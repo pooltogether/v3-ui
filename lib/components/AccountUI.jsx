@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { useTranslation } from 'lib/../i18n'
+import { AccountEmailSignup } from 'lib/components/AccountEmailSignup'
+import { AccountRewards } from 'lib/components/AccountRewards'
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountTickets } from 'lib/components/AccountTickets'
-import { AccountRewards } from 'lib/components/AccountRewards'
 import { AccountWinnings } from 'lib/components/AccountWinnings'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
@@ -33,6 +34,8 @@ export const AccountUI = () => {
     <AccountRewards />
 
     <AccountWinnings />
+
+    <AccountEmailSignup />
 
     <Tagline />
   </>
