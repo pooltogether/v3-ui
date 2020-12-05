@@ -46,6 +46,7 @@ module.exports = {
         secondary: 'var(--color-bg-secondary)',
         tertiary: 'var(--color-bg-tertiary)',
         default: 'var(--color-bg-default)',
+        input: 'var(--color-bg-input)',
         darkened: 'var(--color-bg-darkened)',
         inverse: 'var(--color-bg-inverse)',
         overlay: 'var(--color-bg-overlay)',

@@ -57,7 +57,7 @@ export function DropdownInputGroup(props) {
   return <>
     <div
       id={id}
-      className='fieldset'
+      className='fieldset mx-auto'
     >
       <div className='flex justify-between'>
         <label>
@@ -72,6 +72,10 @@ export function DropdownInputGroup(props) {
                 'text-xxs xs:text-sm sm:text-xl lg:text-2xl',
                 'mb-2 lg:mb-2',
                 'rounded-full',
+                'px-8 py-3',
+                'bg-input',
+                'border',
+                'font-bold',
                 DEFAULT_INPUT_CLASSES,
                 className,
                 {
