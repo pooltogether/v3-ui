@@ -129,12 +129,12 @@ h5 {
 }
 
 h6 {
-  @apply text-base;
+  @apply text-xs;
 }
 
-@screen sm {
+@screen xs {
   h6 {
-    /* @apply text-sm; */
+    @apply text-base;
   }
 }
 

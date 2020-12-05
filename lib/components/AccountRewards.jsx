@@ -292,9 +292,9 @@ export const AccountRewards = () => {
     <div
       className='xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-2 sm:px-6 py-3'
     >
-      <div className='flex  justify-between xs:pt-4 pb-0 px-2 xs:px-4'>
+      <div className='flex justify-between flex-col xs:flex-row xs:pt-4 pb-0 px-2 xs:px-4'>
 
-        <div className='flex-col'>
+        <div className='flex-col order-2 xs:order-1'>
           <h6
             className='flex items-center font-normal'
           >
@@ -313,7 +313,9 @@ export const AccountRewards = () => {
           </div>
         </div>
 
-        <div>
+        <div
+          className='order-1 xs:order-2 ml-auto'
+        >
           <img
             src={PrizeIllustration}
             className='w-32 mx-auto'

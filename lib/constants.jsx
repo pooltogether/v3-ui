@@ -29,7 +29,7 @@ export const SELECTED_WALLET_COOKIE_KEY = 'selectedWallet'
 
 export const CONFETTI_DURATION_MS = 12000
 
-export const DEFAULT_INPUT_CLASSES = 'w-full text-inverse bg-darkened border inline-flex px-8 py-3 items-center justify-between trans font-bold'
+export const DEFAULT_INPUT_CLASSES = 'w-full text-inverse inline-flex items-center justify-between trans'
                                      
 const domain = process.env.NEXT_JS_DOMAIN_NAME && `.${process.env.NEXT_JS_DOMAIN_NAME}`
 export const COOKIE_OPTIONS = {
