@@ -9,6 +9,11 @@ export function ContributeToLootBoxDropdown(props) {
 
   const { pool } = props
 
+  // const computedLootBoxAddress = LootBoxController.computeAddress(
+  //   erc721Address,
+  //   tokenId
+  // )
+
   return <>
     <DropdownGeneric
       id='erc-20-awards-contribute-dropdown'
@@ -24,7 +29,7 @@ export function ContributeToLootBoxDropdown(props) {
 
         <PTCopyToClipboard
           widths='w-full'
-          text={pool.poolAddress}
+          text={computedLootBoxAddress || pool.poolAddress}
         />
       </div>
     </DropdownGeneric>
