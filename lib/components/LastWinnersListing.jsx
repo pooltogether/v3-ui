@@ -53,6 +53,8 @@ export const LastWinnersListing = (
     />
   }
 
+  console.log("prizes", prizes)
+
   return <>
     {error && <>
       {t('thereWasAnErrorLoadingTheLastFiveWinners')}

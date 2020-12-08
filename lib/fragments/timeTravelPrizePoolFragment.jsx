@@ -1,5 +1,8 @@
 import gql from 'graphql-tag'
 
+import { controlledTokenFragment } from 'lib/fragments/controlledTokenFragment'
+import { prizePoolAccountFragment } from 'lib/fragments/prizePoolAccountFragment'
+import { prizeStrategyFragment } from 'lib/fragments/prizeStrategyFragment'
 import { timeTravelPrizeStrategyFragment } from 'lib/fragments/timeTravelPrizeStrategyFragment'
 
 // this looks the same as prizePoolFragment but due to the way Apollo caches and the way
@@ -9,10 +12,10 @@ export const timeTravelPrizePoolFragment = gql`
     id
 
     prizeStrategy {
-      ...timeTravelPrizeStrategyFragment
+      ...prizeStrategyFragment
     }
 
-    prizePoolType
+    # prizePoolType
     compoundPrizePool {
       id
       cToken
@@ -28,15 +31,21 @@ export const timeTravelPrizePoolFragment = gql`
     timelockTotalSupply
     liquidityCap
 
-    playerCount
-    ticketSupply: totalSupply
-
     cumulativePrizeNet
 
     currentPrizeId
     currentState
 
     prizesCount
+
+    prizePoolAccounts {
+      ...prizePoolAccountFragment
+    }
+    controlledTokens {
+      ...controlledTokenFragment
+    }
   }
-  ${timeTravelPrizeStrategyFragment}
+  ${prizeStrategyFragment}
+  ${prizePoolAccountFragment}
+  ${controlledTokenFragment}
 `

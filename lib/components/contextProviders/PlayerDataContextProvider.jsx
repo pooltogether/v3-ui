@@ -7,6 +7,7 @@ import { useSponsorQuery } from 'lib/hooks/useSponsorQuery'
 import { getUsersSponsorshipBalance } from 'lib/services/getUsersSponsorshipBalance'
 import { getUsersTicketBalance } from 'lib/services/getUsersTicketBalance'
 import { testAddress } from 'lib/utils/testAddress'
+import { ethers } from 'ethers'
 
 export const PlayerDataContext = React.createContext()
 const debug = require('debug')('pool-app:PoolDataContext')
@@ -31,34 +32,38 @@ export function PlayerDataContextProvider(props) {
 
 
 
-  const {
-    refetch: refetchSponsorData,
-    data: sponsorData,
-    error: sponsorError,
-    isFetching: sponsorIsFetching
-  } = useSponsorQuery(pauseQueries, chainId, usersAddress, blockNumber, addressError)
+  // const {
+  //   refetch: refetchSponsorData,
+  //   data: sponsorData,
+  //   error: sponsorError,
+  //   isFetching: sponsorIsFetching
+  // } = useSponsorQuery(pauseQueries, chainId, usersAddress, blockNumber, addressError)
 
-  if (sponsorError) {
-    console.error(sponsorError)
-  }
+  // if (sponsorError) {
+  //   console.error(sponsorError)
+  // }
 
 
+  console.log("Get users ticket balances", playerData)
 
   const {
     usersTicketBalance,
     usersTicketBalanceBN
   } = getUsersTicketBalance(pool, playerData)
 
-  const {
-    usersSponsorshipBalance,
-    usersSponsorshipBalanceBN
-  } = getUsersSponsorshipBalance(pool, sponsorData)
+  let usersSponsorshipBalance = 0
+  let usersSponsorshipBalanceBN = new ethers.utils.BigNumber(0)
+
+  // const {
+  //   usersSponsorshipBalance,
+  //   usersSponsorshipBalanceBN
+  // } = getUsersSponsorshipBalance(pool, sponsorData)
 
   return <>
     <PlayerDataContext.Provider
       value={{
         refetchPlayerData,
-        refetchSponsorData,
+        refetchSponsorData: () => {console.log("refetch")},
         usersSponsorshipBalance,
         usersSponsorshipBalanceBN,
         usersTicketBalance,

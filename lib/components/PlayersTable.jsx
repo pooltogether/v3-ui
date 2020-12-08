@@ -25,16 +25,22 @@ const playerLink = (t, player) => {
 
 const formatPlayerObject = (t, pool, player, winnersAddress) => {
   const decimals = pool.underlyingCollateralDecimals
-  const balance = player.balance && decimals ?
+
+  const playerAddress = player?.account?.id
+
+  const ticketAddress = pool?.ticketToken?.id
+  const playerTicketData = player?.account?.controlledTokenBalances.find(ctb => ctb?.controlledToken?.id === ticketAddress)
+
+  const balance = playerTicketData?.balance && decimals ?
     ethers.utils.formatUnits(
       player.balance,
       Number(decimals)
     ) : ethers.utils.bigNumberify(0)
 
-  const isWinner = winnersAddress === player.address
+  const isWinner = winnersAddress === playerAddress
 
   const address = <>
-    {shorten(player.address)} {isWinner && <span
+    {shorten(playerAddress)} {isWinner && <span
       className='text-flashy font-bold'
     >
       {t('winner')}

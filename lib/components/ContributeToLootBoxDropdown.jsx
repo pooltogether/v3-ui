@@ -29,7 +29,7 @@ export function ContributeToLootBoxDropdown(props) {
 
         <PTCopyToClipboard
           widths='w-full'
-          text={computedLootBoxAddress || pool.poolAddress}
+          text={pool.poolAddress}
         />
       </div>
     </DropdownGeneric>

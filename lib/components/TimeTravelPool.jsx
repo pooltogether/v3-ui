@@ -50,7 +50,7 @@ export function TimeTravelPool(props){
   >
     {(graphPools) => {
       const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
-      const addresses = graphPool?.prizeStrategy?.externalErc20Awards?.map(award => award.address)
+      const addresses = graphPool?.prizeStrategy?.singleRandomWinner?.externalErc20Awards?.map(award => award.address)
       
       return <UniswapData
         addresses={addresses}
