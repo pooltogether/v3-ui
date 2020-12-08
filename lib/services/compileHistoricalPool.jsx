@@ -4,6 +4,7 @@ import {
   QUERY_KEYS
 } from 'lib/constants'
 
+import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { calculateExternalAwardsValue } from 'lib/services/calculateExternalAwardsValue'
 import { compileHistoricalErc20Awards } from 'lib/services/compileHistoricalErc20Awards'
 import { compileHistoricalErc721Awards } from 'lib/services/compileHistoricalErc721Awards'
@@ -29,12 +30,16 @@ export const compileHistoricalPool = (
     ...graphPool,
   }
 
-  const uniswapPriceData = cache.getQueryData([
-    QUERY_KEYS.uniswapTokensQuery,
-    chainId,
-    poolAddress,
-    blockNumber
-  ])
+  
+  // const erc20GraphData = prize?.awardedExternalErc20Tokens
+  // const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
+  const addresses = poolObj?.prizeStrategy?.externalErc20Awards?.map(award => award.address)
+
+  const { status, data, error, isFetching } = useUniswapTokensQuery(
+    blockNumber,
+    addresses
+  )
+  const uniswapPriceData = data
   const externalErc20Awards = compileHistoricalErc20Awards(prize, uniswapPriceData)
 
   const ethErc721Awards = cache.getQueryData([

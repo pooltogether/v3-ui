@@ -9,7 +9,10 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
+import { LootBoxValue } from 'lib/components/LootBoxValue'
+import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { useGraphLootBoxQuery } from 'lib/hooks/useGraphLootBoxQuery'
+import { compileLootBoxErc20s } from 'lib/services/compileLootBoxErc20s'
 import { getCurrentLootBox } from 'lib/services/getCurrentLootBox'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -26,11 +29,46 @@ export const LootBoxTable = (props) => {
 
   const { lootBoxAddress, tokenId } = getCurrentLootBox(pool, chainId)
 
-  const { data, isFetching } = useGraphLootBoxQuery(lootBoxAddress, tokenId)
-  const lootBox = data?.lootBoxes?.[0]
+  const { data: graphLootBoxData } = useGraphLootBoxQuery(lootBoxAddress, tokenId)
+  const lootBox = graphLootBoxData?.lootBoxes?.[0]
 
   const [moreVisible, setMoreVisible] = useState(false)
   
+
+  
+
+  const balanceProperty = 'balance'
+  // const balanceProperty = historical ? 'balanceAwardedBN' : 'balance'
+
+
+  const { erc20s } = props
+
+
+  let erc20Balances = lootBox?.erc20Balances || {}
+  erc20Balances = Object.keys(erc20Balances)
+    .map(key => erc20Balances[key])
+    .filter(award => Number(award?.[balanceProperty]) > 0)
+
+  const addresses = erc20Balances.map(erc20Balance => erc20Balance.erc20Entity.id)
+
+  const blockNumber = -1
+
+  const { data, isFetching } = useUniswapTokensQuery(
+    addresses,
+    blockNumber
+  )
+  const uniswapPriceData = data
+
+  const compiledErc20s = compileLootBoxErc20s(erc20Balances, uniswapPriceData)
+
+  if (!lootBox) {
+    return null
+  }
+
+  const sortedAwards = orderBy(compiledErc20s, ({ value }) => value || '', ['desc'])
+  const awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 5)
+
+
   const handleShowMore = (e) => {
     e.preventDefault()
 
@@ -40,26 +78,6 @@ export const LootBoxTable = (props) => {
       `${basePath}#loot-box-table`,
     )
   }
-
-  if (!lootBox) {
-    return null
-  }
-
-  const balanceProperty = 'balance'
-  // const balanceProperty = historical ? 'balanceAwardedBN' : 'balance'
-
-  console.log(lootBox?.erc20Balances)
-  const erc20Balances = lootBox?.erc20Balances
-  let externalAwards = Object.keys(erc20Balances)
-    .map(key => erc20Balances[key])
-    .filter(award => Number(award?.[balanceProperty]) > 0)
-
-  const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])
-  const awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 5)
-
-  let lootBoxValueUSD
-  externalAwards.forEach(award => (lootBoxValueUSD += Number(award.balance)))
-  // console.log(lootBoxValueUSD)
 
   return <>
     <div
@@ -80,13 +98,9 @@ export const LootBoxTable = (props) => {
           {awards.length === 0 ? <>
             {historical ? t('noOtherPrizesAwarded') : t('currentlyNoOtherPrizes')}
           </> : <>
-            {lootBoxValueUSD && <>
-              <h3
-                className='mb-1'
-              >
-                ${numberWithCommas(lootBoxValueUSD)} {t('value')}
-              </h3>
-            </>} 
+            <LootBoxValue
+              compiledErc20s={compiledErc20s}
+            />
           </>}
         </div>
 
@@ -174,7 +188,7 @@ export const LootBoxTable = (props) => {
             </tbody>
           </table>
 
-          {externalAwards.length > 5 && <>
+          {erc20Balances.length > 5 && <>
             <div className='text-center'>
               <motion.button
                 border='none'

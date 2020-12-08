@@ -97,6 +97,8 @@ export const TOKEN_IMAGES = {
 }
 
 export const TOKEN_VALUES = {
+  '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984': 5.6,
+  '0x852358c72f0d38df475b58f90c9b24aadc63c9db': 1,
   '0x9d942bd31169ed25a1ca78c776dab92de104e50e': 279.31
   // '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
   // '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49

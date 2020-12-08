@@ -74,10 +74,12 @@ export const PageTitleAndBreadcrumbs = (
           {crumbJsx}
         </div> 
 
-        <Chip
-          color='highlight-6'
-          text={t(pool?.frequency?.toLowerCase())}
-        />
+        {typeof window !== 'undefined' && window.location.pathname.match('/pools/') && (
+          <Chip
+            color='highlight-6'
+            text={t(pool?.frequency?.toLowerCase())}
+          />
+        )}
       </div>
     </> : crumbJsx}
   </>
