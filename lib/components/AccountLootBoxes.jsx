@@ -1,13 +1,9 @@
 import React, { useContext } from 'react'
-import Link from 'next/link'
-import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
-import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { testAddress } from 'lib/utils/testAddress'
 
@@ -74,5 +70,6 @@ export const AccountLootBoxes = () => {
           />
         </div>
       </div>
+    </div>
   </>
 }
