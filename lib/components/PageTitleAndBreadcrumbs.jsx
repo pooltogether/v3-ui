@@ -1,10 +1,15 @@
 import React from 'react'
 import Link from 'next/link'
+
+import { useTranslation } from 'lib/../i18n'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { Chip } from 'lib/components/Chip'
 
 export const PageTitleAndBreadcrumbs = (
   props,
 ) => {
+  const { t } = useTranslation()
+
   const {
     breadcrumbs,
     title,
@@ -67,7 +72,12 @@ export const PageTitleAndBreadcrumbs = (
 
         <div className='ml-1 sm:ml-6'>
           {crumbJsx}
-        </div>
+        </div> 
+
+        <Chip
+          color='highlight-6'
+          text={t(pool?.frequency?.toLowerCase())}
+        />
       </div>
     </> : crumbJsx}
   </>

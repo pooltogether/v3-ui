@@ -4,8 +4,7 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { CardGrid } from 'lib/components/CardGrid'
-import { Erc20AwardsTable } from 'lib/components/Erc20AwardsTable'
-import { Erc721AwardsTable } from 'lib/components/Erc721AwardsTable'
+import { TopLevelExternalAwards } from 'lib/components/TopLevelExternalAwards'
 import { Meta } from 'lib/components/Meta'
 import { PrizeWinner } from 'lib/components/PrizeWinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
@@ -146,18 +145,11 @@ export function PrizeShow(props) {
       externalAwardsValue={pool?.externalAwardsUSD}
     />
 
-    <Erc20AwardsTable
+    <TopLevelExternalAwards
+      ethErc721Awards={pool?.ethErc721Awards}
       historical={!!prize?.awardedBlock}
       pool={pool}
-      basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
-      externalErc20Awards={pool?.externalErc20Awards}
-    />
-
-    <Erc721AwardsTable
-      historical={!!prize?.awardedBlock}
-      basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
-      externalErc721Awards={pool?.externalErc721Awards}
-      ethErc721Awards={pool?.ethErc721Awards}
+      basePath={`/pools/${pool?.symbol}`}
     />
 
     <CardGrid

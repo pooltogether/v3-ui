@@ -19,13 +19,11 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
-import { Chip } from 'lib/components/Chip'
-import { Erc20AwardsTable } from 'lib/components/Erc20AwardsTable'
-import { Erc721AwardsTable } from 'lib/components/Erc721AwardsTable'
 import { LootBoxTable } from 'lib/components/LootBoxTable'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
 import { PrizeFromInterestCard } from 'lib/components/PrizeFromInterestCard'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
+import { TopLevelExternalAwards } from 'lib/components/TopLevelExternalAwards'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Meta } from 'lib/components/Meta'
@@ -196,7 +194,7 @@ export const PoolShow = (
           </div>
 
           <div
-            className='bg-highlight-3 rounded-lg px-4 xs:px-4 sm:px-10 pt-4 pb-6 text-white my-8 sm:my-12 border-flashy mx-auto'
+            className='bg-highlight-3 rounded-lg px-4 xs:px-4 sm:px-10 py-4 sm:pt-4 sm:pb-6 text-white my-8 sm:my-12 border-flashy mx-auto'
           >
             <div
               className='flex items-center justify-between'
@@ -204,7 +202,9 @@ export const PoolShow = (
               <div
                 className='w-1/2 sm:w-7/12'
               >
-                <h2>
+                <h1
+                  className='leading-tight'
+                >
                   <Trans
                     i18nKey='prizeAmount'
                     defaults='Prize $<prize>{{amount}}</prize>'
@@ -219,17 +219,7 @@ export const PoolShow = (
                       amount: prizeEstimateFormatted,
                     }}
                   />
-                </h2>
-                <div
-                  className='text-caption -mt-2 uppercase font-bold'
-                >
-                  <div className='mt-2'>
-                    <Chip
-                      color='highlight-6'
-                      text={t(pool?.frequency?.toLowerCase())}
-                    />
-                  </div>
-                </div>
+                </h1>
               </div>
 
               <div
@@ -248,15 +238,9 @@ export const PoolShow = (
             interestPrize={pool?.interestPrizeUSD}
           />
 
-          <Erc20AwardsTable
+          <TopLevelExternalAwards
             pool={pool}
             basePath={`/pools/${pool?.symbol}`}
-            externalErc20Awards={pool?.externalErc20Awards}
-          />
-          
-          <Erc721AwardsTable
-            basePath={`/pools/${pool?.symbol}`}
-            externalErc721Awards={pool?.externalErc721Awards}
           />
 
           <LootBoxTable

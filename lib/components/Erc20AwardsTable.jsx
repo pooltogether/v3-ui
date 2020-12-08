@@ -51,73 +51,45 @@ export const Erc20AwardsTable = (props) => {
   return <>
     <div
       id='awards-table'
-      className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
+      className='mt-2 sm:mt-10'
     >
-      <div
-        className='text-caption uppercase mb-3'
-      >
-        <img
-          src={GiftIcon}
-          className='inline-block mr-2 card-icon'
-        /> {t('lootBox')}
-      </div>
-
       <div className='flex flex-col sm:flex-row justify-between sm:items-center'>
         <div>
-          {awards.length === 0 ? <>
-            {historical ? t('noOtherPrizesAwarded') : t('currentlyNoOtherPrizes')}
-          </> : <>
-            {pool?.externalAwardsUSD && <>
-              <h3
-                className='mb-1'
-              >
-                ${numberWithCommas(pool?.externalAwardsUSD)} {t('value')}
-              </h3>
-            </>} 
-          </>}
-        </div>
 
-        <div>
-          {!historical && <>
-            <ContributeToLootBoxDropdown
-              pool={pool}
-            />
+          <h6
+            className='text-green text-left'
+          >
+            {t('amountTokens', {
+              amount: sortedAwards.length
+            })}
+          </h6>
+
+          {pool?.externalAwardsUSD && <>
+            <h3
+              className='mb-1'
+            >
+              ${numberWithCommas(pool?.externalAwardsUSD)} {t('value')}
+            </h3>
           </>}
         </div>
       </div> 
       
-      {awards.length > 0 && <>
         <div
-          className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8 mt-4'
+          className='text-inverse flex flex-col justify-between rounded-lg p-0'
         >
           <table
-            className='table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
+            className='table--no-padding table--no-hover-states table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
           >
-            <thead>
-              <tr
-                style={{ background: 'none' }}
-              >
-                <th
-                  className='w-6/12'
-                >
-                  <h6
-                    className='text-green text-left'
-                  >
-                    {t('amountTokens', {
-                      amount: sortedAwards.length
-                    })}
-                  </h6>
-                </th>
-                <th
-                  className='w-4/12'
-                ></th>
-                <th
-                  className='w-2/12 sm:w-1/12'
-                ></th>
-              </tr>
-            </thead>
             <tbody>
-              {awards.map(award => {
+              {awards.length === 0 && <>
+                <tr>
+                  <td>
+                    {historical && t('noOtherPrizesAwarded')}
+                  </td>
+                </tr>
+              </>}
+
+              {awards?.map(award => {
                 if (!award.name) {
                   return
                 }
@@ -187,7 +159,6 @@ export const Erc20AwardsTable = (props) => {
         </div>
 
 
-      </>}
 
     </div>
   </>

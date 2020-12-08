@@ -26,9 +26,8 @@ export const LootBoxTable = (props) => {
 
   const { lootBoxAddress, tokenId } = getCurrentLootBox(pool, chainId)
 
-  const { lootBox } = useGraphLootBoxQuery(lootBoxAddress, tokenId)
-  console.log({ lootBox})
-
+  const { data, isFetching } = useGraphLootBoxQuery(lootBoxAddress, tokenId)
+  const lootBox = data?.lootBoxes?.[0]
 
   const [moreVisible, setMoreVisible] = useState(false)
   
@@ -46,14 +45,21 @@ export const LootBoxTable = (props) => {
     return null
   }
 
-  const balanceProperty = historical ? 'balanceAwardedBN' : 'balance'
+  const balanceProperty = 'balance'
+  // const balanceProperty = historical ? 'balanceAwardedBN' : 'balance'
 
-  let externalAwards = Object.keys(externalErc20Awards)
-    .map(key => externalErc20Awards[key])
-    .filter(award => award?.[balanceProperty]?.gt(0))
+  console.log(lootBox?.erc20Balances)
+  const erc20Balances = lootBox?.erc20Balances
+  let externalAwards = Object.keys(erc20Balances)
+    .map(key => erc20Balances[key])
+    .filter(award => Number(award?.[balanceProperty]) > 0)
 
   const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])
   const awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 5)
+
+  let lootBoxValueUSD
+  externalAwards.forEach(award => (lootBoxValueUSD += Number(award.balance)))
+  // console.log(lootBoxValueUSD)
 
   return <>
     <div
@@ -74,11 +80,11 @@ export const LootBoxTable = (props) => {
           {awards.length === 0 ? <>
             {historical ? t('noOtherPrizesAwarded') : t('currentlyNoOtherPrizes')}
           </> : <>
-            {pool?.externalAwardsUSD && <>
+            {lootBoxValueUSD && <>
               <h3
                 className='mb-1'
               >
-                ${numberWithCommas(pool?.externalAwardsUSD)} {t('value')}
+                ${numberWithCommas(lootBoxValueUSD)} {t('value')}
               </h3>
             </>} 
           </>}

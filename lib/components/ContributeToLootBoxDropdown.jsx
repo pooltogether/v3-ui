@@ -11,8 +11,8 @@ export function ContributeToLootBoxDropdown(props) {
 
   const { pool } = props
 
-  const result = useEthereumLootBoxQuery(pool)
-  const { computedLootBoxAddress } = result?.data || {}
+  const response = useEthereumLootBoxQuery(pool)
+  const { computedLootBoxAddress } = response?.data || {}
 
   // const addressToCopy = computedLootBoxAddress || pool.poolAddress
 
