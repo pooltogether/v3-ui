@@ -75,10 +75,14 @@ export const PageTitleAndBreadcrumbs = (
         </div> 
 
         {typeof window !== 'undefined' && window.location.pathname.match('/pools/') && (
-          <Chip
-            color='highlight-6'
-            text={t(pool?.frequency?.toLowerCase())}
-          />
+          <div
+            className='ml-4'
+          >
+            <Chip
+              color='highlight-6'
+              text={t(pool?.frequency?.toLowerCase())}
+            />
+          </div>
         )}
       </div>
     </> : crumbJsx}
