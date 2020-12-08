@@ -58,6 +58,8 @@ export const CONTRACT_ADDRESSES = {
     // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
   },
   4: {
+    LootBox: '0x2cb260f1313454386262373773124f6bc912cf28',
+    LootBoxController: '0x3e3a097af79d6389c16a1e2b3a2f056d3d543c53',
     Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
     // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
   },
@@ -123,6 +125,7 @@ export const V2_CONTRACT_ADDRESSES = [
 export const QUERY_KEYS = {
   ethereumErc20sQuery: 'ethereumErc20sQuery',
   ethereumErc721sQuery: 'ethereumErc721sQuery',
+  ethereumLootBoxQuery: 'ethereumLootBoxQuery',
   ethereumGenericQuery: 'ethereumGenericQuery',
   poolQuery: 'poolQuery',
   poolsQuery: 'poolsQuery',
