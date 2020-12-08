@@ -127,6 +127,7 @@ export const QUERY_KEYS = {
   ethereumErc721sQuery: 'ethereumErc721sQuery',
   ethereumLootBoxQuery: 'ethereumLootBoxQuery',
   ethereumGenericQuery: 'ethereumGenericQuery',
+  lootBoxQuery: 'lootBoxQuery',
   poolQuery: 'poolQuery',
   poolsQuery: 'poolsQuery',
   poolDripsQuery: 'poolDripsQuery',
@@ -143,6 +144,12 @@ export const POOLTOGETHER_GRAPH_URIS = {
   1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
   3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
   4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY,
+}
+
+export const LOOTBOX_GRAPH_URIS = {
+  1: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_MAINNET,
+  3: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_ROPSTEN,
+  4: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_RINKEBY,
 }
 
 export const UNISWAP_GRAPH_URIS = {

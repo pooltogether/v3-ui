@@ -22,6 +22,7 @@ import { CardGrid } from 'lib/components/CardGrid'
 import { Chip } from 'lib/components/Chip'
 import { Erc20AwardsTable } from 'lib/components/Erc20AwardsTable'
 import { Erc721AwardsTable } from 'lib/components/Erc721AwardsTable'
+import { LootBoxTable } from 'lib/components/LootBoxTable'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
 import { PrizeFromInterestCard } from 'lib/components/PrizeFromInterestCard'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
@@ -256,6 +257,11 @@ export const PoolShow = (
           <Erc721AwardsTable
             basePath={`/pools/${pool?.symbol}`}
             externalErc721Awards={pool?.externalErc721Awards}
+          />
+
+          <LootBoxTable
+            pool={pool} 
+            basePath={`/pools/${pool?.symbol}`}
           />
 
           <CardGrid

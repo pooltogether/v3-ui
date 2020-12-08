@@ -12,9 +12,11 @@ export const lootBoxQuery = (number) => {
   return gql`
     query lootBoxQuery($lootBoxAddress: ID!, $first: Int!) {
       lootBoxes(
-        first: $first,
-        orderDirection: desc,
-        where: { lootBox: $lootBoxAddress }${blockFilter}
+        where: {
+          erc721: $lootBoxAddress, # '0x2cb260f1313454386262373773124f6bc912cf28'
+          tokenId: $tokenId, # '1',
+          lootBox: $lootBoxAddress
+        } ${blockFilter}
       ) {
         ...lootBoxFragment
       }
