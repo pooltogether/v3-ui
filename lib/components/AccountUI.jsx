@@ -2,6 +2,7 @@ import React from 'react'
 
 import { useTranslation } from 'lib/../i18n'
 import { AccountEmailSignup } from 'lib/components/AccountEmailSignup'
+import { AccountLootBoxes } from 'lib/components/AccountLootBoxes'
 import { AccountRewards } from 'lib/components/AccountRewards'
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountTickets } from 'lib/components/AccountTickets'
@@ -34,6 +35,8 @@ export const AccountUI = () => {
     <AccountRewards />
 
     <AccountWinnings />
+
+    {/* <AccountLootBoxes /> */}
 
     <AccountEmailSignup />
 

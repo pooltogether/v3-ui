@@ -19,12 +19,11 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
-import { Chip } from 'lib/components/Chip'
-import { Erc20AwardsTable } from 'lib/components/Erc20AwardsTable'
-import { Erc721AwardsTable } from 'lib/components/Erc721AwardsTable'
+import { LootBoxTable } from 'lib/components/LootBoxTable'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
 import { PrizeFromInterestCard } from 'lib/components/PrizeFromInterestCard'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
+import { TopLevelExternalAwards } from 'lib/components/TopLevelExternalAwards'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Meta } from 'lib/components/Meta'
@@ -195,7 +194,7 @@ export const PoolShow = (
           </div>
 
           <div
-            className='bg-highlight-3 rounded-lg px-4 xs:px-4 sm:px-10 pt-4 pb-6 text-white my-8 sm:my-12 border-flashy mx-auto'
+            className='bg-highlight-3 rounded-lg px-4 xs:px-4 sm:px-10 py-4 sm:pt-4 sm:pb-6 text-white my-8 sm:my-12 border-flashy mx-auto'
           >
             <div
               className='flex items-center justify-between'
@@ -203,7 +202,9 @@ export const PoolShow = (
               <div
                 className='w-1/2 sm:w-7/12'
               >
-                <h2>
+                <h1
+                  className='leading-tight'
+                >
                   <Trans
                     i18nKey='prizeAmount'
                     defaults='Prize $<prize>{{amount}}</prize>'
@@ -218,17 +219,7 @@ export const PoolShow = (
                       amount: prizeEstimateFormatted,
                     }}
                   />
-                </h2>
-                <div
-                  className='text-caption -mt-2 uppercase font-bold'
-                >
-                  <div className='mt-2'>
-                    <Chip
-                      color='highlight-6'
-                      text={t(pool?.frequency?.toLowerCase())}
-                    />
-                  </div>
-                </div>
+                </h1>
               </div>
 
               <div
@@ -243,19 +234,19 @@ export const PoolShow = (
           </div>
 
           <PrizeFromInterestCard
+            pool={pool}
             decimals={decimals}
             interestPrize={pool?.interestPrizeUSD}
           />
 
-          <Erc20AwardsTable
+          <TopLevelExternalAwards
             pool={pool}
             basePath={`/pools/${pool?.symbol}`}
-            externalErc20Awards={pool?.externalErc20Awards}
           />
-          
-          <Erc721AwardsTable
+
+          <LootBoxTable
+            pool={pool} 
             basePath={`/pools/${pool?.symbol}`}
-            externalErc721Awards={pool?.externalErc721Awards}
           />
 
           <CardGrid
@@ -280,7 +271,6 @@ export const PoolShow = (
                   
                   <p>
                     {t('depositRewardsDescription')}
-                    
                   </p>
                 </>
               },
@@ -381,31 +371,6 @@ export const PoolShow = (
                   </h6>
                 </>
               },
-              // {
-              //   icon: TotalAwardedIcon,
-              //   title: t('totalAwarded'),
-              //   content: <>
-              //     <h3>
-              //       ${displayAmountInEther(
-              //         pool.cumulativePrizeNet, {
-              //           precision: 0,
-              //           decimals
-              //         })
-              //       }
-              //     </h3>
-                  
-              //     <Link
-              //       href='/prizes/[symbol]'
-              //       as={`/prizes/${pool?.symbol}`}
-              //     >
-              //       <a
-              //         className='inline-block font-bold trans'
-              //       >
-              //         {t('viewPreviousWinners')}
-              //       </a>
-              //     </Link>
-              //   </>
-              // },
               {
                 icon: PrizeIcon,
                 title: t('pastFiveWinners'),
@@ -418,21 +383,7 @@ export const PoolShow = (
               
             ]}
           />
-
-          {/* {ethBalance && ethBalance.eq(0) && <>
-            <FormLockedOverlay
-              flexColJustifyClass='justify-start'
-              title={`Deposit & Withdraw`}
-              zLayerClass='z-30'
-            >
-              <>
-                Your ETH balance is 0.
-                <br />To interact with the contracts you will need ETH.
-              </>
-            </FormLockedOverlay>
-          </>} */}
         </>
-        {/* } */}
 
         <div
           className='flex flex-col sm:flex-row items-center justify-center mt-20'

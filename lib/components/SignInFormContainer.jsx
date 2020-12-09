@@ -91,7 +91,7 @@ export function SignInFormContainer(props) {
         >
           <FeatherIcon
             icon='x-circle'
-            className='w-8 h-8 sm:w-16 sm:h-16'
+            className='w-5 h-5 sm:w-16 sm:h-16 opacity-60'
             strokeWidth='0.09rem'
           />
         </button>

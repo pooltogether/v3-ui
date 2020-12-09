@@ -43,7 +43,7 @@ export const PrizePlayerListing = (
 
   return <>
     <div
-      id='awards-table'
+      id='prize-player-listings-table'
       className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
       <div
