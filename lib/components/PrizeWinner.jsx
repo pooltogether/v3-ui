@@ -6,9 +6,9 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { Odds } from 'lib/components/Odds'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
-import { usePoolPlayerQuery } from 'lib/hooks/usePoolPlayerQuery'
 import { shorten } from 'lib/utils/shorten'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { usePrizePoolAccountQuery } from 'lib/hooks/usePrizePoolAccountQuery'
 
 export const PrizeWinner = (
   props,
@@ -35,7 +35,7 @@ export const PrizeWinner = (
     }
   }
 
-  const { status, data, error, isFetching } = usePoolPlayerQuery(
+  const { status, data, error, isFetching } = usePrizePoolAccountQuery(
     pauseQueries,
     chainId,
     pool,
@@ -43,6 +43,8 @@ export const PrizeWinner = (
     blockNumber,
     playerAddressError
   )
+
+  console.log("DATA", data)
 
   const playerData = data
 

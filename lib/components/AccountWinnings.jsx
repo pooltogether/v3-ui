@@ -6,10 +6,10 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { testAddress } from 'lib/utils/testAddress'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
 
@@ -28,7 +28,8 @@ export const AccountWinnings = () => {
     data: playerData,
     error,
     isFetching
-  } = usePlayerQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  console.log('AccountWinnings', playerData)
 
   if (error) {
     console.error(error)

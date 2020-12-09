@@ -9,8 +9,8 @@ import { V2AccountTicket } from 'lib/components/V2AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { TicketsLoader } from 'lib/components/TicketsLoader'
-import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { testAddress } from 'lib/utils/testAddress'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 
@@ -29,7 +29,7 @@ export const AccountTickets = () => {
     data: playerData,
     error,
     isFetching
-  } = usePlayerQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
 
   const daiBalances = {
     poolBalance: usersChainData?.v2DaiPoolCommittedBalance,

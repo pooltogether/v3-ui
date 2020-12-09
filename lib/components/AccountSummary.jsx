@@ -6,9 +6,9 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { SmallLoader } from 'lib/components/SmallLoader'
-import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { testAddress } from 'lib/utils/testAddress'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 // import AccountPlaceholderImg from 'assets/images/avatar-placeholder.svg'
 import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
@@ -29,7 +29,8 @@ export const AccountSummary = () => {
     data: playerData,
     error,
     isFetching
-  } = usePlayerQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  console.log('AccountSummary', playerData)
 
   if (error) {
     console.error(error)

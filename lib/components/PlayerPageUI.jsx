@@ -13,8 +13,8 @@ import { ErrorMessage } from 'lib/components/ErrorMessage'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
-import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { shorten } from 'lib/utils/shorten'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 export function PlayerPageUI(props) {
   const { t } = useTranslation()
@@ -65,7 +65,8 @@ export function PlayerPageUI(props) {
     data,
     error: playerQueryError,
     isFetching
-  } = usePlayerQuery(pauseQueries, chainId, playerAddress, blockNumber, playerAddressError)
+  } = useAccountQuery(pauseQueries, chainId, playerAddress, blockNumber, playerAddressError)
+  console.log('PlayerPageUI', data)
 
   playerData = data
   // playerDripTokenData = data?.playerDripToken

@@ -26,6 +26,8 @@ export function PrizePlayersQuery(props) {
 
   const { status, data, error, isFetching } = usePrizePlayersQuery(pauseQueries, chainId, pool, blockNumber, page, skip)
 
+  console.log(data)
+
   if (error) {
     console.warn(error)
   }

@@ -7,8 +7,8 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
-import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { testAddress } from 'lib/utils/testAddress'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 export function ManageTicketsForm(props) {
   const { t } = useTranslation()
@@ -24,7 +24,8 @@ export function ManageTicketsForm(props) {
     data: playerData,
     error,
     isFetching
-  } = usePlayerQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  console.log('ManageTicketsForm', playerData)
 
   if (error) {
     console.error(error)
