@@ -60,7 +60,7 @@ export const PrizeWinner = (
     console.error(error)
   }
 
-  if (isFetching || !playerData) {
+  if (!playerData) {
     return <V3LoadingDots />
   }
 

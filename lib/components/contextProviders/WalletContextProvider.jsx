@@ -115,18 +115,18 @@ export function WalletContextProvider(props) {
       _onboard = await getOnboard()
     }
 
-    await _onboard.walletSelect()
+    const walletSelected = await _onboard.walletSelect()
+    if (!walletSelected) {
+      return
+    }
 
-    setTimeout(async () => {
+    // if (_onboard.getState().wallet.name) {
       await _onboard.walletCheck()
 
-      const onboardState = _onboard.getState()
-      if (onboardState.wallet.name) {
-        if (postSignInCallback && onboardState.address) {
-          postSignInCallback()
-        }
+      if (postSignInCallback) {
+        postSignInCallback()
       }
-    }, 2000)
+    // }
   }
   
   const reconnectWallet = (previouslySelectedWallet) => {

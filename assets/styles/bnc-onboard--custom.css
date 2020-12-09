@@ -202,6 +202,10 @@
   color: #05e6c4 !important;
 }
 
+.bn-onboard-custom.bn-onboard-prepare-button {
+  min-height: 34px;
+}
+
 .bn-onboard-select-info-container .bn-onboard-custom.bn-onboard-prepare-button {
   display: none !important;
 }
