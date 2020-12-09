@@ -10,11 +10,13 @@ export const singleRandomWinnerFragment = gql`
     ticket {
       id
       totalSupply
+      decimals
       numberOfHolders
     }
     sponsorship {
       id
       totalSupply
+      decimals
       numberOfHolders
     }
 
