@@ -91,10 +91,10 @@ export const AccountTickets = () => {
                 {playerData?.prizePoolAccounts.map(prizePoolAccount => {
                   const poolAddress = prizePoolAccount?.prizePool?.id
                   const pool = pools?.find(pool => pool.poolAddress === poolAddress)
-                  if (!pool) return
+                  if (!pool) return null
 
                   const ticketAddress = pool?.ticketToken?.id
-                  let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress).balance
+                  let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
 
                   return <AccountTicket
                     isLink

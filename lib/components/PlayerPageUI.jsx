@@ -53,7 +53,6 @@ export function PlayerPageUI(props) {
     }
   }
 
-  let playerData
   // let playerDripTokenData
   // let playerBalanceDripData
   // let playerVolumeDripData
@@ -62,13 +61,11 @@ export function PlayerPageUI(props) {
 
   const {
     status,
-    data,
+    data: playerData,
     error: playerQueryError,
     isFetching
   } = useAccountQuery(pauseQueries, chainId, playerAddress, blockNumber, playerAddressError)
-  console.log('PlayerPageUI', data)
 
-  playerData = data
   // playerDripTokenData = data?.playerDripToken
   // playerBalanceDripData = data?.playerBalanceDrip
   // playerVolumeDripData = data?.playerVolumeDrip
@@ -150,6 +147,24 @@ export function PlayerPageUI(props) {
             <ul
               className='mt-8'
             >
+              {playerData?.prizePoolAccounts.map(prizePoolAccount => {
+                const poolAddress = prizePoolAccount?.prizePool?.id
+                const pool = pools?.find(pool => pool.poolAddress === poolAddress)
+                if (!pool) return null
+
+                const ticketAddress = pool?.ticketToken?.id
+                let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
+
+                return <AccountPoolRow
+                  noLinks
+                  href='/players/[playerAddress]'
+                  as={`/players/${playerAddress}`}
+                  key={`account-pool-row-${pool.poolAddress}`}
+                  pool={pool}
+                  playerBalance={balance}
+                />
+              })}
+
               {playerData.map(playerData => {
                 const pool = pools?.find(pool => pool.poolAddress === playerData.prizePool.id)
 

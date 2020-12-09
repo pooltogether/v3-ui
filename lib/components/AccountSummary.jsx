@@ -28,7 +28,6 @@ export const AccountSummary = () => {
     error,
     isFetching
   } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
-  console.log('AccountSummary', playerData)
 
   if (error) {
     console.error(error)
@@ -43,7 +42,7 @@ export const AccountSummary = () => {
     if (!pool) return
 
     const ticketAddress = pool?.ticketToken?.id
-    let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress).balance
+    let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
     if (!balance) return
 
     const decimals = parseInt(pool?.underlyingCollateralDecimals, 10)
