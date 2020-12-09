@@ -49,8 +49,6 @@ export function TimeTravelPool(props){
   >
     {(graphPools) => {
 
-      console.log("graphPools", graphPools)
-
       const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
       
       const poolInfo = POOLS.find(POOL => POOL.symbol === querySymbol)
