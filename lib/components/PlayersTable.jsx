@@ -24,14 +24,12 @@ const playerLink = (t, player) => {
 }
 
 const formatPlayerObject = (t, pool, player, winnersAddress) => {
+
   const decimals = pool.underlyingCollateralDecimals
 
   const playerAddress = player?.account?.id
 
-  const ticketAddress = pool?.ticketToken?.id
-  const playerTicketData = player?.account?.controlledTokenBalances.find(ctb => ctb?.controlledToken?.id === ticketAddress)
-
-  const balance = playerTicketData?.balance && decimals ?
+  const balance = player?.balance && decimals ?
     ethers.utils.formatUnits(
       player.balance,
       Number(decimals)
@@ -68,8 +66,8 @@ export const PlayersTable = (
   const { t } = useTranslation()
 
   let players = []
-  if (props.players) {
-    players = props.players
+  if (props.balances) {
+    players = props.balances
   }
 
   const { pool, prize } = props

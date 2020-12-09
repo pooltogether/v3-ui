@@ -30,6 +30,8 @@ export function PrizePlayersQuery(props) {
     console.warn(error)
   }
 
+  console.log("PPQ", data)
+
   return children({ error, data, isFetching })
 }
 
