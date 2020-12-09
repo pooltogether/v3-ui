@@ -142,6 +142,11 @@ export const QUERY_KEYS = {
   uniswapTokensQuery: 'uniswapTokensQuery',
 }
 
+export const POOLTOGETHER_LATEST_VERSION = {
+  'staging': 'v3_1_0',
+  'production': 'v3_1_0',
+}
+
 export const POOLTOGETHER_VERSION_START_BLOCKS = {
   v3_0_1: {
     staging: {
