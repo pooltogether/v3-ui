@@ -371,31 +371,6 @@ export const PoolShow = (
                   </h6>
                 </>
               },
-              // {
-              //   icon: TotalAwardedIcon,
-              //   title: t('totalAwarded'),
-              //   content: <>
-              //     <h3>
-              //       ${displayAmountInEther(
-              //         pool.cumulativePrizeNet, {
-              //           precision: 0,
-              //           decimals
-              //         })
-              //       }
-              //     </h3>
-                  
-              //     <Link
-              //       href='/prizes/[symbol]'
-              //       as={`/prizes/${pool?.symbol}`}
-              //     >
-              //       <a
-              //         className='inline-block font-bold trans'
-              //       >
-              //         {t('viewPreviousWinners')}
-              //       </a>
-              //     </Link>
-              //   </>
-              // },
               {
                 icon: PrizeIcon,
                 title: t('pastFiveWinners'),
@@ -408,21 +383,7 @@ export const PoolShow = (
               
             ]}
           />
-
-          {/* {ethBalance && ethBalance.eq(0) && <>
-            <FormLockedOverlay
-              flexColJustifyClass='justify-start'
-              title={`Deposit & Withdraw`}
-              zLayerClass='z-30'
-            >
-              <>
-                Your ETH balance is 0.
-                <br />To interact with the contracts you will need ETH.
-              </>
-            </FormLockedOverlay>
-          </>} */}
         </>
-        {/* } */}
 
         <div
           className='flex flex-col sm:flex-row items-center justify-center mt-20'

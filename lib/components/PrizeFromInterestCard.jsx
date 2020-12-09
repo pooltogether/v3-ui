@@ -10,6 +10,14 @@ export const PrizeFromInterestCard = (props) => {
 
   const { interestPrize, decimals, pool } = props
 
+  const numWinners = pool?.numberOfWinners
+
+  const numberOfWinnersMinusOne = parseInt(numWinners, 10) - 1
+
+  if (typeof numberOfWinnersMinusOne !== 'number') {
+    return null
+  }
+
   return <>
     <div
       className='non-interactable-card my-6 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
@@ -31,7 +39,7 @@ export const PrizeFromInterestCard = (props) => {
 
       <p>
         {t('prizeInterestSplitBetweenNWinners', {
-          numberOfWinners: pool?.numberOfWinners
+          numberOfWinnersMinusOne
         })}
       </p>
     </div>

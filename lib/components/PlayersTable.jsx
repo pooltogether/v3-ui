@@ -23,7 +23,7 @@ const playerLink = (t, player) => {
   </Link>
 }
 
-const formatPlayerObject = (t, pool, player, winnersAddress) => {
+const formatPlayerObject = (t, pool, player, winners) => {
   const decimals = pool.underlyingCollateralDecimals
   const balance = player.balance && decimals ?
     ethers.utils.formatUnits(
@@ -31,7 +31,7 @@ const formatPlayerObject = (t, pool, player, winnersAddress) => {
       Number(decimals)
     ) : ethers.utils.bigNumberify(0)
 
-  const isWinner = winnersAddress === player.address
+  const isWinner = winners?.includes(player.address)
 
   const address = <>
     {shorten(player.address)} {isWinner && <span
@@ -90,7 +90,11 @@ export const PlayersTable = (
     ]
   }, [] )
 
-  const winnersAddress = prize.winners?.[0]
+  // const winners = prize?.winners
+  const winners = [
+    '0x8f7f92e0660dd92eca1fad5f285c4dca556e433e',
+    '0xa5c3a513645a9a00cb561fed40438e9dfe0d6a69',
+    '0x7c738364fea236198dc71c88302d633eb6ad31c1']
 
   let data = React.useMemo(() => {
     return players.map(player => {
@@ -98,7 +102,7 @@ export const PlayersTable = (
         t,
         pool,
         player,
-        winnersAddress
+        winners
       )
     })
   }, [players, pool, pool?.ticketSupply])

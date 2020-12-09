@@ -51,7 +51,7 @@ export const Erc20AwardsTable = (props) => {
   return <>
     <div
       id='erc20-awards-table'
-      className='mt-2 sm:mt-10'
+      className='mt-2 sm:mt-6'
     >
       <div className='flex flex-col sm:flex-row justify-between sm:items-center'>
         <div>

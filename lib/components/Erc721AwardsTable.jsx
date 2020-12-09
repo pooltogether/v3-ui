@@ -70,7 +70,7 @@ export const Erc721AwardsTable = (props) => {
   return <>
     <div
       id='item-erc721-awards-table'
-      className='mt-2 sm:mt-10'
+      className='mt-2'
     >
       <h6
         className='text-green text-left'
@@ -103,7 +103,7 @@ export const Erc721AwardsTable = (props) => {
               {awards.length === 0 && !has721Awards && <>
                 <tr>
                   <td
-                    className='flex items-center py-2 text-left font-bold truncate'
+                    className='flex items-center py-2 text-left truncate'
                   >
                     {historical && t('noItemPrizesAwarded')}
                   </td>
