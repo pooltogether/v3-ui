@@ -23,7 +23,7 @@ export const AccountTicket = (
   const { t } = useTranslation()
   const router = useRouter()
   
-  const { noMargin, isLink, pool, player } = props
+  const { noMargin, isLink, pool, playerBalance } = props
   let { href, as } = props
 
   if (!href && !as) {
@@ -35,9 +35,9 @@ export const AccountTicket = (
   const decimals = pool?.underlyingCollateralDecimals
 
   let usersBalance = 0
-  if (player?.balance && !isNaN(decimals)) {
+  if (playerBalance && !isNaN(decimals)) {
     usersBalance = Number(ethers.utils.formatUnits(
-      player.balance,
+      playerBalance,
       Number(decimals)
     ))
   }

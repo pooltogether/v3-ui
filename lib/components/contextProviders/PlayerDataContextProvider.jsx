@@ -24,7 +24,6 @@ export function PlayerDataContextProvider(props) {
     error,
     isFetching
   } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, addressError)
-  console.log("PlayerDataContext", usersAddress, playerData, pool)
 
   if (error) {
     console.error(error)

@@ -29,7 +29,6 @@ export const AccountWinnings = () => {
     error,
     isFetching
   } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
-  console.log('AccountWinnings', playerData)
 
   if (error) {
     console.error(error)
@@ -40,18 +39,20 @@ export const AccountWinnings = () => {
   const totalWinnings = () => {
     let cumulativeWinningsAllPools = ethers.utils.bigNumberify(0)
 
-    playerData?.forEach(playerData => {
-      const pool = pools?.find(pool => pool.poolAddress === playerData.prizePool.id)
+    playerData?.prizePoolAccounts.forEach(prizePoolAccount => {
+      const poolAddress = prizePoolAccount?.prizePool?.id
+      const pool = pools?.find(pool => pool.poolAddress === poolAddress)
+      if (!pool) return
 
-      if (!pool || !playerData.balance) {
-        return
-      }
-
+      const ticketAddress = pool?.ticketToken?.id
+      let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
+      if (!balance) return
+      
       const decimals = parseInt(pool?.underlyingCollateralDecimals, 10)
-
+      
       // Calculate winnings
       const winnings = normalizeTo18Decimals(
-        playerData.cumulativeWinnings,
+        prizePoolAccount.cumulativeWinnings,
         decimals
       )
 

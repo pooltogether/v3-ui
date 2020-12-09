@@ -41,7 +41,6 @@ export function WithdrawTicketsForm(props) {
     error,
     isFetching
   } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
-  console.log('withdraw', playerData)
 
   if (error) {
     console.error(error)

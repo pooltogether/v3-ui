@@ -17,7 +17,7 @@ export const AccountPoolRow = (
 ) => {
   const { t } = useTranslation()
 
-  const { noLinks, pool, player } = props
+  const { noLinks, pool, playerBalance } = props
   let { href, as } = props
 
   if (!href && !as) {
@@ -31,9 +31,9 @@ export const AccountPoolRow = (
   let formattedFutureDate
   let usersBalance = 0
   let usersTimelockedBalance = 0
-  if (player && player.balance && !isNaN(decimals)) {
+  if (playerBalance && !isNaN(decimals)) {
     usersBalance = Number(ethers.utils.formatUnits(
-      player.balance,
+      playerBalance,
       Number(decimals)
     ))
 

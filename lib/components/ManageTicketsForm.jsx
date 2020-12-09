@@ -25,14 +25,13 @@ export function ManageTicketsForm(props) {
     error,
     isFetching
   } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
-  console.log('ManageTicketsForm', playerData)
 
   if (error) {
     console.error(error)
   }
 
-
-  playerData = playerData?.find(playerData => playerData?.prizePool?.id === pool?.id)
+  const ticketAddress = pool?.ticketToken?.id
+  const balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
 
   const [action, setAction] = useState(STRINGS.withdraw)
 
@@ -52,7 +51,7 @@ export function ManageTicketsForm(props) {
         noMargin
         key={`account-pool-row-${pool?.poolAddress}`}
         pool={pool}
-        player={playerData}
+        playerBalance={balance}
       />
     </div>
 

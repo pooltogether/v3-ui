@@ -44,8 +44,6 @@ export const PrizeWinner = (
     playerAddressError
   )
 
-  console.log("DATA", data)
-
   const playerData = data
 
   const decimals = pool?.underlyingCollateralDecimals || 18

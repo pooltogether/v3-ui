@@ -23,6 +23,10 @@ export const accountFragment = gql`
       unlockTimestamp
 
       cumulativeWinnings
+
+      prizePool {
+        id
+      }
     }
   }
   ${controlledTokenBalanceFragment}
