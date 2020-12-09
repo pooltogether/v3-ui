@@ -142,10 +142,49 @@ export const QUERY_KEYS = {
   uniswapTokensQuery: 'uniswapTokensQuery',
 }
 
+export const POOLTOGETHER_VERSION_START_BLOCKS = {
+  v3_1_0: {
+    staging: {
+      1: 2222222,
+      3: 3333333,
+      4: 7399763,
+    },
+    production: {
+      1: 22222222,
+      3: 33333333,
+      4: 7399763,
+    }
+  }
+}
+
 export const POOLTOGETHER_GRAPH_URIS = {
-  1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
-  3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
-  4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY,
+  // 1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
+  // 3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
+  // 4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY,
+  v3_0_1: {
+    staging: {
+      1: process.env.NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_MAINNET,
+      3: process.env.NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_ROPSTEN,
+      4: process.env.NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_RINKEBY,
+    },
+    production: {
+      1: process.env.NEXT_JS_SUBGRAPH_3_0_1_URI_MAINNET,
+      3: process.env.NEXT_JS_SUBGRAPH_3_0_1_URI_ROPSTEN,
+      4: process.env.NEXT_JS_SUBGRAPH_3_0_1_URI_RINKEBY,
+    },
+  },
+  v3_1_0: {
+    staging: {
+      1: process.env.NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_MAINNET,
+      3: process.env.NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_ROPSTEN,
+      4: process.env.NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_RINKEBY,
+    },
+    production: {
+      1: process.env.NEXT_JS_SUBGRAPH_3_1_0_URI_MAINNET,
+      3: process.env.NEXT_JS_SUBGRAPH_3_1_0_URI_ROPSTEN,
+      4: process.env.NEXT_JS_SUBGRAPH_3_1_0_URI_RINKEBY,
+    },
+  }
 }
 
 export const LOOTBOX_GRAPH_URIS = {
