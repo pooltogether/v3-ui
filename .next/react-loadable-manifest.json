@@ -65,7 +65,67 @@
   ],
   "./hd-wallet-642b97e3.js": [
     {
+      "id": 21,
+      "file": "static/chunks/2.js"
+    },
+    {
       "id": "./node_modules/@pooltogether/bnc-onboard/dist/esm/hd-wallet-642b97e3.js",
+      "file": "static/chunks/2.js"
+    },
+    {
+      "id": 32,
+      "file": "static/chunks/2.js"
+    },
+    {
+      "id": 31,
+      "file": "static/chunks/2.js"
+    },
+    {
+      "id": 28,
+      "file": "static/chunks/2.js"
+    },
+    {
+      "id": 27,
+      "file": "static/chunks/2.js"
+    },
+    {
+      "id": 26,
+      "file": "static/chunks/2.js"
+    },
+    {
+      "id": 25,
+      "file": "static/chunks/2.js"
+    },
+    {
+      "id": 24,
+      "file": "static/chunks/2.js"
+    },
+    {
+      "id": 23,
+      "file": "static/chunks/2.js"
+    },
+    {
+      "id": 22,
+      "file": "static/chunks/2.js"
+    },
+    {
+      "id": 20,
+      "file": "static/chunks/2.js"
+    },
+    {
+      "id": 12,
+      "file": "static/chunks/2.js"
+    },
+    {
+      "id": 9,
+      "file": "static/chunks/2.js"
+    },
+    {
+      "id": 13,
+      "file": "static/chunks/2.js"
+    },
+    {
+      "id": 8,
       "file": "static/chunks/2.js"
     },
     {
@@ -89,75 +149,7 @@
       "file": "static/chunks/2.js"
     },
     {
-      "id": 31,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 32,
-      "file": "static/chunks/2.js"
-    },
-    {
       "id": "./node_modules/@pooltogether/bnc-onboard/node_modules/ethereumjs-util/dist/externals.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 28,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 27,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 26,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 25,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 5,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 24,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 23,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 22,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 4,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 12,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 21,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 13,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 20,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 9,
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": 8,
       "file": "static/chunks/2.js"
     },
     {
@@ -194,18 +186,6 @@
     },
     {
       "id": "./node_modules/assert/assert.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/base-x/src/index.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/base64-js/index.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/brorand/index.js",
       "file": "static/chunks/2.js"
     },
     {
@@ -481,74 +461,6 @@
       "file": "static/chunks/2.js"
     },
     {
-      "id": "./node_modules/elliptic/lib/elliptic.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/base.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/edwards.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/index.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/mont.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/short.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curves.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/index.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/key.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/signature.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/index.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/key.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/signature.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/precomputed/secp256k1.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/utils.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/elliptic/package.json",
-      "file": "static/chunks/2.js"
-    },
-    {
       "id": "./node_modules/ethereum-cryptography/hash-utils.js",
       "file": "static/chunks/2.js"
     },
@@ -653,54 +565,6 @@
       "file": "static/chunks/2.js"
     },
     {
-      "id": "./node_modules/hash.js/lib/hash.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/common.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/hmac.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/ripemd.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/1.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/224.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/256.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/384.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/512.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/common.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/utils.js",
-      "file": "static/chunks/2.js"
-    },
-    {
       "id": "./node_modules/hdkey/lib/hdkey.js",
       "file": "static/chunks/2.js"
     },
@@ -717,23 +581,7 @@
       "file": "static/chunks/2.js"
     },
     {
-      "id": "./node_modules/hmac-drbg/lib/hmac-drbg.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/ieee754/index.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/inherits/inherits_browser.js",
-      "file": "static/chunks/2.js"
-    },
-    {
       "id": "./node_modules/is-hex-prefixed/src/index.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/isarray/index.js",
       "file": "static/chunks/2.js"
     },
     {
@@ -770,18 +618,6 @@
     },
     {
       "id": "./node_modules/miller-rabin/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/minimalistic-assert/index.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/minimalistic-crypto-utils/lib/utils.js",
-      "file": "static/chunks/2.js"
-    },
-    {
-      "id": "./node_modules/node-libs-browser/node_modules/buffer/index.js",
       "file": "static/chunks/2.js"
     },
     {
@@ -989,10 +825,6 @@
       "file": "static/chunks/2.js"
     },
     {
-      "id": "./node_modules/safe-buffer/index.js",
-      "file": "static/chunks/2.js"
-    },
-    {
       "id": "./node_modules/sha.js/hash.js",
       "file": "static/chunks/2.js"
     },
@@ -1081,18 +913,6 @@
       "file": "static/chunks/7.js"
     },
     {
-      "id": "./node_modules/base-x/src/index.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/base64-js/index.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/brorand/index.js",
-      "file": "static/chunks/7.js"
-    },
-    {
       "id": "./node_modules/browserify-aes/aes.js",
       "file": "static/chunks/7.js"
     },
@@ -1177,71 +997,7 @@
       "file": "static/chunks/7.js"
     },
     {
-      "id": 24,
-      "file": "static/chunks/7.js"
-    },
-    {
       "id": "./node_modules/browserify-rsa/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 23,
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 22,
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 4,
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 12,
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 33,
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 13,
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 21,
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 20,
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 28,
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 27,
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 26,
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 25,
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 5,
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 9,
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": 8,
       "file": "static/chunks/7.js"
     },
     {
@@ -1305,7 +1061,63 @@
       "file": "static/chunks/7.js"
     },
     {
+      "id": 33,
+      "file": "static/chunks/7.js"
+    },
+    {
       "id": "./node_modules/browserify-sign/node_modules/readable-stream/lib/internal/streams/destroy.js",
+      "file": "static/chunks/7.js"
+    },
+    {
+      "id": 21,
+      "file": "static/chunks/7.js"
+    },
+    {
+      "id": 20,
+      "file": "static/chunks/7.js"
+    },
+    {
+      "id": 8,
+      "file": "static/chunks/7.js"
+    },
+    {
+      "id": 26,
+      "file": "static/chunks/7.js"
+    },
+    {
+      "id": 9,
+      "file": "static/chunks/7.js"
+    },
+    {
+      "id": 25,
+      "file": "static/chunks/7.js"
+    },
+    {
+      "id": 12,
+      "file": "static/chunks/7.js"
+    },
+    {
+      "id": 28,
+      "file": "static/chunks/7.js"
+    },
+    {
+      "id": 13,
+      "file": "static/chunks/7.js"
+    },
+    {
+      "id": 24,
+      "file": "static/chunks/7.js"
+    },
+    {
+      "id": 23,
+      "file": "static/chunks/7.js"
+    },
+    {
+      "id": 27,
+      "file": "static/chunks/7.js"
+    },
+    {
+      "id": 22,
       "file": "static/chunks/7.js"
     },
     {
@@ -1434,74 +1246,6 @@
     },
     {
       "id": "./node_modules/diffie-hellman/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/base.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/edwards.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/index.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/mont.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/short.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curves.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/index.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/key.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/signature.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/index.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/key.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/signature.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/precomputed/secp256k1.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/utils.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/elliptic/package.json",
       "file": "static/chunks/7.js"
     },
     {
@@ -1749,74 +1493,6 @@
       "file": "static/chunks/7.js"
     },
     {
-      "id": "./node_modules/hash.js/lib/hash.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/common.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/hmac.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/ripemd.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/1.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/224.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/256.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/384.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/512.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/common.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/utils.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/hmac-drbg/lib/hmac-drbg.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/ieee754/index.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/inherits/inherits_browser.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/isarray/index.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/js-sha3/src/sha3.js",
-      "file": "static/chunks/7.js"
-    },
-    {
       "id": "./node_modules/md5.js/index.js",
       "file": "static/chunks/7.js"
     },
@@ -1826,18 +1502,6 @@
     },
     {
       "id": "./node_modules/miller-rabin/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/minimalistic-assert/index.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/minimalistic-crypto-utils/lib/utils.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/node-libs-browser/node_modules/buffer/index.js",
       "file": "static/chunks/7.js"
     },
     {
@@ -2049,10 +1713,6 @@
       "file": "static/chunks/7.js"
     },
     {
-      "id": "./node_modules/safe-buffer/index.js",
-      "file": "static/chunks/7.js"
-    },
-    {
       "id": "./node_modules/sha.js/hash.js",
       "file": "static/chunks/7.js"
     },
@@ -2118,10 +1778,6 @@
     },
     {
       "id": "./node_modules/vm-browserify/index.js",
-      "file": "static/chunks/7.js"
-    },
-    {
-      "id": "./node_modules/webpack/buildin/amd-options.js",
       "file": "static/chunks/7.js"
     }
   ],
@@ -2305,15 +1961,7 @@
       "file": "static/chunks/0.js"
     },
     {
-      "id": "./node_modules/base64-js/index.js",
-      "file": "static/chunks/0.js"
-    },
-    {
       "id": "./node_modules/bip66/index.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/brorand/index.js",
       "file": "static/chunks/0.js"
     },
     {
@@ -2329,115 +1977,7 @@
       "file": "static/chunks/0.js"
     },
     {
-      "id": "./node_modules/elliptic/lib/elliptic.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/base.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/edwards.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/index.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/mont.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/short.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curves.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/index.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/key.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/signature.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/index.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/key.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/signature.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/precomputed/secp256k1.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/utils.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/elliptic/package.json",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": 10,
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": 8,
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": 15,
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": 4,
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": 9,
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": 13,
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": 12,
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": 14,
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": 11,
-      "file": "static/chunks/0.js"
-    },
-    {
       "id": "./node_modules/eth-block-tracker/src/base.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": 5,
       "file": "static/chunks/0.js"
     },
     {
@@ -2645,75 +2185,11 @@
       "file": "static/chunks/0.js"
     },
     {
-      "id": "./node_modules/hash.js/lib/hash.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/common.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/hmac.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/ripemd.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/1.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/224.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/256.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/384.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/512.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/common.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/utils.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/hmac-drbg/lib/hmac-drbg.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/ieee754/index.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/inherits/inherits_browser.js",
-      "file": "static/chunks/0.js"
-    },
-    {
       "id": "./node_modules/is-function/index.js",
       "file": "static/chunks/0.js"
     },
     {
       "id": "./node_modules/is-hex-prefixed/src/index.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/isarray/index.js",
       "file": "static/chunks/0.js"
     },
     {
@@ -2881,7 +2357,39 @@
       "file": "static/chunks/0.js"
     },
     {
+      "id": 9,
+      "file": "static/chunks/0.js"
+    },
+    {
+      "id": 12,
+      "file": "static/chunks/0.js"
+    },
+    {
+      "id": 11,
+      "file": "static/chunks/0.js"
+    },
+    {
+      "id": 13,
+      "file": "static/chunks/0.js"
+    },
+    {
+      "id": 15,
+      "file": "static/chunks/0.js"
+    },
+    {
+      "id": 10,
+      "file": "static/chunks/0.js"
+    },
+    {
+      "id": 8,
+      "file": "static/chunks/0.js"
+    },
+    {
       "id": "./node_modules/lodash/noop.js",
+      "file": "static/chunks/0.js"
+    },
+    {
+      "id": 14,
       "file": "static/chunks/0.js"
     },
     {
@@ -2890,18 +2398,6 @@
     },
     {
       "id": "./node_modules/md5.js/index.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/minimalistic-assert/index.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/minimalistic-crypto-utils/lib/utils.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/node-libs-browser/node_modules/buffer/index.js",
       "file": "static/chunks/0.js"
     },
     {
@@ -2990,10 +2486,6 @@
     },
     {
       "id": "./node_modules/rlp/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/0.js"
-    },
-    {
-      "id": "./node_modules/safe-buffer/index.js",
       "file": "static/chunks/0.js"
     },
     {
@@ -3285,31 +2777,15 @@
   ],
   "@ledgerhq/hw-app-eth": [
     {
+      "id": "./node_modules/@ledgerhq/errors/dist/index.js",
+      "file": "static/chunks/12.js"
+    },
+    {
       "id": "./node_modules/@ledgerhq/hw-app-eth/lib-es/Eth.js",
       "file": "static/chunks/12.js"
     },
     {
-      "id": 34,
-      "file": "static/chunks/12.js"
-    },
-    {
-      "id": "./node_modules/base64-js/index.js",
-      "file": "static/chunks/12.js"
-    },
-    {
-      "id": "./node_modules/ieee754/index.js",
-      "file": "static/chunks/12.js"
-    },
-    {
-      "id": "./node_modules/isarray/index.js",
-      "file": "static/chunks/12.js"
-    },
-    {
-      "id": "./node_modules/node-libs-browser/node_modules/buffer/index.js",
-      "file": "static/chunks/12.js"
-    },
-    {
-      "id": "./node_modules/@ledgerhq/errors/dist/index.js",
+      "id": "./node_modules/@ledgerhq/hw-app-eth/lib-es/utils.js",
       "file": "static/chunks/12.js"
     },
     {
@@ -3317,15 +2793,15 @@
       "file": "static/chunks/12.js"
     },
     {
-      "id": "./node_modules/@ledgerhq/hw-app-eth/node_modules/rlp/dist/index.js",
-      "file": "static/chunks/12.js"
-    },
-    {
       "id": "./node_modules/@ledgerhq/hw-app-eth/node_modules/bn.js/lib/bn.js",
       "file": "static/chunks/12.js"
     },
     {
-      "id": "./node_modules/@ledgerhq/hw-app-eth/lib-es/utils.js",
+      "id": "./node_modules/@ledgerhq/hw-app-eth/node_modules/rlp/dist/index.js",
+      "file": "static/chunks/12.js"
+    },
+    {
+      "id": 34,
       "file": "static/chunks/12.js"
     }
   ],
@@ -3347,23 +2823,7 @@
       "file": "static/chunks/11.js"
     },
     {
-      "id": "./node_modules/base64-js/index.js",
-      "file": "static/chunks/11.js"
-    },
-    {
       "id": "./node_modules/events/events.js",
-      "file": "static/chunks/11.js"
-    },
-    {
-      "id": "./node_modules/ieee754/index.js",
-      "file": "static/chunks/11.js"
-    },
-    {
-      "id": "./node_modules/isarray/index.js",
-      "file": "static/chunks/11.js"
-    },
-    {
-      "id": "./node_modules/node-libs-browser/node_modules/buffer/index.js",
       "file": "static/chunks/11.js"
     },
     {
@@ -3399,19 +2859,11 @@
       "file": "static/chunks/10.js"
     },
     {
-      "id": "./node_modules/@babel/runtime/helpers/asyncToGenerator.js",
-      "file": "static/chunks/10.js"
-    },
-    {
       "id": "./node_modules/@babel/runtime/helpers/classCallCheck.js",
       "file": "static/chunks/10.js"
     },
     {
       "id": "./node_modules/@babel/runtime/helpers/createClass.js",
-      "file": "static/chunks/10.js"
-    },
-    {
-      "id": "./node_modules/@babel/runtime/helpers/defineProperty.js",
       "file": "static/chunks/10.js"
     },
     {
@@ -3695,15 +3147,7 @@
       "file": "static/chunks/4.js"
     },
     {
-      "id": "./node_modules/base64-js/index.js",
-      "file": "static/chunks/4.js"
-    },
-    {
       "id": "./node_modules/bip66/index.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/brorand/index.js",
       "file": "static/chunks/4.js"
     },
     {
@@ -4071,74 +3515,6 @@
       "file": "static/chunks/4.js"
     },
     {
-      "id": "./node_modules/elliptic/lib/elliptic.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/base.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/edwards.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/index.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/mont.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/short.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curves.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/index.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/key.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/signature.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/index.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/key.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/signature.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/precomputed/secp256k1.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/utils.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/elliptic/package.json",
-      "file": "static/chunks/4.js"
-    },
-    {
       "id": "./node_modules/enc-utils/dist/cjs/index.js",
       "file": "static/chunks/4.js"
     },
@@ -4399,67 +3775,7 @@
       "file": "static/chunks/4.js"
     },
     {
-      "id": "./node_modules/hash.js/lib/hash.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/common.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/hmac.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/ripemd.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/1.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/224.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/256.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/384.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/512.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/common.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/utils.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/hmac-drbg/lib/hmac-drbg.js",
-      "file": "static/chunks/4.js"
-    },
-    {
       "id": "./node_modules/https-browserify/index.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/ieee754/index.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/inherits/inherits_browser.js",
       "file": "static/chunks/4.js"
     },
     {
@@ -4468,14 +3784,6 @@
     },
     {
       "id": "./node_modules/is-typedarray/index.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/isarray/index.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/js-sha3/src/sha3.js",
       "file": "static/chunks/4.js"
     },
     {
@@ -4663,18 +3971,6 @@
       "file": "static/chunks/4.js"
     },
     {
-      "id": "./node_modules/minimalistic-assert/index.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/minimalistic-crypto-utils/lib/utils.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/node-libs-browser/node_modules/buffer/index.js",
-      "file": "static/chunks/4.js"
-    },
-    {
       "id": "./node_modules/node-libs-browser/node_modules/stream-browserify/index.js",
       "file": "static/chunks/4.js"
     },
@@ -4691,91 +3987,7 @@
       "file": "static/chunks/4.js"
     },
     {
-      "id": 12,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 27,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 14,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 24,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 21,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 29,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 4,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 8,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 28,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 5,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 13,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 25,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 9,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 19,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 11,
-      "file": "static/chunks/4.js"
-    },
-    {
       "id": "./node_modules/parse-asn1/certificate.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 20,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 26,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 10,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 22,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 15,
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": 23,
       "file": "static/chunks/4.js"
     },
     {
@@ -5099,10 +4311,6 @@
       "file": "static/chunks/4.js"
     },
     {
-      "id": "./node_modules/safe-buffer/index.js",
-      "file": "static/chunks/4.js"
-    },
-    {
       "id": "./node_modules/safe-event-emitter/index.js",
       "file": "static/chunks/4.js"
     },
@@ -5116,6 +4324,82 @@
     },
     {
       "id": "./node_modules/secp256k1/lib/assert.js",
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 14,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 9,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 29,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 28,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 20,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 26,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 22,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 10,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 12,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 23,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 19,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 21,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 11,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 13,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 24,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 15,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 27,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 8,
+      "file": "static/chunks/4.js"
+    },
+    {
+      "id": 25,
       "file": "static/chunks/4.js"
     },
     {
@@ -5200,10 +4484,6 @@
     },
     {
       "id": "./node_modules/to-arraybuffer/index.js",
-      "file": "static/chunks/4.js"
-    },
-    {
-      "id": "./node_modules/tslib/tslib.es6.js",
       "file": "static/chunks/4.js"
     },
     {
@@ -5315,10 +4595,6 @@
       "file": "static/chunks/4.js"
     },
     {
-      "id": "./node_modules/webpack/buildin/amd-options.js",
-      "file": "static/chunks/4.js"
-    },
-    {
       "id": "./node_modules/window-getters/dist/cjs/index.js",
       "file": "static/chunks/4.js"
     },
@@ -5421,23 +4697,15 @@
       "file": "static/chunks/6.js"
     },
     {
-      "id": 4,
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": 5,
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": 17,
-      "file": "static/chunks/6.js"
-    },
-    {
       "id": 9,
       "file": "static/chunks/6.js"
     },
     {
       "id": 8,
+      "file": "static/chunks/6.js"
+    },
+    {
+      "id": 17,
       "file": "static/chunks/6.js"
     },
     {
@@ -5729,15 +4997,7 @@
       "file": "static/chunks/6.js"
     },
     {
-      "id": "./node_modules/base64-js/index.js",
-      "file": "static/chunks/6.js"
-    },
-    {
       "id": "./node_modules/bip66/index.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/brorand/index.js",
       "file": "static/chunks/6.js"
     },
     {
@@ -5750,74 +5010,6 @@
     },
     {
       "id": "./node_modules/create-hash/browser.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/base.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/edwards.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/index.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/mont.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/short.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curves.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/index.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/key.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/signature.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/index.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/key.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/signature.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/precomputed/secp256k1.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/utils.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/elliptic/package.json",
       "file": "static/chunks/6.js"
     },
     {
@@ -6077,66 +5269,6 @@
       "file": "static/chunks/6.js"
     },
     {
-      "id": "./node_modules/hash.js/lib/hash.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/common.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/hmac.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/ripemd.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/1.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/224.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/256.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/384.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/512.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/common.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/utils.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/hmac-drbg/lib/hmac-drbg.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/ieee754/index.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/inherits/inherits_browser.js",
-      "file": "static/chunks/6.js"
-    },
-    {
       "id": "./node_modules/is-buffer/index.js",
       "file": "static/chunks/6.js"
     },
@@ -6146,10 +5278,6 @@
     },
     {
       "id": "./node_modules/is-hex-prefixed/src/index.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/isarray/index.js",
       "file": "static/chunks/6.js"
     },
     {
@@ -6337,18 +5465,6 @@
       "file": "static/chunks/6.js"
     },
     {
-      "id": "./node_modules/minimalistic-assert/index.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/minimalistic-crypto-utils/lib/utils.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/node-libs-browser/node_modules/buffer/index.js",
-      "file": "static/chunks/6.js"
-    },
-    {
       "id": "./node_modules/node-libs-browser/node_modules/stream-browserify/index.js",
       "file": "static/chunks/6.js"
     },
@@ -6458,10 +5574,6 @@
     },
     {
       "id": "./node_modules/rlp/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/6.js"
-    },
-    {
-      "id": "./node_modules/safe-buffer/index.js",
       "file": "static/chunks/6.js"
     },
     {
@@ -6629,24 +5741,6 @@
       "file": "static/chunks/6.js"
     }
   ],
-  "buffer": [
-    {
-      "id": "./node_modules/base64-js/index.js",
-      "file": "static/chunks/48.js"
-    },
-    {
-      "id": "./node_modules/ieee754/index.js",
-      "file": "static/chunks/48.js"
-    },
-    {
-      "id": "./node_modules/isarray/index.js",
-      "file": "static/chunks/48.js"
-    },
-    {
-      "id": "./node_modules/node-libs-browser/node_modules/buffer/index.js",
-      "file": "static/chunks/48.js"
-    }
-  ],
   "ethereumjs-tx": [
     {
       "id": "./node_modules/@pooltogether/bnc-onboard/node_modules/ethereumjs-common/dist/chains/goerli.json",
@@ -6725,6 +5819,14 @@
       "file": "static/chunks/1.js"
     },
     {
+      "id": 13,
+      "file": "static/chunks/1.js"
+    },
+    {
+      "id": 12,
+      "file": "static/chunks/1.js"
+    },
+    {
       "id": "./node_modules/@pooltogether/bnc-onboard/node_modules/ethereumjs-tx/dist/index.js",
       "file": "static/chunks/1.js"
     },
@@ -6733,23 +5835,7 @@
       "file": "static/chunks/1.js"
     },
     {
-      "id": 4,
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": 5,
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": 12,
-      "file": "static/chunks/1.js"
-    },
-    {
       "id": 14,
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": 13,
       "file": "static/chunks/1.js"
     },
     {
@@ -6829,15 +5915,7 @@
       "file": "static/chunks/1.js"
     },
     {
-      "id": "./node_modules/base64-js/index.js",
-      "file": "static/chunks/1.js"
-    },
-    {
       "id": "./node_modules/bip66/index.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/brorand/index.js",
       "file": "static/chunks/1.js"
     },
     {
@@ -6850,74 +5928,6 @@
     },
     {
       "id": "./node_modules/create-hash/browser.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/base.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/edwards.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/index.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/mont.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/short.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curves.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/index.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/key.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/signature.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/index.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/key.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/signature.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/precomputed/secp256k1.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/utils.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/elliptic/package.json",
       "file": "static/chunks/1.js"
     },
     {
@@ -6993,87 +6003,11 @@
       "file": "static/chunks/1.js"
     },
     {
-      "id": "./node_modules/hash.js/lib/hash.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/common.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/hmac.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/ripemd.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/1.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/224.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/256.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/384.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/512.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/common.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/utils.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/hmac-drbg/lib/hmac-drbg.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/ieee754/index.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/inherits/inherits_browser.js",
-      "file": "static/chunks/1.js"
-    },
-    {
       "id": "./node_modules/is-hex-prefixed/src/index.js",
       "file": "static/chunks/1.js"
     },
     {
-      "id": "./node_modules/isarray/index.js",
-      "file": "static/chunks/1.js"
-    },
-    {
       "id": "./node_modules/md5.js/index.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/minimalistic-assert/index.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/minimalistic-crypto-utils/lib/utils.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/node-libs-browser/node_modules/buffer/index.js",
       "file": "static/chunks/1.js"
     },
     {
@@ -7142,10 +6076,6 @@
     },
     {
       "id": "./node_modules/ripemd160/index.js",
-      "file": "static/chunks/1.js"
-    },
-    {
-      "id": "./node_modules/safe-buffer/index.js",
       "file": "static/chunks/1.js"
     },
     {
@@ -7255,7 +6185,23 @@
       "file": "static/chunks/3.js"
     },
     {
-      "id": 5,
+      "id": 32,
+      "file": "static/chunks/3.js"
+    },
+    {
+      "id": "./node_modules/@pooltogether/bnc-onboard/node_modules/ethereumjs-util/dist/index.js",
+      "file": "static/chunks/3.js"
+    },
+    {
+      "id": 9,
+      "file": "static/chunks/3.js"
+    },
+    {
+      "id": 8,
+      "file": "static/chunks/3.js"
+    },
+    {
+      "id": 31,
       "file": "static/chunks/3.js"
     },
     {
@@ -7264,30 +6210,6 @@
     },
     {
       "id": 12,
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": 9,
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": 32,
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": 8,
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/@pooltogether/bnc-onboard/node_modules/ethereumjs-util/dist/index.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": 4,
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": 31,
       "file": "static/chunks/3.js"
     },
     {
@@ -7315,14 +6237,6 @@
       "file": "static/chunks/3.js"
     },
     {
-      "id": "./node_modules/base64-js/index.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/brorand/index.js",
-      "file": "static/chunks/3.js"
-    },
-    {
       "id": "./node_modules/cipher-base/index.js",
       "file": "static/chunks/3.js"
     },
@@ -7332,74 +6246,6 @@
     },
     {
       "id": "./node_modules/create-hash/browser.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/base.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/edwards.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/index.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/mont.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/short.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curves.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/index.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/key.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/signature.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/index.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/key.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/signature.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/precomputed/secp256k1.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/utils.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/elliptic/package.json",
       "file": "static/chunks/3.js"
     },
     {
@@ -7503,71 +6349,7 @@
       "file": "static/chunks/3.js"
     },
     {
-      "id": "./node_modules/hash.js/lib/hash.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/common.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/hmac.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/ripemd.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/1.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/224.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/256.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/384.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/512.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/common.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/utils.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/hmac-drbg/lib/hmac-drbg.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/ieee754/index.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/inherits/inherits_browser.js",
-      "file": "static/chunks/3.js"
-    },
-    {
       "id": "./node_modules/is-hex-prefixed/src/index.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/isarray/index.js",
       "file": "static/chunks/3.js"
     },
     {
@@ -7596,18 +6378,6 @@
     },
     {
       "id": "./node_modules/md5.js/index.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/minimalistic-assert/index.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/minimalistic-crypto-utils/lib/utils.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/node-libs-browser/node_modules/buffer/index.js",
       "file": "static/chunks/3.js"
     },
     {
@@ -7680,10 +6450,6 @@
     },
     {
       "id": "./node_modules/ripemd160/index.js",
-      "file": "static/chunks/3.js"
-    },
-    {
-      "id": "./node_modules/safe-buffer/index.js",
       "file": "static/chunks/3.js"
     },
     {
@@ -8161,15 +6927,7 @@
   ],
   "walletlink": [
     {
-      "id": "./node_modules/base64-js/index.js",
-      "file": "static/chunks/5.js"
-    },
-    {
       "id": "./node_modules/bind-decorator/index.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/brorand/index.js",
       "file": "static/chunks/5.js"
     },
     {
@@ -8437,74 +7195,6 @@
       "file": "static/chunks/5.js"
     },
     {
-      "id": "./node_modules/elliptic/lib/elliptic.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/base.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/edwards.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/index.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/mont.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curve/short.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/curves.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/index.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/key.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/ec/signature.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/index.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/key.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/eddsa/signature.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/precomputed/secp256k1.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/lib/elliptic/utils.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/elliptic/package.json",
-      "file": "static/chunks/5.js"
-    },
-    {
       "id": "./node_modules/events/events.js",
       "file": "static/chunks/5.js"
     },
@@ -8577,70 +7267,6 @@
       "file": "static/chunks/5.js"
     },
     {
-      "id": "./node_modules/hash.js/lib/hash.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/common.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/hmac.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/ripemd.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/1.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/224.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/256.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/384.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/512.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/sha/common.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/hash.js/lib/hash/utils.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/hmac-drbg/lib/hmac-drbg.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/ieee754/index.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/inherits/inherits_browser.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/isarray/index.js",
-      "file": "static/chunks/5.js"
-    },
-    {
       "id": "./node_modules/md5.js/index.js",
       "file": "static/chunks/5.js"
     },
@@ -8650,18 +7276,6 @@
     },
     {
       "id": "./node_modules/miller-rabin/node_modules/bn.js/lib/bn.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/minimalistic-assert/index.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/minimalistic-crypto-utils/lib/utils.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/node-libs-browser/node_modules/buffer/index.js",
       "file": "static/chunks/5.js"
     },
     {
@@ -9677,10 +8291,6 @@
       "file": "static/chunks/5.js"
     },
     {
-      "id": "./node_modules/safe-buffer/index.js",
-      "file": "static/chunks/5.js"
-    },
-    {
       "id": "./node_modules/sha.js/hash.js",
       "file": "static/chunks/5.js"
     },
@@ -9714,10 +8324,6 @@
     },
     {
       "id": "./node_modules/string_decoder/lib/string_decoder.js",
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/tslib/tslib.es6.js",
       "file": "static/chunks/5.js"
     },
     {
@@ -9781,7 +8387,15 @@
       "file": "static/chunks/5.js"
     },
     {
-      "id": 22,
+      "id": "./node_modules/walletlink/dist/index.js",
+      "file": "static/chunks/5.js"
+    },
+    {
+      "id": 24,
+      "file": "static/chunks/5.js"
+    },
+    {
+      "id": 8,
       "file": "static/chunks/5.js"
     },
     {
@@ -9789,7 +8403,27 @@
       "file": "static/chunks/5.js"
     },
     {
-      "id": 21,
+      "id": 27,
+      "file": "static/chunks/5.js"
+    },
+    {
+      "id": 20,
+      "file": "static/chunks/5.js"
+    },
+    {
+      "id": 35,
+      "file": "static/chunks/5.js"
+    },
+    {
+      "id": 22,
+      "file": "static/chunks/5.js"
+    },
+    {
+      "id": 12,
+      "file": "static/chunks/5.js"
+    },
+    {
+      "id": 26,
       "file": "static/chunks/5.js"
     },
     {
@@ -9801,27 +8435,7 @@
       "file": "static/chunks/5.js"
     },
     {
-      "id": 13,
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": 4,
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": 26,
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": 8,
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": 24,
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": "./node_modules/walletlink/dist/index.js",
+      "id": 21,
       "file": "static/chunks/5.js"
     },
     {
@@ -9829,23 +8443,7 @@
       "file": "static/chunks/5.js"
     },
     {
-      "id": 20,
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": 12,
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": 27,
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": 5,
-      "file": "static/chunks/5.js"
-    },
-    {
-      "id": 35,
+      "id": 13,
       "file": "static/chunks/5.js"
     },
     {
