@@ -61,9 +61,9 @@ export function WalletContextProvider(props) {
       balance: setBalance,
       wallet: wallet => {
         if (wallet.provider) {
-          if (magic) {
-            magicContext.signOut()
-          }
+          // if (magic) {
+          //   magicContext.signOut()
+          // }
 
           setWallet(wallet)
 
@@ -79,6 +79,7 @@ export function WalletContextProvider(props) {
         } else {
           provider = null
           setWallet({})
+
           Cookies.remove(
             SELECTED_WALLET_COOKIE_KEY,
             COOKIE_OPTIONS
@@ -115,13 +116,17 @@ export function WalletContextProvider(props) {
     }
 
     await _onboard.walletSelect()
-    await _onboard.walletCheck()
 
-    // if (_onboard.getState().wallet.type) {
-      if (postSignInCallback) {
-        postSignInCallback()
+    setTimeout(async () => {
+      await _onboard.walletCheck()
+
+      const onboardState = _onboard.getState()
+      if (onboardState.wallet.name) {
+        if (postSignInCallback && onboardState.address) {
+          postSignInCallback()
+        }
       }
-    // }
+    }, 2000)
   }
   
   const reconnectWallet = (previouslySelectedWallet) => {
