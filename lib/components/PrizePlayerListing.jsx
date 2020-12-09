@@ -6,8 +6,6 @@ import { useTranslation } from 'lib/../i18n'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PaginationUI } from 'lib/components/PaginationUI'
 import { PlayersTable } from 'lib/components/PlayersTable'
-// import { prizePlayersQuery } from 'lib/queries/prizePlayersQuery'
-// import { timeTravelPrizePlayersQuery } from 'lib/queries/timeTravelPrizePlayersQuery'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 

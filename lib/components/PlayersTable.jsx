@@ -12,7 +12,7 @@ import { shorten } from 'lib/utils/shorten'
 const playerLink = (t, player) => {
   return <Link
     href='/players/[playerAddress]'
-    as={`/players/${player.address}`}
+    as={`/players/${player?.account?.id}`}
     shallow
   >
     <a

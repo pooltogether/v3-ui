@@ -194,16 +194,9 @@ export function PrizeShow(props) {
           </>
         }
         
-        const ticketAddress = pool?.ticketToken?.id
-        console.log(pool, data)
-        const controlledToken = data?.controlledTokens.find(ct => ct.id === ticketAddress)
-        if (!controlledToken) {
-          return 'There was an issue loading data'
-        }
-
         return <PrizePlayerListing
           isFetching={isFetching}
-          balances={controlledToken?.balances}
+          balances={data}
           pool={pool}
           prize={prize}
         />
