@@ -27,7 +27,7 @@ export function useExitFees(quantity) {
       Number(underlyingCollateralDecimals)
     )
 
-    const result = await fetchExitFees(
+    const response = await fetchExitFees(
       networkName,
       usersAddress,
       poolAddress,
@@ -35,7 +35,7 @@ export function useExitFees(quantity) {
       quantityBN
     )
 
-    setExitFees(result)
+    setExitFees(response)
   }
 
   useInterval(() => {

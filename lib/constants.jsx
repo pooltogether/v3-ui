@@ -58,6 +58,8 @@ export const CONTRACT_ADDRESSES = {
     // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
   },
   4: {
+    LootBox: '0x2cb260f1313454386262373773124f6bc912cf28',
+    LootBoxController: '0x3e3a097af79d6389c16a1e2b3a2f056d3d543c53',
     Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
     // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
   },
@@ -95,6 +97,8 @@ export const TOKEN_IMAGES = {
 }
 
 export const TOKEN_VALUES = {
+  '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984': 5.6,
+  '0x852358c72f0d38df475b58f90c9b24aadc63c9db': 1,
   '0x9d942bd31169ed25a1ca78c776dab92de104e50e': 279.31
   // '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
   // '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
@@ -123,7 +127,9 @@ export const V2_CONTRACT_ADDRESSES = [
 export const QUERY_KEYS = {
   ethereumErc20sQuery: 'ethereumErc20sQuery',
   ethereumErc721sQuery: 'ethereumErc721sQuery',
+  ethereumLootBoxQuery: 'ethereumLootBoxQuery',
   ethereumGenericQuery: 'ethereumGenericQuery',
+  lootBoxQuery: 'lootBoxQuery',
   poolQuery: 'poolQuery',
   poolsQuery: 'poolsQuery',
   poolDripsQuery: 'poolDripsQuery',
@@ -140,6 +146,12 @@ export const POOLTOGETHER_GRAPH_URIS = {
   1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
   3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
   4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY,
+}
+
+export const LOOTBOX_GRAPH_URIS = {
+  1: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_MAINNET,
+  3: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_ROPSTEN,
+  4: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_RINKEBY,
 }
 
 export const UNISWAP_GRAPH_URIS = {

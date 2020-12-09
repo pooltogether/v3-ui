@@ -69,7 +69,7 @@ export function SignInForm(props) {
         </>}
       >
         <span
-          className='font-bold text-caption hidden sm:block w-48'
+          className='font-bold text-caption w-48'
         >
           {t('whatsAnEthereum')}
         </span>

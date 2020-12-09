@@ -4,8 +4,7 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { CardGrid } from 'lib/components/CardGrid'
-import { Erc20AwardsTable } from 'lib/components/Erc20AwardsTable'
-import { Erc721AwardsTable } from 'lib/components/Erc721AwardsTable'
+import { TopLevelExternalAwards } from 'lib/components/TopLevelExternalAwards'
 import { Meta } from 'lib/components/Meta'
 import { PrizeWinner } from 'lib/components/PrizeWinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
@@ -32,8 +31,6 @@ export function PrizeShow(props) {
   const decimals = pool?.underlyingCollateralDecimals || 18
 
   const isCurrentPrize = Number(pool?.prizesCount) + 1 === Number(prizeNumber)
-
-  const winnersAddress = prize?.winners?.[0]
   
   return <>
     {pool?.name && <>
@@ -67,7 +64,7 @@ export function PrizeShow(props) {
 
     <div
       className={classnames(
-        'purple-pink-gradient rounded-lg px-4 xs:px-6 sm:px-10 pt-4 pb-6 text-white my-4 sm:mt-8 sm:mb-12 mx-auto',
+        'purple-pink-gradient rounded-lg px-4 xs:px-6 sm:px-10 pt-4 pb-6 text-white my-4 sm:mt-8 sm:mb-4 mx-auto',
         {
           'border-flashy': isCurrentPrize
         }
@@ -111,29 +108,68 @@ export function PrizeShow(props) {
 
 
 
-    {prize?.awardedTimestamp && <>
-      <h6
-        className='mt-4'
-      >
-        {t('awardedOn')}: {formatDate(prize?.awardedTimestamp)}
-      </h6>
-    </>}
 
 
 
 
     {prize?.awardedTimestamp && <>
       <div
-        className='mt-2 xs:mt-0'
+        className='mt-1 xs:mt-0'
       >
+        <div className='flex justify-between mb-1 text-xs sm:text-lg font-bold text-accent-3'>
+          <div
+            className='mt-4'
+          >
+            {t('winners')}
+          </div>
+
+          {prize?.awardedTimestamp && <>
+            <div
+              className='mt-4'
+            >
+              {t('awardedOn')}: {formatDate(prize?.awardedTimestamp)}
+            </div>
+          </>}
+        </div>
+
         <span
           className='mt-4 text-sm'
         >
-          {t('winner')}: <PrizeWinner
-            pool={pool}
-            prize={prize}
-            winnersAddress={winnersAddress}
-          />
+          <table
+            className='w-full'
+          >
+            <thead>
+              <tr>
+                <th>
+                  {t('grandPrize')}
+                </th>
+                <th>
+                  {t('player')}
+                </th>
+                <th>
+                  {t('odds')}
+                </th>
+                <th>
+                  {t('tickets')}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* prize?.winners */}
+              {[
+                '0x8f7f92e0660dd92eca1fad5f285c4dca556e433e',
+                '0xa5c3a513645a9a00cb561fed40438e9dfe0d6a69',
+                '0x7c738364fea236198dc71c88302d633eb6ad31c1'].map((winner, index) => {
+                return <PrizeWinner
+                  grandPrizeWinner={index === 0}
+                  pool={pool}
+                  prize={prize}
+                  winnersAddress={winner}
+                />
+              })}
+            </tbody>
+          </table>
+           
         </span>
       </div>
     </>}
@@ -146,18 +182,11 @@ export function PrizeShow(props) {
       externalAwardsValue={pool?.externalAwardsUSD}
     />
 
-    <Erc20AwardsTable
+    <TopLevelExternalAwards
+      ethErc721Awards={pool?.ethErc721Awards}
       historical={!!prize?.awardedBlock}
       pool={pool}
-      basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
-      externalErc20Awards={pool?.externalErc20Awards}
-    />
-
-    <Erc721AwardsTable
-      historical={!!prize?.awardedBlock}
-      basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
-      externalErc721Awards={pool?.externalErc721Awards}
-      ethErc721Awards={pool?.ethErc721Awards}
+      basePath={`/pools/${pool?.symbol}`}
     />
 
     <CardGrid

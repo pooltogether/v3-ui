@@ -99,3 +99,16 @@ td:last-child {
     background-color: rgba(0, 0, 0, 0);
   }
 }
+
+.table--no-padding {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.table--no-padding th:first-child,
+.table--no-padding th:last-child,
+.table--no-padding td:first-child,
+.table--no-padding td:last-child {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
