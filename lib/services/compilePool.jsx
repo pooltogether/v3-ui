@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import { isEmpty } from 'lodash'
 
 import {
   QUERY_KEYS
@@ -9,7 +10,6 @@ import { calculateEstimatedExternalAwardsValue } from 'lib/services/calculateEst
 // import { calculateEstimatedExternalItemAwardsValue } from 'lib/services/calculateEstimatedExternalItemAwardsValue'
 import { compileErc20Awards } from 'lib/services/compileErc20Awards'
 import { compileErc721Awards } from 'lib/services/compileErc721Awards'
-
 
 // this gathers the current data for a pool
 // note: when calculating value of ERC20 tokens this uses current chain data (infura/alchemy) to get the balance
@@ -31,9 +31,20 @@ export const compilePool = (
     ...poolGraphData,
   }
 
-  const uniswapPriceData = queryCache.getQueryData([QUERY_KEYS.uniswapTokensQuery, chainId, poolAddress, -1])
   const ethereumErc20Awards = queryCache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, chainId, poolAddress, -1])
   const ethereumErc721Awards = queryCache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, chainId, poolAddress, -1])
+
+
+  const addresses = ethereumErc20Awards
+    ?.filter(award => award.balance.gt(0))
+    ?.map(award => award.address)
+
+  const uniswapPriceData = queryCache.getQueryData([
+    QUERY_KEYS.uniswapTokensQuery,
+    chainId,
+    !isEmpty(addresses) ? addresses.join('-') : '',
+    -1
+  ])
 
   const externalErc20Awards = compileErc20Awards(ethereumErc20Awards, poolGraphData, uniswapPriceData)
 

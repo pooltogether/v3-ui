@@ -5,7 +5,6 @@ import { POOLS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { TimeTravelPoolQuery } from 'lib/components/TimeTravelPoolQuery'
-import { UniswapData } from 'lib/components/UniswapData'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
 import { compileHistoricalPool } from 'lib/services/compileHistoricalPool'
 
@@ -50,30 +49,20 @@ export function TimeTravelPool(props){
   >
     {(graphPools) => {
       const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
-      const addresses = graphPool?.prizeStrategy?.singleRandomWinner?.externalErc20Awards?.map(award => award.address)
       
-      return <UniswapData
-        addresses={addresses}
-        blockNumber={blockNumber}
-        poolAddress={poolAddress}
-      >
-        {() => {
-          const poolInfo = POOLS.find(POOL => POOL.symbol === querySymbol)
-          const timeTravelPool = compileHistoricalPool(
-            chainId,
-            poolInfo,
-            queryCache,
-            graphPool,
-            poolAddress,
-            blockNumber,
-            prize
-          )
+      const poolInfo = POOLS.find(POOL => POOL.symbol === querySymbol)
+      const timeTravelPool = compileHistoricalPool(
+        chainId,
+        poolInfo,
+        queryCache,
+        graphPool,
+        poolAddress,
+        blockNumber,
+        prize
+      )
 
-          return children(timeTravelPool)
-        }}
-      </UniswapData>    
+      return children(timeTravelPool)
     }}
   </TimeTravelPoolQuery>
-
    
 }

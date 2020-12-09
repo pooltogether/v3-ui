@@ -3,16 +3,22 @@ import React from 'react'
 import { useTranslation } from 'lib/../i18n'
 import { DropdownGeneric } from 'lib/components/DropdownGeneric'
 import { PTCopyToClipboard } from 'lib/components/PTCopyToClipboard'
+import { V3LoadingDots } from 'lib/components/V3LoadingDots'
+import { useEthereumLootBoxQuery } from 'lib/hooks/useEthereumLootBoxQuery'
 
 export function ContributeToLootBoxDropdown(props) {
   const { t } = useTranslation()
 
   const { pool } = props
 
-  // const computedLootBoxAddress = LootBoxController.computeAddress(
-  //   erc721Address,
-  //   tokenId
-  // )
+  const response = useEthereumLootBoxQuery(pool)
+  const { computedLootBoxAddress } = response?.data || {}
+
+  // const addressToCopy = computedLootBoxAddress || pool.poolAddress
+
+  if (!Boolean(computedLootBoxAddress)) {
+    return <V3LoadingDots />
+  }
 
   return <>
     <DropdownGeneric
@@ -29,7 +35,7 @@ export function ContributeToLootBoxDropdown(props) {
 
         <PTCopyToClipboard
           widths='w-full'
-          text={pool.poolAddress}
+          text={computedLootBoxAddress}
         />
       </div>
     </DropdownGeneric>

@@ -8,8 +8,8 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { ChainQueries } from 'lib/components/ChainQueries'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
-import { UniswapData } from 'lib/components/UniswapData'
 import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
+import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { compilePools } from 'lib/services/compilePools'
 import { getCurrentPool } from 'lib/services/getCurrentPool'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
@@ -73,6 +73,29 @@ export function PoolDataContextProvider(props) {
 
   const poolData = getPoolDataFromQueryResult(contractAddresses, poolsGraphData)
 
+
+
+  // TODO: This is hard-coded to the DAI pool and will need to be changed
+  const ethereumErc20Awards = queryCache.getQueryData([
+    QUERY_KEYS.ethereumErc20sQuery,
+    chainId,
+    poolData?.daiPool?.poolAddress,
+    -1
+  ])
+  const addresses = ethereumErc20Awards
+    ?.filter(award => award.balance.gt(0))
+    ?.map(award => award.address)
+
+  // const ethereumErc20Awards = queryCache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, chainId, poolAddress, -1])
+
+  // this sets the data in the cache which we can pull out later with `getQueryData()`
+  useUniswapTokensQuery(
+    blockNumber,
+    addresses
+  )
+
+
+
   const poolsDataLoading = !poolsGraphData
 
   if (!poolsIsFetching && !isEmpty(poolsGraphData)) {
@@ -91,56 +114,39 @@ export function PoolDataContextProvider(props) {
         const pools = compilePools(chainId, contractAddresses, queryCache, poolData, genericChainData)
 
         const currentPool = getCurrentPool(querySymbol, pools)
-        
-        const ethereumErc20Awards = queryCache.getQueryData([
-          QUERY_KEYS.ethereumErc20sQuery,
-          chainId,
-          poolData?.daiPool?.poolAddress,
-          -1
-        ])
-        const addresses = ethereumErc20Awards
-          ?.filter(award => award.balance.gt(0))
-          ?.map(award => award.address)
-
-        return <UniswapData
-          addresses={addresses}
-          poolAddress={poolData?.daiPool?.poolAddress}
+    
+        return <GraphPoolDripQueries
+          pools={pools}
         >
-          {() => {
-            return <GraphPoolDripQueries
-              pools={pools}
+          {({ graphDripData }) => {
+            return <FetchUsersChainData
+              {...props}
+              provider={defaultReadProvider}
+              pool={currentPool}
+              usersAddress={usersAddress}
+              graphDripData={graphDripData}
+              contractAddresses={contractAddresses}
             >
-              {({ dripDataLoading, graphDripData }) => {
-                return <FetchUsersChainData
-                  {...props}
-                  provider={defaultReadProvider}
-                  pool={currentPool}
-                  usersAddress={usersAddress}
-                  graphDripData={graphDripData}
-                  contractAddresses={contractAddresses}
-                >
-                  {({ usersChainData }) => {
-                    return <PoolDataContext.Provider
-                      value={{
-                        loading: poolsDataLoading,
-                        pool: currentPool,
-                        pools,
-                        contractAddresses,
-                        defaultReadProvider,
-                        genericChainData,
-                        refetchPoolsData,
-                        graphDripData,
-                        usersChainData,
-                      }}
-                    >
-                      {props.children}
-                    </PoolDataContext.Provider>
+              {({ usersChainData }) => {
+                return <PoolDataContext.Provider
+                  value={{
+                    loading: poolsDataLoading,
+                    pool: currentPool,
+                    pools,
+                    contractAddresses,
+                    defaultReadProvider,
+                    genericChainData,
+                    refetchPoolsData,
+                    graphDripData,
+                    usersChainData,
                   }}
-                </FetchUsersChainData>
+                >
+                  {props.children}
+                </PoolDataContext.Provider>
               }}
-            </GraphPoolDripQueries>
+            </FetchUsersChainData>
           }}
-        </UniswapData>
+        </GraphPoolDripQueries>
       }}
     </ChainQueries>
   </>

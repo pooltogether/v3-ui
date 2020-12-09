@@ -147,7 +147,7 @@ export const NewPrizeCountdown = (
         </div>
       </div>
       <div
-        className='px-0 sm:px-1'
+        className='hidden xs:block px-0 sm:px-1'
       >
         :
       </div>
@@ -172,7 +172,7 @@ export const NewPrizeCountdown = (
         </div>
       </div>
       <div
-        className='px-0 sm:px-1'
+        className='hidden xs:block px-0 sm:px-1'
       >
         :
       </div>

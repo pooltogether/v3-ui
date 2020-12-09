@@ -15,7 +15,7 @@ export const PrizeWinner = (
 ) => {
   const { t } = useTranslation()
 
-  const { pool, prize, winnersAddress } = props
+  const { grandPrizeWinner, pool, prize, winnersAddress } = props
 
   const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
@@ -60,49 +60,54 @@ export const PrizeWinner = (
     console.error(error)
   }
 
-  if (isFetching || !playerData) {
+  if (!playerData) {
     return <V3LoadingDots />
   }
 
   return <>
-    <Link
-      href='/players/[playerAddress]'
-      as={`/players/${winnersAddress}`}
-    >
-      <a
-        className='font-bold'
-      >
-        <span className='inline-block lg:hidden'>
-          {shorten(winnersAddress)}
-        </span>
-        <span className='hidden lg:inline-block'>
-          {winnersAddress}
-        </span>
-      </a>
-    </Link>
+    <tr>
+      <td>
+        {grandPrizeWinner && <span
+          className={``}
+          role='img'
+          aria-label='crown emoji'
+        >👑</span>}
+      </td>
 
-    <span className='ml-0 xs:ml-6 block xs:inline-block'>
-      {t('odds')}: <Odds
-        fontSansRegular
-        className='font-bold text-flashy'
-        pool={pool}
-        usersBalance={usersTicketBalance}
-      />
-    </span>
+      <td>
+        <Link
+          href='/players/[playerAddress]'
+          as={`/players/${winnersAddress}`}
+        >
+          <a
+            className='font-bold'
+          >
+            <span className='inline-block lg:hidden'>
+              {shorten(winnersAddress)}
+            </span>
+            <span className='hidden lg:inline-block'>
+              {winnersAddress}
+            </span>
+          </a>
+        </Link>
+      </td>
 
-    <span
-      className='ml-0 xs:ml-6'
-    >
-      <Trans
-        i18nKey='amountTickets'
-        defaults='<number>{{amount}}</number> {{tickets}}'
-        components={{
-          number: <PoolNumber />,
-        }}
-        values={{
-          amount: numberWithCommas(usersTicketBalance, { precision: 0 })
-        }}
-      />
-    </span>
+      <td>
+        <span className='block xs:inline-block'>
+          <Odds
+            fontSansRegular
+            className='font-bold text-flashy'
+            pool={pool}
+            usersBalance={usersTicketBalance}
+          />
+        </span>
+      </td>
+
+      <td>
+        <PoolNumber>
+          {numberWithCommas(usersTicketBalance, {precision: 0 })}
+        </PoolNumber>
+      </td>
+    </tr>
   </>
 }
