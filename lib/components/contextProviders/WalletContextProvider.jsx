@@ -120,13 +120,13 @@ export function WalletContextProvider(props) {
       return
     }
 
-    // if (_onboard.getState().wallet.name) {
-      // await _onboard.walletCheck()
+    await _onboard.walletCheck()
 
-      if (postSignInCallback) {
-        postSignInCallback()
-      }
-    // }
+    const address = _onboard.getState().address
+
+    if (postSignInCallback && address) {
+      postSignInCallback()
+    }
   }
   
   const reconnectWallet = (previouslySelectedWallet) => {

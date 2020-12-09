@@ -29,7 +29,7 @@ export const Erc20AwardsTable = (props) => {
     setMoreVisible(true)
 
     router.push(
-      `${basePath}#awards-table`,
+      `${basePath}#erc20-awards-table`,
     )
   }
 
@@ -50,7 +50,7 @@ export const Erc20AwardsTable = (props) => {
 
   return <>
     <div
-      id='awards-table'
+      id='erc20-awards-table'
       className='mt-2 sm:mt-10'
     >
       <div className='flex flex-col sm:flex-row justify-between sm:items-center'>

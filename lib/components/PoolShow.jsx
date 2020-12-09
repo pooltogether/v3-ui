@@ -234,6 +234,7 @@ export const PoolShow = (
           </div>
 
           <PrizeFromInterestCard
+            pool={pool}
             decimals={decimals}
             interestPrize={pool?.interestPrizeUSD}
           />
@@ -270,7 +271,6 @@ export const PoolShow = (
                   
                   <p>
                     {t('depositRewardsDescription')}
-                    
                   </p>
                 </>
               },

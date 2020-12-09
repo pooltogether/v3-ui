@@ -46,7 +46,7 @@ export const Erc721AwardsTable = (props) => {
     setMoreVisible(true)
 
     router.push(
-      `${basePath}#awards-table`,
+      `${basePath}#erc721-awards-table`,
     )
   }
 
@@ -69,7 +69,7 @@ export const Erc721AwardsTable = (props) => {
 
   return <>
     <div
-      id='item-awards-table'
+      id='item-erc721-awards-table'
       className='mt-2 sm:mt-10'
     >
       <h6

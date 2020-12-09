@@ -8,13 +8,13 @@ import GiftIcon from 'assets/images/icon-gift@2x.png'
 export const PrizeFromInterestCard = (props) => {
   const { t } = useTranslation()
 
-  const { interestPrize, decimals } = props
+  const { interestPrize, decimals, pool } = props
 
   return <>
     <div
-      className='non-interactable-card mt-6 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
+      className='non-interactable-card my-6 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
-      <div className='mt-1 text-caption uppercase mb-3'>
+      <div className='mt-1 text-caption uppercase'>
         <img
           src={GiftIcon}
           className='inline-block mr-2 card-icon'
@@ -22,12 +22,18 @@ export const PrizeFromInterestCard = (props) => {
       </div>
 
       <h3
-        className='mb-1'
+        className='mt-1'
       >
         ${displayAmountInEther(interestPrize, {
           decimals
         })}
       </h3>
+
+      <p>
+        {t('prizeInterestSplitBetweenNWinners', {
+          numberOfWinners: pool?.numberOfWinners
+        })}
+      </p>
     </div>
   </>
 }

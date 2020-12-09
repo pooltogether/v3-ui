@@ -16,8 +16,8 @@ export const TopLevelExternalAwards = (props) => {
   
   return <>
     <div
-      id='awards-table'
-      className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
+      id='top-level-awards-table'
+      className='non-interactable-card mt-2 mb-3 sm:mb-0 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
       <div
         className='text-caption uppercase mb-3'
