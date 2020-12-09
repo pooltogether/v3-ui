@@ -121,7 +121,7 @@ export function WalletContextProvider(props) {
     }
 
     // if (_onboard.getState().wallet.name) {
-      await _onboard.walletCheck()
+      // await _onboard.walletCheck()
 
       if (postSignInCallback) {
         postSignInCallback()
@@ -148,6 +148,7 @@ export function WalletContextProvider(props) {
       connectWallet,
       disconnectWallet,
       reconnectWallet,
+      walletCheck: onboard?.walletCheck,
       handleLoadOnboard,
     }}
   >

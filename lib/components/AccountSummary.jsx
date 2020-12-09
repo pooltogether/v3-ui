@@ -90,7 +90,7 @@ export const AccountSummary = () => {
 
   return <>
     <div
-      className='purple-pink-gradient rounded-lg px-10 xs:px-12 sm:px-20 py-5 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'
+      className='purple-pink-gradient rounded-lg pl-6 pr-10 xs:px-12 py-5 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'
     >
       <div
         className='flex justify-between items-center'
@@ -121,7 +121,7 @@ export const AccountSummary = () => {
           <img
             src={ChillWalletIllustration}
             alt={`chillin' wallet illustration`}
-            className='w-40 mx-auto relative mb-4'
+            className='w-32 xs:w-40 mx-auto relative mb-4 -mr-4'
             style={{
               right: -10,
               top: 17

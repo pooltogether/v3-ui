@@ -7,6 +7,7 @@ import {
   SUPPORTED_CHAIN_IDS,
 } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { NavAccount } from 'lib/components/NavAccount'
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
@@ -29,6 +30,8 @@ export function Layout(props) {
   const {
     children
   } = props
+
+  const { walletCheck, onboardProvider } = useContext(WalletContext)
 
   const [yScrollPosition, setYScrollPosition] = useState()
   const { scrollY } = useViewportScroll()
@@ -94,6 +97,7 @@ export function Layout(props) {
         minHeight: '100vh'
       }}
     >
+      
       <motion.div
         className={classnames(
           'header fixed w-full bg-body z-30 pt-1 pb-1 xs:pt-2 xs:pb-0 sm:py-0 mx-auto l-0 r-0',
@@ -106,6 +110,12 @@ export function Layout(props) {
           className='flex justify-between items-center px-4 xs:px-12 sm:px-10 py-4 xs:pb-6 sm:pt-5 sm:pb-7 mx-auto'
         >
           <HeaderLogo />
+          {/* wallet.provider */}
+          {onboardProvider && (
+            <button className="bn-demo-button" onClick={walletCheck}>
+              Wallet Checks
+            </button>
+          )}
 
           <div
             className={classnames(
