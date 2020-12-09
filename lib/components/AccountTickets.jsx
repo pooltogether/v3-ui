@@ -88,21 +88,21 @@ export const AccountTickets = () => {
             <motion.div>
               <div className='flex flex-wrap'>
 
-                {playerData.map(playerData => {
-                  const pool = pools?.find(pool => pool.poolAddress === playerData.prizePool.id)
+                {playerData?.prizePoolAccounts.map(prizePoolAccount => {
+                  const poolAddress = prizePoolAccount?.prizePool?.id
+                  const pool = pools?.find(pool => pool.poolAddress === poolAddress)
+                  if (!pool) return
 
-                  if (!pool) {
-                    return
-                  }
+                  const ticketAddress = pool?.ticketToken?.id
+                  let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress).balance
 
                   return <AccountTicket
                     isLink
                     key={`account-pool-row-${pool.poolAddress}`}
                     pool={pool}
-                    player={playerData}
+                    playerBalance={balance}
                   />
                 })}
-
 
                 <V2AccountTicket
                   v2dai
