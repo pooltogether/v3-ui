@@ -1,36 +1,29 @@
 import gql from 'graphql-tag'
 
-import { externalErc20AwardFragment } from 'lib/fragments/externalErc20AwardFragment'
-import { externalErc721AwardFragment } from 'lib/fragments/externalErc721AwardFragment'
+import { controlledTokenFragment } from 'lib/fragments/controlledTokenFragment'
+import { singleRandomWinnerExternalErc20AwardFragment } from 'lib/fragments/singleRandomWinnerExternalErc20AwardFragment'
+import { singleRandomWinnerExternalErc721AwardFragment } from 'lib/fragments/singleRandomWinnerExternalErc721AwardFragment'
 
 export const singleRandomWinnerFragment = gql`
-  fragment singleRandomWinnerFragment on SingleRandomWinner {
+  fragment singleRandomWinnerFragment on SingleRandomWinnerPrizeStrategy {
     id
-
-    ticket {
-      id
-      totalSupply
-      decimals
-      numberOfHolders
-    }
-    sponsorship {
-      id
-      totalSupply
-      decimals
-      numberOfHolders
-    }
 
     prizePeriodSeconds
 
-    # new
-    externalErc20Awards {
-      ...externalErc20AwardFragment
+    ticket {
+      ...controlledTokenFragment
     }
-    
+    sponsorship {
+      ...controlledTokenFragment
+    }
+    externalErc20Awards {
+      ...singleRandomWinnerExternalErc20AwardFragment
+    }
     externalErc721Awards {
-      ...externalErc721AwardFragment
+      ...singleRandomWinnerExternalErc721AwardFragment
     }
   }
-  ${externalErc20AwardFragment}
-  ${externalErc721AwardFragment}
+  ${controlledTokenFragment}
+  ${singleRandomWinnerExternalErc20AwardFragment}
+  ${singleRandomWinnerExternalErc721AwardFragment}
 `

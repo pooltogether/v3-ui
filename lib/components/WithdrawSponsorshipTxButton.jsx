@@ -27,7 +27,8 @@ export function WithdrawSponsorshipTxButton(props) {
   const { pool } = useContext(PoolDataContext)
 
   const poolAddress = pool?.poolAddress
-  const sponsorshipAddress = pool?.prizeStrategy?.singleRandomWinner?.sponsorship?.id
+  const sponsorshipAddress = pool?.sponsorshipToken?.id
+  // const sponsorshipAddress = pool?.prizeStrategy?.singleRandomWinner?.sponsorship?.id
   
 
 

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
 
-import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
+import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/ControlledToken'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -61,7 +61,7 @@ export function RevokePoolAllowanceTxButton(props) {
       t,
       provider,
       usersAddress,
-      IERC20Abi,
+      ControlledTokenAbi,
       tokenAddress,
       method,
       params,

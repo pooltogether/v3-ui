@@ -46,14 +46,11 @@ export const compilePool = (
     -1
   ])
 
-  const externalErc20Awards = compileErc20Awards(ethereumErc20Awards, poolGraphData, uniswapPriceData)
+  const compiledExternalErc20Awards = compileErc20Awards(ethereumErc20Awards, poolGraphData, uniswapPriceData)
 
-  const externalErc721Awards = compileErc721Awards(ethereumErc721Awards, poolGraphData)
+  const compiledExternalErc721Awards = compileErc721Awards(ethereumErc721Awards, poolGraphData)
 
-  const externalAwardsEstimateUSD = calculateEstimatedExternalAwardsValue(externalErc20Awards)
-  // const externalItemAwardsEstimate = calculateEstimatedExternalItemAwardsValue(
-  //   ethereumErc721Awards
-  // )
+  const externalAwardsEstimateUSD = calculateEstimatedExternalAwardsValue(compiledExternalErc20Awards)
 
   const interestPrizeEstimateUSD = calculateEstimatedPoolPrize(poolObj)
 
@@ -69,8 +66,7 @@ export const compilePool = (
     prizeAmountUSD: totalPrizeEstimateUSD,
     interestPrizeUSD: interestPrizeEstimateUSD,
     externalAwardsUSD: externalAwardsEstimateUSD,
-    // externalItemAwardsEstimate,
-    externalErc20Awards,
-    externalErc721Awards
+    compiledExternalErc20Awards,
+    compiledExternalErc721Awards
   }
 }

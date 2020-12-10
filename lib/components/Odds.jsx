@@ -32,7 +32,7 @@ export function Odds(props) {
   const hasBalance = !isNaN(usersBalance) && usersBalance > 0
 
   const underlyingCollateralDecimals = pool?.underlyingCollateralDecimals
-  const ticketSupply = timeTravelTicketSupply || pool?.prizeStrategy?.singleRandomWinner?.ticket?.totalSupply
+  const ticketSupply = timeTravelTicketSupply || pool?.ticketSupply
 
   let ticketSupplyFloat
   if (ticketSupply && underlyingCollateralDecimals) {

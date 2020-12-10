@@ -1,14 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { useAtom } from 'jotai'
 
-import SingleRandomWinnerAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinner'
-
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { ButtonTx } from 'lib/components/ButtonTx'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { getPrizeStrategyAbiFromPool } from 'lib/services/getPrizeStrategyAbiFromPool'
 
 export function StartAwardUI(props) {
   const { t } = useTranslation()
@@ -51,7 +50,7 @@ export function StartAwardUI(props) {
       t,
       provider,
       usersAddress,
-      SingleRandomWinnerAbi,
+      getPrizeStrategyAbiFromPool(pool),
       prizeStrategyAddress,
       method,
       params,

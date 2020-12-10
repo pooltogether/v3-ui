@@ -35,7 +35,7 @@ export function ConfirmWithdrawNoFee(props) {
   const decimals = pool?.underlyingCollateralDecimals
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
   const poolAddress = pool?.poolAddress
-  const controlledTokenAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
+  const controlledTicketTokenAddress = pool?.ticket?.id
 
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
@@ -64,7 +64,7 @@ export function ConfirmWithdrawNoFee(props) {
         quantity,
         Number(decimals)
       ),
-      controlledTokenAddress,
+      controlledTicketTokenAddress,
       ethers.utils.parseEther(maxExitFee),
       // {
       //   gasLimit: 700000

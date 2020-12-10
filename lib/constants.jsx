@@ -46,6 +46,11 @@ export const POOLS = [
   }
 ]
 
+export const PRIZE_STRATEGY_TYPES = {
+  'singleRandomWinner': 'singleRandomWinner',
+  'multipleWinners': 'multipleWinners'
+}
+
 export const CONTRACT_ADDRESSES = {
   1: {
     Usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',
@@ -58,8 +63,6 @@ export const CONTRACT_ADDRESSES = {
     // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
   },
   4: {
-    LootBox: '0x2cb260f1313454386262373773124f6bc912cf28',
-    LootBoxController: '0x3e3a097af79d6389c16a1e2b3a2f056d3d543c53',
     Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
     // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
   },
@@ -143,10 +146,79 @@ export const QUERY_KEYS = {
   controlledTokenBalancesQuery: 'controlledTokenBalancesQuery',
 }
 
-export const POOLTOGETHER_GRAPH_URIS = {
+// we may not need any of this:
+export const POOLTOGETHER_LATEST_VERSION = {
+  'staging': 'v3_1_0',
+  'production': 'v3_1_0',
+}
+
+export const POOLTOGETHER_CONTRACT_VERSIONS = {
+  ['0xebfb47a7ad0fd6e57323c8a42b2e5a6a4f68fc1a'.toLowerCase()]: 'v3_0_1', // mainnet: cDai prize pool
+
+  ['0x4706856fa8bb747d50b4ef8547fe51ab5edc4ac2'.toLowerCase()]: 'v3_0_1', // rinkeby: cDai prize pool
+  ['0xe470984fbe3c16acfc41ba2e5274c297f0723134'.toLowerCase()]: 'v3_0_1', // rinkeby: cDai prize pool single winner prize strategy
+  ['0x506cfb5ed425fe986cb913522f3297a79697abfc'.toLowerCase()]: 'v3_0_1', // rinkeby: cDai prize pool single winner prize strategy
+  ['0x5e0a6d336667eace5d1b33279b50055604c3e329'.toLowerCase()]: 'v3_1_0', // rinkeby: cDai prize pool multiple winners prize strategy
+}
+
+export const POOLTOGETHER_VERSION_START_BLOCKS = {
+  v3_0_1: {
+    staging: {
+      1: 2222222,
+      3: 3333333,
+      4: 7399763,
+    },
+    production: {
+      1: 22222222,
+      3: 33333333,
+      4: 7399763,
+    }
+  },
+  v3_1_0: {
+    staging: {
+      1: 2222222,
+      3: 3333333,
+      4: 7687002,
+    },
+    production: {
+      1: 22222222,
+      3: 33333333,
+      4: 7687002,
+    }
+  }
+}
+
+export const POOLTOGETHER_CURRENT_GRAPH_URIS = {
   1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
   3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
-  4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY,
+  4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY
+}
+
+export const POOLTOGETHER_GRAPH_URIS = {
+  v3_0_1: {
+    production: {
+      1: process.env.NEXT_JS_SUBGRAPH_3_0_1_URI_MAINNET,
+      3: process.env.NEXT_JS_SUBGRAPH_3_0_1_URI_ROPSTEN,
+      4: process.env.NEXT_JS_SUBGRAPH_3_0_1_URI_RINKEBY,
+    },
+    staging: {
+      1: process.env.NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_MAINNET,
+      3: process.env.NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_ROPSTEN,
+      4: process.env.NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_RINKEBY,
+    },
+  },
+  v3_1_0: {
+    production: {
+      1: process.env.NEXT_JS_SUBGRAPH_3_1_0_URI_MAINNET,
+      3: process.env.NEXT_JS_SUBGRAPH_3_1_0_URI_ROPSTEN,
+      4: process.env.NEXT_JS_SUBGRAPH_3_1_0_URI_RINKEBY,
+    },
+    staging: {
+      1: process.env.NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_MAINNET,
+      3: process.env.NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_ROPSTEN,
+      4: process.env.NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_RINKEBY,
+    },
+  }
 }
 
 export const LOOTBOX_GRAPH_URIS = {

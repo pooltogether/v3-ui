@@ -34,6 +34,7 @@ const formatPlayerObject = (t, pool, player, winners) => {
       Number(decimals)
     ) : ethers.utils.bigNumberify(0)
 
+  // const isWinner = winnersAddress === playerAddress
   const isWinner = winners?.includes(playerAddress)
 
   const address = <>

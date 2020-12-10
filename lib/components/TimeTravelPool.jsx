@@ -50,6 +50,7 @@ export function TimeTravelPool(props){
     {(graphPools) => {
 
       const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
+      // const addresses = graphPool?.prizeStrategy?.singleRandomWinner?.externalErc20Awards?.map(award => award.address)
       
       const poolInfo = POOLS.find(POOL => POOL.symbol === querySymbol)
       const timeTravelPool = compileHistoricalPool(

@@ -12,7 +12,6 @@ export const prizePoolFragment = gql`
       ...prizeStrategyFragment
     }
 
-    # prizePoolType
     compoundPrizePool {
       id
       cToken
@@ -35,14 +34,15 @@ export const prizePoolFragment = gql`
 
     prizesCount
 
-    prizePoolAccounts {
-      ...prizePoolAccountFragment
-    }
+    # prizePoolAccounts {
+    #   ...prizePoolAccountFragment
+    # }
     controlledTokens {
       ...controlledTokenFragment
     }
   }
   ${prizeStrategyFragment}
-  ${prizePoolAccountFragment}
+  
   ${controlledTokenFragment}
 `
+// ${prizePoolAccountFragment}
