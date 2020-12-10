@@ -183,10 +183,13 @@ export const POOLTOGETHER_VERSION_START_BLOCKS = {
   }
 }
 
+export const POOLTOGETHER_CURRENT_GRAPH_URIS = {
+  1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
+  3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
+  4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY
+}
+
 export const POOLTOGETHER_GRAPH_URIS = {
-  // 1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
-  // 3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
-  // 4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY,
   v3_0_1: {
     production: {
       1: process.env.NEXT_JS_SUBGRAPH_3_0_1_URI_MAINNET,

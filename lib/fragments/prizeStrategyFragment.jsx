@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 
+import { multipleWinnersPrizeStrategyFragment } from 'lib/fragments/multipleWinnersPrizeStrategyFragment'
 import { singleRandomWinnerFragment } from 'lib/fragments/singleRandomWinnerFragment'
 
 export const prizeStrategyFragment = gql`
@@ -9,6 +10,10 @@ export const prizeStrategyFragment = gql`
     singleRandomWinner {
       ...singleRandomWinnerFragment
     }
+    multipleWinnersPrizeStrategy {
+      ...multipleWinnersPrizeStrategyFragment
+    }
   }
   ${singleRandomWinnerFragment}
+  ${multipleWinnersPrizeStrategyFragment}
 `
