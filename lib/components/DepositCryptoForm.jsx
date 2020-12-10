@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useAtom } from 'jotai'
 
-import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
+import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/ControlledToken'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -126,7 +126,7 @@ export function DepositCryptoForm(props) {
       t,
       provider,
       usersAddress,
-      IERC20Abi,
+      ControlledTokenAbi,
       tokenAddress,
       method,
       params,

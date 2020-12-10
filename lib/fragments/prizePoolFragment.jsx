@@ -35,14 +35,14 @@ export const prizePoolFragment = gql`
 
     prizesCount
 
-    prizePoolAccounts {
-      ...prizePoolAccountFragment
-    }
+    # prizePoolAccounts {
+    #   ...prizePoolAccountFragment
+    # }
     controlledTokens {
       ...controlledTokenFragment
     }
   }
   ${prizeStrategyFragment}
-  ${prizePoolAccountFragment}
+  # ${prizePoolAccountFragment}
   ${controlledTokenFragment}
 `

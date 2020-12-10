@@ -8,6 +8,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { ChainQueries } from 'lib/components/ChainQueries'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
+// import { UniswapData } from 'lib/components/UniswapData'
 import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { compilePools } from 'lib/services/compilePools'
@@ -96,6 +97,7 @@ export function PoolDataContextProvider(props) {
 
 
 
+
   const poolsDataLoading = !poolsGraphData
 
   if (!poolsIsFetching && !isEmpty(poolsGraphData)) {
@@ -114,7 +116,17 @@ export function PoolDataContextProvider(props) {
         const pools = compilePools(chainId, contractAddresses, queryCache, poolData, genericChainData)
 
         const currentPool = getCurrentPool(querySymbol, pools)
-    
+        
+        // const ethereumErc20Awards = queryCache.getQueryData([
+        //   QUERY_KEYS.ethereumErc20sQuery,
+        //   chainId,
+        //   poolData?.daiPool?.poolAddress,
+        //   -1
+        // ])
+        // const addresses = ethereumErc20Awards
+        //   ?.filter(award => award.balance.gt(0))
+        //   ?.map(award => award.address)
+
         return <GraphPoolDripQueries
           pools={pools}
         >

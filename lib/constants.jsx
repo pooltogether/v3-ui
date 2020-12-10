@@ -58,8 +58,6 @@ export const CONTRACT_ADDRESSES = {
     // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
   },
   4: {
-    LootBox: '0x2cb260f1313454386262373773124f6bc912cf28',
-    LootBoxController: '0x3e3a097af79d6389c16a1e2b3a2f056d3d543c53',
     Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
     // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
   },
@@ -143,9 +141,19 @@ export const QUERY_KEYS = {
   controlledTokenBalancesQuery: 'controlledTokenBalancesQuery',
 }
 
+// we may not need any of this:
 export const POOLTOGETHER_LATEST_VERSION = {
-  'staging': 'v3_0_1',
-  'production': 'v3_0_1',
+  'staging': 'v3_1_0',
+  'production': 'v3_1_0',
+}
+
+export const POOLTOGETHER_CONTRACT_VERSIONS = {
+  ['0xebfb47a7ad0fd6e57323c8a42b2e5a6a4f68fc1a'.toLowerCase()]: 'v3_0_1', // mainnet: cDai prize pool
+
+  ['0x4706856fa8bb747d50b4ef8547fe51ab5edc4ac2'.toLowerCase()]: 'v3_0_1', // rinkeby: cDai prize pool
+  ['0xe470984fbe3c16acfc41ba2e5274c297f0723134'.toLowerCase()]: 'v3_0_1', // rinkeby: cDai prize pool single winner prize strategy
+  ['0x506cfb5ed425fe986cb913522f3297a79697abfc'.toLowerCase()]: 'v3_0_1', // rinkeby: cDai prize pool single winner prize strategy
+  ['0x5e0a6d336667eace5d1b33279b50055604c3e329'.toLowerCase()]: 'v3_1_0', // rinkeby: cDai prize pool multiple winners prize strategy
 }
 
 export const POOLTOGETHER_VERSION_START_BLOCKS = {
