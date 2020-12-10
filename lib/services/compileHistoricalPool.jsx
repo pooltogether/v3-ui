@@ -32,7 +32,9 @@ export const compileHistoricalPool = (
     ...graphPool,
   }
 
-  const marshalledData = marshallPoolData(poolObj)
+  // console.log(poolObj)
+  const marshalledData = marshallPoolData(poolObj, true)
+  // console.log(marshalledData)
   
   // const erc20GraphData = prize?.awardedExternalErc20Tokens
   // const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)

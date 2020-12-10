@@ -219,7 +219,7 @@ export const ManageUI = (
             title: t('sponsorship'),
             content: <h3>{displayAmountInEther(
               pool?.totalSponsorship,
-              { decimals, precision: 4 }
+              { decimals, precision: 0 }
             )} {tickerUpcased}</h3>
           },
         ]}

@@ -49,6 +49,22 @@ export const AccountTickets = () => {
     usdcBalances?.poolBalance?.lt('1000000') &&
     usdcBalances?.podBalance?.lt('1000000')
 
+  const playerTicketAccounts = playerData?.prizePoolAccounts.map(prizePoolAccount => {
+    const poolAddress = prizePoolAccount?.prizePool?.id
+    const pool = pools?.find(pool => pool.poolAddress === poolAddress)
+    if (!pool) return
+
+    const ticketAddress = pool?.ticketToken?.id
+    let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
+    if (!balance) return
+
+    return {
+      pool,
+      poolAddress,
+      balance
+    }
+  })
+    .filter(account => account !== undefined)
         
   return <>
     <div
@@ -63,7 +79,7 @@ export const AccountTickets = () => {
       {!playerData ? <>
         <TicketsLoader />
       </> :
-        (playerData.length === 0 && hasNoV2Balance) ? <>
+        (playerTicketAccounts?.length === 0 && hasNoV2Balance) ? <>
           <BlankStateMessage>
             <div
               className='mb-10 font-bold'
@@ -88,19 +104,12 @@ export const AccountTickets = () => {
             <motion.div>
               <div className='flex flex-wrap'>
 
-                {playerData?.prizePoolAccounts.map(prizePoolAccount => {
-                  const poolAddress = prizePoolAccount?.prizePool?.id
-                  const pool = pools?.find(pool => pool.poolAddress === poolAddress)
-                  if (!pool) return null
-
-                  const ticketAddress = pool?.ticketToken?.id
-                  let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
-
+                {playerTicketAccounts.map(playerTicketAccount => {
                   return <AccountTicket
                     isLink
-                    key={`account-pool-row-${pool.poolAddress}`}
-                    pool={pool}
-                    playerBalance={balance}
+                    key={`account-pool-row-${playerTicketAccount.poolAddress}`}
+                    pool={playerTicketAccount.pool}
+                    playerBalance={playerTicketAccount.balance}
                   />
                 })}
 
