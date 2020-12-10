@@ -6,9 +6,10 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { Odds } from 'lib/components/Odds'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
-import { shorten } from 'lib/utils/shorten'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usePrizePoolAccountQuery } from 'lib/hooks/usePrizePoolAccountQuery'
+import { getPrizePoolAccountControlledTokenBalance } from 'lib/utils/getPrizePoolAccountControlledTokenBalance'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { shorten } from 'lib/utils/shorten'
 
 export const PrizeWinner = (
   props,
@@ -43,14 +44,16 @@ export const PrizeWinner = (
     blockNumber,
     playerAddressError
   )
-
-  const playerData = data
+  const prizePoolAccount = data
 
   const decimals = pool?.underlyingCollateralDecimals || 18
   let usersTicketBalance = 0
-  if (pool && playerData && decimals) {
+
+  const controlledTicketTokenBalance = getPrizePoolAccountControlledTokenBalance(prizePoolAccount, pool?.ticketToken?.id)
+
+  if (controlledTicketTokenBalance) {
     usersTicketBalance = Number(ethers.utils.formatUnits(
-      playerData.balance,
+      controlledTicketTokenBalance.balance,
       Number(decimals)
     ))
   }
@@ -60,7 +63,7 @@ export const PrizeWinner = (
     console.error(error)
   }
 
-  if (!playerData) {
+  if (!prizePoolAccount) {
     return <V3LoadingDots />
   }
 
