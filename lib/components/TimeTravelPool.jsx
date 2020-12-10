@@ -48,6 +48,7 @@ export function TimeTravelPool(props){
     blockNumber={blockNumber}
   >
     {(graphPools) => {
+
       const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
       // const addresses = graphPool?.prizeStrategy?.singleRandomWinner?.externalErc20Awards?.map(award => award.address)
       

@@ -164,23 +164,6 @@ export function PlayerPageUI(props) {
                   playerBalance={balance}
                 />
               })}
-
-              {playerData.map(playerData => {
-                const pool = pools?.find(pool => pool.poolAddress === playerData.prizePool.id)
-
-                if (!pool) {
-                  return
-                }
-
-                return <AccountPoolRow
-                  noLinks
-                  href='/players/[playerAddress]'
-                  as={`/players/${playerAddress}`}
-                  key={`account-pool-row-${pool.poolAddress}`}
-                  pool={pool}
-                  player={playerData}
-                />
-              })}
             </ul>
           </>}
         </>}

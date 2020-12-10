@@ -135,11 +135,12 @@ export const QUERY_KEYS = {
   poolDripsQuery: 'poolDripsQuery',
   poolPlayerQuery: 'poolPlayerQuery',
   poolPrizesQuery: 'poolPrizesQuery',
-  playerQuery: 'playerQuery',
   prizeQuery: 'prizeQuery',
-  prizePlayersQuery: 'prizePlayersQuery',
   sponsorQuery: 'sponsorQuery',
   uniswapTokensQuery: 'uniswapTokensQuery',
+  accountQuery: 'accountQuery',
+  prizePoolAccountQuery: 'prizePoolAccountQuery',
+  controlledTokenBalancesQuery: 'controlledTokenBalancesQuery',
 }
 
 export const POOLTOGETHER_LATEST_VERSION = {
