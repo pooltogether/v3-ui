@@ -14,7 +14,7 @@ export function useExitFees(quantity) {
   const { pool } = useContext(PoolDataContext)
 
   const poolAddress = pool?.poolAddress
-  const ticketAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
+  const ticketAddress = pool?.ticketToken?.id
 
   const [exitFees, setExitFees] = useState({})
  

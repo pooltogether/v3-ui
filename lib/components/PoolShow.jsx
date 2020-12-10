@@ -367,7 +367,7 @@ export const PoolShow = (
                 title: t('prizeStrategy'),
                 content: <>
                   <h6>
-                    {t('singleRandomWinnerStrategyDescription')}
+                    {t('multipleWinnersStrategyDescription')}
                   </h6>
                 </>
               },
