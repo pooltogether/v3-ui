@@ -90,6 +90,7 @@ td:last-child {
   @apply p-0;
 }
 
+.table--nested thead tr,
 .table--nested tr:hover {
   background-color: rgba(0, 0, 0, 0);
 }

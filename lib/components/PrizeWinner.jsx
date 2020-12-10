@@ -70,11 +70,7 @@ export const PrizeWinner = (
   return <>
     <tr>
       <td>
-        {grandPrizeWinner && <span
-          className={``}
-          role='img'
-          aria-label='crown emoji'
-        >👑</span>}
+        {grandPrizeWinner ? t('grandPrize') : t('runnerUp')}
       </td>
 
       <td>
@@ -83,14 +79,9 @@ export const PrizeWinner = (
           as={`/players/${winnersAddress}`}
         >
           <a
-            className='font-bold'
+            className='text-accent-1'
           >
-            <span className='inline-block lg:hidden'>
-              {shorten(winnersAddress)}
-            </span>
-            <span className='hidden lg:inline-block'>
-              {winnersAddress}
-            </span>
+            {shorten(winnersAddress)}
           </a>
         </Link>
       </td>
@@ -106,7 +97,9 @@ export const PrizeWinner = (
         </span>
       </td>
 
-      <td>
+      <td
+        width='70'
+      >
         <PoolNumber>
           {numberWithCommas(usersTicketBalance, {precision: 0 })}
         </PoolNumber>

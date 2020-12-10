@@ -6,14 +6,12 @@ import { useTranslation } from 'lib/../i18n'
 import { CardGrid } from 'lib/components/CardGrid'
 import { TopLevelExternalAwards } from 'lib/components/TopLevelExternalAwards'
 import { Meta } from 'lib/components/Meta'
-import { PrizeWinner } from 'lib/components/PrizeWinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PrizeBreakdown } from 'lib/components/PrizeBreakdown'
 import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { formatDate } from 'lib/utils/formatDate'
 
 import TicketsIcon from 'assets/images/icon-ticket@2x.png'
 
@@ -64,18 +62,13 @@ export function PrizeShow(props) {
 
     <div
       className={classnames(
-        'purple-pink-gradient rounded-lg px-4 xs:px-6 sm:px-10 pt-4 pb-6 text-white my-4 sm:mt-8 sm:mb-4 mx-auto',
+        'purple-pink-gradient rounded-lg px-4 xs:px-6 sm:px-10 py-4 text-white my-4 sm:mt-8 sm:mb-4 mx-auto',
         {
           'border-flashy': isCurrentPrize
         }
       )}
     >
       <div>
-        <h6
-          className='mt-4'
-        >
-          {t('prize')} #{prizeNumber}
-        </h6>
         <h1>
           ${displayAmountInEther(
             pool?.prizeAmountUSD || 0,
@@ -107,81 +100,13 @@ export function PrizeShow(props) {
     </div>
 
 
-
-
-
-
-
-    {prize?.awardedTimestamp && <>
-      <div
-        className='mt-1 xs:mt-0'
-      >
-        <div className='flex justify-between mb-1 text-xs sm:text-lg font-bold text-accent-3'>
-          <div
-            className='mt-4'
-          >
-            {t('winners')}
-          </div>
-
-          {prize?.awardedTimestamp && <>
-            <div
-              className='mt-4'
-            >
-              {t('awardedOn')}: {formatDate(prize?.awardedTimestamp)}
-            </div>
-          </>}
-        </div>
-
-        <span
-          className='mt-4 text-sm'
-        >
-          <table
-            className='w-full'
-          >
-            <thead>
-              <tr>
-                <th>
-                  {t('grandPrize')}
-                </th>
-                <th>
-                  {t('player')}
-                </th>
-                <th>
-                  {t('odds')}
-                </th>
-                <th>
-                  {t('tickets')}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* {[
-                '0x8f7f92e0660dd92eca1fad5f285c4dca556e433e',
-                '0xa5c3a513645a9a00cb561fed40438e9dfe0d6a69',
-                '0x7c738364fea236198dc71c88302d633eb6ad31c1'].map((winner, index) => { */}
-
-                
-              {prize?.winners.map((winner, index) => {
-                return <PrizeWinner
-                  grandPrizeWinner={index === 0}
-                  pool={pool}
-                  prize={prize}
-                  winnersAddress={winner}
-                />
-              })}
-            </tbody>
-          </table>
-           
-        </span>
-      </div>
-    </>}
-    
-
-
     <PrizeBreakdown
+      prizeNumber={prizeNumber}
       decimals={decimals}
       interestPrize={pool?.interestPrizeUSD}
       externalAwardsValue={pool?.externalAwardsUSD}
+      prize={prize}
+      pool={pool}
     />
 
     <TopLevelExternalAwards

@@ -58,7 +58,6 @@ export function PoolDataContextProvider(props) {
     console.error(e)
   }
 
-
   const blockNumber = -1
   const {
     refetch: refetchPoolsData,
