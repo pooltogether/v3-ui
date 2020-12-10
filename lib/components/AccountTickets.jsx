@@ -9,8 +9,8 @@ import { V2AccountTicket } from 'lib/components/V2AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { TicketsLoader } from 'lib/components/TicketsLoader'
-import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { testAddress } from 'lib/utils/testAddress'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 
@@ -29,7 +29,7 @@ export const AccountTickets = () => {
     data: playerData,
     error,
     isFetching
-  } = usePlayerQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
 
   const daiBalances = {
     poolBalance: usersChainData?.v2DaiPoolCommittedBalance,
@@ -88,21 +88,21 @@ export const AccountTickets = () => {
             <motion.div>
               <div className='flex flex-wrap'>
 
-                {playerData.map(playerData => {
-                  const pool = pools?.find(pool => pool.poolAddress === playerData.prizePool.id)
+                {playerData?.prizePoolAccounts.map(prizePoolAccount => {
+                  const poolAddress = prizePoolAccount?.prizePool?.id
+                  const pool = pools?.find(pool => pool.poolAddress === poolAddress)
+                  if (!pool) return null
 
-                  if (!pool) {
-                    return
-                  }
+                  const ticketAddress = pool?.ticketToken?.id
+                  let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
 
                   return <AccountTicket
                     isLink
                     key={`account-pool-row-${pool.poolAddress}`}
                     pool={pool}
-                    player={playerData}
+                    playerBalance={balance}
                   />
                 })}
-
 
                 <V2AccountTicket
                   v2dai

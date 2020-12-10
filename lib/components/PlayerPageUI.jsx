@@ -13,8 +13,8 @@ import { ErrorMessage } from 'lib/components/ErrorMessage'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
-import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { shorten } from 'lib/utils/shorten'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 export function PlayerPageUI(props) {
   const { t } = useTranslation()
@@ -53,7 +53,6 @@ export function PlayerPageUI(props) {
     }
   }
 
-  let playerData
   // let playerDripTokenData
   // let playerBalanceDripData
   // let playerVolumeDripData
@@ -62,12 +61,11 @@ export function PlayerPageUI(props) {
 
   const {
     status,
-    data,
+    data: playerData,
     error: playerQueryError,
     isFetching
-  } = usePlayerQuery(pauseQueries, chainId, playerAddress, blockNumber, playerAddressError)
+  } = useAccountQuery(pauseQueries, chainId, playerAddress, blockNumber, playerAddressError)
 
-  playerData = data
   // playerDripTokenData = data?.playerDripToken
   // playerBalanceDripData = data?.playerBalanceDrip
   // playerVolumeDripData = data?.playerVolumeDrip
@@ -149,12 +147,13 @@ export function PlayerPageUI(props) {
             <ul
               className='mt-8'
             >
-              {playerData.map(playerData => {
-                const pool = pools?.find(pool => pool.poolAddress === playerData.prizePool.id)
+              {playerData?.prizePoolAccounts.map(prizePoolAccount => {
+                const poolAddress = prizePoolAccount?.prizePool?.id
+                const pool = pools?.find(pool => pool.poolAddress === poolAddress)
+                if (!pool) return null
 
-                if (!pool) {
-                  return
-                }
+                const ticketAddress = pool?.ticketToken?.id
+                let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
 
                 return <AccountPoolRow
                   noLinks
@@ -162,7 +161,7 @@ export function PlayerPageUI(props) {
                   as={`/players/${playerAddress}`}
                   key={`account-pool-row-${pool.poolAddress}`}
                   pool={pool}
-                  player={playerData}
+                  playerBalance={balance}
                 />
               })}
             </ul>

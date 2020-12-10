@@ -222,10 +222,10 @@ export function PrizeShow(props) {
             </>}
           </>
         }
-
+        
         return <PrizePlayerListing
           isFetching={isFetching}
-          players={data}
+          balances={data}
           pool={pool}
           prize={prize}
         />

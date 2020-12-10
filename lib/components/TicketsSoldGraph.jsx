@@ -37,6 +37,7 @@ export const TicketsSoldGraph = (
 
   const lastPrize = prizes[0]
   let currentPrize
+  // const ticketSupply = pool?.ticketTo
 
   // If we have a prize amount then we know the last prize has been rewarded
   if (lastPrize?.awardedBlock) {

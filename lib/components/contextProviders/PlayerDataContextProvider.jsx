@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
+import { ethers } from 'ethers'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
-import { useSponsorQuery } from 'lib/hooks/useSponsorQuery'
 import { getUsersSponsorshipBalance } from 'lib/services/getUsersSponsorshipBalance'
 import { getUsersTicketBalance } from 'lib/services/getUsersTicketBalance'
 import { testAddress } from 'lib/utils/testAddress'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 export const PlayerDataContext = React.createContext()
 const debug = require('debug')('pool-app:PoolDataContext')
@@ -23,26 +23,11 @@ export function PlayerDataContextProvider(props) {
     data: playerData,
     error,
     isFetching
-  } = usePlayerQuery(pauseQueries, chainId, usersAddress, blockNumber, addressError)
+  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, addressError)
 
   if (error) {
     console.error(error)
   }
-
-
-
-  const {
-    refetch: refetchSponsorData,
-    data: sponsorData,
-    error: sponsorError,
-    isFetching: sponsorIsFetching
-  } = useSponsorQuery(pauseQueries, chainId, usersAddress, blockNumber, addressError)
-
-  if (sponsorError) {
-    console.error(sponsorError)
-  }
-
-
 
   const {
     usersTicketBalance,
@@ -52,13 +37,12 @@ export function PlayerDataContextProvider(props) {
   const {
     usersSponsorshipBalance,
     usersSponsorshipBalanceBN
-  } = getUsersSponsorshipBalance(pool, sponsorData)
+  } = getUsersSponsorshipBalance(pool, playerData)
 
   return <>
     <PlayerDataContext.Provider
       value={{
         refetchPlayerData,
-        refetchSponsorData,
         usersSponsorshipBalance,
         usersSponsorshipBalanceBN,
         usersTicketBalance,

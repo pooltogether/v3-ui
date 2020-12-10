@@ -42,7 +42,7 @@ export function ChainQueries(props) {
   
   const poolAddress = poolData?.daiPool?.poolAddress
 
-  const graphExternalErc20Awards = poolData?.daiPool?.prizeStrategy?.externalErc20Awards
+  const graphExternalErc20Awards = poolData?.daiPool?.prizeStrategy?.singleRandomWinner?.externalErc20Awards
 
   const {
     status: externalErc20ChainStatus,

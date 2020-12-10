@@ -12,7 +12,7 @@ import { shorten } from 'lib/utils/shorten'
 const playerLink = (t, player) => {
   return <Link
     href='/players/[playerAddress]'
-    as={`/players/${player.address}`}
+    as={`/players/${player?.account?.id}`}
     shallow
   >
     <a
@@ -25,16 +25,19 @@ const playerLink = (t, player) => {
 
 const formatPlayerObject = (t, pool, player, winners) => {
   const decimals = pool.underlyingCollateralDecimals
-  const balance = player.balance && decimals ?
+
+  const playerAddress = player?.account?.id
+
+  const balance = player?.balance && decimals ?
     ethers.utils.formatUnits(
       player.balance,
       Number(decimals)
     ) : ethers.utils.bigNumberify(0)
 
-  const isWinner = winners?.includes(player.address)
+  const isWinner = winners?.includes(playerAddress)
 
   const address = <>
-    {shorten(player.address)} {isWinner && <span
+    {shorten(playerAddress)} {isWinner && <span
       className='text-flashy font-bold'
     >
       {t('winner')}
@@ -62,8 +65,8 @@ export const PlayersTable = (
   const { t } = useTranslation()
 
   let players = []
-  if (props.players) {
-    players = props.players
+  if (props.balances) {
+    players = props.balances
   }
 
   const { pool, prize } = props

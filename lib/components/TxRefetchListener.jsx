@@ -13,7 +13,7 @@ export function TxRefetchListener(props) {
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
   const { refetchPoolsData } = useContext(PoolDataContext)
-  const { refetchPlayerData, refetchSponsorData } = useContext(PlayerDataContext)
+  const { refetchPlayerData } = useContext(PlayerDataContext)
 
   const pendingTransactions = transactions
     .filter(t => !t.completed && !t.cancelled)
@@ -34,19 +34,16 @@ export function TxRefetchListener(props) {
       // so simply query a few times for the updated data
       setTimeout(() => {
         refetchPlayerData()
-        refetchSponsorData()
         debug('refetch!')
       }, 2000)
 
       setTimeout(() => {
         refetchPlayerData()
-        refetchSponsorData()
         debug('refetch!')
       }, 8000)
 
       setTimeout(() => {
         refetchPlayerData()
-        refetchSponsorData()
         debug('refetch!')
       }, 16000)
     } else if (poolStateTransaction) {

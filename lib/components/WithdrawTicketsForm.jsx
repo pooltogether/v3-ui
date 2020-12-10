@@ -11,10 +11,10 @@ import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
-import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { testAddress } from 'lib/utils/testAddress'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
 
@@ -40,7 +40,7 @@ export function WithdrawTicketsForm(props) {
     data: playerData,
     error,
     isFetching
-  } = usePlayerQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
 
   if (error) {
     console.error(error)

@@ -8,6 +8,7 @@ import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { calculateExternalAwardsValue } from 'lib/services/calculateExternalAwardsValue'
 import { compileHistoricalErc20Awards } from 'lib/services/compileHistoricalErc20Awards'
 import { compileHistoricalErc721Awards } from 'lib/services/compileHistoricalErc721Awards'
+import { getControlledToken, getSponsorshipTokenAddress, getTicketTokenAddress } from 'lib/services/getPoolDataFromQueryResult'
 
 // This gathers historical data for a pool and prize
 //
@@ -33,7 +34,7 @@ export const compileHistoricalPool = (
   
   // const erc20GraphData = prize?.awardedExternalErc20Tokens
   // const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
-  const addresses = poolObj?.prizeStrategy?.externalErc20Awards?.map(award => award.address)
+  const addresses = poolObj?.prizeStrategy?.singleRandomWinner?.externalErc20Awards?.map(award => award.address)
 
   const { status, data, error, isFetching } = useUniswapTokensQuery(
     blockNumber,
@@ -58,16 +59,25 @@ export const compileHistoricalPool = (
     )) :
     interestPrizeUSD
 
+  const sponsorshipTokenAddress = getSponsorshipTokenAddress(poolObj?.prizeStrategy)
+  const ticketTokenAddress = getTicketTokenAddress(poolObj?.prizeStrategy)
+  const sponsorshipToken = getControlledToken(poolObj?.controlledTokens, sponsorshipTokenAddress)
+  const ticketToken = getControlledToken(poolObj?.controlledTokens, ticketTokenAddress)
+
   return {
     ...poolInfo,
     ...poolObj,
     poolAddress: poolAddress,
     prizeAmountUSD: totalPrizeUSD,
+    playerCount: poolObj?.prizeStrategy?.singleRandomWinner?.ticket?.numberOfHolders,
+    ticketSupply: poolObj?.prizeStrategy?.singleRandomWinner?.ticket?.totalSupply,
     interestPrizeUSD,
     externalAwardsUSD,
     // externalItemAwardsValue,
     externalErc20Awards,
     externalErc721Awards,
-    ethErc721Awards
+    ethErc721Awards,
+    sponsorshipToken,
+    ticketToken
   }
 }
