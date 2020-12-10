@@ -36,7 +36,8 @@ export const compileHistoricalPool = (
   
   // const erc20GraphData = prize?.awardedExternalErc20Tokens
   // const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
-  const addresses = poolObj?.prizeStrategy?.singleRandomWinner?.externalErc20Awards?.map(award => award.address)
+  const addresses = poolObj?.externalErc20Awards?.map(award => award.address)
+  // const addresses = poolObj?.prizeStrategy?.singleRandomWinner?.externalErc20Awards?.map(award => award.address)
 
   const { status, data, error, isFetching } = useUniswapTokensQuery(
     blockNumber,
