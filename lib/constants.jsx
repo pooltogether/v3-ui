@@ -143,8 +143,8 @@ export const QUERY_KEYS = {
 }
 
 export const POOLTOGETHER_LATEST_VERSION = {
-  'staging': 'v3_1_0',
-  'production': 'v3_1_0',
+  'staging': 'v3_0_1',
+  'production': 'v3_0_1',
 }
 
 export const POOLTOGETHER_VERSION_START_BLOCKS = {
