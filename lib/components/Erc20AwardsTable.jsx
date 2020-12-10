@@ -3,10 +3,10 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { orderBy } from 'lodash'
 
-import { TOKEN_IMAGES } from 'lib/constants'
+// import { TOKEN_IMAGES } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
-import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+// import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
+// import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -19,7 +19,7 @@ export const Erc20AwardsTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { basePath, externalErc20Awards, historical, pool } = props
+  const { basePath, compiledExternalErc20Awards, historical, pool } = props
 
   const [moreVisible, setMoreVisible] = useState(false)
   
@@ -35,14 +35,14 @@ export const Erc20AwardsTable = (props) => {
 
 
 
-  if (!externalErc20Awards) {
+  if (!compiledExternalErc20Awards) {
     return null
   }
 
   const balanceProperty = historical ? 'balanceAwardedBN' : 'balance'
 
-  let externalAwards = Object.keys(externalErc20Awards)
-    .map(key => externalErc20Awards[key])
+  let externalAwards = Object.keys(compiledExternalErc20Awards)
+    .map(key => compiledExternalErc20Awards[key])
     .filter(award => award?.[balanceProperty]?.gt(0))
 
   const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])

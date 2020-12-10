@@ -13,9 +13,6 @@ export const TopLevelExternalAwards = (props) => {
 
   const compiledExternalErc20Awards = pool?.compiledExternalErc20Awards
   const compiledExternalErc721Awards = pool?.compiledExternalErc721Awards
-
-  // const externalErc20Awards = pool?.externalErc20Awards
-  // const externalErc721Awards = pool?.externalErc721Awards
   
   return <>
     <div
@@ -33,12 +30,12 @@ export const TopLevelExternalAwards = (props) => {
 
       <Erc20AwardsTable
         {...props}
-        externalErc20Awards={compiledExternalErc20Awards}
+        compiledExternalErc20Awards={compiledExternalErc20Awards}
       />
 
       <Erc721AwardsTable
         {...props}
-        externalErc721Awards={compiledExternalErc721Awards}
+        compiledExternalErc721Awards={compiledExternalErc721Awards}
       />
     </div>
   </>

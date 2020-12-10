@@ -34,7 +34,7 @@ export const Erc721AwardsTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { basePath, historical, externalErc721Awards, ethErc721Awards } = props
+  const { basePath, historical, compiledExternalErc721Awards, ethErc721Awards } = props
 
   const [moreVisible, setMoreVisible] = useState(false)
   
@@ -50,7 +50,7 @@ export const Erc721AwardsTable = (props) => {
     )
   }
 
-  if (!pool || !externalErc721Awards) {
+  if (!pool || !compiledExternalErc721Awards) {
     return null
   }
 
@@ -58,9 +58,9 @@ export const Erc721AwardsTable = (props) => {
 
   let awards = []
   let sortedAwards = []
-  if (externalErc721Awards) {
-    const externalAwards = Object.keys(externalErc721Awards)
-      .map(key => externalErc721Awards[key])
+  if (compiledExternalErc721Awards) {
+    const externalAwards = Object.keys(compiledExternalErc721Awards)
+      .map(key => compiledExternalErc721Awards[key])
     sortedAwards = orderBy(externalAwards, ({ name }) => name || '', ['asc'])
     awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 8)
   }
