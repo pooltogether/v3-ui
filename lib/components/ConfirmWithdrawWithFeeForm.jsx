@@ -38,7 +38,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
   const ticker = pool?.underlyingCollateralSymbol
   const decimals = pool?.underlyingCollateralDecimals
   const poolAddress = pool?.poolAddress
-  const controlledTokenAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
+  const controlledTicketTokenAddress = pool?.ticket?.id
 
   const tickerUpcased = ticker?.toUpperCase()
 
@@ -142,7 +142,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
     const params = [
       usersAddress,
       ethers.utils.bigNumberify(gross),
-      controlledTokenAddress,
+      controlledTicketTokenAddress,
       ethers.utils.bigNumberify(exitFee)
     ]
 

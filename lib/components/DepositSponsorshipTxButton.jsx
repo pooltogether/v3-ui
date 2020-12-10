@@ -28,8 +28,8 @@ export function DepositSponsorshipTxButton(props) {
   const { pool } = useContext(PoolDataContext)
 
   const poolAddress = pool?.poolAddress
-  const sponsorshipAddress = pool?.prizeStrategy?.singleRandomWinner?.sponsorship?.id
 
+  const controlledSponsorshipTokenAddress = pool?.sponsor?.id
 
 
   const [txId, setTxId] = useState()
@@ -56,7 +56,7 @@ export function DepositSponsorshipTxButton(props) {
     const params = [
       usersAddress,
       quantityBN,
-      sponsorshipAddress,
+      controlledSponsorshipTokenAddress,
       ethers.constants.AddressZero
     ]
 

@@ -36,7 +36,8 @@ export function ExecuteCryptoDeposit(props) {
   const ticker = pool?.underlyingCollateralSymbol
   const tokenAddress = pool?.underlyingCollateralToken
   const poolAddress = pool?.poolAddress
-  const controlledTokenAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
+  const controlledTicketTokenAddress = pool?.ticket?.id
+
   const tickerUpcased = ticker?.toUpperCase()
 
   // const {
@@ -78,7 +79,7 @@ export function ExecuteCryptoDeposit(props) {
       const sharedParams = [
         usersAddress,
         quantityBN,
-        controlledTokenAddress,
+        controlledTicketTokenAddress,
         referrerAddress,
       ]
 

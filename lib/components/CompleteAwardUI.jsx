@@ -1,14 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { useAtom } from 'jotai'
 
-import SingleRandomWinnerAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinner'
-
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { getPrizeStrategyAbiFromPool } from 'lib/services/getPrizeStrategyAbiFromPool'
 
 export function CompleteAwardUI(props) {
   const { t } = useTranslation()
@@ -24,8 +23,6 @@ export function CompleteAwardUI(props) {
   const method = 'completeAward'
 
   const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
-
-  
   
   const tx = transactions?.find((tx) => tx.id === txId)
 
@@ -36,17 +33,13 @@ export function CompleteAwardUI(props) {
   const handleCompleteAwardClick = async (e) => {
     e.preventDefault()
 
-    const params = [
-      // {
-      //   gasLimit: 500000
-      // }
-    ]
+    const params = []
 
     const id = sendTx(
       t,
       provider,
       usersAddress,
-      SingleRandomWinnerAbi,
+      getPrizeStrategyAbiFromPool(pool),
       pool?.prizeStrategy?.id,
       method,
       params,
