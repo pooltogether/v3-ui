@@ -1,17 +1,18 @@
 import React, { useContext, useState } from 'react'
-import { useQuery } from '@apollo/client'
-
-import SingleRandomWinnerAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinner'
+import { useAtom } from 'jotai'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
+import { getPrizeStrategyAbiFromPool } from 'lib/services/getPrizeStrategyAbiFromPool'
 
 export function CompleteAwardUI(props) {
   const { t } = useTranslation()
+
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
   const { pool } = useContext(PoolDataContext)
@@ -21,10 +22,8 @@ export function CompleteAwardUI(props) {
   const txName = t(`completeAwardPoolName`, { poolName: pool?.name })
   const method = 'completeAward'
 
-  const [sendTx] = useSendTransaction(txName)
-
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
+  
   const tx = transactions?.find((tx) => tx.id === txId)
 
   const ongoingCompleteAwardTransactions = transactions?.
@@ -34,17 +33,13 @@ export function CompleteAwardUI(props) {
   const handleCompleteAwardClick = async (e) => {
     e.preventDefault()
 
-    const params = [
-      // {
-      //   gasLimit: 500000
-      // }
-    ]
+    const params = []
 
-    const id = sendTx(
+    const id = await sendTx(
       t,
       provider,
       usersAddress,
-      SingleRandomWinnerAbi,
+      getPrizeStrategyAbiFromPool(pool),
       pool?.prizeStrategy?.id,
       method,
       params,

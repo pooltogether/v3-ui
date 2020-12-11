@@ -90,6 +90,7 @@ td:last-child {
   @apply p-0;
 }
 
+.table--nested thead tr,
 .table--nested tr:hover {
   background-color: rgba(0, 0, 0, 0);
 }
@@ -98,4 +99,17 @@ td:last-child {
   .table--no-hover-states tr:hover {
     background-color: rgba(0, 0, 0, 0);
   }
+}
+
+.table--no-padding {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.table--no-padding th:first-child,
+.table--no-padding th:last-child,
+.table--no-padding td:first-child,
+.table--no-padding td:last-child {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }

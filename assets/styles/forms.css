@@ -62,7 +62,7 @@ input[type='submit'][disabled] {
 }
 
 .fieldset label {
-  @apply text-accent-3 font-bold text-xxxs xs:text-xxs pl-8;
+  @apply text-accent-3 font-bold text-xxxs xs:text-xxs px-4 sm:px-8;
 }
 
 .check {

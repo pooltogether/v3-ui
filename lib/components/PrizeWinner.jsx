@@ -6,30 +6,54 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { Odds } from 'lib/components/Odds'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
-import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
-import { shorten } from 'lib/utils/shorten'
+import { usePrizePoolAccountQuery } from 'lib/hooks/usePrizePoolAccountQuery'
+import { getPrizePoolAccountControlledTokenBalance } from 'lib/utils/getPrizePoolAccountControlledTokenBalance'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { shorten } from 'lib/utils/shorten'
 
 export const PrizeWinner = (
   props,
 ) => {
   const { t } = useTranslation()
 
-  const { pool, prize, winnersAddress } = props
+  const { grandPrizeWinner, pool, prize, winnersAddress } = props
 
-  const { chainId } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
   const blockNumber = prize?.awardedBlock - 1
-  
-  const { status, data, error, isFetching } = usePlayerQuery(chainId, pool, winnersAddress, blockNumber)
 
-  const playerData = data
+
+  let playerAddressError
+  if (winnersAddress) {
+    try {
+      ethers.utils.getAddress(winnersAddress)
+    } catch (e) {
+      console.error(e)
+
+      if (e.message.match('invalid address')) {
+        playerAddressError = true
+      }
+    }
+  }
+
+  const { status, data, error, isFetching } = usePrizePoolAccountQuery(
+    pauseQueries,
+    chainId,
+    pool,
+    winnersAddress,
+    blockNumber,
+    playerAddressError
+  )
+  const prizePoolAccount = data
 
   const decimals = pool?.underlyingCollateralDecimals || 18
   let usersTicketBalance = 0
-  if (pool && playerData && decimals) {
+
+  const controlledTicketTokenBalance = getPrizePoolAccountControlledTokenBalance(prizePoolAccount, pool?.ticketToken?.id)
+
+  if (controlledTicketTokenBalance) {
     usersTicketBalance = Number(ethers.utils.formatUnits(
-      playerData.balance,
+      controlledTicketTokenBalance.balance,
       Number(decimals)
     ))
   }
@@ -39,49 +63,47 @@ export const PrizeWinner = (
     console.error(error)
   }
 
-  if (isFetching || !playerData) {
+  if (!prizePoolAccount) {
     return <V3LoadingDots />
   }
 
   return <>
-    <Link
-      href='/players/[playerAddress]'
-      as={`/players/${winnersAddress}`}
-    >
-      <a
-        className='font-bold'
+    <tr>
+      <td>
+        {grandPrizeWinner ? t('grandPrize') : t('runnerUp')}
+      </td>
+
+      <td>
+        <Link
+          href='/players/[playerAddress]'
+          as={`/players/${winnersAddress}`}
+        >
+          <a
+            className='text-accent-1'
+          >
+            {shorten(winnersAddress)}
+          </a>
+        </Link>
+      </td>
+
+      <td>
+        <span className='block xs:inline-block'>
+          <Odds
+            fontSansRegular
+            className='font-bold text-flashy'
+            pool={pool}
+            usersBalance={usersTicketBalance}
+          />
+        </span>
+      </td>
+
+      <td
+        width='70'
       >
-        <span className='inline-block lg:hidden'>
-          {shorten(winnersAddress)}
-        </span>
-        <span className='hidden lg:inline-block'>
-          {winnersAddress}
-        </span>
-      </a>
-    </Link>
-
-    <span className='ml-0 xs:ml-6 block xs:inline-block'>
-      {t('odds')}: <Odds
-        fontSansRegular
-        className='font-bold text-flashy'
-        pool={pool}
-        usersBalance={usersTicketBalance}
-      />
-    </span>
-
-    <span
-      className='ml-0 xs:ml-6'
-    >
-      <Trans
-        i18nKey='amountTickets'
-        defaults='<number>{{amount}}</number> {{tickets}}'
-        components={{
-          number: <PoolNumber />,
-        }}
-        values={{
-          amount: numberWithCommas(usersTicketBalance, { precision: 0 })
-        }}
-      />
-    </span>
+        <PoolNumber>
+          {numberWithCommas(usersTicketBalance, {precision: 0 })}
+        </PoolNumber>
+      </td>
+    </tr>
   </>
 }

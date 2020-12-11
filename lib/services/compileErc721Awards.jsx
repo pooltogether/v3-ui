@@ -1,7 +1,8 @@
 import { isEmpty } from 'lodash'
 
 export const compileErc721Awards = (erc721ChainData, poolData) => {
-  const erc721GraphData = poolData?.prizeStrategy?.externalErc721Awards
+  const erc721GraphData = poolData?.externalErc721Awards
+  // const erc721GraphData = poolData?.prizeStrategy?.singleRandomWinner?.externalErc721Awards
 
   if (isEmpty(erc721ChainData) || isEmpty(erc721GraphData)) {
     return {}

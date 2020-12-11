@@ -2,27 +2,28 @@ import React, { useContext, useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { useQuery } from '@apollo/client'
+import { useAtom } from 'jotai'
 
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { DepositInfoList } from 'lib/components/DepositInfoList'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { permitSignOrRegularDeposit } from 'lib/utils/permitSignOrRegularDeposit'
-import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
 const bn = ethers.utils.bigNumberify
 
 export function ExecuteCryptoDeposit(props) {
   const { t } = useTranslation()
 
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
+  
   const { nextStep, previousStep } = props
 
   const router = useRouter()
@@ -35,7 +36,8 @@ export function ExecuteCryptoDeposit(props) {
   const ticker = pool?.underlyingCollateralSymbol
   const tokenAddress = pool?.underlyingCollateralToken
   const poolAddress = pool?.poolAddress
-  const controlledTokenAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
+  const controlledTicketTokenAddress = pool?.ticket?.id
+
   const tickerUpcased = ticker?.toUpperCase()
 
   // const {
@@ -53,10 +55,10 @@ export function ExecuteCryptoDeposit(props) {
   const txSubName = `${quantity} ${tickerUpcased}`
   const txName = `${txMainName} (${txSubName})`
   
-  const [sendTx] = useSendTransaction(txName)
+  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  
+  
   const tx = transactions?.find((tx) => tx.id === txId)
 
   useEffect(() => {
@@ -77,7 +79,7 @@ export function ExecuteCryptoDeposit(props) {
       const sharedParams = [
         usersAddress,
         quantityBN,
-        controlledTokenAddress,
+        controlledTicketTokenAddress,
         referrerAddress,
       ]
 

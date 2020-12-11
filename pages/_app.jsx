@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import i18next from "../i18n"
+import i18next from '../i18n'
 import * as Fathom from 'fathom-client'
-import * as Sentry from '@sentry/browser'
+import * as Sentry from '@sentry/react'
+import { Integrations } from '@sentry/tracing'
 import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
@@ -11,19 +12,18 @@ import {
   QueryCache,
   ReactQueryCacheProvider
 } from 'react-query'
-
-import { useInterval } from 'lib/hooks/useInterval'
+import { Provider } from 'jotai'
 
 import { COOKIE_OPTIONS, REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
-// import { GasStationQuery } from 'lib/components/GasStationQuery'
+import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
 import { GraphErrorModal } from 'lib/components/GraphErrorModal'
 import { Layout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { NewPrizeWinnerEventListener } from 'lib/components/NewPrizeWinnerEventListener'
+import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
-import { V3ApolloWrapper } from 'lib/components/V3ApolloWrapper'
 
 import '@reach/dialog/styles.css'
 import '@reach/menu-button/styles.css'
@@ -62,44 +62,47 @@ if (typeof window !== 'undefined') {
 if (process.env.NEXT_JS_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.NEXT_JS_SENTRY_DSN,
-    release: process.env.NEXT_JS_RELEASE_VERSION
+    release: process.env.NEXT_JS_RELEASE_VERSION,
+    integrations: [
+      new Integrations.BrowserTracing(),
+    ],
   })
 }
 
 function MyApp({ Component, pageProps, router }) {
   const [initialized, setInitialized] = useState(false)
   
-  const redirectIfBorked = () => {
-    const badPaths = [
-      'http://localhost:3000/en',
-      'https://app.pooltogether.com/en',
-      'https://app.pooltogether.com/es',
-      'https://app.pooltogether.com/it',
-      'https://app.pooltogether.com/ja',
-      'https://app.pooltogether.com/zh',
-      'https://app.pooltogether.com/hr',
-      'https://app.pooltogether.com/ko',
-      'https://app.pooltogether.com/tr',
-      'https://app.pooltogether.com/de',
-    ]
-    // console.log('checking')
+  // const redirectIfBorked = () => {
+  //   const badPaths = [
+  //     'http://localhost:3000/en',
+  //     'https://app.pooltogether.com/en',
+  //     'https://app.pooltogether.com/es',
+  //     'https://app.pooltogether.com/it',
+  //     'https://app.pooltogether.com/ja',
+  //     'https://app.pooltogether.com/zh',
+  //     'https://app.pooltogether.com/hr',
+  //     'https://app.pooltogether.com/ko',
+  //     'https://app.pooltogether.com/tr',
+  //     'https://app.pooltogether.com/de',
+  //   ]
+  //   // console.log('checking')
 
-    if (badPaths.includes(window.location.href)) {
-      router.push(
-        '/',
-        '/',
-        { shallow: true }
-      )
-    }
-  }
+  //   if (badPaths.includes(window.location.href)) {
+  //     router.push(
+  //       '/',
+  //       '/',
+  //       { shallow: true }
+  //     )
+  //   }
+  // }
   
-  useEffect(() => {
-    redirectIfBorked()
-  }, [])
+  // useEffect(() => {
+  //   redirectIfBorked()
+  // }, [])
   
-  useInterval(() => {
-    redirectIfBorked()
-  }, 1000)
+  // useInterval(() => {
+  //   redirectIfBorked()
+  // }, 1000)
   
 
   useEffect(() => {
@@ -129,7 +132,7 @@ function MyApp({ Component, pageProps, router }) {
         includedDomains: [
           'app-v3.pooltogether.com',
           'app.pooltogether.com',
-          'staging.pooltogether.com',
+          'staging-v3.pooltogether.com',
         ]
       })
   
@@ -184,47 +187,15 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   return <>
+    <Provider>
+      <ReactQueryCacheProvider queryCache={queryCache}>
+        <BodyClasses />
 
-    <ReactQueryCacheProvider queryCache={queryCache}>
-      <BodyClasses />
+        <GraphErrorModal />
 
-      <GraphErrorModal />
-
-      <LoadingScreen
-        initialized={initialized}
-      />
-
-      <V3ApolloWrapper>
-        <AllContextProviders>
-          <NewPrizeWinnerEventListener />
-
-          <TxRefetchListener />
-
-          <Layout
-            props={pageProps}
-          >
-            <AnimatePresence
-              exitBeforeEnter
-            >
-              <motion.div
-                id='content-animation-wrapper'
-                key={router.route}
-                transition={{ duration: 0.3, ease: 'easeIn' }}
-                initial={{
-                  opacity: 0
-                }}
-                exit={{
-                  opacity: 0
-                }}
-                animate={{
-                  opacity: 1
-                }}
-              >
-                <Component {...pageProps} />
-              </motion.div>
-            </AnimatePresence>
-          </Layout>
-        </AllContextProviders>
+        <LoadingScreen
+          initialized={initialized}
+        />
 
         <ToastContainer
           className='pool-toast'
@@ -232,10 +203,45 @@ function MyApp({ Component, pageProps, router }) {
           autoClose={7000}
         />
 
-      </V3ApolloWrapper>
+        <AllContextProviders>
+          <CustomErrorBoundary>
+          
+            <NewPrizeWinnerEventListener />
 
-      <ReactQueryDevtools />
-    </ReactQueryCacheProvider>
+            <TransactionStatusChecker />
+
+            <TxRefetchListener />
+
+            <Layout
+              props={pageProps}
+            >
+              <AnimatePresence
+                exitBeforeEnter
+              >
+                <motion.div
+                  id='content-animation-wrapper'
+                  key={router.route}
+                  transition={{ duration: 0.3, ease: 'easeIn' }}
+                  initial={{
+                    opacity: 0
+                  }}
+                  exit={{
+                    opacity: 0
+                  }}
+                  animate={{
+                    opacity: 1
+                  }}
+                >
+                  <Component {...pageProps} />
+                </motion.div>
+              </AnimatePresence>
+            </Layout>
+
+            <ReactQueryDevtools />
+          </CustomErrorBoundary>
+        </AllContextProviders>
+      </ReactQueryCacheProvider>
+    </Provider>
   </>
 }
 

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
 import { useTranslation } from 'lib/../i18n'
-import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
@@ -14,11 +14,15 @@ import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { shorten } from 'lib/utils/shorten'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 export function PlayerPageUI(props) {
   const { t } = useTranslation()
   const router = useRouter()
-  
+
+  const { pools } = useContext(PoolDataContext)
+  const { chainId, pauseQueries } = useContext(AuthControllerContext)
+
   const playerAddress = router?.query?.playerAddress
 
   const [error, setError] = useState('')
@@ -34,9 +38,38 @@ export function PlayerPageUI(props) {
     }
   }, [playerAddress])
 
-  const { playerData } = useContext(PlayerDataContext)
-  const { pools } = useContext(PoolDataContext)
-  
+
+
+  let playerAddressError
+  if (playerAddress) {
+    try {
+      ethers.utils.getAddress(playerAddress)
+    } catch (e) {
+      console.error(e)
+
+      if (e.message.match('invalid address')) {
+        playerAddressError = true
+      }
+    }
+  }
+
+  // let playerDripTokenData
+  // let playerBalanceDripData
+  // let playerVolumeDripData
+
+  const blockNumber = -1
+
+  const {
+    status,
+    data: playerData,
+    error: playerQueryError,
+    isFetching
+  } = useAccountQuery(pauseQueries, chainId, playerAddress, blockNumber, playerAddressError)
+
+  // playerDripTokenData = data?.playerDripToken
+  // playerBalanceDripData = data?.playerBalanceDrip
+  // playerVolumeDripData = data?.playerVolumeDrip
+
   return <>
     <Meta
       title={`${t('player')} ${playerAddress ? playerAddress : ''}`}
@@ -114,12 +147,13 @@ export function PlayerPageUI(props) {
             <ul
               className='mt-8'
             >
-              {playerData.map(playerData => {
-                const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
+              {playerData?.prizePoolAccounts.map(prizePoolAccount => {
+                const poolAddress = prizePoolAccount?.prizePool?.id
+                const pool = pools?.find(pool => pool.poolAddress === poolAddress)
+                if (!pool) return null
 
-                if (!pool) {
-                  return
-                }
+                const ticketAddress = pool?.ticketToken?.id
+                let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
 
                 return <AccountPoolRow
                   noLinks
@@ -127,7 +161,7 @@ export function PlayerPageUI(props) {
                   as={`/players/${playerAddress}`}
                   key={`account-pool-row-${pool.poolAddress}`}
                   pool={pool}
-                  player={playerData}
+                  playerBalance={balance}
                 />
               })}
             </ul>

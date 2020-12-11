@@ -1,6 +1,8 @@
 import gql from 'graphql-tag'
 
 import { prizeStrategyFragment } from 'lib/fragments/prizeStrategyFragment'
+import { prizePoolAccountFragment } from 'lib/fragments/prizePoolAccountFragment'
+import { controlledTokenFragment } from 'lib/fragments/controlledTokenFragment'
 
 export const prizePoolFragment = gql`
   fragment prizePoolFragment on PrizePool {
@@ -10,7 +12,6 @@ export const prizePoolFragment = gql`
       ...prizeStrategyFragment
     }
 
-    prizePoolType
     compoundPrizePool {
       id
       cToken
@@ -26,15 +27,22 @@ export const prizePoolFragment = gql`
     timelockTotalSupply
     liquidityCap
 
-    playerCount
-    ticketSupply: totalSupply
-
     cumulativePrizeNet
 
     currentPrizeId
     currentState
 
     prizesCount
+
+    # prizePoolAccounts {
+    #   ...prizePoolAccountFragment
+    # }
+    controlledTokens {
+      ...controlledTokenFragment
+    }
   }
   ${prizeStrategyFragment}
+  
+  ${controlledTokenFragment}
 `
+// ${prizePoolAccountFragment}

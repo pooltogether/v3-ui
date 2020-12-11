@@ -1,20 +1,22 @@
 import React, { useContext, useState } from 'react'
-import { useQuery } from '@apollo/client'
+import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
 
-import IERC20Abi from '@pooltogether/pooltogether-contracts/abis/IERC20'
+import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/ControlledToken'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
 export function RevokePoolAllowanceTxButton(props) {
   const { t } = useTranslation()
-  
+
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
+
   const { provider, usersAddress } = useContext(AuthControllerContext)
   const { pool, usersChainData } = useContext(PoolDataContext)
 
@@ -34,10 +36,10 @@ export function RevokePoolAllowanceTxButton(props) {
   const txName = t(`revokePoolAllowance`, { ticker: tickerUpcased })
   const method = 'approve'
 
-  const [sendTx] = useSendTransaction(txName)
+  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  
+  
   const tx = transactions?.find((tx) => tx.id === txId)
 
   if (usersTokenAllowance.eq(0)) {
@@ -55,11 +57,11 @@ export function RevokePoolAllowanceTxButton(props) {
       // }
     ]
 
-    const id = sendTx(
+    const id = await sendTx(
       t,
       provider,
       usersAddress,
-      IERC20Abi,
+      ControlledTokenAbi,
       tokenAddress,
       method,
       params,

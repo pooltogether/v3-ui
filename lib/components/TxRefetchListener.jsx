@@ -1,22 +1,19 @@
 import { useContext, useState } from 'react'
-import { useQuery } from '@apollo/client'
+import { useAtom } from 'jotai'
 
+import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 
 const debug = require('debug')('pool-app:TxRefetchListener')
 
 export function TxRefetchListener(props) {
+  const [transactions] = useAtom(transactionsAtom)
+
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
-  const {
-    refetchPoolQuery,
-    refetchPlayerQuery,
-    refetchSponsorQuery,
-  } = useContext(PoolDataContext)
-
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  const { refetchPoolsData } = useContext(PoolDataContext)
+  const { refetchPlayerData } = useContext(PlayerDataContext)
 
   const pendingTransactions = transactions
     .filter(t => !t.completed && !t.cancelled)
@@ -36,25 +33,22 @@ export function TxRefetchListener(props) {
       // we don't know when the Graph will have processed the new block data or when it has
       // so simply query a few times for the updated data
       setTimeout(() => {
-        refetchPlayerQuery()
-        refetchSponsorQuery()
+        refetchPlayerData()
         debug('refetch!')
       }, 2000)
 
       setTimeout(() => {
-        refetchPlayerQuery()
-        refetchSponsorQuery()
+        refetchPlayerData()
         debug('refetch!')
       }, 8000)
 
       setTimeout(() => {
-        refetchPlayerQuery()
-        refetchSponsorQuery()
+        refetchPlayerData()
         debug('refetch!')
       }, 16000)
     } else if (poolStateTransaction) {
       setTimeout(() => {
-        refetchPoolQuery()
+        refetchPoolsData()
         debug('refetch pool/prize!')
       }, 6000)
     }

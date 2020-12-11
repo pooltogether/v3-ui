@@ -1,13 +1,14 @@
 import { useEffect, useContext } from 'react'
+import { useAtom } from 'jotai'
 
 import { TRANSACTIONS_KEY } from 'lib/constants'
-import { transactionsVar } from 'lib/apollo/cache'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { checkTransactionStatuses } from 'lib/utils/checkTransactionStatuses'
 
 // bring in new list of tx's from localStorage and check
 // if any are ongoing & what their status is
-const readTransactions = (chainId, usersAddress, provider) => {
+const readTransactions = (transactions, setTransactions, chainId, usersAddress, provider) => {
   try {
     let txs = []
     if (typeof window !== 'undefined') {
@@ -24,21 +25,20 @@ const readTransactions = (chainId, usersAddress, provider) => {
     // re-write IDs so transactions are ordered properly
     txs = txs.map((tx, index) => (tx.id = index + 1) && tx)
 
-    // console.log(`Loading ${txs.length} transactions from storage:`)
-
-    transactionsVar([...txs])
-    checkTransactionStatuses(txs, provider)
+    setTransactions([...txs])
+    checkTransactionStatuses(txs, provider, transactions, setTransactions)
   } catch (e) {
     console.error(e)
   }
 }
 
 export function TransactionStatusChecker(props) {
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
   const { chainId, usersAddress, provider } = useContext(AuthControllerContext)
 
   useEffect(() => {
     if (chainId && usersAddress && provider) {
-      readTransactions(chainId, usersAddress, provider)
+      readTransactions(transactions, setTransactions, chainId, usersAddress, provider)
     }
   }, [chainId, usersAddress, provider])
 

@@ -4,7 +4,8 @@ import { ethers } from 'ethers'
 import { TOKEN_VALUES } from 'lib/constants'
 
 export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) => {
-  const erc20GraphData = poolData?.prizeStrategy?.externalErc20Awards
+  const erc20GraphData = poolData?.externalErc20Awards
+  // const erc20GraphData = poolData?.prizeStrategy?.singleRandomWinner?.externalErc20Awards
 
   if (
     isEmpty(erc20ChainData) ||

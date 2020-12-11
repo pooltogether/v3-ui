@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import { isEmpty } from 'lodash'
 
 import {
   QUERY_KEYS
@@ -10,7 +11,6 @@ import { calculateEstimatedExternalAwardsValue } from 'lib/services/calculateEst
 import { compileErc20Awards } from 'lib/services/compileErc20Awards'
 import { compileErc721Awards } from 'lib/services/compileErc721Awards'
 
-
 // this gathers the current data for a pool
 // note: when calculating value of ERC20 tokens this uses current chain data (infura/alchemy) to get the balance
 // but uses the Uniswap subgraph to get the prices
@@ -19,9 +19,10 @@ import { compileErc721Awards } from 'lib/services/compileErc721Awards'
 // at the time the prize was awarded, etc
 
 export const compilePool = (
+  chainId,
   poolInfo,
   poolAddress,
-  cache,
+  queryCache,
   poolChainData,
   poolGraphData,
 ) => {
@@ -30,20 +31,29 @@ export const compilePool = (
     ...poolGraphData,
   }
 
-  const uniswapPriceData = cache.getQueryData([QUERY_KEYS.uniswapTokensQuery, poolAddress, -1])
-  const ethereumErc20Awards = cache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, poolAddress, -1])
-  const ethereumErc721Awards = cache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, poolAddress, -1])
+  const ethereumErc20Awards = queryCache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, chainId, poolAddress, -1])
+  const ethereumErc721Awards = queryCache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, chainId, poolAddress, -1])
 
-  const externalErc20Awards = compileErc20Awards(ethereumErc20Awards, poolGraphData, uniswapPriceData)
 
-  const externalErc721Awards = compileErc721Awards(ethereumErc721Awards, poolGraphData)
+  const addresses = ethereumErc20Awards
+    ?.filter(award => award.balance.gt(0))
+    ?.map(award => award.address)
 
-  const externalAwardsEstimateUSD = calculateEstimatedExternalAwardsValue(externalErc20Awards)
-  // const externalItemAwardsEstimate = calculateEstimatedExternalItemAwardsValue(
-  //   ethereumErc721Awards
-  // )
+  const uniswapPriceData = queryCache.getQueryData([
+    QUERY_KEYS.uniswapTokensQuery,
+    chainId,
+    !isEmpty(addresses) ? addresses.join('-') : '',
+    -1
+  ])
+
+  const compiledExternalErc20Awards = compileErc20Awards(ethereumErc20Awards, poolGraphData, uniswapPriceData)
+
+  const compiledExternalErc721Awards = compileErc721Awards(ethereumErc721Awards, poolGraphData)
+
+  const externalAwardsEstimateUSD = calculateEstimatedExternalAwardsValue(compiledExternalErc20Awards)
 
   const interestPrizeEstimateUSD = calculateEstimatedPoolPrize(poolObj)
+
 
   const totalPrizeEstimateUSD = externalAwardsEstimateUSD ?
     interestPrizeEstimateUSD.add(ethers.utils.parseEther(
@@ -57,8 +67,7 @@ export const compilePool = (
     prizeAmountUSD: totalPrizeEstimateUSD,
     interestPrizeUSD: interestPrizeEstimateUSD,
     externalAwardsUSD: externalAwardsEstimateUSD,
-    // externalItemAwardsEstimate,
-    externalErc20Awards,
-    externalErc721Awards
+    compiledExternalErc20Awards,
+    compiledExternalErc721Awards
   }
 }

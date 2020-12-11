@@ -3,10 +3,11 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { orderBy } from 'lodash'
 
-import { TOKEN_IMAGES } from 'lib/constants'
+// import { TOKEN_IMAGES } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
-import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+// import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
+// import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { Erc20Image } from 'lib/components/Erc20Image'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
@@ -14,22 +15,11 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import GiftIcon from 'assets/images/icon-gift@2x.png'
 
-const Erc20Image = (props) => {
-  const src = TOKEN_IMAGES[props.address]
-
-  return src ? <img
-    src={src}
-    className='inline-block mr-2 w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full'
-  /> : <div
-    className='inline-block mr-2 bg-overlay-white w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full'
-  />
-}
-
 export const Erc20AwardsTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { basePath, externalErc20Awards, historical, pool } = props
+  const { basePath, compiledExternalErc20Awards, historical, pool } = props
 
   const [moreVisible, setMoreVisible] = useState(false)
   
@@ -39,20 +29,20 @@ export const Erc20AwardsTable = (props) => {
     setMoreVisible(true)
 
     router.push(
-      `${basePath}#awards-table`,
+      `${basePath}#erc20-awards-table`,
     )
   }
 
 
 
-  if (!externalErc20Awards) {
+  if (!compiledExternalErc20Awards) {
     return null
   }
 
   const balanceProperty = historical ? 'balanceAwardedBN' : 'balance'
 
-  let externalAwards = Object.keys(externalErc20Awards)
-    .map(key => externalErc20Awards[key])
+  let externalAwards = Object.keys(compiledExternalErc20Awards)
+    .map(key => compiledExternalErc20Awards[key])
     .filter(award => award?.[balanceProperty]?.gt(0))
 
   const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])
@@ -60,74 +50,40 @@ export const Erc20AwardsTable = (props) => {
 
   return <>
     <div
-      id='awards-table'
-      className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
+      id='erc20-awards-table'
     >
+      {pool?.externalAwardsUSD && <>
+        <h3
+          className='mb-1'
+        >
+          ${numberWithCommas(pool?.externalAwardsUSD)} {t('value')}
+        </h3>
+      </>}
+
       <div
-        className='text-caption uppercase mb-3'
+        className='text-green text-left text-xs xs:text-sm font-bold'
       >
-        <img
-          src={GiftIcon}
-          className='inline-block mr-2 card-icon'
-        /> {t('lootBox')}
+        {t('amountTokens', {
+          amount: sortedAwards.length
+        })}
       </div>
-
-      <div className='flex flex-col sm:flex-row justify-between sm:items-center'>
-        <div>
-          {awards.length === 0 ? <>
-            {historical ? t('noOtherPrizesAwarded') : t('currentlyNoOtherPrizes')}
-          </> : <>
-            {pool?.externalAwardsUSD && <>
-              <h3
-                className='mb-1'
-              >
-                ${numberWithCommas(pool?.externalAwardsUSD)} {t('value')}
-              </h3>
-            </>} 
-          </>}
-        </div>
-
-        <div>
-          {!historical && <>
-            <ContributeToLootBoxDropdown
-              pool={pool}
-            />
-          </>}
-        </div>
-      </div> 
       
-      {awards.length > 0 && <>
         <div
-          className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8 mt-4'
+          className='text-inverse flex flex-col justify-between rounded-lg p-0'
         >
           <table
-            className='table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
+            className='table--no-padding table--no-hover-states table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
           >
-            <thead>
-              <tr
-                style={{ background: 'none' }}
-              >
-                <th
-                  className='w-6/12'
-                >
-                  <h6
-                    className='text-green text-left'
-                  >
-                    {t('amountTokens', {
-                      amount: sortedAwards.length
-                    })}
-                  </h6>
-                </th>
-                <th
-                  className='w-4/12'
-                ></th>
-                <th
-                  className='w-2/12 sm:w-1/12'
-                ></th>
-              </tr>
-            </thead>
             <tbody>
-              {awards.map(award => {
+              {awards.length === 0 && <>
+                <tr>
+                  <td>
+                    {historical && t('noOtherPrizesAwarded')}
+                  </td>
+                </tr>
+              </>}
+
+              {awards?.map(award => {
                 if (!award.name) {
                   return
                 }
@@ -172,32 +128,33 @@ export const Erc20AwardsTable = (props) => {
           </table>
 
           {externalAwards.length > 5 && <>
-            <div className='text-center'>
-              <motion.button
+            <motion.div
+              className='text-center'
+              animate={moreVisible ? 'exit' : 'enter'}
+              initial='enter'
+              variants={{
+                enter: {
+                  opacity: 1,
+                  y: 0,
+                },
+                exit: {
+                  y: -10,
+                  opacity: 0,
+                }
+              }}
+            >
+              <button
                 border='none'
                 onClick={handleShowMore}
                 className='mt-6 mb-3 underline font-bold text-xxs xs:text-base sm:text-lg text-center'
-                animate={moreVisible ? 'exit' : 'enter'}
-                initial='enter'
-                variants={{
-                  enter: {
-                    opacity: 1,
-                    y: 0,
-                  },
-                  exit: {
-                    y: -10,
-                    opacity: 0,
-                  }
-                }}
               >
                 {t('showMore')}
-              </motion.button>
-            </div>
+              </button>
+            </motion.div>
           </>}
         </div>
 
 
-      </>}
 
     </div>
   </>

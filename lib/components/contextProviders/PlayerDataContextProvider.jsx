@@ -1,77 +1,55 @@
 import React, { useContext } from 'react'
 import { ethers } from 'ethers'
-import { useRouter } from 'next/router'
-import { useQuery } from '@apollo/client'
 
-import {
-  MAINNET_POLLING_INTERVAL,
-  SUPPORTED_CHAIN_IDS
-} from 'lib/constants'
-import { GeneralContext } from 'lib/components/contextProviders/GeneralContextProvider'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { dynamicPlayerQuery } from 'lib/queries/dynamicPlayerQuery'
+import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { getUsersSponsorshipBalance } from 'lib/services/getUsersSponsorshipBalance'
+import { getUsersTicketBalance } from 'lib/services/getUsersTicketBalance'
+import { testAddress } from 'lib/utils/testAddress'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 export const PlayerDataContext = React.createContext()
+const debug = require('debug')('pool-app:PoolDataContext')
 
 export function PlayerDataContextProvider(props) {
-  const { chainId } = useContext(AuthControllerContext)
-  const { paused } = useContext(GeneralContext)
+  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
+  const { pool } = useContext(PoolDataContext)
 
-  const router = useRouter()
-  const playerAddress = router.query?.playerAddress?.toLowerCase()
+  const addressError = testAddress(usersAddress)
 
-  if (!SUPPORTED_CHAIN_IDS.includes(chainId)) {
-    console.log('Network not supported')
-  }
-
-  let playerAddressError
-  if (playerAddress) {
-    try {
-      ethers.utils.getAddress(playerAddress)
-    } catch (e) {
-      console.error(e)
-
-      if (e.message.match('invalid address')) {
-        playerAddressError = 'Incorrectly formatted Ethereum address!'
-        console.error(playerAddressError)
-      }
-    }
-  }
-
-
-  let playerData
-  let playerDripTokenData
-  let playerBalanceDripData
-  let playerVolumeDripData
-
-  const { loading, error, data } = useQuery(dynamicPlayerQuery, {
-    variables: {
-      playerAddress
-    },
-    fetchPolicy: 'network-only',
-    pollInterval: paused ? 0 : MAINNET_POLLING_INTERVAL,
-    skip: !playerAddress || playerAddressError
-  })
+  const blockNumber = -1
+  const {
+    refetch: refetchPlayerData,
+    data: playerData,
+    error,
+    isFetching
+  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, addressError)
 
   if (error) {
     console.error(error)
   }
 
-  playerData = data?.player
-  playerDripTokenData = data?.playerDripToken
-  playerBalanceDripData = data?.playerBalanceDrip
-  playerVolumeDripData = data?.playerVolumeDrip
+  const {
+    usersTicketBalance,
+    usersTicketBalanceBN
+  } = getUsersTicketBalance(pool, playerData)
 
-  return <PlayerDataContext.Provider
-    value={{
-      // loading,
-      playerData,
-      playerDripTokenData,
-      playerBalanceDripData,
-      playerVolumeDripData,
-    }}
-  >
-    {props.children}
-  </PlayerDataContext.Provider>
+  const {
+    usersSponsorshipBalance,
+    usersSponsorshipBalanceBN
+  } = getUsersSponsorshipBalance(pool, playerData)
 
+  return <>
+    <PlayerDataContext.Provider
+      value={{
+        refetchPlayerData,
+        usersSponsorshipBalance,
+        usersSponsorshipBalanceBN,
+        usersTicketBalance,
+        usersTicketBalanceBN,
+      }}
+    >
+      {props.children}
+    </PlayerDataContext.Provider>
+  </>
 }

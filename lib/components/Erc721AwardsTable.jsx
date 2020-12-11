@@ -34,7 +34,7 @@ export const Erc721AwardsTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { basePath, historical, externalErc721Awards, ethErc721Awards } = props
+  const { basePath, historical, compiledExternalErc721Awards, ethErc721Awards } = props
 
   const [moreVisible, setMoreVisible] = useState(false)
   
@@ -46,11 +46,11 @@ export const Erc721AwardsTable = (props) => {
     setMoreVisible(true)
 
     router.push(
-      `${basePath}#awards-table`,
+      `${basePath}#erc721-awards-table`,
     )
   }
 
-  if (!pool || !externalErc721Awards) {
+  if (!pool || !compiledExternalErc721Awards) {
     return null
   }
 
@@ -58,9 +58,9 @@ export const Erc721AwardsTable = (props) => {
 
   let awards = []
   let sortedAwards = []
-  if (externalErc721Awards) {
-    const externalAwards = Object.keys(externalErc721Awards)
-      .map(key => externalErc721Awards[key])
+  if (compiledExternalErc721Awards) {
+    const externalAwards = Object.keys(compiledExternalErc721Awards)
+      .map(key => compiledExternalErc721Awards[key])
     sortedAwards = orderBy(externalAwards, ({ name }) => name || '', ['asc'])
     awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 8)
   }
@@ -69,27 +69,21 @@ export const Erc721AwardsTable = (props) => {
 
   return <>
     <div
-      id='item-awards-table'
-      className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
+      id='item-erc721-awards-table'
+      className='mt-2'
     >
       <div
-        className='text-caption uppercase mb-3'
+        className='text-green text-left text-xs xs:text-sm font-bold'
       >
-        <img
-          src={GiftIcon}
-          className='inline-block mr-2 card-icon'
-        /> {t('itemPrizes')}
+        {t('amountItems', {
+          amount: sortedAwards.length
+        })}
       </div>
-      
-      {awards.length === 0 && !has721Awards && <>
-        {historical ? t('noItemPrizesAwarded') : t('currentlyNoItemPrizes')}
-      </>}
 
       {awards.length === 0 && has721Awards && <>
         <TableRowUILoader />
       </>}
       
-      {awards.length > 0 && <>
         {/* {pool?.externalItemAwardsEstimate && <>
           <h3
             className='mb-1'
@@ -99,43 +93,30 @@ export const Erc721AwardsTable = (props) => {
         </>}  */}
 
         <div
-          className='xs:bg-primary theme-light--no-padding table--no-hover-states text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8 mt-4'
+          className='table--no-hover-states text-inverse flex flex-col justify-between rounded-lg p-0'
         >
 
           <table
-            className='table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
+            className='table--no-padding table--no-hover-states table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
           >
-            <thead>
-              <tr
-                style={{ background: 'none' }}
-              >
-                <th
-                  className='w-1/2'
-                >
-                  <h6
-                    className='text-green text-left'
-                  >
-                    {t('amountItems', {
-                      amount: sortedAwards.length
-                    })}
-                  </h6>
-                </th>
-                <th
-                  className='w-1/2'
-                ></th>
-              </tr>
-            </thead>
             <tbody>
-              {awards.map(award => {
+              {awards.length === 0 && !has721Awards && <>
+                <tr>
+                  <td
+                    className='flex items-center py-2 text-left truncate'
+                  >
+                    {historical && t('noItemPrizesAwarded')}
+                  </td>
+                </tr>
+              </>}
+
+              {awards?.map(award => {
                 return <Fragment
                   key={award.address}
                 >
                   <tr>
                     <td
                       className='flex items-center py-2 text-left font-bold truncate'
-                      style={{
-                        padding: '0.5rem 0.5rem 0.25rem'
-                      }}
                     >
                       <EtherscanAddressLink
                         address={award.address}
@@ -146,9 +127,6 @@ export const Erc721AwardsTable = (props) => {
                     </td>
                     <td
                       className='px-2 sm:px-3 py-2 text-left text-accent-1 truncate font-bold text-xxxs xs:text-xxs sm:text-xs'
-                      style={{
-                        padding: '0.5rem 0.5rem 0.25rem'
-                      }}
                     >
                       {award?.balance?.eq(0) ? '1' : award?.balance?.toString()} {award?.symbol}
                     </td>
@@ -159,7 +137,7 @@ export const Erc721AwardsTable = (props) => {
                     </td> */}
                   </tr>
 
-                  {award.tokenIds.map(tokenId => {
+                  {award?.tokenIds?.map(tokenId => {
                     const token = award?.tokens?.[tokenId]
                     const src = token?.image || token?.image_url
 
@@ -173,9 +151,6 @@ export const Erc721AwardsTable = (props) => {
                     >
                       <td
                         className='flex items-center py-2 text-left font-bold text-accent-1 ml-4'
-                        style={{
-                          padding: '0 0.5rem 0.25rem'
-                        }}
                       >
                         <Erc721TokenImage
                           token={token}
@@ -183,9 +158,6 @@ export const Erc721AwardsTable = (props) => {
                       </td>
                       <td
                         className='text-left text-default truncate text-xxxs xs:text-xxs sm:text-xs mr-4'
-                        style={{ 
-                          padding: '0 0.5rem 0.25rem'
-                        }}
                       >
                         {token?.name}
                       </td>
@@ -220,8 +192,6 @@ export const Erc721AwardsTable = (props) => {
             </div>
           </>}
         </div>
-
-      </>}
 
     </div>
   </>

@@ -7,35 +7,54 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { SmallLoader } from 'lib/components/SmallLoader'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
+import { testAddress } from 'lib/utils/testAddress'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
-import AccountPlaceholderImg from 'assets/images/avatar-placeholder.svg'
+// import AccountPlaceholderImg from 'assets/images/avatar-placeholder.svg'
 import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
 
 export const AccountSummary = () => {
   const { t } = useTranslation()
-  const { pools, dynamicPlayerData, usersChainData } = useContext(PoolDataContext)
-  const { usersAddress } = useContext(AuthControllerContext)
+
+  const { pools, usersChainData } = useContext(PoolDataContext)
+  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
+
+  const playerAddressError = testAddress(usersAddress)
+  
+  const blockNumber = -1
+  const {
+    status,
+    data: playerData,
+    error,
+    isFetching
+  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+
+  if (error) {
+    console.error(error)
+  }
 
   let totalTickets = null
   let cumulativeWinningsAllPools = ethers.utils.bigNumberify(0)
-  dynamicPlayerData?.forEach(playerData => {
-    const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
 
-    if (!pool || !playerData.balance) {
-      return
-    }
+  playerData?.prizePoolAccounts.forEach(prizePoolAccount => {
+    const poolAddress = prizePoolAccount?.prizePool?.id
+    const pool = pools?.find(pool => pool.poolAddress === poolAddress)
+    if (!pool) return
+
+    const ticketAddress = pool?.ticketToken?.id
+    let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
+    if (!balance) return
 
     const decimals = parseInt(pool?.underlyingCollateralDecimals, 10)
-
-    const balance = Number(
-      ethers.utils.formatUnits(playerData.balance, decimals),
+    balance = Number(
+      ethers.utils.formatUnits(balance, decimals),
     )
-
+    
     totalTickets = totalTickets ? totalTickets + balance : balance
 
     // Calculate winnings
     const winnings = normalizeTo18Decimals(
-      playerData.cumulativeWinnings,
+      prizePoolAccount.cumulativeWinnings,
       decimals
     )
 
@@ -43,7 +62,6 @@ export const AccountSummary = () => {
       winnings
     )
   })
-
 
   const daiBalances = {
     poolBalance: usersChainData?.v2DaiPoolCommittedBalance,
@@ -70,7 +88,7 @@ export const AccountSummary = () => {
 
   return <>
     <div
-      className='purple-pink-gradient rounded-lg px-10 xs:px-12 sm:px-20 py-5 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'
+      className='purple-pink-gradient rounded-lg pl-6 pr-10 xs:px-12 py-5 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'
     >
       <div
         className='flex justify-between items-center'
@@ -101,7 +119,7 @@ export const AccountSummary = () => {
           <img
             src={ChillWalletIllustration}
             alt={`chillin' wallet illustration`}
-            className='w-40 mx-auto relative mb-4'
+            className='w-32 xs:w-40 mx-auto relative mb-4 -mr-4'
             style={{
               right: -10,
               top: 17

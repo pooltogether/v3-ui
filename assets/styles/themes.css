@@ -340,6 +340,7 @@ input:-webkit-autofill:active  {
   @apply bg-green text-white;
 }
 
+
 .theme-light .theme-light--no-padding {
   padding-left: 0 !important;
   padding-right: 0 !important;

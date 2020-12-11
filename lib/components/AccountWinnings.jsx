@@ -3,33 +3,56 @@ import Link from 'next/link'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { testAddress } from 'lib/utils/testAddress'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
 
 export const AccountWinnings = () => {
   const { t } = useTranslation()
   
-  const { pools, dynamicPlayerData } = useContext(PoolDataContext)
+  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
+  const { pools } = useContext(PoolDataContext)
+
+
+  const playerAddressError = testAddress(usersAddress)
+
+  const blockNumber = -1
+  const {
+    status,
+    data: playerData,
+    error,
+    isFetching
+  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+
+  if (error) {
+    console.error(error)
+  }
+
+
 
   const totalWinnings = () => {
     let cumulativeWinningsAllPools = ethers.utils.bigNumberify(0)
 
-    dynamicPlayerData?.forEach(playerData => {
-      const pool = pools.find(pool => pool.poolAddress === playerData.prizePool.id)
+    playerData?.prizePoolAccounts.forEach(prizePoolAccount => {
+      const poolAddress = prizePoolAccount?.prizePool?.id
+      const pool = pools?.find(pool => pool.poolAddress === poolAddress)
+      if (!pool) return
 
-      if (!pool || !playerData.balance) {
-        return
-      }
-
+      const ticketAddress = pool?.ticketToken?.id
+      let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
+      if (!balance) return
+      
       const decimals = parseInt(pool?.underlyingCollateralDecimals, 10)
-
+      
       // Calculate winnings
       const winnings = normalizeTo18Decimals(
-        playerData.cumulativeWinnings,
+        prizePoolAccount.cumulativeWinnings,
         decimals
       )
 

@@ -11,7 +11,7 @@ export const DEFAULT_TOKEN_PRECISION = 18
 export const COINGECKO_POLLING_INTERVAL = 120 * 1000
 export const UNISWAP_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? (120 * 1000) : (60 * 1000)
 export const ERC_721_POLLING_INTERVAL = 120 * 1000
-export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? (22 * 1000) : (15 * 1000)
+export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? (22 * 1000) : (16 * 1000)
 
 export const PLAYER_PAGE_SIZE = 10
 
@@ -45,6 +45,11 @@ export const POOLS = [
     symbol: 'PT-cDAI'
   }
 ]
+
+export const PRIZE_STRATEGY_TYPES = {
+  'singleRandomWinner': 'singleRandomWinner',
+  'multipleWinners': 'multipleWinners'
+}
 
 export const CONTRACT_ADDRESSES = {
   1: {
@@ -95,6 +100,8 @@ export const TOKEN_IMAGES = {
 }
 
 export const TOKEN_VALUES = {
+  '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984': 5.6,
+  '0x852358c72f0d38df475b58f90c9b24aadc63c9db': 1,
   '0x9d942bd31169ed25a1ca78c776dab92de104e50e': 279.31
   // '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
   // '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
@@ -123,18 +130,101 @@ export const V2_CONTRACT_ADDRESSES = [
 export const QUERY_KEYS = {
   ethereumErc20sQuery: 'ethereumErc20sQuery',
   ethereumErc721sQuery: 'ethereumErc721sQuery',
+  ethereumLootBoxQuery: 'ethereumLootBoxQuery',
   ethereumGenericQuery: 'ethereumGenericQuery',
+  lootBoxQuery: 'lootBoxQuery',
   poolQuery: 'poolQuery',
   poolsQuery: 'poolsQuery',
-  playerQuery: 'playerQuery',
-  prizePlayersQuery: 'prizePlayersQuery',
+  poolDripsQuery: 'poolDripsQuery',
+  poolPlayerQuery: 'poolPlayerQuery',
+  poolPrizesQuery: 'poolPrizesQuery',
+  prizeQuery: 'prizeQuery',
+  sponsorQuery: 'sponsorQuery',
   uniswapTokensQuery: 'uniswapTokensQuery',
+  accountQuery: 'accountQuery',
+  prizePoolAccountQuery: 'prizePoolAccountQuery',
+  controlledTokenBalancesQuery: 'controlledTokenBalancesQuery',
+}
+
+// we may not need any of this:
+export const POOLTOGETHER_LATEST_VERSION = {
+  'staging': 'v3_1_0',
+  'production': 'v3_1_0',
+}
+
+export const POOLTOGETHER_CONTRACT_VERSIONS = {
+  ['0xebfb47a7ad0fd6e57323c8a42b2e5a6a4f68fc1a'.toLowerCase()]: 'v3_0_1', // mainnet: cDai prize pool
+
+  ['0x4706856fa8bb747d50b4ef8547fe51ab5edc4ac2'.toLowerCase()]: 'v3_0_1', // rinkeby: cDai prize pool
+  ['0xe470984fbe3c16acfc41ba2e5274c297f0723134'.toLowerCase()]: 'v3_0_1', // rinkeby: cDai prize pool single winner prize strategy
+  ['0x506cfb5ed425fe986cb913522f3297a79697abfc'.toLowerCase()]: 'v3_0_1', // rinkeby: cDai prize pool single winner prize strategy
+  ['0x5e0a6d336667eace5d1b33279b50055604c3e329'.toLowerCase()]: 'v3_1_0', // rinkeby: cDai prize pool multiple winners prize strategy
+}
+
+export const POOLTOGETHER_VERSION_START_BLOCKS = {
+  v3_0_1: {
+    staging: {
+      1: 2222222,
+      3: 3333333,
+      4: 7399763,
+    },
+    production: {
+      1: 22222222,
+      3: 33333333,
+      4: 7399763,
+    }
+  },
+  v3_1_0: {
+    staging: {
+      1: 2222222,
+      3: 3333333,
+      4: 7687002,
+    },
+    production: {
+      1: 22222222,
+      3: 33333333,
+      4: 7687002,
+    }
+  }
+}
+
+export const POOLTOGETHER_CURRENT_GRAPH_URIS = {
+  1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
+  3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
+  4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY
 }
 
 export const POOLTOGETHER_GRAPH_URIS = {
-  1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
-  3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
-  4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY,
+  v3_0_1: {
+    production: {
+      1: process.env.NEXT_JS_SUBGRAPH_3_0_1_URI_MAINNET,
+      3: process.env.NEXT_JS_SUBGRAPH_3_0_1_URI_ROPSTEN,
+      4: process.env.NEXT_JS_SUBGRAPH_3_0_1_URI_RINKEBY,
+    },
+    staging: {
+      1: process.env.NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_MAINNET,
+      3: process.env.NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_ROPSTEN,
+      4: process.env.NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_RINKEBY,
+    },
+  },
+  v3_1_0: {
+    production: {
+      1: process.env.NEXT_JS_SUBGRAPH_3_1_0_URI_MAINNET,
+      3: process.env.NEXT_JS_SUBGRAPH_3_1_0_URI_ROPSTEN,
+      4: process.env.NEXT_JS_SUBGRAPH_3_1_0_URI_RINKEBY,
+    },
+    staging: {
+      1: process.env.NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_MAINNET,
+      3: process.env.NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_ROPSTEN,
+      4: process.env.NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_RINKEBY,
+    },
+  }
+}
+
+export const LOOTBOX_GRAPH_URIS = {
+  1: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_MAINNET,
+  3: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_ROPSTEN,
+  4: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_RINKEBY,
 }
 
 export const UNISWAP_GRAPH_URIS = {

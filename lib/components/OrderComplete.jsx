@@ -20,8 +20,7 @@ export function OrderComplete(props) {
 
   const { confetti } = useContext(ConfettiContext)
 
-  const poolData = useContext(PoolDataContext)
-  const { pool, usersTicketBalance } = poolData
+  const { pool } = useContext(PoolDataContext)
 
   const decimals = pool?.underlyingCollateralDecimals
   if (prevBalance) {

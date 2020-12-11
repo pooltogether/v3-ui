@@ -10,9 +10,9 @@ export function TimeTravelPoolQuery(props) {
     poolAddress,
   } = props
 
-  const { chainId } = useContext(AuthControllerContext)
+  const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
-  const { status, data, error, isFetching } = useTimeTravelPoolQuery(chainId, poolAddress, blockNumber)
+  const { status, data, error, isFetching } = useTimeTravelPoolQuery(pauseQueries, chainId, poolAddress, blockNumber)
 
   if (error) {
     console.warn(error)

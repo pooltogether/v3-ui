@@ -70,7 +70,9 @@ export function Input(props) {
   )
 
   const newProps = omit(props, [
+    'alignLeft',
     'label',
+    'small',
     'large',
     'marginClasses',
     'paddingClasses',

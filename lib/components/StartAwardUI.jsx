@@ -1,18 +1,19 @@
 import React, { useContext, useState } from 'react'
-import { useQuery } from '@apollo/client'
-
-import SingleRandomWinnerAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinner'
+import { useAtom } from 'jotai'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { ButtonTx } from 'lib/components/ButtonTx'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
+import { getPrizeStrategyAbiFromPool } from 'lib/services/getPrizeStrategyAbiFromPool'
 
 export function StartAwardUI(props) {
   const { t } = useTranslation()
 
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
+  
   const { provider, usersAddress } = useContext(AuthControllerContext)
   const { pool } = useContext(PoolDataContext)
 
@@ -27,10 +28,8 @@ export function StartAwardUI(props) {
   })
   const method = 'startAward'
 
-  const [sendTx] = useSendTransaction(txName)
+  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
   const tx = transactions?.find((tx) => tx.id === txId)
 
   // const ongoingStartAwardTransactions = transactions?.
@@ -47,11 +46,11 @@ export function StartAwardUI(props) {
       // }
     ]
 
-    const id = sendTx(
+    const id = await sendTx(
       t,
       provider,
       usersAddress,
-      SingleRandomWinnerAbi,
+      getPrizeStrategyAbiFromPool(pool),
       prizeStrategyAddress,
       method,
       params,

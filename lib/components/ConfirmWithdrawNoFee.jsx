@@ -1,13 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { ethers } from 'ethers'
+import { useAtom } from 'jotai'
 import { useRouter } from 'next/router'
-import { useQuery } from '@apollo/client'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { useTranslation, Trans } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -15,10 +17,11 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
 
 export function ConfirmWithdrawNoFee(props) {
   const { t } = useTranslation()
+
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
 
   const router = useRouter()
   const quantity = router.query.quantity
@@ -26,12 +29,13 @@ export function ConfirmWithdrawNoFee(props) {
   const { nextStep, previousStep } = props
   
   const { usersAddress, provider } = useContext(AuthControllerContext)
-  const { pool, usersTicketBalance } = useContext(PoolDataContext)
+  const { pool } = useContext(PoolDataContext)
+  const { usersTicketBalance } = useContext(PlayerDataContext)
 
   const decimals = pool?.underlyingCollateralDecimals
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
   const poolAddress = pool?.poolAddress
-  const controlledTokenAddress = pool?.prizeStrategy?.singleRandomWinner?.ticket?.id
+  const controlledTicketTokenAddress = pool?.ticket?.id
 
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
@@ -41,10 +45,10 @@ export function ConfirmWithdrawNoFee(props) {
   const txName = `${txMainName} (${txSubName})`
   const method = 'withdrawInstantlyFrom'
 
-  const [sendTx] = useSendTransaction(txName)
+  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  
+  
   const tx = transactions?.find((tx) => tx.id === txId)
 
   
@@ -60,14 +64,14 @@ export function ConfirmWithdrawNoFee(props) {
         quantity,
         Number(decimals)
       ),
-      controlledTokenAddress,
+      controlledTicketTokenAddress,
       ethers.utils.parseEther(maxExitFee),
       // {
       //   gasLimit: 700000
       // }
     ]
 
-    const id = sendTx(
+    const id = await sendTx(
       t,
       provider,
       usersAddress,

@@ -1,12 +1,20 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 
+import { useTranslation } from 'lib/../i18n'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { PTHint } from 'lib/components/PTHint'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 
 export function TransactionsListItem(props) {
+  const { t } = useTranslation()
+  
   const { tx } = props
+
+  const errorIcon = <FeatherIcon
+    icon='help-circle'
+    className='list-item--icon relative w-5 h-5 text-red'
+  />
 
   return <li
     key={tx.hash || Date.now()}
@@ -56,11 +64,18 @@ export function TransactionsListItem(props) {
           <PTHint
             tip={tx.reason}
           >
-            <FeatherIcon
-              icon='help-circle'
-              className='list-item--icon relative w-5 h-5 text-red'
-            />
+            {errorIcon}
           </PTHint>
+        </>}
+
+        {tx.error && !tx.reason && <>
+          <EtherscanTxLink
+            noIcon
+            chainId={tx.ethersTx.chainId}
+            hash={tx.hash}
+          >
+            {errorIcon}
+          </EtherscanTxLink>
         </>}
       </div>
       
@@ -72,8 +87,8 @@ export function TransactionsListItem(props) {
         className='text-orange'
       >
         {tx.inWallet && <>
-          Please confirm in your wallet...
-      </>}
+          {t('pleaseConfirmInYourWallet')}
+        </>}
       </span>
     </>}
   </li>

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
 import ClipLoader from 'react-spinners/ClipLoader'
 import classnames from 'classnames'
+import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
-import { useQuery } from '@apollo/client'
 import { isEmpty, map, find, defaultTo, sum } from 'lodash'
 
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
@@ -11,13 +11,13 @@ import { useTranslation } from 'lib/../i18n'
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { PTCopyToClipboard } from 'lib/components/PTCopyToClipboard'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { transactionsQuery } from 'lib/queries/transactionQueries'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
@@ -26,6 +26,8 @@ import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
 
 export const AccountRewards = () => {
   const { t } = useTranslation()
+
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
   
   const { pools, dynamicPlayerDrips, usersChainData, graphDripData } = useContext(PoolDataContext)
   const { usersAddress, provider } = useContext(AuthControllerContext)
@@ -40,7 +42,7 @@ export const AccountRewards = () => {
   const referralAddress = `https://${domain}/?referrer=${usersAddress ? usersAddress : ''}`
   const shortReferralAddress = `${domain}/?referrer=${usersAddress ? shorten(usersAddress) : ''}`
 
-  const { usersDripTokenData } = usersChainData
+  const { usersDripTokenData } = usersChainData || {}
 
   const [activeTxDripIds, setActiveTxDripIds] = useState([])
 
@@ -49,10 +51,10 @@ export const AccountRewards = () => {
   const txName = t(`claimRewards`)
   const method = 'updateAndClaimDrips'
 
-  const [sendTx] = useSendTransaction(txName)
+  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
 
-  const transactionsQueryResult = useQuery(transactionsQuery)
-  const transactions = transactionsQueryResult?.data?.transactions
+  
+  
   const txInFlight = transactions?.find((tx) => tx.id === txId)
 
   // const txsNotCompleted = transactions
@@ -67,7 +69,7 @@ export const AccountRewards = () => {
   //   }
   // }, [txsNotCompleted])
 
-  const handleClaim = (drip) => {
+  const handleClaim = async (drip) => {
     const { comptroller, updatePairs, dripTokens } = getParamsForClaim([drip.id])
 
     const params = [
@@ -79,7 +81,7 @@ export const AccountRewards = () => {
       // }
     ]
 
-    const id = sendTx(
+    const id = await sendTx(
       t,
       provider,
       usersAddress,

@@ -4,9 +4,12 @@ import {
   QUERY_KEYS
 } from 'lib/constants'
 
+import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { calculateExternalAwardsValue } from 'lib/services/calculateExternalAwardsValue'
 import { compileHistoricalErc20Awards } from 'lib/services/compileHistoricalErc20Awards'
 import { compileHistoricalErc721Awards } from 'lib/services/compileHistoricalErc721Awards'
+import { marshallPoolData } from 'lib/services/marshallPoolData'
+// import { getControlledToken, getSponsorshipTokenAddress, getTicketTokenAddress } from 'lib/services/getPoolDataFromQueryResult'
 
 // This gathers historical data for a pool and prize
 //
@@ -14,6 +17,7 @@ import { compileHistoricalErc721Awards } from 'lib/services/compileHistoricalErc
 // at the time the prize was awarded, etc (called balanceAwarded)
 
 export const compileHistoricalPool = (
+  chainId,
   poolInfo,
   cache,
   graphPool,
@@ -28,13 +32,26 @@ export const compileHistoricalPool = (
     ...graphPool,
   }
 
-  const uniswapPriceData = cache.getQueryData([QUERY_KEYS.uniswapTokensQuery, poolAddress, blockNumber])
-  const externalErc20Awards = compileHistoricalErc20Awards(prize, uniswapPriceData)
+  const marshalledData = marshallPoolData(poolObj, blockNumber)
+  
+  const addresses = marshalledData?.externalErc20Awards?.map(award => award.address)
 
-  const ethErc721Awards = cache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, poolAddress, blockNumber])
-  const externalErc721Awards = compileHistoricalErc721Awards(ethErc721Awards, prize)
+  const { status, data, error, isFetching } = useUniswapTokensQuery(
+    addresses,
+    blockNumber
+  )
+  const uniswapPriceData = data
+  const compiledExternalErc20Awards = compileHistoricalErc20Awards(prize, uniswapPriceData)
 
-  const externalAwardsUSD = calculateExternalAwardsValue(externalErc20Awards)
+  const ethErc721Awards = cache.getQueryData([
+    QUERY_KEYS.ethereumErc721sQuery,
+    chainId,
+    poolAddress,
+    blockNumber
+  ])
+  const compiledExternalErc721Awards = compileHistoricalErc721Awards(ethErc721Awards, prize)
+
+  const externalAwardsUSD = calculateExternalAwardsValue(compiledExternalErc20Awards)
 
   const totalPrizeUSD = externalAwardsUSD ?
     interestPrizeUSD.add(ethers.utils.parseEther(
@@ -45,13 +62,12 @@ export const compileHistoricalPool = (
   return {
     ...poolInfo,
     ...poolObj,
-    poolAddress: poolAddress,
+    ...marshalledData,
     prizeAmountUSD: totalPrizeUSD,
     interestPrizeUSD,
     externalAwardsUSD,
-    // externalItemAwardsValue,
-    externalErc20Awards,
-    externalErc721Awards,
-    ethErc721Awards
+    compiledExternalErc20Awards,
+    compiledExternalErc721Awards,
+    ethErc721Awards,
   }
 }
