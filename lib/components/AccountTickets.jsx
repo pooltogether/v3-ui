@@ -49,7 +49,10 @@ export const AccountTickets = () => {
     usdcBalances?.poolBalance?.lt('1000000') &&
     usdcBalances?.podBalance?.lt('1000000')
 
-  const playerTicketAccounts = playerData?.prizePoolAccounts.map(prizePoolAccount => {
+
+
+
+  const getPlayerTicketAccount = (prizePoolAccount) => {
     const poolAddress = prizePoolAccount?.prizePool?.id
     const pool = pools?.find(pool => pool.poolAddress === poolAddress)
     if (!pool) return
@@ -63,9 +66,17 @@ export const AccountTickets = () => {
       poolAddress,
       balance
     }
-  })
+  }
+
+  let playerTicketAccounts
+  playerTicketAccounts = playerData?.prizePoolAccounts
+    .map(getPlayerTicketAccount)
     .filter(account => account !== undefined)
-        
+
+  if (!playerTicketAccounts) {
+    playerTicketAccounts = []
+  }
+
   return <>
     <div
       className='mt-16'
@@ -76,10 +87,10 @@ export const AccountTickets = () => {
         {t('myTickets')}
       </h5>
         
-      {!playerData ? <>
+      {isFetching ? <>
         <TicketsLoader />
       </> :
-        (playerTicketAccounts?.length === 0 && hasNoV2Balance) ? <>
+        (playerTicketAccounts.length === 0 && (hasNoV2Balance || hasNoV2Balance === undefined)) ? <>
           <BlankStateMessage>
             <div
               className='mb-10 font-bold'
@@ -104,7 +115,7 @@ export const AccountTickets = () => {
             <motion.div>
               <div className='flex flex-wrap'>
 
-                {playerTicketAccounts.map(playerTicketAccount => {
+                {playerTicketAccounts?.map(playerTicketAccount => {
                   return <AccountTicket
                     isLink
                     key={`account-pool-row-${playerTicketAccount.poolAddress}`}
