@@ -29,7 +29,7 @@ export function DepositSponsorshipTxButton(props) {
 
   const poolAddress = pool?.poolAddress
 
-  const controlledSponsorshipTokenAddress = pool?.sponsor?.id
+  const controlledSponsorshipTokenAddress = pool?.sponsorshipToken?.id
 
 
   const [txId, setTxId] = useState()
