@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash'
 import { ethers } from 'ethers'
 
-import { TOKEN_VALUES } from 'lib/constants'
+import { DEFAULT_TOKEN_PRECISION, TOKEN_VALUES } from 'lib/constants'
 
 export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) => {
   const erc20GraphData = poolData?.externalErc20Awards
@@ -29,7 +29,7 @@ export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) =
    
     let balanceFormatted = ''
     if (chainData?.balance) {
-      balanceFormatted = ethers.utils.formatUnits(chainData.balance, parseInt(obj.decimals, 10))
+      balanceFormatted = ethers.utils.formatUnits(chainData.balance, parseInt(obj?.decimals || DEFAULT_TOKEN_PRECISION, 10))
     }
     const value = priceUSD && balanceFormatted && parseFloat(balanceFormatted) * priceUSD
 
