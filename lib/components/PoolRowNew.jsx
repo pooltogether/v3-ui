@@ -75,7 +75,7 @@ export const PoolRowNew = (
             duration={6}
           >
             {ethers.utils.formatUnits(
-              pool?.prizeAmountUSD,
+              pool?.totalPrizeAmountUSD,
               decimals
             )}
           </PoolCountUp>

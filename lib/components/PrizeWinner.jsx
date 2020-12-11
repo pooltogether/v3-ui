@@ -20,7 +20,7 @@ export const PrizeWinner = (
 
   const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
-  const blockNumber = prize?.awardedBlock - 1
+  const blockNumber = prize?.awardedBlock
 
 
   let playerAddressError
@@ -44,6 +44,7 @@ export const PrizeWinner = (
     blockNumber,
     playerAddressError
   )
+
   const prizePoolAccount = data
 
   const decimals = pool?.underlyingCollateralDecimals || 18

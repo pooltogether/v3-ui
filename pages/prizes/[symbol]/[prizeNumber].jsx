@@ -38,7 +38,7 @@ export default function PrizeShowPage(props) {
   if (!prize?.awardedBlock) {
     prize = {
       awardedBlock: null,
-      net: pool?.prizeAmountUSD
+      net: pool?.grandPrizeAmountUSD
     }
 
     return <PrizeShow
