@@ -32,6 +32,8 @@ class MyDocument extends Document {
             <meta name='author' content='PoolTogether LLC' />
             <meta name='copyright' content={`Copyright ${new Date().getFullYear()}`} />
 
+            <meta name='favicon' content='/favicon.png' />
+
             <meta property='og:title' content={title} />
             <meta property='og:description' content={description} />
             <meta property='og:site_name' content={title} />

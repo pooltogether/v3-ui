@@ -25,15 +25,16 @@ export const compileHistoricalPool = (
   blockNumber,
   prize,
 ) => {
-  const interestPrizeUSD = ethers.utils.bigNumberify(prize?.amount || 0)
-
   const poolObj = {
     ...poolInfo,
     ...graphPool,
   }
 
   const marshalledData = marshallPoolData(poolObj, blockNumber)
-  
+
+  let interestPrizeUSD = ethers.utils.bigNumberify(prize?.amount || 0)
+  interestPrizeUSD = interestPrizeUSD.mul(marshalledData?.numberOfWinners || 1)
+
   const addresses = marshalledData?.externalErc20Awards?.map(award => award.address)
 
   const { status, data, error, isFetching } = useUniswapTokensQuery(
