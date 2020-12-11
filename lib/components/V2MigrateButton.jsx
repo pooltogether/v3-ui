@@ -35,7 +35,7 @@ export const V2MigrateButton = (
   
   const txInFlight = transactions?.find((tx) => (tx.id === txId) && !tx.completed && !tx.cancelled)
 
-  const migrateToV3 = () => {
+  const migrateToV3 = async () => {
     let erc777ContractAddress
 
     const dai = ticker === 'DAI'
@@ -57,7 +57,7 @@ export const V2MigrateButton = (
       balance
     ]
 
-    const id = sendTx(
+    const id = await sendTx(
       t,
       provider,
       usersAddress,

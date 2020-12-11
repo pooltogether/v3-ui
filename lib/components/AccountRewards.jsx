@@ -69,7 +69,7 @@ export const AccountRewards = () => {
   //   }
   // }, [txsNotCompleted])
 
-  const handleClaim = (drip) => {
+  const handleClaim = async (drip) => {
     const { comptroller, updatePairs, dripTokens } = getParamsForClaim([drip.id])
 
     const params = [
@@ -81,7 +81,7 @@ export const AccountRewards = () => {
       // }
     ]
 
-    const id = sendTx(
+    const id = await sendTx(
       t,
       provider,
       usersAddress,

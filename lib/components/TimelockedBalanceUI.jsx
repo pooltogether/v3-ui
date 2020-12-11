@@ -76,7 +76,7 @@ export function TimelockedBalanceUI(props) {
       // }
     ]
 
-    const id = sendTx(
+    const id = await sendTx(
       t,
       provider,
       usersAddress,

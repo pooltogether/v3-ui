@@ -138,7 +138,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
   
   const tx = transactions?.find((tx) => tx.id === txId)
 
-  const runTx = () => {
+  const runTx = async () => {
     const params = [
       usersAddress,
       ethers.utils.bigNumberify(gross),
@@ -146,7 +146,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
       ethers.utils.bigNumberify(exitFee)
     ]
 
-    const id = sendTx(
+    const id = await sendTx(
       t,
       provider,
       usersAddress,
