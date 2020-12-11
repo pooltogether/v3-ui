@@ -50,7 +50,7 @@ export const LootBoxTable = (props) => {
   }
 
   const { data: graphLootBoxData } = useGraphLootBoxQuery(lootBoxAddress, tokenId, blockNumber)
-  console.log(graphLootBoxData)
+  // console.log(graphLootBoxData)
   lootBox = graphLootBoxData?.lootBoxes?.[0]
   
 

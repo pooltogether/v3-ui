@@ -11,13 +11,16 @@ export const TopLevelExternalAwards = (props) => {
   
   const { pool } = props
 
+  console.log(pool?.compiledExternalErc20Awards)
+  console.log(pool?.compiledExternalErc721Awards)
+
   const compiledExternalErc20Awards = pool?.compiledExternalErc20Awards
   const compiledExternalErc721Awards = pool?.compiledExternalErc721Awards
   
   return <>
     <div
       id='top-level-awards-table'
-      className='non-interactable-card mt-4 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
+      className='non-interactable-card mt-4 mb-2 sm:mb-0 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
       <div
         className='text-caption uppercase mb-3'
