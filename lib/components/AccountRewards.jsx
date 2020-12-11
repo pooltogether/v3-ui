@@ -270,6 +270,7 @@ export const AccountRewards = () => {
   }
  
   const getTotalRewards = () => {
+    console.log(usersDripTokenData)
     const amounts = map(usersDripTokenData, (dripTokenData, dripTokenAddress) => {
       const dripData = getDripDataByAddress(dripTokenAddress, dripTokenData)
 
