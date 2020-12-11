@@ -54,6 +54,7 @@ export const compilePool = (
 
   const interestPrizeEstimateUSD = calculateEstimatedPoolPrize(poolObj)
 
+
   const totalPrizeEstimateUSD = externalAwardsEstimateUSD ?
     interestPrizeEstimateUSD.add(ethers.utils.parseEther(
       externalAwardsEstimateUSD.toString()

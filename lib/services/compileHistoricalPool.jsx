@@ -34,10 +34,7 @@ export const compileHistoricalPool = (
 
   const marshalledData = marshallPoolData(poolObj, blockNumber)
   
-  // const erc20GraphData = prize?.awardedExternalErc20Tokens
-  // const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
-  const addresses = poolObj?.externalErc20Awards?.map(award => award.address)
-  // const addresses = poolObj?.prizeStrategy?.singleRandomWinner?.externalErc20Awards?.map(award => award.address)
+  const addresses = marshalledData?.externalErc20Awards?.map(award => award.address)
 
   const { status, data, error, isFetching } = useUniswapTokensQuery(
     addresses,
@@ -62,26 +59,15 @@ export const compileHistoricalPool = (
     )) :
     interestPrizeUSD
 
-  // const sponsorshipTokenAddress = getSponsorshipTokenAddress(poolObj?.prizeStrategy)
-  // const ticketTokenAddress = getTicketTokenAddress(poolObj?.prizeStrategy)
-  // const sponsorshipToken = getControlledToken(poolObj?.controlledTokens, sponsorshipTokenAddress)
-  // const ticketToken = getControlledToken(poolObj?.controlledTokens, ticketTokenAddress)
-
   return {
     ...poolInfo,
     ...poolObj,
     ...marshalledData,
-    // poolAddress: poolAddress,
     prizeAmountUSD: totalPrizeUSD,
-    // playerCount: poolObj?.prizeStrategy?.singleRandomWinner?.ticket?.numberOfHolders,
-    // ticketSupply: poolObj?.prizeStrategy?.singleRandomWinner?.ticket?.totalSupply,
     interestPrizeUSD,
     externalAwardsUSD,
-    // externalItemAwardsValue,
     compiledExternalErc20Awards,
     compiledExternalErc721Awards,
     ethErc721Awards,
-    // sponsorshipToken,
-    // ticketToken
   }
 }

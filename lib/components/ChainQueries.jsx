@@ -1,9 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
-// import { isEmpty } from 'lodash'
-// import { useInterval } from 'beautiful-react-hooks'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
 import { useEthereumGenericQuery } from 'lib/hooks/useEthereumGenericQuery'
@@ -41,8 +38,7 @@ export function ChainQueries(props) {
 
   
   const poolAddress = poolData?.daiPool?.poolAddress
-
-  const graphExternalErc20Awards = poolData?.externalErc20Awards
+  const graphExternalErc20Awards = poolData?.daiPool?.externalErc20Awards
 
   const {
     status: externalErc20ChainStatus,
@@ -63,7 +59,7 @@ export function ChainQueries(props) {
 
 
 
-  const graphExternalErc721Awards = poolData?.daiPool?.prizeStrategy?.externalErc721Awards
+  const graphExternalErc721Awards = poolData?.daiPool?.externalErc721Awards
 
   const {
     status: externalErc721ChainStatus,

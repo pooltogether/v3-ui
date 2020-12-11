@@ -51,28 +51,22 @@ export const Erc20AwardsTable = (props) => {
   return <>
     <div
       id='erc20-awards-table'
-      className='mt-2 sm:mt-6'
     >
-      <div className='flex flex-col sm:flex-row justify-between sm:items-center'>
-        <div>
+      {pool?.externalAwardsUSD && <>
+        <h3
+          className='mb-1'
+        >
+          ${numberWithCommas(pool?.externalAwardsUSD)} {t('value')}
+        </h3>
+      </>}
 
-          <h6
-            className='text-green text-left'
-          >
-            {t('amountTokens', {
-              amount: sortedAwards.length
-            })}
-          </h6>
-
-          {pool?.externalAwardsUSD && <>
-            <h3
-              className='mb-1'
-            >
-              ${numberWithCommas(pool?.externalAwardsUSD)} {t('value')}
-            </h3>
-          </>}
-        </div>
-      </div> 
+      <div
+        className='text-green text-left text-xs xs:text-sm font-bold'
+      >
+        {t('amountTokens', {
+          amount: sortedAwards.length
+        })}
+      </div>
       
         <div
           className='text-inverse flex flex-col justify-between rounded-lg p-0'
@@ -134,27 +128,29 @@ export const Erc20AwardsTable = (props) => {
           </table>
 
           {externalAwards.length > 5 && <>
-            <div className='text-center'>
-              <motion.button
+            <motion.div
+              className='text-center'
+              animate={moreVisible ? 'exit' : 'enter'}
+              initial='enter'
+              variants={{
+                enter: {
+                  opacity: 1,
+                  y: 0,
+                },
+                exit: {
+                  y: -10,
+                  opacity: 0,
+                }
+              }}
+            >
+              <button
                 border='none'
                 onClick={handleShowMore}
                 className='mt-6 mb-3 underline font-bold text-xxs xs:text-base sm:text-lg text-center'
-                animate={moreVisible ? 'exit' : 'enter'}
-                initial='enter'
-                variants={{
-                  enter: {
-                    opacity: 1,
-                    y: 0,
-                  },
-                  exit: {
-                    y: -10,
-                    opacity: 0,
-                  }
-                }}
               >
                 {t('showMore')}
-              </motion.button>
-            </div>
+              </button>
+            </motion.div>
           </>}
         </div>
 

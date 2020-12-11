@@ -113,10 +113,8 @@ export function PoolDataContextProvider(props) {
     >
       {({ genericChainData }) => {
         const pools = compilePools(chainId, contractAddresses, queryCache, poolData, genericChainData)
-        console.log(pools)
 
         const currentPool = getCurrentPool(querySymbol, pools)
-        console.log(currentPool)
         
         // const ethereumErc20Awards = queryCache.getQueryData([
         //   QUERY_KEYS.ethereumErc20sQuery,

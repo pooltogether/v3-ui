@@ -72,13 +72,13 @@ export const Erc721AwardsTable = (props) => {
       id='item-erc721-awards-table'
       className='mt-2'
     >
-      <h6
-        className='text-green text-left'
+      <div
+        className='text-green text-left text-xs xs:text-sm font-bold'
       >
         {t('amountItems', {
           amount: sortedAwards.length
         })}
-      </h6>
+      </div>
 
       {awards.length === 0 && has721Awards && <>
         <TableRowUILoader />

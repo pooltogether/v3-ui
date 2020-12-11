@@ -114,14 +114,14 @@ export function PrizeShow(props) {
       historical={!!prize?.awardedBlock}
       ethErc721Awards={pool?.ethErc721Awards}
       pool={pool}
-      basePath={`/pools/${pool?.symbol}`}
+      basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
     />
 
     <LootBoxTable
       historical
       pool={pool}
       prize={prize}
-      basePath={`/pools/${pool?.symbol}`}
+      basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
     />
 
     <CardGrid

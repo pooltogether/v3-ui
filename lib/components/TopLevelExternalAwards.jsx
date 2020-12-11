@@ -11,9 +11,6 @@ export const TopLevelExternalAwards = (props) => {
   
   const { pool } = props
 
-  console.log(pool?.compiledExternalErc20Awards)
-  console.log(pool?.compiledExternalErc721Awards)
-
   const compiledExternalErc20Awards = pool?.compiledExternalErc20Awards
   const compiledExternalErc721Awards = pool?.compiledExternalErc721Awards
   
