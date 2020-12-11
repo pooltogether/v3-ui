@@ -16,11 +16,11 @@ export const PoolPrizeListing = (
 
   const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
-  const { status, data, error, isFetching } = usePoolPrizesQuery(pauseQueries, chainId, pool)
+  const { status, data, error, isFetching, isFetched } = usePoolPrizesQuery(pauseQueries, chainId, pool)
 
   let prizes = data?.prizePool?.prizes
 
-  if (isFetching) {
+  if (!prizes || (isFetching && !isFetched)) {
     return <div
       className='mt-10'
     >
@@ -34,9 +34,6 @@ export const PoolPrizeListing = (
     <div
       className='flex flex-col items-center text-center mt-4'
     >
-      {!prizes || isFetching && <>
-        <IndexUILoader />
-      </>}
 
       {error && <>
         {t('thereWasAnErrorLoadingData')}

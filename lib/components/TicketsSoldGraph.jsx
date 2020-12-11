@@ -20,7 +20,7 @@ export const TicketsSoldGraph = (
   const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
   const first = NUMBER_OF_POINTS
-  const { status, data, error, isFetching } = usePoolPrizesQuery(pauseQueries, chainId, pool, first)
+  const { status, data, error, isFetching, isFetched } = usePoolPrizesQuery(pauseQueries, chainId, pool, first)
 
   let prizes = compact([].concat(data?.prizePool?.prizes))
 
@@ -30,7 +30,7 @@ export const TicketsSoldGraph = (
 
   const decimals = pool?.underlyingCollateralDecimals
 
-  if (!decimals || !prizes.length || isFetching) {
+  if (!decimals || !prizes.length || (isFetching && !isFetched)) {
     return null
   }
 
