@@ -26,8 +26,12 @@ export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) =
       priceUSD = priceData?.usd
     }
 
-    const balanceFormatted = ethers.utils.formatUnits(chainData.balance, parseInt(obj.decimals, 10))
-    const value = priceUSD && parseFloat(balanceFormatted) * priceUSD
+   
+    let balanceFormatted = ''
+    if (chainData?.balance) {
+      balanceFormatted = ethers.utils.formatUnits(chainData.balance, parseInt(obj.decimals, 10))
+    }
+    const value = priceUSD && balanceFormatted && parseFloat(balanceFormatted) * priceUSD
 
     data[obj.address] = {
       ...obj,
