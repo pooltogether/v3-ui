@@ -16,7 +16,6 @@ export function GraphPoolDripQueries(props) {
     })
   }
 
-  console.log(pool)
   return <DripQueries
     {...props}
     pool={pool}

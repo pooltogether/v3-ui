@@ -29,7 +29,6 @@ export function FetchUsersChainData(props) {
   let pairs = []
   let dripTokens = []
   let comptrollerAddress
-  console.log(graphDripData?.balanceDrips)
   if (graphDripData?.balanceDrips) {
     const balanceDripPairs = graphDripData?.balanceDrips.map((drip) => [drip.sourceAddress, drip.measureToken])
     const volumeDripPairs = graphDripData?.volumeDrips.map((drip) => [drip.sourceAddress, drip.measureToken])

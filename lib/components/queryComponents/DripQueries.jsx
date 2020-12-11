@@ -19,8 +19,6 @@ export const DripQueries = (
     isFetching
   } = usePoolDripsQuery(pauseQueries, chainId, pool)
 
-  console.log(graphDripData)
-
 
   if (error) {
     console.error(error)
