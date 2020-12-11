@@ -23,35 +23,50 @@ export const LootBoxTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { basePath, historical, pool } = props
+  const { basePath, historical, pool, prize } = props
   
   const { chainId } = useContext(AuthControllerContext)
 
-  const { lootBoxAddress, tokenId } = getCurrentLootBox(pool, chainId)
-
-  const { data: graphLootBoxData } = useGraphLootBoxQuery(lootBoxAddress, tokenId)
-  const lootBox = graphLootBoxData?.lootBoxes?.[0]
-
   const [moreVisible, setMoreVisible] = useState(false)
-  
 
+  const blockNumber = prize?.awardedBlock ? parseInt(prize?.awardedBlock, 10) : -1
+  
+  let lootBox,
+    lootBoxAddress,
+    tokenId
+  if (historical) {
+    let erc721Awards = pool?.compiledExternalErc721Awards || {}
+    erc721Awards = Object.keys(erc721Awards)
+      .map(key => erc721Awards[key])
+      
+    const awardedLootBox = erc721Awards?.find(award => award.name === 'PTLootBox')
+    
+    lootBoxAddress = awardedLootBox?.address
+    tokenId = awardedLootBox?.tokenIds?.[0]
+  } else {
+    const result = getCurrentLootBox(pool, chainId)
+    lootBoxAddress = result.lootBoxAddress
+    tokenId = result.tokenId
+  }
+
+  const { data: graphLootBoxData } = useGraphLootBoxQuery(lootBoxAddress, tokenId, blockNumber)
+  console.log(graphLootBoxData)
+  lootBox = graphLootBoxData?.lootBoxes?.[0]
   
 
   const balanceProperty = 'balance'
   // const balanceProperty = historical ? 'balanceAwardedBN' : 'balance'
 
-
-  const { erc20s } = props
-
-
+  // const { erc20s } = props
   let erc20Balances = lootBox?.erc20Balances || {}
   erc20Balances = Object.keys(erc20Balances)
     .map(key => erc20Balances[key])
     .filter(award => Number(award?.[balanceProperty]) > 0)
 
-  const addresses = erc20Balances.map(erc20Balance => erc20Balance.erc20Entity.id)
-
-  const blockNumber = -1
+  const addresses = erc20Balances ?
+    erc20Balances
+      .map(erc20Balance => erc20Balance.erc20Entity.id) :
+    []
 
   const { data, isFetching } = useUniswapTokensQuery(
     addresses,

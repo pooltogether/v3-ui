@@ -24,12 +24,14 @@ export function TimeTravelPool(props){
 
   const graphExternalErc721Awards = prize?.awardedExternalErc721Nfts
 
+  // this is being used in the compileHistoricalPool method with a direct query cache read!
   const {
     status: externalErc721ChainStatus,
     data: externalErc721ChainData,
     error: externalErc721ChainError,
     isFetching: externalErc721IsFetching
   } = useEthereumErc721Query({
+    chainId,
     pauseQueries,
     blockNumber,
     provider: defaultReadProvider,
@@ -48,9 +50,7 @@ export function TimeTravelPool(props){
     blockNumber={blockNumber}
   >
     {(graphPools) => {
-
       const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
-      // const addresses = graphPool?.prizeStrategy?.singleRandomWinner?.externalErc20Awards?.map(award => award.address)
       
       const poolInfo = POOLS.find(POOL => POOL.symbol === querySymbol)
       const timeTravelPool = compileHistoricalPool(

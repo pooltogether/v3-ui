@@ -32,9 +32,7 @@ export const compileHistoricalPool = (
     ...graphPool,
   }
 
-  // console.log(poolObj)
-  const marshalledData = marshallPoolData(poolObj, true)
-  // console.log(marshalledData)
+  const marshalledData = marshallPoolData(poolObj, blockNumber)
   
   // const erc20GraphData = prize?.awardedExternalErc20Tokens
   // const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
@@ -42,8 +40,8 @@ export const compileHistoricalPool = (
   // const addresses = poolObj?.prizeStrategy?.singleRandomWinner?.externalErc20Awards?.map(award => award.address)
 
   const { status, data, error, isFetching } = useUniswapTokensQuery(
-    blockNumber,
-    addresses
+    addresses,
+    blockNumber
   )
   const uniswapPriceData = data
   const compiledExternalErc20Awards = compileHistoricalErc20Awards(prize, uniswapPriceData)

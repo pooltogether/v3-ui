@@ -90,8 +90,8 @@ export function PoolDataContextProvider(props) {
 
   // this sets the data in the cache which we can pull out later with `getQueryData()`
   useUniswapTokensQuery(
-    blockNumber,
-    addresses
+    addresses,
+    blockNumber
   )
 
 
