@@ -28,7 +28,8 @@ export const AccountTickets = () => {
     status,
     data: playerData,
     error,
-    isFetching
+    isFetching,
+    isFetched
   } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
 
   const daiBalances = {
@@ -87,7 +88,7 @@ export const AccountTickets = () => {
         {t('myTickets')}
       </h5>
         
-      {isFetching ? <>
+      {(isFetching && !isFetched) ? <>
         <TicketsLoader />
       </> :
         (playerTicketAccounts.length === 0 && (hasNoV2Balance || hasNoV2Balance === undefined)) ? <>
