@@ -60,7 +60,7 @@ export function DepositSponsorshipTxButton(props) {
       ethers.constants.AddressZero
     ]
 
-    const id = sendTx(
+    const id = await sendTx(
       t,
       provider,
       usersAddress,

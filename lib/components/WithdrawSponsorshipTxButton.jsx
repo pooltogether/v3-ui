@@ -65,7 +65,7 @@ export function WithdrawSponsorshipTxButton(props) {
       ethers.utils.parseEther(maxExitFee),
     ]
 
-    const id = sendTx(
+    const id = await sendTx(
       t,
       provider,
       usersAddress,

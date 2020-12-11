@@ -35,7 +35,7 @@ export function CompleteAwardUI(props) {
 
     const params = []
 
-    const id = sendTx(
+    const id = await sendTx(
       t,
       provider,
       usersAddress,

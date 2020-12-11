@@ -46,7 +46,7 @@ export function StartAwardUI(props) {
       // }
     ]
 
-    const id = sendTx(
+    const id = await sendTx(
       t,
       provider,
       usersAddress,

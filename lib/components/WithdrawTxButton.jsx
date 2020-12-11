@@ -27,7 +27,7 @@ export function WithdrawTxButton(props) {
   const { pool } = useContext(PoolDataContext)
 
   const poolAddress = pool?.poolAddress
-  
+  const sponsorshipAddress = pool?.sponsorshipToken?.id
 
 
 
@@ -65,7 +65,7 @@ export function WithdrawTxButton(props) {
       ethers.utils.parseEther(maxExitFee),
     ]
 
-    const id = sendTx(
+    const id = await sendTx(
       t,
       provider,
       usersAddress,
