@@ -26,13 +26,13 @@ class MyDocument extends Document {
         <Head />
         <Head>
           <>
+            <link rel='icon' href='/favicon.png' type='image/x-icon' />
+
             <meta name='theme-color' content='#1e0b43' />
             <meta name='description' content={description} />
             <meta name='keywords' content={keywords} />
             <meta name='author' content='PoolTogether LLC' />
             <meta name='copyright' content={`Copyright ${new Date().getFullYear()}`} />
-
-            <meta name='favicon' content='/favicon.png' />
 
             <meta property='og:title' content={title} />
             <meta property='og:description' content={description} />
