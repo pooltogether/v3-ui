@@ -80,7 +80,7 @@ export const LastWinnersListing = (
               className='inline-block w-1/2 sm:w-1/2 text-right text-flashy'
             >
               ${displayAmountInEther(
-                pool?.prizeAmountUSD.toString(),
+                pool?.grandPrizeAmountUSD.toString(),
                 { decimals, precision: 2 }
               )}
             </span>
@@ -118,7 +118,7 @@ export const LastWinnersListing = (
                 {(timeTravelPool) => {
                   return <>
                     ${displayAmountInEther(
-                      timeTravelPool?.prizeAmountUSD.toString(),
+                      timeTravelPool?.grandPrizeAmountUSD.toString(),
                       { decimals, precision: 2 }
                     )}
                   </>

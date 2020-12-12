@@ -38,7 +38,7 @@ export const PrizeAmount = (
         className='font-mono'
       >
         ${ethers.utils.formatUnits(
-          pool?.prizeAmountUSD,
+          pool?.grandPrizeAmountUSD,
           decimals
         )}
       </span>

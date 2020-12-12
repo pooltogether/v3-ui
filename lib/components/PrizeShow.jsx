@@ -72,7 +72,7 @@ export function PrizeShow(props) {
       <div>
         <h1>
           ${displayAmountInEther(
-            pool?.prizeAmountUSD || 0,
+            pool?.totalPrizeAmountUSD || 0,
             { precision: 2, decimals }
           )}
         </h1>
