@@ -2,40 +2,21 @@ import React, { useContext } from 'react'
 import { motion } from 'framer-motion'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { V2AccountTicket } from 'lib/components/V2AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { TicketsLoader } from 'lib/components/TicketsLoader'
-import { testAddress } from 'lib/utils/testAddress'
-import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 
 export const AccountTickets = () => {
   const { t } = useTranslation()
   
-  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
-  const { pools, usersChainData } = useContext(PoolDataContext)
-
-
-  const playerAddressError = testAddress(usersAddress)
-
-  const blockNumber = -1
-  // console.log(usersAddress)
-  const {
-    data: playerData,
-    error,
-    isFetching,
-    isFetched
-  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
-  // } = useAccountQuery(pauseQueries, chainId, '0xfe0a0b7cf6ff4ce310be300822ff9e4c0821484c', blockNumber, playerAddressError)
-  // console.log(playerData)
-  if (error) {
-    console.error(error)
-  }
+  const { usersChainData } = useContext(PoolDataContext)
+  const { playerTicketAccounts, accountDataIsFetching, accountDataIsFetched } = useContext(PlayerDataContext)
 
   const daiBalances = {
     poolBalance: usersChainData?.v2DaiPoolCommittedBalance,
@@ -56,25 +37,6 @@ export const AccountTickets = () => {
     usdcBalances?.podBalance?.lt('1000000')
 
 
-
-  const getPlayerTicketAccount = (pool) => {
-    const poolAddress = pool?.id
-    const ticketAddress = pool?.ticketToken?.id
-    let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
-    if (!balance) return
-
-    return {
-      pool,
-      poolAddress,
-      balance
-    }
-  }
-
-  let playerTicketAccounts = []
-  playerTicketAccounts = pools
-    .map(getPlayerTicketAccount)
-    .filter(playerTicketAccount => playerTicketAccount !== undefined)
-
   return <>
     <div
       className='mt-16'
@@ -85,7 +47,7 @@ export const AccountTickets = () => {
         {t('myTickets')}
       </h5>
         
-      {(isFetching && !isFetched) ? <>
+      {(accountDataIsFetching && !accountDataIsFetched) ? <>
         <TicketsLoader />
       </> :
         (playerTicketAccounts.length === 0 && (hasNoV2Balance || hasNoV2Balance === undefined)) ? <>

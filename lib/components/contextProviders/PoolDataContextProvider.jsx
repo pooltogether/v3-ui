@@ -8,8 +8,6 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { ChainQueries } from 'lib/components/ChainQueries'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
-// import { UniswapData } from 'lib/components/UniswapData'
-import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { compilePools } from 'lib/services/compilePools'
@@ -87,8 +85,6 @@ export function PoolDataContextProvider(props) {
     ?.filter(award => award.balance.gt(0))
     ?.map(award => award.address)
 
-  // const ethereumErc20Awards = queryCache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, chainId, poolAddress, -1])
-
   // this sets the data in the cache which we can pull out later with `getQueryData()`
   useUniswapTokensQuery(
     addresses,
@@ -104,30 +100,6 @@ export function PoolDataContextProvider(props) {
     // this should obviously be moved out of the global window namespace :)
     window.hideGraphError()
   }
-
-
-  let dynamicPlayerDrips
-
-
-  const {
-    status,
-    data: playerQueryData,
-    error,
-    isFetching: playerQueryFetching
-  } = usePlayerQuery(usersAddress, blockNumber)
-  if (error) {
-    console.error(error)
-  }
-
-  if (playerQueryData) {
-    dynamicPlayerDrips = {
-      dripTokens: playerQueryData.playerDripToken,
-      balanceDrips: playerQueryData.playerBalanceDrip,
-      volumeDrips: playerQueryData.playerVolumeDrip,
-    }
-  }
-
-
 
   return <>
     <ChainQueries

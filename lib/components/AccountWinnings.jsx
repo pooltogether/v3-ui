@@ -16,19 +16,17 @@ import IconTarget from 'assets/images/icon-target@2x.png'
 export const AccountWinnings = () => {
   const { t } = useTranslation()
   
-  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
   const { pools } = useContext(PoolDataContext)
 
-
+  
   const playerAddressError = testAddress(usersAddress)
 
   const blockNumber = -1
   const {
-    status,
-    data: playerData,
+    data: accountData,
     error,
-    isFetching
-  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  } = useAccountQuery(usersAddress, blockNumber, playerAddressError)
 
   if (error) {
     console.error(error)
@@ -39,13 +37,13 @@ export const AccountWinnings = () => {
   const totalWinnings = () => {
     let cumulativeWinningsAllPools = ethers.utils.bigNumberify(0)
 
-    playerData?.prizePoolAccounts.forEach(prizePoolAccount => {
+    accountData?.prizePoolAccounts.forEach(prizePoolAccount => {
       const poolAddress = prizePoolAccount?.prizePool?.id
       const pool = pools?.find(pool => pool.poolAddress === poolAddress)
       if (!pool) return
 
       const ticketAddress = pool?.ticketToken?.id
-      let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
+      let balance = accountData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
       if (!balance) return
       
       const decimals = parseInt(pool?.underlyingCollateralDecimals, 10)

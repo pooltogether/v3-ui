@@ -10,6 +10,7 @@ import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptrolle
 import { useTranslation } from 'lib/../i18n'
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
@@ -29,11 +30,11 @@ export const AccountRewards = () => {
 
   const [transactions, setTransactions] = useAtom(transactionsAtom)
   
-  const { pools, dynamicPlayerDrips, usersChainData, graphDripData } = useContext(PoolDataContext)
+  const { pools, usersChainData, graphDripData } = useContext(PoolDataContext)
+  const { dynamicPlayerDrips } = useContext(PlayerDataContext)
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
   const poolAddresses = map(pools, 'poolAddress')
-  // console.log(dynamicPlayerDrips)
   const playerRewards = extractPoolRewardsFromUserDrips({poolAddresses, dynamicPlayerDrips})
 
   let domain = ''

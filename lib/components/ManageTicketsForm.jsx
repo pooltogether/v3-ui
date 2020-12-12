@@ -13,18 +13,16 @@ import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 export function ManageTicketsForm(props) {
   const { t } = useTranslation()
 
-  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
   const { pool } = useContext(PoolDataContext)
 
   const playerAddressError = testAddress(usersAddress)
 
   const blockNumber = -1
   let {
-    status,
     data: playerData,
     error,
-    isFetching
-  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  } = useAccountQuery(usersAddress, blockNumber, playerAddressError)
 
   if (error) {
     console.error(error)

@@ -13,7 +13,7 @@ export function TxRefetchListener(props) {
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
   const { refetchPoolsData } = useContext(PoolDataContext)
-  const { refetchPlayerData } = useContext(PlayerDataContext)
+  const { refetchAccountData } = useContext(PlayerDataContext)
 
   const pendingTransactions = transactions
     .filter(t => !t.completed && !t.cancelled)
@@ -33,17 +33,17 @@ export function TxRefetchListener(props) {
       // we don't know when the Graph will have processed the new block data or when it has
       // so simply query a few times for the updated data
       setTimeout(() => {
-        refetchPlayerData()
+        refetchAccountData()
         debug('refetch!')
       }, 2000)
 
       setTimeout(() => {
-        refetchPlayerData()
+        refetchAccountData()
         debug('refetch!')
       }, 8000)
 
       setTimeout(() => {
-        refetchPlayerData()
+        refetchAccountData()
         debug('refetch!')
       }, 16000)
     } else if (poolStateTransaction) {

@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
@@ -21,7 +20,6 @@ export function PlayerPageUI(props) {
   const router = useRouter()
 
   const { pools } = useContext(PoolDataContext)
-  const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
   const playerAddress = router?.query?.playerAddress
 
@@ -60,11 +58,9 @@ export function PlayerPageUI(props) {
   const blockNumber = -1
 
   const {
-    status,
     data: playerData,
     error: playerQueryError,
-    isFetching
-  } = useAccountQuery(pauseQueries, chainId, playerAddress, blockNumber, playerAddressError)
+  } = useAccountQuery(playerAddress, blockNumber, playerAddressError)
 
   // playerDripTokenData = data?.playerDripToken
   // playerBalanceDripData = data?.playerBalanceDrip

@@ -13,8 +13,8 @@ import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { testAddress } from 'lib/utils/testAddress'
-import { useAccountQuery } from 'lib/hooks/useAccountQuery'
+// import { testAddress } from 'lib/utils/testAddress'
+// import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
 
@@ -27,24 +27,22 @@ export function WithdrawTicketsForm(props) {
   
   const router = useRouter()
 
-  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
-  const { pool } = useContext(PoolDataContext)
+  const { usersAddress } = useContext(AuthControllerContext)
   const { usersTicketBalance, usersTicketBalanceBN } = useContext(PlayerDataContext)
+  const { pool } = useContext(PoolDataContext)
 
 
-  const playerAddressError = testAddress(usersAddress)
+  // const playerAddressError = testAddress(usersAddress)
 
-  const blockNumber = -1
-  const {
-    status,
-    data: playerData,
-    error,
-    isFetching
-  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  // const blockNumber = -1
+  // const {
+  //   data: playerData,
+  //   error,
+  // } = useAccountQuery(usersAddress, blockNumber, playerAddressError)
 
-  if (error) {
-    console.error(error)
-  }
+  // if (error) {
+  //   console.error(error)
+  // }
 
 
   const ticker = pool?.underlyingCollateralSymbol

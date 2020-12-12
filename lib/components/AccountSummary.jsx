@@ -17,17 +17,15 @@ export const AccountSummary = () => {
   const { t } = useTranslation()
 
   const { pools, usersChainData } = useContext(PoolDataContext)
-  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
 
   const playerAddressError = testAddress(usersAddress)
   
   const blockNumber = -1
   const {
-    status,
     data: playerData,
     error,
-    isFetching
-  } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  } = useAccountQuery(usersAddress, blockNumber, playerAddressError)
 
   if (error) {
     console.error(error)
