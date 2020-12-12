@@ -24,6 +24,7 @@ export const AccountTickets = () => {
   const playerAddressError = testAddress(usersAddress)
 
   const blockNumber = -1
+  // console.log(usersAddress)
   const {
     status,
     data: playerData,
@@ -31,6 +32,7 @@ export const AccountTickets = () => {
     isFetching,
     isFetched
   } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  // console.log(playerData)
 
   const daiBalances = {
     poolBalance: usersChainData?.v2DaiPoolCommittedBalance,
@@ -65,14 +67,10 @@ export const AccountTickets = () => {
     }
   }
 
-  let playerTicketAccounts
+  let playerTicketAccounts = []
   playerTicketAccounts = pools
     .map(getPlayerTicketAccount)
-    .filter(account => account !== undefined)
-
-  if (!playerTicketAccounts) {
-    playerTicketAccounts = []
-  }
+    .filter(playerTicketAccount => playerTicketAccount !== undefined)
 
   return <>
     <div
@@ -115,9 +113,9 @@ export const AccountTickets = () => {
                 {playerTicketAccounts?.map(playerTicketAccount => {
                   return <AccountTicket
                     isLink
-                    key={`account-pool-row-${playerTicketAccount.poolAddress}`}
-                    pool={playerTicketAccount.pool}
-                    playerBalance={playerTicketAccount.balance}
+                    key={`account-pool-row-${playerTicketAccount?.poolAddress}`}
+                    pool={playerTicketAccount?.pool}
+                    playerBalance={playerTicketAccount?.balance}
                   />
                 })}
 

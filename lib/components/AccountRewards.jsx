@@ -72,14 +72,19 @@ export const AccountRewards = () => {
 
   const handleClaim = async (drip) => {
     const { comptroller, updatePairs, dripTokens } = getParamsForClaim([drip.id])
-
+    // shim
+    // 0x178969a87a78597d303c47198c66f68e8be67dc2 => 0x2f6e61d89d43b3ada4a909935ee05d8ca8db78de
+    // old
+    // 0xc7c406A867B324b9189b9a7503683eFC9BdCe5BA
+    const oldDaiContractPair = {
+      measure: updatePairs[0].measure,
+      source: '0xc7c406a867b324b9189b9a7503683efc9bdce5ba'
+    } 
+    console.log([...updatePairs, oldDaiContractPair])
     const params = [
-      updatePairs,
+      [...updatePairs, oldDaiContractPair],
       usersAddress,
       dripTokens,
-      // {
-      //   gasLimit: 500000
-      // }
     ]
 
     const id = await sendTx(
@@ -150,10 +155,7 @@ export const AccountRewards = () => {
 
   const getDripDataByAddress = (dripTokenAddress, dripTokenData) => {
     const { usersDripTokenData } = usersChainData
-    // console.log(usersDripTokenData)
     const dripTokens = playerRewards?.allDrips || []
-    // console.log(playerRewards)
-    // console.log(dripTokens)
 
     const zero = ethers.utils.parseEther('0')
 
@@ -175,7 +177,8 @@ export const AccountRewards = () => {
 
   const getClaimButton = (dripData) => {
     let disabled
-    if (!(dripData.claimable.gt(0))) {
+
+    if (!dripData.claimable.gt(0)) {
       disabled = true
     }
 

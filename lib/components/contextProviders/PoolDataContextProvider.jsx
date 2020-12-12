@@ -9,6 +9,7 @@ import { ChainQueries } from 'lib/components/ChainQueries'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
 import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
 // import { UniswapData } from 'lib/components/UniswapData'
+import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { compilePools } from 'lib/services/compilePools'
@@ -103,6 +104,30 @@ export function PoolDataContextProvider(props) {
     // this should obviously be moved out of the global window namespace :)
     window.hideGraphError()
   }
+
+
+  let dynamicPlayerDrips
+
+
+  const {
+    status,
+    data: playerQueryData,
+    error,
+    isFetching: playerQueryFetching
+  } = usePlayerQuery(usersAddress, blockNumber)
+  if (error) {
+    console.error(error)
+  }
+
+  if (playerQueryData) {
+    dynamicPlayerDrips = {
+      dripTokens: playerQueryData.playerDripToken,
+      balanceDrips: playerQueryData.playerBalanceDrip,
+      volumeDrips: playerQueryData.playerVolumeDrip,
+    }
+  }
+
+
 
   return <>
     <ChainQueries

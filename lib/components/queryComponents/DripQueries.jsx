@@ -17,7 +17,7 @@ export const DripQueries = (
     data: graphDripData,
     error,
     isFetching
-  } = usePoolDripsQuery(pauseQueries, chainId, pool)
+  } = usePoolDripsQuery(pauseQueries, chainId)
 
 
   if (error) {

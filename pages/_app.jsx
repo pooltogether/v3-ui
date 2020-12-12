@@ -111,10 +111,10 @@ function MyApp({ Component, pageProps, router }) {
 
       try {
         ethers.utils.getAddress(referrerAddress)
-
+        
         Cookies.set(
           REFERRER_ADDRESS_KEY,
-          referrerAddress,
+          referrerAddress.toLowerCase(),
           COOKIE_OPTIONS
         )
       } catch (e) {
