@@ -25,16 +25,17 @@ export const compileHistoricalPool = (
   blockNumber,
   prize,
 ) => {
+  
   const poolObj = {
     ...poolInfo,
     ...graphPool,
   }
-
+  
   const marshalledData = marshallPoolData(poolObj, blockNumber)
 
-  let interestPrizeUSD = ethers.utils.bigNumberify(prize?.amount || 0)
-  interestPrizeUSD = interestPrizeUSD.mul(marshalledData?.numberOfWinners || 1)
-
+  const numOfWinners = parseInt(marshalledData.numberOfWinners || 1, 10)
+  const interestPrizeUSD = ethers.utils.bigNumberify(prize?.amount || 0).mul(numOfWinners)
+  
   const addresses = marshalledData?.externalErc20Awards?.map(award => award.address)
 
   const { status, data, error, isFetching } = useUniswapTokensQuery(
@@ -54,17 +55,25 @@ export const compileHistoricalPool = (
 
   const externalAwardsUSD = calculateExternalAwardsValue(compiledExternalErc20Awards)
 
-  const totalPrizeUSD = externalAwardsUSD ?
-    interestPrizeUSD.add(ethers.utils.parseEther(
+  const grandPrizeAmountUSD = externalAwardsUSD ?
+    interestPrizeUSD.div(numOfWinners).add(ethers.utils.parseEther(
       externalAwardsUSD.toString()
     )) :
     interestPrizeUSD
+
+  const totalPrizeAmountUSD = externalAwardsUSD ?
+    interestPrizeUSD.add(ethers.utils.parseEther(
+      externalAwardsUSD.toString()
+    )) :
+    interestPrizeUSD.mul(numOfWinners)
+
 
   return {
     ...poolInfo,
     ...poolObj,
     ...marshalledData,
-    prizeAmountUSD: totalPrizeUSD,
+    totalPrizeAmountUSD,
+    grandPrizeAmountUSD,
     interestPrizeUSD,
     externalAwardsUSD,
     compiledExternalErc20Awards,

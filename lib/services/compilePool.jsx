@@ -54,8 +54,15 @@ export const compilePool = (
 
   const interestPrizeEstimateUSD = calculateEstimatedPoolPrize(poolObj)
 
+  
+  const numOfWinners = parseInt(poolObj.numberOfWinners || 1, 10)
+  const grandPrizeAmountUSD = externalAwardsEstimateUSD ?
+    interestPrizeEstimateUSD.div(numOfWinners).add(ethers.utils.parseEther(
+      externalAwardsEstimateUSD.toString()
+    )) :
+    interestPrizeEstimateUSD.div(numOfWinners)
 
-  const totalPrizeEstimateUSD = externalAwardsEstimateUSD ?
+  const totalPrizeAmountUSD = externalAwardsEstimateUSD ?
     interestPrizeEstimateUSD.add(ethers.utils.parseEther(
       externalAwardsEstimateUSD.toString()
     )) :
@@ -64,7 +71,8 @@ export const compilePool = (
   return {
     ...poolInfo,
     ...poolObj,
-    prizeAmountUSD: totalPrizeEstimateUSD,
+    totalPrizeAmountUSD,
+    grandPrizeAmountUSD,
     interestPrizeUSD: interestPrizeEstimateUSD,
     externalAwardsUSD: externalAwardsEstimateUSD,
     compiledExternalErc20Awards,

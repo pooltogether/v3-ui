@@ -95,7 +95,7 @@ export const AccountPoolRow = (
                 }}
                 values={{
                   amount: ethers.utils.formatUnits(
-                    pool?.prizeAmountUSD,
+                    pool?.totalPrizeAmountUSD,
                     decimals
                   )
                 }}
