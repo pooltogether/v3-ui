@@ -33,6 +33,7 @@ export const AccountRewards = () => {
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
   const poolAddresses = map(pools, 'poolAddress')
+  console.log(dynamicPlayerDrips)
   const playerRewards = extractPoolRewardsFromUserDrips({poolAddresses, dynamicPlayerDrips})
 
   let domain = ''
@@ -149,7 +150,10 @@ export const AccountRewards = () => {
 
   const getDripDataByAddress = (dripTokenAddress, dripTokenData) => {
     const { usersDripTokenData } = usersChainData
+    // console.log(usersDripTokenData)
     const dripTokens = playerRewards?.allDrips || []
+    console.log(playerRewards)
+    console.log(dripTokens)
 
     const zero = ethers.utils.parseEther('0')
 
@@ -270,6 +274,7 @@ export const AccountRewards = () => {
   }
  
   const getTotalRewards = () => {
+    // console.log(usersDripTokenData)
     const amounts = map(usersDripTokenData, (dripTokenData, dripTokenAddress) => {
       const dripData = getDripDataByAddress(dripTokenAddress, dripTokenData)
 
@@ -305,7 +310,7 @@ export const AccountRewards = () => {
 
           <h3>
             <PoolNumber>
-              {numberWithCommas(getTotalRewards(), { precision: 6 })}
+              {numberWithCommas(getTotalRewards(), { precision: 0 })}
             </PoolNumber>
           </h3>
           <div
