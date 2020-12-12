@@ -52,12 +52,8 @@ export const AccountTickets = () => {
 
 
 
-
-  const getPlayerTicketAccount = (prizePoolAccount) => {
-    const poolAddress = prizePoolAccount?.prizePool?.id
-    const pool = pools?.find(pool => pool.poolAddress === poolAddress)
-    if (!pool) return
-
+  const getPlayerTicketAccount = (pool) => {
+    const poolAddress = pool?.id
     const ticketAddress = pool?.ticketToken?.id
     let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
     if (!balance) return
@@ -70,7 +66,7 @@ export const AccountTickets = () => {
   }
 
   let playerTicketAccounts
-  playerTicketAccounts = playerData?.prizePoolAccounts
+  playerTicketAccounts = pools
     .map(getPlayerTicketAccount)
     .filter(account => account !== undefined)
 

@@ -33,7 +33,7 @@ export const AccountRewards = () => {
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
   const poolAddresses = map(pools, 'poolAddress')
-  console.log(dynamicPlayerDrips)
+  // console.log(dynamicPlayerDrips)
   const playerRewards = extractPoolRewardsFromUserDrips({poolAddresses, dynamicPlayerDrips})
 
   let domain = ''
@@ -152,8 +152,8 @@ export const AccountRewards = () => {
     const { usersDripTokenData } = usersChainData
     // console.log(usersDripTokenData)
     const dripTokens = playerRewards?.allDrips || []
-    console.log(playerRewards)
-    console.log(dripTokens)
+    // console.log(playerRewards)
+    // console.log(dripTokens)
 
     const zero = ethers.utils.parseEther('0')
 
