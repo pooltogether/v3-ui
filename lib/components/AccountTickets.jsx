@@ -26,13 +26,16 @@ export const AccountTickets = () => {
   const blockNumber = -1
   // console.log(usersAddress)
   const {
-    status,
     data: playerData,
     error,
     isFetching,
     isFetched
   } = useAccountQuery(pauseQueries, chainId, usersAddress, blockNumber, playerAddressError)
+  // } = useAccountQuery(pauseQueries, chainId, '0xfe0a0b7cf6ff4ce310be300822ff9e4c0821484c', blockNumber, playerAddressError)
   // console.log(playerData)
+  if (error) {
+    console.error(error)
+  }
 
   const daiBalances = {
     poolBalance: usersChainData?.v2DaiPoolCommittedBalance,

@@ -69,6 +69,8 @@ export function AuthControllerContextProvider(props) {
   const [chainId, setChainId] = useState(defaultChainId)
   const [provider, setProvider] = useState()
   const [usersAddress, setUsersAddress] = useState()
+  // const [, setUsersAddress] = useState()
+  // const usersAddress = '0xfe0a0b7cf6ff4ce310be300822ff9e4c0821484c'
   const [magicAutoSignInAlreadyExecuted, setMagicAutoSignInAlreadyExecuted] = useState(false)
 
   useEffect(() => {
