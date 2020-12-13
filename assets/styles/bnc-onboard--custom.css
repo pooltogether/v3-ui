@@ -1,8 +1,9 @@
 .bn-onboard-custom.bn-onboard-modal {
   /* font-family: 'Helvetica Neue', 'DM Mono', 'Courier', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important; */
   /* z-index: 100000; */
-  z-index: 9001;
+  /* z-index: 9001; */
   /* z-index:99 */
+  z-index: 40;
 }
 
 .bn-onboard-custom.bn-onboard-modal {
