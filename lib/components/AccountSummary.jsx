@@ -4,11 +4,11 @@ import { ethers } from 'ethers'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { SmallLoader } from 'lib/components/SmallLoader'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { testAddress } from 'lib/utils/testAddress'
-import { useAccountQuery } from 'lib/hooks/useAccountQuery'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 // import AccountPlaceholderImg from 'assets/images/avatar-placeholder.svg'
 import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
@@ -31,8 +31,9 @@ export const AccountSummary = () => {
     console.error(error)
   }
 
-  let totalTickets = null
+  let totalTickets = ethers.utils.bigNumberify(0)
   let cumulativeWinningsAllPools = ethers.utils.bigNumberify(0)
+
 
   playerData?.prizePoolAccounts.forEach(prizePoolAccount => {
     const poolAddress = prizePoolAccount?.prizePool?.id
@@ -44,11 +45,14 @@ export const AccountSummary = () => {
     if (!balance) return
 
     const decimals = parseInt(pool?.underlyingCollateralDecimals, 10)
-    balance = Number(
-      ethers.utils.formatUnits(balance, decimals),
+    balance = ethers.utils.bigNumberify(balance)
+
+    const balanceNormalized = normalizeTo18Decimals(
+      balance,
+      decimals
     )
-    
-    totalTickets = totalTickets ? totalTickets + balance : balance
+
+    totalTickets = totalTickets.add(balanceNormalized)
 
     // Calculate winnings
     const winnings = normalizeTo18Decimals(
@@ -74,14 +78,17 @@ export const AccountSummary = () => {
   }
 
   if (daiBalances.poolBalance) {
-    totalTickets = totalTickets + parseFloat(ethers.utils.formatUnits(daiBalances?.poolBalance, 18))
-    totalTickets = totalTickets + parseFloat(ethers.utils.formatUnits(daiBalances?.podBalance, 18))
-    totalTickets = totalTickets + parseFloat(ethers.utils.formatUnits(usdcBalances?.poolBalance, 6))
-    totalTickets = totalTickets + parseFloat(ethers.utils.formatUnits(usdcBalances?.podBalance, 6))
-  }
+    const normalizedDaiPoolBalance = normalizeTo18Decimals(daiBalances.poolBalance, 18)
+    totalTickets = totalTickets.add(normalizedDaiPoolBalance)
 
-  if (!totalTickets) {
-    totalTickets = 0
+    const normalizedDaiPodBalance = normalizeTo18Decimals(daiBalances.podBalance, 18)
+    totalTickets = totalTickets.add(normalizedDaiPodBalance)
+
+    const normalizedUsdcPoolBalance = normalizeTo18Decimals(usdcBalances.poolBalance, 6)
+    totalTickets = totalTickets.add(normalizedUsdcPoolBalance)
+
+    const normalizedUsdcPodBalance = normalizeTo6Decimals(usdcBalances.podBalance, 18)
+    totalTickets = totalTickets.add(normalizedUsdcPodBalance)
   }
 
   return <>
@@ -101,12 +108,7 @@ export const AccountSummary = () => {
           </h6>
           <h1>
             {usersAddress ? <>
-              $<PoolCountUp
-                fontSansRegular
-                end={parseInt(totalTickets, 10)}
-                decimals={null}
-                duration={0.5}
-              />
+              ${displayAmountInEther(totalTickets, 10)}
             </> : <>
               <SmallLoader />
             </>}
