@@ -10,7 +10,7 @@ import {
 } from 'lib/constants'
 import { poolToast } from 'lib/utils/poolToast'
 
-export const MagicContext = React.createContext()
+export const MagicContext = React.createContext(null)
 
 export function MagicContextProvider(props) {
   return <MagicContext.Provider

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { Fragment, useContext, useState } from 'react'
 import ClipLoader from 'react-spinners/ClipLoader'
 import classnames from 'classnames'
 import { useAtom } from 'jotai'
@@ -258,8 +258,8 @@ export const AccountRewards = () => {
       const daiPoolTickets = parseFloat(ethers.utils.formatUnits(pools?.[0]?.ticketSupply, pools?.[0]?.underlyingCollateralDecimals))
       const apr = numberWithCommas(((1000 * 52) / daiPoolTickets) * 100)
 
-      return <>
-        <tr key={dripData.id}>
+      return <Fragment key={dripData.id}>
+        <tr>
           <td className='px-2 sm:px-3 py-2 text-left font-bold'>
             {isPoolDaiTickets && <>
               <PoolCurrencyIcon
@@ -278,7 +278,7 @@ export const AccountRewards = () => {
             {getClaimButton(dripData)}
           </td>
         </tr>
-      </>
+      </Fragment>
     })
   }
  

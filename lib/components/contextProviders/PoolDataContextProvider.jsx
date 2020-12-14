@@ -17,7 +17,7 @@ import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryRes
 import { readProvider } from 'lib/services/readProvider'
 import { poolToast } from 'lib/utils/poolToast'
 
-export const PoolDataContext = React.createContext()
+export const PoolDataContext = React.createContext(null)
 const debug = require('debug')('pool-app:PoolDataContext')
 
 export function PoolDataContextProvider(props) {

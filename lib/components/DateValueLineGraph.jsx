@@ -127,20 +127,20 @@ export function DateValueLineGraph(props) {
 
 
                   {lineData?.map((data, j) => {
-                    return <>
+                    return <Fragment key={`${id}-lines-${i}-${j}`}>
                       <LinePath
-                        key={`${id}-lines-${i}`}
+                        key={`${id}-group-line-path-${i}-${j}`}
                         data={lineData}
                         x={d => xScale(getX(d))}
                         y={d => yScale(getY(d))}
                         stroke={'url(#vx-gradient)'}
                         strokeWidth={3}
                       />
-                    </>
+                    </Fragment>
                   })}
 
                   {lineData?.map((data, j) => {
-                    return <>
+                    return <Fragment key={`${id}-circle-fragment-${i}-${j}`}>
                       <circle
                         key={`${id}-circle-${i}-${j}`}
                         r={4}
@@ -169,7 +169,7 @@ export function DateValueLineGraph(props) {
                           })
                         }}
                       />
-                    </>
+                    </Fragment>
                   })}
 
                 </Group>
