@@ -253,10 +253,22 @@ export const AccountRewards = () => {
       const isPoolDaiTickets = dripTokenData.name === 'PoolTogether Dai Ticket (Compound)'
         || dripTokenData.name === 'DAI Ticket'
 
+      const pool = pools?.[0]
+
       // this is using the only pool in the array, but if we wanted to do this properly
       // we would first iterate by pool and use the current rewards for that pool to do the calculation
-      const daiPoolTickets = parseFloat(ethers.utils.formatUnits(pools?.[0]?.ticketSupply, pools?.[0]?.underlyingCollateralDecimals))
-      const apr = numberWithCommas(((1000 * 52) / daiPoolTickets) * 100)
+      let daiPoolTickets,
+        apr
+      if (pool) {
+        daiPoolTickets = pool &&
+          parseFloat(
+            ethers.utils.formatUnits(
+              pool.ticketSupply,
+              pool.underlyingCollateralDecimals
+            )
+          )
+        apr = numberWithCommas(((1000 * 52) / daiPoolTickets) * 100)
+      }
 
       return <Fragment key={dripData.id}>
         <tr>
