@@ -27,7 +27,7 @@ export function PlayerDataContextProvider(props) {
     isFetching: accountDataIsFetching,
     isFetched: accountDataIsFetched,
     error: accountDataError,
-  } = useAccountQuery(usersAddress, blockNumber, addressError)
+  } = useAccountQuery('0x45358f8577c79d6ccca975d753febbd84ec39d64', blockNumber, addressError)
 
   if (accountDataError) {
     console.error(accountDataError)

@@ -148,6 +148,8 @@ export function PrizeShow(props) {
       pool={pool}
       prize={prize}
     >
+      {/* use resolvedData here instead so previous data stays on screen
+       while changing pages */}
       {({ data, error, isFetching }) => {
         if (error) {
           return <>

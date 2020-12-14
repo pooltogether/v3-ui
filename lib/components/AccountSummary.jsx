@@ -87,7 +87,7 @@ export const AccountSummary = () => {
     const normalizedUsdcPoolBalance = normalizeTo18Decimals(usdcBalances.poolBalance, 6)
     totalTickets = totalTickets.add(normalizedUsdcPoolBalance)
 
-    const normalizedUsdcPodBalance = normalizeTo6Decimals(usdcBalances.podBalance, 18)
+    const normalizedUsdcPodBalance = normalizeTo18Decimals(usdcBalances.podBalance, 6)
     totalTickets = totalTickets.add(normalizedUsdcPodBalance)
   }
 
