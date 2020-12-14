@@ -7,7 +7,7 @@ import { QUERY_KEYS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ChainQueries } from 'lib/components/ChainQueries'
 import { FetchUsersChainData } from 'lib/components/FetchUsersChainData'
-import { GraphPoolDripQueries } from 'lib/components/queryComponents/GraphPoolDripQueries'
+import { usePoolDripsQuery } from 'lib/hooks/usePoolDripsQuery'
 import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { compilePools } from 'lib/services/compilePools'
@@ -27,7 +27,6 @@ export function PoolDataContextProvider(props) {
     supportedNetwork,
     networkName,
     chainId,
-    pauseQueries,
     usersAddress
   } = useContext(AuthControllerContext)
 
@@ -64,7 +63,7 @@ export function PoolDataContextProvider(props) {
     data: poolsGraphData,
     error: poolsError,
     isFetching: poolsIsFetching,
-  } = usePoolsQuery(pauseQueries, chainId, poolAddresses, blockNumber)
+  } = usePoolsQuery(poolAddresses, blockNumber)
 
   if (poolsError) {
     poolToast.error(poolsError)
@@ -92,6 +91,13 @@ export function PoolDataContextProvider(props) {
     blockNumber
   )
 
+
+
+  const { data: graphDripData, error } = usePoolDripsQuery()
+
+  if (error) {
+    console.error(error)
+  }
 
 
 
@@ -124,38 +130,33 @@ export function PoolDataContextProvider(props) {
         //   ?.filter(award => award.balance.gt(0))
         //   ?.map(award => award.address)
 
-        return <GraphPoolDripQueries
-          pools={pools}
+        
+        return <FetchUsersChainData
+          {...props}
+          provider={defaultReadProvider}
+          pool={currentPool}
+          usersAddress={usersAddress}
+          graphDripData={graphDripData}
+          contractAddresses={contractAddresses}
         >
-          {({ graphDripData }) => {
-            return <FetchUsersChainData
-              {...props}
-              provider={defaultReadProvider}
-              pool={currentPool}
-              usersAddress={usersAddress}
-              graphDripData={graphDripData}
-              contractAddresses={contractAddresses}
-            >
-              {({ usersChainData }) => {
-                return <PoolDataContext.Provider
-                  value={{
-                    loading: poolsDataLoading,
-                    pool: currentPool,
-                    pools,
-                    contractAddresses,
-                    defaultReadProvider,
-                    genericChainData,
-                    refetchPoolsData,
-                    graphDripData,
-                    usersChainData,
-                  }}
-                >
-                  {props.children}
-                </PoolDataContext.Provider>
+          {({ usersChainData }) => {
+            return <PoolDataContext.Provider
+              value={{
+                loading: poolsDataLoading,
+                pool: currentPool,
+                pools,
+                contractAddresses,
+                defaultReadProvider,
+                genericChainData,
+                refetchPoolsData,
+                graphDripData,
+                usersChainData,
               }}
-            </FetchUsersChainData>
+            >
+              {props.children}
+            </PoolDataContext.Provider>
           }}
-        </GraphPoolDripQueries>
+        </FetchUsersChainData>
       }}
     </ChainQueries>
   </>

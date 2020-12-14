@@ -1,10 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { compact } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-// import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
@@ -21,12 +19,9 @@ export const LastWinnersListing = (
 
   const decimals = pool?.underlyingCollateralDecimals
 
-  const { chainId, pauseQueries } = useContext(AuthControllerContext)
-
-
 
   const first = 5
-  const { status, data, error, isFetching } = usePoolPrizesQuery(pauseQueries, chainId, pool, first)
+  const { status, data, error, isFetching } = usePoolPrizesQuery(pool, first)
 
 
 

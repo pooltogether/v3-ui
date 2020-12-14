@@ -1,8 +1,6 @@
-import { useContext } from 'react'
 import { useRouter } from 'next/router'
 
 import { PLAYER_PAGE_SIZE } from 'lib/constants'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useControlledTokenBalanceQuery } from 'lib/hooks/useControlledTokenBalanceQuery'
 
 export function PrizePlayersQuery(props) {
@@ -22,9 +20,7 @@ export function PrizePlayersQuery(props) {
     prize?.awardedBlock - 1 :
     undefined
 
-  const { chainId, pauseQueries } = useContext(AuthControllerContext)
-
-  const { status, data, error, isFetching } = useControlledTokenBalanceQuery(pauseQueries, chainId, pool, blockNumber, page, skip)
+  const { data, error, isFetching } = useControlledTokenBalanceQuery(pool, blockNumber, page, skip)
 
   if (error) {
     console.warn(error)

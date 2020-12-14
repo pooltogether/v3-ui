@@ -1,9 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import { useTranslation } from 'lib/../i18n'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { PrizesTable } from 'lib/components/PrizesTable'
 import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
@@ -14,9 +13,7 @@ export const PoolPrizeListing = (
   const { t } = useTranslation()
   const { pool } = props
 
-  const { chainId, pauseQueries } = useContext(AuthControllerContext)
-
-  const { status, data, error, isFetching, isFetched } = usePoolPrizesQuery(pauseQueries, chainId, pool)
+  const { data, error, isFetching, isFetched } = usePoolPrizesQuery(pool)
 
   let prizes = data?.prizePool?.prizes
 

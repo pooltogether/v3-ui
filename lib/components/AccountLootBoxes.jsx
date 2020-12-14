@@ -12,10 +12,8 @@ import IconTarget from 'assets/images/icon-target@2x.png'
 export const AccountLootBoxes = () => {
   const { t } = useTranslation()
   
-  const { chainId, pauseQueries, usersAddress } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
   const { pools } = useContext(PoolDataContext)
-
-  const playerAddressError = testAddress(usersAddress)
 
   // could query to get all the prizes this account has won, then iterate through each
   // prize to see if it matches any of our ptloot nft addresses
@@ -56,7 +54,6 @@ export const AccountLootBoxes = () => {
 
           <h3>
             $<PoolNumber>
-              {displayAmountInEther(totalWinnings(), { precision: 2 })}
             </PoolNumber>
           </h3>
         </div>
