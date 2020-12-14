@@ -20,7 +20,7 @@ export function PrizePlayersQuery(props) {
     prize?.awardedBlock - 1 :
     undefined
 
-  const { data, error, isFetching } = useControlledTokenBalanceQuery(pool, blockNumber, page, skip)
+  const { data, error, isFetching } = useControlledTokenBalanceQuery(pool, page, skip, blockNumber)
 
   if (error) {
     console.warn(error)
