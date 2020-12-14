@@ -34,7 +34,6 @@ export const AccountSummary = () => {
   let totalTickets = ethers.utils.bigNumberify(0)
   let cumulativeWinningsAllPools = ethers.utils.bigNumberify(0)
 
-
   playerData?.prizePoolAccounts.forEach(prizePoolAccount => {
     const poolAddress = prizePoolAccount?.prizePool?.id
     const pool = pools?.find(pool => pool.poolAddress === poolAddress)
