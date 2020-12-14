@@ -85,7 +85,7 @@ const formatPrizeObject = (t, pool, prize, querySymbol) => {
         {(timeTravelPool) => {
           return <>
             ${displayAmountInEther(
-              timeTravelPool?.grandPrizeAmountUSD,
+              timeTravelPool?.totalPrizeAmountUSD,
               { decimals: pool?.underlyingCollateralDecimals, precision: 2 }
             )}
           </>
@@ -153,7 +153,7 @@ export const PrizesTable = (
     if (lastPrize.awardedBlock) {
       const currentPrizeId = extractPrizeNumberFromPrize(lastPrize) + 1
       const amount = ethers.utils.formatUnits(
-        pool?.grandPrizeAmountUSD,
+        pool?.totalPrizeAmountUSD,
         decimals
       )
 
