@@ -4,8 +4,8 @@ import { useQueryCache } from 'react-query'
 import { POOLS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { TimeTravelPoolQuery } from 'lib/components/TimeTravelPoolQuery'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
+import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
 import { compileHistoricalPool } from 'lib/services/compileHistoricalPool'
 
 export function TimeTravelPool(props){
@@ -44,27 +44,25 @@ export function TimeTravelPool(props){
   }
 
 
+  const { data: graphPools, error } = usePoolsQuery(pauseQueries, chainId, [poolAddress], blockNumber)
 
-  return <TimeTravelPoolQuery
-    poolAddress={poolAddress}
-    blockNumber={blockNumber}
-  >
-    {(graphPools) => {
-      const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
-      
-      const poolInfo = POOLS.find(POOL => POOL.symbol === querySymbol)
-      const timeTravelPool = compileHistoricalPool(
-        chainId,
-        poolInfo,
-        queryCache,
-        graphPool,
-        poolAddress,
-        blockNumber,
-        prize
-      )
+  if (error) {
+    console.warn(error)
+  }
 
-      return children(timeTravelPool)
-    }}
-  </TimeTravelPoolQuery>
-   
+
+  const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
+  
+  const poolInfo = POOLS.find(POOL => POOL.symbol === querySymbol)
+  const timeTravelPool = compileHistoricalPool(
+    chainId,
+    poolInfo,
+    queryCache,
+    graphPool,
+    poolAddress,
+    blockNumber,
+    prize
+  )
+
+  return children(timeTravelPool)
 }

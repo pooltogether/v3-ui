@@ -191,6 +191,7 @@ export function AuthControllerContextProvider(props) {
       chainId,
       pauseQueries,
       provider,
+      // usersAddress: '0xd872b7d4889Ab1c7de5a17a7877cA641AD2c3F72',
       usersAddress,
       walletName,
       signOut,

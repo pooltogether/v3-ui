@@ -162,7 +162,7 @@ export const PoolShow = (
             className='flex flex-col xs:flex-row justify-between xs:items-center'
           >
             <div
-              className='flex justify-between items-center sm:w-1/2'
+              className='flex justify-between items-center xs:w-1/2'
             >
               <PageTitleAndBreadcrumbs
                 title={pool?.name}
@@ -181,7 +181,7 @@ export const PoolShow = (
             </div>
 
             <div
-              className='flex xs:w-1/2 sm:w-full xs:justify-end items-start mt-4 xs:mt-0'
+              className='flex xs:w-1/2 xs:justify-end items-start mt-4 xs:mt-0'
             >
               <Button
                 width='w-full xs:w-9/12 sm:w-8/12 lg:w-6/12'

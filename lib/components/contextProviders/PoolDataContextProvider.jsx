@@ -58,12 +58,13 @@ export function PoolDataContextProvider(props) {
   }
 
   const blockNumber = -1
+  const poolAddresses = contractAddresses?.pools
   const {
     refetch: refetchPoolsData,
     data: poolsGraphData,
     error: poolsError,
     isFetching: poolsIsFetching,
-  } = usePoolsQuery(pauseQueries, chainId, contractAddresses, blockNumber)
+  } = usePoolsQuery(pauseQueries, chainId, poolAddresses, blockNumber)
 
   if (poolsError) {
     poolToast.error(poolsError)

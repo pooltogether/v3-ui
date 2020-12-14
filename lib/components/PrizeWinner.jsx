@@ -65,7 +65,11 @@ export const PrizeWinner = (
   }
 
   if (!prizePoolAccount) {
-    return <V3LoadingDots />
+    return <tr>
+      <td>
+        <V3LoadingDots />
+      </td>
+    </tr>
   }
 
   return <>
