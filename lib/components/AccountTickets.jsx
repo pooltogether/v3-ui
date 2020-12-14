@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { motion } from 'framer-motion'
+import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
@@ -9,6 +10,7 @@ import { V2AccountTicket } from 'lib/components/V2AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { TicketsLoader } from 'lib/components/TicketsLoader'
+import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 
 import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 
@@ -30,12 +32,24 @@ export const AccountTickets = () => {
     podSharesBalance: usersChainData?.v2UsdcPodSharesBalance,
   }
 
-  let hasNoV2Balance = true
-  hasNoV2Balance = daiBalances?.poolBalance?.lt('1000000') &&
-    daiBalances?.podBalance?.lt('1000000') &&
-    usdcBalances?.poolBalance?.lt('1000000') &&
-    usdcBalances?.podBalance?.lt('1000000')
 
+  let normalizedDaiPoolBalance = ethers.utils.bigNumberify(0)
+  let normalizedDaiPodBalance = ethers.utils.bigNumberify(0)
+  let normalizedUsdcPoolBalance = ethers.utils.bigNumberify(0)
+  let normalizedUsdcPodBalance = ethers.utils.bigNumberify(0)
+  if (daiBalances.poolBalance) {
+    normalizedDaiPoolBalance = normalizeTo18Decimals(daiBalances.poolBalance, 18)
+    normalizedDaiPodBalance = normalizeTo18Decimals(daiBalances.podBalance, 18)
+    normalizedUsdcPoolBalance = normalizeTo18Decimals(usdcBalances.poolBalance, 6)
+    normalizedUsdcPodBalance = normalizeTo18Decimals(usdcBalances.podBalance, 6)
+  }
+
+
+  let hasNoV2Balance = true
+  hasNoV2Balance = normalizedDaiPoolBalance.lt('10000000000000') &&
+    normalizedDaiPodBalance.lt('10000000000000') &&
+    normalizedUsdcPoolBalance.lt('10000000000000') &&
+    normalizedUsdcPodBalance.lt('10000000000000')
 
   return <>
     <div

@@ -7,6 +7,7 @@ import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContext
 import { V2MigrateButton } from 'lib/components/V2MigrateButton'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const V2AccountTicket = (
@@ -64,12 +65,19 @@ export const V2AccountTicket = (
   const havePoolBalance = balances.poolBalance
   const havePodBalance = balances.podBalance
 
+  let normalizedPoolBalance = ethers.utils.bigNumberify(0)
+  let normalizedPodBalance = ethers.utils.bigNumberify(0)
+  if (balances.poolBalance) {
+    normalizedPoolBalance = normalizeTo18Decimals(balances.poolBalance, 18)
+    normalizedPodBalance = normalizeTo18Decimals(balances.podBalance, 18)
+  }
+
   if (isPod) {
-    if (!havePodBalance || balances.poolBalance && balances?.podBalance?.lt('1000000')) {
+    if (!havePodBalance || balances.poolBalance && normalizedPodBalance?.lt('10000000000000')) {
       return null
     }
   } else {
-    if (!havePoolBalance || balances?.poolBalance?.lt('1000000')) {
+    if (!havePoolBalance || normalizedPoolBalance?.lt('10000000000000')) {
       return null
     }
   }
