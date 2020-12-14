@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountTicket } from 'lib/components/AccountTicket'
@@ -10,6 +11,7 @@ import { V2AccountTicket } from 'lib/components/V2AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { TicketsLoader } from 'lib/components/TicketsLoader'
+import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 
 import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
@@ -17,8 +19,14 @@ import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 export const AccountTickets = () => {
   const { t } = useTranslation()
   
+  const { usersAddress } = useContext(AuthControllerContext)
   const { usersChainData } = useContext(PoolDataContext)
-  const { playerTicketAccounts, accountDataIsFetching, accountDataIsFetched } = useContext(PlayerDataContext)
+  const { accountDataIsFetching, accountDataIsFetched } = useContext(PlayerDataContext)
+
+  // fill this in with a watched address or an address from router params
+  const playerAddress = ''
+
+  const playerTickets = usePlayerTickets(playerAddress || usersAddress)
 
   const daiBalances = {
     poolBalance: usersChainData?.v2DaiPoolCommittedBalance,
@@ -64,7 +72,7 @@ export const AccountTickets = () => {
       {(accountDataIsFetching && !accountDataIsFetched) ? <>
         <TicketsLoader />
       </> :
-        (playerTicketAccounts.length === 0 && (hasNoV2Balance || hasNoV2Balance === undefined)) ? <>
+        (playerTickets.length === 0 && (hasNoV2Balance || hasNoV2Balance === undefined)) ? <>
           <BlankStateMessage>
             <div
               className='mb-10 font-bold'
@@ -89,12 +97,12 @@ export const AccountTickets = () => {
             <motion.div>
               <div className='flex flex-wrap'>
 
-                {playerTicketAccounts?.map(playerTicketAccount => {
+                {playerTickets?.map(playerTicket => {
                   return <AccountTicket
                     isLink
-                    key={`account-pool-row-${playerTicketAccount?.poolAddress}`}
-                    pool={playerTicketAccount?.pool}
-                    playerBalance={playerTicketAccount?.balance}
+                    key={`account-pool-row-${playerTicket?.poolAddress}`}
+                    pool={playerTicket?.pool}
+                    playerBalance={playerTicket?.balance}
                   />
                 })}
 

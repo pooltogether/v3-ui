@@ -5,7 +5,7 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { SmallLoader } from 'lib/components/SmallLoader'
-import { useAccountQuery } from 'lib/hooks/useAccountQuery'
+import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { testAddress } from 'lib/utils/testAddress'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
@@ -16,54 +16,31 @@ import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
 export const AccountSummary = () => {
   const { t } = useTranslation()
 
-  const { pools, usersChainData } = useContext(PoolDataContext)
+  const { usersChainData } = useContext(PoolDataContext)
   const { usersAddress } = useContext(AuthControllerContext)
 
-  const playerAddressError = testAddress(usersAddress)
+  // fill this in with a watched address or an address from router params
+  const playerAddress = ''
+
+  const playerTickets = usePlayerTickets(playerAddress || usersAddress)
+
+  // controlledTokenBalances
+  // const { data: prizePoolAccounts } = usePlayerControlledTokenBalances(usersAddress)
+
+
+  // const playerAddressError = testAddress(usersAddress)
+ 
   
-  const blockNumber = -1
-  const {
-    data: playerData,
-    error,
-  } = useAccountQuery(usersAddress, blockNumber, playerAddressError)
 
-  if (error) {
-    console.error(error)
-  }
+  // const blockNumber = -1
+  // const {
+  //   data: playerData,
+  //   error,
+  // } = useAccountQuery(usersAddress, blockNumber, playerAddressError)
 
-  let totalTickets = ethers.utils.bigNumberify(0)
-  let cumulativeWinningsAllPools = ethers.utils.bigNumberify(0)
-
-  playerData?.prizePoolAccounts.forEach(prizePoolAccount => {
-    const poolAddress = prizePoolAccount?.prizePool?.id
-    const pool = pools?.find(pool => pool.poolAddress === poolAddress)
-    if (!pool) return
-
-    const ticketAddress = pool?.ticketToken?.id
-    let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
-    if (!balance) return
-
-    const decimals = parseInt(pool?.underlyingCollateralDecimals, 10)
-    balance = ethers.utils.bigNumberify(balance)
-
-    const balanceNormalized = normalizeTo18Decimals(
-      balance,
-      decimals
-    )
-
-    totalTickets = totalTickets.add(balanceNormalized)
-
-    // Calculate winnings
-    const winnings = normalizeTo18Decimals(
-      prizePoolAccount.cumulativeWinnings,
-      decimals
-    )
-
-    cumulativeWinningsAllPools = cumulativeWinningsAllPools.add(
-      winnings
-    )
-  })
-
+  // if (error) {
+  //   console.error(error)
+  // }
   const daiBalances = {
     poolBalance: usersChainData?.v2DaiPoolCommittedBalance,
     podBalance: usersChainData?.v2DaiPodCommittedBalance,
@@ -75,6 +52,13 @@ export const AccountSummary = () => {
     podBalance: usersChainData?.v2UsdcPodCommittedBalance,
     podSharesBalance: usersChainData?.v2UsdcPodSharesBalance,
   }
+
+  let totalTickets = ethers.utils.bigNumberify(0)
+  playerTickets.forEach(playerTicket => {
+    let { balanceNormalized } = playerTicket
+
+    totalTickets = totalTickets.add(balanceNormalized)
+  })
 
   if (daiBalances.poolBalance) {
     const normalizedDaiPoolBalance = normalizeTo18Decimals(daiBalances.poolBalance, 18)

@@ -148,7 +148,7 @@ export const PrizeBreakdown = (props) => {
             ) : (
               <tr>
                 <td
-                  colspan='4'
+                  colSpan='4'
                   className='text-center'
                   style={{
                     paddingTop: '0.5rem'

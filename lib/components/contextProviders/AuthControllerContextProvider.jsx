@@ -121,7 +121,7 @@ export function AuthControllerContextProvider(props) {
       usersAddress = address
     }
 
-    setUsersAddress(usersAddress)
+    setUsersAddress(usersAddress?.toLowerCase())
   }, [address, onboardAddress])
 
   const postDisconnectRedirect = () => {

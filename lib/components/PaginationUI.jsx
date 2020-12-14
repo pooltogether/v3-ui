@@ -25,17 +25,17 @@ export function PaginationUI({
 }) {
   const { t } = useTranslation()
 
-  const nextPrevPageClasses = 'no-underline rounded-lg text-green border-2 border-green hover:bg-primary text-xxxs xs:text-xs sm:text-base lg:text-lg py-2 sm:py-2 px-3 sm:px-3 lg:px-5 trans whitespace-normal inline-flex sm:inline-block text-center h-10 sm:h-auto items-center justify-center leading-tight'
+  const nextPrevPageClasses = 'no-underline rounded-lg text-green border-2 border-green hover:bg-primary text-xxxs sm:text-xxs lg:text-lg py-2 sm:py-2 px-3 sm:px-3 lg:px-5 trans whitespace-normal inline-flex sm:inline-block text-center h-10 sm:h-auto items-center justify-center leading-tight font-bold mt-2'
   const pageNumClasses = 'inline-flex items-center justify-center no-underline text-green bg-card trans p-2 sm:p-2 rounded-lg text-sm sm:text-base mx-1 leading-none shadow-md'
   const ellipsisClasses = 'mx-1 mt-1 xs:block text-default-soft'
   const listItemClasses = 'lg:mx-2 mt-1 lg:mt-2'
 
   return (
     <div
-      className={'mt-10 mb-4 flex w-full'}
+      className={'mt-10 mb-4 flex w-full justify-between'}
     >
       <div
-        className='w-1/4 text-left'
+        className='text-left'
       >
         {showPrev &&
           <Link
@@ -58,7 +58,7 @@ export function PaginationUI({
         }
       </div>
       <div
-        className='w-1/2 justify-center items-center text-center flex'
+        className='justify-center items-center text-center flex'
       >
         <ul
           className='flex justify-center items-center mx-auto'
@@ -203,7 +203,7 @@ export function PaginationUI({
         </ul>
       </div>
       <div
-        className='w-1/4 text-right'
+        className='text-right'
       >
         {showNext &&
           <Link
