@@ -10,7 +10,6 @@ import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptrolle
 import { useTranslation } from 'lib/../i18n'
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
@@ -18,6 +17,7 @@ import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { PTCopyToClipboard } from 'lib/components/PTCopyToClipboard'
+import { usePlayerDrips } from 'lib/hooks/usePlayerDrips'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -31,11 +31,16 @@ export const AccountRewards = () => {
   const [transactions, setTransactions] = useAtom(transactionsAtom)
   
   const { pools, usersChainData, graphDripData } = useContext(PoolDataContext)
-  const { dynamicPlayerDrips } = useContext(PlayerDataContext)
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
+  // fill this in with a watched address or an address from router params
+  const playerAddress = ''
+  const address = playerAddress || usersAddress
+
+  const { playerDrips } = usePlayerDrips(address)
+
   const poolAddresses = map(pools, 'poolAddress')
-  const playerRewards = extractPoolRewardsFromUserDrips({poolAddresses, dynamicPlayerDrips})
+  const playerRewards = extractPoolRewardsFromUserDrips({ poolAddresses, playerDrips })
 
   let domain = ''
   if (window && window.location) {

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
+import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
@@ -37,7 +37,12 @@ export function DepositTicketQuantityForm(props) {
 
   const { usersAddress } = useContext(AuthControllerContext)
   const { pool, usersChainData } = useContext(PoolDataContext)
-  const { usersTicketBalance, usersTicketBalanceBN } = useContext(PlayerDataContext)
+
+  // fill this in with a watched address or an address from router params
+  const playerAddress = ''
+  const address = playerAddress || usersAddress
+  
+  const { usersTicketBalance, usersTicketBalanceBN } = usePlayerPoolBalances(address, pool)
 
   const liquidityCap = pool?.liquidityCap ? bn(pool?.liquidityCap) : bn(0)
   let remainingTickets

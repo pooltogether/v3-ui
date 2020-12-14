@@ -161,6 +161,7 @@ export const ManageUI = (
     </div>
 
     <SponsorshipPane
+      pool={pool}
       decimals={decimals}
       tickerUpcased={tickerUpcased}
       usersAddress={usersAddress}

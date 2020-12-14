@@ -21,8 +21,9 @@ export const AccountSummary = () => {
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
+  const address = playerAddress || usersAddress
 
-  const playerTickets = usePlayerTickets(playerAddress || usersAddress)
+  const { playerTickets } = usePlayerTickets(address)
 
   // controlledTokenBalances
   // const { data: prizePoolAccounts } = usePlayerControlledTokenBalances(usersAddress)

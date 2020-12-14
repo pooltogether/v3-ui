@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
+import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
@@ -13,8 +13,6 @@ import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-// import { testAddress } from 'lib/utils/testAddress'
-// import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
 
@@ -28,22 +26,9 @@ export function WithdrawTicketsForm(props) {
   const router = useRouter()
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { usersTicketBalance, usersTicketBalanceBN } = useContext(PlayerDataContext)
   const { pool } = useContext(PoolDataContext)
-
-
-  // const playerAddressError = testAddress(usersAddress)
-
-  // const blockNumber = -1
-  // const {
-  //   data: playerData,
-  //   error,
-  // } = useAccountQuery(usersAddress, blockNumber, playerAddressError)
-
-  // if (error) {
-  //   console.error(error)
-  // }
-
+  
+  const { usersTicketBalance, usersTicketBalanceBN } = usePlayerPoolBalances(usersAddress, pool)
 
   const ticker = pool?.underlyingCollateralSymbol
   const tickerUpcased = ticker?.toUpperCase()

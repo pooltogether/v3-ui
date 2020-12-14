@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
+import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { ApproveSponsorshipTxButton } from 'lib/components/ApproveSponsorshipTxButton'
 import { DepositSponsorshipTxButton } from 'lib/components/DepositSponsorshipTxButton'
@@ -30,7 +30,12 @@ export function DepositOrWithdrawSponsorshipModal(props) {
 
   const { usersAddress } = useContext(AuthControllerContext)
   const { pool, usersChainData } = useContext(PoolDataContext)
-  const { usersSponsorshipBalance, usersSponsorshipBalanceBN } = useContext(PlayerDataContext)
+  
+  // fill this in with a watched address or an address from router params
+  const playerAddress = ''
+  const address = playerAddress || usersAddress
+  
+  const { usersSponsorshipBalance, usersSponsorshipBalanceBN } = usePlayerPoolBalances(address, pool)
   
   const {
     register,

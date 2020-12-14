@@ -6,10 +6,9 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { useAccount } from 'lib/hooks/useAccount'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { testAddress } from 'lib/utils/testAddress'
-import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
 
@@ -20,17 +19,12 @@ export const AccountWinnings = () => {
   const { pools } = useContext(PoolDataContext)
 
   
-  const playerAddressError = testAddress(usersAddress)
 
-  const blockNumber = -1
-  const {
-    data: accountData,
-    error,
-  } = useAccountQuery(usersAddress, blockNumber, playerAddressError)
+  // fill this in with a watched address or an address from router params
+  const playerAddress = ''
+  const address = playerAddress || usersAddress
 
-  if (error) {
-    console.error(error)
-  }
+  const { accountData } = useAccount(address)
 
 
 

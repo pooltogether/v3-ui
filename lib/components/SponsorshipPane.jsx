@@ -3,20 +3,26 @@ import React, { useContext, useState } from 'react'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { DepositOrWithdrawSponsorshipModal } from 'lib/components/DepositOrWithdrawSponsorshipModal'
-import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
+import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const SponsorshipPane = (
   props,
 ) => {
   const { t } = useTranslation()
-  const { tickerUpcased, usersAddress } = props
+  const { pool, tickerUpcased, usersAddress } = props
 
   const [depositVisible, setDepositVisible] = useState(false)
   const [withdrawVisible, setWithdrawVisible] = useState(false)
   
-  const { usersSponsorshipBalance } = useContext(PlayerDataContext)
+  // fill this in with a watched address or an address from router params
+  const playerAddress = ''
+  const address = playerAddress || usersAddress
   
+  const { usersSponsorshipBalance } = usePlayerPoolBalances(address, pool)
+  
+  
+
   const handleDepositSponsorshipClick = (e) => {
     e.preventDefault()
 

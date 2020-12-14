@@ -4,13 +4,13 @@ import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PlayerDataContext } from 'lib/components/contextProviders/PlayerDataContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { V2AccountTicket } from 'lib/components/V2AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { TicketsLoader } from 'lib/components/TicketsLoader'
+import { useAccount } from 'lib/hooks/useAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 
@@ -21,12 +21,15 @@ export const AccountTickets = () => {
   
   const { usersAddress } = useContext(AuthControllerContext)
   const { usersChainData } = useContext(PoolDataContext)
-  const { accountDataIsFetching, accountDataIsFetched } = useContext(PlayerDataContext)
+  
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
+  const address = playerAddress || usersAddress
 
-  const playerTickets = usePlayerTickets(playerAddress || usersAddress)
+  const { accountDataIsFetching, accountDataIsFetched } = useAccount(address)
+
+  const { playerTickets } = usePlayerTickets(address)
 
   const daiBalances = {
     poolBalance: usersChainData?.v2DaiPoolCommittedBalance,
