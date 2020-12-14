@@ -17,7 +17,7 @@ export const TicketsSoldGraph = (
   const { pool } = props
 
   const first = NUMBER_OF_POINTS
-  const { status, data, error, isFetching, isFetched } = usePoolPrizesQuery(pool, first)
+  const { data, error, isFetching, isFetched } = usePoolPrizesQuery(pool, first)
 
   let prizes = compact([].concat(data?.prizePool?.prizes))
 

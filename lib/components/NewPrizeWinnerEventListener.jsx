@@ -30,7 +30,10 @@ export function NewPrizeWinnerEventListener(props) {
 
   const prizeId = `${pool?.poolAddress}-${recentPrizeId}`
 
-  const { status, data, error, isFetching } = usePrizeQuery(pool, prizeId)
+  const { data, error } = usePrizeQuery(pool, prizeId)
+  if (error) {
+    console.error(error)
+  }
   
   const recentPrize = data?.prize
   

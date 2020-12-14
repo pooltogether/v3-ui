@@ -21,7 +21,7 @@ export const LastWinnersListing = (
 
 
   const first = 5
-  const { status, data, error, isFetching } = usePoolPrizesQuery(pool, first)
+  const { data, error } = usePoolPrizesQuery(pool, first)
 
 
 

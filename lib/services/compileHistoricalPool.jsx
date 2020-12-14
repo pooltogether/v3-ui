@@ -38,10 +38,13 @@ export const compileHistoricalPool = (
   
   const addresses = marshalledData?.externalErc20Awards?.map(award => award.address)
 
-  const { status, data, error, isFetching } = useUniswapTokensQuery(
+  const { data, error } = useUniswapTokensQuery(
     addresses,
     blockNumber
   )
+  if (error) {
+    console.error(error)
+  }
   const uniswapPriceData = data
   const compiledExternalErc20Awards = compileHistoricalErc20Awards(prize, uniswapPriceData)
 
