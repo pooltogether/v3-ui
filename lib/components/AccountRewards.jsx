@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import ClipLoader from 'react-spinners/ClipLoader'
 import classnames from 'classnames'
 import { useAtom } from 'jotai'
@@ -270,27 +270,25 @@ export const AccountRewards = () => {
         apr = numberWithCommas(((1000 * 52) / daiPoolTickets) * 100)
       }
 
-      return <Fragment key={dripData.id}>
-        <tr>
-          <td className='px-2 sm:px-3 py-2 text-left font-bold'>
-            {isPoolDaiTickets && <>
-              <PoolCurrencyIcon
-                sm
-                pool={{ underlyingCollateralSymbol: 'dai' }}
-              />
-            </>} {isPoolDaiTickets ? t('daiTickets') : dripData.dripToken.name}
-          </td>
-          <td className='px-2 sm:px-3 py-2 text-left opacity-60'>
-            {apr}% APR
-          </td>
-          <td className='px-2 sm:px-3 py-2 text-left'>
-            {getFormattedNumber(dripData.claimable, dripData.dripToken.decimals)}
-          </td>
-          <td className='px-2 sm:px-3 py-2 text-right'>
-            {getClaimButton(dripData)}
-          </td>
-        </tr>
-      </Fragment>
+      return <tr key={dripData.id}>
+        <td className='px-2 sm:px-3 py-2 text-left font-bold'>
+          {isPoolDaiTickets && <>
+            <PoolCurrencyIcon
+              sm
+              pool={{ underlyingCollateralSymbol: 'dai' }}
+            />
+          </>} {isPoolDaiTickets ? t('daiTickets') : dripData.dripToken.name}
+        </td>
+        <td className='px-2 sm:px-3 py-2 text-left opacity-60'>
+          {apr}% APR
+        </td>
+        <td className='px-2 sm:px-3 py-2 text-left'>
+          {getFormattedNumber(dripData.claimable, dripData.dripToken.decimals)}
+        </td>
+        <td className='px-2 sm:px-3 py-2 text-right'>
+          {getClaimButton(dripData)}
+        </td>
+      </tr>
     })
   }
  

@@ -127,49 +127,44 @@ export function DateValueLineGraph(props) {
 
 
                   {lineData?.map((data, j) => {
-                    return <Fragment key={`${id}-lines-${i}-${j}`}>
-                      <LinePath
-                        key={`${id}-group-line-path-${i}-${j}`}
-                        data={lineData}
-                        x={d => xScale(getX(d))}
-                        y={d => yScale(getY(d))}
-                        stroke={'url(#vx-gradient)'}
-                        strokeWidth={3}
-                      />
-                    </Fragment>
+                    return <LinePath
+                      key={`${id}-group-line-path-${i}-${j}`}
+                      data={lineData}
+                      x={d => xScale(getX(d))}
+                      y={d => yScale(getY(d))}
+                      stroke={'url(#vx-gradient)'}
+                      strokeWidth={3}
+                    />
                   })}
 
                   {lineData?.map((data, j) => {
-                    return <Fragment key={`${id}-circle-fragment-${i}-${j}`}>
-                      <circle
-                        key={`${id}-circle-${i}-${j}`}
-                        r={4}
-                        cx={xScale(getX(data))}
-                        cy={yScale(getY(data))}
-                        stroke={circleColor}
-                        fill={circleColor}
-                        className='cursor-pointer'
-                        onMouseLeave={hideTooltip}
-                        onTouchMove={(event) => {
-                          const coords = localPoint(event.target.ownerSVGElement, event);
+                    return <circle key={`${id}-circle-${i}-${j}`}
+                      r={4}
+                      cx={xScale(getX(data))}
+                      cy={yScale(getY(data))}
+                      stroke={circleColor}
+                      fill={circleColor}
+                      className='cursor-pointer'
+                      onMouseLeave={hideTooltip}
+                      onTouchMove={(event) => {
+                        const coords = localPoint(event.target.ownerSVGElement, event);
 
-                          showTooltip({
-                            tooltipLeft: coords.x,
-                            tooltipTop: coords.y,
-                            tooltipData: data
-                          })
-                        }}
-                        onMouseMove={(event) => {
-                          const coords = localPoint(event.target.ownerSVGElement, event);
+                        showTooltip({
+                          tooltipLeft: coords.x,
+                          tooltipTop: coords.y,
+                          tooltipData: data
+                        })
+                      }}
+                      onMouseMove={(event) => {
+                        const coords = localPoint(event.target.ownerSVGElement, event);
 
-                          showTooltip({
-                            tooltipLeft: coords.x,
-                            tooltipTop: coords.y,
-                            tooltipData: data
-                          })
-                        }}
-                      />
-                    </Fragment>
+                        showTooltip({
+                          tooltipLeft: coords.x,
+                          tooltipTop: coords.y,
+                          tooltipData: data
+                        })
+                      }}
+                    />
                   })}
 
                 </Group>
