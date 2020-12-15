@@ -5,7 +5,7 @@ import { COOKIE_OPTIONS } from 'lib/constants'
 
 const THEME = 'theme'
 
-export const ThemeContext = React.createContext()
+export const ThemeContext = React.createContext(null)
 
 export function ThemeContextProvider(props) {
   // if (!window) {

@@ -138,6 +138,7 @@ export const PrizeBreakdown = (props) => {
               <>
                 {prize?.winners.map((winner, index) => {
                   return <PrizeWinner
+                    key={`prize-winner-row-${winner}`}
                     pool={pool}
                     prize={prize}
                     winnersAddress={winner}

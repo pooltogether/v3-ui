@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PrizeShow } from 'lib/components/PrizeShow'
@@ -17,7 +16,6 @@ export default function PrizeShowPage(props) {
   const querySymbol = router.query?.symbol
   const prizeNumber = router.query?.prizeNumber
 
-  const { chainId, pauseQueries } = useContext(AuthControllerContext)
   const { pool, pools } = useContext(PoolDataContext)
 
   const poolAddress = pool?.poolAddress
@@ -25,7 +23,7 @@ export default function PrizeShowPage(props) {
 
   const prizeId = `${poolAddress}-${prizeNumber}`
 
-  const { status, data, error, isFetching } = usePrizeQuery(pauseQueries, chainId, pool, prizeId)
+  const { data, error } = usePrizeQuery(pool, prizeId)
 
 
 

@@ -18,7 +18,7 @@ import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 const debug = require('debug')('AuthControllerContextProvider')
 
-export const AuthControllerContext = React.createContext()
+export const AuthControllerContext = React.createContext(null)
 
 // This AuthController allows us to have one place to interface with both the Magic context and
 // the Onboardjs/Wallet context - this provides us with more control of what happens to

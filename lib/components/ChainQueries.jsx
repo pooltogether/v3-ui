@@ -13,17 +13,13 @@ export function ChainQueries(props) {
     provider,
     poolData,
   } = props
-  
-  const { chainId, pauseQueries } = useContext(AuthControllerContext)
-  
+    
   const {
     status: genericChainStatus,
     data: genericChainData,
     error: genericChainError,
     isFetching: genericIsFetching
   } = useEthereumGenericQuery({
-    pauseQueries,
-    chainId,
     provider,
     poolData: poolData?.daiPool,
   })
@@ -46,8 +42,6 @@ export function ChainQueries(props) {
     error: externalErc20ChainError,
     isFetching: externalErc20IsFetching
   } = useEthereumErc20Query({
-    pauseQueries,
-    chainId,
     provider,
     graphErc20Awards: graphExternalErc20Awards,
     poolAddress,
@@ -67,8 +61,6 @@ export function ChainQueries(props) {
     error: externalErc721ChainError,
     isFetching: externalErc721IsFetching
   } = useEthereumErc721Query({
-    pauseQueries,
-    chainId,
     provider,
     graphErc721Awards: graphExternalErc721Awards,
     poolAddress,

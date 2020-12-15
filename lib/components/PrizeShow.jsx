@@ -157,7 +157,7 @@ export function PrizeShow(props) {
             </>}
           </>
         }
-        
+
         return <PrizePlayerListing
           isFetching={isFetching}
           balances={data}

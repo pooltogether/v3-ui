@@ -253,32 +253,42 @@ export const AccountRewards = () => {
       const isPoolDaiTickets = dripTokenData.name === 'PoolTogether Dai Ticket (Compound)'
         || dripTokenData.name === 'DAI Ticket'
 
+      const pool = pools?.[0]
+
       // this is using the only pool in the array, but if we wanted to do this properly
       // we would first iterate by pool and use the current rewards for that pool to do the calculation
-      const daiPoolTickets = parseFloat(ethers.utils.formatUnits(pools?.[0]?.ticketSupply, pools?.[0]?.underlyingCollateralDecimals))
-      const apr = numberWithCommas(((1000 * 52) / daiPoolTickets) * 100)
+      let daiPoolTickets,
+        apr
+      if (pool) {
+        daiPoolTickets = pool &&
+          parseFloat(
+            ethers.utils.formatUnits(
+              pool.ticketSupply,
+              pool.underlyingCollateralDecimals
+            )
+          )
+        apr = numberWithCommas(((1000 * 52) / daiPoolTickets) * 100)
+      }
 
-      return <>
-        <tr key={dripData.id}>
-          <td className='px-2 sm:px-3 py-2 text-left font-bold'>
-            {isPoolDaiTickets && <>
-              <PoolCurrencyIcon
-                sm
-                pool={{ underlyingCollateralSymbol: 'dai' }}
-              />
-            </>} {isPoolDaiTickets ? t('daiTickets') : dripData.dripToken.name}
-          </td>
-          <td className='px-2 sm:px-3 py-2 text-left opacity-60'>
-            {apr}% APR
-          </td>
-          <td className='px-2 sm:px-3 py-2 text-left'>
-            {getFormattedNumber(dripData.claimable, dripData.dripToken.decimals)}
-          </td>
-          <td className='px-2 sm:px-3 py-2 text-right'>
-            {getClaimButton(dripData)}
-          </td>
-        </tr>
-      </>
+      return <tr key={dripData.id}>
+        <td className='px-2 sm:px-3 py-2 text-left font-bold'>
+          {isPoolDaiTickets && <>
+            <PoolCurrencyIcon
+              sm
+              pool={{ underlyingCollateralSymbol: 'dai' }}
+            />
+          </>} {isPoolDaiTickets ? t('daiTickets') : dripData.dripToken.name}
+        </td>
+        <td className='px-2 sm:px-3 py-2 text-left opacity-60'>
+          {apr}% APR
+        </td>
+        <td className='px-2 sm:px-3 py-2 text-left'>
+          {getFormattedNumber(dripData.claimable, dripData.dripToken.decimals)}
+        </td>
+        <td className='px-2 sm:px-3 py-2 text-right'>
+          {getClaimButton(dripData)}
+        </td>
+      </tr>
     })
   }
  

@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Link from 'next/link'
+import { ethers } from 'ethers'
 
-import { useTranslation, Trans } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { useTranslation } from 'lib/../i18n'
 import { Odds } from 'lib/components/Odds'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
@@ -17,8 +17,6 @@ export const PrizeWinner = (
   const { t } = useTranslation()
 
   const { grandPrizeWinner, pool, prize, winnersAddress } = props
-
-  const { chainId, pauseQueries } = useContext(AuthControllerContext)
 
   const blockNumber = prize?.awardedBlock
 
@@ -36,9 +34,7 @@ export const PrizeWinner = (
     }
   }
 
-  const { status, data, error, isFetching } = usePrizePoolAccountQuery(
-    pauseQueries,
-    chainId,
+  const { data, error } = usePrizePoolAccountQuery(
     pool,
     winnersAddress,
     blockNumber,
@@ -65,7 +61,11 @@ export const PrizeWinner = (
   }
 
   if (!prizePoolAccount) {
-    return <V3LoadingDots />
+    return <tr>
+      <td>
+        <V3LoadingDots />
+      </td>
+    </tr>
   }
 
   return <>

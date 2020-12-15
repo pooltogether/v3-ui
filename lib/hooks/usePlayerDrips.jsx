@@ -2,7 +2,7 @@ import React from 'react'
 
 import { usePlayerQuery } from 'lib/hooks/usePlayerQuery'
 
-export const PlayerDataContext = React.createContext()
+export const PlayerDataContext = React.createContext(null)
 
 const debug = require('debug')('pool-app:PoolDataContext')
 

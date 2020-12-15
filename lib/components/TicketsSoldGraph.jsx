@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { ethers } from 'ethers'
 import { sub, fromUnixTime } from 'date-fns'
 import { compact } from 'lodash'
@@ -6,7 +6,6 @@ import { compact } from 'lodash'
 import {
   DEFAULT_TOKEN_PRECISION,
 } from 'lib/constants'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { DateValueLineGraph } from 'lib/components/DateValueLineGraph'
 import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 
@@ -17,10 +16,8 @@ export const TicketsSoldGraph = (
 ) => {
   const { pool } = props
 
-  const { chainId, pauseQueries } = useContext(AuthControllerContext)
-
   const first = NUMBER_OF_POINTS
-  const { status, data, error, isFetching, isFetched } = usePoolPrizesQuery(pauseQueries, chainId, pool, first)
+  const { data, error, isFetching, isFetched } = usePoolPrizesQuery(pool, first)
 
   let prizes = compact([].concat(data?.prizePool?.prizes))
 

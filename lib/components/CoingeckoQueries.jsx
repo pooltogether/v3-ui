@@ -10,7 +10,7 @@
 //   const graphExternalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
 //   const addressesString = graphExternalErc20Awards?.map(award => award.address).join(',')
 
-//   const { status, data, error, isFetching } = useCoingeckoTokensQuery(addressesString)
+//   const { data, error } = useCoingeckoTokensQuery(addressesString)
 
 //   if (error) {
 //     console.warn(error)
@@ -18,10 +18,8 @@
 
 
 //   const {
-//     status: ethPriceStatus,
 //     data: ethPriceData,
 //     error: ethPriceError,
-//     isFetching: ethPriceFetching
 //   } = useCoingeckoEthPriceQuery()
 
 //   if (error) {

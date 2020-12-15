@@ -102,7 +102,7 @@ export const NewPrizeCountdown = (
         'flex text-center',
         {
           'justify-center': center,
-          'text-xxxs sm:text-xl': !textSize,
+          'text-xxxs xs:text-xs sm:text-base lg:text-xl': !textSize,
         }
       )}
     >

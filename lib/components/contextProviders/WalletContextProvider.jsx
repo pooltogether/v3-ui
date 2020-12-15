@@ -13,7 +13,7 @@ const debug = require('debug')('WalletContextProvider')
 
 let provider
 
-export const WalletContext = React.createContext()
+export const WalletContext = React.createContext(null)
 
 export function WalletContextProvider(props) {
   const {

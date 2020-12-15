@@ -1,10 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { compact } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-// import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
@@ -21,12 +19,9 @@ export const LastWinnersListing = (
 
   const decimals = pool?.underlyingCollateralDecimals
 
-  const { chainId, pauseQueries } = useContext(AuthControllerContext)
-
-
 
   const first = 5
-  const { status, data, error, isFetching } = usePoolPrizesQuery(pauseQueries, chainId, pool, first)
+  const { data, error } = usePoolPrizesQuery(pool, first)
 
 
 
@@ -80,7 +75,7 @@ export const LastWinnersListing = (
               className='inline-block w-1/2 sm:w-1/2 text-right text-flashy'
             >
               ${displayAmountInEther(
-                pool?.grandPrizeAmountUSD.toString(),
+                pool?.totalPrizeAmountUSD.toString(),
                 { decimals, precision: 2 }
               )}
             </span>
@@ -94,7 +89,7 @@ export const LastWinnersListing = (
           as={`/prizes/${pool?.symbol}/${prize?.prizeNumber}`}
         >
           <a
-            className='block font-bold mb-2 rounded-lg trans sm:text-xxs'
+            className='block font-bold mb-2 rounded-lg trans sm:text-xxxs lg:text-xxs'
           >
             <span
               className='inline-block w-1/3 sm:w-3/12'
@@ -118,7 +113,7 @@ export const LastWinnersListing = (
                 {(timeTravelPool) => {
                   return <>
                     ${displayAmountInEther(
-                      timeTravelPool?.grandPrizeAmountUSD.toString(),
+                      timeTravelPool?.totalPrizeAmountUSD.toString(),
                       { decimals, precision: 2 }
                     )}
                   </>
