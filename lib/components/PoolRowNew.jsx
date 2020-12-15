@@ -113,7 +113,7 @@ export const PoolRowNew = (
           {t('getTickets')}
         </Button>
 
-        <ButtonLink
+        <Button
           noAnim
 
           bold={false}
@@ -130,15 +130,13 @@ export const PoolRowNew = (
           textSize='xxs'
 
           rounded='full'
-          href='/pools/[symbol]'
-          as={`/pools/${pool.symbol}`}
         >
           {t('viewPool')} <FeatherIcon
             strokeWidth='0.09rem'
             icon='arrow-right-circle'
             className='inline-block relative w-4 h-4 mx-auto ml-1'
           />
-        </ButtonLink>
+        </Button>
       </div>
 
       <p

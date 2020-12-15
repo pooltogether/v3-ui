@@ -8,6 +8,7 @@ export function Button(props) {
 
   let newProps = omit(props, [
     'border',
+    'bold',
     'text',
     'bg',
     'hoverBorder',
