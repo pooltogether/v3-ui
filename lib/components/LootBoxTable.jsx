@@ -5,15 +5,13 @@ import { orderBy } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
 import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { LootBoxValue } from 'lib/components/LootBoxValue'
+import { useLootBox } from 'lib/hooks/useLootBox'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
-import { useGraphLootBoxQuery } from 'lib/hooks/useGraphLootBoxQuery'
 import { compileLootBoxErc20s } from 'lib/services/compileLootBoxErc20s'
-import { getCurrentLootBox } from 'lib/services/getCurrentLootBox'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -25,63 +23,28 @@ export const LootBoxTable = (props) => {
 
   const { basePath, historical, pool, prize } = props
   
-  const { chainId } = useContext(AuthControllerContext)
-
   const [moreVisible, setMoreVisible] = useState(false)
 
-  const blockNumber = prize?.awardedBlock ? parseInt(prize?.awardedBlock, 10) : -1
-  
-  let lootBox,
-    lootBoxAddress,
-    tokenId
-  if (historical) {
-    let erc721Awards = pool?.compiledExternalErc721Awards || {}
-    erc721Awards = Object.keys(erc721Awards)
-      .map(key => erc721Awards[key])
-      
-    const awardedLootBox = erc721Awards?.find(award => award.name === 'PTLootBox')
-    
-    lootBoxAddress = awardedLootBox?.address
-    tokenId = awardedLootBox?.tokenIds?.[0]
-  } else {
-    const result = getCurrentLootBox(pool, chainId)
-    lootBoxAddress = result.lootBoxAddress
-    tokenId = result.tokenId
-  }
+  const blockNumber = historical ? parseInt(prize?.awardedBlock, 10) : -1
 
-  const { data: graphLootBoxData } = useGraphLootBoxQuery(lootBoxAddress, tokenId, blockNumber)
-  // console.log(graphLootBoxData)
-  lootBox = graphLootBoxData?.lootBoxes?.[0]
+  const { lootBox } = useLootBox(historical, pool, blockNumber)
   
 
-  const balanceProperty = 'balance'
-  // const balanceProperty = historical ? 'balanceAwardedBN' : 'balance'
+  const { addresses, allLootBoxAwards } = getLootBoxAwards(lootBox, historical)
 
-  // const { erc20s } = props
-  let erc20Balances = lootBox?.erc20Balances || {}
-  erc20Balances = Object.keys(erc20Balances)
-    .map(key => erc20Balances[key])
-    .filter(award => Number(award?.[balanceProperty]) > 0)
 
-  const addresses = erc20Balances ?
-    erc20Balances
-      .map(erc20Balance => erc20Balance.erc20Entity.id) :
-    []
-
-  const { data, isFetching } = useUniswapTokensQuery(
+  const { data: uniswapPriceData } = useUniswapTokensQuery(
     addresses,
     blockNumber
   )
-  const uniswapPriceData = data
 
-  const compiledErc20s = compileLootBoxErc20s(erc20Balances, uniswapPriceData)
+  const { sortedAwards, awards } = compileLootBoxAwards(allLootBoxAwards, uniswapPriceData)
+
 
   if (!lootBox) {
+    console.warn('no lootbox found for this pool or historic prize')
     return null
   }
-
-  const sortedAwards = orderBy(compiledErc20s, ({ value }) => value || '', ['desc'])
-  const awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 5)
 
 
   const handleShowMore = (e) => {
@@ -93,6 +56,7 @@ export const LootBoxTable = (props) => {
       `${basePath}#loot-box-table`,
     )
   }
+
 
   return <>
     <div
@@ -160,6 +124,7 @@ export const LootBoxTable = (props) => {
             </thead>
             <tbody>
               {awards.map(award => {
+                console.log({award})
                 if (!award.name) {
                   return
                 }
@@ -175,9 +140,10 @@ export const LootBoxTable = (props) => {
                         address={award.address}
                       /> <EtherscanAddressLink
                         address={award.address}
-                        className='text-inverse'
+                        className='text-inverse truncate'
                       >
-                        {award.name.length > 20 ? <span className='truncate'>{award.name.substr(0, 20)}</span> : award.name}
+                        {award.name}
+                        {/* {award.name.length > 20 ? <span className='truncate'>{award.name.substr(0, 20)}</span> : award.name} */}
                       </EtherscanAddressLink>
                     </td>
                     <td
@@ -190,12 +156,13 @@ export const LootBoxTable = (props) => {
                             decimals: award.decimals
                           }
                         )}
-                      </PoolNumber> {award.symbol.length > 20 ? <span className='truncate'>{award.symbol.substr(0, 20)}</span> : award.symbol}
+                      </PoolNumber> {award.symbol}
+                      {/* </PoolNumber> {award.symbol.length > 20 ? <span className='truncate'>{award.symbol.substr(0, 20)}</span> : award.symbol} */}
                     </td>
                     <td
                       className='py-2 font-bold'
                     >
-                      {award.value ? `$${numberWithCommas(award.value, { precision: 2 })}` : ''}
+                      {award.value && `$${numberWithCommas(award.value, { precision: 2 })}`}
                     </td>
                   </tr>
                 </Fragment>
@@ -203,7 +170,7 @@ export const LootBoxTable = (props) => {
             </tbody>
           </table>
 
-          {erc20Balances.length > 5 && <>
+          {erc20Balances.length > 10 && <>
             <div className='text-center'>
               <motion.button
                 border='none'

@@ -23,7 +23,6 @@ import { LootBoxTable } from 'lib/components/LootBoxTable'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
 import { PrizeFromInterestCard } from 'lib/components/PrizeFromInterestCard'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
-import { TopLevelExternalAwards } from 'lib/components/TopLevelExternalAwards'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Meta } from 'lib/components/Meta'
@@ -239,13 +238,8 @@ export const PoolShow = (
             interestPrize={pool?.interestPrizeUSD}
           />
 
-          <TopLevelExternalAwards
-            pool={pool}
-            basePath={`/pools/${pool?.symbol}`}
-          />
-
           <LootBoxTable
-            pool={pool} 
+            pool={pool}
             basePath={`/pools/${pool?.symbol}`}
           />
 
