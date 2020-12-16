@@ -1,6 +1,3 @@
-import { useContext, useEffect, useState } from 'react'
-
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
 import { useEthereumGenericQuery } from 'lib/hooks/useEthereumGenericQuery'

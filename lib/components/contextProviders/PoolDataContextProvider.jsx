@@ -120,17 +120,6 @@ export function PoolDataContextProvider(props) {
 
         const currentPool = getCurrentPool(querySymbol, pools)
         
-        // const ethereumErc20Awards = queryCache.getQueryData([
-        //   QUERY_KEYS.ethereumErc20sQuery,
-        //   chainId,
-        //   poolData?.daiPool?.poolAddress,
-        //   -1
-        // ])
-        // const addresses = ethereumErc20Awards
-        //   ?.filter(award => award.balance.gt(0))
-        //   ?.map(award => award.address)
-
-        
         return <FetchUsersChainData
           {...props}
           provider={defaultReadProvider}
