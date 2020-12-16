@@ -168,9 +168,9 @@ export const AccountTicket = (
                   fontSansRegular
                   decimals={2}
                   duration={3}
-                  end={pool?.grandPrizeAmountUSD ?
+                  end={pool?.totalPrizeAmountUSD ?
                     Math.floor(Number.parseFloat(
-                      ethers.utils.formatUnits(pool?.grandPrizeAmountUSD, decimals)
+                      ethers.utils.formatUnits(pool?.totalPrizeAmountUSD, decimals)
                     )) : 
                     0
                   }
