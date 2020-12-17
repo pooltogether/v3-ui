@@ -17,21 +17,6 @@ export const IndexUI = (
   
   const { loading, pools } = usePools()
 
-  // let totalPrizes = ethers.utils.bigNumberify(0)
-  // pools?.forEach(_pool => {
-  //   if (_pool.totalPrizeAmountUSD) {
-  //     const decimals = _pool?.underlyingCollateralDecimals
-  //     const cumulativePrizeAmountsForPool = normalizeTo18Decimals(
-  //       _pool.totalPrizeAmountUSD,
-  //       decimals
-  //     )
-  
-  //     totalPrizes = totalPrizes.add(
-  //       cumulativePrizeAmountsForPool
-  //     )
-  //   }
-  // })
-
   return <>
     <V2MessageLarge />
 

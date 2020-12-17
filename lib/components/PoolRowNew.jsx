@@ -12,8 +12,6 @@ import {
 } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
-// import { ButtonLink } from 'lib/components/ButtonLink'
-// import { Chip } from 'lib/components/Chip'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'

@@ -15,7 +15,6 @@ import {
 } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-// import { usePools } from 'lib/hooks/usePools'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
@@ -52,7 +51,6 @@ export const PoolShow = (props) => {
   const router = useRouter()
 
   const { networkName, usersAddress, walletName } = useContext(AuthControllerContext)
-  // const { pool } = usePools()
 
   const poolSymbol = router?.query?.symbol
   const { pool } = usePool(poolSymbol)
@@ -224,10 +222,10 @@ export const PoolShow = (props) => {
             interestPrize={pool?.interestPrizeUSD}
           />
 
-          {/* <LootBoxTable
+          <LootBoxTable
             pool={pool}
             basePath={`/pools/${pool?.symbol}`}
-          /> */}
+          />
 
           <CardGrid
             cardGroupId='pool-rewards-cards'
