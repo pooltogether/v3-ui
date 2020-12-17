@@ -29,8 +29,11 @@ export const AccountRewards = () => {
   const { t } = useTranslation()
 
   const [transactions, setTransactions] = useAtom(transactionsAtom)
-  
-  const { pools, usersChainData, graphDripData } = useContext(PoolDataContext)
+ 
+  const { pools, graphDripData } = usePools()
+  const { pool } = usePool()
+  const { usersChainData } = useUsersChainData(pool)
+
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
   // fill this in with a watched address or an address from router params

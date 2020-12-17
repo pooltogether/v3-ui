@@ -10,17 +10,15 @@ import { fetchUsersChainData } from 'lib/utils/fetchUsersChainData'
 
 const debug = require('debug')('pool-app:FetchUsersChainData')
 
-export function FetchUsersChainData(props) {
-  const {
-    children,
-    graphDripData,
-    pool,
-    provider,
-    usersAddress,
-    contractAddresses,
-  } = props
+export function useUsersChainData(pool) {
+  const { usersAddress, provider, pauseQueries } = useContext(AuthControllerContext)
 
-  const { pauseQueries } = useContext(AuthControllerContext)
+  const { contractAddresses } = usePools()
+
+  const { data: graphDripData, error } = usePoolDripsQuery()
+  if (error) {
+    console.error(error)
+  }
 
   const poolAddress = pool?.poolAddress
 
@@ -72,9 +70,6 @@ export function FetchUsersChainData(props) {
     } else {
       setUsersChainData({})
     }
-
-
-    
   }
 
 
@@ -88,5 +83,6 @@ export function FetchUsersChainData(props) {
     // OPTIMIZE: Could reset the interval loop here since we just grabbed fresh data!
   }, [poolAddress, usersAddress, comptrollerAddress])
 
-  return children({ usersChainData })
+  // return children({ usersChainData })
+  return { usersChainData }
 }

@@ -8,14 +8,14 @@ export const compileHistoricalErc20Awards = (prize, uniswapPriceData) => {
   const prizeNumber = extractPrizeNumberFromPrize(prize)
   const erc20GraphData = prize?.awardedExternalErc20Tokens
 
+  const data = []
+
   if (
     isEmpty(erc20GraphData) ||
     isEmpty(uniswapPriceData)
   ) {
-    return {}
+    return data
   }
-
-  let data = {}
 
   erc20GraphData.forEach(obj => {
     const priceData = uniswapPriceData[obj.address]
@@ -30,12 +30,12 @@ export const compileHistoricalErc20Awards = (prize, uniswapPriceData) => {
 
     const value = priceUSD && parseFloat(balanceFormatted) * priceUSD
 
-    data[obj.address] = {
+    data.push({
       ...obj,
       ...priceData,
       balanceAwardedBN,
       value
-    }
+    })
   })
 
   return data

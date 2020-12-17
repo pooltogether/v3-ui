@@ -46,9 +46,19 @@ export const compilePool = (
     -1
   ])
 
+  const blockNumber = -1
+  let { awards } = useLootBox(historical, pool, blockNumber)
+
+  // const blockNumber = historical ? parseInt(prize?.awardedBlock, 10) : -1
+  // const originalAwardsCount = awards.length
+  // awards = moreVisible ? awards : awards?.slice(0, 10)
+
+  // console.log(awards)
+
   const compiledExternalErc20Awards = compileErc20Awards(ethereumErc20Awards, poolGraphData, uniswapPriceData)
 
   const compiledExternalErc721Awards = compileErc721Awards(ethereumErc721Awards, poolGraphData)
+  console.log({compiledExternalErc721Awards})
 
   const externalAwardsEstimateUSD = calculateEstimatedExternalAwardsValue(compiledExternalErc20Awards)
 

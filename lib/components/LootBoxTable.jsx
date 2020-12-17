@@ -21,18 +21,12 @@ export const LootBoxTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { basePath, historical, pool, prize } = props
+  const { basePath, historical, pool } = props
   
   const [moreVisible, setMoreVisible] = useState(false)
 
-  const blockNumber = historical ? parseInt(prize?.awardedBlock, 10) : -1
-
-  let { awards } = useLootBox(historical, pool, blockNumber)
- 
-  const originalAwardsCount = awards.length
-  awards = moreVisible ? awards : awards?.slice(0, 10)
-
-  console.log(awards)
+  const originalAwardsCount = pool?.awards.length
+  const awards = moreVisible ? pool?.awards : pool?.awards?.slice(0, 10)
 
   const handleShowMore = (e) => {
     e.preventDefault()

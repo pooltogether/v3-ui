@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
@@ -7,13 +7,10 @@ import { useEthereumGenericQuery } from 'lib/hooks/useEthereumGenericQuery'
 
 const debug = require('debug')('pool-app:ChainQueries')
 
-export function ChainQueries(props) {
-  const {
-    children,
-    provider,
-    poolData,
-  } = props
-    
+export function useChainQueries(poolsGraphData) {
+  const { provider, chainId } = useContext(AuthControllerContext)
+
+
   const {
     status: genericChainStatus,
     data: genericChainData,
@@ -21,7 +18,7 @@ export function ChainQueries(props) {
     isFetching: genericIsFetching
   } = useEthereumGenericQuery({
     provider,
-    poolData: poolData?.daiPool,
+    poolData: poolsGraphData?.daiPool,
   })
 
   if (genericChainError) {
@@ -33,8 +30,8 @@ export function ChainQueries(props) {
 
 
   
-  const poolAddress = poolData?.daiPool?.poolAddress
-  const graphExternalErc20Awards = poolData?.daiPool?.externalErc20Awards
+  const poolAddress = poolsGraphData?.daiPool?.poolAddress
+  const graphExternalErc20Awards = poolsGraphData?.daiPool?.externalErc20Awards
 
   const {
     status: externalErc20ChainStatus,
@@ -53,7 +50,7 @@ export function ChainQueries(props) {
 
 
 
-  const graphExternalErc721Awards = poolData?.daiPool?.externalErc721Awards
+  const graphExternalErc721Awards = poolsGraphData?.daiPool?.externalErc721Awards
 
   const {
     status: externalErc721ChainStatus,
@@ -70,7 +67,5 @@ export function ChainQueries(props) {
     console.warn(externalErc721ChainError)
   }
   
-  return children({ 
-    genericChainData,
-  })
+  return { genericChainData }
 }

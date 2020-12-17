@@ -15,7 +15,7 @@ import {
 } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+// import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
@@ -31,6 +31,7 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
 import { Tagline } from 'lib/components/Tagline'
+import { usePool } from 'lib/hooks/usePool'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
@@ -46,35 +47,22 @@ import YieldSourceIcon from 'assets/images/icon-yieldsource@2x.png'
 import TotalAwardedIcon from 'assets/images/icon-total@2x.png'
 import PrizeIcon from 'assets/images/icon-prize@2x.png'
 
-export const PoolShow = (
-  props,
-) => {
+export const PoolShow = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
   const { networkName, usersAddress, walletName } = useContext(AuthControllerContext)
-  const { pool } = useContext(PoolDataContext)
+  // const { pool } = useContext(PoolDataContext)
 
-  const symbol = pool?.symbol
+  const poolSymbol = router?.query?.symbol?.toLowerCase()
+  const { pool } = usePool(poolSymbol)
+
   const decimals = pool?.underlyingCollateralDecimals
   
   const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
 
   const [cookieShowAward, setCookieShowAward] = useState(false)
 
-  let error
-
-  try {
-    if (pool?.poolAddress) {
-      ethers.utils.getAddress(pool.poolAddress)
-    }
-  } catch (e) {
-    console.error(e)
-    if (e.message.match('invalid address')) {
-      error = 'Incorrectly formatted Ethereum address!'
-    }
-  }
-  
   useInterval(() => {
     setCookieShowAward(Cookies.get(SHOW_MANAGE_LINKS))
   }, 1000)
@@ -154,8 +142,6 @@ export const PoolShow = (
         }
       }}
     >
-      {error}
-      
         <>
           <div
             className='flex flex-col xs:flex-row justify-between xs:items-center'
@@ -387,7 +373,7 @@ export const PoolShow = (
               <ButtonLink
                 secondary
                 href='/pools/[symbol]/manage'
-                as={`/pools/${symbol}/manage`}
+                as={`/pools/${pool?.symbol}/manage`}
               >
                 {t('managePool')}
               </ButtonLink>
