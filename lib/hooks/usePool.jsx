@@ -68,7 +68,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   let pool = {
     ...poolInfo,
-    ...poolChainData,
+    ...poolChainData?.['PT-cDAI'],
     ...poolsGraphData?.['PT-cDAI'],
   }
 
@@ -84,6 +84,8 @@ export function usePool(poolSymbol, blockNumber = -1) {
   // console.log(awards)
 
   const compiledExternalErc20Awards = compileErc20Awards(erc20ChainData, poolsGraphData?.['PT-cDAI'], uniswapPriceData)
+  // console.log(erc20ChainData, poolsGraphData?.['PT-cDAI'], uniswapPriceData)
+  // console.log(compiledExternalErc20Awards)
 
   const compiledExternalErc721Awards = compileErc721Awards(erc721ChainData, poolsGraphData?.['PT-cDAI'])
 
@@ -115,6 +117,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
     compiledExternalErc721Awards
   }
 
+  console.log({pool})
 
   return {
     pool
