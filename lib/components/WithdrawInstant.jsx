@@ -17,7 +17,7 @@ export function WithdrawInstant(props) {
     pool,
   } = props
 
-  const { exitFees } = useExitFees(quantity)
+  const { exitFees } = useExitFees(pool, quantity)
 
   let notEnoughCredit = null
   if (exitFees && exitFees.exitFee) {

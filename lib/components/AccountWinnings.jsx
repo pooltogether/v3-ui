@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { usePool } from 'lib/hooks/usePool'
 import { usePools } from 'lib/hooks/usePools'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { useAccount } from 'lib/hooks/useAccount'
@@ -16,9 +17,10 @@ export const AccountWinnings = () => {
   const { t } = useTranslation()
   
   const { usersAddress } = useContext(AuthControllerContext)
-  const { pools } = usePools()
 
-  
+  // only supports cDAI pool atm, need to fix this!
+  const { pool } = usePool('PT-cDAI')
+  const { pools } = usePools()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
@@ -32,9 +34,8 @@ export const AccountWinnings = () => {
     let cumulativeWinningsAllPools = ethers.utils.bigNumberify(0)
 
     accountData?.prizePoolAccounts.forEach(prizePoolAccount => {
-      const poolAddress = prizePoolAccount?.prizePool?.id
-      const pool = pools?.find(pool => pool.poolAddress === poolAddress)
-      if (!pool) return
+      const _pool = pools?.find(p => p.id === prizePoolAccount?.prizePool?.id)
+      if (!_pool) return
 
       const ticketAddress = pool?.ticketToken?.id
       let balance = accountData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance

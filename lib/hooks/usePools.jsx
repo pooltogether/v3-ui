@@ -3,14 +3,12 @@ import { isEmpty } from 'lodash'
 
 import { POOLS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePoolChainQuery } from 'lib/hooks/usePoolChainQuery'
 import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
 import { poolToast } from 'lib/utils/poolToast'
 
-export function usePools(props) {
-  // const queryCache = useQueryCache()
+export function usePools() {
   const { supportedNetwork, chainId } = useContext(AuthControllerContext)
 
   let contractAddresses
@@ -43,9 +41,6 @@ export function usePools(props) {
 
 
 
-  
-
-
 
   const poolsDataLoading = !poolsGraphData
 
@@ -55,13 +50,6 @@ export function usePools(props) {
   }
 
 
-  // const { poolChainData } = usePoolChainQuery(poolsGraphData)
-  // console.log(poolChainData)
-  // console.log(poolsGraphData)
-  // const { erc20ChainData } = useErc20ChainQuery(poolsGraphData)
-  // const { erc721ChainData } = useErc721ChainQuery(poolsGraphData)
-  
-
   let pools = []
   POOLS.forEach(POOL => {
     const _pool = {
@@ -69,48 +57,19 @@ export function usePools(props) {
       id: contractAddresses[POOL.symbol],
     }
 
-    // const _pool = compilePool(
-    //   chainId,
-    //   POOL,
-    //   contractAddresses.daiPool,
-    //   queryCache,
-    //   poolChainData.dai,
-    //   graphPoolData.daiPool,
-    // )
-
     if (_pool?.id) {
       pools.push(_pool)
     }
   })
 
-  // let pools = []
-  // POOLS.forEach(POOL => {
-  //   const _pool = compilePool(
-  //     chainId,
-  //     POOL,
-  //     contractAddresses.daiPool,
-  //     queryCache,
-  //     poolChainData.dai,
-  //     graphPoolData.daiPool,
-  //   )
-
-  //   if (_pool?.id) {
-  //     pools.push(_pool)
-  //   }
-  // })
-
-  // const pools = compilePools(chainId, contractAddresses, queryCache, poolsGraphData, poolChainData)
-
-  // const { usersChainData } = useUsersChainData(pool)
-
   return {
     pools,
     loading: poolsDataLoading,
     contractAddresses,
-    // poolChainData,
     refetchPoolsData,
-    // graphDripData,
     poolsGraphData,
+    // poolChainData,
+    // graphDripData,
     // usersChainData,
   }
 }

@@ -5,6 +5,7 @@ import {
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { useInterval } from 'lib/hooks/useInterval'
 import { usePoolDripsQuery } from 'lib/hooks/usePoolDripsQuery'
 import { fetchUsersChainData } from 'lib/utils/fetchUsersChainData'
@@ -21,7 +22,7 @@ export function useUsersChainData(pool) {
     console.error(error)
   }
 
-  const poolAddress = pool?.poolAddress
+  const poolAddress = pool?.id
 
   const [usersChainData, setUsersChainData] = useState({})
 

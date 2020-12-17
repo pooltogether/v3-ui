@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { ethers } from 'ethers'
 
 import { Trans, useTranslation } from 'lib/../i18n'
-import { usePools } from 'lib/hooks/usePools'
+import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
@@ -14,7 +14,7 @@ export const V2MessageLarge = (
 ) => {
   const { t } = useTranslation()
   
-  const { usersChainData } = usePools()
+  const { usersChainData } = useUsersChainData(pool)
 
   let usersTotalV2Balance = ethers.utils.bigNumberify(0)
 

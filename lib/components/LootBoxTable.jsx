@@ -25,7 +25,7 @@ export const LootBoxTable = (props) => {
   
   const [moreVisible, setMoreVisible] = useState(false)
 
-  const originalAwardsCount = pool?.awards.length
+  const originalAwardsCount = pool?.awards?.length
   const awards = moreVisible ? pool?.awards : pool?.awards?.slice(0, 10)
 
   const handleShowMore = (e) => {

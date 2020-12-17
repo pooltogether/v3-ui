@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
-import { usePools } from 'lib/hooks/usePools'
+import { usePool } from 'lib/hooks/usePool'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PrizeShow } from 'lib/components/PrizeShow'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
@@ -16,12 +16,10 @@ export default function PrizeShowPage(props) {
   const querySymbol = router.query?.symbol
   const prizeNumber = router.query?.prizeNumber
 
-  const { pool, pools } = usePools()
+  // const { pools } = usePools()
+  const { pool } = usePool()
 
-  const poolAddress = pool?.poolAddress
-
-
-  const prizeId = `${poolAddress}-${prizeNumber}`
+  const prizeId = `${pool?.id}-${prizeNumber}`
 
   const { data, error } = usePrizeQuery(pool, prizeId)
 
@@ -34,6 +32,8 @@ export default function PrizeShowPage(props) {
   let prize = data?.prize
 
   if (!prize?.awardedBlock) {
+    router.push(`/pools/${pool.symbol}`)
+
     prize = {
       awardedBlock: null,
       net: pool?.grandPrizeAmountUSD
@@ -45,19 +45,13 @@ export default function PrizeShowPage(props) {
     />
   }
   
-
-
-
-  if (pools?.length > 0 && !pool) {
+  if (!pool) {
     return <BlankStateMessage>
       {t('couldNotFindPoolWithSymbol', {
         symbol: querySymbol
       })}
     </BlankStateMessage>
   }
-
-
-
 
   if (!prize) {
     return <div
@@ -72,15 +66,10 @@ export default function PrizeShowPage(props) {
       </>}
     </div>
   }
-
-
-  
-
-
   
   return <TimeTravelPool
     blockNumber={parseInt(prize?.awardedBlock, 10)}
-    poolAddress={poolAddress}
+    poolAddress={pool.id}
     querySymbol={querySymbol}
     prize={prize}
   >

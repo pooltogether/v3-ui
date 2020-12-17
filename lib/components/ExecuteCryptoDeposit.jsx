@@ -14,7 +14,7 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { usePool } from 'lib/hooks/usePool'
-import { useUsersChainData } from 'lib/hooks/useUsersChainData'
+// import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { permitSignOrRegularDeposit } from 'lib/utils/permitSignOrRegularDeposit'
 
@@ -31,7 +31,6 @@ export function ExecuteCryptoDeposit(props) {
   const quantity = router.query.quantity
 
   const { chainId, usersAddress, provider } = useContext(AuthControllerContext)
-  // const { usersChainData, pool } = usePools()
   const { pool } = usePool()
   // const { usersChainData } = useUsersChainData(pool)
 

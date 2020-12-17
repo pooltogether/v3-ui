@@ -4,7 +4,6 @@ import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePools } from 'lib/hooks/usePools'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { V2AccountTicket } from 'lib/components/V2AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
@@ -12,6 +11,8 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { TicketsLoader } from 'lib/components/TicketsLoader'
 import { useAccount } from 'lib/hooks/useAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
+import { usePool } from 'lib/hooks/usePool'
+import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 
 import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
@@ -20,8 +21,10 @@ export const AccountTickets = () => {
   const { t } = useTranslation()
   
   const { usersAddress } = useContext(AuthControllerContext)
-  const { usersChainData } = usePools()
   
+  // only supports cDAI pool atm, need to fix this!
+  const { pool } = usePool('PT-cDAI')
+  const { usersChainData } = useUsersChainData(pool)
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''

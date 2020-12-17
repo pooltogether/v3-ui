@@ -6,7 +6,7 @@ import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePools } from 'lib/hooks/usePools'
+import { usePool } from 'lib/hooks/usePool'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
@@ -25,7 +25,8 @@ export function DepositSponsorshipTxButton(props) {
   } = props
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
-  const { pool } = usePools()
+  
+  const { pool } = usePool()
 
   const poolAddress = pool?.poolAddress
 

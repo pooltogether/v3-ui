@@ -1,17 +1,16 @@
 import React, { useContext, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
-import { ethers } from 'ethers'
 import { isEmpty } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { Button } from 'lib/components/Button'
 import { CardGrid } from 'lib/components/CardGrid'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Meta } from 'lib/components/Meta'
 import { SponsorshipPane } from 'lib/components/SponsorshipPane'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
+import { usePool } from 'lib/hooks/usePool'
 import { usePools } from 'lib/hooks/usePools'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
@@ -28,8 +27,8 @@ export const ManageUI = (
   const {
     loading,
     contractAddresses,
-    pool,
   } = usePools()
+  const { pool } = usePool()
 
   if (loading) {
     return <IndexUILoader />

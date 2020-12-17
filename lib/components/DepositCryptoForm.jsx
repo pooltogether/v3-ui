@@ -8,7 +8,8 @@ import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/Contro
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePools } from 'lib/hooks/usePools'
+import { usePool } from 'lib/hooks/usePool'
+import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
@@ -36,7 +37,9 @@ export function DepositCryptoForm(props) {
   const quantity = router.query.quantity
   
   const { usersAddress, provider } = useContext(AuthControllerContext)
-  const { pool, usersChainData } = usePools()
+  
+  const { pool } = usePool()
+  const { usersChainData } = useUsersChainData(pool)
 
   const decimals = pool?.underlyingCollateralDecimals
   const tokenAddress = pool?.underlyingCollateralToken
@@ -159,7 +162,7 @@ export function DepositCryptoForm(props) {
 
   return <>
     <PaneTitle short>
-      <div className='inline-block sm:block relative -t-1 -mr-2'>
+      <div className='inline-block sm:block relative' style={{ top: -2 }}>
         <PoolCurrencyIcon
           pool={pool}
         />

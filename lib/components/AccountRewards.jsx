@@ -17,6 +17,7 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { PTCopyToClipboard } from 'lib/components/PTCopyToClipboard'
 import { usePlayerDrips } from 'lib/hooks/usePlayerDrips'
+import { usePool } from 'lib/hooks/usePool'
 import { usePools } from 'lib/hooks/usePools'
 import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -32,7 +33,11 @@ export const AccountRewards = () => {
   const [transactions, setTransactions] = useAtom(transactionsAtom)
  
   const { pools } = usePools()
-  const { usersChainData, graphDripData } = useUsersChainData()
+
+  // rewards are only supported by the cDAI pool atm
+  const { pool } = usePool('PT-cDAI')
+
+  const { usersChainData, graphDripData } = useUsersChainData(pool)
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
@@ -256,14 +261,12 @@ export const AccountRewards = () => {
       const isPoolDaiTickets = dripTokenData.name === 'PoolTogether Dai Ticket (Compound)'
         || dripTokenData.name === 'DAI Ticket'
 
-      const pool = pools?.[0]
-
       // this is using the only pool in the array, but if we wanted to do this properly
       // we would first iterate by pool and use the current rewards for that pool to do the calculation
       let daiPoolTickets,
         apr
       if (pool) {
-        daiPoolTickets = pool &&
+        daiPoolTickets = pool && pool.ticketSupply && pool.underlyingCollateralDecimals &&
           parseFloat(
             ethers.utils.formatUnits(
               pool.ticketSupply,
