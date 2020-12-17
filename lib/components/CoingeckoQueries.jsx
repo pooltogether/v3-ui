@@ -7,7 +7,7 @@
 //     dynamicExternalAwardsData,
 //   } = props
 
-//   const graphExternalErc20Awards = dynamicExternalAwardsData?.daiPool?.externalErc20Awards
+//   const graphExternalErc20Awards = dynamicExternalAwardsData?.['PT-cDAI']?.externalErc20Awards
 //   const addressesString = graphExternalErc20Awards?.map(award => award.address).join(',')
 
 //   const { data, error } = useCoingeckoTokensQuery(addressesString)

@@ -6,8 +6,8 @@ const debug = require('debug')('pool-app:ChainQueries')
 export function useErc721ChainQuery(poolsGraphData) {
   const { readProvider } = useReadProvider()
 
-  const poolAddress = poolsGraphData?.daiPool?.poolAddress
-  const graphExternalErc721Awards = poolsGraphData?.daiPool?.externalErc721Awards
+  const poolAddress = poolsGraphData?.['PT-cDAI']?.poolAddress
+  const graphExternalErc721Awards = poolsGraphData?.['PT-cDAI']?.externalErc721Awards
 
   // this is being used via a direct query cache read!
   const {

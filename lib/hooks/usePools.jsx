@@ -1,21 +1,17 @@
-import { useContext, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import { useQueryCache } from 'react-query'
+import { useContext } from 'react'
 import { isEmpty } from 'lodash'
 
+import { POOLS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { usePoolChainQuery } from 'lib/hooks/usePoolChainQuery'
 import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
-import { compilePools } from 'lib/services/compilePools'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
 import { poolToast } from 'lib/utils/poolToast'
 
 export function usePools(props) {
-  const queryCache = useQueryCache()
-
+  // const queryCache = useQueryCache()
   const { supportedNetwork, chainId } = useContext(AuthControllerContext)
-
 
   let contractAddresses
   try {
@@ -59,76 +55,62 @@ export function usePools(props) {
   }
 
 
-  const { poolChainData } = usePoolChainQuery(poolsGraphData)
-  console.log(poolChainData)
+  // const { poolChainData } = usePoolChainQuery(poolsGraphData)
+  // console.log(poolChainData)
+  // console.log(poolsGraphData)
   // const { erc20ChainData } = useErc20ChainQuery(poolsGraphData)
   // const { erc721ChainData } = useErc721ChainQuery(poolsGraphData)
   
-  const pools = compilePools(chainId, contractAddresses, queryCache, poolsGraphData, poolChainData)
+
+  let pools = []
+  POOLS.forEach(POOL => {
+    const _pool = {
+      ...POOL,
+      id: contractAddresses[POOL.symbol],
+    }
+
+    // const _pool = compilePool(
+    //   chainId,
+    //   POOL,
+    //   contractAddresses.daiPool,
+    //   queryCache,
+    //   poolChainData.dai,
+    //   graphPoolData.daiPool,
+    // )
+
+    if (_pool?.id) {
+      pools.push(_pool)
+    }
+  })
+
+  // let pools = []
+  // POOLS.forEach(POOL => {
+  //   const _pool = compilePool(
+  //     chainId,
+  //     POOL,
+  //     contractAddresses.daiPool,
+  //     queryCache,
+  //     poolChainData.dai,
+  //     graphPoolData.daiPool,
+  //   )
+
+  //   if (_pool?.id) {
+  //     pools.push(_pool)
+  //   }
+  // })
+
+  // const pools = compilePools(chainId, contractAddresses, queryCache, poolsGraphData, poolChainData)
 
   // const { usersChainData } = useUsersChainData(pool)
 
   return {
-    loading: poolsDataLoading,
     pools,
+    loading: poolsDataLoading,
     contractAddresses,
-    poolChainData,
+    // poolChainData,
     refetchPoolsData,
     // graphDripData,
     poolsGraphData,
     // usersChainData,
   }
-
-  // return <>
-  //   <ChainQueries
-  //     {...props}
-  //     chainId={chainId}
-  //     provider={defaultReadProvider}
-  //     poolData={poolData}
-  //   >
-  //     {({ poolChainData }) => {
-        
-  //       const currentPool = getCurrentPool(querySymbol, pools)
-        
-  //       // const ethereumErc20Awards = queryCache.getQueryData([
-  //       //   QUERY_KEYS.ethereumErc20sQuery,
-  //       //   chainId,
-  //       //   poolData?.daiPool?.poolAddress,
-  //       //   -1
-  //       // ])
-  //       // const addresses = ethereumErc20Awards
-  //       //   ?.filter(award => award.balance.gt(0))
-  //       //   ?.map(award => award.address)
-
-        
-  //       return <FetchUsersChainData
-  //         {...props}
-  //         provider={defaultReadProvider}
-  //         pool={currentPool}
-  //         usersAddress={usersAddress}
-  //         graphDripData={graphDripData}
-  //         contractAddresses={contractAddresses}
-  //       >
-  //         {({ usersChainData }) => {
-  //           return <PoolDataContext.Provider
-  //             value={{
-  //               loading: poolsDataLoading,
-  //               pool: currentPool,
-  //               pools,
-  //               contractAddresses,
-  //               defaultReadProvider,
-  //               poolChainData,
-  //               refetchPoolsData,
-  //               graphDripData,
-  //               poolsGraphData,
-  //               usersChainData,
-  //             }}
-  //           >
-  //             {props.children}
-  //           </PoolDataContext.Provider>
-  //         }}
-  //       </FetchUsersChainData>
-  //     }}
-  //   </ChainQueries>
-  // </>
 }

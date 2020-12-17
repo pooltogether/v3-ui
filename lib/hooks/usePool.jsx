@@ -1,56 +1,41 @@
-import { useContext } from 'react'
-// import { useRouter } from 'next/router'
-import { useQueryCache } from 'react-query'
+import { useEffect, useContext } from 'react'
+import { useRouter } from 'next/router'
+import { ethers } from 'ethers'
 
-import { POOLS, QUERY_KEYS } from 'lib/constants'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { POOLS } from 'lib/constants'
+import { usePools } from 'lib/hooks/usePools'
 import { usePoolChainQuery } from 'lib/hooks/usePoolChainQuery'
 import { useErc20ChainQuery } from 'lib/hooks/useErc20ChainQuery'
 import { useErc721ChainQuery } from 'lib/hooks/useErc721ChainQuery'
-import { usePools } from 'lib/hooks/usePools'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
-import { compilePool } from 'lib/services/compilePool'
+import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPoolPrize'
+import { calculateEstimatedExternalAwardsValue } from 'lib/services/calculateEstimatedExternalAwardsValue'
+import { compileErc20Awards } from 'lib/services/compileErc20Awards'
+import { compileErc721Awards } from 'lib/services/compileErc721Awards'
 
+// note: when calculating value of ERC20 tokens this uses current chain data (infura/alchemy) to get the balance
+// but uses the Uniswap subgraph to get the prices
+// 
+// in the compilePoolWithBlockNumber(), the balance is pulled from the pooltogether subgraph as we want the balance
+// at the time the prize was awarded, etc
 export function usePool(poolSymbol, blockNumber = -1) {
-  const queryCache = useQueryCache()
+  const router = useRouter()
 
-  // const router = useRouter()
+  if (!poolSymbol) {
+    poolSymbol = router?.query?.symbol
+  }
 
-  const { chainId } = useContext(AuthControllerContext)
+  const { poolsGraphData } = usePools()
 
-  // TODO: Change this from returning poolChainData, poolAddresses and poolsGraphData about every pool
-  const { contractAddresses, pools, poolsGraphData } = usePools()
-
-  // TODO: Change this from returning poolChainData, poolAddresses and poolsGraphData about every pool
+  // TODO: Change this from needing poolsGraphData about every pool
   const { poolChainData } = usePoolChainQuery(poolsGraphData)
   const { erc20ChainData } = useErc20ChainQuery(poolsGraphData)
   const { erc721ChainData } = useErc721ChainQuery(poolsGraphData)
-
-  console.log({ erc20ChainData })
-  console.log({ erc721ChainData })
-
   // const { contractAddresses } = usePools()
-  
-  // this router.query doesn't work inside a hook?
-  // if (!poolSymbol) {
-  //   poolSymbol = router?.query?.symbol
-  // }
 
-  // TODO: This is hard-coded to the DAI pool and will need to be changed
-
-  
-  // const ethereumErc20Awards = queryCache.getQueryData([
-  //   QUERY_KEYS.ethereumErc20sQuery,
-  //   chainId,
-  //   pools?.daiPool?.poolAddress,
-  //   -1
-  // ])
-  const addresses = ethereumErc20Awards
+  const addresses = erc20ChainData
     ?.filter(award => award.balance.gt(0))
     ?.map(award => award.address)
-
-  console.log(ethereumErc20Awards)
-  console.log(addresses)
 
   const { data: uniswapPriceData } = useUniswapTokensQuery(
     addresses,
@@ -70,15 +55,66 @@ export function usePool(poolSymbol, blockNumber = -1) {
     return POOL.symbol === poolSymbol
   })
 
-  const pool = compilePool(
-    chainId,
-    poolInfo,
-    contractAddresses.daiPool,
-    queryCache,
-    poolChainData?.dai,
-    poolsGraphData?.daiPool,
-    uniswapPriceData,
-  )
+  // const pool = compilePool(
+  //   chainId,
+  //   poolInfo,
+  //   contractAddresses.daiPool,
+  //   queryCache,
+  //   poolChainData?.dai,
+  //   poolsGraphData?.daiPool,
+  //   uniswapPriceData,
+  // )
+
+
+  let pool = {
+    ...poolInfo,
+    ...poolChainData,
+    ...poolsGraphData?.['PT-cDAI'],
+  }
+
+  // const ethereumErc20Awards = queryCache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, chainId, poolAddress, blockNumber])
+  // const ethereumErc721Awards = queryCache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, chainId, poolAddress, blockNumber])
+
+  // let { awards } = useLootBox(historical, pool, blockNumber)
+
+  // const blockNumber = historical ? parseInt(prize?.awardedBlock, 10) : -1
+  // const originalAwardsCount = awards.length
+  // awards = moreVisible ? awards : awards?.slice(0, 10)
+
+  // console.log(awards)
+
+  const compiledExternalErc20Awards = compileErc20Awards(erc20ChainData, poolsGraphData?.['PT-cDAI'], uniswapPriceData)
+
+  const compiledExternalErc721Awards = compileErc721Awards(erc721ChainData, poolsGraphData?.['PT-cDAI'])
+
+  const externalAwardsUSD = calculateEstimatedExternalAwardsValue(compiledExternalErc20Awards)
+
+  const interestPrizeUSD = calculateEstimatedPoolPrize(pool)
+
+
+  const numOfWinners = parseInt(pool.numberOfWinners || 1, 10)
+  const grandPrizeAmountUSD = externalAwardsUSD ?
+    interestPrizeUSD.div(numOfWinners).add(ethers.utils.parseEther(
+      externalAwardsUSD.toString()
+    )) :
+    interestPrizeUSD.div(numOfWinners)
+
+  const totalPrizeAmountUSD = externalAwardsUSD ?
+    interestPrizeUSD.add(ethers.utils.parseEther(
+      externalAwardsUSD.toString()
+    )) :
+    interestPrizeUSD
+
+  pool = {
+    ...pool,
+    totalPrizeAmountUSD,
+    grandPrizeAmountUSD,
+    interestPrizeUSD,
+    externalAwardsUSD,
+    compiledExternalErc20Awards,
+    compiledExternalErc721Awards
+  }
+
 
   return {
     pool

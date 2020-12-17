@@ -13,7 +13,7 @@ export function usePoolChainQuery(poolsGraphData) {
     isFetching: poolIsFetching
   } = useEthereumPoolQuery({
     provider: readProvider,
-    poolGraphData: poolsGraphData?.daiPool,
+    poolGraphData: poolsGraphData?.['PT-cDAI'],
   })
 
   if (poolChainError) {
