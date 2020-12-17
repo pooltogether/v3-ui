@@ -56,8 +56,6 @@ export const PoolShow = (props) => {
 
   const poolSymbol = router?.query?.symbol
   const { pool } = usePool(poolSymbol)
-  console.log(pool)
-  console.log(poolSymbol)
 
   const decimals = pool?.underlyingCollateralDecimals
   

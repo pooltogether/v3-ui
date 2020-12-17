@@ -20,7 +20,6 @@ export function usePool(poolSymbol, blockNumber = -1) {
   const { contractAddresses, pools, poolsGraphData } = usePools()
   const { poolsChainData } = useChainQueries(poolsGraphData)
 
-  console.log(poolsChainData)
   console.log(
     poolsChainData?.dai,
     poolsGraphData?.daiPool,
