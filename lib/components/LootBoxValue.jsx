@@ -7,16 +7,16 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 export const LootBoxValue = (props) => {
   const { t } = useTranslation()
 
-  const { compiledErc20s } = props
+  const { awards } = props
 
-  if (isEmpty(compiledErc20s)) {
+  if (isEmpty(awards)) {
     return null
   }
   
   let lootBoxValueUSD = 0
 
-  const erc20s = Object.keys(compiledErc20s || {})
-    .map(key => compiledErc20s?.[key])
+  const erc20s = Object.keys(awards || {})
+    .map(key => awards?.[key])
 
   erc20s?.forEach(award => {
     if (award.value) {

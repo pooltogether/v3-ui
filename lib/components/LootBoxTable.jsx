@@ -1,7 +1,6 @@
 import React, { Fragment, useContext, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
-import { orderBy } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
 import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
@@ -10,13 +9,14 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { LootBoxValue } from 'lib/components/LootBoxValue'
 import { useLootBox } from 'lib/hooks/useLootBox'
-import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
-import { compileLootBoxErc20s } from 'lib/services/compileLootBoxErc20s'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import GiftIcon from 'assets/images/icon-gift@2x.png'
 
+// UPDATE: DESCRIPTION
+  // UPDATE: LootBoxValue
+  // UPDATE: Do 721 tokenURIs only get called once and cached?
 export const LootBoxTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
@@ -27,25 +27,12 @@ export const LootBoxTable = (props) => {
 
   const blockNumber = historical ? parseInt(prize?.awardedBlock, 10) : -1
 
-  const { lootBox } = useLootBox(historical, pool, blockNumber)
-  
+  let { awards } = useLootBox(historical, pool, blockNumber)
+ 
+  const originalAwardsCount = awards.length
+  awards = moreVisible ? awards : awards?.slice(0, 10)
 
-  const { addresses, allLootBoxAwards } = getLootBoxAwards(lootBox, historical)
-
-
-  const { data: uniswapPriceData } = useUniswapTokensQuery(
-    addresses,
-    blockNumber
-  )
-
-  const { sortedAwards, awards } = compileLootBoxAwards(allLootBoxAwards, uniswapPriceData)
-
-
-  if (!lootBox) {
-    console.warn('no lootbox found for this pool or historic prize')
-    return null
-  }
-
+  console.log(awards)
 
   const handleShowMore = (e) => {
     e.preventDefault()
@@ -78,7 +65,7 @@ export const LootBoxTable = (props) => {
             {historical ? t('noOtherPrizesAwarded') : t('currentlyNoOtherPrizes')}
           </> : <>
             <LootBoxValue
-              compiledErc20s={compiledErc20s}
+              awards={awards}
             />
           </>}
         </div>
@@ -110,7 +97,7 @@ export const LootBoxTable = (props) => {
                     className='text-green text-left'
                   >
                     {t('amountTokens', {
-                      amount: sortedAwards.length
+                      amount: originalAwardsCount
                     })}
                   </h6>
                 </th>
@@ -124,7 +111,6 @@ export const LootBoxTable = (props) => {
             </thead>
             <tbody>
               {awards.map(award => {
-                console.log({award})
                 if (!award.name) {
                   return
                 }
@@ -151,7 +137,8 @@ export const LootBoxTable = (props) => {
                     >
                       <PoolNumber>
                         {displayAmountInEther(
-                          award[balanceProperty], {
+                          // award[balanceProperty]
+                          award.balance, {
                             precision: 6,
                             decimals: award.decimals
                           }
@@ -170,7 +157,7 @@ export const LootBoxTable = (props) => {
             </tbody>
           </table>
 
-          {erc20Balances.length > 10 && <>
+          {originalAwardsCount > 10 && <>
             <div className='text-center'>
               <motion.button
                 border='none'
