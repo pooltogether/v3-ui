@@ -117,7 +117,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
     compiledExternalErc721Awards
   }
 
-  console.log({pool})
+  // console.log({pool})
 
   return {
     pool

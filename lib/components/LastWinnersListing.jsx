@@ -27,6 +27,7 @@ export const LastWinnersListing = (
 
 
   let prizes = compact([].concat(data?.prizePool?.prizes))
+  
 
   prizes = prizes?.reduce(function (result, prize) {
     if (prize.winners && prize.winners.length > 0) {
@@ -54,7 +55,8 @@ export const LastWinnersListing = (
       {error.message}
     </>}
 
-    {prizes && prizes?.length === 0 ? <>
+    {/* {prizes && prizes?.length === 0 ? <> */}
+    {prizes === null ? <>
       <h6>
         {t('noWinnersAwardedYet')}
       </h6>

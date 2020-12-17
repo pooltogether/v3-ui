@@ -42,13 +42,15 @@ export const PoolList = (
         }}
       >
         {pools?.map(pool => {
-          if (!pool || !pool.poolAddress) {
+          if (!pool?.id) {
             return null
           }
 
+          console.log(pool)
+
           return <PoolRowNew
-            key={`pool-row-${pool.poolAddress}`}
-            pool={pool}
+            key={`pool-row-${pool.id}`}
+            poolSymbol={pool.symbol}
           />
         })}
 
