@@ -4,8 +4,7 @@ import { useQueryCache } from 'react-query'
 import { isEmpty } from 'lodash'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { useChainQueries } from 'lib/hooks/useChainQueries'
-import { usePoolDripsQuery } from 'lib/hooks/usePoolDripsQuery'
+import { usePoolChainQuery } from 'lib/hooks/usePoolChainQuery'
 import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
 import { compilePools } from 'lib/services/compilePools'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
@@ -60,9 +59,10 @@ export function usePools(props) {
   }
 
 
-  
-  
-  const { poolChainData } = useChainQueries(poolsGraphData)
+  const { poolChainData } = usePoolChainQuery(poolsGraphData)
+  console.log(poolChainData)
+  // const { erc20ChainData } = useErc20ChainQuery(poolsGraphData)
+  // const { erc721ChainData } = useErc721ChainQuery(poolsGraphData)
   
   const pools = compilePools(chainId, contractAddresses, queryCache, poolsGraphData, poolChainData)
 

@@ -6,6 +6,7 @@ import {
 } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useInterval } from 'lib/hooks/useInterval'
+import { usePoolDripsQuery } from 'lib/hooks/usePoolDripsQuery'
 import { fetchUsersChainData } from 'lib/utils/fetchUsersChainData'
 
 const debug = require('debug')('pool-app:FetchUsersChainData')

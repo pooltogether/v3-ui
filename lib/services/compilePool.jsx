@@ -26,28 +26,21 @@ export const compilePool = (
   queryCache,
   poolChainData,
   poolGraphData,
+  uniswapPriceData,
+  blockNumber = -1
 ) => {
+  console.log(uniswapPriceData)
+
   const poolObj = {
     ...poolChainData,
     ...poolGraphData,
   }
 
-  const ethereumErc20Awards = queryCache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, chainId, poolAddress, -1])
-  const ethereumErc721Awards = queryCache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, chainId, poolAddress, -1])
+  const ethereumErc20Awards = queryCache.getQueryData([QUERY_KEYS.ethereumErc20sQuery, chainId, poolAddress, blockNumber])
+  const ethereumErc721Awards = queryCache.getQueryData([QUERY_KEYS.ethereumErc721sQuery, chainId, poolAddress, blockNumber])
 
 
-  const addresses = ethereumErc20Awards
-    ?.filter(award => award.balance.gt(0))
-    ?.map(award => award.address)
 
-  const uniswapPriceData = queryCache.getQueryData([
-    QUERY_KEYS.uniswapTokensQuery,
-    chainId,
-    !isEmpty(addresses) ? addresses.join('-') : '',
-    -1
-  ])
-
-  const blockNumber = -1
   // let { awards } = useLootBox(historical, pool, blockNumber)
 
   // const blockNumber = historical ? parseInt(prize?.awardedBlock, 10) : -1
@@ -60,6 +53,7 @@ export const compilePool = (
 
   const compiledExternalErc721Awards = compileErc721Awards(ethereumErc721Awards, poolGraphData)
 
+  console.log(uniswapPriceData)
   const externalAwardsEstimateUSD = calculateEstimatedExternalAwardsValue(compiledExternalErc20Awards)
 
   const interestPrizeEstimateUSD = calculateEstimatedPoolPrize(poolObj)

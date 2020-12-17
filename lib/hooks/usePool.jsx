@@ -4,7 +4,9 @@ import { useQueryCache } from 'react-query'
 
 import { POOLS, QUERY_KEYS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { useChainQueries } from 'lib/hooks/useChainQueries'
+import { usePoolChainQuery } from 'lib/hooks/usePoolChainQuery'
+import { useErc20ChainQuery } from 'lib/hooks/useErc20ChainQuery'
+import { useErc721ChainQuery } from 'lib/hooks/useErc721ChainQuery'
 import { usePools } from 'lib/hooks/usePools'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { compilePool } from 'lib/services/compilePool'
@@ -16,14 +18,16 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const { chainId } = useContext(AuthControllerContext)
 
-  // TODO: Change this from returning poolsChainData, poolAddresses and poolsGraphData about every pool?
+  // TODO: Change this from returning poolChainData, poolAddresses and poolsGraphData about every pool
   const { contractAddresses, pools, poolsGraphData } = usePools()
-  const { poolsChainData } = useChainQueries(poolsGraphData)
 
-  console.log(
-    poolsChainData?.dai,
-    poolsGraphData?.daiPool,
-  )
+  // TODO: Change this from returning poolChainData, poolAddresses and poolsGraphData about every pool
+  const { poolChainData } = usePoolChainQuery(poolsGraphData)
+  const { erc20ChainData } = useErc20ChainQuery(poolsGraphData)
+  const { erc721ChainData } = useErc721ChainQuery(poolsGraphData)
+
+  console.log({ erc20ChainData })
+  console.log({ erc721ChainData })
 
   // const { contractAddresses } = usePools()
   
@@ -33,21 +37,32 @@ export function usePool(poolSymbol, blockNumber = -1) {
   // }
 
   // TODO: This is hard-coded to the DAI pool and will need to be changed
-  const ethereumErc20Awards = queryCache.getQueryData([
-    QUERY_KEYS.ethereumErc20sQuery,
-    chainId,
-    pools?.daiPool?.poolAddress,
-    -1
-  ])
+
+  
+  // const ethereumErc20Awards = queryCache.getQueryData([
+  //   QUERY_KEYS.ethereumErc20sQuery,
+  //   chainId,
+  //   pools?.daiPool?.poolAddress,
+  //   -1
+  // ])
   const addresses = ethereumErc20Awards
     ?.filter(award => award.balance.gt(0))
     ?.map(award => award.address)
 
-  // this sets the data in the cache which we can pull out later with `getQueryData()`
-  useUniswapTokensQuery(
+  console.log(ethereumErc20Awards)
+  console.log(addresses)
+
+  const { data: uniswapPriceData } = useUniswapTokensQuery(
     addresses,
     blockNumber
   )
+
+  // const uniswapPriceData = queryCache.getQueryData([
+  //   QUERY_KEYS.uniswapTokensQuery,
+  //   chainId,
+  //   !isEmpty(addresses) ? addresses.join('-') : '',
+  //   -1
+  // ])
 
 
 
@@ -60,15 +75,16 @@ export function usePool(poolSymbol, blockNumber = -1) {
     poolInfo,
     contractAddresses.daiPool,
     queryCache,
-    poolsChainData?.dai,
+    poolChainData?.dai,
     poolsGraphData?.daiPool,
+    uniswapPriceData,
   )
 
   return {
     pool
   }
 
-  //       const pools = compilePools(chainId, contractAddresses, queryCache, poolData, poolsChainData)
+  //       const pools = compilePools(chainId, contractAddresses, queryCache, poolData, poolChainData)
 
   //       const currentPool = getCurrentPool(querySymbol, pools)
         
@@ -88,7 +104,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
   //               pools,
   //               contractAddresses,
   //               defaultReadProvider,
-  //               poolsChainData,
+  //               poolChainData,
   //               refetchPoolsData,
   //               graphDripData,
   //               usersChainData,
