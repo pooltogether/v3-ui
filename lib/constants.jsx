@@ -134,7 +134,7 @@ export const QUERY_KEYS = {
   ethereumErc20sQuery: 'ethereumErc20sQuery',
   ethereumErc721sQuery: 'ethereumErc721sQuery',
   ethereumLootBoxQuery: 'ethereumLootBoxQuery',
-  ethereumGenericQuery: 'ethereumGenericQuery',
+  ethereumPoolQuery: 'ethereumPoolQuery',
   lootBoxQuery: 'lootBoxQuery',
   poolQuery: 'poolQuery',
   poolsQuery: 'poolsQuery',

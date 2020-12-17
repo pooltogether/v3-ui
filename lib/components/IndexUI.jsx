@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolList } from 'lib/components/PoolList'
@@ -15,7 +15,7 @@ export const IndexUI = (
 ) => {
   const { t } = useTranslation()
   
-  const { loading, pools } = useContext(PoolDataContext)
+  const { loading, pools } = usePools()
 
   let totalPrizes = ethers.utils.bigNumberify(0)
   pools?.forEach(_pool => {

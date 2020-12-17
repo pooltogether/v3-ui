@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { V2AccountTicket } from 'lib/components/V2AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
@@ -20,7 +20,7 @@ export const AccountTickets = () => {
   const { t } = useTranslation()
   
   const { usersAddress } = useContext(AuthControllerContext)
-  const { usersChainData } = useContext(PoolDataContext)
+  const { usersChainData } = usePools()
   
 
   // fill this in with a watched address or an address from router params

@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import { Trans, useTranslation } from 'lib/../i18n'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
 import { AccountEmailSignup } from 'lib/components/AccountEmailSignup'
 import { ButtonLink } from 'lib/components/ButtonLink'
@@ -20,7 +20,7 @@ export function OrderComplete(props) {
 
   const { confetti } = useContext(ConfettiContext)
 
-  const { pool } = useContext(PoolDataContext)
+  const { pool } = usePools()
 
   const decimals = pool?.underlyingCollateralDecimals
   if (prevBalance) {

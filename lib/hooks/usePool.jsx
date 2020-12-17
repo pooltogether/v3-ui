@@ -1,28 +1,37 @@
 import { useContext } from 'react'
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 import { useQueryCache } from 'react-query'
 
 import { POOLS, QUERY_KEYS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { useChainQueries } from 'lib/hooks/useChainQueries'
 import { usePools } from 'lib/hooks/usePools'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { compilePool } from 'lib/services/compilePool'
 
-export function usePool(poolSymbol = null, blockNumber = -1) {
+export function usePool(poolSymbol, blockNumber = -1) {
   const queryCache = useQueryCache()
 
-  const router = useRouter()
+  // const router = useRouter()
 
-  // TODO: Change this from returning genericChainData, poolAddresses and graphPoolData about every pool?
-  const { pools, genericChainData, graphPoolData } = usePools()
+  const { chainId } = useContext(AuthControllerContext)
+
+  // TODO: Change this from returning poolsChainData, poolAddresses and poolsGraphData about every pool?
+  const { contractAddresses, pools, poolsGraphData } = usePools()
+  const { poolsChainData } = useChainQueries(poolsGraphData)
+
+  console.log(poolsChainData)
+  console.log(
+    poolsChainData?.dai,
+    poolsGraphData?.daiPool,
+  )
+
+  // const { contractAddresses } = usePools()
   
-  if (!poolSymbol) {
-    poolSymbol = router?.query?.symbol?.toLowerCase()
-  }
-
-  const { chainId, usersAddress } = useContext(AuthControllerContext)
-  const { contractAddresses } = useContext(PoolDataContext)
+  // this router.query doesn't work inside a hook?
+  // if (!poolSymbol) {
+  //   poolSymbol = router?.query?.symbol
+  // }
 
   // TODO: This is hard-coded to the DAI pool and will need to be changed
   const ethereumErc20Awards = queryCache.getQueryData([
@@ -43,22 +52,24 @@ export function usePool(poolSymbol = null, blockNumber = -1) {
 
 
 
-  const poolInfo = POOLS.find(POOL => POOL.symbol === poolSymbol)
+  const poolInfo = POOLS.find(POOL => {
+    return POOL.symbol === poolSymbol
+  })
 
   const pool = compilePool(
     chainId,
     poolInfo,
     contractAddresses.daiPool,
     queryCache,
-    genericChainData.dai,
-    graphPoolData.daiPool,
+    poolsChainData?.dai,
+    poolsGraphData?.daiPool,
   )
 
   return {
     pool
   }
 
-  //       const pools = compilePools(chainId, contractAddresses, queryCache, poolData, genericChainData)
+  //       const pools = compilePools(chainId, contractAddresses, queryCache, poolData, poolsChainData)
 
   //       const currentPool = getCurrentPool(querySymbol, pools)
         
@@ -78,7 +89,7 @@ export function usePool(poolSymbol = null, blockNumber = -1) {
   //               pools,
   //               contractAddresses,
   //               defaultReadProvider,
-  //               genericChainData,
+  //               poolsChainData,
   //               refetchPoolsData,
   //               graphDripData,
   //               usersChainData,

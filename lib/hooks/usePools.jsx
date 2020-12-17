@@ -10,33 +10,12 @@ import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
 import { compilePools } from 'lib/services/compilePools'
 import { getContractAddresses } from 'lib/services/getContractAddresses'
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
-import { readProvider } from 'lib/services/readProvider'
 import { poolToast } from 'lib/utils/poolToast'
 
 export function usePools(props) {
   const queryCache = useQueryCache()
 
-  const {
-    supportedNetwork,
-    networkName,
-    chainId,
-    usersAddress
-  } = useContext(AuthControllerContext)
-
-  const [defaultReadProvider, setDefaultReadProvider] = useState({})
-
-  const router = useRouter()
-  const querySymbol = router?.query?.symbol?.toLowerCase()
-
-  useEffect(() => {
-    const getReadProvider = async () => {
-      const defaultReadProvider = await readProvider(networkName)
-      setDefaultReadProvider(defaultReadProvider)
-    }
-    getReadProvider()
-  }, [networkName])
-
-
+  const { supportedNetwork, chainId } = useContext(AuthControllerContext)
 
 
   let contractAddresses
@@ -83,9 +62,9 @@ export function usePools(props) {
 
   
   
-  const { genericChainData } = useChainQueries(poolsGraphData)
+  const { poolChainData } = useChainQueries(poolsGraphData)
   
-  const pools = compilePools(chainId, contractAddresses, queryCache, poolsGraphData, genericChainData)
+  const pools = compilePools(chainId, contractAddresses, queryCache, poolsGraphData, poolChainData)
 
   // const { usersChainData } = useUsersChainData(pool)
 
@@ -93,10 +72,9 @@ export function usePools(props) {
     loading: poolsDataLoading,
     pools,
     contractAddresses,
-    defaultReadProvider,
-    genericChainData,
+    poolChainData,
     refetchPoolsData,
-    graphDripData,
+    // graphDripData,
     poolsGraphData,
     // usersChainData,
   }
@@ -108,7 +86,7 @@ export function usePools(props) {
   //     provider={defaultReadProvider}
   //     poolData={poolData}
   //   >
-  //     {({ genericChainData }) => {
+  //     {({ poolChainData }) => {
         
   //       const currentPool = getCurrentPool(querySymbol, pools)
         
@@ -139,7 +117,7 @@ export function usePools(props) {
   //               pools,
   //               contractAddresses,
   //               defaultReadProvider,
-  //               genericChainData,
+  //               poolChainData,
   //               refetchPoolsData,
   //               graphDripData,
   //               poolsGraphData,
@@ -152,5 +130,5 @@ export function usePools(props) {
   //       </FetchUsersChainData>
   //     }}
   //   </ChainQueries>
-  </>
+  // </>
 }

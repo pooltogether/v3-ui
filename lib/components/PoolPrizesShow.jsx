@@ -8,7 +8,7 @@ import {
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { AllPoolsTotalAwarded } from 'lib/components/AllPoolsTotalAwarded'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { Button } from 'lib/components/Button'
@@ -23,7 +23,7 @@ export const PoolPrizesShow = (
   const [t] = useTranslation()
   const router = useRouter()
 
-  const poolData = useContext(PoolDataContext)
+  const poolData = usePools()
   const { pool } = poolData
 
   const querySymbol = router.query?.symbol

@@ -6,7 +6,7 @@ import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/Contro
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
@@ -25,7 +25,7 @@ export function ApproveSponsorshipTxButton(props) {
   } = props
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
-  const { pool } = useContext(PoolDataContext)
+  const { pool } = usePools()
 
   const poolAddress = pool?.poolAddress
   const tokenAddress = pool?.underlyingCollateralToken

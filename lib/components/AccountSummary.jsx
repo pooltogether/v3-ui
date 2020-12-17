@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { SmallLoader } from 'lib/components/SmallLoader'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
@@ -16,7 +16,7 @@ import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
 export const AccountSummary = () => {
   const { t } = useTranslation()
 
-  const { usersChainData } = useContext(PoolDataContext)
+  const { usersChainData } = usePools()
   const { usersAddress } = useContext(AuthControllerContext)
 
   // fill this in with a watched address or an address from router params

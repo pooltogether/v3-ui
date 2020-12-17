@@ -5,7 +5,7 @@ import { isEmpty, orderBy } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -38,7 +38,7 @@ export const Erc721AwardsTable = (props) => {
 
   const [moreVisible, setMoreVisible] = useState(false)
   
-  const { pool } = useContext(PoolDataContext)
+  const { pool } = usePools()
 
   const handleShowMore = (e) => {
     e.preventDefault()

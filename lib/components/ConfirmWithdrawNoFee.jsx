@@ -7,7 +7,7 @@ import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { useTranslation, Trans } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
@@ -29,7 +29,7 @@ export function ConfirmWithdrawNoFee(props) {
   const { nextStep, previousStep } = props
   
   const { usersAddress, provider } = useContext(AuthControllerContext)
-  const { pool } = useContext(PoolDataContext)
+  const { pool } = usePools()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''

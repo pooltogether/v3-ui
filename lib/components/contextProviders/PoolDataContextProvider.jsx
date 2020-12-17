@@ -115,8 +115,8 @@
 //       provider={defaultReadProvider}
 //       poolData={poolData}
 //     >
-//       {({ genericChainData }) => {
-//         const pools = compilePools(chainId, contractAddresses, queryCache, poolData, genericChainData)
+//       {({ poolChainData }) => {
+//         const pools = compilePools(chainId, contractAddresses, queryCache, poolData, poolChainData)
 
 //         const currentPool = getCurrentPool(querySymbol, pools)
         
@@ -147,7 +147,7 @@
 //                 pools,
 //                 contractAddresses,
 //                 defaultReadProvider,
-//                 genericChainData,
+//                 poolChainData,
 //                 refetchPoolsData,
 //                 graphDripData,
 //                 poolsGraphData,

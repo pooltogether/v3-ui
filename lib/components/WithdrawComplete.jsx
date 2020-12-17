@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 
 import { useTranslation, Trans } from 'lib/../i18n'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -10,7 +10,7 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 export function WithdrawComplete(props) {
   const { t } = useTranslation()
 
-  const { pool } = useContext(PoolDataContext)
+  const { pool } = usePools()
   
   const { quantity } = props
 

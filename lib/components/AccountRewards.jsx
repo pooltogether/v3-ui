@@ -10,7 +10,6 @@ import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptrolle
 import { useTranslation } from 'lib/../i18n'
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -18,6 +17,8 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { PTCopyToClipboard } from 'lib/components/PTCopyToClipboard'
 import { usePlayerDrips } from 'lib/hooks/usePlayerDrips'
+import { usePools } from 'lib/hooks/usePools'
+import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -30,9 +31,8 @@ export const AccountRewards = () => {
 
   const [transactions, setTransactions] = useAtom(transactionsAtom)
  
-  const { pools, graphDripData } = usePools()
-  const { pool } = usePool()
-  const { usersChainData } = useUsersChainData(pool)
+  const { pools } = usePools()
+  const { usersChainData, graphDripData } = useUsersChainData()
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
 

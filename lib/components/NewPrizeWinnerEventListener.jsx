@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { Button } from 'lib/components/Button'
 import { Modal } from 'lib/components/Modal'
 import { usePrizeQuery } from 'lib/hooks/usePrizeQuery'
@@ -21,7 +21,7 @@ export function NewPrizeWinnerEventListener(props) {
   const [newPrizeModalVisible, setNewPrizeModalVisible] = useState(null)
 
   const { chainId, usersAddress } = useContext(AuthControllerContext)
-  const { pools } = useContext(PoolDataContext)
+  const { pools } = usePools()
 
   // TODO: Expand this to work for every pool!
   const pool = pools?.[0]

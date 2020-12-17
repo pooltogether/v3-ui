@@ -5,6 +5,7 @@ import {
   QUERY_KEYS
 } from 'lib/constants'
 
+import { useLootBox } from 'lib/hooks/useLootBox'
 import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPoolPrize'
 import { calculateEstimatedExternalAwardsValue } from 'lib/services/calculateEstimatedExternalAwardsValue'
 // import { calculateEstimatedExternalItemAwardsValue } from 'lib/services/calculateEstimatedExternalItemAwardsValue'
@@ -47,7 +48,7 @@ export const compilePool = (
   ])
 
   const blockNumber = -1
-  let { awards } = useLootBox(historical, pool, blockNumber)
+  // let { awards } = useLootBox(historical, pool, blockNumber)
 
   // const blockNumber = historical ? parseInt(prize?.awardedBlock, 10) : -1
   // const originalAwardsCount = awards.length
@@ -58,7 +59,6 @@ export const compilePool = (
   const compiledExternalErc20Awards = compileErc20Awards(ethereumErc20Awards, poolGraphData, uniswapPriceData)
 
   const compiledExternalErc721Awards = compileErc721Awards(ethereumErc721Awards, poolGraphData)
-  console.log({compiledExternalErc721Awards})
 
   const externalAwardsEstimateUSD = calculateEstimatedExternalAwardsValue(compiledExternalErc20Awards)
 

@@ -8,19 +8,19 @@ export const compilePools = (
   contractAddresses,
   queryCache,
   graphPoolData,
-  genericChainData
+  poolChainData
 ) => {
   let pools = []
 
-  if (!isEmpty(genericChainData)) {
-  // if (!graphDataLoading && !isEmpty(genericChainData)) {
+  if (!isEmpty(poolChainData)) {
+  // if (!graphDataLoading && !isEmpty(poolChainData)) {
     POOLS.forEach(POOL => {
       const _pool = compilePool(
         chainId,
         POOL,
         contractAddresses.daiPool,
         queryCache,
-        genericChainData.dai,
+        poolChainData.dai,
         graphPoolData.daiPool,
       )
 

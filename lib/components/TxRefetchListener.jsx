@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { useAtom } from 'jotai'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { useAccount } from 'lib/hooks/useAccount'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 
@@ -14,7 +14,7 @@ export function TxRefetchListener(props) {
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { refetchPoolsData } = useContext(PoolDataContext)
+  const { refetchPoolsData } = usePools()
   
   // fill this in with a watched address or an address from router params
   const playerAddress = ''

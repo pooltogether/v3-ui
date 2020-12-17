@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'lib/../i18n'
 import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { ConfirmWithdrawWithFeeForm } from 'lib/components/ConfirmWithdrawWithFeeForm'
 import { Meta } from 'lib/components/Meta'
 import { ManageTicketsForm } from 'lib/components/ManageTicketsForm'
@@ -23,7 +23,7 @@ export function ManageTicketsWizardContainer(props) {
     initialStepIndex = 1
   }
 
-  const { pool } = useContext(PoolDataContext)
+  const { pool } = usePools()
   const { usersAddress } = useContext(AuthControllerContext)
 
   // fill this in with a watched address or an address from router params

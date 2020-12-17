@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { ethers } from 'ethers'
 
 import { Trans } from 'lib/../i18n'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { V2MigrateButton } from 'lib/components/V2MigrateButton'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -15,7 +15,7 @@ export const V2AccountTicket = (
 ) => {
   const { isPod, v2dai } = props
   
-  const { usersChainData } = useContext(PoolDataContext)
+  const { usersChainData } = usePools()
 
   const {
     v2DaiPoolCommittedBalance,

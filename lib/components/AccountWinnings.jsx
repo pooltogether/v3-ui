@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { useAccount } from 'lib/hooks/useAccount'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
@@ -16,7 +16,7 @@ export const AccountWinnings = () => {
   const { t } = useTranslation()
   
   const { usersAddress } = useContext(AuthControllerContext)
-  const { pools } = useContext(PoolDataContext)
+  const { pools } = usePools()
 
   
 

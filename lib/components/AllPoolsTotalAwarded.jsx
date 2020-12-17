@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 
@@ -11,7 +11,7 @@ export const AllPoolsTotalAwarded = (
 ) => {
   const { t } = useTranslation()
 
-  const { pools } = useContext(PoolDataContext)
+  const { pools } = usePools()
 
   let cumulativePrizeNetAllPools = ethers.utils.bigNumberify(0)
   pools?.forEach(_pool => {

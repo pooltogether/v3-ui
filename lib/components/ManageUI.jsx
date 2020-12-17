@@ -12,7 +12,7 @@ import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Meta } from 'lib/components/Meta'
 import { SponsorshipPane } from 'lib/components/SponsorshipPane'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Tagline } from 'lib/components/Tagline'
@@ -29,7 +29,7 @@ export const ManageUI = (
     loading,
     contractAddresses,
     pool,
-  } = useContext(PoolDataContext)
+  } = usePools()
 
   if (loading) {
     return <IndexUILoader />

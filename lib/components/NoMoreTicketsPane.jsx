@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { Button } from 'lib/components/Button'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -19,7 +19,7 @@ export function NoMoreTicketsPane(props) {
     handleCloseWizard(router)
   }
 
-  const { pool } = useContext(PoolDataContext)
+  const { pool } = usePools()
 
   return <div className='text-xl xs:text-3xl sm:text-5xl'>
     <span

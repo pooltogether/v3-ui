@@ -5,7 +5,7 @@ import ERC20Abi from 'lib/../abis/ERC20Abi'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -18,7 +18,7 @@ export const V2MigrateButton = (
   const [transactions, setTransactions] = useAtom(transactionsAtom)
 
   const { t } = useTranslation()
-  const { contractAddresses } = useContext(PoolDataContext)
+  const { contractAddresses } = usePools()
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
   const [txId, setTxId] = useState(0)
