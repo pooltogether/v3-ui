@@ -6,6 +6,5 @@ export const prizePoolAccountFragment = gql`
 
     timelockedBalance
     unlockTimestamp
-    cumulativeWinnings
   }
 `

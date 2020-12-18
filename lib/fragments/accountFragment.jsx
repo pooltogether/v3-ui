@@ -1,7 +1,6 @@
 import gql from 'graphql-tag'
 
 import { controlledTokenFragment } from 'lib/fragments/controlledTokenFragment'
-// import { controlledTokenBalanceFragment } from 'lib/fragments/controlledTokenBalanceFragment'
 
 export const accountFragment = gql`
   fragment accountFragment on Account {
@@ -20,8 +19,6 @@ export const accountFragment = gql`
       timelockedBalance
       unlockTimestamp
 
-      cumulativeWinnings
-
       prizePool {
         id
       }
@@ -29,4 +26,3 @@ export const accountFragment = gql`
   }
   ${controlledTokenFragment}
 `
-// ${controlledTokenBalanceFragment}

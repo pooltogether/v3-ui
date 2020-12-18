@@ -73,7 +73,7 @@ export const SponsorshipPane = (
           )} {tickerUpcased}
         </div>
 
-        <div className='flex'>
+        <div className='flex text-center'>
           <Button
             // secondary
             bg='highlight-3'

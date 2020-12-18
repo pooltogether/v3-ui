@@ -1,15 +1,14 @@
 import React, { useContext } from 'react'
 import Link from 'next/link'
-import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { usePool } from 'lib/hooks/usePool'
 import { usePools } from 'lib/hooks/usePools'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { useAccount } from 'lib/hooks/useAccount'
-import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
+import { usePlayerPrizesQuery } from 'lib/hooks/usePlayerPrizesQuery'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { sumAwardedControlledTokens } from 'lib/utils/sumAwardedControlledTokens'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
 
@@ -26,36 +25,13 @@ export const AccountWinnings = () => {
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { accountData } = useAccount(address)
+  const { data: prizesWon } = usePlayerPrizesQuery(address)
+  
+  const awardedControlledTokens = prizesWon?.awardedControlledTokens || []
+  const total = sumAwardedControlledTokens(awardedControlledTokens)
 
-
-
-  const totalWinnings = () => {
-    let cumulativeWinningsAllPools = ethers.utils.bigNumberify(0)
-
-    accountData?.prizePoolAccounts.forEach(prizePoolAccount => {
-      const _pool = pools?.find(p => p.id === prizePoolAccount?.prizePool?.id)
-      if (!_pool) return
-
-      const ticketAddress = pool?.ticketToken?.id
-      let balance = accountData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
-      if (!balance) return
-      
-      const decimals = parseInt(pool?.underlyingCollateralDecimals, 10)
-      
-      // Calculate winnings
-      const winnings = normalizeTo18Decimals(
-        prizePoolAccount.cumulativeWinnings,
-        decimals
-      )
-
-      cumulativeWinningsAllPools = cumulativeWinningsAllPools.add(
-        winnings
-      )
-    })
-
-    return cumulativeWinningsAllPools
-  }
+  // TODO: We should calculate all of the ERC20s someone won, their value on the day it was awarded
+  // as well as the interest prizes!
 
   return <>
     <h5
@@ -78,7 +54,7 @@ export const AccountWinnings = () => {
 
           <h3>
             $<PoolNumber>
-              {displayAmountInEther(totalWinnings(), { precision: 2 })}
+              {displayAmountInEther(total, { precision: 2 })}
             </PoolNumber>
           </h3>
         </div>

@@ -9,7 +9,6 @@ export function useErc20ChainQuery(poolsGraphData) {
   const poolAddress = poolsGraphData?.['PT-cDAI']?.poolAddress
   const graphExternalErc20Awards = poolsGraphData?.['PT-cDAI']?.externalErc20Awards
 
-  // this is being used via a direct query cache read!
   const {
     status: erc20ChainStatus,
     data: erc20ChainData,

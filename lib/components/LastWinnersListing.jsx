@@ -9,7 +9,7 @@ import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { formatDate } from 'lib/utils/formatDate'
-import { shorten } from 'lib/utils/shorten'
+import { sumAwardedControlledTokens } from 'lib/utils/sumAwardedControlledTokens'
 
 export const LastWinnersListing = (
   props,
@@ -23,21 +23,24 @@ export const LastWinnersListing = (
   const first = 5
   const { data, error } = usePoolPrizesQuery(pool, first)
 
-
-
+  if (error) {
+    console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))
+    console.error(error.message)
+  }
 
   let prizes = compact([].concat(data?.prizePool?.prizes))
-  
 
   prizes = prizes?.reduce(function (result, prize) {
-    if (prize.winners && prize.winners.length > 0) {
+    if (prize?.awardedControlledTokens?.length > 0) {
       const date = formatDate(prize?.awardedTimestamp, { short: true, year: false, noAbbrev: true })
+
+      const total = sumAwardedControlledTokens(prize?.awardedControlledTokens)
+
       result.push({
         ...prize,
         date,
         prizeNumber: extractPrizeNumberFromPrize(prize),
-        address: prize?.winners[0],
-        winnings: prize?.amount
+        totalControlledTokensWon: total
       })
     }
     return result
@@ -50,24 +53,19 @@ export const LastWinnersListing = (
   }
 
   return <>
-    {error && <>
-      {t('thereWasAnErrorLoadingTheLastFiveWinners')}
-      {error.message}
-    </>}
 
-    {/* {prizes && prizes?.length === 0 ? <> */}
     {prizes === null ? <>
       <h6>
         {t('noWinnersAwardedYet')}
       </h6>
     </> : <>
       <span
-        className='inline-block w-1/2 text-flashy font-bold mb-2'
+        className='inline-block w-1/2 text-flashy font-bold mb-2 text-xxs sm:text-xs lg:text-sm'
       >
         {t('currentPrize')}
       </span>
       <span
-        className='inline-block w-1/2 text-right text-flashy'
+        className='inline-block w-1/2 text-right text-flashy text-xxs sm:text-xs lg:text-sm'
       >
         ${displayAmountInEther(
           pool?.totalPrizeAmountUSD.toString(),
@@ -77,27 +75,47 @@ export const LastWinnersListing = (
 
       {prizes.map(prize => {
         return <Link
-          key={`last-winners-${prize?.address}-${prize?.winnings}`}
+          key={`last-winners-${prize?.prizeNumber}`}
           href='/prizes/[symbol]/[prizeNumber]'
           as={`/prizes/${pool?.symbol}/${prize?.prizeNumber}`}
         >
           <a
-            className='block font-bold mb-2 rounded-lg trans sm:text-xxxs lg:text-xxs'
+            className='flex justify-between items-center font-bold mb-2 rounded-lg trans text-xxs sm:text-xs lg:text-sm'
           >
-            <span
-              className='inline-block w-1/3 sm:w-3/12'
-            >
+            <span>
               {prize?.date}
             </span>
-            <span
+            {/* <span
               className='inline-block w-1/3 sm:w-5/12'
             >
               {shorten(prize?.address)}
-            </span>
+            </span> */}
             <span
-              className='inline-block w-1/3 sm:w-4/12 text-right'
+              className='text-right'
             >
-              <TimeTravelPool
+              {/* <TimeTravelPool
+                blockNumber={parseInt(prize?.awardedBlock, 10)}
+                poolAddress={pool?.poolAddress}
+                querySymbol={pool?.symbol}
+                prize={prize}
+              >
+                {(timeTravelPool) => {
+                  return <>
+                    ${displayAmountInEther(
+                    timeTravelPool?.totalPrizeAmountUSD.toString(),
+                    { decimals, precision: 2 }
+                  )}
+                  </>
+                }}
+              </TimeTravelPool> */}
+
+{/* // TODO: We should calculate all of the ERC20s someone won, their value on the day it was awarded
+  // as well as the interest prizes! */}
+              ${displayAmountInEther(
+                prize?.totalControlledTokensWon,
+                { precision: 2 }
+              )}
+              {/* <TimeTravelPool
                 blockNumber={parseInt(prize?.awardedBlock, 10)}
                 poolAddress={pool?.poolAddress}
                 querySymbol={pool?.symbol}
@@ -111,7 +129,7 @@ export const LastWinnersListing = (
                     )}
                   </>
                 }}
-              </TimeTravelPool>
+              </TimeTravelPool> */}
               
             </span>
           </a>

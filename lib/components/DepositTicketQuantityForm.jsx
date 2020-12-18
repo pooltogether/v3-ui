@@ -77,9 +77,7 @@ export function DepositTicketQuantityForm(props) {
 
   const watchQuantity = watch('quantity')
 
-  const {
-    usersTokenBalance,
-  } = usersDataForPool(pool, usersChainData)
+  const { usersTokenBalance } = usersDataForPool(pool, usersChainData)
 
   const onSubmit = (values) => {
     if (formState.isValid) {
