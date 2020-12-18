@@ -2,36 +2,18 @@ import React, { useContext } from 'react'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolNumber } from 'lib/components/PoolNumber'
-import { usePools } from 'lib/hooks/usePools'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { testAddress } from 'lib/utils/testAddress'
+import { usePlayerPrizesQuery } from 'lib/hooks/usePlayerPrizesQuery'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
 
+// Currently this component should only show up for the currentUser viewing their own account
 export const AccountLootBoxes = () => {
   const { t } = useTranslation()
   
   const { usersAddress } = useContext(AuthControllerContext)
-  const { pools } = usePools()
 
-  // could query to get all the prizes this account has won, then iterate through each
-  // prize to see if it matches any of our ptloot nft addresses
-  //
-  // prizes(
-  //   orderBy: id,
-  //   orderDirection: desc,
-  //   where: {
-  //   winners_contains: ["0x8f7f92e0660dd92eca1fad5f285c4dca556e433e"]
-  // }
-  // ) {
-  //   winners
-  //   awardedExternalErc721Nfts {
-  //     id
-  //     address
-  //     tokenIds
-  //   }
-  // }
+  const { data: prizesWon } = usePlayerPrizesQuery(usersAddress)
+  console.log(prizesWon)
 
   return <>
     <h5

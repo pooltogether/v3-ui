@@ -141,6 +141,7 @@ export const QUERY_KEYS = {
   poolDripsQuery: 'poolDripsQuery',
   poolPrizesQuery: 'poolPrizesQuery',
   playerQuery: 'playerQuery',
+  playerPrizesQuery: 'playerPrizesQuery',
   prizeQuery: 'prizeQuery',
   sponsorQuery: 'sponsorQuery',
   uniswapTokensQuery: 'uniswapTokensQuery',
