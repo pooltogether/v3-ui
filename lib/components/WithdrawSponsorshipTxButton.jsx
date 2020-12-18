@@ -6,7 +6,7 @@ import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePool } from 'lib/hooks/usePool'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -24,7 +24,7 @@ export function WithdrawSponsorshipTxButton(props) {
   } = props
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
-  const { pool } = useContext(PoolDataContext)
+  const { pool } = usePool()
 
   const poolAddress = pool?.poolAddress
   const sponsorshipAddress = pool?.sponsorshipToken?.id

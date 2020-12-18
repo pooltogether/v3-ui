@@ -3,11 +3,11 @@ import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { SmallLoader } from 'lib/components/SmallLoader'
+import { usePool } from 'lib/hooks/usePool'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
+import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
-import { testAddress } from 'lib/utils/testAddress'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 // import AccountPlaceholderImg from 'assets/images/avatar-placeholder.svg'
@@ -16,8 +16,11 @@ import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
 export const AccountSummary = () => {
   const { t } = useTranslation()
 
-  const { usersChainData } = useContext(PoolDataContext)
   const { usersAddress } = useContext(AuthControllerContext)
+  
+  // only supports cDAI pool atm, need to fix this!
+  const { pool } = usePool('PT-cDAI')
+  const { usersChainData } = useUsersChainData(pool)
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''

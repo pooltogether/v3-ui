@@ -27,6 +27,9 @@ export const SHOW_MANAGE_LINKS = 'showManageLinks'
 export const MAGIC_EMAIL = 'magicEmail'
 export const SELECTED_WALLET_COOKIE_KEY = 'selectedWallet'
 
+// strings
+export const PT_LOOT_BOX_NAME = 'PTLootBox'
+
 export const CONFETTI_DURATION_MS = 12000
 
 export const DEFAULT_INPUT_CLASSES = 'w-full text-inverse inline-flex items-center justify-between trans'
@@ -131,7 +134,7 @@ export const QUERY_KEYS = {
   ethereumErc20sQuery: 'ethereumErc20sQuery',
   ethereumErc721sQuery: 'ethereumErc721sQuery',
   ethereumLootBoxQuery: 'ethereumLootBoxQuery',
-  ethereumGenericQuery: 'ethereumGenericQuery',
+  ethereumPoolQuery: 'ethereumPoolQuery',
   lootBoxQuery: 'lootBoxQuery',
   poolQuery: 'poolQuery',
   poolsQuery: 'poolsQuery',

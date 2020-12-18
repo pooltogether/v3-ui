@@ -7,13 +7,14 @@ import { useAtom } from 'jotai'
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { DepositInfoList } from 'lib/components/DepositInfoList'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { usePool } from 'lib/hooks/usePool'
+// import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { permitSignOrRegularDeposit } from 'lib/utils/permitSignOrRegularDeposit'
 
@@ -30,7 +31,8 @@ export function ExecuteCryptoDeposit(props) {
   const quantity = router.query.quantity
 
   const { chainId, usersAddress, provider } = useContext(AuthControllerContext)
-  const { usersChainData, pool } = useContext(PoolDataContext)
+  const { pool } = usePool()
+  // const { usersChainData } = useUsersChainData(pool)
 
   const decimals = pool?.underlyingCollateralDecimals
   const ticker = pool?.underlyingCollateralSymbol

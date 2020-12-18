@@ -3,7 +3,8 @@ import classnames from 'classnames'
 import { ethers } from 'ethers'
 
 import { Trans } from 'lib/../i18n'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePool } from 'lib/hooks/usePool'
+import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { V2MigrateButton } from 'lib/components/V2MigrateButton'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -15,7 +16,9 @@ export const V2AccountTicket = (
 ) => {
   const { isPod, v2dai } = props
   
-  const { usersChainData } = useContext(PoolDataContext)
+  // only supports cDAI pool atm, need to fix this!
+  const { pool } = usePool('PT-cDAI')
+  const { usersChainData } = useUsersChainData(pool)
 
   const {
     v2DaiPoolCommittedBalance,

@@ -3,7 +3,7 @@ import { useAtom } from 'jotai'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePool } from 'lib/hooks/usePool'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -15,7 +15,8 @@ export function CompleteAwardUI(props) {
   const [transactions, setTransactions] = useAtom(transactionsAtom)
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
-  const { pool } = useContext(PoolDataContext)
+  
+  const { pool } = usePool()
 
   const [txId, setTxId] = useState()
 

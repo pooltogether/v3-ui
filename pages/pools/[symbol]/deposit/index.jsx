@@ -1,8 +1,10 @@
-import { IndexUI } from 'lib/components/IndexUI'
+import React from 'react'
+
+import { PoolShow } from 'lib/components/PoolShow'
 
 export default function DepositPage(props) {
   return <>
-    <IndexUI
+    <PoolShow
       {...props}
     />
   </>

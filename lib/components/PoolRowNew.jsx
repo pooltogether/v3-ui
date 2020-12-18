@@ -2,37 +2,37 @@ import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
+import { ethers } from 'ethers'
 
 import {
   COOKIE_OPTIONS,
   WIZARD_REFERRER_HREF,
-  WIZARD_REFERRER_AS_PATH
+  WIZARD_REFERRER_AS_PATH,
+  DEFAULT_TOKEN_PRECISION
 } from 'lib/constants'
-import { Trans, useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
-import { ButtonLink } from 'lib/components/ButtonLink'
-import { Chip } from 'lib/components/Chip'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { usePool } from 'lib/hooks/usePool'
 
 export const PoolRowNew = (
   props,
 ) => {  
-  const {
-    pool,
-  } = props
+  const { poolSymbol } = props
   
   const { t } = useTranslation()
   const router = useRouter()
 
-  if (!pool || !pool.symbol) {
+  const { pool } = usePool(poolSymbol)
+
+  if (Boolean(!pool?.awardBalance)) {
     return null
   }
 
   const symbol = pool.symbol
-  const decimals = pool?.underlyingCollateralDecimals
+  const decimals = pool?.underlyingCollateralDecimals || DEFAULT_TOKEN_PRECISION
 
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
@@ -59,7 +59,7 @@ export const PoolRowNew = (
 
   return <>
     <InteractableCard
-      key={`pool-row-${pool.poolAddress}`}
+      key={`pool-row-${pool.id}`}
       href='/pools/[symbol]'
       as={`/pools/${symbol}`}
       className='mt-2 sm:mt-4'

@@ -4,7 +4,7 @@ import { Wizard, WizardStep } from 'react-wizard-primitive'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePool } from 'lib/hooks/usePool'
 import { ExecuteCryptoDeposit } from 'lib/components/ExecuteCryptoDeposit'
 import { ConfirmFiatDeposit } from 'lib/components/ConfirmFiatDeposit'
 import { DepositCryptoForm } from 'lib/components/DepositCryptoForm'
@@ -36,7 +36,7 @@ export function DepositWizardContainer(props) {
   }
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { pool } = useContext(PoolDataContext)
+  const { pool } = usePool()
 
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
   

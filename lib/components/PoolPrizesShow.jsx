@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
@@ -8,14 +8,12 @@ import {
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { AllPoolsTotalAwarded } from 'lib/components/AllPoolsTotalAwarded'
+import { usePool } from 'lib/hooks/usePool'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { Button } from 'lib/components/Button'
 import { Meta } from 'lib/components/Meta'
 import { PoolPrizeListing } from 'lib/components/PoolPrizeListing'
 import { PrizesPageHeader } from 'lib/components/PrizesPageHeader'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 export const PoolPrizesShow = (
   props,
@@ -23,8 +21,7 @@ export const PoolPrizesShow = (
   const [t] = useTranslation()
   const router = useRouter()
 
-  const poolData = useContext(PoolDataContext)
-  const { pool } = poolData
+  const { pool } = usePool()
 
   const querySymbol = router.query?.symbol
 

@@ -1,161 +1,161 @@
-import React, { Fragment, useContext, useState } from 'react'
-import { motion } from 'framer-motion'
-import { useRouter } from 'next/router'
-import { orderBy } from 'lodash'
+// import React, { Fragment, useContext, useState } from 'react'
+// import { motion } from 'framer-motion'
+// import { useRouter } from 'next/router'
+// import { orderBy } from 'lodash'
 
-// import { TOKEN_IMAGES } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
-// import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
-// import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
-import { Erc20Image } from 'lib/components/Erc20Image'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
-import { PoolNumber } from 'lib/components/PoolNumber'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
+// // import { TOKEN_IMAGES } from 'lib/constants'
+// import { useTranslation } from 'lib/../i18n'
+// // import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
+// // import { usePools } from 'lib/hooks/usePools'
+// import { Erc20Image } from 'lib/components/Erc20Image'
+// import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
+// import { PoolNumber } from 'lib/components/PoolNumber'
+// import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+// import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-import GiftIcon from 'assets/images/icon-gift@2x.png'
+// import GiftIcon from 'assets/images/icon-gift@2x.png'
 
-export const Erc20AwardsTable = (props) => {
-  const { t } = useTranslation()
-  const router = useRouter()
+// export const Erc20AwardsTable = (props) => {
+//   const { t } = useTranslation()
+//   const router = useRouter()
 
-  const { basePath, compiledExternalErc20Awards, historical, pool } = props
+//   const { basePath, compiledExternalErc20Awards, historical, pool } = props
 
-  const [moreVisible, setMoreVisible] = useState(false)
+//   const [moreVisible, setMoreVisible] = useState(false)
   
-  const handleShowMore = (e) => {
-    e.preventDefault()
+//   const handleShowMore = (e) => {
+//     e.preventDefault()
 
-    setMoreVisible(true)
+//     setMoreVisible(true)
 
-    router.push(
-      `${basePath}#erc20-awards-table`,
-    )
-  }
+//     router.push(
+//       `${basePath}#erc20-awards-table`,
+//     )
+//   }
 
 
 
-  if (!compiledExternalErc20Awards) {
-    return null
-  }
+//   if (!compiledExternalErc20Awards) {
+//     return null
+//   }
 
-  const balanceProperty = historical ? 'balanceAwardedBN' : 'balance'
+//   const balanceProperty = historical ? 'balanceAwardedBN' : 'balance'
 
-  let externalAwards = Object.keys(compiledExternalErc20Awards)
-    .map(key => compiledExternalErc20Awards[key])
-    .filter(award => award?.[balanceProperty]?.gt(0))
+//   let externalAwards = Object.keys(compiledExternalErc20Awards)
+//     .map(key => compiledExternalErc20Awards[key])
+//     .filter(award => award?.[balanceProperty]?.gt(0))
 
-  const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])
-  const awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 5)
+//   const sortedAwards = orderBy(externalAwards, ({ value }) => value || '', ['desc'])
+//   const awards = moreVisible ? sortedAwards : sortedAwards?.slice(0, 5)
 
-  return <>
-    <div
-      id='erc20-awards-table'
-    >
-      {pool?.externalAwardsUSD && <>
-        <h3
-          className='mb-1'
-        >
-          ${numberWithCommas(pool?.externalAwardsUSD)} {t('value')}
-        </h3>
-      </>}
+//   return <>
+//     <div
+//       id='erc20-awards-table'
+//     >
+//       {pool?.externalAwardsUSD && <>
+//         <h3
+//           className='mb-1'
+//         >
+//           ${numberWithCommas(pool?.externalAwardsUSD)} {t('value')}
+//         </h3>
+//       </>}
 
-      <div
-        className='text-green text-left text-xs xs:text-sm font-bold'
-      >
-        {t('amountTokens', {
-          amount: sortedAwards.length
-        })}
-      </div>
+//       <div
+//         className='text-green text-left text-xs xs:text-sm font-bold'
+//       >
+//         {t('amountTokens', {
+//           amount: sortedAwards.length
+//         })}
+//       </div>
       
-        <div
-          className='text-inverse flex flex-col justify-between rounded-lg p-0'
-        >
-          <table
-            className='table--no-padding table--no-hover-states table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
-          >
-            <tbody>
-              {awards.length === 0 && <>
-                <tr>
-                  <td>
-                    {historical && t('noOtherPrizesAwarded')}
-                  </td>
-                </tr>
-              </>}
+//         <div
+//           className='text-inverse flex flex-col justify-between rounded-lg p-0'
+//         >
+//           <table
+//             className='table--no-padding table--no-hover-states table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
+//           >
+//             <tbody>
+//               {awards.length === 0 && <>
+//                 <tr>
+//                   <td>
+//                     {historical && t('noOtherPrizesAwarded')}
+//                   </td>
+//                 </tr>
+//               </>}
 
-              {awards?.map(award => {
-                if (!award.name) {
-                  return
-                }
+//               {awards?.map(award => {
+//                 if (!award.name) {
+//                   return
+//                 }
 
-                return <Fragment
-                  key={award.address}
-                >
-                  <tr>
-                    <td
-                      className='flex items-center py-2 text-left font-bold'
-                    >
-                      <Erc20Image
-                        address={award.address}
-                      /> <EtherscanAddressLink
-                        address={award.address}
-                        className='text-inverse'
-                      >
-                        {award.name.length > 20 ? <span className='truncate'>{award.name.substr(0, 20)}</span> : award.name}
-                      </EtherscanAddressLink>
-                    </td>
-                    <td
-                      className='px-2 sm:px-3 py-2 text-left text-accent-1 truncate'
-                    >
-                      <PoolNumber>
-                        {displayAmountInEther(
-                          award[balanceProperty], {
-                            precision: 6,
-                            decimals: award.decimals
-                          }
-                        )}
-                      </PoolNumber> {award.symbol.length > 20 ? <span className='truncate'>{award.symbol.substr(0, 20)}</span> : award.symbol}
-                    </td>
-                    <td
-                      className='py-2 font-bold'
-                    >
-                      {award.value ? `$${numberWithCommas(award.value, { precision: 2 })}` : ''}
-                    </td>
-                  </tr>
-                </Fragment>
-              })}
-            </tbody>
-          </table>
+//                 return <Fragment
+//                   key={award.address}
+//                 >
+//                   <tr>
+//                     <td
+//                       className='flex items-center py-2 text-left font-bold'
+//                     >
+//                       <Erc20Image
+//                         address={award.address}
+//                       /> <EtherscanAddressLink
+//                         address={award.address}
+//                         className='text-inverse'
+//                       >
+//                         {award.name.length > 20 ? <span className='truncate'>{award.name.substr(0, 20)}</span> : award.name}
+//                       </EtherscanAddressLink>
+//                     </td>
+//                     <td
+//                       className='px-2 sm:px-3 py-2 text-left text-accent-1 truncate'
+//                     >
+//                       <PoolNumber>
+//                         {displayAmountInEther(
+//                           award[balanceProperty], {
+//                             precision: 6,
+//                             decimals: award.decimals
+//                           }
+//                         )}
+//                       </PoolNumber> {award.symbol.length > 20 ? <span className='truncate'>{award.symbol.substr(0, 20)}</span> : award.symbol}
+//                     </td>
+//                     <td
+//                       className='py-2 font-bold'
+//                     >
+//                       {award.value ? `$${numberWithCommas(award.value, { precision: 2 })}` : ''}
+//                     </td>
+//                   </tr>
+//                 </Fragment>
+//               })}
+//             </tbody>
+//           </table>
 
-          {externalAwards.length > 5 && <>
-            <motion.div
-              className='text-center'
-              animate={moreVisible ? 'exit' : 'enter'}
-              initial='enter'
-              variants={{
-                enter: {
-                  opacity: 1,
-                  y: 0,
-                },
-                exit: {
-                  y: -10,
-                  opacity: 0,
-                }
-              }}
-            >
-              <button
-                border='none'
-                onClick={handleShowMore}
-                className='mt-6 mb-3 underline font-bold text-xxs xs:text-base sm:text-lg text-center'
-              >
-                {t('showMore')}
-              </button>
-            </motion.div>
-          </>}
-        </div>
+//           {externalAwards.length > 5 && <>
+//             <motion.div
+//               className='text-center'
+//               animate={moreVisible ? 'exit' : 'enter'}
+//               initial='enter'
+//               variants={{
+//                 enter: {
+//                   opacity: 1,
+//                   y: 0,
+//                 },
+//                 exit: {
+//                   y: -10,
+//                   opacity: 0,
+//                 }
+//               }}
+//             >
+//               <button
+//                 border='none'
+//                 onClick={handleShowMore}
+//                 className='mt-6 mb-3 underline font-bold text-xxs xs:text-base sm:text-lg text-center'
+//               >
+//                 {t('showMore')}
+//               </button>
+//             </motion.div>
+//           </>}
+//         </div>
 
 
 
-    </div>
-  </>
-}
+//     </div>
+//   </>
+// }

@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { usePools } from 'lib/hooks/usePools'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { testAddress } from 'lib/utils/testAddress'
 
@@ -13,7 +13,7 @@ export const AccountLootBoxes = () => {
   const { t } = useTranslation()
   
   const { usersAddress } = useContext(AuthControllerContext)
-  const { pools } = useContext(PoolDataContext)
+  const { pools } = usePools()
 
   // could query to get all the prizes this account has won, then iterate through each
   // prize to see if it matches any of our ptloot nft addresses

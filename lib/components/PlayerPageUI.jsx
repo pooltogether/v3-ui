@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
 import { useTranslation } from 'lib/../i18n'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePools } from 'lib/hooks/usePools'
 import { AccountPoolRow } from 'lib/components/AccountPoolRow'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
@@ -19,7 +19,7 @@ export function PlayerPageUI(props) {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { pools } = useContext(PoolDataContext)
+  const { pools } = usePools()
 
   const playerAddress = router?.query?.playerAddress
 

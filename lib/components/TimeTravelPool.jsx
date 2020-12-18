@@ -3,7 +3,8 @@ import { useQueryCache } from 'react-query'
 
 import { POOLS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { useReadProvider } from 'lib/hooks/useReadProvider'
+// import { usePools } from 'lib/hooks/usePools'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
 import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
 import { compileHistoricalPool } from 'lib/services/compileHistoricalPool'
@@ -20,7 +21,7 @@ export function TimeTravelPool(props){
   const queryCache = useQueryCache()
   
   const { chainId } = useContext(AuthControllerContext)
-  const { defaultReadProvider } = useContext(PoolDataContext)
+  const { readProvider } = useReadProvider()
 
   const graphExternalErc721Awards = prize?.awardedExternalErc721Nfts
 
@@ -32,7 +33,7 @@ export function TimeTravelPool(props){
     isFetching: externalErc721IsFetching
   } = useEthereumErc721Query({
     blockNumber,
-    provider: defaultReadProvider,
+    provider: readProvider,
     graphErc721Awards: graphExternalErc721Awards,
     poolAddress,
   })

@@ -42,7 +42,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
 
   const tickerUpcased = ticker?.toUpperCase()
 
-  const { exitFees } = useExitFees(quantity)
+  const { exitFees } = useExitFees(pool, quantity)
   const { exitFee } = exitFees
 
   useEffect(() => {

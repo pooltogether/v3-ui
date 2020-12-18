@@ -6,7 +6,8 @@ import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/Contro
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePool } from 'lib/hooks/usePool'
+import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -18,7 +19,9 @@ export function RevokePoolAllowanceTxButton(props) {
   const [transactions, setTransactions] = useAtom(transactionsAtom)
 
   const { provider, usersAddress } = useContext(AuthControllerContext)
-  const { pool, usersChainData } = useContext(PoolDataContext)
+  
+  const { pool } = usePool()
+  const { usersChainData } = useUsersChainData(pool)
 
   const {
     usersTokenAllowance,

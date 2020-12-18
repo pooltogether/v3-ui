@@ -5,24 +5,27 @@ import {
   MAINNET_POLLING_INTERVAL
 } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { usePools } from 'lib/hooks/usePools'
+import { useReadProvider } from 'lib/hooks/useReadProvider'
 import { useInterval } from 'lib/hooks/useInterval'
+import { usePoolDripsQuery } from 'lib/hooks/usePoolDripsQuery'
 import { fetchUsersChainData } from 'lib/utils/fetchUsersChainData'
 
 const debug = require('debug')('pool-app:FetchUsersChainData')
 
-export function FetchUsersChainData(props) {
-  const {
-    children,
-    graphDripData,
-    pool,
-    provider,
-    usersAddress,
-    contractAddresses,
-  } = props
+export function useUsersChainData(pool) {
+  const { chainId, usersAddress, pauseQueries } = useContext(AuthControllerContext)
 
-  const { pauseQueries } = useContext(AuthControllerContext)
+  const { readProvider } = useReadProvider()
 
-  const poolAddress = pool?.poolAddress
+  const { contractAddresses } = usePools()
+
+  const { data: graphDripData, error } = usePoolDripsQuery()
+  if (error) {
+    console.error(error)
+  }
+
+  const poolAddress = pool?.id
 
   const [usersChainData, setUsersChainData] = useState({})
 
@@ -48,7 +51,8 @@ export function FetchUsersChainData(props) {
   const fetchUsersDataFromInfura = async () => {
     try {
       const data = await fetchUsersChainData(
-        provider,
+        chainId,
+        readProvider,
         pool,
         comptrollerAddress,
         dripTokens,
@@ -72,9 +76,6 @@ export function FetchUsersChainData(props) {
     } else {
       setUsersChainData({})
     }
-
-
-    
   }
 
 
@@ -88,5 +89,6 @@ export function FetchUsersChainData(props) {
     // OPTIMIZE: Could reset the interval loop here since we just grabbed fresh data!
   }, [poolAddress, usersAddress, comptrollerAddress])
 
-  return children({ usersChainData })
+  // return children({ usersChainData })
+  return { usersChainData }
 }

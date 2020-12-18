@@ -27,26 +27,38 @@ tr:last-child td {
 
 th,
 td {
-  @apply px-1 py-1;
-
+  @apply py-1;
+  padding-left: 0;
+  padding-right: 0;
   text-align: left;
   margin: 0;
+  max-width: 100px;
 }
 
-th:first-child {
-  @apply rounded-tl-sm px-2 py-2;
+@screen xs {
+  th,
+  td {
+    @apply px-1;
+    max-width: none;
+  }
 }
 
-th:last-child {
-  @apply rounded-tr-sm px-2 py-2;
-}
+@screen xs {
+  th:first-child {
+    @apply rounded-tl-sm px-2 py-2;
+  }
 
-td:first-child {
-  @apply rounded-tl-sm rounded-bl-sm px-2 py-2;
-}
+  th:last-child {
+    @apply rounded-tr-sm px-2 py-2;
+  }
 
-td:last-child {
-  @apply rounded-tr-sm rounded-br-sm px-2 py-2;
+  td:first-child {
+    @apply rounded-tl-sm rounded-bl-sm px-2 py-2;
+  }
+
+  td:last-child {
+    @apply rounded-tr-sm rounded-br-sm px-2 py-2;
+  }
 }
 
 @screen sm {

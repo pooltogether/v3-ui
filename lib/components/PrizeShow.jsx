@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'lib/../i18n'
 import { CardGrid } from 'lib/components/CardGrid'
 import { LootBoxTable } from 'lib/components/LootBoxTable'
-import { TopLevelExternalAwards } from 'lib/components/TopLevelExternalAwards'
 import { Meta } from 'lib/components/Meta'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
@@ -110,17 +109,11 @@ export function PrizeShow(props) {
       pool={pool}
     />
 
-    <TopLevelExternalAwards
-      historical={!!prize?.awardedBlock}
-      ethErc721Awards={pool?.ethErc721Awards}
-      pool={pool}
-      basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
-    />
-
     <LootBoxTable
       historical
       pool={pool}
       prize={prize}
+      ethErc721Awards={pool?.ethErc721Awards}
       basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
     />
 

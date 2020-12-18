@@ -1,8 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { ethers } from 'ethers'
 
 import { Trans, useTranslation } from 'lib/../i18n'
-import { PoolDataContext } from 'lib/components/contextProviders/PoolDataContextProvider'
+import { usePool } from 'lib/hooks/usePool'
+import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
@@ -14,7 +15,9 @@ export const V2MessageLarge = (
 ) => {
   const { t } = useTranslation()
   
-  const { usersChainData } = useContext(PoolDataContext)
+  // only supports cDAI pool atm, need to fix this!
+  const { pool } = usePool('PT-cDAI')
+  const { usersChainData } = useUsersChainData(pool)
 
   let usersTotalV2Balance = ethers.utils.bigNumberify(0)
 

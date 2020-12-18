@@ -5,17 +5,16 @@ import { DEFAULT_TOKEN_PRECISION, TOKEN_VALUES } from 'lib/constants'
 
 export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) => {
   const erc20GraphData = poolData?.externalErc20Awards
-  // const erc20GraphData = poolData?.prizeStrategy?.singleRandomWinner?.externalErc20Awards
 
+  const data = []
+  
   if (
     isEmpty(erc20ChainData) ||
     isEmpty(erc20GraphData) ||
     isEmpty(uniswapPriceData)
   ) {
-    return {}
+    return data
   }
-
-  let data = {}
 
   erc20GraphData.forEach(obj => {
     const chainData = erc20ChainData.find(token => obj.address === token.address)
@@ -33,12 +32,12 @@ export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) =
     }
     const value = priceUSD && balanceFormatted && parseFloat(balanceFormatted) * priceUSD
 
-    data[obj.address] = {
+    data.push({
       ...obj,
       ...chainData,
       ...priceData,
       value
-    }
+    })
   })
 
   return data
