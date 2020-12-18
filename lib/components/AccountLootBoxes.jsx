@@ -53,8 +53,8 @@ export const AccountLootBoxes = () => {
           </h6>
 
           <h3>
-            $<PoolNumber>
-            </PoolNumber>
+            {/* $<PoolNumber>
+            </PoolNumber> */}
           </h3>
         </div>
 

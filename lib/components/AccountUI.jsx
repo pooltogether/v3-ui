@@ -34,9 +34,9 @@ export const AccountUI = () => {
 
     <AccountRewards />
 
-    <AccountWinnings />
+    <AccountLootBoxes />
 
-    {/* <AccountLootBoxes /> */}
+    <AccountWinnings />
 
     <AccountEmailSignup />
 
