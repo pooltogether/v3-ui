@@ -25,6 +25,12 @@ export const LootBoxTable = (props) => {
   
   const [moreVisible, setMoreVisible] = useState(false)
 
+  const {
+    lootBoxIsFetching,
+    lootBoxIsFetched
+  } = pool
+
+  console.log(pool?.awards)
   const originalAwardsCount = pool?.awards?.length
   const awards = moreVisible ? pool?.awards : pool?.awards?.slice(0, 10)
 
@@ -55,8 +61,8 @@ export const LootBoxTable = (props) => {
 
       <div className='flex flex-col sm:flex-row justify-between sm:items-center'>
         <div>
-          {awards.length === 0 ? <>
-            {historical ? t('noOtherPrizesAwarded') : t('currentlyNoOtherPrizes')}
+          {awards.length === 0 && !lootBoxIsFetching ? <>
+            {/* {historical ? t('noOtherPrizesAwarded') : t('currentlyNoOtherPrizes')} */}
           </> : <>
             <LootBoxValue
               awards={awards}
@@ -64,18 +70,16 @@ export const LootBoxTable = (props) => {
           </>}
         </div>
 
-        <div>
-          {!historical && <>
-            <ContributeToLootBoxDropdown
-              pool={pool}
-            />
-          </>}
-        </div>
-      </div> 
+        {!historical && <>
+          <ContributeToLootBoxDropdown
+            pool={pool}
+          />
+        </>}
+      </div>
       
       {awards.length > 0 && <>
         <div
-          className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8 mt-4'
+          className='xs:bg-primary theme-light--no-padding text-inverse rounded-lg p-0 xs:p-3 sm:pl-4 sm:pr-8 mt-4'
         >
           <table
             className='table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
@@ -105,6 +109,7 @@ export const LootBoxTable = (props) => {
             </thead>
             <tbody>
               {awards.map(award => {
+                console.log(award.name)
                 if (!award.name) {
                   return
                 }
@@ -114,7 +119,7 @@ export const LootBoxTable = (props) => {
                 >
                   <tr>
                     <td
-                      className='flex items-center py-2 text-left font-bold'
+                      className='flex items-center text-left font-bold'
                     >
                       <Erc20Image
                         address={award.address}
@@ -127,7 +132,7 @@ export const LootBoxTable = (props) => {
                       </EtherscanAddressLink>
                     </td>
                     <td
-                      className='px-2 sm:px-3 py-2 text-left text-accent-1 truncate'
+                      className='text-left text-accent-1 truncate'
                     >
                       <PoolNumber>
                         {displayAmountInEther(
@@ -141,7 +146,7 @@ export const LootBoxTable = (props) => {
                       {/* </PoolNumber> {award.symbol.length > 20 ? <span className='truncate'>{award.symbol.substr(0, 20)}</span> : award.symbol} */}
                     </td>
                     <td
-                      className='py-2 font-bold'
+                      className='font-bold'
                     >
                       {award.value && `$${numberWithCommas(award.value, { precision: 2 })}`}
                     </td>

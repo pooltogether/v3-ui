@@ -52,15 +52,34 @@ export function usePool(poolSymbol, blockNumber = -1) {
   }
 
 
+  const compiledExternalErc20Awards = compileErc20Awards(
+    erc20ChainData,
+    poolsGraphData?.['PT-cDAI'],
+    uniswapPriceData
+  )
 
-  const compiledExternalErc20Awards = compileErc20Awards(erc20ChainData, poolsGraphData?.['PT-cDAI'], uniswapPriceData)
+  const compiledExternalErc721Awards = compileErc721Awards(
+    erc721ChainData,
+    poolsGraphData?.['PT-cDAI']
+  )
 
-  const compiledExternalErc721Awards = compileErc721Awards(erc721ChainData, poolsGraphData?.['PT-cDAI'])
+
+
+  const historical = blockNumber > -1
+  let { awards, lootBoxIsFetching, lootBoxIsFetched } = useLootBox(
+    historical,
+    pool,
+    {
+      compiledExternalErc20Awards,
+      compiledExternalErc721Awards,
+    },
+    blockNumber
+  )
+
+
 
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(compiledExternalErc20Awards)
-
   const interestPrizeUSD = calculateEstimatedPoolPrize(pool)
-
 
   const numOfWinners = parseInt(pool.numberOfWinners || 1, 10)
   const grandPrizeAmountUSD = externalAwardsUSD ?
@@ -77,13 +96,11 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
 
 
-  const historical = blockNumber > -1
-  let { awards } = useLootBox(historical, pool, blockNumber)
-
-
   pool = {
     ...pool,
     awards,
+    lootBoxIsFetching,
+    lootBoxIsFetched,
     totalPrizeAmountUSD,
     grandPrizeAmountUSD,
     interestPrizeUSD,
