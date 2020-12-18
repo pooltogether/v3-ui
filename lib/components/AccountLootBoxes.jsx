@@ -19,11 +19,6 @@ export const AccountLootBoxes = () => {
 
   const awardedExternalErc721Nfts = data?.awardedExternalErc721Nfts || []
 
-  // const { awardedExternalErc721Nfts } = data || { awardedExternalErc721Nfts: [] }
-
-  // let prizesWon = data ? data : []
-  console.log(contractAddresses.lootBox)
-
   const lootBoxesWon = awardedExternalErc721Nfts
     .filter(_awardedNft => _awardedNft.address === contractAddresses.lootBox)
 
