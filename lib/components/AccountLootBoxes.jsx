@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { usePlayerPrizesQuery } from 'lib/hooks/usePlayerPrizesQuery'
+import { usePools } from 'lib/hooks/usePools'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
 
@@ -10,10 +11,25 @@ import IconTarget from 'assets/images/icon-target@2x.png'
 export const AccountLootBoxes = () => {
   const { t } = useTranslation()
   
+  const { contractAddresses } = usePools()
+
   const { usersAddress } = useContext(AuthControllerContext)
 
-  const { data: prizesWon } = usePlayerPrizesQuery(usersAddress)
-  console.log(prizesWon)
+  const { data } = usePlayerPrizesQuery(usersAddress)
+
+  const awardedExternalErc721Nfts = data?.awardedExternalErc721Nfts || []
+
+  // const { awardedExternalErc721Nfts } = data || { awardedExternalErc721Nfts: [] }
+
+  // let prizesWon = data ? data : []
+  console.log(contractAddresses.lootBox)
+
+  const lootBoxesWon = awardedExternalErc721Nfts
+    .filter(_awardedNft => _awardedNft.address === contractAddresses.lootBox)
+
+  console.log(lootBoxesWon)
+
+  if (lootBoxesWon.length === 0) { return null }
 
   return <>
     <h5
@@ -31,7 +47,10 @@ export const AccountLootBoxes = () => {
           <h6
             className='flex items-center font-normal'
           >
-            {t('allTimeWinnings')}
+            {t('lootBoxNumber', {
+              number
+            })} 
+            {/* {id} */}
           </h6>
 
           <h3>

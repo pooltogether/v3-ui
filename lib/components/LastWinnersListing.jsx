@@ -22,6 +22,7 @@ export const LastWinnersListing = (
 
   const first = 5
   const { data, error } = usePoolPrizesQuery(pool, first)
+  console.log(data)
 
   if (error) {
     console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))
@@ -93,21 +94,6 @@ export const LastWinnersListing = (
             <span
               className='text-right'
             >
-              {/* <TimeTravelPool
-                blockNumber={parseInt(prize?.awardedBlock, 10)}
-                poolAddress={pool?.poolAddress}
-                querySymbol={pool?.symbol}
-                prize={prize}
-              >
-                {(timeTravelPool) => {
-                  return <>
-                    ${displayAmountInEther(
-                    timeTravelPool?.totalPrizeAmountUSD.toString(),
-                    { decimals, precision: 2 }
-                  )}
-                  </>
-                }}
-              </TimeTravelPool> */}
 
 {/* // TODO: We should calculate all of the ERC20s someone won, their value on the day it was awarded
   // as well as the interest prizes! */}
