@@ -61,28 +61,19 @@ export const LastWinnersListing = (
         {t('noWinnersAwardedYet')}
       </h6>
     </> : <>
-        <Link
-          href='/prizes/[symbol]/[prizeNumber]'
-          as={`/prizes/${pool?.symbol}/${pool?.currentPrizeId}`}
-        >
-          <a
-            className='block font-bold mb-2 rounded-lg trans'
-          >
-            <span
-              className='inline-block w-1/2 sm:w-1/2 text-flashy'
-            >
-              {t('currentPrize')}
-            </span>
-            <span
-              className='inline-block w-1/2 sm:w-1/2 text-right text-flashy'
-            >
-              ${displayAmountInEther(
-                pool?.totalPrizeAmountUSD.toString(),
-                { decimals, precision: 2 }
-              )}
-            </span>
-          </a>
-        </Link>
+      <span
+        className='inline-block w-1/2 text-flashy font-bold mb-2'
+      >
+        {t('currentPrize')}
+      </span>
+      <span
+        className='inline-block w-1/2 text-right text-flashy'
+      >
+        ${displayAmountInEther(
+          pool?.totalPrizeAmountUSD.toString(),
+          { decimals, precision: 2 }
+        )}
+      </span>
 
       {prizes.map(prize => {
         return <Link
