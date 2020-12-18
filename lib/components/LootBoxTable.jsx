@@ -30,7 +30,6 @@ export const LootBoxTable = (props) => {
     lootBoxIsFetched
   } = pool
 
-  console.log(pool?.awards)
   const originalAwardsCount = pool?.awards?.length
   const awards = moreVisible ? pool?.awards : pool?.awards?.slice(0, 10)
 
@@ -109,8 +108,9 @@ export const LootBoxTable = (props) => {
             </thead>
             <tbody>
               {awards.map(award => {
-                console.log(award.name)
-                if (!award.name) {
+                const name = award.name || award?.erc721Entity?.name
+
+                if (!name) {
                   return
                 }
 
@@ -127,8 +127,8 @@ export const LootBoxTable = (props) => {
                         address={award.address}
                         className='text-inverse truncate'
                       >
-                        {award.name}
-                        {/* {award.name.length > 20 ? <span className='truncate'>{award.name.substr(0, 20)}</span> : award.name} */}
+                        {name}
+                        {/* {name.length > 20 ? <span className='truncate'>{name.substr(0, 20)}</span> : name} */}
                       </EtherscanAddressLink>
                     </td>
                     <td

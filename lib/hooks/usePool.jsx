@@ -78,7 +78,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
 
 
-  const externalAwardsUSD = calculateEstimatedExternalAwardsValue(compiledExternalErc20Awards)
+  const externalAwardsUSD = calculateEstimatedExternalAwardsValue(awards)
   const interestPrizeUSD = calculateEstimatedPoolPrize(pool)
 
   const numOfWinners = parseInt(pool.numberOfWinners || 1, 10)
