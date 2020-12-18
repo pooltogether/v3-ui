@@ -164,17 +164,19 @@ export const AccountTicket = (
               <div
                 className='w-5/12'
               >
-                $<PoolCountUp
-                  fontSansRegular
-                  decimals={2}
-                  duration={3}
-                  end={pool?.totalPrizeAmountUSD ?
-                    Math.floor(Number.parseFloat(
-                      ethers.utils.formatUnits(pool?.totalPrizeAmountUSD, decimals)
-                    )) : 
-                    0
-                  }
-                />
+                {pool?.totalPrizeAmountUSD && decimals && <>
+                  $<PoolCountUp
+                    fontSansRegular
+                    decimals={2}
+                    duration={3}
+                    end={pool?.totalPrizeAmountUSD ?
+                      Math.floor(Number.parseFloat(
+                        ethers.utils.formatUnits(pool?.totalPrizeAmountUSD, decimals)
+                      )) : 
+                      0
+                    }
+                  />
+                </>}
               </div>
               <div
                 className='w-7/12 pl-2'
