@@ -97,16 +97,6 @@ td:last-child {
   @apply text-xxxs pb-0 uppercase;
 }
 
-.table--nested th,
-.table--nested td {
-  @apply p-0;
-}
-
-.table--nested thead tr,
-.table--nested tr:hover {
-  background-color: rgba(0, 0, 0, 0);
-}
-
 @screen sm {
   .table--no-hover-states tr:hover {
     background-color: rgba(0, 0, 0, 0);

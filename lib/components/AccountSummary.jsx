@@ -18,7 +18,7 @@ export const AccountSummary = () => {
 
   const { usersAddress } = useContext(AuthControllerContext)
   
-  // only supports cDAI pool atm, need to fix this!
+  // TODO: only supports cDAI pool atm, need to fix this!
   const { pool } = usePool('PT-cDAI')
   const { usersChainData } = useUsersChainData(pool)
 

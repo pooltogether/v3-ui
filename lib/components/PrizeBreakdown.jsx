@@ -110,13 +110,15 @@ export const PrizeBreakdown = (props) => {
 
     
       <div
-        className='mt-1 xs:mt-0 xs:bg-primary px-4 py-2 xs:px-8 xs:py-5 rounded-lg'
+        className='mt-1 xs:mt-0 xs:bg-primary px-4 py-2 xs:py-5 rounded-lg'
       >
         <table
-          className='table--no-hover-states theme-light--no-padding table--nested w-full text-xxxs xs:text-xxs sm:text-sm align-top'
+          className='table--no-hover-states theme-light--no-padding w-full text-xxxs xs:text-xxs sm:text-sm align-top'
         >
           <thead>
-            <tr>
+            <tr
+              style={{ background: 'none' }}
+            >
               <th>
                 {t('prize')}
               </th>

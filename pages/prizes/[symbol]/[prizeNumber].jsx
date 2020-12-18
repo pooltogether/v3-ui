@@ -16,8 +16,9 @@ export default function PrizeShowPage(props) {
   const querySymbol = router.query?.symbol
   const prizeNumber = router.query?.prizeNumber
 
+  let { pool } = usePool(querySymbol)
+
   // const { pools } = usePools()
-  const { pool } = usePool()
 
   const prizeId = `${pool?.id}-${prizeNumber}`
 
@@ -31,20 +32,12 @@ export default function PrizeShowPage(props) {
   
   let prize = data?.prize
 
-  if (!prize?.awardedBlock) {
-    router.push(`/pools/${pool.symbol}`)
+  const blockNumber = prize?.awardedBlock
 
-    prize = {
-      awardedBlock: null,
-      net: pool?.grandPrizeAmountUSD
-    }
+  pool = usePool(querySymbol, blockNumber)
+    .pool
+    
 
-    return <PrizeShow
-      pool={pool}
-      prize={prize}
-    />
-  }
-  
   if (!pool) {
     return <BlankStateMessage>
       {t('couldNotFindPoolWithSymbol', {
@@ -59,6 +52,15 @@ export default function PrizeShowPage(props) {
     >
       {prize === null ? <>
         {t('couldntFindPrize')}
+        <br/>
+        <button
+          type='button'
+          onClick={(e) => {
+            e.preventDefault()
+
+            router.push(`/pools/${querySymbol}`)
+          }}
+        >{t('viewPool')}</button>
       </> : <>
         <TableRowUILoader
           rows={5}
