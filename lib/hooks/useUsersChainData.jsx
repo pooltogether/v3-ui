@@ -6,6 +6,7 @@ import {
 } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { usePools } from 'lib/hooks/usePools'
+import { useReadProvider } from 'lib/hooks/useReadProvider'
 import { useInterval } from 'lib/hooks/useInterval'
 import { usePoolDripsQuery } from 'lib/hooks/usePoolDripsQuery'
 import { fetchUsersChainData } from 'lib/utils/fetchUsersChainData'
@@ -13,7 +14,9 @@ import { fetchUsersChainData } from 'lib/utils/fetchUsersChainData'
 const debug = require('debug')('pool-app:FetchUsersChainData')
 
 export function useUsersChainData(pool) {
-  const { usersAddress, provider, pauseQueries } = useContext(AuthControllerContext)
+  const { chainId, usersAddress, pauseQueries } = useContext(AuthControllerContext)
+
+  const { readProvider } = useReadProvider()
 
   const { contractAddresses } = usePools()
 
@@ -48,7 +51,8 @@ export function useUsersChainData(pool) {
   const fetchUsersDataFromInfura = async () => {
     try {
       const data = await fetchUsersChainData(
-        provider,
+        chainId,
+        readProvider,
         pool,
         comptrollerAddress,
         dripTokens,
