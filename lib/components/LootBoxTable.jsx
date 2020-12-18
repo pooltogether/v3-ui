@@ -43,6 +43,9 @@ export const LootBoxTable = (props) => {
     )
   }
 
+  if (!awards) {
+    return null
+  }
 
   return <>
     <div

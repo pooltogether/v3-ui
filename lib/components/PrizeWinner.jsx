@@ -70,7 +70,9 @@ export const PrizeWinner = (
 
   return <>
     <tr>
-      <td>
+      <td
+        className='py-2'
+      >
         {grandPrizeWinner ? t('grandPrize') : t('runnerUp')}
       </td>
 

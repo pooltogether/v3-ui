@@ -16,7 +16,7 @@ export const V2AccountTicket = (
 ) => {
   const { isPod, v2dai } = props
   
-  // only supports cDAI pool atm, need to fix this!
+  // TODO: only supports cDAI pool atm, need to fix this!
   const { pool } = usePool('PT-cDAI')
   const { usersChainData } = useUsersChainData(pool)
 
