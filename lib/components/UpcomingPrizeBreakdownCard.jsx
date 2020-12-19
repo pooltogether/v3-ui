@@ -114,14 +114,14 @@ export const UpcomingPrizeBreakdownCard = (props) => {
 
     
       <div
-        className='mt-1 xs:mt-0 xs:bg-primary px-4 py-2 xs:py-5 rounded-lg'
+        className='xs:bg-primary mt-1 xs:mt-0 py-2 xs:py-5 rounded-lg'
       >
         <table
-          className='theme-light--no-padding w-full text-xxxs xs:text-xxs sm:text-sm align-top'
+          className='theme-light--no-gutter mx-4 w-full text-xxxs xs:text-xxs sm:text-sm align-top'
         >
           <tbody>
             <tr>
-              <td className='w-1/2'><span className='font-bold'>{t('grandPrize')}</span></td>
+              <td className='w-1/3 lg:w-1/2'><span className='font-bold'>{t('grandPrize')}</span></td>
               <td>
                 <span className='font-bold'>
                   {interestPrizePerWinnerFormatted && (
@@ -144,7 +144,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
 
             {[...Array(numberOfWinnersMinusOne).keys()]
               .map(index => <tr key={`runner-up-row-${index}`}>
-                <td className='w-1/2'><span className='font-bold'>{t('runnerUp')}</span></td>
+                <td className='w-1/3 lg:w-1/2'><span className='font-bold'>{t('runnerUp')}</span></td>
                 <td><span className='font-bold'>{interestPrizePerWinnerFormatted}</span> <span
                   className='text-accent-1'
                 >{symbol} {t('tickets')}</span></td>

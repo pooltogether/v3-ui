@@ -64,7 +64,7 @@ export const PrizePlayerListing = (
       </>}
 
       <div
-        className='xs:bg-primary theme-light--no-padding text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8 mt-4'
+        className='xs:bg-primary theme-light--no-gutter text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8 mt-4'
         style={{
           minHeight: 540
         }}

@@ -81,7 +81,7 @@ export const LootBoxTable = (props) => {
       
       {awards.length > 0 && <>
         <div
-          className='xs:bg-primary theme-light--no-padding text-inverse rounded-lg p-0 xs:p-3 sm:pl-4 sm:pr-12 lg:pr-4 mt-4'
+          className='xs:bg-primary theme-light--no-gutter text-inverse rounded-lg p-0 xs:p-3 sm:pl-4 sm:pr-12 lg:pr-4 mt-4'
         >
           <table
             className='table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'

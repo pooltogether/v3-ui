@@ -186,7 +186,7 @@ export const PoolShow = (props) => {
                   className='leading-tight'
                 >
                   {pool?.fetchingTotals ? <BeatLoader
-                    size={3}
+                    size={10}
                     color='rgba(255,255,255,0.3)'
                   /> : <>
                     <Trans

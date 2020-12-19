@@ -340,16 +340,19 @@ input:-webkit-autofill:active  {
   @apply bg-green text-white;
 }
 
-
-.theme-light .theme-light--no-padding {
+.theme-light .theme-light--no-gutter {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
-.theme-light .theme-light--no-padding th:first-child,
-.theme-light .theme-light--no-padding th:last-child,
-.theme-light .theme-light--no-padding td:first-child,
-.theme-light .theme-light--no-padding td:last-child {
+.theme-light .theme-light--no-gutter th:first-child,
+.theme-light .theme-light--no-gutter th:last-child,
+.theme-light .theme-light--no-gutter td:first-child,
+.theme-light .theme-light--no-gutter td:last-child {
   padding-left: 0 !important;
   padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
