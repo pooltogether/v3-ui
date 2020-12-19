@@ -6,7 +6,9 @@ import { useTable } from 'react-table'
 import { useTranslation } from 'lib/../i18n'
 import { BasicTable } from 'lib/components/BasicTable'
 import { Odds } from 'lib/components/Odds'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { PoolNumber } from 'lib/components/PoolNumber'
+import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+// import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
 
 const playerLink = (t, player) => {
@@ -46,10 +48,13 @@ const formatPlayerObject = (t, pool, player, winners) => {
   </>
   
   return {
-    balance: `${numberWithCommas(
-      balance.toString(),
-      { precision: 2 }
-    )}`,
+    balance: player.balance ? <>$<PoolNumber>
+      {displayAmountInEther(player.balance, { precision: 2 })}
+    </PoolNumber></> : '',
+    // `$${numberWithCommas(
+    //   balance.toString(),
+    //   { precision: 2 }
+    // )}`,
     address,
     odds: <Odds
       timeTravelTicketSupply={pool.ticketSupply}

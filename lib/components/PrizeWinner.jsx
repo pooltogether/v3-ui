@@ -1,11 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
+import BeatLoader from 'react-spinners/BeatLoader'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { Odds } from 'lib/components/Odds'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { V3LoadingDots } from 'lib/components/V3LoadingDots'
+import { useAccount } from 'lib/hooks/useAccount'
 import { usePrizePoolAccountQuery } from 'lib/hooks/usePrizePoolAccountQuery'
 import { getPrizePoolAccountControlledTokenBalance } from 'lib/utils/getPrizePoolAccountControlledTokenBalance'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -16,54 +17,36 @@ export const PrizeWinner = (
 ) => {
   const { t } = useTranslation()
 
-  const { grandPrizeWinner, pool, prize, winnersAddress } = props
+  const { grandPrizeWinner, pool, prize, awardedControlledToken } = props
+
+  const ticketAddress = pool?.ticketToken?.id?.toLowerCase()
+  const decimals = pool?.underlyingCollateralDecimals || 18
 
   const blockNumber = prize?.awardedBlock
 
+  const winnersAddress = awardedControlledToken.winner
 
-  let playerAddressError
-  if (winnersAddress) {
-    try {
-      ethers.utils.getAddress(winnersAddress)
-    } catch (e) {
-      console.error(e)
+  const { accountData } = useAccount(winnersAddress, blockNumber - 1)
 
-      if (e.message.match('invalid address')) {
-        playerAddressError = true
-      }
-    }
-  }
 
-  const { data, error } = usePrizePoolAccountQuery(
-    pool,
-    winnersAddress,
-    blockNumber,
-    playerAddressError
-  )
+  const ctBalance = accountData
+    ?.controlledTokenBalances
+    .find(ct => ct.controlledToken.id === ticketAddress)
 
-  const prizePoolAccount = data
-
-  const decimals = pool?.underlyingCollateralDecimals || 18
-  let usersTicketBalance = 0
-
-  const controlledTicketTokenBalance = getPrizePoolAccountControlledTokenBalance(prizePoolAccount, pool?.ticketToken?.id)
-
-  if (controlledTicketTokenBalance) {
-    usersTicketBalance = Number(ethers.utils.formatUnits(
-      controlledTicketTokenBalance.balance,
+  const usersTicketBalance = ctBalance?.balance ? 
+    Number(ethers.utils.formatUnits(
+      ctBalance.balance,
       Number(decimals)
-    ))
-  }
+    )) : 
+    ''
 
-  
-  if (error) {
-    console.error(error)
-  }
-
-  if (!prizePoolAccount) {
+  if (!ctBalance) {
     return <tr>
       <td>
-        <V3LoadingDots />
+        <BeatLoader
+          size={3}
+          color='rgba(255,255,255,0.3)'
+        />
       </td>
     </tr>
   }

@@ -15,7 +15,7 @@ export const PrizePlayerListing = (
   props,
 ) => {
   const { t } = useTranslation()
-  const { isFetching, balances, pool, prize } = props
+  const { isFetching, isFetched, balances, pool, prize } = props
 
   const router = useRouter()
 
@@ -64,13 +64,13 @@ export const PrizePlayerListing = (
       </>}
 
       <div
-        className='xs:bg-primary theme-light--no-gutter text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-3 sm:px-8 mt-4'
+        className='xs:bg-primary theme-light--no-gutter text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-4 sm:px-8 mt-4'
         style={{
           minHeight: 540
         }}
       >
 
-        {isFetching && <V3LoadingDots />}
+        {(isFetching && !isFetched) && <V3LoadingDots />}
 
         {balances?.length > 0 && <>
           <PlayersTable

@@ -10,14 +10,11 @@ export const prizeFragment = gql`
 
     awardedTimestamp
     awardedBlock
-    # amount
 
     totalTicketSupply
     prizePeriodStartedTimestamp
 
     lockBlock
-
-    # winners
 
     awardedControlledTokens {
       ...awardedControlledTokenFragment

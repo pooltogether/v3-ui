@@ -138,12 +138,12 @@ export const PrizeBreakdown = (props) => {
           <tbody>
             {prize?.awardedTimestamp ? (
               <>
-                {prize?.winners.map((winner, index) => {
+                {prize?.awardedControlledTokens?.map((awardedControlledToken, index) => {
                   return <PrizeWinner
-                    key={`prize-winner-row-${winner}`}
+                    key={`prize-winner-row-${awardedControlledToken.id}`}
                     pool={pool}
                     prize={prize}
-                    winnersAddress={winner}
+                    awardedControlledToken={awardedControlledToken}
                     grandPrizeWinner={index === 0}
                   />
                 })}

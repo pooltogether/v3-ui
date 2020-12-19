@@ -20,12 +20,12 @@ export function PrizePlayersQuery(props) {
     prize?.awardedBlock - 1 :
     undefined
 
-  const { data, error, isFetching } = useControlledTokenBalanceQuery(pool, page, skip, blockNumber)
+  const { data, error, isFetching, isFetched } = useControlledTokenBalanceQuery(pool, page, skip, blockNumber)
 
   if (error) {
     console.warn(error)
   }
 
-  return children({ error, data, isFetching })
+  return children({ error, data, isFetching, isFetched })
 }
 

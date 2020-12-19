@@ -134,7 +134,7 @@ export function PrizeShow(props) {
       pool={pool}
       prize={prize}
     >
-      {({ data, error, isFetching }) => {
+      {({ data, error, isFetching, isFetched }) => {
         if (error) {
           return <>
             {error && <>
@@ -146,6 +146,7 @@ export function PrizeShow(props) {
 
         return <PrizePlayerListing
           isFetching={isFetching}
+          isFetched={isFetched}
           balances={data}
           pool={pool}
           prize={prize}

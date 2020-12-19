@@ -18,8 +18,6 @@ export default function PrizeShowPage(props) {
 
   let { pool } = usePool(querySymbol)
 
-  // const { pools } = usePools()
-
   const prizeId = `${pool?.id}-${prizeNumber}`
 
   const { data, error } = usePrizeQuery(pool, prizeId)
@@ -32,10 +30,12 @@ export default function PrizeShowPage(props) {
   
   let prize = data?.prize
 
-  const blockNumber = prize?.awardedBlock
-
-  pool = usePool(querySymbol, blockNumber)
-    .pool
+  // const blockNumber = prize?.awardedBlock
+  // total chicken n egg problem here, need to re-think this
+  // we need the pool to get the prize, then we get the blockNumber
+  // from the prize and query the pool again with that number
+  // pool = usePool(querySymbol, blockNumber)
+  //   .pool
     
 
   if (!pool) {
