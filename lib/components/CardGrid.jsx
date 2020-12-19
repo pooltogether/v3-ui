@@ -12,7 +12,7 @@ export function Card(props) {
     )}
   >
     <div
-      className='non-interactable-card mb-2 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
+      className='non-interactable-card mb-2 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
       <div
         className='text-caption uppercase'

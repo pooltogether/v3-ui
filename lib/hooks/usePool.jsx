@@ -76,16 +76,17 @@ export function usePool(poolSymbol, blockNumber = -1) {
   )
 
 
+  const numWinners = parseInt(pool.numberOfWinners || 1, 10)
 
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(awards)
   const interestPrizeUSD = calculateEstimatedPoolPrize(pool)
+  const interestPrizePerWinnerUSD = interestPrizeUSD.div(numWinners)
 
-  const numOfWinners = parseInt(pool.numberOfWinners || 1, 10)
   const grandPrizeAmountUSD = externalAwardsUSD ?
-    interestPrizeUSD.div(numOfWinners).add(ethers.utils.parseEther(
+    interestPrizeUSD.div(numWinners).add(ethers.utils.parseEther(
       externalAwardsUSD.toString()
     )) :
-    interestPrizeUSD.div(numOfWinners)
+    interestPrizeUSD.div(numWinners)
 
   const totalPrizeAmountUSD = externalAwardsUSD ?
     interestPrizeUSD.add(ethers.utils.parseEther(
@@ -102,6 +103,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
     lootBoxIsFetched,
     totalPrizeAmountUSD,
     grandPrizeAmountUSD,
+    interestPrizePerWinnerUSD,
     interestPrizeUSD,
     externalAwardsUSD,
     compiledExternalErc20Awards,

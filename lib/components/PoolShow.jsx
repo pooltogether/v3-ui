@@ -20,7 +20,7 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { CardGrid } from 'lib/components/CardGrid'
 import { LootBoxTable } from 'lib/components/LootBoxTable'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
-import { PrizeFromInterestCard } from 'lib/components/PrizeFromInterestCard'
+import { UpcomingPrizeBreakdownCard } from 'lib/components/UpcomingPrizeBreakdownCard'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
@@ -212,11 +212,7 @@ export const PoolShow = (props) => {
             </div>
           </div>
 
-          <PrizeFromInterestCard
-            pool={pool}
-            decimals={decimals}
-            interestPrize={pool?.interestPrizeUSD}
-          />
+          <UpcomingPrizeBreakdownCard />
 
           <LootBoxTable
             pool={pool}

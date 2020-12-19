@@ -181,11 +181,14 @@ export const AccountTicket = (
               <div
                 className='w-7/12 pl-2'
               >
-                <NewPrizeCountdownInWords
-                  extraShort
-                  text='xxxxs xs:text-xxxs'
-                  pool={pool}
-                />
+                <div
+                  className='font-bold text-xxxxs xs:text-xxxs'
+                >
+                  <NewPrizeCountdownInWords
+                    extraShort
+                    pool={pool}
+                  />
+                </div>
               </div>
             </div>
           </div>

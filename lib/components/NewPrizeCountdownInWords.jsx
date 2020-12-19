@@ -12,7 +12,7 @@ export const NewPrizeCountdownInWords = (
   props,
 ) => {
   const { t } = useTranslation()
-  const { pool, extraShort, text } = props
+  const { pool, extraShort } = props
 
   const [secondsRemaining, setSecondsRemaining] = useState(null)
 
@@ -78,21 +78,5 @@ export const NewPrizeCountdownInWords = (
     </>
   }
 
-  
-  return <>
-    <div
-      className={classnames(
-        'font-bold',
-        {
-          [`text-${text}`]: text,
-          'text-flashy': !text
-        }
-      )}
-      style={{
-        display: 'block'
-      }}
-    >
-      {content}
-    </div>
-  </>
+  return content
 }
