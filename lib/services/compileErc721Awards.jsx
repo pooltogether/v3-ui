@@ -10,8 +10,8 @@ export const compileErc721Awards = (erc721ChainData, poolData) => {
 
   const keys = Object.keys(erc721ChainData)
 
-  return [keys.map(key => ({
+  return keys.map(key => ({
     ...erc721ChainData[key],
     ...erc721GraphData[key],
-  }))]
+  }))
 }

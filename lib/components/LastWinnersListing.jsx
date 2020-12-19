@@ -21,8 +21,7 @@ export const LastWinnersListing = (
 
 
   const first = 5
-  const { data, error } = usePoolPrizesQuery(pool, first)
-  console.log(data)
+  const { data, error, isFetched } = usePoolPrizesQuery(pool, first)
 
   if (error) {
     console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))

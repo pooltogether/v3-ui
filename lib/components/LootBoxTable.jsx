@@ -81,7 +81,7 @@ export const LootBoxTable = (props) => {
       
       {awards.length > 0 && <>
         <div
-          className='xs:bg-primary theme-light--no-padding text-inverse rounded-lg p-0 xs:p-3 sm:pl-4 sm:pr-8 mt-4'
+          className='xs:bg-primary theme-light--no-padding text-inverse rounded-lg p-0 xs:p-3 sm:pl-4 sm:pr-12 lg:pr-4 mt-4'
         >
           <table
             className='table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
@@ -139,7 +139,6 @@ export const LootBoxTable = (props) => {
                     >
                       <PoolNumber>
                         {displayAmountInEther(
-                          // award[balanceProperty]
                           award.balance, {
                             precision: 6,
                             decimals: award.decimals
@@ -149,7 +148,7 @@ export const LootBoxTable = (props) => {
                       {/* </PoolNumber> {award.symbol.length > 20 ? <span className='truncate'>{award.symbol.substr(0, 20)}</span> : award.symbol} */}
                     </td>
                     <td
-                      className='font-bold'
+                      className='font-bold text-right'
                     >
                       {award.value && `$${numberWithCommas(award.value, { precision: 2 })}`}
                     </td>

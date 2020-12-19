@@ -28,8 +28,6 @@ export function PrizeShow(props) {
 
   const decimals = pool?.underlyingCollateralDecimals || 18
 
-  const isCurrentPrize = Number(pool?.prizesCount) + 1 === Number(prizeNumber)
-  
   return <>
     {pool?.name && <>
       <Meta title={`${t('prize')} #${prizeNumber} - ${pool ? pool?.name : ''}`} />
@@ -61,12 +59,7 @@ export function PrizeShow(props) {
     />
 
     <div
-      className={classnames(
-        'purple-pink-gradient rounded-lg px-4 xs:px-6 sm:px-10 py-4 text-white my-4 sm:mt-8 sm:mb-4 mx-auto',
-        {
-          'border-flashy': isCurrentPrize
-        }
-      )}
+      className='purple-pink-gradient rounded-lg px-4 xs:px-6 sm:px-10 py-4 text-white my-4 sm:mt-8 sm:mb-4 mx-auto'
     >
       <div>
         <h1>

@@ -74,13 +74,6 @@ thead tr {
   transition: all 150ms ease-in-out;
 }
 
-@screen sm {
-  tr:hover {
-    @apply bg-card-selected;
-    transition: all 150ms ease-in-out;
-  }
-}
-
 th:last-child,
 td:last-child {
   border-right: 0;
@@ -95,12 +88,6 @@ td:last-child {
 
 .table--small-headers th {
   @apply text-xxxs pb-0 uppercase;
-}
-
-@screen sm {
-  .table--no-hover-states tr:hover {
-    background-color: rgba(0, 0, 0, 0);
-  }
 }
 
 .table--no-padding {

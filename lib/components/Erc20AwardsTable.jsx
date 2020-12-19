@@ -72,7 +72,7 @@
 //           className='text-inverse flex flex-col justify-between rounded-lg p-0'
 //         >
 //           <table
-//             className='table--no-padding table--no-hover-states table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
+//             className='table--no-padding table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
 //           >
 //             <tbody>
 //               {awards.length === 0 && <>

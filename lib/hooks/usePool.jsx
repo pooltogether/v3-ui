@@ -51,7 +51,6 @@ export function usePool(poolSymbol, blockNumber = -1) {
     ...poolsGraphData?.['PT-cDAI'],
   }
 
-
   const compiledExternalErc20Awards = compileErc20Awards(
     erc20ChainData,
     poolsGraphData?.['PT-cDAI'],

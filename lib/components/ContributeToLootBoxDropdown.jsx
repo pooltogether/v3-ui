@@ -11,12 +11,12 @@ export function ContributeToLootBoxDropdown(props) {
 
   const { pool } = props
 
-  const response = useEthereumLootBoxQuery(pool)
-  const { computedLootBoxAddress } = response?.data || {}
+  const { data, isFetching, isFetched } = useEthereumLootBoxQuery(pool)
+  const { computedLootBoxAddress } = data || {}
 
   // const addressToCopy = computedLootBoxAddress || pool.poolAddress
 
-  if (!Boolean(computedLootBoxAddress)) {
+  if (isFetching && !isFetched) {
     return <V3LoadingDots />
   }
 
