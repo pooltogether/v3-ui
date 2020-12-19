@@ -9,6 +9,7 @@ import { calculateExternalAwardsValue } from 'lib/services/calculateExternalAwar
 import { compileHistoricalErc20Awards } from 'lib/services/compileHistoricalErc20Awards'
 import { compileHistoricalErc721Awards } from 'lib/services/compileHistoricalErc721Awards'
 import { marshallPoolData } from 'lib/services/marshallPoolData'
+import { sumAwardedControlledTokens } from 'lib/utils/sumAwardedControlledTokens'
 // import { getControlledToken, getSponsorshipTokenAddress, getTicketTokenAddress } from 'lib/services/getPoolDataFromQueryResult'
 
 // This gathers historical data for a pool and prize
@@ -34,18 +35,21 @@ export const compileHistoricalPool = (
   const marshalledData = marshallPoolData(poolObj, blockNumber)
 
   const numOfWinners = parseInt(marshalledData.numberOfWinners || 1, 10)
-  const interestPrizeUSD = ethers.utils.bigNumberify(prize?.amount || 0).mul(numOfWinners)
   
   const addresses = marshalledData?.externalErc20Awards?.map(award => award.address)
 
-  const { data, error } = useUniswapTokensQuery(
+  const {
+    data: uniswapPriceData,
+    error: uniswapError,
+    isFetching: uniswapIsFetching,
+    isFetched: uniswapIsFetched
+  } = useUniswapTokensQuery(
     addresses,
     blockNumber
   )
-  if (error) {
-    console.error(error)
+  if (uniswapError) {
+    console.error(uniswapError)
   }
-  const uniswapPriceData = data
   const compiledExternalErc20Awards = compileHistoricalErc20Awards(prize, uniswapPriceData)
 
   const ethErc721Awards = cache.getQueryData([
@@ -57,6 +61,9 @@ export const compileHistoricalPool = (
   const compiledExternalErc721Awards = compileHistoricalErc721Awards(ethErc721Awards, prize)
 
   const externalAwardsUSD = calculateExternalAwardsValue(compiledExternalErc20Awards)
+  
+  const totalAwardedControlledTokensUSD = sumAwardedControlledTokens(prize?.awardedControlledTokens)
+  const interestPrizeUSD = totalAwardedControlledTokensUSD
 
   const grandPrizeAmountUSD = externalAwardsUSD ?
     interestPrizeUSD.div(numOfWinners).add(ethers.utils.parseEther(
@@ -70,11 +77,16 @@ export const compileHistoricalPool = (
     )) :
     interestPrizeUSD.mul(numOfWinners)
 
+  const fetchingTotals = externalAwardsUSD === null ||
+    interestPrizeUSD.eq(0) &&
+    (uniswapIsFetching && !uniswapIsFetched)
 
+  // Standardize the USD values so they're either all floats/strings or all bigNums
   return {
     ...poolInfo,
     ...poolObj,
     ...marshalledData,
+    fetchingTotals,
     totalPrizeAmountUSD,
     grandPrizeAmountUSD,
     interestPrizeUSD,

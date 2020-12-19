@@ -18,7 +18,7 @@ export const LastWinnersListing = (
   const { pool } = props
 
   const decimals = pool?.underlyingCollateralDecimals
-
+  const querySymbol = pool?.symbol
 
   const first = 5
   const { data, error, isFetched } = usePoolPrizesQuery(pool, first)
@@ -30,17 +30,35 @@ export const LastWinnersListing = (
 
   let prizes = compact([].concat(data?.prizePool?.prizes))
 
+  // let tokenAddressesToQuery = []
+  // prizes?.forEach(prize => {
+  //   prize.awardedExternalErc20Tokens.forEach(token => {
+  //     tokenAddressesToQuery.push(token)
+  //   })
+  // })
+  // console.log(tokenAddressesToQuery)
+  // const { data, error } = useUniswapTokensQuery(
+  //   addresses,
+  //   blockNumber
+  // )
+  // if (error) {
+  //   console.error(error)
+  // }
+  // const uniswapPriceData = data
+  // const compiledExternalErc20Awards = compileHistoricalErc20Awards(prize, uniswapPriceData)
+  // const externalAwardsUSD = calculateExternalAwardsValue(compiledExternalErc20Awards)
+
   prizes = prizes?.reduce(function (result, prize) {
     if (prize?.awardedControlledTokens?.length > 0) {
       const date = formatDate(prize?.awardedTimestamp, { short: true, year: false, noAbbrev: true })
 
-      const total = sumAwardedControlledTokens(prize?.awardedControlledTokens)
+      const totalAwardedControlledTokensUSD = sumAwardedControlledTokens(prize?.awardedControlledTokens)
 
       result.push({
         ...prize,
         date,
         prizeNumber: extractPrizeNumberFromPrize(prize),
-        totalControlledTokensWon: total
+        totalControlledTokensWon: totalAwardedControlledTokensUSD
       })
     }
     return result
@@ -94,12 +112,28 @@ export const LastWinnersListing = (
               className='text-right'
             >
 
+              <TimeTravelPool
+                blockNumber={parseInt(prize?.awardedBlock, 10)}
+                poolAddress={pool?.id}
+                querySymbol={querySymbol}
+                prize={prize}
+              >
+                {(timeTravelPool) => {
+                  return <>
+                    ${displayAmountInEther(
+                      timeTravelPool?.totalPrizeAmountUSD,
+                      { decimals, precision: 2 }
+                    )}
+                  </>
+                }}
+              </TimeTravelPool>
+
 {/* // TODO: We should calculate all of the ERC20s someone won, their value on the day it was awarded
   // as well as the interest prizes! */}
-              ${displayAmountInEther(
+              {/* ${displayAmountInEther(
                 prize?.totalControlledTokensWon,
                 { precision: 2 }
-              )}
+              )} */}
               {/* <TimeTravelPool
                 blockNumber={parseInt(prize?.awardedBlock, 10)}
                 poolAddress={pool?.poolAddress}

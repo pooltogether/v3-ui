@@ -36,7 +36,12 @@ export function usePool(poolSymbol, blockNumber = -1) {
     ?.filter(award => award.balance.gt(0))
     ?.map(award => award.address)
 
-  const { data: uniswapPriceData } = useUniswapTokensQuery(
+  const { 
+    data: uniswapPriceData,
+    error: uniswapError,
+    isFetching: uniswapIsFetching,
+    isFetched: uniswapIsFetched
+  } = useUniswapTokensQuery(
     addresses,
     blockNumber
   )
@@ -75,6 +80,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
     blockNumber
   )
 
+  console.log('******')
 
   const numWinners = parseInt(pool.numberOfWinners || 1, 10)
 
@@ -94,10 +100,17 @@ export function usePool(poolSymbol, blockNumber = -1) {
     )) :
     interestPrizeUSD
 
+  // console.log(externalAwardsUSD === null)
+  // console.log(interestPrizeUSD.eq(0))
+  console.log('******')
+  const fetchingTotals = externalAwardsUSD === null ||
+    interestPrizeUSD.eq(0) &&
+    (uniswapIsFetching && !uniswapIsFetched)
 
-
+  // Standardize the USD values so they're either all floats/strings or all bigNums  pool = {
   pool = {
     ...pool,
+    fetchingTotals,
     awards,
     lootBoxIsFetching,
     lootBoxIsFetched,

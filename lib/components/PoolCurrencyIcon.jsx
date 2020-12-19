@@ -1,5 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
+import CircleLoader from 'react-spinners/CircleLoader'
 import { isUndefined } from 'lodash'
 
 import DaiSvg from 'assets/images/dai-new-transparent.png'
@@ -71,11 +72,13 @@ export const PoolCurrencyIcon = (
 
   return <>
     {iconMissing ? <>
-      <span
-        className={`${classes} text-3xl`}
-        role='img'
-        aria-label='thinking face'
-      >🤔</span>
+      <div
+        className={`${classes} scale-80 text-center`}
+      >
+        <CircleLoader
+          color='rgba(255,255,255,0.3)'
+        />
+      </div>
     </> : <>
       <img
         src={currencyIcon}

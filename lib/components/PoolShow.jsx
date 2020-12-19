@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import Link from 'next/link'
 import Cookies from 'js-cookie'
+import BeatLoader from 'react-spinners/BeatLoader'
 import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
@@ -184,20 +185,25 @@ export const PoolShow = (props) => {
                 <h1
                   className='leading-tight'
                 >
-                  <Trans
-                    i18nKey='prizeAmount'
-                    defaults='Prize $<prize>{{amount}}</prize>'
-                    components={{
-                      prize: <PoolCountUp
-                        fontSansRegular
-                        decimals={2}
-                        duration={6}
-                      />
-                    }}
-                    values={{
-                      amount: prizeEstimateFormatted,
-                    }}
-                  />
+                  {pool?.fetchingTotals ? <BeatLoader
+                    size={3}
+                    color='rgba(255,255,255,0.3)'
+                  /> : <>
+                    <Trans
+                      i18nKey='prizeAmount'
+                      defaults='Prize $<prize>{{amount}}</prize>'
+                      components={{
+                        prize: <PoolCountUp
+                          fontSansRegular
+                          decimals={2}
+                          duration={6}
+                        />
+                      }}
+                      values={{
+                        amount: prizeEstimateFormatted,
+                      }}
+                    />
+                  </>}
                 </h1>
               </div>
 

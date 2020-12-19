@@ -38,7 +38,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
         {t('prizeInterestSplitBetweenNWinners', {
           numberOfWinnersMinusOne
         })}
-        <br />{t('willBeAwarded')}: <span className='text-inverse'><NewPrizeCountdownInWords
+        <br />{t('willBeAwardedIn')} <span className='text-inverse'><NewPrizeCountdownInWords
           extraShort
           pool={pool}
         /></span>
@@ -127,19 +127,18 @@ export const UpcomingPrizeBreakdownCard = (props) => {
                   {interestPrizePerWinnerFormatted && (
                     `${interestPrizePerWinnerFormatted}`
                   )}
-                </span>
+                </span> <span
+                  className='text-accent-1'
+                > {symbol} {t('tickets')}</span>
 
-                {interestPrizePerWinnerFormatted && pool?.externalAwardsUSD && ` + `}
-                
                 <span className='font-bold'>
+                  {interestPrizePerWinnerFormatted && pool?.externalAwardsUSD && ` + `}
                   {pool?.externalAwardsUSD && (
                     `$${numberWithCommas(pool.externalAwardsUSD)}`
                   )}
-                </span>
-                
-                <span
+                </span> <span
                   className='text-accent-1'
-                > {symbol} {t('tickets')}</span>
+                >{t('lootBox')}</span>
               </td>
             </tr>
 

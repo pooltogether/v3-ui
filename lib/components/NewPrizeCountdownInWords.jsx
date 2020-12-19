@@ -12,7 +12,7 @@ export const NewPrizeCountdownInWords = (
   props,
 ) => {
   const { t } = useTranslation()
-  const { pool, extraShort } = props
+  const { pool, extraShort, onTicket } = props
 
   const [secondsRemaining, setSecondsRemaining] = useState(null)
 
@@ -71,9 +71,9 @@ export const NewPrizeCountdownInWords = (
     </>
   } else if (extraShort) {
     content = <>
-      <div
+      {onTicket && <div
         className='font-normal'
-      >{t('prizeIn')}</div> 
+      >{t('prizeIn')}</div>}
       {t('numDaysShort', { days: daysWords })}, {t('numHoursShort', { hours: hoursWords })}, {t('numMinutesShort', { minutes: minutesWords })}, {t('numSecondsShort', { seconds: secondsWords })}
     </>
   }

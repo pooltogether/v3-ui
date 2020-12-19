@@ -13,7 +13,8 @@ export const PoolPrizeListing = (
   const { t } = useTranslation()
   const { pool } = props
 
-  const { data, error, isFetching, isFetched } = usePoolPrizesQuery(pool)
+  const first = 10
+  const { data, error, isFetching, isFetched } = usePoolPrizesQuery(pool, first)
 
   let prizes = data?.prizePool?.prizes
 

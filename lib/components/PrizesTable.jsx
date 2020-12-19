@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import BeatLoader from 'react-spinners/BeatLoader'
 import { ethers } from 'ethers'
 import { useTable } from 'react-table'
 
@@ -30,48 +31,31 @@ const AWARDED = 'Awarded'
 const AWARD_STARTED = 'AwardStarted'
 const UNAWARDED = 'Unawarded'
 
-const prizeState = (prize) => {
-  if (prize.amount) {
-    return AWARDED
-  } else if (prize.amount === null) {
-    return AWARD_STARTED
-  } else {
-    return UNAWARDED
-  }
-}
-
-const prizeStatusString = (t, prize) => {
-  const state = prizeState(prize)
-
-  if (state === AWARDED) {
-    return prize.winners && prize.winners.length > 0 ?
-      prize.winners.map(winner => winner.id) :
-      t('noWinner')
-  } else if (state === AWARD_STARTED) {
-    return t('awarding')
-  } else {
-    return '...'
-  }
-}
+// const prizeState = (prize) => {
+//   if (prize.amount) {
+//     return AWARDED
+//   } else if (prize.amount === null) {
+//     return AWARD_STARTED
+//   } else {
+//     return UNAWARDED
+//   }
+// }
 
 const formatPrizeObject = (t, pool, prize, querySymbol) => {
   const id = extractPrizeNumberFromPrize(prize)
-  const decimals = pool.underlyingCollateralDecimals
-  const prizeAmount = prize.amount && decimals ?
-    displayAmountInEther(
-      prize.amount,
-      { decimals, precision: 2 }
-    ) : ethers.utils.bigNumberify(0)
+  // const decimals = pool.underlyingCollateralDecimals
+  // const prizeAmount = prize.amount && decimals ?
+  //   displayAmountInEther(
+  //     prize.amount,
+  //     { decimals, precision: 2 }
+  //   ) : ethers.utils.bigNumberify(0)
 
   return {
     prizeNumber: id,
     startedAt: formatDate(prize?.prizePeriodStartedTimestamp),
-    winner: shorten(prize?.winners?.[0]),
+    // winner: shorten(prize?.winners?.[0]),
     awardedAt: <>
-      <span className='sm:hidden'>
-        {formatDate(prize?.awardedTimestamp, { short: true })}
-      </span>
-      <span className='hidden sm:block'>
+      <span className='block'>
         {formatDate(prize?.awardedTimestamp)}
       </span>
     </>,
@@ -84,15 +68,19 @@ const formatPrizeObject = (t, pool, prize, querySymbol) => {
       >
         {(timeTravelPool) => {
           return <>
-            ${displayAmountInEther(
-              timeTravelPool?.totalPrizeAmountUSD,
-              { decimals: pool?.underlyingCollateralDecimals, precision: 2 }
-            )}
+            {timeTravelPool?.fetchingTotals ? <BeatLoader
+              size={3}
+              color='rgba(255,255,255,0.3)'
+            /> :
+              `$${displayAmountInEther(
+                timeTravelPool?.totalPrizeAmountUSD,
+                { decimals: pool?.underlyingCollateralDecimals, precision: 2 }
+              )}`
+            }
           </>
         }}
       </TimeTravelPool>
     </>,
-    status: prizeStatusString(t, prize),
     view: prizeLink(t, pool, { id })
   }
 }
@@ -115,24 +103,20 @@ export const PrizesTable = (
         Header: t('prize'),
         accessor: 'prizeAmount', // accessor is the "key" in the data
       },
-      {
-        Header: row => <div
-          className='hidden sm:block'
-        >
-          {t('winner')}
-        </div>,
-        accessor: 'winner',
-        Cell: row => <div
-          className='hidden sm:block'
-        >{row.value}</div>
-      },
+      // {
+      //   Header: row => <div
+      //     className='hidden sm:block'
+      //   >
+      //     {t('winner')}
+      //   </div>,
+      //   accessor: 'winner',
+      //   Cell: row => <div
+      //     className='hidden sm:block'
+      //   >{row.value}</div>
+      // },
       {
         Header: t('awardedOn'),
         accessor: 'awardedAt',
-      },
-      {
-        Header: t('status'),
-        accessor: 'status',
       },
       {
         Header: '',
@@ -158,9 +142,19 @@ export const PrizesTable = (
       )
 
       currentPrize = {
-        prizeAmount: `$${numberWithCommas(amount, { precision: 2 })} ${pool.underlyingCollateralSymbol}`,
-        status: t('current'),
-        view: prizeLink(t, pool, { id: currentPrizeId })
+        prizeAmount: <><span className='text-flashy'>${numberWithCommas(amount, { precision: 2 })}</span></>,
+        awardedAt: <><span className='text-flashy'>{t('current')}</span></>,
+        view: <Link
+          href='/pools/[symbol]'
+          as={`/pools/${querySymbol}`}
+          shallow
+        >
+          <a
+            className='trans text-right w-full'
+          >
+            {t('viewDetails')}
+          </a>
+        </Link>
       }
 
       prizeRows.unshift(currentPrize)

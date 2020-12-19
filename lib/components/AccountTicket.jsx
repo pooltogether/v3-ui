@@ -185,6 +185,7 @@ export const AccountTicket = (
                   className='font-bold text-xxxxs xs:text-xxxs'
                 >
                   <NewPrizeCountdownInWords
+                    onTicket
                     extraShort
                     pool={pool}
                   />
