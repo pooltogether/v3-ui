@@ -80,8 +80,6 @@ export function usePool(poolSymbol, blockNumber = -1) {
     blockNumber
   )
 
-  console.log('******')
-
   const numWinners = parseInt(pool.numberOfWinners || 1, 10)
 
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(awards)
@@ -100,9 +98,6 @@ export function usePool(poolSymbol, blockNumber = -1) {
     )) :
     interestPrizeUSD
 
-  // console.log(externalAwardsUSD === null)
-  // console.log(interestPrizeUSD.eq(0))
-  console.log('******')
   const fetchingTotals = externalAwardsUSD === null ||
     interestPrizeUSD.eq(0) &&
     (uniswapIsFetching && !uniswapIsFetched)

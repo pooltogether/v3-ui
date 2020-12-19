@@ -77,19 +77,23 @@ export const LastWinnersListing = (
         {t('noWinnersAwardedYet')}
       </h6>
     </> : <>
-      <span
-        className='inline-block w-1/2 text-flashy font-bold mb-2 text-xxs sm:text-xs lg:text-sm'
+      <div
+        className='w-full text-flashy font-bold mb-2 text-xxs xs:text-xs lg:text-sm'
       >
-        {t('currentPrize')}
-      </span>
-      <span
-        className='inline-block w-1/2 text-right text-flashy text-xxs sm:text-xs lg:text-sm'
-      >
-        ${displayAmountInEther(
-          pool?.totalPrizeAmountUSD.toString(),
-          { decimals, precision: 2 }
-        )}
-      </span>
+        <div
+          className='inline-block w-1/2'
+        >
+          {t('currentPrize')}
+        </div>
+        <div
+          className='inline-block w-1/2 text-right'
+        >
+          ${displayAmountInEther(
+            pool?.totalPrizeAmountUSD.toString(),
+            { decimals, precision: 2 }
+          )}
+        </div>
+      </div>
 
       {prizes.map(prize => {
         return <Link
@@ -98,7 +102,7 @@ export const LastWinnersListing = (
           as={`/prizes/${pool?.symbol}/${prize?.prizeNumber}`}
         >
           <a
-            className='flex justify-between items-center font-bold mb-2 rounded-lg trans text-xxs sm:text-xs lg:text-sm'
+            className='flex justify-between items-center font-bold mb-2 rounded-lg trans text-xxs xs:text-xs lg:text-sm'
           >
             <span>
               {prize?.date}
