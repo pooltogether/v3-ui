@@ -5,7 +5,7 @@ import { usePools } from 'lib/hooks/usePools'
 import { useUsersV2Query } from 'lib/hooks/useUsersV2Query'
 import { useReadProvider } from 'lib/hooks/useReadProvider'
 
-export function useUsersV2Data() {
+export function useUsersV2Balances() {
   const { usersAddress } = useContext(AuthControllerContext)
 
   const { readProvider } = useReadProvider()
@@ -13,7 +13,7 @@ export function useUsersV2Data() {
   const { contractAddresses } = usePools()
 
   const {
-    data: usersChainData,
+    data: usersV2Balances,
     error: usersChainError,
   } = useUsersV2Query({
     provider: readProvider,
@@ -25,5 +25,5 @@ export function useUsersV2Data() {
     console.error(usersChainError)
   }
   
-  return { usersChainData }
+  return { usersV2Balances }
 }

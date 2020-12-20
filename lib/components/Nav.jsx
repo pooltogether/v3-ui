@@ -13,12 +13,7 @@ export function Nav(props) {
   const votePage = router.pathname.match('vote')
   const poolPage = !accountPage && !votePage
   
-  // const daiPoolPage = router.asPath === '/pools/PT-cDAI'
-  // const usdcPoolPage = router.asPath === '/pools/PT-cUSDC'
-  // const usdtPoolPage = router.asPath === '/pools/PT-cUSDT'
-
   const navParentClasses = 'leading-none rounded-full hover:bg-accent-grey-1 w-8/12 flex justify-start items-center text-lg lg:text-xl py-3 px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none my-3 font-bold ml-3 lg:ml-0 h-10'
-  // const navChildClasses = 'leading-none rounded-full hover:bg-accent-grey-1 w-8/12 flex justify-start items-center text-sm lg:text-base py-3 px-10 lg:px-12 trans tracking-wider outline-none focus:outline-none active:outline-none my-3 ml-8'
 
   return <>
     <nav
@@ -63,64 +58,6 @@ export function Nav(props) {
           <span className='pl-2 capitalize'>{t('pools')}</span>
         </a>
       </Link>
-{/* 
-      <div>
-        <Link
-          href='/pools/[symbol]'
-          as='/pools/PT-cDAI'
-          shallow
-        >
-          <a
-            className={classnames(
-              navChildClasses,
-              {
-                'text-accent-4 hover:text-highlight-2': !daiPoolPage,
-                'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': daiPoolPage
-              }
-            )}
-          >
-            DAI Pool
-          </a>
-        </Link>
-
-        <Link
-          href='/pools/[symbol]'
-          as='/pools/PT-cUSDC'
-          shallow
-        >
-          <a
-            className={classnames(
-              navChildClasses,
-              {
-                'text-accent-4 hover:text-highlight-2': !usdcPoolPage,
-                'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': usdcPoolPage
-              }
-            )}
-          >
-            USDC Pool
-          </a>
-        </Link>
-
-        <Link
-          href='/pools/[symbol]'
-          as='/pools/PT-cUSDT'
-          shallow
-        >
-          <a
-            className={classnames(
-              navChildClasses,
-              {
-                'text-accent-4 hover:text-highlight-2': !usdtPoolPage,
-                'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': usdtPoolPage
-              }
-            )}
-          >
-            USDT Pool
-          </a>
-        </Link>
-      </div> */}
-
-      
 
       <Link
         href='/account'
@@ -177,7 +114,6 @@ export function Nav(props) {
             className='flex items-center justify-center'
             style={{width: 28}}
           >
-            {/* <svg width="18" height="21" viewBox="0 0 18 21" fill="none" xmlns="http://www.w3.org/2000/svg"> */}
             <svg
               style={{
                 left: 2,

@@ -4,13 +4,11 @@ import { ethers } from 'ethers'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { SmallLoader } from 'lib/components/SmallLoader'
-import { usePool } from 'lib/hooks/usePool'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
-import { useUsersChainData } from 'lib/hooks/useUsersChainData'
+import { useUsersV2Balances } from 'lib/hooks/useUsersV2Balances'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
-// import AccountPlaceholderImg from 'assets/images/avatar-placeholder.svg'
 import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
 
 export const AccountSummary = () => {
@@ -18,9 +16,7 @@ export const AccountSummary = () => {
 
   const { usersAddress } = useContext(AuthControllerContext)
   
-  // TODO: only supports cDAI pool atm, need to fix this!
-  const { pool } = usePool('PT-cDAI')
-  const { usersChainData } = useUsersChainData(pool)
+  const { usersV2Balances } = useUsersV2Balances()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
@@ -28,33 +24,16 @@ export const AccountSummary = () => {
 
   const { playerTickets } = usePlayerTickets(address)
 
-  // controlledTokenBalances
-  // const { data: prizePoolAccounts } = usePlayerControlledTokenBalances(usersAddress)
-
-
-  // const playerAddressError = testAddress(usersAddress)
- 
-  
-
-  // const blockNumber = -1
-  // const {
-  //   data: playerData,
-  //   error,
-  // } = useAccountQuery(usersAddress, blockNumber, playerAddressError)
-
-  // if (error) {
-  //   console.error(error)
-  // }
   const daiBalances = {
-    poolBalance: usersChainData?.v2DaiPoolCommittedBalance,
-    podBalance: usersChainData?.v2DaiPodCommittedBalance,
-    podSharesBalance: usersChainData?.v2DaiPodSharesBalance,
+    poolBalance: usersV2Balances?.v2DaiPoolCommittedBalance,
+    podBalance: usersV2Balances?.v2DaiPodCommittedBalance,
+    podSharesBalance: usersV2Balances?.v2DaiPodSharesBalance,
   }
 
   const usdcBalances = {
-    poolBalance: usersChainData?.v2UsdcPoolCommittedBalance,
-    podBalance: usersChainData?.v2UsdcPodCommittedBalance,
-    podSharesBalance: usersChainData?.v2UsdcPodSharesBalance,
+    poolBalance: usersV2Balances?.v2UsdcPoolCommittedBalance,
+    podBalance: usersV2Balances?.v2UsdcPodCommittedBalance,
+    podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance,
   }
 
   let totalTickets = ethers.utils.bigNumberify(0)

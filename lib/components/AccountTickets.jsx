@@ -11,9 +11,7 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { TicketsLoader } from 'lib/components/TicketsLoader'
 import { useAccount } from 'lib/hooks/useAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
-// import { usePool } from 'lib/hooks/usePool'
-// import { useUsersChainData } from 'lib/hooks/useUsersChainData'
-import { useUsersV2Data } from 'lib/hooks/useUsersV2Data'
+import { useUsersV2Balances } from 'lib/hooks/useUsersV2Balances'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 
 import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
@@ -23,10 +21,7 @@ export const AccountTickets = () => {
   
   const { usersAddress } = useContext(AuthControllerContext)
   
-  // TODO: only supports cDAI pool atm, need to fix this!
-  // const { pool } = usePool('PT-cDAI')
-  const { usersV2Data } = useUsersV2Data()
-  // const { usersV2Data } = useUsersChainData(pool)
+  const { usersV2Balances } = useUsersV2Balances()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
@@ -37,15 +32,15 @@ export const AccountTickets = () => {
   const { playerTickets } = usePlayerTickets(address)
 
   const daiBalances = {
-    poolBalance: usersV2Data?.v2DaiPoolCommittedBalance,
-    podBalance: usersV2Data?.v2DaiPodCommittedBalance,
-    podSharesBalance: usersV2Data?.v2DaiPodSharesBalance,
+    poolBalance: usersV2Balances?.v2DaiPoolCommittedBalance,
+    podBalance: usersV2Balances?.v2DaiPodCommittedBalance,
+    podSharesBalance: usersV2Balances?.v2DaiPodSharesBalance,
   }
 
   const usdcBalances = {
-    poolBalance: usersV2Data?.v2UsdcPoolCommittedBalance,
-    podBalance: usersV2Data?.v2UsdcPodCommittedBalance,
-    podSharesBalance: usersV2Data?.v2UsdcPodSharesBalance,
+    poolBalance: usersV2Balances?.v2UsdcPoolCommittedBalance,
+    podBalance: usersV2Balances?.v2UsdcPodCommittedBalance,
+    podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance,
   }
 
 
