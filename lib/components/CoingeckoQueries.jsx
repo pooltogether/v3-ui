@@ -3,14 +3,13 @@
 
 // export function CoingeckoQueries(props) {
 //   const {
+//     addresses,
 //     children,
 //     dynamicExternalAwardsData,
 //   } = props
 
-//   const graphExternalErc20Awards = dynamicExternalAwardsData?.['PT-cDAI']?.externalErc20Awards
-//   const addressesString = graphExternalErc20Awards?.map(award => award.address).join(',')
 
-//   const { data, error } = useCoingeckoTokensQuery(addressesString)
+//   const { data, error } = useCoingeckoTokensQuery(addresses)
 
 //   if (error) {
 //     console.warn(error)

@@ -2,8 +2,7 @@ import React from 'react'
 import { ethers } from 'ethers'
 
 import { Trans, useTranslation } from 'lib/../i18n'
-import { usePool } from 'lib/hooks/usePool'
-import { useUsersChainData } from 'lib/hooks/useUsersChainData'
+import { useUsersV2Balances } from 'lib/hooks/useUsersV2Balances'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
@@ -15,25 +14,19 @@ export const V2MessageLarge = (
 ) => {
   const { t } = useTranslation()
   
-  // TODO: only supports cDAI pool atm, need to fix this!
-  const { pool } = usePool('PT-cDAI')
-  const { usersChainData } = useUsersChainData(pool)
+  const { usersV2Balances } = useUsersV2Balances()
 
   let usersTotalV2Balance = ethers.utils.bigNumberify(0)
 
-  if (usersChainData?.v2DaiPoolCommittedBalance) {
+  if (usersV2Balances?.v2DaiPoolCommittedBalance) {
     const daiBalances = [
-      usersChainData?.v2DaiPoolCommittedBalance,
-      // usersChainData?.v2DaiPoolOpenBalance,
-      usersChainData?.v2DaiPodCommittedBalance,
-      // usersChainData?.v2DaiPodOpenBalance
+      usersV2Balances?.v2DaiPoolCommittedBalance,
+      usersV2Balances?.v2DaiPodCommittedBalance,
     ]
 
     const usdcBalances = [
-      usersChainData?.v2UsdcPoolCommittedBalance,
-      // usersChainData?.v2UsdcPoolOpenBalance,
-      usersChainData?.v2UsdcPodCommittedBalance,
-      // usersChainData?.v2UsdcPodOpenBalance
+      usersV2Balances?.v2UsdcPoolCommittedBalance,
+      usersV2Balances?.v2UsdcPodCommittedBalance,
     ]
 
     let usersTotalDaiBalance = ethers.utils.bigNumberify(0)

@@ -17,10 +17,6 @@ export const AccountWinnings = () => {
   
   const { usersAddress } = useContext(AuthControllerContext)
 
-  // TODO: only supports cDAI pool atm, need to fix this!
-  const { pool } = usePool('PT-cDAI')
-  const { pools } = usePools()
-
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
   const address = playerAddress || usersAddress
