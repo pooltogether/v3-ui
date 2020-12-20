@@ -12,6 +12,7 @@ import {
 } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
+import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
@@ -20,16 +21,16 @@ import { usePool } from 'lib/hooks/usePool'
 export const PoolRowNew = (
   props,
 ) => {  
-  const { poolSymbol } = props
+  const { querySymbol } = props
   
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { pool } = usePool(poolSymbol)
+  const { pool } = usePool(querySymbol)
 
-  if (Boolean(!pool?.awardBalance)) {
-    return null
-  }
+  // if (Boolean(!pool?.awardBalance)) {
+  //   return null
+  // }
 
   const symbol = pool.symbol
   const decimals = pool?.underlyingCollateralDecimals || DEFAULT_TOKEN_PRECISION
@@ -66,19 +67,27 @@ export const PoolRowNew = (
     >
       <div className='flex flex-col items-center justify-center text-inverse'>
 
-        <div
-          className='text-5xl sm:text-6xl lg:text-7xl font-bold text-flashy'
-        >
-          $<PoolCountUp
-            fontSansRegular
-            decimals={0}
-            duration={6}
+        <div className='flex items-center justify-center'>
+          <PoolCurrencyIcon
+            lg
+            pool={pool}
+            className='mr-2 mt-1'
+          />
+
+          <div
+            className='text-5xl sm:text-6xl lg:text-7xl font-bold text-flashy'
           >
-            {ethers.utils.formatUnits(
-              pool?.totalPrizeAmountUSD,
-              decimals
-            )}
-          </PoolCountUp>
+            $<PoolCountUp
+              fontSansRegular
+              decimals={0}
+              duration={6}
+            >
+              {ethers.utils.formatUnits(
+                pool?.totalPrizeAmountUSD,
+                decimals
+              )}
+            </PoolCountUp>
+          </div>
         </div>
 
         <div

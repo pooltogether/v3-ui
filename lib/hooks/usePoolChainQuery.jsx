@@ -3,7 +3,7 @@ import { useEthereumPoolQuery } from 'lib/hooks/useEthereumPoolQuery'
 
 const debug = require('debug')('pool-app:ChainQueries')
 
-export function usePoolChainQuery(poolsGraphData) {
+export function usePoolChainQuery(poolGraphData) {
   const { readProvider } = useReadProvider()
 
   const {
@@ -13,7 +13,7 @@ export function usePoolChainQuery(poolsGraphData) {
     isFetching: poolIsFetching
   } = useEthereumPoolQuery({
     provider: readProvider,
-    poolGraphData: poolsGraphData?.['PT-cDAI'],
+    poolGraphData,
   })
 
   if (poolChainError) {

@@ -48,7 +48,7 @@ export const PoolList = (
 
           return <PoolRowNew
             key={`pool-row-${pool.id}`}
-            poolSymbol={pool.symbol}
+            querySymbol={pool.symbol}
           />
         })}
 

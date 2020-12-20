@@ -42,9 +42,10 @@ export const AccountLootBoxes = () => {
           <h6
             className='flex items-center font-normal'
           >
-            {t('lootBoxNumber', {
+            
+            {/* {t('lootBoxNumber', {
               number
-            })} 
+            })} */}
             {/* {id} */}
           </h6>
 

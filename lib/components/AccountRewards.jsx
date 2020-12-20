@@ -19,6 +19,7 @@ import { PTCopyToClipboard } from 'lib/components/PTCopyToClipboard'
 import { usePlayerDrips } from 'lib/hooks/usePlayerDrips'
 import { usePool } from 'lib/hooks/usePool'
 import { usePools } from 'lib/hooks/usePools'
+import { useUsersDripData } from 'lib/hooks/useUsersDripData'
 import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
@@ -37,7 +38,8 @@ export const AccountRewards = () => {
   // rewards are only supported by the cDAI pool atm
   const { pool } = usePool('PT-cDAI')
 
-  const { usersChainData, graphDripData } = useUsersChainData(pool)
+  const { usersChainData } = useUsersChainData(pool)
+  const { graphDripData } = useUsersDripData(pool)
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
 

@@ -39,11 +39,17 @@ export const COOKIE_OPTIONS = {
   domain
 }
 
+// TODO: Make this based on chain id
 export const POOLS = [
   {
     name: 'DAI Pool',
     frequency: 'Weekly',
     symbol: 'PT-cDAI'
+  },
+  {
+    name: 'BAT Pool',
+    frequency: 'Weekly',
+    symbol: 'PT-cBAT'
   }
 ]
 
@@ -133,7 +139,9 @@ export const QUERY_KEYS = {
   ethereumErc721sQuery: 'ethereumErc721sQuery',
   ethereumLootBoxQuery: 'ethereumLootBoxQuery',
   ethereumPoolQuery: 'ethereumPoolQuery',
-  ethereumUserChainQuery: 'ethereumUserChainQuery',
+  ethereumUsersDripQuery: 'ethereumUsersDripQuery',
+  ethereumUsersV2Query: 'ethereumUsersV2Query',
+  ethereumUsersChainQuery: 'ethereumUsersChainQuery',
   lootBoxQuery: 'lootBoxQuery',
   poolQuery: 'poolQuery',
   poolsQuery: 'poolsQuery',

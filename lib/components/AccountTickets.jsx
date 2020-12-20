@@ -11,8 +11,9 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { TicketsLoader } from 'lib/components/TicketsLoader'
 import { useAccount } from 'lib/hooks/useAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
-import { usePool } from 'lib/hooks/usePool'
-import { useUsersChainData } from 'lib/hooks/useUsersChainData'
+// import { usePool } from 'lib/hooks/usePool'
+// import { useUsersChainData } from 'lib/hooks/useUsersChainData'
+import { useUsersV2Data } from 'lib/hooks/useUsersV2Data'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 
 import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
@@ -23,8 +24,9 @@ export const AccountTickets = () => {
   const { usersAddress } = useContext(AuthControllerContext)
   
   // TODO: only supports cDAI pool atm, need to fix this!
-  const { pool } = usePool('PT-cDAI')
-  const { usersChainData } = useUsersChainData(pool)
+  // const { pool } = usePool('PT-cDAI')
+  const { usersV2Data } = useUsersV2Data()
+  // const { usersV2Data } = useUsersChainData(pool)
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
@@ -35,15 +37,15 @@ export const AccountTickets = () => {
   const { playerTickets } = usePlayerTickets(address)
 
   const daiBalances = {
-    poolBalance: usersChainData?.v2DaiPoolCommittedBalance,
-    podBalance: usersChainData?.v2DaiPodCommittedBalance,
-    podSharesBalance: usersChainData?.v2DaiPodSharesBalance,
+    poolBalance: usersV2Data?.v2DaiPoolCommittedBalance,
+    podBalance: usersV2Data?.v2DaiPodCommittedBalance,
+    podSharesBalance: usersV2Data?.v2DaiPodSharesBalance,
   }
 
   const usdcBalances = {
-    poolBalance: usersChainData?.v2UsdcPoolCommittedBalance,
-    podBalance: usersChainData?.v2UsdcPodCommittedBalance,
-    podSharesBalance: usersChainData?.v2UsdcPodSharesBalance,
+    poolBalance: usersV2Data?.v2UsdcPoolCommittedBalance,
+    podBalance: usersV2Data?.v2UsdcPodCommittedBalance,
+    podSharesBalance: usersV2Data?.v2UsdcPodSharesBalance,
   }
 
 
@@ -107,8 +109,7 @@ export const AccountTickets = () => {
                   return <AccountTicket
                     isLink
                     key={`account-pool-row-${playerTicket?.poolAddress}`}
-                    pool={playerTicket?.pool}
-                    playerBalance={playerTicket?.balance}
+                    playerTicket={playerTicket}
                   />
                 })}
 

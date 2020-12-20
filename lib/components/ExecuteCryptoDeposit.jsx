@@ -14,7 +14,6 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { usePool } from 'lib/hooks/usePool'
-// import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { permitSignOrRegularDeposit } from 'lib/utils/permitSignOrRegularDeposit'
 
@@ -32,7 +31,6 @@ export function ExecuteCryptoDeposit(props) {
 
   const { chainId, usersAddress, provider } = useContext(AuthControllerContext)
   const { pool } = usePool()
-  // const { usersChainData } = useUsersChainData(pool)
 
   const decimals = pool?.underlyingCollateralDecimals
   const ticker = pool?.underlyingCollateralSymbol
@@ -42,17 +40,10 @@ export function ExecuteCryptoDeposit(props) {
 
   const tickerUpcased = ticker?.toUpperCase()
 
-  // const {
-  //   usersDaiPermitAllowance,
-  // } = usersDataForPool(pool, usersChainData)
-
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
   let txMainName = `${t('deposit')} ${numberWithCommas(quantity, { precision: 2 })} ${t('tickets')}`
-  // if (poolTokenSupportsPermitSign(chainId, tokenAddress)) {
-  //   txMainName = `${t('permitAnd')} ${txMainName}`
-  // }
 
   const txSubName = `${quantity} ${tickerUpcased}`
   const txName = `${txMainName} (${txSubName})`
@@ -76,7 +67,6 @@ export function ExecuteCryptoDeposit(props) {
       }
 
       const quantityBN = ethers.utils.parseUnits(quantity, Number(decimals))
-      // const needsPermit = quantityBN.gt(0) && usersDaiPermitAllowance.lt(quantityBN)
 
       const sharedParams = [
         usersAddress,
@@ -94,7 +84,6 @@ export function ExecuteCryptoDeposit(props) {
         tokenAddress,
         sendTx,
         sharedParams,
-        // needsPermit
       )
       setTxId(id)
     }
@@ -109,18 +98,6 @@ export function ExecuteCryptoDeposit(props) {
       previousStep()
     } else if (tx?.completed) {
       nextStep()
-
-      const valueInCentsWithDecimals = Number(quantity) * 100
-      const valueInCents = parseInt(valueInCentsWithDecimals, 10)
-
-      // console.log('value in cents', valueInCents)
-      // console.log(window.fathom)
-      // if (window && window.Fathom) {
-        // console.log('send fathom')
-        // this is naive as the user would have to stay on
-        // the same page until the tx confirms, so it won't be accurate anyways
-        // (from app.jsx) Fathom.trackGoal('L4PBHM0U', valueInCents)
-      // }
     }
   }, [tx])
 

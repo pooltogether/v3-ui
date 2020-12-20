@@ -1,21 +1,24 @@
 import { useContext } from 'react'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { useUsersChainQuery } from 'lib/hooks/useUsersChainQuery'
+import { usePools } from 'lib/hooks/usePools'
+import { useUsersV2Query } from 'lib/hooks/useUsersV2Query'
 import { useReadProvider } from 'lib/hooks/useReadProvider'
 
-export function useUsersChainData(pool) {
+export function useUsersV2Data() {
   const { usersAddress } = useContext(AuthControllerContext)
 
   const { readProvider } = useReadProvider()
 
+  const { contractAddresses } = usePools()
+
   const {
     data: usersChainData,
     error: usersChainError,
-  } = useUsersChainQuery({
+  } = useUsersV2Query({
     provider: readProvider,
-    pool,
     usersAddress,
+    contractAddresses,
   })
 
   if (usersChainError) {

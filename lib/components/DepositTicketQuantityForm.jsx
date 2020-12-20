@@ -127,20 +127,6 @@ export function DepositTicketQuantityForm(props) {
       </div>
     </>}
 
-    {/* {poolIsLocked && <>
-      <Modal
-        header={`${tickerUpcased} Pool locked`}
-        visible={true}
-      >
-        <h3>
-          This Pool's prize is currently being awarded - until awarding is complete it can not accept deposits or withdrawals.
-
-          <br/>
-          Show time til unlocked: ...
-        </h3>
-      </Modal>
-    </>} */}
-
     <form
       onSubmit={handleSubmit(onSubmit)}
     >

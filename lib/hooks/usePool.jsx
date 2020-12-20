@@ -27,10 +27,11 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const { poolsGraphData } = usePools()
 
-  // TODO: Change this from needing poolsGraphData about every pool
-  const { poolChainData } = usePoolChainQuery(poolsGraphData)
-  const { erc20ChainData } = useErc20ChainQuery(poolsGraphData)
-  const { erc721ChainData } = useErc721ChainQuery(poolsGraphData)
+  const poolGraphData = poolsGraphData?.[poolSymbol]
+
+  const { poolChainData } = usePoolChainQuery(poolGraphData)
+  const { erc20ChainData } = useErc20ChainQuery(poolGraphData)
+  const { erc721ChainData } = useErc721ChainQuery(poolGraphData)
 
   const addresses = erc20ChainData
     ?.filter(award => award.balance.gt(0))
@@ -52,19 +53,19 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   let pool = {
     ...poolInfo,
-    ...poolChainData?.['PT-cDAI'],
-    ...poolsGraphData?.['PT-cDAI'],
+    ...poolChainData?.[poolSymbol],
+    ...poolsGraphData?.[poolSymbol],
   }
 
   const compiledExternalErc20Awards = compileErc20Awards(
     erc20ChainData,
-    poolsGraphData?.['PT-cDAI'],
+    poolsGraphData?.[poolSymbol],
     uniswapPriceData
   )
 
   const compiledExternalErc721Awards = compileErc721Awards(
     erc721ChainData,
-    poolsGraphData?.['PT-cDAI']
+    poolsGraphData?.[poolSymbol]
   )
 
 
@@ -118,6 +119,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
     compiledExternalErc721Awards
   }
 
+  console.log(pool)
 
   return {
     pool

@@ -51,12 +51,6 @@ export function AuthControllerContextProvider(props) {
   // TODO: extend this to also pull the eth balance from the magic session
   // may need state / ethereum event listener
   const ethBalance = onboardBalance || null
-  // const [ethBalance, setEthBalance] = useState(ethers.utils.bigNumberify(0))
-  // useEffect(() => {
-  //   if (ethBalance) {
-  //     setEthBalance(ethers.utils.bigNumberify(ethBalance))
-  //   }
-  // }, [])
 
   let walletName = 'Unknown'
   if (magic && signedIn) {
@@ -69,8 +63,6 @@ export function AuthControllerContextProvider(props) {
   const [chainId, setChainId] = useState(defaultChainId)
   const [provider, setProvider] = useState()
   const [usersAddress, setUsersAddress] = useState()
-  // const [, setUsersAddress] = useState()
-  // const usersAddress = '0xfe0a0b7cf6ff4ce310be300822ff9e4c0821484c'
   const [magicAutoSignInAlreadyExecuted, setMagicAutoSignInAlreadyExecuted] = useState(false)
 
   useEffect(() => {
