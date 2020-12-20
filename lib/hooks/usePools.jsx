@@ -35,7 +35,7 @@ export function usePools() {
     console.error(poolsError)
   }
 
-  poolsGraphData = getPoolDataFromQueryResult(contractAddresses, poolsGraphData)
+  poolsGraphData = getPoolDataFromQueryResult(chainId, contractAddresses, poolsGraphData)
 
 
 
@@ -51,7 +51,7 @@ export function usePools() {
 
 
   let pools = []
-  POOLS.forEach(POOL => {
+  POOLS[chainId].forEach(POOL => {
     const _pool = {
       ...POOL,
       id: contractAddresses[POOL.symbol],
@@ -68,8 +68,5 @@ export function usePools() {
     contractAddresses,
     refetchPoolsData,
     poolsGraphData,
-    // poolChainData,
-    // graphDripData,
-    // usersChainData,
   }
 }

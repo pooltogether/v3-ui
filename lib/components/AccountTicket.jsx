@@ -16,6 +16,7 @@ import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWord
 import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
+import { usePool } from 'lib/hooks/usePool'
 
 export const AccountTicket = (
   props,
@@ -26,7 +27,14 @@ export const AccountTicket = (
   const { noMargin, isLink, playerTicket } = props
   let { href, as } = props
 
-  const { balance, pool } = playerTicket
+  const { pool } = usePool(playerTicket?.pool?.symbol)
+
+  if (!playerTicket?.pool?.symbol) {
+    return null
+  }
+
+
+  const { balance } = playerTicket
 
   const decimals = pool?.underlyingCollateralDecimals
 
@@ -107,10 +115,7 @@ export const AccountTicket = (
     >
       <div
         className={classnames(
-          'absolute rounded-b-lg bg-no-repeat ticket-strip',
-          {
-            'ticket--blue': ticker?.toLowerCase() === 'usdc'
-          }
+          `ticket--${ticker?.toLowerCase()} absolute rounded-b-lg bg-no-repeat ticket-strip`
         )}
       />
 
@@ -160,7 +165,7 @@ export const AccountTicket = (
             </div>
 
             <div
-              className='flex items-center text-left text-xs xs:text-xl font-bold text-darkened relative mt-8 xs:mt-12 pt-1'
+              className='flex items-center text-left text-xs xs:text-xl font-bold text-darkened relative mt-8 xs:mt-12 pt-2 xs:pt-1'
             >
               <div
                 className='w-5/12'
@@ -209,15 +214,15 @@ export const AccountTicket = (
               pool={pool}
             />
             <div
-              className='capitalize mt-1 text-xs xs:text-lg font-bold text-inverse-purple'
+              className='capitalize mt-2 text-xs xs:text-lg font-bold text-inverse-purple'
             >
-              {ticker?.toLowerCase()}
+              {ticker?.toUpperCase()}
             </div>
 
 
             {isLink && <>
               <span
-                className='inline-flex items-center justify-center text-center font-bold mt-8 xs:mt-12 pt-1 xs:pt-2 z-10 text-darkened pl-2'
+                className='inline-flex items-center justify-center text-center font-bold mt-8 xs:mt-10 xs:pt-3 z-10 text-darkened pl-2'
               >
                 {t('manage')} <FeatherIcon
                   icon='chevron-right'

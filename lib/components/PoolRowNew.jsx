@@ -28,10 +28,6 @@ export const PoolRowNew = (
 
   const { pool } = usePool(querySymbol)
 
-  // if (Boolean(!pool?.awardBalance)) {
-  //   return null
-  // }
-
   const symbol = pool.symbol
   const decimals = pool?.underlyingCollateralDecimals || DEFAULT_TOKEN_PRECISION
 

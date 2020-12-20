@@ -4,12 +4,12 @@ import CircleLoader from 'react-spinners/CircleLoader'
 import { isUndefined } from 'lodash'
 
 import DaiSvg from 'assets/images/dai-new-transparent.png'
-import WbtcSvg from 'assets/images/wbtc-new-transparent.png'
-// import WbtcSvg from 'assets/images/asset_BTC.svg'
-import UsdcSvg from 'assets/images/usdc-new-transparent.png'
-import UsdtSvg from 'assets/images/usdt-new-transparent.png'
-import ZrxSvg from 'assets/images/zrx-new-transparent.png'
+// import WbtcSvg from 'assets/images/wbtc-new-transparent.png'
+// import UsdcSvg from 'assets/images/usdc-new-transparent.png'
+// import UsdtSvg from 'assets/images/usdt-new-transparent.png'
+// import ZrxSvg from 'assets/images/zrx-new-transparent.png'
 import BatSvg from 'assets/images/bat-new-transparent.png'
+import UniSvg from 'assets/images/token-uni.png'
 import MissingCurrencySvg from 'assets/images/activity.svg'
 
 export const PoolCurrencyIcon = (
@@ -32,16 +32,18 @@ export const PoolCurrencyIcon = (
   let currencyIcon
   if (symbol === 'dai') {
     currencyIcon = DaiSvg
-  } else if (symbol === 'usdc') {
-    currencyIcon = UsdcSvg
-  } else if (symbol === 'usdt') {
-    currencyIcon = UsdtSvg
-  } else if (symbol === 'wbtc') {
-    currencyIcon = WbtcSvg
-  } else if (symbol === 'zrx') {
-    currencyIcon = ZrxSvg
+  // } else if (symbol === 'usdc') {
+  //   currencyIcon = UsdcSvg
+  // } else if (symbol === 'usdt') {
+  //   currencyIcon = UsdtSvg
+  // } else if (symbol === 'wbtc') {
+  //   currencyIcon = WbtcSvg
+  // } else if (symbol === 'zrx') {
+  //   currencyIcon = ZrxSvg
   } else if (symbol === 'bat') {
     currencyIcon = BatSvg
+  } else if (symbol === 'uni') {
+    currencyIcon = UniSvg
   } else {
     iconMissing = true
   }
@@ -53,7 +55,7 @@ export const PoolCurrencyIcon = (
     } else if (sm) {
       sizeClasses = 'w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8'
     } else if (lg) {
-      sizeClasses = 'w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16'
+      sizeClasses = 'w-8 h-8 sm:w-14 sm:h-14'
     } else if (xl) {
       sizeClasses = 'w-12 h-12 sm:w-16 sm:h-16 lg:w-18 lg:h-18'
     }

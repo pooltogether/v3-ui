@@ -9,6 +9,9 @@ import IconTarget from 'assets/images/icon-target@2x.png'
 
 // Currently this component should only show up for the currentUser viewing their own account
 export const AccountLootBoxes = () => {
+  return null
+
+
   const { t } = useTranslation()
   
   const { contractAddresses } = usePools()

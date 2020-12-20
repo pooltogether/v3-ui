@@ -83,7 +83,8 @@ export function OrderComplete(props) {
       <div
         className='mb-3'
       >
-        {t('theNextPrizeWillBeAwardedIn')} 
+        {t('theNextPrizeWillBeAwardedIn')}
+        <br />
         <div
           className='font-bold text-flashy'
         >

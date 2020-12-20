@@ -48,8 +48,6 @@ export function AuthControllerContextProvider(props) {
 
   const { address, magic, signIn, signedIn, signOut: magicSignOut } = useContext(MagicContext)
  
-  // TODO: extend this to also pull the eth balance from the magic session
-  // may need state / ethereum event listener
   const ethBalance = onboardBalance || null
 
   let walletName = 'Unknown'

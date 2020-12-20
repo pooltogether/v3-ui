@@ -96,7 +96,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
             }}
           >
             <h3>
-              {pool.externalAwardsUSD && `$${numberWithCommas(pool.externalAwardsUSD)}`}
+              {Boolean(pool?.externalAwardsUSD > 0) && `$${numberWithCommas(pool.externalAwardsUSD)}`}
             </h3>
             <span
               className='text-sm xs:text-base sm:text-xl text-accent-1 leading-none'
@@ -131,14 +131,19 @@ export const UpcomingPrizeBreakdownCard = (props) => {
                   className='text-accent-1'
                 > {symbol} {t('tickets')}</span>
 
-                <span className='font-bold'>
-                  {interestPrizePerWinnerFormatted && pool?.externalAwardsUSD && ` + `}
-                  {pool?.externalAwardsUSD && (
-                    `$${numberWithCommas(pool.externalAwardsUSD)}`
-                  )}
-                </span> <span
-                  className='text-accent-1'
-                >{t('lootBox')}</span>
+                {Boolean(pool?.externalAwardsUSD) && (
+                  <>
+                    <span className='font-bold'>
+                      {interestPrizePerWinnerFormatted && pool?.externalAwardsUSD && ` + `}
+                      {pool?.externalAwardsUSD && (
+                        `$${numberWithCommas(pool.externalAwardsUSD)}`
+                      )}
+                    </span>
+                    <span
+                      className='text-accent-1'
+                    >{t('lootBox')}</span>
+                  </>
+                )}
               </td>
             </tr>
 

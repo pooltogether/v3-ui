@@ -51,7 +51,7 @@ export function TimeTravelPool(props){
 
   const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
   
-  const poolInfo = POOLS.find(POOL => POOL.symbol === querySymbol)
+  const poolInfo = POOLS[chainId].find(POOL => POOL.symbol === querySymbol)
   const timeTravelPool = compileHistoricalPool(
     chainId,
     poolInfo,

@@ -39,19 +39,32 @@ export const COOKIE_OPTIONS = {
   domain
 }
 
-// TODO: Make this based on chain id
-export const POOLS = [
-  {
-    name: 'DAI Pool',
-    frequency: 'Weekly',
-    symbol: 'PT-cDAI'
-  },
-  {
-    name: 'BAT Pool',
-    frequency: 'Weekly',
-    symbol: 'PT-cBAT'
-  }
-]
+export const POOLS = {
+  1: [
+    {
+      name: 'DAI Pool',
+      frequency: 'Weekly',
+      symbol: 'PT-cDAI'
+    },
+    // {
+    //   name: 'UNI Pool',
+    //   frequency: 'Weekly',
+    //   symbol: 'PT-cUNI'
+    // }
+  ],
+  4: [
+    {
+      name: 'DAI Pool',
+      frequency: 'Weekly',
+      symbol: 'PT-cDAI'
+    },
+    {
+      name: 'BAT Pool',
+      frequency: 'Weekly',
+      symbol: 'PT-cBAT'
+    }
+  ]
+}
 
 export const PRIZE_STRATEGY_TYPES = {
   'singleRandomWinner': 'singleRandomWinner',

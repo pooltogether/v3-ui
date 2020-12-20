@@ -1,7 +1,9 @@
+import { useContext } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 
 import { POOLS } from 'lib/constants'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useLootBox } from 'lib/hooks/useLootBox'
 import { usePools } from 'lib/hooks/usePools'
 import { usePoolChainQuery } from 'lib/hooks/usePoolChainQuery'
@@ -19,6 +21,8 @@ import { compileErc721Awards } from 'lib/services/compileErc721Awards'
 // in the compilePoolWithBlockNumber(), the balance is pulled from the pooltogether subgraph as we want the balance
 // at the time the prize was awarded, etc
 export function usePool(poolSymbol, blockNumber = -1) {
+  const { chainId } = useContext(AuthControllerContext)
+
   const router = useRouter()
 
   if (!poolSymbol) {
@@ -30,6 +34,18 @@ export function usePool(poolSymbol, blockNumber = -1) {
   const poolGraphData = poolsGraphData?.[poolSymbol]
 
   const { poolChainData } = usePoolChainQuery(poolGraphData)
+
+  const poolInfo = POOLS[chainId].find(POOL => {
+    return POOL.symbol === poolSymbol
+  })
+
+  let pool = {
+    ...poolInfo,
+    ...poolChainData,
+    ...poolsGraphData?.[poolSymbol],
+  }
+
+
   const { erc20ChainData } = useErc20ChainQuery(poolGraphData)
   const { erc721ChainData } = useErc721ChainQuery(poolGraphData)
 
@@ -46,16 +62,6 @@ export function usePool(poolSymbol, blockNumber = -1) {
     addresses,
     blockNumber
   )
-
-  const poolInfo = POOLS.find(POOL => {
-    return POOL.symbol === poolSymbol
-  })
-
-  let pool = {
-    ...poolInfo,
-    ...poolChainData?.[poolSymbol],
-    ...poolsGraphData?.[poolSymbol],
-  }
 
   const compiledExternalErc20Awards = compileErc20Awards(
     erc20ChainData,

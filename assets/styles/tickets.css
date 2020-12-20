@@ -29,8 +29,16 @@
   }
 }
 
-.ticket--blue {
+.ticket--usdc {
   filter: brightness(1.1) saturate(200%) contrast(100%) hue-rotate(162deg);
+}
+
+.ticket--bat {
+  filter: brightness(1) saturate(336%) contrast(80%) hue-rotate(320deg);
+}
+
+.ticket--uni {
+  filter: brightness(1.1) saturate(300%) contrast(100%) hue-rotate(260deg);
 }
 
 .ticket-strip {
