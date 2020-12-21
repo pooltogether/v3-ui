@@ -150,10 +150,12 @@ export const AccountRewards = () => {
   }
 
   const getFormattedNumber = (value, decimals) => {
-    const formatted = ethers.utils.formatUnits(
-      value,
-      decimals || DEFAULT_TOKEN_PRECISION
-    )
+    const formatted = (value && decimals) ?
+      ethers.utils.formatUnits(
+        value,
+        decimals || DEFAULT_TOKEN_PRECISION
+      ) :
+      '0.0'
 
     return <>
       <div className='font-bold text-flashy'>
@@ -194,7 +196,7 @@ export const AccountRewards = () => {
   const getClaimButton = (dripData) => {
     let disabled
 
-    if (!dripData.claimable.gt(0)) {
+    if (!dripData?.claimable?.gt(0)) {
       disabled = true
     }
 
