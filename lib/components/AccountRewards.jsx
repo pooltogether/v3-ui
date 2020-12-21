@@ -304,12 +304,14 @@ export const AccountRewards = () => {
     const amounts = map(usersDripData, (dripTokenData, dripTokenAddress) => {
       const dripData = getDripDataByAddress(dripTokenAddress, dripTokenData)
 
-      return parseFloat(
-        ethers.utils.formatUnits(
-          dripData.claimable,
-          dripData.dripToken.decimals
-        )
-      )
+      return Boolean(dripData.claimable) && Boolean(dripData.dripToken.decimals) ?
+        parseFloat(
+          ethers.utils.formatUnits(
+            dripData.claimable,
+            dripData.dripToken.decimals
+          )
+        ) :
+        0.0
     })
 
     return sum(amounts)

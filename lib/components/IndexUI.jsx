@@ -25,6 +25,16 @@ export const IndexUI = (
       breadcrumbs={[]}
     />
 
+    <div>
+      <span
+        role='img'
+        aria-label='megaphone emoji'
+      >📣</span> The Uniswap UNI pool is now open! <span
+        role='img'
+        aria-label='megaphone emoji'
+      >📣</span>
+    </div>
+
     {loading ?
       <IndexUILoader /> :
       <PoolList

@@ -30,7 +30,7 @@
 }
 
 .ticket--dai {
-  filter: brightness(1) saturate(103%) contrast(100%) hue-rotate(0);
+  filter: brightness(1) saturate(200%) contrast(100%) hue-rotate(0deg);
 }
 
 .ticket--usdc {
@@ -42,7 +42,7 @@
 }
 
 .ticket--uni {
-  filter: brightness(1.1) saturate(300%) contrast(100%) hue-rotate(260deg);
+  filter: brightness(1) saturate(1200%) contrast(106%) hue-rotate(287deg);
 }
 
 .ticket-strip {

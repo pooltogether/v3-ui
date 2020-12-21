@@ -51,16 +51,19 @@ export function usePools() {
 
 
   let pools = []
-  POOLS[chainId].forEach(POOL => {
-    const _pool = {
-      ...POOL,
-      id: contractAddresses[POOL.symbol],
-    }
 
-    if (_pool?.id) {
-      pools.push(_pool)
-    }
-  })
+  if (contractAddresses) {
+    POOLS[chainId].forEach(POOL => {
+      const _pool = {
+        ...POOL,
+        id: contractAddresses[POOL.symbol],
+      }
+  
+      if (_pool?.id) {
+        pools.push(_pool)
+      }
+    })
+  }
 
   return {
     pools,

@@ -52,10 +52,10 @@ export const PoolList = (
           />
         })}
 
-        <PoolRowGhost
+        {/* <PoolRowGhost
           key={`pool-row-ghost`}
           pool={null}
-        />
+        /> */}
       </motion.ul>
     </AnimatePresence>
   </>
