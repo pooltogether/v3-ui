@@ -8,8 +8,6 @@ import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { usePool } from 'lib/hooks/usePool'
-import { testAddress } from 'lib/utils/testAddress'
-import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
 export function ManageTicketsForm(props) {
   const { t } = useTranslation()
@@ -18,25 +16,9 @@ export function ManageTicketsForm(props) {
 
   const { pool } = usePool()
 
-  const playerAddressError = testAddress(usersAddress)
-
-  const blockNumber = -1
-  let {
-    data: playerData,
-    error,
-  } = useAccountQuery(usersAddress, blockNumber, playerAddressError)
-
-  if (error) {
-    console.error(error)
-  }
-
-  const ticketAddress = pool?.ticketToken?.id
-  const balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
-
   const [action, setAction] = useState(STRINGS.withdraw)
 
   const { playerTickets } = usePlayerTickets(usersAddress)
-  console.log(playerTickets)
   const playerTicket = playerTickets?.find(playerTicket => playerTicket.pool.id === pool?.id)
 
   return <>
@@ -54,8 +36,6 @@ export function ManageTicketsForm(props) {
       <AccountTicket
         noMargin
         key={`account-pool-row-${pool?.poolAddress}`}
-        // pool={pool}
-        // playerBalance={balance}
         playerTicket={playerTicket}
       />
     </div>
