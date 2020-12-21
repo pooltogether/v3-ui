@@ -24,9 +24,9 @@ export const TicketsLoader = (
       backgroundColor={bgColor}
       foregroundColor={foreColor}
     >
-      <rect x="0" y="0"   rx="5" ry="5" width="300" height="80" /> <rect x="310" y="0"   rx="5" ry="5" width="300" height="80" />
+      <rect x="0" y="0"   rx="5" ry="5" width="240" height="120" /> <rect x="260" y="0"   rx="5" ry="5" width="240" height="120" />
 
-      <rect x="0" y="90" rx="5" ry="5" width="300" height="80" /> <rect x="310" y="90" rx="5" ry="5" width="300" height="80" />
+      {/* <rect x="0" y="90" rx="5" ry="5" width="300" height="80" /> <rect x="310" y="90" rx="5" ry="5" width="300" height="80" /> */}
     </ContentLoader>
   </> 
 }

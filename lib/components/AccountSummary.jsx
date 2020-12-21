@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { SmallLoader } from 'lib/components/SmallLoader'
+import { useAccount } from 'lib/hooks/useAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { useUsersV2Balances } from 'lib/hooks/useUsersV2Balances'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
@@ -22,7 +23,9 @@ export const AccountSummary = () => {
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { playerTickets } = usePlayerTickets(address)
+  const { accountData } = useAccount(address)
+  
+  const { playerTickets } = usePlayerTickets(accountData)
 
   const daiBalances = {
     poolBalance: usersV2Balances?.v2DaiPoolCommittedBalance,

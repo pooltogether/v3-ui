@@ -6,6 +6,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
+import { useAccount } from 'lib/hooks/useAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { usePool } from 'lib/hooks/usePool'
 
@@ -18,7 +19,9 @@ export function ManageTicketsForm(props) {
 
   const [action, setAction] = useState(STRINGS.withdraw)
 
-  const { playerTickets } = usePlayerTickets(usersAddress)
+  const { accountData } = useAccount(usersAddress)
+  
+  const { playerTickets } = usePlayerTickets(accountData)
   const playerTicket = playerTickets?.find(playerTicket => playerTicket.pool.id === pool?.id)
 
   return <>

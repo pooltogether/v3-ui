@@ -27,9 +27,10 @@ export const AccountTickets = () => {
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { accountDataIsFetching, accountDataIsFetched } = useAccount(address)
+  const { accountData, accountDataIsFetching, accountDataIsFetched } = useAccount(address)
 
-  const { playerTickets } = usePlayerTickets(address)
+  const { playerTickets } = usePlayerTickets(accountData)
+  console.log({ playerTickets})
 
   const daiBalances = {
     poolBalance: usersV2Balances?.v2DaiPoolCommittedBalance,
