@@ -7,7 +7,7 @@ import { useReadProvider } from 'lib/hooks/useReadProvider'
 import { usePoolDripsQuery } from 'lib/hooks/usePoolDripsQuery'
 import { useUsersDripQuery } from 'lib/hooks/useUsersDripQuery'
 
-export function useUsersDripData(pool) {
+export function useUsersDripData() {
   const { usersAddress } = useContext(AuthControllerContext)
 
   const { readProvider } = useReadProvider()
@@ -41,11 +41,10 @@ export function useUsersDripData(pool) {
 
 
   const {
-    data: usersChainData,
-    error: usersChainError,
+    data: usersDripData,
+    error: usersDripError,
   } = useUsersDripQuery({
     provider: readProvider,
-    pool,
     comptrollerAddress,
     dripTokens,
     usersAddress,
@@ -53,9 +52,9 @@ export function useUsersDripData(pool) {
     contractAddresses,
   })
 
-  if (usersChainError) {
-    console.error(usersChainError)
+  if (usersDripError) {
+    console.error(usersDripError)
   }
-  
-  return { usersChainData }
+
+  return { graphDripData, usersDripData }
 }

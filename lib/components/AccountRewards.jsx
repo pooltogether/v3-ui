@@ -19,8 +19,9 @@ import { PTCopyToClipboard } from 'lib/components/PTCopyToClipboard'
 import { usePlayerDrips } from 'lib/hooks/usePlayerDrips'
 import { usePool } from 'lib/hooks/usePool'
 import { usePools } from 'lib/hooks/usePools'
+import { usePoolDripsQuery } from 'lib/hooks/usePoolDripsQuery'
 import { useUsersDripData } from 'lib/hooks/useUsersDripData'
-import { useUsersChainData } from 'lib/hooks/useUsersChainData'
+// import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -31,6 +32,8 @@ import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
 export const AccountRewards = () => {
   const { t } = useTranslation()
 
+  const { usersAddress, provider } = useContext(AuthControllerContext)
+
   const [transactions, setTransactions] = useAtom(transactionsAtom)
  
   const { pools } = usePools()
@@ -38,16 +41,15 @@ export const AccountRewards = () => {
   // rewards are only supported by the cDAI pool atm
   const { pool } = usePool('PT-cDAI')
 
-  const { usersChainData } = useUsersChainData(pool)
-  const { graphDripData } = useUsersDripData(pool)
-
-  const { usersAddress, provider } = useContext(AuthControllerContext)
-
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
   const { playerDrips } = usePlayerDrips(address)
+
+  const { usersDripData, graphDripData } = useUsersDripData()
+
+
 
   const poolAddresses = map(pools, 'poolAddress')
   const playerRewards = extractPoolRewardsFromUserDrips({ poolAddresses, playerDrips })
@@ -59,7 +61,6 @@ export const AccountRewards = () => {
   const referralAddress = `https://${domain}/?referrer=${usersAddress ? usersAddress : ''}`
   const shortReferralAddress = `${domain}/?referrer=${usersAddress ? shorten(usersAddress) : ''}`
 
-  const { usersDripTokenData } = usersChainData || {}
 
   const [activeTxDripIds, setActiveTxDripIds] = useState([])
 
@@ -170,7 +171,6 @@ export const AccountRewards = () => {
   }
 
   const getDripDataByAddress = (dripTokenAddress, dripTokenData) => {
-    const { usersDripTokenData } = usersChainData
     const dripTokens = playerRewards?.allDrips || []
 
     const zero = ethers.utils.parseEther('0')
@@ -185,8 +185,8 @@ export const AccountRewards = () => {
       balance: zero
     })
 
-    dripData.claimable = usersDripTokenData ? usersDripTokenData[dripTokenAddress].claimable : zero
-    dripData.balance = usersDripTokenData ? usersDripTokenData[dripTokenAddress].balance : zero
+    dripData.claimable = usersDripData ? usersDripData[dripTokenAddress].claimable : zero
+    dripData.balance = usersDripData ? usersDripData[dripTokenAddress].balance : zero
 
     return dripData
   }
@@ -257,7 +257,7 @@ export const AccountRewards = () => {
   }
 
   const getRewardsDripRows = () => {
-    return map(usersDripTokenData, (dripTokenData, dripTokenAddress) => {
+    return map(usersDripData, (dripTokenData, dripTokenAddress) => {
       const dripData = getDripDataByAddress(dripTokenAddress, dripTokenData)
 
       const isPoolDaiTickets = dripTokenData.name === 'PoolTogether Dai Ticket (Compound)'
@@ -301,8 +301,7 @@ export const AccountRewards = () => {
   }
  
   const getTotalRewards = () => {
-    // console.log(usersDripTokenData)
-    const amounts = map(usersDripTokenData, (dripTokenData, dripTokenAddress) => {
+    const amounts = map(usersDripData, (dripTokenData, dripTokenAddress) => {
       const dripData = getDripDataByAddress(dripTokenAddress, dripTokenData)
 
       return parseFloat(
@@ -336,15 +335,10 @@ export const AccountRewards = () => {
           </h6>
 
           <h3>
-            <PoolNumber>
-              {numberWithCommas(getTotalRewards(), { precision: 0 })}
+            $<PoolNumber>
+              {numberWithCommas(getTotalRewards(), { precision: 2 })}
             </PoolNumber>
           </h3>
-          <div
-            className='opacity-60'
-          >
-            ${numberWithCommas(getTotalRewards(), { precision: 6 })}
-          </div>
         </div>
 
         <div
