@@ -7,7 +7,7 @@
 @screen xs {
   .ticket {
     height: 197px;
-    width: 410px;
+    width: 411px;
   }
 }
 
@@ -27,6 +27,10 @@
   .theme-light .ticket {
     background-image: url('/ticket-bg--light.svg');
   }
+}
+
+.ticket--dai {
+  filter: brightness(1) saturate(103%) contrast(100%) hue-rotate(0);
 }
 
 .ticket--usdc {

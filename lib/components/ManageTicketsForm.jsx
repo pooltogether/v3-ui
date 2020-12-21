@@ -3,10 +3,11 @@ import React, { useContext, useState } from 'react'
 import { STRINGS } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePool } from 'lib/hooks/usePool'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
+import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
+import { usePool } from 'lib/hooks/usePool'
 import { testAddress } from 'lib/utils/testAddress'
 import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
@@ -34,6 +35,10 @@ export function ManageTicketsForm(props) {
 
   const [action, setAction] = useState(STRINGS.withdraw)
 
+  const { playerTickets } = usePlayerTickets(usersAddress)
+  console.log(playerTickets)
+  const playerTicket = playerTickets?.find(playerTicket => playerTicket.pool.id === pool?.id)
+
   return <>
     <div
       className='pane-title'
@@ -49,8 +54,9 @@ export function ManageTicketsForm(props) {
       <AccountTicket
         noMargin
         key={`account-pool-row-${pool?.poolAddress}`}
-        pool={pool}
-        playerBalance={balance}
+        // pool={pool}
+        // playerBalance={balance}
+        playerTicket={playerTicket}
       />
     </div>
 

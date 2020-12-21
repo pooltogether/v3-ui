@@ -364,7 +364,7 @@ export const AccountRewards = () => {
       </div>
     </div>
 
-    <div
+    {/* <div
       className='flex flex-col sm:flex-row items-center justify-between bg-accent-grey-4 px-4 sm:px-10 py-4 text-inverse rounded-lg mt-4'
     >
       <div className='flex-grow sm:w-4/12 lg:w-1/2 sm:mr-3 text-xxs sm:text-xs pb-2 sm:pb-0'>
@@ -375,6 +375,6 @@ export const AccountRewards = () => {
         text={referralAddress}
         textShort={shortReferralAddress}
       />
-    </div>
+    </div> */}
   </>
 }
