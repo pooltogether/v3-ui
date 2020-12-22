@@ -93,7 +93,12 @@ export function usePool(poolSymbol, blockNumber = -1) {
   const numWinners = parseInt(pool.numberOfWinners || 1, 10)
 
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(awards)
-  const interestPrizeUSD = calculateEstimatedPoolPrize(pool)
+  let interestPrizeUSD = calculateEstimatedPoolPrize(pool)
+  if (pool.id === '0x8932f3e02bdd4caa61bdc7be0a80dd2911a78071') {
+    interestPrizeUSD = interestPrizeUSD
+      .mul('369')
+      .div('100')
+  }
   const interestPrizePerWinnerUSD = interestPrizeUSD.div(numWinners)
 
   const grandPrizeAmountUSD = externalAwardsUSD ?
