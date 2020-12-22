@@ -177,42 +177,46 @@ export const PoolShow = (props) => {
           </div>
 
           <div
-            className='bg-highlight-3 rounded-lg px-4 xs:px-4 sm:px-10 py-4 sm:pt-4 sm:pb-6 text-white my-8 sm:my-12 border-flashy mx-auto'
+            className='pink-purple-gradient rounded-lg px-4 xs:px-6 sm:px-16 py-8 sm:pt-12 sm:pb-10 text-white my-8 sm:my-12 mx-auto'
           >
             <div
-              className='flex items-center justify-between'
+              className='flex flex-col xs:flex-row xs:items-center justify-between'
             >
               <div
                 className='w-1/2 sm:w-7/12'
               >
-                <h1
-                  className='leading-tight'
+                <h6
+                  className='font-normal text-inverse opacity-60'
                 >
+                  {t('prize')} #{pool?.currentPrizeId}
+                </h6>
+
+                <h1
+                  className='text-6xl xs:text-4xl sm:text-6xl lg:text-6xl -mt-3 xs:mt-0 sm:-mt-3'
+                >
+
                   {pool?.fetchingTotals ? <BeatLoader
                     size={10}
                     color='rgba(255,255,255,0.3)'
                   /> : <>
-                    <Trans
-                      i18nKey='prizeAmount'
-                      defaults='Prize $<prize>{{amount}}</prize>'
-                      components={{
-                        prize: <PoolCountUp
-                          fontSansRegular
-                          decimals={2}
-                          duration={6}
-                        />
-                      }}
-                      values={{
-                        amount: prizeEstimateFormatted,
-                      }}
-                    />
+                    $<PoolCountUp
+                      fontSansRegular
+                      decimals={0}
+                      duration={6}
+                    >{prizeEstimateFormatted}</PoolCountUp>
                   </>}
                 </h1>
               </div>
 
               <div
-                className='flex flex-col items-end justify-center pt-2 w-6/12 sm:w-5/12'
+                className='flex flex-col justify-center pt-4 xs:pt-2 sm:pt-0 countdown-wrapper'
               >
+                <h6
+                  className='relative font-normal mb-1 xs:mb-2 sm:-mt-3 opacity-60 text-inverse'
+                >
+                  {t('willBeAwardedIn')}
+                </h6>
+                
                 <NewPrizeCountdown
                   pool={pool}
                   flashy={false}

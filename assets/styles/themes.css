@@ -9,7 +9,7 @@
   --color-bg-card-purple: #43286E;
   --color-bg-primary: #290b5a;
   --color-bg-secondary: #4C249F;
-  --color-bg-tertiary: #290b5a;
+  --color-bg-tertiary: rgba(255, 255, 255, 0.05);
   --color-bg-default: #341762;
   --color-bg-darkened: #1a083a;
   --color-bg-input: #1a083a;
@@ -95,7 +95,7 @@
   --color-bg-card-purple: #43286E;
   --color-bg-primary: #fff;
   --color-bg-secondary: #35F0D0;
-  --color-bg-tertiary: #290b5a;
+  --color-bg-tertiary: rgba(255, 255, 255, 0.4);
   --color-bg-default: #f7f7f7;
   --color-bg-darkened: #e9e9e9;
   --color-bg-input: #fff;

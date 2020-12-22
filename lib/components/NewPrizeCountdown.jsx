@@ -73,10 +73,10 @@ export const NewPrizeCountdown = (
 
   const LeftSideJsx = ({ digit }) => {
     return <span
-      className={`bg-tertiary text-${textColor} font-bold border border-secondary rounded-tl-sm rounded-bl-sm`}
+      className={`bg-tertiary text-${textColor} font-bold rounded-sm`}
       style={{
-        padding: '1px 4px',
-        borderWidth: '0.015rem'
+        padding: '2px 8px',
+        margin: '0 1px'
       }}
     >
       {digit}
@@ -85,15 +85,17 @@ export const NewPrizeCountdown = (
 
   const RightSideJsx = ({ digit }) => {
     return <span
-      className={`bg-tertiary text-${textColor} font-bold border border-secondary rounded-tr-sm rounded-br-sm border-l-0`}
+      className={`bg-tertiary text-${textColor} font-bold rounded-sm`}
       style={{
-        padding: '1px 4px',
-        borderWidth: '0.015rem'
+        padding: '2px 8px',
+        margin: '0 1px'
       }}
     >
       {digit}
     </span>
   }
+
+  const unitClasses = 'opacity-60 text-inverse text-xxs xs:text-xs sm:text-xs pt-1'
   
   return <>
     <div
@@ -102,14 +104,13 @@ export const NewPrizeCountdown = (
         'flex text-center',
         {
           'justify-center': center,
-          'text-xxxs xs:text-xs sm:text-base lg:text-xl': !textSize,
+          'text-sm xs:text-xs sm:text-base lg:text-xl': !textSize,
         }
       )}
     >
       <div
         className='flex flex-col sm:mr-2'
         style={{
-          // minWidth: 50
           paddingLeft: 2,
           paddingRight: 2,
         }}
@@ -122,14 +123,13 @@ export const NewPrizeCountdown = (
             digit={daysArray.length > 1 ? daysArray[1] : daysArray[0]}
           />
         </div>
-        <div className='text-caption'>
+        <div className={unitClasses}>
           {t('countdownDayShort')}
         </div>
       </div>
       <div
         className='flex flex-col'
         style={{
-          // minWidth: 50
           paddingLeft: 2,
           paddingRight: 2,
         }}
@@ -142,19 +142,18 @@ export const NewPrizeCountdown = (
             digit={hoursArray.length > 1 ? hoursArray[1] : hoursArray[0]}
           />
         </div>
-        <div className='text-caption'>
+        <div className={unitClasses}>
           {t('countdownHourShort')}
         </div>
       </div>
       <div
-        className='hidden xs:block px-0 sm:px-1'
+        className={`px-0 sm:px-1 font-bold text-${textColor}`}
       >
         :
       </div>
       <div
         className='flex flex-col'
         style={{
-          // minWidth: 50
           paddingLeft: 1,
           paddingRight: 2,
         }}
@@ -167,19 +166,18 @@ export const NewPrizeCountdown = (
             digit={minutesArray.length > 1 ? minutesArray[1] : minutesArray[0]}
           />
         </div>
-        <div className='text-caption'>
+        <div className={unitClasses}>
           {t('countdownMinuteShort')}
         </div>
       </div>
       <div
-        className='hidden xs:block px-0 sm:px-1'
+        className={`px-0 sm:px-1 font-bold text-${textColor}`}
       >
         :
       </div>
       <div
         className='flex flex-col'
         style={{
-          // minWidth: 50
           paddingLeft: 1,
           paddingRight: 2,
         }}
@@ -192,7 +190,7 @@ export const NewPrizeCountdown = (
             digit={secondsArray.length > 1 ? secondsArray[1] : secondsArray[0]}
           />
         </div>
-        <div className='text-caption'>
+        <div className={unitClasses}>
           {t('countdownSecondShort')}
         </div>
       </div>
