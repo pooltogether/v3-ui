@@ -24,14 +24,22 @@ export function WithdrawOdds(props) {
   const quantity = Number(props.quantity) * -1
 
   let preTicketSupplyFloat = Number(formatBigNumber(pool?.ticketSupply, pool))
-  const currentOdds = numberWithCommas(preTicketSupplyFloat / usersBalance)
+  const numberOfWinners = pool?.numberOfWinners ?
+    parseInt(pool?.numberOfWinners, 10) :
+    1
+
+  const currentOdds = numberWithCommas(
+    (preTicketSupplyFloat / usersBalance) / numberOfWinners
+  )
 
   let postTicketSupplyFloat = preTicketSupplyFloat + quantity
   let postWithdrawBalance = Number(usersBalance) + quantity
   if (postWithdrawBalance < 1) {
     newOdds = 0
   } else {
-    newOdds = numberWithCommas(postTicketSupplyFloat / postWithdrawBalance)
+    newOdds = numberWithCommas(
+      (postTicketSupplyFloat / postWithdrawBalance) / numberOfWinners
+    )
   }
 
   let content = <>

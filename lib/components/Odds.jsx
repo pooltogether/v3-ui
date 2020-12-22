@@ -17,7 +17,6 @@ export function Odds(props) {
     sayEveryWeek,
     splitLines,
     altSplitLines,
-    previousOdds,
     style,
     timeTravelTicketSupply,
     usersBalance,
@@ -33,7 +32,10 @@ export function Odds(props) {
 
   const underlyingCollateralDecimals = pool?.underlyingCollateralDecimals
   const ticketSupply = timeTravelTicketSupply || pool?.ticketSupply
-
+  const numberOfWinners = pool?.numberOfWinners ?
+    parseInt(pool?.numberOfWinners, 10) :
+    1
+    
   let ticketSupplyFloat
   if (ticketSupply && underlyingCollateralDecimals) {
     ticketSupplyFloat = Number(ethers.utils.formatUnits(
@@ -56,10 +58,8 @@ export function Odds(props) {
   if (postPurchaseBalance < 1) {
     result = 0
   } else {
-    result = ticketSupplyFloat / postPurchaseBalance
+    result = (ticketSupplyFloat / postPurchaseBalance) / numberOfWinners
   }
- 
-  const currentOdds = ticketSupply / usersBalance
 
   let label = showLabel && <>
     {hasAdditionalQuantity && additionalQuantity !== 0 ? <>
