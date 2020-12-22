@@ -30,7 +30,6 @@ export const AccountTickets = () => {
   const { accountData, accountDataIsFetching, accountDataIsFetched } = useAccount(address)
 
   const { playerTickets } = usePlayerTickets(accountData)
-  console.log({ playerTickets})
 
   const daiBalances = {
     poolBalance: usersV2Balances?.v2DaiPoolCommittedBalance,

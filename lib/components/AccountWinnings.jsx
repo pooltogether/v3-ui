@@ -3,7 +3,6 @@ import Link from 'next/link'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePool } from 'lib/hooks/usePool'
 import { usePools } from 'lib/hooks/usePools'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { usePlayerPrizesQuery } from 'lib/hooks/usePlayerPrizesQuery'
@@ -16,6 +15,8 @@ export const AccountWinnings = () => {
   const { t } = useTranslation()
   
   const { usersAddress } = useContext(AuthControllerContext)
+  
+  const { contractAddresses } = usePools()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
@@ -23,7 +24,10 @@ export const AccountWinnings = () => {
 
   const { data: prizesWon } = usePlayerPrizesQuery(address)
   
-  const awardedControlledTokens = prizesWon?.awardedControlledTokens || []
+  let awardedControlledTokens = prizesWon?.awardedControlledTokens || []
+
+  awardedControlledTokens = awardedControlledTokens
+    .filter(awardedControlledToken => contractAddresses.pools.includes(awardedControlledToken.prize.prizePool.id))
   const total = sumAwardedControlledTokens(awardedControlledTokens)
 
   // TODO: We should calculate all of the ERC20s someone won, their value on the day it was awarded

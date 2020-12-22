@@ -27,6 +27,8 @@ import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Meta } from 'lib/components/Meta'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
+import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
+import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
 import { Tagline } from 'lib/components/Tagline'
@@ -241,17 +243,6 @@ export const PoolShow = (props) => {
                   <h3>
                     {numberWithCommas(pool?.playerCount, { precision: 0 })}
                   </h3>
-
-                  <Link
-                    href='/prizes/[symbol]/[prizeNumber]'
-                    as={`/prizes/${pool?.symbol}/${pool?.currentPrizeId}`}
-                  >
-                    <a
-                      className='inline-block font-bold trans'
-                    >
-                      {t('viewCurrentPlayers')}
-                    </a>
-                  </Link>
                 </>
               },
               {
@@ -309,6 +300,22 @@ export const PoolShow = (props) => {
             ]}
           />
         </>
+
+        <PrizePlayersQuery
+          pool={pool}
+          blockNumber={-1}
+        >
+          {({ data, isFetching, isFetched }) => {
+            return <PrizePlayerListing
+              baseAsPath={`/pools/${pool?.symbol}`}
+              baseHref='/pools/[symbol]'
+              isFetching={isFetching}
+              isFetched={isFetched}
+              balances={data}
+              pool={pool}
+            />
+          }}
+        </PrizePlayersQuery>
 
         <div
           className='flex flex-col sm:flex-row items-center justify-center mt-20'

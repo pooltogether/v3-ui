@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { ethers } from 'ethers'
+import React from 'react'
+import Link from 'next/link'
 
 import { useTranslation } from 'lib/../i18n'
 import { usePools } from 'lib/hooks/usePools'
@@ -8,7 +8,6 @@ import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolList } from 'lib/components/PoolList'
 import { Tagline } from 'lib/components/Tagline'
 import { V2MessageLarge } from 'lib/components/V2MessageLarge'
-import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 
 export const IndexUI = (
   props,
@@ -25,15 +24,24 @@ export const IndexUI = (
       breadcrumbs={[]}
     />
 
-    <div>
-      <span
-        role='img'
-        aria-label='megaphone emoji'
-      >📣</span> The Uniswap UNI pool is now open! <span
-        role='img'
-        aria-label='megaphone emoji'
-      >📣</span>
-    </div>
+    <Link
+      href='/pools/[symbol]'
+      as={`/pools/PT-cUNI`}
+    >
+      <a
+        className='block mt-2 mb-3 text-center p-3 rounded-lg border-2 border-secondary font-bold text-inverse'
+      >
+        <span
+          role='img'
+          aria-label='megaphone emoji'
+          className='mx-2'
+        >📣</span> The Uniswap UNI pool is now open! <span
+          role='img'
+          aria-label='megaphone emoji'
+          className='mx-2'
+        >📣</span>
+      </a>
+    </Link>
 
     {loading ?
       <IndexUILoader /> :

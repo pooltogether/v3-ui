@@ -10,6 +10,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { DepositInfoList } from 'lib/components/DepositInfoList'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -103,7 +104,11 @@ export function ExecuteCryptoDeposit(props) {
 
   return <>
     <PaneTitle short>
-      <Trans
+      <div className='inline-block sm:block relative' style={{ top: -2 }}>
+        <PoolCurrencyIcon
+          pool={pool}
+        />
+      </div> <Trans
         i18nKey='depositAmountTicker'
         defaults='Deposit <number>{{amount}}</number> {{ticker}}'
         components={{

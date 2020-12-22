@@ -102,3 +102,20 @@ td:last-child {
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
+
+
+.players-table-min-height {
+  min-height: 400px;
+}
+
+@screen xs {
+  .players-table-min-height {
+    min-height: 550px;
+  }
+}
+
+@screen sm {
+  .players-table-min-height {
+    min-height: 620px;
+  }
+}

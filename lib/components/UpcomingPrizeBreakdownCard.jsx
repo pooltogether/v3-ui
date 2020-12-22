@@ -138,8 +138,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
                       {pool?.externalAwardsUSD && (
                         `$${numberWithCommas(pool.externalAwardsUSD)}`
                       )}
-                    </span>
-                    <span
+                    </span> <span
                       className='text-accent-1'
                     >{t('lootBox')}</span>
                   </>

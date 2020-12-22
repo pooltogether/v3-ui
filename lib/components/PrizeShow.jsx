@@ -132,19 +132,18 @@ export function PrizeShow(props) {
 
     <PrizePlayersQuery
       pool={pool}
-      prize={prize}
+      blockNumber={prize?.awardedBlock ? prize?.awardedBlock - 1 : undefined}
     >
-      {({ data, error, isFetching, isFetched }) => {
-        if (error) {
-          return <>
-            {error && <>
-              There was an issue loading data:
-              <br />{error.message}
-            </>}
-          </>
+      {({ data, isFetching, isFetched }) => {
+        if (!prize && prize !== null) {
+          return <div className='mt-10'>
+            <IndexUILoader />
+          </div>
         }
 
         return <PrizePlayerListing
+          baseAsPath={`/prizes/${pool?.symbol}/${prizeNumber}`}
+          baseHref='/prizes/[symbol]/[prizeNumber]'
           isFetching={isFetching}
           isFetched={isFetched}
           balances={data}

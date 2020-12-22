@@ -7,7 +7,7 @@ export function PrizePlayersQuery(props) {
   const {
     children,
     pool,
-    prize
+    blockNumber
   } = props
 
   const router = useRouter()
@@ -15,10 +15,6 @@ export function PrizePlayersQuery(props) {
     parseInt(router.query.page, 10) :
     1
   const skip = (page - 1) * PLAYER_PAGE_SIZE
-
-  const blockNumber = prize?.awardedBlock ? 
-    prize?.awardedBlock - 1 :
-    undefined
 
   const { data, error, isFetching, isFetched } = useControlledTokenBalanceQuery(pool, page, skip, blockNumber)
 

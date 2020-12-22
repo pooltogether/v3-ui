@@ -15,27 +15,18 @@ export const PrizePlayerListing = (
   props,
 ) => {
   const { t } = useTranslation()
-  const { isFetching, isFetched, balances, pool, prize } = props
+  const { isFetching, isFetched, balances, pool, prize, baseAsPath, baseHref } = props
 
   const router = useRouter()
 
   const playerCount = pool?.playerCount
 
-  const prizeNumber = router?.query?.prizeNumber
   const page = router?.query?.page ?
     parseInt(router.query.page, 10) :
     1
   const pages = Math.ceil(Number(playerCount / PLAYER_PAGE_SIZE))
 
-  if (!prize && prize !== null) {
-    return <div
-      className='mt-10'
-    >
-      <IndexUILoader />
-    </div>
-  }
-
-  const asPath = (pageNum) => `/prizes/${pool?.symbol}/${prizeNumber}?page=${pageNum}`
+  const asPath = (pageNum) => `${baseAsPath}?page=${pageNum}`
   const nextPage = page + 1
   const prevPage = page - 1
   const nextPath = asPath(nextPage)
@@ -43,7 +34,7 @@ export const PrizePlayerListing = (
 
   return <>
     <div
-      id='prize-player-listings-table'
+      id='player-listings-table'
       className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
       <div
@@ -64,12 +55,8 @@ export const PrizePlayerListing = (
       </>}
 
       <div
-        className='xs:bg-primary theme-light--no-gutter text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-4 sm:px-8 mt-4'
-        style={{
-          minHeight: 540
-        }}
+        className='xs:bg-primary theme-light--no-gutter text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-4 sm:px-8 mt-4 players-table-min-height'
       >
-
         {(isFetching && !isFetched) && <V3LoadingDots />}
 
         {balances?.length > 0 && <>
@@ -89,7 +76,7 @@ export const PrizePlayerListing = (
             currentPath={asPath(page)}
             firstPath={asPath(1)}
             lastPath={asPath(pages)}
-            hrefPathname='/prizes/[symbol]/[prizeNumber]'
+            hrefPathname={baseHref}
             lastPage={pages}
             showFirst={page > 2}
             showLast={pages > 2 && page < pages - 1}

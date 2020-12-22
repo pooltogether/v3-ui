@@ -78,7 +78,7 @@ export const LastWinnersListing = (
       </h6>
     </> : <>
       <div
-        className='w-full text-flashy font-bold mb-2 text-xxs xs:text-xs lg:text-sm'
+        className='w-full text-flashy font-bold mb-1 text-xxs xs:text-xs'
       >
         <div
           className='inline-block w-1/2'
@@ -102,7 +102,7 @@ export const LastWinnersListing = (
           as={`/prizes/${pool?.symbol}/${prize?.prizeNumber}`}
         >
           <a
-            className='flex justify-between items-center font-bold mb-2 rounded-lg trans text-xxs xs:text-xs lg:text-sm'
+            className='flex justify-between items-center font-bold mb-1 rounded-lg trans text-xxs xs:text-xs'
           >
             <span>
               {prize?.date}

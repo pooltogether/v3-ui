@@ -3,11 +3,11 @@ import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
 
 const debug = require('debug')('pool-app:ChainQueries')
 
-export function useErc721ChainQuery(poolsGraphData) {
+export function useErc721ChainQuery(poolGraphData) {
   const { readProvider } = useReadProvider()
 
-  const poolAddress = poolsGraphData?.['PT-cDAI']?.poolAddress
-  const graphExternalErc721Awards = poolsGraphData?.['PT-cDAI']?.externalErc721Awards
+  const poolAddress = poolGraphData?.poolAddress
+  const graphExternalErc721Awards = poolGraphData?.externalErc721Awards
 
   // this is being used via a direct query cache read!
   const {

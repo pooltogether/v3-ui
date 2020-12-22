@@ -31,6 +31,9 @@ export const PoolRowNew = (
   const symbol = pool.symbol
   const decimals = pool?.underlyingCollateralDecimals || DEFAULT_TOKEN_PRECISION
 
+  const ticker = pool?.underlyingCollateralSymbol
+  const tickerUpcased = ticker?.toUpperCase()
+
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
 
@@ -115,7 +118,9 @@ export const PoolRowNew = (
           textSize='sm'
           className='my-4'
         >
-          {t('getTickets')}
+          {t('depositTicker', {
+            ticker: tickerUpcased
+          })}
         </Button>
 
         <Button

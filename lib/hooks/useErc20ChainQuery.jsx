@@ -3,17 +3,16 @@ import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
 
 const debug = require('debug')('pool-app:ChainQueries')
 
-export function useErc20ChainQuery(poolsGraphData) {
+export function useErc20ChainQuery(poolGraphData) {
   const { readProvider } = useReadProvider()
 
-  const poolAddress = poolsGraphData?.['PT-cDAI']?.poolAddress
-  const graphExternalErc20Awards = poolsGraphData?.['PT-cDAI']?.externalErc20Awards
+  console.log(poolGraphData)
+  const poolAddress = poolGraphData?.poolAddress
+  const graphExternalErc20Awards = poolGraphData?.externalErc20Awards
 
   const {
-    status: erc20ChainStatus,
     data: erc20ChainData,
     error: erc20ChainError,
-    isFetching: erc20IsFetching
   } = useEthereumErc20Query({
     provider: readProvider,
     graphErc20Awards: graphExternalErc20Awards,

@@ -48,13 +48,9 @@ const formatPlayerObject = (t, pool, player, winners) => {
   </>
   
   return {
-    balance: player.balance ? <>$<PoolNumber>
+    balance: player.balance ? <PoolNumber>
       {displayAmountInEther(player.balance, { precision: 2 })}
-    </PoolNumber></> : '',
-    // `$${numberWithCommas(
-    //   balance.toString(),
-    //   { precision: 2 }
-    // )}`,
+    </PoolNumber> : '',
     address,
     odds: <Odds
       timeTravelTicketSupply={pool.ticketSupply}

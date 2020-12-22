@@ -14,6 +14,7 @@ import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { NoMoreTicketsPane } from 'lib/components/NoMoreTicketsPane'
 import { Odds } from 'lib/components/Odds'
 import { PaneTitle } from 'lib/components/PaneTitle'
+import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { WyreTopUpBalanceDropdown } from 'lib/components/WyreTopUpBalanceDropdown'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
@@ -107,6 +108,11 @@ export function DepositTicketQuantityForm(props) {
     <div
       className='pane-title'
     >
+      <div className='inline-block sm:block relative' style={{ top: -2 }}>
+        <PoolCurrencyIcon
+          pool={pool}
+        />
+      </div> 
       <PaneTitle
         short
       >

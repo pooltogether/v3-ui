@@ -39,11 +39,17 @@ export const AccountSummary = () => {
     podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance,
   }
 
+  let uniTicketBalance = ethers.utils.bigNumberify(0)
+
   let totalTickets = ethers.utils.bigNumberify(0)
   playerTickets.forEach(playerTicket => {
     let { balanceNormalized } = playerTicket
 
-    totalTickets = totalTickets.add(balanceNormalized)
+    if (playerTicket.pool.symbol === 'PT-cUNI') {
+      uniTicketBalance = uniTicketBalance.add(balanceNormalized)
+    } else {
+      totalTickets = totalTickets.add(balanceNormalized)
+    }
   })
 
   if (daiBalances.poolBalance) {
@@ -77,11 +83,16 @@ export const AccountSummary = () => {
           </h6>
           <h1>
             {usersAddress ? <>
-              ${displayAmountInEther(totalTickets, 10)}
+              ${displayAmountInEther(totalTickets)}
             </> : <>
               <SmallLoader />
             </>}
           </h1>
+          <span
+            className='font-bold opacity-60'
+          >
+            (+ {displayAmountInEther(uniTicketBalance)} UNI)
+          </span>
         </div>
 
         <div>
