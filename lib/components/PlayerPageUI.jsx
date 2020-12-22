@@ -19,7 +19,7 @@ export function PlayerPageUI(props) {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { pools } = usePools()
+  const { pools, poolsGraphData } = usePools()
 
   const playerAddress = router?.query?.playerAddress
 
@@ -145,17 +145,22 @@ export function PlayerPageUI(props) {
             >
               {playerData?.prizePoolAccounts.map(prizePoolAccount => {
                 const poolAddress = prizePoolAccount?.prizePool?.id
-                const pool = pools?.find(pool => pool.poolAddress === poolAddress)
+                const pool = pools?.find(pool => pool.id === poolAddress)
                 if (!pool) return null
+                const poolGraphData = poolsGraphData[pool.symbol]
+                if (!poolGraphData) return null
 
-                const ticketAddress = pool?.ticketToken?.id
+                const ticketAddress = poolGraphData?.ticketToken?.id
                 let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
+
+                if (!balance) return null
 
                 return <AccountPoolRow
                   noLinks
                   href='/players/[playerAddress]'
                   as={`/players/${playerAddress}`}
-                  key={`account-pool-row-${pool.poolAddress}`}
+                  key={`account-pool-row-${pool.id}`}
+                  poolSymbol={pool.symbol}
                   pool={pool}
                   playerBalance={balance}
                 />
