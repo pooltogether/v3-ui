@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
-import CircleLoader from 'react-spinners/CircleLoader'
+import PuffLoader from 'react-spinners/PuffLoader'
 import { isUndefined } from 'lodash'
+
+import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
 import DaiSvg from 'assets/images/dai-new-transparent.png'
 // import WbtcSvg from 'assets/images/wbtc-new-transparent.png'
@@ -10,7 +12,7 @@ import DaiSvg from 'assets/images/dai-new-transparent.png'
 // import ZrxSvg from 'assets/images/zrx-new-transparent.png'
 import BatSvg from 'assets/images/bat-new-transparent.png'
 import UniSvg from 'assets/images/token-uni.png'
-import MissingCurrencySvg from 'assets/images/activity.svg'
+import UniThemeLightSvg from 'assets/images/uniwap-theme-light-logo.svg'
 
 export const PoolCurrencyIcon = (
   props,
@@ -24,11 +26,12 @@ export const PoolCurrencyIcon = (
     xs,
     pool
   } = props
-  
+
+  const { theme } = useContext(ThemeContext)
+
   const noMargin = props.noMargin || false
   const symbol = pool?.underlyingCollateralSymbol?.toLowerCase()
 
-  let iconMissing
   let currencyIcon
   if (symbol === 'dai') {
     currencyIcon = DaiSvg
@@ -43,9 +46,7 @@ export const PoolCurrencyIcon = (
   } else if (symbol === 'bat') {
     currencyIcon = BatSvg
   } else if (symbol === 'uni') {
-    currencyIcon = UniSvg
-  } else {
-    iconMissing = true
+    currencyIcon = theme === 'light' ? UniThemeLightSvg : UniSvg
   }
 
   let sizeClasses = 'w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10'
@@ -73,11 +74,11 @@ export const PoolCurrencyIcon = (
   )
 
   return <>
-    {iconMissing ? <>
+    {!currencyIcon ? <>
       <div
         className={`${classes} scale-80 text-center`}
       >
-        <CircleLoader
+        <PuffLoader
           color='rgba(255,255,255,0.3)'
         />
       </div>

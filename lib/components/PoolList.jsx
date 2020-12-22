@@ -2,7 +2,6 @@ import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import { PoolRowNew } from 'lib/components/PoolRowNew'
-import { PoolRowGhost } from 'lib/components/PoolRowGhost'
 
 export const PoolList = (
   props,

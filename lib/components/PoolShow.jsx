@@ -79,13 +79,13 @@ export const PoolShow = (props) => {
     )
     Cookies.set(
       WIZARD_REFERRER_AS_PATH,
-      `/pools/${pool?.symbol}`,
+      `/pools/${pool.symbol}`,
       COOKIE_OPTIONS
     )
 
     router.push(
       `/pools/[symbol]/deposit`,
-      `/pools/${pool?.symbol}/deposit`,
+      `/pools/${pool.symbol}/deposit`,
       {
         shallow: true
       }
@@ -169,6 +169,7 @@ export const PoolShow = (props) => {
                 width='w-full xs:w-9/12 sm:w-8/12 lg:w-6/12'
                 textSize='lg'
                 onClick={handleGetTicketsClick}
+                disabled={!Boolean(pool?.symbol)}
               >
                 {t('getTickets')}
               </Button>

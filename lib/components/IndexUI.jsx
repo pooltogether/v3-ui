@@ -29,7 +29,7 @@ export const IndexUI = (
       as={`/pools/PT-cUNI`}
     >
       <a
-        className='block mt-2 mb-3 text-center p-3 rounded-lg border-2 border-secondary font-bold text-inverse'
+        className='block mt-2 mb-3 text-center p-3 rounded-lg border-2 border-secondary font-bold text-inverse text-xxs xs:text-xs sm:text-sm'
       >
         <span
           role='img'

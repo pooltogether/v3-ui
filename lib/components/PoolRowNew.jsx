@@ -50,7 +50,7 @@ export const PoolRowNew = (
 
     router.push(
       `/pools/[symbol]/deposit`,
-      `/pools/${pool?.symbol}/deposit`,
+      `/pools/${pool.symbol}/deposit`,
       {
         shallow: true
       }
@@ -117,6 +117,7 @@ export const PoolRowNew = (
           width='w-full xs:w-8/12 sm:w-7/12 lg:w-5/12'
           textSize='sm'
           className='my-4'
+          disabled={!Boolean(pool?.symbol)}
         >
           {t('depositTicker', {
             ticker: tickerUpcased

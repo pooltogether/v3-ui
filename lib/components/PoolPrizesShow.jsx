@@ -41,13 +41,13 @@ export const PoolPrizesShow = (
     )
     Cookies.set(
       WIZARD_REFERRER_AS_PATH,
-      `/prizes/${pool?.symbol}`,
+      `/prizes/${pool.symbol}`,
       COOKIE_OPTIONS
     )
 
     router.push(
       `/pools/[symbol]/deposit`,
-      `/pools/${pool?.symbol}/deposit`,
+      `/pools/${pool.symbol}/deposit`,
       {
         shallow: true
       }
@@ -79,6 +79,7 @@ export const PoolPrizesShow = (
         text='green'
         hoverBorder='green'
         onClick={handleGetTicketsClick}
+        disabled={!Boolean(pool?.symbol)}
       >
         {t('getTickets')}
       </Button>

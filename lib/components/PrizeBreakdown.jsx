@@ -69,13 +69,9 @@ export const PrizeBreakdown = (props) => {
         </div>
 
         <div
-          className='w-full xs:w-2/12 text-center my-0 xs:mt-24 xs:pt-3'
+          className='w-full xs:w-2/12 text-center -mt-2 xs:mt-24 mb-2 xs:mb-0 xs:pt-3 text-5xl font-bold leading-none'
         >
-          <div
-            className='text-5xl font-bold'
-          >
-            +
-          </div>
+          +
         </div>
 
         <div
