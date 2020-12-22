@@ -113,16 +113,11 @@ export function DepositCryptoForm(props) {
   const handleUnlockClick = async (e) => {
     e.preventDefault()
 
+    if (!decimals) { return }
+
     const params = [
       poolAddress,
       ethers.utils.parseUnits('9999999999', Number(decimals)),
-      // ethers.utils.parseUnits(
-      //   quantity,
-      //   Number(decimals)
-      // ),
-      // {
-      //   gasLimit: 200000
-      // }
     ]
 
     const id = await sendTx(
