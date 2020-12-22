@@ -11,14 +11,17 @@ import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { usePool } from 'lib/hooks/usePool'
 
 export const AccountPoolRow = (
   props,
 ) => {
   const { t } = useTranslation()
 
-  const { noLinks, pool, playerBalance } = props
+  const { noLinks, poolSymbol, playerBalance } = props
   let { href, as } = props
+
+  const { pool } = usePool(poolSymbol)
 
   if (!href && !as) {
     href = '/account/pools/[symbol]'
@@ -184,7 +187,7 @@ export const AccountPoolRow = (
             <span
               className='block text-caption uppercase font-number mt-0 xs:mt-1 opacity-70'
             >
-              ${numberWithCommas(usersBalance, { precision: 4 })} {ticker}
+              {numberWithCommas(usersBalance, { precision: 4 })} {ticker}
             </span>
           </div>
 
