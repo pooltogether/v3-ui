@@ -45,13 +45,16 @@ export function usePool(poolSymbol, blockNumber = -1) {
     ...poolsGraphData?.[poolSymbol],
   }
 
-
   const { erc20ChainData } = useErc20ChainQuery(pool)
   const { erc721ChainData } = useErc721ChainQuery(pool)
 
   const addresses = erc20ChainData
     ?.filter(award => award.balance.gt(0))
     ?.map(award => award.address)
+
+  if (addresses) {
+    addresses.push(pool.underlyingCollateralToken)
+  }
 
   const { 
     data: uniswapPriceData,
@@ -92,13 +95,21 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const numWinners = parseInt(pool.numberOfWinners || 1, 10)
 
+
+  const underlyingCollateralValueUSD = uniswapPriceData?.[pool.underlyingCollateralToken]?.usd
+
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(awards)
+  
   let interestPrizeUSD = calculateEstimatedPoolPrize(pool)
-  if (pool.id === '0x8932f3e02bdd4caa61bdc7be0a80dd2911a78071') {
+
+  if (underlyingCollateralValueUSD) {
     interestPrizeUSD = interestPrizeUSD
-      .mul('369')
+      .mul(parseInt((underlyingCollateralValueUSD * 100), 10))
       .div('100')
+  } else {
+    // console.warn('could not get USD value for price of underlying collateral token')
   }
+
   const interestPrizePerWinnerUSD = interestPrizeUSD.div(numWinners)
 
   const grandPrizeAmountUSD = externalAwardsUSD ?
