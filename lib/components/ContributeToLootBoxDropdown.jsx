@@ -20,6 +20,15 @@ export function ContributeToLootBoxDropdown(props) {
     return <V3LoadingDots />
   }
 
+  if (!computedLootBoxAddress) {
+    // prevent this warning from spamming your console
+    if (Math.random() > 0.9) {
+      console.warn('Could not compute loot box address! Hiding copy to clipboard feature')
+    }
+
+    return null
+  }
+
   return <>
     <div>
       <DropdownGeneric

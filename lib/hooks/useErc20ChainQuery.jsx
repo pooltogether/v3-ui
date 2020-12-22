@@ -6,7 +6,6 @@ const debug = require('debug')('pool-app:ChainQueries')
 export function useErc20ChainQuery(poolGraphData) {
   const { readProvider } = useReadProvider()
 
-  console.log(poolGraphData)
   const poolAddress = poolGraphData?.poolAddress
   const graphExternalErc20Awards = poolGraphData?.externalErc20Awards
 

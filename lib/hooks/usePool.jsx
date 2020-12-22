@@ -66,15 +66,11 @@ export function usePool(poolSymbol, blockNumber = -1) {
     console.error(uniswapError)
   }
 
-  console.log(erc20ChainData)
-  // console.log(poolsGraphData?.[poolSymbol])
-  console.log(uniswapPriceData)
   const compiledExternalErc20Awards = compileErc20Awards(
     erc20ChainData,
     poolsGraphData?.[poolSymbol],
     uniswapPriceData
   )
-  console.log(compiledExternalErc20Awards)
 
   const compiledExternalErc721Awards = compileErc721Awards(
     erc721ChainData,
