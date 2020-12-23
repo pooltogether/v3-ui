@@ -68,7 +68,7 @@ export function PlayerPageUI(props) {
 
   return <>
     <Meta
-      title={`${t('player')} ${playerAddress ? playerAddress : ''}`}
+      title={playerAddress && `${t('player')} ${playerAddress}`} 
     />
 
     <PageTitleAndBreadcrumbs

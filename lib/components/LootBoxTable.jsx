@@ -31,7 +31,10 @@ export const LootBoxTable = (props) => {
   } = pool
 
   const originalAwardsCount = pool?.awards?.length
-  const awards = moreVisible ? pool?.awards : pool?.awards?.slice(0, 10)
+  let awards = []
+  if (originalAwardsCount > 0) {
+    awards = moreVisible ? pool?.awards : pool?.awards?.slice(0, 10)
+  }
 
   const handleShowMore = (e) => {
     e.preventDefault()

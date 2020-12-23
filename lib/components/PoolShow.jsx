@@ -107,7 +107,7 @@ export const PoolShow = (props) => {
 
   return <>
     <Meta
-      title={`${pool?.name} - ${t('pools')}`}
+      title={pool?.name}
     />
 
     <motion.div

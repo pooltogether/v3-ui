@@ -29,9 +29,7 @@ export function PrizeShow(props) {
   const decimals = pool?.underlyingCollateralDecimals || 18
 
   return <>
-    {pool?.name && <>
-      <Meta title={`${t('prize')} #${prizeNumber} - ${pool ? pool?.name : ''}`} />
-    </>}
+    <Meta title={pool?.name && prizeNumber && `${t('prize')} #${prizeNumber} - ${pool?.name}`} />
 
     <PageTitleAndBreadcrumbs
       title={t('prizes')}

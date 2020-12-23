@@ -41,10 +41,6 @@ export function DepositWizardContainer(props) {
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
   
   return <>
-    <Meta
-      title={t('deposit')}
-    />
-
     <Wizard
       initialStepIndex={initialStepIndex}
     >

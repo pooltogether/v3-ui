@@ -56,7 +56,7 @@ export const PoolPrizesShow = (
 
   return <>
     <Meta
-      title={`${pool ? pool.name : ''} ${t('prizes')}`} 
+      title={pool?.name && `${t('prizes')} - ${pool.name}`} 
     />
 
     <PrizesPageHeader

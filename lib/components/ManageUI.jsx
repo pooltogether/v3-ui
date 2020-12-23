@@ -47,7 +47,7 @@ export const ManageUI = (
 
   return <>
     <Meta
-      title={`${pool?.name} - ${t('manage')} - ${t('pools')}`}
+      title={pool?.name && `${t('manage')} - ${pool.name}`} 
     />
 
     <PageTitleAndBreadcrumbs

@@ -35,7 +35,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const { poolChainData } = usePoolChainQuery(poolGraphData)
 
-  const poolInfo = POOLS[chainId].find(POOL => {
+  const poolInfo = POOLS[chainId]?.find(POOL => {
     return POOL.symbol === poolSymbol
   })
 
