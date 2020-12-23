@@ -52,7 +52,7 @@ export function usePools() {
 
   let pools = []
 
-  if (contractAddresses) {
+  if (contractAddresses && POOLS[chainId]) {
     POOLS[chainId].forEach(POOL => {
       const _pool = {
         ...POOL,
