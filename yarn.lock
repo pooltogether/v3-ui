@@ -3615,10 +3615,10 @@
     walletlink "^2.0.2"
     web3-provider-engine "^15.0.4"
 
-"@pooltogether/current-pool-data@3.0.4":
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.0.4.tgz#0461d502d90e9f6a0291eed4061eb93cae203125"
-  integrity sha512-PnVbue0F0tn5PZDNnIOPilHKQojTn1ehxfIIL+9l6urowoqw2tY7/gQMTl6cuemcrzDglelSIOLLbzJTZUTTLA==
+"@pooltogether/current-pool-data@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.1.0.tgz#f78e813a1de9a65f1e5d0ff169d21ee4d7b1fa66"
+  integrity sha512-sZW4zW0jjhBSJN/EezIhALhxgQ+eoL+jpmPI3eqHxKbi2RJSlSP3BIQsUacBY5ICTgf3tKpgXutcv1PW4hf+yw==
 
 "@pooltogether/etherplex@^0.2.3":
   version "0.2.3"
