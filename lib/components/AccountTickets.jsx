@@ -43,7 +43,6 @@ export const AccountTickets = () => {
     podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance,
   }
 
-
   let normalizedDaiPoolBalance = ethers.utils.bigNumberify(0)
   let normalizedDaiPodBalance = ethers.utils.bigNumberify(0)
   let normalizedUsdcPoolBalance = ethers.utils.bigNumberify(0)
