@@ -3,14 +3,14 @@ import { isEmpty } from 'lodash'
 export const compileHistoricalErc721Awards = (ethereumErc721Awards, prize) => {
   const erc721GraphData = prize?.awardedExternalErc721Nfts
 
+  let data = []
+
   if (
     isEmpty(erc721GraphData) ||
     isEmpty(ethereumErc721Awards)
   ) {
-    return {}
+    return data
   }
-
-  let data = {}
 
   erc721GraphData.forEach(obj => {
     // const value = priceUSD && parseFloat(balanceFormatted) * priceUSD

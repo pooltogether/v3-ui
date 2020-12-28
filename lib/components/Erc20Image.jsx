@@ -10,5 +10,8 @@ export const Erc20Image = (props) => {
     className='inline-block mr-2 w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full'
   /> : <div
     className='inline-block mr-2 bg-overlay-white w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full'
+    style={{
+      minWidth: 12
+    }}
   />
 }

@@ -10,6 +10,7 @@ import { compileHistoricalErc20Awards } from 'lib/services/compileHistoricalErc2
 import { compileHistoricalErc721Awards } from 'lib/services/compileHistoricalErc721Awards'
 import { marshallPoolData } from 'lib/services/marshallPoolData'
 import { sumAwardedControlledTokens } from 'lib/utils/sumAwardedControlledTokens'
+import { useLootBox } from 'lib/hooks/useLootBox'
 // import { getControlledToken, getSponsorshipTokenAddress, getTicketTokenAddress } from 'lib/services/getPoolDataFromQueryResult'
 
 // This gathers historical data for a pool and prize
@@ -60,6 +61,28 @@ export const compileHistoricalPool = (
   ])
   const compiledExternalErc721Awards = compileHistoricalErc721Awards(ethErc721Awards, prize)
 
+
+
+  const pool = {
+    ...poolInfo,
+    ...poolObj,
+    ...marshalledData
+  }
+
+  const historical = blockNumber > -1
+  let { awards, lootBoxIsFetching, lootBoxIsFetched } = useLootBox(
+    historical,
+    pool,
+    {
+      compiledExternalErc20Awards,
+      compiledExternalErc721Awards,
+    },
+    blockNumber
+  )
+
+
+
+
   const externalAwardsUSD = calculateExternalAwardsValue(compiledExternalErc20Awards)
   
   const totalAwardedControlledTokensUSD = sumAwardedControlledTokens(prize?.awardedControlledTokens)
@@ -83,9 +106,8 @@ export const compileHistoricalPool = (
 
   // Standardize the USD values so they're either all floats/strings or all bigNums
   return {
-    ...poolInfo,
-    ...poolObj,
-    ...marshalledData,
+    ...pool,
+    awards,
     fetchingTotals,
     totalPrizeAmountUSD,
     grandPrizeAmountUSD,

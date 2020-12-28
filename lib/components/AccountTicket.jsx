@@ -124,7 +124,7 @@ export const AccountTicket = (
           className='flex items-center w-3/4'
         >
           <div
-            className='flex flex-col justify-start w-full pl-6 pt-6 xs:pl-10 xs:pt-8 leading-none'
+            className='flex flex-col justify-start w-full pl-6 pt-4 xs:pl-10 xs:pt-6 leading-none'
           >
             <div
               className='text-xl xs:text-4xl font-bold text-inverse-purple'
@@ -141,10 +141,10 @@ export const AccountTicket = (
               className='mt-2'
             >
               <span
-                className='relative text-inverse'
+                className='relative text-inverse inline-block leading-normal text-accent-1'
               >
                 {t('winningOdds')}:
-              </span> {usersBalance < 1 ? <>
+              </span><br/> {usersBalance < 1 ? <>
                 <span
                   className='font-bold text-accent-3 text-default-soft'
                   style={{
@@ -165,7 +165,7 @@ export const AccountTicket = (
             </div>
 
             <div
-              className='flex items-center text-left text-xs xs:text-xl font-bold text-darkened relative mt-8 xs:mt-12 pt-2 xs:pt-1'
+              className='flex items-center text-left text-xs xs:text-xl font-bold text-darkened relative mt-5 xs:mt-8 pt-2 xs:pt-1'
             >
               <div
                 className='w-5/12'
@@ -207,7 +207,7 @@ export const AccountTicket = (
             width: 86
           }}
         >
-          <div className='flex flex-col items-center'>
+          <div className='flex flex-col items-center w-20'>
             <PoolCurrencyIcon
               noMediaQueries
               noMargin
@@ -222,12 +222,18 @@ export const AccountTicket = (
 
             {isLink && <>
               <span
-                className='inline-flex items-center justify-center text-center font-bold mt-8 xs:mt-10 xs:pt-3 z-10 text-darkened pl-2'
+                className='relative inline-flex items-center justify-center text-center font-bold mt-8 xs:mt-10 xs:pt-3 z-10 text-darkened pl-2'
+                style={{
+                  right: -2
+                }}
               >
                 {t('manage')} <FeatherIcon
                   icon='chevron-right'
                   strokeWidth='0.25rem'
-                  className='w-3 h-3 mx-1'
+                  className='relative w-3 h-3'
+                  style={{
+                    top: 1
+                  }}
                 />
               </span>
             </>}

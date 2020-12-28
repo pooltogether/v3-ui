@@ -103,8 +103,8 @@ export function PrizeShow(props) {
     <LootBoxTable
       historical
       pool={pool}
-      prize={prize}
-      ethErc721Awards={pool?.ethErc721Awards}
+      // prize={prize}
+      // ethErc721Awards={pool?.ethErc721Awards}
       basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
     />
 

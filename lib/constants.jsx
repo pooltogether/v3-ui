@@ -117,14 +117,20 @@ export const TOKEN_IMAGES = {
   '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2': 'https://assets.coingecko.com/coins/images/12271/thumb/sushi.jpg?1598623048',
   '0x0954906da0bf32d5479e25f46056d22f08464cab': '/tokens/0x0954906da0bf32d5479e25f46056d22f08464cab.png',
   '0xd291e7a03283640fdc51b121ac401383a46cc623': 'https://assets.coingecko.com/coins/images/12900/thumb/rgt_logo.png?1603340632',
+  '0x334cbb5858417aee161b53ee0d5349ccf54514cf': '/favicon.png'
 }
 
 export const TOKEN_VALUES = {
   '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984': 5.6,
   '0x852358c72f0d38df475b58f90c9b24aadc63c9db': 1,
+  '0x334cbb5858417aee161b53ee0d5349ccf54514cf': 1,
   '0x9d942bd31169ed25a1ca78c776dab92de104e50e': 279.31
   // '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
   // '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
+}
+
+export const TOKEN_NAMES = {
+  '0x334cbb5858417aee161b53ee0d5349ccf54514cf': 'PoolTogether DAI Tickets',
 }
 
 export const HISTORICAL_TOKEN_VALUES = {
