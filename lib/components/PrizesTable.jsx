@@ -1,16 +1,13 @@
 import React from 'react'
 import Link from 'next/link'
 import BeatLoader from 'react-spinners/BeatLoader'
-import { ethers } from 'ethers'
 import { useTable } from 'react-table'
 
 import { useTranslation } from 'lib/../i18n'
 import { BasicTable } from 'lib/components/BasicTable'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { formatDate } from 'lib/utils/formatDate'
-import { shorten } from 'lib/utils/shorten'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 const prizeLink = (t, pool, prize) => {
@@ -72,10 +69,7 @@ const formatPrizeObject = (t, pool, prize, querySymbol) => {
               size={3}
               color='rgba(255,255,255,0.3)'
             /> :
-              `$${displayAmountInEther(
-                timeTravelPool?.totalPrizeAmountUSD,
-                { decimals: pool?.underlyingCollateralDecimals, precision: 2 }
-              )}`
+              `$${numberWithCommas(timeTravelPool?.totalPrizeAmountUSD)}`
             }
           </>
         }}
@@ -135,11 +129,7 @@ export const PrizesTable = (
     
     // If we have a prize amount then we know the last prize has been rewarded
     if (lastPrize.awardedBlock) {
-      const currentPrizeId = extractPrizeNumberFromPrize(lastPrize) + 1
-      const amount = ethers.utils.formatUnits(
-        pool?.totalPrizeAmountUSD,
-        decimals
-      )
+      const amount = pool?.totalPrizeAmountUSD
 
       currentPrize = {
         prizeAmount: <><span className='text-flashy'>${numberWithCommas(amount, { precision: 2 })}</span></>,
