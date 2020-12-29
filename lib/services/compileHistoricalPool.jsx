@@ -39,6 +39,10 @@ export const compileHistoricalPool = (
   
   const addresses = marshalledData?.externalErc20Awards?.map(award => award.address)
 
+  if (addresses) {
+    addresses.push(poolObj.underlyingCollateralToken)
+  }
+
   const {
     data: uniswapPriceData,
     error: uniswapError,
@@ -86,22 +90,38 @@ export const compileHistoricalPool = (
   const externalAwardsUSD = calculateExternalAwardsValue(compiledExternalErc20Awards)
   
   const totalAwardedControlledTokensUSD = sumAwardedControlledTokens(prize?.awardedControlledTokens)
-  const interestPrizeUSD = totalAwardedControlledTokensUSD
+
+  const underlyingCollateralValueUSD = uniswapPriceData?.[pool.underlyingCollateralToken]?.usd
+
+
+
+  let interestPrizeUSD = parseFloat(
+    totalAwardedControlledTokensUSD.div(ethers.constants.WeiPerEther).toString()
+  )
+
+
+  if (underlyingCollateralValueUSD) {
+    interestPrizeUSD = interestPrizeUSD *
+      parseInt((underlyingCollateralValueUSD * 100), 10) /
+      100
+  } else {
+    // console.warn('could not get USD value for price of underlying collateral token')
+  }
+
+
 
   const grandPrizeAmountUSD = externalAwardsUSD ?
-    interestPrizeUSD.div(numOfWinners).add(ethers.utils.parseEther(
-      externalAwardsUSD.toString()
-    )) :
-    interestPrizeUSD
+    (interestPrizeUSD / numOfWinners) +
+      externalAwardsUSD :
+    (interestPrizeUSD / numOfWinners)
+
 
   const totalPrizeAmountUSD = externalAwardsUSD ?
-    interestPrizeUSD.add(ethers.utils.parseEther(
-      externalAwardsUSD.toString()
-    )) :
-    interestPrizeUSD.mul(numOfWinners)
+    interestPrizeUSD + externalAwardsUSD :
+    interestPrizeUSD * numOfWinners
 
   const fetchingTotals = externalAwardsUSD === null ||
-    interestPrizeUSD.eq(0) &&
+    interestPrizeUSD === 0 &&
     (uniswapIsFetching && !uniswapIsFetched)
 
   // Standardize the USD values so they're either all floats/strings or all bigNums

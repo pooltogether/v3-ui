@@ -175,12 +175,7 @@ export const AccountTicket = (
                     fontSansRegular
                     decimals={2}
                     duration={3}
-                    end={pool?.totalPrizeAmountUSD ?
-                      Math.floor(Number.parseFloat(
-                        ethers.utils.formatUnits(pool?.totalPrizeAmountUSD, decimals)
-                      )) : 
-                      0
-                    }
+                    end={pool?.totalPrizeAmountUSD}
                   />
                 </>}
               </div>

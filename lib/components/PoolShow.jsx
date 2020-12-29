@@ -98,11 +98,8 @@ export const PoolShow = (props) => {
   }
 
   let prizeEstimateFormatted
-  if (pool.totalPrizeAmountUSD && pool.totalPrizeAmountUSD.gt(0)) {
-    prizeEstimateFormatted = ethers.utils.formatUnits(
-      pool.totalPrizeAmountUSD,
-      decimals || DEFAULT_TOKEN_PRECISION
-    )
+  if (pool?.totalPrizeAmountUSD > 0) {
+    prizeEstimateFormatted = pool.totalPrizeAmountUSD
   }
 
   return <>

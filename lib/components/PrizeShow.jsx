@@ -12,6 +12,7 @@ import { PrizeBreakdown } from 'lib/components/PrizeBreakdown'
 import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import TicketsIcon from 'assets/images/icon-ticket@2x.png'
 
@@ -61,10 +62,7 @@ export function PrizeShow(props) {
     >
       <div>
         <h1>
-          ${displayAmountInEther(
-            pool?.totalPrizeAmountUSD || 0,
-            { precision: 2, decimals }
-          )}
+          {pool?.totalPrizeAmountUSD && `$${numberWithCommas(pool?.totalPrizeAmountUSD)}`}
         </h1>
       </div>
 
@@ -103,8 +101,6 @@ export function PrizeShow(props) {
     <LootBoxTable
       historical
       pool={pool}
-      // prize={prize}
-      // ethErc721Awards={pool?.ethErc721Awards}
       basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
     />
 

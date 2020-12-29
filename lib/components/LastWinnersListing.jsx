@@ -9,6 +9,7 @@ import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { formatDate } from 'lib/utils/formatDate'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { sumAwardedControlledTokens } from 'lib/utils/sumAwardedControlledTokens'
 
 export const LastWinnersListing = (
@@ -88,10 +89,7 @@ export const LastWinnersListing = (
         <div
           className='inline-block w-1/2 text-right'
         >
-          ${displayAmountInEther(
-            pool?.totalPrizeAmountUSD.toString(),
-            { decimals, precision: 2 }
-          )}
+          ${numberWithCommas(pool?.totalPrizeAmountUSD)}
         </div>
       </div>
 

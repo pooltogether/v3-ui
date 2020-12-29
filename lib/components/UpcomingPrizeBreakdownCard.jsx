@@ -15,14 +15,13 @@ export const UpcomingPrizeBreakdownCard = (props) => {
   const { pool } = usePool()
 
   const symbol = pool?.underlyingCollateralSymbol?.toUpperCase()
-  const decimals = pool?.underlyingCollateralDecimals
 
   const numberOfWinnersMinusOne = pool?.numberOfWinners ?
     parseInt(pool?.numberOfWinners, 10) - 1 :
     1
 
-  const interestPrizePerWinnerFormatted = pool?.interestPrizePerWinnerUSD && 
-    `$${displayAmountInEther(pool.interestPrizePerWinnerUSD, { decimals })}`
+  const interestPrizePerWinnerFormatted = pool?.interestPrizePerWinnerUSD &&
+    `$${numberWithCommas(pool?.interestPrizePerWinnerUSD, { precision: 2 })}`
 
   return <>
     <div
@@ -60,9 +59,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
           />
           <div>
             <h3>
-              {pool?.interestPrizeUSD && `$${displayAmountInEther(pool?.interestPrizeUSD, {
-                decimals
-              })}`}
+              {pool?.interestPrizeUSD && `$${pool?.interestPrizeUSD}`}
             </h3>
             <span
               className='text-sm xs:text-base sm:text-xl text-accent-1 leading-none'
