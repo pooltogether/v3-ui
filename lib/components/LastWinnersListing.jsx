@@ -6,7 +6,6 @@ import { useTranslation } from 'lib/../i18n'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -121,12 +120,7 @@ export const LastWinnersListing = (
                 prize={prize}
               >
                 {(timeTravelPool) => {
-                  return <>
-                    ${displayAmountInEther(
-                      timeTravelPool?.totalPrizeAmountUSD,
-                      { decimals, precision: 2 }
-                    )}
-                  </>
+                  return timeTravelPool?.totalPrizeAmountUSD && `$${numberWithCommas(timeTravelPool.totalPrizeAmountUSD)}`
                 }}
               </TimeTravelPool>
 
