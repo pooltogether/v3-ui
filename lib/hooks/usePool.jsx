@@ -112,16 +112,21 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const interestPrizePerWinnerUSD = interestPrizeUSD.div(numWinners)
 
+  // console.log(ethers.utils.parseEther(
+  //   externalAwardsUSD.toString()
+  // ))
+  console.log(externalAwardsUSD)
+
   const grandPrizeAmountUSD = externalAwardsUSD ?
-    interestPrizeUSD.div(numWinners).add(ethers.utils.parseEther(
-      externalAwardsUSD.toString()
-    )) :
+    interestPrizeUSD.div(numWinners).add(
+      parseInt(externalAwardsUSD, 10).toString()
+    ) :
     interestPrizeUSD.div(numWinners)
 
   const totalPrizeAmountUSD = externalAwardsUSD ?
-    interestPrizeUSD.add(ethers.utils.parseEther(
-      externalAwardsUSD.toString()
-    )) :
+    interestPrizeUSD.add(
+      parseInt(externalAwardsUSD, 10).toString()
+    ) :
     interestPrizeUSD
 
   const fetchingTotals = externalAwardsUSD === null ||
