@@ -49,7 +49,7 @@ export const NewPrizeCountdown = (
           'font-bold',
           {
             'text-flashy': flashy,
-            'text-xs xs:text-sm sm:text-xl lg:text-2xl': !textSize,
+            'text-xs xs:text-sm sm:text-xl': !textSize,
             'text-right': !textAlign
           }
         )}

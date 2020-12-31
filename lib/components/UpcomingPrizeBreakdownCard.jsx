@@ -19,7 +19,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
 
   const numberOfWinnersMinusOne = pool?.numberOfWinners ?
     parseInt(pool?.numberOfWinners, 10) - 1 :
-    1
+    0
 
   const interestPrizePerWinnerFormatted = pool?.interestPrizePerWinnerUSD && 
     `$${displayAmountInEther(pool.interestPrizePerWinnerUSD, { decimals })}`

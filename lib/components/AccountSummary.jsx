@@ -3,6 +3,7 @@ import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { SmallLoader } from 'lib/components/SmallLoader'
 import { useAccount } from 'lib/hooks/useAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
@@ -83,7 +84,9 @@ export const AccountSummary = () => {
           </h6>
           <h1>
             {usersAddress ? <>
-              ${displayAmountInEther(totalTickets)}
+              {totalTickets && <>
+                $<PoolNumber>{displayAmountInEther(totalTickets)}</PoolNumber>
+              </>}
             </> : <>
               <SmallLoader />
             </>}
@@ -91,7 +94,9 @@ export const AccountSummary = () => {
           <span
             className='font-bold opacity-60'
           >
-            (+ {displayAmountInEther(uniTicketBalance)} UNI)
+            {uniTicketBalance && <>
+              (+ <PoolNumber>{displayAmountInEther(uniTicketBalance)}</PoolNumber> UNI)
+            </>}
           </span>
         </div>
 

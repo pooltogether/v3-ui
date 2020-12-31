@@ -38,9 +38,9 @@ export function PoolNumber(props) {
 
       {secondPart && <>
         <span
-          className='opacity-30'
+          className='opacity-40'
         >.{secondPart}</span><span
-          className='opacity-30'
+          className='opacity-40'
         >
           {thirdPart}
         </span>

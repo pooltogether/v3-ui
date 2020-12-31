@@ -30,6 +30,7 @@ export function usePools() {
     isFetching: poolsIsFetching,
   } = usePoolsQuery(poolAddresses, blockNumber)
 
+
   if (poolsError) {
     poolToast.error(poolsError)
     console.error(poolsError)

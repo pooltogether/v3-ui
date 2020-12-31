@@ -1,20 +1,17 @@
 import React, { useContext, useState } from 'react'
-import Link from 'next/link'
 import Cookies from 'js-cookie'
 import BeatLoader from 'react-spinners/BeatLoader'
-import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { useInterval } from 'beautiful-react-hooks'
 
 import {
   COOKIE_OPTIONS,
-  DEFAULT_TOKEN_PRECISION,
   SHOW_MANAGE_LINKS,
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
-import { Trans, useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
@@ -26,7 +23,7 @@ import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Meta } from 'lib/components/Meta'
-import { PoolCountUp } from 'lib/components/PoolCountUp'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
@@ -97,13 +94,7 @@ export const PoolShow = (props) => {
     addTokenToMetaMask(networkName, pool)
   }
 
-  let prizeEstimateFormatted
-  if (pool.totalPrizeAmountUSD && pool.totalPrizeAmountUSD.gt(0)) {
-    prizeEstimateFormatted = ethers.utils.formatUnits(
-      pool.totalPrizeAmountUSD,
-      decimals || DEFAULT_TOKEN_PRECISION
-    )
-  }
+  const prizeEstimateFormatted = (pool?.totalPrizeAmountUSD > 0) && pool.totalPrizeAmountUSD
 
   return <>
     <Meta
@@ -178,6 +169,9 @@ export const PoolShow = (props) => {
 
           <div
             className='pink-purple-gradient rounded-lg px-4 xs:px-6 sm:px-16 py-8 sm:pt-12 sm:pb-10 text-white my-8 sm:my-12 mx-auto'
+            style={{
+              minHeight: 150
+            }}
           >
             <div
               className='flex flex-col xs:flex-row xs:items-center justify-between'
@@ -199,11 +193,9 @@ export const PoolShow = (props) => {
                     size={10}
                     color='rgba(255,255,255,0.3)'
                   /> : <>
-                    $<PoolCountUp
-                      fontSansRegular
-                      decimals={0}
-                      duration={6}
-                    >{prizeEstimateFormatted}</PoolCountUp>
+                    {prizeEstimateFormatted && <>
+                      $<PoolNumber>{prizeEstimateFormatted}</PoolNumber>
+                    </>}
                   </>}
                 </h1>
               </div>
@@ -218,6 +210,7 @@ export const PoolShow = (props) => {
                 </h6>
                 
                 <NewPrizeCountdown
+                  textAlign='left'
                   pool={pool}
                   flashy={false}
                 />

@@ -62,6 +62,11 @@ export const POOLS = {
       name: 'BAT Pool',
       frequency: 'Weekly',
       symbol: 'PT-cBAT'
+    },
+    {
+      name: 'USDC Pool',
+      frequency: 'Weekly',
+      symbol: 'PT-cUSDC'
     }
   ]
 }

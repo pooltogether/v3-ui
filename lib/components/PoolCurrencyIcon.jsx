@@ -7,7 +7,7 @@ import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvid
 
 import DaiSvg from 'assets/images/dai-new-transparent.png'
 // import WbtcSvg from 'assets/images/wbtc-new-transparent.png'
-// import UsdcSvg from 'assets/images/usdc-new-transparent.png'
+import UsdcSvg from 'assets/images/usdc-new-transparent.png'
 // import UsdtSvg from 'assets/images/usdt-new-transparent.png'
 // import ZrxSvg from 'assets/images/zrx-new-transparent.png'
 import BatSvg from 'assets/images/bat-new-transparent.png'
@@ -35,8 +35,8 @@ export const PoolCurrencyIcon = (
   let currencyIcon
   if (symbol === 'dai') {
     currencyIcon = DaiSvg
-  // } else if (symbol === 'usdc') {
-  //   currencyIcon = UsdcSvg
+  } else if (symbol === 'usdc') {
+    currencyIcon = UsdcSvg
   // } else if (symbol === 'usdt') {
   //   currencyIcon = UsdtSvg
   // } else if (symbol === 'wbtc') {
