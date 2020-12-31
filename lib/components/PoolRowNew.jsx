@@ -17,6 +17,7 @@ import { InteractableCard } from 'lib/components/InteractableCard'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { usePool } from 'lib/hooks/usePool'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const PoolRowNew = (
   props,
@@ -81,10 +82,7 @@ export const PoolRowNew = (
               decimals={0}
               duration={6}
             >
-              {ethers.utils.formatUnits(
-                pool?.totalPrizeAmountUSD,
-                decimals
-              )}
+              {parseFloat(pool?.totalPrizeAmountUSD)}
             </PoolCountUp>
           </div>
         </div>

@@ -56,9 +56,7 @@ export const PrizeBreakdown = (props) => {
           />
           <div>
             <h3>
-              ${displayAmountInEther(interestPrize, {
-                decimals
-              })}
+              {interestPrize && `$${numberWithCommas(interestPrize, { precision: 2 })}`}
             </h3>
             <span
               className='text-sm xs:text-base sm:text-xl'

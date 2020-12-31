@@ -103,29 +103,25 @@ export function usePool(poolSymbol, blockNumber = -1) {
   let interestPrizeUSD = calculateEstimatedPoolPrize(pool)
 
   if (underlyingCollateralValueUSD) {
-    interestPrizeUSD = interestPrizeUSD
-      .mul(parseInt((underlyingCollateralValueUSD * 100), 10))
-      .div('100')
+    interestPrizeUSD = interestPrizeUSD *
+      parseInt((underlyingCollateralValueUSD * 100), 10) /
+      100
   } else {
     // console.warn('could not get USD value for price of underlying collateral token')
   }
 
-  const interestPrizePerWinnerUSD = interestPrizeUSD.div(numWinners)
+  const interestPrizePerWinnerUSD = interestPrizeUSD / numWinners
 
   const grandPrizeAmountUSD = externalAwardsUSD ?
-    interestPrizeUSD.div(numWinners).add(ethers.utils.parseEther(
-      externalAwardsUSD.toString()
-    )) :
-    interestPrizeUSD.div(numWinners)
+    (interestPrizeUSD / numWinners) + externalAwardsUSD :
+    (interestPrizeUSD / numWinners)
 
   const totalPrizeAmountUSD = externalAwardsUSD ?
-    interestPrizeUSD.add(ethers.utils.parseEther(
-      externalAwardsUSD.toString()
-    )) :
+    interestPrizeUSD + externalAwardsUSD :
     interestPrizeUSD
 
   const fetchingTotals = externalAwardsUSD === null ||
-    interestPrizeUSD.eq(0) &&
+    interestPrizeUSD === 0 &&
     (uniswapIsFetching && !uniswapIsFetched)
 
   // Standardize the USD values so they're either all floats/strings or all bigNums  pool = {

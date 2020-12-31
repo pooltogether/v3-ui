@@ -113,7 +113,7 @@ export const LootBoxTable = (props) => {
               </tr>
             </thead>
             <tbody>
-              {awards.map(award => {
+              {awards.map((award, index) => {
                 const name = award.name || award?.erc721Entity?.name
 
                 if (!name) {
@@ -121,7 +121,7 @@ export const LootBoxTable = (props) => {
                 }
 
                 return <Fragment
-                  key={award.address}
+                  key={`${award.address}-${index}`}
                 >
                   <tr>
                     <td
