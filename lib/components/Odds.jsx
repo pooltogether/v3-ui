@@ -72,7 +72,7 @@ export function Odds(props) {
       {label}
       <br />{t('notAvailableAbbreviation')}
     </>
-  } else if (!hide && (hasBalance || hasAdditionalQuantity)) {
+  } else if (!hide && Boolean(result) && (hasBalance || hasAdditionalQuantity)) {
     const totalOdds = <PoolCountUp
       fontSansRegular
       start={result}
