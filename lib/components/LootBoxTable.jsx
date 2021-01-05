@@ -114,7 +114,7 @@ export const LootBoxTable = (props) => {
             </thead>
             <tbody>
               {awards.map((award, index) => {
-                const name = award.name || award?.erc721Entity?.name
+                const name = award.name || award?.erc20Entity?.name || award?.erc721Entity?.name
 
                 if (!name) {
                   return
