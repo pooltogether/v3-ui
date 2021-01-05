@@ -3,7 +3,6 @@ import React from 'react'
 import { useTranslation } from 'lib/../i18n'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
 import { usePool } from 'lib/hooks/usePool'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
@@ -59,7 +58,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
           />
           <div>
             <h3>
-              {pool?.interestPrizeUSD && `$${pool?.interestPrizeUSD}`}
+              {pool?.interestPrizeUSD && `$${numberWithCommas(pool?.interestPrizeUSD)}`}
             </h3>
             <span
               className='text-sm xs:text-base sm:text-xl text-accent-1 leading-none'

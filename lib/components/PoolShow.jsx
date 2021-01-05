@@ -194,7 +194,7 @@ export const PoolShow = (props) => {
                     color='rgba(255,255,255,0.3)'
                   /> : <>
                     {prizeEstimateFormatted && <>
-                      $<PoolNumber>{prizeEstimateFormatted}</PoolNumber>
+                      $<PoolNumber>{numberWithCommas(prizeEstimateFormatted)}</PoolNumber>
                     </>}
                   </>}
                 </h1>
