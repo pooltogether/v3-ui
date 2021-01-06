@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 
 import { PLAYER_PAGE_SIZE } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
-import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PaginationUI } from 'lib/components/PaginationUI'
 import { PlayersTable } from 'lib/components/PlayersTable'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
