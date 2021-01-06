@@ -97,7 +97,6 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(awards)
   
-  console.log(pool)
   let interestPrizeUSD = calculateEstimatedPoolPrize(pool)
 
   if (underlyingCollateralValueUSD) {

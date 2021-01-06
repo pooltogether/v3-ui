@@ -72,12 +72,13 @@ export const V2AccountTicket = (
     normalizedPodBalance = normalizeTo18Decimals(balances.podBalance, v2dai ? 18 : 6)
   }
 
+  const ltLimit = '100000000000000000' // less than $0.10 worth
   if (isPod) {
-    if (!havePodBalance || balances.poolBalance && normalizedPodBalance?.lt('10000000000000')) {
+    if (!havePodBalance || normalizedPodBalance?.lt(ltLimit)) {
       return null
     }
   } else {
-    if (!havePoolBalance || normalizedPoolBalance?.lt('10000000000000')) {
+    if (!havePoolBalance || normalizedPoolBalance?.lt(ltLimit)) {
       return null
     }
   }
@@ -192,9 +193,9 @@ export const V2AccountTicket = (
             className='-mt-2'
           />
           <div
-            className='capitalize mt-1 text-lg font-bold'
+            className='mt-1 text-lg font-bold'
           >
-            {ticker.toLowerCase()}
+            {ticker.toUpperCase()}
           </div>
         </div>
       </div>
