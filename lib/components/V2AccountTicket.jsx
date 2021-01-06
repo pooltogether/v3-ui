@@ -62,14 +62,14 @@ export const V2AccountTicket = (
     }
   }
 
-  const havePoolBalance = balances.poolBalance
-  const havePodBalance = balances.podBalance
+  const havePoolBalance = balances.poolBalance?.gt(0)
+  const havePodBalance = balances.podBalance?.gt(0)
 
   let normalizedPoolBalance = ethers.utils.bigNumberify(0)
   let normalizedPodBalance = ethers.utils.bigNumberify(0)
   if (balances.poolBalance) {
-    normalizedPoolBalance = normalizeTo18Decimals(balances.poolBalance, 18)
-    normalizedPodBalance = normalizeTo18Decimals(balances.podBalance, 18)
+    normalizedPoolBalance = normalizeTo18Decimals(balances.poolBalance, v2dai ? 18 : 6)
+    normalizedPodBalance = normalizeTo18Decimals(balances.podBalance, v2dai ? 18 : 6)
   }
 
   if (isPod) {
@@ -89,21 +89,17 @@ export const V2AccountTicket = (
     >
       <div
         className={classnames(
-          'absolute rounded-b-lg bg-no-repeat ticket-strip',
-          {
-            'ticket--blue': ticker?.toLowerCase() === 'usdc'
-          }
+          `ticket--${ticker?.toLowerCase()} absolute rounded-b-lg bg-no-repeat ticket-strip`
         )}
       />
 
       <div className='flex items-center pl-4 pt-4 xs:p-4 xs:pt-6'>
-        
         <div
           className='flex w-full ml-1 sm:ml-4 leading-none'
         >
           {!isPod && balances?.poolBalance?.gte('1000000') && <>
             <div
-              className='w-1/2 xs:w-48 inline-block text-left text-xs xs:text-lg text-inverse relative mr-3 xs:mr-6 sm:mr-9 lg:mr-12'
+              className='w-48 inline-block text-left text-xs xs:text-lg text-inverse relative mr-3 xs:mr-6 sm:mr-9 lg:mr-12'
             >
               <Trans
                 i18nKey='v2PoolTickets'
@@ -128,7 +124,7 @@ export const V2AccountTicket = (
                 <PoolNumber>{balances.poolBalanceFormatted}</PoolNumber> {ticker}
               </div>
 
-              <div className='mt-2'>
+              <div className='mt-4'>
                 <V2MigrateButton
                   balance={balances.poolBalance}
                   balanceFormatted={balances.poolBalanceFormatted}

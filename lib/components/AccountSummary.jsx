@@ -8,6 +8,7 @@ import { SmallLoader } from 'lib/components/SmallLoader'
 import { useAccount } from 'lib/hooks/useAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { useUsersV2Balances } from 'lib/hooks/useUsersV2Balances'
+import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
@@ -40,15 +41,34 @@ export const AccountSummary = () => {
     podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance,
   }
 
-  let uniTicketBalance = ethers.utils.bigNumberify(0)
+
+
+
+  const addresses = playerTickets
+    ?.map(playerTicket => playerTicket.pool.underlyingCollateralToken)
+
+    const {
+    data: uniswapPriceData,
+    error: uniswapError,
+    // isFetching: uniswapIsFetching,
+    // isFetched: uniswapIsFetched
+  } = useUniswapTokensQuery(addresses)
+  if (uniswapError) {
+    console.error(uniswapError)
+  }
 
   let totalTickets = ethers.utils.bigNumberify(0)
   playerTickets.forEach(playerTicket => {
-    let { balanceNormalized } = playerTicket
+    let { balanceNormalized, balanceFormatted, pool } = playerTicket
 
-    if (playerTicket.pool.symbol === 'PT-cUNI') {
-      uniTicketBalance = uniTicketBalance.add(balanceNormalized)
-    } else {
+    const priceUSD = uniswapPriceData?.[pool.underlyingCollateralToken]?.usd
+
+    if (priceUSD) {
+      const value = priceUSD && balanceFormatted && parseFloat(balanceFormatted) * priceUSD
+      totalTickets = totalTickets.add(
+        ethers.utils.parseEther(value.toString())
+      )
+    } else { // fall back to assuming it's a stablecoin, this is helpful for testnets or if we don't have USD price
       totalTickets = totalTickets.add(balanceNormalized)
     }
   })
@@ -91,13 +111,6 @@ export const AccountSummary = () => {
               <SmallLoader />
             </>}
           </h1>
-          <span
-            className='font-bold opacity-60'
-          >
-            {uniTicketBalance && <>
-              (+ <PoolNumber>{displayAmountInEther(uniTicketBalance)}</PoolNumber> UNI)
-            </>}
-          </span>
         </div>
 
         <div>

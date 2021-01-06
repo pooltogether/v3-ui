@@ -61,10 +61,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
     error: uniswapError,
     isFetching: uniswapIsFetching,
     isFetched: uniswapIsFetched
-  } = useUniswapTokensQuery(
-    addresses,
-    blockNumber
-  )
+  } = useUniswapTokensQuery(addresses, blockNumber)
   if (uniswapError) {
     console.error(uniswapError)
   }
