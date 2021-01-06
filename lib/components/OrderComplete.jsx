@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from 'react'
+import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
+import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { usePool } from 'lib/hooks/usePool'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
@@ -30,6 +32,19 @@ export function OrderComplete(props) {
     )
   }
 
+  useEffect(() => {
+    Cookies.set(
+      WIZARD_REFERRER_HREF,
+      '/account',
+      COOKIE_OPTIONS
+    )
+    Cookies.set(
+      WIZARD_REFERRER_AS_PATH,
+      `/account`,
+      COOKIE_OPTIONS
+    )
+  }, [])
+  
   useEffect(() => {
     setTimeout(() => {
       window.confettiContext = confetti
