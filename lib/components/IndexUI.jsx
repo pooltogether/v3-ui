@@ -26,7 +26,7 @@ export const IndexUI = (
 
     <Link
       href='/pools/[symbol]'
-      as={`/pools/PT-cUNI`}
+      as={`/pools/PT-cUSDC`}
     >
       <a
         className='block mt-2 mb-3 text-center p-3 rounded-lg border-2 border-secondary font-bold text-inverse text-xxs xs:text-xs sm:text-sm'
@@ -35,7 +35,7 @@ export const IndexUI = (
           role='img'
           aria-label='megaphone emoji'
           className='mx-2'
-        >📣</span> The Uniswap UNI pool is now open! <span
+        >📣</span> The USDC pool is now open! <span
           role='img'
           aria-label='megaphone emoji'
           className='mx-2'
