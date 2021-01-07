@@ -36,7 +36,6 @@ const formatPlayerObject = (t, pool, player, winners) => {
       Number(decimals)
     ) : ethers.utils.bigNumberify(0)
 
-  // const isWinner = winnersAddress === playerAddress
   const isWinner = winners?.includes(playerAddress)
 
   const address = <>
@@ -49,7 +48,7 @@ const formatPlayerObject = (t, pool, player, winners) => {
   
   return {
     balance: player.balance ? <PoolNumber>
-      {displayAmountInEther(player.balance, { precision: 2 })}
+      {displayAmountInEther(player.balance, { decimals, precision: 2 })}
     </PoolNumber> : '',
     address,
     odds: <Odds
