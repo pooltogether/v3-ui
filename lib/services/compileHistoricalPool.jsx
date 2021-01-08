@@ -73,16 +73,11 @@ export const compileHistoricalPool = (
     ...marshalledData
   }
 
-  const historical = blockNumber > -1
-  let { awards, lootBoxIsFetching, lootBoxIsFetched } = useLootBox(
-    historical,
-    pool,
-    {
-      compiledExternalErc20Awards,
-      compiledExternalErc721Awards,
-    },
-    blockNumber
-  )
+  const externalErcAwards = {
+    compiledExternalErc20Awards,
+    compiledExternalErc721Awards,
+  }
+  let { awards, computedLootBoxAddress, lootBoxIsFetching, lootBoxIsFetched } = useLootBox(pool, externalErcAwards, blockNumber)
 
 
 
@@ -128,6 +123,7 @@ export const compileHistoricalPool = (
   return {
     ...pool,
     awards,
+    computedLootBoxAddress,
     fetchingTotals,
     totalPrizeAmountUSD,
     grandPrizeAmountUSD,

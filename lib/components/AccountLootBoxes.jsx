@@ -8,7 +8,7 @@ import { usePools } from 'lib/hooks/usePools'
 
 import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 
-// Currently this component should only show up for the currentUser viewing their own account
+// This component should only show up for the currentUser viewing their own account
 export const AccountLootBoxes = () => {
   const { t } = useTranslation()
   
@@ -19,13 +19,14 @@ export const AccountLootBoxes = () => {
   const { data } = usePlayerPrizesQuery(usersAddress)
 
   const awardedExternalErc721Nfts = data?.awardedExternalErc721Nfts || []
+  console.log(awardedExternalErc721Nfts)
 
   const lootBoxesWon = awardedExternalErc721Nfts
     .filter(_awardedNft => _awardedNft.address === contractAddresses.lootBox)
 
+  console.log(lootBoxesWon)
   if (lootBoxesWon.length === 0) { return null }
 
-  console.log(lootBoxesWon)
   return <>
     <h5
       className='font-normal text-accent-2 mt-16 mb-4'
@@ -39,7 +40,9 @@ export const AccountLootBoxes = () => {
       <div className='flex justify-between flex-col xs:flex-row xs:pt-4 pb-0 px-2 xs:px-4'>
 
         <div className='flex-col order-2 xs:order-1'>
-          {lootBoxesWon.map(lootBoxWon => <LootBoxWon lootBox={lootBoxWon} />)}
+          {lootBoxesWon.map(lootBoxWon => <LootBoxWon
+            awardedExternalErc721LootBox={lootBoxWon}
+          />)}
         </div>
 
         <div

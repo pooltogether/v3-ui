@@ -1,66 +1,65 @@
-import React, { Fragment, useState } from 'react'
-import { motion } from 'framer-motion'
-import { useRouter } from 'next/router'
+import React from 'react'
 
 import { useTranslation } from 'lib/../i18n'
-import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { LootBoxValue } from 'lib/components/LootBoxValue'
+import { TimeTravelPool } from 'lib/components/TimeTravelPool'
+import { LootBoxTable } from 'lib/components/LootBoxTable'
 import { useLootBox } from 'lib/hooks/useLootBox'
+import { usePools } from 'lib/hooks/usePools'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-
-import GiftIcon from 'assets/images/icon-gift@2x.png'
+import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 
 export const LootBoxWon = (props) => {
-  const { t } = useTranslation()
-  const router = useRouter()
+  const { awardedExternalErc721LootBox } = props
+  console.log(awardedExternalErc721LootBox)
 
-  const { basePath, historical, pool } = props
-  
-  const [moreVisible, setMoreVisible] = useState(false)
+  const pools = usePools()
 
-  const {
-    lootBoxIsFetching,
-    lootBoxIsFetched
-  } = pool
+  const prize = awardedExternalErc721LootBox.prize
+  const poolAddress = prize.prizePool.id
+  const pool = pools.pools.find(_pool => _pool.id === poolAddress)
 
-  const originalAwardsCount = pool?.awards?.length
-  let awards = []
-  if (originalAwardsCount > 0) {
-    awards = moreVisible ? pool?.awards : pool?.awards?.slice(0, 10)
-  }
+  const blockNumber = parseInt(prize.awardedBlock, 10)
+  const prizeNumber = extractPrizeNumberFromPrize(prize)
 
-  const handleShowMore = (e) => {
-    e.preventDefault()
+  // const externalErcAwards = {
+  //   compiledExternalErc20Awards,
+  //   compiledExternalErc721Awards,
+  // }
+  const externalErcAwards = {}
+  // console.log(pool, externalErcAwards, blockNumber)
+  // let { awards, lootBoxIsFetching, lootBoxIsFetched } = useLootBox(pool, externalErcAwards, blockNumber)
 
-    setMoreVisible(true)
-
-    router.push(
-      `${basePath}#loot-box-table`,
-    )
-  }
-
-  if (!awards) {
-    return null
-  }
+  const awards = []
+  // console.log(awards)
 
   return <>
-    <div
-      id='loot-box-table'
-      className='non-interactable-card my-6 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'
+    <TimeTravelPool
+      blockNumber={blockNumber}
+      poolAddress={poolAddress}
+      querySymbol={pool.symbol}
+      prize={prize}
     >
-      <div
-        className='text-caption uppercase mb-3'
-      >
-        <img
-          src={GiftIcon}
-          className='inline-block mr-2 card-icon'
-        /> {t('lootBox')}
-      </div>
+      {(timeTravelPool) => {
+        
+        // const lootBox = useLootBox(timeTravelPool, externalErcAwards, blockNumber)
+        console.log(timeTravelPool.computedLootBoxAddress)
 
+        return <LootBoxTable
+          historical
+          pool={timeTravelPool}
+          basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
+        />
+      }}
+    </TimeTravelPool>
+
+    {/* <div
+      className='my-6 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'
+    > */}
       <h6
         className='flex items-center font-normal'
       >
@@ -75,9 +74,10 @@ export const LootBoxWon = (props) => {
             </PoolNumber> */}
       </h3>
 
+      
       <div className='flex flex-col sm:flex-row justify-between sm:items-center'>
         <div>
-          {awards.length === 0 && !lootBoxIsFetching ? <>
+          {awards.length === 0 ? <>
             {/* {historical ? t('noOtherPrizesAwarded') : t('currentlyNoOtherPrizes')} */}
           </> : <>
             <LootBoxValue
@@ -85,14 +85,8 @@ export const LootBoxWon = (props) => {
             />
           </>}
         </div>
-
-        {!historical && <>
-          <ContributeToLootBoxDropdown
-            pool={pool}
-          />
-        </>}
       </div>
-      
+{/*       
       {awards.length > 0 && <>
         <div
           className='xs:bg-primary theme-light--no-gutter text-inverse rounded-lg p-0 xs:p-3 sm:pl-4 sm:pr-12 lg:pr-4 mt-4'
@@ -145,7 +139,6 @@ export const LootBoxWon = (props) => {
                         className='text-inverse truncate'
                       >
                         {name}
-                        {/* {name.length > 20 ? <span className='truncate'>{name.substr(0, 20)}</span> : name} */}
                       </EtherscanAddressLink>
                     </td>
                     <td
@@ -159,7 +152,6 @@ export const LootBoxWon = (props) => {
                           }
                         )}
                       </PoolNumber> {award.symbol}
-                      {/* </PoolNumber> {award.symbol.length > 20 ? <span className='truncate'>{award.symbol.substr(0, 20)}</span> : award.symbol} */}
                     </td>
                     <td
                       className='font-bold text-right'
@@ -172,34 +164,12 @@ export const LootBoxWon = (props) => {
             </tbody>
           </table>
 
-          {originalAwardsCount > 10 && <>
-            <div className='text-center'>
-              <motion.button
-                border='none'
-                onClick={handleShowMore}
-                className='mt-6 mb-3 underline font-bold text-xxs xs:text-base sm:text-lg text-center'
-                animate={moreVisible ? 'exit' : 'enter'}
-                initial='enter'
-                variants={{
-                  enter: {
-                    opacity: 1,
-                    y: 0,
-                  },
-                  exit: {
-                    y: -10,
-                    opacity: 0,
-                  }
-                }}
-              >
-                {t('showMore')}
-              </motion.button>
-            </div>
-          </>}
-        </div>
+        </div> 
 
 
       </>}
+      */}
 
-    </div>
+    {/* </div> */}
   </>
 }

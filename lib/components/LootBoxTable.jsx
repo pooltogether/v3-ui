@@ -134,7 +134,6 @@ export const LootBoxTable = (props) => {
                         className='text-inverse truncate'
                       >
                         {name}
-                        {/* {name.length > 20 ? <span className='truncate'>{name.substr(0, 20)}</span> : name} */}
                       </EtherscanAddressLink>
                     </td>
                     <td
@@ -148,7 +147,6 @@ export const LootBoxTable = (props) => {
                           }
                         )}
                       </PoolNumber> {award.symbol}
-                      {/* </PoolNumber> {award.symbol.length > 20 ? <span className='truncate'>{award.symbol.substr(0, 20)}</span> : award.symbol} */}
                     </td>
                     <td
                       className='font-bold text-right'

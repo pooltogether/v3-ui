@@ -1,6 +1,5 @@
 import { useContext } from 'react'
 import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
 
 import { POOLS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -79,16 +78,16 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
 
 
-  const historical = blockNumber > -1
-  let { awards, lootBoxIsFetching, lootBoxIsFetched } = useLootBox(
-    historical,
-    pool,
-    {
-      compiledExternalErc20Awards,
-      compiledExternalErc721Awards,
-    },
-    blockNumber
-  )
+  const externalErcAwards = {
+    compiledExternalErc20Awards,
+    compiledExternalErc721Awards,
+  }
+  let {
+    awards,
+    computedLootBoxAddress,
+    lootBoxIsFetching,
+    lootBoxIsFetched
+  } = useLootBox(pool, externalErcAwards, blockNumber)
 
   const numWinners = parseInt(pool.numberOfWinners || 1, 10)
 
@@ -126,6 +125,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
     ...pool,
     fetchingTotals,
     awards,
+    computedLootBoxAddress,
     lootBoxIsFetching,
     lootBoxIsFetched,
     totalPrizeAmountUSD,
