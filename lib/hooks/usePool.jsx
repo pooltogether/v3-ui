@@ -84,6 +84,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
   }
   let {
     awards,
+    lootBoxAwards,
     computedLootBoxAddress,
     lootBoxIsFetching,
     lootBoxIsFetched
@@ -125,6 +126,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
     ...pool,
     fetchingTotals,
     awards,
+    lootBoxAwards,
     computedLootBoxAddress,
     lootBoxIsFetching,
     lootBoxIsFetched,

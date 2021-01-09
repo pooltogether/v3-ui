@@ -2,6 +2,7 @@ import React from 'react'
 import { isEmpty } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const LootBoxValue = (props) => {
@@ -28,7 +29,7 @@ export const LootBoxValue = (props) => {
     <h3
       className='mb-1'
     >
-      ${numberWithCommas(lootBoxValueUSD, { precision: 2 })} {t('value')}
+      $<PoolNumber>{numberWithCommas(lootBoxValueUSD, { precision: 2 })}</PoolNumber> {t('value')}
     </h3>
   )
 }

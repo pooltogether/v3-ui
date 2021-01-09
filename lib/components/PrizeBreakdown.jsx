@@ -2,7 +2,6 @@ import React from 'react'
 
 import { useTranslation } from 'lib/../i18n'
 import { PrizeWinner } from 'lib/components/PrizeWinner'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 

@@ -19,12 +19,10 @@ export const AccountLootBoxes = () => {
   const { data } = usePlayerPrizesQuery(usersAddress)
 
   const awardedExternalErc721Nfts = data?.awardedExternalErc721Nfts || []
-  console.log(awardedExternalErc721Nfts)
 
   const lootBoxesWon = awardedExternalErc721Nfts
     .filter(_awardedNft => _awardedNft.address === contractAddresses.lootBox)
 
-  console.log(lootBoxesWon)
   if (lootBoxesWon.length === 0) { return null }
 
   return <>
@@ -39,7 +37,7 @@ export const AccountLootBoxes = () => {
     >
       <div className='flex justify-between flex-col xs:flex-row xs:pt-4 pb-0 px-2 xs:px-4'>
 
-        <div className='flex-col order-2 xs:order-1'>
+        <div className='flex-col order-2 xs:order-1 xs:w-3/4'>
           {lootBoxesWon.map(lootBoxWon => <LootBoxWon
             awardedExternalErc721LootBox={lootBoxWon}
           />)}
@@ -50,7 +48,7 @@ export const AccountLootBoxes = () => {
         >
           <img
             src={LootBoxIllustration}
-            className=' h-32 mx-auto'
+            className='w-32 h-32 mx-auto'
           />
         </div>
       </div>

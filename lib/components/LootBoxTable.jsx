@@ -14,9 +14,6 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import GiftIcon from 'assets/images/icon-gift@2x.png'
 
-// UPDATE: DESCRIPTION
-  // UPDATE: LootBoxValue
-  // UPDATE: Do 721 tokenURIs only get called once and cached?
 export const LootBoxTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()

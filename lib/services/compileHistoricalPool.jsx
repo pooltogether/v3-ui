@@ -77,8 +77,13 @@ export const compileHistoricalPool = (
     compiledExternalErc20Awards,
     compiledExternalErc721Awards,
   }
-  let { awards, computedLootBoxAddress, lootBoxIsFetching, lootBoxIsFetched } = useLootBox(pool, externalErcAwards, blockNumber)
-
+  let {
+    awards,
+    lootBoxAwards,
+    computedLootBoxAddress,
+    lootBoxIsFetching,
+    lootBoxIsFetched
+  } = useLootBox(pool, externalErcAwards, blockNumber)
 
 
 
@@ -123,6 +128,7 @@ export const compileHistoricalPool = (
   return {
     ...pool,
     awards,
+    lootBoxAwards,
     computedLootBoxAddress,
     fetchingTotals,
     totalPrizeAmountUSD,
