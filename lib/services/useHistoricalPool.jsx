@@ -4,13 +4,15 @@ import {
   QUERY_KEYS
 } from 'lib/constants'
 
+import { useReadProvider } from 'lib/hooks/useReadProvider'
+import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
+import { useLootBox } from 'lib/hooks/useLootBox'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { calculateExternalAwardsValue } from 'lib/services/calculateExternalAwardsValue'
 import { compileHistoricalErc20Awards } from 'lib/services/compileHistoricalErc20Awards'
 import { compileHistoricalErc721Awards } from 'lib/services/compileHistoricalErc721Awards'
 import { marshallPoolData } from 'lib/services/marshallPoolData'
 import { sumAwardedControlledTokens } from 'lib/utils/sumAwardedControlledTokens'
-import { useLootBox } from 'lib/hooks/useLootBox'
 // import { getControlledToken, getSponsorshipTokenAddress, getTicketTokenAddress } from 'lib/services/getPoolDataFromQueryResult'
 
 // This gathers historical data for a pool and prize
@@ -18,7 +20,7 @@ import { useLootBox } from 'lib/hooks/useLootBox'
 // It uses the ERC20/721 balances pulled from the pooltogether subgraph as we want the balance
 // at the time the prize was awarded, etc (called balanceAwarded)
 
-export const compileHistoricalPool = (
+export const useHistoricalPool = (
   chainId,
   poolInfo,
   cache,
@@ -27,7 +29,6 @@ export const compileHistoricalPool = (
   blockNumber,
   prize,
 ) => {
-  
   const poolObj = {
     ...poolInfo,
     ...graphPool,
@@ -57,13 +58,29 @@ export const compileHistoricalPool = (
   }
   const compiledExternalErc20Awards = compileHistoricalErc20Awards(prize, uniswapPriceData)
 
-  const ethErc721Awards = cache.getQueryData([
-    QUERY_KEYS.ethereumErc721sQuery,
-    chainId,
+
+
+
+  const { readProvider } = useReadProvider()
+  const externalErc721Awards = marshalledData?.externalErc721Awards
+
+  const {
+    data: externalErc721ChainData,
+    error: externalErc721ChainError,
+  } = useEthereumErc721Query({
+    provider: readProvider,
+    graphErc721Awards: externalErc721Awards,
     poolAddress,
-    blockNumber
-  ])
-  const compiledExternalErc721Awards = compileHistoricalErc721Awards(ethErc721Awards, prize)
+  })
+  console.log(externalErc721ChainData)
+
+  if (externalErc721ChainError) {
+    console.warn(externalErc721ChainError)
+  }
+
+  const compiledExternalErc721Awards = compileHistoricalErc721Awards(externalErc721Awards, externalErc721ChainData)
+
+
 
 
 
@@ -77,6 +94,7 @@ export const compileHistoricalPool = (
     compiledExternalErc20Awards,
     compiledExternalErc721Awards,
   }
+  // console.log(externalErcAwards)
   let {
     awards,
     lootBoxAwards,
@@ -84,8 +102,6 @@ export const compileHistoricalPool = (
     lootBoxIsFetching,
     lootBoxIsFetched
   } = useLootBox(pool, externalErcAwards, blockNumber)
-
-
 
   const externalAwardsUSD = calculateExternalAwardsValue(compiledExternalErc20Awards)
   
@@ -137,6 +153,5 @@ export const compileHistoricalPool = (
     externalAwardsUSD,
     compiledExternalErc20Awards,
     compiledExternalErc721Awards,
-    ethErc721Awards,
   }
 }
