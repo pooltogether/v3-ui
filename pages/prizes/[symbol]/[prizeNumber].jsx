@@ -22,15 +22,14 @@ export default function PrizeShowPage(props) {
   const prizeId = `${pool?.id}-${prizeNumber}`
 
   const { data, error } = usePrizeQuery(pool, prizeId)
-
-
-
+  console.log(data)
   if (error) {
     console.error(error)
   }
   
   let prize = data?.prize
 
+  
   if (!pool) {
     return <BlankStateMessage>
       {t('couldNotFindPoolWithSymbol', {
@@ -68,9 +67,10 @@ export default function PrizeShowPage(props) {
     querySymbol={querySymbol}
     prize={prize}
   >
-    {(timeTravelPool) => {
+    {({ preAwardTimeTravelPool, timeTravelPool }) => {
       return <PrizeShow
-        pool={timeTravelPool}
+        postAwardTimeTravelPool={timeTravelPool}
+        preAwardTimeTravelPool={preAwardTimeTravelPool}
         prize={prize}
       />
     }}

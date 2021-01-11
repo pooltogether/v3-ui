@@ -21,9 +21,7 @@ import { sumAwardedControlledTokens } from 'lib/utils/sumAwardedControlledTokens
 // at the time the prize was awarded, etc (called balanceAwarded)
 
 export const useHistoricalPool = (
-  chainId,
   poolInfo,
-  cache,
   graphPool,
   poolAddress,
   blockNumber,
@@ -34,6 +32,7 @@ export const useHistoricalPool = (
     ...graphPool,
   }
   
+
   const marshalledData = marshallPoolData(poolObj, blockNumber)
 
   const pool = {
@@ -41,15 +40,17 @@ export const useHistoricalPool = (
     ...marshalledData
   }
 
-
-
   const numOfWinners = parseInt(marshalledData.numberOfWinners || 1, 10)
-  
-  const addresses = marshalledData?.externalErc20Awards?.map(award => award.address)
 
-  if (addresses) {
-    addresses.push(poolObj.underlyingCollateralToken)
-  }
+  
+  
+  // const addresses = marshalledData?.externalErc20Awards?.map(award => award.address)
+
+  // if (addresses) {
+    // addresses.push(poolObj.underlyingCollateralToken)
+  // }
+  let addresses = []
+  addresses = poolObj.underlyingCollateralToken && [poolObj.underlyingCollateralToken]
 
   const {
     data: uniswapPriceData,
@@ -63,7 +64,7 @@ export const useHistoricalPool = (
   if (uniswapError) {
     console.error(uniswapError)
   }
-  const compiledExternalErc20Awards = compileHistoricalErc20Awards(prize, uniswapPriceData)
+  const compiledExternalErc20Awards = compileHistoricalErc20Awards(prize)
 
 
 
@@ -87,7 +88,6 @@ export const useHistoricalPool = (
   const compiledExternalErc721Awards = compileErc721Awards(externalErc721Awards, externalErc721ChainData)
 
 
-
   const externalErcAwards = {
     compiledExternalErc20Awards,
     compiledExternalErc721Awards,
@@ -100,7 +100,7 @@ export const useHistoricalPool = (
     lootBoxIsFetched
   } = useLootBox(externalErcAwards, blockNumber)
 
-  const externalAwardsUSD = calculateExternalAwardsValue(compiledExternalErc20Awards)
+  const externalAwardsUSD = calculateExternalAwardsValue(awards)
   
   const totalAwardedControlledTokensUSD = sumAwardedControlledTokens(prize?.awardedControlledTokens)
 

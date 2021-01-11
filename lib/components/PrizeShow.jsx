@@ -21,22 +21,25 @@ export function PrizeShow(props) {
   const router = useRouter()
 
   const {
-    pool,
+    preAwardTimeTravelPool,
+    postAwardTimeTravelPool,
     prize
   } = props
 
   const prizeNumber = router.query?.prizeNumber
+  const poolName = postAwardTimeTravelPool?.name
+  const poolSymbol = postAwardTimeTravelPool?.symbol
 
-  const decimals = pool?.underlyingCollateralDecimals || 18
+  const decimals = postAwardTimeTravelPool?.underlyingCollateralDecimals || 18
 
-  const blockNumber = pool.blockNumber
+  const blockNumber = postAwardTimeTravelPool.blockNumber
 
   return <>
-    <Meta title={pool?.name && prizeNumber && `${t('prize')} #${prizeNumber} - ${pool?.name}`} />
+    <Meta title={poolName && prizeNumber && `${t('prize')} #${prizeNumber} - ${poolName}`} />
 
     <PageTitleAndBreadcrumbs
       title={t('prizes')}
-      pool={pool}
+      pool={postAwardTimeTravelPool}
       breadcrumbs={[
         {
           href: '/',
@@ -45,12 +48,12 @@ export function PrizeShow(props) {
         },
         {
           href: '/pools/[symbol]',
-          as: `/pools/${pool?.symbol}`,
-          name: pool?.name,
+          as: `/pools/${poolSymbol}`,
+          name: poolName,
         },
         {
           href: '/prizes/[symbol]',
-          as: `/prizes/${pool?.symbol}`,
+          as: `/prizes/${poolSymbol}`,
           name: t('prizes'),
         },
         {
@@ -64,46 +67,25 @@ export function PrizeShow(props) {
     >
       <div>
         <h1>
-          {pool?.totalPrizeAmountUSD && `$${numberWithCommas(pool?.totalPrizeAmountUSD)}`}
+          {preAwardTimeTravelPool?.totalPrizeAmountUSD && 
+            `$${numberWithCommas(preAwardTimeTravelPool?.totalPrizeAmountUSD)}`}
         </h1>
       </div>
-
-      {!prize?.awardedTimestamp && <>
-        <div>
-          <h6
-            className={classnames(
-              'mt-4',
-              {
-                'mb-3': !pool?.isRngRequested
-              }
-            )}
-          >
-            {t('willBeAwardedIn')}
-          </h6>
-          <NewPrizeCountdown
-            textAlign='left'
-            textSize='text-xs xs:text-sm sm:text-lg lg:text-xl'
-            pool={pool}
-            flashy
-          />
-        </div>
-      </>}
     </div>
 
 
     <PrizeBreakdown
       prizeNumber={prizeNumber}
       decimals={decimals}
-      interestPrize={pool?.interestPrizeUSD}
-      externalAwardsValue={pool?.externalAwardsUSD}
       prize={prize}
-      pool={pool}
+      preAwardTimeTravelPool={preAwardTimeTravelPool}
+      postAwardTimeTravelPool={postAwardTimeTravelPool}
     />
 
     <LootBoxTable
       historical
-      pool={pool}
-      basePath={`/prizes/${pool?.symbol}/${prizeNumber}`}
+      pool={preAwardTimeTravelPool}
+      basePath={`/prizes/${poolSymbol}/${prizeNumber}`}
     />
 
     <CardGrid
@@ -114,9 +96,9 @@ export function PrizeShow(props) {
           title: t('totalTickets'),
           content: <>
             <h3>
-              {pool?.ticketSupply ?
+              {preAwardTimeTravelPool?.ticketSupply ?
                 displayAmountInEther(
-                  pool.ticketSupply,
+                  preAwardTimeTravelPool.ticketSupply,
                   { decimals, precision: 0 }
                 ) : null
               }
@@ -127,8 +109,8 @@ export function PrizeShow(props) {
     />
 
     <PrizePlayersQuery
-      pool={pool}
-      blockNumber={blockNumber}
+      pool={postAwardTimeTravelPool}
+      blockNumber={postAwardTimeTravelPool.blockNumber}
     >
       {({ data, isFetching, isFetched }) => {
         if (!prize && prize !== null) {
@@ -138,21 +120,23 @@ export function PrizeShow(props) {
         }
 
         return <PrizePlayerListing
-          baseAsPath={`/prizes/${pool?.symbol}/${prizeNumber}`}
+          baseAsPath={`/prizes/${poolSymbol}/${prizeNumber}`}
           baseHref='/prizes/[symbol]/[prizeNumber]'
           isFetching={isFetching}
           isFetched={isFetched}
           balances={data}
-          pool={pool}
+          pool={postAwardTimeTravelPool}
           prize={prize}
         />
       }}
     </PrizePlayersQuery>
 
+    {/* 
     <div
       className='text-inverse mt-12 pb-40 text-center'
     >
-      {/* <AllPoolsTotalAwarded /> */}
+      <AllPoolsTotalAwarded />
     </div>
+     */}
   </>
 }

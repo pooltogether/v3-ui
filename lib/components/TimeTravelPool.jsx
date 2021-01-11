@@ -1,10 +1,9 @@
 import { useContext } from 'react'
-import { useQueryCache } from 'react-query'
 
 import { POOLS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useHistoricalPool } from 'lib/services/useHistoricalPool'
-import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
+import { usePoolQuery } from 'lib/hooks/usePoolQuery'
 
 export function TimeTravelPool(props){
   const {
@@ -13,34 +12,47 @@ export function TimeTravelPool(props){
     prize,
     querySymbol
   } = props
-
-  const blockNumber = props.blockNumber
-  // rewind to the block _before_ the prize was awarded
-  // const blockNumber = props.blockNumber - 1
-
-  const queryCache = useQueryCache()
   
+  // Rewind to the block _before_ the prize was awarded
+  const preAwardBlockNumber = props.blockNumber - 1
+
+  // And after the award:
+  const postAwardBlockNumber = props.blockNumber
+
+
   const { chainId } = useContext(AuthControllerContext)
 
-  const { data: graphPools, error } = usePoolsQuery([poolAddress], blockNumber)
-
+  
+  const { data: preAwardGraphPool, error: preAwardPoolError } = usePoolQuery(poolAddress, preAwardBlockNumber)
+  if (preAwardPoolError) {
+    console.warn(preAwardPoolError)
+  }
+  
+  const { data: postAwardGraphPool, error } = usePoolQuery(poolAddress, postAwardBlockNumber)
   if (error) {
     console.warn(error)
   }
 
-
-  const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
-  
   const poolInfo = POOLS[chainId]?.find(POOL => POOL.symbol === querySymbol)
-  const timeTravelPool = useHistoricalPool(
-    chainId,
+
+  const preAwardTimeTravelPool = useHistoricalPool(
     poolInfo,
-    queryCache,
-    graphPool,
+    preAwardGraphPool,
     poolAddress,
-    blockNumber,
+    preAwardBlockNumber,
     prize
   )
 
-  return children(timeTravelPool)
+  const timeTravelPool = useHistoricalPool(
+    poolInfo,
+    postAwardGraphPool,
+    poolAddress,
+    postAwardBlockNumber,
+    prize
+  )
+
+  return children({ 
+    timeTravelPool,
+    preAwardTimeTravelPool
+  })
 }
