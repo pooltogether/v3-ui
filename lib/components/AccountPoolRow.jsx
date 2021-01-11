@@ -153,7 +153,7 @@ export const AccountPoolRow = (
                   fontSansRegular
                   className='font-bold text-flashy'
                   pool={pool}
-                  usersBalance={usersBalance}
+                  usersBalance={playerBalance}
                 />
               </>}
 

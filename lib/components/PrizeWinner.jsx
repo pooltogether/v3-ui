@@ -78,7 +78,7 @@ export const PrizeWinner = (
             fontSansRegular
             className='font-bold text-flashy'
             pool={pool}
-            usersBalance={usersTicketBalance}
+            usersBalance={ctBalance?.balance}
           />
         </span>
       </td>

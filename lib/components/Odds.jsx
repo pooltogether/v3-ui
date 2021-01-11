@@ -3,6 +3,7 @@ import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
+import { calculateOdds } from 'lib/utils/calculateOdds'
 
 export function Odds(props) {
   const { t } = useTranslation()
@@ -22,7 +23,7 @@ export function Odds(props) {
     usersBalance,
   } = props
 
-  let { additionalQuantity } = props
+  let { additionalAmount } = props
 
   const font = fontSansRegular ? 'font-sans' : ''
 
@@ -36,33 +37,33 @@ export function Odds(props) {
     parseInt(pool?.numberOfWinners, 10) :
     1
     
-  let ticketSupplyFloat
-  if (ticketSupply && underlyingCollateralDecimals) {
-    ticketSupplyFloat = Number(ethers.utils.formatUnits(
-      ticketSupply,
-      Number(underlyingCollateralDecimals)
-    ))
-  }
+  const usersBalanceBN = usersBalance ?
+    ethers.utils.bigNumberify(usersBalance) :
+    ethers.utils.bigNumberify(0)
+  const ticketSupplyBN = ticketSupply ?
+    ethers.utils.bigNumberify(ticketSupply) :
+    ethers.utils.bigNumberify(0)
 
-  additionalQuantity = Number(additionalQuantity)
-  const hasAdditionalQuantity = !isNaN(additionalQuantity)
-    && additionalQuantity !== 0
 
-  let postPurchaseBalance = usersBalance
-  if (hasAdditionalQuantity) {
-    postPurchaseBalance = Number(usersBalance) + additionalQuantity
-    ticketSupplyFloat = ticketSupplyFloat + additionalQuantity
-  }
+  const additionalAmountBN = additionalAmount ?
+    ethers.utils.parseUnits(additionalAmount, underlyingCollateralDecimals) : 
+    ethers.utils.bigNumberify(0)
 
-  let result = null
-  if (postPurchaseBalance < 1) {
-    result = 0
-  } else {
-    result = (ticketSupplyFloat / postPurchaseBalance) / numberOfWinners
-  }
+
+  const ticketSupplyWithDepositAmountBN = ticketSupplyBN ?
+    ticketSupplyBN.add(additionalAmountBN) :
+    ethers.utils.bigNumberify(0)
+
+  const result = calculateOdds(
+    usersBalanceBN.add(additionalAmountBN),
+    ticketSupplyWithDepositAmountBN,
+    underlyingCollateralDecimals,
+    numberOfWinners
+  )
+
 
   let label = showLabel && <>
-    {hasAdditionalQuantity && additionalQuantity !== 0 ? <>
+    {additionalAmountBN.gt(0) ? <>
       <span className='font-bold text-flashy'>{t('newOddsOfWinning')}</span>
     </> : t('currentOddsOfWinning')}
   </>
@@ -72,7 +73,7 @@ export function Odds(props) {
       {label}
       <br />{t('notAvailableAbbreviation')}
     </>
-  } else if (!hide && Boolean(result) && (hasBalance || hasAdditionalQuantity)) {
+  } else if (!hide && Boolean(result) && (hasBalance || additionalAmountBN.gt(0))) {
     const totalOdds = <PoolCountUp
       fontSansRegular
       start={result}

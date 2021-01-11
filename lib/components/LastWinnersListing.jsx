@@ -101,7 +101,7 @@ export const LastWinnersListing = (
                 querySymbol={querySymbol}
                 prize={prize}
               >
-                {(timeTravelPool) => {
+                {({ timeTravelPool }) => {
                   return timeTravelPool?.totalPrizeAmountUSD && `$${numberWithCommas(timeTravelPool.totalPrizeAmountUSD)}`
                 }}
               </TimeTravelPool>

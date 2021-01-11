@@ -159,7 +159,7 @@ export const AccountTicket = (
                   fontSansRegular
                   className='font-bold text-flashy'
                   pool={pool}
-                  usersBalance={usersBalance}
+                  usersBalance={balance}
                 />
               </>}
             </div>

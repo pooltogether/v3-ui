@@ -30,12 +30,6 @@ const formatPlayerObject = (t, pool, player, winners) => {
 
   const playerAddress = player?.account?.id
 
-  const balance = player?.balance && decimals ?
-    ethers.utils.formatUnits(
-      player.balance,
-      Number(decimals)
-    ) : ethers.utils.bigNumberify(0)
-
   const isWinner = winners?.includes(playerAddress)
 
   const address = <>
@@ -54,7 +48,7 @@ const formatPlayerObject = (t, pool, player, winners) => {
     odds: <Odds
       timeTravelTicketSupply={pool.ticketSupply}
       pool={pool}
-      usersBalance={balance}
+      usersBalance={player.balance}
     />,
     view: playerLink(t, player)
   }
@@ -94,7 +88,7 @@ export const PlayersTable = (
     ]
   }, [] )
 
-  const winners = prize.awardedControlledTokens.map(awardedControlledToken => {
+  const winners = prize?.awardedControlledTokens.map(awardedControlledToken => {
     return awardedControlledToken.winner
   })
 

@@ -22,7 +22,6 @@ export default function PrizeShowPage(props) {
   const prizeId = `${pool?.id}-${prizeNumber}`
 
   const { data, error } = usePrizeQuery(pool, prizeId)
-  console.log(data)
   if (error) {
     console.error(error)
   }

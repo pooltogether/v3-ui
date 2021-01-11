@@ -63,7 +63,7 @@ const formatPrizeObject = (t, pool, prize, querySymbol) => {
         querySymbol={querySymbol}
         prize={prize}
       >
-        {(timeTravelPool) => {
+        {({ timeTravelPool }) => {
           return <>
             {timeTravelPool?.fetchingTotals ? <BeatLoader
               size={3}

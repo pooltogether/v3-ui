@@ -186,7 +186,7 @@ export const PoolShow = (props) => {
                 </h6>
 
                 <h1
-                  className='text-6xl xs:text-4xl sm:text-6xl lg:text-6xl -mt-3 xs:mt-0 sm:-mt-3'
+                  className='text-6xl xs:text-4xl sm:text-5xl lg:text-6xl -mt-3 xs:mt-0 sm:-mt-3'
                 >
 
                   {pool?.fetchingTotals ? <BeatLoader

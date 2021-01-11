@@ -62,7 +62,7 @@ const LootBoxWonTable = (props) => {
       </>}
     </span>
 
-    <div className='xs:w-2/4 sm:w-1/4 mt-4'>
+    <div className='xs:w-2/4 sm:w-1/3 lg:w-1/4 mt-4'>
       <PlunderLootBoxTxButton
         lootBoxAddress={pool.computedLootBoxAddress}
       />
@@ -172,7 +172,7 @@ export const LootBoxWon = (props) => {
       querySymbol={pool.symbol}
       prize={prize}
     >
-      {(timeTravelPool) => <LootBoxWonTable
+      {({ timeTravelPool }) => <LootBoxWonTable
         historical
         pool={timeTravelPool}
         prizeNumber={prizeNumber}

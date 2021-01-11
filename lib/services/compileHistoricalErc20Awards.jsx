@@ -6,8 +6,7 @@ import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPri
 
 // This is for past prizes / TimeTravelPool only
 export const compileHistoricalErc20Awards = (prize, uniswapPriceData) => {
-  const prizeNumber = extractPrizeNumberFromPrize(prize)
-  console.log(prize?.awardedExternalErc20Tokens)
+  // const prizeNumber = extractPrizeNumberFromPrize(prize)
   const erc20GraphData = prize?.awardedExternalErc20Tokens
 
   const data = []
