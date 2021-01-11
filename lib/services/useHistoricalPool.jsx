@@ -10,7 +10,7 @@ import { useLootBox } from 'lib/hooks/useLootBox'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { calculateExternalAwardsValue } from 'lib/services/calculateExternalAwardsValue'
 import { compileHistoricalErc20Awards } from 'lib/services/compileHistoricalErc20Awards'
-import { compileHistoricalErc721Awards } from 'lib/services/compileHistoricalErc721Awards'
+import { compileErc721Awards } from 'lib/services/compileErc721Awards'
 import { marshallPoolData } from 'lib/services/marshallPoolData'
 import { sumAwardedControlledTokens } from 'lib/utils/sumAwardedControlledTokens'
 // import { getControlledToken, getSponsorshipTokenAddress, getTicketTokenAddress } from 'lib/services/getPoolDataFromQueryResult'
@@ -35,6 +35,13 @@ export const useHistoricalPool = (
   }
   
   const marshalledData = marshallPoolData(poolObj, blockNumber)
+
+  const pool = {
+    ...poolObj,
+    ...marshalledData
+  }
+
+
 
   const numOfWinners = parseInt(marshalledData.numberOfWinners || 1, 10)
   
@@ -72,36 +79,26 @@ export const useHistoricalPool = (
     graphErc721Awards: externalErc721Awards,
     poolAddress,
   })
-  console.log(externalErc721ChainData)
 
   if (externalErc721ChainError) {
     console.warn(externalErc721ChainError)
   }
 
-  const compiledExternalErc721Awards = compileHistoricalErc721Awards(externalErc721Awards, externalErc721ChainData)
+  const compiledExternalErc721Awards = compileErc721Awards(externalErc721Awards, externalErc721ChainData)
 
 
-
-
-
-  const pool = {
-    ...poolInfo,
-    ...poolObj,
-    ...marshalledData
-  }
 
   const externalErcAwards = {
     compiledExternalErc20Awards,
     compiledExternalErc721Awards,
   }
-  // console.log(externalErcAwards)
   let {
     awards,
     lootBoxAwards,
     computedLootBoxAddress,
     lootBoxIsFetching,
     lootBoxIsFetched
-  } = useLootBox(pool, externalErcAwards, blockNumber)
+  } = useLootBox(externalErcAwards, blockNumber)
 
   const externalAwardsUSD = calculateExternalAwardsValue(compiledExternalErc20Awards)
   

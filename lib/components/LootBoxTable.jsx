@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
@@ -8,8 +8,6 @@ import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { LootBoxValue } from 'lib/components/LootBoxValue'
-import { useLootBox } from 'lib/hooks/useLootBox'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import GiftIcon from 'assets/images/icon-gift@2x.png'
@@ -137,12 +135,13 @@ export const LootBoxTable = (props) => {
                       className='text-left text-accent-1 truncate'
                     >
                       <PoolNumber>
-                        {displayAmountInEther(
+                        {numberWithCommas(award.balanceFormatted, { precision: 2 })}
+                        {/* {displayAmountInEther(
                           award.balance, {
                             precision: 6,
                             decimals: award.decimals
                           }
-                        )}
+                        )} */}
                       </PoolNumber> {award.symbol}
                     </td>
                     <td

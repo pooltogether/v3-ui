@@ -3,6 +3,7 @@ import { ethers } from 'ethers'
 
 import { DEFAULT_TOKEN_PRECISION, TOKEN_VALUES, TOKEN_NAMES } from 'lib/constants'
 
+// This is for current prize / non-TimeTravelPool only
 export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) => {
   const erc20GraphData = poolData?.externalErc20Awards
 
@@ -22,10 +23,10 @@ export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) =
 
     const name = TOKEN_NAMES?.[obj.address] || obj?.name
 
-    let priceUSD = TOKEN_VALUES?.[obj.address]
-    if (!priceUSD) {
-      priceUSD = priceData?.usd
-    }
+    let priceUSD = TOKEN_VALUES?.[obj.address] || priceData?.usd
+
+    const balanceBN = chainData?.balance
+    const balance = balanceBN.toString()
    
     let balanceFormatted = ''
     if (chainData?.balance) {
@@ -37,6 +38,9 @@ export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) =
       ...obj,
       ...chainData,
       ...priceData,
+      balance,
+      balanceBN,
+      balanceFormatted,
       name,
       value
     })

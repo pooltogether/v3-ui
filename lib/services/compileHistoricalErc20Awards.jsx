@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 import { HISTORICAL_TOKEN_VALUES } from 'lib/constants'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 
+// This is for past prizes / TimeTravelPool only
 export const compileHistoricalErc20Awards = (prize, uniswapPriceData) => {
   const prizeNumber = extractPrizeNumberFromPrize(prize)
   const erc20GraphData = prize?.awardedExternalErc20Tokens
@@ -25,15 +26,21 @@ export const compileHistoricalErc20Awards = (prize, uniswapPriceData) => {
       priceUSD = priceData?.usd
     }
 
-    const balanceAwardedBN = ethers.utils.bigNumberify(obj.balanceAwarded)
-    const balanceFormatted = ethers.utils.formatUnits(obj.balanceAwarded, parseInt(obj.decimals, 10))
+    const balance = obj.balanceAwarded
+    const balanceBN = ethers.utils.bigNumberify(obj.balanceAwarded)
+    const balanceFormatted = ethers.utils.formatUnits(
+      obj.balanceAwarded,
+      parseInt(obj.decimals, 10)
+    )
 
     const value = priceUSD && parseFloat(balanceFormatted) * priceUSD
 
     data.push({
       ...obj,
       ...priceData,
-      balanceAwardedBN,
+      balance,
+      balanceBN,
+      balanceFormatted,
       value
     })
   })

@@ -72,8 +72,8 @@ export function usePool(poolSymbol, blockNumber = -1) {
   )
 
   const compiledExternalErc721Awards = compileErc721Awards(
-    erc721ChainData,
-    poolsGraphData?.[poolSymbol]
+    poolsGraphData?.[poolSymbol]?.externalErc721Awards,
+    erc721ChainData
   )
 
 
@@ -88,10 +88,11 @@ export function usePool(poolSymbol, blockNumber = -1) {
     computedLootBoxAddress,
     lootBoxIsFetching,
     lootBoxIsFetched
-  } = useLootBox(pool, externalErcAwards, blockNumber)
+  } = useLootBox(externalErcAwards, blockNumber)
 
+
+  
   const numWinners = parseInt(pool.numberOfWinners || 1, 10)
-
 
   const underlyingCollateralValueUSD = uniswapPriceData?.[pool.underlyingCollateralToken]?.usd
 
