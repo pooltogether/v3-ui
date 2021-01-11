@@ -9,22 +9,6 @@ export NEXT_JS_PORTIS_API_KEY=<YOUR_PORTIS_API_KEY>
 
 export NEXT_JS_UNISWAP_SUBGRAPH_URI_MAINNET=https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2
 
-export NEXT_JS_SUBGRAPH_3_0_1_URI_MAINNET=https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-v3_0_1
-export NEXT_JS_SUBGRAPH_3_0_1_URI_ROPSTEN=https://api.thegraph.com/subgraphs/name/pooltogether/ropsten-v3_0_1
-export NEXT_JS_SUBGRAPH_3_0_1_URI_RINKEBY=https://api.thegraph.com/subgraphs/name/pooltogether/rinkeby-v3_0_1
-
-export NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_MAINNET=https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-staging-v3_0_1
-export NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_ROPSTEN=https://api.thegraph.com/subgraphs/name/pooltogether/ropsten-staging-v3_0_1
-export NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_RINKEBY=https://api.thegraph.com/subgraphs/name/pooltogether/rinkeby-staging-v3_0_1
-
-export NEXT_JS_SUBGRAPH_3_1_0_URI_MAINNET=https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-v3_1_0
-export NEXT_JS_SUBGRAPH_3_1_0_URI_ROPSTEN=https://api.thegraph.com/subgraphs/name/pooltogether/ropsten-v3_1_0
-export NEXT_JS_SUBGRAPH_3_1_0_URI_RINKEBY=https://api.thegraph.com/subgraphs/name/pooltogether/rinkeby-v3_1_0
-
-export NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_MAINNET=https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-staging-v3_1_0
-export NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_ROPSTEN=https://api.thegraph.com/subgraphs/name/pooltogether/ropsten-staging-v3_1_0
-export NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_RINKEBY=https://api.thegraph.com/subgraphs/name/pooltogether/rinkeby-staging-v3_1_0
-
 export NEXT_JS_SUBGRAPH_LOOTBOX_URI_MAINNET=
 export NEXT_JS_SUBGRAPH_LOOTBOX_URI_ROPSTEN=
 export NEXT_JS_SUBGRAPH_LOOTBOX_URI_RINKEBY=https://thegraph.com/explorer/subgraph/pooltogether/ptv3-lootbox-rinkeby-staging?version=current

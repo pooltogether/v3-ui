@@ -30,24 +30,6 @@ export const LastWinnersListing = (
 
   let prizes = compact([].concat(data?.prizePool?.prizes))
 
-  // let tokenAddressesToQuery = []
-  // prizes?.forEach(prize => {
-  //   prize.awardedExternalErc20Tokens.forEach(token => {
-  //     tokenAddressesToQuery.push(token)
-  //   })
-  // })
-  // console.log(tokenAddressesToQuery)
-  // const { data, error } = useUniswapTokensQuery(
-  //   addresses,
-  //   blockNumber
-  // )
-  // if (error) {
-  //   console.error(error)
-  // }
-  // const uniswapPriceData = data
-  // const compiledExternalErc20Awards = compileHistoricalErc20Awards(prize, uniswapPriceData)
-  // const externalAwardsUSD = calculateExternalAwardsValue(compiledExternalErc20Awards)
-
   prizes = prizes?.reduce(function (result, prize) {
     if (prize?.awardedControlledTokens?.length > 0) {
       const date = formatDate(prize?.awardedTimestamp, { short: true, year: false, noAbbrev: true })
@@ -123,29 +105,6 @@ export const LastWinnersListing = (
                   return timeTravelPool?.totalPrizeAmountUSD && `$${numberWithCommas(timeTravelPool.totalPrizeAmountUSD)}`
                 }}
               </TimeTravelPool>
-
-{/* // TODO: We should calculate all of the ERC20s someone won, their value on the day it was awarded
-  // as well as the interest prizes! */}
-              {/* ${displayAmountInEther(
-                prize?.totalControlledTokensWon,
-                { precision: 2 }
-              )} */}
-              {/* <TimeTravelPool
-                blockNumber={parseInt(prize?.awardedBlock, 10)}
-                poolAddress={pool?.poolAddress}
-                querySymbol={pool?.symbol}
-                prize={prize}
-              >
-                {(timeTravelPool) => {
-                  return <>
-                    ${displayAmountInEther(
-                      timeTravelPool?.totalPrizeAmountUSD.toString(),
-                      { decimals, precision: 2 }
-                    )}
-                  </>
-                }}
-              </TimeTravelPool> */}
-              
             </span>
           </a>
         </Link>

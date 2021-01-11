@@ -167,7 +167,7 @@ export const LootBoxWon = (props) => {
 
   return (
     <TimeTravelPool
-      blockNumber={blockNumber + 10}
+      blockNumber={blockNumber}
       poolAddress={poolAddress}
       querySymbol={pool.symbol}
       prize={prize}

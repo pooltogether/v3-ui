@@ -94,11 +94,9 @@ export const PlayersTable = (
     ]
   }, [] )
 
-  const winners = prize?.winners
-  // const winners = [
-  //   '0x8f7f92e0660dd92eca1fad5f285c4dca556e433e',
-  //   '0xa5c3a513645a9a00cb561fed40438e9dfe0d6a69',
-  //   '0x7c738364fea236198dc71c88302d633eb6ad31c1']
+  const winners = prize.awardedControlledTokens.map(awardedControlledToken => {
+    return awardedControlledToken.winner
+  })
 
   let data = React.useMemo(() => {
     return players.map(player => {

@@ -16,6 +16,7 @@ export default function PrizeShowPage(props) {
   const querySymbol = router.query?.symbol
   const prizeNumber = router.query?.prizeNumber
 
+  // need the pool to get the historical prize ... chicken & egg
   let { pool } = usePool(querySymbol)
 
   const prizeId = `${pool?.id}-${prizeNumber}`
@@ -29,14 +30,6 @@ export default function PrizeShowPage(props) {
   }
   
   let prize = data?.prize
-
-  // const blockNumber = prize?.awardedBlock
-  // total chicken n egg problem here, need to re-think this
-  // we need the pool to get the prize, then we get the blockNumber
-  // from the prize and query the pool again with that number
-  // pool = usePool(querySymbol, blockNumber)
-  //   .pool
-    
 
   if (!pool) {
     return <BlankStateMessage>
@@ -68,7 +61,7 @@ export default function PrizeShowPage(props) {
       </>}
     </div>
   }
-  
+
   return <TimeTravelPool
     blockNumber={parseInt(prize?.awardedBlock, 10)}
     poolAddress={pool.id}

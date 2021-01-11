@@ -9,11 +9,14 @@ import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
 export function TimeTravelPool(props){
   const {
     children,
-    blockNumber,
     poolAddress,
     prize,
     querySymbol
   } = props
+
+  const blockNumber = props.blockNumber
+  // rewind to the block _before_ the prize was awarded
+  // const blockNumber = props.blockNumber - 1
 
   const queryCache = useQueryCache()
   

@@ -29,6 +29,8 @@ export function PrizeShow(props) {
 
   const decimals = pool?.underlyingCollateralDecimals || 18
 
+  const blockNumber = pool.blockNumber
+
   return <>
     <Meta title={pool?.name && prizeNumber && `${t('prize')} #${prizeNumber} - ${pool?.name}`} />
 
@@ -126,7 +128,7 @@ export function PrizeShow(props) {
 
     <PrizePlayersQuery
       pool={pool}
-      blockNumber={prize?.awardedBlock ? prize?.awardedBlock - 1 : undefined}
+      blockNumber={blockNumber}
     >
       {({ data, isFetching, isFetched }) => {
         if (!prize && prize !== null) {
