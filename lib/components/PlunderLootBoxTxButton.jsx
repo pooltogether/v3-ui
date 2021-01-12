@@ -1,13 +1,15 @@
 import React, { useContext, useState } from 'react'
 import { useAtom } from 'jotai'
+import { ethers } from 'ethers'
 
-import LootBoxAbi from '@pooltogether/loot-box/abis/LootBox'
+import LootBoxControllerAbi from '@pooltogether/loot-box/abis/LootBoxController'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { usePools } from 'lib/hooks/usePools'
 
 export function PlunderLootBoxTxButton(props) {
   const { t } = useTranslation()
@@ -24,10 +26,15 @@ export function PlunderLootBoxTxButton(props) {
 
   const {
     lootBoxAwards,
-    computedLootBoxAddress
   } = pool.lootBox
 
   const [txId, setTxId] = useState()
+
+  const { contractAddresses } = usePools()
+
+  const lootBoxControllerAddress = contractAddresses?.lootBoxController
+
+
 
   const txName = t(`claimLootBoxNumber`, {
     number: prizeNumber
@@ -43,24 +50,25 @@ export function PlunderLootBoxTxButton(props) {
   const handlePlunderClick = async (e) => {
     e.preventDefault()
 
-
-    // both of these need to be tuples with their tokenId:
-    // lootBoxAwards.erc721Addresses
-    // lootBoxAwards.erc71155Addresses
-
     const params = [
-      lootBoxAwards.erc20Addresses.map(award => award.address),
-      lootBoxAwards.erc721Addresses.map(award => award.address),
-      lootBoxAwards.erc1155Addresses.map(award => award.address),
-      usersAddress
+      pool.lootBox.computedLootBoxAddress,
+      pool.lootBox.tokenId,
+      lootBoxAwards.erc20s.map(award => award.erc20Entity.id),
+      lootBoxAwards.erc721s.map(award => ({ token: award.erc721Entity.id, tokenIds: [award.tokenId] })),
+      lootBoxAwards.erc1155s.map(award => ({
+        token: award.erc1155Entity.id,
+        ids: [award.tokenId],
+        amounts: [ethers.utils.bigNumberify(award.balance)],
+        data: []
+      }))
     ]
 
     const id = await sendTx(
       t,
       provider,
       usersAddress,
-      LootBoxAbi,
-      computedLootBoxAddress,
+      LootBoxControllerAbi,
+      lootBoxControllerAddress,
       method,
       params
     )

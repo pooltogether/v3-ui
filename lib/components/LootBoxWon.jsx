@@ -30,9 +30,14 @@ const LootBoxWonTable = (props) => {
     computedLootBoxAddress,
   } = pool.lootBox
 
-  const lootBoxErc20s = lootBoxAwards.erc20Addresses
-  const lootBoxErc721s = lootBoxAwards.erc721Addresses
-  const lootBoxErc1155s = lootBoxAwards.erc1155Addresses
+  const lootBoxErc20s = lootBoxAwards.erc20s
+    .map(award => ({ address: award.erc20Entity.id }))
+
+  const lootBoxErc721s = lootBoxAwards.erc721s
+    .map(award => ({ address: award.address }))
+
+  const lootBoxErc1155s = lootBoxAwards.erc1155s
+    .map(award => ({ address: award.address }))
 
   const { readProvider } = useReadProvider()
 
@@ -106,11 +111,12 @@ const LootBoxWonTable = (props) => {
       </>}
     </span>
 
-    <div className='xs:w-2/4 sm:w-1/3 lg:w-1/4 mt-4'>
+    <div className='xs:w-2/4 sm:w-1/3 lg:w-1/4 mt-3 mb-2'>
       
         <PlunderLootBoxTxButton
           pool={pool}
           disabled={alreadyClaimed}
+          prizeNumber={prizeNumber}
         />
       {/* {isFetching && !isFetched ?
         <BeatLoader
@@ -120,15 +126,14 @@ const LootBoxWonTable = (props) => {
         <PlunderLootBoxTxButton
           pool={pool}
           disabled={alreadyClaimed}
+          prizeNumber={prizeNumber}
         />
       } */}
     </div>
     
-
-    
     {awards.length > 0 && <>
       <div
-        className='text-inverse rounded-lg p-0 xs:py-3 mt-4'
+        className='text-inverse rounded-lg p-0 xs:pb-3 mb-4'
       >
         <table
           className='table-fixed text-xxxs xs:text-xxs sm:text-sm align-top'
@@ -139,6 +144,7 @@ const LootBoxWonTable = (props) => {
             >
               <th
                 className='w-6/12'
+                style={{ paddingBottom: 0 }}
               >
                 <h6
                   className='text-green text-left'
@@ -198,6 +204,7 @@ const LootBoxWonTable = (props) => {
           </tbody>
         </table>
 
+        <hr />
       </div> 
     </>}
 
