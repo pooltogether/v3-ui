@@ -83,13 +83,12 @@ export function usePool(poolSymbol, blockNumber = -1) {
     compiledExternalErc721Awards,
   }
   const lootBox = useLootBox(externalErcAwards, blockNumber)
-  const awards = lootBox.awards
 
   const numWinners = parseInt(pool.numberOfWinners || 1, 10)
 
   const underlyingCollateralValueUSD = uniswapPriceData?.[pool.underlyingCollateralToken]?.usd
 
-  const externalAwardsUSD = calculateEstimatedExternalAwardsValue(awards)
+  const externalAwardsUSD = calculateEstimatedExternalAwardsValue(lootBox.awards)
   
   let interestPrizeUSD = calculateEstimatedPoolPrize(pool)
 

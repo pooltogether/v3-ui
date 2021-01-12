@@ -142,6 +142,7 @@ export const TOKEN_VALUES = {
 }
 
 export const TOKEN_NAMES = {
+  '0x495f947276749ce646f68ac8c248420045cb7b5e': 'OpenSea NFT Token',
   '0x334cbb5858417aee161b53ee0d5349ccf54514cf': 'PoolTogether DAI Tickets',
 }
 

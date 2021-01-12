@@ -158,7 +158,7 @@ const LootBoxWonTable = (props) => {
           </thead>
           <tbody>
             {awards.map((award, index) => {
-              const name = award.name || award?.erc721Entity?.name
+              const name = award.name
 
               if (!name) {
                 return
@@ -184,12 +184,7 @@ const LootBoxWonTable = (props) => {
                     className='text-left text-accent-1 truncate'
                   >
                     <PoolNumber>
-                      {displayAmountInEther(
-                        award.balance, {
-                          precision: 4,
-                          decimals: award.decimals
-                        }
-                      )}
+                      {numberWithCommas(award.balanceFormatted, { precision: 2 })}
                     </PoolNumber> {award.symbol}
                   </td>
                   <td

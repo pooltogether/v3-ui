@@ -182,7 +182,6 @@ export function AuthControllerContextProvider(props) {
       pauseQueries,
       provider,
       // usersAddress: '0x0772c1efc61ff9cc902730d92b90403792edfc31',
-      // usersAddress: '0x02438f1de85e3fa28405153b11911c2907a1047e',
       usersAddress: '0x02438f1de85e3fa28405153b11911c2907a1047e',
       walletName,
       signOut,
