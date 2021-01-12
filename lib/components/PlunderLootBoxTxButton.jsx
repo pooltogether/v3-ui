@@ -15,6 +15,7 @@ export function PlunderLootBoxTxButton(props) {
   const [transactions, setTransactions] = useAtom(transactionsAtom)
 
   const {
+    disabled,
     prizeNumber,
     lootBoxAddress
   } = props
@@ -64,7 +65,7 @@ export function PlunderLootBoxTxButton(props) {
   }
 
 
-  return <>
+  return (
     <Button
       border='green'
       text='primary'
@@ -73,10 +74,10 @@ export function PlunderLootBoxTxButton(props) {
       hoverText='primary'
       hoverBg='green'
       onClick={handlePlunderClick}
-      disabled={plunderTxInFlight}
+      disabled={disabled || plunderTxInFlight}
       className={'w-full'}
     >
       {t('claim')}
     </Button>
-  </>
+  )
 }

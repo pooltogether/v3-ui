@@ -21,14 +21,15 @@ export const LootBoxTable = (props) => {
   const [moreVisible, setMoreVisible] = useState(false)
 
   const {
+    awards: lootBoxAwards,
     lootBoxIsFetching,
-    lootBoxIsFetched
-  } = pool
+    lootBoxIsFetched,
+  } = pool.lootBox
 
-  const originalAwardsCount = pool?.awards?.length
+  const originalAwardsCount = lootBoxAwards?.length
   let awards = []
   if (originalAwardsCount > 0) {
-    awards = moreVisible ? pool?.awards : pool?.awards?.slice(0, 10)
+    awards = moreVisible ? lootBoxAwards : lootBoxAwards?.slice(0, 10)
   }
 
   const handleShowMore = (e) => {
@@ -136,12 +137,6 @@ export const LootBoxTable = (props) => {
                     >
                       <PoolNumber>
                         {numberWithCommas(award.balanceFormatted, { precision: 2 })}
-                        {/* {displayAmountInEther(
-                          award.balance, {
-                            precision: 6,
-                            decimals: award.decimals
-                          }
-                        )} */}
                       </PoolNumber> {award.symbol}
                     </td>
                     <td

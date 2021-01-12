@@ -39,6 +39,7 @@ export const AccountLootBoxes = () => {
 
         <div className='flex-col order-2 xs:order-1 xs:w-3/4'>
           {lootBoxesWon.map(lootBoxWon => <LootBoxWon
+            key={lootBoxWon.id}
             awardedExternalErc721LootBox={lootBoxWon}
           />)}
         </div>
