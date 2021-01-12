@@ -33,6 +33,7 @@ export function PlunderLootBoxTxButton(props) {
   const { contractAddresses } = usePools()
 
   const lootBoxControllerAddress = contractAddresses?.lootBoxController
+  const lootBoxAddress = contractAddresses?.lootBox
 
 
 
@@ -51,7 +52,7 @@ export function PlunderLootBoxTxButton(props) {
     e.preventDefault()
 
     const params = [
-      pool.lootBox.computedLootBoxAddress,
+      lootBoxAddress,
       pool.lootBox.tokenId,
       lootBoxAwards.erc20s.map(award => award.erc20Entity.id),
       lootBoxAwards.erc721s.map(award => ({ token: award.erc721Entity.id, tokenIds: [award.tokenId] })),
@@ -62,6 +63,10 @@ export function PlunderLootBoxTxButton(props) {
         data: []
       }))
     ]
+
+    console.log(params)
+    console.log(LootBoxControllerAbi)
+    console.log(lootBoxControllerAddress)
 
     const id = await sendTx(
       t,
