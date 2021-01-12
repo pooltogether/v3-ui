@@ -14,15 +14,18 @@ export function PlunderLootBoxTxButton(props) {
   
   const [transactions, setTransactions] = useAtom(transactionsAtom)
 
+  const { usersAddress, provider } = useContext(AuthControllerContext)
+
   const {
     disabled,
     prizeNumber,
-    lootBoxAddress
+    pool,
   } = props
 
-  const { usersAddress, provider } = useContext(AuthControllerContext)
-
-  const poolAddress = lootBoxAddress
+  const {
+    lootBoxAwards,
+    computedLootBoxAddress
+  } = pool.lootBox
 
   const [txId, setTxId] = useState()
 
@@ -40,15 +43,15 @@ export function PlunderLootBoxTxButton(props) {
   const handlePlunderClick = async (e) => {
     e.preventDefault()
 
-    // IERC20Upgradeable[] memory erc20,
-    //   WithdrawERC721[] memory erc721,
-    //     WithdrawERC1155[] memory erc1155,
-    //       address payable to
+
+    // both of these need to be tuples with their tokenId:
+    // lootBoxAwards.erc721Addresses
+    // lootBoxAwards.erc71155Addresses
 
     const params = [
-      erc20Awards.map(award),
-      erc20Awards.map(award),
-      erc20Awards.map(award),
+      lootBoxAwards.erc20Addresses.map(award => award.address),
+      lootBoxAwards.erc721Addresses.map(award => award.address),
+      lootBoxAwards.erc1155Addresses.map(award => award.address),
       usersAddress
     ]
 
@@ -57,7 +60,7 @@ export function PlunderLootBoxTxButton(props) {
       provider,
       usersAddress,
       LootBoxAbi,
-      poolAddress,
+      computedLootBoxAddress,
       method,
       params
     )

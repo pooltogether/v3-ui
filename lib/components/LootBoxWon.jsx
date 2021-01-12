@@ -31,8 +31,8 @@ const LootBoxWonTable = (props) => {
   } = pool.lootBox
 
   const lootBoxErc20s = lootBoxAwards.erc20Addresses
-  const lootBoxErc721s = lootBoxAwards.erc721s
-  const lootBoxErc1155s = lootBoxAwards.erc1155s
+  const lootBoxErc721s = lootBoxAwards.erc721Addresses
+  const lootBoxErc1155s = lootBoxAwards.erc1155Addresses
 
   const { readProvider } = useReadProvider()
 
@@ -78,7 +78,7 @@ const LootBoxWonTable = (props) => {
   
   // this is what the proxy hook will return:
   // const awardBalances = []
-  erc20Balances.map(award => {
+  erc20Balances?.forEach(award => {
     lootBoxBalanceTotal = lootBoxBalanceTotal.add(award.balance)
   })
   const alreadyClaimed = lootBoxBalanceTotal?.eq(0)
@@ -109,8 +109,8 @@ const LootBoxWonTable = (props) => {
     <div className='xs:w-2/4 sm:w-1/3 lg:w-1/4 mt-4'>
       
         <PlunderLootBoxTxButton
+          pool={pool}
           disabled={alreadyClaimed}
-          lootBoxAddress={pool.computedLootBoxAddress}
         />
       {/* {isFetching && !isFetched ?
         <BeatLoader
@@ -118,8 +118,8 @@ const LootBoxWonTable = (props) => {
           color='rgba(255,255,255,0.3)'
         /> :
         <PlunderLootBoxTxButton
+          pool={pool}
           disabled={alreadyClaimed}
-          lootBoxAddress={pool.computedLootBoxAddress}
         />
       } */}
     </div>

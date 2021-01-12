@@ -70,9 +70,9 @@ export function Layout(props) {
   return <>
     <Meta />
 
-    {/* <AnimatePresence>
+    <AnimatePresence>
       {signIn && <SignInFormContainer />}
-    </AnimatePresence> */}
+    </AnimatePresence>
 
     <AnimatePresence>
       {deposit && <DepositWizardContainer
