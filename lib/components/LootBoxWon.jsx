@@ -19,6 +19,9 @@ import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 
+// TODO: I think we should only show LootBox awards here and not external (top-level) ones
+// Instead we should say "Any other tokens that were in the lootbox have automatically
+// been sent to you"
 const LootBoxWonTable = (props) => {
   const { t } = useTranslation()
   
@@ -37,9 +40,7 @@ const LootBoxWonTable = (props) => {
     .map(award => ({ address: award.erc721Entity.id, tokenIds: [award.tokenId] }))
 
   const lootBoxErc1155s = lootBoxAwards.erc1155s
-    .map(award => ({ address: award.address, tokenIds: [award.tokenId] }))
-  console.log(lootBoxErc1155s)
-
+    .map(award => ({ address: award.erc1155Entity.id, tokenIds: [award.tokenId] }))
   const { readProvider } = useReadProvider()
 
   const {
@@ -86,14 +87,14 @@ const LootBoxWonTable = (props) => {
   }
   
 
-  const isFetching = erc20IsFetching || erc721IsFetching
-  const isFetched = erc20IsFetched || erc721IsFetched
+  const isFetching = erc20IsFetching || erc721IsFetching || erc1155IsFetching
+  const isFetched = erc20IsFetched || erc721IsFetched || erc1155IsFetched
   
+
+
   let lootBoxBalanceTotal = ethers.utils.bigNumberify(0)
   let lootBoxErc1155BalanceTotal = ethers.utils.bigNumberify(0)
   
-  // this is what the proxy hook could return:
-  // const awardBalances = []
   erc20Balances?.forEach(award => {
     lootBoxBalanceTotal = lootBoxBalanceTotal.add(award.balance)
   })
@@ -108,7 +109,9 @@ const LootBoxWonTable = (props) => {
     })
   }
 
+  console.log(erc1155Balances)
   erc1155Balances?.forEach(award => {
+    console.log(award)
     lootBoxErc1155BalanceTotal = lootBoxErc1155BalanceTotal.add(award.balance)
   })
   if (lootBoxErc1155BalanceTotal.gt(0)) {
