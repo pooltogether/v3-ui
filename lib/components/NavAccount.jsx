@@ -8,13 +8,22 @@ import { AccountButton } from 'lib/components/AccountButton'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TransactionsList } from 'lib/components/TransactionsList'
 import { WalletInfo } from 'lib/components/WalletInfo'
+import { ClaimRetroactivePoolWizardContainer, showClaimWizardAtom } from 'lib/components/ClaimRetroactivePoolWIzard'
+import { useAtom } from 'jotai'
 
 export function NavAccount(props) {
   const { openTransactions, closeTransactions, showTransactionsDialog } = props
 
   const { usersAddress } = useContext(AuthControllerContext)
 
+  const [showClaimWizard, setShowClaimWizard] = useAtom(showClaimWizardAtom)
+
   return <>
+
+    <button type='button' onClick={() => setShowClaimWizard(true)} >
+      Open 
+    </button>
+
     {usersAddress && <>
       <AccountButton
         openTransactions={openTransactions}

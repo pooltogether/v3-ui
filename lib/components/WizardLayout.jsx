@@ -14,6 +14,7 @@ export function WizardLayout(props) {
     handlePreviousStep,
     moveToStep,
     totalWizardSteps,
+    closeWizard,
     children
   } = props
 
@@ -21,7 +22,11 @@ export function WizardLayout(props) {
   const action = router.asPath.match('withdraw') ? 'withdraw' : 'deposit'
 
   const handleClose = () => {
-    handleCloseWizard(router)
+    if (closeWizard) {
+      closeWizard()
+    } else {
+      handleCloseWizard(router)
+    }
   }
 
   // could easily refactor into a custom hook
