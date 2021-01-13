@@ -64,10 +64,6 @@ export function PlunderLootBoxTxButton(props) {
       }))
     ]
 
-    console.log(params)
-    console.log(LootBoxControllerAbi)
-    console.log(lootBoxControllerAddress)
-
     const id = await sendTx(
       t,
       provider,

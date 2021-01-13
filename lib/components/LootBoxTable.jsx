@@ -66,7 +66,7 @@ export const LootBoxTable = (props) => {
             {/* {historical ? t('noOtherPrizesAwarded') : t('currentlyNoOtherPrizes')} */}
           </> : <>
             <LootBoxValue
-              awards={awards}
+              awards={lootBoxAwards}
             />
           </>}
         </div>

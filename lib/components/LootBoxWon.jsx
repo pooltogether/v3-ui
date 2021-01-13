@@ -12,6 +12,7 @@ import { PlunderLootBoxTxButton } from 'lib/components/PlunderLootBoxTxButton'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
+import { useEthereumErc1155Query } from 'lib/hooks/useEthereumErc1155Query'
 import { usePools } from 'lib/hooks/usePools'
 import { useReadProvider } from 'lib/hooks/useReadProvider'
 import { formatDate } from 'lib/utils/formatDate'
@@ -33,12 +34,11 @@ const LootBoxWonTable = (props) => {
     .map(award => ({ address: award.erc20Entity.id }))
 
   const lootBoxErc721s = lootBoxAwards.erc721s
-    .map(award => ({ address: award.erc721Entity.id }))
-  console.log(lootBoxErc721s)
+    .map(award => ({ address: award.erc721Entity.id, tokenIds: [award.tokenId] }))
 
-  // const lootBoxErc1155s = lootBoxAwards.erc1155s
-  //   .map(award => ({ address: award.address }))
-  // console.log(lootBoxErc1155s)
+  const lootBoxErc1155s = lootBoxAwards.erc1155s
+    .map(award => ({ address: award.address, tokenIds: [award.tokenId] }))
+  console.log(lootBoxErc1155s)
 
   const { readProvider } = useReadProvider()
 
@@ -47,16 +47,14 @@ const LootBoxWonTable = (props) => {
     error: erc20Error,
     isFetching: erc20IsFetching,
     isFetched: erc20IsFetched
-  } = useEthereumErc20Query(
-    {
-      provider: readProvider,
-      graphErc20Awards: lootBoxErc20s,
-      balanceOfAddress: computedLootBoxAddress
-    }
-  )
+  } = useEthereumErc20Query({
+    provider: readProvider,
+    graphErc20Awards: lootBoxErc20s,
+    balanceOfAddress: computedLootBoxAddress
+  })
 
   const {
-    data: erc721Balances,
+    data: erc721Tokens,
     error: erc721Error,
     isFetching: erc721IsFetching,
     isFetched: erc721IsFetched
@@ -66,12 +64,16 @@ const LootBoxWonTable = (props) => {
     balanceOfAddress: computedLootBoxAddress
   })
 
-  // const { data: awardBalances, error, isFetching, isFetched } = useEthereumAwardBalances(
-  //   awards,
-  //   pool?.computedLootBoxAddress
-  // )
-  // console.log(erc721Balances)
-
+  const {
+    data: erc1155Balances,
+    error: erc1155Error,
+    isFetching: erc1155IsFetching,
+    isFetched: erc1155IsFetched
+  } = useEthereumErc1155Query({
+    provider: readProvider,
+    erc1155Awards: lootBoxErc1155s,
+    balanceOfAddress: computedLootBoxAddress
+  })
 
   if (erc20Error) {
     console.warn(erc20Error)
@@ -79,23 +81,39 @@ const LootBoxWonTable = (props) => {
   if (erc721Error) {
     console.warn(erc721Error)
   }
-  // if (error) {
-  //   console.warn(error)
-  // }
+  if (erc1155Error) {
+    console.warn(erc1155Error)
+  }
   
 
   const isFetching = erc20IsFetching || erc721IsFetching
   const isFetched = erc20IsFetched || erc721IsFetched
   
   let lootBoxBalanceTotal = ethers.utils.bigNumberify(0)
+  let lootBoxErc1155BalanceTotal = ethers.utils.bigNumberify(0)
   
-  // this is what the proxy hook will return:
+  // this is what the proxy hook could return:
   // const awardBalances = []
-  console.log(erc20Balances)
   erc20Balances?.forEach(award => {
     lootBoxBalanceTotal = lootBoxBalanceTotal.add(award.balance)
   })
-  const alreadyClaimed = lootBoxBalanceTotal?.eq(0)
+  let alreadyClaimed = lootBoxBalanceTotal?.eq(0)
+  
+  if (erc721Tokens) {
+    lootBoxErc721s.forEach(erc721 => {
+      const award = erc721Tokens[erc721.address]
+      if (award?.ownerOf === computedLootBoxAddress) {
+        alreadyClaimed = false
+      }
+    })
+  }
+
+  erc1155Balances?.forEach(award => {
+    lootBoxErc1155BalanceTotal = lootBoxErc1155BalanceTotal.add(award.balance)
+  })
+  if (lootBoxErc1155BalanceTotal.gt(0)) {
+    alreadyClaimed = false
+  }
 
   return <>
     <h6 className='flex items-center font-normal'>

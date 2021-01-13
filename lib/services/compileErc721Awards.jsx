@@ -13,6 +13,11 @@ export const compileErc721Awards = (externalErc721Awards, externalErc721ChainDat
   // Format each 721 into it's own nice, shallow award data object
   externalErc721Awards.forEach(obj => {
     const erc721ChainData = externalErc721ChainData[obj.address]
+
+    if (!erc721ChainData) {
+      return
+    }
+
     delete erc721ChainData.tokenIds
 
     obj.tokenIds.forEach(tokenId => {
