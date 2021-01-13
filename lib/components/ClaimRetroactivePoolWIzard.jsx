@@ -10,8 +10,6 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { useWizard, useWizardStep, Wizard } from 'react-wizard-primitive'
 
-import Ballot from 'assets/images/ballot.svg'
-
 export const showClaimWizardAtom = atom(false)
 
 export const ClaimRetroactivePoolWizardContainer = () => {
@@ -179,7 +177,7 @@ const ProposalButton = props => {
         style={{
           transform: 'scale(1.15)'
         }}
-        className='fill-current w-16 h-16 stroke-1 stroke-current mx-auto relative'
+        className='fill-current w-8 h-8 sm:w-16 sm:h-16 stroke-1 stroke-current mx-auto relative'
         width='20'
         height='25'
         viewBox='0 0 20 25'
@@ -202,7 +200,7 @@ const LearnMoreButton = props => {
         style={{
           transform: 'scale(1.15)'
         }}
-        className='fill-current w-16 h-16 stroke-1 stroke-current mx-auto relative'
+        className='fill-current w-8 h-8 sm:w-16 sm:h-16 stroke-1 stroke-current mx-auto relative'
         width='20'
         height='25'
         viewBox='0 0 20 25'

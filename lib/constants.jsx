@@ -6,6 +6,10 @@ export const SUPPORTED_CHAIN_IDS = [1, 4, 31337, 1234]
 
 export const SECONDS_PER_BLOCK = 14
 
+export const SECONDS_PER_WEEK = 604800
+export const SECONDS_PER_DAY = 86400
+export const SECONDS_PER_HOUR = 3600
+
 export const DEFAULT_TOKEN_PRECISION = 18
 
 export const COINGECKO_POLLING_INTERVAL = 120 * 1000
@@ -94,6 +98,9 @@ export const CONTRACT_ADDRESSES = {
   },
   4: {
     Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
+    // TODO: Add mainnet. Add remaining pools.
+    DaiComptroller: '0x810c901a736CF06499F07D498991E76EbD0C082F',
+    ComptrollerProxyFactory: '0xA9fbACfF0E0c574138d511eA333a0a2119AdB32D'
     // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
   },
 }
