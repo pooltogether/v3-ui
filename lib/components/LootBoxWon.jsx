@@ -109,9 +109,7 @@ const LootBoxWonTable = (props) => {
     })
   }
 
-  console.log(erc1155Balances)
   erc1155Balances?.forEach(award => {
-    console.log(award)
     lootBoxErc1155BalanceTotal = lootBoxErc1155BalanceTotal.add(award.balance)
   })
   if (lootBoxErc1155BalanceTotal.gt(0)) {
