@@ -19,7 +19,7 @@ export function PlunderLootBoxTxButton(props) {
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
   const {
-    disabled,
+    alreadyClaimed,
     prizeNumber,
     pool,
   } = props
@@ -90,10 +90,10 @@ export function PlunderLootBoxTxButton(props) {
       hoverText='primary'
       hoverBg='green'
       onClick={handlePlunderClick}
-      disabled={disabled || plunderTxInFlight}
+      disabled={alreadyClaimed || plunderTxInFlight}
       className={'w-full'}
     >
-      {t('claim')}
+      {alreadyClaimed ? t('claimed') : t('claim')}
     </Button>
   )
 }
