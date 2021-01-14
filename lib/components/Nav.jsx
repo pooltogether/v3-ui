@@ -65,6 +65,7 @@ export function Nav(props) {
         shallow
       >
         <a
+          id='_navAccountButton'
           className={classnames(
             navParentClasses,
             {

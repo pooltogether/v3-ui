@@ -40,3 +40,7 @@ out
 functions-out
 public/static/locales/*
 public/static/locales
+
+# cypress
+/cypress/screenshots/
+/cypress/videos/

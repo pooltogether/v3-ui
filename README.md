@@ -29,3 +29,19 @@ To run the local server, run:
 ```
 $ yarn dev
 ```
+
+## Tests
+
+Locally, in three seperate terminals run:
+
+```sh
+npx hardhat node --fork https://eth-mainnet.alchemyapi.io/v2/$ALCHEMY_API_KEY
+```
+
+```sh
+yarn dev
+```
+
+```sh
+npx cypress open
+```

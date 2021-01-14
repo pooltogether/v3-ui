@@ -19,7 +19,8 @@
     "start": "NODE_ENV=production PORT=80 node server.js",
     "test": "jest",
     "testcov": "jest --coverage --coverageDirectory=coverage && open ./coverage/index.html",
-    "watch": "yarn run test --watch"
+    "watch": "yarn run test --watch",
+    "cypress": "bash ./scripts/run-cypress.sh"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -42,11 +43,15 @@
     "babel-jest": "^26.3.0",
     "colors": "^1.4.0",
     "csvtojson": "^2.0.10",
+    "cypress": "^6.2.1",
     "express": "^4.17.1",
+    "hardhat": "^2.0.7",
     "jest": "^26.4.1",
     "netlify-lambda": "^1.6.3",
     "nock": "^13.0.5",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "truffle-privatekey-provider": "^1.5.0",
+    "wait-on": "^5.2.1"
   },
   "dependencies": {
     "3box": "^1.21.0",
