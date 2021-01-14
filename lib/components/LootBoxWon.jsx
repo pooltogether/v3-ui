@@ -26,12 +26,17 @@ const LootBoxWonTable = (props) => {
   const { t } = useTranslation()
   
   const { prizeNumber, pool, prize } = props
-  
+
+  if (!pool || !pool.lootBox) {
+    return null
+  }
+
   const {
     awards,
     lootBoxAwards,
     computedLootBoxAddress,
-  } = pool.lootBox
+  } = pool.lootBox || {}
+
 
   const lootBoxErc20s = lootBoxAwards.erc20s
     .map(award => ({ address: award.erc20Entity.id }))
@@ -244,12 +249,13 @@ export const LootBoxWon = (props) => {
 
   const blockNumber = parseInt(prize.awardedBlock, 10)
   const prizeNumber = extractPrizeNumberFromPrize(prize)
+  console.log(pool)
 
   return (
     <TimeTravelPool
       blockNumber={blockNumber}
       poolAddress={poolAddress}
-      querySymbol={pool.symbol}
+      querySymbol={pool?.symbol}
       prize={prize}
     >
       {({ preAwardTimeTravelPool }) => <LootBoxWonTable
