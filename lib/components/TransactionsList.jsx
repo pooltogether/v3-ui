@@ -23,13 +23,14 @@ export function TransactionsList(props) {
     .length
   
   const pastTransactionsCount = transactions
-    .filter(t => t.completed && !t.cancelled)
+    .filter(t => !t.cancelled)
+    // .filter(t => t.completed && !t.cancelled)
     .length
 
   const handleClearPrevious = (e) => {
     e.preventDefault()
 
-    if (usersAddress, chainId) {
+    if (usersAddress && chainId) {
       clearPreviousTransactions(
         transactions,
         setTransactions,
