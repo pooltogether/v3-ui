@@ -20,7 +20,7 @@ import { Settings } from 'lib/components/Settings'
 import { SignInFormContainer } from 'lib/components/SignInFormContainer'
 import { WrongNetworkModal } from 'lib/components/WrongNetworkModal'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
-import { ClaimRetroactivePoolWizardContainer } from 'lib/components/ClaimRetroactivePoolWIzard'
+import { ClaimRetroactivePoolWizardContainer } from 'lib/components/ClaimRetroactivePoolWizard'
 import { Banner } from 'lib/components/Banner'
 
 const onlyUnique = (value, index, self) => {

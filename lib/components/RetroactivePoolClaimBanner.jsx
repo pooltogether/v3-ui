@@ -1,13 +1,24 @@
 import { useAtom } from 'jotai'
 import { Banner } from 'lib/components/Banner'
 import { Button } from 'lib/components/Button'
-import { showClaimWizardAtom } from 'lib/components/ClaimRetroactivePoolWIzard'
+import { showClaimWizardAtom } from 'lib/components/ClaimRetroactivePoolWizard'
 import React, { useState } from 'react'
 
 import Bell from 'assets/images/bell.svg'
+import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 
 export const RetroactivePoolClaimBanner = (props) => {
   const [showClaimWizard, setShowClaimWizard] = useAtom(showClaimWizardAtom)
+
+  const {
+    data, 
+    loading,
+    error
+  } = useRetroactivePoolClaimData()
+
+  if (loading || data.isClaimed) {
+    return null
+  }
 
   // TODO: Fetch users claimable balance / if they've claimed, show accordingly.
 
@@ -20,6 +31,7 @@ export const RetroactivePoolClaimBanner = (props) => {
         <Button 
           type='button'
           onClick={() => setShowClaimWizard(true)}
+          className='w-full sm:w-auto'
 
           border='transparent'
           text='green'

@@ -195,7 +195,10 @@ export const QUERY_KEYS = {
   accountQuery: 'accountQuery',
   prizePoolAccountQuery: 'prizePoolAccountQuery',
   controlledTokenBalancesQuery: 'controlledTokenBalancesQuery',
-  claimablePoolQuery: 'claimablePoolQuery'
+  claimablePoolQuery: 'claimablePoolQuery',
+  claimablePoolTotal: 'claimablePoolTotal',
+  retroactivePoolClaimDataQuery: 'retroactivePoolClaimDataQuery',
+  poolComptrollersQuery: 'poolComptrollersQuery'
 }
 
 export const POOLTOGETHER_CURRENT_GRAPH_URIS = {

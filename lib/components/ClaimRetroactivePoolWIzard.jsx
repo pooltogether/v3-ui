@@ -9,6 +9,7 @@ import { WizardLayout } from 'lib/components/WizardLayout'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { useWizard, useWizardStep, Wizard } from 'react-wizard-primitive'
+import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 
 export const showClaimWizardAtom = atom(false)
 
@@ -16,9 +17,12 @@ export const ClaimRetroactivePoolWizardContainer = () => {
   const [showWizard, setShowWizard] = useAtom(showClaimWizardAtom)
   const closeWizard = () => setShowWizard(false)
 
+  if (!showWizard) {
+    return null
+  }
+
   return <AnimatePresence>
-    <Meta key={1} title='Claim POOL'/>
-    {showWizard && <ClaimRetroactivePoolWizard key={2} closeWizard={closeWizard} />}
+    <ClaimRetroactivePoolWizard closeWizard={closeWizard} />
   </AnimatePresence>
 }
 
@@ -32,6 +36,11 @@ const ClaimRetroactivePoolWizardStepManager = props => {
   const { closeWizard } = props
   const { activeStepIndex, previousStep, moveToStep, nextStep } = useWizard()
 
+  // TODO: Add tx info here
+  // TODO: Refetch isClaimed on success? Or just hardcode it.
+  const { data } = useRetroactivePoolClaimData()
+  const { amount, formattedAmount, index, proof } = data
+
   return <WizardLayout
     currentWizardStep={activeStepIndex + 1}
     handlePreviousStep={previousStep}
@@ -42,7 +51,7 @@ const ClaimRetroactivePoolWizardStepManager = props => {
     <div className='text-inverse'>
       <StepOne nextStep={nextStep} isActive={activeStepIndex === 0}  key={1} />
       <StepTwo nextStep={nextStep} isActive={activeStepIndex === 1} key={2} />
-      <StepThree nextStep={nextStep} isActive={activeStepIndex === 2} key={3} />
+      <StepThree nextStep={nextStep} isActive={activeStepIndex === 2} key={3} claimData={data} />
       <StepFour nextStep={nextStep} isActive={activeStepIndex === 3} key={4} />
     </div>
   </WizardLayout>
@@ -120,7 +129,8 @@ const StepTwo = (props) => {
   </div>
 }
 const StepThree = (props) => {
-  const {nextStep, isActive} = props
+  const {nextStep, isActive, claimData} = props
+  const { amount, formattedAmount, index, proof } = claimData
 
   // TODO: onClick -> start transaction
   // On completion -> move to next step
@@ -131,7 +141,7 @@ const StepThree = (props) => {
 
   return <div className='mx-auto' style={{maxWidth: '550px'}}>
     <h3>You are receiving</h3>
-    <h2 className='text-highlight-1 mb-8'>🎉 1,000 POOL 🎉</h2>
+    <h2 className='text-highlight-1 mb-8'>🎉 {formattedAmount} POOL 🎉</h2>
     <Button
       onClick={nextStep}
       textSize='lg'

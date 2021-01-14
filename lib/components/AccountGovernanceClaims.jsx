@@ -1,23 +1,36 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import classnames from 'classnames'
 import { useTranslation } from 'i18n/client'
 import { Button } from 'lib/components/Button'
 import FeatherIcon from 'feather-icons-react'
+import ComptrollerV2Abi from "@pooltogether/pooltogether-contracts/abis/ComptrollerV2"
+import ComptrollerV2ProxyFactoryAbi from "@pooltogether/pooltogether-contracts/abis/ComptrollerV2ProxyFactory"
 
-import Dai from 'assets/images/dai.svg'
-import { SECONDS_PER_DAY, SECONDS_PER_HOUR, SECONDS_PER_WEEK } from 'lib/constants'
+import { CONTRACT_ADDRESSES, SECONDS_PER_DAY, SECONDS_PER_HOUR, SECONDS_PER_WEEK } from 'lib/constants'
 import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
 import { useClaimablePool } from 'lib/hooks/useClaimablePool'
 import { usePools } from 'lib/hooks/usePools'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { usePool } from 'lib/hooks/usePool'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useAtom } from 'jotai'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
+import { useClaimablePoolComptrollerAddresses } from 'lib/hooks/useClaimablePoolComptrollerAddresses'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
 
 
 export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
   
   const { pools } = usePools()
+
+  const { data: totalClaimablePool, isFetched, isFetching } = useTotalClaimablePool()
+
+  if (!isFetched || (isFetching && !isFetched) || (isFetched && totalClaimablePool === 0)) {
+    // TODO: Nicer empty state
+    return null
+  }
   
   // TODO: Only show if a user has anything deposited in pools
 
@@ -35,47 +48,100 @@ export const AccountGovernanceClaims = (props) => {
 }
 
 const ClaimHeader = props => {
+  const { t } = useTranslation()
   // TODO: disable if there isn't any to claim
   // TODO: Claim All Functionality
+  // TODO: Fetch claim amount
 
-  return <div className='flex justify-between flex-col sm:flex-row mb-8'>
+  const { data: totalClaimablePool } = useTotalClaimablePool()
+
+  return <div className='flex justify-between flex-col sm:flex-row mb-8  p-2 sm:p-0'>
     <div className='flex sm:flex-col justify-between sm:justify-start mb-4 sm:mb-0'>
-      <h4 className='font-normal my-auto'>Claimable POOL</h4>
-      <h2 className='leading-none'>1,000</h2>
+      <h4 className='font-normal mb-auto sm:mb-0'>Claimable POOL</h4>
+      <h2 className='leading-none'>{numberWithCommas(totalClaimablePool)}</h2>
     </div>
     <div className='flex flex-col-reverse sm:flex-col'>
-      <Button
-        type='button'
-        // onClick={() => setShowClaimWizard(true)}
-        className='mb-4'
-
-        border='green'
-        text='primary'
-        bg='green'
-
-        hoverBorder='green'
-        hoverText='primary'
-        hoverBg='green'
-
-        textSize='sm'
-      >Claim All</Button>
-      <span className='text-accent-1 text-xxs mb-4' >What can I do with POOL?</span>
+      <ClaimAllButton />
+      <span className='text-accent-1 text-xxs mb-8' >What can I do with POOL?</span>
     </div>
   </div>
 }
 
+const ClaimAllButton = props => {
+  const { t } = useTranslation()
+
+  const { usersAddress, provider, chainId } = useContext(AuthControllerContext)
+  const { isFetched, data: comptrollerAddresses } = useClaimablePoolComptrollerAddresses()
+  console.log(comptrollerAddresses)
+
+  const [txId, setTxId] = useState({})
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
+  const [sendTx] = useSendTransaction('Claim All POOL', transactions, setTransactions)
+  const txInFlight = transactions?.find((tx) => tx.id === txId)
+
+  const handleClaim = async (e) => {
+    e.preventDefault()
+
+    const params = [
+      usersAddress,
+      comptrollerAddresses.data,
+    ]
+
+    const id = await sendTx(
+      t,
+      provider,
+      usersAddress,
+      ComptrollerV2ProxyFactoryAbi,
+      CONTRACT_ADDRESSES[chainId].ComptrollerProxyFactory,
+      'claimAll',
+      params,
+    )
+    setTxId(id)
+  }
+
+  // TODO: Transaction states
+
+  const disabled = !isFetched
+
+  return <Button
+    // TODO: Disabled if no balance to claim
+
+    type='button'
+    onClick={handleClaim}
+    className='mb-4'
+    disabled={disabled}
+
+    border='green'
+    text='primary'
+    bg='green'
+
+    hoverBorder='green'
+    hoverText='primary'
+    hoverBg='green'
+
+    textSize='sm'
+  >
+    Claim All
+  </Button>
+}
+
 const ClaimablePoolPoolItem = props => {
   const { pool } = props
-  const { name, symbol } = pool
+  const { name, symbol, tokenListener: comptrollerAddress } = pool
 
   const {
-    ticketData,
     refetch,
     data,
     isFetching,
     isFetched,
     error
   } = useClaimablePool(symbol)
+
+
+
+  if (!isFetched || (isFetching && !isFetched)) {
+    return null
+  }
 
   const {
     dripRatePerSecond,
@@ -85,19 +151,6 @@ const ClaimablePoolPoolItem = props => {
     totalUnclaimed,
     user
   } = data
-
-  console.log(
-    ticketData,
-    refetch,
-    data,
-    isFetching,
-    isFetched,
-    error
-  )
-
-  if (!ticketData) {
-    return null
-  }
 
   const givingAwayPerDay = 15000
   const earningPerDay = 15
@@ -119,9 +172,42 @@ const ClaimablePoolPoolItem = props => {
     <div className='sm:text-right'>
       <h2 className='leading-none'>{poolToClaim} POOL</h2>
       <div className='text-accent-1 text-xs mb-4' >@ {earningPerDay} POOL / day</div>
-      <Button className='w-full'>Claim</Button>
+      <ClaimButton comptrollerAddress={comptrollerAddress} />
     </div>
   </div>
+}
+
+const ClaimButton = props => {
+  const { comptrollerAddress } = props
+  const { t } = useTranslation()
+  const { usersAddress, provider, chainId } = useContext(AuthControllerContext)
+  const [txId, setTxId] = useState({})
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
+  const [sendTx] = useSendTransaction(`Claim POOL from ${name}`, transactions, setTransactions)
+  const txInFlight = transactions?.find((tx) => tx.id === txId)
+
+  const handleClaim = async (e) => {
+    e.preventDefault()
+
+    const params = [
+      usersAddress
+    ]
+
+    const id = await sendTx(
+      t,
+      provider,
+      usersAddress,
+      ComptrollerV2Abi,
+      comptrollerAddress,
+      'claim',
+      params,
+    )
+    setTxId(id)
+  }
+
+// TODO: Transaction states
+// TODO: Refetch claimable amounts on success
+  return <Button className='w-full' onClick={handleClaim}>Claim</Button>
 }
 
 const RewardTimeLeft = props => {
