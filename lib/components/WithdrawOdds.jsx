@@ -68,7 +68,7 @@ export function WithdrawOdds(props) {
                 i18nKey='yourOddsWillReduceTo'
                 defaults='Your odds will be reduced from 1 in {{currentOdds}} to 1 in {{newOdds}}'
                 components={{
-                  bold: <strong />,
+                  bold: <span className='font-bold' />,
                   number: <PoolNumber />,
                 }}
                 values={{
