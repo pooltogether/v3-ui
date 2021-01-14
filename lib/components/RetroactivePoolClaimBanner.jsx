@@ -2,7 +2,7 @@ import { useAtom } from 'jotai'
 import { Banner } from 'lib/components/Banner'
 import { Button } from 'lib/components/Button'
 import { showClaimWizardAtom } from 'lib/components/ClaimRetroactivePoolWIzard'
-import React from 'react'
+import React, { useState } from 'react'
 
 import Bell from 'assets/images/bell.svg'
 
@@ -17,7 +17,22 @@ export const RetroactivePoolClaimBanner = (props) => {
       <div>
         <h4>You can claim POOL tokens!</h4>
         <p className='mb-8 text-sm sm:text-base'>We’ve launched governance tokens to push forward our mission for decentralization. Token holders now own and direct the protocol. Claim your token and take part in our governance!</p>
-        <Button type='button' onClick={() => setShowClaimWizard(true)}>Claim POOL</Button>
+        <Button 
+          type='button'
+          onClick={() => setShowClaimWizard(true)}
+
+          border='transparent'
+          text='green'
+          bg='secondary'
+
+          hoverBorder='transparent'
+          hoverText='green'
+          hoverBg='primary'
+
+          textSize='sm'
+        >
+          Claim POOL
+        </Button>
       </div>
     </div>
   </Banner>

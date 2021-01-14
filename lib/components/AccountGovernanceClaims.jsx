@@ -7,10 +7,17 @@ import FeatherIcon from 'feather-icons-react'
 import Dai from 'assets/images/dai.svg'
 import { SECONDS_PER_DAY, SECONDS_PER_HOUR, SECONDS_PER_WEEK } from 'lib/constants'
 import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
+import { useClaimablePool } from 'lib/hooks/useClaimablePool'
+import { usePools } from 'lib/hooks/usePools'
+import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { usePool } from 'lib/hooks/usePool'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 
 export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
+  
+  const { pools } = usePools()
   
   // TODO: Only show if a user has anything deposited in pools
 
@@ -22,8 +29,7 @@ export const AccountGovernanceClaims = (props) => {
     </h6>
     <div className='xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
       <ClaimHeader />
-      <ClaimablePoolPoolItem />
-      <ClaimablePoolPoolItem />
+      {pools.map(pool => <ClaimablePoolPoolItem key={pool.id} pool={pool} /> )}
     </div>
   </>
 }
@@ -38,23 +44,73 @@ const ClaimHeader = props => {
       <h2 className='leading-none'>1,000</h2>
     </div>
     <div className='flex flex-col-reverse sm:flex-col'>
-      <Button className='mb-4'>Claim All</Button>
+      <Button
+        type='button'
+        // onClick={() => setShowClaimWizard(true)}
+        className='mb-4'
+
+        border='green'
+        text='primary'
+        bg='green'
+
+        hoverBorder='green'
+        hoverText='primary'
+        hoverBg='green'
+
+        textSize='sm'
+      >Claim All</Button>
       <span className='text-accent-1 text-xxs mb-4' >What can I do with POOL?</span>
     </div>
   </div>
 }
 
 const ClaimablePoolPoolItem = props => {
+  const { pool } = props
+  const { name, symbol } = pool
+
+  const {
+    ticketData,
+    refetch,
+    data,
+    isFetching,
+    isFetched,
+    error
+  } = useClaimablePool(symbol)
+
+  const {
+    dripRatePerSecond,
+    exchangeRateMantissa,
+    lastDripTimestamp,
+    measure,
+    totalUnclaimed,
+    user
+  } = data
+
+  console.log(
+    ticketData,
+    refetch,
+    data,
+    isFetching,
+    isFetched,
+    error
+  )
+
+  if (!ticketData) {
+    return null
+  }
 
   const givingAwayPerDay = 15000
   const earningPerDay = 15
-  const poolToClaim = 500
+  const poolToClaim = numberWithCommas(user.balance.toString())
 
   return <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mb-4 sm:mb-8 last:mb-0'>
-    <div className='flex flex-row-reverse justify-between sm:justify-start mb-2'>
-      <img className='h-16 w-16 sm:h-16 sm:w-16 sm:mr-4' src={Dai} />
+    <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start mb-2'>
+      <PoolCurrencyIcon
+        pool={getUnderlyingCollateralSymbol(symbol)}
+        className='h-16 w-16 sm:h-16 sm:w-16 sm:mr-4'
+      />
       <div>
-        <h2 className='leading-none'>Dai Pool</h2>
+        <h2 className='leading-none'>{name}</h2>
         <div className='text-accent-1 text-xs mt-1' >{givingAwayPerDay} POOL / day</div>
         <RewardTimeLeft initialSecondsLeft={5000} />
       </div>
@@ -95,4 +151,21 @@ const determineColor = (secondsLeft) => {
   }
 
   return ''
+}
+
+const getUnderlyingCollateralSymbol = (ticketSymbol) => {
+  switch (ticketSymbol) {
+    case 'PT-cDAI': {
+      return { underlyingCollateralSymbol: 'dai' }
+    }
+    case 'PT-cBAT': {
+      return { underlyingCollateralSymbol: 'bat' }
+    }
+    case 'PT-cUNI': {
+      return { underlyingCollateralSymbol: 'uni' }
+    }
+    case 'PT-cUSDC': {
+      return { underlyingCollateralSymbol: 'usdc' }
+    }
+  }
 }
