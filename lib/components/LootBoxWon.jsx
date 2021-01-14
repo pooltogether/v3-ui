@@ -239,17 +239,24 @@ const LootBoxWonTable = (props) => {
 }
 
 export const LootBoxWon = (props) => {
-  const { awardedExternalErc721LootBox } = props
-
-  const pools = usePools()
+  const {
+    awardedExternalErc721LootBox,
+    pools
+  } = props
 
   const prize = awardedExternalErc721LootBox.prize
-  const poolAddress = prize.prizePool.id
-  const pool = pools.pools.find(_pool => _pool.id === poolAddress)
+  const pool = pools.find(_pool =>
+    _pool.id === prize.prizePool.id
+  )
+  const poolAddress = pool.id
+
+  // Likely won a test pool that we don't use at all in production
+  if (!pool) {
+    return null
+  }
 
   const blockNumber = parseInt(prize.awardedBlock, 10)
   const prizeNumber = extractPrizeNumberFromPrize(prize)
-  console.log(pool)
 
   return (
     <TimeTravelPool

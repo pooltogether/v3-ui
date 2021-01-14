@@ -12,7 +12,7 @@ import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 export const AccountLootBoxes = () => {
   const { t } = useTranslation()
   
-  const { contractAddresses } = usePools()
+  const { contractAddresses, pools } = usePools()
 
   const { usersAddress } = useContext(AuthControllerContext)
 
@@ -20,8 +20,12 @@ export const AccountLootBoxes = () => {
 
   const awardedExternalErc721Nfts = data?.awardedExternalErc721Nfts || []
 
-  const lootBoxesWon = awardedExternalErc721Nfts
+  let lootBoxesWon = awardedExternalErc721Nfts
     .filter(_awardedNft => _awardedNft.address === contractAddresses.lootBox)
+
+  lootBoxesWon = lootBoxesWon.filter(lootBoxWon => pools.find(_pool =>
+    _pool.id === lootBoxWon.prize.prizePool.id
+  ))
 
   if (lootBoxesWon.length === 0) { return null }
 
@@ -39,6 +43,7 @@ export const AccountLootBoxes = () => {
 
         <div className='flex-col order-2 xs:order-1 xs:w-3/4'>
           {lootBoxesWon.map(lootBoxWon => <LootBoxWon
+            pools={pools}
             key={lootBoxWon.id}
             awardedExternalErc721LootBox={lootBoxWon}
           />)}
