@@ -210,8 +210,8 @@ export function DepositTicketQuantityForm(props) {
               showLabel
               splitLines
               pool={pool}
-              usersBalance={usersTicketBalance}
-              additionalQuantity={watchQuantity}
+              usersBalance={usersTicketBalanceBN.toString()}
+              additionalAmount={watchQuantity}
             />
           </div>
         </>}

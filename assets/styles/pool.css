@@ -462,3 +462,10 @@ a:hover {
     width: 300px;
   }
 }
+
+@media screen and (max-width: 1032px) and (min-width: 941px) {
+  .custom-prize-box-padding {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}

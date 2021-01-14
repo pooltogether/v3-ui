@@ -1,6 +1,5 @@
 import { useContext } from 'react'
 import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
 
 import { POOLS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -73,29 +72,23 @@ export function usePool(poolSymbol, blockNumber = -1) {
   )
 
   const compiledExternalErc721Awards = compileErc721Awards(
-    erc721ChainData,
-    poolsGraphData?.[poolSymbol]
+    poolsGraphData?.[poolSymbol]?.externalErc721Awards,
+    erc721ChainData
   )
 
 
 
-  const historical = blockNumber > -1
-  let { awards, lootBoxIsFetching, lootBoxIsFetched } = useLootBox(
-    historical,
-    pool,
-    {
-      compiledExternalErc20Awards,
-      compiledExternalErc721Awards,
-    },
-    blockNumber
-  )
+  const externalErcAwards = {
+    compiledExternalErc20Awards,
+    compiledExternalErc721Awards,
+  }
+  const lootBox = useLootBox(externalErcAwards, blockNumber)
 
   const numWinners = parseInt(pool.numberOfWinners || 1, 10)
 
-
   const underlyingCollateralValueUSD = uniswapPriceData?.[pool.underlyingCollateralToken]?.usd
 
-  const externalAwardsUSD = calculateEstimatedExternalAwardsValue(awards)
+  const externalAwardsUSD = calculateEstimatedExternalAwardsValue(lootBox.awards)
   
   let interestPrizeUSD = calculateEstimatedPoolPrize(pool)
 
@@ -125,9 +118,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
   pool = {
     ...pool,
     fetchingTotals,
-    awards,
-    lootBoxIsFetching,
-    lootBoxIsFetched,
+    lootBox,
     totalPrizeAmountUSD,
     grandPrizeAmountUSD,
     interestPrizePerWinnerUSD,

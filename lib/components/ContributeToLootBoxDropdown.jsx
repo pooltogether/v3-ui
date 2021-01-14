@@ -4,26 +4,21 @@ import { useTranslation } from 'lib/../i18n'
 import { DropdownGeneric } from 'lib/components/DropdownGeneric'
 import { PTCopyToClipboard } from 'lib/components/PTCopyToClipboard'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
-import { useEthereumLootBoxQuery } from 'lib/hooks/useEthereumLootBoxQuery'
 
 export function ContributeToLootBoxDropdown(props) {
   const { t } = useTranslation()
 
   const { pool } = props
 
-  const { data, error, isFetching, isFetched } = useEthereumLootBoxQuery(pool)
-  if (error) {
-    console.error(error)
-  }
-  const { computedLootBoxAddress } = data || {}
+  const { lootBoxIsFetching, lootBoxIsFetched, computedLootBoxAddress } = pool.lootBox
 
-  if (isFetching && !isFetched) {
+  if (lootBoxIsFetching && !lootBoxIsFetched) {
     return <V3LoadingDots />
   }
 
   if (!computedLootBoxAddress) {
     // prevent this warning from spamming your console
-    if (Math.random() > 0.9) {
+    if (Math.random() > 0.95) {
       console.warn('Could not compute loot box address! Hiding copy to clipboard feature')
     }
 

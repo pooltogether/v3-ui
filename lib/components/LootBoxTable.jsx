@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
@@ -8,15 +8,10 @@ import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { LootBoxValue } from 'lib/components/LootBoxValue'
-import { useLootBox } from 'lib/hooks/useLootBox'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import GiftIcon from 'assets/images/icon-gift@2x.png'
 
-// UPDATE: DESCRIPTION
-  // UPDATE: LootBoxValue
-  // UPDATE: Do 721 tokenURIs only get called once and cached?
 export const LootBoxTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
@@ -26,14 +21,15 @@ export const LootBoxTable = (props) => {
   const [moreVisible, setMoreVisible] = useState(false)
 
   const {
+    awards: lootBoxAwards,
     lootBoxIsFetching,
-    lootBoxIsFetched
-  } = pool
+    lootBoxIsFetched,
+  } = pool.lootBox
 
-  const originalAwardsCount = pool?.awards?.length
+  const originalAwardsCount = lootBoxAwards?.length
   let awards = []
   if (originalAwardsCount > 0) {
-    awards = moreVisible ? pool?.awards : pool?.awards?.slice(0, 10)
+    awards = moreVisible ? lootBoxAwards : lootBoxAwards?.slice(0, 10)
   }
 
   const handleShowMore = (e) => {
@@ -70,7 +66,7 @@ export const LootBoxTable = (props) => {
             {/* {historical ? t('noOtherPrizesAwarded') : t('currentlyNoOtherPrizes')} */}
           </> : <>
             <LootBoxValue
-              awards={awards}
+              awards={lootBoxAwards}
             />
           </>}
         </div>
@@ -114,7 +110,7 @@ export const LootBoxTable = (props) => {
             </thead>
             <tbody>
               {awards.map((award, index) => {
-                const name = award.name || award?.erc20Entity?.name || award?.erc721Entity?.name
+                const name = award.name
 
                 if (!name) {
                   return
@@ -134,21 +130,14 @@ export const LootBoxTable = (props) => {
                         className='text-inverse truncate'
                       >
                         {name}
-                        {/* {name.length > 20 ? <span className='truncate'>{name.substr(0, 20)}</span> : name} */}
                       </EtherscanAddressLink>
                     </td>
                     <td
                       className='text-left text-accent-1 truncate'
                     >
                       <PoolNumber>
-                        {displayAmountInEther(
-                          award.balance, {
-                            precision: 6,
-                            decimals: award.decimals
-                          }
-                        )}
+                        {numberWithCommas(award.balanceFormatted, { precision: 2 })}
                       </PoolNumber> {award.symbol}
-                      {/* </PoolNumber> {award.symbol.length > 20 ? <span className='truncate'>{award.symbol.substr(0, 20)}</span> : award.symbol} */}
                     </td>
                     <td
                       className='font-bold text-right'

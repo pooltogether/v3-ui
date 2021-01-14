@@ -168,7 +168,7 @@ export const PoolShow = (props) => {
           </div>
 
           <div
-            className='pink-purple-gradient rounded-lg px-4 xs:px-6 sm:px-16 py-8 sm:pt-12 sm:pb-10 text-white my-8 sm:my-12 mx-auto'
+            className='custom-prize-box-padding pink-purple-gradient rounded-lg px-4 xs:px-6 sm:px-16 py-8 sm:pt-12 sm:pb-10 text-white my-8 sm:my-12 mx-auto'
             style={{
               minHeight: 150
             }}
@@ -186,7 +186,7 @@ export const PoolShow = (props) => {
                 </h6>
 
                 <h1
-                  className='text-6xl xs:text-4xl sm:text-6xl lg:text-6xl -mt-3 xs:mt-0 sm:-mt-3'
+                  className='text-6xl xs:text-4xl sm:text-5xl lg:text-6xl -mt-3 xs:mt-0 sm:-mt-3'
                 >
 
                   {pool?.fetchingTotals ? <BeatLoader

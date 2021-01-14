@@ -15,7 +15,7 @@ export function useErc721ChainQuery(poolGraphData) {
   } = useEthereumErc721Query({
     provider: readProvider,
     graphErc721Awards: graphExternalErc721Awards,
-    poolAddress,
+    balanceOfAddress: poolAddress,
   })
 
   if (erc721ChainError) {

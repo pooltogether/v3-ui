@@ -1,40 +1,29 @@
 import { isEmpty } from 'lodash'
 import { ethers } from 'ethers'
 
-import { HISTORICAL_TOKEN_VALUES } from 'lib/constants'
-import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
-
+// This is for past prizes / TimeTravelPool only
 export const compileHistoricalErc20Awards = (prize, uniswapPriceData) => {
-  const prizeNumber = extractPrizeNumberFromPrize(prize)
   const erc20GraphData = prize?.awardedExternalErc20Tokens
 
   const data = []
 
-  if (
-    isEmpty(erc20GraphData) ||
-    isEmpty(uniswapPriceData)
-  ) {
+  if (isEmpty(erc20GraphData)) {
     return data
   }
 
   erc20GraphData.forEach(obj => {
-    const priceData = uniswapPriceData[obj.address]
-
-    let priceUSD = HISTORICAL_TOKEN_VALUES['prizeNumber']?.[prizeNumber]?.[obj.address]
-    if (!priceUSD) {
-      priceUSD = priceData?.usd
-    }
-
-    const balanceAwardedBN = ethers.utils.bigNumberify(obj.balanceAwarded)
-    const balanceFormatted = ethers.utils.formatUnits(obj.balanceAwarded, parseInt(obj.decimals, 10))
-
-    const value = priceUSD && parseFloat(balanceFormatted) * priceUSD
+    const balance = obj.balanceAwarded
+    const balanceBN = ethers.utils.bigNumberify(obj.balanceAwarded)
+    const balanceFormatted = ethers.utils.formatUnits(
+      obj.balanceAwarded,
+      parseInt(obj.decimals, 10)
+    )
 
     data.push({
       ...obj,
-      ...priceData,
-      balanceAwardedBN,
-      value
+      balance,
+      balanceBN,
+      balanceFormatted,
     })
   })
 

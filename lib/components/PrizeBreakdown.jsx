@@ -2,7 +2,6 @@ import React from 'react'
 
 import { useTranslation } from 'lib/../i18n'
 import { PrizeWinner } from 'lib/components/PrizeWinner'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -14,7 +13,16 @@ import GiftIcon from 'assets/images/icon-gift@2x.png'
 export const PrizeBreakdown = (props) => {
   const { t } = useTranslation()
 
-  const { externalAwardsValue, interestPrize, decimals, prize, pool, prizeNumber } = props
+  const {
+    prize,
+    pool,
+    prizeNumber,
+    preAwardTimeTravelPool,
+    postAwardTimeTravelPool
+  } = props
+
+  const interestPrizeUSD = preAwardTimeTravelPool?.interestPrizeUSD
+  const externalAwardsValueUSD = preAwardTimeTravelPool?.externalAwardsUSD
 
   return <>
     <div
@@ -56,7 +64,7 @@ export const PrizeBreakdown = (props) => {
           />
           <div>
             <h3>
-              {interestPrize && `$${numberWithCommas(interestPrize, { precision: 2 })}`}
+              {interestPrizeUSD && `$${numberWithCommas(interestPrizeUSD, { precision: 2 })}`}
             </h3>
             <span
               className='text-sm xs:text-base sm:text-xl'
@@ -86,7 +94,7 @@ export const PrizeBreakdown = (props) => {
             }}
           >
             <h3>
-              ${externalAwardsValue ? numberWithCommas(externalAwardsValue) : '0.00'}
+              ${externalAwardsValueUSD ? numberWithCommas(externalAwardsValueUSD) : '0.00'}
             </h3>
             <span
               className='text-sm xs:text-base sm:text-xl'
@@ -135,7 +143,7 @@ export const PrizeBreakdown = (props) => {
                 {prize?.awardedControlledTokens?.map((awardedControlledToken, index) => {
                   return <PrizeWinner
                     key={`prize-winner-row-${awardedControlledToken.id}`}
-                    pool={pool}
+                    pool={preAwardTimeTravelPool}
                     prize={prize}
                     awardedControlledToken={awardedControlledToken}
                     grandPrizeWinner={index === 0}

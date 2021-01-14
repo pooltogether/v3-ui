@@ -1,66 +1,58 @@
 import { useContext } from 'react'
-import { useQueryCache } from 'react-query'
 
 import { POOLS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { useReadProvider } from 'lib/hooks/useReadProvider'
-import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
-import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
-import { compileHistoricalPool } from 'lib/services/compileHistoricalPool'
+import { useHistoricalPool } from 'lib/services/useHistoricalPool'
+import { usePoolQuery } from 'lib/hooks/usePoolQuery'
 
 export function TimeTravelPool(props){
   const {
     children,
-    blockNumber,
     poolAddress,
     prize,
     querySymbol
   } = props
-
-  const queryCache = useQueryCache()
   
+  // Rewind to the block _before_ the prize was awarded
+  const preAwardBlockNumber = props.blockNumber - 1
+
+  // And after the award:
+  const postAwardBlockNumber = props.blockNumber
+
+
   const { chainId } = useContext(AuthControllerContext)
-  const { readProvider } = useReadProvider()
 
-  const graphExternalErc721Awards = prize?.awardedExternalErc721Nfts
-
-  // this is being used in the compileHistoricalPool method with a direct query cache read!
-  const {
-    status: externalErc721ChainStatus,
-    data: externalErc721ChainData,
-    error: externalErc721ChainError,
-    isFetching: externalErc721IsFetching
-  } = useEthereumErc721Query({
-    blockNumber,
-    provider: readProvider,
-    graphErc721Awards: graphExternalErc721Awards,
-    poolAddress,
-  })
-
-  if (externalErc721ChainError) {
-    console.warn(externalErc721ChainError)
+  
+  const { data: preAwardGraphPool, error: preAwardPoolError } = usePoolQuery(poolAddress, preAwardBlockNumber)
+  if (preAwardPoolError) {
+    console.warn(preAwardPoolError)
   }
-
-
-  const { data: graphPools, error } = usePoolsQuery([poolAddress], blockNumber)
-
+  
+  const { data: postAwardGraphPool, error } = usePoolQuery(poolAddress, postAwardBlockNumber)
   if (error) {
     console.warn(error)
   }
 
-
-  const graphPool = graphPools?.find(_graphPool => _graphPool.id === poolAddress)
-  
   const poolInfo = POOLS[chainId]?.find(POOL => POOL.symbol === querySymbol)
-  const timeTravelPool = compileHistoricalPool(
-    chainId,
+
+  const preAwardTimeTravelPool = useHistoricalPool(
     poolInfo,
-    queryCache,
-    graphPool,
+    preAwardGraphPool,
     poolAddress,
-    blockNumber,
+    preAwardBlockNumber,
     prize
   )
 
-  return children(timeTravelPool)
+  const timeTravelPool = useHistoricalPool(
+    poolInfo,
+    postAwardGraphPool,
+    poolAddress,
+    postAwardBlockNumber,
+    prize
+  )
+
+  return children({ 
+    timeTravelPool,
+    preAwardTimeTravelPool
+  })
 }

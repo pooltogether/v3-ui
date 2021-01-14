@@ -7,7 +7,6 @@ export function usePoolChainQuery(poolGraphData) {
   const { readProvider } = useReadProvider()
 
   const {
-    status: poolChainStatus,
     data: poolChainData,
     error: poolChainError,
     isFetching: poolIsFetching

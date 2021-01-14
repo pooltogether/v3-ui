@@ -101,6 +101,7 @@ export const CONTRACT_ADDRESSES = {
 export const TOKEN_IMAGES = {
   '0x9d942bd31169ed25a1ca78c776dab92de104e50e': '/tokens/0x9d942bd31169ed25a1ca78c776dab92de104e50e.png',
   '0x6b175474e89094c44da98b954eedeac495271d0f': '/tokens/dai-new-transparent.png',
+  '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': 'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389',
   '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599': 'https://assets.coingecko.com/coins/images/7598/thumb/wrapped_bitcoin_wbtc.png?1548822744',
   '0x06f65b8cfcb13a9fe37d836fe9708da38ecb29b2': 'https://assets.coingecko.com/coins/images/11521/thumb/FAME.png?1590622461',
   '0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b': 'https://assets.coingecko.com/coins/images/12465/thumb/defi_pulse_index_set.png',
@@ -141,6 +142,7 @@ export const TOKEN_VALUES = {
 }
 
 export const TOKEN_NAMES = {
+  '0x495f947276749ce646f68ac8c248420045cb7b5e': 'OpenSea NFT Token',
   '0x334cbb5858417aee161b53ee0d5349ccf54514cf': 'PoolTogether DAI Tickets',
 }
 
@@ -187,79 +189,10 @@ export const QUERY_KEYS = {
   controlledTokenBalancesQuery: 'controlledTokenBalancesQuery',
 }
 
-// we may not need any of this:
-export const POOLTOGETHER_LATEST_VERSION = {
-  'staging': 'v3_1_0',
-  'production': 'v3_1_0',
-}
-
-export const POOLTOGETHER_CONTRACT_VERSIONS = {
-  ['0xebfb47a7ad0fd6e57323c8a42b2e5a6a4f68fc1a'.toLowerCase()]: 'v3_0_1', // mainnet: cDai prize pool
-
-  ['0x4706856fa8bb747d50b4ef8547fe51ab5edc4ac2'.toLowerCase()]: 'v3_0_1', // rinkeby: cDai prize pool
-  ['0xe470984fbe3c16acfc41ba2e5274c297f0723134'.toLowerCase()]: 'v3_0_1', // rinkeby: cDai prize pool single winner prize strategy
-  ['0x506cfb5ed425fe986cb913522f3297a79697abfc'.toLowerCase()]: 'v3_0_1', // rinkeby: cDai prize pool single winner prize strategy
-  ['0x5e0a6d336667eace5d1b33279b50055604c3e329'.toLowerCase()]: 'v3_1_0', // rinkeby: cDai prize pool multiple winners prize strategy
-}
-
-export const POOLTOGETHER_VERSION_START_BLOCKS = {
-  v3_0_1: {
-    staging: {
-      1: 2222222,
-      3: 3333333,
-      4: 7399763,
-    },
-    production: {
-      1: 22222222,
-      3: 33333333,
-      4: 7399763,
-    }
-  },
-  v3_1_0: {
-    staging: {
-      1: 2222222,
-      3: 3333333,
-      4: 7687002,
-    },
-    production: {
-      1: 22222222,
-      3: 33333333,
-      4: 7687002,
-    }
-  }
-}
-
 export const POOLTOGETHER_CURRENT_GRAPH_URIS = {
   1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
   3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
   4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY
-}
-
-export const POOLTOGETHER_GRAPH_URIS = {
-  v3_0_1: {
-    production: {
-      1: process.env.NEXT_JS_SUBGRAPH_3_0_1_URI_MAINNET,
-      3: process.env.NEXT_JS_SUBGRAPH_3_0_1_URI_ROPSTEN,
-      4: process.env.NEXT_JS_SUBGRAPH_3_0_1_URI_RINKEBY,
-    },
-    staging: {
-      1: process.env.NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_MAINNET,
-      3: process.env.NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_ROPSTEN,
-      4: process.env.NEXT_JS_SUBGRAPH_3_0_1_STAGING_URI_RINKEBY,
-    },
-  },
-  v3_1_0: {
-    production: {
-      1: process.env.NEXT_JS_SUBGRAPH_3_1_0_URI_MAINNET,
-      3: process.env.NEXT_JS_SUBGRAPH_3_1_0_URI_ROPSTEN,
-      4: process.env.NEXT_JS_SUBGRAPH_3_1_0_URI_RINKEBY,
-    },
-    staging: {
-      1: process.env.NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_MAINNET,
-      3: process.env.NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_ROPSTEN,
-      4: process.env.NEXT_JS_SUBGRAPH_3_1_0_STAGING_URI_RINKEBY,
-    },
-  }
 }
 
 export const LOOTBOX_GRAPH_URIS = {
