@@ -58,7 +58,7 @@ export function WithdrawOdds(props) {
         }}
       >
         {!props.withdrawAmount && (<>
-          <strong>{t('currentOddsOfWinning')}</strong> 1 {t('in')} {currentOdds}
+          <strong>{t('currentOddsOfWinning')}</strong> 1 {t('in')} {numberWithCommas(currentOdds, {precision: 2 })}
         </>)}
 
         {props.withdrawAmount && !overBalance && (
