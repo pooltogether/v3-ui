@@ -1,76 +1,87 @@
 import React from 'react'
+import { ethers } from 'ethers'
 
 import { useTranslation, Trans } from 'lib/../i18n'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { formatBigNumber } from 'lib/utils/formatBigNumber'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { calculateOdds } from 'lib/utils/calculateOdds'
 
 export function WithdrawOdds(props) {
   const { t } = useTranslation()
 
   const {
-    className,
     pool,
-    style,
-    usersBalance,
+    usersTicketBalanceBN
   } = props
 
-  if (usersBalance === 0) {
+  if (!pool || !pool.ticketSupply || !usersTicketBalanceBN) {
     return null
   }
 
-  let newOdds = null
+  const decimals = pool.underlyingCollateralDecimals
 
-  const quantity = Number(props.quantity) * -1
+  const withdrawAmountBN = props.withdrawAmount
+    ? ethers.utils.parseUnits(props.withdrawAmount.toString(), decimals)
+    : ethers.utils.bigNumberify(0)
 
-  let preTicketSupplyFloat = Number(formatBigNumber(pool?.ticketSupply, pool))
+  const overBalance = withdrawAmountBN.gt(usersTicketBalanceBN)
+
   const numberOfWinners = pool?.numberOfWinners ?
     parseInt(pool?.numberOfWinners, 10) :
     1
 
-  const currentOdds = numberWithCommas(
-    (preTicketSupplyFloat / usersBalance) / numberOfWinners
+  const ticketTotalSupply = ethers.utils.bigNumberify(pool.ticketSupply)
+  
+  const totalSupplyLessWithdrawAmountBN = ticketTotalSupply ?
+    ticketTotalSupply.sub(withdrawAmountBN) :
+    ethers.utils.bigNumberify(0)
+
+  const currentOdds = calculateOdds(
+    usersTicketBalanceBN,
+    ticketTotalSupply,
+    decimals,
+    numberOfWinners
   )
 
-  let postTicketSupplyFloat = preTicketSupplyFloat + quantity
-  let postWithdrawBalance = Number(usersBalance) + quantity
-  if (postWithdrawBalance < 1) {
-    newOdds = 0
-  } else {
-    newOdds = numberWithCommas(
-      (postTicketSupplyFloat / postWithdrawBalance) / numberOfWinners
-    )
-  }
-
-  let content = <>
-    {quantity !== 0 ? <>
-      <Trans
-        i18nKey='yourOddsWillReduceTo'
-        defaults='Your odds will be reduced from 1 in {{currentOdds}} to 1 in {{newOdds}}'
-        components={{
-          number: <PoolNumber />,
+  const newOdds = calculateOdds(
+    usersTicketBalanceBN.sub(withdrawAmountBN),
+    totalSupplyLessWithdrawAmountBN,
+    decimals,
+    numberOfWinners
+  )
+  
+  return (
+    <>
+      <div
+        style={{
+          minHeight: 24
         }}
-        values={{
-          currentOdds,
-          newOdds
-        }}
-      />
-    </> : <>
-      {t('currentOddsOfWinning')} 1 {t('in')} {currentOdds}
-    </>} 
-  </>
+      >
+        {!props.withdrawAmount && (<>
+          <strong>{t('currentOddsOfWinning')}</strong> 1 {t('in')} {currentOdds}
+        </>)}
 
-  if (newOdds === 0 || !isFinite(newOdds)) {
-    content = t('withdrawingEverythingMakeYouIneligible')
-  }
-
-  return <div
-    style={{
-      minHeight: 24
-    }}
-    className={className}
-    style={style}
-  >
-    {content}
-  </div>
+        {props.withdrawAmount && !overBalance && (
+          <span className='text-xs sm:text-sm text-orange-500 ml-0 sm:ml-4'>
+            {newOdds ? (
+              <Trans
+                i18nKey='yourOddsWillReduceTo'
+                defaults='Your odds will be reduced from 1 in {{currentOdds}} to 1 in {{newOdds}}'
+                components={{
+                  bold: <strong />,
+                  number: <PoolNumber />,
+                }}
+                values={{
+                  currentOdds: numberWithCommas(currentOdds, { precision: 2 }),
+                  newOdds: numberWithCommas(newOdds, { precision: 2 })
+                }}
+              />
+            ) : (
+              <strong>{t('withdrawingEverythingMakeYouIneligible')}</strong>
+            )}
+          </span>
+        )}
+      </div>
+    </> 
+  )
 }

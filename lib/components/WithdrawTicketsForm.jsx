@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
+import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -28,9 +29,13 @@ export function WithdrawTicketsForm(props) {
   const { usersAddress } = useContext(AuthControllerContext)
   const { pool } = usePool()
   
-  const { usersTicketBalance, usersTicketBalanceBN } = usePlayerPoolBalances(usersAddress, pool)
+  const {
+    usersTicketBalance,
+    usersTicketBalanceBN
+  } = usePlayerPoolBalances(usersAddress, pool)
 
   const ticker = pool?.underlyingCollateralSymbol
+  const decimals = pool?.underlyingCollateralDecimals
   const tickerUpcased = ticker?.toUpperCase()
 
   const {
@@ -48,8 +53,10 @@ export function WithdrawTicketsForm(props) {
   const watchQuantity = watch('quantity')
 
   const validate = {
-    greaterThanBalance: value => parseFloat(value) <= usersTicketBalance ||
-      t('pleaseEnterAmountLowerThanTicketBalance'),
+    greaterThanBalance: value => {
+      return ethers.utils.parseUnits(value, decimals)
+        .lte(usersTicketBalanceBN) || t('pleaseEnterAmountLowerThanTicketBalance')
+    }
   }
 
   const onSubmit = (values) => {
@@ -123,8 +130,8 @@ export function WithdrawTicketsForm(props) {
             >
               <WithdrawOdds
                 pool={pool}
-                usersBalance={usersTicketBalance}
-                quantity={watchQuantity}
+                usersTicketBalanceBN={usersTicketBalanceBN}
+                withdrawAmount={watchQuantity}
               />
             </div>
           </>}
