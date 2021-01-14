@@ -64,10 +64,14 @@ export const AccountSummary = () => {
     const priceUSD = uniswapPriceData?.[pool.underlyingCollateralToken]?.usd
 
     if (priceUSD) {
-      const value = priceUSD && balanceFormatted && parseFloat(balanceFormatted) * priceUSD
-      totalTickets = totalTickets.add(
-        ethers.utils.parseEther(value.toString())
-      )
+      try {
+        const value = priceUSD && balanceFormatted && parseFloat(balanceFormatted) * priceUSD
+        totalTickets = totalTickets.add(
+          ethers.utils.parseEther(value.toString())
+        )
+      } catch (e) {
+        console.warn(`could not parse value, probably negative exponent value (ie. '$0.000000000000000124' aka dust)`)
+      }
     } else { // fall back to assuming it's a stablecoin, this is helpful for testnets or if we don't have USD price
       totalTickets = totalTickets.add(balanceNormalized)
     }
