@@ -22,6 +22,8 @@ describe('Smoke Test', () => {
     cy.get('#_revokePoolAllowance').click()
     cy.wait(12000)
     cy.scrollTo(0, 0)
+    cy.wait(1000)
+    cy.scrollTo(0, 0)
 
     /* Get Tickets */
     cy.get('#_getTickets').click()
