@@ -174,20 +174,21 @@ export function DepositTicketQuantityForm(props) {
             />
           </>}
           rightLabel={usersAddress && tickerUpcased && <>
-              <button
-                type='button'
-                className='font-bold inline-flex items-center'
-                onClick={(e) => {
-                  e.preventDefault()
-                  setValue('quantity', usersTokenBalance, { shouldValidate: true })
-                }}
-              >
-                <img
-                  src={iconSrc}
-                  className='mr-2'
-                  style={{ maxHeight: 12 }}
-                /> {numberWithCommas(usersTokenBalance, { precision: 2 })} {tickerUpcased}
-              </button>
+            <button
+              id='_setMaxDepositAmount'
+              type='button'
+              className='font-bold inline-flex items-center'
+              onClick={(e) => {
+                e.preventDefault()
+                setValue('quantity', usersTokenBalance, { shouldValidate: true })
+              }}
+            >
+              <img
+                src={iconSrc}
+                className='mr-2'
+                style={{ maxHeight: 12 }}
+              /> {numberWithCommas(usersTokenBalance, { precision: 2 })} {tickerUpcased}
+            </button>
           </>}
         />
       </div>
@@ -217,8 +218,6 @@ export function DepositTicketQuantityForm(props) {
         </>}
       </div>
 
-      
-
       <div
         className='flex flex-col mx-auto w-full mx-auto items-center justify-center'
       >
@@ -226,8 +225,6 @@ export function DepositTicketQuantityForm(props) {
           {continueButton}
         </ButtonDrawer>
       </div>
-
-
     </form>
 
     {remainingTickets && remainingTickets.lt('1000000') && <>

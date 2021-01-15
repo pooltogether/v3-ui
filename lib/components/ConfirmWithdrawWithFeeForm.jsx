@@ -252,7 +252,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
         >
           <CheckboxInputGroup
             large
-            id='withdraw-i-understand'
+            id='_withdrawIUnderstand'
             name='withdraw-i-understand'
             label={t('iUnderstand')}
             title={''}

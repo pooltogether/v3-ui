@@ -17,6 +17,7 @@ export function DepositTxButton(props) {
 
   const button = <>
     <Button
+      id='_depositToken'
       noAnim={disabled}
       textSize='lg'
       onClick={handleDepositClick}

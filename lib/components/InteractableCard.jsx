@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 export const InteractableCard = (
   props,
 ) => {  
+  const id = props.id
   const selected = props.selected
   const className = props.className
 
@@ -34,6 +35,7 @@ export const InteractableCard = (
         as={props.as}
       >
         <a
+          id={id}
           className='px-4 sm:px-10 pt-3 pb-8 inline-block w-full'
         >
           {props.children}

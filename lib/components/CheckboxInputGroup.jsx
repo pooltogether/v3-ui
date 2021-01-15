@@ -24,6 +24,8 @@ export const CheckboxInputGroup = (
 
   return <>
     <div
+      id={id}
+      onClick={handleClick}
       className={classnames(
         defaultClasses,
         textClasses,
@@ -34,7 +36,6 @@ export const CheckboxInputGroup = (
           'text-accent-1 hover:text-green': !checked,
         }
       )}
-      onClick={handleClick}
     >
       <div
         className={classnames(

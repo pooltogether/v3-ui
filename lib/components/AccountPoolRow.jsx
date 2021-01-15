@@ -63,6 +63,7 @@ export const AccountPoolRow = (
 
   return <>
     <InteractableCard
+      id={`_view${ticker}Pool`}
       href={href}
       as={as}
       key={`account-pool-row-li-${pool.poolAddress}`}

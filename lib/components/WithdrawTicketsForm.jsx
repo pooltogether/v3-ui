@@ -95,6 +95,7 @@ export function WithdrawTicketsForm(props) {
 
         rightLabel={usersAddress && usersTicketBalance && <>
           <button
+            id='_setMaxWithdrawAmount'
             type='button'
             className='font-bold inline-flex items-center'
             onClick={(e) => {

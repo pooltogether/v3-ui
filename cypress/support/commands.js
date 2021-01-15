@@ -24,8 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-// FROM SYBIL
-
 import Web3 from 'web3'
 import PrivateKeyProvider from 'truffle-privatekey-provider'
 

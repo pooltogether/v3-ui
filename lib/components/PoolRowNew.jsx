@@ -58,8 +58,13 @@ export const PoolRowNew = (
     )
   }
 
+  console.log(`_view${symbol}Pool`)
+  console.log(`_view${symbol}Pool`)
+  console.log(`_view${symbol}Pool`)
+  console.log(`_view${symbol}Pool`)
   return <>
     <InteractableCard
+      id={`_view${symbol}Pool`}
       key={`pool-row-${pool.id}`}
       href='/pools/[symbol]'
       as={`/pools/${symbol}`}

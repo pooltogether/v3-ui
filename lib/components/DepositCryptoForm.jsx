@@ -136,6 +136,7 @@ export function DepositCryptoForm(props) {
   const approveButtonClassName = !needsApproval ? 'w-full' : 'w-48-percent'
 
   const approveButton = <Button
+    id='_approveTokenAllowance'
     textSize='lg'
     onClick={handleUnlockClick}
     disabled={!needsApproval || unlockTxInFlight}

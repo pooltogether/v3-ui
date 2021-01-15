@@ -157,6 +157,7 @@ export const PoolShow = (props) => {
               className='flex xs:w-1/2 xs:justify-end items-start mt-4 xs:mt-0'
             >
               <Button
+                id='_getTickets'
                 width='w-full xs:w-9/12 sm:w-8/12 lg:w-6/12'
                 textSize='lg'
                 onClick={handleGetTicketsClick}

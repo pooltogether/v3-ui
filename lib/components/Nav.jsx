@@ -25,6 +25,7 @@ export function Nav(props) {
         shallow
       >
         <a
+          id='_navPoolsButton'
           className={classnames(
             navParentClasses,
             {

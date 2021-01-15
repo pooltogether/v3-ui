@@ -82,6 +82,7 @@ export const AccountTicket = (
 
   return <>
     <motion.div
+      id={`_account${pool?.symbol}Ticket`}
       onClick={handleManageClick}
       key={`account-pool-ticket-${pool?.poolAddress}`}
       className={classnames(
