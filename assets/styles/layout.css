@@ -1,3 +1,11 @@
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-delay: -1s !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

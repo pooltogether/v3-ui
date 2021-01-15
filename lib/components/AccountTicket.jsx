@@ -17,13 +17,16 @@ import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { usePool } from 'lib/hooks/usePool'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 
 export const AccountTicket = (
   props,
 ) => {
   const { t } = useTranslation()
   const router = useRouter()
-  
+
+  const shouldReduceMotion = useReducedMotion()
+
   const { noMargin, isLink, playerTicket } = props
   let { href, as } = props
 
@@ -103,15 +106,19 @@ export const AccountTicket = (
         scale: 1,
         opacity: 1,
         transition: {
-          duration: 0.2,
-          staggerChildren: 0.5,
-          delayChildren: 0.2
+          duration: shouldReduceMotion ? 0 : 0.2,
+          staggerChildren: shouldReduceMotion ? 0 : 0.5,
+          delayChildren: shouldReduceMotion ? 0 : 0.2
         }
       }}
       exit={{
         scale: 0,
         opacity: 0,
-        transition: { staggerChildren: 0.05, staggerDirection: -1 }
+        transition: {
+          duration: shouldReduceMotion ? 0 : 0.2,
+          staggerChildren: shouldReduceMotion ? 0 : 0.05,
+          staggerDirection: -1 
+        }
       }}
     >
       <div

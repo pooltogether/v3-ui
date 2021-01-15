@@ -13,7 +13,6 @@ export const InteractableCard = (
   return <>
     <motion.li
       onClick={props.onClick}
-
       whileHover={{
         y: selected ? 0 : -2
       }}

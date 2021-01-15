@@ -2,10 +2,14 @@ import React from 'react'
 import classnames from 'classnames'
 import { motion } from 'framer-motion'
 
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
+
 export const NonInteractableCard = (
   props,
 ) => {  
   const className = props.className
+
+  const shouldReduceMotion = useReducedMotion()
 
   return <>
     <motion.div
@@ -21,16 +25,16 @@ export const NonInteractableCard = (
         y: 0,
         opacity: 1,
         transition: {
-          duration: 0.2,
-          staggerChildren: 0.5,
-          delayChildren: 0.2
+          duration: shouldReduceMotion ? 0 : 0.2,
+          staggerChildren: shouldReduceMotion ? 0 : 0.5,
+          delayChildren: shouldReduceMotion ? 0 : 0.2
         }
       }}
       exit={{
         scale: 0,
         y: -10,
         opacity: 0,
-        transition: { staggerChildren: 0.05, staggerDirection: -1 }
+        transition: { staggerChildren: shouldReduceMotion ? 0 : 0.05, staggerDirection: -1 }
       }}
     >
       {props.children}

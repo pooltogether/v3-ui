@@ -2,16 +2,19 @@ import React from 'react'
 import { motion } from 'framer-motion'
 
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 
 import PoolTogetherMark from 'assets/images/pooltogether-white-mark.svg'
 
 export function LoadingScreen(props) {
   const { initialized } = props
 
+  const shouldReduceMotion = useReducedMotion()
+
   return <>
     <motion.div
       animate={!initialized ? 'enter' : 'exit'}
-      transition={{ duration: 0.5, ease: 'easeIn' }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: 'easeIn' }}
       variants={{
         initial: {
           opacity: 1,

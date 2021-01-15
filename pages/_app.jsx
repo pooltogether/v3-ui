@@ -24,6 +24,7 @@ import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { NewPrizeWinnerEventListener } from 'lib/components/NewPrizeWinnerEventListener'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 
 import '@reach/dialog/styles.css'
 import '@reach/menu-button/styles.css'
@@ -71,7 +72,9 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 
 function MyApp({ Component, pageProps, router }) {
   const [initialized, setInitialized] = useState(false)
-  
+ 
+  const shouldReduceMotion = useReducedMotion()
+
   // const redirectIfBorked = () => {
   //   const badPaths = [
   //     'http://localhost:3000/en',
@@ -221,7 +224,7 @@ function MyApp({ Component, pageProps, router }) {
                 <motion.div
                   id='content-animation-wrapper'
                   key={router.route}
-                  transition={{ duration: 0.3, ease: 'easeIn' }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: 'easeIn' }}
                   initial={{
                     opacity: 0
                   }}

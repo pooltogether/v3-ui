@@ -12,6 +12,7 @@ import { ErrorMessage } from 'lib/components/ErrorMessage'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { shorten } from 'lib/utils/shorten'
 import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 
@@ -19,6 +20,8 @@ export function PlayerPageUI(props) {
   const { t } = useTranslation()
   const router = useRouter()
 
+  const shouldReduceMotion = useReducedMotion()
+  
   const { pools, poolsGraphData } = usePools()
 
   const playerAddress = router?.query?.playerAddress
@@ -95,21 +98,21 @@ export function PlayerPageUI(props) {
           y: 10,
           opacity: 0,
           transition: {
-            duration: 0.5,
-            staggerChildren: 0.1
+            duration: shouldReduceMotion ? 0 : 0.5,
+            staggerChildren: shouldReduceMotion ? 0 : 0.1
           }
         },
         enter: {
           transition: {
-            duration: 0.5,
-            staggerChildren: 0.1
+            duration: shouldReduceMotion ? 0 : 0.5,
+            staggerChildren: shouldReduceMotion ? 0 : 0.1
           }
         },
         initial: {
           y: 0,
           opacity: 1,
           transition: {
-            duration: 0.2
+            duration: shouldReduceMotion ? 0 : 0.2
           }
         }
       }}

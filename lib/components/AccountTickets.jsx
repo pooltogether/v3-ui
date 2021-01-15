@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { motion } from 'framer-motion'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
@@ -96,7 +95,7 @@ export const AccountTickets = () => {
           </BlankStateMessage>
         </> : <>
           <>
-            <motion.div>
+            <div>
               <div className='flex flex-wrap'>
 
                 {playerTickets?.map(playerTicket => {
@@ -130,7 +129,7 @@ export const AccountTickets = () => {
                 
               </div>
 
-            </motion.div>
+            </div>
           </>
         </>
       }

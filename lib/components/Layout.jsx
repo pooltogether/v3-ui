@@ -19,6 +19,7 @@ import { LanguagePicker } from 'lib/components/LanguagePicker'
 import { Settings } from 'lib/components/Settings'
 import { SignInFormContainer } from 'lib/components/SignInFormContainer'
 import { WrongNetworkModal } from 'lib/components/WrongNetworkModal'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 
 const onlyUnique = (value, index, self) => {
@@ -29,6 +30,8 @@ export function Layout(props) {
   const {
     children
   } = props
+
+  const shouldReduceMotion = useReducedMotion()
 
   const [yScrollPosition, setYScrollPosition] = useState()
   const { scrollY } = useViewportScroll()
@@ -66,6 +69,8 @@ export function Layout(props) {
 
   let supportedNetworkNames = SUPPORTED_CHAIN_IDS.map(chainId => chainIdToNetworkName(chainId))
   supportedNetworkNames = supportedNetworkNames.filter(onlyUnique)
+
+
 
   return <>
     <Meta />
@@ -151,11 +156,14 @@ export function Layout(props) {
             enter: {
               opacity: 1,
               transition: {
-                duration: 1
+                duration: shouldReduceMotion ? 0 : 1
               }
             },
             exit: {
-              opacity: 0
+              opacity: 0,
+              transition: {
+                duration: shouldReduceMotion ? 0 : 1
+              }
             }
           }}
         >

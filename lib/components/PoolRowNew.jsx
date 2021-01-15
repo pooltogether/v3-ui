@@ -58,10 +58,6 @@ export const PoolRowNew = (
     )
   }
 
-  console.log(`_view${symbol}Pool`)
-  console.log(`_view${symbol}Pool`)
-  console.log(`_view${symbol}Pool`)
-  console.log(`_view${symbol}Pool`)
   return <>
     <InteractableCard
       id={`_view${symbol}Pool`}

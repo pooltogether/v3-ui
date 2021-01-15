@@ -8,6 +8,7 @@ import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { LootBoxValue } from 'lib/components/LootBoxValue'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import GiftIcon from 'assets/images/icon-gift@2x.png'
@@ -15,6 +16,8 @@ import GiftIcon from 'assets/images/icon-gift@2x.png'
 export const LootBoxTable = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
+
+  const shouldReduceMotion = useReducedMotion()
 
   const { basePath, historical, pool } = props
   
@@ -158,6 +161,7 @@ export const LootBoxTable = (props) => {
                 className='mt-6 mb-3 underline font-bold text-xxs xs:text-base sm:text-lg text-center'
                 animate={moreVisible ? 'exit' : 'enter'}
                 initial='enter'
+                transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
                 variants={{
                   enter: {
                     opacity: 1,

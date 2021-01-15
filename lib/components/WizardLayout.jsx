@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
 
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 
 function range1(i) { return i ? range1(i - 1).concat(i) : [] }
@@ -16,6 +17,8 @@ export function WizardLayout(props) {
     totalWizardSteps,
     children
   } = props
+
+  const shouldReduceMotion = useReducedMotion()
 
   const router = useRouter()
   const action = router.asPath.match('withdraw') ? 'withdraw' : 'deposit'
@@ -45,19 +48,23 @@ export function WizardLayout(props) {
     <motion.div
       key={`${action}-scaled-bg`}
       className='fixed w-full h-full z-40 bg-darkened'
+      transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
       initial={{ scale: 0 }}
-      animate={{ scale: 1, transition: { duration: 0.2 } }}
-      exit={{ opacity: 0, transition: {
-        duration: 0.25,
-        delay: 0.25,
-      } }}
+      animate={{ scale: 1 }}
+      exit={{
+        opacity: 0, 
+        transition: {
+          duration: shouldReduceMotion ? 0 : 0.25,
+          delay: shouldReduceMotion ? 0 : 0.25,
+        }
+      }}
     />
     
     <motion.div
       key={`${action}-pane`}
       className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 z-50'
       exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.25 }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.25 }}
     >
       <nav
         className='fixed t-0 l-0 r-0 w-full px-4 pt-4 flex items-start justify-between h-20'
@@ -80,29 +87,33 @@ export function WizardLayout(props) {
             strokeWidth='0.09rem'
           />
         </button>
-      
-      <AnimatePresence exitBeforeEnter>
-        <motion.div
-          key='wizard-step-count-parent'
-          className='flex'
-          variants={{
-            enter: {
-              y: 13,
-              transition: {
-                when: 'beforeChildren',
-                staggerChildren: 0.4,
+        
+        <AnimatePresence exitBeforeEnter>
+          <motion.div
+            key='wizard-step-count-parent'
+            className='flex'
+            transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: 'easeIn' }}
+            variants={{
+              enter: {
+                y: 13,
+                transition: {
+                  when: 'beforeChildren',
+                  staggerChildren: shouldReduceMotion ? 0 : 0.4,
+                },
               },
-            },
-            exit: { y: -70 },
-          }}
-          initial='exit'
-          exit='exit'
-          animate='enter'
-        >
+              exit: {
+                y: -70,
+              },
+            }}
+            initial='exit'
+            exit='exit'
+            animate='enter'
+          >
             {range1(totalWizardSteps).map((stepNum, index) => {
               return <motion.div
                 key={`step-counter-${index+1}`}
-                exit={{ scaleX: 0, transition: { duration: 1 } }}
+                transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: 'easeIn' }}
+                exit={{ scaleX: 0 }}
                 onClick={(e) => {
                   e.preventDefault()
 

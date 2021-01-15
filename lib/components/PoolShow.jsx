@@ -30,6 +30,7 @@ import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
 import { Tagline } from 'lib/components/Tagline'
 import { usePool } from 'lib/hooks/usePool'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
@@ -45,6 +46,8 @@ import PrizeIcon from 'assets/images/icon-prize@2x.png'
 export const PoolShow = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
+
+  const shouldReduceMotion = useReducedMotion()
 
   const { networkName, usersAddress, walletName } = useContext(AuthControllerContext)
 
@@ -111,21 +114,21 @@ export const PoolShow = (props) => {
           y: 10,
           opacity: 0,
           transition: {
-            duration: 0.5,
-            staggerChildren: 0.1
+            duration: shouldReduceMotion ? 0 : 0.5,
+            staggerChildren: shouldReduceMotion ? 0 : 0.1
           }
         },
         enter: {
           transition: {
-            duration: 0.5,
-            staggerChildren: 0.1
+            duration: shouldReduceMotion ? 0 : 0.5,
+            staggerChildren: shouldReduceMotion ? 0 : 0.1
           }
         },
         initial: {
           y: 0,
           opacity: 1,
           transition: {
-            duration: 0.2
+            duration: shouldReduceMotion ? 0 : 0.2
           }
         }
       }}

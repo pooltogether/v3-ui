@@ -19,6 +19,7 @@ import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useExitFees } from 'lib/hooks/useExitFees'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
@@ -28,6 +29,8 @@ import IconLightning from 'assets/images/icon-lightning.svg'
 export function ConfirmWithdrawWithFeeForm(props) {
   const { t } = useTranslation()
   const router = useRouter()
+
+  const shouldReduceMotion = useReducedMotion()
 
   const [transactions, setTransactions] = useAtom(transactionsAtom)
   
@@ -234,7 +237,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
               scale: 1,
               height: 'auto',
               transition: {
-                duration: 0.25
+                duration: shouldReduceMotion ? 0 : 0.25
               }
             },
             exit: {

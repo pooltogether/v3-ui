@@ -8,11 +8,14 @@ import { AccountButton } from 'lib/components/AccountButton'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TransactionsList } from 'lib/components/TransactionsList'
 import { WalletInfo } from 'lib/components/WalletInfo'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 
 export function NavAccount(props) {
   const { openTransactions, closeTransactions, showTransactionsDialog } = props
 
   const { usersAddress } = useContext(AuthControllerContext)
+
+  const shouldReduceMotion = useReducedMotion()
 
   return <>
     {usersAddress && <>
@@ -36,15 +39,15 @@ export function NavAccount(props) {
             exit: {
               scale: 0,
               transition: {
-                duration: 0.1,
-                staggerChildren: 0.1
+                duration: shouldReduceMotion ? 0 : 0.1,
+                staggerChildren: shouldReduceMotion ? 0 : 0.1
               }
             },
             enter: {
               scale: 1,
               transition: {
-                duration: 0.1,
-                staggerChildren: 0.1
+                duration: shouldReduceMotion ? 0 : 0.1,
+                staggerChildren: shouldReduceMotion ? 0 : 0.1
               }
             },
             initial: {

@@ -8,11 +8,14 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { Meta } from 'lib/components/Meta'
 import { SignInForm } from 'lib/components/SignInForm'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export function SignInFormContainer(props) {
   const { t } = useTranslation()
-  
+
+  const shouldReduceMotion = useReducedMotion()
+
   const router = useRouter()
   const showSelectMenu = router.query.showSelectMenu
 
@@ -67,15 +70,15 @@ export function SignInFormContainer(props) {
       key='sign-in-scaled-bg'
       className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 bg-overlay'
       initial={{ scale: 0 }}
-      animate={{ scale: 1, transition: { duration: 0.1 } }}
-      exit={{ opacity: 0, transition: { duration: 0.5 } }}
+      animate={{ scale: 1, transition: { duration: shouldReduceMotion ? 0 : 0.1 } }}
+      exit={{ opacity: 0, transition: { duration: shouldReduceMotion ? 0 : 0.5 } }}
     />
 
     <motion.div
       key='sign-in-pane'
       className='fixed t-0 l-0 r-0 w-full z-40 bg-darkened'
       exit={{ opacity: 0, y: -50 }}
-      transition={{ duration: 0.25 }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.25 }}
       style={{
         maxHeight: 300,
       }}

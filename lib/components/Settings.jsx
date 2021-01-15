@@ -9,11 +9,14 @@ import { useTranslation } from 'lib/../i18n'
 import { COOKIE_OPTIONS, SHOW_MANAGE_LINKS } from 'lib/constants'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 
 export function Settings(props) {
   const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
 
+  const shouldReduceMotion = useReducedMotion()
+  
   const [showManageLinks, setShowManageLinks] = useState(false)
   useEffect(() => {
     const cookieShowAward = Cookies.get(SHOW_MANAGE_LINKS)
@@ -70,22 +73,11 @@ export function Settings(props) {
       }}
       animate={isOpen ? 'enter' : 'exit'}
       initial='initial'
+      transition={{ duration: shouldReduceMotion ? 0 : 0.1 }}
       variants={{
-        exit: {
-          opacity: 0,
-          transition: {
-            duration: 0.1,
-          }
-        },
-        enter: {
-          opacity: 1,
-          transition: {
-            duration: 0.1,
-          }
-        },
-        initial: {
-          opacity: 0,
-        }
+        exit: { opacity: 0 },
+        enter: { opacity: 1 },
+        initial: { opacity: 0 }
       }}
     />
 
@@ -104,20 +96,24 @@ export function Settings(props) {
           x: '320px',
           opacity: 0,
           transition: {
-            staggerChildren: 0.1
+            duration: shouldReduceMotion ? 0 : 0.2,
+            staggerChildren: shouldReduceMotion ? 0 : 0.1
           }
         },
         enter: {
           x: 0,
           opacity: 1,
           transition: {
-            duration: 0.1,
-            staggerChildren: 0.1
+            duration: shouldReduceMotion ? 0 : 0.1,
+            staggerChildren: shouldReduceMotion ? 0 : 0.1
           }
         },
         initial: {
           x: 0,
           opacity: 0,
+          transition: {
+            duration: shouldReduceMotion ? 0 : 0.1,
+          }
         }
       }}
     >
