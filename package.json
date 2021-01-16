@@ -20,7 +20,7 @@
     "test": "jest",
     "testcov": "jest --coverage --coverageDirectory=coverage && open ./coverage/index.html",
     "watch": "yarn run test --watch",
-    "cypress": "NEXT_JS_REDUCE_MOTION=true && start-server-and-test dev http://localhost:3000 cypress",
+    "cypress": "NEXT_JS_REDUCE_MOTION=true && start-server-and-test dev http://localhost:3000 cypress:run",
     "cypress:run": "NEXT_JS_REDUCE_MOTION=true && npx cypress run --env infura_id=$NEXT_JS_INFURA_ID"
   },
   "jest": {
