@@ -44,6 +44,7 @@ export function ConfirmWithdrawWithFee(props) {
 
     <ButtonDrawer>
       <Button
+        id='_withdrawAnywayBtn'
         onClick={nextStep}
         textSize='lg'
         className={'mx-auto'}

@@ -1,8 +1,8 @@
 describe('Smoke Test', () => {
-  it('successfully loads & deploys a USDC pool', () => {
+  it('successfully runs through primary functionality', () => {
     cy.visit('/')
 
-    /* Connect Wallet */
+    // /* Connect Wallet */
     cy.get('#_navAccountButton').click()
     cy.contains('Connect wallet').click()
     cy.contains('Show More').click()
@@ -15,12 +15,16 @@ describe('Smoke Test', () => {
     cy.get('#_viewPT-cDAIPool').click()
     
     /* Revoke Previous Allowance */
-    cy.wait(4000)
+    cy.wait(10000)
     cy.scrollTo(0, 50000)
     cy.wait(2000)
     cy.scrollTo(0, 50000)
-    cy.get('#_revokePoolAllowance').click()
-    cy.wait(12000)
+    cy.get('#_revokePoolAllowance')
+      .should(($btn) => {
+        $btn.click()
+      })
+
+    cy.wait(20000)
     cy.scrollTo(0, 0)
     cy.wait(1000)
     cy.scrollTo(0, 0)
@@ -41,9 +45,23 @@ describe('Smoke Test', () => {
     cy.get('#_accountPT-cDAITicket').click()
     cy.get('#_setMaxWithdrawAmount').click()
     cy.contains('Continue').click()
-    cy.contains('Withdraw anyway').click()
-    cy.get('#_withdrawIUnderstand').click()
-    cy.contains('Continue').click()
+
+
+    
+    cy.get('html')
+      .should('have.id', '_withdrawAnywayBtn')
+      .then(() => {
+        cy.get('#_withdrawAnywayBtn').click()
+        cy.get('#_withdrawIUnderstand').click()
+        cy.contains('Continue').click()
+      })
+
+    cy.get('html')
+      .should('have.id', '_confirmWithdrawalBtn')
+      .then(() => {
+        cy.get('#_confirmWithdrawalBtn').click()
+      })
+
     cy.contains('Successfully withdrawn!')
     cy.contains('Back to my account').click()
   })

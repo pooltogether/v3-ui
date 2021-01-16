@@ -137,6 +137,7 @@ export function ConfirmWithdrawNoFee(props) {
 
       <ButtonDrawer>
         <Button
+          id='_confirmWithdrawalBtn'
           onClick={runTx}
           textSize='lg'
           // disabled={poolIsLocked}
