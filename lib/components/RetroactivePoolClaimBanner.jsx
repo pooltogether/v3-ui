@@ -16,7 +16,7 @@ export const RetroactivePoolClaimBanner = (props) => {
     error
   } = useRetroactivePoolClaimData()
 
-  if (loading || data.isClaimed) {
+  if (loading || data?.isClaimed) {
     return null
   }
 

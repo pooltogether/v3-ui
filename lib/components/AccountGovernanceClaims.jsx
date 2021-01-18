@@ -93,15 +93,13 @@ const ClaimAllButton = props => {
 
   const [txId, setTxId] = useState({})
   const [transactions, setTransactions] = useAtom(transactionsAtom)
-  const [sendTx] = useSendTransaction('Claim All POOL', transactions, setTransactions)
+  const [sendTx] = useSendTransaction('Claim All', transactions, setTransactions)
   const txInFlight = transactions?.find((tx) => tx.id === txId)
 
   const [refetching, setRefetching] = useState(false)
 
   const txPending = (txInFlight?.sent || txInFlight?.inWallet) && !txInFlight?.completed
   const txCompleted = txInFlight?.completed
-
-  console.log(txCompleted, refetching, txInFlight)
 
   const handleClaim = async (e) => {
     e.preventDefault()
@@ -125,7 +123,7 @@ const ClaimAllButton = props => {
 
   let text = 'Claim All'
   if (txPending || refetching) {
-    if (txInFlight.send) {
+    if (txInFlight.sent) {
       text = 'Confirming...'
     } else {
       text = 'Claiming...'
@@ -134,7 +132,6 @@ const ClaimAllButton = props => {
 
   useEffect(() => {
     const refreshData = async () => {
-      console.log('Refetch')
       setRefetching(true)
       await refetch()
       setRefetching(false)
@@ -286,7 +283,7 @@ const ClaimButton = props => {
 
   let text = 'Claim'
   if (txPending || refetching) {
-    if (txInFlight.send) {
+    if (txInFlight.sent) {
       text = 'Confirming...'
     } else {
       text = 'Claiming...'

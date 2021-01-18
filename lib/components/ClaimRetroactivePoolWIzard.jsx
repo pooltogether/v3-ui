@@ -19,6 +19,9 @@ import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
+import Loader from 'react-loader-spinner'
+import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
+import { shorten } from 'lib/utils/shorten'
 
 export const showClaimWizardAtom = atom(false)
 
@@ -45,9 +48,13 @@ const ClaimRetroactivePoolWizardStepManager = props => {
   const { closeWizard } = props
   const { activeStepIndex, previousStep, moveToStep, nextStep } = useWizard()
 
-  // TODO: Add tx info here
   // TODO: Refetch isClaimed on success? Or just hardcode it
-  const { data } = useRetroactivePoolClaimData()
+  const { data, refetch } = useRetroactivePoolClaimData()
+
+  if (!data) {
+    return null
+  }
+
   const { amount, formattedAmount, index, proof } = data
 
   return <WizardLayout
@@ -60,7 +67,13 @@ const ClaimRetroactivePoolWizardStepManager = props => {
     <div className='text-inverse'>
       <StepOne nextStep={nextStep} isActive={activeStepIndex === 0}  key={1} />
       <StepTwo nextStep={nextStep} isActive={activeStepIndex === 1} key={2} />
-      <StepThree nextStep={nextStep} isActive={activeStepIndex === 2} key={3} claimData={data} />
+      <StepThree
+        key={3} claimData={data}
+        nextStep={nextStep}
+        isActive={activeStepIndex === 2}
+        refetch={refetch}
+        closeWizard={closeWizard}
+      />
     </div>
   </WizardLayout>
 }
@@ -139,13 +152,13 @@ const StepTwo = (props) => {
 
 const StepThree = (props) => {
   const {t} = useTranslation()
-  const {nextStep, isActive, claimData} = props
+  const {closeWizard, isActive, claimData, refetch} = props
   const { amount, formattedAmount, index, proof } = claimData
 
   const { usersAddress, provider, chainId } = useContext(AuthControllerContext)
   const [txId, setTxId] = useState({})
   const [transactions, setTransactions] = useAtom(transactionsAtom)
-  const [sendTx] = useSendTransaction(`Claim retroactive POOL`, transactions, setTransactions)
+  const [sendTx] = useSendTransaction(`Claim POOL`, transactions, setTransactions)
   const txInFlight = transactions?.find((tx) => tx.id === txId)
 
   const handleClaim = async (e) => {
@@ -157,6 +170,8 @@ const StepThree = (props) => {
       amount,
       proof
     ]
+
+    console.log(params)
 
     const id = await sendTx(
       t,
@@ -170,24 +185,27 @@ const StepThree = (props) => {
     setTxId(id)
   }
 
+  useEffect(() => {
+    if (txInFlight?.completed) {
+      refetch()
+    }
+  }, [txInFlight?.completed])
+
 
   if (!isActive) {
     return null
   }
 
-  if ((txInFlight?.sent || txInFlight?.inWallet) && !txInFlight?.completed) {
-    return <V3LoadingDots />
-  }
-
-  if (txInFlight?.completed && txInFlight?.error) {
-    return <div>
-      <h3>Error</h3>
-      <div>{txInFlight.reason}</div>
+  if (((txInFlight?.sent || txInFlight?.inWallet) && !txInFlight?.completed) || (txInFlight?.completed && txInFlight?.error)) {
+    return <div className='mx-auto' style={{maxWidth: '550px'}}>
+      <h3>You are receiving</h3>
+      <h2 className='text-highlight-1 mb-8'>🎉 {numberWithCommas(formattedAmount)} POOL 🎉</h2>
+      <PendingTransactionCard tx={txInFlight} />
     </div>
   }
 
   if (txInFlight?.completed) {
-    return <ClaimCompleted />
+    return <ClaimCompleted closeWizard={closeWizard} />
   }
 
   return <div className='mx-auto' style={{maxWidth: '550px'}}>
@@ -203,7 +221,66 @@ const StepThree = (props) => {
   </div>
 }
 
-const ClaimCompleted = () => {
+const PendingTransactionCard = props => {
+  const { tx } = props
+  const { chainId } = useContext(AuthControllerContext)
+
+  const txInWallet = tx.inWallet && !tx.sent
+  const txSent = tx.sent && !tx.completed
+  const txCompleted = tx.completed
+  const txError = tx.error
+
+  return <Banner className='flex flex-col' >
+      {!txCompleted && !txError && (
+        <Loader type='Oval' height={65} width={65} color='#bbb2ce' className='mx-auto mb-4' />
+      )}
+
+
+      {txCompleted && !txError && (
+        <FeatherIcon
+          icon='check-circle'
+          className={'mx-auto stroke-1 w-16 h-16 stroke-current text-accent-1 mb-4'}
+        />
+      )}
+
+      {txCompleted && txError && (
+        <FeatherIcon
+          icon='x-circle'
+          className={'mx-auto stroke-1 w-16 h-16 stroke-current text-accent-1 mb-4'}
+        />
+      )}
+
+      <div className='text-accent-1 text-sm sm:text-base'>Transaction status:</div>
+
+      {txInWallet && !txError && (
+        <div className='text-sm sm:text-base'>
+          Please confirm the transaction in your wallet ...
+        </div>
+      )}
+
+      {txSent && (
+        <div className='text-sm sm:text-base'>Waiting for confirmations ...</div>
+      )}
+
+      {txCompleted && !txError && (
+        <div className='text-green text-sm sm:text-base'>Transaction successful</div>
+      )}
+
+      {txError && <div className='text-red text-sm sm:text-base'>Error with transaction</div>}
+
+      {tx.hash && (
+        <div className='text-sm sm:text-base text-accent-1'>
+          Transaction hash:{' '}
+          <EtherscanTxLink chainId={chainId} hash={tx.hash} className='underline text-accent-1'>
+            {shorten(tx.hash)}
+          </EtherscanTxLink>
+        </div>
+      )}
+  </Banner>
+}
+
+const ClaimCompleted = props => {
+  const {closeWizard} = props
   const { confetti } = useContext(ConfettiContext)
 
   useEffect(() => {
@@ -213,6 +290,10 @@ const ClaimCompleted = () => {
     }, 300)
   }, [])
 
+  const onClick = (e) => {
+    closeWizard()
+  }
+
   return <div className='mx-auto' style={{maxWidth: '550px'}}>
     <h3>🎉 🎉 🎉</h3>
     <h3>Successfully Claimed!!</h3>
@@ -221,8 +302,8 @@ const ClaimCompleted = () => {
       <h4 className='mb-4'>Now let's use these tokens!</h4>
       <p className='text-sm sm:text-lg text-accent-1 mb-4 sm:mb-8'>It can be used to do things and stuff. These things are very cool. They will let you make decisions about the stuff.</p>
       <div className='flex flex-row'>
-        <ProposalButton />
-        <LearnMoreButton />
+        <ProposalButton onClick={onClick} />
+        <LearnMoreButton onClick={onClick} />
       </div>
     </WizardBanner>
   </div>
@@ -235,8 +316,8 @@ const CheckboxContainer = (props) => <div style={{maxWidth: '477px'}} className=
 const ProposalButton = props => {
   const { onClick, children } = props
 
-  return <Link href='/vote' >
-    <a href='/vote' className='p-8 mr-4 bg-card w-full flex flex-col rounded-lg'>
+  return <Link href='/vote'>
+    <a href='/vote' onClick={onClick} className='p-8 mr-4 bg-card w-full flex flex-col rounded-lg'>
       <svg
         style={{
           transform: 'scale(1.15)'
@@ -258,8 +339,9 @@ const ProposalButton = props => {
 const LearnMoreButton = props => {
   const { onClick, children } = props
 
-  return <Link href='/vote' >
-    <a href='/vote' className='p-8 ml-4 bg-card w-full flex flex-col rounded-lg'>
+  // TODO: Get an actual link for this. Update image?
+  return <Link href='/vote'>
+    <a href='/vote' onClick={onClick} className='p-8 ml-4 bg-card w-full flex flex-col rounded-lg'>
       <svg
         style={{
           transform: 'scale(1.15)'
