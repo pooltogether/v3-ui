@@ -106,7 +106,7 @@ export function ConfirmWithdrawNoFee(props) {
       </PaneTitle>
 
       <div
-        className='text-center mx-auto rounded-xl text-orange bg-orange-darkened border-2 border-orange py-2 xs:py-8 px-2 xs:px-8'
+        className='confirm-withdraw-no-fee text-center mx-auto rounded-xl text-orange bg-orange-darkened border-2 border-orange py-2 xs:py-8 px-2 xs:px-8'
         style={{
           maxWidth: 600
         }}
