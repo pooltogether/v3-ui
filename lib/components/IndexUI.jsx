@@ -20,7 +20,7 @@ export const IndexUI = (
   const { loading, pools } = usePools()
 
   return <>
-    <V2MessageLarge />
+    {/* <V2MessageLarge /> */}
 
     <PageTitleAndBreadcrumbs
       title={`${t('pools')}`}

@@ -2,9 +2,9 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
 
-import { Trans } from 'lib/../i18n'
+import { useTranslation, Trans } from 'lib/../i18n'
 import { useUsersV2Balances } from 'lib/hooks/useUsersV2Balances'
-import { V2MigrateButton } from 'lib/components/V2MigrateButton'
+import { ButtonLink } from 'lib/components/ButtonLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
@@ -13,6 +13,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 export const V2AccountTicket = (
   props,
 ) => {
+  const { t } = useTranslation()
   const { isPod, v2dai } = props
   
   const { usersV2Balances } = useUsersV2Balances()
@@ -126,12 +127,13 @@ export const V2AccountTicket = (
               </div>
 
               <div className='mt-4'>
-                <V2MigrateButton
-                  balance={balances.poolBalance}
-                  balanceFormatted={balances.poolBalanceFormatted}
-                  type={'pool'}
-                  ticker={ticker}
-                />
+                <ButtonLink
+                  textSize='xxxs'
+                  padding='px-4 py-1'
+                  href='https://v2.pooltogether.com/en/account'
+                >
+                  {t('goToV2')}
+                </ButtonLink>
               </div>
             </div>
           </>}
@@ -168,13 +170,14 @@ export const V2AccountTicket = (
                 })}</PoolNumber> {ticker}
               </div>
 
-              <div className='mt-2'>
-                <V2MigrateButton
-                  balance={balances.podShares}
-                  balanceFormatted={balances.podBalanceFormatted}
-                  type={'pod'}
-                  ticker={ticker}
-                />
+              <div className='mt-4'>
+                <ButtonLink
+                  textSize='xxxs'
+                  padding='px-4 py-1'
+                  href='https://v2.pooltogether.com/en/account'
+                >
+                  {t('goToV2')}
+                </ButtonLink>
               </div>
             </div>
           </>}
