@@ -101,9 +101,8 @@ export const CONTRACT_ADDRESSES = {
     Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
     // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
 
-    // TODO: Add mainnet. Add remaining pools.
+    // TODO: Add mainnet. Add remaining pools. Pull from pooltogether-contracts
     ComptrollerProxyFactory: '0xA9fbACfF0E0c574138d511eA333a0a2119AdB32D',
-    // MerkleDistributor: '0x02CEcf46ca76235B29a714c1626b2463125bC934', // TODO: REMOVE, OLD
     MerkleDistributor: '0xBfb8F258877fbBC68117919E59B83051CA29D883',
   },
 }

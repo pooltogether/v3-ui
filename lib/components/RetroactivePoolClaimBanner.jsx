@@ -20,8 +20,6 @@ export const RetroactivePoolClaimBanner = (props) => {
     return null
   }
 
-  // TODO: Fetch users claimable balance / if they've claimed, show accordingly.
-
   return <Banner gradient={'rainbow'} className='mb-8'>
     <div className='flex sm:flex-row flex-col'>
       <img className='mb-8 mr-auto sm:mr-8 sm:mb-auto' src={Bell} />

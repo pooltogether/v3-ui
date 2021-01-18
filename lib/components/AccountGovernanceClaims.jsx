@@ -3,7 +3,9 @@ import classnames from 'classnames'
 import { useTranslation } from 'i18n/client'
 import { Button } from 'lib/components/Button'
 import FeatherIcon from 'feather-icons-react'
+import { useAtom } from 'jotai'
 import ComptrollerV2Abi from "@pooltogether/pooltogether-contracts/abis/ComptrollerV2"
+import { ethers } from 'ethers'
 import ComptrollerV2ProxyFactoryAbi from "@pooltogether/pooltogether-contracts/abis/ComptrollerV2ProxyFactory"
 
 import { CONTRACT_ADDRESSES, SECONDS_PER_DAY, SECONDS_PER_HOUR, SECONDS_PER_WEEK } from 'lib/constants'
@@ -13,12 +15,10 @@ import { usePools } from 'lib/hooks/usePools'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useAtom } from 'jotai'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { useClaimablePoolComptrollerAddresses } from 'lib/hooks/useClaimablePoolComptrollerAddresses'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
-import { ethers } from 'ethers'
 import { useAccount } from 'lib/hooks/useAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { usePool } from 'lib/hooks/usePool'
@@ -31,7 +31,6 @@ export const AccountGovernanceClaims = (props) => {
   const { usersAddress } = useContext(AuthControllerContext)
 
   if (!isFetched || (isFetching && !isFetched)) {
-    // TODO: Nicer empty state
     return null
   }
 
@@ -194,8 +193,6 @@ const ClaimablePoolPoolItem = props => {
     user
   } = data
 
-  // TODO: Does this get updated when a user buys more tickets?
-  
   const ticketData = playerTickets.find(ticket => ticket.pool.ticket.id === measureTokenAddress)
   if (!ticketData) {
     return null
@@ -302,8 +299,6 @@ const ClaimButton = props => {
     }
   }, [txCompleted])
 
-// TODO: Transaction states
-// TODO: Refetch claimable amounts on success
   return <Button disabled={txPending || refetching || !claimable} className='w-full' onClick={handleClaim}>{text}</Button>
 }
 
@@ -326,7 +321,6 @@ const RewardTimeLeft = props => {
 }
 
 const determineColor = (secondsLeft) => {
-  // 1 day
   if (secondsLeft <= SECONDS_PER_HOUR) {
     return 'text-red'
   } else if (secondsLeft <= SECONDS_PER_DAY) {
