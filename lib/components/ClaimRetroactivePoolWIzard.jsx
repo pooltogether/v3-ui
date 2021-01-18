@@ -7,7 +7,7 @@ import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { Meta } from 'lib/components/Meta'
 import { WizardLayout } from 'lib/components/WizardLayout'
 import Link from 'next/link'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useWizard, useWizardStep, Wizard } from 'react-wizard-primitive'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -18,6 +18,7 @@ import MerkleDistributorAbi from 'abis/MerkleDistributor'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
+import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
 
 export const showClaimWizardAtom = atom(false)
 
@@ -169,8 +170,6 @@ const StepThree = (props) => {
     setTxId(id)
   }
 
-  // TODO: onClick -> start transaction
-  // On completion -> move to next step
 
   if (!isActive) {
     return null
@@ -188,19 +187,7 @@ const StepThree = (props) => {
   }
 
   if (txInFlight?.completed) {
-    return <div className='mx-auto' style={{maxWidth: '550px'}}>
-      <h3>🎉 🎉 🎉</h3>
-      <h3>Successfully Claimed!!</h3>
-      <h2 className='text-highlight-1 mb-8'>1,000 POOL</h2>
-      <WizardBanner>
-        <h4 className='mb-4'>Now let's use these tokens!</h4>
-        <p className='text-sm sm:text-lg text-accent-1 mb-4 sm:mb-8'>It can be used to do things and stuff. These things are very cool. They will let you make decisions about the stuff.</p>
-        <div className='flex flex-row'>
-          <ProposalButton />
-          <LearnMoreButton />
-        </div>
-      </WizardBanner>
-    </div>
+    return <ClaimCompleted />
   }
 
   return <div className='mx-auto' style={{maxWidth: '550px'}}>
@@ -213,6 +200,31 @@ const StepThree = (props) => {
     >
       Claim My Tokens
     </Button>
+  </div>
+}
+
+const ClaimCompleted = () => {
+  const { confetti } = useContext(ConfettiContext)
+
+  useEffect(() => {
+    setTimeout(() => {
+      window.confettiContext = confetti
+      confetti.start(setTimeout, setInterval)
+    }, 300)
+  }, [])
+
+  return <div className='mx-auto' style={{maxWidth: '550px'}}>
+    <h3>🎉 🎉 🎉</h3>
+    <h3>Successfully Claimed!!</h3>
+    <h2 className='text-highlight-1 mb-8'>1,000 POOL</h2>
+    <WizardBanner>
+      <h4 className='mb-4'>Now let's use these tokens!</h4>
+      <p className='text-sm sm:text-lg text-accent-1 mb-4 sm:mb-8'>It can be used to do things and stuff. These things are very cool. They will let you make decisions about the stuff.</p>
+      <div className='flex flex-row'>
+        <ProposalButton />
+        <LearnMoreButton />
+      </div>
+    </WizardBanner>
   </div>
 }
 
