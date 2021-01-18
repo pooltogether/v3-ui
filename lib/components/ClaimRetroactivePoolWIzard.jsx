@@ -48,14 +48,7 @@ const ClaimRetroactivePoolWizardStepManager = props => {
   const { closeWizard } = props
   const { activeStepIndex, previousStep, moveToStep, nextStep } = useWizard()
 
-  // TODO: Refetch isClaimed on success? Or just hardcode it
   const { data, refetch } = useRetroactivePoolClaimData()
-
-  if (!data) {
-    return null
-  }
-
-  const { amount, formattedAmount, index, proof } = data
 
   return <WizardLayout
     currentWizardStep={activeStepIndex + 1}
@@ -68,7 +61,8 @@ const ClaimRetroactivePoolWizardStepManager = props => {
       <StepOne nextStep={nextStep} isActive={activeStepIndex === 0}  key={1} />
       <StepTwo nextStep={nextStep} isActive={activeStepIndex === 1} key={2} />
       <StepThree
-        key={3} claimData={data}
+        key={3}
+        claimData={data}
         nextStep={nextStep}
         isActive={activeStepIndex === 2}
         refetch={refetch}
@@ -153,13 +147,24 @@ const StepTwo = (props) => {
 const StepThree = (props) => {
   const {t} = useTranslation()
   const {closeWizard, isActive, claimData, refetch} = props
-  const { amount, formattedAmount, index, proof } = claimData
-
+  
   const { usersAddress, provider, chainId } = useContext(AuthControllerContext)
   const [txId, setTxId] = useState({})
   const [transactions, setTransactions] = useAtom(transactionsAtom)
   const [sendTx] = useSendTransaction(`Claim POOL`, transactions, setTransactions)
   const txInFlight = transactions?.find((tx) => tx.id === txId)
+  
+  useEffect(() => {
+    if (txInFlight?.completed) {
+      refetch()
+    }
+  }, [txInFlight?.completed])
+
+  if (!claimData) {
+    return null
+  }
+
+  const { amount, formattedAmount, index, proof } = claimData
 
   const handleClaim = async (e) => {
     e.preventDefault()
@@ -185,11 +190,6 @@ const StepThree = (props) => {
     setTxId(id)
   }
 
-  useEffect(() => {
-    if (txInFlight?.completed) {
-      refetch()
-    }
-  }, [txInFlight?.completed])
 
 
   if (!isActive) {
@@ -239,14 +239,14 @@ const PendingTransactionCard = props => {
       {txCompleted && !txError && (
         <FeatherIcon
           icon='check-circle'
-          className={'mx-auto stroke-1 w-16 h-16 stroke-current text-accent-1 mb-4'}
+          className={'mx-auto stroke-1 w-16 h-16 stroke-current text-green mb-4'}
         />
       )}
 
       {txCompleted && txError && (
         <FeatherIcon
           icon='x-circle'
-          className={'mx-auto stroke-1 w-16 h-16 stroke-current text-accent-1 mb-4'}
+          className={'mx-auto stroke-1 w-16 h-16 stroke-current text-red mb-4'}
         />
       )}
 
