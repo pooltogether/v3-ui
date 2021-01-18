@@ -76,10 +76,8 @@ export function PrizeShow(props) {
 
     <PrizeBreakdown
       prizeNumber={prizeNumber}
-      decimals={decimals}
       prize={prize}
       preAwardTimeTravelPool={preAwardTimeTravelPool}
-      postAwardTimeTravelPool={postAwardTimeTravelPool}
     />
 
     <LootBoxTable
