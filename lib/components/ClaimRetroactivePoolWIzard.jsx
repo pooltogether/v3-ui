@@ -7,9 +7,17 @@ import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { Meta } from 'lib/components/Meta'
 import { WizardLayout } from 'lib/components/WizardLayout'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useWizard, useWizardStep, Wizard } from 'react-wizard-primitive'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTranslation } from 'i18n/client'
+import MerkleDistributorAbi from 'abis/MerkleDistributor'
+import { CONTRACT_ADDRESSES } from 'lib/constants'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 
 export const showClaimWizardAtom = atom(false)
 
@@ -37,7 +45,7 @@ const ClaimRetroactivePoolWizardStepManager = props => {
   const { activeStepIndex, previousStep, moveToStep, nextStep } = useWizard()
 
   // TODO: Add tx info here
-  // TODO: Refetch isClaimed on success? Or just hardcode it.
+  // TODO: Refetch isClaimed on success? Or just hardcode it
   const { data } = useRetroactivePoolClaimData()
   const { amount, formattedAmount, index, proof } = data
 
@@ -45,14 +53,13 @@ const ClaimRetroactivePoolWizardStepManager = props => {
     currentWizardStep={activeStepIndex + 1}
     handlePreviousStep={previousStep}
     moveToStep={moveToStep}
-    totalWizardSteps={4}
+    totalWizardSteps={3}
     closeWizard={closeWizard}
   >
     <div className='text-inverse'>
       <StepOne nextStep={nextStep} isActive={activeStepIndex === 0}  key={1} />
       <StepTwo nextStep={nextStep} isActive={activeStepIndex === 1} key={2} />
       <StepThree nextStep={nextStep} isActive={activeStepIndex === 2} key={3} claimData={data} />
-      <StepFour nextStep={nextStep} isActive={activeStepIndex === 3} key={4} />
     </div>
   </WizardLayout>
 }
@@ -128,9 +135,39 @@ const StepTwo = (props) => {
     </Button>
   </div>
 }
+
 const StepThree = (props) => {
+  const {t} = useTranslation()
   const {nextStep, isActive, claimData} = props
   const { amount, formattedAmount, index, proof } = claimData
+
+  const { usersAddress, provider, chainId } = useContext(AuthControllerContext)
+  const [txId, setTxId] = useState({})
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
+  const [sendTx] = useSendTransaction(`Claim retroactive POOL`, transactions, setTransactions)
+  const txInFlight = transactions?.find((tx) => tx.id === txId)
+
+  const handleClaim = async (e) => {
+    e.preventDefault()
+
+    const params = [
+      index,
+      usersAddress,
+      amount,
+      proof
+    ]
+
+    const id = await sendTx(
+      t,
+      provider,
+      usersAddress,
+      MerkleDistributorAbi,
+      CONTRACT_ADDRESSES[chainId].MerkleDistributor,
+      'claim',
+      params,
+    )
+    setTxId(id)
+  }
 
   // TODO: onClick -> start transaction
   // On completion -> move to next step
@@ -139,38 +176,43 @@ const StepThree = (props) => {
     return null
   }
 
+  if ((txInFlight?.sent || txInFlight?.inWallet) && !txInFlight?.completed) {
+    return <V3LoadingDots />
+  }
+
+  if (txInFlight?.completed && txInFlight?.error) {
+    return <div>
+      <h3>Error</h3>
+      <div>{txInFlight.reason}</div>
+    </div>
+  }
+
+  if (txInFlight?.completed) {
+    return <div className='mx-auto' style={{maxWidth: '550px'}}>
+      <h3>🎉 🎉 🎉</h3>
+      <h3>Successfully Claimed!!</h3>
+      <h2 className='text-highlight-1 mb-8'>1,000 POOL</h2>
+      <WizardBanner>
+        <h4 className='mb-4'>Now let's use these tokens!</h4>
+        <p className='text-sm sm:text-lg text-accent-1 mb-4 sm:mb-8'>It can be used to do things and stuff. These things are very cool. They will let you make decisions about the stuff.</p>
+        <div className='flex flex-row'>
+          <ProposalButton />
+          <LearnMoreButton />
+        </div>
+      </WizardBanner>
+    </div>
+  }
+
   return <div className='mx-auto' style={{maxWidth: '550px'}}>
     <h3>You are receiving</h3>
-    <h2 className='text-highlight-1 mb-8'>🎉 {formattedAmount} POOL 🎉</h2>
+    <h2 className='text-highlight-1 mb-8'>🎉 {numberWithCommas(formattedAmount)} POOL 🎉</h2>
     <Button
-      onClick={nextStep}
+      onClick={handleClaim}
       textSize='lg'
       className='w-full'
     >
       Claim My Tokens
     </Button>
-  </div>
-}
-const StepFour = (props) => {
-  const {nextStep, isActive} = props
-
-  if (!isActive) {
-    return null
-  }
-
-  return <div className='mx-auto' style={{maxWidth: '550px'}}>
-    <h3>🎉 🎉 🎉</h3>
-    <h3>Successfully Claimed!!</h3>
-    <h2 className='text-highlight-1 mb-8'>1,000 POOL</h2>
-    <WizardBanner>
-      <h4 className='mb-4'>Now let's use these tokens!</h4>
-      <p className='text-sm sm:text-lg text-accent-1 mb-4 sm:mb-8'>It can be used to do things and stuff. These things are very cool. They will let you make decisions about the stuff.</p>
-      <div className='flex flex-row'>
-        <ProposalButton/>
-        <LearnMoreButton/>
-      </div>
-    </WizardBanner>
-    
   </div>
 }
 

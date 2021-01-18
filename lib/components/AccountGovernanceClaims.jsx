@@ -18,17 +18,25 @@ import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { useClaimablePoolComptrollerAddresses } from 'lib/hooks/useClaimablePoolComptrollerAddresses'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
+import { ethers } from 'ethers'
+import { useAccount } from 'lib/hooks/useAccount'
+import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
+import { usePool } from 'lib/hooks/usePool'
 
 
 export const AccountGovernanceClaims = (props) => {
-  const { t } = useTranslation()
-  
   const { pools } = usePools()
 
   const { data: totalClaimablePool, isFetched, isFetching } = useTotalClaimablePool()
+  const { usersAddress } = useContext(AuthControllerContext)
 
+  // TODO: SHow even when total claimable is 0
   if (!isFetched || (isFetching && !isFetched) || (isFetched && totalClaimablePool === 0)) {
     // TODO: Nicer empty state
+    return null
+  }
+
+  if (!usersAddress) {
     return null
   }
   
@@ -58,7 +66,7 @@ const ClaimHeader = props => {
   return <div className='flex justify-between flex-col sm:flex-row mb-8  p-2 sm:p-0'>
     <div className='flex sm:flex-col justify-between sm:justify-start mb-4 sm:mb-0'>
       <h4 className='font-normal mb-auto sm:mb-0'>Claimable POOL</h4>
-      <h2 className='leading-none'>{numberWithCommas(totalClaimablePool)}</h2>
+      <h2 className='leading-none text-flashy text-2xl sm:text-3xl'>{numberWithCommas(totalClaimablePool)}</h2>
     </div>
     <div className='flex flex-col-reverse sm:flex-col'>
       <ClaimAllButton />
@@ -72,7 +80,6 @@ const ClaimAllButton = props => {
 
   const { usersAddress, provider, chainId } = useContext(AuthControllerContext)
   const { isFetched, data: comptrollerAddresses } = useClaimablePoolComptrollerAddresses()
-  console.log(comptrollerAddresses)
 
   const [txId, setTxId] = useState({})
   const [transactions, setTransactions] = useAtom(transactionsAtom)
@@ -127,7 +134,12 @@ const ClaimAllButton = props => {
 
 const ClaimablePoolPoolItem = props => {
   const { pool } = props
-  const { name, symbol, tokenListener: comptrollerAddress } = pool
+  const { usersAddress } = useContext(AuthControllerContext)
+  const { accountData } = useAccount(usersAddress)
+  const { playerTickets } = usePlayerTickets(accountData)
+  const { name, symbol } = pool
+  const { pool: poolChainData } = usePool(symbol)
+  const comptrollerAddress = poolChainData.tokenListener
 
   const {
     refetch,
@@ -147,14 +159,34 @@ const ClaimablePoolPoolItem = props => {
     dripRatePerSecond,
     exchangeRateMantissa,
     lastDripTimestamp,
-    measure,
+    measureTokenAddress,
     totalUnclaimed,
+    amountClaimable,
     user
   } = data
 
-  const givingAwayPerDay = 15000
-  const earningPerDay = 15
-  const poolToClaim = numberWithCommas(user.balance.toString())
+  // TODO: Does this get updated when a user buys more tickets?
+  
+  const ticketData = playerTickets.find(ticket => ticket.pool.ticket.id === measureTokenAddress)
+  const decimals = ticketData.pool.underlyingCollateralDecimals
+  const totalSupply = Number(ethers.utils.formatUnits(ethers.utils.bigNumberify(ticketData.pool.ticketSupply), decimals))
+  const usersBalance = Number(ethers.utils.formatUnits(ticketData.balance, decimals))
+  
+  const ownershipPercentage = usersBalance / totalSupply
+  const dripRatePerDayNumber = Number(ethers.utils.formatUnits(dripRatePerSecond, decimals))
+  const usersDripPerSecond = dripRatePerDayNumber * ownershipPercentage
+
+  const usersDripPerDay = usersDripPerSecond * 60 * 60 * 24
+  const totalDripPerDay = dripRatePerDayNumber * 60 * 60 * 24
+  const usersDripPerDayFormatted = numberWithCommas(usersDripPerDay, { precision: getPrecision(usersDripPerDay) })
+  const totalDripPerDayFormatted = numberWithCommas(totalDripPerDay, { precision: getPrecision(totalDripPerDay) })
+
+  const secondsLeft = totalUnclaimed.div(dripRatePerSecond).toNumber()
+
+  
+  // TODO:
+  const poolToClaim = numberWithCommas(ethers.utils.formatUnits(amountClaimable, 18), { precision: getPrecision(totalDripPerDay) })
+  console.log(ticketData, poolToClaim)
 
   return <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mb-4 sm:mb-8 last:mb-0'>
     <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start mb-2'>
@@ -164,14 +196,14 @@ const ClaimablePoolPoolItem = props => {
       />
       <div>
         <h2 className='leading-none'>{name}</h2>
-        <div className='text-accent-1 text-xs mt-1' >{givingAwayPerDay} POOL / day</div>
-        <RewardTimeLeft initialSecondsLeft={5000} />
+        <div className='text-accent-1 text-xs mt-1' >{totalDripPerDayFormatted} POOL / day</div>
+        <RewardTimeLeft initialSecondsLeft={secondsLeft} />
       </div>
     </div>
 
     <div className='sm:text-right'>
-      <h2 className='leading-none'>{poolToClaim} POOL</h2>
-      <div className='text-accent-1 text-xs mb-4' >@ {earningPerDay} POOL / day</div>
+      <h2 className='leading-none'>{poolToClaim} claimable POOL</h2>
+      <div className='text-accent-1 text-xs mb-4' >@ {usersDripPerDayFormatted} POOL / day</div>
       <ClaimButton comptrollerAddress={comptrollerAddress} />
     </div>
   </div>
@@ -253,5 +285,17 @@ const getUnderlyingCollateralSymbol = (ticketSymbol) => {
     case 'PT-cUSDC': {
       return { underlyingCollateralSymbol: 'usdc' }
     }
+  }
+}
+
+const getPrecision = (num) => {
+  if (num > 1000) {
+    return 0
+  } else if (num > 0.01) {
+    return 2
+  } else if (num > 0.0001) {
+    return 4
+  } else if (num > 0.000001) {
+    return 6
   }
 }

@@ -9,6 +9,7 @@ import { PoolList } from 'lib/components/PoolList'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { Tagline } from 'lib/components/Tagline'
 import { V2MessageLarge } from 'lib/components/V2MessageLarge'
+import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 
 import UsdcSvg from 'assets/images/usdc-new-transparent.png'
 
@@ -21,6 +22,8 @@ export const IndexUI = (
 
   return <>
     <V2MessageLarge />
+
+    <RetroactivePoolClaimBanner />
 
     <PageTitleAndBreadcrumbs
       title={`${t('pools')}`}
