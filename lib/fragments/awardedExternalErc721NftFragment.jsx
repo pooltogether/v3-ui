@@ -5,5 +5,6 @@ export const awardedExternalErc721NftFragment = gql`
     id
     address
     tokenIds
+    winner
   }
 `
