@@ -90,6 +90,7 @@
   border-radius: 50px !important;
   margin: 0.2rem 0 !important;
   max-width: 300px;
+  transition: 0.15s;
 }
 
 .bn-onboard-custom .bn-onboard-icon-button div {
@@ -109,6 +110,10 @@
   color:#002237!important;
   margin-left:0 !important;
   order: 1;
+}
+
+.bn-onboard-custom .bn-onboard-icon-button span i {
+  margin-right:10px !important;
 }
 
 .bn-onboard-custom .bn-onboard-custom.bn-onboard-dark-mode-background,
@@ -149,7 +154,7 @@
 .bn-onboard-custom .bn-onboard-select-wallet-info {
   color:#784ffe!important;
   margin: 0 !important;
-  transition:.3s
+  transition: 0
 }
 
 .bn-onboard-custom .bn-onboard-modal-content-header-heading {
@@ -180,7 +185,8 @@
 .bn-onboard-custom.bn-onboard-dark-mode .bn-onboard-select-wallet-info {
   color:#a472f7 !important;
   font-weight: 900 !important;
-  transition: 0.1s
+  transition: 0
+  /* transition: 0.1s */
 }
 
 .bn-onboard-custom.bn-onboard-dark-mode .bn-onboard-select-wallet-info:hover {
@@ -253,7 +259,7 @@
     box-shadow: inset 0 0 50px rgba(0, 0, 0, .1),
       inset 0 0 5px rgba(0, 0, 0, .05);
     margin: 0 -2rem 1.5rem -2rem !important;
-    max-height: 380px !important;
+    max-height: 520px !important;
     overflow-y: scroll;
     padding: 1rem 2rem !important;
   }
