@@ -103,7 +103,7 @@ export const CONTRACT_ADDRESSES = {
 
     // TODO: Add mainnet. Add remaining pools. Pull from pooltogether-contracts
     ComptrollerProxyFactory: '0xA9fbACfF0E0c574138d511eA333a0a2119AdB32D',
-    MerkleDistributor: '0xBfb8F258877fbBC68117919E59B83051CA29D883',
+    MerkleDistributor: '0x2FDE489Bd546136A624d7278Bfe932e330301496',
   },
 }
 
