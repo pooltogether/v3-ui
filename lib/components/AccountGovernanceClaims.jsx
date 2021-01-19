@@ -27,7 +27,7 @@ import { usePool } from 'lib/hooks/usePool'
 export const AccountGovernanceClaims = (props) => {
   const { pools } = usePools()
 
-  const { data: totalClaimablePool, isFetched, isFetching, refetch: refetchTotalClaimablePool } = useTotalClaimablePool()
+  const { isFetched, isFetching, refetch: refetchTotalClaimablePool } = useTotalClaimablePool()
   const { usersAddress } = useContext(AuthControllerContext)
 
   if (!isFetched || (isFetching && !isFetched)) {
@@ -46,7 +46,7 @@ export const AccountGovernanceClaims = (props) => {
     </h6>
     <div className='xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
       <ClaimHeader />
-      {pools.map(pool => <ClaimablePoolPoolItem 
+      {pools.map(pool => <ClaimablePoolTokenItem 
         refetchTotalClaimablePool={refetchTotalClaimablePool}
         key={pool.id}
         pool={pool}
@@ -74,7 +74,6 @@ const ClaimHeader = props => {
     </div>
     <div className='flex flex-col-reverse sm:flex-col'>
       <ClaimAllButton
-        amt={totalClaimablePoolFormatted}
         refetch={refetch}
         claimable={totalClaimablePool > 0}
       />
@@ -85,7 +84,7 @@ const ClaimHeader = props => {
 
 const ClaimAllButton = props => {
   const { t } = useTranslation()
-  const { claimable, refetch, amt } = props
+  const { claimable, refetch } = props
 
   const { usersAddress, provider, chainId } = useContext(AuthControllerContext)
   const { isFetched, data: comptrollerAddresses } = useClaimablePoolComptrollerAddresses()
@@ -162,14 +161,14 @@ const ClaimAllButton = props => {
   </Button>
 }
 
-const ClaimablePoolPoolItem = props => {
+const ClaimablePoolTokenItem = props => {
   const { pool, refetchTotalClaimablePool } = props
   const { usersAddress } = useContext(AuthControllerContext)
   const { accountData } = useAccount(usersAddress)
   const { playerTickets } = usePlayerTickets(accountData)
   const { name, symbol } = pool
-  const { pool: poolChainData } = usePool(symbol)
-  const comptrollerAddress = poolChainData.tokenListener
+  const { pool: poolInfo } = usePool(symbol)
+  const comptrollerAddress = poolInfo.tokenListener
 
   const {
     refetch,
@@ -193,7 +192,7 @@ const ClaimablePoolPoolItem = props => {
     user
   } = data
 
-  const ticketData = playerTickets.find(ticket => ticket.pool.ticket.id === measureTokenAddress)
+  const ticketData = playerTickets.find(playerTicket => playerTicket.pool.ticket.id === measureTokenAddress)
   if (!ticketData) {
     return null
   }
@@ -205,7 +204,7 @@ const ClaimablePoolPoolItem = props => {
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
   const dripRatePerSecondNumber = Number(ethers.utils.formatUnits(dripRatePerSecond, decimals))
 
-  const totalDripPerDay = dripRatePerSecondNumber * 60 * 60 * 24
+  const totalDripPerDay = dripRatePerSecondNumber * SECONDS_PER_DAY
   const usersDripPerDay = totalDripPerDay * ownershipPercentage
   const usersDripPerDayFormatted = numberWithCommas(usersDripPerDay, { precision: getPrecision(usersDripPerDay) })
   const totalDripPerDayFormatted = numberWithCommas(totalDripPerDay, { precision: getPrecision(totalDripPerDay) })
@@ -218,7 +217,7 @@ const ClaimablePoolPoolItem = props => {
   return <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mb-4 sm:mb-8 last:mb-0'>
     <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start mb-2'>
       <PoolCurrencyIcon
-        pool={getUnderlyingCollateralSymbol(symbol)}
+        pool={poolInfo.underlyingCollateralSymbol}
         className='h-16 w-16 sm:h-16 sm:w-16 sm:mr-4'
       />
       <div>
@@ -328,21 +327,4 @@ const determineColor = (secondsLeft) => {
   }
 
   return ''
-}
-
-const getUnderlyingCollateralSymbol = (ticketSymbol) => {
-  switch (ticketSymbol) {
-    case 'PT-cDAI': {
-      return { underlyingCollateralSymbol: 'dai' }
-    }
-    case 'PT-cBAT': {
-      return { underlyingCollateralSymbol: 'bat' }
-    }
-    case 'PT-cUNI': {
-      return { underlyingCollateralSymbol: 'uni' }
-    }
-    case 'PT-cUSDC': {
-      return { underlyingCollateralSymbol: 'usdc' }
-    }
-  }
 }

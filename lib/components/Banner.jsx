@@ -14,8 +14,7 @@ const BannerUnmemoized = (props) => {
   if (gradient === BannerGradient.rainbow) {
     return <div 
         className={
-          classnames(bannerClass, 'text-purple', {
-          }, className)
+          classnames(bannerClass, 'text-purple', className)
         }
         style={{
           ...style,

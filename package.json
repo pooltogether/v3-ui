@@ -122,5 +122,32 @@
     "tailwindcss": "^1.8.6",
     "use-window-focus": "^1.1.1",
     "webpack": "4.44.1"
+  },
+  "vsc-organize-imports": {
+    "orderSpecifiers": true,
+    "orderSpecifiersAsSingleLine": true,
+    "baseUrl": "",
+    "emptyLinesAfterImports": 1,
+    "emptyLinesBetweenFilledGroups": 1,
+    "groups": [
+       {
+          "groups": [
+             "global",
+             "globalDirect"
+          ],
+          "sortBy": "path",
+          "emptyLines": true
+       },
+       {
+          "groups": [
+             "absolute",
+             "relative",
+             "absoluteDirect",
+             "relativeDirect"
+          ],
+          "sortBy": "path",
+          "emptyLines": true
+       },
+    ]
   }
 }
