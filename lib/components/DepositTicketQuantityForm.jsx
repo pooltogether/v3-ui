@@ -46,7 +46,10 @@ export function DepositTicketQuantityForm(props) {
   const playerAddress = ''
   const address = playerAddress || usersAddress
   
-  const { usersTicketBalance, usersTicketBalanceBN } = usePlayerPoolBalances(address, pool)
+  const {
+    usersTicketBalance,
+    usersTicketBalanceBN
+  } = usePlayerPoolBalances(address, pool)
 
   const liquidityCap = pool?.liquidityCap ? bn(pool?.liquidityCap) : bn(0)
   let remainingTickets

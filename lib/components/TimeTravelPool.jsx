@@ -12,6 +12,13 @@ export function TimeTravelPool(props){
     prize,
     querySymbol
   } = props
+
+  if (!querySymbol) {
+    return children({
+      timeTravelPool: {},
+      preAwardTimeTravelPool: {}
+    })
+  }
   
   // Rewind to the block _before_ the prize was awarded
   const preAwardBlockNumber = props.blockNumber - 1

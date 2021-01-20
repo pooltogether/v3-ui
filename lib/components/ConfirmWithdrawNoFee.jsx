@@ -14,9 +14,9 @@ import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { TxStatus } from 'lib/components/TxStatus'
 import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { TxStatus } from 'lib/components/TxStatus'
 
 export function ConfirmWithdrawNoFee(props) {
   const { t } = useTranslation()
@@ -36,7 +36,9 @@ export function ConfirmWithdrawNoFee(props) {
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { usersTicketBalance } = usePlayerPoolBalances(address, pool)
+  const {
+    usersTicketBalanceBN
+  } = usePlayerPoolBalances(address, pool)
 
   const decimals = pool?.underlyingCollateralDecimals
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
@@ -67,14 +69,11 @@ export function ConfirmWithdrawNoFee(props) {
     const params = [
       usersAddress,
       ethers.utils.parseUnits(
-        quantity,
+        quantity.toString(),
         Number(decimals)
       ),
       controlledTicketTokenAddress,
       ethers.utils.parseEther(maxExitFee),
-      // {
-      //   gasLimit: 700000
-      // }
     ]
 
     const id = await sendTx(
@@ -90,10 +89,6 @@ export function ConfirmWithdrawNoFee(props) {
     setTxId(id)
   }
 
-  // if (!txExecuted && quantity && decimals) {
-  //   runTx()
-  // }
-
   useEffect(() => {
     if (tx?.cancelled || tx?.error) {
       previousStep()
@@ -101,6 +96,8 @@ export function ConfirmWithdrawNoFee(props) {
       nextStep()
     }
   }, [tx])
+
+
 
   return <>
     {!tx?.sent && <>
@@ -133,8 +130,8 @@ export function ConfirmWithdrawNoFee(props) {
 
         <WithdrawOdds
           pool={pool}
-          usersBalance={usersTicketBalance}
-          quantity={quantity}
+          usersTicketBalanceBN={usersTicketBalanceBN}
+          withdrawAmount={quantity}
         />
       </div>
 
@@ -151,6 +148,7 @@ export function ConfirmWithdrawNoFee(props) {
     </>}
 
     <TxStatus
+      hideOnInWallet
       tx={tx}
       title={t('withdrawing')}
       subtitle={Number(quantity) === 1 ?
@@ -172,7 +170,6 @@ export function ConfirmWithdrawNoFee(props) {
           }}
         />
       }
-      hideOnInWallet
     />
   </>
 }

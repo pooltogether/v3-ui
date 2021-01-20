@@ -188,7 +188,7 @@ export function Layout(props) {
 
         <div className='content'>
           <div
-            className='pool-container w-full flex flex-grow relative z-10 h-full page px-4 xs:px-12 sm:px-10 pt-6 xs:pt-6 sm:pt-8'
+            className='pool-container w-full flex flex-grow relative z-10 h-full page px-4 xs:px-12 sm:px-10 pt-6 xs:pt-6 sm:pt-8 pb-32'
           >
             <div
               className='flex flex-col flex-grow'

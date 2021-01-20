@@ -38,7 +38,10 @@ export function DepositOrWithdrawSponsorshipModal(props) {
   const playerAddress = ''
   const address = playerAddress || usersAddress
   
-  const { usersSponsorshipBalance, usersSponsorshipBalanceBN } = usePlayerPoolBalances(address, pool)
+  const {
+    usersSponsorshipBalance,
+    usersSponsorshipBalanceBN
+  } = usePlayerPoolBalances(address, pool)
   
   const {
     register,
@@ -83,8 +86,8 @@ export function DepositOrWithdrawSponsorshipModal(props) {
   let contextualBalance = usersTokenBalance
   let validate = null
   if (isWithdraw) {
-    contextualBalanceBN = usersSponsorshipBalanceBN
     contextualBalance = usersSponsorshipBalance
+    contextualBalanceBN = usersSponsorshipBalanceBN
 
     validate = {
       greaterThanBalance: (value) => ethers.utils.parseUnits(value, decimals).lte(usersSponsorshipBalanceBN) ||
