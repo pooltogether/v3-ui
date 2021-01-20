@@ -21,9 +21,9 @@ import { useExitFees } from 'lib/hooks/useExitFees'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
+import { TxStatus } from 'lib/components/TxStatus'
 
 import IconLightning from 'assets/images/icon-lightning.svg'
-import { TxStatus } from 'lib/components/TxStatus'
 
 export function ConfirmWithdrawWithFeeForm(props) {
   const { t } = useTranslation()

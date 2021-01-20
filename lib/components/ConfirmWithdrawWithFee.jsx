@@ -1,6 +1,5 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
-import { ethers } from 'ethers'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { PaneTitle } from 'lib/components/PaneTitle'

@@ -21,7 +21,6 @@ import { SignInFormContainer } from 'lib/components/SignInFormContainer'
 import { WrongNetworkModal } from 'lib/components/WrongNetworkModal'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { ClaimRetroactivePoolWizardContainer } from 'lib/components/ClaimRetroactivePoolWizard'
-import { Banner } from 'lib/components/Banner'
 
 const onlyUnique = (value, index, self) => {
   return self.indexOf(value) === index
