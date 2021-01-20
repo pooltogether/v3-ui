@@ -17,73 +17,76 @@ export const CheckboxInputGroup = (
     checked,
   } = props
 
+  let {
+    marginClasses
+  } = props
+
   const defaultClasses = 'flex justify-start items-start xs:items-center trans trans-faster cursor-pointer font-bold outline-none focus:outline-none hover:outline-none active:outline-none leading-none px-0 py-1'
   const roundedClasses = 'rounded-xl'
-  const marginClasses = 'mt-1 mb-1 sm:mb-3 lg:mb-4'
+  marginClasses = marginClasses ?? 'mt-1 mb-1 sm:mb-3 lg:mb-4'
   const textClasses = 'text-sm sm:text-base lg:text-base'
 
-  return <>
+  return <div
+    className={classnames(
+      defaultClasses,
+      textClasses,
+      marginClasses,
+      roundedClasses,
+      {
+        'text-green inner-lg': checked,
+        'text-accent-1 hover:text-green': !checked,
+      }
+    )}
+    onClick={handleClick}
+  >
     <div
       id={id}
       onClick={handleClick}
       className={classnames(
-        defaultClasses,
-        textClasses,
-        marginClasses,
-        roundedClasses,
-        {
-          'text-green inner-lg': checked,
-          'text-accent-1 hover:text-green': !checked,
-        }
+        'flex items-center justify-center mr-3 text-3xl leading-none'
       )}
     >
       <div
         className={classnames(
-          'flex items-center justify-center mr-3 text-3xl leading-none'
+          'flex items-center rounded-lg w-6 h-6 border-2 trans',
+          {
+            'text-white border-highlight-2 hover:border-highlight-2': checked,
+            'text-darkened border-highlight-2 hover:border-primary': !checked,
+          }
         )}
       >
-        <div
+        <svg
           className={classnames(
-            'flex items-center rounded-lg w-6 h-6 border-2 trans',
+            'relative check',
             {
-              'text-white border-highlight-2 hover:border-highlight-2': checked,
-              'text-darkened border-highlight-2 hover:border-primary': !checked,
+              'checked': checked
             }
           )}
+          width='135'
+          height='110'
+          viewBox='0 0 135 110'
         >
-          <svg
-            className={classnames(
-              'relative check',
-              {
-                'checked': checked
-              }
-            )}
-            width='135'
-            height='110'
-            viewBox='0 0 135 110'
-          >
-            <path d='M96.8002 0L30.7002 66.1L0.200195 37.4' />
-          </svg>
-        </div>
+          <path d='M96.8002 0L30.7002 66.1L0.200195 37.4' />
+        </svg>
       </div>
-
-      <div
-        className='font-normal text-left text-xs flex flex-col items-start justify-start leading-snug'
-      >
-        {label}
-      </div>
-
-      {hint && <>
-        <PTHint
-          title={title ? title : null}
-          tip={hint}
-        >
-          <QuestionMarkCircle
-            white
-          />
-        </PTHint>
-      </>}
-
     </div>
-  </>
+
+    <div
+      className='font-normal text-left text-xs flex flex-col items-start justify-start leading-snug'
+    >
+      {label}
+    </div>
+
+    {hint && <>
+      <PTHint
+        title={title ? title : null}
+        tip={hint}
+      >
+        <QuestionMarkCircle
+          white
+        />
+      </PTHint>
+    </>}
+
+  </div>
 }

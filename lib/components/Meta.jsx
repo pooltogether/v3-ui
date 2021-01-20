@@ -1,6 +1,8 @@
+import React from 'react'
 import Head from 'next/head'
 
-export const Meta = ({ title }) => {
+export const Meta = (props) => {
+  let { title } = props
   const defaultTitle = 'PoolTogether'
   title = title ? `${title} - ${defaultTitle}` : defaultTitle
 
@@ -13,7 +15,6 @@ export const Meta = ({ title }) => {
   const twitterHandle = '@PoolTogether_'
 
   return (
-    <>
       <Head>
         <>
           <title>{title}</title>
@@ -32,6 +33,5 @@ export const Meta = ({ title }) => {
           <meta property='twitter:creator' content={twitterHandle} />
         </>
       </Head>
-    </>
   )
 }

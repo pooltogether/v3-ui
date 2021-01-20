@@ -14,7 +14,7 @@ import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
+import { TxStatus } from 'lib/components/TxStatus'
 import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
@@ -148,11 +148,19 @@ export function ConfirmWithdrawNoFee(props) {
       </ButtonDrawer>
     </>}
 
-    {tx?.sent && !tx?.completed && <>
-      <TransactionsTakeTimeMessage
-        tx={tx}
-        title={t('withdrawing')}
-        subtitle={<Trans
+    <TxStatus
+      hideOnInWallet
+      tx={tx}
+      title={t('withdrawing')}
+      subtitle={Number(quantity) === 1 ?
+        <Trans
+          i18nKey='oneTicket'
+          defaults='<number>1</number> tickets'
+          components={{
+            number: <PoolNumber />,
+          }}
+        /> :
+        <Trans
           i18nKey='amountTickets'
           defaults='<number>{{amount}}</number> tickets'
           components={{
@@ -161,8 +169,8 @@ export function ConfirmWithdrawNoFee(props) {
           values={{
             amount: quantity,
           }}
-        />}
-      />
-    </>}
+        />
+      }
+    />
   </>
 }

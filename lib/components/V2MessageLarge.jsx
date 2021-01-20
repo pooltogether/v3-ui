@@ -101,7 +101,7 @@ export const V2MessageLarge = (
             as='/account#tickets'
             href='/account#tickets'
           >
-            {t('viewTickets')}
+            {t('goToV2')}
           </ButtonLink>
         </div>
       </div>

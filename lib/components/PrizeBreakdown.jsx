@@ -1,13 +1,14 @@
 import React from 'react'
+import { orderBy } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
 import { PrizeWinner } from 'lib/components/PrizeWinner'
+import { usePools } from 'lib/hooks/usePools'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
 import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
-
 import GiftIcon from 'assets/images/icon-gift@2x.png'
 
 export const PrizeBreakdown = (props) => {
@@ -15,14 +16,30 @@ export const PrizeBreakdown = (props) => {
 
   const {
     prize,
-    pool,
     prizeNumber,
     preAwardTimeTravelPool,
-    postAwardTimeTravelPool
   } = props
 
+  const { contractAddresses } = usePools()
+  
   const interestPrizeUSD = preAwardTimeTravelPool?.interestPrizeUSD
   const externalAwardsValueUSD = preAwardTimeTravelPool?.externalAwardsUSD
+
+
+  const lootBoxWon = prize?.awardedExternalErc721Nfts
+    .find(_awardedNft => _awardedNft.address === contractAddresses.lootBox)
+  const grandPrizeWinnersAddress = lootBoxWon?.winner
+
+  const awardedControlledTokens = [...prize?.awardedControlledTokens]
+  if (grandPrizeWinnersAddress) {
+    const grandPrizeWinner = awardedControlledTokens
+      .find(awardedControlledToken => awardedControlledToken.winner === grandPrizeWinnersAddress)
+    const indexToRemove = awardedControlledTokens.indexOf(grandPrizeWinner)
+    if (indexToRemove > -1) {
+      awardedControlledTokens.splice(indexToRemove, 1)
+    }
+    awardedControlledTokens.unshift(grandPrizeWinner)
+  }
 
   return <>
     <div
@@ -140,7 +157,7 @@ export const PrizeBreakdown = (props) => {
           <tbody>
             {prize?.awardedTimestamp ? (
               <>
-                {prize?.awardedControlledTokens?.map((awardedControlledToken, index) => {
+                {awardedControlledTokens?.map((awardedControlledToken, index) => {
                   return <PrizeWinner
                     key={`prize-winner-row-${awardedControlledToken.id}`}
                     pool={preAwardTimeTravelPool}

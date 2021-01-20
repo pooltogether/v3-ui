@@ -17,12 +17,12 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { PTHint } from 'lib/components/PTHint'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
-import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useExitFees } from 'lib/hooks/useExitFees'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
+import { TxStatus } from 'lib/components/TxStatus'
 
 import IconLightning from 'assets/images/icon-lightning.svg'
 
@@ -313,12 +313,19 @@ export function ConfirmWithdrawWithFeeForm(props) {
       
     </>}
 
-
-    {tx?.sent && !tx?.completed && <>
-      <TransactionsTakeTimeMessage
-        tx={tx}
-        title={t('withdrawing')}
-        subtitle={<Trans
+    <TxStatus
+      hideOnInWallet
+      tx={tx}
+      title={t('withdrawing')}
+      subtitle={Number(quantity) === 1 ?
+        <Trans
+          i18nKey='oneTicket'
+          defaults='<number>1</number> tickets'
+          components={{
+            number: <PoolNumber />,
+          }}
+        /> :
+        <Trans
           i18nKey='amountTickets'
           defaults='<number>{{amount}}</number> tickets'
           components={{
@@ -327,9 +334,9 @@ export function ConfirmWithdrawWithFeeForm(props) {
           values={{
             amount: quantity,
           }}
-        />}
-      />
-    </>}
+        />
+      }
+    />
 
   </>
 

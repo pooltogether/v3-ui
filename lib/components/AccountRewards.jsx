@@ -301,6 +301,10 @@ export const AccountRewards = () => {
     return sum(amounts)
   }
 
+  if (getTotalRewards() < 1) {
+    return null
+  }
+
   return <>
     <h5
       className='font-normal text-accent-2 mt-12 mb-4'

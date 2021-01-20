@@ -10,6 +10,8 @@ import { AccountWinnings } from 'lib/components/AccountWinnings'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Tagline } from 'lib/components/Tagline'
+import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
+import { AccountGovernanceClaims } from 'lib/components/AccountGovernanceClaims'
 
 export const AccountUI = () => {
   const { t } = useTranslation()
@@ -18,6 +20,8 @@ export const AccountUI = () => {
     <Meta
       title={t('myAccount')}
     />
+
+    {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <RetroactivePoolClaimBanner />}
 
     <PageTitleAndBreadcrumbs
       title={t('myAccount')}
@@ -31,6 +35,8 @@ export const AccountUI = () => {
     <AccountSummary />
 
     <AccountTickets />
+
+    {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <AccountGovernanceClaims />}
 
     <AccountRewards />
 

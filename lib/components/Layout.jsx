@@ -21,6 +21,7 @@ import { SignInFormContainer } from 'lib/components/SignInFormContainer'
 import { WrongNetworkModal } from 'lib/components/WrongNetworkModal'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
+import { ClaimRetroactivePoolWizardContainer } from 'lib/components/ClaimRetroactivePoolWizard'
 
 const onlyUnique = (value, index, self) => {
   return self.indexOf(value) === index
@@ -91,15 +92,17 @@ export function Layout(props) {
       />}
     </AnimatePresence>
 
+    {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <ClaimRetroactivePoolWizardContainer />}
+
     <WrongNetworkModal />
-    
+
     <div
       className='flex flex-col w-full'
       style={{
         minHeight: '100vh'
       }}
     >
-      
+
       <motion.div
         className={classnames(
           'header fixed w-full bg-body z-30 pt-1 pb-1 xs:pt-2 xs:pb-0 sm:py-0 mx-auto l-0 r-0',
@@ -192,7 +195,7 @@ export function Layout(props) {
 
         <div className='content'>
           <div
-            className='pool-container w-full flex flex-grow relative z-10 h-full page px-4 xs:px-12 sm:px-10 pt-6 xs:pt-6 sm:pt-8'
+            className='pool-container w-full flex flex-grow relative z-10 h-full page px-4 xs:px-12 sm:px-10 pt-6 xs:pt-6 sm:pt-8 pb-32'
           >
             <div
               className='flex flex-col flex-grow'

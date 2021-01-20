@@ -6,6 +6,10 @@ export const SUPPORTED_CHAIN_IDS = [1, 4, 31337, 1234]
 
 export const SECONDS_PER_BLOCK = 14
 
+export const SECONDS_PER_WEEK = 604800
+export const SECONDS_PER_DAY = 86400
+export const SECONDS_PER_HOUR = 3600
+
 export const DEFAULT_TOKEN_PRECISION = 18
 
 export const COINGECKO_POLLING_INTERVAL = 120 * 1000
@@ -95,6 +99,10 @@ export const CONTRACT_ADDRESSES = {
   4: {
     Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
     // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
+
+    // TODO: Add mainnet. Add remaining pools. Pull from pooltogether-contracts
+    ComptrollerProxyFactory: '0xA9fbACfF0E0c574138d511eA333a0a2119AdB32D',
+    MerkleDistributor: '0x2FDE489Bd546136A624d7278Bfe932e330301496',
   },
 }
 
@@ -187,6 +195,10 @@ export const QUERY_KEYS = {
   accountQuery: 'accountQuery',
   prizePoolAccountQuery: 'prizePoolAccountQuery',
   controlledTokenBalancesQuery: 'controlledTokenBalancesQuery',
+  claimablePoolQuery: 'claimablePoolQuery',
+  claimablePoolTotal: 'claimablePoolTotal',
+  retroactivePoolClaimDataQuery: 'retroactivePoolClaimDataQuery',
+  poolComptrollersQuery: 'poolComptrollersQuery'
 }
 
 export const POOLTOGETHER_CURRENT_GRAPH_URIS = {

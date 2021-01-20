@@ -1,7 +1,8 @@
-import React from 'react'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
+import React from 'react'
 
+import TicketsIcon from 'assets/images/icon-ticket@2x.png'
 import { useTranslation } from 'lib/../i18n'
 import { CardGrid } from 'lib/components/CardGrid'
 import { LootBoxTable } from 'lib/components/LootBoxTable'
@@ -9,12 +10,10 @@ import { Meta } from 'lib/components/Meta'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PrizeBreakdown } from 'lib/components/PrizeBreakdown'
-import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
+import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-
-import TicketsIcon from 'assets/images/icon-ticket@2x.png'
 
 export function PrizeShow(props) {
   const { t } = useTranslation()
@@ -76,10 +75,8 @@ export function PrizeShow(props) {
 
     <PrizeBreakdown
       prizeNumber={prizeNumber}
-      decimals={decimals}
       prize={prize}
       preAwardTimeTravelPool={preAwardTimeTravelPool}
-      postAwardTimeTravelPool={postAwardTimeTravelPool}
     />
 
     <LootBoxTable

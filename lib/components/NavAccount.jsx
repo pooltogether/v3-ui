@@ -18,6 +18,7 @@ export function NavAccount(props) {
   const shouldReduceMotion = useReducedMotion()
 
   return <>
+
     {usersAddress && <>
       <AccountButton
         openTransactions={openTransactions}

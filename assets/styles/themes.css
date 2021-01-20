@@ -95,7 +95,7 @@
   --color-bg-card-purple: #43286E;
   --color-bg-primary: #fff;
   --color-bg-secondary: #35F0D0;
-  --color-bg-tertiary: rgba(163, 43, 187, 0.4);
+  --color-bg-tertiary: rgba(173, 153, 216, 0.1);
   --color-bg-default: #f7f7f7;
   --color-bg-darkened: #e9e9e9;
   --color-bg-input: #fff;
@@ -145,9 +145,9 @@
   --color-text-highlight-7: #C00C99;
   --color-text-highlight-9: #35F0D0;
   --color-text-raspberry: #4C1967;
-  --color-text-red: #e61b1b;
-  --color-text-green: #5af5db;
-  --color-text-orange: #e29c03;
+  --color-text-red: #F76363;
+  --color-text-green: #0EA3A4;
+  --color-text-orange: #FF9303;
   --color-text-blue: #3857ee;
   --color-text-teal: #049c9c;
   --color-text-purple: #401C94;
