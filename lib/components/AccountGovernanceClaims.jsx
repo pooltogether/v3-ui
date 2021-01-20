@@ -217,7 +217,7 @@ const ClaimablePoolTokenItem = props => {
   return <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mb-4 sm:mb-8 last:mb-0'>
     <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start mb-2'>
       <PoolCurrencyIcon
-        pool={poolInfo.underlyingCollateralSymbol}
+        pool={{ underlyingCollateralSymbol: poolInfo.underlyingCollateralSymbol}}
         className='h-16 w-16 sm:h-16 sm:w-16 sm:mr-4'
       />
       <div>

@@ -12,11 +12,12 @@ import { DepositInfoList } from 'lib/components/DepositInfoList'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { usePool } from 'lib/hooks/usePool'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { permitSignOrRegularDeposit } from 'lib/utils/permitSignOrRegularDeposit'
+import { TxStatus } from 'lib/components/TxStatus'
+import { Banner } from 'lib/components/Banner'
 
 const bn = ethers.utils.bigNumberify
 
@@ -131,7 +132,6 @@ export function ExecuteCryptoDeposit(props) {
           }}
           values={{
             amount: quantity,
-            ticker: tickerUpcased,
           }}
         />
       </PaneTitle>
@@ -141,14 +141,11 @@ export function ExecuteCryptoDeposit(props) {
       <DepositInfoList />
     </div>
 
-    {!tx?.completed && <>
-      <TransactionsTakeTimeMessage
-        tx={tx}
-        paneMessage={<>
-          {tx?.inWallet && t('confirmDepositInYourWallet')}
-          {tx?.sent && t('depositConfirming')}
-        </>}
-      />
-    </>}
+    <TxStatus
+      tx={tx}
+      inWalletMessage={t('confirmDepositInYourWallet')}
+      sentMessage={t('depositConfirming')}
+      hideOnInWallet
+    />
   </>
 }
