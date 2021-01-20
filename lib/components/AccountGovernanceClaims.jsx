@@ -38,6 +38,10 @@ export const AccountGovernanceClaims = (props) => {
   if (!usersAddress) {
     return null
   }
+
+  if (!Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM)) {
+    return null
+  }
   
   return <>
     <h6

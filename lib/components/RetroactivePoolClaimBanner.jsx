@@ -20,6 +20,10 @@ export const RetroactivePoolClaimBanner = (props) => {
     return null
   }
 
+  if (!Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM)) {
+    return null
+  }
+
   return <Banner gradient={'rainbow'} className='mb-12'>
     <div className='flex sm:flex-row flex-col'>
       <img className='mb-4 mx-auto sm:ml-0 sm:mr-8 sm:mb-auto' src={Bell} />
