@@ -71,10 +71,6 @@ const ClaimRetroactivePoolWizardStepManager = props => {
           closeWizard={closeWizard}
         />
       </div>
-      <div className='flex flex-row'>
-          <ProposalButton  />
-          <LearnMoreButton  />
-        </div>
     </WizardLayout>
   )
 }
