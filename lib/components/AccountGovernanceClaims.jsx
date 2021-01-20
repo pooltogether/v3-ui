@@ -38,7 +38,7 @@ export const AccountGovernanceClaims = (props) => {
   if (!usersAddress) {
     return null
   }
-  
+
   return <>
     <h6
       className='font-normal text-accent-2 mt-16 mb-4'

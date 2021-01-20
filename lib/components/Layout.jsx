@@ -87,7 +87,7 @@ export function Layout(props) {
       />}
     </AnimatePresence>
 
-    <ClaimRetroactivePoolWizardContainer />
+    {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <ClaimRetroactivePoolWizardContainer />}
 
     <WrongNetworkModal />
 
