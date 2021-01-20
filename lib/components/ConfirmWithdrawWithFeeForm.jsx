@@ -311,6 +311,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
     </>}
 
     <TxStatus
+      hideOnInWallet
       tx={tx}
       title={t('withdrawing')}
       subtitle={Number(quantity) === 1 ?
@@ -332,7 +333,6 @@ export function ConfirmWithdrawWithFeeForm(props) {
           }}
         />
       }
-      hideOnInWallet
     />
 
   </>

@@ -145,7 +145,6 @@ export function ExecuteCryptoDeposit(props) {
       tx={tx}
       inWalletMessage={t('confirmDepositInYourWallet')}
       sentMessage={t('depositConfirming')}
-      hideOnInWallet
     />
   </>
 }

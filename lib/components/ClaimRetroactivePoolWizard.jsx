@@ -1,23 +1,24 @@
+import React, { useContext, useEffect, useState } from 'react'
+import Link from 'next/link'
 import { AnimatePresence } from 'framer-motion'
 import { atom, useAtom } from 'jotai'
-import Link from 'next/link'
-import React, { useContext, useEffect, useState } from 'react'
 import { useWizard, Wizard } from 'react-wizard-primitive'
 
-import { useTranslation } from 'i18n/client'
-import { Banner } from 'lib/components/Banner'
-import { Button } from 'lib/components/Button'
-import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
-import { WizardLayout } from 'lib/components/WizardLayout'
-import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import MerkleDistributorAbi from 'abis/MerkleDistributor'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { useTranslation } from 'i18n/client'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
+import { Banner } from 'lib/components/Banner'
+import { Button } from 'lib/components/Button'
+import { ButtonDrawer } from 'lib/components/ButtonDrawer'
+import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { TxStatus } from 'lib/components/TxStatus'
+import { WizardLayout } from 'lib/components/WizardLayout'
+import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const showClaimWizardAtom = atom(false)
 
@@ -109,14 +110,17 @@ const StepOne = props => {
           handleClick={() => setChecked(!checked)}
         />
       </CheckboxContainer>
-      <Button
-        onClick={nextStep}
-        textSize='lg'
-        className='w-full'
-        disabled={!checked}
-      >
-        Next
-      </Button>
+
+      <ButtonDrawer>
+        <Button
+          onClick={nextStep}
+          textSize='lg'
+          className='w-full'
+          disabled={!checked}
+        >
+          Next
+        </Button>
+      </ButtonDrawer>
     </div>
   )
 }
@@ -152,14 +156,17 @@ const StepTwo = props => {
           handleClick={() => setChecked(!checked)}
         />
       </CheckboxContainer>
-      <Button
-        onClick={nextStep}
-        textSize='lg'
-        className='w-full'
-        disabled={!checked}
-      >
-        Next
-      </Button>
+
+      <ButtonDrawer>
+        <Button
+          onClick={nextStep}
+          textSize='lg'
+          className='w-full'
+          disabled={!checked}
+        >
+          Next
+        </Button>
+      </ButtonDrawer>
     </div>
   )
 }
@@ -224,9 +231,8 @@ const StepThree = props => {
         <h2 className='text-highlight-1 mb-8'>
           🎉 {amountWithCommas} POOL 🎉
         </h2>
-        <Banner className='flex flex-col'>
-          <TxStatus tx={txInFlight} />
-        </Banner>
+        
+        <TxStatus tx={txInFlight} />
       </div>
     )
   }

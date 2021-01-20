@@ -1,28 +1,29 @@
 import React, { useContext, useEffect, useState } from 'react'
 import classnames from 'classnames'
+import FeatherIcon from 'feather-icons-react'
+import ClipLoader from 'react-spinners/ClipLoader'
 import { useTranslation } from 'i18n/client'
 import { Button } from 'lib/components/Button'
-import FeatherIcon from 'feather-icons-react'
 import { useAtom } from 'jotai'
-import ComptrollerV2Abi from "@pooltogether/pooltogether-contracts/abis/ComptrollerV2"
 import { ethers } from 'ethers'
+
+import ComptrollerV2Abi from "@pooltogether/pooltogether-contracts/abis/ComptrollerV2"
 import ComptrollerV2ProxyFactoryAbi from "@pooltogether/pooltogether-contracts/abis/ComptrollerV2ProxyFactory"
 
 import { CONTRACT_ADDRESSES, SECONDS_PER_DAY, SECONDS_PER_HOUR, SECONDS_PER_WEEK } from 'lib/constants'
-import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
-import { useClaimablePool } from 'lib/hooks/useClaimablePool'
-import { usePools } from 'lib/hooks/usePools'
-import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
-import { useClaimablePoolComptrollerAddresses } from 'lib/hooks/useClaimablePoolComptrollerAddresses'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
+import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { useAccount } from 'lib/hooks/useAccount'
+import { useClaimablePool } from 'lib/hooks/useClaimablePool'
+import { useClaimablePoolComptrollerAddresses } from 'lib/hooks/useClaimablePoolComptrollerAddresses'
+import { usePools } from 'lib/hooks/usePools'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
+import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { usePool } from 'lib/hooks/usePool'
-
+import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const AccountGovernanceClaims = (props) => {
   const { pools } = usePools()
@@ -63,7 +64,7 @@ const ClaimHeader = props => {
 
   const totalClaimablePoolFormatted = numberWithCommas(totalClaimablePool, { precision: getPrecision(totalClaimablePool) })
 
-  return <div className='flex justify-between flex-col sm:flex-row mb-8  p-2 sm:p-0'>
+  return <div className='flex justify-between flex-col sm:flex-row mb-8 p-2 sm:p-0'>
     <div className='flex sm:flex-col justify-between sm:justify-start mb-4 sm:mb-0'>
       <h4 className='font-normal mb-auto sm:mb-0'>Claimable POOL</h4>
       <h2 className={classnames(
@@ -72,12 +73,13 @@ const ClaimHeader = props => {
         })}
       >{totalClaimablePoolFormatted}</h2>
     </div>
+
     <div className='flex flex-col-reverse sm:flex-col'>
       <ClaimAllButton
         refetch={refetch}
         claimable={totalClaimablePool > 0}
       />
-      <span className='sm:text-right text-accent-1 text-xxs mb-8' >What can I do with POOL?</span>
+      <span className='sm:text-right text-accent-1 text-xxs mb-8'>What can I do with POOL?</span>
     </div>
   </div>
 }
@@ -157,7 +159,12 @@ const ClaimAllButton = props => {
 
     textSize='sm'
   >
-    {text}
+    {txPending || refetching && (
+      <ClipLoader
+        size={14}
+        color={'#049c9c'}
+      />
+    )} {text}
   </Button>
 }
 
@@ -221,14 +228,14 @@ const ClaimablePoolTokenItem = props => {
         className='h-16 w-16 sm:h-16 sm:w-16 sm:mr-4'
       />
       <div>
-        <h2 className='leading-none'>{name}</h2>
+        <h3 className='leading-none'>{name}</h3>
         <div className='text-accent-1 text-xs mt-1' >{totalDripPerDayFormatted} POOL / day</div>
         <RewardTimeLeft initialSecondsLeft={secondsLeft} />
       </div>
     </div>
 
     <div className='sm:text-right'>
-      <h2 className='leading-none'>{claimablePoolFormatted} POOL</h2>
+      <h3 className='leading-none'>{claimablePoolFormatted} POOL</h3>
       <div className='text-accent-1 text-xs mb-4' >@ {usersDripPerDayFormatted} POOL / day</div>
       <ClaimButton
         refetch={() => {
@@ -298,7 +305,20 @@ const ClaimButton = props => {
     }
   }, [txCompleted])
 
-  return <Button disabled={txPending || refetching || !claimable} className='w-full' onClick={handleClaim}>{text}</Button>
+  return <Button
+    textSize='xxxs'
+    padding='px-4 py-1'
+    disabled={txPending || refetching || !claimable}
+    className='w-full'
+    onClick={handleClaim}
+  >
+    {txPending || refetching && (
+      <ClipLoader
+        size={14}
+        color={'#049c9c'}
+      />
+    )} {text}
+  </Button>
 }
 
 const RewardTimeLeft = props => {

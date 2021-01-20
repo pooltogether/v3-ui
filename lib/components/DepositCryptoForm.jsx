@@ -310,8 +310,8 @@ export function DepositCryptoForm(props) {
               <div className='flex flex-col mt-4'>
                 <TxStatus
                   tx={tx}
+                  inWalletMessage={t('confirmDepositInYourWallet')}
                   sentMessage={t('approvalConfirming')}
-                  hideOnInWallet
                 />
               </div>
             </div>
