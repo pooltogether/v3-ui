@@ -51,10 +51,6 @@ const ClaimRetroactivePoolWizardStepManager = props => {
 
   const { data, refetch } = useRetroactivePoolClaimData()
 
-  if (!Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM)) {
-    return null
-  }
-
   return (
     <WizardLayout
       currentWizardStep={activeStepIndex + 1}

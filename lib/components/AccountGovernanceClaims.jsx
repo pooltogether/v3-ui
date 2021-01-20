@@ -39,10 +39,6 @@ export const AccountGovernanceClaims = (props) => {
     return null
   }
 
-  if (!Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM)) {
-    return null
-  }
-  
   return <>
     <h6
       className='font-normal text-accent-2 mt-16 mb-4'

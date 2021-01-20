@@ -6,9 +6,7 @@ import { usePools } from 'lib/hooks/usePools'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolList } from 'lib/components/PoolList'
-import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { Tagline } from 'lib/components/Tagline'
-import { V2MessageLarge } from 'lib/components/V2MessageLarge'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 
 import UsdcSvg from 'assets/images/usdc-new-transparent.png'
@@ -21,9 +19,7 @@ export const IndexUI = (
   const { loading, pools } = usePools()
 
   return <>
-    {/* <V2MessageLarge /> */}
-
-    <RetroactivePoolClaimBanner />
+    {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <RetroactivePoolClaimBanner />}
 
     <PageTitleAndBreadcrumbs
       title={`${t('pools')}`}
