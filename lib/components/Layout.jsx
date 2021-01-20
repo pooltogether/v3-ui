@@ -20,6 +20,7 @@ import { Settings } from 'lib/components/Settings'
 import { SignInFormContainer } from 'lib/components/SignInFormContainer'
 import { WrongNetworkModal } from 'lib/components/WrongNetworkModal'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
+import { ClaimRetroactivePoolWizardContainer } from 'lib/components/ClaimRetroactivePoolWizard'
 
 const onlyUnique = (value, index, self) => {
   return self.indexOf(value) === index
@@ -86,15 +87,17 @@ export function Layout(props) {
       />}
     </AnimatePresence>
 
+    <ClaimRetroactivePoolWizardContainer />
+
     <WrongNetworkModal />
-    
+
     <div
       className='flex flex-col w-full'
       style={{
         minHeight: '100vh'
       }}
     >
-      
+
       <motion.div
         className={classnames(
           'header fixed w-full bg-body z-30 pt-1 pb-1 xs:pt-2 xs:pb-0 sm:py-0 mx-auto l-0 r-0',

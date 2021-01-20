@@ -14,7 +14,9 @@ export function NavAccount(props) {
 
   const { usersAddress } = useContext(AuthControllerContext)
 
+
   return <>
+
     {usersAddress && <>
       <AccountButton
         openTransactions={openTransactions}

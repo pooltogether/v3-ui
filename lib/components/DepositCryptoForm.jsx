@@ -19,11 +19,11 @@ import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PTHint } from 'lib/components/PTHint'
-import { TransactionsTakeTimeMessage } from 'lib/components/TransactionsTakeTimeMessage'
 import { WyreTopUpBalanceDropdown } from 'lib/components/WyreTopUpBalanceDropdown'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
+import { TxStatus } from 'lib/components/TxStatus'
 // import { poolTokenSupportsPermitSign } from 'lib/utils/poolTokenSupportsPermitSign'
 
 export function DepositCryptoForm(props) {
@@ -168,16 +168,25 @@ export function DepositCryptoForm(props) {
 
     <div className='mb-6 -mt-2'>
       <PaneTitle small>
-        <Trans
-          i18nKey='amountTickets'
-          defaults='<number>{{amount}}</number> tickets'
-          components={{
-            number: <PoolNumber />,
-          }}
-          values={{
-            amount: quantity,
-          }}
-        />
+        {Number(quantity) === 1 ?
+          <Trans
+            i18nKey='oneTicket'
+            defaults='<number>1</number> tickets'
+            components={{
+              number: <PoolNumber />,
+            }}
+          /> :
+          <Trans
+            i18nKey='amountTickets'
+            defaults='<number>{{amount}}</number> tickets'
+            components={{
+              number: <PoolNumber />,
+            }}
+            values={{
+              amount: quantity,
+            }}
+          />
+        }
       </PaneTitle>
     </div>
 
@@ -298,10 +307,13 @@ export function DepositCryptoForm(props) {
                 </span>
               </>}
 
-              {tx?.sent && !tx?.completed && <TransactionsTakeTimeMessage
-                tx={tx}
-                paneMessage={t('approvalConfirming')}
-              />}
+              <div className='flex flex-col mt-4'>
+                <TxStatus
+                  tx={tx}
+                  inWalletMessage={t('confirmDepositInYourWallet')}
+                  sentMessage={t('approvalConfirming')}
+                />
+              </div>
             </div>
           </>}
           

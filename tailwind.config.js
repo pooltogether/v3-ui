@@ -230,6 +230,7 @@ module.exports = {
     }
   },
   variants: {
+    margin: ['responsive', 'last'],
     borderColor: [
       'hover',
       'focus',
