@@ -23,7 +23,7 @@
     "cypress": "NEXT_JS_REDUCE_MOTION=true start-server-and-test dev http://localhost:3000 cypress:run",
     "cypress:open-local": "NEXT_JS_REDUCE_MOTION=true start-server-and-test dev http://localhost:3000 cypress:open",
     "cypress:open": "npx cypress open --env infura_id=$NEXT_JS_INFURA_ID",
-    "cypress:run": "npx cypress open --record --key $CYPRESS_RECORD_KEY --env infura_id=$NEXT_JS_INFURA_ID"
+    "cypress:run": "npx cypress run --record --key $CYPRESS_RECORD_KEY --env infura_id=$NEXT_JS_INFURA_ID"
   },
   "jest": {
     "collectCoverageFrom": [
