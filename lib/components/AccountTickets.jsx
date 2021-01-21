@@ -83,7 +83,9 @@ export const AccountTickets = () => {
                 className='mx-auto w-16 mb-8'
               />
 
-              {t('youCurrentlyHaveNoTickets')}
+              <span id='_ticketsBlankState'>
+                {t('youCurrentlyHaveNoTickets')}
+              </span>
               <br />{t('depositInAPoolNow')}
             </div>
             <ButtonLink
