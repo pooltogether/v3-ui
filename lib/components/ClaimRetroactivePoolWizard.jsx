@@ -1,25 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react'
-import Link from 'next/link'
-import { AnimatePresence } from 'framer-motion'
+import { Wizard, useWizard } from 'react-wizard-primitive'
 import { atom, useAtom } from 'jotai'
-import { useWizard, Wizard } from 'react-wizard-primitive'
 
-import MerkleDistributorAbi from 'abis/MerkleDistributor'
-import { CONTRACT_ADDRESSES } from 'lib/constants'
-import { useTranslation } from 'i18n/client'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
+import { AnimatePresence } from 'framer-motion'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
 import { Banner } from 'lib/components/Banner'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
+import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
+import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
+import Link from 'next/link'
+import MerkleDistributorAbi from 'abis/MerkleDistributor'
 import { TxStatus } from 'lib/components/TxStatus'
+import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { WizardLayout } from 'lib/components/WizardLayout'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { V3LoadingDots } from 'lib/components/V3LoadingDots'
+import { useTranslation } from 'i18n/client'
 
 export const showClaimWizardAtom = atom(false)
 
@@ -198,7 +198,7 @@ const StepThree = props => {
   if (loading) {
     return <V3LoadingDots />
   }
-  
+
   if (!claimData) {
     return null
   }
@@ -224,31 +224,27 @@ const StepThree = props => {
 
   const amountWithCommas = numberWithCommas(formattedAmount)
 
-  console.log(txInFlight)
-
   if (txPending || txInFlight?.error) {
     return (
       <div className='mx-auto' style={{ maxWidth: '550px' }}>
         <h3>You are receiving</h3>
-        <h2 className='text-highlight-1 mb-8'>
-          🎉 {amountWithCommas} POOL 🎉
-        </h2>
-        
+        <h2 className='text-highlight-1 mb-8'>🎉 {amountWithCommas} POOL 🎉</h2>
+
         <TxStatus tx={txInFlight} />
       </div>
     )
   }
 
   if (txInFlight?.completed && !txInFlight?.error && !txInFlight?.cancelled) {
-    return <ClaimCompleted amount={amountWithCommas} closeWizard={closeWizard} />
+    return (
+      <ClaimCompleted amount={amountWithCommas} closeWizard={closeWizard} />
+    )
   }
 
   return (
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <h3>You are receiving</h3>
-      <h2 className='text-highlight-1 mb-8'>
-        🎉 {amountWithCommas} POOL 🎉
-      </h2>
+      <h2 className='text-highlight-1 mb-8'>🎉 {amountWithCommas} POOL 🎉</h2>
       <Button onClick={handleClaim} textSize='lg' className='w-full'>
         Claim My Tokens
       </Button>
@@ -350,12 +346,19 @@ const LearnMoreButton = props => {
         onClick={onClick}
         className='p-8 ml-4 bg-card w-full flex flex-col rounded-lg'
       >
-        <svg className='fill-current w-8 h-8 sm:w-16 sm:h-16 stroke-1 stroke-current mx-auto relative' width="69" height="52" viewBox="0 0 69 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M56.6785 17.3795L57.4387 15.0073C48.4845 11.5588 39.9217 14.8682 39.5615 15.0107L40.3409 17.3762C40.4219 17.3443 48.4875 14.2261 56.6785 17.3795Z" />
-            <path d="M56.6785 24.924L57.4395 22.5517C48.4852 19.1032 39.9225 22.4126 39.5615 22.5551L40.3416 24.9206C40.4212 24.8896 48.4875 21.7697 56.6785 24.924Z" />
-            <path d="M57.4395 30.0951C48.4852 26.6457 39.9225 29.9559 39.5615 30.0984L40.3416 32.4639C40.4219 32.4321 48.4883 29.313 56.6785 32.4673L57.4395 30.0951Z" />
-            <path d="M28.9266 17.3795L29.6868 15.0073C20.7325 11.5588 12.169 14.8682 11.8096 15.0107L12.5889 17.3762C12.6707 17.3443 20.7356 14.2261 28.9266 17.3795Z" />
-            <path d="M63.5283 3.00309L62.7612 2.7072C58.4906 1.06257 53.8383 0.228516 48.9344 0.228516C41.6963 0.228516 36.1324 2.02738 34.6326 2.56469C30.466 1.01395 25.9429 0.228516 21.1828 0.228516C12.8557 0.228516 6.74414 2.60912 6.48793 2.71055L5.73001 3.01064V5.55218H0.977539V51.1927H68.28V5.55302H63.5283V3.00309ZM35.776 4.81034C37.613 4.19926 42.6515 2.74324 48.9344 2.74324C53.2853 2.74324 57.4191 3.43311 61.2339 4.79525V42.7693C57.3892 41.4884 53.2601 40.8388 48.9344 40.8388C42.9529 40.8388 38.1224 42.0651 35.776 42.7952V4.81034ZM8.02441 4.80783C9.86758 4.19591 14.8954 2.74324 21.1828 2.74324C25.5353 2.74324 29.666 3.44233 33.4823 4.80531V42.7776C29.6369 41.496 25.5093 40.8388 21.1828 40.8388C15.2074 40.8388 10.3731 42.0643 8.02441 42.7944V28.8746L9.16703 32.1303L14.6506 38.8404L14.6269 31.8503C17.5469 31.1219 23.2049 30.2635 28.9272 32.4673L29.6882 30.095C23.608 27.753 17.7114 28.5275 14.438 29.3096L12.8625 24.8217C14.331 24.3137 21.5767 22.0924 28.9272 24.9231L29.6882 22.5509C21.4161 19.3647 13.4828 21.9448 12.0373 22.4687L8.02518 11.0343V4.80783H8.02441ZM6.07417 12.4828L8.02441 18.0403L12.2048 29.9542L12.3272 30.3038L12.3318 31.6835L12.3333 32.2359L11.1563 30.7958L8.02365 21.8677L5.72925 15.3294L4.90326 12.9756L5.72925 12.6269L6.07417 12.4828ZM3.27194 8.06775H5.72925V9.93367L3.27194 10.9697V8.06775ZM65.9856 8.06775V48.678H3.27194V15.3319L5.72925 22.3354V46.2949L7.26573 45.6863C7.32462 45.6629 13.2511 43.3535 21.182 43.3535C25.8267 43.3535 30.2228 44.1398 34.2479 45.6897L34.6334 45.8389L35.0173 45.6863C35.0762 45.6629 41.0026 43.3535 48.9328 43.3535C53.5775 43.3535 57.9736 44.1398 61.9995 45.6897L63.5268 46.2781V8.06775H65.9856Z"/>
+        <svg
+          className='fill-current w-8 h-8 sm:w-16 sm:h-16 stroke-1 stroke-current mx-auto relative'
+          width='69'
+          height='52'
+          viewBox='0 0 69 52'
+          fill='none'
+          xmlns='http://www.w3.org/2000/svg'
+        >
+          <path d='M56.6785 17.3795L57.4387 15.0073C48.4845 11.5588 39.9217 14.8682 39.5615 15.0107L40.3409 17.3762C40.4219 17.3443 48.4875 14.2261 56.6785 17.3795Z' />
+          <path d='M56.6785 24.924L57.4395 22.5517C48.4852 19.1032 39.9225 22.4126 39.5615 22.5551L40.3416 24.9206C40.4212 24.8896 48.4875 21.7697 56.6785 24.924Z' />
+          <path d='M57.4395 30.0951C48.4852 26.6457 39.9225 29.9559 39.5615 30.0984L40.3416 32.4639C40.4219 32.4321 48.4883 29.313 56.6785 32.4673L57.4395 30.0951Z' />
+          <path d='M28.9266 17.3795L29.6868 15.0073C20.7325 11.5588 12.169 14.8682 11.8096 15.0107L12.5889 17.3762C12.6707 17.3443 20.7356 14.2261 28.9266 17.3795Z' />
+          <path d='M63.5283 3.00309L62.7612 2.7072C58.4906 1.06257 53.8383 0.228516 48.9344 0.228516C41.6963 0.228516 36.1324 2.02738 34.6326 2.56469C30.466 1.01395 25.9429 0.228516 21.1828 0.228516C12.8557 0.228516 6.74414 2.60912 6.48793 2.71055L5.73001 3.01064V5.55218H0.977539V51.1927H68.28V5.55302H63.5283V3.00309ZM35.776 4.81034C37.613 4.19926 42.6515 2.74324 48.9344 2.74324C53.2853 2.74324 57.4191 3.43311 61.2339 4.79525V42.7693C57.3892 41.4884 53.2601 40.8388 48.9344 40.8388C42.9529 40.8388 38.1224 42.0651 35.776 42.7952V4.81034ZM8.02441 4.80783C9.86758 4.19591 14.8954 2.74324 21.1828 2.74324C25.5353 2.74324 29.666 3.44233 33.4823 4.80531V42.7776C29.6369 41.496 25.5093 40.8388 21.1828 40.8388C15.2074 40.8388 10.3731 42.0643 8.02441 42.7944V28.8746L9.16703 32.1303L14.6506 38.8404L14.6269 31.8503C17.5469 31.1219 23.2049 30.2635 28.9272 32.4673L29.6882 30.095C23.608 27.753 17.7114 28.5275 14.438 29.3096L12.8625 24.8217C14.331 24.3137 21.5767 22.0924 28.9272 24.9231L29.6882 22.5509C21.4161 19.3647 13.4828 21.9448 12.0373 22.4687L8.02518 11.0343V4.80783H8.02441ZM6.07417 12.4828L8.02441 18.0403L12.2048 29.9542L12.3272 30.3038L12.3318 31.6835L12.3333 32.2359L11.1563 30.7958L8.02365 21.8677L5.72925 15.3294L4.90326 12.9756L5.72925 12.6269L6.07417 12.4828ZM3.27194 8.06775H5.72925V9.93367L3.27194 10.9697V8.06775ZM65.9856 8.06775V48.678H3.27194V15.3319L5.72925 22.3354V46.2949L7.26573 45.6863C7.32462 45.6629 13.2511 43.3535 21.182 43.3535C25.8267 43.3535 30.2228 44.1398 34.2479 45.6897L34.6334 45.8389L35.0173 45.6863C35.0762 45.6629 41.0026 43.3535 48.9328 43.3535C53.5775 43.3535 57.9736 44.1398 61.9995 45.6897L63.5268 46.2781V8.06775H65.9856Z' />
         </svg>
         <h4>Learn More</h4>
       </a>
