@@ -19,6 +19,7 @@ import { WizardLayout } from 'lib/components/WizardLayout'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 
 export const showClaimWizardAtom = atom(false)
 
@@ -49,7 +50,7 @@ const ClaimRetroactivePoolWizardStepManager = props => {
   const { closeWizard } = props
   const { activeStepIndex, previousStep, moveToStep, nextStep } = useWizard()
 
-  const { data, refetch } = useRetroactivePoolClaimData()
+  const { data, refetch, loading } = useRetroactivePoolClaimData()
 
   return (
     <WizardLayout
@@ -65,6 +66,7 @@ const ClaimRetroactivePoolWizardStepManager = props => {
         <StepThree
           key={3}
           claimData={data}
+          loading={loading}
           nextStep={nextStep}
           isActive={activeStepIndex === 2}
           refetch={refetch}
@@ -169,7 +171,7 @@ const StepTwo = props => {
 
 const StepThree = props => {
   const { t } = useTranslation()
-  const { closeWizard, isActive, claimData, refetch } = props
+  const { closeWizard, isActive, claimData, refetch, loading } = props
 
   const { usersAddress, provider, chainId } = useContext(AuthControllerContext)
   const [txId, setTxId] = useState({})
@@ -189,6 +191,14 @@ const StepThree = props => {
     }
   }, [txInFlight?.completed])
 
+  if (!isActive) {
+    return null
+  }
+
+  if (loading) {
+    return <V3LoadingDots />
+  }
+  
   if (!claimData) {
     return null
   }
@@ -199,8 +209,6 @@ const StepThree = props => {
     e.preventDefault()
 
     const params = [index, usersAddress, amount, proof]
-
-    console.log(params)
 
     const id = await sendTx(
       t,
@@ -214,11 +222,9 @@ const StepThree = props => {
     setTxId(id)
   }
 
-  if (!isActive) {
-    return null
-  }
-
   const amountWithCommas = numberWithCommas(formattedAmount)
+
+  console.log(txInFlight)
 
   if (txPending || txInFlight?.error) {
     return (
@@ -233,7 +239,7 @@ const StepThree = props => {
     )
   }
 
-  if (txInFlight?.completed) {
+  if (txInFlight?.completed && !txInFlight?.error && !txInFlight?.cancelled) {
     return <ClaimCompleted amount={amountWithCommas} closeWizard={closeWizard} />
   }
 

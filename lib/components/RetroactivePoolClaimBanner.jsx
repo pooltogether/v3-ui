@@ -25,7 +25,7 @@ export const RetroactivePoolClaimBanner = (props) => {
       <img className='mb-4 mx-auto sm:ml-0 sm:mr-8 sm:mb-auto' src={Bell} />
       <div>
         <h4>You can claim POOL tokens!</h4>
-        <p className='mb-8 text-xs xs:text-sm sm:text-base'>We’ve launched governance tokens to push forward our mission for decentralization. Token holders now own and direct the protocol. Claim your token and take part in our governance!</p>
+        <p className='mb-8 text-xs xs:text-sm sm:text-base'>PoolTogether is now fully decentralized with the POOL token. Claim your token and take part in governance!</p>
         <Button
           type='button'
           onClick={() => setShowClaimWizard(true)}
