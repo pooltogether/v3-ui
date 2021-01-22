@@ -99,7 +99,7 @@ const StepOne = props => {
       </WizardBanner>
       <CheckboxContainer>
         <CheckboxInputGroup
-          marginClasses='m-0'
+          marginClasses='mx-auto my-0'
           id='receiving-i-understand'
           name='receiving-i-understand'
           label='I understand why I am receiving tokens'
@@ -145,7 +145,7 @@ const StepTwo = props => {
       </WizardBanner>
       <CheckboxContainer>
         <CheckboxInputGroup
-          marginClasses='m-0'
+          marginClasses='mx-auto my-0'
           id='uses-i-understand'
           name='uses-i-understand'
           label='I understand what tokens do'
@@ -298,7 +298,7 @@ const WizardBanner = props => (
 const CheckboxContainer = props => (
   <div
     style={{ maxWidth: '477px' }}
-    className='mx-auto mb-4 sm:mb-12 px-4 py-2 sm:px-8 sm:py-4 bg-orange-darkened text-inverse border-orange border-dashed border-2 rounded-lg font-bold'
+    className='flex mx-auto mb-4 sm:mb-12 px-4 py-2 sm:px-8 sm:py-4 bg-orange-darkened text-inverse rounded-lg font-bold'
   >
     {props.children}
   </div>
