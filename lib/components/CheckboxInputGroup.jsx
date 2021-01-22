@@ -1,8 +1,7 @@
-import React from 'react'
-import classnames from 'classnames'
-
 import { PTHint } from 'lib/components/PTHint'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
+import React from 'react'
+import classnames from 'classnames'
 
 export const CheckboxInputGroup = (
   props,
@@ -43,7 +42,7 @@ export const CheckboxInputGroup = (
       id={id}
       onClick={handleClick}
       className={classnames(
-        'flex items-center justify-center mr-3 text-3xl leading-none'
+        'flex items-center justify-center my-auto mr-3 text-3xl leading-none'
       )}
     >
       <div
