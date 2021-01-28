@@ -18,6 +18,7 @@ export function Button(props) {
     'outline',
     'secondary',
     'textSize',
+    'padding',
   ])
 
   return <button

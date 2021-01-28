@@ -64,11 +64,15 @@ const ClaimHeader = props => {
 
   const totalClaimablePoolFormatted = numberWithCommas(totalClaimablePool, { precision: getPrecision(totalClaimablePool) })
 
-  return <div className='flex justify-between flex-col sm:flex-row mb-8 p-2 sm:p-0'>
-    <div className='flex sm:flex-col justify-between sm:justify-start mb-4 sm:mb-0'>
-      <h4 className='font-normal mb-auto sm:mb-0'>Claimable POOL</h4>
+  return <div className='flex justify-between flex-col sm:flex-row mb-0 sm:mb-8 p-2 sm:p-0'>
+    <div className='flex sm:flex-col justify-between sm:justify-start'>
+      <h6
+        className='flex items-center font-normal'
+      >
+        Claimable POOL
+      </h6>
       <h2 className={classnames(
-        'leading-none text-2xl sm:text-3xl', {
+        'leading-none text-2xl sm:text-3xl mt-0 xs:mt-2', {
           'text-flashy': totalClaimablePool > 0
         })}
       >{totalClaimablePoolFormatted}</h2>
@@ -79,7 +83,7 @@ const ClaimHeader = props => {
         refetch={refetch}
         claimable={totalClaimablePool > 0}
       />
-      <span className='sm:text-right text-accent-1 text-xxs mb-8'>What can I do with POOL?</span>
+      <span className='sm:text-right text-accent-1 text-xxs mb-4 sm:mb-8'>What can I do with POOL?</span>
     </div>
   </div>
 }
@@ -149,6 +153,8 @@ const ClaimAllButton = props => {
     className='mb-4'
     disabled={!isFetched || !claimable || txPending}
 
+    padding='px-8 py-1'
+
     border='green'
     text='primary'
     bg='green'
@@ -157,7 +163,7 @@ const ClaimAllButton = props => {
     hoverText='primary'
     hoverBg='green'
 
-    textSize='sm'
+    textSize='xxs'
   >
     {txPending || refetching && (
       <ClipLoader
@@ -222,12 +228,13 @@ const ClaimablePoolTokenItem = props => {
   const claimablePoolFormatted = numberWithCommas(claimablePoolNumber, { precision: getPrecision(claimablePoolNumber) })
 
   return <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mb-4 sm:mb-8 last:mb-0'>
-    <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start mb-2'>
+    <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start mb-6 sm:mb-0'>
       <PoolCurrencyIcon
+        
         pool={{ underlyingCollateralSymbol: poolInfo.underlyingCollateralSymbol}}
         className='h-16 w-16 sm:h-16 sm:w-16 sm:mr-4'
       />
-      <div>
+      <div className='xs:w-64'>
         <h3 className='leading-none'>{name}</h3>
         <div className='text-accent-1 text-xs mt-1' >{totalDripPerDayFormatted} POOL / day</div>
         <RewardTimeLeft initialSecondsLeft={secondsLeft} />
@@ -328,14 +335,18 @@ const RewardTimeLeft = props => {
 
   const textColor = determineColor(secondsLeft)
   
-  return <div className='flex text-accent-1 sm:mt-4'>
-    Ends in
-    <FeatherIcon className={classnames(`h-4 w-4 stroke-current stroke-2 my-auto ml-2 mr-1`, textColor)} icon='clock' />{' '}
-    <span className={classnames(textColor)}>
-      {!days ? null : `${days}d, `}
-      {!hours && !days ? null :  `${hours}h, `}
-      {`${minutes}m`}
-    </span>
+  return <div className='flex flex-col xs:flex-row xs:items-center text-accent-1 sm:mt-4'>
+    <span className='inline-block'>Ends in</span>
+
+    <div className='inline-flex items-center'>
+      <FeatherIcon className={classnames(`h-4 w-4 stroke-current stroke-2 my-auto xs:ml-2 mr-1`, textColor)} icon='clock' />{' '}
+
+      <span className={classnames(textColor)}>
+        {!days ? null : `${days}d, `}
+        {!hours && !days ? null :  `${hours}h, `}
+        {`${minutes}m`}
+      </span>
+    </div>
   </div>
 }
 
