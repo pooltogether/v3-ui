@@ -1,15 +1,17 @@
 import React, { useContext } from 'react'
+import { useAtom } from 'jotai'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Banner } from 'lib/components/Banner'
 import { Button } from 'lib/components/Button'
 import { showClaimWizardAtom } from 'lib/components/ClaimRetroactivePoolWizard'
-import { useAtom } from 'jotai'
+import { useTranslation } from 'lib/../i18n'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 
 import Bell from 'assets/images/bell@2x.png'
 
 export const RetroactivePoolClaimBanner = props => {
+  const { t } = useTranslation()
   const [showClaimWizard, setShowClaimWizard] = useAtom(showClaimWizardAtom)
   const { chainId } = useContext(AuthControllerContext)
   const { data, loading } = useRetroactivePoolClaimData()
@@ -24,12 +26,15 @@ export const RetroactivePoolClaimBanner = props => {
   return (
     <Banner gradient={'rainbow'} className='mb-12'>
       <div className='flex sm:flex-row flex-col'>
-        <img className='mb-3 sm:mb-2 ml-0 mr-auto sm:mb-auto sm:mr-4 sm:mt-1' src={Bell} style={{ maxWidth: 30 }} />
+        <img
+          className='mb-3 sm:mb-2 ml-0 mr-auto sm:mb-auto sm:mr-4 sm:mt-1'
+          src={Bell}
+          style={{ maxWidth: 30 }}
+        />
         <div>
-          <h6>You can claim POOL tokens!</h6>
+          <h6>{t('youCanClaimPool')}</h6>
           <p className='mt-1 mb-5 text-xs sm:text-sm w-full xs:w-10/12 sm:w-9/12'>
-            PoolTogether is now fully decentralized with the POOL token. Claim
-            your token and take part in governance!
+            {t('retroactivePoolBannerDescription')}
           </p>
           <Button
             type='button'
@@ -43,7 +48,7 @@ export const RetroactivePoolClaimBanner = props => {
             hoverBg='primary'
             textSize='sm'
           >
-            Claim POOL
+            {t('claimPool')}
           </Button>
         </div>
       </div>

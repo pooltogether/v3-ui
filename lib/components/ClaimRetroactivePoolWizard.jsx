@@ -19,7 +19,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useTranslation } from 'i18n/client'
+import { useTranslation } from 'lib/../i18n'
 
 export const showClaimWizardAtom = atom(false)
 
@@ -79,6 +79,7 @@ const ClaimRetroactivePoolWizardStepManager = props => {
 
 const StepOne = props => {
   const { nextStep, isActive } = props
+  const { t } = useTranslation()
 
   const [checked, setChecked] = useState(false)
 
@@ -89,19 +90,16 @@ const StepOne = props => {
   return (
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
-        <h4 className='mb-4'>Why are you receiving POOL?</h4>
+        <h4 className='mb-4'>{t('whyAreYouReceivingPool')}</h4>
         <p className='text-xs xs:text-sm text-accent-1'>
-          You are receiving the POOL token because you have used the
-          PoolTogether Protocol. All users of the protocol now completely
-          control all decisions. The POOL token has no value and is used for
-          governing.{' '}
+          {t('receivingPoolDescription')}
         </p>
         <CheckboxContainer>
           <CheckboxInputGroup
             marginClasses='mx-auto my-0'
             id='receiving-i-understand'
             name='receiving-i-understand'
-            label='I understand why I am receiving tokens'
+            label={t('iUnderstandReceivingTokens')}
             title=''
             checked={checked}
             handleClick={() => setChecked(!checked)}
@@ -116,7 +114,7 @@ const StepOne = props => {
           className='w-full'
           disabled={!checked}
         >
-          Next
+          {t('next')}
         </Button>
       </ButtonDrawer>
     </div>
@@ -125,6 +123,7 @@ const StepOne = props => {
 
 const StepTwo = props => {
   const { nextStep, isActive } = props
+  const { t } = useTranslation()
 
   const [checked, setChecked] = useState(false)
 
@@ -135,19 +134,16 @@ const StepTwo = props => {
   return (
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
-        <h4 className='mb-4'>What do POOL tokens do?</h4>
+        <h4 className='mb-4'>{t('whatDoPoolTokensDo')}</h4>
         <p className='text-xs xs:text-sm text-accent-1'>
-          The POOL token is used to vote on decisions for the protocol. For
-          example, how many winners should a prize pool have? Should a new prize
-          pool be created? Any protocol changes are voted on by the POOL
-          holders.
+          {t('whatTokensDoDescription')}
         </p>
         <CheckboxContainer>
           <CheckboxInputGroup
             marginClasses='mx-auto my-0'
             id='uses-i-understand'
             name='uses-i-understand'
-            label='I understand what tokens do'
+            label={t('iUnderstandWhatTokensDo')}
             title=''
             checked={checked}
             handleClick={() => setChecked(!checked)}
@@ -162,7 +158,7 @@ const StepTwo = props => {
           className='w-full'
           disabled={!checked}
         >
-          Next
+          {t('next')}
         </Button>
       </ButtonDrawer>
     </div>
@@ -177,7 +173,7 @@ const StepThree = props => {
   const [txId, setTxId] = useState({})
   const [transactions, setTransactions] = useAtom(transactionsAtom)
   const [sendTx] = useSendTransaction(
-    `Claim POOL`,
+    t('claimPool'),
     transactions,
     setTransactions
   )
@@ -227,9 +223,8 @@ const StepThree = props => {
   if (txPending || txInFlight?.error) {
     return (
       <div className='mx-auto' style={{ maxWidth: '550px' }}>
-        <h3>You are receiving</h3>
+        <h3>{t('youAreReceiving')}</h3>
         <h2 className='text-highlight-1 mb-8'>🎉 {amountWithCommas} POOL 🎉</h2>
-
         <TxStatus tx={txInFlight} />
       </div>
     )
@@ -243,16 +238,17 @@ const StepThree = props => {
 
   return (
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
-      <h3>You are receiving</h3>
+      <h3>{t('youAreReceiving')}</h3>
       <h2 className='text-highlight-1 mb-8'>🎉 {amountWithCommas} POOL 🎉</h2>
       <Button onClick={handleClaim} textSize='lg' className='w-full'>
-        Claim My Tokens
+        {t('claimMyTokens')}
       </Button>
     </div>
   )
 }
 
 const ClaimCompleted = props => {
+  const { t } = useTranslation()
   const { closeWizard, amount } = props
   const { confetti } = useContext(ConfettiContext)
 
@@ -274,14 +270,10 @@ const ClaimCompleted = props => {
   return (
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <h3>🎉 🎉 🎉</h3>
-      <h3>Successfully Claimed!!</h3>
+      <h3>{t('successfullyClaimed')}</h3>
       <h2 className='text-highlight-1 mb-8'>{amount} POOL</h2>
       <WizardBanner>
-        <h4 className='mb-4'>Now let's use these tokens!</h4>
-        <p className='text-xs xs:text-sm text-accent-1 mb-4 sm:mb-8'>
-          It can be used to do things and stuff. These things are very cool.
-          They will let you make decisions about the stuff.
-        </p>
+        <h4 className='mb-4'>{t('nowLetsUseTokens')}</h4>
         <div className='flex flex-row'>
           <ProposalButton onClick={onClick} />
           <LearnMoreButton onClick={onClick} />
@@ -296,15 +288,13 @@ const WizardBanner = props => (
 )
 
 const CheckboxContainer = props => (
-  <div
-    // style={{ maxWidth: '477px' }}
-    className='flex mx-auto px-4 py-2 sm:px-8 sm:py-2 mt-4 text-inverse rounded-lg font-bold'
-  >
+  <div className='flex mx-auto px-4 py-2 sm:px-8 sm:py-2 mt-4 text-inverse rounded-lg font-bold'>
     {props.children}
   </div>
 )
 
 const ProposalButton = props => {
+  const { t } = useTranslation()
   const { onClick, children } = props
 
   return (
@@ -312,7 +302,7 @@ const ProposalButton = props => {
       <a
         href='/vote'
         onClick={onClick}
-        className='p-8 mr-4 bg-card w-full flex flex-col rounded-lg'
+        className='p-8 mr-4 bg-card w-full flex flex-col rounded-lg trans text-white hover:text-green hover:border-green border border-transparent'
       >
         <svg
           style={{
@@ -330,13 +320,14 @@ const ProposalButton = props => {
             strokeWidth='0.5'
           />
         </svg>
-        <h4>Vote</h4>
+        <h6>{t('voteOnProposals')}</h6>
       </a>
     </Link>
   )
 }
 
 const LearnMoreButton = props => {
+  const { t } = useTranslation()
   const { onClick, children } = props
 
   return (
@@ -344,7 +335,7 @@ const LearnMoreButton = props => {
       <a
         href='/vote'
         onClick={onClick}
-        className='p-8 ml-4 bg-card w-full flex flex-col rounded-lg'
+        className='p-8 ml-4 bg-card w-full flex flex-col rounded-lg trans text-white hover:text-green hover:border-green border border-transparent'
       >
         <svg
           className='fill-current w-8 h-8 sm:w-16 sm:h-16 stroke-1 stroke-current mx-auto relative'
@@ -360,7 +351,7 @@ const LearnMoreButton = props => {
           <path d='M28.9266 17.3795L29.6868 15.0073C20.7325 11.5588 12.169 14.8682 11.8096 15.0107L12.5889 17.3762C12.6707 17.3443 20.7356 14.2261 28.9266 17.3795Z' />
           <path d='M63.5283 3.00309L62.7612 2.7072C58.4906 1.06257 53.8383 0.228516 48.9344 0.228516C41.6963 0.228516 36.1324 2.02738 34.6326 2.56469C30.466 1.01395 25.9429 0.228516 21.1828 0.228516C12.8557 0.228516 6.74414 2.60912 6.48793 2.71055L5.73001 3.01064V5.55218H0.977539V51.1927H68.28V5.55302H63.5283V3.00309ZM35.776 4.81034C37.613 4.19926 42.6515 2.74324 48.9344 2.74324C53.2853 2.74324 57.4191 3.43311 61.2339 4.79525V42.7693C57.3892 41.4884 53.2601 40.8388 48.9344 40.8388C42.9529 40.8388 38.1224 42.0651 35.776 42.7952V4.81034ZM8.02441 4.80783C9.86758 4.19591 14.8954 2.74324 21.1828 2.74324C25.5353 2.74324 29.666 3.44233 33.4823 4.80531V42.7776C29.6369 41.496 25.5093 40.8388 21.1828 40.8388C15.2074 40.8388 10.3731 42.0643 8.02441 42.7944V28.8746L9.16703 32.1303L14.6506 38.8404L14.6269 31.8503C17.5469 31.1219 23.2049 30.2635 28.9272 32.4673L29.6882 30.095C23.608 27.753 17.7114 28.5275 14.438 29.3096L12.8625 24.8217C14.331 24.3137 21.5767 22.0924 28.9272 24.9231L29.6882 22.5509C21.4161 19.3647 13.4828 21.9448 12.0373 22.4687L8.02518 11.0343V4.80783H8.02441ZM6.07417 12.4828L8.02441 18.0403L12.2048 29.9542L12.3272 30.3038L12.3318 31.6835L12.3333 32.2359L11.1563 30.7958L8.02365 21.8677L5.72925 15.3294L4.90326 12.9756L5.72925 12.6269L6.07417 12.4828ZM3.27194 8.06775H5.72925V9.93367L3.27194 10.9697V8.06775ZM65.9856 8.06775V48.678H3.27194V15.3319L5.72925 22.3354V46.2949L7.26573 45.6863C7.32462 45.6629 13.2511 43.3535 21.182 43.3535C25.8267 43.3535 30.2228 44.1398 34.2479 45.6897L34.6334 45.8389L35.0173 45.6863C35.0762 45.6629 41.0026 43.3535 48.9328 43.3535C53.5775 43.3535 57.9736 44.1398 61.9995 45.6897L63.5268 46.2781V8.06775H65.9856Z' />
         </svg>
-        <h4>Learn More</h4>
+        <h6>{t('learnMore')}</h6>
       </a>
     </Link>
   )

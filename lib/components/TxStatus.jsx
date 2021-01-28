@@ -6,7 +6,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { Banner } from 'lib/components/Banner'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { shorten } from 'lib/utils/shorten'
-import { useTranslation } from 'i18n/client'
+import { useTranslation } from 'lib/../i18n'
 
 export const TxStatus = props => {
   const { tx, title, subtitle } = props
@@ -23,7 +23,7 @@ export const TxStatus = props => {
   const txError = Boolean(tx?.error)
 
   useEffect(() => {
-    let key;
+    let key
     if (txSent) {
       key = setTimeout(() => setShowExtraMessage(true), 15000)
     }
@@ -31,7 +31,7 @@ export const TxStatus = props => {
       key && clearTimeout(key)
     }
   }, [txSent])
- 
+
   if (!tx) return null
   if (txCancelled) return null
   if (hideOnInWallet && txInWallet) return null
@@ -41,13 +41,9 @@ export const TxStatus = props => {
 
   return (
     <>
-      {title && (
-        <h3 className='text-inverse mb-4' >{title}</h3>
-      )}
+      {title && <h3 className='text-inverse mb-4'>{title}</h3>}
 
-      {subtitle && (
-        <h6 className='text-accent-1 mb-4' >{subtitle}</h6>
-      )}
+      {subtitle && <h6 className='text-accent-1 mb-4'>{subtitle}</h6>}
 
       <Banner className='flex flex-col'>
         {txSent && !txCompleted && !txError && (
@@ -72,7 +68,9 @@ export const TxStatus = props => {
         {txCompleted && txError && (
           <FeatherIcon
             icon='x-circle'
-            className={'mx-auto stroke-1 w-16 h-16 stroke-current text-red mb-4'}
+            className={
+              'mx-auto stroke-1 w-16 h-16 stroke-current text-red mb-4'
+            }
           />
         )}
 
