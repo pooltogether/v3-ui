@@ -271,6 +271,7 @@ const ClaimCompleted = props => {
     closeWizard()
   }
 
+  // TODO: Update copy to not filler text! :)
   return (
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <h3>🎉 🎉 🎉</h3>
@@ -297,7 +298,6 @@ const WizardBanner = props => (
 
 const CheckboxContainer = props => (
   <div
-    // style={{ maxWidth: '477px' }}
     className='flex mx-auto px-4 py-2 sm:px-8 sm:py-2 mt-4 text-inverse rounded-lg font-bold'
   >
     {props.children}
