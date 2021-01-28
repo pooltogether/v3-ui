@@ -90,24 +90,24 @@ const StepOne = props => {
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
         <h4 className='mb-4'>Why are you receiving POOL?</h4>
-        <p className='text-sm sm:text-lg text-accent-1'>
+        <p className='text-xs xs:text-sm text-accent-1'>
           You are receiving the POOL token because you have used the
           PoolTogether Protocol. All users of the protocol now completely
           control all decisions. The POOL token has no value and is used for
           governing.{' '}
         </p>
+        <CheckboxContainer>
+          <CheckboxInputGroup
+            marginClasses='mx-auto my-0'
+            id='receiving-i-understand'
+            name='receiving-i-understand'
+            label='I understand why I am receiving tokens'
+            title=''
+            checked={checked}
+            handleClick={() => setChecked(!checked)}
+          />
+        </CheckboxContainer>
       </WizardBanner>
-      <CheckboxContainer>
-        <CheckboxInputGroup
-          marginClasses='mx-auto my-0'
-          id='receiving-i-understand'
-          name='receiving-i-understand'
-          label='I understand why I am receiving tokens'
-          title=''
-          checked={checked}
-          handleClick={() => setChecked(!checked)}
-        />
-      </CheckboxContainer>
 
       <ButtonDrawer>
         <Button
@@ -136,24 +136,24 @@ const StepTwo = props => {
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
         <h4 className='mb-4'>What do POOL tokens do?</h4>
-        <p className='text-sm sm:text-lg text-accent-1'>
+        <p className='text-xs xs:text-sm text-accent-1'>
           The POOL token is used to vote on decisions for the protocol. For
           example, how many winners should a prize pool have? Should a new prize
           pool be created? Any protocol changes are voted on by the POOL
           holders.
         </p>
+        <CheckboxContainer>
+          <CheckboxInputGroup
+            marginClasses='mx-auto my-0'
+            id='uses-i-understand'
+            name='uses-i-understand'
+            label='I understand what tokens do'
+            title=''
+            checked={checked}
+            handleClick={() => setChecked(!checked)}
+          />
+        </CheckboxContainer>
       </WizardBanner>
-      <CheckboxContainer>
-        <CheckboxInputGroup
-          marginClasses='mx-auto my-0'
-          id='uses-i-understand'
-          name='uses-i-understand'
-          label='I understand what tokens do'
-          title=''
-          checked={checked}
-          handleClick={() => setChecked(!checked)}
-        />
-      </CheckboxContainer>
 
       <ButtonDrawer>
         <Button
@@ -278,7 +278,7 @@ const ClaimCompleted = props => {
       <h2 className='text-highlight-1 mb-8'>{amount} POOL</h2>
       <WizardBanner>
         <h4 className='mb-4'>Now let's use these tokens!</h4>
-        <p className='text-sm sm:text-lg text-accent-1 mb-4 sm:mb-8'>
+        <p className='text-xs xs:text-sm text-accent-1 mb-4 sm:mb-8'>
           It can be used to do things and stuff. These things are very cool.
           They will let you make decisions about the stuff.
         </p>
@@ -297,8 +297,8 @@ const WizardBanner = props => (
 
 const CheckboxContainer = props => (
   <div
-    style={{ maxWidth: '477px' }}
-    className='flex mx-auto mb-4 sm:mb-12 px-4 py-2 sm:px-8 sm:py-4 bg-orange-darkened text-inverse rounded-lg font-bold'
+    // style={{ maxWidth: '477px' }}
+    className='flex mx-auto px-4 py-2 sm:px-8 sm:py-2 mt-4 text-inverse rounded-lg font-bold'
   >
     {props.children}
   </div>
