@@ -1,21 +1,28 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 
+import { PRIZE_PAGE_SIZE } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { TableRowUILoader } from 'lib/components/TableRowUILoader'
+import { PaginationUI } from 'lib/components/PaginationUI'
 import { PrizesTable } from 'lib/components/PrizesTable'
 import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 
 export const PoolPrizeListing = (
   props,
 ) => {
+  const router = useRouter()
   const { t } = useTranslation()
   const { pool } = props
 
-  const first = 10
-  const { data, error, isFetching, isFetched } = usePoolPrizesQuery(pool, first)
-
+  const page = router?.query?.page ?
+    parseInt(router.query.page, 10) :
+    1
+  const skip = (page - 1) * PRIZE_PAGE_SIZE
+  const { data, error, isFetching, isFetched } = usePoolPrizesQuery(pool, page, skip)
+  
   let prizes = data?.prizePool?.prizes
 
   if (!prizes || (isFetching && !isFetched)) {
@@ -27,6 +34,19 @@ export const PoolPrizeListing = (
       />
     </div>
   }
+
+  const prizeCount = pool.currentPrizeId
+
+  const pages = Math.ceil(Number(prizeCount / PRIZE_PAGE_SIZE))
+
+  const baseAsPath = `/prizes/${pool.symbol}`
+  const baseHref = '/prizes/[symbol]'
+
+  const asPath = (pageNum) => `${baseAsPath}?page=${pageNum}`
+  const nextPage = page + 1
+  const prevPage = page - 1
+  const nextPath = asPath(nextPage)
+  const prevPath = asPath(prevPage)
 
   return <>
     <div
@@ -61,6 +81,23 @@ export const PoolPrizeListing = (
           {...props}
           pool={pool}
           prizes={prizes}
+        />
+
+        <PaginationUI
+          prevPath={prevPath}
+          nextPath={nextPath}
+          prevPage={prevPage}
+          nextPage={nextPage}
+          currentPage={page}
+          currentPath={asPath(page)}
+          firstPath={asPath(1)}
+          lastPath={asPath(pages)}
+          hrefPathname={baseHref}
+          lastPage={pages}
+          showFirst={page > 2}
+          showLast={pages > 2 && page < pages - 1}
+          showPrev={page > 1}
+          showNext={pages > page}
         />
       </>}
     </div>
