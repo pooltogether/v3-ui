@@ -22,6 +22,7 @@ export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME
   : 16 * 1000
 
 export const PLAYER_PAGE_SIZE = 10
+export const PRIZE_PAGE_SIZE = 10
 
 export const MAX_SAFE_INTEGER = 9007199254740991
 
