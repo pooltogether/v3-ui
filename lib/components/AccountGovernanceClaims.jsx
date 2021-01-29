@@ -82,11 +82,14 @@ const ClaimHeader = props => {
   return (
     <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
       <div className='flex sm:flex-col justify-between sm:justify-start mb-4 sm:mb-0'>
-        <h4 className='font-normal mb-auto sm:mb-0'>{t('claimablePool')}</h4>
+        <h6 className='flex items-center font-normal'>{t('claimablePool')}</h6>
         <h2
-          className={classnames('leading-none text-2xl sm:text-3xl', {
-            'text-flashy': totalClaimablePool > 0
-          })}
+          className={classnames(
+            'leading-none text-2xl sm:text-3xl mt-0 xs:mt-2',
+            {
+              'text-flashy': totalClaimablePool > 0
+            }
+          )}
         >
           {totalClaimablePoolFormatted}
         </h2>
@@ -94,7 +97,7 @@ const ClaimHeader = props => {
 
       <div className='flex flex-col-reverse sm:flex-col'>
         <ClaimAllButton refetch={refetch} claimable={totalClaimablePool > 0} />
-        <span className='sm:text-right text-accent-1 text-xxs mb-8 sm:m-0'>
+        <span className='sm:text-right text-accent-1 text-xxs mb-4 sm:mb-8'>
           {t('whatCanIDoWithPool')}
         </span>
       </div>
@@ -257,7 +260,7 @@ const ClaimablePoolTokenItem = props => {
 
   return (
     <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8'>
-      <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start mb-2'>
+      <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start mb-6 sm:mb-0'>
         <PoolCurrencyIcon
           pool={{
             underlyingCollateralSymbol: poolInfo.underlyingCollateralSymbol
@@ -271,23 +274,23 @@ const ClaimablePoolTokenItem = props => {
           </div>
           <RewardTimeLeft initialSecondsLeft={secondsLeft} />
         </div>
+      </div>
 
-        <div className='sm:text-right'>
-          <h3 className='leading-none'>{claimablePoolFormatted} POOL</h3>
-          <div className='text-accent-1 text-xs mb-4'>
-            @ {usersDripPerDayFormatted} POOL / {t('day')}
-          </div>
-          <ClaimButton
-            refetch={() => {
-              refetch()
-              refetchTotalClaimablePool()
-              refetchAllClaimableBalances()
-            }}
-            name={name}
-            comptrollerAddress={comptrollerAddress}
-            claimable={claimablePoolNumber > 0}
-          />
+      <div className='sm:text-right'>
+        <h3 className='leading-none'>{claimablePoolFormatted} POOL</h3>
+        <div className='text-accent-1 text-xs mb-4'>
+          @ {usersDripPerDayFormatted} POOL / {t('day')}
         </div>
+        <ClaimButton
+          refetch={() => {
+            refetch()
+            refetchTotalClaimablePool()
+            refetchAllClaimableBalances()
+          }}
+          name={name}
+          comptrollerAddress={comptrollerAddress}
+          claimable={claimablePoolNumber > 0}
+        />
       </div>
     </div>
   )
@@ -366,6 +369,7 @@ const ClaimButton = props => {
 }
 
 const RewardTimeLeft = props => {
+  const { t } = useTranslation()
   const { initialSecondsLeft } = props
 
   const { days, hours, minutes, secondsLeft } = useTimeCountdown(
@@ -377,7 +381,7 @@ const RewardTimeLeft = props => {
 
   return (
     <div className='flex flex-col xs:flex-row xs:items-center text-accent-1 sm:mt-4'>
-      <span className='inline-block'>Ends in</span>
+      <span className='inline-block'>{t('endsIn')}</span>
 
       <div className='inline-flex items-center'>
         <FeatherIcon
