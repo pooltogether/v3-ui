@@ -267,6 +267,7 @@ const ClaimCompleted = props => {
     closeWizard()
   }
 
+  // TODO: Update copy to not filler text! :)
   return (
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <h3>🎉 🎉 🎉</h3>

@@ -171,13 +171,14 @@ const ClaimAllButton = props => {
       onClick={handleClaim}
       className='mb-4'
       disabled={!isFetched || !claimable || txPending}
+      padding='px-8 py-1'
       border='green'
       text='primary'
       bg='green'
       hoverBorder='green'
       hoverText='primary'
       hoverBg='green'
-      textSize='sm'
+      textSize='xxs'
     >
       {txPending || (refetching && <ClipLoader size={14} color={'#049c9c'} />)}{' '}
       {text}
@@ -263,30 +264,30 @@ const ClaimablePoolTokenItem = props => {
           }}
           className='h-16 w-16 sm:h-16 sm:w-16 sm:mr-4'
         />
-        <div>
+        <div className='xs:w-64'>
           <h3 className='leading-none'>{name}</h3>
           <div className='text-accent-1 text-xs mt-1'>
             {totalDripPerDayFormatted} POOL / {t('day')}
           </div>
           <RewardTimeLeft initialSecondsLeft={secondsLeft} />
         </div>
-      </div>
 
-      <div className='sm:text-right'>
-        <h3 className='leading-none'>{claimablePoolFormatted} POOL</h3>
-        <div className='text-accent-1 text-xs mb-4'>
-          @ {usersDripPerDayFormatted} POOL / {t('day')}
+        <div className='sm:text-right'>
+          <h3 className='leading-none'>{claimablePoolFormatted} POOL</h3>
+          <div className='text-accent-1 text-xs mb-4'>
+            @ {usersDripPerDayFormatted} POOL / {t('day')}
+          </div>
+          <ClaimButton
+            refetch={() => {
+              refetch()
+              refetchTotalClaimablePool()
+              refetchAllClaimableBalances()
+            }}
+            name={name}
+            comptrollerAddress={comptrollerAddress}
+            claimable={claimablePoolNumber > 0}
+          />
         </div>
-        <ClaimButton
-          refetch={() => {
-            refetch()
-            refetchTotalClaimablePool()
-            refetchAllClaimableBalances()
-          }}
-          name={name}
-          comptrollerAddress={comptrollerAddress}
-          claimable={claimablePoolNumber > 0}
-        />
       </div>
     </div>
   )
@@ -375,20 +376,23 @@ const RewardTimeLeft = props => {
   const textColor = determineColor(secondsLeft)
 
   return (
-    <div className='flex text-accent-1 sm:mt-4'>
-      Ends in
-      <FeatherIcon
-        className={classnames(
-          `h-4 w-4 stroke-current stroke-2 my-auto ml-2 mr-1`,
-          textColor
-        )}
-        icon='clock'
-      />{' '}
-      <span className={classnames(textColor)}>
-        {!days ? null : `${days}d, `}
-        {!hours && !days ? null : `${hours}h, `}
-        {`${minutes}m`}
-      </span>
+    <div className='flex flex-col xs:flex-row xs:items-center text-accent-1 sm:mt-4'>
+      <span className='inline-block'>Ends in</span>
+
+      <div className='inline-flex items-center'>
+        <FeatherIcon
+          className={classnames(
+            `h-4 w-4 stroke-current stroke-2 my-auto xs:ml-2 mr-1`,
+            textColor
+          )}
+          icon='clock'
+        />{' '}
+        <span className={classnames(textColor)}>
+          {!days ? null : `${days}d, `}
+          {!hours && !days ? null : `${hours}h, `}
+          {`${minutes}m`}
+        </span>
+      </div>
     </div>
   )
 }

@@ -22,6 +22,7 @@ export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME
   : 16 * 1000
 
 export const PLAYER_PAGE_SIZE = 10
+export const PRIZE_PAGE_SIZE = 10
 
 export const MAX_SAFE_INTEGER = 9007199254740991
 
@@ -29,7 +30,6 @@ export const MAX_SAFE_INTEGER = 9007199254740991
 export const REFERRER_ADDRESS_KEY = 'referrerAddress'
 export const WIZARD_REFERRER_HREF = 'wizardReferrerHref'
 export const WIZARD_REFERRER_AS_PATH = 'wizardReferrerAsPath'
-export const STORED_CHAIN_ID_KEY = 'chainId'
 export const TRANSACTIONS_KEY = 'txs'
 export const SHOW_MANAGE_LINKS = 'showManageLinks'
 export const MAGIC_EMAIL = 'magicEmail'
