@@ -10,7 +10,7 @@ import { ethers } from 'ethers'
 import ComptrollerV2Abi from "@pooltogether/pooltogether-contracts/abis/ComptrollerV2"
 import ComptrollerV2ProxyFactoryAbi from "@pooltogether/pooltogether-contracts/abis/ComptrollerV2ProxyFactory"
 
-import { CONTRACT_ADDRESSES, SECONDS_PER_DAY, SECONDS_PER_HOUR, SECONDS_PER_WEEK } from 'lib/constants'
+import { CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY, SECONDS_PER_HOUR, SECONDS_PER_WEEK } from 'lib/constants'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -210,12 +210,11 @@ const ClaimablePoolTokenItem = props => {
     return null
   }
 
-  const decimals = ticketData.pool.underlyingCollateralDecimals
-  const totalSupplyOfTickets = Number(ethers.utils.formatUnits(ethers.utils.bigNumberify(ticketData.pool.ticketSupply), decimals))
-  const usersBalance = Number(ethers.utils.formatUnits(ticketData.balance, decimals))
-  
+  const totalSupplyOfTickets = Number(ethers.utils.formatUnits(ethers.utils.bigNumberify(ticketData.pool.ticketSupply), DEFAULT_TOKEN_PRECISION))
+  const usersBalance = Number(ethers.utils.formatUnits(ticketData.balance, DEFAULT_TOKEN_PRECISION))
+
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
-  const dripRatePerSecondNumber = Number(ethers.utils.formatUnits(dripRatePerSecond, decimals))
+  const dripRatePerSecondNumber = Number(ethers.utils.formatUnits(dripRatePerSecond, DEFAULT_TOKEN_PRECISION))
 
   const totalDripPerDay = dripRatePerSecondNumber * SECONDS_PER_DAY
   const usersDripPerDay = totalDripPerDay * ownershipPercentage
@@ -224,7 +223,7 @@ const ClaimablePoolTokenItem = props => {
 
   const secondsLeft = totalSupply.div(dripRatePerSecond).toNumber()
 
-  const claimablePoolNumber = Number(ethers.utils.formatUnits(amountClaimable, 18))
+  const claimablePoolNumber = Number(ethers.utils.formatUnits(amountClaimable, DEFAULT_TOKEN_PRECISION))
   const claimablePoolFormatted = numberWithCommas(claimablePoolNumber, { precision: getPrecision(claimablePoolNumber) })
 
   return <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mb-4 sm:mb-8 last:mb-0'>
