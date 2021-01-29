@@ -3,7 +3,6 @@ import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 
 import {
-  STORED_CHAIN_ID_KEY,
   COOKIE_OPTIONS,
   SELECTED_WALLET_COOKIE_KEY
 } from 'lib/constants'
@@ -36,11 +35,6 @@ export function WalletContextProvider(props) {
     } else {
       console.log('no onboard?')
     }
-
-    Cookies.remove(
-      STORED_CHAIN_ID_KEY,
-      COOKIE_OPTIONS
-    )
 
     Cookies.remove(
       SELECTED_WALLET_COOKIE_KEY,
