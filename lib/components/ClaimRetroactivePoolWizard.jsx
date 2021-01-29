@@ -226,9 +226,13 @@ const StepThree = props => {
 
   if (txPending || txInFlight?.error) {
     return (
-      <div className='mx-auto' style={{ maxWidth: '550px' }}>
+      <div className='mx-auto flex flex-col' style={{ maxWidth: '550px' }}>
         <h3>You are receiving</h3>
-        <h2 className='text-highlight-1 mb-8'>🎉 {amountWithCommas} POOL 🎉</h2>
+        <div className='flex mx-auto mb-8'>
+          <h2 className='shake'>🎉</h2>
+          <h2 className='text-highlight-1 mx-2'>{amountWithCommas} POOL</h2>
+          <h2 className='shake'>🎉</h2>
+        </div>
 
         <TxStatus tx={txInFlight} />
       </div>
@@ -242,9 +246,14 @@ const StepThree = props => {
   }
 
   return (
-    <div className='mx-auto' style={{ maxWidth: '550px' }}>
+    <div className='mx-auto flex flex-col' style={{ maxWidth: '550px' }}>
       <h3>You are receiving</h3>
-      <h2 className='text-highlight-1 mb-8'>🎉 {amountWithCommas} POOL 🎉</h2>
+
+      <div className='flex mx-auto mb-8'>
+        <h2 className='shake'>🎉</h2>
+        <h2 className='text-highlight-1 mx-2'>{` ${amountWithCommas} POOL `}</h2>
+        <h2 className='shake'>🎉</h2>
+      </div>
       <Button onClick={handleClaim} textSize='lg' className='w-full'>
         Claim My Tokens
       </Button>
@@ -297,9 +306,7 @@ const WizardBanner = props => (
 )
 
 const CheckboxContainer = props => (
-  <div
-    className='flex mx-auto px-4 py-2 sm:px-8 sm:py-2 mt-4 text-inverse rounded-lg font-bold'
-  >
+  <div className='flex mx-auto px-4 py-2 sm:px-8 sm:py-2 mt-4 text-inverse rounded-lg font-bold'>
     {props.children}
   </div>
 )
