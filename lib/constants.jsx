@@ -232,7 +232,10 @@ export const QUERY_KEYS = {
   claimablePoolQuery: 'claimablePoolQuery',
   claimablePoolTotal: 'claimablePoolTotal',
   retroactivePoolClaimDataQuery: 'retroactivePoolClaimDataQuery',
-  poolComptrollersQuery: 'poolComptrollersQuery'
+  poolComptrollersQuery: 'poolComptrollersQuery',
+  poolTokenDataQuery: 'poolTokenDataQuery',
+  coingeckoImagesByContractAddressesQuery: 'coingeckoImagesByContractAddressesQuery',
+  coingeckoImageQuery: 'coingeckoImageQuery'
 }
 
 export const POOLTOGETHER_CURRENT_GRAPH_URIS = {
