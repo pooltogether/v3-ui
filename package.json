@@ -80,6 +80,7 @@
     "@vx/tooltip": "^0.0.199",
     "add": "^2.0.6",
     "autoprefixer": "^9.8.6",
+    "axios": "^0.21.1",
     "beautiful-react-hooks": "^0.28.0",
     "bn.js": "4.11.0",
     "classnames": "^2.2.6",
