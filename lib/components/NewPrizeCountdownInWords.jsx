@@ -67,7 +67,7 @@ export const NewPrizeCountdownInWords = (
     </>
   } else if (extraShort && days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
     content = <>
-      {t('awardedSoon')}
+      {t('awarding')}
     </>
   } else if (extraShort) {
     content = <>

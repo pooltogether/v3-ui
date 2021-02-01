@@ -19,6 +19,8 @@ import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { usePool } from 'lib/hooks/usePool'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 
+import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
+
 export const AccountTicket = (
   props,
 ) => {
@@ -176,7 +178,7 @@ export const AccountTicket = (
               className='flex items-center text-left text-xs xs:text-xl font-bold text-darkened relative mt-5 xs:mt-8 pt-2 xs:pt-1'
             >
               <div
-                className='w-5/12'
+                className=''
               >
                 {pool?.totalPrizeAmountUSD && decimals && <>
                   $<PoolCountUp
@@ -188,10 +190,13 @@ export const AccountTicket = (
                 </>}
               </div>
               <div
-                className='w-7/12 pl-2'
+                className='w-7/12 pl-1 flex items-center'
               >
+                <img src={PoolTogetherTrophyDetailed} className='w-4 mr-1' style={{
+                  filter: 'brightness(5)'
+                }} />
                 <div
-                  className='font-bold text-xxxxs xs:text-xxxs'
+                  className='font-bold text-xxxxxs xs:text-xxxs'
                 >
                   <NewPrizeCountdownInWords
                     onTicket
