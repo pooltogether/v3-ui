@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import ClipLoader from 'react-spinners/ClipLoader'
-import { useTranslation } from 'i18n/client'
+import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
 
-import ComptrollerV2Abi from "@pooltogether/pooltogether-contracts/abis/ComptrollerV2"
-import ComptrollerV2ProxyFactoryAbi from "@pooltogether/pooltogether-contracts/abis/ComptrollerV2ProxyFactory"
+import ComptrollerV2Abi from '@pooltogether/pooltogether-contracts/abis/ComptrollerV2'
+import ComptrollerV2ProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/ComptrollerV2ProxyFactory'
 
 import { CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY, SECONDS_PER_HOUR, SECONDS_PER_WEEK } from 'lib/constants'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
@@ -27,11 +27,13 @@ import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const AccountGovernanceClaims = props => {
   const { pools } = usePools()
+  const { t } = useTranslation()
 
   const {
     isFetched,
     isFetching,
-    refetch: refetchTotalClaimablePool
+    refetch: refetchTotalClaimablePool,
+    refetchAllClaimableBalances
   } = useTotalClaimablePool()
   const { usersAddress } = useContext(AuthControllerContext)
 
@@ -45,12 +47,15 @@ export const AccountGovernanceClaims = props => {
 
   return (
     <>
-      <h6 className='font-normal text-accent-2 mt-16 mb-4'>Governance</h6>
+      <h6 className='font-normal text-accent-2 mt-16 mb-4'>
+        {t('governance')}
+      </h6>
       <div className='xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
         <ClaimHeader />
         {pools.map(pool => (
           <ClaimablePoolTokenItem
             refetchTotalClaimablePool={refetchTotalClaimablePool}
+            refetchAllClaimableBalances={refetchAllClaimableBalances}
             key={pool.id}
             pool={pool}
           />
@@ -73,7 +78,7 @@ const ClaimHeader = props => {
   return (
     <div className='flex justify-between flex-col sm:flex-row mb-0 sm:mb-8 p-2 sm:p-0'>
       <div className='flex sm:flex-col justify-between sm:justify-start'>
-        <h6 className='flex items-center font-normal'>Claimable POOL</h6>
+        <h6 className='flex items-center font-normal'>{t('claimablePool')}</h6>
         <h2
           className={classnames(
             'leading-none text-2xl sm:text-3xl mt-0 xs:mt-2',
@@ -89,7 +94,7 @@ const ClaimHeader = props => {
       <div className='flex flex-col-reverse sm:flex-col'>
         <ClaimAllButton refetch={refetch} claimable={totalClaimablePool > 0} />
         <span className='sm:text-right text-accent-1 text-xxs mb-4 sm:mb-8'>
-          What can I do with POOL?
+          {t('whatCanIDoWithPool')}
         </span>
       </div>
     </div>
@@ -109,7 +114,7 @@ const ClaimAllButton = props => {
   const [txId, setTxId] = useState({})
   const [transactions, setTransactions] = useAtom(transactionsAtom)
   const [sendTx] = useSendTransaction(
-    'Claim All',
+    t('claimAll'),
     transactions,
     setTransactions
   )
@@ -138,12 +143,12 @@ const ClaimAllButton = props => {
     setTxId(id)
   }
 
-  let text = 'Claim All'
+  let text = t('claimAll')
   if (txPending || refetching) {
     if (txInFlight.sent) {
-      text = 'Confirming...'
+      text = t('confirming')
     } else {
-      text = 'Claiming...'
+      text = t('claiming')
     }
   }
 
@@ -181,7 +186,8 @@ const ClaimAllButton = props => {
 }
 
 const ClaimablePoolTokenItem = props => {
-  const { pool, refetchTotalClaimablePool } = props
+  const { t } = useTranslation()
+  const { pool, refetchTotalClaimablePool, refetchAllClaimableBalances } = props
   const { usersAddress } = useContext(AuthControllerContext)
   const { accountData } = useAccount(usersAddress)
   const { playerTickets } = usePlayerTickets(accountData)
@@ -244,7 +250,7 @@ const ClaimablePoolTokenItem = props => {
         />
         <div className='xs:w-64'>
           <h3 className='leading-none'>{name}</h3>
-          <div className='text-accent-1 text-xs mt-1' >{totalDripPerDayFormatted} POOL / day</div>
+          <div className='text-accent-1 text-xs mt-1' >{totalDripPerDayFormatted} POOL / {t('day')}</div>
           <RewardTimeLeft initialSecondsLeft={secondsLeft} />
         </div>
       </div>
@@ -252,12 +258,13 @@ const ClaimablePoolTokenItem = props => {
       <div className='sm:text-right'>
         <h3 className='leading-none'>{claimablePoolFormatted} POOL</h3>
         <div className='text-accent-1 text-xs mb-4'>
-          @ {usersDripPerDayFormatted} POOL / day
+          @ {usersDripPerDayFormatted} POOL / {t('day')}
         </div>
         <ClaimButton
           refetch={() => {
             refetch()
             refetchTotalClaimablePool()
+            refetchAllClaimableBalances()
           }}
           name={name}
           comptrollerAddress={comptrollerAddress}
@@ -276,7 +283,7 @@ const ClaimButton = props => {
   const [txId, setTxId] = useState({})
   const [transactions, setTransactions] = useAtom(transactionsAtom)
   const [sendTx] = useSendTransaction(
-    `Claim POOL from ${name}`,
+    t('claimPoolFromPool', { poolName: name }),
     transactions,
     setTransactions
   )
@@ -305,12 +312,12 @@ const ClaimButton = props => {
     setTxId(id)
   }
 
-  let text = 'Claim'
+  let text = t('claim')
   if (txPending || refetching) {
     if (txInFlight.sent) {
-      text = 'Confirming...'
+      text = t('confirming')
     } else {
-      text = 'Claiming...'
+      text = t('claiming')
     }
   }
 
@@ -341,6 +348,7 @@ const ClaimButton = props => {
 }
 
 const RewardTimeLeft = props => {
+  const { t } = useTranslation()
   const { initialSecondsLeft } = props
 
   const { days, hours, minutes, secondsLeft } = useTimeCountdown(
@@ -352,7 +360,7 @@ const RewardTimeLeft = props => {
 
   return (
     <div className='flex flex-col xs:flex-row xs:items-center text-accent-1 sm:mt-4'>
-      <span className='inline-block'>Ends in</span>
+      <span className='inline-block'>{t('endsIn')}</span>
 
       <div className='inline-flex items-center'>
         <FeatherIcon
