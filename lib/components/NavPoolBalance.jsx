@@ -54,6 +54,11 @@ const PoolBalanceModal = props => {
   const { data: retroactiveClaimablePool, isFetched: retroactiveClaimableIsFetched } = useRetroactivePoolClaimData()
 
   const claimablePoolIsLoaded = totalClaimableIsFetched && retroactiveClaimableIsFetched
+  
+  if (!claimablePoolIsLoaded) {
+    return null
+  }
+
   const totalPlusRetro = claimablePoolIsLoaded ? totalClaimablePool + retroactiveClaimablePool.formattedAmount : 0
   const totalClaimablePoolFormatted = numberWithCommas(totalPlusRetro, {
         precision: getPrecision(totalClaimablePool)
