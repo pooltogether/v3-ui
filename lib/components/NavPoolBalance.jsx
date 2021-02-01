@@ -1,7 +1,6 @@
 import { Dialog } from '@reach/dialog'
 import FeatherIcon from 'feather-icons-react'
 import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
-import VisuallyHidden from '@reach/visually-hidden'
 import React, { useState } from 'react'
 import Squiggle from 'assets/images/squiggle.svg'
 import PoolIcon from 'assets/images/pool-icon.svg'
@@ -29,12 +28,10 @@ export const NavPoolBalance = props => {
   return (
     <>
       <div
-        className='text-green font-bold cursor-pointer pool-gradient-1 rounded-full p-2 leading-none trans hover:opacity-60 mr-2 flex '
+        className='relative test text-green hover:text-white font-bold cursor-pointer pool-gradient-1 rounded-full px-3 xs:px-4 p-2 leading-none trans mr-2 flex'
         onClick={openModal}
       >
-        <span className='hidden sm:block mr-2'>{formattedBalance}</span>
-        <img src={PoolIcon} className='shadow-xl rounded-full w-4 h-4 mr-2' />
-        <span>POOL</span>
+        <span className='hidden sm:block mr-2'>{formattedBalance}</span> POOL
       </div>
       <PoolBalanceModal
         isOpen={isOpen}

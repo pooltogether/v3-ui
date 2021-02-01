@@ -21,7 +21,7 @@ export function ProfileAvatar(props) {
 
   const { usersAddress } = useContext(AuthControllerContext)
 
-  const diameter = xl ? 40 : 20
+  const diameter = 16
 
   useEffect(() => {
     const get3BoxProfile = async () => {
@@ -44,15 +44,11 @@ export function ProfileAvatar(props) {
       alt='profile avatar'
       src={`https://ipfs.infura.io/ipfs/${profile.image[0].contentUrl['/']}`}
       className={classnames(
-        'profile-img relative inline-block rounded-full mr-1',
-        {
-          'w-6 h-6': !xl,
-          'w-12 h-12': xl,
-        }
+        'profile-img relative inline-block rounded-full mr-2 w-5 h-5'
       )}
     /> :
     <div
-      className='profile-img profile-img--jazzicon relative inline-block ml-2 xs:ml-0 mr-2'
+      className='profile-img profile-img--jazzicon relative inline-block mr-2'
     >
       <Jazzicon
         diameter={diameter}

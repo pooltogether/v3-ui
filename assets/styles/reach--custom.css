@@ -87,7 +87,7 @@
 
 [data-reach-menu-list],
 [data-reach-menu-items] {
-  @apply py-0 text-xxxs xs:text-sm sm:text-lg lg:text-xl rounded-lg shadow-lg;
+  @apply py-0 text-xxs xs:text-sm rounded-lg shadow-lg;
 }
 
 .theme-dark [data-reach-menu-list],
