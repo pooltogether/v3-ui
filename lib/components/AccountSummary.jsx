@@ -93,7 +93,7 @@ export const AccountSummary = () => {
 
   return <>
     <div
-      className='purple-pink-gradient rounded-lg pl-6 pr-10 xs:px-12 py-5 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'
+      className='purple-pink-gradient rounded-lg pl-6 pr-10 xs:px-10 py-5 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'
     >
       <div
         className='flex justify-between items-center'

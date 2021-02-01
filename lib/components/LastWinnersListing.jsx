@@ -17,11 +17,11 @@ export const LastWinnersListing = (
   const { t } = useTranslation()
   const { pool } = props
 
-  const decimals = pool?.underlyingCollateralDecimals
   const querySymbol = pool?.symbol
 
-  const first = 5
-  const { data, error, isFetched } = usePoolPrizesQuery(pool, first)
+  const page = 1
+  const skip = 0
+  const { data, error, isFetched } = usePoolPrizesQuery(pool, page, skip)
 
   if (error) {
     console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))
@@ -29,6 +29,7 @@ export const LastWinnersListing = (
   }
 
   let prizes = compact([].concat(data?.prizePool?.prizes))
+  prizes = prizes ? prizes.slice(0, 5) : []
 
   prizes = prizes?.reduce(function (result, prize) {
     if (prize?.awardedControlledTokens?.length > 0) {
