@@ -297,7 +297,7 @@
 }
 
 @keyframes coinSpin {
-  0% {
+  70% {
     transform: rotateY(0deg);
   }
   100% {

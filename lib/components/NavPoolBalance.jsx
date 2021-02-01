@@ -8,6 +8,7 @@ import PoolIcon from 'assets/images/pool-icon.svg'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
 import { useTranslation } from 'lib/../i18n'
+import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 
 export const NavPoolBalance = props => {
   const [isOpen, setIsOpen] = useState(false)
@@ -21,6 +22,7 @@ export const NavPoolBalance = props => {
   }
 
   const { usersBalance } = tokenData
+  console.log(tokenData)
   const formattedBalance = numberWithCommas(usersBalance, {
     precision: 0
   })
@@ -51,13 +53,15 @@ const PoolBalanceModal = props => {
   const { isOpen, closeModal, tokenData } = props
   const { usersBalance, totalSupply } = tokenData
 
-  const { data: totalClaimablePool, isFetched } = useTotalClaimablePool()
+  const { data: totalClaimablePool, isFetched: totalClaimableIsFetched } = useTotalClaimablePool()
+  const { data: retroactiveClaimablePool, isFetched: retroactiveClaimableIsFetched } = useRetroactivePoolClaimData()
+  console.log( retroactiveClaimablePool, totalClaimablePool,)
 
-  const totalClaimablePoolFormatted = isFetched
-    ? numberWithCommas(totalClaimablePool, {
+  const claimablePoolIsLoaded = totalClaimableIsFetched && retroactiveClaimableIsFetched
+  const totalPlusRetro = claimablePoolIsLoaded ? totalClaimablePool + retroactiveClaimablePool.formattedAmount : 0
+  const totalClaimablePoolFormatted = numberWithCommas(totalPlusRetro, {
         precision: getPrecision(totalClaimablePool)
       })
-    : '-'
   const formattedBalance = numberWithCommas(usersBalance, {
     precision: getPrecision(usersBalance)
   })
