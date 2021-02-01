@@ -24,7 +24,9 @@ export const RetroactivePoolClaimBanner = props => {
   return (
     <Banner gradient={'rainbow'} className='mb-12'>
       <div className='flex sm:flex-row flex-col'>
-        <img className='mb-3 sm:mb-2 ml-0 mr-auto sm:mb-auto sm:mr-4 sm:mt-1' src={Bell} style={{ maxWidth: 30 }} />
+        <div className='mb-3 sm:mb-2 ml-0 mr-auto sm:mb-auto sm:mr-4 sm:mt-1'>
+          <img className='shake' src={Bell} style={{ maxWidth: 30 }} />
+        </div>
         <div>
           <h6>You can claim POOL tokens!</h6>
           <p className='mt-1 mb-5 text-xs sm:text-sm w-full xs:w-10/12 sm:w-9/12'>
