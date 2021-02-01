@@ -76,7 +76,7 @@ const ClaimHeader = props => {
   })
 
   return (
-    <div className='flex justify-between flex-col sm:flex-row mb-0 sm:mb-8 p-2 sm:p-0'>
+    <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
       <div className='flex sm:flex-col justify-between sm:justify-start'>
         <h6 className='flex items-center font-normal'>{t('claimablePool')}</h6>
         <h2
@@ -93,7 +93,7 @@ const ClaimHeader = props => {
 
       <div className='flex flex-col-reverse sm:flex-col'>
         <ClaimAllButton refetch={refetch} claimable={totalClaimablePool > 0} />
-        <span className='sm:text-right text-accent-1 text-xxs mb-4 sm:mb-8'>
+        <span className='sm:text-right text-accent-1 text-xxs'>
           {t('whatCanIDoWithPool')}
         </span>
       </div>
@@ -241,7 +241,7 @@ const ClaimablePoolTokenItem = props => {
   const claimablePoolFormatted = numberWithCommas(claimablePoolNumber, { precision: getPrecision(claimablePoolNumber) })
 
   return (
-    <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mb-4 sm:mb-8 last:mb-0'>
+    <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8'>
       <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start mb-6 sm:mb-0'>
         <PoolCurrencyIcon
           

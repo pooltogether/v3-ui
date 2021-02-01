@@ -16,5 +16,5 @@ export function useReadProvider() {
     getReadProvider()
   }, [networkName])
     
-  return { readProvider: defaultReadProvider }
+  return { readProvider: defaultReadProvider, isLoaded: Object.keys(defaultReadProvider).length > 0 }
 }
