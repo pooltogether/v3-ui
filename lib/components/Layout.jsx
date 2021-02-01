@@ -13,6 +13,7 @@ import { NetworkText } from 'lib/components/NetworkText'
 import { ManageTicketsWizardContainer } from 'lib/components/ManageTicketsWizardContainer'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
+import { PendingTxButton } from 'lib/components/PendingTxButton'
 import { LanguagePicker } from 'lib/components/LanguagePicker'
 import { Settings } from 'lib/components/Settings'
 import { SignInFormContainer } from 'lib/components/SignInFormContainer'
@@ -117,6 +118,10 @@ export function Layout (props) {
                 lineHeight: 0
               }}
             >
+              {usersAddress && chainId && chainId !== 1 && (
+                <NetworkText openTransactions={openTransactions} />
+              )}
+              
               <NavPoolBalance />
 
               {usersAddress && (
@@ -129,14 +134,10 @@ export function Layout (props) {
                 </>
               )}
 
-              {usersAddress && chainId && chainId !== 1 && (
-                <>
-                  <NetworkText openTransactions={openTransactions} />
-                </>
-              )}
-
               {/* this pushes the lang picker and settings gear onto it's own roll on mobile/tablet */}
               <div className='w-full sm:hidden'></div>
+
+              <PendingTxButton openTransactions={openTransactions} />
 
               <LanguagePicker />
 

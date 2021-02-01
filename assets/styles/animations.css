@@ -323,3 +323,80 @@
     transform: rotate(0deg);
   }
 }
+
+.test {
+  background-size: 150% 150% !important;
+}
+
+.test:hover {
+  animation: cycleBackgroundPos 2500ms infinite;
+}
+
+
+.bg-flashy {
+  background: var(--flashyGradient);
+}
+
+
+@keyframes gradientBG {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.text-flashy {
+  background: var(--flashyGradient);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+
+  background-size: 1000% auto;
+  animation: cycleBackgroundPos 15000ms infinite steps(100);
+}
+
+.border-flashy {
+  --borderFlashyRadius: 8px;
+  --borderFlashyWidth: 6px;
+  position: relative;
+  border-radius: var(--borderFlashyRadius);
+  width: calc(100% - 13px);
+}
+
+@screen sm {
+  .border-flashy {
+    --borderFlashyWidth: 10px;
+    width: calc(100% - 17px);
+  }
+}
+
+.border-flashy:after {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--borderFlashyWidth));
+  left: calc(-1 * var(--borderFlashyWidth));
+  height: calc(100% + var(--borderFlashyWidth) * 2);
+  width: calc(100% + var(--borderFlashyWidth) * 2);
+  background: var(--flashyGradient);
+  border-radius: var(--borderFlashyRadius);
+  animation: cycleBackgroundPos 25000ms infinite steps(140);
+  background-size: 300% 300%;
+  z-index: -1;
+}
+
+@keyframes cycleBackgroundPos {
+  0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}

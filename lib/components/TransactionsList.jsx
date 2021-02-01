@@ -52,7 +52,7 @@ export function TransactionsList(props) {
         className='flex justify-between items-center text-xxs xs:text-xs uppercase font-bold text-accent-3'
       >
         <div>
-          {t('recentTransactions')} {pendingTransactionsCount > 0 && <>
+          {t('recentTransactions')} <br className='xs:hidden' /> {pendingTransactionsCount > 0 && <>
             <span className='text-accent-1 text-xxxs uppercase opacity-50'>
               {t('pendingTransactionsCount', { count: pendingTransactionsCount })}
             </span>
