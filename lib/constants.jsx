@@ -108,7 +108,7 @@ export const CONTRACT_ADDRESSES = {
 
     // TODO: Add mainnet. Add remaining pools. Pull from pooltogether-contracts
     ComptrollerProxyFactory: '0xA9fbACfF0E0c574138d511eA333a0a2119AdB32D',
-    MerkleDistributor: '0x0c6271c65DA3183A2e7a0914c840a6F0a04D050d'
+    MerkleDistributor: '0xF5A2aF1F3f29734bA171C1C98aDfbA0F64c1C2Df'
   }
 }
 
@@ -232,7 +232,10 @@ export const QUERY_KEYS = {
   claimablePoolQuery: 'claimablePoolQuery',
   claimablePoolTotal: 'claimablePoolTotal',
   retroactivePoolClaimDataQuery: 'retroactivePoolClaimDataQuery',
-  poolComptrollersQuery: 'poolComptrollersQuery'
+  poolComptrollersQuery: 'poolComptrollersQuery',
+  poolTokenDataQuery: 'poolTokenDataQuery',
+  coingeckoImagesByContractAddressesQuery: 'coingeckoImagesByContractAddressesQuery',
+  coingeckoImageQuery: 'coingeckoImageQuery'
 }
 
 export const POOLTOGETHER_CURRENT_GRAPH_URIS = {
