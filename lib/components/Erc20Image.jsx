@@ -1,9 +1,15 @@
 import React from 'react'
 
+import { useCoingeckoImageQuery } from 'lib/hooks/useCoingeckoImageQuery'
 import { TOKEN_IMAGES } from 'lib/constants'
 
 export const Erc20Image = (props) => {
-  const src = TOKEN_IMAGES[props.address]
+  let src = TOKEN_IMAGES[props.address]
+
+  if (!src) {
+    const { data: tokenImagesData } = useCoingeckoImageQuery(props.address)
+    src = tokenImagesData?.[props.address]?.image?.thumb
+  }
 
   return src ? <img
     src={src}
