@@ -222,9 +222,14 @@ const StepThree = props => {
 
   if (txPending || txInFlight?.error) {
     return (
-      <div className='mx-auto' style={{ maxWidth: '550px' }}>
+      <div className='mx-auto flex flex-col' style={{ maxWidth: '550px' }}>
         <h3>{t('youAreReceiving')}</h3>
-        <h2 className='text-highlight-1 mb-8'>🎉 {amountWithCommas} POOL 🎉</h2>
+        <div className='flex mx-auto mb-8'>
+          <h2 className='shake'>🎉</h2>
+          <h2 className='text-highlight-1 mx-2'>{amountWithCommas} POOL</h2>
+          <h2 className='shake'>🎉</h2>
+        </div>
+
         <TxStatus tx={txInFlight} />
       </div>
     )
@@ -237,9 +242,14 @@ const StepThree = props => {
   }
 
   return (
-    <div className='mx-auto' style={{ maxWidth: '550px' }}>
+    <div className='mx-auto flex flex-col' style={{ maxWidth: '550px' }}>
       <h3>{t('youAreReceiving')}</h3>
-      <h2 className='text-highlight-1 mb-8'>🎉 {amountWithCommas} POOL 🎉</h2>
+
+      <div className='flex mx-auto mb-8'>
+        <h2 className='shake'>🎉</h2>
+        <h2 className='text-highlight-1 mx-2'>{` ${amountWithCommas} POOL `}</h2>
+        <h2 className='shake'>🎉</h2>
+      </div>
       <Button onClick={handleClaim} textSize='lg' className='w-full'>
         {t('claimMyTokens')}
       </Button>

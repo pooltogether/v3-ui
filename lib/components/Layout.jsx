@@ -3,9 +3,7 @@ import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import { AnimatePresence, motion, useViewportScroll } from 'framer-motion'
 
-import {
-  SUPPORTED_CHAIN_IDS,
-} from 'lib/constants'
+import { SUPPORTED_CHAIN_IDS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { NavAccount } from 'lib/components/NavAccount'
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
@@ -22,15 +20,14 @@ import { WrongNetworkModal } from 'lib/components/WrongNetworkModal'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { ClaimRetroactivePoolWizardContainer } from 'lib/components/ClaimRetroactivePoolWizard'
+import { NavPoolBalance } from 'lib/components/NavPoolBalance'
 
 const onlyUnique = (value, index, self) => {
   return self.indexOf(value) === index
 }
 
-export function Layout(props) {
-  const {
-    children
-  } = props
+export function Layout (props) {
+  const { children } = props
 
   const shouldReduceMotion = useReducedMotion()
 
@@ -43,23 +40,25 @@ export function Layout(props) {
 
   const [showTransactionsDialog, setShowTransactionsDialog] = useState(false)
 
-  const openTransactions = (e) => {
+  const openTransactions = e => {
     e.preventDefault()
     setShowTransactionsDialog(true)
   }
 
-  const closeTransactions = (e) => {
+  const closeTransactions = e => {
     if (e) {
       e.preventDefault()
     }
     setShowTransactionsDialog(false)
   }
-  
+
   const router = useRouter()
 
   const signIn = router.query.signIn
   const deposit = /deposit/.test(router.asPath)
-  const manage = /\/account\/pools\/[A-Za-z-]*\/manage-tickets/.test(router.asPath)
+  const manage = /\/account\/pools\/[A-Za-z-]*\/manage-tickets/.test(
+    router.asPath
+  )
 
   const { usersAddress, chainId } = useContext(AuthControllerContext)
 
@@ -68,155 +67,139 @@ export function Layout(props) {
   const showingBanner = false
   // const showingBanner = chainId !== 1
 
-  let supportedNetworkNames = SUPPORTED_CHAIN_IDS.map(chainId => chainIdToNetworkName(chainId))
+  let supportedNetworkNames = SUPPORTED_CHAIN_IDS.map(chainId =>
+    chainIdToNetworkName(chainId)
+  )
   supportedNetworkNames = supportedNetworkNames.filter(onlyUnique)
 
+  return (
+    <>
+      <Meta />
 
+      <AnimatePresence>{signIn && <SignInFormContainer />}</AnimatePresence>
 
-  return <>
-    <Meta />
+      <AnimatePresence>
+        {deposit && <DepositWizardContainer {...props} />}
+      </AnimatePresence>
 
-    <AnimatePresence>
-      {signIn && <SignInFormContainer />}
-    </AnimatePresence>
+      <AnimatePresence>
+        {manage && <ManageTicketsWizardContainer {...props} />}
+      </AnimatePresence>
 
-    <AnimatePresence>
-      {deposit && <DepositWizardContainer
-        {...props}
-      />}
-    </AnimatePresence>
+      {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && (
+        <ClaimRetroactivePoolWizardContainer />
+      )}
 
-    <AnimatePresence>
-      {manage && <ManageTicketsWizardContainer
-        {...props}
-      />}
-    </AnimatePresence>
-
-    {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <ClaimRetroactivePoolWizardContainer />}
-
-    <WrongNetworkModal />
-
-    <div
-      className='flex flex-col w-full'
-      style={{
-        minHeight: '100vh'
-      }}
-    >
-
-      <motion.div
-        className={classnames(
-          'header fixed w-full bg-body z-30 pt-1 pb-1 xs:pt-2 xs:pb-0 sm:py-0 mx-auto l-0 r-0',
-          { 
-            'showing-network-banner': showingBanner
-          }
-        )}
-      >
-        <div
-          className='flex justify-between items-center px-4 xs:px-12 sm:px-10 py-4 xs:pb-6 sm:pt-5 sm:pb-7 mx-auto'
-        >
-          <HeaderLogo />
-          
-          <div
-            className={classnames(
-              'flex items-center justify-end flex-row flex-wrap relative',
-            )}
-            style={{
-              lineHeight: 0
-            }}
-          >
-            {usersAddress && <>
-              <NavAccount
-                openTransactions={openTransactions}
-                closeTransactions={closeTransactions}
-                showTransactionsDialog={showTransactionsDialog}
-              />
-            </>}
-            
-            {usersAddress && chainId && chainId !== 1 && <>
-              <NetworkText
-                openTransactions={openTransactions}
-              />
-            </>}
-
-            {/* this pushes the lang picker and settings gear onto it's own roll on mobile/tablet */}
-            <div className='w-full sm:hidden'></div>
-
-            <LanguagePicker />
-
-            <Settings />
-          </div>
-        </div>
-
-        <motion.div
-          className='w-full'
-          style={{
-            boxShadow: 'rgba(0, 0, 0, 0.025) 0px 0px 1px 1px, rgba(0, 0, 0, 0.1) 0px 1px 7px 1px',
-            height: 0,
-            maxWidth: '100vw',
-          }}
-          animate={yScrollPosition > 1 ? 'enter' : 'exit'}
-          variants={{
-            enter: {
-              opacity: 1,
-              transition: {
-                duration: shouldReduceMotion ? 0 : 1
-              }
-            },
-            exit: {
-              opacity: 0,
-              transition: {
-                duration: shouldReduceMotion ? 0 : 1
-              }
-            }
-          }}
-        >
-        </motion.div>
-      </motion.div>
-
+      <WrongNetworkModal />
 
       <div
-        className={classnames(
-          'grid-wrapper',
-          {
-            'showing-network-banner': showingBanner
-          }
-        )}
+        className='flex flex-col w-full'
+        style={{
+          minHeight: '100vh'
+        }}
       >
-        <div
+        <motion.div
           className={classnames(
-            'sidebar hidden sm:block z-20',
+            'header fixed w-full bg-body z-30 pt-1 pb-1 xs:pt-2 xs:pb-0 sm:py-0 mx-auto l-0 r-0',
             {
               'showing-network-banner': showingBanner
             }
           )}
         >
-          <Nav />
-        </div>
+          <div className='flex justify-between items-center px-4 xs:px-12 sm:px-10 py-4 xs:pb-6 sm:pt-5 sm:pb-7 mx-auto'>
+            <HeaderLogo />
 
-        <div className='content'>
-          <div
-            className='pool-container w-full flex flex-grow relative z-10 h-full page px-4 xs:px-12 sm:px-10 pt-6 xs:pt-6 sm:pt-8 pb-32'
-          >
             <div
-              className='flex flex-col flex-grow'
+              className={classnames(
+                'flex items-center justify-end flex-row flex-wrap relative'
+              )}
+              style={{
+                lineHeight: 0
+              }}
             >
+              <NavPoolBalance />
 
-              <div
-                className='relative flex flex-col flex-grow h-full z-10 text-white'
-                style={{
-                  flex: 1
-                }}
-              >
+              {usersAddress && (
+                <>
+                  <NavAccount
+                    openTransactions={openTransactions}
+                    closeTransactions={closeTransactions}
+                    showTransactionsDialog={showTransactionsDialog}
+                  />
+                </>
+              )}
+
+              {usersAddress && chainId && chainId !== 1 && (
+                <>
+                  <NetworkText openTransactions={openTransactions} />
+                </>
+              )}
+
+              {/* this pushes the lang picker and settings gear onto it's own roll on mobile/tablet */}
+              <div className='w-full sm:hidden'></div>
+
+              <LanguagePicker />
+
+              <Settings />
+            </div>
+          </div>
+
+          <motion.div
+            className='w-full'
+            style={{
+              boxShadow:
+                'rgba(0, 0, 0, 0.025) 0px 0px 1px 1px, rgba(0, 0, 0, 0.1) 0px 1px 7px 1px',
+              height: 0,
+              maxWidth: '100vw'
+            }}
+            animate={yScrollPosition > 1 ? 'enter' : 'exit'}
+            variants={{
+              enter: {
+                opacity: 1,
+                transition: {
+                  duration: shouldReduceMotion ? 0 : 1
+                }
+              },
+              exit: {
+                opacity: 0,
+                transition: {
+                  duration: shouldReduceMotion ? 0 : 1
+                }
+              }
+            }}
+          ></motion.div>
+        </motion.div>
+
+        <div
+          className={classnames('grid-wrapper', {
+            'showing-network-banner': showingBanner
+          })}
+        >
+          <div
+            className={classnames('sidebar hidden sm:block z-20', {
+              'showing-network-banner': showingBanner
+            })}
+          >
+            <Nav />
+          </div>
+
+          <div className='content'>
+            <div className='pool-container w-full flex flex-grow relative z-10 h-full page px-4 xs:px-12 sm:px-10 pt-6 xs:pt-6 sm:pt-8 pb-32'>
+              <div className='flex flex-col flex-grow'>
                 <div
-                  className='my-0 text-inverse sm:pt-2 lg:pt-4'
+                  className='relative flex flex-col flex-grow h-full z-10 text-white'
+                  style={{
+                    flex: 1
+                  }}
                 >
-                  {React.cloneElement(children, {
-                    ...props,
-                  })}
+                  <div className='my-0 text-inverse sm:pt-2 lg:pt-4'>
+                    {React.cloneElement(children, {
+                      ...props
+                    })}
+                  </div>
                 </div>
-              </div>
 
-              {/* 
+                {/* 
               <div
                 className='main-footer z-10'
               >
@@ -225,10 +208,10 @@ export function Layout(props) {
               </div>
             </div>
           </div>
-
         </div>
 
-      <NavMobile />
-    </div>
-  </>
+        <NavMobile />
+      </div>
+    </>
+  )
 }

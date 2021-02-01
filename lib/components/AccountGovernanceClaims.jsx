@@ -76,8 +76,8 @@ const ClaimHeader = props => {
   })
 
   return (
-    <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
-      <div className='flex sm:flex-col justify-between sm:justify-start mb-4 sm:mb-0'>
+    <div className='flex justify-between flex-col sm:flex-row mb-0 sm:mb-8 p-2 sm:p-0'>
+      <div className='flex sm:flex-col justify-between sm:justify-start'>
         <h6 className='flex items-center font-normal'>{t('claimablePool')}</h6>
         <h2
           className={classnames(
