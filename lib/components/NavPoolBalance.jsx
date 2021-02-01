@@ -22,7 +22,6 @@ export const NavPoolBalance = props => {
   }
 
   const { usersBalance } = tokenData
-  console.log(tokenData)
   const formattedBalance = numberWithCommas(usersBalance, {
     precision: 0
   })
@@ -33,9 +32,7 @@ export const NavPoolBalance = props => {
         className='text-green font-bold cursor-pointer pool-gradient-1 rounded-full p-2 leading-none trans hover:opacity-60 mr-2 flex '
         onClick={openModal}
       >
-        {Boolean(usersBalance) && (
-          <span className='hidden sm:block mr-2'>{formattedBalance}</span>
-        )}
+        <span className='hidden sm:block mr-2'>{formattedBalance}</span>
         <img src={PoolIcon} className='shadow-xl rounded-full w-4 h-4 mr-2' />
         <span>POOL</span>
       </div>
@@ -55,7 +52,6 @@ const PoolBalanceModal = props => {
 
   const { data: totalClaimablePool, isFetched: totalClaimableIsFetched } = useTotalClaimablePool()
   const { data: retroactiveClaimablePool, isFetched: retroactiveClaimableIsFetched } = useRetroactivePoolClaimData()
-  console.log( retroactiveClaimablePool, totalClaimablePool,)
 
   const claimablePoolIsLoaded = totalClaimableIsFetched && retroactiveClaimableIsFetched
   const totalPlusRetro = claimablePoolIsLoaded ? totalClaimablePool + retroactiveClaimablePool.formattedAmount : 0
