@@ -36,16 +36,15 @@ export function Nav(props) {
         >
           <div
             className='flex items-center justify-center'
-            style={{width: 28}}
           >
             <svg
               style={{
-                top: 1,
+                top: -2,
               }}
-              className='fill-current mx-auto relative'
-              width='24'
-              height='24'
-              viewBox='0 0 24 24'
+              className='fill-current mr-auto relative'
+              width='19'
+              height='19'
+              viewBox='0 0 19 19'
               fill='none'
               xmlns='http://www.w3.org/2000/svg'
             >
@@ -56,7 +55,7 @@ export function Nav(props) {
             </svg>
           </div>
 
-          <span className='pl-2 capitalize'>{t('pools')}</span>
+          <span className='pl-3 capitalize'>{t('pools')}</span>
         </a>
       </Link>
 
@@ -77,13 +76,12 @@ export function Nav(props) {
         >
           <div
             className='flex items-center justify-center'
-            style={{width: 28}}
           >
             <svg
               style={{
                 top: 1,
               }}
-              className='fill-current mx-auto relative'
+              className='fill-current mr-auto relative'
               width='20'
               height='20'
               viewBox='0 0 20 20'
@@ -94,7 +92,7 @@ export function Nav(props) {
             </svg>
           </div>
 
-          <span className='pl-2 capitalize'>{t('account')}</span>
+          <span className='pl-3 capitalize'>{t('account')}</span>
         </a>
       </Link>
 
@@ -114,15 +112,14 @@ export function Nav(props) {
         >
           <div
             className='flex items-center justify-center'
-            style={{width: 28}}
           >
             <svg
               style={{
                 left: 2,
-                top: 2,
-                transform: 'scale(1.15)'
+                top: 1,
+                transform: 'scale(1.1)'
               }}
-              className='fill-current stroke-current mx-auto relative'
+              className='fill-current stroke-current mr-auto relative'
               width='20'
               height='25'
               viewBox='0 0 20 25'
@@ -133,7 +130,7 @@ export function Nav(props) {
             </svg>
           </div>
 
-          <span className='pl-2'>{t('vote')}</span>
+          <span className='pl-3 capitalize'>{t('vote')}</span>
         </a>
       </Link>
     </nav>
