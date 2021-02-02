@@ -7,8 +7,8 @@ import { Button } from 'lib/components/Button'
 import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
 
-import ComptrollerV2Abi from '@pooltogether/pooltogether-contracts/abis/ComptrollerV2'
-import ComptrollerV2ProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/ComptrollerV2ProxyFactory'
+import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
+import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucetProxyFactory'
 
 import { CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY, SECONDS_PER_HOUR, SECONDS_PER_WEEK } from 'lib/constants'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
@@ -16,7 +16,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { useAccount } from 'lib/hooks/useAccount'
 import { useClaimablePool } from 'lib/hooks/useClaimablePool'
-import { useClaimablePoolComptrollerAddresses } from 'lib/hooks/useClaimablePoolComptrollerAddresses'
+import { useClaimablePoolTokenFaucetAddresses } from 'lib/hooks/useClaimablePoolTokenFaucetAddresses'
 import { usePools } from 'lib/hooks/usePools'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
@@ -108,8 +108,8 @@ const ClaimAllButton = props => {
   const { usersAddress, provider, chainId } = useContext(AuthControllerContext)
   const {
     isFetched,
-    data: comptrollerAddresses
-  } = useClaimablePoolComptrollerAddresses()
+    data: tokenFaucetAddresses
+  } = useClaimablePoolTokenFaucetAddresses()
 
   const [txId, setTxId] = useState({})
   const [transactions, setTransactions] = useAtom(transactionsAtom)
@@ -129,14 +129,14 @@ const ClaimAllButton = props => {
   const handleClaim = async e => {
     e.preventDefault()
 
-    const params = [usersAddress, comptrollerAddresses]
+    const params = [usersAddress, tokenFaucetAddresses]
 
     const id = await sendTx(
       t,
       provider,
       usersAddress,
-      ComptrollerV2ProxyFactoryAbi,
-      CONTRACT_ADDRESSES[chainId].ComptrollerProxyFactory,
+      TokenFaucetProxyFactoryAbi,
+      CONTRACT_ADDRESSES[chainId].TokenFaucetProxyFactory,
       'claimAll',
       params
     )
@@ -193,7 +193,7 @@ const ClaimablePoolTokenItem = props => {
   const { playerTickets } = usePlayerTickets(accountData)
   const { name, symbol } = pool
   const { pool: poolInfo } = usePool(symbol)
-  const comptrollerAddress = poolInfo.tokenListener
+  const tokenFaucetAddress = poolInfo.tokenListener
 
   const { refetch, data, isFetching, isFetched, error } = useClaimablePool(
     symbol
@@ -267,7 +267,7 @@ const ClaimablePoolTokenItem = props => {
             refetchAllClaimableBalances()
           }}
           name={name}
-          comptrollerAddress={comptrollerAddress}
+          tokenFaucetAddress={tokenFaucetAddress}
           claimable={claimablePoolNumber > 0}
         />
       </div>
@@ -277,7 +277,7 @@ const ClaimablePoolTokenItem = props => {
 
 const ClaimButton = props => {
   const { name, refetch, claimable } = props
-  const { comptrollerAddress } = props
+  const { tokenFaucetAddress } = props
   const { t } = useTranslation()
   const { usersAddress, provider, chainId } = useContext(AuthControllerContext)
   const [txId, setTxId] = useState({})
@@ -304,8 +304,8 @@ const ClaimButton = props => {
       t,
       provider,
       usersAddress,
-      ComptrollerV2Abi,
-      comptrollerAddress,
+      TokenFaucetAbi,
+      tokenFaucetAddress,
       'claim',
       params
     )

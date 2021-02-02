@@ -2,6 +2,9 @@
 // const PermitAndDepositDaiRinkeby = require(`@pooltogether/pooltogether-contracts/deployments/rinkeby/PermitAndDepositDai.json`)
 // const PermitAndDepositDaiRopsten = require(`@pooltogether/pooltogether-contracts/deployments/ropsten/PermitAndDepositDai.json`)
 
+// import TokenFaucetProxyFactoryMainnet from '@pooltogether/pooltogether-contracts/deployments/mainnet/TokenFaucetProxyFactory.json'
+import TokenFaucetProxyFactoryRinkeby from '@pooltogether/pooltogether-contracts/deployments/rinkeby/TokenFaucetProxyFactory.json'
+
 export const SUPPORTED_CHAIN_IDS = [1, 4, 31337, 1234]
 
 export const SECONDS_PER_BLOCK = 14
@@ -96,6 +99,11 @@ export const CONTRACT_ADDRESSES = {
     Usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7'
     // Dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
     // PermitAndDepositDai: PermitAndDepositDaiMainnet.address
+
+    // TODO: Add mainnet.
+    // TokenFaucetProxyFactory: TokenFaucetProxyFactoryMainnet.address,
+    // MerkleDistributor: '0xF5A2aF1F3f29734bA171C1C98aDfbA0F64c1C2Df',
+    // GovernanceToken: '0x4CF566d201eF144e09d2f8ABE1cC0E451D79De53'
   },
   3: {
     Usdt: '0x0736d0c130b2ead47476cc262dbed90d7c4eeabd'
@@ -107,7 +115,7 @@ export const CONTRACT_ADDRESSES = {
     // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
 
     // TODO: Add mainnet. Add remaining pools. Pull from pooltogether-contracts
-    ComptrollerProxyFactory: '0xA9fbACfF0E0c574138d511eA333a0a2119AdB32D',
+    TokenFaucetProxyFactory: TokenFaucetProxyFactoryRinkeby.address,
     MerkleDistributor: '0x5fcD21897939B09eAF9c81eF8C2C4CD64FA75558',
     GovernanceToken: '0xEae2De7Ba52298a535C59D37BAe409cCeCaDE234'
   }
@@ -233,7 +241,7 @@ export const QUERY_KEYS = {
   claimablePoolQuery: 'claimablePoolQuery',
   claimablePoolTotal: 'claimablePoolTotal',
   retroactivePoolClaimDataQuery: 'retroactivePoolClaimDataQuery',
-  poolComptrollersQuery: 'poolComptrollersQuery',
+  poolTokenFaucetsQuery: 'poolTokenFaucetsQuery',
   poolTokenDataQuery: 'poolTokenDataQuery',
   coingeckoImagesByContractAddressesQuery: 'coingeckoImagesByContractAddressesQuery',
   coingeckoImageQuery: 'coingeckoImageQuery'
