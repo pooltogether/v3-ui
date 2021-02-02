@@ -114,10 +114,10 @@ export const CONTRACT_ADDRESSES = {
     Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
     // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
 
-    // TODO:  Pull from pooltogether-contracts
+    // TODO: Add mainnet. Add remaining pools. Pull from pooltogether-contracts
     TokenFaucetProxyFactory: TokenFaucetProxyFactoryRinkeby.address,
-    MerkleDistributor: '0xF5A2aF1F3f29734bA171C1C98aDfbA0F64c1C2Df',
-    GovernanceToken: '0x4CF566d201eF144e09d2f8ABE1cC0E451D79De53'
+    MerkleDistributor: '0x5fcD21897939B09eAF9c81eF8C2C4CD64FA75558',
+    GovernanceToken: '0xEae2De7Ba52298a535C59D37BAe409cCeCaDE234'
   }
 }
 
