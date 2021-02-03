@@ -6,6 +6,8 @@ import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
+import CountUp from 'react-countup'
+import { usePreviousValue } from 'beautiful-react-hooks'
 
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucetProxyFactory'
@@ -23,7 +25,8 @@ import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
 import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { usePool } from 'lib/hooks/usePool'
-import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
+import { getMaxPrecision, getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
+import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 
 export const AccountGovernanceClaims = props => {
   const { pools } = usePools()
@@ -36,6 +39,7 @@ export const AccountGovernanceClaims = props => {
     refetchAllClaimableBalances
   } = useTotalClaimablePool()
   const { usersAddress } = useContext(AuthControllerContext)
+  const { refetch: refetchPoolTokenData } = usePoolTokenData()
 
   if (!isFetched || (isFetching && !isFetched)) {
     return null
@@ -56,6 +60,7 @@ export const AccountGovernanceClaims = props => {
           <ClaimablePoolTokenItem
             refetchTotalClaimablePool={refetchTotalClaimablePool}
             refetchAllClaimableBalances={refetchAllClaimableBalances}
+            refetchPoolTokenData={refetchPoolTokenData}
             key={pool.id}
             pool={pool}
           />
@@ -71,10 +76,6 @@ const ClaimHeader = props => {
 
   const { data: totalClaimablePool, refetch } = useTotalClaimablePool()
 
-  const totalClaimablePoolFormatted = numberWithCommas(totalClaimablePool, {
-    precision: getPrecision(totalClaimablePool)
-  })
-
   return (
     <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
       <div className='flex sm:flex-col justify-between sm:justify-start'>
@@ -87,7 +88,7 @@ const ClaimHeader = props => {
             }
           )}
         >
-          {totalClaimablePoolFormatted}
+          <ClaimableAmountCountUp amount={totalClaimablePool}/>
         </h2>
       </div>
 
@@ -187,7 +188,7 @@ const ClaimAllButton = props => {
 
 const ClaimablePoolTokenItem = props => {
   const { t } = useTranslation()
-  const { pool, refetchTotalClaimablePool, refetchAllClaimableBalances } = props
+  const { pool, refetchTotalClaimablePool, refetchAllClaimableBalances, refetchPoolTokenData } = props
   const { usersAddress } = useContext(AuthControllerContext)
   const { accountData } = useAccount(usersAddress)
   const { playerTickets } = usePlayerTickets(accountData)
@@ -238,7 +239,6 @@ const ClaimablePoolTokenItem = props => {
   const secondsLeft = totalSupply.div(dripRatePerSecond).toNumber()
 
   const claimablePoolNumber = Number(ethers.utils.formatUnits(amountClaimable, DEFAULT_TOKEN_PRECISION))
-  const claimablePoolFormatted = numberWithCommas(claimablePoolNumber, { precision: getPrecision(claimablePoolNumber) })
 
   return (
     <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8'>
@@ -256,13 +256,16 @@ const ClaimablePoolTokenItem = props => {
       </div>
 
       <div className='sm:text-right'>
-        <h3 className='leading-none'>{claimablePoolFormatted} POOL</h3>
+        <h3 className='leading-none'>
+          <ClaimableAmountCountUp amount={claimablePoolNumber} suffix=' POOL'/>
+        </h3>
         <div className='text-accent-1 text-xs mb-4'>
           @ {usersDripPerDayFormatted} POOL / {t('day')}
         </div>
         <ClaimButton
           refetch={() => {
             refetch()
+            refetchPoolTokenData()
             refetchTotalClaimablePool()
             refetchAllClaimableBalances()
           }}
@@ -273,6 +276,22 @@ const ClaimablePoolTokenItem = props => {
       </div>
     </div>
   )
+}
+
+const ClaimableAmountCountUp = props => {
+  const { amount, ...countUpProps } = props
+  const prevAmount = usePreviousValue(amount)
+
+  return <CountUp 
+    start={prevAmount}
+    end={amount}
+    decimals={getMinPrecision(amount, { significantDigits: getPrecision(amount) })}
+    {...countUpProps}
+  />
+}
+
+ClaimableAmountCountUp.defaultProps = {
+  amount: 0
 }
 
 const ClaimButton = props => {

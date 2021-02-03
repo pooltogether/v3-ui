@@ -22,7 +22,7 @@ export const NavPoolBalance = props => {
 
   const { usersBalance } = tokenData
   const formattedBalance = numberWithCommas(usersBalance, {
-    precision: 0
+    precision: getPrecision(usersBalance)
   })
 
   return (
