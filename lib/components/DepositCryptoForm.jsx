@@ -172,7 +172,7 @@ export function DepositCryptoForm(props) {
         {Number(quantity) === 1 ?
           <Trans
             i18nKey='oneTicket'
-            defaults='<number>1</number> tickets'
+            defaults='<number>1</number> ticket'
             components={{
               number: <PoolNumber />,
             }}
@@ -184,7 +184,7 @@ export function DepositCryptoForm(props) {
               number: <PoolNumber />,
             }}
             values={{
-              amount: quantity,
+              amount: numberWithCommas(quantity, { precision: 2 }),
             }}
           />
         }

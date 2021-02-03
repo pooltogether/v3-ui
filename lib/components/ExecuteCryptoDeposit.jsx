@@ -12,12 +12,11 @@ import { DepositInfoList } from 'lib/components/DepositInfoList'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { TxStatus } from 'lib/components/TxStatus'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { usePool } from 'lib/hooks/usePool'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { permitSignOrRegularDeposit } from 'lib/utils/permitSignOrRegularDeposit'
-import { TxStatus } from 'lib/components/TxStatus'
-import { Banner } from 'lib/components/Banner'
 
 const bn = ethers.utils.bigNumberify
 
@@ -45,9 +44,11 @@ export function ExecuteCryptoDeposit(props) {
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
-  let txMainName = `${t('deposit')} ${numberWithCommas(quantity, { precision: 2 })} ${t('tickets')}`
+  const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
 
-  const txSubName = `${quantity} ${tickerUpcased}`
+  let txMainName = `${t('deposit')} ${quantityFormatted} ${t('tickets')}`
+
+  const txSubName = `${quantityFormatted} ${tickerUpcased}`
   const txName = `${txMainName} (${txSubName})`
   
   const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
@@ -116,7 +117,7 @@ export function ExecuteCryptoDeposit(props) {
           number: <PoolNumber />,
         }}
         values={{
-          amount: quantity,
+          amount: quantityFormatted,
           ticker: tickerUpcased,
         }}
       />
@@ -131,7 +132,7 @@ export function ExecuteCryptoDeposit(props) {
             number: <PoolNumber />,
           }}
           values={{
-            amount: quantity,
+            amount: quantityFormatted
           }}
         />
       </PaneTitle>

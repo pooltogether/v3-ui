@@ -10,6 +10,7 @@ import { usePool } from 'lib/hooks/usePool'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export function WithdrawTxButton(props) {
   const { t } = useTranslation()
@@ -33,13 +34,13 @@ export function WithdrawTxButton(props) {
 
   const [txId, setTxId] = useState()
 
-  // const txName = `Withdraw Sponsorship (${quantity} ${tickerUpcased})`
+  const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
+
   const txName = t(`withdrawSponsorshipAmountTicker`, {
-    amount: quantity,
+    amount: quantityFormatted,
     ticker: tickerUpcased
   })
 
-  // const txName = `Withdraw Sponsorship (${quantity} ${tickerUpcased})`
   const method = 'withdrawInstantlyFrom'
 
   const [sendTx] = useSendTransaction(txName, transactions, setTransactions)

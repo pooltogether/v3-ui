@@ -17,6 +17,7 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { TxStatus } from 'lib/components/TxStatus'
 import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export function ConfirmWithdrawNoFee(props) {
   const { t } = useTranslation()
@@ -48,17 +49,16 @@ export function ConfirmWithdrawNoFee(props) {
   const [txExecuted, setTxExecuted] = useState(false)
   const [txId, setTxId] = useState()
 
-  const txMainName = `${t('withdraw')}: ${quantity} ${t('tickets')}`
-  const txSubName = `${quantity} ${tickerUpcased}`
+  const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
+
+  const txMainName = `${t('withdraw')}: ${quantityFormatted} ${t('tickets')}`
+  const txSubName = `${quantityFormatted} ${tickerUpcased}`
   const txName = `${txMainName} (${txSubName})`
   const method = 'withdrawInstantlyFrom'
 
   const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
-
-  
   
   const tx = transactions?.find((tx) => tx.id === txId)
-
   
   const runTx = async () => {
     setTxExecuted(true)
@@ -116,16 +116,7 @@ export function ConfirmWithdrawNoFee(props) {
         >
           <span className='font-normal'>
             {t('amountToBeWithdrawn')} 
-          </span> -<Trans
-            i18nKey='amountTickets'
-            defaults='<number>{{amount}}</number> tickets'
-            components={{
-              number: <PoolNumber />,
-            }}
-            values={{
-              amount: quantity,
-            }}
-          />
+          </span> -<PoolNumber>{quantity}</PoolNumber> {tickerUpcased}
         </h4>
 
         <WithdrawOdds
@@ -151,25 +142,7 @@ export function ConfirmWithdrawNoFee(props) {
       hideOnInWallet
       tx={tx}
       title={t('withdrawing')}
-      subtitle={Number(quantity) === 1 ?
-        <Trans
-          i18nKey='oneTicket'
-          defaults='<number>1</number> tickets'
-          components={{
-            number: <PoolNumber />,
-          }}
-        /> :
-        <Trans
-          i18nKey='amountTickets'
-          defaults='<number>{{amount}}</number> tickets'
-          components={{
-            number: <PoolNumber />,
-          }}
-          values={{
-            amount: quantity,
-          }}
-        />
-      }
+      subtitle={<>{quantityFormatted} {tickerUpcased}</>}
     />
   </>
 }
