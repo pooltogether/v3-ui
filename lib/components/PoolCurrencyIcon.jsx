@@ -6,11 +6,9 @@ import { isUndefined } from 'lodash'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
 import DaiSvg from 'assets/images/dai-new-transparent.png'
-// import WbtcSvg from 'assets/images/wbtc-new-transparent.png'
 import UsdcSvg from 'assets/images/usdc-new-transparent.png'
-// import UsdtSvg from 'assets/images/usdt-new-transparent.png'
-// import ZrxSvg from 'assets/images/zrx-new-transparent.png'
 import BatSvg from 'assets/images/bat-new-transparent.png'
+import CompSvg from 'assets/images/comp.svg'
 import UniSvg from 'assets/images/token-uni.png'
 import UniThemeLightSvg from 'assets/images/uniwap-theme-light-logo.svg'
 
@@ -37,12 +35,8 @@ export const PoolCurrencyIcon = (
     currencyIcon = DaiSvg
   } else if (symbol === 'usdc') {
     currencyIcon = UsdcSvg
-  // } else if (symbol === 'usdt') {
-  //   currencyIcon = UsdtSvg
-  // } else if (symbol === 'wbtc') {
-  //   currencyIcon = WbtcSvg
-  // } else if (symbol === 'zrx') {
-  //   currencyIcon = ZrxSvg
+  } else if (symbol === 'comp') {
+    currencyIcon = CompSvg
   } else if (symbol === 'bat') {
     currencyIcon = BatSvg
   } else if (symbol === 'uni') {
