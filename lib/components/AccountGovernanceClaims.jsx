@@ -262,17 +262,19 @@ const ClaimablePoolTokenItem = props => {
         <div className='text-accent-1 text-xs mb-4'>
           @ {usersDripPerDayFormatted} POOL / {t('day')}
         </div>
-        <ClaimButton
-          refetch={() => {
-            refetch()
-            refetchPoolTokenData()
-            refetchTotalClaimablePool()
-            refetchAllClaimableBalances()
-          }}
-          name={name}
-          tokenFaucetAddress={tokenFaucetAddress}
-          claimable={claimablePoolNumber > 0}
-        />
+        <div className='sm:max-w-xxs sm:ml-auto'>
+          <ClaimButton
+            refetch={() => {
+              refetch()
+              refetchPoolTokenData()
+              refetchTotalClaimablePool()
+              refetchAllClaimableBalances()
+            }}
+            name={name}
+            tokenFaucetAddress={tokenFaucetAddress}
+            claimable={claimablePoolNumber > 0}
+          />
+        </div>
       </div>
     </div>
   )
@@ -285,7 +287,7 @@ const ClaimableAmountCountUp = props => {
   return <CountUp 
     start={prevAmount}
     end={amount}
-    decimals={getMinPrecision(amount, { significantDigits: getPrecision(amount) })}
+    decimals={getMinPrecision(amount, { significantDigits: getPrecision(amount) || 2 })}
     {...countUpProps}
   />
 }
