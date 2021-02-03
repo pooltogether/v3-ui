@@ -71,7 +71,7 @@ export function OrderComplete(props) {
             number: <PoolNumber />,
           }}
           values={{
-            amount: quantity,
+            amount: numberWithCommas(quantity, { precision: 2 })
           }}
         />
       </PaneTitle>

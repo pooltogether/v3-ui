@@ -43,7 +43,7 @@ export const TxStatus = props => {
     <>
       {title && <h3 className='text-inverse mb-4'>{title}</h3>}
 
-      {subtitle && <h6 className='text-accent-1 mb-4'>{subtitle}</h6>}
+      {subtitle && <h6 className='text-accent-1 mb-4 -mt-4'>{subtitle}</h6>}
 
       <Banner className='flex flex-col'>
         {txSent && !txCompleted && !txError && (

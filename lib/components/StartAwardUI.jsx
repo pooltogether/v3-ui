@@ -22,7 +22,6 @@ export function StartAwardUI(props) {
 
   const [txId, setTxId] = useState()
 
-  // const txName = `Start Award - ${pool?.name}`
   const txName = t(`startAwardPoolName`, {
     poolName: pool?.name
   })
