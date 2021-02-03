@@ -5,12 +5,12 @@ orbs:
 workflows:
   build:
     jobs:
-      - cypress/install:
-          yarn: true
+      # - cypress/install:
+      #     yarn: true
 
-      - cypress/run:
-          yarn: true
-          record: true
-          requires:
-            - cypress/install
-          command: yarn cypress
+      # - cypress/run:
+      #     yarn: true
+      #     record: true
+      #     requires:
+      #       - cypress/install
+      #     command: yarn cypress
