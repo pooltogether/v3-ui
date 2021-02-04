@@ -42,6 +42,12 @@ export const AccountGovernanceClaims = props => {
   const { usersAddress } = useContext(AuthControllerContext)
   const { refetch: refetchPoolTokenData } = usePoolTokenData()
 
+  const refetchAllPoolTokenData = () => {
+    refetchTotalClaimablePool()
+    refetchAllClaimableBalances()
+    refetchPoolTokenData()
+  }
+
   if (!isFetched || (isFetching && !isFetched)) {
     return null
   }
@@ -56,12 +62,10 @@ export const AccountGovernanceClaims = props => {
         {t('governance')}
       </h6>
       <div className='xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
-        <ClaimHeader />
+        <ClaimHeader refetchAllPoolTokenData={refetchAllPoolTokenData} />
         {pools.map(pool => (
           <ClaimablePoolTokenItem
-            refetchTotalClaimablePool={refetchTotalClaimablePool}
-            refetchAllClaimableBalances={refetchAllClaimableBalances}
-            refetchPoolTokenData={refetchPoolTokenData}
+            refetchAllPoolTokenData={refetchAllPoolTokenData}
             key={pool.id}
             pool={pool}
           />
@@ -73,9 +77,10 @@ export const AccountGovernanceClaims = props => {
 
 const ClaimHeader = props => {
   const { t } = useTranslation()
+  const { refetchAllPoolTokenData } = props
+  
   // TODO: get a link for "What can I Do with POOL"
-
-  const { data: totalClaimablePool, refetch } = useTotalClaimablePool()
+  const { data: totalClaimablePool } = useTotalClaimablePool()
 
   return (
     <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
@@ -94,7 +99,7 @@ const ClaimHeader = props => {
       </div>
 
       <div className='flex flex-col-reverse sm:flex-col'>
-        <ClaimAllButton refetch={refetch} claimable={totalClaimablePool > 0} />
+        <ClaimAllButton refetchAllPoolTokenData={refetchAllPoolTokenData} claimable={totalClaimablePool > 0} />
         <span className='sm:text-right text-accent-1 text-xxs'>
           {t('whatCanIDoWithPool')}
         </span>
@@ -105,9 +110,9 @@ const ClaimHeader = props => {
 
 const ClaimAllButton = props => {
   const { t } = useTranslation()
-  const { claimable, refetch } = props
+  const { claimable, refetchAllPoolTokenData } = props
 
-  const { usersAddress, provider, chainId } = useContext(AuthControllerContext)
+  const { usersAddress, chainId } = useContext(AuthControllerContext)
   const {
     isFetched,
     data: tokenFaucetAddresses
@@ -117,11 +122,8 @@ const ClaimAllButton = props => {
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
-  const [refetching, setRefetching] = useState(false)
-
   const txPending =
     (tx?.sent || tx?.inWallet) && !tx?.completed
-  const txCompleted = tx?.completed
 
   const handleClaim = async e => {
     e.preventDefault()
@@ -134,31 +136,19 @@ const ClaimAllButton = props => {
       CONTRACT_ADDRESSES[chainId].TokenFaucetProxyFactory,
       'claimAll',
       params,
-      refetch
+      refetchAllPoolTokenData
     )
     setTxId(id)
   }
 
   let text = t('claimAll')
-  if (txPending || refetching) {
+  if (txPending) {
     if (tx.sent) {
       text = t('confirming')
     } else {
       text = t('claiming')
     }
   }
-
-  // useEffect(() => {
-  //   const refreshData = async () => {
-  //     setRefetching(true)
-  //     await refetch()
-  //     setRefetching(false)
-  //   }
-
-  //   if (txCompleted) {
-  //     refreshData()
-  //   }
-  // }, [txCompleted])
 
   return (
     <Button
@@ -183,7 +173,7 @@ const ClaimAllButton = props => {
 
 const ClaimablePoolTokenItem = props => {
   const { t } = useTranslation()
-  const { pool, refetchTotalClaimablePool, refetchAllClaimableBalances, refetchPoolTokenData } = props
+  const { pool, refetchAllPoolTokenData } = props
   const { usersAddress } = useContext(AuthControllerContext)
   const { accountData } = useAccount(usersAddress)
   const { playerTickets } = usePlayerTickets(accountData)
@@ -201,12 +191,9 @@ const ClaimablePoolTokenItem = props => {
 
   const {
     dripRatePerSecond,
-    exchangeRateMantissa,
-    lastDripTimestamp,
     measureTokenAddress,
     totalSupply,
     amountClaimable,
-    user
   } = data
 
   const ticketData = playerTickets.find(
@@ -260,11 +247,8 @@ const ClaimablePoolTokenItem = props => {
         <div className='sm:max-w-xxs sm:ml-auto'>
           <ClaimButton
             refetch={() => {
-              console.log("Refetch!")
               refetchClaimablePool()
-              refetchPoolTokenData()
-              refetchTotalClaimablePool()
-              refetchAllClaimableBalances()
+              refetchAllPoolTokenData()
             }}
             name={name}
             tokenFaucetAddress={tokenFaucetAddress}
@@ -283,7 +267,7 @@ const ClaimableAmountCountUp = props => {
   return <CountUp 
     start={prevAmount}
     end={amount}
-    decimals={getMinPrecision(amount, { significantDigits: getPrecision(amount) || 2 })}
+    decimals={getMinPrecision(amount, { additionalDigits: getPrecision(amount) || 2 })}
     {...countUpProps}
   />
 }
