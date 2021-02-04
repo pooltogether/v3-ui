@@ -5,11 +5,12 @@ import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePool } from 'lib/hooks/usePool'
 import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
+import { usePool } from 'lib/hooks/usePool'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export function DepositSponsorshipTxButton(props) {
   const { t } = useTranslation()
@@ -28,9 +29,10 @@ export function DepositSponsorshipTxButton(props) {
   const poolAddress = pool?.poolAddress
 
   const controlledSponsorshipTokenAddress = pool?.sponsorshipToken?.id
+  const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
   
   const txName = t(`depositAmountTickerToSponsorship`, {
-    amount: quantity,
+    amount: quantityFormatted,
     ticker: tickerUpcased
   })
   const method = 'depositTo'  

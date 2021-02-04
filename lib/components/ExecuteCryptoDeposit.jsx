@@ -3,8 +3,9 @@ import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
-import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
+
+import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { DepositInfoList } from 'lib/components/DepositInfoList'
@@ -27,7 +28,7 @@ export function ExecuteCryptoDeposit(props) {
   const router = useRouter()
   const quantity = router.query.quantity
 
-  const { chainId, usersAddress, provider } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
   const { pool } = usePool()
 
   const decimals = pool?.underlyingCollateralDecimals
@@ -40,8 +41,11 @@ export function ExecuteCryptoDeposit(props) {
 
   const [txExecuted, setTxExecuted] = useState(false)
 
-  let txMainName = `${t('deposit')} ${numberWithCommas(quantity, { precision: 2 })} ${t('tickets')}`
-  const txSubName = `${quantity} ${tickerUpcased}`
+  
+  const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
+  
+  let txMainName = `${t('deposit')} ${quantityFormatted} ${t('tickets')}`
+  const txSubName = `${quantityFormatted} ${tickerUpcased}`
   const txName = `${txMainName} (${txSubName})`
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
@@ -104,7 +108,7 @@ export function ExecuteCryptoDeposit(props) {
           number: <PoolNumber />,
         }}
         values={{
-          amount: quantity,
+          amount: quantityFormatted,
           ticker: tickerUpcased,
         }}
       />
@@ -119,7 +123,7 @@ export function ExecuteCryptoDeposit(props) {
             number: <PoolNumber />,
           }}
           values={{
-            amount: quantity,
+            amount: quantityFormatted
           }}
         />
       </PaneTitle>

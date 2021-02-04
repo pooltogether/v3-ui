@@ -33,6 +33,7 @@ import { usePool } from 'lib/hooks/usePool'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -49,7 +50,7 @@ export const PoolShow = (props) => {
 
   const shouldReduceMotion = useReducedMotion()
 
-  const { networkName, usersAddress, walletName } = useContext(AuthControllerContext)
+  const { chainId, networkName, usersAddress, walletName } = useContext(AuthControllerContext)
 
   const poolSymbol = router?.query?.symbol
   const { pool } = usePool(poolSymbol)
@@ -166,7 +167,7 @@ export const PoolShow = (props) => {
                 onClick={handleGetTicketsClick}
                 disabled={!Boolean(pool?.symbol)}
               >
-                {t('getTickets')}
+                {t('deposit')}
               </Button>
             </div>
           </div>
@@ -346,6 +347,15 @@ export const PoolShow = (props) => {
               </Button>
             </div>
           </>}
+          
+          <div className='m-2'>
+            <ButtonLink
+              secondary
+              href={formatEtherscanAddressUrl(pool.poolAddress, chainId)}
+            >
+              {t('viewPoolInEtherscan')}
+            </ButtonLink>
+          </div>
 
           {usersAddress && <RevokePoolAllowanceTxButton
             pool={pool}

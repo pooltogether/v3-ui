@@ -8,6 +8,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { usePool } from 'lib/hooks/usePool'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
 export function WithdrawTxButton(props) {
@@ -26,9 +27,12 @@ export function WithdrawTxButton(props) {
   const poolAddress = pool?.poolAddress
   const sponsorshipAddress = pool?.sponsorshipToken?.id
 
+  
+  const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
+  
   const [txId, setTxId] = useState(0)
   const txName = t(`withdrawSponsorshipAmountTicker`, {
-    amount: quantity,
+    amount: quantityFormatted,
     ticker: tickerUpcased
   })
   const method = 'withdrawInstantlyFrom'

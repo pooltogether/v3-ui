@@ -15,12 +15,13 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { PTHint } from 'lib/components/PTHint'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
+import { TxStatus } from 'lib/components/TxStatus'
 import { useExitFees } from 'lib/hooks/useExitFees'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
-import { TxStatus } from 'lib/components/TxStatus'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import IconLightning from 'assets/images/icon-lightning.svg'
 import { useTransaction } from 'lib/hooks/useTransaction'
@@ -119,13 +120,13 @@ export function ConfirmWithdrawWithFeeForm(props) {
 
 
 
-  
+  const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
   const [txId, setTxId] = useState(0)
   const method = 'withdrawInstantlyFrom'
   // `Withdraw ${quantity} ${tickerUpcased} (fee: $${feeFormatted})`
   const txName = t('withdrawWithFeeTxName',
     {
-      quantity,
+      quantity: quantityFormatted,
       tickerUpcased,
       feeFormatted
     }
@@ -173,7 +174,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
               number: <PoolNumber />,
             }}
             values={{
-              amount: quantity
+              amount: quantityFormatted
             }}
           />
         </PaneTitle>
@@ -253,18 +254,6 @@ export function ConfirmWithdrawWithFeeForm(props) {
             checked={iUnderstandChecked}
             handleClick={handleIUnderstandChange}
           />
-{/*           
-          <label
-            htmlFor='i-understand-checkbox'
-            className='m-0 font-bold'
-          >
-            <input
-              onChange={handleIUnderstandChange}
-              id='i-understand-checkbox'
-              type='checkbox'
-              className='mr-2'
-            /> {t('iUnderstand')}
-          </label> */}
 
           <div>
             <Trans
@@ -307,25 +296,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
       hideOnInWallet
       tx={tx}
       title={t('withdrawing')}
-      subtitle={Number(quantity) === 1 ?
-        <Trans
-          i18nKey='oneTicket'
-          defaults='<number>1</number> tickets'
-          components={{
-            number: <PoolNumber />,
-          }}
-        /> :
-        <Trans
-          i18nKey='amountTickets'
-          defaults='<number>{{amount}}</number> tickets'
-          components={{
-            number: <PoolNumber />,
-          }}
-          values={{
-            amount: quantity,
-          }}
-        />
-      }
+      subtitle={<>{quantityFormatted} {tickerUpcased}</>}
     />
 
   </>

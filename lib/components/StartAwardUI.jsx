@@ -16,8 +16,7 @@ export function StartAwardUI(props) {
 
   const canStartAward = pool?.canStartAward
   const prizeStrategyAddress = pool?.prizeStrategy?.id
-  
-  // const txName = `Start Award - ${pool?.name}`
+
   const txName = t(`startAwardPoolName`, {
     poolName: pool?.name
   })
