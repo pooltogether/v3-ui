@@ -9,31 +9,26 @@ import { usePools } from 'lib/hooks/usePools'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTransaction } from 'lib/hooks/useTransaction'
 
 export const V2MigrateButton = (
   props,
 ) => {
   const { balance, balanceFormatted, type, ticker } = props
   
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
-
   const { t } = useTranslation()
   const { contractAddresses } = usePools()
-  const { usersAddress, provider } = useContext(AuthControllerContext)
 
+  
   const [txId, setTxId] = useState(0)
-
   const txName = t(`migrateAmountTickerToV3`, { 
     amount: balanceFormatted,
     ticker
   })
   const method = 'transfer'
-
-  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
-
-  
-  
-  const txInFlight = transactions?.find((tx) => (tx.id === txId) && !tx.completed && !tx.cancelled)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
+  const txInFlight = !tx.completed && !tx.cancelled
 
   const migrateToV3 = async () => {
     let erc777ContractAddress
@@ -58,9 +53,7 @@ export const V2MigrateButton = (
     ]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      txName,
       ERC20Abi,
       erc777ContractAddress,
       method,

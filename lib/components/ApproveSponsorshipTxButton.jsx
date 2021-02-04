@@ -1,21 +1,17 @@
-import React, { useContext, useState } from 'react'
-import { useAtom } from 'jotai'
+import React, { useState } from 'react'
 import { ethers } from 'ethers'
 
 import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/ControlledToken'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { usePool } from 'lib/hooks/usePool'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTransaction } from 'lib/hooks/useTransaction'
 
 export function ApproveSponsorshipTxButton(props) {
   const { t } = useTranslation()
-
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
 
   const {
     decimals,
@@ -24,26 +20,18 @@ export function ApproveSponsorshipTxButton(props) {
     tickerUpcased,
   } = props
 
-  const { usersAddress, provider } = useContext(AuthControllerContext)
-
   const { pool } = usePool()
 
   const poolAddress = pool?.poolAddress
   const tokenAddress = pool?.underlyingCollateralToken
   
-  const [txId, setTxId] = useState()
-
+  const [txId, setTxId] = useState(0)
   const txName = t(`allowTickerPoolSponsorship`, { ticker: tickerUpcased })
   const method = 'approve'
-
-  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
-
-  
-  
-  const tx = transactions?.find((tx) => tx.id === txId)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
 
   const unlockTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)
-
 
   const handleApproveClick = async (e) => {
     e.preventDefault()
@@ -57,9 +45,7 @@ export function ApproveSponsorshipTxButton(props) {
     ]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      txName,
       ControlledTokenAbi,
       tokenAddress,
       method,

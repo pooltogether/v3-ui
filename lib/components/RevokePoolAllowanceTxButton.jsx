@@ -12,14 +12,11 @@ import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
+import { useTransaction } from 'lib/hooks/useTransaction'
 
 export function RevokePoolAllowanceTxButton(props) {
   const { t } = useTranslation()
 
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
-
-  const { provider, usersAddress } = useContext(AuthControllerContext)
-  
   const { pool } = usePool()
   const { usersChainData } = useUsersChainData(pool)
 
@@ -34,16 +31,13 @@ export function RevokePoolAllowanceTxButton(props) {
   const tickerUpcased = ticker && ticker.toUpperCase()
 
 
-  const [txId, setTxId] = useState()
+  const [txId, setTxId] = useState(0)
 
   const txName = t(`revokePoolAllowance`, { ticker: tickerUpcased })
   const method = 'approve'
 
-  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
-
-  
-  
-  const tx = transactions?.find((tx) => tx.id === txId)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
 
   if (usersTokenAllowance.eq(0)) {
     return null
@@ -61,9 +55,7 @@ export function RevokePoolAllowanceTxButton(props) {
     ]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      txName,
       ControlledTokenAbi,
       tokenAddress,
       method,

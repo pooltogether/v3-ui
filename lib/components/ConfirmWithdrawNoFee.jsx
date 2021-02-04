@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { ethers } from 'ethers'
-import { useAtom } from 'jotai'
 import { useRouter } from 'next/router'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
@@ -9,7 +8,6 @@ import { useTranslation, Trans } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { usePool } from 'lib/hooks/usePool'
 import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -17,48 +15,42 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { TxStatus } from 'lib/components/TxStatus'
 import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTransaction } from 'lib/hooks/useTransaction'
 
 export function ConfirmWithdrawNoFee(props) {
   const { t } = useTranslation()
 
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
-
   const router = useRouter()
   const quantity = router.query.quantity
-
+  
   const { nextStep, previousStep } = props
   
   const { usersAddress, provider } = useContext(AuthControllerContext)
-
+  
   const { pool } = usePool()
-
+  
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
   const address = playerAddress || usersAddress
-
+  
   const {
     usersTicketBalanceBN
   } = usePlayerPoolBalances(address, pool)
-
+  
   const decimals = pool?.underlyingCollateralDecimals
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
   const poolAddress = pool?.poolAddress
   const controlledTicketTokenAddress = pool?.ticket?.id
-
+  
   const [txExecuted, setTxExecuted] = useState(false)
-  const [txId, setTxId] = useState()
-
+  
+  const [txId, setTxId] = useState(0)
   const txMainName = `${t('withdraw')}: ${quantity} ${t('tickets')}`
   const txSubName = `${quantity} ${tickerUpcased}`
   const txName = `${txMainName} (${txSubName})`
   const method = 'withdrawInstantlyFrom'
-
-  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
-
-  
-  
-  const tx = transactions?.find((tx) => tx.id === txId)
-
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
   
   const runTx = async () => {
     setTxExecuted(true)
@@ -77,9 +69,7 @@ export function ConfirmWithdrawNoFee(props) {
     ]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      txName,
       PrizePoolAbi,
       poolAddress,
       method,

@@ -1,21 +1,18 @@
 import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
-import { useAtom } from 'jotai'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { FormattedFutureDateCountdown } from 'lib/components/FormattedFutureDateCountdown'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTransaction } from 'lib/hooks/useTransaction'
 
 export function TimelockedBalanceUI(props) {
   const { t } = useTranslation()
-
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
 
   const {
     pool,
@@ -36,19 +33,12 @@ export function TimelockedBalanceUI(props) {
   let formattedFutureDate
   let usersTimelockedBalance = 0
   let timelockSweepReady = false
-
-
-  const [txId, setTxId] = useState()
-
+  
   const txName = t(`returnTimelockedFunds`)
   const method = 'sweepTimelockBalances'
-
-  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
-
-  
-  
-  const tx = transactions?.find((tx) => tx.id === txId)
-
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
 
   if (pool && playerData && underlyingCollateralDecimals) {
     usersTimelockedBalance = Number(ethers.utils.formatUnits(
@@ -77,9 +67,7 @@ export function TimelockedBalanceUI(props) {
     ]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      txName,
       PrizePoolAbi,
       poolAddress,
       method,

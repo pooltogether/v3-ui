@@ -27,6 +27,7 @@ import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { usePool } from 'lib/hooks/usePool'
 import { getMaxPrecision, getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
+import { useTransaction } from 'lib/hooks/useTransaction'
 
 export const AccountGovernanceClaims = props => {
   const { pools } = usePools()
@@ -112,20 +113,15 @@ const ClaimAllButton = props => {
     data: tokenFaucetAddresses
   } = useClaimablePoolTokenFaucetAddresses()
 
-  const [txId, setTxId] = useState({})
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
-  const [sendTx] = useSendTransaction(
-    t('claimAll'),
-    transactions,
-    setTransactions
-  )
-  const txInFlight = transactions?.find(tx => tx.id === txId)
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
 
   const [refetching, setRefetching] = useState(false)
 
   const txPending =
-    (txInFlight?.sent || txInFlight?.inWallet) && !txInFlight?.completed
-  const txCompleted = txInFlight?.completed
+    (tx?.sent || tx?.inWallet) && !tx?.completed
+  const txCompleted = tx?.completed
 
   const handleClaim = async e => {
     e.preventDefault()
@@ -133,37 +129,36 @@ const ClaimAllButton = props => {
     const params = [usersAddress, tokenFaucetAddresses]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      t('claimAll'),
       TokenFaucetProxyFactoryAbi,
       CONTRACT_ADDRESSES[chainId].TokenFaucetProxyFactory,
       'claimAll',
-      params
+      params,
+      refetch
     )
     setTxId(id)
   }
 
   let text = t('claimAll')
   if (txPending || refetching) {
-    if (txInFlight.sent) {
+    if (tx.sent) {
       text = t('confirming')
     } else {
       text = t('claiming')
     }
   }
 
-  useEffect(() => {
-    const refreshData = async () => {
-      setRefetching(true)
-      await refetch()
-      setRefetching(false)
-    }
+  // useEffect(() => {
+  //   const refreshData = async () => {
+  //     setRefetching(true)
+  //     await refetch()
+  //     setRefetching(false)
+  //   }
 
-    if (txCompleted) {
-      refreshData()
-    }
-  }, [txCompleted])
+  //   if (txCompleted) {
+  //     refreshData()
+  //   }
+  // }, [txCompleted])
 
   return (
     <Button
@@ -180,7 +175,7 @@ const ClaimAllButton = props => {
       hoverBg='green'
       textSize='xxs'
     >
-      {txPending || (refetching && <ClipLoader size={14} color={'#049c9c'} />)}{' '}
+      {txPending && <span className='mr-2'><ClipLoader size={14} color={'#049c9c'} /></span>}
       {text}
     </Button>
   )
@@ -196,7 +191,7 @@ const ClaimablePoolTokenItem = props => {
   const { pool: poolInfo } = usePool(symbol)
   const tokenFaucetAddress = poolInfo.tokenListener
 
-  const { refetch, data, isFetching, isFetched, error } = useClaimablePool(
+  const { refetch: refetchClaimablePool, data, isFetching, isFetched, error } = useClaimablePool(
     symbol
   )
 
@@ -265,7 +260,8 @@ const ClaimablePoolTokenItem = props => {
         <div className='sm:max-w-xxs sm:ml-auto'>
           <ClaimButton
             refetch={() => {
-              refetch()
+              console.log("Refetch!")
+              refetchClaimablePool()
               refetchPoolTokenData()
               refetchTotalClaimablePool()
               refetchAllClaimableBalances()
@@ -300,21 +296,16 @@ const ClaimButton = props => {
   const { name, refetch, claimable } = props
   const { tokenFaucetAddress } = props
   const { t } = useTranslation()
-  const { usersAddress, provider, chainId } = useContext(AuthControllerContext)
-  const [txId, setTxId] = useState({})
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
-  const [sendTx] = useSendTransaction(
-    t('claimPoolFromPool', { poolName: name }),
-    transactions,
-    setTransactions
-  )
-  const txInFlight = transactions?.find(tx => tx.id === txId)
+  const { usersAddress } = useContext(AuthControllerContext)
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
 
   const [refetching, setRefetching] = useState(false)
 
   const txPending =
-    (txInFlight?.sent || txInFlight?.inWallet) && !txInFlight?.completed
-  const txCompleted = txInFlight?.completed
+    (tx?.sent || tx?.inWallet) && !tx?.completed
+  const txCompleted = tx?.completed
 
   const handleClaim = async e => {
     e.preventDefault()
@@ -322,47 +313,34 @@ const ClaimButton = props => {
     const params = [usersAddress]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      t('claimPoolFromPool', { poolName: name }),
       TokenFaucetAbi,
       tokenFaucetAddress,
       'claim',
-      params
+      params,
+      refetch
     )
     setTxId(id)
   }
 
   let text = t('claim')
-  if (txPending || refetching) {
-    if (txInFlight.sent) {
+  if (txPending && !txCompleted) {
+    if (tx.sent) {
       text = t('confirming')
     } else {
       text = t('claiming')
     }
   }
 
-  useEffect(() => {
-    const refreshData = async () => {
-      setRefetching(true)
-      await refetch()
-      setRefetching(false)
-    }
-
-    if (txCompleted) {
-      refreshData()
-    }
-  }, [txCompleted])
-
   return (
     <Button
       textSize='xxxs'
       padding='px-4 py-1'
-      disabled={txPending || refetching || !claimable}
+      disabled={txPending || !claimable}
       className='w-full'
       onClick={handleClaim}
     >
-      {txPending || (refetching && <ClipLoader size={14} color={'#049c9c'} />)}{' '}
+      {txPending && <span className='mr-2'><ClipLoader size={14} color={'#049c9c'} /></span>}
       {text}
     </Button>
   )

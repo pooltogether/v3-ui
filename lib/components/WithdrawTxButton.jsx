@@ -1,21 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
-import { useAtom } from 'jotai'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { usePool } from 'lib/hooks/usePool'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTransaction } from 'lib/hooks/useTransaction'
 
 export function WithdrawTxButton(props) {
   const { t } = useTranslation()
   
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
-
   const {
     quantityBN,
     quantity,
@@ -29,28 +26,16 @@ export function WithdrawTxButton(props) {
   const poolAddress = pool?.poolAddress
   const sponsorshipAddress = pool?.sponsorshipToken?.id
 
-
-
-  const [txId, setTxId] = useState()
-
-  // const txName = `Withdraw Sponsorship (${quantity} ${tickerUpcased})`
+  const [txId, setTxId] = useState(0)
   const txName = t(`withdrawSponsorshipAmountTicker`, {
     amount: quantity,
     ticker: tickerUpcased
   })
-
-  // const txName = `Withdraw Sponsorship (${quantity} ${tickerUpcased})`
   const method = 'withdrawInstantlyFrom'
-
-  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
-
-  
-  
-  const tx = transactions?.find((tx) => tx.id === txId)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
 
   const withdrawSponsorshipTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)
-
-
 
   const handleWithdrawSponsorshipClick = async (e) => {
     e.preventDefault()
@@ -66,9 +51,7 @@ export function WithdrawTxButton(props) {
     ]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      txName,
       PrizePoolAbi,
       poolAddress,
       method,

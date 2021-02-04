@@ -3,13 +3,11 @@ import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
-import { useAtom } from 'jotai'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -25,14 +23,13 @@ import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 import { TxStatus } from 'lib/components/TxStatus'
 
 import IconLightning from 'assets/images/icon-lightning.svg'
+import { useTransaction } from 'lib/hooks/useTransaction'
 
 export function ConfirmWithdrawWithFeeForm(props) {
   const { t } = useTranslation()
   const router = useRouter()
 
   const shouldReduceMotion = useReducedMotion()
-
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
   
   const { nextStep, previousStep, pool, quantity } = props
 
@@ -122,10 +119,9 @@ export function ConfirmWithdrawWithFeeForm(props) {
 
 
 
-  const [txId, setTxId] = useState()
-
+  
+  const [txId, setTxId] = useState(0)
   const method = 'withdrawInstantlyFrom'
-
   // `Withdraw ${quantity} ${tickerUpcased} (fee: $${feeFormatted})`
   const txName = t('withdrawWithFeeTxName',
     {
@@ -134,12 +130,8 @@ export function ConfirmWithdrawWithFeeForm(props) {
       feeFormatted
     }
   )
-
-  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
-
-  
-  
-  const tx = transactions?.find((tx) => tx.id === txId)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
 
   const runTx = async () => {
     const params = [
@@ -150,9 +142,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
     ]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      txName,
       PrizePoolAbi,
       poolAddress,
       method,
