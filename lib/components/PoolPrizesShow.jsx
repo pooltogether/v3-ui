@@ -81,7 +81,7 @@ export const PoolPrizesShow = (
         onClick={handleGetTicketsClick}
         disabled={!Boolean(pool?.symbol)}
       >
-        {t('getTickets')}
+        {t('deposit')}
       </Button>
     </div>
     {/* <AllPoolsTotalAwarded /> */}

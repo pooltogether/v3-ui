@@ -1,22 +1,16 @@
-import React, { useContext, useState } from 'react'
-import { useAtom } from 'jotai'
+import React, { useState } from 'react'
 import { ethers } from 'ethers'
 
 import LootBoxControllerAbi from '@pooltogether/loot-box/abis/LootBoxController'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { usePools } from 'lib/hooks/usePools'
+import { useTransaction } from 'lib/hooks/useTransaction'
 
 export function PlunderLootBoxTxButton(props) {
   const { t } = useTranslation()
-  
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
-
-  const { usersAddress, provider } = useContext(AuthControllerContext)
 
   const {
     alreadyClaimed,
@@ -28,7 +22,7 @@ export function PlunderLootBoxTxButton(props) {
     lootBoxAwards,
   } = pool.lootBox
 
-  const [txId, setTxId] = useState()
+  const [txId, setTxId] = useState(0)
 
   const { contractAddresses } = usePools()
 
@@ -42,9 +36,9 @@ export function PlunderLootBoxTxButton(props) {
   })
   const method = 'plunder'
 
-  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
+  const sendTx = useSendTransaction()
 
-  const tx = transactions?.find((tx) => tx.id === txId)
+  const tx = useTransaction(txId)
 
   const plunderTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)
 
@@ -65,9 +59,7 @@ export function PlunderLootBoxTxButton(props) {
     ]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      txName,
       LootBoxControllerAbi,
       lootBoxControllerAddress,
       method,
@@ -75,7 +67,6 @@ export function PlunderLootBoxTxButton(props) {
     )
     setTxId(id)
   }
-
 
   return (
     <Button

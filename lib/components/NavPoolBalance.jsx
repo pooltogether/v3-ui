@@ -22,7 +22,7 @@ export const NavPoolBalance = props => {
 
   const { usersBalance } = tokenData
   const formattedBalance = numberWithCommas(usersBalance, {
-    precision: 0
+    precision: getPrecision(usersBalance)
   })
 
   return (
@@ -89,7 +89,7 @@ const PoolBalanceModal = props => {
             className='shadow-xl rounded-full w-28 h-28 spinningCoin'
           />
           <div className='flex flex-col ml-8 justify-center mr-8'>
-            <h3>{numberWithCommas(usersBalance, { precision: 0 })}</h3>
+            <h3>{numberWithCommas(usersBalance, { precision: getPrecision(usersBalance) })}</h3>
             <span className='text-accent-1'>POOL</span>
           </div>
         </div>

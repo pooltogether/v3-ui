@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import ClipLoader from 'react-spinners/ClipLoader'
 import classnames from 'classnames'
-import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
 import { isEmpty, map, find, defaultTo, sum } from 'lodash'
 
@@ -10,7 +9,6 @@ import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptrolle
 import { useTranslation } from 'lib/../i18n'
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -28,14 +26,13 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
+import { useTransaction } from 'lib/hooks/useTransaction'
 
 export const AccountRewards = () => {
   const { t } = useTranslation()
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
- 
   const { pools } = usePools()
 
   // rewards are only supported by the cDAI pool atm
@@ -63,17 +60,12 @@ export const AccountRewards = () => {
 
 
   const [activeTxDripIds, setActiveTxDripIds] = useState([])
-
-  const [txId, setTxId] = useState(0)
-
+  
   const txName = t(`claimRewards`)
   const method = 'updateAndClaimDrips'
-
-  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
-
-  
-  
-  const txInFlight = transactions?.find((tx) => tx.id === txId)
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
 
   // const txsNotCompleted = transactions
   //   ?.filter(t => !t.completed && !t.cancelled)
@@ -105,9 +97,7 @@ export const AccountRewards = () => {
     ]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      txName,
       ComptrollerAbi,
       comptroller,
       method,
@@ -201,7 +191,7 @@ export const AccountRewards = () => {
     }
 
     // TODO: Handle multiple claims at once
-    if (txInFlight && !txInFlight.completed && activeTxDripIds.includes(dripData.id)) {
+    if (tx && !tx.completed && activeTxDripIds.includes(dripData.id)) {
       return <>
         <div
           className='flex flex-col sm:flex-row items-center justify-end'
@@ -219,10 +209,10 @@ export const AccountRewards = () => {
           <span
             className='order-2 sm:order-1'
           >
-            {!isEmpty(txInFlight.hash) && <>
+            {!isEmpty(tx.hash) && <>
               <EtherscanTxLink
-                chainId={txInFlight.ethersTx.chainId}
-                hash={txInFlight.hash}
+                chainId={tx.ethersTx.chainId}
+                hash={tx.hash}
                 className='text-xxxs text-teal sm:mr-3'
               >
                 Etherscan

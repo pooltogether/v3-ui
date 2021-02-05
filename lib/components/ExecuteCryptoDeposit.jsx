@@ -2,12 +2,12 @@ import React, { useContext, useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { useAtom } from 'jotai'
+
+import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { DepositInfoList } from 'lib/components/DepositInfoList'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -15,23 +15,20 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { usePool } from 'lib/hooks/usePool'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { permitSignOrRegularDeposit } from 'lib/utils/permitSignOrRegularDeposit'
 import { TxStatus } from 'lib/components/TxStatus'
-import { Banner } from 'lib/components/Banner'
+import { useTransaction } from 'lib/hooks/useTransaction'
 
 const bn = ethers.utils.bigNumberify
 
 export function ExecuteCryptoDeposit(props) {
   const { t } = useTranslation()
 
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
-  
   const { nextStep, previousStep } = props
 
   const router = useRouter()
   const quantity = router.query.quantity
 
-  const { chainId, usersAddress, provider } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
   const { pool } = usePool()
 
   const decimals = pool?.underlyingCollateralDecimals
@@ -43,18 +40,16 @@ export function ExecuteCryptoDeposit(props) {
   const tickerUpcased = ticker?.toUpperCase()
 
   const [txExecuted, setTxExecuted] = useState(false)
-  const [txId, setTxId] = useState()
 
-  let txMainName = `${t('deposit')} ${numberWithCommas(quantity, { precision: 2 })} ${t('tickets')}`
-
-  const txSubName = `${quantity} ${tickerUpcased}`
+  
+  const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
+  
+  let txMainName = `${t('deposit')} ${quantityFormatted} ${t('tickets')}`
+  const txSubName = `${quantityFormatted} ${tickerUpcased}`
   const txName = `${txMainName} (${txSubName})`
-  
-  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
-
-  
-  
-  const tx = transactions?.find((tx) => tx.id === txId)
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
 
   useEffect(() => {
     const runTx = async () => {
@@ -70,22 +65,19 @@ export function ExecuteCryptoDeposit(props) {
 
       const quantityBN = ethers.utils.parseUnits(quantity, Number(decimals))
 
-      const sharedParams = [
+      const params = [
         usersAddress,
         quantityBN,
         controlledTicketTokenAddress,
         referrerAddress,
       ]
 
-      const id = await permitSignOrRegularDeposit(
-        t,
-        provider,
-        chainId,
-        usersAddress,
+      const id = await sendTx(
+        txName,
+        PrizePoolAbi,
         poolAddress,
-        tokenAddress,
-        sendTx,
-        sharedParams,
+        'depositTo',
+        params,
       )
       setTxId(id)
     }
@@ -116,7 +108,7 @@ export function ExecuteCryptoDeposit(props) {
           number: <PoolNumber />,
         }}
         values={{
-          amount: quantity,
+          amount: quantityFormatted,
           ticker: tickerUpcased,
         }}
       />
@@ -131,7 +123,7 @@ export function ExecuteCryptoDeposit(props) {
             number: <PoolNumber />,
           }}
           values={{
-            amount: quantity,
+            amount: quantityFormatted
           }}
         />
       </PaneTitle>

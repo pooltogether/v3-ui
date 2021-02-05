@@ -9,7 +9,7 @@ import { PoolList } from 'lib/components/PoolList'
 import { Tagline } from 'lib/components/Tagline'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 
-import UsdcSvg from 'assets/images/usdc-new-transparent.png'
+import CompSvg from 'assets/images/comp.svg'
 
 export const IndexUI = (
   props,
@@ -28,7 +28,7 @@ export const IndexUI = (
 
     <Link
       href='/pools/[symbol]'
-      as={`/pools/PT-cUSDC`}
+      as={`/pools/PT-cCOMP`}
     >
       <a
         className='block mt-2 mb-3 text-center p-3 rounded-lg border-2 border-secondary font-bold text-inverse text-xxs xs:text-xs sm:text-sm'
@@ -38,14 +38,16 @@ export const IndexUI = (
           aria-label='megaphone emoji'
           className='mx-2 text-xl'
         >📣</span>
-        <br /> The <img
-          src={UsdcSvg}
-          alt='usdc logo'
+        <br /> <img
+          src={CompSvg}
+          alt='comp logo'
           className='w-4 h-4 inline-block relative'
           style={{
             top: -2
           }}
-        /> USDC pool is now open!
+        /> {t('tickerPoolIsNowOpen', {
+          ticker: 'COMP'
+        })}
       </a>
     </Link>
 

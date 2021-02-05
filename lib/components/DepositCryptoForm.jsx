@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { useAtom } from 'jotai'
 
 import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/ControlledToken'
 
@@ -10,7 +9,6 @@ import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { usePool } from 'lib/hooks/usePool'
 import { useUsersChainData } from 'lib/hooks/useUsersChainData'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositTxButton } from 'lib/components/DepositTxButton'
@@ -24,12 +22,11 @@ import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 import { TxStatus } from 'lib/components/TxStatus'
+import { useTransaction } from 'lib/hooks/useTransaction'
 // import { poolTokenSupportsPermitSign } from 'lib/utils/poolTokenSupportsPermitSign'
 
 export function DepositCryptoForm(props) {
   const { t } = useTranslation()
-
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
 
   const { nextStep, previousStep } = props
 
@@ -97,16 +94,11 @@ export function DepositCryptoForm(props) {
     )
   }
 
-  const [txId, setTxId] = useState()
-
   const txName = t(`allowTickerPool`, { ticker: tickerUpcased })
   const method = 'approve'
-
-  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
-
-  
-  
-  const tx = transactions?.find((tx) => tx.id === txId)
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
 
   const unlockTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)
 
@@ -121,9 +113,7 @@ export function DepositCryptoForm(props) {
     ]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      txName,
       ControlledTokenAbi,
       tokenAddress,
       method,
@@ -172,7 +162,7 @@ export function DepositCryptoForm(props) {
         {Number(quantity) === 1 ?
           <Trans
             i18nKey='oneTicket'
-            defaults='<number>1</number> tickets'
+            defaults='<number>1</number> ticket'
             components={{
               number: <PoolNumber />,
             }}
@@ -184,7 +174,7 @@ export function DepositCryptoForm(props) {
               number: <PoolNumber />,
             }}
             values={{
-              amount: quantity,
+              amount: numberWithCommas(quantity, { precision: 2 }),
             }}
           />
         }

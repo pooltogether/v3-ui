@@ -20,6 +20,7 @@ import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTranslation } from 'lib/../i18n'
+import { useTransaction } from 'lib/hooks/useTransaction'
 
 export const showClaimWizardAtom = atom(false)
 
@@ -170,22 +171,17 @@ const StepThree = props => {
   const { closeWizard, isActive, claimData, refetch, loading } = props
 
   const { usersAddress, provider, chainId } = useContext(AuthControllerContext)
-  const [txId, setTxId] = useState({})
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
-  const [sendTx] = useSendTransaction(
-    t('claimPool'),
-    transactions,
-    setTransactions
-  )
-  const txInFlight = transactions?.find(tx => tx.id === txId)
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
   const txPending =
-    (txInFlight?.sent || txInFlight?.inWallet) && !txInFlight?.completed
+    (tx?.sent || tx?.inWallet) && !tx?.completed
 
   useEffect(() => {
-    if (txInFlight?.completed) {
+    if (tx?.completed) {
       refetch()
     }
-  }, [txInFlight?.completed])
+  }, [tx?.completed])
 
   if (!isActive) {
     return null
@@ -207,20 +203,19 @@ const StepThree = props => {
     const params = [index, usersAddress, amount, proof]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      t('claimPool'),
       MerkleDistributorAbi,
       CONTRACT_ADDRESSES[chainId].MerkleDistributor,
       'claim',
       params
+      // TODO: Add refetch
     )
     setTxId(id)
   }
 
   const amountWithCommas = numberWithCommas(formattedAmount)
 
-  if (txPending || txInFlight?.error) {
+  if (txPending || tx?.error) {
     return (
       <div className='mx-auto flex flex-col' style={{ maxWidth: '550px' }}>
         <h3>{t('youAreReceiving')}</h3>
@@ -230,12 +225,12 @@ const StepThree = props => {
           <h2 className='shake'>🎉</h2>
         </div>
 
-        <TxStatus tx={txInFlight} />
+        <TxStatus tx={tx} />
       </div>
     )
   }
 
-  if (txInFlight?.completed && !txInFlight?.error && !txInFlight?.cancelled) {
+  if (tx?.completed && !tx?.error && !tx?.cancelled) {
     return (
       <ClaimCompleted amount={amountWithCommas} closeWizard={closeWizard} />
     )

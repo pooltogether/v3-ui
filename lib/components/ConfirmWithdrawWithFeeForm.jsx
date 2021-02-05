@@ -3,13 +3,11 @@ import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
-import { useAtom } from 'jotai'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -17,22 +15,22 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { PTHint } from 'lib/components/PTHint'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
+import { TxStatus } from 'lib/components/TxStatus'
 import { useExitFees } from 'lib/hooks/useExitFees'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
-import { TxStatus } from 'lib/components/TxStatus'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import IconLightning from 'assets/images/icon-lightning.svg'
+import { useTransaction } from 'lib/hooks/useTransaction'
 
 export function ConfirmWithdrawWithFeeForm(props) {
   const { t } = useTranslation()
   const router = useRouter()
 
   const shouldReduceMotion = useReducedMotion()
-
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
   
   const { nextStep, previousStep, pool, quantity } = props
 
@@ -122,24 +120,19 @@ export function ConfirmWithdrawWithFeeForm(props) {
 
 
 
-  const [txId, setTxId] = useState()
-
+  const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
+  const [txId, setTxId] = useState(0)
   const method = 'withdrawInstantlyFrom'
-
   // `Withdraw ${quantity} ${tickerUpcased} (fee: $${feeFormatted})`
   const txName = t('withdrawWithFeeTxName',
     {
-      quantity,
+      quantity: quantityFormatted,
       tickerUpcased,
       feeFormatted
     }
   )
-
-  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
-
-  
-  
-  const tx = transactions?.find((tx) => tx.id === txId)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
 
   const runTx = async () => {
     const params = [
@@ -150,9 +143,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
     ]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      txName,
       PrizePoolAbi,
       poolAddress,
       method,
@@ -183,7 +174,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
               number: <PoolNumber />,
             }}
             values={{
-              amount: quantity
+              amount: quantityFormatted
             }}
           />
         </PaneTitle>
@@ -263,18 +254,6 @@ export function ConfirmWithdrawWithFeeForm(props) {
             checked={iUnderstandChecked}
             handleClick={handleIUnderstandChange}
           />
-{/*           
-          <label
-            htmlFor='i-understand-checkbox'
-            className='m-0 font-bold'
-          >
-            <input
-              onChange={handleIUnderstandChange}
-              id='i-understand-checkbox'
-              type='checkbox'
-              className='mr-2'
-            /> {t('iUnderstand')}
-          </label> */}
 
           <div>
             <Trans
@@ -317,25 +296,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
       hideOnInWallet
       tx={tx}
       title={t('withdrawing')}
-      subtitle={Number(quantity) === 1 ?
-        <Trans
-          i18nKey='oneTicket'
-          defaults='<number>1</number> tickets'
-          components={{
-            number: <PoolNumber />,
-          }}
-        /> :
-        <Trans
-          i18nKey='amountTickets'
-          defaults='<number>{{amount}}</number> tickets'
-          components={{
-            number: <PoolNumber />,
-          }}
-          values={{
-            amount: quantity,
-          }}
-        />
-      }
+      subtitle={<>{quantityFormatted} {tickerUpcased}</>}
     />
 
   </>

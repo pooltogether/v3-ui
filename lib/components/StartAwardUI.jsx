@@ -1,36 +1,29 @@
 import React, { useContext, useState } from 'react'
-import { useAtom } from 'jotai'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { usePool } from 'lib/hooks/usePool'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { ButtonTx } from 'lib/components/ButtonTx'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { getPrizeStrategyAbiFromPool } from 'lib/services/getPrizeStrategyAbiFromPool'
+import { useTransaction } from 'lib/hooks/useTransaction'
 
 export function StartAwardUI(props) {
   const { t } = useTranslation()
 
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
-  
-  const { provider, usersAddress } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
   const { pool } = usePool()
 
   const canStartAward = pool?.canStartAward
   const prizeStrategyAddress = pool?.prizeStrategy?.id
 
-  const [txId, setTxId] = useState()
-
-  // const txName = `Start Award - ${pool?.name}`
   const txName = t(`startAwardPoolName`, {
     poolName: pool?.name
   })
   const method = 'startAward'
-
-  const [sendTx] = useSendTransaction(txName, transactions, setTransactions)
-
-  const tx = transactions?.find((tx) => tx.id === txId)
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
 
   // const ongoingStartAwardTransactions = transactions?.
   //   filter(t => t.method === method && !t.cancelled && !t.completed)
@@ -47,9 +40,7 @@ export function StartAwardUI(props) {
     ]
 
     const id = await sendTx(
-      t,
-      provider,
-      usersAddress,
+      txName,
       getPrizeStrategyAbiFromPool(pool),
       prizeStrategyAddress,
       method,

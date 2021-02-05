@@ -8,33 +8,34 @@ import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 
 const debug = require('debug')('pool-app:TxRefetchListener')
 
-export function TxRefetchListener(props) {
+export function TxRefetchListener (props) {
   const [transactions] = useAtom(transactionsAtom)
 
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
   const { usersAddress } = useContext(AuthControllerContext)
   const { refetchPoolsData } = usePools()
-  
+
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
   const { refetchAccountData } = useAccount(address)
 
-  const pendingTransactions = transactions
-    .filter(t => !t.completed && !t.cancelled)
+  const pendingTransactions = transactions.filter(
+    t => !t.completed && !t.cancelled
+  )
 
-
-  const runRefetch = (tx) => {
-    const playerBalanceTransaction = tx.method === 'depositTo' ||
+  const runRefetch = tx => {
+    const playerBalanceTransaction =
+      tx.method === 'depositTo' ||
       tx.method === 'transfer' ||
       tx.method === 'approve' ||
       tx.method === 'withdrawInstantlyFrom' ||
       tx.method === 'updateAndClaimDrips'
 
-    const poolStateTransaction = tx.method === 'startAward' ||
-      tx.method === 'completeAward'
+    const poolStateTransaction =
+      tx.method === 'startAward' || tx.method === 'completeAward'
 
     if (playerBalanceTransaction) {
       // we don't know when the Graph will have processed the new block data or when it has
@@ -58,17 +59,27 @@ export function TxRefetchListener(props) {
         refetchPoolsData()
         debug('refetch pool/prize!')
       }, 6000)
+    } else if (tx?.refetch) {
+      setTimeout(() => {
+        tx.refetch()
+        debug('refetch!')
+      }, 2000)
+
+      setTimeout(() => {
+        tx.refetch()
+        debug('refetch!')
+      }, 8000)
     }
   }
 
   storedPendingTransactions.forEach(tx => {
     const storedTxId = tx.id
-    const currentTxState = transactions.find((_tx) => _tx.id === storedTxId)
+    const currentTxState = transactions.find(_tx => _tx.id === storedTxId)
 
     if (
       currentTxState &&
       currentTxState.completed &&
-      !currentTxState.error && 
+      !currentTxState.error &&
       !currentTxState.cancelled
     ) {
       runRefetch(tx)
