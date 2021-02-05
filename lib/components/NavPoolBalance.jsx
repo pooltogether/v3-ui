@@ -22,7 +22,7 @@ export const NavPoolBalance = (props) => {
 
   const { usersBalance } = tokenData
   const formattedBalance = numberWithCommas(usersBalance, {
-    precision: getPrecision(usersBalance),
+    precision: getPrecision(usersBalance)
   })
 
   return (
@@ -46,7 +46,7 @@ const PoolBalanceModal = (props) => {
   const { data: totalClaimablePool, isFetched: totalClaimableIsFetched } = useTotalClaimablePool()
   const {
     data: retroactiveClaimablePool,
-    isFetched: retroactiveClaimableIsFetched,
+    isFetched: retroactiveClaimableIsFetched
   } = useRetroactivePoolClaimData()
 
   const claimablePoolIsLoaded = totalClaimableIsFetched && retroactiveClaimableIsFetched
@@ -55,17 +55,18 @@ const PoolBalanceModal = (props) => {
     return null
   }
 
+  console.log(totalClaimablePool, retroactiveClaimablePool.formattedAmount)
   const totalPlusRetro = claimablePoolIsLoaded
     ? totalClaimablePool + retroactiveClaimablePool.formattedAmount
     : 0
   const totalClaimablePoolFormatted = numberWithCommas(totalPlusRetro, {
-    precision: getPrecision(totalClaimablePool),
+    precision: getPrecision(totalClaimablePool)
   })
   const formattedBalance = numberWithCommas(usersBalance, {
-    precision: getPrecision(usersBalance),
+    precision: getPrecision(usersBalance)
   })
   const formattedTotalSupply = numberWithCommas(totalSupply, {
-    precision: 0,
+    precision: 0
   })
 
   return (
