@@ -26,25 +26,14 @@ export function OrderComplete(props) {
 
   const decimals = pool?.underlyingCollateralDecimals
   if (prevBalance) {
-    prevBalance = ethers.utils.formatUnits(
-      prevBalance,
-      decimals || 18
-    )
+    prevBalance = ethers.utils.formatUnits(prevBalance, decimals || 18)
   }
 
   useEffect(() => {
-    Cookies.set(
-      WIZARD_REFERRER_HREF,
-      '/account',
-      COOKIE_OPTIONS
-    )
-    Cookies.set(
-      WIZARD_REFERRER_AS_PATH,
-      `/account`,
-      COOKIE_OPTIONS
-    )
+    Cookies.set(WIZARD_REFERRER_HREF, '/account', COOKIE_OPTIONS)
+    Cookies.set(WIZARD_REFERRER_AS_PATH, `/account`, COOKIE_OPTIONS)
   }, [])
-  
+
   useEffect(() => {
     setTimeout(() => {
       window.confettiContext = confetti
@@ -57,71 +46,53 @@ export function OrderComplete(props) {
     return null
   }
 
-  return <>
-    <PaneTitle small>
-      {t('depositComplete')}
-    </PaneTitle>
+  return (
+    <>
+      <PaneTitle small>{t('depositComplete')}</PaneTitle>
 
-    <div className='-mt-2'>
-      <PaneTitle>
-        <Trans
-          i18nKey='youGotAmountTickets'
-          defaults='You got <number>{{amount}}</number> tickets!'
-          components={{
-            number: <PoolNumber />,
-          }}
-          values={{
-            amount: numberWithCommas(quantity, { precision: 2 })
-          }}
-        />
-      </PaneTitle>
-    </div>
-
-    <div
-      className='mb-6 text-highlight-3 text-sm'
-    >
-      <div
-        className='mb-6'
-      >
-        {t('youNowHaveAmountTicketsInTheTickerPool', {
-          amount: numberWithCommas(Number(prevBalance) + Number(quantity), { precision: 4 }),
-          ticker: pool?.underlyingCollateralSymbol
-        })}
-      </div>
-      <div
-        className='mb-6'
-      >
-        {t('youWillBeEligibleToWinPrizeEveryFrequency', {
-          frequency: pool?.frequency === 'Weekly' ? t('week') : t('day')
-        })}
-      </div>
-      <div
-        className='mb-3'
-      >
-        {t('theNextPrizeWillBeAwardedIn')}
-        <br />
-        <div
-          className='font-bold text-flashy'
-        >
-          <NewPrizeCountdownInWords
-            pool={pool}
+      <div className='-mt-2'>
+        <PaneTitle>
+          <Trans
+            i18nKey='youGotAmountTickets'
+            defaults='You got <number>{{amount}}</number> tickets!'
+            components={{
+              number: <PoolNumber />,
+            }}
+            values={{
+              amount: numberWithCommas(quantity, { precision: 2 }),
+            }}
           />
+        </PaneTitle>
+      </div>
+
+      <div className='mb-6 text-highlight-3 text-sm'>
+        <div className='mb-6'>
+          {t('youNowHaveAmountTicketsInTheTickerPool', {
+            amount: numberWithCommas(Number(prevBalance) + Number(quantity), { precision: 4 }),
+            ticker: pool?.underlyingCollateralSymbol,
+          })}
+        </div>
+        <div className='mb-6'>
+          {t('youWillBeEligibleToWinPrizeEveryFrequency', {
+            frequency: pool?.frequency === 'Weekly' ? t('week') : t('day'),
+          })}
+        </div>
+        <div className='mb-3'>
+          {t('theNextPrizeWillBeAwardedIn')}
+          <br />
+          <div className='font-bold text-flashy'>
+            <NewPrizeCountdownInWords pool={pool} />
+          </div>
         </div>
       </div>
-    </div>
 
-    <AccountEmailSignup />
+      <AccountEmailSignup />
 
-    <div
-      className='mt-4'
-    >
-      <ButtonLink
-        href='/account'
-        as='/account'
-        textSize='lg'
-      >
-        {t('viewYourAccount')}
-      </ButtonLink>
-    </div>
-  </>
+      <div className='mt-4'>
+        <ButtonLink href='/account' as='/account' textSize='lg'>
+          {t('viewYourAccount')}
+        </ButtonLink>
+      </div>
+    </>
+  )
 }

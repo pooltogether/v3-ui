@@ -10,12 +10,10 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-export const V2AccountTicket = (
-  props,
-) => {
+export const V2AccountTicket = (props) => {
   const { t } = useTranslation()
   const { isPod, v2dai } = props
-  
+
   const { usersV2Balances } = useUsersV2Balances()
 
   const {
@@ -37,14 +35,11 @@ export const V2AccountTicket = (
       return null
     }
 
-    return numberWithCommas(ethers.utils.formatUnits(
-      balBN,
-      decimals
-    ), {
-      precision: 8
+    return numberWithCommas(ethers.utils.formatUnits(balBN, decimals), {
+      precision: 8,
     })
   }
-  
+
   if (v2dai) {
     balances = {
       poolBalance: v2DaiPoolCommittedBalance,
@@ -84,125 +79,115 @@ export const V2AccountTicket = (
     }
   }
 
-  return <>
-    <div
-      className='relative ticket bg-no-repeat xs:mr-6 mb-6'
-      key={`v2-account-pool-row-li-${ticker}`}
-    >
+  return (
+    <>
       <div
-        className={classnames(
-          `ticket--${ticker?.toLowerCase()} absolute rounded-b-lg bg-no-repeat ticket-strip`
-        )}
-      />
-
-      <div className='flex items-center pl-4 pt-4 xs:p-4 xs:pt-6'>
+        className='relative ticket bg-no-repeat xs:mr-6 mb-6'
+        key={`v2-account-pool-row-li-${ticker}`}
+      >
         <div
-          className='flex w-full ml-1 sm:ml-4 leading-none'
-        >
-          {!isPod && balances?.poolBalance?.gte('1000000') && <>
-            <div
-              className='w-48 inline-block text-left text-xs xs:text-lg text-inverse relative mr-3 xs:mr-6 sm:mr-9 lg:mr-12'
-            >
-              <Trans
-                i18nKey='v2PoolTickets'
-                defaults='V2 {{ticker}} Pool Tickets: <bold>{{amount}}</bold>'
-                components={{
-                  bold: <span className='font-bold' />,
-                  light: <span className='text-xs text-default-soft opacity-70' />,
-                }}
-                values={{
-                  amount: numberWithCommas(ethers.utils.formatUnits(
-                    balances.poolBalance,
-                    decimals,
-                  ), {
-                    precision: 0
-                  }),
-                  ticker
-                }}
-              />
-              <div
-                className='font-bold mt-1 opacity-40 text-xxxs'
-              >
-                <PoolNumber>{balances.poolBalanceFormatted}</PoolNumber> {ticker}
-              </div>
+          className={classnames(
+            `ticket--${ticker?.toLowerCase()} absolute rounded-b-lg bg-no-repeat ticket-strip`
+          )}
+        />
 
-              <div className='mt-4'>
-                <ButtonLink
-                  textSize='xxxs'
-                  padding='px-4 py-1'
-                  href='https://v2.pooltogether.com/en/account'
-                >
-                  {t('goToV2')}
-                </ButtonLink>
-              </div>
-            </div>
-          </>}
+        <div className='flex items-center pl-4 pt-4 xs:p-4 xs:pt-6'>
+          <div className='flex w-full ml-1 sm:ml-4 leading-none'>
+            {!isPod && balances?.poolBalance?.gte('1000000') && (
+              <>
+                <div className='w-48 inline-block text-left text-xs xs:text-lg text-inverse relative mr-3 xs:mr-6 sm:mr-9 lg:mr-12'>
+                  <Trans
+                    i18nKey='v2PoolTickets'
+                    defaults='V2 {{ticker}} Pool Tickets: <bold>{{amount}}</bold>'
+                    components={{
+                      bold: <span className='font-bold' />,
+                      light: <span className='text-xs text-default-soft opacity-70' />,
+                    }}
+                    values={{
+                      amount: numberWithCommas(
+                        ethers.utils.formatUnits(balances.poolBalance, decimals),
+                        {
+                          precision: 0,
+                        }
+                      ),
+                      ticker,
+                    }}
+                  />
+                  <div className='font-bold mt-1 opacity-40 text-xxxs'>
+                    <PoolNumber>{balances.poolBalanceFormatted}</PoolNumber> {ticker}
+                  </div>
 
-          {isPod && balances?.podBalance?.gte('1000000') && <>
-            <div
-              className='w-9/12 inline-block text-left text-xs xs:text-lg text-inverse relative'
-            >
-              <Trans
-                i18nKey='v2PodTickets'
-                defaults='V2 {{ticker}} Pod Tickets: <bold>{{amount}}</bold>'
-                components={{
-                  bold: <span className='font-bold' />,
-                  light: <span className='text-xs text-default-soft opacity-70' />,
-                }}
-                values={{
-                  amount: numberWithCommas(ethers.utils.formatUnits(
-                    balances.podBalance,
-                    decimals,
-                  ), {
-                    precision: 0
-                  }),
-                  ticker
-                }}
-              />
-              <div
-                className='font-bold mt-1 opacity-40 text-xxxs'
-              >
-                <PoolNumber>{numberWithCommas(ethers.utils.formatUnits(
-                  balances.podBalance,
-                  decimals
-                ), {
-                  precision: 6
-                })}</PoolNumber> {ticker}
-              </div>
+                  <div className='mt-4'>
+                    <ButtonLink
+                      textSize='xxxs'
+                      padding='px-4 py-1'
+                      href='https://v2.pooltogether.com/en/account'
+                    >
+                      {t('goToV2')}
+                    </ButtonLink>
+                  </div>
+                </div>
+              </>
+            )}
 
-              <div className='mt-4'>
-                <ButtonLink
-                  textSize='xxxs'
-                  padding='px-4 py-1'
-                  href='https://v2.pooltogether.com/en/account'
-                >
-                  {t('goToV2')}
-                </ButtonLink>
-              </div>
-            </div>
-          </>}
-        
-        </div>
-        <div
-          className='flex flex-col items-center pt-4'
-          style={{
-            width: 114
-          }}
-        >
-          <PoolCurrencyIcon
-            noMediaQueries
-            noMargin
-            pool={{ underlyingCollateralSymbol: ticker }}
-            className='-mt-2'
-          />
+            {isPod && balances?.podBalance?.gte('1000000') && (
+              <>
+                <div className='w-9/12 inline-block text-left text-xs xs:text-lg text-inverse relative'>
+                  <Trans
+                    i18nKey='v2PodTickets'
+                    defaults='V2 {{ticker}} Pod Tickets: <bold>{{amount}}</bold>'
+                    components={{
+                      bold: <span className='font-bold' />,
+                      light: <span className='text-xs text-default-soft opacity-70' />,
+                    }}
+                    values={{
+                      amount: numberWithCommas(
+                        ethers.utils.formatUnits(balances.podBalance, decimals),
+                        {
+                          precision: 0,
+                        }
+                      ),
+                      ticker,
+                    }}
+                  />
+                  <div className='font-bold mt-1 opacity-40 text-xxxs'>
+                    <PoolNumber>
+                      {numberWithCommas(ethers.utils.formatUnits(balances.podBalance, decimals), {
+                        precision: 6,
+                      })}
+                    </PoolNumber>{' '}
+                    {ticker}
+                  </div>
+
+                  <div className='mt-4'>
+                    <ButtonLink
+                      textSize='xxxs'
+                      padding='px-4 py-1'
+                      href='https://v2.pooltogether.com/en/account'
+                    >
+                      {t('goToV2')}
+                    </ButtonLink>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
           <div
-            className='mt-1 text-lg font-bold'
+            className='flex flex-col items-center pt-4'
+            style={{
+              width: 114,
+            }}
           >
-            {ticker.toUpperCase()}
+            <PoolCurrencyIcon
+              noMediaQueries
+              noMargin
+              pool={{ underlyingCollateralSymbol: ticker }}
+              className='-mt-2'
+            />
+            <div className='mt-1 text-lg font-bold'>{ticker.toUpperCase()}</div>
           </div>
         </div>
       </div>
-
-    </div>
-  </>
+    </>
+  )
 }

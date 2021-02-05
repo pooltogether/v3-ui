@@ -7,7 +7,7 @@ export function useReadProvider() {
   const { networkName } = useContext(AuthControllerContext)
 
   const [defaultReadProvider, setDefaultReadProvider] = useState({})
-  
+
   useEffect(() => {
     const getReadProvider = async () => {
       const defaultReadProvider = await readProvider(networkName)
@@ -15,6 +15,9 @@ export function useReadProvider() {
     }
     getReadProvider()
   }, [networkName])
-    
-  return { readProvider: defaultReadProvider, isLoaded: Object.keys(defaultReadProvider).length > 0 }
+
+  return {
+    readProvider: defaultReadProvider,
+    isLoaded: Object.keys(defaultReadProvider).length > 0,
+  }
 }

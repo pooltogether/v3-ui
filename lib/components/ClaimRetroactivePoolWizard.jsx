@@ -39,7 +39,7 @@ export const ClaimRetroactivePoolWizardContainer = () => {
   )
 }
 
-const ClaimRetroactivePoolWizard = props => {
+const ClaimRetroactivePoolWizard = (props) => {
   return (
     <Wizard>
       <ClaimRetroactivePoolWizardStepManager {...props} />
@@ -47,7 +47,7 @@ const ClaimRetroactivePoolWizard = props => {
   )
 }
 
-const ClaimRetroactivePoolWizardStepManager = props => {
+const ClaimRetroactivePoolWizardStepManager = (props) => {
   const { closeWizard } = props
   const { activeStepIndex, previousStep, moveToStep, nextStep } = useWizard()
 
@@ -78,7 +78,7 @@ const ClaimRetroactivePoolWizardStepManager = props => {
   )
 }
 
-const StepOne = props => {
+const StepOne = (props) => {
   const { nextStep, isActive } = props
   const { t } = useTranslation()
 
@@ -92,9 +92,7 @@ const StepOne = props => {
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
         <h4 className='mb-4'>{t('whyAreYouReceivingPool')}</h4>
-        <p className='text-xs xs:text-sm text-accent-1'>
-          {t('receivingPoolDescription')}
-        </p>
+        <p className='text-xs xs:text-sm text-accent-1'>{t('receivingPoolDescription')}</p>
         <CheckboxContainer>
           <CheckboxInputGroup
             marginClasses='mx-auto my-0'
@@ -109,12 +107,7 @@ const StepOne = props => {
       </WizardBanner>
 
       <ButtonDrawer>
-        <Button
-          onClick={nextStep}
-          textSize='lg'
-          className='w-full'
-          disabled={!checked}
-        >
+        <Button onClick={nextStep} textSize='lg' className='w-full' disabled={!checked}>
           {t('next')}
         </Button>
       </ButtonDrawer>
@@ -122,7 +115,7 @@ const StepOne = props => {
   )
 }
 
-const StepTwo = props => {
+const StepTwo = (props) => {
   const { nextStep, isActive } = props
   const { t } = useTranslation()
 
@@ -136,9 +129,7 @@ const StepTwo = props => {
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
         <h4 className='mb-4'>{t('whatDoPoolTokensDo')}</h4>
-        <p className='text-xs xs:text-sm text-accent-1'>
-          {t('whatTokensDoDescription')}
-        </p>
+        <p className='text-xs xs:text-sm text-accent-1'>{t('whatTokensDoDescription')}</p>
         <CheckboxContainer>
           <CheckboxInputGroup
             marginClasses='mx-auto my-0'
@@ -153,12 +144,7 @@ const StepTwo = props => {
       </WizardBanner>
 
       <ButtonDrawer>
-        <Button
-          onClick={nextStep}
-          textSize='lg'
-          className='w-full'
-          disabled={!checked}
-        >
+        <Button onClick={nextStep} textSize='lg' className='w-full' disabled={!checked}>
           {t('next')}
         </Button>
       </ButtonDrawer>
@@ -166,7 +152,7 @@ const StepTwo = props => {
   )
 }
 
-const StepThree = props => {
+const StepThree = (props) => {
   const { t } = useTranslation()
   const { closeWizard, isActive, claimData, refetch, loading } = props
 
@@ -174,8 +160,7 @@ const StepThree = props => {
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
-  const txPending =
-    (tx?.sent || tx?.inWallet) && !tx?.completed
+  const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
 
   useEffect(() => {
     if (tx?.completed) {
@@ -197,7 +182,7 @@ const StepThree = props => {
 
   const { amount, formattedAmount, index, proof } = claimData
 
-  const handleClaim = async e => {
+  const handleClaim = async (e) => {
     e.preventDefault()
 
     const params = [index, usersAddress, amount, proof]
@@ -231,9 +216,7 @@ const StepThree = props => {
   }
 
   if (tx?.completed && !tx?.error && !tx?.cancelled) {
-    return (
-      <ClaimCompleted amount={amountWithCommas} closeWizard={closeWizard} />
-    )
+    return <ClaimCompleted amount={amountWithCommas} closeWizard={closeWizard} />
   }
 
   return (
@@ -252,7 +235,7 @@ const StepThree = props => {
   )
 }
 
-const ClaimCompleted = props => {
+const ClaimCompleted = (props) => {
   const { t } = useTranslation()
   const { closeWizard, amount } = props
   const { confetti } = useContext(ConfettiContext)
@@ -268,7 +251,7 @@ const ClaimCompleted = props => {
     }
   }, [])
 
-  const onClick = e => {
+  const onClick = (e) => {
     closeWizard()
   }
 
@@ -289,17 +272,15 @@ const ClaimCompleted = props => {
   )
 }
 
-const WizardBanner = props => (
-  <Banner className='mx-auto mb-4 sm:mb-12'>{props.children}</Banner>
-)
+const WizardBanner = (props) => <Banner className='mx-auto mb-4 sm:mb-12'>{props.children}</Banner>
 
-const CheckboxContainer = props => (
+const CheckboxContainer = (props) => (
   <div className='flex mx-auto px-4 py-2 sm:px-8 sm:py-2 mt-4 text-inverse rounded-lg font-bold'>
     {props.children}
   </div>
 )
 
-const ProposalButton = props => {
+const ProposalButton = (props) => {
   const { t } = useTranslation()
   const { onClick, children } = props
 
@@ -312,7 +293,7 @@ const ProposalButton = props => {
       >
         <svg
           style={{
-            transform: 'scale(1.15)'
+            transform: 'scale(1.15)',
           }}
           className='fill-current w-8 h-8 sm:w-16 sm:h-16 stroke-1 stroke-current mx-auto relative'
           width='20'
@@ -332,7 +313,7 @@ const ProposalButton = props => {
   )
 }
 
-const LearnMoreButton = props => {
+const LearnMoreButton = (props) => {
   const { t } = useTranslation()
   const { onClick, children } = props
 

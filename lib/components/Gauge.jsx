@@ -5,37 +5,25 @@ import { scaleLinear } from 'd3-scale'
 
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
-export function Gauge({
-  value = 50,
-  min = 0,
-  max = 100,
-  label,
-  units,
-}) {
+export function Gauge({ value = 50, min = 0, max = 100, label, units }) {
   const { theme } = useContext(ThemeContext)
 
   const backgroundFillColor = theme === 'light' ? '#9f82d7' : '#222B45'
 
-  const startAngle = (-Math.PI / 2) - 0.6
-  const endAngle = (Math.PI / 2) + 0.6
+  const startAngle = -Math.PI / 2 - 0.6
+  const endAngle = Math.PI / 2 + 0.6
 
   const backgroundArc = arc()
     .innerRadius(0.85)
     .outerRadius(1)
     .startAngle(startAngle)
     .endAngle(endAngle)
-    .cornerRadius(1)
-    ()
+    .cornerRadius(1)()
 
-  const percentScale = scaleLinear()
-    .domain([min, max])
-    .range([0, 1])
+  const percentScale = scaleLinear().domain([min, max]).range([0, 1])
   const percent = percentScale(value)
 
-  const angleScale = scaleLinear()
-    .domain([0, 1])
-    .range([startAngle, endAngle])
-    .clamp(true)
+  const angleScale = scaleLinear().domain([0, 1]).range([startAngle, endAngle]).clamp(true)
 
   const angle = angleScale(percent)
 
@@ -44,15 +32,11 @@ export function Gauge({
     .outerRadius(1)
     .startAngle(startAngle)
     .endAngle(angle)
-    .cornerRadius(1)
-    ()
+    .cornerRadius(1)()
 
-  const colorScale = scaleLinear()
-    .domain([0, 1])
-    .range(['#EF2751', '#6CE988'])
+  const colorScale = scaleLinear().domain([0, 1]).range(['#EF2751', '#6CE988'])
 
-  const gradientSteps = colorScale.ticks(10)
-    .map(value => colorScale(value))
+  const gradientSteps = colorScale.ticks(10).map((value) => colorScale(value))
 
   // const markerLocation = getCoordsOnArc(
   //   angle,
@@ -60,43 +44,21 @@ export function Gauge({
   // )
 
   return (
-    <div
-      className='text-center'
-    >
-      <svg
-        className='mx-auto overflow-visible'
-        width='15em'
-        viewBox={[
-          -1, -1,
-          2, 1,
-        ].join(' ')}
-      >
+    <div className='text-center'>
+      <svg className='mx-auto overflow-visible' width='15em' viewBox={[-1, -1, 2, 1].join(' ')}>
         <defs>
-          <linearGradient
-            id='Gauge__gradient'
-            gradientUnits='userSpaceOnUse'
-            x1='-1'
-            x2='1'
-            y2='0'>
+          <linearGradient id='Gauge__gradient' gradientUnits='userSpaceOnUse' x1='-1' x2='1' y2='0'>
             {gradientSteps.map((color, index) => (
               <stop
                 key={color}
                 stopColor={color}
-                offset={`${index
-                  / (gradientSteps.length - 1)
-                  }`}
+                offset={`${index / (gradientSteps.length - 1)}`}
               />
             ))}
           </linearGradient>
         </defs>
-        <path
-          d={backgroundArc}
-          fill={backgroundFillColor}
-        />
-        <path
-          d={filledArc}
-          fill="url(#Gauge__gradient)"
-        />
+        <path d={backgroundArc} fill={backgroundFillColor} />
+        <path d={filledArc} fill='url(#Gauge__gradient)' />
         {/* <line
           y1="-1"
           y2="-0.65"
@@ -126,7 +88,7 @@ export function Gauge({
       <div
         className='relative'
         style={{
-          top: '-5.5rem'
+          top: '-5.5rem',
         }}
       >
         {label}

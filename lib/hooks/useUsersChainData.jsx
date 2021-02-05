@@ -9,10 +9,7 @@ export function useUsersChainData(pool) {
 
   const { readProvider } = useReadProvider()
 
-  const {
-    data: usersChainData,
-    error: usersChainError,
-  } = useUsersChainQuery({
+  const { data: usersChainData, error: usersChainError } = useUsersChainQuery({
     provider: readProvider,
     pool,
     usersAddress,
@@ -21,6 +18,6 @@ export function useUsersChainData(pool) {
   if (usersChainError) {
     console.error(usersChainError)
   }
-  
+
   return { usersChainData }
 }

@@ -22,29 +22,29 @@ export function DepositWizardSignIn(props) {
     handleLoadOnboard()
   }, [])
 
-  return <>
-    <PaneTitle small>
-      <Trans
-        i18nKey='depositAmountTickets'
-        defaults='Deposit <number>{{amount}}</number> tickets'
-        components={{
-          number: <PoolNumber />,
-        }}
-        values={{
-          amount: quantity,
-        }}
-      />
-    </PaneTitle>
+  return (
+    <>
+      <PaneTitle small>
+        <Trans
+          i18nKey='depositAmountTickets'
+          defaults='Deposit <number>{{amount}}</number> tickets'
+          components={{
+            number: <PoolNumber />,
+          }}
+          values={{
+            amount: quantity,
+          }}
+        />
+      </PaneTitle>
 
-    <PaneTitle>
-      {t('connectAWalletToContinue')}
-    </PaneTitle>
+      <PaneTitle>{t('connectAWalletToContinue')}</PaneTitle>
 
-    <div className='flex flex-col mx-auto w-full'>
-      <SignInForm
-        descriptionClassName='mb-10 xs:w-3/4 sm:w-1/2 lg:w-full mx-auto'
-        postSignInCallback={nextStep}
-      />
-    </div>
-  </>
+      <div className='flex flex-col mx-auto w-full'>
+        <SignInForm
+          descriptionClassName='mb-10 xs:w-3/4 sm:w-1/2 lg:w-full mx-auto'
+          postSignInCallback={nextStep}
+        />
+      </div>
+    </>
+  )
 }

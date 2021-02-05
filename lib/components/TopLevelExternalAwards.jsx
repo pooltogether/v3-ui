@@ -8,12 +8,12 @@
 
 // export const TopLevelExternalAwards = (props) => {
 //   const { t } = useTranslation()
-  
+
 //   const { pool } = props
 
 //   const compiledExternalErc20Awards = pool?.compiledExternalErc20Awards
 //   const compiledExternalErc721Awards = pool?.compiledExternalErc721Awards
-  
+
 //   return <>
 //     <div
 //       id='top-level-awards-table'

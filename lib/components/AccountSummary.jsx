@@ -18,7 +18,7 @@ export const AccountSummary = () => {
   const { t } = useTranslation()
 
   const { usersAddress } = useContext(AuthControllerContext)
-  
+
   const { usersV2Balances } = useUsersV2Balances()
 
   // fill this in with a watched address or an address from router params
@@ -26,7 +26,7 @@ export const AccountSummary = () => {
   const address = playerAddress || usersAddress
 
   const { accountData } = useAccount(address)
-  
+
   const { playerTickets } = usePlayerTickets(accountData)
 
   const daiBalances = {
@@ -41,13 +41,11 @@ export const AccountSummary = () => {
     podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance,
   }
 
+  const addresses = playerTickets?.map(
+    (playerTicket) => playerTicket.pool.underlyingCollateralToken
+  )
 
-
-
-  const addresses = playerTickets
-    ?.map(playerTicket => playerTicket.pool.underlyingCollateralToken)
-
-    const {
+  const {
     data: uniswapPriceData,
     error: uniswapError,
     // isFetching: uniswapIsFetching,
@@ -58,7 +56,7 @@ export const AccountSummary = () => {
   }
 
   let totalTickets = ethers.utils.bigNumberify(0)
-  playerTickets.forEach(playerTicket => {
+  playerTickets.forEach((playerTicket) => {
     let { balanceNormalized, balanceFormatted, pool } = playerTicket
 
     const priceUSD = uniswapPriceData?.[pool.underlyingCollateralToken]?.usd
@@ -66,13 +64,14 @@ export const AccountSummary = () => {
     if (priceUSD) {
       try {
         const value = priceUSD && balanceFormatted && parseFloat(balanceFormatted) * priceUSD
-        totalTickets = totalTickets.add(
-          ethers.utils.parseEther(value.toString())
-        )
+        totalTickets = totalTickets.add(ethers.utils.parseEther(value.toString()))
       } catch (e) {
-        console.warn(`could not parse value, probably negative exponent value (ie. '$0.000000000000000124' aka dust)`)
+        console.warn(
+          `could not parse value, probably negative exponent value (ie. '$0.000000000000000124' aka dust)`
+        )
       }
-    } else { // fall back to assuming it's a stablecoin, this is helpful for testnets or if we don't have USD price
+    } else {
+      // fall back to assuming it's a stablecoin, this is helpful for testnets or if we don't have USD price
       totalTickets = totalTickets.add(balanceNormalized)
     }
   })
@@ -91,47 +90,42 @@ export const AccountSummary = () => {
     totalTickets = totalTickets.add(normalizedUsdcPodBalance)
   }
 
-  return <>
-    <div
-      className='purple-pink-gradient rounded-lg pl-6 pr-10 xs:px-10 py-5 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'
-    >
-      <div
-        className='flex justify-between items-center'
-      >
-        <div
-          className='leading-tight'
-        >
-          <h6
-            className='font-normal'
-          >
-            {t('assets')}
-          </h6>
-          <h1>
-            {usersAddress ? <>
-              {totalTickets && <>
-                $<PoolNumber>{displayAmountInEther(totalTickets)}</PoolNumber>
-              </>}
-            </> : <>
-              <SmallLoader />
-            </>}
-          </h1>
-        </div>
+  return (
+    <>
+      <div className='purple-pink-gradient rounded-lg pl-6 pr-10 xs:px-10 py-5 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'>
+        <div className='flex justify-between items-center'>
+          <div className='leading-tight'>
+            <h6 className='font-normal'>{t('assets')}</h6>
+            <h1>
+              {usersAddress ? (
+                <>
+                  {totalTickets && (
+                    <>
+                      $<PoolNumber>{displayAmountInEther(totalTickets)}</PoolNumber>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  <SmallLoader />
+                </>
+              )}
+            </h1>
+          </div>
 
-        <div>
-          <img
-            src={ChillWalletIllustration}
-            alt={`chillin' wallet illustration`}
-            className='w-32 xs:w-40 mx-auto relative mb-4 -mr-4'
-            style={{
-              right: -10,
-              top: 17
-            }}
-          />
+          <div>
+            <img
+              src={ChillWalletIllustration}
+              alt={`chillin' wallet illustration`}
+              className='w-32 xs:w-40 mx-auto relative mb-4 -mr-4'
+              style={{
+                right: -10,
+                top: 17,
+              }}
+            />
+          </div>
         </div>
-
-        
       </div>
-    </div>
-
-  </>
+    </>
+  )
 }

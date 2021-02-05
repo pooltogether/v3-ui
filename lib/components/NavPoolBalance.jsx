@@ -9,7 +9,7 @@ import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
 import { useTranslation } from 'lib/../i18n'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 
-export const NavPoolBalance = props => {
+export const NavPoolBalance = (props) => {
   const [isOpen, setIsOpen] = useState(false)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
@@ -22,7 +22,7 @@ export const NavPoolBalance = props => {
 
   const { usersBalance } = tokenData
   const formattedBalance = numberWithCommas(usersBalance, {
-    precision: getPrecision(usersBalance)
+    precision: getPrecision(usersBalance),
   })
 
   return (
@@ -33,46 +33,43 @@ export const NavPoolBalance = props => {
       >
         <span className='hidden sm:block mr-2'>{formattedBalance}</span> POOL
       </div>
-      <PoolBalanceModal
-        isOpen={isOpen}
-        closeModal={closeModal}
-        tokenData={tokenData}
-      />
+      <PoolBalanceModal isOpen={isOpen} closeModal={closeModal} tokenData={tokenData} />
     </>
   )
 }
 
-const PoolBalanceModal = props => {
+const PoolBalanceModal = (props) => {
   const { t } = useTranslation()
   const { isOpen, closeModal, tokenData } = props
   const { usersBalance, totalSupply } = tokenData
 
   const { data: totalClaimablePool, isFetched: totalClaimableIsFetched } = useTotalClaimablePool()
-  const { data: retroactiveClaimablePool, isFetched: retroactiveClaimableIsFetched } = useRetroactivePoolClaimData()
+  const {
+    data: retroactiveClaimablePool,
+    isFetched: retroactiveClaimableIsFetched,
+  } = useRetroactivePoolClaimData()
 
   const claimablePoolIsLoaded = totalClaimableIsFetched && retroactiveClaimableIsFetched
-  
+
   if (!claimablePoolIsLoaded) {
     return null
   }
 
-  const totalPlusRetro = claimablePoolIsLoaded ? totalClaimablePool + retroactiveClaimablePool.formattedAmount : 0
+  const totalPlusRetro = claimablePoolIsLoaded
+    ? totalClaimablePool + retroactiveClaimablePool.formattedAmount
+    : 0
   const totalClaimablePoolFormatted = numberWithCommas(totalPlusRetro, {
-        precision: getPrecision(totalClaimablePool)
-      })
+    precision: getPrecision(totalClaimablePool),
+  })
   const formattedBalance = numberWithCommas(usersBalance, {
-    precision: getPrecision(usersBalance)
+    precision: getPrecision(usersBalance),
   })
   const formattedTotalSupply = numberWithCommas(totalSupply, {
-    precision: 0
+    precision: 0,
   })
 
   return (
-    <Dialog
-      aria-label='POOL Token Details Modal'
-      isOpen={isOpen}
-      onDismiss={closeModal}
-    >
+    <Dialog aria-label='POOL Token Details Modal' isOpen={isOpen} onDismiss={closeModal}>
       <div className='text-inverse p-4 bg-card h-full sm:h-auto rounded-none sm:rounded-xl sm:max-w-sm mx-auto flex flex-col'>
         <div className='flex'>
           <button
@@ -84,10 +81,7 @@ const PoolBalanceModal = props => {
         </div>
 
         <div className='flex mx-auto'>
-          <img
-            src={PoolIcon}
-            className='shadow-xl rounded-full w-28 h-28 spinningCoin'
-          />
+          <img src={PoolIcon} className='shadow-xl rounded-full w-28 h-28 spinningCoin' />
           <div className='flex flex-col ml-8 justify-center mr-8'>
             <h3>{numberWithCommas(usersBalance, { precision: getPrecision(usersBalance) })}</h3>
             <span className='text-accent-1'>POOL</span>

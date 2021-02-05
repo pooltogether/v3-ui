@@ -21,7 +21,7 @@ export function PlayerPageUI(props) {
   const router = useRouter()
 
   const shouldReduceMotion = useReducedMotion()
-  
+
   const { pools, poolsGraphData } = usePools()
 
   const playerAddress = router?.query?.playerAddress
@@ -38,8 +38,6 @@ export function PlayerPageUI(props) {
       }
     }
   }, [playerAddress])
-
-
 
   let playerAddressError
   if (playerAddress) {
@@ -60,120 +58,119 @@ export function PlayerPageUI(props) {
 
   const blockNumber = -1
 
-  const {
-    data: playerData,
-    error: playerQueryError,
-  } = useAccountQuery(playerAddress, blockNumber, playerAddressError)
+  const { data: playerData, error: playerQueryError } = useAccountQuery(
+    playerAddress,
+    blockNumber,
+    playerAddressError
+  )
 
   // playerDripTokenData = data?.playerDripToken
   // playerBalanceDripData = data?.playerBalanceDrip
   // playerVolumeDripData = data?.playerVolumeDrip
 
-  return <>
-    <Meta
-      title={playerAddress && `${t('player')} ${playerAddress}`} 
-    />
+  return (
+    <>
+      <Meta title={playerAddress && `${t('player')} ${playerAddress}`} />
 
-    <PageTitleAndBreadcrumbs
-      title={`${t('player')} ${playerAddress ? shorten(playerAddress) : ''}`}
-      breadcrumbs={[
-        {
-          name: t('players'),
-        },
-        {
-          href: '/players/[playerAddress]',
-          as: `/players/${playerAddress}`,
-          name: `${t('player')} ${playerAddress ? playerAddress : ''}`
-        }
-      ]}
-    />
+      <PageTitleAndBreadcrumbs
+        title={`${t('player')} ${playerAddress ? shorten(playerAddress) : ''}`}
+        breadcrumbs={[
+          {
+            name: t('players'),
+          },
+          {
+            href: '/players/[playerAddress]',
+            as: `/players/${playerAddress}`,
+            name: `${t('player')} ${playerAddress ? playerAddress : ''}`,
+          },
+        ]}
+      />
 
-    <motion.div
-      initial='initial'
-      animate='enter'
-      exit='exit'
-      variants={{
-        exit: {
-          scale: 0.9,
-          y: 10,
-          opacity: 0,
-          transition: {
-            duration: shouldReduceMotion ? 0 : 0.5,
-            staggerChildren: shouldReduceMotion ? 0 : 0.1
-          }
-        },
-        enter: {
-          transition: {
-            duration: shouldReduceMotion ? 0 : 0.5,
-            staggerChildren: shouldReduceMotion ? 0 : 0.1
-          }
-        },
-        initial: {
-          y: 0,
-          opacity: 1,
-          transition: {
-            duration: shouldReduceMotion ? 0 : 0.2
-          }
-        }
-      }}
-    >
-      <div
-        className='mt-8'
+      <motion.div
+        initial='initial'
+        animate='enter'
+        exit='exit'
+        variants={{
+          exit: {
+            scale: 0.9,
+            y: 10,
+            opacity: 0,
+            transition: {
+              duration: shouldReduceMotion ? 0 : 0.5,
+              staggerChildren: shouldReduceMotion ? 0 : 0.1,
+            },
+          },
+          enter: {
+            transition: {
+              duration: shouldReduceMotion ? 0 : 0.5,
+              staggerChildren: shouldReduceMotion ? 0 : 0.1,
+            },
+          },
+          initial: {
+            y: 0,
+            opacity: 1,
+            transition: {
+              duration: shouldReduceMotion ? 0 : 0.2,
+            },
+          },
+        }}
       >
-        {error ? <>
-          <ErrorMessage>
-            Incorrectly formatted Ethereum address!
-          </ErrorMessage>
-        </> : <>
-          {!playerData ? <>
-            <IndexUILoader />
-          </> :
-          playerData.length === 0 ? <>
-            <BlankStateMessage>
-              <div
-                className='mb-4'
-              >
-                {t('thisPlayerCurrentlyHasNoTickets')}
-              </div>
-              <ButtonLink
-                href='/'
-                as='/'
-              >
-                {t('viewPools')}
-              </ButtonLink>
-            </BlankStateMessage>
-          </> : <>
-            <ul
-              className='mt-8'
-            >
-              {playerData?.prizePoolAccounts.map(prizePoolAccount => {
-                const poolAddress = prizePoolAccount?.prizePool?.id
-                const pool = pools?.find(pool => pool.id === poolAddress)
-                if (!pool) return null
-                const poolGraphData = poolsGraphData[pool.symbol]
-                if (!poolGraphData) return null
+        <div className='mt-8'>
+          {error ? (
+            <>
+              <ErrorMessage>Incorrectly formatted Ethereum address!</ErrorMessage>
+            </>
+          ) : (
+            <>
+              {!playerData ? (
+                <>
+                  <IndexUILoader />
+                </>
+              ) : playerData.length === 0 ? (
+                <>
+                  <BlankStateMessage>
+                    <div className='mb-4'>{t('thisPlayerCurrentlyHasNoTickets')}</div>
+                    <ButtonLink href='/' as='/'>
+                      {t('viewPools')}
+                    </ButtonLink>
+                  </BlankStateMessage>
+                </>
+              ) : (
+                <>
+                  <ul className='mt-8'>
+                    {playerData?.prizePoolAccounts.map((prizePoolAccount) => {
+                      const poolAddress = prizePoolAccount?.prizePool?.id
+                      const pool = pools?.find((pool) => pool.id === poolAddress)
+                      if (!pool) return null
+                      const poolGraphData = poolsGraphData[pool.symbol]
+                      if (!poolGraphData) return null
 
-                const ticketAddress = poolGraphData?.ticketToken?.id
-                let balance = playerData?.controlledTokenBalances.find(ct => ct.controlledToken.id === ticketAddress)?.balance
+                      const ticketAddress = poolGraphData?.ticketToken?.id
+                      let balance = playerData?.controlledTokenBalances.find(
+                        (ct) => ct.controlledToken.id === ticketAddress
+                      )?.balance
 
-                if (!balance) return null
+                      if (!balance) return null
 
-                return <AccountPoolRow
-                  noLinks
-                  href='/players/[playerAddress]'
-                  as={`/players/${playerAddress}`}
-                  key={`account-pool-row-${pool.id}`}
-                  poolSymbol={pool.symbol}
-                  pool={pool}
-                  playerBalance={balance}
-                />
-              })}
-            </ul>
-          </>}
-        </>}
-      </div>
-
-      
-    </motion.div>
-  </>
+                      return (
+                        <AccountPoolRow
+                          noLinks
+                          href='/players/[playerAddress]'
+                          as={`/players/${playerAddress}`}
+                          key={`account-pool-row-${pool.id}`}
+                          poolSymbol={pool.symbol}
+                          pool={pool}
+                          playerBalance={balance}
+                        />
+                      )
+                    })}
+                  </ul>
+                </>
+              )}
+            </>
+          )}
+        </div>
+      </motion.div>
+    </>
+  )
 }

@@ -40,7 +40,7 @@ export const prizePoolFragment = gql`
     }
   }
   ${prizeStrategyFragment}
-  
+
   ${controlledTokenFragment}
 `
 // ${prizePoolAccountFragment}

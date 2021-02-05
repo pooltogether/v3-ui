@@ -12,10 +12,7 @@ export function useUsersV2Balances() {
 
   const { contractAddresses } = usePools()
 
-  const {
-    data: usersV2Balances,
-    error: usersChainError,
-  } = useUsersV2Query({
+  const { data: usersV2Balances, error: usersChainError } = useUsersV2Query({
     provider: readProvider,
     usersAddress,
     contractAddresses,
@@ -24,6 +21,6 @@ export function useUsersV2Balances() {
   if (usersChainError) {
     console.error(usersChainError)
   }
-  
+
   return { usersV2Balances }
 }

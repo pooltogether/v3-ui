@@ -10,7 +10,7 @@ export const controlledTokenFragment = gql`
     name
     symbol
     numberOfHolders
-    
+
     # balances {
     #   ...controlledTokenBalanceFragment
     # }

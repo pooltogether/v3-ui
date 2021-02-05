@@ -13,27 +13,22 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export function WithdrawSponsorshipTxButton(props) {
   const { t } = useTranslation()
-  
-  const {
-    quantityBN,
-    quantity,
-    needsApproval,
-    tickerUpcased,
-  } = props
+
+  const { quantityBN, quantity, needsApproval, tickerUpcased } = props
 
   const { usersAddress } = useContext(AuthControllerContext)
   const { pool } = usePool()
 
   const poolAddress = pool?.poolAddress
   const sponsorshipAddress = pool?.sponsorshipToken?.id
-  
+
   const [txId, setTxId] = useState(0)
 
   const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
 
   const txName = t(`withdrawSponsorshipAmountTicker`, {
     amount: quantityFormatted,
-    ticker: tickerUpcased
+    ticker: tickerUpcased,
   })
   const method = 'withdrawInstantlyFrom'
   const sendTx = useSendTransaction()
@@ -54,26 +49,21 @@ export function WithdrawSponsorshipTxButton(props) {
       ethers.utils.parseEther(maxExitFee),
     ]
 
-    const id = await sendTx(
-      txName,
-      PrizePoolAbi,
-      poolAddress,
-      method,
-      params
-    )
+    const id = await sendTx(txName, PrizePoolAbi, poolAddress, method, params)
     setTxId(id)
   }
 
-
-  return <>
-    <Button
-      noAnim
-      textSize='lg'
-      onClick={handleWithdrawSponsorshipClick}
-      disabled={!quantity || needsApproval || withdrawSponsorshipTxInFlight}
-      className={'w-full'}
-    >
-      Withdraw sponsorship
-    </Button>
-  </>
+  return (
+    <>
+      <Button
+        noAnim
+        textSize='lg'
+        onClick={handleWithdrawSponsorshipClick}
+        disabled={!quantity || needsApproval || withdrawSponsorshipTxInFlight}
+        className={'w-full'}
+      >
+        Withdraw sponsorship
+      </Button>
+    </>
+  )
 }

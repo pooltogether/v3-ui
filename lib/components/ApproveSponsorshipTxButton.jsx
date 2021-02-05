@@ -13,18 +13,13 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 export function ApproveSponsorshipTxButton(props) {
   const { t } = useTranslation()
 
-  const {
-    decimals,
-    disabled,
-    needsApproval,
-    tickerUpcased,
-  } = props
+  const { decimals, disabled, needsApproval, tickerUpcased } = props
 
   const { pool } = usePool()
 
   const poolAddress = pool?.poolAddress
   const tokenAddress = pool?.underlyingCollateralToken
-  
+
   const [txId, setTxId] = useState(0)
   const txName = t(`allowTickerPoolSponsorship`, { ticker: tickerUpcased })
   const method = 'approve'
@@ -44,46 +39,47 @@ export function ApproveSponsorshipTxButton(props) {
       // }
     ]
 
-    const id = await sendTx(
-      txName,
-      ControlledTokenAbi,
-      tokenAddress,
-      method,
-      params,
-    )
+    const id = await sendTx(txName, ControlledTokenAbi, tokenAddress, method, params)
 
     setTxId(id)
   }
 
-
-
   const approveButtonClassName = !needsApproval ? 'w-full' : 'w-48-percent'
 
-  const approveButton = <Button
-    noAnim
-    type='button'
-    textSize='lg'
-    onClick={handleApproveClick}
-    disabled={disabled || !needsApproval || unlockTxInFlight}
-    className={approveButtonClassName}
-  >
-    Approve {tickerUpcased}
-  </Button>
+  const approveButton = (
+    <Button
+      noAnim
+      type='button'
+      textSize='lg'
+      onClick={handleApproveClick}
+      disabled={disabled || !needsApproval || unlockTxInFlight}
+      className={approveButtonClassName}
+    >
+      Approve {tickerUpcased}
+    </Button>
+  )
 
-
-  return <>
-    {!needsApproval ? <>
-      <PTHint
-        title='Allowance'
-        tip={<>
-          <div className='my-2 text-xs sm:text-sm'>
-            You have provided enough allowance to this pool and don't need to approve anymore.
-          </div>
-        </>}
-        className='w-48-percent'
-      >
-        {approveButton}
-      </PTHint>
-    </> : approveButton}
-  </>
+  return (
+    <>
+      {!needsApproval ? (
+        <>
+          <PTHint
+            title='Allowance'
+            tip={
+              <>
+                <div className='my-2 text-xs sm:text-sm'>
+                  You have provided enough allowance to this pool and don't need to approve anymore.
+                </div>
+              </>
+            }
+            className='w-48-percent'
+          >
+            {approveButton}
+          </PTHint>
+        </>
+      ) : (
+        approveButton
+      )}
+    </>
+  )
 }

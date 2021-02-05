@@ -8,17 +8,13 @@ export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) =
   const erc20GraphData = poolData?.externalErc20Awards
 
   const data = []
-  
-  if (
-    isEmpty(erc20ChainData) ||
-    isEmpty(erc20GraphData) ||
-    isEmpty(uniswapPriceData)
-  ) {
+
+  if (isEmpty(erc20ChainData) || isEmpty(erc20GraphData) || isEmpty(uniswapPriceData)) {
     return data
   }
 
-  erc20GraphData.forEach(obj => {
-    const chainData = erc20ChainData.find(token => obj.address === token.address)
+  erc20GraphData.forEach((obj) => {
+    const chainData = erc20ChainData.find((token) => obj.address === token.address)
     const priceData = uniswapPriceData[obj.address]
 
     const name = TOKEN_NAMES?.[obj.address] || obj?.name
@@ -27,10 +23,13 @@ export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) =
 
     const balanceBN = chainData?.balance
     const balance = balanceBN.toString()
-   
+
     let balanceFormatted = ''
     if (chainData?.balance) {
-      balanceFormatted = ethers.utils.formatUnits(chainData.balance, parseInt(obj?.decimals || DEFAULT_TOKEN_PRECISION, 10))
+      balanceFormatted = ethers.utils.formatUnits(
+        chainData.balance,
+        parseInt(obj?.decimals || DEFAULT_TOKEN_PRECISION, 10)
+      )
     }
     const value = priceUSD && balanceFormatted && parseFloat(balanceFormatted) * priceUSD
 
@@ -42,7 +41,7 @@ export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) =
       balanceBN,
       balanceFormatted,
       name,
-      value
+      value,
     })
   })
 

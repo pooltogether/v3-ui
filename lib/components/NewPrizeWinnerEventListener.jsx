@@ -34,22 +34,25 @@ export function NewPrizeWinnerEventListener(props) {
   if (error) {
     console.error(error)
   }
-  
+
   const recentPrize = data?.prize
-  
+
   useEffect(() => {
     if (recentPrizeId && storedRecentPrizeId !== recentPrizeId) {
       debug('setting new stored prize count! prize awarded?')
       setStoredRecentPrizeId(recentPrizeId)
     }
 
-    if (!newPrizeModalVisible && storedRecentPrizeId !== null && storedRecentPrizeId !== recentPrizeId) {
+    if (
+      !newPrizeModalVisible &&
+      storedRecentPrizeId !== null &&
+      storedRecentPrizeId !== recentPrizeId
+    ) {
       debug('storedRecentPrizeId', storedRecentPrizeId)
       debug('showingModal!')
       setNewPrizeModalVisible(true)
     }
   }, [pool])
-
 
   useEffect(() => {
     if (chainId !== cachedChainId) {
@@ -60,13 +63,15 @@ export function NewPrizeWinnerEventListener(props) {
     }
   }, [chainId])
 
-
   if (recentPrizeId === 0 || !recentPrize || !storedRecentPrizeId) {
-    debug('returning null because one of these is true', recentPrizeId === 0, !recentPrize, !storedRecentPrizeId)
+    debug(
+      'returning null because one of these is true',
+      recentPrizeId === 0,
+      !recentPrize,
+      !storedRecentPrizeId
+    )
     return null
   }
-
-
 
   const handleClose = (e) => {
     e.preventDefault()
@@ -86,70 +91,53 @@ export function NewPrizeWinnerEventListener(props) {
 
   const show = newPrizeModalVisible && Boolean(recentPrizeAwarded) && !isNaN(recentPrizeId)
 
-  return <>
-    <Modal
-      handleClose={handleClose}
-      visible={show}
-      header={<>
-        {t('aPrizeHasBeenAwarded')}
-      </>}
-    >
-      <img
-        src={PrizeIllustration}
-        className='w-1/2 sm:w-1/2 lg:w-1/3 mx-auto'
-      />
+  return (
+    <>
+      <Modal handleClose={handleClose} visible={show} header={<>{t('aPrizeHasBeenAwarded')}</>}>
+        <img src={PrizeIllustration} className='w-1/2 sm:w-1/2 lg:w-1/3 mx-auto' />
 
-      {!usersAddress && <>
-        {t('connectAWalletToSeeIfYouWon')}
-      </>}
+        {!usersAddress && <>{t('connectAWalletToSeeIfYouWon')}</>}
 
-      {usersAddress && <>
+        {usersAddress && (
+          <>
+            <div className='mt-4'>
+              {isWinner ? (
+                <>
+                  <h4 className='text-flashy'>{t('youWon')}</h4>
+                </>
+              ) : (
+                <>
+                  <h4>{t('unfortunatelyYouDidntWinThisOne')}</h4>
+                  <h6>{t('tryAgainNextWeek')}</h6>
+                </>
+              )}
+            </div>
+          </>
+        )}
+
         <div className='mt-4'>
-          {isWinner ? <>
-            <h4
-              className='text-flashy'
-            >
-              {t('youWon')}
-            </h4>
-          </> : <>
-            <h4
-            >
-              {t('unfortunatelyYouDidntWinThisOne')}
-            </h4>
-            <h6
-            >
-              {t('tryAgainNextWeek')}
-            </h6>
-          </>}
+          <Button
+            secondary
+            onClick={(e) => {
+              e.preventDefault()
+
+              setNewPrizeModalVisible(false)
+
+              let href = '/prizes/[symbol]/[prizeNumber]'
+              let as = `/prizes/${pool?.symbol}/${pool?.currentPrizeId - 1}`
+
+              if (!usersAddress) {
+                href = `${href}?signIn=1`
+                as = `${as}?signIn=1`
+              }
+
+              router.push(href, as, { shallow: true })
+            }}
+          >
+            {t('viewPrize')}
+          </Button>
         </div>
-      </>}
-
-      <div className='mt-4'>
-        <Button
-          secondary
-          onClick={(e) => {
-            e.preventDefault()
-
-            setNewPrizeModalVisible(false)
-
-            let href = '/prizes/[symbol]/[prizeNumber]'
-            let as = `/prizes/${pool?.symbol}/${pool?.currentPrizeId - 1}`
-
-            if (!usersAddress) {
-              href = `${href}?signIn=1`
-              as = `${as}?signIn=1`
-            }
-
-            router.push(
-              href,
-              as,
-              { shallow: true }
-            )
-          }}
-        >
-          {t('viewPrize')}
-        </Button>
-      </div>
-    </Modal>
-  </>
+      </Modal>
+    </>
+  )
 }

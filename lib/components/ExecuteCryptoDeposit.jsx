@@ -41,9 +41,8 @@ export function ExecuteCryptoDeposit(props) {
 
   const [txExecuted, setTxExecuted] = useState(false)
 
-  
   const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
-  
+
   let txMainName = `${t('deposit')} ${quantityFormatted} ${t('tickets')}`
   const txSubName = `${quantityFormatted} ${tickerUpcased}`
   const txName = `${txMainName} (${txSubName})`
@@ -65,20 +64,9 @@ export function ExecuteCryptoDeposit(props) {
 
       const quantityBN = ethers.utils.parseUnits(quantity, Number(decimals))
 
-      const params = [
-        usersAddress,
-        quantityBN,
-        controlledTicketTokenAddress,
-        referrerAddress,
-      ]
+      const params = [usersAddress, quantityBN, controlledTicketTokenAddress, referrerAddress]
 
-      const id = await sendTx(
-        txName,
-        PrizePoolAbi,
-        poolAddress,
-        'depositTo',
-        params,
-      )
+      const id = await sendTx(txName, PrizePoolAbi, poolAddress, 'depositTo', params)
       setTxId(id)
     }
 
@@ -86,7 +74,7 @@ export function ExecuteCryptoDeposit(props) {
       runTx()
     }
   }, [quantity, decimals])
-  
+
   useEffect(() => {
     if (tx?.cancelled || tx?.error) {
       previousStep()
@@ -95,48 +83,49 @@ export function ExecuteCryptoDeposit(props) {
     }
   }, [tx])
 
-  return <>
-    <PaneTitle short>
-      <div className='inline-block sm:block relative' style={{ top: -2 }}>
-        <PoolCurrencyIcon
-          pool={pool}
-        />
-      </div> <Trans
-        i18nKey='depositAmountTicker'
-        defaults='Deposit <number>{{amount}}</number> {{ticker}}'
-        components={{
-          number: <PoolNumber />,
-        }}
-        values={{
-          amount: quantityFormatted,
-          ticker: tickerUpcased,
-        }}
-      />
-    </PaneTitle>
-
-    <div className='-mt-2'>
-      <PaneTitle small>
+  return (
+    <>
+      <PaneTitle short>
+        <div className='inline-block sm:block relative' style={{ top: -2 }}>
+          <PoolCurrencyIcon pool={pool} />
+        </div>{' '}
         <Trans
-          i18nKey='forAmountTickets'
-          defaults='for <number>{{amount}}</number> tickets'
+          i18nKey='depositAmountTicker'
+          defaults='Deposit <number>{{amount}}</number> {{ticker}}'
           components={{
             number: <PoolNumber />,
           }}
           values={{
-            amount: quantityFormatted
+            amount: quantityFormatted,
+            ticker: tickerUpcased,
           }}
         />
       </PaneTitle>
-    </div>
 
-    <div className='mt-4'>
-      <DepositInfoList />
-    </div>
+      <div className='-mt-2'>
+        <PaneTitle small>
+          <Trans
+            i18nKey='forAmountTickets'
+            defaults='for <number>{{amount}}</number> tickets'
+            components={{
+              number: <PoolNumber />,
+            }}
+            values={{
+              amount: quantityFormatted,
+            }}
+          />
+        </PaneTitle>
+      </div>
 
-    <TxStatus
-      tx={tx}
-      inWalletMessage={t('confirmDepositInYourWallet')}
-      sentMessage={t('depositConfirming')}
-    />
-  </>
+      <div className='mt-4'>
+        <DepositInfoList />
+      </div>
+
+      <TxStatus
+        tx={tx}
+        inWalletMessage={t('confirmDepositInYourWallet')}
+        sentMessage={t('depositConfirming')}
+      />
+    </>
+  )
 }

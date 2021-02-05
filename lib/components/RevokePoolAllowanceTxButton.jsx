@@ -20,16 +20,13 @@ export function RevokePoolAllowanceTxButton(props) {
   const { pool } = usePool()
   const { usersChainData } = useUsersChainData(pool)
 
-  const {
-    usersTokenAllowance,
-  } = usersDataForPool(pool, usersChainData)
-  
+  const { usersTokenAllowance } = usersDataForPool(pool, usersChainData)
+
   const poolAddress = pool?.poolAddress
   const tokenAddress = pool?.underlyingCollateralToken
 
   const ticker = pool && pool.underlyingCollateralSymbol
   const tickerUpcased = ticker && ticker.toUpperCase()
-
 
   const [txId, setTxId] = useState(0)
 
@@ -54,29 +51,25 @@ export function RevokePoolAllowanceTxButton(props) {
       // }
     ]
 
-    const id = await sendTx(
-      txName,
-      ControlledTokenAbi,
-      tokenAddress,
-      method,
-      params,
-    )
+    const id = await sendTx(txName, ControlledTokenAbi, tokenAddress, method, params)
 
     setTxId(id)
   }
 
-  return <>
-    <div className='m-2'>
-      <Button
-        secondary
-        id='_revokePoolAllowance'
-        onClick={handleRevokeAllowanceClick}
-        disabled={tx?.sent && !tx?.completed}
-      >
-        {t('revokePoolAllowance', {
-          ticker: pool?.underlyingCollateralSymbol
-        })}
-      </Button>
-    </div>
-  </>
+  return (
+    <>
+      <div className='m-2'>
+        <Button
+          secondary
+          id='_revokePoolAllowance'
+          onClick={handleRevokeAllowanceClick}
+          disabled={tx?.sent && !tx?.completed}
+        >
+          {t('revokePoolAllowance', {
+            ticker: pool?.underlyingCollateralSymbol,
+          })}
+        </Button>
+      </div>
+    </>
+  )
 }

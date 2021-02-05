@@ -15,7 +15,7 @@ export const volumeDripFragment = gql`
     referral
     periodSeconds
     dripAmount
-    
+
     periodCount
     deactivated
   }

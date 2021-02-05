@@ -8,16 +8,14 @@ import { subtractDates } from 'lib/utils/subtractDates'
 
 const ONE_SECOND = 1000
 
-export const NewPrizeCountdownInWords = (
-  props,
-) => {
+export const NewPrizeCountdownInWords = (props) => {
   const { t } = useTranslation()
   const { pool, extraShort, onTicket } = props
 
   const [secondsRemaining, setSecondsRemaining] = useState(null)
 
-  const secs = pool?.prizePeriodRemainingSeconds &&
-    parseInt(pool?.prizePeriodRemainingSeconds.toString(), 10)
+  const secs =
+    pool?.prizePeriodRemainingSeconds && parseInt(pool?.prizePeriodRemainingSeconds.toString(), 10)
 
   useEffect(() => {
     setSecondsRemaining(secs)
@@ -47,35 +45,31 @@ export const NewPrizeCountdownInWords = (
 
   let content
   if (pool?.isRngRequested) {
-    content = <>
-      {t('prizeIsBeingAwarded')}
-    </>
+    content = <>{t('prizeIsBeingAwarded')}</>
   } else if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
-    content = <>
-      {t('prizeAwardedSoon')}
-    </>
+    content = <>{t('prizeAwardedSoon')}</>
   } else {
-    content = <>
-      {t('numDays', { days: daysWords })}, {t('numHours', { hours: hoursWords })}, {t('numMinutes', { minutes: minutesWords })}, {t('numSeconds', { seconds: secondsWords })}
-    </>
+    content = (
+      <>
+        {t('numDays', { days: daysWords })}, {t('numHours', { hours: hoursWords })},{' '}
+        {t('numMinutes', { minutes: minutesWords })}, {t('numSeconds', { seconds: secondsWords })}
+      </>
+    )
   }
 
-
   if (extraShort && pool?.isRngRequested) {
-    content = <>
-      {t('beingAwarded')}
-    </>
+    content = <>{t('beingAwarded')}</>
   } else if (extraShort && days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
-    content = <>
-      {t('awarding')}
-    </>
+    content = <>{t('awarding')}</>
   } else if (extraShort) {
-    content = <>
-      {onTicket && <div
-        className='font-normal'
-      >{t('prizeIn')}</div>}
-      {t('numDaysShort', { days: daysWords })}, {t('numHoursShort', { hours: hoursWords })}, {t('numMinutesShort', { minutes: minutesWords })}, {t('numSecondsShort', { seconds: secondsWords })}
-    </>
+    content = (
+      <>
+        {onTicket && <div className='font-normal'>{t('prizeIn')}</div>}
+        {t('numDaysShort', { days: daysWords })}, {t('numHoursShort', { hours: hoursWords })},{' '}
+        {t('numMinutesShort', { minutes: minutesWords })},{' '}
+        {t('numSecondsShort', { seconds: secondsWords })}
+      </>
+    )
   }
 
   return content

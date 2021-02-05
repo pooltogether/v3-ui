@@ -8,7 +8,7 @@ import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { shorten } from 'lib/utils/shorten'
 import { useTranslation } from 'lib/../i18n'
 
-export const TxStatus = props => {
+export const TxStatus = (props) => {
   const { tx, title, subtitle } = props
   const { hideOnInWallet, hideOnSent, hideOnSuccess, hideOnError } = props
   const { inWalletMessage, sentMessage, successMessage, errorMessage } = props
@@ -47,30 +47,20 @@ export const TxStatus = props => {
 
       <Banner className='flex flex-col'>
         {txSent && !txCompleted && !txError && (
-          <Loader
-            type='Oval'
-            height={50}
-            width={50}
-            color='#bbb2ce'
-            className='mx-auto mb-4'
-          />
+          <Loader type='Oval' height={50} width={50} color='#bbb2ce' className='mx-auto mb-4' />
         )}
 
         {txCompleted && !txError && (
           <FeatherIcon
             icon='check-circle'
-            className={
-              'mx-auto stroke-1 w-16 h-16 stroke-current text-green mb-4'
-            }
+            className={'mx-auto stroke-1 w-16 h-16 stroke-current text-green mb-4'}
           />
         )}
 
         {txCompleted && txError && (
           <FeatherIcon
             icon='x-circle'
-            className={
-              'mx-auto stroke-1 w-16 h-16 stroke-current text-red mb-4'
-            }
+            className={'mx-auto stroke-1 w-16 h-16 stroke-current text-red mb-4'}
           />
         )}
 
@@ -130,5 +120,5 @@ TxStatus.defaultProps = {
   hideOnSuccess: false,
   hideOnInWallet: false,
   hideOnSent: false,
-  hideExtraMessage: false
+  hideExtraMessage: false,
 }

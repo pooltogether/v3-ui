@@ -8,10 +8,7 @@ import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
 import { ReactQueryDevtools } from 'react-query-devtools'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  QueryCache,
-  ReactQueryCacheProvider
-} from 'react-query'
+import { QueryCache, ReactQueryCacheProvider } from 'react-query'
 import { Provider } from 'jotai'
 
 import { COOKIE_OPTIONS, REFERRER_ADDRESS_KEY } from 'lib/constants'
@@ -64,15 +61,13 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.NEXT_JS_SENTRY_DSN,
     release: process.env.NEXT_JS_RELEASE_VERSION,
-    integrations: [
-      new Integrations.BrowserTracing(),
-    ],
+    integrations: [new Integrations.BrowserTracing()],
   })
 }
 
 function MyApp({ Component, pageProps, router }) {
   const [initialized, setInitialized] = useState(false)
- 
+
   const shouldReduceMotion = useReducedMotion()
 
   // const redirectIfBorked = () => {
@@ -98,15 +93,14 @@ function MyApp({ Component, pageProps, router }) {
   //     )
   //   }
   // }
-  
+
   // useEffect(() => {
   //   redirectIfBorked()
   // }, [])
-  
+
   // useInterval(() => {
   //   redirectIfBorked()
   // }, 1000)
-  
 
   useEffect(() => {
     if (router?.query?.referrer) {
@@ -114,12 +108,8 @@ function MyApp({ Component, pageProps, router }) {
 
       try {
         ethers.utils.getAddress(referrerAddress)
-        
-        Cookies.set(
-          REFERRER_ADDRESS_KEY,
-          referrerAddress.toLowerCase(),
-          COOKIE_OPTIONS
-        )
+
+        Cookies.set(REFERRER_ADDRESS_KEY, referrerAddress.toLowerCase(), COOKIE_OPTIONS)
       } catch (e) {
         console.error(`referrer address was an invalid Ethereum address:`, e.message)
       }
@@ -136,17 +126,17 @@ function MyApp({ Component, pageProps, router }) {
           'app-v3.pooltogether.com',
           'app.pooltogether.com',
           'staging-v3.pooltogether.com',
-        ]
+        ],
       })
-  
+
       function onRouteChangeComplete(url) {
         if (window['fathom']) {
           window['fathom'].trackPageview()
         }
       }
-  
+
       router.events.on('routeChangeComplete', onRouteChangeComplete)
-  
+
       return () => {
         router.events.off('routeChangeComplete', onRouteChangeComplete)
       }
@@ -154,7 +144,6 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   useEffect(() => {
-
     const handleExitComplete = () => {
       if (typeof window !== 'undefined') {
         // window.scrollTo({ top: 0 })
@@ -171,9 +160,6 @@ function MyApp({ Component, pageProps, router }) {
       }
     }
 
-    
-
-
     router.events.on('routeChangeComplete', handleExitComplete)
     return () => {
       router.events.off('routeChangeComplete', handleExitComplete)
@@ -189,63 +175,54 @@ function MyApp({ Component, pageProps, router }) {
     initi18next()
   }, [])
 
-  return <>
-    <Provider>
-      <ReactQueryCacheProvider queryCache={queryCache}>
-        <BodyClasses />
+  return (
+    <>
+      <Provider>
+        <ReactQueryCacheProvider queryCache={queryCache}>
+          <BodyClasses />
 
-        <GraphErrorModal />
+          <GraphErrorModal />
 
-        <LoadingScreen
-          initialized={initialized}
-        />
+          <LoadingScreen initialized={initialized} />
 
-        <ToastContainer
-          className='pool-toast'
-          position='top-center'
-          autoClose={7000}
-        />
+          <ToastContainer className='pool-toast' position='top-center' autoClose={7000} />
 
-        <AllContextProviders>
-          <CustomErrorBoundary>
-          
-            <NewPrizeWinnerEventListener />
+          <AllContextProviders>
+            <CustomErrorBoundary>
+              <NewPrizeWinnerEventListener />
 
-            <TransactionStatusChecker />
+              <TransactionStatusChecker />
 
-            <TxRefetchListener />
+              <TxRefetchListener />
 
-            <Layout
-              props={pageProps}
-            >
-              <AnimatePresence
-                exitBeforeEnter
-              >
-                <motion.div
-                  id='content-animation-wrapper'
-                  key={router.route}
-                  transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: 'easeIn' }}
-                  initial={{
-                    opacity: 0
-                  }}
-                  exit={{
-                    opacity: 0
-                  }}
-                  animate={{
-                    opacity: 1
-                  }}
-                >
-                  <Component {...pageProps} />
-                </motion.div>
-              </AnimatePresence>
-            </Layout>
+              <Layout props={pageProps}>
+                <AnimatePresence exitBeforeEnter>
+                  <motion.div
+                    id='content-animation-wrapper'
+                    key={router.route}
+                    transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: 'easeIn' }}
+                    initial={{
+                      opacity: 0,
+                    }}
+                    exit={{
+                      opacity: 0,
+                    }}
+                    animate={{
+                      opacity: 1,
+                    }}
+                  >
+                    <Component {...pageProps} />
+                  </motion.div>
+                </AnimatePresence>
+              </Layout>
 
-            <ReactQueryDevtools />
-          </CustomErrorBoundary>
-        </AllContextProviders>
-      </ReactQueryCacheProvider>
-    </Provider>
-  </>
+              <ReactQueryDevtools />
+            </CustomErrorBoundary>
+          </AllContextProviders>
+        </ReactQueryCacheProvider>
+      </Provider>
+    </>
+  )
 }
 
 export default MyApp

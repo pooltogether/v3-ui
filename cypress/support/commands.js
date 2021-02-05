@@ -42,9 +42,12 @@ Cypress.Commands.overwrite('visit', (original, url, options) => {
       onBeforeLoad(win) {
         options && options.onBeforeLoad && options.onBeforeLoad(win)
         win.localStorage.clear()
-        const p = new PrivateKeyProvider(PRIVATE_KEY_TEST_NEVER_USE, `https://rinkeby.infura.io/v3/${INFURA_ID}`)
+        const p = new PrivateKeyProvider(
+          PRIVATE_KEY_TEST_NEVER_USE,
+          `https://rinkeby.infura.io/v3/${INFURA_ID}`
+        )
         win.web3 = new Web3(p)
-      }
+      },
     }
   )
 })

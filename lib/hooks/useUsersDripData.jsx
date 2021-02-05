@@ -23,8 +23,14 @@ export function useUsersDripData() {
   let dripTokens = []
   let comptrollerAddress
   if (graphDripData?.balanceDrips) {
-    const balanceDripPairs = graphDripData?.balanceDrips.map((drip) => [drip.sourceAddress, drip.measureToken])
-    const volumeDripPairs = graphDripData?.volumeDrips.map((drip) => [drip.sourceAddress, drip.measureToken])
+    const balanceDripPairs = graphDripData?.balanceDrips.map((drip) => [
+      drip.sourceAddress,
+      drip.measureToken,
+    ])
+    const volumeDripPairs = graphDripData?.volumeDrips.map((drip) => [
+      drip.sourceAddress,
+      drip.measureToken,
+    ])
 
     pairs = uniqWith(balanceDripPairs?.concat(volumeDripPairs), isEqual)
 
@@ -38,12 +44,7 @@ export function useUsersDripData() {
     }
   }
 
-
-
-  const {
-    data: usersDripData,
-    error: usersDripError,
-  } = useUsersDripQuery({
+  const { data: usersDripData, error: usersDripError } = useUsersDripQuery({
     provider: readProvider,
     comptrollerAddress,
     dripTokens,

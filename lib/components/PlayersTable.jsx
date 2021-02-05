@@ -12,17 +12,11 @@ import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { shorten } from 'lib/utils/shorten'
 
 const playerLink = (t, player) => {
-  return <Link
-    href='/players/[playerAddress]'
-    as={`/players/${player?.account?.id}`}
-    shallow
-  >
-    <a
-      className='trans'
-    >
-      {t('viewPlayerInfo')}
-    </a>
-  </Link>
+  return (
+    <Link href='/players/[playerAddress]' as={`/players/${player?.account?.id}`} shallow>
+      <a className='trans'>{t('viewPlayerInfo')}</a>
+    </Link>
+  )
 }
 
 const formatPlayerObject = (t, pool, player, winners) => {
@@ -32,31 +26,28 @@ const formatPlayerObject = (t, pool, player, winners) => {
 
   const isWinner = winners?.includes(playerAddress)
 
-  const address = <>
-    {shorten(playerAddress)} {isWinner && <span
-      className='text-flashy font-bold'
-    >
-      {t('winner')}
-    </span>}
-  </>
-  
+  const address = (
+    <>
+      {shorten(playerAddress)}{' '}
+      {isWinner && <span className='text-flashy font-bold'>{t('winner')}</span>}
+    </>
+  )
+
   return {
-    balance: player.balance ? <PoolNumber>
-      {displayAmountInEther(player.balance, { decimals, precision: 2 })}
-    </PoolNumber> : '',
+    balance: player.balance ? (
+      <PoolNumber>{displayAmountInEther(player.balance, { decimals, precision: 2 })}</PoolNumber>
+    ) : (
+      ''
+    ),
     address,
-    odds: <Odds
-      timeTravelTicketSupply={pool.ticketSupply}
-      pool={pool}
-      usersBalance={player.balance}
-    />,
-    view: playerLink(t, player)
+    odds: (
+      <Odds timeTravelTicketSupply={pool.ticketSupply} pool={pool} usersBalance={player.balance} />
+    ),
+    view: playerLink(t, player),
   }
 }
 
-export const PlayersTable = (
-  props,
-) => {
+export const PlayersTable = (props) => {
   const { t } = useTranslation()
 
   let players = []
@@ -83,38 +74,29 @@ export const PlayersTable = (
       {
         Header: '',
         accessor: 'view',
-        Cell: row => <div style={{ textAlign: 'right' }}>{row.value}</div>
+        Cell: (row) => <div style={{ textAlign: 'right' }}>{row.value}</div>,
       },
     ]
-  }, [] )
+  }, [])
 
-  const winners = prize?.awardedControlledTokens.map(awardedControlledToken => {
+  const winners = prize?.awardedControlledTokens.map((awardedControlledToken) => {
     return awardedControlledToken.winner
   })
 
   let data = React.useMemo(() => {
-    return players.map(player => {
-      return formatPlayerObject(
-        t,
-        pool,
-        player,
-        winners
-      )
+    return players.map((player) => {
+      return formatPlayerObject(t, pool, player, winners)
     })
   }, [players, pool, pool?.ticketSupply])
 
   const tableInstance = useTable({
     columns,
-    data
+    data,
   })
 
   if (!players || players?.length === 0) {
     return null
   }
 
-  return <BasicTable
-    {...props}
-    tableInstance={tableInstance}
-  />
-
+  return <BasicTable {...props} tableInstance={tableInstance} />
 }

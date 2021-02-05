@@ -27,32 +27,26 @@ export function FiatOrCryptoForm(props) {
     nextStep()
   }
 
-  return <>
-    <PaneTitle small>
-      {quantity} tickets
-    </PaneTitle>
+  return (
+    <>
+      <PaneTitle small>{quantity} tickets</PaneTitle>
 
-    <PaneTitle>
-      How would you like to deposit?
-    </PaneTitle>
+      <PaneTitle>How would you like to deposit?</PaneTitle>
 
-    <div className='flex flex-col mx-auto w-full'>
-      <Button
-        textSize='lg'
-        onClick={handleFiatClick}
-        className='my-2 w-full mx-auto'
-      >
-        Fiat currency
-      </Button>
+      <div className='flex flex-col mx-auto w-full'>
+        <Button textSize='lg' onClick={handleFiatClick} className='my-2 w-full mx-auto'>
+          Fiat currency
+        </Button>
 
-      <Button
-        textSize='lg'
-        onClick={handleCryptoClick}
-        color='white'
-        className='my-2 w-full mx-auto'
-      >
-        Crypto
-      </Button>
-    </div>
-  </>
+        <Button
+          textSize='lg'
+          onClick={handleCryptoClick}
+          color='white'
+          className='my-2 w-full mx-auto'
+        >
+          Crypto
+        </Button>
+      </div>
+    </>
+  )
 }

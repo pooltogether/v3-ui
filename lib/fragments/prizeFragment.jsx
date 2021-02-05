@@ -23,7 +23,7 @@ export const prizeFragment = gql`
     awardedExternalErc20Tokens {
       ...awardedExternalErc20TokenFragment
     }
-    
+
     awardedExternalErc721Nfts {
       ...awardedExternalErc721NftFragment
     }

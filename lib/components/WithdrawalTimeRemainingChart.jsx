@@ -26,7 +26,7 @@ const _label = (t, timeRemainingObj) => {
   const value = timeRemainingObj[varName]
 
   return t(`${varName}ToGoUntilFreeWithdrawal`, {
-    [varName]: parseInt(value, 10)
+    [varName]: parseInt(value, 10),
   })
 }
 
@@ -34,7 +34,7 @@ export function WithdrawalTimeRemainingChart(props) {
   const { t } = useTranslation()
 
   const { pool, timelockDurationSeconds } = props
-  
+
   const secondsRemaining = timelockDurationSeconds.toNumber()
 
   const currentDate = new Date(Date.now())
@@ -43,36 +43,34 @@ export function WithdrawalTimeRemainingChart(props) {
 
   const percentTimeRemaining = (secondsRemaining / parseInt(pool?.maxTimelockDuration, 10)) * 100
 
-  return <>
-    <div
-      className='mt-4 text-highlight-3'
-      style={{
-        maxHeight: 220
-      }}
-    >
-      <Gauge
-        label={<>
-          <div
-            className='text-6xl sm:text-7xl font-bold time-remaining-chart--big-num'
-          >
-            {timeRemainingObj[_varName(timeRemainingObj)]}
-          </div>
-          <div
-            className='text-lg font-bold'
-          >
-            {t(`${_varName(timeRemainingObj)}Left`)}
-          </div>
-          <div
-            className='text-xxxs mt-8 sm:mt-4 mx-auto'
-            style={{
-              maxWidth: 160
-            }}
-          >
-            {_label(t, timeRemainingObj)}
-          </div>
-        </>}
-        value={Math.abs(100 - percentTimeRemaining)}
-      />
-    </div>
-  </>
+  return (
+    <>
+      <div
+        className='mt-4 text-highlight-3'
+        style={{
+          maxHeight: 220,
+        }}
+      >
+        <Gauge
+          label={
+            <>
+              <div className='text-6xl sm:text-7xl font-bold time-remaining-chart--big-num'>
+                {timeRemainingObj[_varName(timeRemainingObj)]}
+              </div>
+              <div className='text-lg font-bold'>{t(`${_varName(timeRemainingObj)}Left`)}</div>
+              <div
+                className='text-xxxs mt-8 sm:mt-4 mx-auto'
+                style={{
+                  maxWidth: 160,
+                }}
+              >
+                {_label(t, timeRemainingObj)}
+              </div>
+            </>
+          }
+          value={Math.abs(100 - percentTimeRemaining)}
+        />
+      </div>
+    </>
+  )
 }

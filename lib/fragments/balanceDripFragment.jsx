@@ -11,7 +11,7 @@ export const balanceDripFragment = gql`
     sourceAddress
     measureToken
     dripToken
-    
+
     dripRatePerSecond
     exchangeRateMantissa
     timestamp

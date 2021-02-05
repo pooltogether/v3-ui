@@ -15,27 +15,22 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 export function DepositSponsorshipTxButton(props) {
   const { t } = useTranslation()
 
-  const {
-    quantity,
-    quantityBN,
-    needsApproval,
-    tickerUpcased,
-  } = props
+  const { quantity, quantityBN, needsApproval, tickerUpcased } = props
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
-  
+
   const { pool } = usePool()
 
   const poolAddress = pool?.poolAddress
 
   const controlledSponsorshipTokenAddress = pool?.sponsorshipToken?.id
   const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
-  
+
   const txName = t(`depositAmountTickerToSponsorship`, {
     amount: quantityFormatted,
-    ticker: tickerUpcased
+    ticker: tickerUpcased,
   })
-  const method = 'depositTo'  
+  const method = 'depositTo'
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
@@ -49,45 +44,46 @@ export function DepositSponsorshipTxButton(props) {
       usersAddress,
       quantityBN,
       controlledSponsorshipTokenAddress,
-      ethers.constants.AddressZero
+      ethers.constants.AddressZero,
     ]
 
-    const id = await sendTx(
-      txName,
-      PrizePoolAbi,
-      poolAddress,
-      method,
-      params
-    )
+    const id = await sendTx(txName, PrizePoolAbi, poolAddress, method, params)
     setTxId(id)
   }
 
-
   const depositSponsorshipButtonClassName = needsApproval ? 'w-full' : 'w-48-percent'
 
-  const depositSponsorshipButton = <Button
-    noAnim
-    textSize='lg'
-    onClick={handleDepositSponsorshipClick}
-    disabled={!quantity || needsApproval || depositSponsorshipTxInFlight}
-    className={depositSponsorshipButtonClassName}
-  >
-    {t('depositSponsorship')}
-  </Button>
+  const depositSponsorshipButton = (
+    <Button
+      noAnim
+      textSize='lg'
+      onClick={handleDepositSponsorshipClick}
+      disabled={!quantity || needsApproval || depositSponsorshipTxInFlight}
+      className={depositSponsorshipButtonClassName}
+    >
+      {t('depositSponsorship')}
+    </Button>
+  )
 
-  return <>
-    {needsApproval ? <>
-      <PTHint
-        title='Allowance'
-        tip={<>
-          <div className='my-2 text-xs sm:text-sm'>
-            {t('needToProvideEnoughAllowance')}
-          </div>
-        </>}
-        className='w-48-percent'
-      >
-        {depositSponsorshipButton}
-      </PTHint>
-    </> : depositSponsorshipButton}
-  </>
+  return (
+    <>
+      {needsApproval ? (
+        <>
+          <PTHint
+            title='Allowance'
+            tip={
+              <>
+                <div className='my-2 text-xs sm:text-sm'>{t('needToProvideEnoughAllowance')}</div>
+              </>
+            }
+            className='w-48-percent'
+          >
+            {depositSponsorshipButton}
+          </PTHint>
+        </>
+      ) : (
+        depositSponsorshipButton
+      )}
+    </>
+  )
 }

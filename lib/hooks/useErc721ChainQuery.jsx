@@ -9,10 +9,7 @@ export function useErc721ChainQuery(poolGraphData) {
   const poolAddress = poolGraphData?.poolAddress
   const graphExternalErc721Awards = poolGraphData?.externalErc721Awards
 
-  const {
-    data: erc721ChainData,
-    error: erc721ChainError,
-  } = useEthereumErc721Query({
+  const { data: erc721ChainData, error: erc721ChainError } = useEthereumErc721Query({
     provider: readProvider,
     graphErc721Awards: graphExternalErc721Awards,
     balanceOfAddress: poolAddress,
@@ -21,6 +18,6 @@ export function useErc721ChainQuery(poolGraphData) {
   if (erc721ChainError) {
     console.warn(erc721ChainError)
   }
-  
+
   return { erc721ChainData }
 }

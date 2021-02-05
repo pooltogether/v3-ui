@@ -3,17 +3,13 @@ import { ethers } from 'ethers'
 import { sub, fromUnixTime } from 'date-fns'
 import { compact } from 'lodash'
 
-import {
-  DEFAULT_TOKEN_PRECISION,
-} from 'lib/constants'
+import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { DateValueLineGraph } from 'lib/components/DateValueLineGraph'
 import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 
 const NUMBER_OF_POINTS = 10
 
-export const TicketsSoldGraph = (
-  props,
-) => {
+export const TicketsSoldGraph = (props) => {
   const { pool } = props
 
   const first = NUMBER_OF_POINTS
@@ -31,7 +27,6 @@ export const TicketsSoldGraph = (
     return null
   }
 
-
   const lastPrize = prizes[0]
   let currentPrize
   // const ticketSupply = pool?.ticketTo
@@ -42,14 +37,13 @@ export const TicketsSoldGraph = (
     // when compiling the array ...
     currentPrize = {
       ticketSupply: pool.ticketSupply,
-      awardedTimestamp: Date.now() / 1000
+      awardedTimestamp: Date.now() / 1000,
     }
 
     prizes.unshift(currentPrize)
   }
 
-
-  const dataArray = prizes.map(prize => {
+  const dataArray = prizes.map((prize) => {
     if (!prize) {
       console.warn('why no prize here?', prize)
     }
@@ -70,27 +64,21 @@ export const TicketsSoldGraph = (
   if (dataArray.length < NUMBER_OF_POINTS) {
     dataArray.push({
       value: 0,
-      date: sub(
-        dataArray[dataArray.length-1].date,
-        {
-          years: 0,
-          months: 0,
-          weeks: 1,
-          days: 0,
-          hours: 0,
-          minutes: 0,
-          seconds: 0
-        }
-      )
+      date: sub(dataArray[dataArray.length - 1].date, {
+        years: 0,
+        months: 0,
+        weeks: 1,
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+      }),
     })
   }
 
-  return <>
-    <DateValueLineGraph
-      id='tickets-sold-graph'
-      valueLabel='Tickets'
-      data={[dataArray]}
-    />
-
-  </>
+  return (
+    <>
+      <DateValueLineGraph id='tickets-sold-graph' valueLabel='Tickets' data={[dataArray]} />
+    </>
+  )
 }

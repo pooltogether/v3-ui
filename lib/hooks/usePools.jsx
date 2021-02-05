@@ -30,18 +30,12 @@ export function usePools() {
     isFetching: poolsIsFetching,
   } = usePoolsQuery(poolAddresses, blockNumber)
 
-
   if (poolsError) {
     poolToast.error(poolsError)
     console.error(poolsError)
   }
 
   poolsGraphData = getPoolDataFromQueryResult(chainId, contractAddresses, poolsGraphData)
-
-
-
-
-
 
   const poolsDataLoading = !poolsGraphData
 
@@ -50,16 +44,15 @@ export function usePools() {
     window.hideGraphError()
   }
 
-
   let pools = []
 
   if (contractAddresses && POOLS[chainId]) {
-    POOLS[chainId].forEach(POOL => {
+    POOLS[chainId].forEach((POOL) => {
       const _pool = {
         ...POOL,
         id: contractAddresses[POOL.symbol],
       }
-  
+
       if (_pool?.id) {
         pools.push(_pool)
       }
