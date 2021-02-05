@@ -18,7 +18,7 @@ export function StartAwardUI(props) {
   const prizeStrategyAddress = pool?.prizeStrategy?.id
 
   const txName = t(`startAwardPoolName`, {
-    poolName: pool?.name
+    poolName: pool?.name,
   })
   const method = 'startAward'
   const [txId, setTxId] = useState(0)
@@ -44,24 +44,28 @@ export function StartAwardUI(props) {
       getPrizeStrategyAbiFromPool(pool),
       prizeStrategyAddress,
       method,
-      params,
+      params
     )
 
     setTxId(id)
   }
 
-  return <>
-    {canStartAward && <>
-      <ButtonTx
-        text='green'
-        border='green'
-        hoverBorder='green'
-        textSize='lg'
-        onClick={handleStartAwardClick}
-        usersAddress={usersAddress}
-      >
-        {t('startAward')}
-      </ButtonTx>
-    </>}
-  </>
+  return (
+    <>
+      {canStartAward && (
+        <>
+          <ButtonTx
+            text='green'
+            border='green'
+            hoverBorder='green'
+            textSize='lg'
+            onClick={handleStartAwardClick}
+            usersAddress={usersAddress}
+          >
+            {t('startAward')}
+          </ButtonTx>
+        </>
+      )}
+    </>
+  )
 }

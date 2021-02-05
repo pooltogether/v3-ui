@@ -21,22 +21,26 @@ export function CompleteAwardUI(props) {
       getPrizeStrategyAbiFromPool(pool),
       pool?.prizeStrategy?.id,
       'completeAward',
-      params,
+      params
     )
   }
 
-  return <>
-    {pool?.canCompleteAward && <>
-      <Button
-        text='green'
-        border='green'
-        hoverBorder='green'
-        textSize='lg'
-        onClick={handleCompleteAwardClick}
-        // disabled={disabled}
-      >
-        Complete Award
-      </Button>
-    </>}
-  </>
+  return (
+    <>
+      {pool?.canCompleteAward && (
+        <>
+          <Button
+            text='green'
+            border='green'
+            hoverBorder='green'
+            textSize='lg'
+            onClick={handleCompleteAwardClick}
+            // disabled={disabled}
+          >
+            Complete Award
+          </Button>
+        </>
+      )}
+    </>
+  )
 }

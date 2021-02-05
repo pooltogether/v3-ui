@@ -23,7 +23,7 @@ import WalletIcon from 'assets/images/icon-wallet.svg'
 export function DepositWizardContainer(props) {
   const { t } = useTranslation()
   const router = useRouter()
-  
+
   const method = router.query.method
   const quantity = router.query.quantity
 
@@ -39,13 +39,11 @@ export function DepositWizardContainer(props) {
   const { pool } = usePool()
 
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
-  
-  return <>
-    <Wizard
-      initialStepIndex={initialStepIndex}
-    >
-      {
-        (wizard) => {
+
+  return (
+    <>
+      <Wizard initialStepIndex={initialStepIndex}>
+        {(wizard) => {
           const { activeStepIndex, previousStep, moveToStep } = wizard
 
           const back = (e) => {
@@ -54,41 +52,48 @@ export function DepositWizardContainer(props) {
             } else if (quantity) {
               queryParamUpdater.remove(router, 'quantity')
             }
-            
+
             previousStep()
           }
 
-          return <WizardLayout
-            currentWizardStep={activeStepIndex + 1}
-            handlePreviousStep={back}
-            moveToStep={moveToStep}
-            totalWizardSteps={usersAddress ? 4 : 5}
-          >
-            <WizardStep>
-              {(step) => {
-                return step.isActive && <>
-                  <DepositTicketQuantityForm
-                    iconSrc={WalletIcon}
-                    formName={t('depositTickerToGetTickets', {
-                      ticker: tickerUpcased
-                    })}
-                    formSubName={<Trans
-                      i18nKey='amountTickerEqualsAmountTickets'
-                      defaults='<number>{{amount}}</number> {{ticker}} = <number>{{amount}}</number> ticket'
-                      components={{
-                        number: <PoolNumber />,
-                      }}
-                      values={{
-                        amount: '1',
-                        ticker: tickerUpcased
-                      }}
-                    />}
-                    nextStep={step.nextStep}
-                  />
-                </>
-              }}
-            </WizardStep>
-            {/* <WizardStep>
+          return (
+            <WizardLayout
+              currentWizardStep={activeStepIndex + 1}
+              handlePreviousStep={back}
+              moveToStep={moveToStep}
+              totalWizardSteps={usersAddress ? 4 : 5}
+            >
+              <WizardStep>
+                {(step) => {
+                  return (
+                    step.isActive && (
+                      <>
+                        <DepositTicketQuantityForm
+                          iconSrc={WalletIcon}
+                          formName={t('depositTickerToGetTickets', {
+                            ticker: tickerUpcased,
+                          })}
+                          formSubName={
+                            <Trans
+                              i18nKey='amountTickerEqualsAmountTickets'
+                              defaults='<number>{{amount}}</number> {{ticker}} = <number>{{amount}}</number> ticket'
+                              components={{
+                                number: <PoolNumber />,
+                              }}
+                              values={{
+                                amount: '1',
+                                ticker: tickerUpcased,
+                              }}
+                            />
+                          }
+                          nextStep={step.nextStep}
+                        />
+                      </>
+                    )
+                  )
+                }}
+              </WizardStep>
+              {/* <WizardStep>
               {(step) => {
                 return step.isActive && <>
                   <FiatOrCryptoForm
@@ -97,55 +102,72 @@ export function DepositWizardContainer(props) {
                 </>
               }}
             </WizardStep> */}
-            {!usersAddress && <>
+              {!usersAddress && (
+                <>
+                  <WizardStep>
+                    {(step) => {
+                      return (
+                        step.isActive && (
+                          <>
+                            <DepositWizardSignIn />
+                          </>
+                        )
+                      )
+                    }}
+                  </WizardStep>
+                </>
+              )}
               <WizardStep>
                 {(step) => {
-                  return step.isActive && <>
-                    <DepositWizardSignIn />
-                  </>
+                  return (
+                    step.isActive && (
+                      <>
+                        {method === 'fiat' ? (
+                          <DepositFiatForm nextStep={step.nextStep} />
+                        ) : (
+                          <DepositCryptoForm
+                            nextStep={step.nextStep}
+                            previousStep={step.previousStep}
+                          />
+                        )}
+                      </>
+                    )
+                  )
                 }}
               </WizardStep>
-            </>}
-            <WizardStep>
-              {(step) => {
-                return step.isActive && <>
-                  {method === 'fiat' ?
-                    <DepositFiatForm
-                      nextStep={step.nextStep}
-                    /> :
-                    <DepositCryptoForm
-                      nextStep={step.nextStep}
-                      previousStep={step.previousStep}
-                    />
-                  }
-                </>
-              }}
-            </WizardStep>
-            <WizardStep>
-              {(step) => {
-                return step.isActive && <>
-                  {method === 'fiat' ?
-                    <ConfirmFiatDeposit
-                      nextStep={step.nextStep}
-                    /> :
-                    <ExecuteCryptoDeposit
-                      nextStep={step.nextStep}
-                      previousStep={step.previousStep}
-                    />
-                  }
-                </>
-              }}
-            </WizardStep>
-            <WizardStep>
-              {(step) => {
-                return step.isActive && <>
-                  <OrderComplete />
-                </>
-              }}
-            </WizardStep>
-          </WizardLayout>
-        }
-      }
-    </Wizard>
-  </>
+              <WizardStep>
+                {(step) => {
+                  return (
+                    step.isActive && (
+                      <>
+                        {method === 'fiat' ? (
+                          <ConfirmFiatDeposit nextStep={step.nextStep} />
+                        ) : (
+                          <ExecuteCryptoDeposit
+                            nextStep={step.nextStep}
+                            previousStep={step.previousStep}
+                          />
+                        )}
+                      </>
+                    )
+                  )
+                }}
+              </WizardStep>
+              <WizardStep>
+                {(step) => {
+                  return (
+                    step.isActive && (
+                      <>
+                        <OrderComplete />
+                      </>
+                    )
+                  )
+                }}
+              </WizardStep>
+            </WizardLayout>
+          )
+        }}
+      </Wizard>
+    </>
+  )
 }

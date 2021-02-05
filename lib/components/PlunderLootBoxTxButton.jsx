@@ -12,15 +12,9 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 export function PlunderLootBoxTxButton(props) {
   const { t } = useTranslation()
 
-  const {
-    alreadyClaimed,
-    prizeNumber,
-    pool,
-  } = props
+  const { alreadyClaimed, prizeNumber, pool } = props
 
-  const {
-    lootBoxAwards,
-  } = pool.lootBox
+  const { lootBoxAwards } = pool.lootBox
 
   const [txId, setTxId] = useState(0)
 
@@ -29,10 +23,8 @@ export function PlunderLootBoxTxButton(props) {
   const lootBoxControllerAddress = contractAddresses?.lootBoxController
   const lootBoxAddress = contractAddresses?.lootBox
 
-
-
   const txName = t(`claimLootBoxNumber`, {
-    number: prizeNumber
+    number: prizeNumber,
   })
   const method = 'plunder'
 
@@ -48,23 +40,20 @@ export function PlunderLootBoxTxButton(props) {
     const params = [
       lootBoxAddress,
       pool.lootBox.tokenId,
-      lootBoxAwards.erc20s.map(award => award.erc20Entity.id),
-      lootBoxAwards.erc721s.map(award => ({ token: award.erc721Entity.id, tokenIds: [award.tokenId] })),
-      lootBoxAwards.erc1155s.map(award => ({
+      lootBoxAwards.erc20s.map((award) => award.erc20Entity.id),
+      lootBoxAwards.erc721s.map((award) => ({
+        token: award.erc721Entity.id,
+        tokenIds: [award.tokenId],
+      })),
+      lootBoxAwards.erc1155s.map((award) => ({
         token: award.erc1155Entity.id,
         ids: [award.tokenId],
         amounts: [ethers.utils.bigNumberify(award.balance)],
-        data: []
-      }))
+        data: [],
+      })),
     ]
 
-    const id = await sendTx(
-      txName,
-      LootBoxControllerAbi,
-      lootBoxControllerAddress,
-      method,
-      params
-    )
+    const id = await sendTx(txName, LootBoxControllerAbi, lootBoxControllerAddress, method, params)
     setTxId(id)
   }
 

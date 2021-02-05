@@ -42,11 +42,11 @@ export function AuthControllerContextProvider(props) {
     onboardWallet,
     reconnectWallet,
     connectWallet,
-    disconnectWallet
+    disconnectWallet,
   } = useContext(WalletContext)
 
   const { address, magic, signIn, signedIn, signOut: magicSignOut } = useContext(MagicContext)
- 
+
   const ethBalance = onboardBalance || null
 
   let walletName = 'Unknown'
@@ -83,7 +83,6 @@ export function AuthControllerContextProvider(props) {
         }, 200)
       }
     }
-
 
     updateChainId()
   }, [onboardNetwork])
@@ -138,7 +137,6 @@ export function AuthControllerContextProvider(props) {
 
       setMagicAutoSignInAlreadyExecuted(true)
     }
-
   }, [magic])
 
   useEffect(() => {
@@ -162,22 +160,24 @@ export function AuthControllerContextProvider(props) {
 
   const pauseQueries = !supportedNetwork || changingNetwork
 
-  return <AuthControllerContext.Provider
-    value={{
-      changingNetwork,
-      ethBalance,
-      chainId,
-      pauseQueries,
-      provider,
-      usersAddress,
-      walletName,
-      signOut,
-      signInMagic,
-      connectWallet,
-      networkName,
-      supportedNetwork,
-    }}
-  >
-    {children}
-  </AuthControllerContext.Provider>
+  return (
+    <AuthControllerContext.Provider
+      value={{
+        changingNetwork,
+        ethBalance,
+        chainId,
+        pauseQueries,
+        provider,
+        usersAddress,
+        walletName,
+        signOut,
+        signInMagic,
+        connectWallet,
+        networkName,
+        supportedNetwork,
+      }}
+    >
+      {children}
+    </AuthControllerContext.Provider>
+  )
 }

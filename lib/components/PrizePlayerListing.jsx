@@ -10,9 +10,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import PlayersIcon from 'assets/images/players@2x.png'
 
-export const PrizePlayerListing = (
-  props,
-) => {
+export const PrizePlayerListing = (props) => {
   const { t } = useTranslation()
   const { isFetching, isFetched, balances, pool, prize, baseAsPath, baseHref } = props
 
@@ -20,9 +18,7 @@ export const PrizePlayerListing = (
 
   const playerCount = pool?.playerCount
 
-  const page = router?.query?.page ?
-    parseInt(router.query.page, 10) :
-    1
+  const page = router?.query?.page ? parseInt(router.query.page, 10) : 1
   const pages = Math.ceil(Number(playerCount / PLAYER_PAGE_SIZE))
 
   const asPath = (pageNum) => `${baseAsPath}?page=${pageNum}`
@@ -31,61 +27,46 @@ export const PrizePlayerListing = (
   const nextPath = asPath(nextPage)
   const prevPath = asPath(prevPage)
 
-  return <>
-    <div
-      id='player-listings-table'
-      className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
-    >
+  return (
+    <>
       <div
-        className='text-caption uppercase mb-3'
+        id='player-listings-table'
+        className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
       >
-        <img
-          src={PlayersIcon}
-          className='inline-block mr-2 card-icon'
-        /> {t('players')}
+        <div className='text-caption uppercase mb-3'>
+          <img src={PlayersIcon} className='inline-block mr-2 card-icon' /> {t('players')}
+        </div>
+        <h3>{numberWithCommas(pool?.playerCount || 0, { precision: 0 })}</h3>
+
+        {balances?.length === 0 && <>{t('noPlayers')}</>}
+
+        <div className='xs:bg-primary theme-light--no-gutter text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-4 sm:px-8 mt-4 players-table-min-height'>
+          {isFetching && !isFetched && <V3LoadingDots />}
+
+          {balances?.length > 0 && (
+            <>
+              <PlayersTable nestedTable pool={pool} balances={balances} prize={prize} />
+
+              <PaginationUI
+                prevPath={prevPath}
+                nextPath={nextPath}
+                prevPage={prevPage}
+                nextPage={nextPage}
+                currentPage={page}
+                currentPath={asPath(page)}
+                firstPath={asPath(1)}
+                lastPath={asPath(pages)}
+                hrefPathname={baseHref}
+                lastPage={pages}
+                showFirst={page > 2}
+                showLast={pages > 2 && page < pages - 1}
+                showPrev={page > 1}
+                showNext={pages > page}
+              />
+            </>
+          )}
+        </div>
       </div>
-      <h3>
-        {numberWithCommas(pool?.playerCount || 0, { precision: 0 })}
-      </h3>
-
-
-      {balances?.length === 0 && <>
-        {t('noPlayers')}
-      </>}
-
-      <div
-        className='xs:bg-primary theme-light--no-gutter text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-4 sm:px-8 mt-4 players-table-min-height'
-      >
-        {(isFetching && !isFetched) && <V3LoadingDots />}
-
-        {balances?.length > 0 && <>
-          <PlayersTable
-            nestedTable
-            pool={pool}
-            balances={balances}
-            prize={prize}
-          />
-
-          <PaginationUI
-            prevPath={prevPath}
-            nextPath={nextPath}
-            prevPage={prevPage}
-            nextPage={nextPage}
-            currentPage={page}
-            currentPath={asPath(page)}
-            firstPath={asPath(1)}
-            lastPath={asPath(pages)}
-            hrefPathname={baseHref}
-            lastPage={pages}
-            showFirst={page > 2}
-            showLast={pages > 2 && page < pages - 1}
-            showPrev={page > 1}
-            showNext={pages > page}
-          />
-        </>}
-
-      </div>
-    </div>
-
-  </>
+    </>
+  )
 }

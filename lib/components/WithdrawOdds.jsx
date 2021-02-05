@@ -9,10 +9,7 @@ import { calculateOdds } from 'lib/utils/calculateOdds'
 export function WithdrawOdds(props) {
   const { t } = useTranslation()
 
-  const {
-    pool,
-    usersTicketBalanceBN
-  } = props
+  const { pool, usersTicketBalanceBN } = props
 
   if (!pool || !pool.ticketSupply || !usersTicketBalanceBN) {
     return null
@@ -26,15 +23,13 @@ export function WithdrawOdds(props) {
 
   const overBalance = withdrawAmountBN.gt(usersTicketBalanceBN)
 
-  const numberOfWinners = pool?.numberOfWinners ?
-    parseInt(pool?.numberOfWinners, 10) :
-    1
+  const numberOfWinners = pool?.numberOfWinners ? parseInt(pool?.numberOfWinners, 10) : 1
 
   const ticketTotalSupply = ethers.utils.bigNumberify(pool.ticketSupply)
-  
-  const totalSupplyLessWithdrawAmountBN = ticketTotalSupply ?
-    ticketTotalSupply.sub(withdrawAmountBN) :
-    ethers.utils.bigNumberify(0)
+
+  const totalSupplyLessWithdrawAmountBN = ticketTotalSupply
+    ? ticketTotalSupply.sub(withdrawAmountBN)
+    : ethers.utils.bigNumberify(0)
 
   const currentOdds = calculateOdds(
     usersTicketBalanceBN,
@@ -49,17 +44,20 @@ export function WithdrawOdds(props) {
     decimals,
     numberOfWinners
   )
-  
+
   return (
     <>
       <div
         style={{
-          minHeight: 24
+          minHeight: 24,
         }}
       >
-        {!props.withdrawAmount && (<>
-          <strong>{t('currentOddsOfWinning')}</strong> 1 {t('in')} {numberWithCommas(currentOdds, {precision: 2 })}
-        </>)}
+        {!props.withdrawAmount && (
+          <>
+            <strong>{t('currentOddsOfWinning')}</strong> 1 {t('in')}{' '}
+            {numberWithCommas(currentOdds, { precision: 2 })}
+          </>
+        )}
 
         {props.withdrawAmount && !overBalance && (
           <span className='text-xs sm:text-sm text-orange-500 ml-0 sm:ml-4'>
@@ -73,7 +71,7 @@ export function WithdrawOdds(props) {
                 }}
                 values={{
                   currentOdds: numberWithCommas(currentOdds, { precision: 2 }),
-                  newOdds: numberWithCommas(newOdds, { precision: 2 })
+                  newOdds: numberWithCommas(newOdds, { precision: 2 }),
                 }}
               />
             ) : (
@@ -82,6 +80,6 @@ export function WithdrawOdds(props) {
           </span>
         )}
       </div>
-    </> 
+    </>
   )
 }

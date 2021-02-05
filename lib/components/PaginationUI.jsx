@@ -21,209 +21,152 @@ export function PaginationUI({
   showNext,
   prevLabel,
   nextLabel,
-  className
+  className,
 }) {
   const { t } = useTranslation()
 
-  const nextPrevPageClasses = 'no-underline rounded-lg text-green border-2 border-green hover:bg-primary text-xxxs sm:text-xxs lg:text-lg py-2 sm:py-2 px-3 sm:px-3 lg:px-5 trans whitespace-normal inline-flex sm:inline-block text-center h-10 sm:h-auto items-center justify-center leading-tight font-bold mt-2'
-  const pageNumClasses = 'inline-flex items-center justify-center no-underline text-green bg-card trans p-2 sm:p-2 rounded-lg text-sm sm:text-base mx-1 leading-none shadow-md'
+  const nextPrevPageClasses =
+    'no-underline rounded-lg text-green border-2 border-green hover:bg-primary text-xxxs sm:text-xxs lg:text-lg py-2 sm:py-2 px-3 sm:px-3 lg:px-5 trans whitespace-normal inline-flex sm:inline-block text-center h-10 sm:h-auto items-center justify-center leading-tight font-bold mt-2'
+  const pageNumClasses =
+    'inline-flex items-center justify-center no-underline text-green bg-card trans p-2 sm:p-2 rounded-lg text-sm sm:text-base mx-1 leading-none shadow-md'
   const ellipsisClasses = 'mx-1 mt-1 xs:block text-default-soft'
   const listItemClasses = 'lg:mx-2 mt-1 lg:mt-2'
 
   return (
-    <div
-      className={'mt-10 mb-4 flex w-full justify-between'}
-    >
-      <div
-        className='text-left'
-      >
-        {showPrev &&
+    <div className={'mt-10 mb-4 flex w-full justify-between'}>
+      <div className='text-left'>
+        {showPrev && (
           <Link
             as={prevPath}
             href={{
               pathname: hrefPathname,
               query: {
-                page: prevPage
-              }
+                page: prevPage,
+              },
             }}
             scroll={false}
           >
-            <a
-              href={prevPath}
-              className={nextPrevPageClasses}
-            >
+            <a href={prevPath} className={nextPrevPageClasses}>
               {t('previousPage')}
             </a>
           </Link>
-        }
+        )}
       </div>
-      <div
-        className='justify-center items-center text-center flex'
-      >
-        <ul
-          className='flex justify-center items-center mx-auto'
-        >
-          {showFirst &&
+      <div className='justify-center items-center text-center flex'>
+        <ul className='flex justify-center items-center mx-auto'>
+          {showFirst && (
             <>
-              <li
-                className={listItemClasses}
-              >
+              <li className={listItemClasses}>
                 <Link
                   as={firstPath}
                   href={{
                     pathname: hrefPathname,
                     query: {
-                      page: 1
-                    }
+                      page: 1,
+                    },
                   }}
                   scroll={false}
                 >
-                  <a
-                    href={firstPath}
-                    className={pageNumClasses}
-                  >
+                  <a href={firstPath} className={pageNumClasses}>
                     1
                   </a>
                 </Link>
               </li>
-              <li
-                className={ellipsisClasses}
-              >
-                ...
-              </li>
+              <li className={ellipsisClasses}>...</li>
             </>
-          }
+          )}
 
-          {showPrev &&
-            <li
-              className={listItemClasses}
-            >
+          {showPrev && (
+            <li className={listItemClasses}>
               <Link
                 as={prevPath}
                 href={{
                   pathname: hrefPathname,
                   query: {
-                    page: prevPage
-                  }
+                    page: prevPage,
+                  },
                 }}
                 scroll={false}
               >
-                <a
-                  href={prevPath}
-                  className={classnames(
-                    pageNumClasses,
-                    'hidden sm:inline-flex'
-                  )}
-                >
+                <a href={prevPath} className={classnames(pageNumClasses, 'hidden sm:inline-flex')}>
                   {prevPage}
                 </a>
               </Link>
             </li>
-          }
-          <li
-            id='current-page-num'
-          >
+          )}
+          <li id='current-page-num'>
             <Link
               as={prevPath}
               href={{
                 pathname: hrefPathname,
                 query: {
-                  page: currentPage
-                }
+                  page: currentPage,
+                },
               }}
               scroll={false}
             >
-              <a
-                className={classnames(
-                  pageNumClasses,
-                  'text-default'
-                )}
-              >
-                {nextPage - 1}
-              </a>
+              <a className={classnames(pageNumClasses, 'text-default')}>{nextPage - 1}</a>
             </Link>
           </li>
-          {showNext &&
-            <li
-              className={listItemClasses}
-            >
+          {showNext && (
+            <li className={listItemClasses}>
               <Link
                 as={nextPath}
                 href={{
                   pathname: hrefPathname,
                   query: {
-                    page: nextPage
-                  }
+                    page: nextPage,
+                  },
                 }}
                 scroll={false}
               >
-                <a
-                  href={nextPath}
-                  className={classnames(
-                    pageNumClasses,
-                    'hidden sm:inline-flex'
-                  )}
-                >
+                <a href={nextPath} className={classnames(pageNumClasses, 'hidden sm:inline-flex')}>
                   {nextPage}
                 </a>
               </Link>
             </li>
-          }
+          )}
 
-          {showLast &&
+          {showLast && (
             <>
-              <li
-                className={ellipsisClasses}
-              >
-                ...
-              </li>
-              <li
-                className={listItemClasses}
-              >
+              <li className={ellipsisClasses}>...</li>
+              <li className={listItemClasses}>
                 <Link
                   as={lastPath}
                   href={{
                     pathname: hrefPathname,
                     query: {
-                      page: lastPage
-                    }
+                      page: lastPage,
+                    },
                   }}
                   scroll={false}
                 >
-                  <a
-                    href={lastPath}
-                    className={pageNumClasses}
-                  >
+                  <a href={lastPath} className={pageNumClasses}>
                     {lastPage}
                   </a>
                 </Link>
               </li>
             </>
-          }
+          )}
         </ul>
       </div>
-      <div
-        className='text-right'
-      >
-        {showNext &&
+      <div className='text-right'>
+        {showNext && (
           <Link
             as={nextPath}
             href={{
               pathname: hrefPathname,
               query: {
-                page: nextPage
-              }
+                page: nextPage,
+              },
             }}
             scroll={false}
           >
-            <a
-              href={nextPath}
-              className={nextPrevPageClasses}
-            >
+            <a href={nextPath} className={nextPrevPageClasses}>
               {t('nextPage')}
             </a>
           </Link>
-        }
+        )}
       </div>
     </div>
   )

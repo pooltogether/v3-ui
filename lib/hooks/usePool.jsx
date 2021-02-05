@@ -16,7 +16,7 @@ import { compileErc721Awards } from 'lib/services/compileErc721Awards'
 
 // note: when calculating value of ERC20 tokens this uses current chain data (infura/alchemy) to get the balance
 // but uses the Uniswap subgraph to get the prices
-// 
+//
 // in the compilePoolWithBlockNumber(), the balance is pulled from the pooltogether subgraph as we want the balance
 // at the time the prize was awarded, etc
 export function usePool(poolSymbol, blockNumber = -1) {
@@ -34,7 +34,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const { poolChainData } = usePoolChainQuery(poolGraphData)
 
-  const poolInfo = POOLS[chainId]?.find(POOL => {
+  const poolInfo = POOLS[chainId]?.find((POOL) => {
     return POOL.symbol === poolSymbol
   })
 
@@ -48,18 +48,18 @@ export function usePool(poolSymbol, blockNumber = -1) {
   const { erc721ChainData } = useErc721ChainQuery(pool)
 
   const addresses = erc20ChainData
-    ?.filter(award => award.balance.gt(0))
-    ?.map(award => award.address)
+    ?.filter((award) => award.balance.gt(0))
+    ?.map((award) => award.address)
 
   if (addresses) {
     addresses.push(pool.underlyingCollateralToken)
   }
 
-  const { 
+  const {
     data: uniswapPriceData,
     error: uniswapError,
     isFetching: uniswapIsFetching,
-    isFetched: uniswapIsFetched
+    isFetched: uniswapIsFetched,
   } = useUniswapTokensQuery(addresses, blockNumber)
   if (uniswapError) {
     console.error(uniswapError)
@@ -76,8 +76,6 @@ export function usePool(poolSymbol, blockNumber = -1) {
     erc721ChainData
   )
 
-
-
   const externalErcAwards = {
     compiledExternalErc20Awards,
     compiledExternalErc721Awards,
@@ -89,30 +87,27 @@ export function usePool(poolSymbol, blockNumber = -1) {
   const underlyingCollateralValueUSD = uniswapPriceData?.[pool.underlyingCollateralToken]?.usd
 
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(lootBox.awards)
-  
+
   let interestPrizeUSD = calculateEstimatedPoolPrize(pool)
 
   if (underlyingCollateralValueUSD) {
-    interestPrizeUSD = interestPrizeUSD *
-      parseInt((underlyingCollateralValueUSD * 100), 10) /
-      100
+    interestPrizeUSD = (interestPrizeUSD * parseInt(underlyingCollateralValueUSD * 100, 10)) / 100
   } else {
     // console.warn('could not get USD value for price of underlying collateral token')
   }
 
   const interestPrizePerWinnerUSD = interestPrizeUSD / numWinners
 
-  const grandPrizeAmountUSD = externalAwardsUSD ?
-    (interestPrizeUSD / numWinners) + externalAwardsUSD :
-    (interestPrizeUSD / numWinners)
+  const grandPrizeAmountUSD = externalAwardsUSD
+    ? interestPrizeUSD / numWinners + externalAwardsUSD
+    : interestPrizeUSD / numWinners
 
-  const totalPrizeAmountUSD = externalAwardsUSD ?
-    interestPrizeUSD + externalAwardsUSD :
-    interestPrizeUSD
+  const totalPrizeAmountUSD = externalAwardsUSD
+    ? interestPrizeUSD + externalAwardsUSD
+    : interestPrizeUSD
 
-  const fetchingTotals = externalAwardsUSD === null ||
-    interestPrizeUSD === 0 &&
-    (uniswapIsFetching && !uniswapIsFetched)
+  const fetchingTotals =
+    externalAwardsUSD === null || (interestPrizeUSD === 0 && uniswapIsFetching && !uniswapIsFetched)
 
   // Standardize the USD values so they're either all floats/strings or all bigNums  pool = {
   pool = {
@@ -125,10 +120,10 @@ export function usePool(poolSymbol, blockNumber = -1) {
     interestPrizeUSD,
     externalAwardsUSD,
     compiledExternalErc20Awards,
-    compiledExternalErc721Awards
+    compiledExternalErc721Awards,
   }
 
   return {
-    pool
+    pool,
   }
 }

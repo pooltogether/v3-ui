@@ -21,8 +21,5 @@ export function Button(props) {
     'padding',
   ])
 
-  return <button
-    {...newProps}
-    className={classes}
-  />
+  return <button {...newProps} className={classes} />
 }

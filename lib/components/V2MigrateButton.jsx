@@ -11,19 +11,16 @@ import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
-export const V2MigrateButton = (
-  props,
-) => {
+export const V2MigrateButton = (props) => {
   const { balance, balanceFormatted, type, ticker } = props
-  
+
   const { t } = useTranslation()
   const { contractAddresses } = usePools()
 
-  
   const [txId, setTxId] = useState(0)
-  const txName = t(`migrateAmountTickerToV3`, { 
+  const txName = t(`migrateAmountTickerToV3`, {
     amount: balanceFormatted,
-    ticker
+    ticker,
   })
   const method = 'transfer'
   const sendTx = useSendTransaction()
@@ -47,34 +44,26 @@ export const V2MigrateButton = (
 
     // send shares / balanceOf for Pods
     // const balanceNormalized = normalizeTo18Decimals(balance, decimals)
-    const params = [
-      contractAddresses.v2MigrationContractAddress,
-      balance
-    ]
+    const params = [contractAddresses.v2MigrationContractAddress, balance]
 
-    const id = await sendTx(
-      txName,
-      ERC20Abi,
-      erc777ContractAddress,
-      method,
-      params,
-    )
+    const id = await sendTx(txName, ERC20Abi, erc777ContractAddress, method, params)
     setTxId(id)
   }
 
-
-  return <>
-    <Button
-      bg='green'
-      text='primary'
-      border='green'
-      textSize='xxxs'
-      padding='px-4 py-1'
-      className='uppercase'
-      disabled={txInFlight}
-      onClick={migrateToV3}
-    >
-      {t('migrateToV3')}
-    </Button>
-  </>
+  return (
+    <>
+      <Button
+        bg='green'
+        text='primary'
+        border='green'
+        textSize='xxxs'
+        padding='px-4 py-1'
+        className='uppercase'
+        disabled={txInFlight}
+        onClick={migrateToV3}
+      >
+        {t('migrateToV3')}
+      </Button>
+    </>
+  )
 }

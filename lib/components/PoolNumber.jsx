@@ -7,7 +7,7 @@ export function PoolNumber(props) {
   const [secondPart, setSecondPart] = useState(null)
   const [thirdPart, setThirdPart] = useState(null)
   const [fourthPart, setFourthPart] = useState(null)
-  
+
   useEffect(() => {
     const str = typeof props.children === 'object' ? props.children[0] : props.children.toString()
 
@@ -17,7 +17,7 @@ export function PoolNumber(props) {
       if (parts[0]) {
         setFirstPart(parts[0])
       }
-  
+
       if (parts[1] && parts[1].length >= SPLIT_LENGTH) {
         setSecondPart(parts[1].substring(0, 2 + (SPLIT_LENGTH - 2)))
 
@@ -32,19 +32,18 @@ export function PoolNumber(props) {
     }
   }, [props.children])
 
-  return <>
-    <span>
-      {firstPart}
-
-      {secondPart && <>
-        <span
-          className='opacity-40'
-        >.{secondPart}</span><span
-          className='opacity-40'
-        >
-          {thirdPart}
-        </span>
-      </>} {fourthPart}
-    </span>
-  </>
+  return (
+    <>
+      <span>
+        {firstPart}
+        {secondPart && (
+          <>
+            <span className='opacity-40'>.{secondPart}</span>
+            <span className='opacity-40'>{thirdPart}</span>
+          </>
+        )}{' '}
+        {fourthPart}
+      </span>
+    </>
+  )
 }

@@ -19,44 +19,38 @@ export function DepositFiatForm(props) {
     nextStep()
   }
 
-  return <>
-    <PaneTitle small>
-      {quantity} tickets
-    </PaneTitle>
+  return (
+    <>
+      <PaneTitle small>{quantity} tickets</PaneTitle>
 
-    <PaneTitle>
-      Enter your creds.
-    </PaneTitle>
+      <PaneTitle>Enter your creds.</PaneTitle>
 
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <div className='flex flex-col mx-auto w-full'>
-        <div className='w-full sm:w-2/3 mx-auto'>
-          <TextInputGroup
-            large
-            unsignedWholeNumber
-            id='creditCardNumber'
-            name='creditCardNumber'
-            register={register}
-            label={<>
-              Credit Card # <span className='text-purple-600 italic'></span>
-            </>}
-            required='credit card number required'
-          />
-          <div className='text-red'>
-            {errors.creditCardNumber && errors.creditCardNumber.message}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className='flex flex-col mx-auto w-full'>
+          <div className='w-full sm:w-2/3 mx-auto'>
+            <TextInputGroup
+              large
+              unsignedWholeNumber
+              id='creditCardNumber'
+              name='creditCardNumber'
+              register={register}
+              label={
+                <>
+                  Credit Card # <span className='text-purple-600 italic'></span>
+                </>
+              }
+              required='credit card number required'
+            />
+            <div className='text-red'>
+              {errors.creditCardNumber && errors.creditCardNumber.message}
+            </div>
+
+            <Button textSize='lg' disabled={!formState.isValid} className='my-2 w-full'>
+              Confirm deposit
+            </Button>
           </div>
-
-          <Button
-            textSize='lg'
-            disabled={!formState.isValid}
-            className='my-2 w-full'
-          >
-            Confirm deposit
-          </Button>
         </div>
-      </div>
-    </form>
-  </>
+      </form>
+    </>
+  )
 }

@@ -8,13 +8,11 @@
 //     dynamicExternalAwardsData,
 //   } = props
 
-
 //   const { data, error } = useCoingeckoTokensQuery(addresses)
 
 //   if (error) {
 //     console.warn(error)
 //   }
-
 
 //   const {
 //     data: ethPriceData,
@@ -30,7 +28,7 @@
 //     ...data,
 //   }
 
-//   return children({ 
+//   return children({
 //     coingeckoData
 //   })
 

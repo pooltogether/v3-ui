@@ -13,22 +13,19 @@ export const LootBoxValue = (props) => {
   if (isEmpty(awards)) {
     return null
   }
-  
+
   let lootBoxValueUSD = 0
 
-  const erc20s = Object.keys(awards || {})
-    .map(key => awards?.[key])
+  const erc20s = Object.keys(awards || {}).map((key) => awards?.[key])
 
-  erc20s?.forEach(award => {
+  erc20s?.forEach((award) => {
     if (award.value) {
       lootBoxValueUSD += award.value
     }
   })
 
   return (
-    <h3
-      className='mb-1'
-    >
+    <h3 className='mb-1'>
       $<PoolNumber>{numberWithCommas(lootBoxValueUSD, { precision: 2 })}</PoolNumber> {t('value')}
     </h3>
   )

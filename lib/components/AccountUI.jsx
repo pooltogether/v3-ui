@@ -16,36 +16,36 @@ import { AccountGovernanceClaims } from 'lib/components/AccountGovernanceClaims'
 export const AccountUI = () => {
   const { t } = useTranslation()
 
-  return <>
-    <Meta
-      title={t('myAccount')}
-    />
+  return (
+    <>
+      <Meta title={t('myAccount')} />
 
-    {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <RetroactivePoolClaimBanner />}
+      {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <RetroactivePoolClaimBanner />}
 
-    <PageTitleAndBreadcrumbs
-      title={t('myAccount')}
-      breadcrumbs={[
-        {
-          name: t('accountOverview'),
-        },
-      ]}
-    />
+      <PageTitleAndBreadcrumbs
+        title={t('myAccount')}
+        breadcrumbs={[
+          {
+            name: t('accountOverview'),
+          },
+        ]}
+      />
 
-    <AccountSummary />
+      <AccountSummary />
 
-    <AccountTickets />
+      <AccountTickets />
 
-    {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <AccountGovernanceClaims />}
+      {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <AccountGovernanceClaims />}
 
-    <AccountRewards />
+      <AccountRewards />
 
-    <AccountLootBoxes />
+      <AccountLootBoxes />
 
-    <AccountWinnings />
+      <AccountWinnings />
 
-    <AccountEmailSignup />
+      <AccountEmailSignup />
 
-    <Tagline />
-  </>
+      <Tagline />
+    </>
+  )
 }

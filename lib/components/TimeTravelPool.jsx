@@ -5,42 +5,38 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { useHistoricalPool } from 'lib/services/useHistoricalPool'
 import { usePoolQuery } from 'lib/hooks/usePoolQuery'
 
-export function TimeTravelPool(props){
-  const {
-    children,
-    poolAddress,
-    prize,
-    querySymbol
-  } = props
+export function TimeTravelPool(props) {
+  const { children, poolAddress, prize, querySymbol } = props
 
   if (!querySymbol) {
     return children({
       timeTravelPool: {},
-      preAwardTimeTravelPool: {}
+      preAwardTimeTravelPool: {},
     })
   }
-  
+
   // Rewind to the block _before_ the prize was awarded
   const preAwardBlockNumber = props.blockNumber - 1
 
   // And after the award:
   const postAwardBlockNumber = props.blockNumber
 
-
   const { chainId } = useContext(AuthControllerContext)
 
-  
-  const { data: preAwardGraphPool, error: preAwardPoolError } = usePoolQuery(poolAddress, preAwardBlockNumber)
+  const { data: preAwardGraphPool, error: preAwardPoolError } = usePoolQuery(
+    poolAddress,
+    preAwardBlockNumber
+  )
   if (preAwardPoolError) {
     console.warn(preAwardPoolError)
   }
-  
+
   const { data: postAwardGraphPool, error } = usePoolQuery(poolAddress, postAwardBlockNumber)
   if (error) {
     console.warn(error)
   }
 
-  const poolInfo = POOLS[chainId]?.find(POOL => POOL.symbol === querySymbol)
+  const poolInfo = POOLS[chainId]?.find((POOL) => POOL.symbol === querySymbol)
 
   const preAwardTimeTravelPool = useHistoricalPool(
     poolInfo,
@@ -58,8 +54,8 @@ export function TimeTravelPool(props){
     prize
   )
 
-  return children({ 
+  return children({
     timeTravelPool,
-    preAwardTimeTravelPool
+    preAwardTimeTravelPool,
   })
 }

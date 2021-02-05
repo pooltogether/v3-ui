@@ -8,7 +8,7 @@ import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 
 const debug = require('debug')('pool-app:TxRefetchListener')
 
-export function TxRefetchListener (props) {
+export function TxRefetchListener(props) {
   const [transactions] = useAtom(transactionsAtom)
 
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
@@ -22,11 +22,9 @@ export function TxRefetchListener (props) {
 
   const { refetchAccountData } = useAccount(address)
 
-  const pendingTransactions = transactions.filter(
-    t => !t.completed && !t.cancelled
-  )
+  const pendingTransactions = transactions.filter((t) => !t.completed && !t.cancelled)
 
-  const runRefetch = tx => {
+  const runRefetch = (tx) => {
     const playerBalanceTransaction =
       tx.method === 'depositTo' ||
       tx.method === 'transfer' ||
@@ -34,8 +32,7 @@ export function TxRefetchListener (props) {
       tx.method === 'withdrawInstantlyFrom' ||
       tx.method === 'updateAndClaimDrips'
 
-    const poolStateTransaction =
-      tx.method === 'startAward' || tx.method === 'completeAward'
+    const poolStateTransaction = tx.method === 'startAward' || tx.method === 'completeAward'
 
     if (playerBalanceTransaction) {
       // we don't know when the Graph will have processed the new block data or when it has
@@ -72,9 +69,9 @@ export function TxRefetchListener (props) {
     }
   }
 
-  storedPendingTransactions.forEach(tx => {
+  storedPendingTransactions.forEach((tx) => {
     const storedTxId = tx.id
-    const currentTxState = transactions.find(_tx => _tx.id === storedTxId)
+    const currentTxState = transactions.find((_tx) => _tx.id === storedTxId)
 
     if (
       currentTxState &&

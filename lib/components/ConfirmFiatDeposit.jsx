@@ -16,25 +16,25 @@ export function ConfirmFiatDeposit(props) {
   const router = useRouter()
   const quantity = router.query.quantity
 
-  return <>
-    <PaneTitle small>
-      {t('forAmountTickets', {
-        amount: quantity
-      })}
-    </PaneTitle>
+  return (
+    <>
+      <PaneTitle small>
+        {t('forAmountTickets', {
+          amount: quantity,
+        })}
+      </PaneTitle>
 
-    <PaneTitle>
-      {t('depositConfirming')}
-    </PaneTitle>
+      <PaneTitle>{t('depositConfirming')}</PaneTitle>
 
-    <PaneTitle small>
-      {/* {t('transactionsMayTakeAFewMinutes', {
+      <PaneTitle small>
+        {/* {t('transactionsMayTakeAFewMinutes', {
         waitTime: ''
       })} */}
-    </PaneTitle>
+      </PaneTitle>
 
-    <div className='mx-auto'>
-      <V3LoadingDots />
-    </div>
-  </>
+      <div className='mx-auto'>
+        <V3LoadingDots />
+      </div>
+    </>
+  )
 }

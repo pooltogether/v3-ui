@@ -17,9 +17,9 @@ import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 
 export const AccountTickets = () => {
   const { t } = useTranslation()
-  
+
   const { usersAddress } = useContext(AuthControllerContext)
-  
+
   const { usersV2Balances } = useUsersV2Balances()
 
   // fill this in with a watched address or an address from router params
@@ -53,89 +53,63 @@ export const AccountTickets = () => {
     normalizedUsdcPodBalance = normalizeTo18Decimals(usdcBalances.podBalance, 6)
   }
 
-
   let hasNoV2Balance = true
-  hasNoV2Balance = normalizedDaiPoolBalance.lt('10000000000000') &&
+  hasNoV2Balance =
+    normalizedDaiPoolBalance.lt('10000000000000') &&
     normalizedDaiPodBalance.lt('10000000000000') &&
     normalizedUsdcPoolBalance.lt('10000000000000') &&
     normalizedUsdcPodBalance.lt('10000000000000')
 
-  return <>
-    <div
-      className='mt-16'
-    >
-      <h5
-        className='font-normal text-accent-2 mb-4'
-      >
-        {t('myTickets')}
-      </h5>
-        
-      {(accountDataIsFetching && !accountDataIsFetched) ? <>
-        <TicketsLoader />
-      </> :
-        (playerTickets.length === 0 && (hasNoV2Balance || hasNoV2Balance === undefined)) ? <>
-          <BlankStateMessage>
-            <div
-              className='mb-10 font-bold'
-            >
-              <img
-                src={TicketIcon}
-                className='mx-auto w-16 mb-8'
-              />
+  return (
+    <>
+      <div className='mt-16'>
+        <h5 className='font-normal text-accent-2 mb-4'>{t('myTickets')}</h5>
 
-              <span id='_ticketsBlankState'>
-                {t('youCurrentlyHaveNoTickets')}
-              </span>
-              <br />{t('depositInAPoolNow')}
-            </div>
-            <ButtonLink
-              href='/'
-              as='/'
-            >
-              {t('viewPools')}
-            </ButtonLink>
-          </BlankStateMessage>
-        </> : <>
+        {accountDataIsFetching && !accountDataIsFetched ? (
           <>
-            <div>
-              <div className='flex flex-wrap'>
-
-                {playerTickets?.map(playerTicket => {
-                  return <AccountTicket
-                    isLink
-                    key={`account-pool-row-${playerTicket?.poolAddress}`}
-                    playerTicket={playerTicket}
-                  />
-                })}
-
-                <V2AccountTicket
-                  v2dai
-                  key={`v2-dai-account-ticket-pool`}
-                />
-                <V2AccountTicket
-                  isPod
-                  v2dai
-                  key={`v2-dai-account-ticket-pod`}
-                />
-              
-                <V2AccountTicket
-                  v2usdc
-                  key={`v2-usdc-account-ticket-pool`}
-                />
-                <V2AccountTicket
-                  isPod
-                  v2usdc
-                  key={`v2-usdc-account-ticket-pod`}
-                />
-                
-                
-              </div>
-
-            </div>
+            <TicketsLoader />
           </>
-        </>
-      }
-    </div>
+        ) : playerTickets.length === 0 && (hasNoV2Balance || hasNoV2Balance === undefined) ? (
+          <>
+            <BlankStateMessage>
+              <div className='mb-10 font-bold'>
+                <img src={TicketIcon} className='mx-auto w-16 mb-8' />
 
-  </>
+                <span id='_ticketsBlankState'>{t('youCurrentlyHaveNoTickets')}</span>
+                <br />
+                {t('depositInAPoolNow')}
+              </div>
+              <ButtonLink href='/' as='/'>
+                {t('viewPools')}
+              </ButtonLink>
+            </BlankStateMessage>
+          </>
+        ) : (
+          <>
+            <>
+              <div>
+                <div className='flex flex-wrap'>
+                  {playerTickets?.map((playerTicket) => {
+                    return (
+                      <AccountTicket
+                        isLink
+                        key={`account-pool-row-${playerTicket?.poolAddress}`}
+                        playerTicket={playerTicket}
+                      />
+                    )
+                  })}
+
+                  <V2AccountTicket v2dai key={`v2-dai-account-ticket-pool`} />
+                  <V2AccountTicket isPod v2dai key={`v2-dai-account-ticket-pod`} />
+
+                  <V2AccountTicket v2usdc key={`v2-usdc-account-ticket-pool`} />
+                  <V2AccountTicket isPod v2usdc key={`v2-usdc-account-ticket-pod`} />
+                </div>
+              </div>
+            </>
+          </>
+        )}
+      </div>
+    </>
+  )
 }

@@ -16,7 +16,7 @@ export function ManageTicketsWizardContainer(props) {
   const { t } = useTranslation()
   const router = useRouter()
   const quantity = router.query.quantity
-    
+
   let initialStepIndex = 0
   if (quantity) {
     initialStepIndex = 1
@@ -26,75 +26,87 @@ export function ManageTicketsWizardContainer(props) {
 
   const [totalWizardSteps, setTotalWizardSteps] = useState(3)
 
-  return <>
-    <Meta
-      title={t('withdraw')}
-    />
+  return (
+    <>
+      <Meta title={t('withdraw')} />
 
-    <Wizard
-      initialStepIndex={initialStepIndex}
-    >
-      {
-        (wizard) => {
+      <Wizard initialStepIndex={initialStepIndex}>
+        {(wizard) => {
           const { activeStepIndex, previousStep, moveToStep } = wizard
 
-          return <WizardLayout
-            currentWizardStep={activeStepIndex + 1}
-            handlePreviousStep={previousStep}
-            moveToStep={moveToStep}
-            totalWizardSteps={totalWizardSteps}
-          >
-            <WizardStep>
-              {(step) => {
-                return step.isActive && <>
-                  <ManageTicketsForm
-                    nextStep={step.nextStep}
-                  />
-                </>
-              }}
-            </WizardStep>
-
-            <WizardStep>
-              {(step) => {
-                return step.isActive && <>
-                  <WithdrawInstant
-                    pool={pool}
-                    quantity={quantity}
-                    nextStep={step.nextStep}
-                    previousStep={step.previousStep}
-                    setTotalWizardSteps={setTotalWizardSteps}
-                  />
-                </>
-              }}
-            </WizardStep>
-            
-            {totalWizardSteps === 4 && <>
+          return (
+            <WizardLayout
+              currentWizardStep={activeStepIndex + 1}
+              handlePreviousStep={previousStep}
+              moveToStep={moveToStep}
+              totalWizardSteps={totalWizardSteps}
+            >
               <WizardStep>
                 {(step) => {
-                  return step.isActive && <>
-                    <ConfirmWithdrawWithFeeForm
-                      pool={pool}
-                      previousStep={step.previousStep}
-                      nextStep={step.nextStep}
-                      quantity={quantity}
-                    />
-                  </>
+                  return (
+                    step.isActive && (
+                      <>
+                        <ManageTicketsForm nextStep={step.nextStep} />
+                      </>
+                    )
+                  )
                 }}
               </WizardStep>
-            </>}
 
-            <WizardStep>
-              {(step) => {
-                return step.isActive && <>
-                  <WithdrawComplete
-                    quantity={quantity}
-                  />
+              <WizardStep>
+                {(step) => {
+                  return (
+                    step.isActive && (
+                      <>
+                        <WithdrawInstant
+                          pool={pool}
+                          quantity={quantity}
+                          nextStep={step.nextStep}
+                          previousStep={step.previousStep}
+                          setTotalWizardSteps={setTotalWizardSteps}
+                        />
+                      </>
+                    )
+                  )
+                }}
+              </WizardStep>
+
+              {totalWizardSteps === 4 && (
+                <>
+                  <WizardStep>
+                    {(step) => {
+                      return (
+                        step.isActive && (
+                          <>
+                            <ConfirmWithdrawWithFeeForm
+                              pool={pool}
+                              previousStep={step.previousStep}
+                              nextStep={step.nextStep}
+                              quantity={quantity}
+                            />
+                          </>
+                        )
+                      )
+                    }}
+                  </WizardStep>
                 </>
-              }}
-            </WizardStep>
-          </WizardLayout>
-        }
-      }
-    </Wizard>
-  </>
+              )}
+
+              <WizardStep>
+                {(step) => {
+                  return (
+                    step.isActive && (
+                      <>
+                        <WithdrawComplete quantity={quantity} />
+                      </>
+                    )
+                  )
+                }}
+              </WizardStep>
+            </WizardLayout>
+          )
+        }}
+      </Wizard>
+    </>
+  )
 }

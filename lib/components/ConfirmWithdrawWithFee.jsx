@@ -14,54 +14,44 @@ export function ConfirmWithdrawWithFee(props) {
 
   const timelockDurationSeconds = exitFees.timelockDurationSeconds
 
-  return <>
-    <div
-      className='mx-auto'
-      style={{ 
-        maxWidth: 500
-      }}
-    >
-      <PaneTitle>
-        {t('uhOhYoureWithdrawingYourFundsTooSoon')}
-      </PaneTitle>
-    </div>
-
-    <PaneTitle small>
-      <Trans
-        i18nKey='toEnsureFairnessDescription'
-        defaults='You are withdrawing <bold>{{amount}} {{ticker}}</bold> and paying a <bold>{{amountTwo}} {{ticker}}</bold> fee'
-        components={{
-          bold: <span className='font-bold' />,
+  return (
+    <>
+      <div
+        className='mx-auto'
+        style={{
+          maxWidth: 500,
         }}
-      />
-    </PaneTitle>
-
-    <WithdrawalTimeRemainingChart
-      pool={pool}
-      timelockDurationSeconds={timelockDurationSeconds}
-    />
-
-    <ButtonDrawer>
-      <Button
-        onClick={nextStep}
-        textSize='lg'
-        className={'_withdrawBtn _confirmWithFee mx-auto'}
       >
-        {t('withdrawAnyway')}
-      </Button>
-    </ButtonDrawer>
+        <PaneTitle>{t('uhOhYoureWithdrawingYourFundsTooSoon')}</PaneTitle>
+      </div>
 
-    <a
-      href='https://docs.pooltogether.com/protocol/prize-pool/fairness'
-      target='_blank'
-      rel='noopener noreferrer'
-      className='mt-6 underline text-xxs xs:text-xs sm:text-sm mx-auto leading-tight w-full sm:w-1/4'
-    >
-      {t('readMoreAboutTheFairnessFee')} <FeatherIcon
-        icon='external-link'
-        className='is-etherscan-arrow inline-block'
-      />
-    </a>
-    
-  </>
+      <PaneTitle small>
+        <Trans
+          i18nKey='toEnsureFairnessDescription'
+          defaults='You are withdrawing <bold>{{amount}} {{ticker}}</bold> and paying a <bold>{{amountTwo}} {{ticker}}</bold> fee'
+          components={{
+            bold: <span className='font-bold' />,
+          }}
+        />
+      </PaneTitle>
+
+      <WithdrawalTimeRemainingChart pool={pool} timelockDurationSeconds={timelockDurationSeconds} />
+
+      <ButtonDrawer>
+        <Button onClick={nextStep} textSize='lg' className={'_withdrawBtn _confirmWithFee mx-auto'}>
+          {t('withdrawAnyway')}
+        </Button>
+      </ButtonDrawer>
+
+      <a
+        href='https://docs.pooltogether.com/protocol/prize-pool/fairness'
+        target='_blank'
+        rel='noopener noreferrer'
+        className='mt-6 underline text-xxs xs:text-xs sm:text-sm mx-auto leading-tight w-full sm:w-1/4'
+      >
+        {t('readMoreAboutTheFairnessFee')}{' '}
+        <FeatherIcon icon='external-link' className='is-etherscan-arrow inline-block' />
+      </a>
+    </>
+  )
 }

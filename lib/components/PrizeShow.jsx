@@ -19,11 +19,7 @@ export function PrizeShow(props) {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const {
-    preAwardTimeTravelPool,
-    postAwardTimeTravelPool,
-    prize
-  } = props
+  const { preAwardTimeTravelPool, postAwardTimeTravelPool, prize } = props
 
   const prizeNumber = router.query?.prizeNumber
   const poolName = postAwardTimeTravelPool?.name
@@ -33,107 +29,112 @@ export function PrizeShow(props) {
 
   const blockNumber = postAwardTimeTravelPool.blockNumber
 
-  return <>
-    <Meta title={poolName && prizeNumber && `${t('prize')} #${prizeNumber} - ${poolName}`} />
+  return (
+    <>
+      <Meta title={poolName && prizeNumber && `${t('prize')} #${prizeNumber} - ${poolName}`} />
 
-    <PageTitleAndBreadcrumbs
-      title={t('prizes')}
-      pool={postAwardTimeTravelPool}
-      breadcrumbs={[
-        {
-          href: '/',
-          as: '/',
-          name: t('pools'),
-        },
-        {
-          href: '/pools/[symbol]',
-          as: `/pools/${poolSymbol}`,
-          name: poolName,
-        },
-        {
-          href: '/prizes/[symbol]',
-          as: `/prizes/${poolSymbol}`,
-          name: t('prizes'),
-        },
-        {
-          name: `${t('prize')} #${prizeNumber}`,
-        }
-      ]}
-    />
+      <PageTitleAndBreadcrumbs
+        title={t('prizes')}
+        pool={postAwardTimeTravelPool}
+        breadcrumbs={[
+          {
+            href: '/',
+            as: '/',
+            name: t('pools'),
+          },
+          {
+            href: '/pools/[symbol]',
+            as: `/pools/${poolSymbol}`,
+            name: poolName,
+          },
+          {
+            href: '/prizes/[symbol]',
+            as: `/prizes/${poolSymbol}`,
+            name: t('prizes'),
+          },
+          {
+            name: `${t('prize')} #${prizeNumber}`,
+          },
+        ]}
+      />
 
-    <div
-      className='purple-pink-gradient rounded-lg px-4 xs:px-6 sm:px-10 py-4 text-white my-4 sm:mt-8 sm:mb-4 mx-auto'
-    >
-      <div>
-        <h1>
-          {preAwardTimeTravelPool?.totalPrizeAmountUSD && 
-            `$${numberWithCommas(preAwardTimeTravelPool?.totalPrizeAmountUSD)}`}
-        </h1>
+      <div className='purple-pink-gradient rounded-lg px-4 xs:px-6 sm:px-10 py-4 text-white my-4 sm:mt-8 sm:mb-4 mx-auto'>
+        <div>
+          <h1>
+            {preAwardTimeTravelPool?.totalPrizeAmountUSD &&
+              `$${numberWithCommas(preAwardTimeTravelPool?.totalPrizeAmountUSD)}`}
+          </h1>
+        </div>
       </div>
-    </div>
 
+      <PrizeBreakdown
+        prizeNumber={prizeNumber}
+        prize={prize}
+        preAwardTimeTravelPool={preAwardTimeTravelPool}
+      />
 
-    <PrizeBreakdown
-      prizeNumber={prizeNumber}
-      prize={prize}
-      preAwardTimeTravelPool={preAwardTimeTravelPool}
-    />
+      <LootBoxTable
+        historical
+        pool={preAwardTimeTravelPool}
+        basePath={`/prizes/${poolSymbol}/${prizeNumber}`}
+      />
 
-    <LootBoxTable
-      historical
-      pool={preAwardTimeTravelPool}
-      basePath={`/prizes/${poolSymbol}/${prizeNumber}`}
-    />
+      <CardGrid
+        cardGroupId='prize-cards'
+        cards={[
+          {
+            icon: TicketsIcon,
+            title: t('totalTickets'),
+            content: (
+              <>
+                <h3>
+                  {preAwardTimeTravelPool?.ticketSupply
+                    ? displayAmountInEther(preAwardTimeTravelPool.ticketSupply, {
+                        decimals,
+                        precision: 0,
+                      })
+                    : null}
+                </h3>
+              </>
+            ),
+          },
+        ]}
+      />
 
-    <CardGrid
-      cardGroupId='prize-cards'
-      cards={[
-        {
-          icon: TicketsIcon,
-          title: t('totalTickets'),
-          content: <>
-            <h3>
-              {preAwardTimeTravelPool?.ticketSupply ?
-                displayAmountInEther(
-                  preAwardTimeTravelPool.ticketSupply,
-                  { decimals, precision: 0 }
-                ) : null
-              }
-            </h3>
-          </>
-        }
-      ]}
-    />
+      <PrizePlayersQuery
+        pool={postAwardTimeTravelPool}
+        blockNumber={postAwardTimeTravelPool.blockNumber}
+      >
+        {({ data, isFetching, isFetched }) => {
+          if (!prize && prize !== null) {
+            return (
+              <div className='mt-10'>
+                <IndexUILoader />
+              </div>
+            )
+          }
 
-    <PrizePlayersQuery
-      pool={postAwardTimeTravelPool}
-      blockNumber={postAwardTimeTravelPool.blockNumber}
-    >
-      {({ data, isFetching, isFetched }) => {
-        if (!prize && prize !== null) {
-          return <div className='mt-10'>
-            <IndexUILoader />
-          </div>
-        }
+          return (
+            <PrizePlayerListing
+              baseAsPath={`/prizes/${poolSymbol}/${prizeNumber}`}
+              baseHref='/prizes/[symbol]/[prizeNumber]'
+              isFetching={isFetching}
+              isFetched={isFetched}
+              balances={data}
+              pool={postAwardTimeTravelPool}
+              prize={prize}
+            />
+          )
+        }}
+      </PrizePlayersQuery>
 
-        return <PrizePlayerListing
-          baseAsPath={`/prizes/${poolSymbol}/${prizeNumber}`}
-          baseHref='/prizes/[symbol]/[prizeNumber]'
-          isFetching={isFetching}
-          isFetched={isFetched}
-          balances={data}
-          pool={postAwardTimeTravelPool}
-          prize={prize}
-        />
-      }}
-    </PrizePlayersQuery>
-
-    {/* 
+      {/* 
     <div
       className='text-inverse mt-12 pb-40 text-center'
     >
       <AllPoolsTotalAwarded />
     </div>
      */}
-  </>
+    </>
+  )
 }

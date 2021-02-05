@@ -7,9 +7,7 @@ import { subtractDates } from 'lib/utils/subtractDates'
 
 const ONE_SECOND = 1000
 
-export const FormattedFutureDateCountdown = (
-  props,
-) => {
+export const FormattedFutureDateCountdown = (props) => {
   const { futureDate } = props
 
   const [secondsRemaining, setSecondsRemaining] = useState(null)
@@ -22,15 +20,11 @@ export const FormattedFutureDateCountdown = (
     setSecondsRemaining(secondsRemaining - 1)
   }, ONE_SECOND)
 
-  const formattedFutureDate = formatFutureDateInSeconds(
-    secondsRemaining
-  )
+  const formattedFutureDate = formatFutureDateInSeconds(secondsRemaining)
 
-  return <>
-    <span
-      className='font-bold'
-    >
-      {formattedFutureDate} 
-    </span>
-  </>
+  return (
+    <>
+      <span className='font-bold'>{formattedFutureDate}</span>
+    </>
+  )
 }

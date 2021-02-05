@@ -9,13 +9,7 @@ import { useExitFees } from 'lib/hooks/useExitFees'
 export function WithdrawInstant(props) {
   const { t } = useTranslation()
 
-  const {
-    quantity,
-    nextStep,
-    previousStep,
-    setTotalWizardSteps,
-    pool,
-  } = props
+  const { quantity, nextStep, previousStep, setTotalWizardSteps, pool } = props
 
   const { exitFees } = useExitFees(pool, quantity)
 
@@ -34,24 +28,23 @@ export function WithdrawInstant(props) {
       previousStep()
     }
   }, [exitFees])
-  
-  return <>
-    {notEnoughCredit === null ? <>
-      <PaneTitle>
-        {t('gettingAvailableCredit')}
-      </PaneTitle>
-    </> :
-      notEnoughCredit ?
+
+  return (
+    <>
+      {notEnoughCredit === null ? (
+        <>
+          <PaneTitle>{t('gettingAvailableCredit')}</PaneTitle>
+        </>
+      ) : notEnoughCredit ? (
         <ConfirmWithdrawWithFee
           pool={pool}
           nextStep={nextStep}
           previousStep={previousStep}
           exitFees={exitFees}
-        /> :
-        <ConfirmWithdrawNoFee
-          nextStep={nextStep}
-          previousStep={previousStep}
         />
-    }
-  </>
+      ) : (
+        <ConfirmWithdrawNoFee nextStep={nextStep} previousStep={previousStep} />
+      )}
+    </>
+  )
 }

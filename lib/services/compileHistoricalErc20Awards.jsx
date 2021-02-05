@@ -11,7 +11,7 @@ export const compileHistoricalErc20Awards = (prize, uniswapPriceData) => {
     return data
   }
 
-  erc20GraphData.forEach(obj => {
+  erc20GraphData.forEach((obj) => {
     const balance = obj.balanceAwarded
     const balanceBN = ethers.utils.bigNumberify(obj.balanceAwarded)
     const balanceFormatted = ethers.utils.formatUnits(

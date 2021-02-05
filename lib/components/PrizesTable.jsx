@@ -11,17 +11,11 @@ import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 const prizeLink = (t, pool, prize) => {
-  return <Link 
-    href='/prizes/[symbol]/[prizeNumber]'
-    as={`/prizes/${pool.symbol}/${prize.id}`}
-    shallow
-  >
-    <a
-      className='trans text-right w-full'
-    >
-      {t('viewDetails')}
-    </a>
-  </Link>
+  return (
+    <Link href='/prizes/[symbol]/[prizeNumber]' as={`/prizes/${pool.symbol}/${prize.id}`} shallow>
+      <a className='trans text-right w-full'>{t('viewDetails')}</a>
+    </Link>
+  )
 }
 
 const AWARDED = 'Awarded'
@@ -51,37 +45,38 @@ const formatPrizeObject = (t, pool, prize, querySymbol) => {
     prizeNumber: id,
     startedAt: formatDate(prize?.prizePeriodStartedTimestamp),
     // winner: shorten(prize?.winners?.[0]),
-    awardedAt: <>
-      <span className='block'>
-        {formatDate(prize?.awardedTimestamp)}
-      </span>
-    </>,
-    prizeAmount: <>
-      <TimeTravelPool
-        blockNumber={parseInt(prize?.awardedBlock, 10)}
-        poolAddress={pool?.id}
-        querySymbol={querySymbol}
-        prize={prize}
-      >
-        {({ timeTravelPool }) => {
-          return <>
-            {timeTravelPool?.fetchingTotals ? <BeatLoader
-              size={3}
-              color='rgba(255,255,255,0.3)'
-            /> :
-              `$${numberWithCommas(timeTravelPool?.totalPrizeAmountUSD)}`
-            }
-          </>
-        }}
-      </TimeTravelPool>
-    </>,
-    view: prizeLink(t, pool, { id })
+    awardedAt: (
+      <>
+        <span className='block'>{formatDate(prize?.awardedTimestamp)}</span>
+      </>
+    ),
+    prizeAmount: (
+      <>
+        <TimeTravelPool
+          blockNumber={parseInt(prize?.awardedBlock, 10)}
+          poolAddress={pool?.id}
+          querySymbol={querySymbol}
+          prize={prize}
+        >
+          {({ timeTravelPool }) => {
+            return (
+              <>
+                {timeTravelPool?.fetchingTotals ? (
+                  <BeatLoader size={3} color='rgba(255,255,255,0.3)' />
+                ) : (
+                  `$${numberWithCommas(timeTravelPool?.totalPrizeAmountUSD)}`
+                )}
+              </>
+            )
+          }}
+        </TimeTravelPool>
+      </>
+    ),
+    view: prizeLink(t, pool, { id }),
   }
 }
 
-export const PrizesTable = (
-  props,
-) => {
+export const PrizesTable = (props) => {
   const { t } = useTranslation()
   const { pool, prizes, querySymbol } = props
 
@@ -115,36 +110,38 @@ export const PrizesTable = (
       {
         Header: '',
         accessor: 'view',
-        Cell: row => <div style={{ textAlign: 'right' }}>{row.value}</div>
+        Cell: (row) => <div style={{ textAlign: 'right' }}>{row.value}</div>,
       },
     ]
-  }, [] )
+  }, [])
 
   const data = React.useMemo(() => {
-    const prizeRows = prizes.map(prize => formatPrizeObject(t, pool, prize, querySymbol))
+    const prizeRows = prizes.map((prize) => formatPrizeObject(t, pool, prize, querySymbol))
 
     const lastPrize = prizes[0]
 
     let currentPrize
-    
+
     // If we have a prize amount then we know the last prize has been rewarded
     if (lastPrize.awardedBlock) {
       const amount = pool?.totalPrizeAmountUSD
 
       currentPrize = {
-        prizeAmount: <><span className='text-flashy'>${numberWithCommas(amount, { precision: 2 })}</span></>,
-        awardedAt: <><span className='text-flashy'>{t('current')}</span></>,
-        view: <Link
-          href='/pools/[symbol]'
-          as={`/pools/${querySymbol}`}
-          shallow
-        >
-          <a
-            className='trans text-right w-full'
-          >
-            {t('viewDetails')}
-          </a>
-        </Link>
+        prizeAmount: (
+          <>
+            <span className='text-flashy'>${numberWithCommas(amount, { precision: 2 })}</span>
+          </>
+        ),
+        awardedAt: (
+          <>
+            <span className='text-flashy'>{t('current')}</span>
+          </>
+        ),
+        view: (
+          <Link href='/pools/[symbol]' as={`/pools/${querySymbol}`} shallow>
+            <a className='trans text-right w-full'>{t('viewDetails')}</a>
+          </Link>
+        ),
       }
 
       prizeRows.unshift(currentPrize)
@@ -152,14 +149,11 @@ export const PrizesTable = (
 
     return prizeRows
   }, [pool, prizes])
-  
+
   const tableInstance = useTable({
     columns,
-    data
+    data,
   })
 
-  return <BasicTable
-    tableInstance={tableInstance}
-  />
-
+  return <BasicTable tableInstance={tableInstance} />
 }

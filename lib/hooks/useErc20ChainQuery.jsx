@@ -9,10 +9,7 @@ export function useErc20ChainQuery(poolGraphData) {
   const poolAddress = poolGraphData?.poolAddress
   const graphExternalErc20Awards = poolGraphData?.externalErc20Awards
 
-  const {
-    data: erc20ChainData,
-    error: erc20ChainError,
-  } = useEthereumErc20Query({
+  const { data: erc20ChainData, error: erc20ChainError } = useEthereumErc20Query({
     provider: readProvider,
     graphErc20Awards: graphExternalErc20Awards,
     balanceOfAddress: poolAddress,

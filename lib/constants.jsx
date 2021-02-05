@@ -16,13 +16,9 @@ export const SECONDS_PER_HOUR = 3600
 export const DEFAULT_TOKEN_PRECISION = 18
 
 export const COINGECKO_POLLING_INTERVAL = 120 * 1000
-export const UNISWAP_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME
-  ? 120 * 1000
-  : 60 * 1000
+export const UNISWAP_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? 120 * 1000 : 60 * 1000
 export const ERC_721_POLLING_INTERVAL = 120 * 1000
-export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME
-  ? 22 * 1000
-  : 16 * 1000
+export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? 22 * 1000 : 16 * 1000
 
 export const PLAYER_PAGE_SIZE = 10
 export const PRIZE_PAGE_SIZE = 10
@@ -44,12 +40,11 @@ export const CONFETTI_DURATION_MS = 12000
 export const DEFAULT_INPUT_CLASSES =
   'w-full text-inverse inline-flex items-center justify-between trans'
 
-const domain =
-  process.env.NEXT_JS_DOMAIN_NAME && `.${process.env.NEXT_JS_DOMAIN_NAME}`
+const domain = process.env.NEXT_JS_DOMAIN_NAME && `.${process.env.NEXT_JS_DOMAIN_NAME}`
 export const COOKIE_OPTIONS = {
   sameSite: 'strict',
   secure: process.env.NEXT_JS_DOMAIN_NAME === 'pooltogether.com',
-  domain
+  domain,
 }
 
 export const POOLS = {
@@ -57,51 +52,51 @@ export const POOLS = {
     {
       name: 'DAI Pool',
       frequency: 'Weekly',
-      symbol: 'PT-cDAI'
+      symbol: 'PT-cDAI',
     },
     {
       name: 'UNI Pool',
       frequency: 'Weekly',
-      symbol: 'PT-cUNI'
+      symbol: 'PT-cUNI',
     },
     {
       name: 'USDC Pool',
       frequency: 'Weekly',
-      symbol: 'PT-cUSDC'
+      symbol: 'PT-cUSDC',
     },
     {
       name: 'COMP Pool',
       frequency: 'Weekly',
-      symbol: 'PT-cCOMP'
-    }
+      symbol: 'PT-cCOMP',
+    },
   ],
   4: [
     {
       name: 'DAI Pool',
       frequency: 'Weekly',
-      symbol: 'PT-cDAI'
+      symbol: 'PT-cDAI',
     },
     {
       name: 'BAT Pool',
       frequency: 'Weekly',
-      symbol: 'PT-cBAT'
+      symbol: 'PT-cBAT',
     },
     {
       name: 'USDC Pool',
       frequency: 'Weekly',
-      symbol: 'PT-cUSDC'
-    }
-  ]
+      symbol: 'PT-cUSDC',
+    },
+  ],
 }
 
 export const PRIZE_STRATEGY_TYPES = {
   singleRandomWinner: 'singleRandomWinner',
-  multipleWinners: 'multipleWinners'
+  multipleWinners: 'multipleWinners',
 }
 
 export const CONTRACT_ADDRESSES = {
   1: {
-    Usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7'
+    Usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',
     // Dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
     // PermitAndDepositDai: PermitAndDepositDaiMainnet.address
 
@@ -111,7 +106,7 @@ export const CONTRACT_ADDRESSES = {
     // GovernanceToken: '0x4CF566d201eF144e09d2f8ABE1cC0E451D79De53'
   },
   3: {
-    Usdt: '0x0736d0c130b2ead47476cc262dbed90d7c4eeabd'
+    Usdt: '0x0736d0c130b2ead47476cc262dbed90d7c4eeabd',
     // Dai: '0xc2118d4d90b274016cb7a54c03ef52e6c537d957',
     // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
   },
@@ -122,15 +117,14 @@ export const CONTRACT_ADDRESSES = {
     // TODO: Add mainnet. Add remaining pools. Pull from pooltogether-contracts
     TokenFaucetProxyFactory: TokenFaucetProxyFactoryRinkeby.address,
     MerkleDistributor: '0x5fcD21897939B09eAF9c81eF8C2C4CD64FA75558',
-    GovernanceToken: '0xEae2De7Ba52298a535C59D37BAe409cCeCaDE234'
-  }
+    GovernanceToken: '0xEae2De7Ba52298a535C59D37BAe409cCeCaDE234',
+  },
 }
 
 export const TOKEN_IMAGES = {
   '0x9d942bd31169ed25a1ca78c776dab92de104e50e':
     '/tokens/0x9d942bd31169ed25a1ca78c776dab92de104e50e.png',
-  '0x6b175474e89094c44da98b954eedeac495271d0f':
-    '/tokens/dai-new-transparent.png',
+  '0x6b175474e89094c44da98b954eedeac495271d0f': '/tokens/dai-new-transparent.png',
   '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48':
     'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389',
   '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599':
@@ -185,21 +179,21 @@ export const TOKEN_IMAGES = {
     '/tokens/0x0954906da0bf32d5479e25f46056d22f08464cab.png',
   '0xd291e7a03283640fdc51b121ac401383a46cc623':
     'https://assets.coingecko.com/coins/images/12900/thumb/rgt_logo.png?1603340632',
-  '0x334cbb5858417aee161b53ee0d5349ccf54514cf': '/favicon.png'
+  '0x334cbb5858417aee161b53ee0d5349ccf54514cf': '/favicon.png',
 }
 
 export const TOKEN_VALUES = {
   '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984': 5.6,
   '0x852358c72f0d38df475b58f90c9b24aadc63c9db': 1,
   '0x334cbb5858417aee161b53ee0d5349ccf54514cf': 1,
-  '0x9d942bd31169ed25a1ca78c776dab92de104e50e': 279.31
+  '0x9d942bd31169ed25a1ca78c776dab92de104e50e': 279.31,
   // '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
   // '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
 }
 
 export const TOKEN_NAMES = {
   '0x495f947276749ce646f68ac8c248420045cb7b5e': 'OpenSea NFT Token',
-  '0x334cbb5858417aee161b53ee0d5349ccf54514cf': 'PoolTogether DAI Tickets'
+  '0x334cbb5858417aee161b53ee0d5349ccf54514cf': 'PoolTogether DAI Tickets',
 }
 
 export const HISTORICAL_TOKEN_VALUES = {
@@ -207,9 +201,9 @@ export const HISTORICAL_TOKEN_VALUES = {
     1: {
       '0x06f65b8cfcb13a9fe37d836fe9708da38ecb29b2': 970.23,
       '0x117c2aca45d87958ba054cb85af0fd57be00d624': 603.98,
-      '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49
-    }
-  }
+      '0xea0bea4d852687c45fdc57f6b06a8a92302baabc': 250.49,
+    },
+  },
 }
 
 export const V2_CONTRACT_ADDRESSES = [
@@ -219,7 +213,7 @@ export const V2_CONTRACT_ADDRESSES = [
   '0x6F5587E191C8b222F634C78111F97c4851663ba4'.toLowerCase(),
   '0x49d716DFe60b37379010A75329ae09428f17118d'.toLowerCase(),
   '0xBD87447F48ad729C5c4b8bcb503e1395F62e8B98'.toLowerCase(),
-  '0x801b4872a635dccc7e679eeaf04bef08e562972a'.toLowerCase()
+  '0x801b4872a635dccc7e679eeaf04bef08e562972a'.toLowerCase(),
 ]
 
 export const QUERY_KEYS = {
@@ -249,28 +243,28 @@ export const QUERY_KEYS = {
   poolTokenFaucetsQuery: 'poolTokenFaucetsQuery',
   poolTokenDataQuery: 'poolTokenDataQuery',
   coingeckoImagesByContractAddressesQuery: 'coingeckoImagesByContractAddressesQuery',
-  coingeckoImageQuery: 'coingeckoImageQuery'
+  coingeckoImageQuery: 'coingeckoImageQuery',
 }
 
 export const POOLTOGETHER_CURRENT_GRAPH_URIS = {
   1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
   3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
-  4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY
+  4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY,
 }
 
 export const LOOTBOX_GRAPH_URIS = {
   1: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_MAINNET,
   3: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_ROPSTEN,
-  4: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_RINKEBY
+  4: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_RINKEBY,
 }
 
 export const UNISWAP_GRAPH_URIS = {
   1: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_MAINNET, // https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2
   3: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_ROPSTEN,
-  4: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_RINKEBY // https://api.thegraph.com/subgraphs/name/blockrockettech/uniswap-v2-subgraph-rinkeby
+  4: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_RINKEBY, // https://api.thegraph.com/subgraphs/name/blockrockettech/uniswap-v2-subgraph-rinkeby
 }
 
 export const STRINGS = {
   transfer: 'transfer',
-  withdraw: 'withdraw'
+  withdraw: 'withdraw',
 }

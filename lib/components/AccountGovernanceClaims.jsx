@@ -12,7 +12,13 @@ import { usePreviousValue } from 'beautiful-react-hooks'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucetProxyFactory'
 
-import { CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY, SECONDS_PER_HOUR, SECONDS_PER_WEEK } from 'lib/constants'
+import {
+  CONTRACT_ADDRESSES,
+  DEFAULT_TOKEN_PRECISION,
+  SECONDS_PER_DAY,
+  SECONDS_PER_HOUR,
+  SECONDS_PER_WEEK,
+} from 'lib/constants'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -25,11 +31,16 @@ import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
 import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { usePool } from 'lib/hooks/usePool'
-import { getMaxPrecision, getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
+import {
+  getMaxPrecision,
+  getMinPrecision,
+  getPrecision,
+  numberWithCommas,
+} from 'lib/utils/numberWithCommas'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
-export const AccountGovernanceClaims = props => {
+export const AccountGovernanceClaims = (props) => {
   const { pools } = usePools()
   const { t } = useTranslation()
 
@@ -37,7 +48,7 @@ export const AccountGovernanceClaims = props => {
     isFetched,
     isFetching,
     refetch: refetchTotalClaimablePool,
-    refetchAllClaimableBalances
+    refetchAllClaimableBalances,
   } = useTotalClaimablePool()
   const { usersAddress } = useContext(AuthControllerContext)
   const { refetch: refetchPoolTokenData } = usePoolTokenData()
@@ -58,12 +69,10 @@ export const AccountGovernanceClaims = props => {
 
   return (
     <>
-      <h6 className='font-normal text-accent-2 mt-16 mb-4'>
-        {t('governance')}
-      </h6>
+      <h6 className='font-normal text-accent-2 mt-16 mb-4'>{t('governance')}</h6>
       <div className='xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
         <ClaimHeader refetchAllPoolTokenData={refetchAllPoolTokenData} />
-        {pools.map(pool => (
+        {pools.map((pool) => (
           <ClaimablePoolTokenItem
             refetchAllPoolTokenData={refetchAllPoolTokenData}
             key={pool.id}
@@ -75,10 +84,10 @@ export const AccountGovernanceClaims = props => {
   )
 }
 
-const ClaimHeader = props => {
+const ClaimHeader = (props) => {
   const { t } = useTranslation()
   const { refetchAllPoolTokenData } = props
-  
+
   // TODO: get a link for "What can I Do with POOL"
   const { data: totalClaimablePool } = useTotalClaimablePool()
 
@@ -87,45 +96,39 @@ const ClaimHeader = props => {
       <div className='flex sm:flex-col justify-between sm:justify-start'>
         <h6 className='flex items-center font-normal'>{t('claimablePool')}</h6>
         <h2
-          className={classnames(
-            'leading-none text-2xl sm:text-3xl mt-0 xs:mt-2',
-            {
-              'text-flashy': totalClaimablePool > 0
-            }
-          )}
+          className={classnames('leading-none text-2xl sm:text-3xl mt-0 xs:mt-2', {
+            'text-flashy': totalClaimablePool > 0,
+          })}
         >
-          <ClaimableAmountCountUp amount={totalClaimablePool}/>
+          <ClaimableAmountCountUp amount={totalClaimablePool} />
         </h2>
       </div>
 
       <div className='flex flex-col-reverse sm:flex-col'>
-        <ClaimAllButton refetchAllPoolTokenData={refetchAllPoolTokenData} claimable={totalClaimablePool > 0} />
-        <span className='sm:text-right text-accent-1 text-xxs'>
-          {t('whatCanIDoWithPool')}
-        </span>
+        <ClaimAllButton
+          refetchAllPoolTokenData={refetchAllPoolTokenData}
+          claimable={totalClaimablePool > 0}
+        />
+        <span className='sm:text-right text-accent-1 text-xxs'>{t('whatCanIDoWithPool')}</span>
       </div>
     </div>
   )
 }
 
-const ClaimAllButton = props => {
+const ClaimAllButton = (props) => {
   const { t } = useTranslation()
   const { claimable, refetchAllPoolTokenData } = props
 
   const { usersAddress, chainId } = useContext(AuthControllerContext)
-  const {
-    isFetched,
-    data: tokenFaucetAddresses
-  } = useClaimablePoolTokenFaucetAddresses()
+  const { isFetched, data: tokenFaucetAddresses } = useClaimablePoolTokenFaucetAddresses()
 
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
-  const txPending =
-    (tx?.sent || tx?.inWallet) && !tx?.completed
+  const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
 
-  const handleClaim = async e => {
+  const handleClaim = async (e) => {
     e.preventDefault()
 
     const params = [usersAddress, tokenFaucetAddresses]
@@ -165,13 +168,17 @@ const ClaimAllButton = props => {
       hoverBg='green'
       textSize='xxs'
     >
-      {txPending && <span className='mr-2'><ClipLoader size={14} color={'#049c9c'} /></span>}
+      {txPending && (
+        <span className='mr-2'>
+          <ClipLoader size={14} color={'#049c9c'} />
+        </span>
+      )}
       {text}
     </Button>
   )
 }
 
-const ClaimablePoolTokenItem = props => {
+const ClaimablePoolTokenItem = (props) => {
   const { t } = useTranslation()
   const { pool, refetchAllPoolTokenData } = props
   const { usersAddress } = useContext(AuthControllerContext)
@@ -189,57 +196,62 @@ const ClaimablePoolTokenItem = props => {
     return null
   }
 
-  const {
-    dripRatePerSecond,
-    measureTokenAddress,
-    totalSupply,
-    amountClaimable,
-  } = data
+  const { dripRatePerSecond, measureTokenAddress, totalSupply, amountClaimable } = data
 
   const ticketData = playerTickets.find(
-    playerTicket => playerTicket.pool.ticket.id === measureTokenAddress
+    (playerTicket) => playerTicket.pool.ticket.id === measureTokenAddress
   )
   if (!ticketData) {
     return null
   }
 
-  const totalSupplyOfTickets = Number(ethers.utils.formatUnits(ethers.utils.bigNumberify(ticketData.pool.ticketSupply), DEFAULT_TOKEN_PRECISION))
+  const totalSupplyOfTickets = Number(
+    ethers.utils.formatUnits(
+      ethers.utils.bigNumberify(ticketData.pool.ticketSupply),
+      DEFAULT_TOKEN_PRECISION
+    )
+  )
   const usersBalance = Number(ethers.utils.formatUnits(ticketData.balance, DEFAULT_TOKEN_PRECISION))
 
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
-  const dripRatePerSecondNumber = Number(ethers.utils.formatUnits(dripRatePerSecond, DEFAULT_TOKEN_PRECISION))
+  const dripRatePerSecondNumber = Number(
+    ethers.utils.formatUnits(dripRatePerSecond, DEFAULT_TOKEN_PRECISION)
+  )
 
   const totalDripPerDay = dripRatePerSecondNumber * SECONDS_PER_DAY
   const usersDripPerDay = totalDripPerDay * ownershipPercentage
   const usersDripPerDayFormatted = numberWithCommas(usersDripPerDay, {
-    precision: getPrecision(usersDripPerDay)
+    precision: getPrecision(usersDripPerDay),
   })
   const totalDripPerDayFormatted = numberWithCommas(totalDripPerDay, {
-    precision: getPrecision(totalDripPerDay)
+    precision: getPrecision(totalDripPerDay),
   })
 
   const secondsLeft = totalSupply.div(dripRatePerSecond).toNumber()
 
-  const claimablePoolNumber = Number(ethers.utils.formatUnits(amountClaimable, DEFAULT_TOKEN_PRECISION))
+  const claimablePoolNumber = Number(
+    ethers.utils.formatUnits(amountClaimable, DEFAULT_TOKEN_PRECISION)
+  )
 
   return (
     <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8'>
       <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start mb-6 sm:mb-0'>
         <PoolCurrencyIcon
-          
-          pool={{ underlyingCollateralSymbol: poolInfo.underlyingCollateralSymbol}}
+          pool={{ underlyingCollateralSymbol: poolInfo.underlyingCollateralSymbol }}
           className='h-16 w-16 sm:h-16 sm:w-16 sm:mr-4'
         />
         <div className='xs:w-64'>
           <h3 className='leading-none'>{name}</h3>
-          <div className='text-accent-1 text-xs mt-1' >{totalDripPerDayFormatted} POOL / {t('day')}</div>
+          <div className='text-accent-1 text-xs mt-1'>
+            {totalDripPerDayFormatted} POOL / {t('day')}
+          </div>
           <RewardTimeLeft initialSecondsLeft={secondsLeft} />
         </div>
       </div>
 
       <div className='sm:text-right'>
         <h3 className='leading-none'>
-          <ClaimableAmountCountUp amount={claimablePoolNumber} suffix=' POOL'/>
+          <ClaimableAmountCountUp amount={claimablePoolNumber} suffix=' POOL' />
         </h3>
         <div className='text-accent-1 text-xs mb-4'>
           @ {usersDripPerDayFormatted} POOL / {t('day')}
@@ -260,23 +272,25 @@ const ClaimablePoolTokenItem = props => {
   )
 }
 
-const ClaimableAmountCountUp = props => {
+const ClaimableAmountCountUp = (props) => {
   const { amount, ...countUpProps } = props
   const prevAmount = usePreviousValue(amount)
 
-  return <CountUp 
-    start={prevAmount}
-    end={amount}
-    decimals={getMinPrecision(amount, { additionalDigits: getPrecision(amount) || 2 })}
-    {...countUpProps}
-  />
+  return (
+    <CountUp
+      start={prevAmount}
+      end={amount}
+      decimals={getMinPrecision(amount, { additionalDigits: getPrecision(amount) || 2 })}
+      {...countUpProps}
+    />
+  )
 }
 
 ClaimableAmountCountUp.defaultProps = {
-  amount: 0
+  amount: 0,
 }
 
-const ClaimButton = props => {
+const ClaimButton = (props) => {
   const { name, refetch, claimable } = props
   const { tokenFaucetAddress } = props
   const { t } = useTranslation()
@@ -287,11 +301,10 @@ const ClaimButton = props => {
 
   const [refetching, setRefetching] = useState(false)
 
-  const txPending =
-    (tx?.sent || tx?.inWallet) && !tx?.completed
+  const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
   const txCompleted = tx?.completed
 
-  const handleClaim = async e => {
+  const handleClaim = async (e) => {
     e.preventDefault()
 
     const params = [usersAddress]
@@ -324,20 +337,21 @@ const ClaimButton = props => {
       className='w-full'
       onClick={handleClaim}
     >
-      {txPending && <span className='mr-2'><ClipLoader size={14} color={'#049c9c'} /></span>}
+      {txPending && (
+        <span className='mr-2'>
+          <ClipLoader size={14} color={'#049c9c'} />
+        </span>
+      )}
       {text}
     </Button>
   )
 }
 
-const RewardTimeLeft = props => {
+const RewardTimeLeft = (props) => {
   const { t } = useTranslation()
   const { initialSecondsLeft } = props
 
-  const { days, hours, minutes, secondsLeft } = useTimeCountdown(
-    initialSecondsLeft,
-    60000
-  )
+  const { days, hours, minutes, secondsLeft } = useTimeCountdown(initialSecondsLeft, 60000)
 
   const textColor = determineColor(secondsLeft)
 
@@ -347,10 +361,7 @@ const RewardTimeLeft = props => {
 
       <div className='inline-flex items-center'>
         <FeatherIcon
-          className={classnames(
-            `h-4 w-4 stroke-current stroke-2 my-auto xs:ml-2 mr-1`,
-            textColor
-          )}
+          className={classnames(`h-4 w-4 stroke-current stroke-2 my-auto xs:ml-2 mr-1`, textColor)}
           icon='clock'
         />{' '}
         <span className={classnames(textColor)}>
@@ -363,7 +374,7 @@ const RewardTimeLeft = props => {
   )
 }
 
-const determineColor = secondsLeft => {
+const determineColor = (secondsLeft) => {
   if (secondsLeft <= SECONDS_PER_HOUR) {
     return 'text-red'
   } else if (secondsLeft <= SECONDS_PER_DAY) {

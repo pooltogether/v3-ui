@@ -25,54 +25,62 @@ export default function PrizeShowPage(props) {
   if (error) {
     console.error(error)
   }
-  
+
   let prize = data?.prize
 
-  
   if (!pool) {
-    return <BlankStateMessage>
-      {t('couldNotFindPoolWithSymbol', {
-        symbol: querySymbol
-      })}
-    </BlankStateMessage>
+    return (
+      <BlankStateMessage>
+        {t('couldNotFindPoolWithSymbol', {
+          symbol: querySymbol,
+        })}
+      </BlankStateMessage>
+    )
   }
 
   if (!prize) {
-    return <div
-      className='mt-10'
-    >
-      {prize === null ? <>
-        {t('couldntFindPrize')}
-        <br/>
-        <button
-          type='button'
-          onClick={(e) => {
-            e.preventDefault()
+    return (
+      <div className='mt-10'>
+        {prize === null ? (
+          <>
+            {t('couldntFindPrize')}
+            <br />
+            <button
+              type='button'
+              onClick={(e) => {
+                e.preventDefault()
 
-            router.push(`/pools/${querySymbol}`)
-          }}
-        >{t('viewPool')}</button>
-      </> : <>
-        <TableRowUILoader
-          rows={5}
-        />
-      </>}
-    </div>
+                router.push(`/pools/${querySymbol}`)
+              }}
+            >
+              {t('viewPool')}
+            </button>
+          </>
+        ) : (
+          <>
+            <TableRowUILoader rows={5} />
+          </>
+        )}
+      </div>
+    )
   }
 
-  return <TimeTravelPool
-    blockNumber={parseInt(prize?.awardedBlock, 10)}
-    poolAddress={pool.id}
-    querySymbol={querySymbol}
-    prize={prize}
-  >
-    {({ preAwardTimeTravelPool, timeTravelPool }) => {
-      return <PrizeShow
-        postAwardTimeTravelPool={timeTravelPool}
-        preAwardTimeTravelPool={preAwardTimeTravelPool}
-        prize={prize}
-      />
-    }}
-  </TimeTravelPool>
-
+  return (
+    <TimeTravelPool
+      blockNumber={parseInt(prize?.awardedBlock, 10)}
+      poolAddress={pool.id}
+      querySymbol={querySymbol}
+      prize={prize}
+    >
+      {({ preAwardTimeTravelPool, timeTravelPool }) => {
+        return (
+          <PrizeShow
+            postAwardTimeTravelPool={timeTravelPool}
+            preAwardTimeTravelPool={preAwardTimeTravelPool}
+            prize={prize}
+          />
+        )
+      }}
+    </TimeTravelPool>
+  )
 }

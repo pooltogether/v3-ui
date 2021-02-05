@@ -3,8 +3,7 @@
 }
 
 .spinning {
-  animation: spinningAnim 2800ms infinite forwards
-    cubic-bezier(0.5, 1.1, 0.36, 1.02);
+  animation: spinningAnim 2800ms infinite forwards cubic-bezier(0.5, 1.1, 0.36, 1.02);
 }
 
 @keyframes spinningAnim {
@@ -66,8 +65,7 @@
 }
 
 .animated-light::before {
-  animation: animatedLight 2500ms infinite forwards
-    cubic-bezier(0.5, 1.1, 0.36, 1.02);
+  animation: animatedLight 2500ms infinite forwards cubic-bezier(0.5, 1.1, 0.36, 1.02);
 }
 
 .animated-light::before {
@@ -110,16 +108,14 @@
 }
 
 .animated-pill {
-  animation: pulseScale 5000ms infinite forwards
-    cubic-bezier(0.5, 1.1, 0.36, 1.02);
+  animation: pulseScale 5000ms infinite forwards cubic-bezier(0.5, 1.1, 0.36, 1.02);
   overflow: hidden;
   position: relative;
   z-index: 1;
 }
 
 .animated-pill::before {
-  animation: animatedPill 3000ms infinite forwards
-    cubic-bezier(0.5, 1.1, 0.36, 1.02);
+  animation: animatedPill 3000ms infinite forwards cubic-bezier(0.5, 1.1, 0.36, 1.02);
 }
 
 .animated-pill::before {
@@ -332,22 +328,20 @@
   animation: cycleBackgroundPos 2500ms infinite;
 }
 
-
 .bg-flashy {
   background: var(--flashyGradient);
 }
 
-
 @keyframes gradientBG {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .text-flashy {
@@ -391,12 +385,12 @@
 
 @keyframes cycleBackgroundPos {
   0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

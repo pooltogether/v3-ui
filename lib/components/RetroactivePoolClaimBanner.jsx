@@ -10,7 +10,7 @@ import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimDa
 
 import Bell from 'assets/images/bell@2x.png'
 
-export const RetroactivePoolClaimBanner = props => {
+export const RetroactivePoolClaimBanner = (props) => {
   const { t } = useTranslation()
   const [showClaimWizard, setShowClaimWizard] = useAtom(showClaimWizardAtom)
   const { chainId } = useContext(AuthControllerContext)
