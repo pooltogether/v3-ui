@@ -1,5 +1,6 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useAtom } from 'jotai'
+import { useRouter } from 'next/router'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Banner } from 'lib/components/Banner'
@@ -12,12 +13,17 @@ import Bell from 'assets/images/bell@2x.png'
 
 export const RetroactivePoolClaimBanner = (props) => {
   const { t } = useTranslation()
+  const router = useRouter()
+  const claim = router.query.claim
+
   const [showClaimWizard, setShowClaimWizard] = useAtom(showClaimWizardAtom)
+  const [cachedUsersAddress, setCachedUsersAddress] = useState()
   const { chainId, usersAddress } = useContext(AuthControllerContext)
   const { data, loading } = useRetroactivePoolClaimData()
 
   useEffect(() => {
-    setShowClaimWizard(false)
+    setShowClaimWizard(claim && !cachedUsersAddress)
+    setCachedUsersAddress(usersAddress)
   }, [usersAddress])
 
   // TODO:  Remove. Temporary block on mainnet so nobody gets confused while testing.
