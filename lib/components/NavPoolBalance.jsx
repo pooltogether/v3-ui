@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import Squiggle from 'assets/images/squiggle.svg'
 import PoolIcon from 'assets/images/pool-icon.svg'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
-import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
+import { useClaimablePoolFromTokenFaucets } from 'lib/hooks/useClaimablePoolFromTokenFaucets'
 import { useTranslation } from 'lib/../i18n'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 
@@ -43,7 +43,10 @@ const PoolBalanceModal = (props) => {
   const { isOpen, closeModal, tokenData } = props
   const { usersBalance, totalSupply } = tokenData
 
-  const { data: totalClaimablePool, isFetched: totalClaimableIsFetched } = useTotalClaimablePool()
+  const {
+    data: totalClaimablePool,
+    isFetched: totalClaimableIsFetched
+  } = useClaimablePoolFromTokenFaucets()
   const {
     data: retroactiveClaimablePool,
     isFetched: retroactiveClaimableIsFetched
@@ -55,7 +58,6 @@ const PoolBalanceModal = (props) => {
     return null
   }
 
-  console.log(totalClaimablePool, retroactiveClaimablePool.formattedAmount)
   const totalPlusRetro = claimablePoolIsLoaded
     ? totalClaimablePool + retroactiveClaimablePool.formattedAmount
     : 0

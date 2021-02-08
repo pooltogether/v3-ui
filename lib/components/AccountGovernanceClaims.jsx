@@ -4,7 +4,6 @@ import FeatherIcon from 'feather-icons-react'
 import ClipLoader from 'react-spinners/ClipLoader'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
-import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
 import CountUp from 'react-countup'
 import { usePreviousValue } from 'beautiful-react-hooks'
@@ -16,10 +15,8 @@ import {
   CONTRACT_ADDRESSES,
   DEFAULT_TOKEN_PRECISION,
   SECONDS_PER_DAY,
-  SECONDS_PER_HOUR,
-  SECONDS_PER_WEEK,
+  SECONDS_PER_HOUR
 } from 'lib/constants'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { useAccount } from 'lib/hooks/useAccount'
@@ -28,28 +25,23 @@ import { useClaimablePoolTokenFaucetAddresses } from 'lib/hooks/useClaimablePool
 import { usePools } from 'lib/hooks/usePools'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
-import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
+import { useClaimablePoolFromTokenFaucets } from 'lib/hooks/useClaimablePoolFromTokenFaucets'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { usePool } from 'lib/hooks/usePool'
-import {
-  getMaxPrecision,
-  getMinPrecision,
-  getPrecision,
-  numberWithCommas,
-} from 'lib/utils/numberWithCommas'
+import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
 export const AccountGovernanceClaims = (props) => {
-  const { pools } = usePools()
+  const { pools, poolsGraphData } = usePools()
   const { t } = useTranslation()
 
   const {
     isFetched,
     isFetching,
     refetch: refetchTotalClaimablePool,
-    refetchAllClaimableBalances,
-  } = useTotalClaimablePool()
+    refetchAllClaimableBalances
+  } = useClaimablePoolFromTokenFaucets()
   const { usersAddress } = useContext(AuthControllerContext)
   const { refetch: refetchPoolTokenData } = usePoolTokenData()
 
@@ -77,6 +69,7 @@ export const AccountGovernanceClaims = (props) => {
             refetchAllPoolTokenData={refetchAllPoolTokenData}
             key={pool.id}
             pool={pool}
+            poolGraphData={poolsGraphData[pool.symbol]}
           />
         ))}
       </div>
@@ -89,7 +82,7 @@ const ClaimHeader = (props) => {
   const { refetchAllPoolTokenData } = props
 
   // TODO: get a link for "What can I Do with POOL"
-  const { data: totalClaimablePool } = useTotalClaimablePool()
+  const { data: totalClaimablePool } = useClaimablePoolFromTokenFaucets()
 
   return (
     <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
@@ -97,7 +90,7 @@ const ClaimHeader = (props) => {
         <h6 className='flex items-center font-normal'>{t('claimablePool')}</h6>
         <h2
           className={classnames('leading-none text-2xl sm:text-3xl mt-0 xs:mt-2', {
-            'text-flashy': totalClaimablePool > 0,
+            'text-flashy': totalClaimablePool > 0
           })}
         >
           <ClaimableAmountCountUp amount={totalClaimablePool} />
@@ -121,6 +114,8 @@ const ClaimAllButton = (props) => {
 
   const { usersAddress, chainId } = useContext(AuthControllerContext)
   const { isFetched, data: tokenFaucetAddresses } = useClaimablePoolTokenFaucetAddresses()
+
+  // TODO: Need to filter addresses by claimable amounts
 
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
@@ -180,7 +175,7 @@ const ClaimAllButton = (props) => {
 
 const ClaimablePoolTokenItem = (props) => {
   const { t } = useTranslation()
-  const { pool, refetchAllPoolTokenData } = props
+  const { pool, poolGraphData, refetchAllPoolTokenData } = props
   const { usersAddress } = useContext(AuthControllerContext)
   const { accountData } = useAccount(usersAddress)
   const { playerTickets } = usePlayerTickets(accountData)
@@ -198,20 +193,25 @@ const ClaimablePoolTokenItem = (props) => {
 
   const { dripRatePerSecond, measureTokenAddress, totalSupply, amountClaimable } = data
 
+  const claimablePoolNumber = Number(
+    ethers.utils.formatUnits(amountClaimable, DEFAULT_TOKEN_PRECISION)
+  )
   const ticketData = playerTickets.find(
     (playerTicket) => playerTicket.pool.ticket.id === measureTokenAddress
   )
-  if (!ticketData) {
+
+  // Hide row if the user is not earning any POOL and there is no POOL to claim
+  if (!ticketData && !claimablePoolNumber) {
     return null
   }
 
+  const ticketTotalSupply = poolGraphData.ticket.totalSupply
   const totalSupplyOfTickets = Number(
-    ethers.utils.formatUnits(
-      ethers.utils.bigNumberify(ticketData.pool.ticketSupply),
-      DEFAULT_TOKEN_PRECISION
-    )
+    ethers.utils.formatUnits(ethers.utils.bigNumberify(ticketTotalSupply), DEFAULT_TOKEN_PRECISION)
   )
-  const usersBalance = Number(ethers.utils.formatUnits(ticketData.balance, DEFAULT_TOKEN_PRECISION))
+  const usersBalance = ticketData?.balance
+    ? Number(ethers.utils.formatUnits(ticketData.balance, DEFAULT_TOKEN_PRECISION))
+    : 0
 
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
   const dripRatePerSecondNumber = Number(
@@ -221,17 +221,13 @@ const ClaimablePoolTokenItem = (props) => {
   const totalDripPerDay = dripRatePerSecondNumber * SECONDS_PER_DAY
   const usersDripPerDay = totalDripPerDay * ownershipPercentage
   const usersDripPerDayFormatted = numberWithCommas(usersDripPerDay, {
-    precision: getPrecision(usersDripPerDay),
+    precision: getPrecision(usersDripPerDay)
   })
   const totalDripPerDayFormatted = numberWithCommas(totalDripPerDay, {
-    precision: getPrecision(totalDripPerDay),
+    precision: getPrecision(totalDripPerDay)
   })
 
   const secondsLeft = totalSupply.div(dripRatePerSecond).toNumber()
-
-  const claimablePoolNumber = Number(
-    ethers.utils.formatUnits(amountClaimable, DEFAULT_TOKEN_PRECISION)
-  )
 
   return (
     <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8'>
@@ -287,7 +283,7 @@ const ClaimableAmountCountUp = (props) => {
 }
 
 ClaimableAmountCountUp.defaultProps = {
-  amount: 0,
+  amount: 0
 }
 
 const ClaimButton = (props) => {
