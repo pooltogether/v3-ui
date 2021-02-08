@@ -116,8 +116,14 @@ export const CONTRACT_ADDRESSES = {
 
     // TODO: Add mainnet. Add remaining pools. Pull from pooltogether-contracts
     TokenFaucetProxyFactory: TokenFaucetProxyFactoryRinkeby.address,
+
+    // Most recent version
     MerkleDistributor: '0x5fcD21897939B09eAF9c81eF8C2C4CD64FA75558',
     GovernanceToken: '0xEae2De7Ba52298a535C59D37BAe409cCeCaDE234'
+
+    // TODO: Remove these test constants. v3 - unlimited claiming
+    // MerkleDistributor: '0x2FDE489Bd546136A624d7278Bfe932e330301496',
+    // GovernanceToken: '0x4CF566d201eF144e09d2f8ABE1cC0E451D79De53'
   }
 }
 
