@@ -249,7 +249,9 @@ export const QUERY_KEYS = {
   poolTokenFaucetsQuery: 'poolTokenFaucetsQuery',
   poolTokenDataQuery: 'poolTokenDataQuery',
   coingeckoImagesByContractAddressesQuery: 'coingeckoImagesByContractAddressesQuery',
-  coingeckoImageQuery: 'coingeckoImageQuery'
+  coingeckoImageQuery: 'coingeckoImageQuery',
+  claimablePoolFromTokenFaucets: 'claimablePoolFromTokenFaucets',
+  claimablePoolTokenFaucetAddresses: 'claimablePoolTokenFaucetAddresses'
 }
 
 export const POOLTOGETHER_CURRENT_GRAPH_URIS = {
