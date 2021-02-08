@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import ClipLoader from 'react-spinners/ClipLoader'
@@ -112,7 +112,24 @@ const ClaimAllButton = (props) => {
   const { claimable, refetchAllPoolTokenData } = props
 
   const { usersAddress, chainId } = useContext(AuthControllerContext)
-  const { isFetched, data: tokenFaucetAddresses } = useClaimablePoolTokenFaucetAddresses()
+  const {
+    isFetched: isClaimablePoolDataFetched,
+    data: claimablePoolFromTokenFaucets
+  } = useClaimablePoolFromTokenFaucets()
+
+  const tokenFaucetAddresses = useMemo(() => {
+    const addresses = []
+    Object.keys(claimablePoolFromTokenFaucets).forEach((key) => {
+      if (key === 'total') return
+
+      const claimablePoolData = claimablePoolFromTokenFaucets[key]
+      if (claimablePoolData.amount) {
+        addresses.push(key)
+      }
+    })
+
+    return addresses
+  }, [claimablePoolFromTokenFaucets])
 
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
@@ -150,7 +167,7 @@ const ClaimAllButton = (props) => {
       type='button'
       onClick={handleClaim}
       className='mb-4'
-      disabled={!isFetched || !claimable || txPending}
+      disabled={!isClaimablePoolDataFetched || !claimable || txPending}
       padding='px-8 py-1'
       border='green'
       text='primary'
