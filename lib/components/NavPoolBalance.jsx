@@ -44,7 +44,7 @@ const PoolBalanceModal = (props) => {
   const { usersBalance, totalSupply } = tokenData
 
   const {
-    data: totalClaimablePool,
+    data: claimablePoolFromTokenFaucetsData,
     isFetched: totalClaimableIsFetched
   } = useClaimablePoolFromTokenFaucets()
   const {
@@ -58,11 +58,12 @@ const PoolBalanceModal = (props) => {
     return null
   }
 
+  const totalClaimableFromTokenFaucets = claimablePoolFromTokenFaucetsData.total
   const totalPlusRetro = claimablePoolIsLoaded
-    ? totalClaimablePool + retroactiveClaimablePool.formattedAmount
+    ? totalClaimableFromTokenFaucets + retroactiveClaimablePool.formattedAmount
     : 0
   const totalClaimablePoolFormatted = numberWithCommas(totalPlusRetro, {
-    precision: getPrecision(totalClaimablePool)
+    precision: getPrecision(totalClaimableFromTokenFaucets)
   })
   const formattedBalance = numberWithCommas(usersBalance, {
     precision: getPrecision(usersBalance)

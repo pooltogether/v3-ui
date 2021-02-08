@@ -20,7 +20,6 @@ import {
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { useAccount } from 'lib/hooks/useAccount'
-import { useClaimablePool } from 'lib/hooks/useClaimablePool'
 import { useClaimablePoolTokenFaucetAddresses } from 'lib/hooks/useClaimablePoolTokenFaucetAddresses'
 import { usePools } from 'lib/hooks/usePools'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -31,6 +30,7 @@ import { usePool } from 'lib/hooks/usePool'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
+import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
 
 export const AccountGovernanceClaims = (props) => {
   const { pools, poolsGraphData } = usePools()
@@ -39,15 +39,13 @@ export const AccountGovernanceClaims = (props) => {
   const {
     isFetched,
     isFetching,
-    refetch: refetchTotalClaimablePool,
-    refetchAllClaimableBalances
+    refetch: refetchTotalClaimablePool
   } = useClaimablePoolFromTokenFaucets()
   const { usersAddress } = useContext(AuthControllerContext)
   const { refetch: refetchPoolTokenData } = usePoolTokenData()
 
   const refetchAllPoolTokenData = () => {
     refetchTotalClaimablePool()
-    refetchAllClaimableBalances()
     refetchPoolTokenData()
   }
 
@@ -82,7 +80,8 @@ const ClaimHeader = (props) => {
   const { refetchAllPoolTokenData } = props
 
   // TODO: get a link for "What can I Do with POOL"
-  const { data: totalClaimablePool } = useClaimablePoolFromTokenFaucets()
+  const { data: claimablePoolFromTokenFaucets } = useClaimablePoolFromTokenFaucets()
+  const totalClaimablePool = claimablePoolFromTokenFaucets.total
 
   return (
     <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
@@ -114,8 +113,6 @@ const ClaimAllButton = (props) => {
 
   const { usersAddress, chainId } = useContext(AuthControllerContext)
   const { isFetched, data: tokenFaucetAddresses } = useClaimablePoolTokenFaucetAddresses()
-
-  // TODO: Need to filter addresses by claimable amounts
 
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
@@ -183,25 +180,22 @@ const ClaimablePoolTokenItem = (props) => {
   const { pool: poolInfo } = usePool(symbol)
   const tokenFaucetAddress = poolInfo.tokenListener
 
-  const { refetch: refetchClaimablePool, data, isFetching, isFetched, error } = useClaimablePool(
-    symbol
+  const { refetch: refetchClaimablePool, data, isFetched } = useClaimablePoolFromTokenFaucet(
+    tokenFaucetAddress
   )
 
-  if (!isFetched || (isFetching && !isFetched)) {
+  if (!isFetched || !tokenFaucetAddress) {
     return null
   }
 
-  const { dripRatePerSecond, measureTokenAddress, totalSupply, amountClaimable } = data
+  const { dripRatePerSecond, measureTokenAddress, faucetPoolSupplyBN, amount } = data
 
-  const claimablePoolNumber = Number(
-    ethers.utils.formatUnits(amountClaimable, DEFAULT_TOKEN_PRECISION)
-  )
   const ticketData = playerTickets.find(
     (playerTicket) => playerTicket.pool.ticket.id === measureTokenAddress
   )
 
   // Hide row if the user is not earning any POOL and there is no POOL to claim
-  if (!ticketData && !claimablePoolNumber) {
+  if (!ticketData && !amount) {
     return null
   }
 
@@ -227,7 +221,7 @@ const ClaimablePoolTokenItem = (props) => {
     precision: getPrecision(totalDripPerDay)
   })
 
-  const secondsLeft = totalSupply.div(dripRatePerSecond).toNumber()
+  const secondsLeft = faucetPoolSupplyBN.div(dripRatePerSecond).toNumber()
 
   return (
     <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8'>
@@ -247,7 +241,7 @@ const ClaimablePoolTokenItem = (props) => {
 
       <div className='sm:text-right'>
         <h3 className='leading-none'>
-          <ClaimableAmountCountUp amount={claimablePoolNumber} suffix=' POOL' />
+          <ClaimableAmountCountUp amount={amount} suffix=' POOL' />
         </h3>
         <div className='text-accent-1 text-xs mb-4'>
           @ {usersDripPerDayFormatted} POOL / {t('day')}
@@ -260,7 +254,7 @@ const ClaimablePoolTokenItem = (props) => {
             }}
             name={name}
             tokenFaucetAddress={tokenFaucetAddress}
-            claimable={claimablePoolNumber > 0}
+            claimable={amount > 0}
           />
         </div>
       </div>
