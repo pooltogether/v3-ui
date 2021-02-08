@@ -92,7 +92,9 @@ const StepOne = (props) => {
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
         <h4 className='mb-4'>{t('whyAreYouReceivingPool')}</h4>
-        <p className='text-xs xs:text-sm text-accent-1'>{t('receivingPoolDescription')}</p>
+        <p className='text-xs xs:text-sm text-accent-1 text-justify'>
+          {t('receivingPoolDescription')}
+        </p>
         <CheckboxContainer>
           <CheckboxInputGroup
             marginClasses='mx-auto my-0'
@@ -129,7 +131,9 @@ const StepTwo = (props) => {
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
         <h4 className='mb-4'>{t('whatDoPoolTokensDo')}</h4>
-        <p className='text-xs xs:text-sm text-accent-1'>{t('whatTokensDoDescription')}</p>
+        <p className='text-xs xs:text-sm text-accent-1 text-justify'>
+          {t('whatTokensDoDescription')}
+        </p>
         <CheckboxContainer>
           <CheckboxInputGroup
             marginClasses='mx-auto my-0'
@@ -211,6 +215,12 @@ const StepThree = (props) => {
         </div>
 
         <TxStatus tx={tx} />
+
+        {tx.error && (
+          <Button onClick={handleClaim} textSize='lg' className='mt-4 sm:mt-8 w-full'>
+            {t('claimMyTokens')}
+          </Button>
+        )}
       </div>
     )
   }
@@ -293,7 +303,7 @@ const ProposalButton = (props) => {
       >
         <svg
           style={{
-            transform: 'scale(1.15)',
+            transform: 'scale(1.15)'
           }}
           className='fill-current w-8 h-8 sm:w-16 sm:h-16 stroke-1 stroke-current mx-auto relative'
           width='20'

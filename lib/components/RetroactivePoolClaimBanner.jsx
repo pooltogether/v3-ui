@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useAtom } from 'jotai'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -13,8 +13,12 @@ import Bell from 'assets/images/bell@2x.png'
 export const RetroactivePoolClaimBanner = (props) => {
   const { t } = useTranslation()
   const [showClaimWizard, setShowClaimWizard] = useAtom(showClaimWizardAtom)
-  const { chainId } = useContext(AuthControllerContext)
+  const { chainId, usersAddress } = useContext(AuthControllerContext)
   const { data, loading } = useRetroactivePoolClaimData()
+
+  useEffect(() => {
+    setShowClaimWizard(false)
+  }, [usersAddress])
 
   // TODO:  Remove. Temporary block on mainnet so nobody gets confused while testing.
   if (chainId === 1) return null
