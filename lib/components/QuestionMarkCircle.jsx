@@ -16,7 +16,7 @@ export function QuestionMarkCircle(props) {
 
   let defaultClasses = 'bg-overlay-white text-primary'
   if (white) {
-    defaultClasses = 'bg-transparent text-white border-white border-2'
+    defaultClasses = 'bg-transparent text-white border-white border'
   }
 
   return (
@@ -28,10 +28,10 @@ export function QuestionMarkCircle(props) {
         )}
       >
         <span
-          className='relative font-mono font-bold text-xs'
+          className='relative font-mono font-bold text-xxxs'
           style={{
             left: '0.02rem',
-            top: '0.04rem',
+            top: '0.01rem',
           }}
         >
           ?

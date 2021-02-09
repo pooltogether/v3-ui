@@ -21,6 +21,7 @@ import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimDa
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTranslation } from 'lib/../i18n'
 import { useTransaction } from 'lib/hooks/useTransaction'
+import { format } from 'prettier'
 
 export const showClaimWizardAtom = atom(false)
 
@@ -78,6 +79,33 @@ const ClaimRetroactivePoolWizardStepManager = (props) => {
   )
 }
 
+const YouAreReceiving = (props) => {
+  const { formattedAmount, amountWithCommas, handleClaim, tx } = props
+  const { t } = useTranslation()
+
+  return <div className='mx-auto flex flex-col' style={{ maxWidth: '550px' }}>
+    {formattedAmount !== 0 && <h3>{t('youAreReceiving')}</h3>}
+
+    <div className='flex mx-auto mb-8'>
+      {formattedAmount !== 0 && <h2 className='shake'>🎉</h2>}
+      <h2 className='text-highlight-1 mx-2'>{amountWithCommas} POOL</h2>
+      {formattedAmount !== 0 && <h2 className='shake'>🎉</h2>}
+    </div>
+
+    {formattedAmount === 0 && <h3>{t('thereIsNoPoolToClaimForThisAddress')}</h3>}
+
+    {tx && <TxStatus tx={tx} />}
+
+    {/* <Button onClick={handleClaim} textSize='lg' className='w-full'>
+      {t('claimMyTokens')}
+    </Button> */}
+
+    <Button onClick={handleClaim} textSize='lg' className='mt-4 sm:mt-8 w-full'>
+      {tx?.error ? t('retryClaim') : t('claimMyTokens')}
+    </Button>
+  </div>
+}
+
 const StepOne = (props) => {
   const { nextStep, isActive } = props
   const { t } = useTranslation()
@@ -91,7 +119,7 @@ const StepOne = (props) => {
   return (
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
-        <h4 className='mb-4'>{t('whyAreYouReceivingPool')}</h4>
+        <h4 className='mb-4 text-white'>{t('whyAreYouReceivingPool')}</h4>
         <p className='text-xs xs:text-sm text-accent-1 text-justify'>
           {t('receivingPoolDescription')}
         </p>
@@ -130,7 +158,7 @@ const StepTwo = (props) => {
   return (
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
-        <h4 className='mb-4'>{t('whatDoPoolTokensDo')}</h4>
+        <h4 className='mb-4 text-white'>{t('whatDoPoolTokensDo')}</h4>
         <p className='text-xs xs:text-sm text-accent-1 text-justify'>
           {t('whatTokensDoDescription')}
         </p>
@@ -205,44 +233,22 @@ const StepThree = (props) => {
   const amountWithCommas = numberWithCommas(formattedAmount)
 
   if (txPending || tx?.error) {
-    return (
-      <div className='mx-auto flex flex-col' style={{ maxWidth: '550px' }}>
-        <h3>{t('youAreReceiving')}</h3>
-        <div className='flex mx-auto mb-8'>
-          <h2 className='shake'>🎉</h2>
-          <h2 className='text-highlight-1 mx-2'>{amountWithCommas} POOL</h2>
-          <h2 className='shake'>🎉</h2>
-        </div>
-
-        <TxStatus tx={tx} />
-
-        {tx.error && (
-          <Button onClick={handleClaim} textSize='lg' className='mt-4 sm:mt-8 w-full'>
-            {t('claimMyTokens')}
-          </Button>
-        )}
-      </div>
-    )
+    return <YouAreReceiving
+      amountWithCommas={amountWithCommas}
+      formattedAmount={formattedAmount}
+      tx={tx}
+    />
   }
 
   if (tx?.completed && !tx?.error && !tx?.cancelled) {
     return <ClaimCompleted amount={amountWithCommas} closeWizard={closeWizard} />
   }
 
-  return (
-    <div className='mx-auto flex flex-col' style={{ maxWidth: '550px' }}>
-      <h3>{t('youAreReceiving')}</h3>
-
-      <div className='flex mx-auto mb-8'>
-        <h2 className='shake'>🎉</h2>
-        <h2 className='text-highlight-1 mx-2'>{` ${amountWithCommas} POOL `}</h2>
-        <h2 className='shake'>🎉</h2>
-      </div>
-      <Button onClick={handleClaim} textSize='lg' className='w-full'>
-        {t('claimMyTokens')}
-      </Button>
-    </div>
-  )
+  return <YouAreReceiving
+    amountWithCommas={amountWithCommas}
+    formattedAmount={formattedAmount}
+    handleClaim={handleClaim}
+  />
 }
 
 const ClaimCompleted = (props) => {

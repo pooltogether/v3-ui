@@ -189,7 +189,7 @@
 }
 
 .theme-light .pool-gradient-1 {
-  background: linear-gradient(72deg, #eee6ff 28%, rgba(255, 185, 240, 0.9) 164%);
+  background: linear-gradient(72deg, #4c249f 28%, rgba(236, 71, 201, 1) 164%);
 }
 
 @screen sm {
