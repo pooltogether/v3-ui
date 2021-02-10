@@ -64,7 +64,7 @@ export const TxStatus = (props) => {
           />
         )}
 
-        <div className='text-accent-1 opacity-80 text-sm sm:text-base'>
+        <div className='text-white text-sm'>
           {t('transactionStatus')}
         </div>
 

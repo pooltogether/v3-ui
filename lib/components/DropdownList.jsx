@@ -61,7 +61,7 @@ export function DropdownList(props) {
             <MenuButton
               className={classnames(
                 className,
-                'inline-flex items-center justify-center trans font-bold',
+                'text-highlight-1 inline-flex items-center justify-center trans font-bold',
                 {
                   [inactiveTextColorClasses]: !isExpanded,
                   [activeTextColorClasses]: isExpanded,

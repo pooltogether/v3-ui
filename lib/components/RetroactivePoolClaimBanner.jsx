@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { useAtom } from 'jotai'
-import { useRouter } from 'next/router'
 
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Banner } from 'lib/components/Banner'
 import { Button } from 'lib/components/Button'
 import { showClaimWizardAtom } from 'lib/components/ClaimRetroactivePoolWizard'
-import { useTranslation } from 'lib/../i18n'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 
 import Bell from 'assets/images/bell@2x.png'
