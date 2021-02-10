@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Wizard, useWizard } from 'react-wizard-primitive'
 import { atom, useAtom } from 'jotai'
+import { useRouter } from 'next/router'
+import { useForm } from 'react-hook-form'
 
 import { AnimatePresence } from 'framer-motion'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -12,22 +14,47 @@ import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
 import Link from 'next/link'
 import MerkleDistributorAbi from 'abis/MerkleDistributor'
+import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { TxStatus } from 'lib/components/TxStatus'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTranslation } from 'lib/../i18n'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { format } from 'prettier'
+import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
+import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 
 export const showClaimWizardAtom = atom(false)
 
 export const ClaimRetroactivePoolWizardContainer = () => {
   const [showWizard, setShowWizard] = useAtom(showClaimWizardAtom)
-  const closeWizard = () => setShowWizard(false)
+  const [cachedUsersAddress, setCachedUsersAddress] = useState()
+  
+  const { usersAddress } = useContext(AuthControllerContext)
+  
+  const router = useRouter()
+
+  const claim = router.query.claim
+  const other = router.query.other
+
+  // on page load coming from gov app
+  useEffect(() => {
+    setShowWizard(claim && !cachedUsersAddress)
+    setCachedUsersAddress(usersAddress)
+  }, [usersAddress])
+
+  // when 'other' and 'claim' query params change and they're both false, close this window
+  useEffect(() => {
+    setShowWizard(Boolean(other) && Boolean(claim))
+  }, [other, claim])
+
+  const closeWizard = () => {
+    queryParamUpdater.remove(router, 'claim')
+    queryParamUpdater.remove(router, 'other')
+    setShowWizard(false)
+  }
 
   if (!showWizard) {
     return null
@@ -52,8 +79,6 @@ const ClaimRetroactivePoolWizardStepManager = (props) => {
   const { closeWizard } = props
   const { activeStepIndex, previousStep, moveToStep, nextStep } = useWizard()
 
-  const { data, refetch, loading } = useRetroactivePoolClaimData()
-
   return (
     <WizardLayout
       currentWizardStep={activeStepIndex + 1}
@@ -63,47 +88,18 @@ const ClaimRetroactivePoolWizardStepManager = (props) => {
       closeWizard={closeWizard}
     >
       <div className='text-inverse'>
-        <StepOne nextStep={nextStep} isActive={activeStepIndex === 0} key={1} />
-        <StepTwo nextStep={nextStep} isActive={activeStepIndex === 1} key={2} />
+        {/* <StepOne nextStep={nextStep} isActive={activeStepIndex === 0} key={1} />
+        <StepTwo nextStep={nextStep} isActive={activeStepIndex === 1} key={2} /> */}
         <StepThree
           key={3}
-          claimData={data}
-          loading={loading}
           nextStep={nextStep}
-          isActive={activeStepIndex === 2}
-          refetch={refetch}
+          isActive={activeStepIndex === 0}
+          // isActive={activeStepIndex === 2}
           closeWizard={closeWizard}
         />
       </div>
     </WizardLayout>
   )
-}
-
-const YouAreReceiving = (props) => {
-  const { formattedAmount, amountWithCommas, handleClaim, tx } = props
-  const { t } = useTranslation()
-
-  return <div className='mx-auto flex flex-col' style={{ maxWidth: '550px' }}>
-    {formattedAmount !== 0 && <h3>{t('youAreReceiving')}</h3>}
-
-    <div className='flex mx-auto mb-8'>
-      {formattedAmount !== 0 && <h2 className='shake'>🎉</h2>}
-      <h2 className='text-highlight-1 mx-2'>{amountWithCommas} POOL</h2>
-      {formattedAmount !== 0 && <h2 className='shake'>🎉</h2>}
-    </div>
-
-    {formattedAmount === 0 && <h3>{t('thereIsNoPoolToClaimForThisAddress')}</h3>}
-
-    {tx && <TxStatus tx={tx} />}
-
-    {/* <Button onClick={handleClaim} textSize='lg' className='w-full'>
-      {t('claimMyTokens')}
-    </Button> */}
-
-    <Button onClick={handleClaim} textSize='lg' className='mt-4 sm:mt-8 w-full'>
-      {tx?.error ? t('retryClaim') : t('claimMyTokens')}
-    </Button>
-  </div>
 }
 
 const StepOne = (props) => {
@@ -120,7 +116,7 @@ const StepOne = (props) => {
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
         <h4 className='mb-4 text-white'>{t('whyAreYouReceivingPool')}</h4>
-        <p className='text-xs xs:text-sm text-accent-1 text-justify'>
+        <p className='text-xs xs:text-sm text-accent-1'>
           {t('receivingPoolDescription')}
         </p>
         <CheckboxContainer>
@@ -159,7 +155,7 @@ const StepTwo = (props) => {
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
         <h4 className='mb-4 text-white'>{t('whatDoPoolTokensDo')}</h4>
-        <p className='text-xs xs:text-sm text-accent-1 text-justify'>
+        <p className='text-xs xs:text-sm text-accent-1'>
           {t('whatTokensDoDescription')}
         </p>
         <CheckboxContainer>
@@ -185,22 +181,111 @@ const StepTwo = (props) => {
 }
 
 const StepThree = (props) => {
+  const { isActive } = props
   const { t } = useTranslation()
-  const { closeWizard, isActive, claimData, refetch, loading } = props
 
-  const { usersAddress, provider, chainId } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
+  const [showAddressForm, setShowAddressForm] = useState(false)
+
+  const { handleSubmit, watch, register, setValue, errors, formState } = useForm({
+    mode: 'onBlur',
+    shouldUnregister: false
+  })
+
+  const address = watch('address')
+
+  // on page load when onboard initializes and the user is signed in using the cookie
+  useEffect(() => {
+    if (usersAddress) {
+      setValue('address', usersAddress)
+    }
+  }, [usersAddress])
+
+  const onSubmit = (values) => {
+    console.log(values)
+    if (formState.isValid) {
+      setShowAddressForm(false)
+    }
+  }
+
+  const showForm = (e) => {
+    e.preventDefault()
+    setShowAddressForm(true)
+  }
+
+  const validate = {
+    isValidAddress: (value) => {
+      return (
+        /^0x[a-fA-F0-9]{40}$/.test(value) ||
+        t('pleaseEnterAValidEthereumAddress')
+      )
+    },
+  }
+
+  if (!isActive) {
+    return null
+  }
+  // const onSubmit = data => console.log(data);
+  
+  return (<>
+    {showAddressForm ? <form onSubmit={handleSubmit(onSubmit)}>
+      <TextInputGroup
+        autoFocus
+        id='claim-eth-address'
+        name='address'
+        register={register}
+        label={t('ethereumAddress')}
+        placeholder='Enter a valid ETH Address or ENS name'
+        validate={validate}
+      />
+
+      <div className='text-red h-8'>
+        {errors.address && errors.address.message}
+      </div>
+
+      <Button type='submit' className='mt-4 sm:mt-8' disabled={!formState.isValid}>
+        {t('checkClaimableBalance')}
+      </Button>
+    </form> : (<>
+      <p className='text-default -mt-40 mb-16'>
+        <strong>{t('claimingFor')}</strong>
+        <br /> <span className='text-xxs'>{address}</span>
+        <br /><button
+          onClick={showForm}
+          className='underline text-purple uppercase font-bold text-xxxs'
+        >
+          {t('changeAddress')}
+        </button>
+      </p>
+
+      <ClaimableBalanceCheck
+        {...props}
+        address={address}
+      />
+    </>)}
+  </>)
+}
+
+const ClaimableBalanceCheck = (props) => {
+  const { closeWizard, address } = props
+  
+  const { chainId } = useContext(AuthControllerContext)
+  const { t } = useTranslation()
+
+  const { data: claimData, refetch, loading } = useRetroactivePoolClaimData(address)
+
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
-  const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
-
+  // const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
+  
   useEffect(() => {
     if (tx?.completed) {
       refetch()
     }
   }, [tx?.completed])
 
-  if (!isActive) {
+  if (!address) {
     return null
   }
 
@@ -217,10 +302,12 @@ const StepThree = (props) => {
   const handleClaim = async (e) => {
     e.preventDefault()
 
-    const params = [index, usersAddress, amount, proof]
+    const params = [index, address, amount, proof]
 
     const id = await sendTx(
-      t('claimPool'),
+      t('claimPoolForAddress', {
+        address
+      }),
       MerkleDistributorAbi,
       CONTRACT_ADDRESSES[chainId].MerkleDistributor,
       'claim',
@@ -231,24 +318,94 @@ const StepThree = (props) => {
   }
 
   const amountWithCommas = numberWithCommas(formattedAmount)
+  
+  const txDone = tx?.completed && !tx?.error && !tx?.cancelled
+        // if (txPending || tx?.error) {}
 
-  if (txPending || tx?.error) {
-    return <YouAreReceiving
+  return (<>{txDone ?
+    <ClaimCompleted amount={amountWithCommas} closeWizard={closeWizard} /> :
+    <YouAreReceiving
       amountWithCommas={amountWithCommas}
       formattedAmount={formattedAmount}
+      handleClaim={handleClaim}
       tx={tx}
-    />
+    />}
+  </>)
+}
+
+const YouAreReceiving = (props) => {
+  const { formattedAmount, amountWithCommas, handleClaim, tx } = props
+  const { t } = useTranslation()
+  const router = useRouter()
+
+  const canClaim = formattedAmount !== 0
+
+  const handleClose = (e) => {
+    e.preventDefault()
+    handleCloseWizard(router)
   }
 
-  if (tx?.completed && !tx?.error && !tx?.cancelled) {
-    return <ClaimCompleted amount={amountWithCommas} closeWizard={closeWizard} />
-  }
+  return <div className='mx-auto flex flex-col' style={{ maxWidth: '550px' }}>
+    {canClaim && !tx && <CanClaimMessage
+      amountWithCommas={amountWithCommas}
+      handleClaim={handleClaim}
+    />}
 
-  return <YouAreReceiving
-    amountWithCommas={amountWithCommas}
-    formattedAmount={formattedAmount}
-    handleClaim={handleClaim}
-  />
+    {!canClaim && <CannotClaimMessage handleClose={handleClose} />}
+
+    <div className='mt-10'>
+      {tx && <>
+        <TxStatus tx={tx} />
+
+        {tx?.error && <>
+          <ButtonDrawer>
+            <Button onClick={handleClaim} textSize='lg' className='mt-4 sm:mt-8 w-full'>
+              {t('retryClaim')}
+            </Button>
+          </ButtonDrawer>
+        </>}
+      </>}
+    </div>
+  </div>
+}
+
+const CannotClaimMessage = (props) => {
+  const { handleClose } = props
+  const { t } = useTranslation()
+
+  return (<>
+    <h2 className='text-highlight-1 mx-2'>0 POOL</h2>
+
+    <h5>{t('thereIsNoPoolToClaimForThisAddress')}</h5>
+    <p className='text-purple mb-2'>{t('possiblyAlreadyClaimed')}</p>
+
+    <ButtonDrawer>
+      <Button onClick={handleClose} textSize='lg' className='mt-4 sm:mt-8 w-full'>
+        {t('close')}
+      </Button>
+    </ButtonDrawer>
+  </>)
+}
+
+const CanClaimMessage = (props) => {
+  const { handleClaim, amountWithCommas, tx } = props
+  const { t } = useTranslation()
+
+  return (<>
+    <h4>{t('youAreReceiving')}</h4>
+
+    <div className='flex mx-auto mb-2 sm:mb-8'>
+      <h2 className='shake'>🎉</h2>
+      <h1 className='text-highlight-1 mx-2'>{amountWithCommas} POOL</h1>
+      <h2 className='shake'>🎉</h2>
+    </div>
+
+    <ButtonDrawer>
+      <Button onClick={handleClaim} textSize='lg' className='mt-4 sm:mt-8 w-full'>
+        {t('claimMyTokens')}
+      </Button>
+    </ButtonDrawer>
+  </>)
 }
 
 const ClaimCompleted = (props) => {
@@ -271,7 +428,6 @@ const ClaimCompleted = (props) => {
     closeWizard()
   }
 
-  // TODO: Update copy to not filler text! :)
   return (
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <h3>🎉 🎉 🎉</h3>
@@ -298,7 +454,7 @@ const CheckboxContainer = (props) => (
 
 const ProposalButton = (props) => {
   const { t } = useTranslation()
-  const { onClick, children } = props
+  const { onClick } = props
 
   return (
     <Link href='/vote'>
@@ -331,7 +487,7 @@ const ProposalButton = (props) => {
 
 const LearnMoreButton = (props) => {
   const { t } = useTranslation()
-  const { onClick, children } = props
+  const { onClick } = props
 
   return (
     <Link href='/vote'>

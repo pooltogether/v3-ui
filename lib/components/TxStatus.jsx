@@ -69,13 +69,13 @@ export const TxStatus = (props) => {
         </div>
 
         {txInWallet && !txError && (
-          <div className='text-sm sm:text-base text-inverse'>
+          <div className='text-sm sm:text-base text-orange'>
             {inWalletMessage ? inWalletMessage : t('pleaseConfirmInYourWallet')}
           </div>
         )}
 
         {txSent && (
-          <div className='text-sm sm:text-base text-inverse'>
+          <div className='text-sm sm:text-base text-white'>
             {sentMessage ? sentMessage : t('transactionSentConfirming')}
           </div>
         )}

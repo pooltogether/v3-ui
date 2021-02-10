@@ -56,6 +56,23 @@ export function getButtonClasses(props) {
     defaultHoverBg = 'hover:bg-body'
     defaultHoverText = 'hover:text-highlight-1'
   }
+  
+  if (tertiary) {
+    defaultBorder = 'border-highlight-2 border-2'
+    defaultBg = 'bg-primary'
+    defaultText = 'text-highlight-2'
+
+    defaultHoverBorder = 'hover:border-highlight-1'
+    defaultHoverBg = 'hover:bg-body'
+    defaultHoverText = 'hover:text-highlight-1'
+    // border='transparent'
+              // text='green'
+              // bg='secondary'
+              // hoverBorder='transparent'
+              // hoverText='green'
+              // hoverBg='primary'
+  }
+
 
   bold = isUndefined(bold) ? 'font-bold' : ''
 

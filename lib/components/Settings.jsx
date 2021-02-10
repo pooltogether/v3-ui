@@ -143,7 +143,6 @@ export function Settings(props) {
             </PTHint>
           </div>
           
-          <div className='flex flex-col sm:flex-row sm:items-start justify-center'>
             <CheckboxInputGroup
               large
               id='settings-show-award'
@@ -152,10 +151,9 @@ export function Settings(props) {
               checked={showManageLinks}
               handleClick={handleShowManageLinksClick}
             />
-          </div>
         </div>
 
-        <div className='mt-8'>
+        <div className='mt-10'>
           <label className='uppercase text-accent-1 font-bold text-xxs mb-4 mr-2'>{t('claim')}</label>
 
           <p className='text-white font-bold text-xxs leading-snug mb-4'>
@@ -165,9 +163,9 @@ export function Settings(props) {
           <ButtonLink
             secondary
             textSize='xxxs'
-            padding='px-6 pt-2'
-            as='?claim=1'
-            href='?claim=1'
+            padding='px-6 py-2'
+            as='?claim=1&other=1'
+            href='?claim=1&other=1'
           >Open POOL Claim</ButtonLink>
         </div>
 

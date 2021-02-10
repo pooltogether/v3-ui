@@ -13,18 +13,10 @@ import Bell from 'assets/images/bell@2x.png'
 
 export const RetroactivePoolClaimBanner = (props) => {
   const { t } = useTranslation()
-  const router = useRouter()
-  const claim = router.query.claim
-
+  
   const [showClaimWizard, setShowClaimWizard] = useAtom(showClaimWizardAtom)
-  const [cachedUsersAddress, setCachedUsersAddress] = useState()
-  const { chainId, usersAddress } = useContext(AuthControllerContext)
+  const { chainId } = useContext(AuthControllerContext)
   const { data, loading } = useRetroactivePoolClaimData()
-
-  useEffect(() => {
-    setShowClaimWizard(claim && !cachedUsersAddress)
-    setCachedUsersAddress(usersAddress)
-  }, [usersAddress])
 
   // TODO:  Remove. Temporary block on mainnet so nobody gets confused while testing.
   if (chainId === 1) return null
@@ -48,12 +40,7 @@ export const RetroactivePoolClaimBanner = (props) => {
             type='button'
             onClick={() => setShowClaimWizard(true)}
             className='w-full xs:w-auto'
-            border='transparent'
-            text='green'
-            bg='secondary'
-            hoverBorder='transparent'
-            hoverText='green'
-            hoverBg='primary'
+            tertiary
             textSize='sm'
           >
             {t('claimPool')}
