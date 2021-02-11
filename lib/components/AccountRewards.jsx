@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import ClipLoader from 'react-spinners/ClipLoader'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { isEmpty, map, find, defaultTo, sum } from 'lodash'
@@ -13,7 +12,7 @@ import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
-import { PTCopyToClipboard } from 'lib/components/PTCopyToClipboard'
+import { ThemedClipLoader } from 'lib/components/ThemedClipLoader'
 import { usePlayerDrips } from 'lib/hooks/usePlayerDrips'
 import { usePool } from 'lib/hooks/usePool'
 import { usePools } from 'lib/hooks/usePools'
@@ -190,7 +189,7 @@ export const AccountRewards = () => {
         <>
           <div className='flex flex-col sm:flex-row items-center justify-end'>
             <span className='order-1 sm:order-2'>
-              <ClipLoader size={14} color={'#049c9c'} />
+              <ThemedClipLoader />
               <span className='text-teal font-bold ml-2 mt-1'>{t('claiming')}</span>
             </span>
 
