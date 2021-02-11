@@ -58,7 +58,7 @@ input[type='submit'][disabled] {
 .fieldset {
   @apply py-2 mb-0 w-full;
 
-  max-width: 500px;
+  max-width: 550px;
 }
 
 .fieldset label {

@@ -6,12 +6,13 @@ import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
 
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
+import PoolTogetherPOOLToken from 'assets/images/pool-icon.svg'
 
 export function SignInForm(props) {
+  const { descriptionClassName, hideImg, retroClaim, postSignInCallback } = props
+  
   const { t } = useTranslation()
   // const { handleSubmit, register, errors, formState } = useForm({ mode: 'onBlur' })
-
-  const { hideImg, descriptionClassName, postSignInCallback } = props
 
   const { connectWallet } = useContext(AuthControllerContext)
 
@@ -24,13 +25,14 @@ export function SignInForm(props) {
   return (
     <>
       <div className='text-inverse'>
-        {!hideImg && (
-          <>
-            <img src={PoolTogetherTrophyDetailed} className='mx-auto mb-6 w-16 xs:w-1/12' />
-          </>
-        )}
+        {!hideImg && <img
+          src={retroClaim ? PoolTogetherPOOLToken : PoolTogetherTrophyDetailed}
+          className='mx-auto mb-6 w-16 xs:w-1/12'
+        />}
 
-        <h5 className={descriptionClassName}>{t('connectAWalletToManageTicketsAndRewards')}</h5>
+        <h5 className={descriptionClassName}>
+          {retroClaim ? t('connectWalletToClaimPoolTokens') : t('connectAWalletToManageTicketsAndRewards')}
+        </h5>
 
         <Button
           textSize='lg'
@@ -42,18 +44,20 @@ export function SignInForm(props) {
           {t('connectWallet')}
         </Button>
 
-        <PTHint
-          title='Ethereum'
-          className='mt-4 mx-auto w-48'
-          tip={
-            <>
-              <div className='my-2 text-xs sm:text-sm'>{t('whatIsEthereumOne')}</div>
-              <div className='text-xs sm:text-sm'>{t('whatIsEthereumTwo')}</div>
-            </>
-          }
-        >
-          <span className='font-bold text-caption w-48'>{t('whatsAnEthereum')}</span>
-        </PTHint>
+        {!retroClaim && (
+          <PTHint
+            title='Ethereum'
+            className='mt-4 mx-auto w-48'
+            tip={
+              <>
+                <div className='my-2 text-xs sm:text-sm'>{t('whatIsEthereumOne')}</div>
+                <div className='text-xs sm:text-sm'>{t('whatIsEthereumTwo')}</div>
+              </>
+            }
+          >
+            <span className='opacity-60 font-bold text-caption w-48'>{t('whatsAnEthereum')}</span>
+          </PTHint>
+        )}
       </div>
 
       {/* <div

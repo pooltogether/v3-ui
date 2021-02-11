@@ -31,9 +31,9 @@ export function NetworkText(props) {
       >
         <img src={IconNetwork} className='w-4 mr-1 xs:mr-2' />
         <span className='capitalize'>
-          {networkName.charAt(0)}
+          {networkName?.charAt(0)}
           <span className='hidden sm:inline-block lowercase'>
-            {networkName.substr(1, networkName.length)}
+            {networkName?.substr(1, networkName.length)}
           </span>
         </span>
       </button>

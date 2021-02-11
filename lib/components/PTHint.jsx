@@ -74,7 +74,6 @@ export function PTHint(props) {
         <div
           {...trigger}
           onMouseEnter={show}
-          // onClick={toggleVisible}
           onTouchStart={toggleVisible}
           className={classnames('cursor-pointer h-full w-full l-0 r-0 t-0 b-0 absolute')}
           style={{

@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
-import ClipLoader from 'react-spinners/ClipLoader'
+import CountUp from 'react-countup'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { ethers } from 'ethers'
-import CountUp from 'react-countup'
 import { usePreviousValue } from 'beautiful-react-hooks'
 
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
@@ -19,8 +18,9 @@ import {
 } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { ThemedClipLoader } from 'lib/components/ThemedClipLoader'
 import { useAccount } from 'lib/hooks/useAccount'
-import { useClaimablePoolTokenFaucetAddresses } from 'lib/hooks/useClaimablePoolTokenFaucetAddresses'
+// import { useClaimablePoolTokenFaucetAddresses } from 'lib/hooks/useClaimablePoolTokenFaucetAddresses'
 import { usePools } from 'lib/hooks/usePools'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
@@ -179,7 +179,7 @@ const ClaimAllButton = (props) => {
     >
       {txPending && (
         <span className='mr-2'>
-          <ClipLoader size={14} color={'#049c9c'} />
+          <ThemedClipLoader />
         </span>
       )}
       {text}
@@ -346,7 +346,7 @@ const ClaimButton = (props) => {
     >
       {txPending && (
         <span className='mr-2'>
-          <ClipLoader size={14} color={'#049c9c'} />
+          <ThemedClipLoader />
         </span>
       )}
       {text}

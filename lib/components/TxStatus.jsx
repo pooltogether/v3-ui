@@ -64,18 +64,18 @@ export const TxStatus = (props) => {
           />
         )}
 
-        <div className='text-accent-1 opacity-80 text-sm sm:text-base'>
+        <div className='text-white text-sm'>
           {t('transactionStatus')}
         </div>
 
         {txInWallet && !txError && (
-          <div className='text-sm sm:text-base text-inverse'>
+          <div className='text-sm sm:text-base text-orange'>
             {inWalletMessage ? inWalletMessage : t('pleaseConfirmInYourWallet')}
           </div>
         )}
 
         {txSent && (
-          <div className='text-sm sm:text-base text-inverse'>
+          <div className='text-sm sm:text-base text-white'>
             {sentMessage ? sentMessage : t('transactionSentConfirming')}
           </div>
         )}

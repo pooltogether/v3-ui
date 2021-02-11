@@ -8,10 +8,6 @@ const THEME = 'theme'
 export const ThemeContext = React.createContext(null)
 
 export function ThemeContextProvider(props) {
-  // if (!window) {
-  //   return null
-  // }
-
   const [theme, setTheme] = useState('dark')
 
   useEffect(() => {
