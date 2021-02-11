@@ -45,7 +45,13 @@ export const PoolCurrencyIcon = (props) => {
       sizeClasses = 'w-12 h-12 sm:w-16 sm:h-16 lg:w-18 lg:h-18'
     }
   } else {
-    sizeClasses = 'w-8 h-8'
+    if (lg) {
+      sizeClasses = 'w-10 h-10'
+    } else if (xl) {
+      sizeClasses = 'w-12 h-12'
+    } else {
+      sizeClasses = 'w-8 h-8'
+    }
   }
 
   const classes = classnames(sizeClasses, {

@@ -21,7 +21,7 @@ export const IndexUI = (props) => {
       {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <RetroactivePoolClaimBanner />}
 
       <PageTitleAndBreadcrumbs title={`${t('pools')}`} breadcrumbs={[]} />
-
+{/* 
       <Link href='/pools/[symbol]' as={`/pools/PT-cCOMP`}>
         <a className='block mt-2 mb-3 text-center p-3 rounded-lg border-2 border-secondary font-bold text-inverse text-xxs xs:text-xs sm:text-sm'>
           <span role='img' aria-label='megaphone emoji' className='mx-2 text-xl'>
@@ -40,7 +40,7 @@ export const IndexUI = (props) => {
             ticker: 'COMP',
           })}
         </a>
-      </Link>
+      </Link> */}
 
       {loading ? <IndexUILoader /> : <PoolList pools={pools} />}
 

@@ -1,8 +1,7 @@
 import React from 'react'
-import FeatherIcon from 'feather-icons-react'
+// import FeatherIcon from 'feather-icons-react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
 
 import {
   COOKIE_OPTIONS,
@@ -17,7 +16,6 @@ import { InteractableCard } from 'lib/components/InteractableCard'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { usePool } from 'lib/hooks/usePool'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const PoolRowNew = (props) => {
   const { querySymbol } = props
@@ -28,7 +26,6 @@ export const PoolRowNew = (props) => {
   const { pool } = usePool(querySymbol)
 
   const symbol = pool.symbol
-  const decimals = pool?.underlyingCollateralDecimals || DEFAULT_TOKEN_PRECISION
 
   const ticker = pool?.underlyingCollateralSymbol
   const tickerUpcased = ticker?.toUpperCase()
@@ -44,6 +41,17 @@ export const PoolRowNew = (props) => {
     })
   }
 
+  const ViewPoolDetailsButton = () => <button
+    className='inline-flex justify-between items-center border-transparent text-highlight-3 bg-transparent text-xxxs'
+  >
+    {t('viewPool')}{' '}
+    {/* <FeatherIcon
+      strokeWidth='0.09rem'
+      icon='arrow-right-circle'
+      className='inline-block relative w-3 h-3 mx-auto ml-1'
+    /> */}
+  </button>
+
   return (
     <>
       <InteractableCard
@@ -53,70 +61,57 @@ export const PoolRowNew = (props) => {
         as={`/pools/${symbol}`}
         className='mt-2 sm:mt-4'
       >
-        <div className='flex flex-col items-center justify-center text-inverse'>
-          <div className='flex items-center justify-center'>
-            <PoolCurrencyIcon lg pool={pool} className='mr-2 mt-1' />
+        <div className='flex flex-col xs:flex-row items-center xs:items-start justify-between text-inverse'>
+          <div className='flex items-start justify-center xs:justify-start w-full xs:w-1/2'>
+            <div className='relative mr-2 mt-4' style={{ top: 1 }}>
+              <PoolCurrencyIcon noMediaQueries lg pool={pool} />
+            </div>
 
-            <div className='text-5xl sm:text-6xl lg:text-7xl font-bold text-flashy'>
-              $
-              <PoolCountUp fontSansRegular decimals={0} duration={6}>
-                {parseFloat(pool?.totalPrizeAmountUSD)}
-              </PoolCountUp>
+            <div className='flex flex-col'>
+              <div className='text-5xl text-flashy font-bold'>
+                $
+                <PoolCountUp fontSansRegular decimals={0} duration={6}>
+                  {parseFloat(pool?.totalPrizeAmountUSD)}
+                </PoolCountUp>
+              </div>
+
+              <div className='text-accent-1 text-xxxs'>
+                {t('prizeValue')}
+              </div>
+
+              <span className='relative hidden xs:inline-block lg:-t-2'>
+                <ViewPoolDetailsButton />
+              </span>
             </div>
           </div>
 
-          <div className='text-xs xs:text-sm sm:text-base lg:text-lg -t-1 relative'>
-            {t('prizeValue')}*
-          </div>
 
-          <div className='my-4'>
+          <div className='pool-row-right-col flex flex-col items-center w-full xs:w-1/2 pt-4'>
             <NewPrizeCountdown textSize='text-sm sm:text-lg lg:text-xl' pool={pool} />
+
+            <Button
+              border='green'
+              text='primary'
+              bg='green'
+              hoverBorder='green'
+              hoverText='primary'
+              hoverBg='green'
+              onClick={handleGetTicketsClick}
+              width='w-full'
+              textSize='sm'
+              className='mt-4'
+              disabled={!Boolean(pool?.symbol)}
+            >
+              {t('depositTicker', {
+                ticker: tickerUpcased,
+              })}
+            </Button>
+
+            <div className='xs:hidden'>
+              <ViewPoolDetailsButton />
+            </div>
           </div>
-
-          <Button
-            border='green'
-            text='primary'
-            bg='green'
-            hoverBorder='green'
-            hoverText='primary'
-            hoverBg='green'
-            onClick={handleGetTicketsClick}
-            width='w-full xs:w-8/12 sm:w-7/12 lg:w-5/12'
-            textSize='sm'
-            className='my-4'
-            disabled={!Boolean(pool?.symbol)}
-          >
-            {t('depositTicker', {
-              ticker: tickerUpcased,
-            })}
-          </Button>
-
-          <Button
-            noAnim
-            bold={false}
-            border='transparent'
-            text='highlight-3'
-            bg='transparent'
-            hoverBorder='transparent'
-            hoverText='highlight-2'
-            hoverBg='transparent'
-            padding='pl-2 pr-0'
-            className='inline-flex justify-between items-center'
-            textSize='xxs'
-            rounded='full'
-          >
-            {t('viewPool')}{' '}
-            <FeatherIcon
-              strokeWidth='0.09rem'
-              icon='arrow-right-circle'
-              className='inline-block relative w-4 h-4 mx-auto ml-1'
-            />
-          </Button>
         </div>
-
-        <p className='text-center text-accent-1 mx-auto text-xxxxs xs:text-xxxs sm:text-xxs mt-4 opacity-50'>
-          {t('prizeApproximationFootnote')}
-        </p>
       </InteractableCard>
     </>
   )

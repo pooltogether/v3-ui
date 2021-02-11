@@ -237,6 +237,28 @@ a:hover {
   }
 }
 
+.pool-row-right-col {
+  max-width: 300px;
+}
+
+@screen sm {
+  .pool-row-right-col {
+    max-width: 300px;
+  }
+}
+@screen sm {
+  .pool-row-right-col {
+    max-width: 300px;
+  }
+}
+@screen sm {
+  .pool-row-right-col {
+    max-width: 300px;
+  }
+}
+
+
+
 .profile-img {
   transform: scale(1);
 }
