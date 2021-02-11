@@ -90,13 +90,12 @@ const ClaimRetroactivePoolWizardStepManager = (props) => {
       closeWizard={closeWizard}
     >
       <div className='text-inverse'>
-        {/* <StepOne nextStep={nextStep} isActive={activeStepIndex === 0} key={1} />
-        <StepTwo nextStep={nextStep} isActive={activeStepIndex === 1} key={2} /> */}
+        <StepOne nextStep={nextStep} isActive={activeStepIndex === 0} key={1} />
+        <StepTwo nextStep={nextStep} isActive={activeStepIndex === 1} key={2} />
         <StepThree
           key={3}
           nextStep={nextStep}
-          isActive={activeStepIndex === 0}
-          // isActive={activeStepIndex === 2}
+          isActive={activeStepIndex === 2}
           closeWizard={closeWizard}
         />
       </div>
@@ -338,7 +337,7 @@ const ClaimableBalanceCheck = (props) => {
   const txSuccessful = tx?.completed && !tx?.error && !tx?.cancelled
 
   return (<>{txSuccessful ?
-    <ClaimCompleted claimAmountCached={claimAmountCached} amount={amountWithCommas} closeWizard={closeWizard} /> :
+    <ClaimCompleted claimAmountCached={claimAmountCached} closeWizard={closeWizard} /> :
     <ReceivingMessage
       isClaimed={isClaimed}
       amountWithCommas={amountWithCommas}
