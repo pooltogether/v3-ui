@@ -1,15 +1,17 @@
-import { Dialog } from '@reach/dialog'
-import FeatherIcon from 'feather-icons-react'
-import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 import React, { useState } from 'react'
+import FeatherIcon from 'feather-icons-react'
+import { Dialog } from '@reach/dialog'
+
+import { useTranslation } from 'lib/../i18n'
+import { NumberCountUp } from 'lib/components/NumberCountUp'
+import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
+import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
+import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
+
 import Squiggle from 'assets/images/squiggle.svg'
 import PoolIcon from 'assets/images/pool-icon.svg'
-import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
-import { useClaimablePoolFromTokenFaucets } from 'lib/hooks/useClaimablePoolFromTokenFaucets'
-import { useTranslation } from 'lib/../i18n'
-import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 
-export const NavPoolBalance = (props) => {
+export const NavPoolBalance = () => {
   const [isOpen, setIsOpen] = useState(false)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
@@ -21,17 +23,20 @@ export const NavPoolBalance = (props) => {
   }
 
   const { usersBalance } = tokenData
-  const formattedBalance = numberWithCommas(usersBalance, {
-    precision: getPrecision(usersBalance)
-  })
 
   return (
     <>
       <div
-        className='relative text-highlight-9 hover:text-white font-bold cursor-pointer pool-gradient-1 rounded-full px-3 xs:px-4 p-2 leading-none trans mr-2 flex'
+        className='relative text-green hover:text-white font-bold cursor-pointer pool-gradient-1 rounded-full px-3 xs:px-4 p-2 leading-none trans mr-2 flex'
         onClick={openModal}
       >
-        <span className='hidden sm:block mr-2'>{formattedBalance}</span> POOL
+        <span className='hidden sm:block mr-2'>
+          <NumberCountUp
+            amount={usersBalance}
+            decimals={getPrecision(usersBalance)}
+          />
+        </span>
+        POOL
       </div>
       <PoolBalanceModal isOpen={isOpen} closeModal={closeModal} tokenData={tokenData} />
     </>
@@ -43,28 +48,14 @@ const PoolBalanceModal = (props) => {
   const { isOpen, closeModal, tokenData } = props
   const { usersBalance, totalSupply } = tokenData
 
-  const {
-    data: claimablePoolFromTokenFaucetsData,
-    isFetched: totalClaimableIsFetched
-  } = useClaimablePoolFromTokenFaucets()
-  
-  const {
-    data: retroactiveClaimablePool,
-    isFetched: retroactiveClaimableIsFetched
-  } = useRetroactivePoolClaimData()
+  const { total: totalClaimablePool, isFetched: totalClaimableIsFetched } = useTotalClaimablePool()
 
-  const claimablePoolIsLoaded = totalClaimableIsFetched && retroactiveClaimableIsFetched
-
-  if (!claimablePoolIsLoaded) {
+  if (!totalClaimableIsFetched) {
     return null
   }
 
-  const totalClaimableFromTokenFaucets = claimablePoolFromTokenFaucetsData.total
-  const totalPlusRetro = claimablePoolIsLoaded
-    ? totalClaimableFromTokenFaucets + retroactiveClaimablePool.formattedAmount
-    : 0
-  const totalClaimablePoolFormatted = numberWithCommas(totalPlusRetro, {
-    precision: getPrecision(totalClaimableFromTokenFaucets)
+  const totalClaimablePoolFormatted = numberWithCommas(totalClaimablePool, {
+    precision: getPrecision(totalClaimablePool)
   })
   const formattedBalance = numberWithCommas(usersBalance, {
     precision: getPrecision(usersBalance)
