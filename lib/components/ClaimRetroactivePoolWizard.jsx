@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import Link from 'next/link'
+// import Link from 'next/link'
 import { Wizard, useWizard } from 'react-wizard-primitive'
 import { atom, useAtom } from 'jotai'
 import { useRouter } from 'next/router'
@@ -23,42 +23,19 @@ import { WizardLayout } from 'lib/components/WizardLayout'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
 
-export const showClaimWizardAtom = atom(false)
-
 export const ClaimRetroactivePoolWizardContainer = () => {
-  const [showWizard, setShowWizard] = useAtom(showClaimWizardAtom)
-  const [cachedUsersAddress, setCachedUsersAddress] = useState()
-  
-  const { usersAddress } = useContext(AuthControllerContext)
-  
   const router = useRouter()
-
   const claim = router.query.claim
-  const other = router.query.other
-
-  // on page load coming from gov app
-  useEffect(() => {
-    setShowWizard(claim && !cachedUsersAddress)
-    setCachedUsersAddress(usersAddress)
-  }, [usersAddress])
-
-  // when 'other' and 'claim' query params change and they're both false, close this window
-  useEffect(() => {
-    setShowWizard(Boolean(other) && Boolean(claim))
-  }, [other, claim])
 
   const closeWizard = () => {
-    queryParamUpdater.remove(router, 'claim')
-    queryParamUpdater.remove(router, 'other')
-    setShowWizard(false)
+    handleCloseWizard(router)
   }
 
-  if (!showWizard) {
+  if (!claim) {
     return null
   }
 
@@ -185,24 +162,20 @@ const StepThree = (props) => {
   const { isActive } = props
   const { t } = useTranslation()
 
-  const { usersAddress } = useContext(AuthControllerContext)
-  const [showAddressForm, setShowAddressForm] = useState(false)
+  const router = useRouter()
+  const addressParam = router.query.address
 
-  const { handleSubmit, watch, register, setValue, errors, formState } = useForm({
+  const [showAddressForm, setShowAddressForm] = useState(!Boolean(addressParam))
+
+  const { handleSubmit, watch, register, errors, formState } = useForm({
     mode: 'all',
-    shouldUnregister: false
+    shouldUnregister: false,
+    defaultValues: { address: addressParam }
   })
 
   const address = watch('address')
 
-  // on page load when onboard initializes and the user is signed in using the cookie
-  useEffect(() => {
-    if (usersAddress) {
-      setValue('address', usersAddress)
-    }
-  }, [usersAddress])
-
-  const onSubmit = (values) => {
+  const onSubmit = () => {
     if (formState.isValid) {
       setShowAddressForm(false)
     }
@@ -228,6 +201,8 @@ const StepThree = (props) => {
   
   return (<>
     {showAddressForm ? <form onSubmit={handleSubmit(onSubmit)}>
+      <h5>{t('claimingFor')}</h5>
+
       <TextInputGroup
         autoFocus
         small
@@ -235,7 +210,7 @@ const StepThree = (props) => {
         name='address'
         register={register}
         label={t('ethereumAddress')}
-        placeholder='Enter a valid ETH Address or ENS name'
+        placeholder={t('enterAValidEthAddress')}
         validate={validate}
       />
 
@@ -339,6 +314,7 @@ const ClaimableBalanceCheck = (props) => {
   return (<>{txSuccessful ?
     <ClaimCompleted claimAmountCached={claimAmountCached} closeWizard={closeWizard} /> :
     <ReceivingMessage
+      closeWizard={closeWizard}
       isClaimed={isClaimed}
       amountWithCommas={amountWithCommas}
       formattedAmount={formattedAmount}
@@ -349,22 +325,22 @@ const ClaimableBalanceCheck = (props) => {
 }
 
 const ReceivingMessage = (props) => {
-  const { isClaimed, formattedAmount, amountWithCommas, handleClaim, tx } = props
+  const { closeWizard, isClaimed, formattedAmount, amountWithCommas, handleClaim, tx } = props
   
   const { t } = useTranslation()
-  const router = useRouter()
+  // const router = useRouter()
   
-  const [showWizard, setShowWizard] = useAtom(showClaimWizardAtom)
+  // const [showWizard, setShowWizard] = useAtom(showClaimWizardAtom)
 
   const canClaim = formattedAmount !== 0 && !isClaimed
 
   const txInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent || tx?.completed)
 
-  const handleClose = (e) => {
-    e.preventDefault()
-    handleCloseWizard(router)
-    setShowWizard(false)
-  }
+  // const handleClose = (e) => {
+  //   e.preventDefault()
+  //   // handleCloseWizard(router)
+  //   // setShowWizard(false)
+  // }
 
   return <div className='mx-auto flex flex-col' style={{ maxWidth: '550px' }}>
     {canClaim && !txInFlight && <CanClaimMessage
@@ -373,7 +349,7 @@ const ReceivingMessage = (props) => {
       txInFlight={txInFlight}
     />}
 
-    {!canClaim && <CannotClaimMessage isClaimed={isClaimed} handleClose={handleClose} />}
+    {!canClaim && <CannotClaimMessage isClaimed={isClaimed} handleClose={closeWizard} />}
 
     <div className='mt-10'>
       {tx && <>
@@ -401,7 +377,7 @@ const CannotClaimMessage = (props) => {
     {isClaimed ? <h5>{t('alreadyClaimed')}</h5> : <h5>{t('thereIsNoPoolToClaimForThisAddress')}</h5>}
 
     <ButtonDrawer>
-      <Button onClick={handleClose} textSize='lg' className='mt-4 sm:mt-40 mx-auto'>
+      <Button onClick={handleClose} className='mt-4 sm:mt-40 mx-auto'>
         {t('closeThis')}
       </Button>
     </ButtonDrawer>
@@ -415,14 +391,14 @@ const CanClaimMessage = (props) => {
   return (<>
     <h4>{t('youAreReceiving')}</h4>
 
-    <div className='flex mx-auto mb-2 sm:mb-8'>
+    <div className='flex mx-auto mb-2 -mt-1'>
       <h2 className='shake'>🎉</h2>
       <h1 className='text-flashy mx-2'>{amountWithCommas} POOL</h1>
       <h2 className='shake'>🎉</h2>
     </div>
 
     {!txInFlight && <ButtonDrawer>
-      <Button onClick={handleClaim} textSize='lg' className='mt-4 sm:mt-8 w-full'>
+      <Button onClick={handleClaim} textSize='lg' className='w-full'>
         {t('claimMyTokens')}
       </Button>
     </ButtonDrawer>}
@@ -446,10 +422,6 @@ const ClaimCompleted = (props) => {
     }
   }, [])
 
-  const onClick = (e) => {
-    closeWizard()
-  }
-
   return (
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <h3>🎉 🎉 🎉</h3>
@@ -458,8 +430,8 @@ const ClaimCompleted = (props) => {
       <WizardBanner>
         <h4 className='mb-4 text-white'>{t('nowLetsUseTokens')}</h4>
         <div className='flex flex-row'>
-          <ProposalButton onClick={onClick} />
-          <LearnMoreButton onClick={onClick} />
+          <ProposalButton closeWizard={closeWizard} />
+          <LearnMoreButton closeWizard={closeWizard} />
         </div>
       </WizardBanner>
     </div>
@@ -476,12 +448,12 @@ const CheckboxContainer = (props) => (
 
 const ProposalButton = (props) => {
   const { t } = useTranslation()
-  const { onClick } = props
+  const { closeWizard } = props
 
   return (
     <a
       href='https://vote.pooltogether.com'
-      onClick={onClick}
+      onClick={closeWizard}
       className='p-8 mr-4 bg-secondary hover:bg-highlight-2 text-white hover:text-white w-full flex flex-col rounded-lg trans'
     >
       <svg
@@ -507,12 +479,12 @@ const ProposalButton = (props) => {
 
 const LearnMoreButton = (props) => {
   const { t } = useTranslation()
-  const { onClick } = props
+  const { closeWizard } = props
 
   return (
     <a
       href='https://medium.com/p/23b09f36db48'
-      onClick={onClick}
+      onClick={closeWizard}
       className='p-8 mr-4 bg-secondary hover:bg-highlight-2 text-white hover:text-white w-full flex flex-col rounded-lg trans'
     >
       <svg

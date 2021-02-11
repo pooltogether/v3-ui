@@ -47,6 +47,7 @@ const PoolBalanceModal = (props) => {
     data: claimablePoolFromTokenFaucetsData,
     isFetched: totalClaimableIsFetched
   } = useClaimablePoolFromTokenFaucets()
+  
   const {
     data: retroactiveClaimablePool,
     isFetched: retroactiveClaimableIsFetched

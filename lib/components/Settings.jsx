@@ -164,9 +164,11 @@ export function Settings(props) {
             secondary
             textSize='xxxs'
             padding='px-6 py-2'
-            as='?claim=1&other=1'
-            href='?claim=1&other=1'
-          >Open POOL Claim</ButtonLink>
+            as='?claim=1'
+            href='?claim=1'
+          >
+            Open POOL Claim
+          </ButtonLink>
         </div>
 
       </motion.div>

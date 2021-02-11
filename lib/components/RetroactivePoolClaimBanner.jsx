@@ -1,11 +1,9 @@
 import React, { useContext } from 'react'
-import { useAtom } from 'jotai'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Banner } from 'lib/components/Banner'
-import { Button } from 'lib/components/Button'
-import { showClaimWizardAtom } from 'lib/components/ClaimRetroactivePoolWizard'
+import { ButtonLink } from 'lib/components/ButtonLink'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 
 import Bell from 'assets/images/bell@2x.png'
@@ -13,14 +11,10 @@ import Bell from 'assets/images/bell@2x.png'
 export const RetroactivePoolClaimBanner = (props) => {
   const { t } = useTranslation()
   
-  const [showClaimWizard, setShowClaimWizard] = useAtom(showClaimWizardAtom)
-  const { chainId } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
   const { data, loading } = useRetroactivePoolClaimData()
 
-  // TODO:  Remove. Temporary block on mainnet so nobody gets confused while testing.
-  if (chainId === 1) return null
-
-  if (loading || data?.isClaimed) {
+  if (loading || data?.isMissing || data?.isClaimed) {
     return null
   }
 
@@ -35,15 +29,16 @@ export const RetroactivePoolClaimBanner = (props) => {
           <p className='mt-1 mb-5 text-xs sm:text-sm w-full xs:w-10/12 sm:w-9/12'>
             {t('retroactivePoolBannerDescription')}
           </p>
-          <Button
+          <ButtonLink
+            as={`?claim=1&address=${usersAddress}`}
+            href={`?claim=1&address=${usersAddress}`}
             type='button'
-            onClick={() => setShowClaimWizard(true)}
             className='w-full xs:w-auto'
             tertiary
             textSize='sm'
           >
             {t('claimPool')}
-          </Button>
+          </ButtonLink>
         </div>
       </div>
     </Banner>
