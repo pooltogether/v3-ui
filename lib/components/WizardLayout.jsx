@@ -70,7 +70,7 @@ export function WizardLayout(props) {
 
       <motion.div
         key={`${action}-pane`}
-        className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 z-50'
+        className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 z-50 text-inverse'
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: shouldReduceMotion ? 0 : 0.25 }}
       >

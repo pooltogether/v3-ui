@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-// import Link from 'next/link'
-import { Wizard, useWizard } from 'react-wizard-primitive'
-import { atom, useAtom } from 'jotai'
+import { Wizard, WizardStep, useWizard } from 'react-wizard-primitive'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { AnimatePresence } from 'framer-motion'
@@ -11,11 +9,14 @@ import MerkleDistributorAbi from 'abis/MerkleDistributor'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { Banner } from 'lib/components/Banner'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
+import { PaneTitle } from 'lib/components/PaneTitle'
+import { SignInForm } from 'lib/components/SignInForm'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { TxStatus } from 'lib/components/TxStatus'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
@@ -56,23 +57,34 @@ const ClaimRetroactivePoolWizard = (props) => {
 
 const ClaimRetroactivePoolWizardStepManager = (props) => {
   const { closeWizard } = props
-  const { activeStepIndex, previousStep, moveToStep, nextStep } = useWizard()
+  
+  const { usersAddress } = useContext(AuthControllerContext)
+  const { activeStepIndex, previousStep, moveToStep, nextStep } = useWizard({
+    initialStepIndex: usersAddress ? 1 : 0
+  })
+
+  useEffect(() => {
+    if (usersAddress) {
+      moveToStep(1)
+    }
+  }, [usersAddress])
 
   return (
     <WizardLayout
       currentWizardStep={activeStepIndex + 1}
       handlePreviousStep={previousStep}
       moveToStep={moveToStep}
-      totalWizardSteps={3}
+      totalWizardSteps={4}
       closeWizard={closeWizard}
     >
       <div className='text-inverse'>
-        <StepOne nextStep={nextStep} isActive={activeStepIndex === 0} key={1} />
-        <StepTwo nextStep={nextStep} isActive={activeStepIndex === 1} key={2} />
+        <ClaimRetroactiveSignInStep nextStep={nextStep} isActive={activeStepIndex === 0} />
+        <StepOne nextStep={nextStep} isActive={activeStepIndex === 1} key={1} />
+        <StepTwo nextStep={nextStep} isActive={activeStepIndex === 2} key={2} />
         <StepThree
           key={3}
           nextStep={nextStep}
-          isActive={activeStepIndex === 2}
+          isActive={activeStepIndex === 3}
           closeWizard={closeWizard}
         />
       </div>
@@ -367,6 +379,33 @@ const ReceivingMessage = (props) => {
   </div>
 }
 
+export function ClaimRetroactiveSignInStep(props) {
+  const { nextStep, isActive } = props
+
+  const { t } = useTranslation()
+  const { handleLoadOnboard } = useContext(WalletContext)
+
+  // lazy load onboardjs when sign-in is shown
+  useEffect(() => {
+    console.log('handleLoadOnboard retro wizard sign in form')
+    handleLoadOnboard()
+  }, [])
+
+  if (!isActive) {
+    return null
+  }
+
+  return (
+    <div className='flex flex-col mx-auto w-full'>
+      <SignInForm
+        retroClaim
+        descriptionClassName='mb-10 xs:w-3/4 sm:w-1/2 lg:w-full mx-auto'
+        postSignInCallback={nextStep}
+      />
+    </div>
+  )
+}
+
 const CannotClaimMessage = (props) => {
   const { handleClose, isClaimed } = props
   const { t } = useTranslation()
@@ -377,7 +416,7 @@ const CannotClaimMessage = (props) => {
     {isClaimed ? <h5>{t('alreadyClaimed')}</h5> : <h5>{t('thereIsNoPoolToClaimForThisAddress')}</h5>}
 
     <ButtonDrawer>
-      <Button onClick={handleClose} className='mt-4 sm:mt-40 mx-auto'>
+      <Button onClick={handleClose} className='mt-4 mx-auto'>
         {t('closeThis')}
       </Button>
     </ButtonDrawer>
