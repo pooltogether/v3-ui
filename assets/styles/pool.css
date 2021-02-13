@@ -241,22 +241,33 @@ a:hover {
   max-width: 300px;
 }
 
-@screen sm {
+@screen xs {
   .pool-row-right-col {
-    max-width: 300px;
+    max-width: 270px;
   }
 }
+
 @screen sm {
   .pool-row-right-col {
-    max-width: 300px;
+    max-width: 278px;
   }
 }
-@screen sm {
+
+@screen lg {
   .pool-row-right-col {
     max-width: 300px;
   }
 }
 
+.min-w-chip {
+  min-width: 186px;
+}
+
+@screen xs {
+  .min-w-chip {
+    min-width: 206px;
+  }
+}
 
 
 .profile-img {

@@ -21,6 +21,7 @@
   --color-bg-accent-grey-2: #43286e;
   --color-bg-accent-grey-3: #bbb2ce;
   --color-bg-accent-grey-4: #341762;
+  --color-bg-accent-grey-5: rgba(69, 101, 255, 0.4);
   --color-bg-highlight-1: #35f0d0;
   --color-bg-highlight-2: #35f0d0;
   --color-bg-highlight-3: #401c94;
@@ -107,6 +108,7 @@
   --color-bg-accent-grey-2: #f6f2ff;
   --color-bg-accent-grey-3: #f6f2ff;
   --color-bg-accent-grey-4: #f6f2ff;
+  --color-bg-accent-grey-5: #f6f2ff;
   --color-bg-highlight-1: #4c249f;
   --color-bg-highlight-2: #7f51d1;
   --color-bg-highlight-3: #4c249f;

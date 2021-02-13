@@ -11,11 +11,14 @@ import {
 } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
+import { Chip } from 'lib/components/Chip'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { usePool } from 'lib/hooks/usePool'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const PoolRowNew = (props) => {
   const { querySymbol } = props
@@ -52,6 +55,14 @@ export const PoolRowNew = (props) => {
     /> */}
   </button>
 
+  const TotalDepositedChip = () => <Chip
+    size='text-xxxs sm:text-xxs'
+    className='min-w-chip'
+    text={<>
+      {t('totalDeposited')} ${numberWithCommas(pool?.totalDepositedUSD, { precision: 0 })}
+    </>}
+  />
+
   return (
     <>
       <InteractableCard
@@ -61,12 +72,17 @@ export const PoolRowNew = (props) => {
         as={`/pools/${symbol}`}
         className='mt-2 sm:mt-4'
       >
+        <div className='hidden xs:flex justify-end'>
+          <TotalDepositedChip />
+        </div>
+
         <div className='flex flex-col xs:flex-row items-center xs:items-start justify-between text-inverse'>
+
           <div className='flex items-start justify-center xs:justify-start w-full xs:w-1/2'>
             <div className='relative mr-2 mt-4' style={{ top: 1 }}>
               <PoolCurrencyIcon noMediaQueries lg pool={pool} />
             </div>
-
+            
             <div className='flex flex-col'>
               <div className='text-5xl text-flashy font-bold'>
                 $
@@ -79,7 +95,7 @@ export const PoolRowNew = (props) => {
                 {t('prizeValue')}
               </div>
 
-              <span className='relative hidden xs:inline-block lg:-t-2'>
+              <span className='relative hidden xs:inline-block lg:-t-2 mb-2'>
                 <ViewPoolDetailsButton />
               </span>
             </div>
@@ -110,6 +126,9 @@ export const PoolRowNew = (props) => {
             <div className='xs:hidden'>
               <ViewPoolDetailsButton />
             </div>
+            <span className='mt-2 relative xs:hidden'>
+              <TotalDepositedChip />
+            </span>
           </div>
         </div>
       </InteractableCard>

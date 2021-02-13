@@ -92,9 +92,9 @@ export const AccountPoolRow = (props) => {
                 }}
               >
                 <span className='mr-1 sm:mr-2'>
-                  <Chip color='accent-1' text={t(pool?.name)} />
+                  <Chip bgClasses='bg-accent-1' text={t(pool?.name)} />
                 </span>{' '}
-                <Chip color='highlight-6' text={t(pool?.frequency)} />
+                <Chip bgClasses='bg-highlight-6' text={t(pool?.frequency)} />
               </div>
             </div>
           </div>
