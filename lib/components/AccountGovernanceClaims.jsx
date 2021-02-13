@@ -32,6 +32,8 @@ import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
 
+import PoolIcon from 'assets/images/pool-icon.svg'
+
 export const AccountGovernanceClaims = (props) => {
   const { pools, poolsGraphData } = usePools()
   const { t } = useTranslation()
@@ -101,7 +103,12 @@ const ClaimHeader = (props) => {
           refetchAllPoolTokenData={refetchAllPoolTokenData}
           claimable={totalClaimablePool > 0}
         />
-        <span className='sm:text-right text-accent-1 text-xxs'>{t('whatCanIDoWithPool')}</span>
+        <a
+          href='https://medium.com/p/23b09f36db48'
+          className='sm:text-right text-accent-1 text-xxs mb-3 sm:mb-0'
+        >
+          {t('whatCanIDoWithPool')}
+        </a>
       </div>
     </div>
   )
@@ -193,9 +200,11 @@ const ClaimablePoolTokenItem = (props) => {
   const { usersAddress } = useContext(AuthControllerContext)
   const { accountData } = useAccount(usersAddress)
   const { playerTickets } = usePlayerTickets(accountData)
-  const { name, symbol } = pool
+  const { symbol } = pool
   const { pool: poolInfo } = usePool(symbol)
   const tokenFaucetAddress = poolInfo.tokenListener
+  const { underlyingCollateralSymbol } = poolInfo
+  const name = t('prizePoolTicker', { ticker: underlyingCollateralSymbol })
 
   const { refetch: refetchClaimablePool, data, isFetched } = useClaimablePoolFromTokenFaucet(
     tokenFaucetAddress
@@ -210,11 +219,6 @@ const ClaimablePoolTokenItem = (props) => {
   const ticketData = playerTickets.find(
     (playerTicket) => playerTicket.pool.ticket.id === measureTokenAddress
   )
-
-  // Hide row if the user is not earning any POOL and there is no POOL to claim
-  if (!ticketData && !amount) {
-    return null
-  }
 
   const ticketTotalSupply = poolGraphData.ticket.totalSupply
   const totalSupplyOfTickets = Number(
@@ -241,29 +245,35 @@ const ClaimablePoolTokenItem = (props) => {
   const secondsLeft = faucetPoolSupplyBN.div(dripRatePerSecond).toNumber()
 
   return (
-    <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8'>
+    <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8 sm:items-center'>
       <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start mb-6 sm:mb-0'>
         <PoolCurrencyIcon
+          lg
           pool={{ underlyingCollateralSymbol: poolInfo.underlyingCollateralSymbol }}
-          className='h-16 w-16 sm:h-16 sm:w-16 sm:mr-4'
+          className='sm:mr-4'
         />
         <div className='xs:w-64'>
-          <h3 className='leading-none'>{name}</h3>
-          <div className='text-accent-1 text-xs mt-1'>
-            {totalDripPerDayFormatted} POOL / {t('day')}
+          <h5 className='leading-none'>{name}</h5>
+
+          <div className='text-accent-1 text-xs mb-1 mt-2 sm:mt-1 opacity-60 trans hover:opacity-100'>
+            {t('poolNamesDripRate', { poolName: name })}
+            <br />{totalDripPerDayFormatted} <img src={PoolIcon} className='inline-block w-4 h-4 mx-2' /> POOL / <span className='lowercase'>{t('day')}</span>
           </div>
           <RewardTimeLeft initialSecondsLeft={secondsLeft} />
         </div>
       </div>
 
       <div className='sm:text-right'>
-        <h3 className='leading-none'>
-          <ClaimableAmountCountUp amount={amount} suffix=' POOL' />
-        </h3>
-        <div className='text-accent-1 text-xs mb-4'>
-          @ {usersDripPerDayFormatted} POOL / {t('day')}
+        <p className='text-inverse mb-1 font-bold'>
+          {t('availableToClaim')}
+        </p>
+        <h4 className='leading-none flex items-center sm:justify-end'>
+          <img src={PoolIcon} className='inline-block w-6 h-6 mr-1' /> <ClaimableAmountCountUp amount={amount} />
+        </h4>
+        <div className='text-accent-1 text-xs mb-2 flex items-center sm:justify-end mt-1 opacity-60 trans hover:opacity-100'>
+          {usersDripPerDayFormatted} <img src={PoolIcon} className='inline-block w-4 h-4 mx-2' /> POOL / <span className='lowercase'>{t('day')}</span>
         </div>
-        <div className='sm:max-w-xxs sm:ml-auto'>
+        <div className='sm:w-40 sm:ml-auto'>
           <ClaimButton
             refetch={() => {
               refetchClaimablePool()
@@ -363,14 +373,14 @@ const RewardTimeLeft = (props) => {
   const textColor = determineColor(secondsLeft)
 
   return (
-    <div className='flex flex-col xs:flex-row xs:items-center text-accent-1 sm:mt-4'>
+    <div className='flex items-center text-accent-1 sm:mt-1 opacity-60 trans hover:opacity-100'>
       <span className='inline-block'>{t('endsIn')}</span>
 
-      <div className='inline-flex items-center'>
+      <div className='inline-flex items-center text-orange'>
         <FeatherIcon
-          className={classnames(`h-4 w-4 stroke-current stroke-2 my-auto xs:ml-2 mr-1`, textColor)}
+          className={classnames(`h-4 w-4 stroke-current stroke-2 my-auto mx-2`, textColor)}
           icon='clock'
-        />{' '}
+        />
         <span className={classnames(textColor)}>
           {!days ? null : `${days}d, `}
           {!hours && !days ? null : `${hours}h, `}
