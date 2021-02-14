@@ -25,13 +25,15 @@ const BannerUnmemoized = (props) => {
         {children}
       </div>
     )
-  }
-
-  return (
-    <div className={classnames(bannerClass, 'pool-gradient-1', className)} style={style}>
+  } else if (gradient === BannerGradient.purplePink) {
+    return <div className={classnames(bannerClass, 'pool-gradient-1', className)} style={style}>
       {children}
     </div>
-  )
+  } else {
+    return <div className={classnames(bannerClass, '', className)} style={style}>
+      {children}
+    </div>
+  }
 }
 
 BannerUnmemoized.defaultProps = {

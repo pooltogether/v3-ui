@@ -71,10 +71,11 @@ const ClaimRetroactivePoolWizardStepManager = (props) => {
 
   return (
     <WizardLayout
-      currentWizardStep={activeStepIndex + 1}
+      hideWizardSteps={!usersAddress}
+      currentWizardStep={activeStepIndex}
       handlePreviousStep={previousStep}
       moveToStep={moveToStep}
-      totalWizardSteps={4}
+      totalWizardSteps={3}
       closeWizard={closeWizard}
     >
       <div className='text-inverse'>
@@ -213,37 +214,43 @@ const StepThree = (props) => {
   
   return (<>
     {showAddressForm ? <form onSubmit={handleSubmit(onSubmit)}>
+      <h5 className='sm:-mt-32' style={{ paddingTop: 20 }}>{t('claimingFor')}</h5>
+
+      <Banner className='my-4'>
+        <TextInputGroup
+          autoFocus
+          small
+          borderClasses=''
+          id='claim-eth-address'
+          name='address'
+          register={register}
+          // label={t('ethereumAddress')}
+          placeholder={t('enterAValidEthAddress')}
+          validate={validate}
+        />
+
+        <div className='text-xxxs xs:text-xs text-red h-8 font-bold -my-2'>
+          {errors.address && errors.address.message}
+        </div>
+
+        <Button secondary type='submit' className='mt-4' disabled={!formState.isValid}>
+          {t('checkClaimableBalance')}
+        </Button>
+      </Banner>
+    </form> : (<>
       <h5>{t('claimingFor')}</h5>
 
-      <TextInputGroup
-        autoFocus
-        small
-        id='claim-eth-address'
-        name='address'
-        register={register}
-        label={t('ethereumAddress')}
-        placeholder={t('enterAValidEthAddress')}
-        validate={validate}
-      />
-
-      <div className='text-red h-8'>
-        {errors.address && errors.address.message}
-      </div>
-
-      <Button type='submit' className='mt-4 sm:mt-8' disabled={!formState.isValid}>
-        {t('checkClaimableBalance')}
-      </Button>
-    </form> : (<>
-      <div className='text-default -mt-40 mb-12 sm:mb-20'>
-        <h5>{t('claimingFor')}</h5>
-        <div className='xs:hidden text-xxs'>{shorten(address)}</div>
-        <div className='hidden sm:block text-sm'>{address}</div>
-        <button
-          onClick={showForm}
-          className='underline text-default-soft font-bold text-xxs xs:text-xs'
-        >
-          {t('changeAddress')}
-        </button>
+      <div className='text-white mx-auto' style={{ maxWidth: 550 }}>
+        <Banner className='my-4'>
+          <div className='xs:hidden text-xxs'>{shorten(address)}</div>
+          <div className='hidden sm:block text-sm'>{address}</div>
+          <button
+            onClick={showForm}
+            className='underline font-bold text-xxs xs:text-xs text-white hover:text-highlight-9'
+          >
+            {t('changeAddress')}
+          </button>
+        </Banner>
       </div>
 
       <ClaimableBalanceCheck
@@ -340,21 +347,12 @@ const ReceivingMessage = (props) => {
   const { closeWizard, isClaimed, formattedAmount, amountWithCommas, handleClaim, tx } = props
   
   const { t } = useTranslation()
-  // const router = useRouter()
-  
-  // const [showWizard, setShowWizard] = useAtom(showClaimWizardAtom)
 
   const canClaim = formattedAmount !== 0 && !isClaimed
 
   const txInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent || tx?.completed)
 
-  // const handleClose = (e) => {
-  //   e.preventDefault()
-  //   // handleCloseWizard(router)
-  //   // setShowWizard(false)
-  // }
-
-  return <div className='mx-auto flex flex-col' style={{ maxWidth: '550px' }}>
+  return <div className='mx-auto flex flex-col' style={{ maxWidth: 550 }}>
     {canClaim && !txInFlight && <CanClaimMessage
       amountWithCommas={amountWithCommas}
       handleClaim={handleClaim}
@@ -365,7 +363,7 @@ const ReceivingMessage = (props) => {
 
     <div className='mt-10'>
       {tx && <>
-        <TxStatus tx={tx} />
+        <TxStatus gradient='basic' tx={tx} />
 
         {tx?.error && <>
           <ButtonDrawer>
@@ -467,7 +465,7 @@ const ClaimCompleted = (props) => {
       <h3 className='text-flashy'>{t('successfullyClaimed')}</h3>
       <h2 className='text-highlight-1 mb-8'>{claimAmountCached} POOL</h2>
       <WizardBanner>
-        <h4 className='mb-4 text-white'>{t('nowLetsUseTokens')}</h4>
+        <h5 className='mb-4 text-white'>{t('nowLetsUseTokens')}</h5>
         <div className='flex flex-row'>
           <ProposalButton closeWizard={closeWizard} />
           <LearnMoreButton closeWizard={closeWizard} />
@@ -493,7 +491,7 @@ const ProposalButton = (props) => {
     <a
       href='https://vote.pooltogether.com'
       onClick={closeWizard}
-      className='p-8 mr-4 bg-secondary hover:bg-highlight-2 text-white hover:text-white w-full flex flex-col rounded-lg trans'
+      className='px-4 py-8 mr-4 bg-highlight-9 hover:bg-highlight-9 text-white hover:text-highlight-9 border border-transparent hover:border-green w-full flex flex-col justify-center rounded-lg trans'
     >
       <svg
         style={{
@@ -524,7 +522,7 @@ const LearnMoreButton = (props) => {
     <a
       href='https://medium.com/p/23b09f36db48'
       onClick={closeWizard}
-      className='p-8 mr-4 bg-secondary hover:bg-highlight-2 text-white hover:text-white w-full flex flex-col rounded-lg trans'
+      className='px-4 py-8 mr-4 bg-highlight-9 hover:bg-highlight-9 text-white hover:text-highlight-9 border border-transparent hover:border-green w-full flex flex-col justify-center rounded-lg trans'
     >
       <svg
         className='fill-current w-8 h-8 sm:w-16 sm:h-16 stroke-1 stroke-current mx-auto relative'

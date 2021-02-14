@@ -1,21 +1,34 @@
 import React, { useContext } from 'react'
+import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
+import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Banner } from 'lib/components/Banner'
-import { ButtonLink } from 'lib/components/ButtonLink'
+import { Button } from 'lib/components/Button'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
+import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 import Bell from 'assets/images/bell@2x.png'
 
 export const RetroactivePoolClaimBanner = (props) => {
   const { t } = useTranslation()
   
+  const router = useRouter()
   const { usersAddress } = useContext(AuthControllerContext)
   const { data, loading } = useRetroactivePoolClaimData()
 
   if (loading || data?.isMissing || data?.isClaimed) {
     return null
+  }
+
+  const handleOpenClaimClick = (e) => {
+    e.preventDefault()
+
+    Cookies.set(WIZARD_REFERRER_HREF, window.location.pathname, COOKIE_OPTIONS)
+    Cookies.set(WIZARD_REFERRER_AS_PATH, window.location.pathname, COOKIE_OPTIONS)
+
+    queryParamUpdater.add(router, { claim: '1', address: usersAddress })
   }
 
   return (
@@ -29,7 +42,7 @@ export const RetroactivePoolClaimBanner = (props) => {
           <p className='mt-1 mb-5 text-xs sm:text-sm w-full xs:w-10/12 sm:w-9/12'>
             {t('retroactivePoolBannerDescription')}
           </p>
-          <ButtonLink
+          <Button
             as={`?claim=1&address=${usersAddress}`}
             href={`?claim=1&address=${usersAddress}`}
             type='button'
@@ -38,7 +51,7 @@ export const RetroactivePoolClaimBanner = (props) => {
             textSize='sm'
           >
             {t('claimPool')}
-          </ButtonLink>
+          </Button>
         </div>
       </div>
     </Banner>

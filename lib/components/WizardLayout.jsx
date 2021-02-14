@@ -16,6 +16,7 @@ export function WizardLayout(props) {
     currentWizardStep,
     handlePreviousStep,
     moveToStep,
+    hideWizardSteps,
     totalWizardSteps,
     closeWizard,
     children,
@@ -115,28 +116,30 @@ export function WizardLayout(props) {
               exit='exit'
               animate='enter'
             >
-              {range1(totalWizardSteps).map((stepNum, index) => {
-                return (
-                  <motion.div
-                    key={`step-counter-${index + 1}`}
-                    transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: 'easeIn' }}
-                    exit={{ scaleX: 0 }}
-                    onClick={(e) => {
-                      e.preventDefault()
+              {!hideWizardSteps && (<>
+                {range1(totalWizardSteps).map((stepNum, index) => {
+                  return (
+                    <motion.div
+                      key={`step-counter-${index + 1}`}
+                      transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: 'easeIn' }}
+                      exit={{ scaleX: 0 }}
+                      onClick={(e) => {
+                        e.preventDefault()
 
-                      if (currentWizardStep < index + 1) {
-                        return
-                      }
+                        if (currentWizardStep < index + 1) {
+                          return
+                        }
 
-                      moveToStep(index)
-                    }}
-                    className={classnames('cursor-pointer w-8 h-2 rounded-sm mx-1', {
-                      'bg-default': currentWizardStep < index + 1,
-                      'bg-purple': currentWizardStep >= index + 1,
-                    })}
-                  />
-                )
-              })}
+                        moveToStep(index)
+                      }}
+                      className={classnames('cursor-pointer w-8 h-2 rounded-sm mx-1', {
+                        'bg-default': currentWizardStep < index + 1,
+                        'bg-purple': currentWizardStep >= index + 1,
+                      })}
+                    />
+                  )
+                })}
+              </>)}
             </motion.div>
           </AnimatePresence>
 
