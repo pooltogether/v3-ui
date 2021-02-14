@@ -11,7 +11,7 @@ export const CheckboxInputGroup = (props) => {
 
   const defaultClasses =
     'font-bold flex justify-start items-start xs:items-center trans trans-faster cursor-pointer font-bold outline-none focus:outline-none hover:outline-none active:outline-none leading-none px-0 py-1'
-  const roundedClasses = 'rounded-xl'
+  const roundedClasses = 'rounded-sm'
   marginClasses = marginClasses ?? 'mt-1 mb-1 sm:mb-3 lg:mb-4'
   const textClasses = 'text-xxs'
 
@@ -31,9 +31,9 @@ export const CheckboxInputGroup = (props) => {
         )}
       >
         <div
-          className={classnames('flex items-center rounded-lg w-6 h-6 border-2 trans', {
-            'text-white border-highlight-2 hover:border-highlight-2': checked,
-            'text-darkened border-highlight-2 hover:border-green': !checked,
+          className={classnames('flex items-center rounded-sm w-4 h-4 border-2 trans', {
+            'text-white border-inverse hover:border-inverse': checked,
+            'text-darkened border-inverse hover:border-green': !checked,
           })}
         >
           <svg

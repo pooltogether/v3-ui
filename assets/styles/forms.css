@@ -72,13 +72,13 @@ input[type='submit'][disabled] {
   stroke-width: 20;
   stroke-dasharray: 400;
   stroke-dashoffset: 400;
-  top: 4px;
-  left: 3px;
+  top: 2px;
+  left: 2px;
   width: 100%;
 }
 
 .check.checked {
-  animation: check 0.1s ease-out forwards;
+  animation: check 0.02s ease-out forwards;
 }
 
 @keyframes check {
