@@ -55,7 +55,12 @@ export const PageTitleAndBreadcrumbs = (props) => {
 
             {typeof window !== 'undefined' && window.location.pathname.match('/pools/') && (
               <div className='ml-4'>
-                <Chip color='highlight-6' text={t(pool?.frequency?.toLowerCase())} />
+                <Chip
+                  className='font-bold'
+                  bgClasses='bg-highlight-6'
+                  textClasses='text-white font-bold'
+                  text={t(pool?.frequency?.toLowerCase())}
+                />
               </div>
             )}
           </div>

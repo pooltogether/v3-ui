@@ -224,6 +224,17 @@ export const PoolShow = (props) => {
                 ),
               },
               {
+                icon: TicketsIcon,
+                title: t('totalDeposited'),
+                content: (
+                  <>
+                    <h3 className='mt-2'>
+                      $<PoolNumber>{numberWithCommas(pool.totalDepositedUSD, { precision: 2 })}</PoolNumber>
+                    </h3>
+                  </>
+                ),
+              },
+              {
                 icon: YieldSourceIcon,
                 title: t('yieldSource'),
                 content: (

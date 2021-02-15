@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { useRouter } from 'next/router'
+import { ethers } from 'ethers'
 
 import { POOLS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -29,7 +30,6 @@ export function usePool(poolSymbol, blockNumber = -1) {
   }
 
   const { poolsGraphData } = usePools()
-
   const poolGraphData = poolsGraphData?.[poolSymbol]
 
   const { poolChainData } = usePoolChainQuery(poolGraphData)
@@ -109,11 +109,21 @@ export function usePool(poolSymbol, blockNumber = -1) {
   const fetchingTotals =
     externalAwardsUSD === null || (interestPrizeUSD === 0 && uniswapIsFetching && !uniswapIsFetched)
 
+
+  let totalDepositedUSD
+  if (pool.ticketSupply && pool.underlyingCollateralDecimals && uniswapIsFetched) {
+    totalDepositedUSD = ethers.utils.formatUnits(
+      pool.ticketSupply,
+      pool.underlyingCollateralDecimals
+    ) * uniswapPriceData[pool.underlyingCollateralToken].usd
+  }
+
   // Standardize the USD values so they're either all floats/strings or all bigNums  pool = {
   pool = {
     ...pool,
     fetchingTotals,
     lootBox,
+    totalDepositedUSD,
     totalPrizeAmountUSD,
     grandPrizeAmountUSD,
     interestPrizePerWinnerUSD,

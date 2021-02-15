@@ -2,16 +2,19 @@ import React from 'react'
 import classnames from 'classnames'
 
 export const Chip = (props) => {
-  const { text } = props
+  const { className, text } = props
+  let { bgClasses, textClasses } = props
 
-  const color = props.color || 'highlight-3'
+  bgClasses = bgClasses || 'bg-accent-grey-5'
+  textClasses = textClasses || 'text-accent-1'
 
-  const sizeClasses = 'text-xxxxxs xs:text-xxxxs sm:text-xxxxs lg:text-xxxs'
-  const colorClasses = `text-${color} border-${color}`
+  const sizeClasses = props.size || 'text-xxxxxs xs:text-xxxxs sm:text-xxxxs lg:text-xxxs'
 
   const classes = classnames(
-    'mb-2 xs:mb-0 inline-block border relative inline-block tracking-wide py-1 px-2 sm:py-2 rounded-full uppercase',
-    colorClasses,
+    'mb-2 xs:mb-0 inline-block relative inline-block py-2 px-2 rounded-full text-center',
+    className,
+    textClasses,
+    bgClasses,
     sizeClasses
   )
 
