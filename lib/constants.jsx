@@ -107,7 +107,7 @@ export const CONTRACT_ADDRESSES = {
   4: {
     Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
     TokenFaucetProxyFactory: TokenFaucetProxyFactoryRinkeby.address,
-    MerkleDistributor: '0x0ba77a2adbcFA1D38F5A34C618F2200Fd1b8eeb8',
+    MerkleDistributor: '0x93a6540DcE05a4A5E5B906eB97bBCBb723768F2D',
     GovernanceToken: '0xc4E90a8Dc6CaAb329f08ED3C8abc6b197Cf0F40A'
   }
 }
