@@ -111,11 +111,13 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
 
   let totalDepositedUSD
-  if (pool.ticketSupply && pool.underlyingCollateralDecimals && uniswapIsFetched) {
-    totalDepositedUSD = ethers.utils.formatUnits(
+  if (pool.ticketSupply && pool.underlyingCollateralDecimals) {
+    const ticketsFormatted = ethers.utils.formatUnits(
       pool.ticketSupply,
       pool.underlyingCollateralDecimals
-    ) * uniswapPriceData[pool.underlyingCollateralToken].usd
+    )
+    totalDepositedUSD = underlyingCollateralValueUSD ? 
+      ticketsFormatted * underlyingCollateralValueUSD : ticketsFormatted
   }
 
   // Standardize the USD values so they're either all floats/strings or all bigNums  pool = {
