@@ -19,7 +19,7 @@ const BannerUnmemoized = (props) => {
           ...style,
           backgroundImage: 'url("/BackgroundGradient.svg")',
           backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
+          backgroundSize: 'cover'
         }}
       >
         {children}

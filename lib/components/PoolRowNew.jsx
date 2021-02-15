@@ -45,7 +45,11 @@ export const PoolRowNew = (props) => {
   }
 
   const ViewPoolDetailsButton = () => <button
-    className='inline-flex justify-between items-center border-transparent text-highlight-3 bg-transparent text-xxxs'
+    className='flex justify-between items-center text-highlight-3 bg-transparent text-xxxs border border-highlight-2 hover:border-white rounded-full px-2 trans'
+    style={{
+      paddingTop: 1,
+      paddingBottom: 1,
+    }}
   >
     {t('viewPool')}{' '}
     {/* <FeatherIcon
@@ -95,7 +99,7 @@ export const PoolRowNew = (props) => {
                 {t('prizeValue')}
               </div>
 
-              <span className='relative hidden xs:inline-block lg:-t-2 mb-2'>
+              <span className='relative hidden xs:inline-block mt-4 mb-2'>
                 <ViewPoolDetailsButton />
               </span>
             </div>
@@ -123,12 +127,12 @@ export const PoolRowNew = (props) => {
               })}
             </Button>
 
-            <div className='xs:hidden'>
-              <ViewPoolDetailsButton />
-            </div>
-            <span className='mt-2 relative xs:hidden'>
+            <span className='mt-3 relative xs:hidden'>
               <TotalDepositedChip />
             </span>
+            <div className='xs:hidden mt-1'>
+              <ViewPoolDetailsButton />
+            </div>
           </div>
         </div>
       </InteractableCard>

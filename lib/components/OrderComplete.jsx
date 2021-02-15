@@ -86,7 +86,7 @@ export function OrderComplete(props) {
         </div>
       </div>
 
-      <AccountEmailSignup />
+      {/* <AccountEmailSignup /> */}
 
       <div className='mt-4'>
         <ButtonLink href='/account' as='/account' textSize='lg'>

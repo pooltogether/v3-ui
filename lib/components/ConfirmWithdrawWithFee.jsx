@@ -19,7 +19,7 @@ export function ConfirmWithdrawWithFee(props) {
       <div
         className='mx-auto'
         style={{
-          maxWidth: 500,
+          maxWidth: 550,
         }}
       >
         <PaneTitle>{t('uhOhYoureWithdrawingYourFundsTooSoon')}</PaneTitle>

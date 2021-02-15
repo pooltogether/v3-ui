@@ -43,7 +43,7 @@ export const AccountUI = () => {
 
       <AccountWinnings />
 
-      <AccountEmailSignup />
+      {/* <AccountEmailSignup /> */}
 
       <Tagline />
     </>

@@ -119,7 +119,7 @@ export function WithdrawTicketsForm(props) {
               <div
                 className='odds-box mx-auto font-normal text-xxs xs:text-xs text-orange'
                 style={{
-                  maxWidth: 500,
+                  maxWidth: 550,
                 }}
               >
                 <WithdrawOdds

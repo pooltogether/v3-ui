@@ -216,7 +216,7 @@ const StepThree = (props) => {
     {showAddressForm ? <form onSubmit={handleSubmit(onSubmit)}>
       <h5 className='sm:-mt-32' style={{ paddingTop: 20 }}>{t('claimingFor')}</h5>
 
-      <Banner className='my-4'>
+      <Banner className='my-4 mx-auto' style={{ maxWidth: 550 }}>
         <TextInputGroup
           autoFocus
           small
@@ -240,18 +240,16 @@ const StepThree = (props) => {
     </form> : (<>
       <h5>{t('claimingFor')}</h5>
 
-      <div className='text-white mx-auto' style={{ maxWidth: 550 }}>
-        <Banner className='my-4'>
-          <div className='xs:hidden text-xxs'>{shorten(address)}</div>
-          <div className='hidden sm:block text-sm'>{address}</div>
-          <button
-            onClick={showForm}
-            className='underline font-bold text-xxs xs:text-xs text-white hover:text-highlight-9'
-          >
-            {t('changeAddress')}
-          </button>
-        </Banner>
-      </div>
+      <Banner className='my-4 mx-auto text-white' style={{ maxWidth: 550 }}>
+        <div className='xs:hidden text-xxs'>{shorten(address)}</div>
+        <div className='hidden sm:block text-sm'>{address}</div>
+        <button
+          onClick={showForm}
+          className='underline font-bold text-xxs xs:text-xs text-white hover:text-highlight-9'
+        >
+          {t('changeAddress')}
+        </button>
+      </Banner>
 
       <ClaimableBalanceCheck
         {...props}
@@ -426,7 +424,7 @@ const CanClaimMessage = (props) => {
   const { t } = useTranslation()
 
   return (<>
-    <h4>{t('youAreReceiving')}</h4>
+    <h4 className='mt-2'>{t('youAreReceiving')}</h4>
 
     <div className='flex mx-auto mb-2 -mt-1'>
       <h2 className='shake'>🎉</h2>
