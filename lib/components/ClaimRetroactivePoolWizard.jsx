@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Wizard, WizardStep, useWizard } from 'react-wizard-primitive'
+import { Wizard, useWizard } from 'react-wizard-primitive'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { AnimatePresence } from 'framer-motion'
@@ -15,7 +15,6 @@ import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
-import { PaneTitle } from 'lib/components/PaneTitle'
 import { SignInForm } from 'lib/components/SignInForm'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { TxStatus } from 'lib/components/TxStatus'
@@ -26,6 +25,7 @@ import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { shorten } from 'lib/utils/shorten'
 
 export const ClaimRetroactivePoolWizardContainer = () => {
@@ -107,7 +107,7 @@ const StepOne = (props) => {
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
         <h4 className='mb-4 text-white'>{t('whyAreYouReceivingPool')}</h4>
-        <p className='text-xs xs:text-sm text-accent-1'>
+        <p className='text-xs xs:text-sm text-accent-1 text-left'>
           {t('receivingPoolDescription')}
         </p>
         <CheckboxContainer>
@@ -146,7 +146,7 @@ const StepTwo = (props) => {
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
         <h4 className='mb-4 text-white'>{t('whatDoPoolTokensDo')}</h4>
-        <p className='text-xs xs:text-sm text-accent-1'>
+        <p className='text-xs xs:text-sm text-accent-1 text-left'>
           {t('whatTokensDoDescription')}
         </p>
         <CheckboxContainer>
@@ -178,9 +178,10 @@ const StepThree = (props) => {
   const router = useRouter()
   const addressParam = router.query.address
 
+  const [cachedAddress, setCachedAddress] = useState('')
   const [showAddressForm, setShowAddressForm] = useState(!Boolean(addressParam))
 
-  const { handleSubmit, watch, register, errors, formState } = useForm({
+  const { handleSubmit, watch, register, errors, formState, setValue } = useForm({
     mode: 'all',
     shouldUnregister: false,
     defaultValues: { address: addressParam }
@@ -188,9 +189,12 @@ const StepThree = (props) => {
 
   const address = watch('address')
 
-  const onSubmit = () => {
+  const onSubmit = (values) => {
     if (formState.isValid) {
       setShowAddressForm(false)
+     
+      queryParamUpdater.remove(router, 'address')
+      queryParamUpdater.add(router, { claim: '1', address: values.address })
     }
   }
 
@@ -207,6 +211,16 @@ const StepThree = (props) => {
       )
     },
   }
+
+  const handleCancel = (e) => {
+    e.preventDefault()
+    setValue('address', cachedAddress, { shouldValidate: true })
+    setShowAddressForm(false)
+  }
+
+  useEffect(() => {
+    setCachedAddress(addressParam)
+  }, [showAddressForm])
 
   if (!isActive) {
     return null
@@ -233,9 +247,35 @@ const StepThree = (props) => {
           {errors.address && errors.address.message}
         </div>
 
-        <Button secondary type='submit' className='mt-4' disabled={!formState.isValid}>
-          {t('checkClaimableBalance')}
-        </Button>
+        <div className='flex items-center justify-center'>
+          <Button
+            type='button'
+            border='border-accent-3'
+            text='accent-3'
+            bg='transparent'
+            hoverBorder='border-accent-3'
+            hoverText='accent-3'
+            hoverBg='transparent'
+            type='submit'
+            className='mt-4 mr-2'
+            onClick={handleCancel}
+          >
+            {t('back')}
+          </Button>
+          <Button
+            border='green'
+            text='primary'
+            bg='green'
+            hoverBorder='green'
+            hoverText='primary'
+            hoverBg='green'
+            type='submit'
+            className='mt-4 ml-2'
+            disabled={!formState.isValid}
+          >
+            {t('checkClaimableBalance')}
+          </Button>
+        </div>
       </Banner>
     </form> : (<>
       <h5>{t('claimingFor')}</h5>
