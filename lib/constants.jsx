@@ -118,8 +118,8 @@ export const CONTRACT_ADDRESSES = {
     TokenFaucetProxyFactory: TokenFaucetProxyFactoryRinkeby.address,
 
     // Most recent version
-    MerkleDistributor: '0xf762ace4C41d2f5C04123411FEc855155b5Bc3ef',
-    GovernanceToken: '0x8C219D7CFC4C3646b09b644d4eAa103E23f2eE30'
+    MerkleDistributor: '0x0ba77a2adbcFA1D38F5A34C618F2200Fd1b8eeb8',
+    GovernanceToken: '0xc4E90a8Dc6CaAb329f08ED3C8abc6b197Cf0F40A'
 
     // TODO: Remove these test constants. v3 - unlimited claiming
     // MerkleDistributor: '0x2FDE489Bd546136A624d7278Bfe932e330301496',
