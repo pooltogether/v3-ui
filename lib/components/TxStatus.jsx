@@ -9,7 +9,7 @@ import { shorten } from 'lib/utils/shorten'
 import { useTranslation } from 'lib/../i18n'
 
 export const TxStatus = (props) => {
-  const { tx, title, subtitle } = props
+  const { gradient, tx, title, subtitle } = props
   const { hideOnInWallet, hideOnSent, hideOnSuccess, hideOnError } = props
   const { inWalletMessage, sentMessage, successMessage, errorMessage } = props
   const [showExtraMessage, setShowExtraMessage] = useState(false)
@@ -45,7 +45,7 @@ export const TxStatus = (props) => {
 
       {subtitle && <h6 className='text-accent-1 mb-4 -mt-4'>{subtitle}</h6>}
 
-      <Banner className='flex flex-col'>
+      <Banner gradient={gradient || ''} className='flex flex-col'>
         {txSent && !txCompleted && !txError && (
           <Loader type='Oval' height={50} width={50} color='#bbb2ce' className='mx-auto mb-4' />
         )}

@@ -3,11 +3,13 @@ import Cookies from 'js-cookie'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import VisuallyHidden from '@reach/visually-hidden'
+import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
 import { useTranslation } from 'lib/../i18n'
-import { COOKIE_OPTIONS, SHOW_MANAGE_LINKS } from 'lib/constants'
-import { ButtonLink } from 'lib/components/ButtonLink'
+import { COOKIE_OPTIONS, SHOW_MANAGE_LINKS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
+import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
+import { Button } from 'lib/components/Button'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { PTHint } from 'lib/components/PTHint'
@@ -16,7 +18,9 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 
 export function Settings(props) {
   const { t } = useTranslation()
+
   const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
 
   const shouldReduceMotion = useReducedMotion()
 
@@ -42,6 +46,15 @@ export function Settings(props) {
     e.preventDefault()
 
     setIsOpen(!isOpen)
+  }
+
+  const handleOpenClaimClick = (e) => {
+    e.preventDefault()
+
+    Cookies.set(WIZARD_REFERRER_HREF, window.location.pathname, COOKIE_OPTIONS)
+    Cookies.set(WIZARD_REFERRER_AS_PATH, window.location.pathname, COOKIE_OPTIONS)
+
+    queryParamUpdater.add(router, { claim: '1' })
   }
 
   return (
@@ -160,15 +173,15 @@ export function Settings(props) {
             {t('claimTokensOnBehalfOf')}
           </p>
 
-          <ButtonLink
+        
+          <Button
             secondary
             textSize='xxxs'
             padding='px-6 py-2'
-            as='?claim=1'
-            href='?claim=1'
+            onClick={handleOpenClaimClick}
           >
             {t('openPoolClaim')}
-          </ButtonLink>
+          </Button>
         </div>
 
       </motion.div>
