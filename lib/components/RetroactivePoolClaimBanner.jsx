@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
@@ -43,12 +44,13 @@ export const RetroactivePoolClaimBanner = (props) => {
             {t('retroactivePoolBannerDescription')}
           </p>
           <Button
-            as={`?claim=1&address=${usersAddress}`}
-            href={`?claim=1&address=${usersAddress}`}
+            // as={`?claim=1&address=${usersAddress}`}
+            // href={`?claim=1&address=${usersAddress}`}
             type='button'
             className='w-full xs:w-auto'
             tertiary
             textSize='sm'
+            onClick={handleOpenClaimClick}
           >
             {t('claimPool')}
           </Button>

@@ -383,7 +383,7 @@ export function ClaimRetroactiveSignInStep(props) {
 
   // lazy load onboardjs when sign-in is shown
   useEffect(() => {
-    console.log('handleLoadOnboard retro wizard sign in form')
+    // console.log('handleLoadOnboard retro wizard sign in form')
     handleLoadOnboard()
   }, [])
 

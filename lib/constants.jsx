@@ -97,33 +97,18 @@ export const PRIZE_STRATEGY_TYPES = {
 export const CONTRACT_ADDRESSES = {
   1: {
     Usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7'
-    // Dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
-    // PermitAndDepositDai: PermitAndDepositDaiMainnet.address
-
-    // TODO: Add mainnet.
     // TokenFaucetProxyFactory: TokenFaucetProxyFactoryMainnet.address,
-    // MerkleDistributor: '0xF5A2aF1F3f29734bA171C1C98aDfbA0F64c1C2Df',
-    // GovernanceToken: '0x4CF566d201eF144e09d2f8ABE1cC0E451D79De53'
+    // MerkleDistributor: '',
+    // GovernanceToken: ''
   },
   3: {
     Usdt: '0x0736d0c130b2ead47476cc262dbed90d7c4eeabd'
-    // Dai: '0xc2118d4d90b274016cb7a54c03ef52e6c537d957',
-    // PermitAndDepositDai: PermitAndDepositDaiRopsten.address
   },
   4: {
     Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
-    // PermitAndDepositDai: PermitAndDepositDaiRinkeby.address,
-
-    // TODO: Add mainnet. Add remaining pools. Pull from pooltogether-contracts
     TokenFaucetProxyFactory: TokenFaucetProxyFactoryRinkeby.address,
-
-    // Most recent version
     MerkleDistributor: '0x0ba77a2adbcFA1D38F5A34C618F2200Fd1b8eeb8',
     GovernanceToken: '0xc4E90a8Dc6CaAb329f08ED3C8abc6b197Cf0F40A'
-
-    // TODO: Remove these test constants. v3 - unlimited claiming
-    // MerkleDistributor: '0x2FDE489Bd546136A624d7278Bfe932e330301496',
-    // GovernanceToken: '0x4CF566d201eF144e09d2f8ABE1cC0E451D79De53'
   }
 }
 
