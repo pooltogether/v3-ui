@@ -82,7 +82,12 @@ export const PoolShow = (props) => {
 
   const handleAddTokenToMetaMask = (e) => {
     e.preventDefault()
-    addTokenToMetaMask(networkName, pool)
+
+    console.log(symbolForMetaMask)
+    const tokenAddress = pool?.ticketToken?.id
+    console.log(tokenAddress)
+    console.log(pool?.underlyingCollateralDecimals)
+    addTokenToMetaMask(symbolForMetaMask, tokenAddress, pool?.underlyingCollateralDecimals)
   }
 
   const prizeEstimateFormatted = pool?.totalPrizeAmountUSD > 0 && pool.totalPrizeAmountUSD
@@ -292,7 +297,7 @@ export const PoolShow = (props) => {
             <>
               <div className='m-2'>
                 <ButtonLink
-                  tertiary
+                  secondary
                   href='/pools/[symbol]/manage'
                   as={`/pools/${pool?.symbol}/manage`}
                 >
@@ -303,19 +308,17 @@ export const PoolShow = (props) => {
           )}
 
           {walletName === 'MetaMask' && (
-            <>
-              <div className='m-2'>
-                <Button tertiary onClick={handleAddTokenToMetaMask}>
-                  {t('addTicketTokenToMetamask', {
-                    token: symbolForMetaMask,
-                  })}
-                </Button>
-              </div>
-            </>
+            <div className='m-2'>
+              <Button secondary onClick={handleAddTokenToMetaMask}>
+                {t('addTicketTokenToMetamask', {
+                  token: symbolForMetaMask,
+                })}
+              </Button>
+            </div>
           )}
 
           <div className='m-2'>
-            <ButtonLink tertiary href={formatEtherscanAddressUrl(pool.poolAddress, chainId)}>
+            <ButtonLink secondary href={formatEtherscanAddressUrl(pool.poolAddress, chainId)}>
               {t('viewPoolInEtherscan')}
             </ButtonLink>
           </div>

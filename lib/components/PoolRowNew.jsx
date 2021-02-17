@@ -45,23 +45,13 @@ export const PoolRowNew = (props) => {
   }
 
   const ViewPoolDetailsButton = () => <button
-    className='flex justify-between items-center text-highlight-3 bg-transparent text-xxxs border border-highlight-2 hover:border-white rounded-full px-2 trans'
-    style={{
-      paddingTop: 1,
-      paddingBottom: 1,
-    }}
+    className='flex justify-between items-center text-highlight-3 bg-transparent text-xxxs rounded-full px-2 trans'
   >
-    {t('viewPool')}{' '}
-    {/* <FeatherIcon
-      strokeWidth='0.09rem'
-      icon='arrow-right-circle'
-      className='inline-block relative w-3 h-3 mx-auto ml-1'
-    /> */}
+    {t('viewPool')}
   </button>
 
   const TotalDepositedChip = () => <Chip
-    size='text-xxxs sm:text-xxs'
-    className='min-w-chip'
+    size='text-xxxs'
     text={<>
       {t('totalDeposited')} ${numberWithCommas(pool?.totalDepositedUSD, { precision: 0 })}
     </>}
@@ -74,15 +64,11 @@ export const PoolRowNew = (props) => {
         key={`pool-row-${pool.id}`}
         href='/pools/[symbol]'
         as={`/pools/${symbol}`}
-        className='mt-2 sm:mt-4'
+        className='mt-1 sm:mt-2'
       >
-        <div className='hidden xs:flex justify-end'>
-          <TotalDepositedChip />
-        </div>
+        <div className='flex flex-col xs:flex-row items-center justify-between text-inverse'>
 
-        <div className='flex flex-col xs:flex-row items-center xs:items-start justify-between text-inverse'>
-
-          <div className='flex items-start justify-center xs:justify-start w-full xs:w-1/2'>
+          <div className='pool-row-left-col h-full flex bg-body px-4 lg:px-8 pb-2 xs:pt-4 xs:pb-8 lg:pt-8 lg:pb-10 rounded-lg items-start justify-center xs:justify-start w-full xs:w-1/2'>
             <div className='relative mr-2 mt-4' style={{ top: 1 }}>
               <PoolCurrencyIcon noMediaQueries lg pool={pool} />
             </div>
@@ -98,15 +84,22 @@ export const PoolRowNew = (props) => {
               <div className='text-accent-1 text-xxxs'>
                 {t('prizeValue')}
               </div>
-
-              <span className='relative hidden xs:inline-block mt-4 mb-2'>
-                <ViewPoolDetailsButton />
-              </span>
             </div>
           </div>
 
 
-          <div className='pool-row-right-col flex flex-col items-center w-full xs:w-1/2 pt-4'>
+          <div className='pool-row-right-col flex flex-col items-center w-full xs:w-1/2'>
+
+            <div className='flex items-center justify-between mb-4 w-full'>
+              <div className='hidden xs:flex'>
+                <TotalDepositedChip />
+              </div>
+
+              <span className='relative hidden xs:inline-block'>
+                <ViewPoolDetailsButton />
+              </span>
+            </div>
+            
             <NewPrizeCountdown textSize='text-sm sm:text-lg lg:text-xl' pool={pool} />
 
             <Button
@@ -119,7 +112,8 @@ export const PoolRowNew = (props) => {
               onClick={handleGetTicketsClick}
               width='w-full'
               textSize='sm'
-              className='mt-4'
+              className='mt-2 py-1'
+              padding='py-1'
               disabled={!Boolean(pool?.symbol)}
             >
               {t('depositTicker', {

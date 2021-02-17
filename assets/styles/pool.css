@@ -237,13 +237,35 @@ a:hover {
   }
 }
 
+.pool-row-left-col {
+  max-width: 300px;
+}
+
+@screen xs {
+  .pool-row-left-col {
+    max-width: 247px;
+  }
+}
+
+@screen sm {
+  .pool-row-left-col {
+    max-width: 348px;
+  }
+}
+
+@screen lg {
+  .pool-row-left-col {
+    max-width: 500px;
+  }
+}
+
 .pool-row-right-col {
   max-width: 300px;
 }
 
 @screen xs {
   .pool-row-right-col {
-    max-width: 270px;
+    max-width: 247px;
   }
 }
 
