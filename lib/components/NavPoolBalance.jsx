@@ -46,13 +46,10 @@ const PoolBalanceModal = (props) => {
 
   const { total: totalClaimablePool, isFetched: totalClaimableIsFetched } = useTotalClaimablePool()
 
-  // if (!totalClaimableIsFetched) {
-  //   return null
-  // }
-
   const totalClaimablePoolFormatted = numberWithCommas(totalClaimablePool, {
     precision: getPrecision(totalClaimablePool)
   })
+
   const formattedBalance = numberWithCommas(usersBalance, {
     precision: getPrecision(usersBalance)
   })
