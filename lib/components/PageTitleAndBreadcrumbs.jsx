@@ -56,7 +56,7 @@ export const PageTitleAndBreadcrumbs = (props) => {
             {typeof window !== 'undefined' && window.location.pathname.match('/pools/') && (
               <div className='ml-4'>
                 <Chip
-                  className='font-bold'
+                  className='font-bold uppercase'
                   bgClasses='bg-highlight-6'
                   textClasses='text-white font-bold'
                   text={t(pool?.frequency?.toLowerCase())}

@@ -28,10 +28,11 @@ import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
 import { useClaimablePoolFromTokenFaucets } from 'lib/hooks/useClaimablePoolFromTokenFaucets'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { usePool } from 'lib/hooks/usePool'
-import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
+import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
+import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import PoolIcon from 'assets/images/pool-icon.svg'
 
@@ -43,7 +44,7 @@ export const AccountGovernanceClaims = (props) => {
     isFetched,
     refetch: refetchTotalClaimablePool
   } = useClaimablePoolFromTokenFaucets()
-  const { usersAddress } = useContext(AuthControllerContext)
+  const { networkName, chainId, usersAddress, walletName } = useContext(AuthControllerContext)
   const { refetch: refetchPoolTokenData } = usePoolTokenData()
 
   const refetchAllPoolTokenData = () => {
@@ -51,18 +52,24 @@ export const AccountGovernanceClaims = (props) => {
     refetchPoolTokenData()
   }
 
-  // if (!isFetched || !usersAddress) {
   if (!usersAddress) {
     return null
   }
 
   const earningsStarted = (Date.now() / 1000) > 1613606400
 
+  const handleAddTokenToMetaMask = (e) => {
+    e.preventDefault()
+
+    const tokenAddress = CONTRACT_ADDRESSES[chainId].GovernanceToken
+    addTokenToMetaMask('POOL', tokenAddress)
+  }
+
   return (
     <>
       <h6 className='font-normal text-accent-2 mt-16 mb-4'>{t('governance')}</h6>
       <div className='relative xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
-        <motion.div
+        {/* <motion.div
           key={`scaled-bg`}
           className={classnames(
             'absolute w-full h-full z-40 bg-darkened -m-3 sm:-m-10 rounded-lg',
@@ -87,7 +94,7 @@ export const AccountGovernanceClaims = (props) => {
           <h2 className='mx-auto text-center px-10 xs:px-20 mt-20 sm:px-32 sm:mt-48'>
             {t('youWillAutomaticallyStartEarningAt')}
           </h2>
-        </motion.div>
+        </motion.div> */}
 
         <ClaimHeader refetchAllPoolTokenData={refetchAllPoolTokenData} />
         {pools.map((pool) => {
@@ -98,6 +105,23 @@ export const AccountGovernanceClaims = (props) => {
             poolGraphData={poolsGraphData[pool.symbol]}
           />
         })}
+
+        {walletName === 'MetaMask' && (
+          <>
+            <div className='mt-7 text-center'>
+              <button
+                type='button'
+                onClick={handleAddTokenToMetaMask}
+                className='font-bold mx-auto'
+              >
+                <img src={PoolIcon} className='relative inline-block w-4 h-4 mx-1' style={{ top: -2 }} /> {t('addTicketTokenToMetamask', {
+                  token: 'POOL'
+                })}
+              </button>
+            </div>
+          </>
+        )}
+        
       </div>
     </>
   )
@@ -273,7 +297,7 @@ const ClaimablePoolTokenItem = (props) => {
   const secondsLeft = faucetPoolSupplyBN?.div(dripRatePerSecond).toNumber()
 
   return (
-    <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8 sm:items-center'>
+    <div className='bg-body p-6 rounded-lg flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8 sm:items-center'>
       <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start mb-6 sm:mb-0'>
         <PoolCurrencyIcon
           lg
@@ -285,7 +309,7 @@ const ClaimablePoolTokenItem = (props) => {
 
           <div className='text-accent-1 text-xs mb-1 mt-2 sm:mt-1 opacity-60 trans hover:opacity-100'>
             {t('poolNamesDripRate', { poolName: name })}
-            <br />{totalDripPerDayFormatted} <img src={PoolIcon} className='inline-block w-4 h-4 mx-2' /> POOL / <span className='lowercase'>{t('day')}</span>
+            <br />{totalDripPerDayFormatted} <img src={PoolIcon} className='relative inline-block w-4 h-4 mx-1' style={{ top: -2 }} /> POOL / <span className='lowercase'>{t('day')}</span>
           </div>
           <RewardTimeLeft initialSecondsLeft={secondsLeft} />
         </div>
@@ -394,8 +418,10 @@ const ClaimButton = (props) => {
 
 const RewardTimeLeft = (props) => {
   const { t } = useTranslation()
-  const { initialSecondsLeft } = props
+  // const { initialSecondsLeft } = props
 
+  const unixTimeNow = Date.now() / 1000
+  const initialSecondsLeft = 1622070000 - unixTimeNow // 1622070000 is May 26th @ 4pm PST
   const { days, hours, minutes, secondsLeft } = useTimeCountdown(initialSecondsLeft, 60000)
 
   const textColor = determineColor(secondsLeft)
