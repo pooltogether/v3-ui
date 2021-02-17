@@ -112,7 +112,8 @@ export const PoolRowNew = (props) => {
               onClick={handleGetTicketsClick}
               width='w-full'
               textSize='sm'
-              className='mt-2'
+              className='mt-2 py-1'
+              padding='py-1'
               disabled={!Boolean(pool?.symbol)}
             >
               {t('depositTicker', {
