@@ -2,7 +2,6 @@ import React, { useContext, useMemo, useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import CountUp from 'react-countup'
-import { motion } from 'framer-motion'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { ethers } from 'ethers'
@@ -70,33 +69,6 @@ export const AccountGovernanceClaims = (props) => {
     <>
       <h6 className='font-normal text-accent-2 mt-16 mb-4'>{t('governance')}</h6>
       <div className='relative xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
-        <motion.div
-          key={`scaled-bg`}
-          className={classnames(
-            'absolute w-full h-full z-40 bg-darkened -m-3 sm:-m-10 rounded-lg',
-            { 'pointer-events-none': earningsStarted }
-          )}
-          transition={{ duration: 0.2 }}
-          initial={{ opacity: 0.93 }}
-          animate={earningsStarted ? 'exit' : 'enter'}
-          variants={{
-            enter: {
-              opacity: 0.93,
-            },
-            exit: {
-              opacity: 0,
-              transition: {
-                duration: 0.25,
-                delay: 0.25,
-              },
-            },
-          }}
-        >
-          <h2 className='mx-auto text-center px-10 xs:px-20 mt-20 sm:px-32 sm:mt-48'>
-            {t('youWillAutomaticallyStartEarningAt')}
-          </h2>
-        </motion.div>
-
         <ClaimHeader refetchAllPoolTokenData={refetchAllPoolTokenData} />
         {pools.map((pool) => {
           return <ClaimablePoolTokenItem
