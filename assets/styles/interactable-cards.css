@@ -22,7 +22,7 @@
 .theme-light .interactable-card:focus,
 .theme-light .interactable-card:active,
 .theme-light .interactable-card.selected {
-  border: 0.1rem dashed var(--color-border-highlight-1);
+  /* border: 0.1rem dashed var(--color-border-highlight-1); */
 }
 
 .theme-light .interactable-card {
