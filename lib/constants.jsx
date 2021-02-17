@@ -2,7 +2,7 @@
 // const PermitAndDepositDaiRinkeby = require(`@pooltogether/pooltogether-contracts/deployments/rinkeby/PermitAndDepositDai.json`)
 // const PermitAndDepositDaiRopsten = require(`@pooltogether/pooltogether-contracts/deployments/ropsten/PermitAndDepositDai.json`)
 
-// import TokenFaucetProxyFactoryMainnet from '@pooltogether/pooltogether-contracts/deployments/mainnet/TokenFaucetProxyFactory.json'
+import TokenFaucetProxyFactoryMainnet from '@pooltogether/pooltogether-contracts/deployments/mainnet/TokenFaucetProxyFactory.json'
 import TokenFaucetProxyFactoryRinkeby from '@pooltogether/pooltogether-contracts/deployments/rinkeby/TokenFaucetProxyFactory.json'
 
 export const SUPPORTED_CHAIN_IDS = [1, 4, 31337, 1234]
@@ -96,10 +96,10 @@ export const PRIZE_STRATEGY_TYPES = {
 
 export const CONTRACT_ADDRESSES = {
   1: {
-    Usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7'
-    // TokenFaucetProxyFactory: TokenFaucetProxyFactoryMainnet.address,
-    // MerkleDistributor: '',
-    // GovernanceToken: ''
+    Usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+    TokenFaucetProxyFactory: TokenFaucetProxyFactoryMainnet.address,
+    MerkleDistributor: '0xBE1a33519F586A4c8AA37525163Df8d67997016f',
+    GovernanceToken: '0x0cEC1A9154Ff802e7934Fc916Ed7Ca50bDE6844e'
   },
   3: {
     Usdt: '0x0736d0c130b2ead47476cc262dbed90d7c4eeabd'

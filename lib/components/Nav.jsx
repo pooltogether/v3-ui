@@ -78,7 +78,7 @@ export function Nav(props) {
           </a>
         </Link>
 
-        <Link href='/vote' as='/vote' shallow>
+        <Link href='https://vote.pooltogether.com' as='https://vote.pooltogether.com'>
           <a
             className={classnames(navParentClasses, {
               'text-accent-4 hover:text-highlight-2': !votePage,
