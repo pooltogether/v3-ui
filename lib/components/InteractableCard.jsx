@@ -29,7 +29,7 @@ export const InteractableCard = (props) => {
         }}
       >
         <Link href={props.href} as={props.as}>
-          <a id={id} className='p-4 xs:px-10 xs:py-8 inline-block w-full'>
+          <a id={id} className='p-4 xs:px-6 xs:py-4 inline-block w-full'>
             {props.children}
           </a>
         </Link>
