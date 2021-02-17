@@ -85,7 +85,7 @@ export const AccountGovernanceClaims = (props) => {
           }}
         >
           <h2 className='mx-auto text-center px-10 xs:px-20 mt-20 sm:px-32 sm:mt-48'>
-            You will automatically start earning POOL governance tokens on your pool deposits at 4pm PST / 12am UTC
+            {t('youWillAutomaticallyStartEarningAt')}
           </h2>
         </motion.div>
 
