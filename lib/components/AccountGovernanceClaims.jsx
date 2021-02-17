@@ -2,6 +2,7 @@ import React, { useContext, useMemo, useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import CountUp from 'react-countup'
+import { motion } from 'framer-motion'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { ethers } from 'ethers'
@@ -40,7 +41,6 @@ export const AccountGovernanceClaims = (props) => {
 
   const {
     isFetched,
-    isFetching,
     refetch: refetchTotalClaimablePool
   } = useClaimablePoolFromTokenFaucets()
   const { usersAddress } = useContext(AuthControllerContext)
@@ -51,27 +51,53 @@ export const AccountGovernanceClaims = (props) => {
     refetchPoolTokenData()
   }
 
-  if (!isFetched || (isFetching && !isFetched)) {
-    return null
-  }
-
+  // if (!isFetched || !usersAddress) {
   if (!usersAddress) {
     return null
   }
 
+  const earningsStarted = (Date.now() / 1000) > 1613606400
+
   return (
     <>
       <h6 className='font-normal text-accent-2 mt-16 mb-4'>{t('governance')}</h6>
-      <div className='xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
+      <div className='relative xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
+        <motion.div
+          key={`scaled-bg`}
+          className={classnames(
+            'absolute w-full h-full z-40 bg-darkened -m-3 sm:-m-10 rounded-lg',
+            { 'pointer-events-none': earningsStarted }
+          )}
+          transition={{ duration: 0.2 }}
+          initial={{ opacity: 0.93 }}
+          animate={earningsStarted ? 'exit' : 'enter'}
+          variants={{
+            enter: {
+              opacity: 0.93,
+            },
+            exit: {
+              opacity: 0,
+              transition: {
+                duration: 0.25,
+                delay: 0.25,
+              },
+            },
+          }}
+        >
+          <h2 className='mx-auto text-center px-10 xs:px-20 mt-20 sm:px-32 sm:mt-48'>
+            You will automatically start earning POOL governance tokens on your pool deposits at 4pm PST / 12am UTC
+          </h2>
+        </motion.div>
+
         <ClaimHeader refetchAllPoolTokenData={refetchAllPoolTokenData} />
-        {pools.map((pool) => (
-          <ClaimablePoolTokenItem
+        {pools.map((pool) => {
+          return <ClaimablePoolTokenItem
             refetchAllPoolTokenData={refetchAllPoolTokenData}
             key={pool.id}
             pool={pool}
             poolGraphData={poolsGraphData[pool.symbol]}
           />
-        ))}
+        })}
       </div>
     </>
   )
@@ -83,7 +109,7 @@ const ClaimHeader = (props) => {
 
   // TODO: get a link for "What can I Do with POOL"
   const { data: claimablePoolFromTokenFaucets } = useClaimablePoolFromTokenFaucets()
-  const totalClaimablePool = claimablePoolFromTokenFaucets.total
+  const totalClaimablePool = claimablePoolFromTokenFaucets?.total
 
   return (
     <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
@@ -125,17 +151,19 @@ const ClaimAllButton = (props) => {
   } = useClaimablePoolFromTokenFaucets()
 
   const tokenFaucetAddresses = useMemo(() => {
-    const addresses = []
-    Object.keys(claimablePoolFromTokenFaucets).forEach((key) => {
-      if (key === 'total') return
-
-      const claimablePoolData = claimablePoolFromTokenFaucets[key]
-      if (claimablePoolData.amount) {
-        addresses.push(key)
-      }
-    })
-
-    return addresses
+    if (claimablePoolFromTokenFaucets) {
+      const addresses = []
+      Object.keys(claimablePoolFromTokenFaucets).forEach((key) => {
+        if (key === 'total') return
+  
+        const claimablePoolData = claimablePoolFromTokenFaucets[key]
+        if (claimablePoolData.amount) {
+          addresses.push(key)
+        }
+      })
+  
+      return addresses
+    }
   }, [claimablePoolFromTokenFaucets])
 
   const [txId, setTxId] = useState(0)
@@ -210,11 +238,11 @@ const ClaimablePoolTokenItem = (props) => {
     tokenFaucetAddress
   )
 
-  if (!isFetched || !tokenFaucetAddress) {
-    return null
-  }
+  // if (!isFetched || !tokenFaucetAddress) {
+  //   return null
+  // }
 
-  const { dripRatePerSecond, measureTokenAddress, faucetPoolSupplyBN, amount } = data
+  const { dripRatePerSecond, measureTokenAddress, faucetPoolSupplyBN, amount } = data || {}
 
   const ticketData = playerTickets.find(
     (playerTicket) => playerTicket.pool.ticket.id === measureTokenAddress
@@ -229,9 +257,9 @@ const ClaimablePoolTokenItem = (props) => {
     : 0
 
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
-  const dripRatePerSecondNumber = Number(
+  const dripRatePerSecondNumber = dripRatePerSecond ? Number(
     ethers.utils.formatUnits(dripRatePerSecond, DEFAULT_TOKEN_PRECISION)
-  )
+  ) : 0
 
   const totalDripPerDay = dripRatePerSecondNumber * SECONDS_PER_DAY
   const usersDripPerDay = totalDripPerDay * ownershipPercentage
@@ -242,7 +270,7 @@ const ClaimablePoolTokenItem = (props) => {
     precision: getPrecision(totalDripPerDay)
   })
 
-  const secondsLeft = faucetPoolSupplyBN.div(dripRatePerSecond).toNumber()
+  const secondsLeft = faucetPoolSupplyBN?.div(dripRatePerSecond).toNumber()
 
   return (
     <div className='bg-body p-6 rounded flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8 sm:items-center'>
