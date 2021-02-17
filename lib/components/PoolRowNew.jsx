@@ -76,7 +76,7 @@ export const PoolRowNew = (props) => {
         as={`/pools/${symbol}`}
         className='mt-2 sm:mt-4'
       >
-        <div className='flex flex-col xs:flex-row items-center xs:items-start justify-between text-inverse'>
+        <div className='flex flex-col xs:flex-row items-center justify-between text-inverse'>
 
           <div className='flex bg-body px-4 rounded-lg items-start justify-center xs:justify-start w-full xs:w-1/2'>
             <div className='relative mr-2 mt-4' style={{ top: 1 }}>
