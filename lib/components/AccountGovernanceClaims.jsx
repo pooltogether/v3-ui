@@ -263,10 +263,6 @@ const ClaimablePoolTokenItem = (props) => {
     tokenFaucetAddress
   )
 
-  // if (!isFetched || !tokenFaucetAddress) {
-  //   return null
-  // }
-
   const { dripRatePerSecond, measureTokenAddress, faucetPoolSupplyBN, amount } = data || {}
 
   const ticketData = playerTickets.find(
@@ -288,7 +284,6 @@ const ClaimablePoolTokenItem = (props) => {
   const dripRatePerSecondNumber = dripRatePerSecond ? Number(
     ethers.utils.formatUnits(dripRatePerSecond, DEFAULT_TOKEN_PRECISION)
   ) : 0
-  // const dripRatePerSecondNumber = (symbol === 'PT-cCOMP') || (symbol === 'PT-cUNI') ? 0.0029525699 : 0.0265731293
   const totalDripPerDay = dripRatePerSecondNumber * SECONDS_PER_DAY
   const usersDripPerDay = totalDripPerDay * ownershipPercentage
   const usersDripPerDayFormatted = numberWithCommas(usersDripPerDay, {
@@ -298,7 +293,8 @@ const ClaimablePoolTokenItem = (props) => {
     precision: getPrecision(totalDripPerDay)
   })
   
-  // const apy = ((totalDripPerDay * 365) / totalSupplyOfTickets) * 100
+  const totalSupplyUSD = poolInfo.totalDepositedUSD
+  const apy = ((totalDripPerDay * 365) / totalSupplyUSD) * 100
 
   const secondsLeft = faucetPoolSupplyBN?.div(dripRatePerSecond).toNumber()
 
@@ -316,7 +312,7 @@ const ClaimablePoolTokenItem = (props) => {
           <div className='text-accent-1 text-xs mb-1 mt-2 sm:mt-1 opacity-60 trans hover:opacity-100'>
             {t('poolNamesDripRate', { poolName: name })}
             <br />{totalDripPerDayFormatted} <img src={PoolIcon} className='relative inline-block w-4 h-4 mx-1' style={{ top: -2 }} /> POOL / <span className='lowercase'>{t('day')}</span>
-            {/* <br />{displayPercentage(apy)}% APY */}
+            <br />{displayPercentage(apy)}% APY
           </div>
 
           <RewardTimeLeft initialSecondsLeft={secondsLeft} />
