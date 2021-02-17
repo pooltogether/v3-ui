@@ -12,9 +12,9 @@ class MyDocument extends Document {
   }
 
   render() {
-    const title = 'PoolTogether'
+    const title = 'PoolTogether App'
     const url = `https://app.pooltogether.com`
-    const description = `Win $$$ every week simply by saving your money.`
+    const description = `Win $ every week just by saving your money.`
     const keywords = 'ethereum'
     const twitterHandle = '@PoolTogether_'
 
@@ -28,8 +28,7 @@ class MyDocument extends Document {
             <meta name='theme-color' content='#1e0b43' />
             <meta name='description' content={description} />
             <meta name='keywords' content={keywords} />
-            <meta name='author' content='PoolTogether LLC' />
-            <meta name='copyright' content={`Copyright ${new Date().getFullYear()}`} />
+            <meta name='author' content='PoolTogether' />
 
             <meta property='og:title' content={title} />
             <meta property='og:description' content={description} />
