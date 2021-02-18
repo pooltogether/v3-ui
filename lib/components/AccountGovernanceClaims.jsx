@@ -40,10 +40,7 @@ export const AccountGovernanceClaims = (props) => {
   const { pools, poolsGraphData } = usePools()
   const { t } = useTranslation()
 
-  const {
-    isFetched,
-    refetch: refetchTotalClaimablePool
-  } = useClaimablePoolFromTokenFaucets()
+  const { isFetched, refetch: refetchTotalClaimablePool } = useClaimablePoolFromTokenFaucets()
   const { networkName, chainId, usersAddress, walletName } = useContext(AuthControllerContext)
   const { refetch: refetchPoolTokenData } = usePoolTokenData()
 
@@ -56,7 +53,7 @@ export const AccountGovernanceClaims = (props) => {
     return null
   }
 
-  const earningsStarted = (Date.now() / 1000) > 1613606400
+  const earningsStarted = Date.now() / 1000 > 1613606400
 
   const handleAddTokenToMetaMask = (e) => {
     e.preventDefault()
@@ -71,12 +68,14 @@ export const AccountGovernanceClaims = (props) => {
       <div className='relative xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
         <ClaimHeader refetchAllPoolTokenData={refetchAllPoolTokenData} />
         {pools.map((pool) => {
-          return <ClaimablePoolTokenItem
-            refetchAllPoolTokenData={refetchAllPoolTokenData}
-            key={pool.id}
-            pool={pool}
-            poolGraphData={poolsGraphData[pool.symbol]}
-          />
+          return (
+            <ClaimablePoolTokenItem
+              refetchAllPoolTokenData={refetchAllPoolTokenData}
+              key={pool.id}
+              pool={pool}
+              poolGraphData={poolsGraphData[pool.symbol]}
+            />
+          )
         })}
 
         {walletName === 'MetaMask' && (
@@ -87,14 +86,18 @@ export const AccountGovernanceClaims = (props) => {
                 onClick={handleAddTokenToMetaMask}
                 className='font-bold mx-auto'
               >
-                <img src={PoolIcon} className='relative inline-block w-4 h-4 mx-1' style={{ top: -2 }} /> {t('addTicketTokenToMetamask', {
+                <img
+                  src={PoolIcon}
+                  className='relative inline-block w-4 h-4 mx-1'
+                  style={{ top: -2 }}
+                />{' '}
+                {t('addTicketTokenToMetamask', {
                   token: 'POOL'
                 })}
               </button>
             </div>
           </>
         )}
-        
       </div>
     </>
   )
@@ -152,13 +155,13 @@ const ClaimAllButton = (props) => {
       const addresses = []
       Object.keys(claimablePoolFromTokenFaucets).forEach((key) => {
         if (key === 'total') return
-  
+
         const claimablePoolData = claimablePoolFromTokenFaucets[key]
         if (claimablePoolData.amount) {
           addresses.push(key)
         }
       })
-  
+
       return addresses
     }
   }, [claimablePoolFromTokenFaucets])
@@ -241,21 +244,24 @@ const ClaimablePoolTokenItem = (props) => {
     (playerTicket) => playerTicket.pool.ticket.id === measureTokenAddress
   )
 
-  const ticketTotalSupply = poolGraphData.ticket.totalSupply
+  const ticketTotalSupply = poolGraphData?.ticket?.totalSupply || 0
+  console.log(ticketTotalSupply, underlyingCollateralDecimals)
   const totalSupplyOfTickets = Number(
     ethers.utils.formatUnits(
       ethers.utils.bigNumberify(ticketTotalSupply),
-      Number(underlyingCollateralDecimals)
+      Number(underlyingCollateralDecimals || 0)
     )
   )
   const usersBalance = ticketData?.balance
-    ? Number(ethers.utils.formatUnits(ticketData.balance, Number(underlyingCollateralDecimals)))
+    ? Number(
+        ethers.utils.formatUnits(ticketData.balance, Number(underlyingCollateralDecimals || 0))
+      )
     : 0
 
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
-  const dripRatePerSecondNumber = dripRatePerSecond ? Number(
-    ethers.utils.formatUnits(dripRatePerSecond, DEFAULT_TOKEN_PRECISION)
-  ) : 0
+  const dripRatePerSecondNumber = dripRatePerSecond
+    ? Number(ethers.utils.formatUnits(dripRatePerSecond, DEFAULT_TOKEN_PRECISION))
+    : 0
   const totalDripPerDay = dripRatePerSecondNumber * SECONDS_PER_DAY
   const usersDripPerDay = totalDripPerDay * ownershipPercentage
   const usersDripPerDayFormatted = numberWithCommas(usersDripPerDay, {
@@ -264,7 +270,7 @@ const ClaimablePoolTokenItem = (props) => {
   const totalDripPerDayFormatted = numberWithCommas(totalDripPerDay, {
     precision: getPrecision(totalDripPerDay)
   })
-  
+
   const totalSupplyUSD = poolInfo.totalDepositedUSD
   const apy = ((totalDripPerDay * 365) / totalSupplyUSD) * 100
 
@@ -283,8 +289,17 @@ const ClaimablePoolTokenItem = (props) => {
 
           <div className='text-accent-1 text-xs mb-1 mt-2 sm:mt-1 opacity-60 trans hover:opacity-100'>
             {t('poolNamesDripRate', { poolName: name })}
-            <br />{totalDripPerDayFormatted} <img src={PoolIcon} className='relative inline-block w-4 h-4 mx-1' style={{ top: -2 }} /> POOL / <span className='lowercase'>{t('day')}</span>
-            <br />{displayPercentage(apy)}% APY
+            <br />
+            {totalDripPerDayFormatted}{' '}
+            <img
+              src={PoolIcon}
+              className='relative inline-block w-4 h-4 mx-1'
+              style={{ top: -2 }}
+            />{' '}
+            POOL / <span className='lowercase'>{t('day')}</span>
+            <br />
+            {/* TODO: Currently based on POOL = $1, which is wrong */}
+            {/* {displayPercentage(apy)}% APY */}
           </div>
 
           <RewardTimeLeft initialSecondsLeft={secondsLeft} />
@@ -292,16 +307,16 @@ const ClaimablePoolTokenItem = (props) => {
       </div>
 
       <div className='sm:text-right'>
-        <p className='text-inverse font-bold'>
-          {t('availableToClaim')}
-        </p>
+        <p className='text-inverse font-bold'>{t('availableToClaim')}</p>
         <h4 className='leading-none flex items-center sm:justify-end'>
-          <span
-            className={classnames({ 'opacity-60': amount === 0 })}
-          ><img src={PoolIcon} className='inline-block w-6 h-6 -mt-1' /> <ClaimableAmountCountUp amount={amount} /></span>
+          <span className={classnames({ 'opacity-60': amount === 0 })}>
+            <img src={PoolIcon} className='inline-block w-6 h-6 -mt-1' />{' '}
+            <ClaimableAmountCountUp amount={amount} />
+          </span>
         </h4>
         <div className='text-accent-1 text-xs mb-2 flex items-center sm:justify-end mt-1 opacity-60 trans hover:opacity-100'>
-          {usersDripPerDayFormatted} <img src={PoolIcon} className='inline-block w-4 h-4 mx-2' /> POOL /&nbsp;<span className='lowercase'>{t('day')}</span>
+          {usersDripPerDayFormatted} <img src={PoolIcon} className='inline-block w-4 h-4 mx-2' />{' '}
+          POOL /&nbsp;<span className='lowercase'>{t('day')}</span>
         </div>
         <div className='sm:w-40 sm:ml-auto'>
           <ClaimButton
