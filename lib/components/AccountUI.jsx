@@ -23,8 +23,6 @@ export const AccountUI = () => {
 
       {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <RetroactivePoolClaimBanner />}
 
-      <DepositDetailsBanner />
-
       <PageTitleAndBreadcrumbs
         title={t('myAccount')}
         breadcrumbs={[
