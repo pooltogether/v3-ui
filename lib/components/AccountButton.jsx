@@ -6,7 +6,7 @@ import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { ProfileAvatar } from 'lib/components/ProfileAvatar'
 import { ProfileName } from 'lib/components/ProfileName'
 
-export function AccountButton(props) {
+export function AccountButton (props) {
   const { openTransactions } = props
 
   const [transactions] = useAtom(transactionsAtom)

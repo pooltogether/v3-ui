@@ -7,7 +7,7 @@ import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 
 import IconNetwork from 'assets/images/icon-network.svg'
 
-export function NetworkText(props) {
+export function NetworkText (props) {
   const { openTransactions } = props
 
   const { supportedNetwork, chainId } = useContext(AuthControllerContext)
@@ -26,7 +26,7 @@ export function NetworkText(props) {
           `bg-default hover:bg-body text-${networkTextColorClassname(
             chainId
           )} hover:text-inverse border border-accent-4 hover:border-primary`,
-          'text-xxs sm:text-xs px-2 xs:px-4 rounded-full mr-2 h-8'
+          'text-xxs sm:text-xs px-2 xs:px-4 rounded-full h-8 mx-1'
         )}
       >
         <img src={IconNetwork} className='w-4 mr-1 xs:mr-2' />

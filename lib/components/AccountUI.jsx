@@ -12,6 +12,7 @@ import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Tagline } from 'lib/components/Tagline'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 import { AccountGovernanceClaims } from 'lib/components/AccountGovernanceClaims'
+import { DepositDetailsBanner } from 'lib/components/DepositDetailsBanner'
 
 export const AccountUI = () => {
   const { t } = useTranslation()
@@ -26,8 +27,8 @@ export const AccountUI = () => {
         title={t('myAccount')}
         breadcrumbs={[
           {
-            name: t('accountOverview'),
-          },
+            name: t('accountOverview')
+          }
         ]}
       />
 
