@@ -10,6 +10,7 @@ import { Tagline } from 'lib/components/Tagline'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 
 import CompSvg from 'assets/images/comp.svg'
+import { DepositDetailsBanner } from 'lib/components/DepositDetailsBanner'
 
 export const IndexUI = (props) => {
   const { t } = useTranslation()
@@ -20,8 +21,10 @@ export const IndexUI = (props) => {
     <>
       <RetroactivePoolClaimBanner />
 
+      <DepositDetailsBanner />
+
       <PageTitleAndBreadcrumbs title={`${t('pools')}`} breadcrumbs={[]} />
-{/* 
+      {/* 
       <Link href='/pools/[symbol]' as={`/pools/PT-cCOMP`}>
         <a className='block mt-2 mb-3 text-center p-3 rounded-lg border-2 border-secondary font-bold text-inverse text-xxs xs:text-xs sm:text-sm'>
           <span role='img' aria-label='megaphone emoji' className='mx-2 text-xl'>

@@ -62,6 +62,13 @@ export const AccountGovernanceClaims = (props) => {
     addTokenToMetaMask('POOL', tokenAddress)
   }
 
+  const handleAddTokenToMetaMask = (e) => {
+    e.preventDefault()
+
+    const tokenAddress = CONTRACT_ADDRESSES[chainId].GovernanceToken
+    addTokenToMetaMask('POOL', tokenAddress)
+  }
+
   return (
     <>
       <h6 className='font-normal text-accent-2 mt-16 mb-4'>{t('governance')}</h6>
@@ -90,7 +97,7 @@ export const AccountGovernanceClaims = (props) => {
                   src={PoolIcon}
                   className='relative inline-block w-4 h-4 mx-1'
                   style={{ top: -2 }}
-                />{' '}
+                />
                 {t('addTicketTokenToMetamask', {
                   token: 'POOL'
                 })}
@@ -270,6 +277,8 @@ const ClaimablePoolTokenItem = (props) => {
   const totalDripPerDayFormatted = numberWithCommas(totalDripPerDay, {
     precision: getPrecision(totalDripPerDay)
   })
+
+  // const apy = ((totalDripPerDay * 365) / totalSupplyOfTickets) * 100
 
   const totalSupplyUSD = poolInfo.totalDepositedUSD
   const apy = ((totalDripPerDay * 365) / totalSupplyUSD) * 100
