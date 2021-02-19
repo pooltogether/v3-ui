@@ -79,7 +79,7 @@ export function Layout (props) {
 
       <AnimatePresence>{manage && <ManageTicketsWizardContainer {...props} />}</AnimatePresence>
 
-      {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <ClaimRetroactivePoolWizardContainer />}
+      <ClaimRetroactivePoolWizardContainer />
 
       <WrongNetworkModal />
 
@@ -110,7 +110,7 @@ export function Layout (props) {
                 <NetworkText openTransactions={openTransactions} />
               )}
 
-              {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <NavPoolBalance />}
+              <NavPoolBalance />
 
               {usersAddress && (
                 <>

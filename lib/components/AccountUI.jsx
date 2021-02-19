@@ -21,7 +21,7 @@ export const AccountUI = () => {
     <>
       <Meta title={t('myAccount')} />
 
-      {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <RetroactivePoolClaimBanner />}
+      <RetroactivePoolClaimBanner />
 
       <PageTitleAndBreadcrumbs
         title={t('myAccount')}
@@ -36,7 +36,7 @@ export const AccountUI = () => {
 
       <AccountTickets />
 
-      {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <AccountGovernanceClaims />}
+      <AccountGovernanceClaims />
 
       <AccountRewards />
 

@@ -19,7 +19,7 @@ export const IndexUI = (props) => {
 
   return (
     <>
-      {Boolean(process.env.NEXT_JS_FEATURE_FLAG_CLAIM) && <RetroactivePoolClaimBanner />}
+      <RetroactivePoolClaimBanner />
 
       <DepositDetailsBanner />
 
