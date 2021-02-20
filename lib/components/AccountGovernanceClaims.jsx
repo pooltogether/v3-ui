@@ -62,13 +62,6 @@ export const AccountGovernanceClaims = (props) => {
     addTokenToMetaMask('POOL', tokenAddress)
   }
 
-  const handleAddTokenToMetaMask = (e) => {
-    e.preventDefault()
-
-    const tokenAddress = CONTRACT_ADDRESSES[chainId].GovernanceToken
-    addTokenToMetaMask('POOL', tokenAddress)
-  }
-
   return (
     <>
       <h6 className='font-normal text-accent-2 mt-16 mb-4'>{t('governance')}</h6>
