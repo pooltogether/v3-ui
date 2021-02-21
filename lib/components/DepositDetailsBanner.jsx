@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
@@ -10,10 +10,12 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { useTranslation } from 'lib/../i18n'
 
 import Rocket from 'assets/images/rocket.svg'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 
 export const DepositDetailsBanner = (props) => {
   const { t } = useTranslation()
 
+  const { usersAddress } = useContext(AuthControllerContext)
   const { data: retroData, loading } = useRetroactivePoolClaimData()
   const [totalValueLocked, totalPrizePoolValueLockedIsFetched] = useTotalPoolPrizeValueLockedUSD()
   const {
@@ -31,8 +33,7 @@ export const DepositDetailsBanner = (props) => {
   }
 
   // Check if retro banner is showing
-  if (loading || (!retroData?.isClaimed && !retroData?.isMissing)) {
-    console.log('here', retroData)
+  if ((loading && usersAddress) || (retroData && !retroData?.isClaimed && !retroData?.isMissing)) {
     return null
   }
 
