@@ -41,7 +41,7 @@ export const compileErc20Awards = (erc20ChainData, poolData, uniswapPriceData) =
       balanceBN,
       balanceFormatted,
       name,
-      value,
+      value
     })
   })
 

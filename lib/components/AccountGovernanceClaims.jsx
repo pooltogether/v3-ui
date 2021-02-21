@@ -245,7 +245,6 @@ const ClaimablePoolTokenItem = (props) => {
   )
 
   const ticketTotalSupply = poolGraphData?.ticket?.totalSupply || 0
-  console.log(ticketTotalSupply, underlyingCollateralDecimals)
   const totalSupplyOfTickets = Number(
     ethers.utils.formatUnits(
       ethers.utils.bigNumberify(ticketTotalSupply),
