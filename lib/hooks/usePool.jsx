@@ -41,18 +41,10 @@ export function usePool(poolSymbol, blockNumber = -1) {
     return POOL.symbol === poolSymbol
   })
 
-  // if (poolGraphData.isCommunityPool) {
-  //   console.warn({
-  //     ...poolInfo,
-  //     ...poolChainData,
-  //     ...poolsGraphData?.[poolSymbol],
-  //   })
-  // }
-
   let pool = {
     ...poolInfo,
     ...poolChainData,
-    ...poolsGraphData?.[poolSymbol],
+    ...poolGraphData,
   }
 
   const { erc20ChainData } = useErc20ChainQuery(pool)
@@ -125,7 +117,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
   if (pool.ticketSupply && pool.underlyingCollateralDecimals) {
     const ticketsFormatted = ethers.utils.formatUnits(
       pool.ticketSupply,
-      pool.underlyingCollateralDecimals
+      parseInt(pool.underlyingCollateralDecimals, 10)
     )
     totalDepositedUSD = underlyingCollateralValueUSD ? 
       ticketsFormatted * underlyingCollateralValueUSD : ticketsFormatted

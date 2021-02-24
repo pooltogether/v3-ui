@@ -4,6 +4,7 @@ import { useCommunityPoolAddresses } from 'lib/hooks/useCommunityPoolAddresses'
 import { useCommunityPoolsQuery } from 'lib/hooks/useCommunityPoolsQuery'
 import { marshallPoolData } from 'lib/services/marshallPoolData'
 import { poolToast } from 'lib/utils/poolToast'
+import { usePool } from 'lib/hooks/usePool'
 
 export function useCommunityPools() {
   const { communityPoolAddresses } = useCommunityPoolAddresses()
@@ -22,9 +23,10 @@ export function useCommunityPools() {
     console.error(poolsError)
   }
 
-  communityPoolsGraphData = useMemo(() => {
-    return _initializeCommunityPoolData(communityPoolsGraphData)
-  }, [communityPoolsGraphData])
+  // communityPoolsGraphData = useMemo(() => {
+  //   return _initializeCommunityPoolData(communityPoolsGraphData)
+  // }, [communityPoolsGraphData])
+  communityPoolsGraphData = _initializeCommunityPoolData(communityPoolsGraphData)
 
   // Make an array out of it for ease of use
   communityPools = useMemo(() => {
@@ -46,19 +48,18 @@ export function useCommunityPools() {
   }
 }
 
-const _initializeCommunityPoolData = (pools = []) => {
+const _initializeCommunityPoolData = (communityPoolsGraphData = []) => {
   let poolData = {}
 
-  pools.forEach((pool) => {
-    const marshalledData = marshallPoolData(pool)
+  communityPoolsGraphData.forEach((poolGraphData) => {
+    const marshalledData = marshallPoolData(poolGraphData)
 
     // console.log(pool)
-    let newPool = Object.assign({}, pool)
+    let newPool = Object.assign({}, poolGraphData)
     newPool.isCommunityPool = true
-    newPool.name = `${pool.underlyingCollateralSymbol}-${pool.id.substr(0, 8)}`
-    newPool.symbol = `${pool.underlyingCollateralSymbol}-${pool.id.substr(0, 8)}`
+    newPool.name = `${poolGraphData.underlyingCollateralSymbol}-${poolGraphData.id.substr(0, 8)}`
+    newPool.symbol = `${poolGraphData.underlyingCollateralSymbol}-${poolGraphData.id.substr(0, 8)}`
 
-    // console.log(newPool)
     poolData[newPool.symbol] = {
       ...newPool,
       ...marshalledData,

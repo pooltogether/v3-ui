@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { orderBy } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
 import { PoolRowNew } from 'lib/components/PoolRowNew'
@@ -41,6 +42,11 @@ export const PoolList = (props) => {
       },
     },
   }
+
+  // const { pool } = usePool(newPool.symbol)
+
+  console.log(communityPools?.[0]?.totalPrizeAmountUSD)
+  const communityPoolsSorted = orderBy(communityPools, ['totalPrizeAmountUSD'], ['desc'])
 
   return (
     <>
@@ -96,7 +102,7 @@ export const PoolList = (props) => {
             }}
             variants={ANIM_LIST_VARIANTS}
           >
-            {communityPools?.map((pool) => {
+            {communityPoolsSorted?.map((pool) => {
               if (!pool?.id) {
                 return null
               }
