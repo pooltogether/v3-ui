@@ -94,7 +94,7 @@ export const AccountPoolRow = (props) => {
                 <span className='mr-1 sm:mr-2'>
                   <Chip bgClasses='bg-accent-1' text={t(pool?.name)} />
                 </span>{' '}
-                <Chip bgClasses='bg-highlight-6' text={t(pool?.frequency)} />
+                <Chip bgClasses='bg-highlight-6' text={t('weekly')} />
               </div>
             </div>
           </div>

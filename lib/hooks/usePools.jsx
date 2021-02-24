@@ -3,14 +3,22 @@ import { useGovernancePools } from 'lib/hooks/useGovernancePools'
 
 export function usePools() {
   const { poolsDataLoading, pools, refetchPoolsData, poolsGraphData } = useGovernancePools()
-  const { communityPoolsGraphData: communityPools } = useCommunityPools()
+  const {
+    isLoading: communityPoolsDataLoading,
+    communityPools,
+    communityRefetch,
+    communityPoolsGraphData
+  } = useCommunityPools()
 
-  console.log(communityPools)
   return {
     pools,
-    communityPools,
     loading: poolsDataLoading,
     refetchPoolsData,
     poolsGraphData,
+
+    communityPools,
+    communityPoolsDataLoading,
+    communityRefetch,
+    communityPoolsGraphData,
   }
 }

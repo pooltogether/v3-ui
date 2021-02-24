@@ -1,19 +1,18 @@
-import { useContext } from 'react'
+import { useMemo } from 'react'
 
-import { POOLS } from 'lib/constants'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useCommunityPoolAddresses } from 'lib/hooks/useCommunityPoolAddresses'
 import { useCommunityPoolsQuery } from 'lib/hooks/useCommunityPoolsQuery'
+import { marshallPoolData } from 'lib/services/marshallPoolData'
 import { poolToast } from 'lib/utils/poolToast'
 
 export function useCommunityPools() {
-  const { chainId } = useContext(AuthControllerContext)
-
   const { communityPoolAddresses } = useCommunityPoolAddresses()
+
+  let communityPools = []
 
   const poolAddresses = communityPoolAddresses
   let {
-    refetch: refetchPoolsData,
+    refetch: communityRefetch,
     data: communityPoolsGraphData,
     error: poolsError,
   } = useCommunityPoolsQuery(poolAddresses)
@@ -23,23 +22,48 @@ export function useCommunityPools() {
     console.error(poolsError)
   }
 
-  communityPoolsGraphData = communityPoolsGraphData.map(pool => {
-    let newPool = Object.assign({}, pool)
-    newPool.isCommunityPool = true
+  communityPoolsGraphData = useMemo(() => {
+    return _initializeCommunityPoolData(communityPoolsGraphData)
+  }, [communityPoolsGraphData])
 
-    return newPool
-  })
-
-  // console.log(communityPoolsGraphData)
-
-  // communityPoolsGraphData = getPoolDataFromQueryResult(chainId, communityPoolAddresses, communityPoolsGraphData)
+  // Make an array out of it for ease of use
+  communityPools = useMemo(() => {
+    if (communityPoolsGraphData) {
+      const keys = Object.keys(communityPoolsGraphData)
+      return keys?.map(key => {
+        return communityPoolsGraphData[key]
+      })
+    }
+  }, [communityPoolsGraphData])
 
   const communityPoolsDataLoading = !communityPoolsGraphData
 
   return {
+    communityPools,
     communityPoolsDataLoading,
-    // contractAddresses,
-    refetchPoolsData,
+    communityRefetch,
     communityPoolsGraphData,
   }
+}
+
+const _initializeCommunityPoolData = (pools = []) => {
+  let poolData = {}
+
+  pools.forEach((pool) => {
+    const marshalledData = marshallPoolData(pool)
+
+    // console.log(pool)
+    let newPool = Object.assign({}, pool)
+    newPool.isCommunityPool = true
+    newPool.name = `${pool.underlyingCollateralSymbol}-${pool.id.substr(0, 8)}`
+    newPool.symbol = `${pool.underlyingCollateralSymbol}-${pool.id.substr(0, 8)}`
+
+    // console.log(newPool)
+    poolData[newPool.symbol] = {
+      ...newPool,
+      ...marshalledData,
+    }
+  })
+
+  return poolData
 }

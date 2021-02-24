@@ -29,8 +29,13 @@ export function usePool(poolSymbol, blockNumber = -1) {
     poolSymbol = router?.query?.symbol
   }
 
-  const { poolsGraphData } = usePools()
-  const poolGraphData = poolsGraphData?.[poolSymbol]
+  const { poolsGraphData, communityPoolsGraphData } = usePools()
+  let poolGraphData = poolsGraphData?.[poolSymbol]
+  console.log(communityPoolsGraphData)
+  if (!poolGraphData) {
+    poolGraphData = communityPoolsGraphData?.[poolSymbol]
+    console.log(poolGraphData)
+  }
 
   const { poolChainData } = usePoolChainQuery(poolGraphData)
 

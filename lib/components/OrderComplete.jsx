@@ -74,7 +74,7 @@ export function OrderComplete(props) {
         </div>
         <div className='mb-6'>
           {t('youWillBeEligibleToWinPrizeEveryFrequency', {
-            frequency: pool?.frequency === 'Weekly' ? t('week') : t('day'),
+            frequency: t('week')
           })}
         </div>
         <div className='mb-3'>

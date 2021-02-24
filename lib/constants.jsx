@@ -51,39 +51,32 @@ export const POOLS = {
   1: [
     {
       name: 'DAI Pool',
-      frequency: 'Weekly',
       symbol: 'PT-cDAI'
     },
     {
       name: 'USDC Pool',
-      frequency: 'Weekly',
       symbol: 'PT-cUSDC'
     },
     {
       name: 'UNI Pool',
-      frequency: 'Weekly',
       symbol: 'PT-cUNI'
     },
     {
       name: 'COMP Pool',
-      frequency: 'Weekly',
       symbol: 'PT-cCOMP'
     }
   ],
   4: [
     {
       name: 'DAI Pool',
-      frequency: 'Weekly',
       symbol: 'PT-cDAI'
     },
     {
       name: 'BAT Pool',
-      frequency: 'Weekly',
       symbol: 'PT-cBAT'
     },
     {
       name: 'USDC Pool',
-      frequency: 'Weekly',
       symbol: 'PT-cUSDC'
     }
   ]

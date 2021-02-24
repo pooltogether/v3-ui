@@ -1,5 +1,4 @@
 import React from 'react'
-// import FeatherIcon from 'feather-icons-react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
@@ -15,7 +14,6 @@ import { Chip } from 'lib/components/Chip'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
-import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { usePool } from 'lib/hooks/usePool'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -27,7 +25,6 @@ export const PoolRowNew = (props) => {
   const router = useRouter()
 
   const { pool } = usePool(querySymbol)
-  // console.log(pool)
 
   const symbol = pool.symbol
 

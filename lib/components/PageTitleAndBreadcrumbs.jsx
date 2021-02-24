@@ -59,7 +59,7 @@ export const PageTitleAndBreadcrumbs = (props) => {
                   className='font-bold uppercase'
                   bgClasses='bg-highlight-6'
                   textClasses='text-white font-bold'
-                  text={t(pool?.frequency?.toLowerCase())}
+                  text={t('weekly')}
                 />
               </div>
             )}
