@@ -79,7 +79,7 @@ export const PoolRowNew = (props) => {
             </div>
             
             <div className='flex flex-col'>
-              <div className='text-5xl xs:text-3xl sm:text-5xl text-flashy font-bold'>
+              <div className='text-3xl xs:text-3xl sm:text-5xl text-flashy font-bold'>
                 $
                 <PoolCountUp fontSansRegular decimals={0} duration={6}>
                   {parseFloat(pool?.totalPrizeAmountUSD)}
@@ -93,18 +93,7 @@ export const PoolRowNew = (props) => {
           </div>
 
 
-          <div className='pool-row-right-col flex flex-col items-center w-full xs:w-1/2'>
-
-            <div className='flex items-center justify-between mb-4 w-full'>
-              <div className='hidden xs:flex'>
-                <TotalDepositedChip />
-              </div>
-
-              <span className='relative hidden xs:inline-block'>
-                <ViewPoolDetailsButton />
-              </span>
-            </div>
-            
+          <div className='pool-row-right-col flex flex-col items-center w-full xs:w-1/2 mt-4 xs:mt-0'>
             <NewPrizeCountdown textSize='text-sm sm:text-lg lg:text-xl' pool={pool} />
 
             <Button
@@ -116,8 +105,8 @@ export const PoolRowNew = (props) => {
               hoverBg='green'
               onClick={handleGetTicketsClick}
               width='w-full'
-              textSize='sm'
-              className='mt-2 py-1'
+              textSize='xxxs'
+              className='mt-3'
               padding='py-1'
               disabled={!Boolean(pool?.symbol)}
             >
@@ -126,7 +115,18 @@ export const PoolRowNew = (props) => {
               })}
             </Button>
 
-            <span className='mt-3 relative xs:hidden'>
+
+            <div className='flex items-center justify-between mt-3 w-full'>
+              <div className='hidden xs:flex'>
+                <TotalDepositedChip />
+              </div>
+
+              <span className='relative hidden xs:inline-block'>
+                <ViewPoolDetailsButton />
+              </span>
+            </div>
+
+            <span className='mt-1 relative xs:hidden'>
               <TotalDepositedChip />
             </span>
             <div className='xs:hidden mt-1'>

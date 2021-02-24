@@ -238,7 +238,7 @@ a:hover {
 }
 
 .pool-row-left-col {
-  max-width: 300px;
+  max-width: 247px;
 }
 
 @screen xs {
@@ -260,7 +260,7 @@ a:hover {
 }
 
 .pool-row-right-col {
-  max-width: 300px;
+  max-width: 247px;
 }
 
 @screen xs {
