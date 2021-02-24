@@ -13,13 +13,10 @@ export const InteractableCard = (props) => {
       <motion.li
         layout
         onClick={props.onClick}
-        whileHover={{
-          y: selected ? 0 : -2,
-        }}
         whileTap={{ y: 1, scale: 0.98 }}
         className={classnames(
           className,
-          'interactable-card bg-card hover:bg-card-selected border-card w-full mb-4 trans rounded-lg text-inverse hover:text-inverse',
+          'interactable-card bg-card hover:bg-card-selected border-card w-full mb-4 rounded-lg text-inverse hover:text-inverse trans trans-fast',
           {
             'hover:shadow-xl cursor-pointer': !selected,
             'selected': selected,

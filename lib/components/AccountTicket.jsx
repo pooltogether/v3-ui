@@ -14,6 +14,7 @@ import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { usePool } from 'lib/hooks/usePool'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
 
@@ -159,7 +160,7 @@ export const AccountTicket = (props) => {
                         fontSansRegular
                         decimals={2}
                         duration={3}
-                        end={Number.parseFloat(pool?.totalPrizeAmountUSD)}
+                        end={numberWithCommas(Number.parseFloat(pool?.totalPrizeAmountUSD), { precision: 0 })}
                       />
                     </>
                   )}

@@ -50,13 +50,11 @@ export function usePool(poolSymbol, blockNumber = -1) {
   const { erc20ChainData } = useErc20ChainQuery(pool)
   const { erc721ChainData } = useErc721ChainQuery(pool)
 
-  const addresses = erc20ChainData
+  let addresses = pool.underlyingCollateralToken ? [pool.underlyingCollateralToken] : []
+  const erc20Addresses = erc20ChainData
     ?.filter((award) => award.balance.gt(0))
     ?.map((award) => award.address)
-
-  if (addresses) {
-    addresses.push(pool.underlyingCollateralToken)
-  }
+  addresses = [...addresses, ...(erc20Addresses || [])]
 
   const {
     data: uniswapPriceData,
@@ -70,12 +68,12 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const compiledExternalErc20Awards = compileErc20Awards(
     erc20ChainData,
-    poolsGraphData?.[poolSymbol],
+    poolGraphData,
     uniswapPriceData
   )
 
   const compiledExternalErc721Awards = compileErc721Awards(
-    poolsGraphData?.[poolSymbol]?.externalErc721Awards,
+    poolGraphData?.externalErc721Awards,
     erc721ChainData
   )
 

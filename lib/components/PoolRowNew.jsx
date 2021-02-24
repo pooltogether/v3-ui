@@ -29,10 +29,6 @@ export const PoolRowNew = (props) => {
   const symbol = pool.symbol
 
   const ticker = pool?.underlyingCollateralSymbol
-  // console.log(ticker)
-  if (ticker === 'BOND') {
-    console.log(pool)
-  }
   const tickerUpcased = ticker?.toUpperCase()
 
   const handleGetTicketsClick = (e) => {

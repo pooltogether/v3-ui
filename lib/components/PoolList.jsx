@@ -20,6 +20,22 @@ export const PoolList = (props) => {
 
   const shouldReduceMotion = useReducedMotion()
 
+  // const communityPoolsSorted = orderBy(communityPools, ['totalPrizeAmountUSD'], ['desc'])
+  // TODO: To be replaced by automated sorting based on prize size
+  //       also note this array is in reverse order of how we want the elements to appear in the list
+  //       due to the -1 returned by all the other pools in the sortFunction's indexOf() calls
+  const hardcodedSortOrder = [
+    '0x3e2e88f6eaa189e397bf87153e085a757028c069', // bondly
+    '0x9f7905c7bd5ec9e870ed50f0e286f2742c19f5b3', // DPI
+    '0xf6d6b30d31077db8590fe1bea7a293e1515f8152', // RAI
+    '0xea7eaecbff99ce2412e794437325f3bd225ee78f', // bond
+  ]
+  
+  const communityPoolsSorted = communityPools.sort((a, b) => {
+    return hardcodedSortOrder.indexOf(b.id) - hardcodedSortOrder.indexOf(a.id)
+  })
+
+
   const ANIM_LIST_VARIANTS = {
     enter: {
       scale: 1,
@@ -42,11 +58,15 @@ export const PoolList = (props) => {
       },
     },
   }
-
-  // const { pool } = usePool(newPool.symbol)
-
-  console.log(communityPools?.[0]?.totalPrizeAmountUSD)
-  const communityPoolsSorted = orderBy(communityPools, ['totalPrizeAmountUSD'], ['desc'])
+  const sharedListProps = {
+    className: 'flex flex-col text-xs sm:text-lg lg:text-xl',
+    initial: {
+      scale: 0,
+      y: -100,
+      opacity: 0,
+    },
+    variants: ANIM_LIST_VARIANTS
+  }
 
   return (
     <>
@@ -65,18 +85,12 @@ export const PoolList = (props) => {
         </Tab>
       </Tabs>
       
-      <AnimatePresence exitBeforeEnter>
-        <ContentPane key='pools-list' isSelected={selectedTab === POOL_LIST_TABS.pools}>
+      <ContentPane key='pools-list' isSelected={selectedTab === POOL_LIST_TABS.pools}>
+        <AnimatePresence exitBeforeEnter>
           <motion.ul
+            {...sharedListProps}
             key='pool-list'
-            className='flex flex-col text-xs sm:text-lg lg:text-xl'
             animate={selectedTab === POOL_LIST_TABS.pools ? 'enter' : 'exit'}
-            initial={{
-              scale: 0,
-              y: -100,
-              opacity: 0,
-            }}
-            variants={ANIM_LIST_VARIANTS}
           >
             {pools?.map((pool) => {
               if (!pool?.id) {
@@ -86,21 +100,15 @@ export const PoolList = (props) => {
               return <PoolRowNew key={`pool-row-${pool.id}`} querySymbol={pool.symbol} />
             })}
           </motion.ul>
-        </ContentPane>
-      </AnimatePresence>
+        </AnimatePresence>
+      </ContentPane>
 
-      <AnimatePresence exitBeforeEnter>
-        <ContentPane key='community-list' isSelected={selectedTab === POOL_LIST_TABS.community}>
+      <ContentPane key='community-list' isSelected={selectedTab === POOL_LIST_TABS.community}>
+        <AnimatePresence exitBeforeEnter>
           <motion.ul
+            {...sharedListProps}
             key='pool-list'
-            className='flex flex-col text-xs sm:text-lg lg:text-xl'
             animate={selectedTab === POOL_LIST_TABS.community ? 'enter' : 'exit'}
-            initial={{
-              scale: 0,
-              y: -100,
-              opacity: 0,
-            }}
-            variants={ANIM_LIST_VARIANTS}
           >
             {communityPoolsSorted?.map((pool) => {
               if (!pool?.id) {
@@ -110,9 +118,9 @@ export const PoolList = (props) => {
               return <PoolRowNew key={`pool-row-${pool.id}`} querySymbol={pool.symbol} />
             })}
           </motion.ul>
-        </ContentPane>
+        </AnimatePresence>
+      </ContentPane>
         
-      </AnimatePresence>
     </>
   )
 }

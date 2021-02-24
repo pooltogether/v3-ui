@@ -64,7 +64,7 @@ export const PoolCurrencyIcon = (props) => {
 
   if (!src) {
     const address = pool?.underlyingCollateralToken
-    src = TOKEN_IMAGES[address.toLowerCase()]
+    src = TOKEN_IMAGES[address?.toLowerCase()]
 
     if (!src) {
       const { data: tokenImagesData } = useCoingeckoImageQuery(address)
