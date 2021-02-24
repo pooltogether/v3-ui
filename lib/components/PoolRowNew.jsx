@@ -6,17 +6,17 @@ import {
   COOKIE_OPTIONS,
   WIZARD_REFERRER_HREF,
   WIZARD_REFERRER_AS_PATH,
-  DEFAULT_TOKEN_PRECISION,
 } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
-import { Chip } from 'lib/components/Chip'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { usePool } from 'lib/hooks/usePool'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+
+import IconCoins from 'assets/images/icon-coins@2x.png'
 
 export const PoolRowNew = (props) => {
   const { querySymbol } = props
@@ -48,12 +48,11 @@ export const PoolRowNew = (props) => {
     {t('viewPool')}
   </button>
 
-  const TotalDepositedChip = () => <Chip
-    size='text-xxxs'
-    text={<>
-      {t('totalDeposited')} ${numberWithCommas(pool?.totalDepositedUSD, { precision: 0 })}
-    </>}
-  />
+  const TotalDepositedChip = () => <div
+    className='text-xxxs text-accent-1'
+  >
+    <img src={IconCoins} className='inline-block mr-2 w-4' /> {t('totalDeposited')} ${numberWithCommas(pool?.totalDepositedUSD, { precision: 0 })}
+  </div>
 
   return (
     <>
@@ -72,7 +71,7 @@ export const PoolRowNew = (props) => {
             </div>
             
             <div className='flex flex-col'>
-              <div className='text-5xl text-flashy font-bold'>
+              <div className='text-5xl xs:text-3xl sm:text-5xl text-flashy font-bold'>
                 $
                 <PoolCountUp fontSansRegular decimals={0} duration={6}>
                   {parseFloat(pool?.totalPrizeAmountUSD)}

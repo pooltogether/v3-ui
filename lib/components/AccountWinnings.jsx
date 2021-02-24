@@ -3,7 +3,6 @@ import Link from 'next/link'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePools } from 'lib/hooks/usePools'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { usePlayerPrizesQuery } from 'lib/hooks/usePlayerPrizesQuery'

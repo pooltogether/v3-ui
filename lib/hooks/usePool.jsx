@@ -31,10 +31,8 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const { poolsGraphData, communityPoolsGraphData } = usePools()
   let poolGraphData = poolsGraphData?.[poolSymbol]
-  console.log(communityPoolsGraphData)
   if (!poolGraphData) {
     poolGraphData = communityPoolsGraphData?.[poolSymbol]
-    console.log(poolGraphData)
   }
 
   const { poolChainData } = usePoolChainQuery(poolGraphData)
@@ -42,6 +40,14 @@ export function usePool(poolSymbol, blockNumber = -1) {
   const poolInfo = POOLS[chainId]?.find((POOL) => {
     return POOL.symbol === poolSymbol
   })
+
+  // if (poolGraphData.isCommunityPool) {
+  //   console.warn({
+  //     ...poolInfo,
+  //     ...poolChainData,
+  //     ...poolsGraphData?.[poolSymbol],
+  //   })
+  // }
 
   let pool = {
     ...poolInfo,
