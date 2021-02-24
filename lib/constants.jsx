@@ -108,6 +108,8 @@ export const CONTRACT_ADDRESSES = {
 export const TOKEN_IMAGES = {
   '0x9d942bd31169ed25a1ca78c776dab92de104e50e':
     '/tokens/0x9d942bd31169ed25a1ca78c776dab92de104e50e.png',
+  '0xb0dfd28d3cf7a5897c694904ace292539242f858': '/tokens/lotto.png',
+  '0x0391d2021f89dc339f60fff84546ea23e337750f': '/tokens/bond.png',
   '0x6b175474e89094c44da98b954eedeac495271d0f': '/tokens/dai-new-transparent.png',
   '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48':
     'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389',

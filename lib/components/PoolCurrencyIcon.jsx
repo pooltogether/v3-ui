@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import PuffLoader from 'react-spinners/PuffLoader'
 import { isUndefined } from 'lodash'
 
+import { TOKEN_IMAGES } from 'lib/constants'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 import { useCoingeckoImageQuery } from 'lib/hooks/useCoingeckoImageQuery'
 
@@ -17,7 +18,7 @@ export const PoolCurrencyIcon = (props) => {
   const { className, noMediaQueries, sm, lg, xl, xs, pool } = props
 
   const { theme } = useContext(ThemeContext)
-
+    
   const noMargin = props.noMargin || false
   const symbol = pool?.underlyingCollateralSymbol?.toLowerCase()
 
@@ -63,8 +64,16 @@ export const PoolCurrencyIcon = (props) => {
 
   if (!src) {
     const address = pool?.underlyingCollateralToken
-    const { data: tokenImagesData } = useCoingeckoImageQuery(address)
-    src = tokenImagesData?.[address]?.image?.small
+    src = TOKEN_IMAGES[address.toLowerCase()]
+
+    if (!src) {
+      const { data: tokenImagesData } = useCoingeckoImageQuery(address)
+      src = tokenImagesData?.[address]?.image?.small 
+    }
+  }
+
+  if (!src) {
+    src = '/tokens/eth-placeholder.png'
   }
 
   return (
@@ -72,7 +81,7 @@ export const PoolCurrencyIcon = (props) => {
       {!src ? (
         <>
           <div className={`${classes} scale-80 text-center`}>
-            <PuffLoader color='rgba(255,255,255,0.3)' />
+            {/* <PuffLoader color='rgba(255,255,255,0.3)' /> */}
           </div>
         </>
       ) : (
