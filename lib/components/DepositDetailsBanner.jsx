@@ -27,6 +27,8 @@ export const DepositDetailsBanner = (props) => {
   const formatNumbers = (num) => {
     if (num > 1000000) {
       return `$${numberWithCommas(num / 1000000, { precision: 2 })} ${t('million')}`
+    } else if (num > 100000) {
+      return `$${numberWithCommas(num, { precision: 0 })}`
     } else {
       return `$${numberWithCommas(num, { precision: 2 })}`
     }
@@ -76,7 +78,7 @@ export const DepositDetailsBanner = (props) => {
           }
         }}
       >
-        <Banner gradient={'purple-pink'} className='shadow-md mt-8 mb-8 flex flex-row'>
+        <Banner gradient={'purple-pink'} className='shadow-md mt-1 mb-8 flex flex-row'>
           <img src={Rocket} className='mr-4 xs:mr-8 xs:ml-4 my-auto w-20 h-20' />
           <h4 className='text-white'>
             {t(`currentTvlAndPrize`, {

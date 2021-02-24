@@ -27,6 +27,7 @@ export const PoolRowNew = (props) => {
   const router = useRouter()
 
   const { pool } = usePool(querySymbol)
+  // console.log(pool)
 
   const symbol = pool.symbol
 

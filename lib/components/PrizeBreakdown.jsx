@@ -1,9 +1,8 @@
 import React from 'react'
-import { orderBy } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
 import { PrizeWinner } from 'lib/components/PrizeWinner'
-import { usePools } from 'lib/hooks/usePools'
+import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -16,7 +15,7 @@ export const PrizeBreakdown = (props) => {
 
   const { prize, prizeNumber, preAwardTimeTravelPool } = props
 
-  const { contractAddresses } = usePools()
+  const { contractAddresses } = useContractAddresses()
 
   const interestPrizeUSD = preAwardTimeTravelPool?.interestPrizeUSD
   const externalAwardsValueUSD = preAwardTimeTravelPool?.externalAwardsUSD

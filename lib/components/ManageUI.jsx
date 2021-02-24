@@ -10,6 +10,7 @@ import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Meta } from 'lib/components/Meta'
 import { SponsorshipPane } from 'lib/components/SponsorshipPane'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
+import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { usePool } from 'lib/hooks/usePool'
 import { usePools } from 'lib/hooks/usePools'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
@@ -22,7 +23,8 @@ export const ManageUI = (props) => {
   const { t } = useTranslation()
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { loading, contractAddresses } = usePools()
+  const { loading } = usePools()
+  const { contractAddresses } = useContractAddresses()
   const { pool } = usePool()
 
   if (loading) {

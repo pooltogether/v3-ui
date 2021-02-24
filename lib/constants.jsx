@@ -208,6 +208,7 @@ export const V2_CONTRACT_ADDRESSES = [
 ]
 
 export const QUERY_KEYS = {
+  communityPoolsQuery: 'communityPoolsQuery',
   ethereumErc20sQuery: 'ethereumErc20sQuery',
   ethereumErc721sQuery: 'ethereumErc721sQuery',
   ethereumLootBoxQuery: 'ethereumLootBoxQuery',
@@ -216,6 +217,7 @@ export const QUERY_KEYS = {
   ethereumUsersV2Query: 'ethereumUsersV2Query',
   ethereumUsersChainQuery: 'ethereumUsersChainQuery',
   lootBoxQuery: 'lootBoxQuery',
+  poolAddressesQuery: 'poolAddressesQuery',
   poolQuery: 'poolQuery',
   poolsQuery: 'poolsQuery',
   poolDripsQuery: 'poolDripsQuery',
@@ -239,7 +241,7 @@ export const QUERY_KEYS = {
   claimablePoolTokenFaucetAddresses: 'claimablePoolTokenFaucetAddresses'
 }
 
-export const POOLTOGETHER_CURRENT_GRAPH_URIS = {
+export const POOLTOGETHER_SUBGRAPH_URIS = {
   1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
   3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
   4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY
