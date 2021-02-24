@@ -9,8 +9,9 @@ import { useTotalPoolPrizeValueLockedUSD } from 'lib/hooks/useTotalPoolPrizeValu
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { useTranslation } from 'lib/../i18n'
 
-import Rocket from 'assets/images/rocket.svg'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+
+import Rocket from 'assets/images/rocketship@2x.png'
 
 export const DepositDetailsBanner = (props) => {
   const { t } = useTranslation()
@@ -79,8 +80,9 @@ export const DepositDetailsBanner = (props) => {
         }}
       >
         <Banner gradient={'purple-pink'} className='shadow-md mt-1 mb-8 flex flex-row items-center'>
-          <img src={Rocket} className='mr-4 xs:mr-4 xs:ml-4 my-auto w-20 h-20' />
-          <h4 className='text-white sm:leading-tight'>
+          <img src={Rocket} className='mr-4 xs:mr-4 xs:ml-4 my-auto w-12 h-12 xs:w-20 xs:h-20' />
+          
+          <h4 className='text-white sm:leading-tight text-xs xs:text-lg sm:text-xl lg:text-2xl'>
             {t(`currentTvlAndPrize`, {
               tvl: totalValueLockedFormatted,
               prize: totalPrizeFormatted
