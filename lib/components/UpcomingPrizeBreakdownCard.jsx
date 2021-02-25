@@ -58,7 +58,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
             className={classnames(
               'flex flex-col items-center justify-center text-center w-full h-56 xs:h-64',
               {
-                'xs:w-5/12 xs:w-3/12': computedLootBoxAddress
+                'xs:w-5/12': computedLootBoxAddress
               }
             )}
           >
@@ -77,7 +77,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
                 +
               </div>
 
-              <div className='flex flex-col items-center justify-center text-center w-full xs:w-5/12 xs:w-3/12 h-56 xs:h-64'>
+              <div className='flex flex-col items-center justify-center text-center w-full xs:w-5/12 h-56 xs:h-64'>
                 <img src={LootBoxIllustration} className='w-40 mx-auto -mt-8' />
                 <div
                   className='relative'

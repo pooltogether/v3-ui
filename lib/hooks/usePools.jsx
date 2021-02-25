@@ -1,24 +1,30 @@
+import { useMemo } from 'react'
+
 import { useCommunityPools } from 'lib/hooks/useCommunityPools'
 import { useGovernancePools } from 'lib/hooks/useGovernancePools'
 
 export function usePools() {
-  const { poolsDataLoading, pools, refetchPoolsData, poolsGraphData } = useGovernancePools()
+  const { pools, poolsDataLoading, poolsRefetch, poolsGraphData } = useGovernancePools()
   const {
-    isLoading: communityPoolsDataLoading,
     communityPools,
+    communityPoolsDataLoading,
     communityRefetch,
     communityPoolsGraphData
   } = useCommunityPools()
 
-  return {
-    pools,
-    loading: poolsDataLoading,
-    refetchPoolsData,
-    poolsGraphData,
+  const allPools = useMemo(() => {
+    return {
+      pools,
+      poolsDataLoading,
+      poolsRefetch,
+      poolsGraphData,
 
-    communityPools,
-    communityPoolsDataLoading,
-    communityRefetch,
-    communityPoolsGraphData,
-  }
+      communityPools,
+      communityPoolsDataLoading,
+      communityRefetch,
+      communityPoolsGraphData,
+    }
+  }, [pools, communityPools, poolsGraphData, communityPoolsGraphData])
+
+  return allPools
 }

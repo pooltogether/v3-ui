@@ -13,7 +13,7 @@ import CompSvg from 'assets/images/comp.svg'
 import { DepositDetailsBanner } from 'lib/components/DepositDetailsBanner'
 
 export const IndexUI = (props) => {
-  const { loading, pools, communityPools } = usePools()
+  const { poolsDataLoading, pools, communityPools } = usePools()
 
   return (
     <>
@@ -23,7 +23,7 @@ export const IndexUI = (props) => {
 
       {/* <NewPoolBanner /> */}
 
-      {loading ? <IndexUILoader /> : <PoolList pools={pools} communityPools={communityPools} />}
+      {poolsDataLoading ? <IndexUILoader /> : <PoolList pools={pools} communityPools={communityPools} />}
 
       <Tagline />
     </>

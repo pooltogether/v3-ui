@@ -23,11 +23,11 @@ export const ManageUI = (props) => {
   const { t } = useTranslation()
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { loading } = usePools()
+  const { poolsDataLoading } = usePools()
   const { contractAddresses } = useContractAddresses()
   const { pool } = usePool()
 
-  if (loading) {
+  if (poolsDataLoading) {
     return <IndexUILoader />
   }
 

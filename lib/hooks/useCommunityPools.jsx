@@ -15,12 +15,13 @@ export function useCommunityPools() {
   let {
     refetch: communityRefetch,
     data: communityPoolsGraphData,
-    error: poolsError,
+    error,
+    isFetched
   } = useCommunityPoolsQuery(poolAddresses)
 
-  if (poolsError) {
-    poolToast.error(poolsError)
-    console.error(poolsError)
+  if (error) {
+    poolToast.error(error)
+    console.error(error)
   }
 
   // communityPoolsGraphData = useMemo(() => {
@@ -38,7 +39,7 @@ export function useCommunityPools() {
     }
   }, [communityPoolsGraphData])
 
-  const communityPoolsDataLoading = !communityPoolsGraphData
+  const communityPoolsDataLoading = !isFetched
 
   return {
     communityPools,

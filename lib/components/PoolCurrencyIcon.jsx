@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
-import PuffLoader from 'react-spinners/PuffLoader'
 import { isUndefined } from 'lodash'
 
 import { TOKEN_IMAGES } from 'lib/constants'
@@ -20,6 +19,8 @@ export const PoolCurrencyIcon = (props) => {
   const { theme } = useContext(ThemeContext)
     
   const noMargin = props.noMargin || false
+  
+  const address = pool?.underlyingCollateralToken
   const symbol = pool?.underlyingCollateralSymbol?.toLowerCase()
 
   let src
@@ -62,33 +63,23 @@ export const PoolCurrencyIcon = (props) => {
     'mr-1': !noMargin,
   })
 
+  // Get from hard-coded img URL store
   if (!src) {
-    const address = pool?.underlyingCollateralToken
     src = TOKEN_IMAGES[address?.toLowerCase()]
-
-    if (!src) {
-      const { data: tokenImagesData } = useCoingeckoImageQuery(address)
-      src = tokenImagesData?.[address]?.image?.small 
-    }
   }
 
+  // Check Coingeck for img
+  if (!src) {
+    const { data: tokenImagesData } = useCoingeckoImageQuery(address)
+    src = tokenImagesData?.[address]?.image?.small 
+  }
+
+  // Fallback to placeholder
   if (!src) {
     src = '/tokens/eth-placeholder.png'
   }
 
   return (
-    <>
-      {!src ? (
-        <>
-          <div className={`${classes} scale-80 text-center`}>
-            {/* <PuffLoader color='rgba(255,255,255,0.3)' /> */}
-          </div>
-        </>
-      ) : (
-        <>
-          <img src={src} className={classes} />
-        </>
-      )}
-    </>
+    <img src={src} className={classes} />
   )
 }

@@ -193,7 +193,8 @@ export function DepositCryptoForm(props) {
                   ticker: tickerUpcased,
                 })}
               </h4>
-              {/* <div className='mt-2 text-default-soft'>
+              {/*  TODO: Fix wyre integration
+              <div className='mt-2 text-default-soft'>
                 <WyreTopUpBalanceDropdown
                   showSuggestion
                   label={

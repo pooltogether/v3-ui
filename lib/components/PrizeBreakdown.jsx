@@ -65,7 +65,7 @@ export const PrizeBreakdown = (props) => {
             className={classnames(
               'flex flex-col items-center justify-center text-center w-full h-56 xs:h-64',
               {
-                'xs:w-5/12 xs:w-3/12': hasLootBox
+                'xs:w-5/12': hasLootBox
               }
             )}
           >
@@ -84,7 +84,7 @@ export const PrizeBreakdown = (props) => {
                 +
               </div>
 
-              <div className='flex flex-col items-center justify-center text-center w-full xs:w-5/12 xs:w-3/12 h-56 xs:h-64'>
+              <div className='flex flex-col items-center justify-center text-center w-full xs:w-5/12 h-56 xs:h-64'>
                 <img src={LootBoxIllustration} className='w-40 mx-auto -mt-8' />
                 <div
                   className='relative'
@@ -92,7 +92,7 @@ export const PrizeBreakdown = (props) => {
                     top: 3,
                   }}
                 >
-                  <h3>${externalAwardsValueUSD ? numberWithCommas(externalAwardsValueUSD) : '0.00'}</h3>
+                  <h3>${numberWithCommas(externalAwardsValueUSD)}</h3>
                   <span className='text-sm xs:text-base sm:text-xl'>{t('lootBox')}</span>
                 </div>
               </div>

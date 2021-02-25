@@ -16,22 +16,22 @@ export function useGovernancePools() {
   const blockNumber = -1
   const poolAddresses = contractAddresses?.pools
   let {
-    refetch: refetchPoolsData,
+    refetch: poolsRefetch,
     data: poolsGraphData,
-    error: poolsError,
-    isFetching: poolsIsFetching,
+    error,
+    isFetched,
   } = usePoolsQuery(poolAddresses, blockNumber)
 
-  if (poolsError) {
-    poolToast.error(poolsError)
-    console.error(poolsError)
+  if (error) {
+    poolToast.error(error)
+    console.error(error)
   }
 
   poolsGraphData = getPoolDataFromQueryResult(chainId, contractAddresses, poolsGraphData)
 
-  const poolsDataLoading = !poolsGraphData
+  const poolsDataLoading = !isFetched
 
-  if (!poolsIsFetching && !isEmpty(poolsGraphData)) {
+  if (isFetched && !isEmpty(poolsGraphData)) {
     // this should obviously be moved out of the global window namespace :)
     window.hideGraphError()
   }
@@ -54,8 +54,7 @@ export function useGovernancePools() {
   return {
     pools,
     poolsDataLoading,
-    contractAddresses,
-    refetchPoolsData,
+    poolsRefetch,
     poolsGraphData,
   }
 }
