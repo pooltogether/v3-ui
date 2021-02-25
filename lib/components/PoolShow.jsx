@@ -33,6 +33,7 @@ import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { translatedPoolName } from 'lib/utils/translatedPoolName'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -44,8 +45,6 @@ export const PoolShow = (props) => {
 
   const poolSymbol = router?.query?.symbol
   const { pool } = usePool(poolSymbol)
-
-  const decimals = pool?.underlyingCollateralDecimals
 
   const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
 
@@ -116,7 +115,7 @@ export const PoolShow = (props) => {
           <div className='flex flex-col xs:flex-row justify-between xs:items-center'>
             <div className='flex justify-between items-center xs:w-1/2'>
               <PageTitleAndBreadcrumbs
-                title={pool?.name}
+                title={translatedPoolName(t, pool?.name)}
                 pool={pool}
                 breadcrumbs={[
                   {
@@ -125,7 +124,7 @@ export const PoolShow = (props) => {
                     name: t('pools'),
                   },
                   {
-                    name: pool?.name,
+                    name: translatedPoolName(t, pool?.name),
                   },
                 ]}
               />
