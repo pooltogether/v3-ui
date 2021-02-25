@@ -14,16 +14,16 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import GiftIcon from 'assets/images/icon-gift@2x.png'
 
 export const LootBoxTable = (props) => {
+  const { basePath, historical, pool } = props
+
   const { t } = useTranslation()
   const router = useRouter()
 
   const shouldReduceMotion = useReducedMotion()
 
-  const { basePath, historical, pool } = props
-
   const [moreVisible, setMoreVisible] = useState(false)
 
-  const { awards: lootBoxAwards, lootBoxIsFetching, lootBoxIsFetched } = pool.lootBox
+  const { awards: lootBoxAwards, lootBoxIsFetching, computedLootBoxAddress } = pool.lootBox
 
   const originalAwardsCount = lootBoxAwards?.length
   let awards = []
@@ -39,7 +39,7 @@ export const LootBoxTable = (props) => {
     router.push(`${basePath}#loot-box-table`)
   }
 
-  if (!awards) {
+  if (!awards || (awards.length === 0 && !computedLootBoxAddress)) {
     return null
   }
 
@@ -58,16 +58,12 @@ export const LootBoxTable = (props) => {
             {awards.length === 0 && !lootBoxIsFetching ? (
               <>{/* {historical ? t('noOtherPrizesAwarded') : t('currentlyNoOtherPrizes')} */}</>
             ) : (
-              <>
-                <LootBoxValue awards={lootBoxAwards} />
-              </>
+              <LootBoxValue awards={lootBoxAwards} />
             )}
           </div>
 
           {!historical && (
-            <>
-              <ContributeToLootBoxDropdown pool={pool} />
-            </>
+            <ContributeToLootBoxDropdown pool={pool} />
           )}
         </div>
 

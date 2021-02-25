@@ -27,8 +27,6 @@ export function PrizeShow(props) {
 
   const decimals = postAwardTimeTravelPool?.underlyingCollateralDecimals || 18
 
-  const blockNumber = postAwardTimeTravelPool.blockNumber
-
   return (
     <>
       <Meta title={poolName && prizeNumber && `${t('prize')} #${prizeNumber} - ${poolName}`} />
@@ -58,7 +56,7 @@ export function PrizeShow(props) {
         ]}
       />
 
-      <div className='purple-pink-gradient rounded-lg px-4 xs:px-6 sm:px-10 py-4 text-white my-4 sm:mt-8 sm:mb-4 mx-auto'>
+      <div className='pool-gradient-1 rounded-lg px-4 xs:px-6 sm:px-10 py-4 text-white my-4 sm:mt-8 sm:mb-4 mx-auto'>
         <div>
           <h1>
             {preAwardTimeTravelPool?.totalPrizeAmountUSD &&
@@ -128,13 +126,6 @@ export function PrizeShow(props) {
         }}
       </PrizePlayersQuery>
 
-      {/* 
-    <div
-      className='text-inverse mt-12 pb-40 text-center'
-    >
-      <AllPoolsTotalAwarded />
-    </div>
-     */}
     </>
   )
 }

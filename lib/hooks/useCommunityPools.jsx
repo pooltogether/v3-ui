@@ -54,10 +54,9 @@ const _initializeCommunityPoolData = (communityPoolsGraphData = []) => {
   communityPoolsGraphData.forEach((poolGraphData) => {
     const marshalledData = marshallPoolData(poolGraphData)
 
-    // console.log(pool)
     let newPool = Object.assign({}, poolGraphData)
     newPool.isCommunityPool = true
-    newPool.name = `${poolGraphData.underlyingCollateralSymbol}-${poolGraphData.id.substr(0, 8)}`
+    newPool.name = `${poolGraphData.underlyingCollateralSymbol} Community Pool`
     newPool.symbol = `${poolGraphData.underlyingCollateralSymbol}-${poolGraphData.id.substr(0, 8)}`
 
     poolData[newPool.symbol] = {

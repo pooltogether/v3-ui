@@ -382,14 +382,6 @@ a:hover {
   }
 }
 
-.purple-pink-gradient {
-  background-image: linear-gradient(40deg, #4c249f 30%, #9c48ba 81%);
-}
-
-.theme-light .purple-pink-gradient {
-  background-image: linear-gradient(40deg, #eee5ff 30%, #ffb9f0 81%);
-}
-
 .pink-purple-gradient {
   background-image: linear-gradient(40deg, #9c48ba 20%, #4c249f 100%);
 }
