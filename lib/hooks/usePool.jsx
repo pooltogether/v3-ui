@@ -29,8 +29,11 @@ export function usePool(poolSymbol, blockNumber = -1) {
     poolSymbol = router?.query?.symbol
   }
 
-  const { poolsGraphData } = usePools()
-  const poolGraphData = poolsGraphData?.[poolSymbol]
+  const { poolsGraphData, communityPoolsGraphData } = usePools()
+  let poolGraphData = poolsGraphData?.[poolSymbol]
+  if (!poolGraphData) {
+    poolGraphData = communityPoolsGraphData?.[poolSymbol]
+  }
 
   const { poolChainData } = usePoolChainQuery(poolGraphData)
 
@@ -41,19 +44,17 @@ export function usePool(poolSymbol, blockNumber = -1) {
   let pool = {
     ...poolInfo,
     ...poolChainData,
-    ...poolsGraphData?.[poolSymbol],
+    ...poolGraphData,
   }
 
   const { erc20ChainData } = useErc20ChainQuery(pool)
   const { erc721ChainData } = useErc721ChainQuery(pool)
 
-  const addresses = erc20ChainData
+  let addresses = pool.underlyingCollateralToken ? [pool.underlyingCollateralToken] : []
+  const erc20Addresses = erc20ChainData
     ?.filter((award) => award.balance.gt(0))
     ?.map((award) => award.address)
-
-  if (addresses) {
-    addresses.push(pool.underlyingCollateralToken)
-  }
+  addresses = [...addresses, ...(erc20Addresses || [])]
 
   const {
     data: uniswapPriceData,
@@ -67,12 +68,12 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const compiledExternalErc20Awards = compileErc20Awards(
     erc20ChainData,
-    poolsGraphData?.[poolSymbol],
+    poolGraphData,
     uniswapPriceData
   )
 
   const compiledExternalErc721Awards = compileErc721Awards(
-    poolsGraphData?.[poolSymbol]?.externalErc721Awards,
+    poolGraphData?.externalErc721Awards,
     erc721ChainData
   )
 
@@ -114,7 +115,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
   if (pool.ticketSupply && pool.underlyingCollateralDecimals) {
     const ticketsFormatted = ethers.utils.formatUnits(
       pool.ticketSupply,
-      pool.underlyingCollateralDecimals
+      parseInt(pool.underlyingCollateralDecimals, 10)
     )
     totalDepositedUSD = underlyingCollateralValueUSD ? 
       ticketsFormatted * underlyingCollateralValueUSD : ticketsFormatted

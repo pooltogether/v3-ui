@@ -17,11 +17,6 @@ export function ContributeToLootBoxDropdown(props) {
   }
 
   if (!computedLootBoxAddress) {
-    // prevent this warning from spamming your console
-    if (Math.random() > 0.95) {
-      console.warn('Could not compute loot box address! Hiding copy to clipboard feature')
-    }
-
     return null
   }
 

@@ -1,12 +1,9 @@
-import React, { useContext, useState } from 'react'
-import { useAtom } from 'jotai'
+import React, { useState } from 'react'
 
 import ERC20Abi from 'lib/../abis/ERC20Abi'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePools } from 'lib/hooks/usePools'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
+import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
@@ -15,7 +12,7 @@ export const V2MigrateButton = (props) => {
   const { balance, balanceFormatted, type, ticker } = props
 
   const { t } = useTranslation()
-  const { contractAddresses } = usePools()
+  const { contractAddresses } = useContractAddresses()
 
   const [txId, setTxId] = useState(0)
   const txName = t(`migrateAmountTickerToV3`, {

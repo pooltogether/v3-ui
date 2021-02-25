@@ -91,41 +91,39 @@ export const AccountSummary = () => {
   }
 
   return (
-    <>
-      <div className='purple-pink-gradient rounded-lg pl-6 pr-10 xs:px-10 py-5 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'>
-        <div className='flex justify-between items-center'>
-          <div className='leading-tight'>
-            <h6 className='font-normal'>{t('assets')}</h6>
-            <h1>
-              {usersAddress ? (
-                <>
-                  {totalTickets && (
-                    <>
-                      $<PoolNumber>{displayAmountInEther(totalTickets)}</PoolNumber>
-                    </>
-                  )}
-                </>
-              ) : (
-                <>
-                  <SmallLoader />
-                </>
-              )}
-            </h1>
-          </div>
+    <div className='pool-gradient-1 rounded-lg pl-6 pr-10 xs:px-10 py-5 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'>
+      <div className='flex justify-between items-center'>
+        <div className='leading-tight'>
+          <h6 className='font-normal'>{t('assets')}</h6>
+          <h1>
+            {usersAddress ? (
+              <>
+                {totalTickets && (
+                  <>
+                    $<PoolNumber>{displayAmountInEther(totalTickets)}</PoolNumber>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <SmallLoader />
+              </>
+            )}
+          </h1>
+        </div>
 
-          <div>
-            <img
-              src={ChillWalletIllustration}
-              alt={`chillin' wallet illustration`}
-              className='w-32 xs:w-40 mx-auto relative mb-4 -mr-4'
-              style={{
-                right: -10,
-                top: 17,
-              }}
-            />
-          </div>
+        <div>
+          <img
+            src={ChillWalletIllustration}
+            alt={`chillin' wallet illustration`}
+            className='w-32 xs:w-40 mx-auto relative mb-4 -mr-4'
+            style={{
+              right: -10,
+              top: 17,
+            }}
+          />
         </div>
       </div>
-    </>
+    </div>
   )
 }

@@ -53,13 +53,13 @@ export const PageTitleAndBreadcrumbs = (props) => {
 
             <div className='ml-1 sm:ml-6'>{crumbJsx}</div>
 
-            {typeof window !== 'undefined' && window.location.pathname.match('/pools/') && (
+            {typeof window !== 'undefined' && window.location.pathname.match('/pools/') && !pool.isCommunityPool && (
               <div className='ml-4'>
                 <Chip
                   className='font-bold uppercase'
                   bgClasses='bg-highlight-6'
                   textClasses='text-white font-bold'
-                  text={t(pool?.frequency?.toLowerCase())}
+                  text={t('weekly')}
                 />
               </div>
             )}

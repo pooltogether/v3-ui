@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { uniqWith, isEqual } from 'lodash'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePools } from 'lib/hooks/usePools'
+import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useReadProvider } from 'lib/hooks/useReadProvider'
 import { usePoolDripsQuery } from 'lib/hooks/usePoolDripsQuery'
 import { useUsersDripQuery } from 'lib/hooks/useUsersDripQuery'
@@ -12,7 +12,7 @@ export function useUsersDripData() {
 
   const { readProvider } = useReadProvider()
 
-  const { contractAddresses } = usePools()
+  const { contractAddresses } = useContractAddresses()
 
   const { data: graphDripData, error } = usePoolDripsQuery()
   if (error) {

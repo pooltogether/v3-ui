@@ -1,9 +1,9 @@
 import React from 'react'
-import { orderBy } from 'lodash'
+import classnames from 'classnames'
 
 import { useTranslation } from 'lib/../i18n'
 import { PrizeWinner } from 'lib/components/PrizeWinner'
-import { usePools } from 'lib/hooks/usePools'
+import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -12,14 +12,14 @@ import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 import GiftIcon from 'assets/images/icon-gift@2x.png'
 
 export const PrizeBreakdown = (props) => {
-  const { t } = useTranslation()
-
   const { prize, prizeNumber, preAwardTimeTravelPool } = props
 
-  const { contractAddresses } = usePools()
+  const { t } = useTranslation()
+  const { contractAddresses } = useContractAddresses()
 
   const interestPrizeUSD = preAwardTimeTravelPool?.interestPrizeUSD
   const externalAwardsValueUSD = preAwardTimeTravelPool?.externalAwardsUSD
+  const hasLootBox = externalAwardsValueUSD
 
   const lootBoxWon = prize?.awardedExternalErc721Nfts.find(
     (_awardedNft) => _awardedNft.address === contractAddresses.lootBox
@@ -59,9 +59,16 @@ export const PrizeBreakdown = (props) => {
         )}
 
         <div className='flex flex-col xs:flex-row'>
-          <div className='hidden sm:block sm:w-2/12'>&nbsp;</div>
+          {hasLootBox && <div className='hidden sm:block sm:w-2/12'>&nbsp;</div>}
 
-          <div className='flex flex-col items-center justify-center text-center w-full xs:w-5/12 xs:w-3/12 h-56 xs:h-64'>
+          <div
+            className={classnames(
+              'flex flex-col items-center justify-center text-center w-full h-56 xs:h-64',
+              {
+                'xs:w-5/12': hasLootBox
+              }
+            )}
+          >
             <img src={PrizeIllustration} className='w-40 mx-auto' />
             <div>
               <h3>
@@ -71,24 +78,29 @@ export const PrizeBreakdown = (props) => {
             </div>
           </div>
 
-          <div className='w-full xs:w-2/12 text-center -mt-2 xs:mt-24 mb-2 xs:mb-0 xs:pt-3 text-5xl font-bold leading-none'>
-            +
-          </div>
+          {hasLootBox && (
+            <>
+              <div className='w-full xs:w-2/12 text-center -mt-2 xs:mt-24 mb-2 xs:mb-0 xs:pt-3 text-5xl font-bold leading-none'>
+                +
+              </div>
 
-          <div className='flex flex-col items-center justify-center text-center w-full xs:w-5/12 xs:w-3/12 h-56 xs:h-64'>
-            <img src={LootBoxIllustration} className='w-40 mx-auto -mt-8' />
-            <div
-              className='relative'
-              style={{
-                top: 3,
-              }}
-            >
-              <h3>${externalAwardsValueUSD ? numberWithCommas(externalAwardsValueUSD) : '0.00'}</h3>
-              <span className='text-sm xs:text-base sm:text-xl'>{t('lootBox')}</span>
-            </div>
-          </div>
+              <div className='flex flex-col items-center justify-center text-center w-full xs:w-5/12 h-56 xs:h-64'>
+                <img src={LootBoxIllustration} className='w-40 mx-auto -mt-8' />
+                <div
+                  className='relative'
+                  style={{
+                    top: 3,
+                  }}
+                >
+                  <h3>${numberWithCommas(externalAwardsValueUSD)}</h3>
+                  <span className='text-sm xs:text-base sm:text-xl'>{t('lootBox')}</span>
+                </div>
+              </div>
 
-          <div className='hidden sm:block sm:w-2/12'>&nbsp;</div>
+              <div className='hidden sm:block sm:w-2/12'>&nbsp;</div>
+            </>
+          )}
+
         </div>
 
         <div className='mt-1 xs:mt-0 xs:bg-primary px-4 py-2 xs:py-5 rounded-lg'>
@@ -108,6 +120,7 @@ export const PrizeBreakdown = (props) => {
                     return (
                       <PrizeWinner
                         key={`prize-winner-row-${awardedControlledToken.id}`}
+                        hasLootBox={hasLootBox}
                         pool={preAwardTimeTravelPool}
                         prize={prize}
                         awardedControlledToken={awardedControlledToken}

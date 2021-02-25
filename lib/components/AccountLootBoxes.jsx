@@ -4,6 +4,7 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { LootBoxWon } from 'lib/components/LootBoxWon'
 import { usePlayerPrizesQuery } from 'lib/hooks/usePlayerPrizesQuery'
+import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { usePools } from 'lib/hooks/usePools'
 
 import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
@@ -12,7 +13,8 @@ import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 export const AccountLootBoxes = () => {
   const { t } = useTranslation()
 
-  const { contractAddresses, pools } = usePools()
+  const { contractAddresses } = useContractAddresses()
+  const { pools } = usePools()
 
   const { usersAddress } = useContext(AuthControllerContext)
 

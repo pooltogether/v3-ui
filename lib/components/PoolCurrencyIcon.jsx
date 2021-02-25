@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
-import PuffLoader from 'react-spinners/PuffLoader'
 import { isUndefined } from 'lodash'
 
+import { TOKEN_IMAGES } from 'lib/constants'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
+import { useCoingeckoImageQuery } from 'lib/hooks/useCoingeckoImageQuery'
 
 import DaiSvg from 'assets/images/dai-new-transparent.png'
 import UsdcSvg from 'assets/images/usdc-new-transparent.png'
@@ -16,21 +17,23 @@ export const PoolCurrencyIcon = (props) => {
   const { className, noMediaQueries, sm, lg, xl, xs, pool } = props
 
   const { theme } = useContext(ThemeContext)
-
+    
   const noMargin = props.noMargin || false
+  
+  const address = pool?.underlyingCollateralToken
   const symbol = pool?.underlyingCollateralSymbol?.toLowerCase()
 
-  let currencyIcon
+  let src
   if (symbol === 'dai') {
-    currencyIcon = DaiSvg
+    src = DaiSvg
   } else if (symbol === 'usdc') {
-    currencyIcon = UsdcSvg
+    src = UsdcSvg
   } else if (symbol === 'comp') {
-    currencyIcon = CompSvg
+    src = CompSvg
   } else if (symbol === 'bat') {
-    currencyIcon = BatSvg
+    src = BatSvg
   } else if (symbol === 'uni') {
-    currencyIcon = theme === 'light' ? UniThemeLightSvg : UniSvg
+    src = theme === 'light' ? UniThemeLightSvg : UniSvg
   }
 
   let sizeClasses = 'w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10'
@@ -60,19 +63,23 @@ export const PoolCurrencyIcon = (props) => {
     'mr-1': !noMargin,
   })
 
+  // Get from hard-coded img URL store
+  if (!src) {
+    src = TOKEN_IMAGES[address?.toLowerCase()]
+  }
+
+  // Check Coingeck for img
+  if (!src) {
+    const { data: tokenImagesData } = useCoingeckoImageQuery(address)
+    src = tokenImagesData?.[address]?.image?.small 
+  }
+
+  // Fallback to placeholder
+  if (!src) {
+    src = '/tokens/eth-placeholder.png'
+  }
+
   return (
-    <>
-      {!currencyIcon ? (
-        <>
-          <div className={`${classes} scale-80 text-center`}>
-            <PuffLoader color='rgba(255,255,255,0.3)' />
-          </div>
-        </>
-      ) : (
-        <>
-          <img src={currencyIcon} className={classes} />
-        </>
-      )}
-    </>
+    <img src={src} className={classes} />
   )
 }
