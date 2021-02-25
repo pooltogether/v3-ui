@@ -81,6 +81,7 @@ export function PrizeShow(props) {
         cardGroupId='prize-cards'
         cards={[
           {
+            noMinHeight: true,
             icon: TicketsIcon,
             title: t('totalTickets'),
             content: (

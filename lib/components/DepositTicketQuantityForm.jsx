@@ -121,31 +121,31 @@ export function DepositTicketQuantityForm(props) {
             label={t('ticketAmount')}
             required={t('ticketQuantityRequired')}
             autoComplete='off'
-            bottomRightLabel={
-              usersAddress &&
-              tickerUpcased && (
-                <>
-                  <WyreTopUpBalanceDropdown
-                    label={
-                      <>
-                        <Trans
-                          i18nKey='topUpBalance'
-                          defaults='<visibleMobile>Buy crypto</visibleMobile><hiddenMobile>Buy more crypto</hiddenMobile>'
-                          components={{
-                            visibleMobile: <span className='xs:hidden ml-1' />,
-                            hiddenMobile: <span className='hidden xs:inline-block ml-1' />,
-                          }}
-                        />
-                      </>
-                    }
-                    textColor='text-default-soft'
-                    hoverTextColor='text-highlight-1'
-                    tickerUpcased={tickerUpcased}
-                    usersAddress={usersAddress}
-                  />
-                </>
-              )
-            }
+            // bottomRightLabel={
+            //   usersAddress &&
+            //   tickerUpcased && (
+            //     <>
+            //       <WyreTopUpBalanceDropdown
+            //         label={
+            //           <>
+            //             <Trans
+            //               i18nKey='topUpBalance'
+            //               defaults='<visibleMobile>Buy crypto</visibleMobile><hiddenMobile>Buy more crypto</hiddenMobile>'
+            //               components={{
+            //                 visibleMobile: <span className='xs:hidden ml-1' />,
+            //                 hiddenMobile: <span className='hidden xs:inline-block ml-1' />,
+            //               }}
+            //             />
+            //           </>
+            //         }
+            //         textColor='text-default-soft'
+            //         hoverTextColor='text-highlight-1'
+            //         tickerUpcased={tickerUpcased}
+            //         usersAddress={usersAddress}
+            //       />
+            //     </>
+            //   )
+            // }
             rightLabel={
               usersAddress &&
               tickerUpcased && (

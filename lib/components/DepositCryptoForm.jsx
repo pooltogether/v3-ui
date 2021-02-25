@@ -193,7 +193,7 @@ export function DepositCryptoForm(props) {
                   ticker: tickerUpcased,
                 })}
               </h4>
-              <div className='mt-2 text-default-soft'>
+              {/* <div className='mt-2 text-default-soft'>
                 <WyreTopUpBalanceDropdown
                   showSuggestion
                   label={
@@ -212,11 +212,10 @@ export function DepositCryptoForm(props) {
                   tickerUpcased={tickerUpcased}
                   usersAddress={usersAddress}
                 />
-              </div>
+              </div> */}
 
               <ButtonDrawer>
                 <Button
-                  secondary
                   textSize='lg'
                   onClick={previousStep}
                   className='mt-2 inline-flex items-center mx-auto'

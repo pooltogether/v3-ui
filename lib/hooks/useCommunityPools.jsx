@@ -4,7 +4,7 @@ import { useCommunityPoolAddresses } from 'lib/hooks/useCommunityPoolAddresses'
 import { useCommunityPoolsQuery } from 'lib/hooks/useCommunityPoolsQuery'
 import { marshallPoolData } from 'lib/services/marshallPoolData'
 import { poolToast } from 'lib/utils/poolToast'
-import { usePool } from 'lib/hooks/usePool'
+import { symbolTemplate, nameTemplate } from 'lib/utils/communityPoolStringTemplates'
 
 export function useCommunityPools() {
   const { communityPoolAddresses } = useCommunityPoolAddresses()
@@ -54,13 +54,12 @@ const _initializeCommunityPoolData = (communityPoolsGraphData = []) => {
   communityPoolsGraphData.forEach((poolGraphData) => {
     const marshalledData = marshallPoolData(poolGraphData)
 
-    let newPool = Object.assign({}, poolGraphData)
-    newPool.isCommunityPool = true
-    newPool.name = `${poolGraphData.underlyingCollateralSymbol} Community Pool`
-    newPool.symbol = `${poolGraphData.underlyingCollateralSymbol}-${poolGraphData.id.substr(0, 8)}`
+    poolGraphData.isCommunityPool = true
+    poolGraphData.name = nameTemplate(poolGraphData)
+    poolGraphData.symbol = symbolTemplate(poolGraphData)
 
-    poolData[newPool.symbol] = {
-      ...newPool,
+    poolData[poolGraphData.symbol] = {
+      ...poolGraphData,
       ...marshalledData,
     }
   })

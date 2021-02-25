@@ -25,10 +25,10 @@ export const PoolList = (props) => {
   //       also note this array is in reverse order of how we want the elements to appear in the list
   //       due to the -1 returned by all the other pools in the sortFunction's indexOf() calls
   const hardcodedSortOrder = [
-    '0x3e2e88f6eaa189e397bf87153e085a757028c069', // bondly
+    '0x3e2e88f6eaa189e397bf87153e085a757028c069', // BONDLY
     '0x9f7905c7bd5ec9e870ed50f0e286f2742c19f5b3', // DPI
     '0xf6d6b30d31077db8590fe1bea7a293e1515f8152', // RAI
-    '0xea7eaecbff99ce2412e794437325f3bd225ee78f', // bond
+    '0xea7eaecbff99ce2412e794437325f3bd225ee78f', // BOND
   ]
   
   const communityPoolsSorted = communityPools.sort((a, b) => {
@@ -36,6 +36,7 @@ export const PoolList = (props) => {
   })
 
 
+  
   const ANIM_LIST_VARIANTS = {
     enter: {
       scale: 1,
