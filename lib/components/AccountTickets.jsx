@@ -105,6 +105,17 @@ export const AccountTickets = () => {
                   <V2AccountTicket v2usdc key={`v2-usdc-account-ticket-pool`} />
                   <V2AccountTicket isPod v2usdc key={`v2-usdc-account-ticket-pod`} />
                 </div>
+
+                {/* <h6 className='font-normal text-accent-2 mb-4'>{t('communityPoolTickets')}</h6> */}
+                {/* {communityPoolPlayerTickets?.map((playerTicket) => {
+                  return (
+                    <AccountTicket
+                      isLink
+                      key={`account-pool-row-${playerTicket?.poolAddress}`}
+                      playerTicket={playerTicket}
+                    />
+                  )
+                })} */}
               </div>
             </>
           </>

@@ -177,7 +177,7 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   return (
-    <HotKeys keyMap={HOTKEYS_KEY_MAP}>
+    <HotKeys keyMap={HOTKEYS_KEY_MAP} className='outline-none focus:outline-none active:outline-none'>
       <Provider>
         <ReactQueryCacheProvider queryCache={queryCache}>
           <BodyClasses />
