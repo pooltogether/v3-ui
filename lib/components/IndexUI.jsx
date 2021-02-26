@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
 import { ANIM_BANNER_VARIANTS, POOL_LIST_TABS } from 'lib/constants'
@@ -45,22 +45,18 @@ export const IndexUI = (props) => {
 
       <div className='relative h-40'>
         <div className='absolute t-0 l-0 r-0'>
-          <AnimatePresence exitBeforeEnter>
-            <BannerMotionDIV
-              key='tvl-banner'
-              animate={selectedTab === POOL_LIST_TABS.pools ? 'enter' : 'exit'}
-            >
-              <TVLAndWeeklyPrizesBanner />
-            </BannerMotionDIV>
-          </AnimatePresence>
-          <AnimatePresence exitBeforeEnter>
-            <BannerMotionDIV
-              key='community-disclaimer-banner'
-              animate={selectedTab === POOL_LIST_TABS.community ? 'enter' : 'exit'}
-            >
-              <CommunityDisclaimerBanner />
-            </BannerMotionDIV>
-          </AnimatePresence>
+          <BannerMotionDIV
+            key='tvl-banner'
+            animate={selectedTab === POOL_LIST_TABS.pools ? 'enter' : 'exit'}
+          >
+            <TVLAndWeeklyPrizesBanner />
+          </BannerMotionDIV>
+          <BannerMotionDIV
+            key='community-disclaimer-banner'
+            animate={selectedTab === POOL_LIST_TABS.community ? 'enter' : 'exit'}
+          >
+            <CommunityDisclaimerBanner />
+          </BannerMotionDIV>
         </div>
 
       </div>

@@ -36,7 +36,7 @@ export const TVLAndWeeklyPrizesBanner = (props) => {
   }
 
   // Check if retro banner is showing
-  if ((loading && usersAddress) || (retroData && !retroData?.isClaimed && !retroData?.isMissing)) {
+  if (loading && usersAddress) {
     return null
   }
 
@@ -49,7 +49,11 @@ export const TVLAndWeeklyPrizesBanner = (props) => {
   const totalValueLockedFormatted = formatNumbers(totalValueLocked)
 
   return (
-    <Banner gradient={'purple-pink'} className='absolute t-0 l-0 r-0 shadow-md mt-1 mb-8 flex flex-row items-center'>
+    <Banner
+      gradient={'purple-pink'}
+      className='absolute t-0 l-0 r-0 shadow-md mt-1 mb-8 flex flex-row items-center'
+      style={{ minHeight: 150 }}
+    >
       <img src={Rocket} className='mr-4 xs:mr-4 xs:ml-4 my-auto w-12 h-12 xs:w-20 xs:h-20' />
       
       <h4 className='text-white sm:leading-tight text-xs xs:text-lg sm:text-xl lg:text-2xl'>

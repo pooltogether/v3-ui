@@ -282,7 +282,7 @@ export const ANIM_BANNER_VARIANTS = (shouldReduceMotion) => ({
     scale: 0,
     opacity: 1,
     transition: {
-      duration: shouldReduceMotion ? 0 : 0.6,
+      duration: shouldReduceMotion ? 0 : 0.2,
     },
   },
 })

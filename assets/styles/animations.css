@@ -302,20 +302,26 @@
 }
 
 .shake {
-  animation: shakeItem 3s ease-in-out 1s infinite;
+  animation: shakeItem 10s ease-in-out 1s infinite;
 }
 
 @keyframes shakeItem {
   0% {
     transform: rotate(0deg);
   }
-  10% {
+  2% {
     transform: rotate(20deg);
   }
-  20% {
+  4% {
     transform: rotate(-20deg);
   }
-  30% {
+  6% {
+    transform: rotate(20deg);
+  }
+  8% {
+    transform: rotate(-20deg);
+  }
+  10% {
     transform: rotate(0deg);
   }
 }
