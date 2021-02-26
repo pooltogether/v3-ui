@@ -11,7 +11,7 @@ import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
-import { PoolCountUp } from 'lib/components/PoolCountUp'
+// import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { usePool } from 'lib/hooks/usePool'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -75,11 +75,12 @@ export const PoolRowNew = (props) => {
             </div>
             
             <div className='flex flex-col'>
-              <div className='text-3xl xs:text-3xl sm:text-5xl text-flashy font-bold'>
-                $
-                <PoolCountUp fontSansRegular decimals={0} duration={6}>
+              {/* text-flashy */}
+              <div className='text-3xl xs:text-3xl sm:text-5xl  font-bold'>
+                ${numberWithCommas(parseFloat(pool?.totalPrizeAmountUSD), { precision: 0 })}
+                {/* <PoolCountUp fontSansRegular decimals={0} duration={6}>
                   {parseFloat(pool?.totalPrizeAmountUSD)}
-                </PoolCountUp>
+                </PoolCountUp> */}
               </div>
 
               <div className='text-accent-1 text-xxxs'>

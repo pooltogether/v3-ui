@@ -1,42 +1,18 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 // import { orderBy } from 'lodash'
+import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
+import { ANIM_LIST_VARIANTS, POOL_LIST_TABS } from 'lib/constants'
 import { PoolRowNew } from 'lib/components/PoolRowNew'
 import { Tabs, Tab, ContentPane } from 'lib/components/Tabs'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
-
-const POOL_LIST_TABS = {
-  pools: 'pools',
-  community: 'community'
-}
+import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 const MotionUL = (props) => {
   const shouldReduceMotion = useReducedMotion()
-
-  const ANIM_LIST_VARIANTS = {
-    enter: {
-      scale: 1,
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: shouldReduceMotion ? 0 : 0.2,
-        staggerChildren: shouldReduceMotion ? 0 : 0.5,
-        delayChildren: shouldReduceMotion ? 0 : 0.2,
-      },
-    },
-    exit: {
-      scale: 0,
-      y: -100,
-      opacity: 0,
-      transition: {
-        duration: shouldReduceMotion ? 0 : 0.8,
-        staggerChildren: shouldReduceMotion ? 0 : 0.05,
-        staggerDirection: -1,
-      },
-    },
-  }
+  
   const sharedListProps = {
     className: 'flex flex-col text-xs sm:text-lg lg:text-xl',
     initial: {
@@ -44,7 +20,7 @@ const MotionUL = (props) => {
       y: -100,
       opacity: 0,
     },
-    variants: ANIM_LIST_VARIANTS
+    variants: ANIM_LIST_VARIANTS(shouldReduceMotion)
   }
   
   return (
@@ -52,7 +28,7 @@ const MotionUL = (props) => {
       {...props}
       {...sharedListProps}
     >
-
+      {props.children}
     </motion.ul>
   )
 }
@@ -61,7 +37,8 @@ export const PoolList = (props) => {
   const { pools, communityPools } = props
 
   const { t } = useTranslation()
-  const [selectedTab, setSelectedTab] = useState(POOL_LIST_TABS.pools)
+  const router = useRouter()
+  const selectedTab = router.query.tab || POOL_LIST_TABS.pools
 
   // const communityPoolsSorted = orderBy(communityPools, ['totalPrizeAmountUSD'], ['desc'])
   // TODO: To be replaced by automated sorting based on prize size
@@ -83,13 +60,17 @@ export const PoolList = (props) => {
       <Tabs>
         <Tab
           isSelected={selectedTab === POOL_LIST_TABS.pools}
-          onClick={() => { setSelectedTab(POOL_LIST_TABS.pools) }}
+          onClick={() => {
+            queryParamUpdater.add(router, { 'tab': POOL_LIST_TABS.pools })
+          }}
         >
           {t('pools')}
         </Tab>
         <Tab
           isSelected={selectedTab === POOL_LIST_TABS.community}
-          onClick={() => { setSelectedTab(POOL_LIST_TABS.community) }}
+          onClick={() => {
+            queryParamUpdater.add(router, { 'tab': POOL_LIST_TABS.community })
+          }}
         >
           {t('community')}
         </Tab>

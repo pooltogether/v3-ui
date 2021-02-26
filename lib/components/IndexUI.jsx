@@ -1,29 +1,74 @@
 import React from 'react'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useRouter } from 'next/router'
 
+import { BANNER_LIST_VARIANTS, POOL_LIST_TABS } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { usePools } from 'lib/hooks/usePools'
+import { CommunityDisclaimerBanner } from 'lib/components/CommunityDisclaimerBanner'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
-import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolList } from 'lib/components/PoolList'
-import { Tagline } from 'lib/components/Tagline'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
+import { Tagline } from 'lib/components/Tagline'
+import { TVLAndWeeklyPrizesBanner } from 'lib/components/TVLAndWeeklyPrizesBanner'
 
 import CompSvg from 'assets/images/comp.svg'
-import { DepositDetailsBanner } from 'lib/components/DepositDetailsBanner'
+
+const BannerMotionDIV = (props) => {
+  const shouldReduceMotion = useReducedMotion()
+
+  return <motion.div
+    {...props}
+    className='flex flex-col justify-center items-center text-xs sm:text-lg lg:text-xl'
+    variants={BANNER_LIST_VARIANTS(shouldReduceMotion)}
+    initial={{
+      scale: 0,
+      opacity: 0,
+    }}
+  >
+    {props.children}
+  </motion.div>
+}
 
 export const IndexUI = (props) => {
   const { poolsDataLoading, pools, communityPools } = usePools()
+  
+  const router = useRouter()
+  const selectedTab = router.query.tab || POOL_LIST_TABS.pools
 
   return (
     <>
       <RetroactivePoolClaimBanner />
 
-      <DepositDetailsBanner />
+      <div className='relative h-40'>
+        <div className='absolute t-0 l-0 r-0'>
+          <AnimatePresence exitBeforeEnter>
+            <BannerMotionDIV
+              key='tvl-banner'
+              animate={selectedTab === POOL_LIST_TABS.pools ? 'enter' : 'exit'}
+            >
+              <TVLAndWeeklyPrizesBanner />
+            </BannerMotionDIV>
+          </AnimatePresence>
+          <AnimatePresence exitBeforeEnter>
+            <BannerMotionDIV
+              key='community-disclaimer-banner'
+              animate={selectedTab === POOL_LIST_TABS.community ? 'enter' : 'exit'}
+            >
+              <CommunityDisclaimerBanner />
+            </BannerMotionDIV>
+          </AnimatePresence>
+        </div>
+
+      </div>
 
       {/* <NewPoolBanner /> */}
 
-      {poolsDataLoading ? <IndexUILoader /> : <PoolList pools={pools} communityPools={communityPools} />}
+      <div className='mt-10'>
+        {poolsDataLoading ? <IndexUILoader /> : <PoolList pools={pools} communityPools={communityPools} />}
+      </div>
 
       <Tagline />
     </>

@@ -13,7 +13,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 
 import Rocket from 'assets/images/rocketship@2x.png'
 
-export const DepositDetailsBanner = (props) => {
+export const TVLAndWeeklyPrizesBanner = (props) => {
   const { t } = useTranslation()
 
   const { usersAddress } = useContext(AuthControllerContext)
@@ -49,47 +49,15 @@ export const DepositDetailsBanner = (props) => {
   const totalValueLockedFormatted = formatNumbers(totalValueLocked)
 
   return (
-    <AnimatePresence exitBeforeEnter>
-      <motion.ul
-        key='tvl-banner'
-        className='flex flex-col justify-center items-center text-xs sm:text-lg lg:text-xl'
-        initial={{
-          scale: 0,
-          y: -100,
-          opacity: 0
-        }}
-        animate={{
-          scale: 1,
-          y: 0,
-          opacity: 1,
-          transition: {
-            duration: shouldReduceMotion ? 0 : 0.2,
-            staggerChildren: shouldReduceMotion ? 0 : 0.5,
-            delayChildren: shouldReduceMotion ? 0 : 0.2
-          }
-        }}
-        exit={{
-          scale: 0,
-          y: -100,
-          opacity: 0,
-          transition: {
-            duration: shouldReduceMotion ? 0 : 0.8,
-            staggerChildren: shouldReduceMotion ? 0 : 0.05,
-            staggerDirection: -1
-          }
-        }}
-      >
-        <Banner gradient={'purple-pink'} className='shadow-md mt-1 mb-8 flex flex-row items-center'>
-          <img src={Rocket} className='mr-4 xs:mr-4 xs:ml-4 my-auto w-12 h-12 xs:w-20 xs:h-20' />
-          
-          <h4 className='text-white sm:leading-tight text-xs xs:text-lg sm:text-xl lg:text-2xl'>
-            {t(`currentTvlAndPrize`, {
-              tvl: totalValueLockedFormatted,
-              prize: totalPrizeFormatted
-            })}
-          </h4>
-        </Banner>
-      </motion.ul>
-    </AnimatePresence>
+    <Banner gradient={'purple-pink'} className='absolute t-0 l-0 r-0 shadow-md mt-1 mb-8 flex flex-row items-center'>
+      <img src={Rocket} className='mr-4 xs:mr-4 xs:ml-4 my-auto w-12 h-12 xs:w-20 xs:h-20' />
+      
+      <h4 className='text-white sm:leading-tight text-xs xs:text-lg sm:text-xl lg:text-2xl'>
+        {t(`currentTvlAndPrize`, {
+          tvl: totalValueLockedFormatted,
+          prize: totalPrizeFormatted
+        })}
+      </h4>
+    </Banner>
   )
 }

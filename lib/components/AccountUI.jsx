@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { useTranslation } from 'lib/../i18n'
-import { AccountEmailSignup } from 'lib/components/AccountEmailSignup'
 import { AccountLootBoxes } from 'lib/components/AccountLootBoxes'
 import { AccountRewards } from 'lib/components/AccountRewards'
 import { AccountSummary } from 'lib/components/AccountSummary'
@@ -12,7 +11,6 @@ import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Tagline } from 'lib/components/Tagline'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 import { AccountGovernanceClaims } from 'lib/components/AccountGovernanceClaims'
-import { DepositDetailsBanner } from 'lib/components/DepositDetailsBanner'
 
 export const AccountUI = () => {
   const { t } = useTranslation()

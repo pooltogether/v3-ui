@@ -258,3 +258,48 @@ export const STRINGS = {
   transfer: 'transfer',
   withdraw: 'withdraw'
 }
+
+export const POOL_LIST_TABS = {
+  pools: 'pools',
+  community: 'community'
+}
+
+export const BANNER_LIST_VARIANTS = (shouldReduceMotion) => ({
+  enter: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      duration: shouldReduceMotion ? 0 : 0.2,
+    },
+  },
+  exit: {
+    scale: 0,
+    opacity: 0,
+    transition: {
+      duration: shouldReduceMotion ? 0 : 0.6,
+    },
+  },
+})
+
+export const ANIM_LIST_VARIANTS = (shouldReduceMotion) => ({
+  enter: {
+    scale: 1,
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: shouldReduceMotion ? 0 : 0.2,
+      // staggerChildren: shouldReduceMotion ? 0 : 0.5,
+      // delayChildren: shouldReduceMotion ? 0 : 0.2,
+    },
+  },
+  exit: {
+    scale: 0,
+    y: -100,
+    opacity: 0,
+    transition: {
+      duration: shouldReduceMotion ? 0 : 0.6,
+      // staggerChildren: shouldReduceMotion ? 0 : 0.05,
+      // staggerDirection: -1,
+    },
+  },
+})
