@@ -70,7 +70,7 @@ export function DepositWizardContainer(props) {
                       <>
                         <DepositTicketQuantityForm
                           iconSrc={WalletIcon}
-                          formName={t('depositTickerToGetTickets', {
+                          formName={t('depositTickerToWin', {
                             ticker: tickerUpcased,
                           })}
                           formSubName={

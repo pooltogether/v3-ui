@@ -12,18 +12,15 @@ import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositTxButton } from 'lib/components/DepositTxButton'
-import { DepositFormUsersBalance } from 'lib/components/DepositFormUsersBalance'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PTHint } from 'lib/components/PTHint'
-import { WyreTopUpBalanceDropdown } from 'lib/components/WyreTopUpBalanceDropdown'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 import { TxStatus } from 'lib/components/TxStatus'
 import { useTransaction } from 'lib/hooks/useTransaction'
-// import { poolTokenSupportsPermitSign } from 'lib/utils/poolTokenSupportsPermitSign'
 
 export function DepositCryptoForm(props) {
   const { t } = useTranslation()
@@ -134,54 +131,17 @@ export function DepositCryptoForm(props) {
 
   return (
     <>
-      <PaneTitle short>
-        <div className='inline-block sm:block relative' style={{ top: -2 }}>
-          <PoolCurrencyIcon pool={pool} />
+      <PaneTitle small short>
+        <div className='inline-block sm:block relative mb-2' style={{ top: -2 }}>
+          <PoolCurrencyIcon lg pool={pool} />
         </div>{' '}
-        {t('depositTicker', {
+        {t('depositTickerToWin', {
           ticker: tickerUpcased,
         })}
       </PaneTitle>
 
-      <div className='mb-6 -mt-2'>
-        <PaneTitle small>
-          {Number(quantity) === 1 ? (
-            <Trans
-              i18nKey='oneTicket'
-              defaults='<number>1</number> ticket'
-              components={{
-                number: <PoolNumber />,
-              }}
-            />
-          ) : (
-            <Trans
-              i18nKey='amountTickets'
-              defaults='<number>{{amount}}</number> tickets'
-              components={{
-                number: <PoolNumber />,
-              }}
-              values={{
-                amount: numberWithCommas(quantity, { precision: 2 }),
-              }}
-            />
-          )}
-        </PaneTitle>
-      </div>
-
-      <div className='text-sm xs:text-base sm:text-lg lg:text-xl'>
-        <DepositFormUsersBalance
-          bold={false}
-          start={cachedUsersBalance || usersTokenBalance}
-          end={numberWithCommas(usersTokenBalance, { precision: 4 })}
-          units={tickerUpcased}
-        />
-
-        <div className='bg-primary flex text-inverse items-center justify-between w-full mx-auto px-6 py-3 font-bold rounded-bl-lg rounded-br-lg'>
-          <div>{t('total')}</div>
-          <div>
-            <PoolNumber>{numberWithCommas(quantity, { precision: 4 })}</PoolNumber> {tickerUpcased}
-          </div>
-        </div>
+      <div className='pool-gradient-1 text-inverse w-full text-center mx-auto my-4 sm:my-8 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-lg lg:text-xl'>
+        <span className='mr-4'>{t('yourDeposit')}</span> <PoolNumber>{numberWithCommas(quantity, { precision: 4 })}</PoolNumber> {tickerUpcased}
       </div>
 
       <div className='flex flex-col mx-auto w-full mx-auto items-center justify-center'>

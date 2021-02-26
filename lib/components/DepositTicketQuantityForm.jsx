@@ -95,19 +95,14 @@ export function DepositTicketQuantityForm(props) {
   return (
     <>
       <div className='pane-title'>
-        <div className='inline-block sm:block relative' style={{ top: -2 }}>
-          <PoolCurrencyIcon pool={pool} />
+        <div className='inline-block sm:block relative mb-2' style={{ top: -2 }}>
+          <PoolCurrencyIcon lg pool={pool} />
         </div>
-        <PaneTitle short>{formName}</PaneTitle>
-        <div className='mb-6 -mt-2'>
-          <PaneTitle small>{formSubName}</PaneTitle>
-        </div>
+        <PaneTitle small short>{formName}</PaneTitle>
       </div>
 
       {balanceJsx && (
-        <>
-          <div className='mb-12'>{balanceJsx}</div>
-        </>
+        <div className='sm:my-4 mb-12'>{balanceJsx}</div>
       )}
 
       <form onSubmit={handleSubmit(onSubmit)}>
