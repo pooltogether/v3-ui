@@ -112,6 +112,7 @@ export const TOKEN_IMAGES = {
   '0x0391d2021f89dc339f60fff84546ea23e337750f': '/tokens/bond.png',
   '0x9f7905c7bd5ec9e870ed50f0e286f2742c19f5b3': '/tokens/dpi.png',
   '0x6b175474e89094c44da98b954eedeac495271d0f': '/tokens/dai-new-transparent.png',
+  '0x57bc752ec42238bb60a6e65b0de82ef44013225d': '/tokens/arto.png',
   '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48':
     'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389',
   '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599':
