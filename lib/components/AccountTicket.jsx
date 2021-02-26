@@ -13,14 +13,16 @@ import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { usePool } from 'lib/hooks/usePool'
+import { usePools } from 'lib/hooks/usePools'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
 
 export const AccountTicket = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
+
+  const { pools } = usePools()
 
   const shouldReduceMotion = useReducedMotion()
 
@@ -68,10 +70,15 @@ export const AccountTicket = (props) => {
     )
   }
 
+  const isGovernedPool = pools.find(_pool => _pool.symbol === pool.symbol)
+  const ticketClassName = isGovernedPool ?
+    `ticket--${ticker?.toLowerCase()}` :
+    `ticket--generic`
+
   return (
     <>
       <motion.div
-        id={`_account${pool?.symbol}Ticket`}
+        // id={`_account${pool?.name}Ticket`}
         onClick={handleManageClick}
         key={`account-pool-ticket-${pool?.poolAddress}`}
         className={classnames('relative ticket bg-no-repeat text-xxxs xs:text-xs', {
@@ -106,7 +113,8 @@ export const AccountTicket = (props) => {
       >
         <div
           className={classnames(
-            `ticket--${ticker?.toLowerCase()} absolute rounded-b-lg bg-no-repeat ticket-strip`
+            ticketClassName,
+            `absolute rounded-b-lg bg-no-repeat ticket-strip`
           )}
         />
 
@@ -158,9 +166,9 @@ export const AccountTicket = (props) => {
                       $
                       <PoolCountUp
                         fontSansRegular
-                        decimals={2}
+                        decimals={0}
                         duration={3}
-                        end={numberWithCommas(Number.parseFloat(pool?.totalPrizeAmountUSD), { precision: 0 })}
+                        end={parseFloat(pool?.totalPrizeAmountUSD)}
                       />
                     </>
                   )}

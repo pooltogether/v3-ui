@@ -42,6 +42,7 @@ export function useGovernancePools() {
     POOLS[chainId].forEach((POOL) => {
       const _pool = {
         ...POOL,
+        ...poolsGraphData[POOL.symbol],
         id: contractAddresses[POOL.symbol],
       }
 

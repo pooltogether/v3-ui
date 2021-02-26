@@ -110,7 +110,9 @@ export const TOKEN_IMAGES = {
     '/tokens/0x9d942bd31169ed25a1ca78c776dab92de104e50e.png',
   '0xb0dfd28d3cf7a5897c694904ace292539242f858': '/tokens/lotto.png',
   '0x0391d2021f89dc339f60fff84546ea23e337750f': '/tokens/bond.png',
+  '0x9f7905c7bd5ec9e870ed50f0e286f2742c19f5b3': '/tokens/dpi.png',
   '0x6b175474e89094c44da98b954eedeac495271d0f': '/tokens/dai-new-transparent.png',
+  '0x57bc752ec42238bb60a6e65b0de82ef44013225d': '/tokens/arto.png',
   '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48':
     'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389',
   '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599':
@@ -259,6 +261,51 @@ export const STRINGS = {
   withdraw: 'withdraw'
 }
 
+export const POOL_LIST_TABS = {
+  pools: 'pools',
+  community: 'community'
+}
+
 export const HOTKEYS_KEY_MAP = {
   TOGGLE_THEME: 'ctrl+shift+t',
 }
+
+export const ANIM_BANNER_VARIANTS = (shouldReduceMotion) => ({
+  enter: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      duration: shouldReduceMotion ? 0 : 0.2,
+    },
+  },
+  exit: {
+    scale: 0,
+    opacity: 1,
+    transition: {
+      duration: shouldReduceMotion ? 0 : 0.6,
+    },
+  },
+})
+
+export const ANIM_LIST_VARIANTS = (shouldReduceMotion) => ({
+  enter: {
+    scale: 1,
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: shouldReduceMotion ? 0 : 0.2,
+      // staggerChildren: shouldReduceMotion ? 0 : 0.5,
+      // delayChildren: shouldReduceMotion ? 0 : 0.2,
+    },
+  },
+  exit: {
+    scale: 0,
+    y: -100,
+    opacity: 0,
+    transition: {
+      duration: shouldReduceMotion ? 0 : 0.6,
+      // staggerChildren: shouldReduceMotion ? 0 : 0.05,
+      // staggerDirection: -1,
+    },
+  },
+})
