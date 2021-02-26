@@ -76,8 +76,7 @@ export const PoolRowNew = (props) => {
             
             <div className='flex flex-col'>
               <div className='text-3xl xs:text-3xl sm:text-5xl text-flashy font-bold'>
-                $
-                <PoolCountUp fontSansRegular decimals={0} duration={6}>
+                $<PoolCountUp fontSansRegular decimals={0} duration={6}>
                   {parseFloat(pool?.totalPrizeAmountUSD)}
                 </PoolCountUp>
               </div>

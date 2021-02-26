@@ -56,7 +56,7 @@ export const AccountSummary = () => {
   }
 
   let totalTickets = ethers.utils.bigNumberify(0)
-  playerTickets.forEach((playerTicket) => {
+  playerTickets?.forEach((playerTicket) => {
     let { balanceNormalized, balanceFormatted, pool } = playerTicket
 
     const priceUSD = uniswapPriceData?.[pool.underlyingCollateralToken]?.usd
