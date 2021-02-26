@@ -258,3 +258,7 @@ export const STRINGS = {
   transfer: 'transfer',
   withdraw: 'withdraw'
 }
+
+export const HOTKEYS_KEY_MAP = {
+  TOGGLE_THEME: 'ctrl+shift+t',
+}
