@@ -72,7 +72,7 @@ export const PoolList = (props) => {
             queryParamUpdater.add(router, { 'tab': POOL_LIST_TABS.community })
           }}
         >
-          {t('community')}
+          {t('communityPools')}
         </Tab>
       </Tabs>
       

@@ -10,7 +10,9 @@ export const Tab = ({ isSelected, onClick, children }) => {
     <a
       onClick={onClick}
       className={classnames(
-        'cursor-pointer border-b-4 relative capitalize text-center leading-none flex justify-start items-center text-sm xs:text-lg lg:text-xl py-2  lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none font-bold mx-3',
+        'cursor-pointer border-b-4 relative capitalize text-center leading-none flex justify-start',
+        'items-center text-sm xs:text-lg lg:text-xl py-2 trans tracking-wider outline-none',
+        'focus:outline-none active:outline-none font-bold mx-4 sm:mx-8',
         {
           'text-default hover:text-highlight-2 border-transparent': !isSelected,
           'selected border-highlight-2': isSelected,

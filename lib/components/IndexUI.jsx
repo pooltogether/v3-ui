@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/router'
 
-import { BANNER_LIST_VARIANTS, POOL_LIST_TABS } from 'lib/constants'
+import { ANIM_BANNER_VARIANTS, POOL_LIST_TABS } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { usePools } from 'lib/hooks/usePools'
@@ -22,11 +22,12 @@ const BannerMotionDIV = (props) => {
   return <motion.div
     {...props}
     className='flex flex-col justify-center items-center text-xs sm:text-lg lg:text-xl'
-    variants={BANNER_LIST_VARIANTS(shouldReduceMotion)}
+    variants={ANIM_BANNER_VARIANTS(shouldReduceMotion)}
     initial={{
       scale: 0,
-      opacity: 0,
+      opacity: 1,
     }}
+    style={{ originY: '60px' }} 
   >
     {props.children}
   </motion.div>
