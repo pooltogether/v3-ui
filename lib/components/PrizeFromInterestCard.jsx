@@ -8,7 +8,7 @@ import GiftIcon from 'assets/images/icon-gift@2x.png'
 export const PrizeFromInterestCard = (props) => {
   const { t } = useTranslation()
 
-  const { interestPrize, decimals, pool } = props
+  const { ticketPrize, decimals, pool } = props
 
   const numWinners = pool?.numberOfWinners
 
@@ -27,7 +27,7 @@ export const PrizeFromInterestCard = (props) => {
 
         <h3 className='mt-1'>
           $
-          {displayAmountInEther(interestPrize, {
+          {displayAmountInEther(ticketPrize, {
             decimals,
           })}
         </h3>

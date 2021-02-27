@@ -37,7 +37,9 @@ export const IndexUI = (props) => {
   const { poolsDataLoading, pools, communityPools } = usePools()
   
   const router = useRouter()
-  const selectedTab = router.query.tab || POOL_LIST_TABS.pools
+  // Don't switch back to the default tab if we're navigating away from the homepage
+  const defaultTab = (router.pathname === '/') && POOL_LIST_TABS.pools
+  const selectedTab = router.query.tab || defaultTab
 
   return (
     <>

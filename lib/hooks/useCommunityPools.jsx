@@ -56,6 +56,7 @@ const _initializeCommunityPoolData = (communityPoolsGraphData = []) => {
     const marshalledData = marshallPoolData(poolGraphData)
 
     poolGraphData.isCommunityPool = true
+    poolGraphData.isStakePrizePool = !poolGraphData.compoundPrizePool
     poolGraphData.name = nameTemplate(poolGraphData)
     poolGraphData.symbol = symbolTemplate(poolGraphData)
 

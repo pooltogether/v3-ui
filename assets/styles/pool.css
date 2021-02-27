@@ -436,23 +436,3 @@ a:hover {
     padding-right: 2.5rem;
   }
 }
-/* 
-.wizard-form-max-width {
-  max-width: 550px;
-}
-
-@screen xs {
-  .wizard-form-max-width {
-  }
-}
-
-@screen sm {
-  .wizard-form-max-width {
-  }
-}
-
-@screen lg {
-  .wizard-form-max-width {
-    max-width: 800px;
-  }
-} */

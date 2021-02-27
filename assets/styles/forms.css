@@ -71,11 +71,6 @@ input[type='submit'][disabled] {
   }
 }
 
-@screen lg {
-  .fieldset {
-  }
-}
-
 .fieldset label {
   @apply text-accent-2 font-bold text-xxxs xs:text-xxs px-4 sm:px-8;
 }
