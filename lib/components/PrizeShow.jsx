@@ -1,4 +1,3 @@
-import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import React from 'react'
 
@@ -7,7 +6,6 @@ import { useTranslation } from 'lib/../i18n'
 import { CardGrid } from 'lib/components/CardGrid'
 import { LootBoxTable } from 'lib/components/LootBoxTable'
 import { Meta } from 'lib/components/Meta'
-import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PrizeBreakdown } from 'lib/components/PrizeBreakdown'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
@@ -56,7 +54,7 @@ export function PrizeShow(props) {
         ]}
       />
 
-      <div className='pool-gradient-1 rounded-lg px-4 xs:px-6 sm:px-10 py-4 text-white my-4 sm:mt-8 sm:mb-4 mx-auto'>
+      <div className='rounded-lg px-4 xs:px-6 sm:px-10 py-4 text-white my-4 sm:mt-8 sm:mb-4 mx-auto border-flashy purple-pink-gradient-animation'>
         <div>
           <h1>
             {preAwardTimeTravelPool?.totalPrizeAmountUSD &&

@@ -16,6 +16,7 @@ import { PTHint } from 'lib/components/PTHint'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 
+
 export function Settings(props) {
   const { t } = useTranslation()
 
@@ -155,15 +156,14 @@ export function Settings(props) {
               <QuestionMarkCircle />
             </PTHint>
           </div>
-          
-            <CheckboxInputGroup
-              large
-              id='settings-show-award'
-              name='settings-show-award'
-              label={t('showPoolManagementPages')}
-              checked={showManageLinks}
-              handleClick={handleShowManageLinksClick}
-            />
+          <CheckboxInputGroup
+            large
+            id='settings-show-award'
+            name='settings-show-award'
+            label={t('showPoolManagementPages')}
+            checked={showManageLinks}
+            handleClick={handleShowManageLinksClick}
+          />
         </div>
 
         <div className='mt-10'>

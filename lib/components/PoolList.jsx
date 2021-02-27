@@ -36,9 +36,13 @@ const MotionUL = (props) => {
 export const PoolList = (props) => {
   const { pools, communityPools } = props
 
+  const shouldReduceMotion = useReducedMotion()
+
   const { t } = useTranslation()
   const router = useRouter()
-  const selectedTab = router.query.tab || POOL_LIST_TABS.pools
+  // Don't switch back to the default tab if we're navigating away from the homepage
+  const defaultTab = (router.pathname === '/') && POOL_LIST_TABS.pools
+  const selectedTab = router.query.tab || defaultTab
 
   // const communityPoolsSorted = orderBy(communityPools, ['totalPrizeAmountUSD'], ['desc'])
   // TODO: To be replaced by automated sorting based on prize size
@@ -57,24 +61,35 @@ export const PoolList = (props) => {
 
   return (
     <>
-      <Tabs>
-        <Tab
-          isSelected={selectedTab === POOL_LIST_TABS.pools}
-          onClick={() => {
-            queryParamUpdater.add(router, { 'tab': POOL_LIST_TABS.pools })
-          }}
-        >
-          {t('pools')}
-        </Tab>
-        <Tab
-          isSelected={selectedTab === POOL_LIST_TABS.community}
-          onClick={() => {
-            queryParamUpdater.add(router, { 'tab': POOL_LIST_TABS.community })
-          }}
-        >
-          {t('communityPools')}
-        </Tab>
-      </Tabs>
+      <motion.div
+        animate='enter'
+        className='flex flex-col justify-center items-center text-xs sm:text-lg lg:text-xl'
+        variants={ANIM_LIST_VARIANTS(shouldReduceMotion)}
+        initial={{
+          scale: 0,
+          opacity: 1,
+        }}
+        style={{ originY: '60px' }}
+      >
+        <Tabs>
+          <Tab
+            isSelected={selectedTab === POOL_LIST_TABS.pools}
+            onClick={() => {
+              queryParamUpdater.add(router, { 'tab': POOL_LIST_TABS.pools })
+            }}
+          >
+            {t('pools')}
+          </Tab>
+          <Tab
+            isSelected={selectedTab === POOL_LIST_TABS.community}
+            onClick={() => {
+              queryParamUpdater.add(router, { 'tab': POOL_LIST_TABS.community })
+            }}
+          >
+            {t('communityPools')}
+          </Tab>
+        </Tabs>
+      </motion.div>
       
       <ContentPane key='pools-list' isSelected={selectedTab === POOL_LIST_TABS.pools}>
         <AnimatePresence exitBeforeEnter>

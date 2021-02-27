@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
+import { GlobalHotKeys } from 'react-hotkeys'
 
-import { COOKIE_OPTIONS } from 'lib/constants'
+import { HOTKEYS_KEY_MAP, COOKIE_OPTIONS } from 'lib/constants'
 
 const THEME = 'theme'
 
@@ -58,6 +59,10 @@ export function ThemeContextProvider(props) {
     }
   }
 
+  const handlers = {
+    TOGGLE_THEME: toggleTheme
+  }
+
   return (
     <ThemeContext.Provider
       value={{
@@ -65,6 +70,8 @@ export function ThemeContextProvider(props) {
         toggleTheme,
       }}
     >
+      <GlobalHotKeys keyMap={HOTKEYS_KEY_MAP} handlers={handlers} />
+
       {props.children}
     </ThemeContext.Provider>
   )

@@ -21,7 +21,7 @@ export function GraphErrorModal() {
         ></div>
 
         <div
-          className='graph-modal fixed xs:inset-4 bg-black text-white border-2 border-green rounded-lg px-6 py-4 font-bold mt-32'
+          className='warning-modal fixed xs:inset-4 bg-black text-white border-2 border-green rounded-lg px-6 py-4 font-bold mt-32'
           style={{
             maxHeight: '26rem',
             zIndex: 200,

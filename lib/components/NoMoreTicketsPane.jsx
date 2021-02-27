@@ -33,7 +33,7 @@ export function NoMoreTicketsPane(props) {
         🎟️
       </span>
       <div className='pane-title'>
-        <PaneTitle short>{t('theNextPoolWillBeLaunchedIn')}</PaneTitle>
+        <PaneTitle>{t('theNextPoolWillBeLaunchedIn')}</PaneTitle>
         <PaneTitle small>
           <div className='mt-4'>
             <NewPrizeCountdown center textSize='text-lg sm:text-3xl lg:text-5xl' pool={pool} />

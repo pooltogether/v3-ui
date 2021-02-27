@@ -14,35 +14,42 @@ export const UpcomingPrizeBreakdownCard = (props) => {
 
   const { pool } = usePool()
 
+  const { computedLootBoxAddress } = pool.lootBox
+
   const symbol = pool?.underlyingCollateralSymbol?.toUpperCase()
 
   const numberOfWinnersMinusOne = pool?.numberOfWinners
     ? parseInt(pool?.numberOfWinners, 10) - 1
     : 0
 
-  const interestPrizePerWinnerFormatted =
-    pool?.interestPrizePerWinnerUSD &&
-    `$${numberWithCommas(pool?.interestPrizePerWinnerUSD, { precision: 2 })}`
+  const ticketPrizePerWinnerFormatted =
+    pool?.ticketPrizePerWinnerUSD &&
+    `$${numberWithCommas(pool?.ticketPrizePerWinnerUSD, { precision: 2 })}`
 
-  const { computedLootBoxAddress } = pool.lootBox
+  let strategyDescriptionBasic
+  if (Boolean(pool?.splitExternalErc20Awards)) {
+    strategyDescriptionBasic = t('prizeSplitEvenlyBetweenAllWinners', {
+      numberOfWinners: pool?.numberOfWinners,
+    })
+  } else if (Boolean(pool?.ticketPrizeUSD)) {
+    strategyDescriptionBasic = t('prizeInterestSplitBetweenNWinners', {
+      numberOfWinnersMinusOne,
+    })
+  }
+  
+  if (pool?.numberOfWinners <= 1) {
+    strategyDescriptionBasic = t('prizeGivenToASingleWinner')
+  }
   
   return (
     <>
-      <div className='non-interactable-card my-6 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'>
+      <div className='non-interactable-card my-6 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg'>
         <h3>
           {symbol} {t('prize')} #{pool?.currentPrizeId}
         </h3>
 
         <p className='sm:w-2/3 text-accent-1'>
-          {computedLootBoxAddress ? 
-            t('prizeInterestSplitBetweenNWinners', {
-              numberOfWinnersMinusOne,
-            }) :
-            t('prizeSplitEvenlyBetweenAllWinners', {
-              numberOfWinners: pool?.numberOfWinners,
-            })
-          }
-
+          {strategyDescriptionBasic}
           
           <br />
           {t('willBeAwardedIn')}{' '}
@@ -54,22 +61,24 @@ export const UpcomingPrizeBreakdownCard = (props) => {
         <div className='flex flex-col xs:flex-row'>
           {computedLootBoxAddress && <div className='hidden sm:block sm:w-2/12'>&nbsp;</div>}
 
-          <div
-            className={classnames(
-              'flex flex-col items-center justify-center text-center w-full h-56 xs:h-64',
-              {
-                'xs:w-5/12': computedLootBoxAddress
-              }
-            )}
-          >
-            <img src={PrizeIllustration} className='w-40 mx-auto' />
-            <div>
-              <h3>{pool?.interestPrizeUSD && `$${numberWithCommas(pool?.interestPrizeUSD)}`}</h3>
-              <span className='text-sm xs:text-base sm:text-xl text-accent-1 leading-none'>
-                {t('tickets')}
-              </span>
+          {Boolean(pool?.ticketPrizeUSD) && (
+            <div
+              className={classnames(
+                'flex flex-col items-center justify-center text-center w-full h-56 xs:h-64',
+                {
+                  'xs:w-5/12': computedLootBoxAddress
+                }
+              )}
+            >
+              <img src={PrizeIllustration} className='w-40 mx-auto' />
+              <div>
+                <h3>{`$${numberWithCommas(pool?.ticketPrizeUSD)}`}</h3>
+                <span className='text-sm xs:text-base sm:text-xl text-accent-1 leading-none'>
+                  {t('tickets')}
+                </span>
+              </div>
             </div>
-          </div>
+          )}
 
           {computedLootBoxAddress && (
             <>
@@ -99,50 +108,52 @@ export const UpcomingPrizeBreakdownCard = (props) => {
           )}
         </div>
 
-        <div className='xs:bg-primary mt-1 xs:mt-0 py-2 xs:py-5 rounded-lg'>
-          <table className='theme-light--no-gutter mx-4 w-full text-xxxs xs:text-xxs sm:text-sm align-top'>
-            <tbody>
-              <tr>
-                <td className='w-1/3 lg:w-1/2'>
-                  <span className='font-bold'>{computedLootBoxAddress ? t('grandPrize') : t('winner')}</span>
-                </td>
-                <td>
-                  <span className='font-bold'>
-                    {interestPrizePerWinnerFormatted && `${interestPrizePerWinnerFormatted}`}
-                  </span>{' '}
-                  <span className='text-accent-1'>
-                    {' '}
-                    {symbol} {t('tickets')}
-                  </span>
-                  
-                  {Boolean(pool?.externalAwardsUSD) && (
-                    <>
-                      <span className='font-bold'>
-                        {interestPrizePerWinnerFormatted && pool?.externalAwardsUSD && ` + `}
-                        {pool?.externalAwardsUSD && `$${numberWithCommas(pool.externalAwardsUSD)}`}
-                      </span>{' '}
-                      <span className='text-accent-1'>{t('lootBox')}</span>
-                    </>
-                  )}
-                </td>
-              </tr>
-
-              {[...Array(numberOfWinnersMinusOne).keys()].map((index) => (
-                <tr key={`runner-up-row-${index}`}>
+        {Boolean(pool?.ticketPrizeUSD) && (
+          <div className='xs:bg-primary mt-1 xs:mt-0 py-2 xs:py-5 rounded-lg'>
+            <table className='theme-light--no-gutter mx-4 w-full text-xxxs xs:text-xxs sm:text-sm align-top'>
+              <tbody>
+                <tr>
                   <td className='w-1/3 lg:w-1/2'>
-                    <span className='font-bold'>{computedLootBoxAddress ? t('runnerUp') : t('winner')}</span>
+                    <span className='font-bold'>{computedLootBoxAddress ? t('grandPrize') : t('winner')}</span>
                   </td>
                   <td>
-                    <span className='font-bold'>{interestPrizePerWinnerFormatted}</span>{' '}
+                    <span className='font-bold'>
+                      {ticketPrizePerWinnerFormatted && `${ticketPrizePerWinnerFormatted}`}
+                    </span>{' '}
                     <span className='text-accent-1'>
+                      {' '}
                       {symbol} {t('tickets')}
                     </span>
+                    
+                    {!pool?.splitExternalErc20Awards && Boolean(pool?.externalAwardsUSD) && (
+                      <>
+                        <span className='font-bold'>
+                          {ticketPrizePerWinnerFormatted && pool?.externalAwardsUSD && ` + `}
+                          {pool?.externalAwardsUSD && `$${numberWithCommas(pool.externalAwardsUSD)}`}
+                        </span>{' '}
+                        <span className='text-accent-1'>{t('lootBox')}</span>
+                      </>
+                    )}
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+
+                {[...Array(numberOfWinnersMinusOne).keys()].map((index) => (
+                  <tr key={`runner-up-row-${index}`}>
+                    <td className='w-1/3 lg:w-1/2'>
+                      <span className='font-bold'>{computedLootBoxAddress ? t('runnerUp') : t('winner')}</span>
+                    </td>
+                    <td>
+                      <span className='font-bold'>{ticketPrizePerWinnerFormatted}</span>{' '}
+                      <span className='text-accent-1'>
+                        {symbol} {t('tickets')}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </>
   )

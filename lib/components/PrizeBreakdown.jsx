@@ -17,7 +17,7 @@ export const PrizeBreakdown = (props) => {
   const { t } = useTranslation()
   const { contractAddresses } = useContractAddresses()
 
-  const interestPrizeUSD = preAwardTimeTravelPool?.interestPrizeUSD
+  const ticketPrizeUSD = preAwardTimeTravelPool?.ticketPrizeUSD
   const externalAwardsValueUSD = preAwardTimeTravelPool?.externalAwardsUSD
   const hasLootBox = externalAwardsValueUSD
 
@@ -72,7 +72,7 @@ export const PrizeBreakdown = (props) => {
             <img src={PrizeIllustration} className='w-40 mx-auto' />
             <div>
               <h3>
-                {interestPrizeUSD && `$${numberWithCommas(interestPrizeUSD, { precision: 2 })}`}
+                {ticketPrizeUSD && `$${numberWithCommas(ticketPrizeUSD, { precision: 2 })}`}
               </h3>
               <span className='text-sm xs:text-base sm:text-xl'>{t('tickets')}</span>
             </div>

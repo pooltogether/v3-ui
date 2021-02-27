@@ -36,7 +36,7 @@ export function getButtonClasses(props) {
   // eg. textSize='sm', textSize='xl'
   textSize = getTextSize(textSize)
 
-  let defaultPadding = 'px-4 xs:px-6 sm:px-10 lg:px-12 py-2 sm:py-2'
+  let defaultPadding = 'px-4 xs:px-6 sm:px-10 lg:px-12 py-2'
   let defaultRounded = 'rounded-full'
   let defaultTrans = 'trans trans-fast'
 
@@ -114,7 +114,7 @@ const getTextSize = (size) => {
     case 'sm':
       return `text-xs xs:text-sm sm:text-base lg:text-lg`
     case 'lg':
-      return `text-sm xs:text-lg sm:text-xl lg:text-2xl`
+      return `text-sm xs:text-lg sm:text-xl`
     case 'xl':
       return `text-lg xs:text-xl sm:text-2xl lg:text-3xl`
     case '2xl':

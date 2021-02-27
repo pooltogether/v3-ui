@@ -85,7 +85,7 @@ export function ExecuteCryptoDeposit(props) {
 
   return (
     <>
-      <PaneTitle short>
+      <PaneTitle>
         <div className='inline-block sm:block relative' style={{ top: -2 }}>
           <PoolCurrencyIcon pool={pool} />
         </div>{' '}

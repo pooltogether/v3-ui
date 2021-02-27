@@ -64,7 +64,7 @@ export const AccountGovernanceClaims = (props) => {
 
   return (
     <>
-      <h6 className='font-normal text-accent-2 mt-16 mb-4'>{t('governance')}</h6>
+      <h5 className='font-normal text-accent-2 mt-16 mb-4'>{t('governance')}</h5>
       <div className='relative xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
         <ClaimHeader refetchAllPoolTokenData={refetchAllPoolTokenData} />
         {pools.map((pool) => {

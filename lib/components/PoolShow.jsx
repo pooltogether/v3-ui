@@ -15,6 +15,7 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
+import { CommunityPoolDisclaimerModal } from 'lib/components/CommunityPoolDisclaimerModal'
 import { LootBoxTable } from 'lib/components/LootBoxTable'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
 import { PoolShowCards } from 'lib/components/PoolShowCards'
@@ -81,6 +82,8 @@ export const PoolShow = (props) => {
   return (
     <>
       <Meta title={pool?.name} />
+
+      {pool?.isCommunityPool && <CommunityPoolDisclaimerModal poolSymbol={pool?.symbol} />}
 
       <motion.div
         initial='initial'
@@ -205,12 +208,37 @@ export const PoolShow = (props) => {
           }}
         </PrizePlayersQuery>
 
-        <div className='flex flex-col sm:flex-row items-center justify-center mt-20'>
+        <div className='flex flex-col items-center justify-center mt-20'>
+          {walletName === 'MetaMask' && (
+            <div className='m-2'>
+              <Button textSize='xxs' noAnim onClick={handleAddTokenToMetaMask}>
+                {t('addTicketTokenToMetamask', {
+                  token: symbolForMetaMask,
+                })}
+              </Button>
+            </div>
+          )}
+
+          <div
+            className='m-2'
+          >
+            <ButtonLink
+              textSize='xxs'
+              href={formatEtherscanAddressUrl(pool.poolAddress, chainId)}
+            >
+              {t('viewPoolInEtherscan')}
+            </ButtonLink>
+          </div>
+
+          {usersAddress && <RevokePoolAllowanceTxButton pool={pool} />}
+
           {cookieShowAward && (
             <>
-              <div className='m-2'>
+              <div
+                className='m-2 button-scale'
+              >
                 <ButtonLink
-                  secondary
+                  textSize='xxs'
                   href='/pools/[symbol]/manage'
                   as={`/pools/${pool?.symbol}/manage`}
                 >
@@ -219,24 +247,6 @@ export const PoolShow = (props) => {
               </div>
             </>
           )}
-
-          {walletName === 'MetaMask' && (
-            <div className='m-2'>
-              <Button secondary onClick={handleAddTokenToMetaMask}>
-                {t('addTicketTokenToMetamask', {
-                  token: symbolForMetaMask,
-                })}
-              </Button>
-            </div>
-          )}
-
-          <div className='m-2'>
-            <ButtonLink secondary href={formatEtherscanAddressUrl(pool.poolAddress, chainId)}>
-              {t('viewPoolInEtherscan')}
-            </ButtonLink>
-          </div>
-
-          {usersAddress && <RevokePoolAllowanceTxButton pool={pool} />}
         </div>
       </motion.div>
 

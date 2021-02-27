@@ -57,7 +57,7 @@ export const TextInputGroup = (props) => {
                   'sm:pl-8 w-1/2': rightLabel && !centerLabel,
                   'sm:pl-8 w-1/3': rightLabel && centerLabel,
                   'font-bold text-primary cursor-not-allowed': disabled,
-                  'font-bold text-default-soft hover:text-default': !disabled,
+                  'font-bold text-accent-3 hover:text-default': !disabled,
                 })}
               >
                 {label}
@@ -69,7 +69,7 @@ export const TextInputGroup = (props) => {
                 <label
                   className={classnames('mt-0 trans w-1/3 text-center', {
                     'font-bold text-primary cursor-not-allowed': disabled,
-                    'font-bold text-default-soft hover:text-default': !disabled,
+                    'font-bold text-accent-3 hover:text-default': !disabled,
                   })}
                 >
                   {centerLabel}
@@ -84,7 +84,7 @@ export const TextInputGroup = (props) => {
                     'w-1/2': rightLabel && !centerLabel,
                     'w-1/3': rightLabel && centerLabel,
                     'font-bold text-primary cursor-not-allowed': disabled,
-                    'font-bold text-default-soft hover:text-default': !disabled,
+                    'font-bold text-accent-3 hover:text-default': !disabled,
                   })}
                 >
                   {rightLabel}
@@ -100,7 +100,7 @@ export const TextInputGroup = (props) => {
           <>
             <label
               className={classnames(
-                'mt-0 sm:pr-8 sm:pl-2 trans w-full text-right font-bold text-default-soft hover:text-default'
+                'mt-0 sm:pr-8 sm:pl-2 trans w-full text-right font-bold text-accent-3 hover:text-default'
               )}
             >
               {bottomRightLabel}

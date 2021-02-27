@@ -47,6 +47,8 @@ export function usePool(poolSymbol, blockNumber = -1) {
     ...poolGraphData,
   }
 
+  const isStakePrizePool = !pool.compoundPrizePool
+
   const { erc20ChainData } = useErc20ChainQuery(pool)
   const { erc721ChainData } = useErc721ChainQuery(pool)
 
@@ -89,26 +91,26 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(lootBox.awards)
 
-  let interestPrizeUSD = calculateEstimatedPoolPrize(pool)
+  let ticketPrizeUSD = calculateEstimatedPoolPrize(pool)
 
   if (underlyingCollateralValueUSD) {
-    interestPrizeUSD = (interestPrizeUSD * parseInt(underlyingCollateralValueUSD * 100, 10)) / 100
+    ticketPrizeUSD = (ticketPrizeUSD * parseInt(underlyingCollateralValueUSD * 100, 10)) / 100
   } else {
     // console.warn('could not get USD value for price of underlying collateral token')
   }
 
-  const interestPrizePerWinnerUSD = interestPrizeUSD / numWinners
+  const ticketPrizePerWinnerUSD = ticketPrizeUSD / numWinners
 
   const grandPrizeAmountUSD = externalAwardsUSD
-    ? interestPrizeUSD / numWinners + externalAwardsUSD
-    : interestPrizeUSD / numWinners
+    ? ticketPrizeUSD / numWinners + externalAwardsUSD
+    : ticketPrizeUSD / numWinners
 
   const totalPrizeAmountUSD = externalAwardsUSD
-    ? interestPrizeUSD + externalAwardsUSD
-    : interestPrizeUSD
+    ? ticketPrizeUSD + externalAwardsUSD
+    : ticketPrizeUSD
 
   const fetchingTotals =
-    externalAwardsUSD === null || (interestPrizeUSD === 0 && uniswapIsFetching && !uniswapIsFetched)
+    externalAwardsUSD === null || (ticketPrizeUSD === 0 && uniswapIsFetching && !uniswapIsFetched)
 
 
   let totalDepositedUSD
@@ -124,13 +126,14 @@ export function usePool(poolSymbol, blockNumber = -1) {
   // Standardize the USD values so they're either all floats/strings or all bigNums  pool = {
   pool = {
     ...pool,
+    isStakePrizePool,
     fetchingTotals,
     lootBox,
     totalDepositedUSD,
     totalPrizeAmountUSD,
     grandPrizeAmountUSD,
-    interestPrizePerWinnerUSD,
-    interestPrizeUSD,
+    ticketPrizePerWinnerUSD,
+    ticketPrizeUSD,
     externalAwardsUSD,
     compiledExternalErc20Awards,
     compiledExternalErc721Awards,

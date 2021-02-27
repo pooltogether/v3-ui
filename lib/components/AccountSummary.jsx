@@ -91,7 +91,7 @@ export const AccountSummary = () => {
   }
 
   return (
-    <div className='pool-gradient-1 rounded-lg pl-6 pr-10 xs:px-10 py-5 text-inverse my-4 sm:mt-8 sm:mb-12 mx-auto'>
+    <div className='pool-gradient-1 rounded-lg pl-6 pr-10 xs:px-10 py-5 text-white my-4 sm:mt-8 sm:mb-12 mx-auto'>
       <div className='flex justify-between items-center'>
         <div className='leading-tight'>
           <h6 className='font-normal'>{t('assets')}</h6>
