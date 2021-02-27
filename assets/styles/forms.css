@@ -100,9 +100,9 @@ input[type='submit'][disabled] {
   }
 }
 
-.button-scale:hover,
-.button-scale:focus,
-.button-scale:active {
+.button-scale:hover:enabled,
+.button-scale:focus:enabled,
+.button-scale:active :enabled {
   transform: scale(1.02) translateY(-3px);
 }
 

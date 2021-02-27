@@ -210,24 +210,26 @@ export function DepositTicketQuantityForm(props) {
         </>
       )}
 
-      <Banner
-        gradient={null}
-        className='bg-primary mt-4 sm:mt-8 mx-auto w-full'
-        style={{ maxWidth: 380 }}
-      >
-        <img className='mx-auto mb-3 h-16' src={IconTarget} />
+      {parseFloat(watchQuantity) > 0 && (
+        <Banner
+          gradient={null}
+          className='bg-primary mt-4 sm:mt-8 mx-auto w-full'
+          style={{ maxWidth: 380 }}
+        >
+          <img className='mx-auto mb-3 h-16' src={IconTarget} />
 
-        <div className='odds-box mt-8 lg:mt-12'>
-          <Odds
-            sayEveryWeek
-            showLabel
-            splitLines
-            pool={pool}
-            usersBalance={usersTicketBalanceBN.toString()}
-            additionalAmount={watchQuantity}
-          />
-        </div>
-      </Banner>
+          <div className='odds-box mt-8 lg:mt-12'>
+            <Odds
+              sayEveryWeek
+              showLabel
+              splitLines
+              pool={pool}
+              usersBalance={usersTicketBalanceBN.toString()}
+              additionalAmount={watchQuantity}
+            />
+          </div>
+        </Banner>
+      )}
     </>
   )
 }

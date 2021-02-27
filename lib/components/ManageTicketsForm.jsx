@@ -42,7 +42,7 @@ export function ManageTicketsForm(props) {
         />
       </div>
 
-      <DropdownInputGroup
+      {/* <DropdownInputGroup
         id='manage-tickets-action-dropdown'
         label={t('whatWouldYouLikeToDoQuestion')}
         current={action}
@@ -51,7 +51,7 @@ export function ManageTicketsForm(props) {
           [STRINGS.withdraw]: t('withdraw'),
           // [STRINGS.transfer]: t('transfer')
         }}
-      />
+      /> */}
 
       {/* {action === STRINGS.transfer && <>
       <h6 className='mt-2 text-inverse'>Transfer feature coming soon ...</h6>
@@ -59,6 +59,7 @@ export function ManageTicketsForm(props) {
 
       {action === STRINGS.withdraw && (
         <>
+          <h6 className='text-accent-1'>{t('withdraw')}</h6>
           <WithdrawTicketsForm {...props} />
         </>
       )}
