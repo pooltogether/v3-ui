@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { isUndefined } from 'lodash'
+import { motion } from 'framer-motion'
 
 import { TOKEN_IMAGES } from 'lib/constants'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
@@ -13,11 +14,35 @@ import CompSvg from 'assets/images/comp.svg'
 import UniSvg from 'assets/images/token-uni.png'
 import UniThemeLightSvg from 'assets/images/uniwap-theme-light-logo.svg'
 
+// This was separated into it's own component to comply with the rules of hooks
+const CoingeckoOrPlaceholder = (props) => {
+  const { address, className } = props
+
+  let src
+
+  // Check Coingecko for img
+  const { data: tokenImagesData } = useCoingeckoImageQuery(address)
+  src = tokenImagesData?.[address]?.image?.small
+
+  // Fallback to placeholder
+  if (!src) {
+    src = '/tokens/eth-placeholder.png'
+  }
+
+  return <motion.img
+      src={src}
+      className={className}
+      animate={{ opacity: 1 }}
+      initial={{ opacity: 0 }}
+      exit={{ opacity: 0 }}
+    />
+}
+
 export const PoolCurrencyIcon = (props) => {
   const { className, noMediaQueries, sm, lg, xl, xs, pool } = props
 
   const { theme } = useContext(ThemeContext)
-    
+  
   const noMargin = props.noMargin || false
   
   const address = pool?.underlyingCollateralToken
@@ -68,18 +93,5 @@ export const PoolCurrencyIcon = (props) => {
     src = TOKEN_IMAGES[address?.toLowerCase()]
   }
 
-  // Check Coingeck for img
-  if (!src) {
-    const { data: tokenImagesData } = useCoingeckoImageQuery(address)
-    src = tokenImagesData?.[address]?.image?.small 
-  }
-
-  // Fallback to placeholder
-  if (!src) {
-    src = '/tokens/eth-placeholder.png'
-  }
-
-  return (
-    <img src={src} className={classes} />
-  )
+  return !src ? <CoingeckoOrPlaceholder address={address} className={classes} /> : <img src={src} className={classes} />
 }
