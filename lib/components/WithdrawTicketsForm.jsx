@@ -65,7 +65,7 @@ export function WithdrawTicketsForm(props) {
       textSize='lg'
       disabled={!formState.isValid}
       onClick={handleSubmit(onSubmit)}
-      className={'mx-auto'}
+      className={'mx-auto w-48-percent'}
     >
       {t('continue')}
     </Button>

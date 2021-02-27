@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 import { useTranslation } from 'lib/../i18n'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { calculateOdds } from 'lib/utils/calculateOdds'
+import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export function Odds(props) {
   const { t } = useTranslation()
@@ -60,11 +61,9 @@ export function Odds(props) {
   let label = showLabel && (
     <>
       {additionalAmountBN.gt(0) ? (
-        <>
-          <span className='font-bold text-flashy'>{t('newOddsOfWinning')}</span>
-        </>
+        <span className='text-accent-1'>{t('newOddsOfWinning')}</span>
       ) : (
-        t('currentOddsOfWinning')
+        <span className='text-accent-1'>{t('currentOddsOfWinning')}</span>
       )}
     </>
   )
@@ -78,24 +77,27 @@ export function Odds(props) {
       </>
     )
   } else if (!hide && Boolean(result) && (hasBalance || additionalAmountBN.gt(0))) {
-    const totalOdds = <PoolCountUp fontSansRegular start={result} end={result} />
+    const totalOdds = <PoolCountUp
+      decimals={getMinPrecision(result, { additionalDigits: getPrecision(result) })}
+      fontSansRegular
+      start={result}
+      end={result}
+    />
 
     content = (
       <>
         {label} {splitLines && <br />}
-        <span className={`${font} font-bold`}>1</span>
+        <span className={`${font} mt-1 font-bold text-flashy`}>1</span>
         {altSplitLines ? (
           <>
-            <div className='inline-block xs:block ml-1 xs:ml-0 -mt-1 text-xs sm:text-sm'>
+            <div className='inline-block xs:block ml-1 xs:ml-0 -mt-1 text-xs sm:text-sm text-flashy'>
               {t('in')} {totalOdds}
             </div>
           </>
         ) : (
-          <>
-            &nbsp;{t('in')} {totalOdds}
-          </>
+          <span className='text-flashy'>&nbsp;{t('in')} {totalOdds}</span>
         )}{' '}
-        {sayEveryWeek && t('everyWeek')}
+        <span className='text-flashy'>{sayEveryWeek && t('everyWeek')}</span>
       </>
     )
   }

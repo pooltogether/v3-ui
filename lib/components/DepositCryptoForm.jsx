@@ -11,10 +11,11 @@ import { usePool } from 'lib/hooks/usePool'
 import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
+import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
 import { DepositTxButton } from 'lib/components/DepositTxButton'
 import { PaneTitle } from 'lib/components/PaneTitle'
-import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { PTHint } from 'lib/components/PTHint'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -131,8 +132,8 @@ export function DepositCryptoForm(props) {
 
   return (
     <>
-      <PaneTitle small short>
-        <div className='inline-block sm:block relative mb-2' style={{ top: -2 }}>
+      <PaneTitle>
+        <div className='font-bold inline-block sm:block relative mb-2' style={{ top: -2 }}>
           <PoolCurrencyIcon lg pool={pool} />
         </div>{' '}
         {t('depositTickerToWin', {
@@ -140,14 +141,15 @@ export function DepositCryptoForm(props) {
         })}
       </PaneTitle>
 
-      <div className='pool-gradient-1 text-inverse w-full text-center mx-auto my-4 sm:my-8 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-lg lg:text-xl'>
-        <span className='mr-4'>{t('yourDeposit')}</span> <PoolNumber>{numberWithCommas(quantity, { precision: 4 })}</PoolNumber> {tickerUpcased}
+      <div className='pool-gradient-2 text-white w-full text-center mx-auto my-4 sm:my-8 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-lg lg:text-2xl'>
+        <span className='mr-4'>{t('yourDeposit')}</span>
+        <PoolNumber>{numberWithCommas(quantity, { precision: 4 })}</PoolNumber> {tickerUpcased}
       </div>
 
       <div className='flex flex-col mx-auto w-full mx-auto items-center justify-center'>
         {overBalance ? (
           <>
-            <div className='text-orange my-6 flex flex-col'>
+            <div className='text-orange my-4 flex flex-col'>
               <h4 className=''>
                 {t('youDontHaveEnoughTicker', {
                   ticker: tickerUpcased,
@@ -271,6 +273,9 @@ export function DepositCryptoForm(props) {
             </div>
           </>
         )}
+
+        <DepositExpectationsWarning />
+
       </div>
     </>
   )

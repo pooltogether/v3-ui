@@ -207,6 +207,14 @@
   background: linear-gradient(72deg, #4c249f 28%, rgba(236, 71, 201, 1) 164%);
 }
 
+.theme-dark .pool-gradient-2 {
+  background: linear-gradient(34deg, #361070 28%, #60237C 100%);
+}
+
+.theme-light .pool-gradient-2 {
+  background: linear-gradient(34deg, #361070 28%, #60237C 100%);
+}
+
 @screen sm {
   .theme-dark .pool-logo:after {
     background-image: url('/pooltogether-logo.svg');

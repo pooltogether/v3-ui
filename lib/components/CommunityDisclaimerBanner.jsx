@@ -15,7 +15,7 @@ export const CommunityDisclaimerBanner = (props) => {
       style={{ minHeight: 150 }}
     >
       {/* <img src={Bell} className='mr-4 xs:mr-4 xs:ml-4 my-auto h-10 xs:h-10' /> */}
-      <div className='mr-4 xs:mr-4 xs:ml-4 my-auto h-10 xs:h-10'>
+      <div className='mr-4 xs:mr-4 xs:ml-4 my-auto h-10'>
         <img className='shake' src={Bell} style={{ maxWidth: 30 }} />
       </div>
       

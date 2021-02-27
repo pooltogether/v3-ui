@@ -57,12 +57,27 @@ input[type='submit'][disabled] {
 
 .fieldset {
   @apply py-2 mb-0 w-full;
+}
 
-  max-width: 550px;
+@screen xs {
+  .fieldset {
+    max-width: 550px;
+  }
+}
+
+@screen sm {
+  .fieldset {
+    max-width: 800px;
+  }
+}
+
+@screen lg {
+  .fieldset {
+  }
 }
 
 .fieldset label {
-  @apply text-accent-3 font-bold text-xxxs xs:text-xxs px-4 sm:px-8;
+  @apply text-accent-2 font-bold text-xxxs xs:text-xxs px-4 sm:px-8;
 }
 
 .check {
