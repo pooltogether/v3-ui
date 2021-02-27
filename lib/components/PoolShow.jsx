@@ -15,6 +15,7 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
+import { CommunityPoolDisclaimerModal } from 'lib/components/CommunityPoolDisclaimerModal'
 import { LootBoxTable } from 'lib/components/LootBoxTable'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
 import { PoolShowCards } from 'lib/components/PoolShowCards'
@@ -81,6 +82,8 @@ export const PoolShow = (props) => {
   return (
     <>
       <Meta title={pool?.name} />
+
+      {pool?.isCommunityPool && <CommunityPoolDisclaimerModal />}
 
       <motion.div
         initial='initial'
