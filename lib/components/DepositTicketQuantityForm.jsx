@@ -8,6 +8,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
 import { usePool } from 'lib/hooks/usePool'
 import { useUsersChainData } from 'lib/hooks/useUsersChainData'
+import { Banner } from 'lib/components/Banner'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
@@ -20,6 +21,8 @@ import { WyreTopUpBalanceDropdown } from 'lib/components/WyreTopUpBalanceDropdow
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
+
+import IconTarget from 'assets/images/icon-target@2x.png'
 
 const bn = ethers.utils.bigNumberify
 
@@ -82,7 +85,7 @@ export function DepositTicketQuantityForm(props) {
       textSize='lg'
       disabled={!formState.isValid}
       onClick={handleSubmit(onSubmit)}
-      className={'mx-auto'}
+      className={'mx-auto w-48-percent'}
     >
       {t('continue')}
     </Button>
@@ -95,19 +98,14 @@ export function DepositTicketQuantityForm(props) {
   return (
     <>
       <div className='pane-title'>
-        <div className='inline-block sm:block relative' style={{ top: -2 }}>
-          <PoolCurrencyIcon pool={pool} />
+        <div className='font-bold inline-block sm:block relative mb-2' style={{ top: -2 }}>
+          <PoolCurrencyIcon lg pool={pool} />
         </div>
-        <PaneTitle short>{formName}</PaneTitle>
-        <div className='mb-6 -mt-2'>
-          <PaneTitle small>{formSubName}</PaneTitle>
-        </div>
+        <PaneTitle>{formName}</PaneTitle>
       </div>
 
       {balanceJsx && (
-        <>
-          <div className='mb-12'>{balanceJsx}</div>
-        </>
+        <div className='sm:my-4 mb-12'>{balanceJsx}</div>
       )}
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -115,37 +113,38 @@ export function DepositTicketQuantityForm(props) {
           <TextInputGroup
             unsignedNumber
             autoFocus
+            large
             id='quantity'
             name='quantity'
             register={register}
             label={t('ticketAmount')}
             required={t('ticketQuantityRequired')}
             autoComplete='off'
-            bottomRightLabel={
-              usersAddress &&
-              tickerUpcased && (
-                <>
-                  <WyreTopUpBalanceDropdown
-                    label={
-                      <>
-                        <Trans
-                          i18nKey='topUpBalance'
-                          defaults='<visibleMobile>Buy crypto</visibleMobile><hiddenMobile>Buy more crypto</hiddenMobile>'
-                          components={{
-                            visibleMobile: <span className='xs:hidden ml-1' />,
-                            hiddenMobile: <span className='hidden xs:inline-block ml-1' />,
-                          }}
-                        />
-                      </>
-                    }
-                    textColor='text-default-soft'
-                    hoverTextColor='text-highlight-1'
-                    tickerUpcased={tickerUpcased}
-                    usersAddress={usersAddress}
-                  />
-                </>
-              )
-            }
+            // bottomRightLabel={
+            //   usersAddress &&
+            //   tickerUpcased && (
+            //     <>
+            //       <WyreTopUpBalanceDropdown
+            //         label={
+            //           <>
+            //             <Trans
+            //               i18nKey='topUpBalance'
+            //               defaults='<visibleMobile>Buy crypto</visibleMobile><hiddenMobile>Buy more crypto</hiddenMobile>'
+            //               components={{
+            //                 visibleMobile: <span className='xs:hidden ml-1' />,
+            //                 hiddenMobile: <span className='hidden xs:inline-block ml-1' />,
+            //               }}
+            //             />
+            //           </>
+            //         }
+            //         textColor='text-default-soft'
+            //         hoverTextColor='text-highlight-1'
+            //         tickerUpcased={tickerUpcased}
+            //         usersAddress={usersAddress}
+            //       />
+            //     </>
+            //   )
+            // }
             rightLabel={
               usersAddress &&
               tickerUpcased && (
@@ -168,29 +167,12 @@ export function DepositTicketQuantityForm(props) {
           />
         </div>
         <div
-          className='mt-2 text-sm text-highlight-1 font-bold mb-2'
+          className='text-sm text-highlight-1 font-bold mb-2'
           style={{
-            minHeight: 24,
+            minHeight: 26,
           }}
         >
-          {Object.values(errors).length > 0 ? (
-            <>
-              <ErrorsBox errors={errors} />
-            </>
-          ) : (
-            <>
-              <div className='odds-box'>
-                <Odds
-                  sayEveryWeek
-                  showLabel
-                  splitLines
-                  pool={pool}
-                  usersBalance={usersTicketBalanceBN.toString()}
-                  additionalAmount={watchQuantity}
-                />
-              </div>
-            </>
-          )}
+          {Object.values(errors).length > 0 && <ErrorsBox errors={errors} />}
         </div>
 
         <div className='flex flex-col mx-auto w-full mx-auto items-center justify-center'>
@@ -226,6 +208,27 @@ export function DepositTicketQuantityForm(props) {
             </span>
           </div>
         </>
+      )}
+
+      {parseFloat(watchQuantity) > 0 && (
+        <Banner
+          gradient={null}
+          className='bg-primary mt-4 sm:mt-8 mx-auto w-full'
+          style={{ maxWidth: 380 }}
+        >
+          <img className='mx-auto mb-3 h-16' src={IconTarget} />
+
+          <div className='odds-box mt-8 lg:mt-12'>
+            <Odds
+              sayEveryWeek
+              showLabel
+              splitLines
+              pool={pool}
+              usersBalance={usersTicketBalanceBN.toString()}
+              additionalAmount={watchQuantity}
+            />
+          </div>
+        </Banner>
       )}
     </>
   )

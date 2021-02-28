@@ -16,7 +16,7 @@ export function WithdrawComplete(props) {
 
   return (
     <>
-      <PaneTitle short>
+      <PaneTitle>
         <span className={`mx-auto`} role='img' aria-label='confetti emoji'>
           🎉
         </span>

@@ -238,7 +238,7 @@ a:hover {
 }
 
 .pool-row-left-col {
-  max-width: 300px;
+  max-width: 247px;
 }
 
 @screen xs {
@@ -260,7 +260,7 @@ a:hover {
 }
 
 .pool-row-right-col {
-  max-width: 300px;
+  max-width: 247px;
 }
 
 @screen xs {
@@ -382,14 +382,6 @@ a:hover {
   }
 }
 
-.purple-pink-gradient {
-  background-image: linear-gradient(40deg, #4c249f 30%, #9c48ba 81%);
-}
-
-.theme-light .purple-pink-gradient {
-  background-image: linear-gradient(40deg, #eee5ff 30%, #ffb9f0 81%);
-}
-
 .pink-purple-gradient {
   background-image: linear-gradient(40deg, #9c48ba 20%, #4c249f 100%);
 }
@@ -398,26 +390,26 @@ a:hover {
   background-image: linear-gradient(40deg, #ffb9f0 20%, #eee5ff 100%);
 }
 
-.graph-modal {
+.warning-modal {
   margin-left: 5%;
   margin-right: 5%;
   width: 90%;
 }
 
 @screen xs {
-  .graph-modal {
+  .warning-modal {
     @apply w-2/3 mx-auto;
   }
 }
 
 @screen sm {
-  .graph-modal {
+  .warning-modal {
     @apply w-1/2;
   }
 }
 
 @screen lg {
-  .graph-modal {
+  .warning-modal {
     @apply w-1/3;
   }
 }
@@ -429,19 +421,6 @@ a:hover {
 @screen sm {
   .time-remaining-chart--big-num {
     max-height: 100px;
-  }
-}
-
-.countdown-wrapper {
-}
-
-@screen xs {
-  .countdown-wrapper {
-  }
-}
-
-@screen sm {
-  .countdown-wrapper {
   }
 }
 

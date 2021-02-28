@@ -45,6 +45,10 @@
   filter: brightness(1) saturate(1200%) contrast(106%) hue-rotate(287deg);
 }
 
+.ticket--generic {
+  filter: brightness(1) saturate(1200%) contrast(106%) hue-rotate(235deg);
+}
+
 .ticket-strip {
   background-image: url('/ticket-bg--dai-sm.svg');
   background-position: 0 -1px;

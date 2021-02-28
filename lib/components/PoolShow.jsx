@@ -15,12 +15,11 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
-import { CardGrid } from 'lib/components/CardGrid'
+import { CommunityPoolDisclaimerModal } from 'lib/components/CommunityPoolDisclaimerModal'
 import { LootBoxTable } from 'lib/components/LootBoxTable'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
+import { PoolShowCards } from 'lib/components/PoolShowCards'
 import { UpcomingPrizeBreakdownCard } from 'lib/components/UpcomingPrizeBreakdownCard'
-import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
-import { LastWinnersListing } from 'lib/components/LastWinnersListing'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Meta } from 'lib/components/Meta'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -32,17 +31,10 @@ import { Tagline } from 'lib/components/Tagline'
 import { usePool } from 'lib/hooks/usePool'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-
-import CompoundFinanceIcon from 'assets/images/icon-compoundfinance.svg'
-import PrizeStrategyIcon from 'assets/images/icon-prizestrategy@2x.png'
-import TicketsIcon from 'assets/images/icon-ticket@2x.png'
-import PlayersIcon from 'assets/images/players@2x.png'
-import YieldSourceIcon from 'assets/images/icon-yieldsource@2x.png'
-import PrizeIcon from 'assets/images/icon-prize@2x.png'
+import { translatedPoolName } from 'lib/utils/translatedPoolName'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -54,8 +46,6 @@ export const PoolShow = (props) => {
 
   const poolSymbol = router?.query?.symbol
   const { pool } = usePool(poolSymbol)
-
-  const decimals = pool?.underlyingCollateralDecimals
 
   const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
 
@@ -83,10 +73,7 @@ export const PoolShow = (props) => {
   const handleAddTokenToMetaMask = (e) => {
     e.preventDefault()
 
-    console.log(symbolForMetaMask)
     const tokenAddress = pool?.ticketToken?.id
-    console.log(tokenAddress)
-    console.log(pool?.underlyingCollateralDecimals)
     addTokenToMetaMask(symbolForMetaMask, tokenAddress, pool?.underlyingCollateralDecimals)
   }
 
@@ -95,6 +82,8 @@ export const PoolShow = (props) => {
   return (
     <>
       <Meta title={pool?.name} />
+
+      {pool?.isCommunityPool && <CommunityPoolDisclaimerModal poolSymbol={pool?.symbol} />}
 
       <motion.div
         initial='initial'
@@ -129,7 +118,7 @@ export const PoolShow = (props) => {
           <div className='flex flex-col xs:flex-row justify-between xs:items-center'>
             <div className='flex justify-between items-center xs:w-1/2'>
               <PageTitleAndBreadcrumbs
-                title={pool?.name}
+                title={translatedPoolName(t, pool?.name)}
                 pool={pool}
                 breadcrumbs={[
                   {
@@ -138,7 +127,7 @@ export const PoolShow = (props) => {
                     name: t('pools'),
                   },
                   {
-                    name: pool?.name,
+                    name: translatedPoolName(t, pool?.name),
                   },
                 ]}
               />
@@ -200,82 +189,9 @@ export const PoolShow = (props) => {
 
           <h6 className='text-accent-1 mt-8 mb-0 sm:t-4 relative'>{t('prizePoolStats')}</h6>
 
-          <CardGrid
-            cardGroupId='pool-cards'
-            cards={[
-              {
-                icon: PlayersIcon,
-                title: t('players'),
-                content: (
-                  <>
-                    <h3>{numberWithCommas(pool?.playerCount, { precision: 0 })}</h3>
-                  </>
-                ),
-              },
-              {
-                icon: TicketsIcon,
-                title: t('totalTickets'),
-                content: (
-                  <>
-                    <TicketsSoldGraph pool={pool} />
-
-                    <h3 className='mt-2'>
-                      {displayAmountInEther(pool.ticketSupply, {
-                        precision: 0,
-                        decimals,
-                      })}
-                    </h3>
-                  </>
-                ),
-              },
-              {
-                icon: TicketsIcon,
-                title: t('totalDeposited'),
-                content: (
-                  <>
-                    <h3 className='mt-2'>
-                      $<PoolNumber>{numberWithCommas(pool.totalDepositedUSD, { precision: 2 })}</PoolNumber>
-                    </h3>
-                  </>
-                ),
-              },
-              {
-                icon: YieldSourceIcon,
-                title: t('yieldSource'),
-                content: (
-                  <>
-                    <h6 className='flex items-center'>
-                      <img
-                        src={CompoundFinanceIcon}
-                        className='inline-block mr-2 w-6 h-6 sm:w-10 sm:h-10'
-                        alt={`compound finance's logo`}
-                      />{' '}
-                      Compound Finance
-                    </h6>
-                  </>
-                ),
-              },
-              {
-                icon: PrizeStrategyIcon,
-                title: t('prizeStrategy'),
-                content: (
-                  <>
-                    <h6>{t('multipleWinnersStrategyDescription')}</h6>
-                  </>
-                ),
-              },
-              {
-                icon: PrizeIcon,
-                title: t('pastFiveWinners'),
-                content: (
-                  <>
-                    <LastWinnersListing pool={pool} />
-                  </>
-                ),
-              },
-            ]}
-          />
+          <PoolShowCards pool={pool} />
         </>
+          
 
         <PrizePlayersQuery pool={pool} blockNumber={-1}>
           {({ data, isFetching, isFetched }) => {
@@ -292,12 +208,37 @@ export const PoolShow = (props) => {
           }}
         </PrizePlayersQuery>
 
-        <div className='flex flex-col sm:flex-row items-center justify-center mt-20'>
+        <div className='flex flex-col items-center justify-center mt-20'>
+          {walletName === 'MetaMask' && (
+            <div className='m-2'>
+              <Button textSize='xxs' noAnim onClick={handleAddTokenToMetaMask}>
+                {t('addTicketTokenToMetamask', {
+                  token: symbolForMetaMask,
+                })}
+              </Button>
+            </div>
+          )}
+
+          <div
+            className='m-2'
+          >
+            <ButtonLink
+              textSize='xxs'
+              href={formatEtherscanAddressUrl(pool.poolAddress, chainId)}
+            >
+              {t('viewPoolInEtherscan')}
+            </ButtonLink>
+          </div>
+
+          {usersAddress && <RevokePoolAllowanceTxButton pool={pool} />}
+
           {cookieShowAward && (
             <>
-              <div className='m-2'>
+              <div
+                className='m-2 button-scale'
+              >
                 <ButtonLink
-                  secondary
+                  textSize='xxs'
                   href='/pools/[symbol]/manage'
                   as={`/pools/${pool?.symbol}/manage`}
                 >
@@ -306,24 +247,6 @@ export const PoolShow = (props) => {
               </div>
             </>
           )}
-
-          {walletName === 'MetaMask' && (
-            <div className='m-2'>
-              <Button secondary onClick={handleAddTokenToMetaMask}>
-                {t('addTicketTokenToMetamask', {
-                  token: symbolForMetaMask,
-                })}
-              </Button>
-            </div>
-          )}
-
-          <div className='m-2'>
-            <ButtonLink secondary href={formatEtherscanAddressUrl(pool.poolAddress, chainId)}>
-              {t('viewPoolInEtherscan')}
-            </ButtonLink>
-          </div>
-
-          {usersAddress && <RevokePoolAllowanceTxButton pool={pool} />}
         </div>
       </motion.div>
 

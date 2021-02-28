@@ -3,8 +3,8 @@ import Link from 'next/link'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePools } from 'lib/hooks/usePools'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { usePlayerPrizesQuery } from 'lib/hooks/usePlayerPrizesQuery'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { sumAwardedControlledTokens } from 'lib/utils/sumAwardedControlledTokens'
@@ -16,7 +16,7 @@ export const AccountWinnings = () => {
 
   const { usersAddress } = useContext(AuthControllerContext)
 
-  const { contractAddresses } = usePools()
+  const { contractAddresses } = useContractAddresses()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''

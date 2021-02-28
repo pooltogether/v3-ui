@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import i18next from '../i18n'
+import Cookies from 'js-cookie'
 import * as Fathom from 'fathom-client'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
-import Cookies from 'js-cookie'
+import { HotKeys } from 'react-hotkeys'
 import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
 import { ReactQueryDevtools } from 'react-query-devtools'
@@ -11,7 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { QueryCache, ReactQueryCacheProvider } from 'react-query'
 import { Provider } from 'jotai'
 
-import { COOKIE_OPTIONS, REFERRER_ADDRESS_KEY } from 'lib/constants'
+import { HOTKEYS_KEY_MAP, COOKIE_OPTIONS, REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
 import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
@@ -176,7 +177,7 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   return (
-    <>
+    <HotKeys keyMap={HOTKEYS_KEY_MAP} className='outline-none focus:outline-none active:outline-none'>
       <Provider>
         <ReactQueryCacheProvider queryCache={queryCache}>
           <BodyClasses />
@@ -221,7 +222,7 @@ function MyApp({ Component, pageProps, router }) {
           </AllContextProviders>
         </ReactQueryCacheProvider>
       </Provider>
-    </>
+    </HotKeys>
   )
 }
 

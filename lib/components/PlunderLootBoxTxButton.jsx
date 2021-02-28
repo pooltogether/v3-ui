@@ -5,8 +5,8 @@ import LootBoxControllerAbi from '@pooltogether/loot-box/abis/LootBoxController'
 
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
+import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { usePools } from 'lib/hooks/usePools'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
 export function PlunderLootBoxTxButton(props) {
@@ -18,7 +18,7 @@ export function PlunderLootBoxTxButton(props) {
 
   const [txId, setTxId] = useState(0)
 
-  const { contractAddresses } = usePools()
+  const { contractAddresses } = useContractAddresses()
 
   const lootBoxControllerAddress = contractAddresses?.lootBoxController
   const lootBoxAddress = contractAddresses?.lootBox

@@ -60,7 +60,8 @@ export function RevokePoolAllowanceTxButton(props) {
     <>
       <div className='m-2'>
         <Button
-          secondary
+          noAnim
+          textSize='xxs'
           id='_revokePoolAllowance'
           onClick={handleRevokeAllowanceClick}
           disabled={tx?.sent && !tx?.completed}

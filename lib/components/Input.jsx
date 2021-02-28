@@ -30,11 +30,15 @@ export function Input(props) {
   }
 
   if (marginClasses === undefined) {
-    marginClasses = 'mb-2 lg:mb-2'
+    marginClasses = ''
   }
 
   if (paddingClasses === undefined) {
-    paddingClasses = 'px-8 py-3'
+    if (large) {
+      paddingClasses = 'px-12 py-3'
+    } else {
+      paddingClasses = 'px-8 py-3'
+    }
   }
 
   if (borderClasses === undefined) {
@@ -47,7 +51,7 @@ export function Input(props) {
 
   if (textClasses === undefined) {
     if (large) {
-      textClasses = 'font-bold text-3xl sm:text-5xl'
+      textClasses = 'text-3xl sm:text-4xl'
     } else if (small) {
       textClasses = 'text-xxs xs:text-xs sm:text-sm lg:text-base'
     } else {
@@ -104,8 +108,7 @@ export function Input(props) {
           pattern,
           validate,
         })}
-        // rounded-full
-        className={classnames(className, 'focus:outline-none pl-6')}
+        className={classnames(className, 'focus:outline-none')}
       />
     </>
   )
