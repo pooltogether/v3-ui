@@ -9,23 +9,23 @@ export const DepositExpectationsWarning = (props) => {
   return (
     <Banner
       gradient={null}
-      className='bg-functional-red mt-4 sm:mt-8'
+      className='bg-primary mt-4 sm:mt-8 mx-auto w-full'
       style={{ maxWidth: 380 }}
     >
       <img className='mx-auto mb-3 h-8' src={Bell} />
-      
-      <span className='text-functional-red sm:leading-tight sm:ml-2'>
+
+      <span className='sm:leading-tight sm:ml-2'>
         <Trans
           i18nKey='youCanWithdrawWithNoPenaltyDescription'
           defaults='You can withdraw with no penalty 10 days after depositing. Funds withdrawn earlier are subjected to up to a 1% early exit fee. <a>Learn more</a>'
           components={{
             a: <a
-              className='underline text-functional-red'
+              className='underline'
               href='https://docs.pooltogether.com/protocol/prize-pool/fairness'
               target='_blank'
             />
           }}
-        />        
+        />
       </span>
     </Banner>
   )
