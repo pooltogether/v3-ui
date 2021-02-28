@@ -274,7 +274,7 @@ export function DepositCryptoForm(props) {
           </>
         )}
 
-        <DepositExpectationsWarning />
+        {/* <DepositExpectationsWarning /> */}
 
       </div>
     </>
