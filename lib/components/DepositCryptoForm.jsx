@@ -274,11 +274,7 @@ export function DepositCryptoForm(props) {
           </>
         )}
 
-<<<<<<< HEAD
         <DepositExpectationsWarning />
-=======
-        {/* <DepositExpectationsWarning /> */}
->>>>>>> b7e13a0... * hide expectations for now
 
       </div>
     </>
