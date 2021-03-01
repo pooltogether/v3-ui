@@ -38,6 +38,12 @@ export const prizePoolFragment = gql`
     controlledTokens {
       ...controlledTokenFragment
     }
+
+    tokenCreditRates {
+      id
+      creditRateMantissa
+      creditLimitMantissa
+    }
   }
   ${prizeStrategyFragment}
 

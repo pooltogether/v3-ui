@@ -16,7 +16,6 @@ import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PTHint } from 'lib/components/PTHint'
-import { useExitFees } from 'lib/hooks/useExitFees'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
@@ -33,9 +32,7 @@ export function DepositCryptoForm(props) {
 
   const { pool } = usePool()
   const { usersChainData } = useUsersChainData(pool)
-  console.log(quantity)
-  const { exitFees } = useExitFees(pool, quantity)
-  
+
   const decimals = pool?.underlyingCollateralDecimals
   const tokenAddress = pool?.underlyingCollateralToken
   const ticker = pool?.underlyingCollateralSymbol
@@ -274,7 +271,7 @@ export function DepositCryptoForm(props) {
           </>
         )}
 
-        <DepositExpectationsWarning exitFees={exitFees} quantity={quantity} decimals={decimals} />
+        <DepositExpectationsWarning pool={pool} />
       </div>
     </>
   )
