@@ -54,10 +54,6 @@ export const PoolRowNew = (props) => {
     <img src={IconCoins} className='inline-block mr-2 w-4' /> {t('totalDeposited')} ${numberWithCommas(pool?.totalDepositedUSD, { precision: 0 })}
   </div>
 
-  if (parseFloat(pool?.totalPrizeAmountUSD) < 2) {
-    return null
-  }
-
   return (
     <>
       <InteractableCard

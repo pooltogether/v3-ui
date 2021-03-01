@@ -112,7 +112,6 @@ export function usePool(poolSymbol, blockNumber = -1) {
   const fetchingTotals =
     externalAwardsUSD === null || (ticketPrizeUSD === 0 && uniswapIsFetching && !uniswapIsFetched)
 
-
   let totalDepositedUSD
   if (pool.ticketSupply && pool.underlyingCollateralDecimals) {
     const ticketsFormatted = ethers.utils.formatUnits(

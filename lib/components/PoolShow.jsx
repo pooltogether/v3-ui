@@ -55,6 +55,9 @@ export const PoolShow = (props) => {
     setCookieShowAward(Cookies.get(SHOW_MANAGE_LINKS))
   }, 1000)
 
+  console.log(pool.id)
+
+
   if (!pool) {
     return <PoolShowLoader />
   }
