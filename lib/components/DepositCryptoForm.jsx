@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 
 import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/ControlledToken'
 
-import { Trans, useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { useTranslation } from 'lib/../i18n'
 import { usePool } from 'lib/hooks/usePool'
 import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { Button } from 'lib/components/Button'
@@ -17,6 +16,7 @@ import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PTHint } from 'lib/components/PTHint'
+import { useExitFees } from 'lib/hooks/useExitFees'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
@@ -31,11 +31,11 @@ export function DepositCryptoForm(props) {
   const router = useRouter()
   const quantity = router.query.quantity
 
-  const { usersAddress, provider } = useContext(AuthControllerContext)
-
   const { pool } = usePool()
   const { usersChainData } = useUsersChainData(pool)
-
+  console.log(quantity)
+  const { exitFees } = useExitFees(pool, quantity)
+  
   const decimals = pool?.underlyingCollateralDecimals
   const tokenAddress = pool?.underlyingCollateralToken
   const ticker = pool?.underlyingCollateralSymbol
@@ -274,8 +274,7 @@ export function DepositCryptoForm(props) {
           </>
         )}
 
-        {/* <DepositExpectationsWarning /> */}
-
+        <DepositExpectationsWarning exitFees={exitFees} quantity={quantity} decimals={decimals} />
       </div>
     </>
   )
