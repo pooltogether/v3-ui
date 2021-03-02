@@ -19,10 +19,10 @@ export const CommunityDisclaimerBanner = (props) => {
         <img className='shake' src={Bell} style={{ maxWidth: 40 }} />
       </div>
       
-      <h5 className='text-inverse sm:leading-tight sm:ml-2'>
-        {t('anyoneCanCreateAPrizePool')}
+      <div className='text-inverse sm:leading-tight sm:ml-2 text-xs xs:text-sm sm:text-lg lg:text-xl'>
+        <span className='font-bold'>{t('anyoneCanCreateAPrizePool')}</span>
         <br />
-        <span className='font-normal'><Trans
+        <Trans
           i18nKey='learnAboutCommunityPrizePoolsHere'
           defaults='Learn about community prize pools <a>here</a>'
           components={{
@@ -32,8 +32,8 @@ export const CommunityDisclaimerBanner = (props) => {
               href='https://medium.com/pooltogether/prize-pool-builder-9f9c95fad860'
             />
           }}
-        /></span>
-      </h5>
+        />
+      </div>
     </Banner>
   )
 }

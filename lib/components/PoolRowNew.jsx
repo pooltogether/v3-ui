@@ -63,15 +63,14 @@ export const PoolRowNew = (props) => {
         as={`/pools/${symbol}`}
         className='mt-1 sm:mt-2'
       >
-        <div className='flex flex-col xs:flex-row items-center justify-between text-inverse'>
-
-          <div className='pool-row-left-col h-full flex bg-body px-4 lg:px-8 pb-2 xs:pt-4 xs:pb-8 lg:pt-8 lg:pb-10 rounded-lg items-start justify-center xs:justify-start w-full xs:w-1/2'>
+        <div className='flex flex-col sm:flex-row items-center justify-between sm:justify-evenly text-inverse'>
+          <div className='pool-row-left-col h-full flex bg-body px-4 sm:px-6 lg:px-8 pb-2 sm:pt-4 sm:pb-8 lg:pt-8 lg:pb-10 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
             <div className='relative mr-2 mt-4' style={{ top: 1 }}>
               <PoolCurrencyIcon noMediaQueries lg pool={pool} />
             </div>
             
             <div className='flex flex-col'>
-              <div className='text-3xl xs:text-3xl sm:text-5xl text-flashy font-bold'>
+              <div className='text-3xl sm:text-3xl sm:text-5xl text-flashy font-bold'>
                 $<PoolCountUp fontSansRegular decimals={0} duration={6}>
                   {parseFloat(pool?.totalPrizeAmountUSD)}
                 </PoolCountUp>
@@ -84,7 +83,7 @@ export const PoolRowNew = (props) => {
           </div>
 
 
-          <div className='pool-row-right-col flex flex-col items-center w-full xs:w-1/2 mt-4 xs:mt-0'>
+          <div className='pool-row-right-col flex flex-col items-center w-full sm:w-1/2 mt-4 sm:mt-0'>
             <NewPrizeCountdown textSize='text-sm sm:text-lg lg:text-xl' pool={pool} />
 
             <Button
@@ -108,19 +107,19 @@ export const PoolRowNew = (props) => {
 
 
             <div className='flex items-center justify-between mt-3 w-full'>
-              <div className='hidden xs:flex'>
+              <div className='hidden sm:flex'>
                 <TotalDepositedChip />
               </div>
 
-              <span className='relative hidden xs:inline-block'>
+              <span className='relative hidden sm:inline-block'>
                 <ViewPoolDetailsButton />
               </span>
             </div>
 
-            <span className='mt-1 relative xs:hidden'>
+            <span className='mt-1 relative sm:hidden'>
               <TotalDepositedChip />
             </span>
-            <div className='xs:hidden mt-1'>
+            <div className='sm:hidden mt-1'>
               <ViewPoolDetailsButton />
             </div>
           </div>
