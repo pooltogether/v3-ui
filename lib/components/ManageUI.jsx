@@ -151,9 +151,7 @@ export const ManageUI = (props) => {
               <NewPrizeCountdown pool={pool} flashy={false} />
             </>
           ) : (
-            <>
-              <PoolActionsUI contractAddresses={contractAddresses} usersAddress={usersAddress} />
-            </>
+            <PoolActionsUI contractAddresses={contractAddresses} usersAddress={usersAddress} />
           )}
         </div>
       </div>
