@@ -11,7 +11,6 @@ export const InteractableCard = (props) => {
   return (
     <>
       <motion.li
-        layout
         onClick={props.onClick}
         whileTap={{ y: 1, scale: 0.98 }}
         className={classnames(
@@ -27,9 +26,9 @@ export const InteractableCard = (props) => {
         }}
       >
         <Link href={props.href} as={props.as}>
-          <motion.a layout id={id} className='p-4 xs:px-6 xs:py-4 inline-block w-full'>
+          <a id={id} className='p-4 xs:px-6 xs:py-4 inline-block w-full'>
             {props.children}
-          </motion.a>
+          </a>
         </Link>
       </motion.li>
     </>
