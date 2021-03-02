@@ -11,9 +11,9 @@ import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
+import { DepositPaneTitle } from 'lib/components/DepositPaneTitle'
 import { DepositTxButton } from 'lib/components/DepositTxButton'
 import { PaneTitle } from 'lib/components/PaneTitle'
-import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PTHint } from 'lib/components/PTHint'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -129,16 +129,9 @@ export function DepositCryptoForm(props) {
 
   return (
     <>
-      <PaneTitle>
-        <div className='font-bold inline-block sm:block relative mb-2' style={{ top: -2 }}>
-          <PoolCurrencyIcon lg pool={pool} />
-        </div>{' '}
-        {t('depositTickerToWin', {
-          ticker: tickerUpcased,
-        })}
-      </PaneTitle>
+      <DepositPaneTitle ticker={tickerUpcased} pool={pool} />
 
-      <div className='pool-gradient-2 text-white w-full text-center mx-auto my-4 sm:my-8 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-lg lg:text-2xl'>
+      <div className='pool-gradient-2 text-white w-full text-center mx-auto my-4 sm:my-8 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-xl lg:text-2xl'>
         <span className='mr-4'>{t('yourDeposit')}</span>
         <PoolNumber>{numberWithCommas(quantity, { precision: 4 })}</PoolNumber> {tickerUpcased}
       </div>

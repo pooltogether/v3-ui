@@ -8,15 +8,16 @@ import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { DepositInfoList } from 'lib/components/DepositInfoList'
-import { PaneTitle } from 'lib/components/PaneTitle'
-import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { Banner } from 'lib/components/Banner'
+import { DepositPaneTitle } from 'lib/components/DepositPaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { usePool } from 'lib/hooks/usePool'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { TxStatus } from 'lib/components/TxStatus'
 import { useTransaction } from 'lib/hooks/useTransaction'
+
+import IconStar from 'assets/images/icon-star@2x.png'
 
 const bn = ethers.utils.bigNumberify
 
@@ -85,47 +86,30 @@ export function ExecuteCryptoDeposit(props) {
 
   return (
     <>
-      <PaneTitle>
-        <div className='inline-block sm:block relative' style={{ top: -2 }}>
-          <PoolCurrencyIcon pool={pool} />
-        </div>{' '}
-        <Trans
-          i18nKey='depositAmountTicker'
-          defaults='Deposit <number>{{amount}}</number> {{ticker}}'
-          components={{
-            number: <PoolNumber />,
-          }}
-          values={{
-            amount: quantityFormatted,
-            ticker: tickerUpcased,
-          }}
+      <DepositPaneTitle ticker={tickerUpcased} pool={pool} />
+
+      <div className='pool-gradient-2 text-accent-1 w-full text-center mx-auto my-4 sm:mt-8 sm:mb-2 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-xl lg:text-2xl'>
+        <span className='mr-4'>{t('depositing')}</span>
+        <PoolNumber>{numberWithCommas(quantity, { precision: 4 })}</PoolNumber> {tickerUpcased}
+      </div>
+
+      <div style={{ minHeight: 103 }}>
+        <TxStatus
+          tx={tx}
+          inWalletMessage={t('confirmDepositInYourWallet')}
+          sentMessage={t('depositConfirming')}
         />
-      </PaneTitle>
-
-      <div className='-mt-2'>
-        <PaneTitle small>
-          <Trans
-            i18nKey='forAmountTickets'
-            defaults='for <number>{{amount}}</number> tickets'
-            components={{
-              number: <PoolNumber />,
-            }}
-            values={{
-              amount: quantityFormatted,
-            }}
-          />
-        </PaneTitle>
       </div>
 
-      <div className='mt-4'>
-        <DepositInfoList />
-      </div>
+      <Banner
+        gradient={null}
+        className='bg-primary mt-4 sm:mt-2 mx-auto w-full text-accent-1'
+        style={{ maxWidth: 380 }}
+      >
+        <img className='mx-auto mb-3 h-16' src={IconStar} />
 
-      <TxStatus
-        tx={tx}
-        inWalletMessage={t('confirmDepositInYourWallet')}
-        sentMessage={t('depositConfirming')}
-      />
+        <p>{t('ticketsAreInstantAndPerpetual')}<br />{t('winningsAutomaticallyAdded')}</p>
+      </Banner>
     </>
   )
 }

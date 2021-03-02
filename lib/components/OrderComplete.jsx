@@ -48,13 +48,22 @@ export function OrderComplete(props) {
 
   return (
     <>
-      <PaneTitle small>{t('depositComplete')}</PaneTitle>
+      <PaneTitle>
+        <span className={`mx-auto`} role='img' aria-label='confetti emoji'>
+          🎉
+        </span> <span className={`mx-auto`} role='img' aria-label='confetti emoji'>
+          🎉
+        </span> <span className={`mx-auto`} role='img' aria-label='confetti emoji'>
+          🎉
+        </span>
+      </PaneTitle>
+      <PaneTitle>{t('successfullyDeposited')}</PaneTitle>
 
-      <div className='-mt-2'>
-        <PaneTitle>
+      <div className='border-highlight-2 border-2 bg-accent-grey-1 p-4 sm:p-8 my-4 sm:my-8 rounded-lg'>
+        <h1 className='text-highlight-2'>
           <Trans
-            i18nKey='youGotAmountTickets'
-            defaults='You got <number>{{amount}}</number> tickets!'
+            i18nKey='AmountTickets'
+            defaults='<number>{{amount}}</number> tickets'
             components={{
               number: <PoolNumber />,
             }}
@@ -62,31 +71,29 @@ export function OrderComplete(props) {
               amount: numberWithCommas(quantity, { precision: 2 }),
             }}
           />
-        </PaneTitle>
-      </div>
+        </h1>
 
-      <div className='mb-6 text-highlight-3 text-sm'>
-        <div className='mb-6'>
-          {t('youNowHaveAmountTicketsInTheTickerPool', {
-            amount: numberWithCommas(Number(prevBalance) + Number(quantity), { precision: 4 }),
-            ticker: pool?.underlyingCollateralSymbol,
-          })}
-        </div>
-        <div className='mb-6'>
-          {t('youWillBeEligibleToWinPrizeEveryFrequency', {
-            frequency: t('week')
-          })}
-        </div>
-        <div className='mb-3'>
-          {t('theNextPrizeWillBeAwardedIn')}
-          <br />
-          <div className='font-bold text-flashy'>
-            <NewPrizeCountdownInWords pool={pool} />
+        <div className='mb-4 text-highlight-2 text-sm'>
+          <div className='mt-4'>
+            {t('youNowHaveAmountTicketsInTheTickerPool', {
+              amount: numberWithCommas(Number(prevBalance) + Number(quantity), { precision: 4 }),
+              ticker: pool?.underlyingCollateralSymbol,
+            })}
+          </div>
+          <div className='mb-6'>
+            {t('youWillBeEligibleToWinPrizeEveryFrequency', {
+              frequency: t('week')
+            })}
+          </div>
+          <div className='mb-3 text-inverse'>
+            {t('theNextPrizeWillBeAwardedIn')}
+            <br />
+            <div className='font-bold text-flashy'>
+              <NewPrizeCountdownInWords pool={pool} />
+            </div>
           </div>
         </div>
       </div>
-
-      {/* <AccountEmailSignup /> */}
 
       <div className='mt-4'>
         <ButtonLink href='/account' as='/account' textSize='lg'>
