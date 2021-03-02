@@ -22,7 +22,9 @@ const COMMUNITY_POOLS_BLOCK_LIST = [
   '0x8f961526bc2fb2a55287522e728a7717d78ecc19',
   '0xb2153afa4b1bf7bfd89a3c94df5acc13d93558f7',
   '0xcc6f8a4b3f04c688ea8681eb5ba33a5bc2f9df21',
-  '0x3e2e88f6eaa189e397bf87153e085a757028c069'
+  '0x3e2e88f6eaa189e397bf87153e085a757028c069',
+  '0x91d7bbd2a8dfe4be5b88d4224b461de9b36d2aa9',
+  '0x55ab6e07fb3ae2598fe463ea4dcf872a006fec77',
 ]
 
 export function useCommunityPoolAddresses() {
