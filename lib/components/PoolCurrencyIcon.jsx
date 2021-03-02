@@ -13,6 +13,7 @@ import BatSvg from 'assets/images/bat-new-transparent.png'
 import CompSvg from 'assets/images/comp.svg'
 import UniSvg from 'assets/images/token-uni.png'
 import UniThemeLightSvg from 'assets/images/uniwap-theme-light-logo.svg'
+import ZrxSvg from 'assets/images/zrx-new-transparent.png'
 
 // This was separated into it's own component to comply with the rules of hooks
 const CoingeckoOrPlaceholder = (props) => {
@@ -57,6 +58,8 @@ export const PoolCurrencyIcon = (props) => {
     src = CompSvg
   } else if (symbol === 'bat') {
     src = BatSvg
+  } else if (symbol === 'zrx') {
+    src = ZrxSvg
   } else if (symbol === 'uni') {
     src = theme === 'light' ? UniThemeLightSvg : UniSvg
   }
