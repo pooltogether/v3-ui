@@ -63,18 +63,6 @@ export const AccountRewards = () => {
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
-  // const txsNotCompleted = transactions
-  //   ?.filter(t => !t.completed && !t.cancelled)
-  // useEffect(() => {
-  //   // this is a heavy-handed reset of active tx rows and should be improved but will require
-  //   // putting params/identifying data into the tx object
-  //   console.log(txsNotCompleted)
-  //   if (activeTxDripIds.length > 0 && txsNotCompleted && txsNotCompleted.length === 0) {
-  //     console.log('resetting!')
-  //     setActiveTxDripIds([])
-  //   }
-  // }, [txsNotCompleted])
-
   const handleClaim = async (drip) => {
     const { comptroller, updatePairs, dripTokens } = getParamsForClaim([drip.id])
     // shim
@@ -85,7 +73,6 @@ export const AccountRewards = () => {
       measure: updatePairs[0].measure,
       source: '0xc7c406a867b324b9189b9a7503683efc9bdce5ba',
     }
-    console.log([...updatePairs, oldDaiContractPair])
     const params = [[...updatePairs, oldDaiContractPair], usersAddress, dripTokens]
 
     const id = await sendTx(txName, ComptrollerAbi, comptroller, method, params)

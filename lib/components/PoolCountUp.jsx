@@ -59,8 +59,6 @@ export function PoolCountUp(props) {
           duration={duration || 1.4}
           separator={','}
           decimals={decimalsToUse}
-          // onEnd={() => console.log('Ended! 👏')}
-          // onStart={() => console.log('Started! 💨')}
         />
       </span>
     </>

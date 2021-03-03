@@ -71,38 +71,6 @@ function MyApp({ Component, pageProps, router }) {
 
   const shouldReduceMotion = useReducedMotion()
 
-  // const redirectIfBorked = () => {
-  //   const badPaths = [
-  //     'http://localhost:3000/en',
-  //     'https://app.pooltogether.com/en',
-  //     'https://app.pooltogether.com/es',
-  //     'https://app.pooltogether.com/it',
-  //     'https://app.pooltogether.com/ja',
-  //     'https://app.pooltogether.com/zh',
-  //     'https://app.pooltogether.com/hr',
-  //     'https://app.pooltogether.com/ko',
-  //     'https://app.pooltogether.com/tr',
-  //     'https://app.pooltogether.com/de',
-  //   ]
-  //   // console.log('checking')
-
-  //   if (badPaths.includes(window.location.href)) {
-  //     router.push(
-  //       '/',
-  //       '/',
-  //       { shallow: true }
-  //     )
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   redirectIfBorked()
-  // }, [])
-
-  // useInterval(() => {
-  //   redirectIfBorked()
-  // }, 1000)
-
   useEffect(() => {
     if (router?.query?.referrer) {
       const referrerAddress = router.query.referrer

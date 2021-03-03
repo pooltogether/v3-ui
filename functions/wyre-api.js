@@ -26,14 +26,9 @@ async function reserveOrder(event, callback) {
     },
   }
 
-  console.log(url)
-  console.log(params)
-  console.log(config)
-
   let result
   try {
     result = await axiosInstance.post(url, params, config)
-    console.log(result)
 
     if (result.status < 400) {
       callback(null, {

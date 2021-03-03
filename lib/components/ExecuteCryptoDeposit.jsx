@@ -59,7 +59,7 @@ export function ExecuteCryptoDeposit(props) {
         ethers.utils.getAddress(referrerAddress)
       } catch (e) {
         referrerAddress = ethers.constants.AddressZero
-        console.log(`referrer address was an invalid Ethereum address:`, e.message)
+        console.warn(`referrer address was an invalid Ethereum address:`, e.message)
       }
 
       const quantityBN = ethers.utils.parseUnits(quantity, Number(decimals))

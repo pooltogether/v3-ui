@@ -233,6 +233,7 @@ export const LootBoxWon = (props) => {
 
   return (
     <TimeTravelPool
+      poolSplitExternalErc20Awards={pool?.splitExternalErc20Awards}
       blockNumber={blockNumber}
       poolAddress={poolAddress}
       querySymbol={pool?.symbol}

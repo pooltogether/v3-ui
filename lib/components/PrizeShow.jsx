@@ -55,12 +55,10 @@ export function PrizeShow(props) {
       />
 
       <div className='rounded-lg px-4 xs:px-6 sm:px-10 py-4 text-white my-4 sm:mt-8 sm:mb-4 mx-auto border-flashy purple-pink-gradient-animation'>
-        <div>
-          <h1>
-            {preAwardTimeTravelPool?.totalPrizeAmountUSD &&
-              `$${numberWithCommas(preAwardTimeTravelPool?.totalPrizeAmountUSD)}`}
-          </h1>
-        </div>
+        <h1>
+          {preAwardTimeTravelPool?.totalPrizeAmountUSD &&
+            `$${numberWithCommas(preAwardTimeTravelPool?.totalPrizeAmountUSD)}`}
+        </h1>
       </div>
 
       <PrizeBreakdown

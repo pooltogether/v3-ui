@@ -27,7 +27,7 @@ export function WalletContextProvider(props) {
     if (onboard) {
       onboard.walletReset()
     } else {
-      console.log('no onboard?')
+      console.warn('no onboard?')
     }
 
     Cookies.remove(SELECTED_WALLET_COOKIE_KEY, COOKIE_OPTIONS)
@@ -76,7 +76,7 @@ export function WalletContextProvider(props) {
     const hasWalletCookie = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
 
     if (hasWalletCookie) {
-      // console.log('handleLoadOnboard from cookie')
+      // console.warn('handleLoadOnboard from cookie')
       handleLoadOnboard()
     }
   }, [])

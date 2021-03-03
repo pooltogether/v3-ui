@@ -26,11 +26,7 @@ export const PoolShowCards = (props) => {
     {
       icon: PlayersIcon,
       title: t('players'),
-      content: (
-        <>
-          <h3>{numberWithCommas(pool?.playerCount, { precision: 0 })}</h3>
-        </>
-      ),
+      content: <h3>{numberWithCommas(pool?.playerCount, { precision: 0 })}</h3>
     },
     {
       icon: TicketsIcon,
@@ -52,30 +48,20 @@ export const PoolShowCards = (props) => {
       icon: TicketsIcon,
       title: t('totalDeposited'),
       content: (
-        <>
-          <h3 className='mt-2'>
-            $<PoolNumber>{numberWithCommas(pool.totalDepositedUSD, { precision: 2 })}</PoolNumber>
-          </h3>
-        </>
+        <h3 className='mt-2'>
+          $<PoolNumber>{numberWithCommas(pool.totalDepositedUSD, { precision: 2 })}</PoolNumber>
+        </h3>
       ),
     },
     {
       icon: PrizeStrategyIcon,
       title: t('prizeStrategy'),
-      content: (
-        <>
-          <h6>{t('multipleWinnersStrategyDescription')}</h6>
-        </>
-      ),
+      content: <h6>{t('multipleWinnersStrategyDescription')}</h6>
     },
     {
       icon: PrizeIcon,
       title: t('pastFiveWinners'),
-      content: (
-        <>
-          <LastWinnersListing pool={pool} />
-        </>
-      ),
+      content: <LastWinnersListing pool={pool} />,
     },
   ]
 

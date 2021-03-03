@@ -67,6 +67,7 @@ export default function PrizeShowPage(props) {
 
   return (
     <TimeTravelPool
+      poolSplitExternalErc20Awards={pool?.splitExternalErc20Awards}
       blockNumber={parseInt(prize?.awardedBlock, 10)}
       poolAddress={pool.id}
       querySymbol={querySymbol}
