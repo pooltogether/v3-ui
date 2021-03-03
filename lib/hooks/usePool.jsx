@@ -91,7 +91,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(lootBox.awards)
 
-  let ticketPrizeUSD = calculateEstimatedPoolPrize(pool)
+  let ticketPrizeUSD = parseFloat(calculateEstimatedPoolPrize(pool))
 
   if (underlyingCollateralValueUSD) {
     ticketPrizeUSD = (ticketPrizeUSD * parseInt(underlyingCollateralValueUSD * 100, 10)) / 100
