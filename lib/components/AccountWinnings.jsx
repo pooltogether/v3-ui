@@ -53,35 +53,38 @@ export const AccountWinnings = () => {
         <div className='flex justify-between xs:py-4 pb-0 px-2 xs:px-4'>
 
           <div className='w-1/2'>
-            <div className='mb-10 font-bold'>
-              {t('youHaveNotWonYet')}
-              <br />{t('keepYourDepositsInThePoolsToWin')}
-            </div>
-
-            <table className='table-fixed text-xxs xs:text-base sm:text-xl w-full'>
-              <tbody>
-                {awardKeys.map(awardKey => {
-                  const award = awarded[awardKey]
-
-                  return <tr key={`award-winnings-row-${awardKey}`}>
-                    <td className='px-2 sm:px-3 text-left font-bold'>
-                      <span className='mr-2'>
-                        <PoolCurrencyIcon sm pool={{ underlyingCollateralSymbol: award.ticker }} />
-                      </span>
-                      {displayAmountInEther(award.total, {
-                        precision: 2,
-                        decimals: award.decimals
-                      })} {award.ticker}
-                    </td>
-                  </tr>
-                })}
-              </tbody>
-            </table>
             {/* TODO: Bring back the USD value of all winnings, when they won them and with all external tokens and lootbox tokens */}
             {/* <h6 className='flex items-center font-normal'>{t('allTimeWinnings')}</h6> */}
             {/* <h3> */}
-              {/* $<PoolNumber>{displayAmountInEther(total, { precision: 2 })}</PoolNumber> */}
+            {/* $<PoolNumber>{displayAmountInEther(total, { precision: 2 })}</PoolNumber> */}
             {/* </h3> */}
+            {awardKeys.length === 0 ? (
+              <div className='mb-10 font-bold'>
+                {t('youHaveNotWonYet')}
+                <br />{t('keepYourDepositsInThePoolsToWin')}
+              </div>
+            ) : (
+              <table className='table-fixed text-xxs xs:text-base sm:text-xl w-full'>
+                <tbody>
+                  {awardKeys.map(awardKey => {
+                    const award = awarded[awardKey]
+
+                    return <tr key={`award-winnings-row-${awardKey}`}>
+                      <td className='px-2 sm:px-3 text-left font-bold'>
+                        <span className='mr-2'>
+                          <PoolCurrencyIcon sm pool={{ underlyingCollateralSymbol: award.ticker }} />
+                        </span>
+                        {displayAmountInEther(award.total, {
+                          precision: 2,
+                          decimals: award.decimals
+                        })} {award.ticker}
+                      </td>
+                    </tr>
+                  })}
+                </tbody>
+              </table>
+            )}
+
           </div>
 
           <div className='ml-auto'>
