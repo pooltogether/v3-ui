@@ -24,12 +24,13 @@ import { useAccount } from 'lib/hooks/useAccount'
 import { usePools } from 'lib/hooks/usePools'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
+import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
 import { useClaimablePoolFromTokenFaucets } from 'lib/hooks/useClaimablePoolFromTokenFaucets'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { usePool } from 'lib/hooks/usePool'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
+import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -40,9 +41,15 @@ export const AccountGovernanceClaims = (props) => {
   const { pools, poolsGraphData } = usePools()
   const { t } = useTranslation()
 
-  const { isFetched, refetch: refetchTotalClaimablePool } = useClaimablePoolFromTokenFaucets()
-  const { networkName, chainId, usersAddress, walletName } = useContext(AuthControllerContext)
+  const { refetch: refetchTotalClaimablePool } = useClaimablePoolFromTokenFaucets()
+  const { chainId, usersAddress, walletName } = useContext(AuthControllerContext)
   const { refetch: refetchPoolTokenData } = usePoolTokenData()
+
+  const govTokenAddress = CONTRACT_ADDRESSES[chainId]?.GovernanceToken?.toLowerCase()
+  const addresses = [govTokenAddress]
+  const { data: uniswapPriceData, error: uniswapError } = useUniswapTokensQuery(addresses)
+  if (uniswapError) { console.error(uniswapError) }
+  const poolTokenUSD = uniswapPriceData?.[govTokenAddress]?.usd
 
   const refetchAllPoolTokenData = () => {
     refetchTotalClaimablePool()
@@ -53,7 +60,7 @@ export const AccountGovernanceClaims = (props) => {
     return null
   }
 
-  const earningsStarted = Date.now() / 1000 > 1613606400
+  // const earningsStarted = Date.now() / 1000 > 1613606400
 
   const handleAddTokenToMetaMask = (e) => {
     e.preventDefault()
@@ -74,6 +81,7 @@ export const AccountGovernanceClaims = (props) => {
               key={pool.id}
               pool={pool}
               poolGraphData={poolsGraphData[pool.symbol]}
+              poolTokenUSD={poolTokenUSD}
             />
           )
         })}
@@ -223,18 +231,20 @@ const ClaimAllButton = (props) => {
 }
 
 const ClaimablePoolTokenItem = (props) => {
+  const { pool, poolGraphData, refetchAllPoolTokenData, poolTokenUSD } = props
+  
   const { t } = useTranslation()
-  const { pool, poolGraphData, refetchAllPoolTokenData } = props
   const { usersAddress } = useContext(AuthControllerContext)
   const { accountData } = useAccount(usersAddress)
   const { playerTickets } = usePlayerTickets(accountData)
+
   const { symbol } = pool
   const { pool: poolInfo } = usePool(symbol)
   const tokenFaucetAddress = poolInfo.tokenListener
   const { underlyingCollateralDecimals, underlyingCollateralSymbol } = poolInfo
   const name = t('prizePoolTicker', { ticker: underlyingCollateralSymbol })
 
-  const { refetch: refetchClaimablePool, data, isFetched } = useClaimablePoolFromTokenFaucet(
+  const { refetch: refetchClaimablePool, data } = useClaimablePoolFromTokenFaucet(
     tokenFaucetAddress
   )
 
@@ -270,10 +280,9 @@ const ClaimablePoolTokenItem = (props) => {
     precision: getPrecision(totalDripPerDay)
   })
 
-  // const apy = ((totalDripPerDay * 365) / totalSupplyOfTickets) * 100
-
   const totalSupplyUSD = poolInfo.totalDepositedUSD
-  const apy = ((totalDripPerDay * 365) / totalSupplyUSD) * 100
+  // (Daily distribution rate * price / pool AUM) * 365
+  const apy = (((totalDripPerDay * poolTokenUSD) / totalSupplyUSD) * 365) * 100
 
   const secondsLeft = faucetPoolSupplyBN?.div(dripRatePerSecond).toNumber()
 
@@ -288,7 +297,7 @@ const ClaimablePoolTokenItem = (props) => {
         <div className='xs:w-64'>
           <h5 className='leading-none'>{name}</h5>
 
-          <div className='text-accent-1 text-xs mb-1 mt-2 sm:mt-1 opacity-60 trans hover:opacity-100'>
+          <div className='text-accent-1 text-xs mb-1 mt-2 sm:mt-1 opacity-80 trans hover:opacity-100'>
             {t('poolNamesDripRate', { poolName: name })}
             <br />
             {totalDripPerDayFormatted}{' '}
@@ -299,8 +308,7 @@ const ClaimablePoolTokenItem = (props) => {
             />{' '}
             POOL / <span className='lowercase'>{t('day')}</span>
             <br />
-            {/* TODO: Currently based on POOL = $1, which is wrong */}
-            {/* {displayPercentage(apy)}% APY */}
+            {displayPercentage(apy)}% APY
           </div>
 
           <RewardTimeLeft initialSecondsLeft={secondsLeft} />
@@ -310,12 +318,12 @@ const ClaimablePoolTokenItem = (props) => {
       <div className='sm:text-right'>
         <p className='text-inverse font-bold'>{t('availableToClaim')}</p>
         <h4 className='leading-none flex items-center sm:justify-end'>
-          <span className={classnames({ 'opacity-60': amount === 0 })}>
+          <span className={classnames({ 'opacity-80': amount === 0 })}>
             <img src={PoolIcon} className='inline-block w-6 h-6 -mt-1' />{' '}
             <ClaimableAmountCountUp amount={amount} />
           </span>
         </h4>
-        <div className='text-accent-1 text-xs mb-2 flex items-center sm:justify-end mt-1 opacity-60 trans hover:opacity-100'>
+        <div className='text-accent-1 text-xs mb-2 flex items-center sm:justify-end mt-1 opacity-80 trans hover:opacity-100'>
           {usersDripPerDayFormatted} <img src={PoolIcon} className='inline-block w-4 h-4 mx-2' />{' '}
           POOL /&nbsp;<span className='lowercase'>{t('day')}</span>
         </div>
@@ -421,7 +429,7 @@ const RewardTimeLeft = (props) => {
   const textColor = determineColor(secondsLeft)
 
   return (
-    <div className='flex items-center text-accent-1 sm:mt-1 opacity-60 trans hover:opacity-100'>
+    <div className='flex items-center text-accent-1 sm:mt-1 opacity-80 trans hover:opacity-100'>
       <span className='inline-block'>{t('endsIn')}</span>
 
       <div className='inline-flex items-center text-orange'>
