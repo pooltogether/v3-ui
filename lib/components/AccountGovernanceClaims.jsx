@@ -82,8 +82,6 @@ export const AccountGovernanceClaims = (props) => {
               pool={pool}
               poolGraphData={poolsGraphData[pool.symbol]}
               poolTokenUSD={poolTokenUSD}
-              govTokenAddress={govTokenAddress}
-              uniswapPriceData={uniswapPriceData}
             />
           )
         })}
