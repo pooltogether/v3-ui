@@ -299,8 +299,7 @@ const ClaimablePoolTokenItem = (props) => {
             />{' '}
             POOL / <span className='lowercase'>{t('day')}</span>
             <br />
-            {/* TODO: Currently based on POOL = $1, which is wrong */}
-            {/* {displayPercentage(apy)}% APY */}
+            {displayPercentage(apy)}% APY
           </div>
 
           <RewardTimeLeft initialSecondsLeft={secondsLeft} />
