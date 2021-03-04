@@ -6,12 +6,12 @@ import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { Meta } from 'lib/components/Meta'
 
 class MyDocument extends Document {
-  static async getInitialProps(ctx) {
+  static async getInitialProps (ctx) {
     const initialProps = await Document.getInitialProps(ctx)
     return { ...initialProps }
   }
 
-  render() {
+  render () {
     const title = 'PoolTogether App'
     const url = `https://app.pooltogether.com`
     const description = `Win $ every week just by saving your money.`
@@ -53,8 +53,6 @@ class MyDocument extends Document {
             />
             <meta property='twitter:url' content={url} />
             <meta property='twitter:creator' content={twitterHandle} />
-
-            <script type='text/javascript' src='/graph-error-modal.js' />
           </>
         </Head>
         <body className='bg-body'>
