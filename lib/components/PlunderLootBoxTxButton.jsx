@@ -9,7 +9,7 @@ import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
-export function PlunderLootBoxTxButton(props) {
+export function PlunderLootBoxTxButton (props) {
   const { t } = useTranslation()
 
   const { alreadyClaimed, prizeNumber, pool } = props
@@ -24,7 +24,7 @@ export function PlunderLootBoxTxButton(props) {
   const lootBoxAddress = contractAddresses?.lootBox
 
   const txName = t(`claimLootBoxNumber`, {
-    number: prizeNumber,
+    number: prizeNumber
   })
   const method = 'plunder'
 
@@ -43,14 +43,14 @@ export function PlunderLootBoxTxButton(props) {
       lootBoxAwards.erc20s.map((award) => award.erc20Entity.id),
       lootBoxAwards.erc721s.map((award) => ({
         token: award.erc721Entity.id,
-        tokenIds: [award.tokenId],
+        tokenIds: [award.tokenId]
       })),
       lootBoxAwards.erc1155s.map((award) => ({
         token: award.erc1155Entity.id,
         ids: [award.tokenId],
-        amounts: [ethers.utils.bigNumberify(award.balance)],
-        data: [],
-      })),
+        amounts: [ethers.BigNumber.from(award.balance)],
+        data: []
+      }))
     ]
 
     const id = await sendTx(txName, LootBoxControllerAbi, lootBoxControllerAddress, method, params)

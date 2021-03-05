@@ -11,7 +11,7 @@ export const AllPoolsTotalAwarded = (props) => {
 
   const { pools } = usePools()
 
-  let cumulativePrizeNetAllPools = ethers.utils.bigNumberify(0)
+  let cumulativePrizeNetAllPools = ethers.BigNumber.from(0)
   pools?.forEach((_pool) => {
     if (_pool.cumulativePrizeNet) {
       const decimals = _pool?.underlyingCollateralDecimals

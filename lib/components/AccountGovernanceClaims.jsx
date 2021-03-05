@@ -48,7 +48,9 @@ export const AccountGovernanceClaims = (props) => {
   const govTokenAddress = CONTRACT_ADDRESSES[chainId]?.GovernanceToken?.toLowerCase()
   const addresses = [govTokenAddress]
   const { data: uniswapPriceData, error: uniswapError } = useUniswapTokensQuery(addresses)
-  if (uniswapError) { console.error(uniswapError) }
+  if (uniswapError) {
+    console.error(uniswapError)
+  }
   const poolTokenUSD = uniswapPriceData?.[govTokenAddress]?.usd
 
   const refetchAllPoolTokenData = () => {
@@ -232,7 +234,7 @@ const ClaimAllButton = (props) => {
 
 const ClaimablePoolTokenItem = (props) => {
   const { pool, poolGraphData, refetchAllPoolTokenData, poolTokenUSD } = props
-  
+
   const { t } = useTranslation()
   const { usersAddress } = useContext(AuthControllerContext)
   const { accountData } = useAccount(usersAddress)
@@ -257,7 +259,7 @@ const ClaimablePoolTokenItem = (props) => {
   const ticketTotalSupply = poolGraphData?.ticket?.totalSupply || 0
   const totalSupplyOfTickets = Number(
     ethers.utils.formatUnits(
-      ethers.utils.bigNumberify(ticketTotalSupply),
+      ethers.BigNumber.from(ticketTotalSupply),
       Number(underlyingCollateralDecimals || 0)
     )
   )
@@ -282,7 +284,7 @@ const ClaimablePoolTokenItem = (props) => {
 
   const totalSupplyUSD = poolInfo.totalDepositedUSD
   // (Daily distribution rate * price / pool AUM) * 365
-  const apy = (((totalDripPerDay * poolTokenUSD) / totalSupplyUSD) * 365) * 100
+  const apy = ((totalDripPerDay * poolTokenUSD) / totalSupplyUSD) * 365 * 100
 
   const secondsLeft = faucetPoolSupplyBN?.div(dripRatePerSecond).toNumber()
 

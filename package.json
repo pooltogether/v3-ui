@@ -89,7 +89,7 @@
     "date-fns-tz": "^1.0.12",
     "email-validator": "^2.0.4",
     "eth-revert-reason": "^1.0.3",
-    "ethers": "^4.0.47",
+    "ethers": "^5.0.31",
     "fathom-client": "^3.0.0",
     "feather-icons-react": "^0.4.1",
     "framer-motion": "3.7.0",

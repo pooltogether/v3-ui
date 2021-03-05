@@ -17,7 +17,7 @@ import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
-export function DepositOrWithdrawSponsorshipModal(props) {
+export function DepositOrWithdrawSponsorshipModal (props) {
   const { t } = useTranslation()
   const { decimals, handleClose, isWithdraw, tickerUpcased, visible } = props
 
@@ -39,7 +39,7 @@ export function DepositOrWithdrawSponsorshipModal(props) {
 
   const { register, errors, watch, setValue } = useForm({
     mode: 'all',
-    reValidateMode: 'onChange',
+    reValidateMode: 'onChange'
   })
 
   const onSubmit = () => {}
@@ -51,7 +51,7 @@ export function DepositOrWithdrawSponsorshipModal(props) {
 
   const quantity = watch('quantity')
 
-  let quantityBN = ethers.utils.bigNumberify(0)
+  let quantityBN = ethers.BigNumber.from(0)
   if (decimals) {
     quantityBN = ethers.utils.parseUnits(quantity || '0', Number(decimals))
   }
@@ -74,13 +74,13 @@ export function DepositOrWithdrawSponsorshipModal(props) {
     validate = {
       greaterThanBalance: (value) =>
         ethers.utils.parseUnits(value, decimals).lte(usersSponsorshipBalanceBN) ||
-        t('enterAmountLowerThanSponsorshipBalance'),
+        t('enterAmountLowerThanSponsorshipBalance')
     }
   } else {
     validate = {
       greaterThanBalance: (value) =>
         ethers.utils.parseUnits(value, decimals).lte(usersTokenBalanceBN) ||
-        t('enterAmountLowerThanTokenBalance'),
+        t('enterAmountLowerThanTokenBalance')
     }
   }
 
@@ -131,7 +131,7 @@ export function DepositOrWithdrawSponsorshipModal(props) {
           <div
             className='mt-2 text-sm text-highlight-1 font-bold mb-2'
             style={{
-              minHeight: 24,
+              minHeight: 24
             }}
           >
             {Object.values(errors).length > 0 && (
