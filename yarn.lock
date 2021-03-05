@@ -4213,10 +4213,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.2.0-beta.3.tgz#2278bcbe75025cdbb5692ee835b76834d8223f46"
   integrity sha512-X9XrSFjADDK/NbTuRB33HY0VEWKvnanyQNv1oZiriuie3LMxe89BsQMLdteJNGuR7j2GYKWjMV5BrA/vUJzb3g==
 
-"@pooltogether/etherplex@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@pooltogether/etherplex/-/etherplex-0.2.3.tgz#9f569eda470a48e5b6a2edb34917e6de5e8d82b2"
-  integrity sha512-ILA+2P9Pb3HAjm9Gr1nBJZlfS+gcLFGvoktPLSL3pRy+pM4MOBNkJZ/FgDEDaYV9+/pxabtODpWjdjzpKW1rww==
+"@pooltogether/etherplex@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@pooltogether/etherplex/-/etherplex-1.0.0.tgz#d5c64c4917302222c8ad8de25999fa200ff5dc47"
+  integrity sha512-XnHgklwsEV5BN95dwBDtIQ+ISqVRbMzwc8/foLE/wL8RLkvIPzvv5QOucrzeaEpDcpBbgiG/+C1BVM/z2TSFTg==
   dependencies:
     debug "^4.1.1"
     lodash "^4.17.15"
