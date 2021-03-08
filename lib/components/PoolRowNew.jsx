@@ -9,10 +9,12 @@ import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
+import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
+import { useTokenFaucetAPY } from 'lib/hooks/useTokenFaucetAPY'
 import { usePool } from 'lib/hooks/usePool'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { displayPercentage } from 'lib/utils/displayPercentage'
 
-import IconCoins from 'assets/images/icon-coins@2x.png'
+import PoolIcon from 'assets/images/pool-icon.svg'
 
 export const PoolRowNew = (props) => {
   const { querySymbol } = props
@@ -44,12 +46,13 @@ export const PoolRowNew = (props) => {
     </button>
   )
 
-  const TotalDepositedChip = () => (
-    <div className='text-xxxs text-accent-1'>
-      <img src={IconCoins} className='inline-block mr-2 w-4' /> {t('totalDeposited')} $
-      {numberWithCommas(pool?.totalDepositedUSD, { precision: 0 })}
+  const ApyChip = () => (
+    <div className='text-xxxs text-accent-1 flex items-center'>
+      <img src={PoolIcon} className='inline-block mr-2 w-4' /> {displayPercentage(apy)}% APY
     </div>
   )
+
+  const apy = useTokenFaucetAPY(pool)
 
   return (
     <>
@@ -101,18 +104,14 @@ export const PoolRowNew = (props) => {
             </Button>
 
             <div className='flex items-center justify-between mt-3 w-full'>
-              <div className='hidden xs:flex'>
-                <TotalDepositedChip />
-              </div>
+              <div className='hidden xs:flex'>{apy && <ApyChip />}</div>
 
               <span className='relative hidden xs:inline-block'>
                 <ViewPoolDetailsButton />
               </span>
             </div>
 
-            <span className='mt-1 relative xs:hidden'>
-              <TotalDepositedChip />
-            </span>
+            <span className='mt-1 relative xs:hidden'>{apy && <ApyChip />}</span>
             <div className='xs:hidden mt-1'>
               <ViewPoolDetailsButton />
             </div>

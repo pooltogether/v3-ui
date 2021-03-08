@@ -26,12 +26,14 @@ export const UpcomingPrizeBreakdownCard = (props) => {
     pool?.ticketPrizePerWinnerUSD &&
     `$${numberWithCommas(pool?.ticketPrizePerWinnerUSD, { precision: 2 })}`
 
+  const hasTicketPrize = Boolean(parseFloat(pool?.ticketPrizeUSD))
+
   let strategyDescriptionBasic
   if (Boolean(pool?.splitExternalErc20Awards)) {
     strategyDescriptionBasic = t('prizeSplitEvenlyBetweenAllWinners', {
       numberOfWinners: pool?.numberOfWinners
     })
-  } else if (Boolean(pool?.ticketPrizeUSD)) {
+  } else if (hasTicketPrize) {
     strategyDescriptionBasic = t('prizeInterestSplitBetweenNWinners', {
       numberOfWinnersMinusOne
     })
@@ -60,7 +62,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
         <div className='flex flex-col xs:flex-row'>
           {computedLootBoxAddress && <div className='hidden sm:block sm:w-2/12'>&nbsp;</div>}
 
-          {Boolean(pool?.ticketPrizeUSD) && (
+          {hasTicketPrize && (
             <div
               className={classnames(
                 'flex flex-col items-center justify-center text-center w-full h-56 xs:h-64',
@@ -108,7 +110,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
           )}
         </div>
 
-        {Boolean(pool?.ticketPrizeUSD) && (
+        {hasTicketPrize && (
           <div className='xs:bg-primary mt-1 xs:mt-0 py-2 xs:py-5 rounded-lg'>
             <table className='theme-light--no-gutter mx-4 w-full text-xxxs xs:text-xxs sm:text-sm align-top'>
               <tbody>

@@ -4,9 +4,8 @@ import { Trans, useTranslation } from 'lib/../i18n'
 import { CardGrid } from 'lib/components/CardGrid'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
-import { PoolNumber } from 'lib/components/PoolNumber'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import CompoundFinanceIcon from 'assets/images/icon-compoundfinance.svg'
 import PrizeStrategyIcon from 'assets/images/icon-prizestrategy@2x.png'
@@ -49,7 +48,7 @@ export const PoolShowCards = (props) => {
       title: t('totalDeposited'),
       content: (
         <h3 className='mt-2'>
-          $<PoolNumber>{numberWithCommas(pool.totalDepositedUSD, { precision: 2 })}</PoolNumber>
+          ${numberWithCommas(pool.totalDepositedUSD, { precision: getPrecision(pool.totalDepositedUSD) })}
         </h3>
       )
     },
