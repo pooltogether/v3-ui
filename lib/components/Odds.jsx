@@ -6,7 +6,7 @@ import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { calculateOdds } from 'lib/utils/calculateOdds'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 
-export function Odds(props) {
+export function Odds (props) {
   const { t } = useTranslation()
 
   const {
@@ -21,7 +21,7 @@ export function Odds(props) {
     altSplitLines,
     style,
     timeTravelTicketSupply,
-    usersBalance,
+    usersBalance
   } = props
 
   let { additionalAmount } = props
@@ -37,19 +37,19 @@ export function Odds(props) {
   const numberOfWinners = pool?.numberOfWinners ? parseInt(pool?.numberOfWinners, 10) : 1
 
   const usersBalanceBN = usersBalance
-    ? ethers.utils.bigNumberify(usersBalance)
-    : ethers.utils.bigNumberify(0)
+    ? ethers.BigNumber.from(usersBalance)
+    : ethers.BigNumber.from(0)
   const ticketSupplyBN = ticketSupply
-    ? ethers.utils.bigNumberify(ticketSupply)
-    : ethers.utils.bigNumberify(0)
+    ? ethers.BigNumber.from(ticketSupply)
+    : ethers.BigNumber.from(0)
 
   const additionalAmountBN = additionalAmount
     ? ethers.utils.parseUnits(additionalAmount, underlyingCollateralDecimals)
-    : ethers.utils.bigNumberify(0)
+    : ethers.BigNumber.from(0)
 
   const ticketSupplyWithDepositAmountBN = ticketSupplyBN
     ? ticketSupplyBN.add(additionalAmountBN)
-    : ethers.utils.bigNumberify(0)
+    : ethers.BigNumber.from(0)
 
   const result = calculateOdds(
     usersBalanceBN.add(additionalAmountBN),
@@ -77,12 +77,14 @@ export function Odds(props) {
       </>
     )
   } else if (!hide && Boolean(result) && (hasBalance || additionalAmountBN.gt(0))) {
-    const totalOdds = <PoolCountUp
-      decimals={getMinPrecision(result, { additionalDigits: getPrecision(result) })}
-      fontSansRegular
-      start={result}
-      end={result}
-    />
+    const totalOdds = (
+      <PoolCountUp
+        decimals={getMinPrecision(result, { additionalDigits: getPrecision(result) })}
+        fontSansRegular
+        start={result}
+        end={result}
+      />
+    )
 
     content = (
       <>
@@ -95,7 +97,9 @@ export function Odds(props) {
             </div>
           </>
         ) : (
-          <span className='text-flashy'>&nbsp;{t('in')} {totalOdds}</span>
+          <span className='text-flashy'>
+            &nbsp;{t('in')} {totalOdds}
+          </span>
         )}{' '}
         <span className='text-flashy'>{sayEveryWeek && t('everyWeek')}</span>
       </>
@@ -112,7 +116,7 @@ export function Odds(props) {
     return (
       <div
         style={{
-          minHeight: 24,
+          minHeight: 24
         }}
         className={className}
         style={style}
