@@ -31,7 +31,7 @@ export function EmailSignup(props) {
 
         response = await axiosInstance.post(MAILCHIMP_LOCAL_URI, {
           email: watchEmail,
-          listId,
+          listId
         })
 
         if (response.status < 400) {
@@ -70,7 +70,7 @@ export function EmailSignup(props) {
                       icon='check-circle'
                       className='mr-2 stroke-current w-4 h-4 relative'
                       style={{
-                        top: 1,
+                        top: 1
                       }}
                     />
                   ) : (
@@ -80,7 +80,7 @@ export function EmailSignup(props) {
                         icon='arrow-right'
                         className='mr-2 stroke-current w-4 h-4 relative'
                         style={{
-                          top: 1,
+                          top: 1
                         }}
                       />{' '}
                       {t('getNotified')}

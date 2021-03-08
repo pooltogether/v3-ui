@@ -408,9 +408,5 @@
 .purple-pink-gradient-animation:after {
   --borderFlashyWidth: 2px !important;
   animation-duration: 4000ms !important;
-  background-image: linear-gradient(
-    40deg,
-    #4C249F 30%,
-    #9C48BA 81%
-  ) !important
+  background-image: linear-gradient(40deg, #4c249f 30%, #9c48ba 81%) !important;
 }

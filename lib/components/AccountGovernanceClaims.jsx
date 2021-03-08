@@ -24,12 +24,14 @@ import { useAccount } from 'lib/hooks/useAccount'
 import { usePools } from 'lib/hooks/usePools'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
+import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
 import { useClaimablePoolFromTokenFaucets } from 'lib/hooks/useClaimablePoolFromTokenFaucets'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { usePool } from 'lib/hooks/usePool'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
+import { useTokenFaucetAPY } from 'lib/hooks/useTokenFaucetAPY'
+import { usePoolTokenUSD } from 'lib/hooks/usePoolTokenUSD'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -40,8 +42,8 @@ export const AccountGovernanceClaims = (props) => {
   const { pools, poolsGraphData } = usePools()
   const { t } = useTranslation()
 
-  const { isFetched, refetch: refetchTotalClaimablePool } = useClaimablePoolFromTokenFaucets()
-  const { networkName, chainId, usersAddress, walletName } = useContext(AuthControllerContext)
+  const { refetch: refetchTotalClaimablePool } = useClaimablePoolFromTokenFaucets()
+  const { chainId, usersAddress, walletName } = useContext(AuthControllerContext)
   const { refetch: refetchPoolTokenData } = usePoolTokenData()
 
   const refetchAllPoolTokenData = () => {
@@ -53,7 +55,7 @@ export const AccountGovernanceClaims = (props) => {
     return null
   }
 
-  const earningsStarted = Date.now() / 1000 > 1613606400
+  // const earningsStarted = Date.now() / 1000 > 1613606400
 
   const handleAddTokenToMetaMask = (e) => {
     e.preventDefault()
@@ -223,22 +225,24 @@ const ClaimAllButton = (props) => {
 }
 
 const ClaimablePoolTokenItem = (props) => {
-  const { t } = useTranslation()
   const { pool, poolGraphData, refetchAllPoolTokenData } = props
+
+  const { t } = useTranslation()
   const { usersAddress } = useContext(AuthControllerContext)
   const { accountData } = useAccount(usersAddress)
   const { playerTickets } = usePlayerTickets(accountData)
+
   const { symbol } = pool
   const { pool: poolInfo } = usePool(symbol)
   const tokenFaucetAddress = poolInfo.tokenListener
   const { underlyingCollateralDecimals, underlyingCollateralSymbol } = poolInfo
   const name = t('prizePoolTicker', { ticker: underlyingCollateralSymbol })
 
-  const { refetch: refetchClaimablePool, data, isFetched } = useClaimablePoolFromTokenFaucet(
+  const { refetch: refetchClaimablePool, data } = useClaimablePoolFromTokenFaucet(
     tokenFaucetAddress
   )
 
-  const { dripRatePerSecond, measureTokenAddress, faucetPoolSupplyBN, amount } = data || {}
+  const { dripRatePerSecond, measureTokenAddress, amount } = data || {}
 
   const ticketData = playerTickets.find(
     (playerTicket) => playerTicket.pool.ticket.id === measureTokenAddress
@@ -247,7 +251,7 @@ const ClaimablePoolTokenItem = (props) => {
   const ticketTotalSupply = poolGraphData?.ticket?.totalSupply || 0
   const totalSupplyOfTickets = Number(
     ethers.utils.formatUnits(
-      ethers.utils.bigNumberify(ticketTotalSupply),
+      ethers.BigNumber.from(ticketTotalSupply),
       Number(underlyingCollateralDecimals || 0)
     )
   )
@@ -270,12 +274,7 @@ const ClaimablePoolTokenItem = (props) => {
     precision: getPrecision(totalDripPerDay)
   })
 
-  // const apy = ((totalDripPerDay * 365) / totalSupplyOfTickets) * 100
-
-  const totalSupplyUSD = poolInfo.totalDepositedUSD
-  const apy = ((totalDripPerDay * 365) / totalSupplyUSD) * 100
-
-  const secondsLeft = faucetPoolSupplyBN?.div(dripRatePerSecond).toNumber()
+  const apy = useTokenFaucetAPY(poolInfo)
 
   return (
     <div className='bg-body p-6 rounded-lg flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8 sm:items-center'>
@@ -288,7 +287,7 @@ const ClaimablePoolTokenItem = (props) => {
         <div className='xs:w-64'>
           <h5 className='leading-none'>{name}</h5>
 
-          <div className='text-accent-1 text-xs mb-1 mt-2 sm:mt-1 opacity-60 trans hover:opacity-100'>
+          <div className='text-accent-1 text-xs mb-1 mt-2 sm:mt-1 opacity-80 trans hover:opacity-100'>
             {t('poolNamesDripRate', { poolName: name })}
             <br />
             {totalDripPerDayFormatted}{' '}
@@ -299,23 +298,20 @@ const ClaimablePoolTokenItem = (props) => {
             />{' '}
             POOL / <span className='lowercase'>{t('day')}</span>
             <br />
-            {/* TODO: Currently based on POOL = $1, which is wrong */}
-            {/* {displayPercentage(apy)}% APY */}
+            {displayPercentage(apy)}% APY
           </div>
-
-          <RewardTimeLeft initialSecondsLeft={secondsLeft} />
         </div>
       </div>
 
       <div className='sm:text-right'>
         <p className='text-inverse font-bold'>{t('availableToClaim')}</p>
         <h4 className='leading-none flex items-center sm:justify-end'>
-          <span className={classnames({ 'opacity-60': amount === 0 })}>
+          <span className={classnames({ 'opacity-80': amount === 0 })}>
             <img src={PoolIcon} className='inline-block w-6 h-6 -mt-1' />{' '}
             <ClaimableAmountCountUp amount={amount} />
           </span>
         </h4>
-        <div className='text-accent-1 text-xs mb-2 flex items-center sm:justify-end mt-1 opacity-60 trans hover:opacity-100'>
+        <div className='text-accent-1 text-xs mb-2 flex items-center sm:justify-end mt-1 opacity-80 trans hover:opacity-100'>
           {usersDripPerDayFormatted} <img src={PoolIcon} className='inline-block w-4 h-4 mx-2' />{' '}
           POOL /&nbsp;<span className='lowercase'>{t('day')}</span>
         </div>
@@ -408,43 +404,4 @@ const ClaimButton = (props) => {
       {text}
     </Button>
   )
-}
-
-const RewardTimeLeft = (props) => {
-  const { t } = useTranslation()
-  // const { initialSecondsLeft } = props
-
-  const unixTimeNow = Date.now() / 1000
-  const initialSecondsLeft = 1622070000 - unixTimeNow // 1622070000 is May 26th @ 4pm PST
-  const { days, hours, minutes, secondsLeft } = useTimeCountdown(initialSecondsLeft, 60000)
-
-  const textColor = determineColor(secondsLeft)
-
-  return (
-    <div className='flex items-center text-accent-1 sm:mt-1 opacity-60 trans hover:opacity-100'>
-      <span className='inline-block'>{t('endsIn')}</span>
-
-      <div className='inline-flex items-center text-orange'>
-        <FeatherIcon
-          className={classnames(`h-4 w-4 stroke-current stroke-2 my-auto mx-2`, textColor)}
-          icon='clock'
-        />
-        <span className={classnames(textColor)}>
-          {!days ? null : `${days}d, `}
-          {!hours && !days ? null : `${hours}h, `}
-          {`${minutes}m`}
-        </span>
-      </div>
-    </div>
-  )
-}
-
-const determineColor = (secondsLeft) => {
-  if (secondsLeft <= SECONDS_PER_HOUR) {
-    return 'text-red'
-  } else if (secondsLeft <= SECONDS_PER_DAY) {
-    return 'text-orange'
-  }
-
-  return ''
 }

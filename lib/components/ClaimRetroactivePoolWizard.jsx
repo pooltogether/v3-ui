@@ -57,7 +57,7 @@ const ClaimRetroactivePoolWizard = (props) => {
 
 const ClaimRetroactivePoolWizardStepManager = (props) => {
   const { closeWizard } = props
-  
+
   const { usersAddress } = useContext(AuthControllerContext)
   const { activeStepIndex, previousStep, moveToStep, nextStep } = useWizard({
     initialStepIndex: usersAddress ? 1 : 0
@@ -146,9 +146,7 @@ const StepTwo = (props) => {
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <WizardBanner>
         <h4 className='mb-4 text-white'>{t('whatDoPoolTokensDo')}</h4>
-        <p className='text-xs xs:text-sm text-accent-1 text-left'>
-          {t('whatTokensDoDescription')}
-        </p>
+        <p className='text-xs xs:text-sm text-accent-1 text-left'>{t('whatTokensDoDescription')}</p>
         <CheckboxContainer>
           <CheckboxInputGroup
             marginClasses='mx-auto my-0'
@@ -192,7 +190,7 @@ const StepThree = (props) => {
   const onSubmit = (values) => {
     if (formState.isValid) {
       setShowAddressForm(false)
-     
+
       queryParamUpdater.remove(router, 'address')
       queryParamUpdater.add(router, { claim: '1', address: values.address })
     }
@@ -205,11 +203,8 @@ const StepThree = (props) => {
 
   const validate = {
     isValidAddress: (value) => {
-      return (
-        /^0x[a-fA-F0-9]{40}$/.test(value) ||
-        t('pleaseEnterAValidEthereumAddress')
-      )
-    },
+      return /^0x[a-fA-F0-9]{40}$/.test(value) || t('pleaseEnterAValidEthereumAddress')
+    }
   }
 
   const handleCancel = (e) => {
@@ -225,83 +220,88 @@ const StepThree = (props) => {
   if (!isActive) {
     return null
   }
-  
-  return (<>
-    {showAddressForm ? <form onSubmit={handleSubmit(onSubmit)}>
-      <h5 className='sm:-mt-32' style={{ paddingTop: 20 }}>{t('claimingFor')}</h5>
 
-      <Banner className='my-4 mx-auto' style={{ maxWidth: 550 }}>
-        <TextInputGroup
-          autoFocus
-          small
-          borderClasses=''
-          id='claim-eth-address'
-          name='address'
-          register={register}
-          // label={t('ethereumAddress')}
-          placeholder={t('enterAValidEthAddress')}
-          validate={validate}
-        />
+  return (
+    <>
+      {showAddressForm ? (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h5 className='sm:-mt-32' style={{ paddingTop: 20 }}>
+            {t('claimingFor')}
+          </h5>
 
-        <div className='text-xxxs xs:text-xs text-red h-8 font-bold -my-2'>
-          {errors.address && errors.address.message}
-        </div>
+          <Banner className='my-4 mx-auto' style={{ maxWidth: 550 }}>
+            <TextInputGroup
+              autoFocus
+              small
+              borderClasses=''
+              id='claim-eth-address'
+              name='address'
+              register={register}
+              // label={t('ethereumAddress')}
+              placeholder={t('enterAValidEthAddress')}
+              validate={validate}
+            />
 
-        <div className='flex items-center justify-center'>
-          <Button
-            type='button'
-            border='border-accent-3'
-            text='accent-3'
-            bg='transparent'
-            hoverBorder='border-accent-3'
-            hoverText='accent-3'
-            hoverBg='transparent'
-            type='submit'
-            className='mt-4 mr-2'
-            onClick={handleCancel}
-          >
-            {t('back')}
-          </Button>
-          <Button
-            border='green'
-            text='primary'
-            bg='green'
-            hoverBorder='green'
-            hoverText='primary'
-            hoverBg='green'
-            type='submit'
-            className='mt-4 ml-2'
-            disabled={!formState.isValid}
-          >
-            {t('checkClaimableBalance')}
-          </Button>
-        </div>
-      </Banner>
-    </form> : (<>
-      <h5>{t('claimingFor')}</h5>
+            <div className='text-xxxs xs:text-xs text-red h-8 font-bold -my-2'>
+              {errors.address && errors.address.message}
+            </div>
 
-      <Banner className='my-4 mx-auto text-white' style={{ maxWidth: 550 }}>
-        <div className='xs:hidden text-xxs'>{shorten(address)}</div>
-        <div className='hidden sm:block text-sm'>{address}</div>
-        <button
-          onClick={showForm}
-          className='underline font-bold text-xxs xs:text-xs text-white hover:text-highlight-9'
-        >
-          {t('changeAddress')}
-        </button>
-      </Banner>
+            <div className='flex items-center justify-center'>
+              <Button
+                type='button'
+                border='border-accent-3'
+                text='accent-3'
+                bg='transparent'
+                hoverBorder='border-accent-3'
+                hoverText='accent-3'
+                hoverBg='transparent'
+                type='submit'
+                className='mt-4 mr-2'
+                onClick={handleCancel}
+              >
+                {t('back')}
+              </Button>
+              <Button
+                border='green'
+                text='primary'
+                bg='green'
+                hoverBorder='green'
+                hoverText='primary'
+                hoverBg='green'
+                type='submit'
+                className='mt-4 ml-2'
+                disabled={!formState.isValid}
+              >
+                {t('checkClaimableBalance')}
+              </Button>
+            </div>
+          </Banner>
+        </form>
+      ) : (
+        <>
+          <h5>{t('claimingFor')}</h5>
 
-      <ClaimableBalanceCheck
-        {...props}
-        address={address}
-      />
-    </>)}
-  </>)
+          <Banner className='my-4 mx-auto text-white' style={{ maxWidth: 550 }}>
+            <div className='xs:hidden text-xxs'>{shorten(address)}</div>
+            <div className='hidden sm:block text-sm'>{address}</div>
+            <button
+              onClick={showForm}
+              className='underline font-bold text-xxs xs:text-xs text-white hover:text-highlight-9'
+            >
+              {t('changeAddress')}
+            </button>
+          </Banner>
+
+          <ClaimableBalanceCheck {...props} address={address} />
+        </>
+      )}
+    </>
+  )
 }
 
 const ClaimableBalanceCheck = (props) => {
   const { closeWizard, address } = props
-  
+
   const { chainId } = useContext(AuthControllerContext)
   const { t } = useTranslation()
 
@@ -312,11 +312,11 @@ const ClaimableBalanceCheck = (props) => {
   }
 
   const { amount, isClaimed, formattedAmount, index, proof } = claimData || {}
-  
+
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
-  
+
   useEffect(() => {
     if (tx?.completed && !tx?.error && !tx?.cancelled) {
       setTimeout(() => {
@@ -366,51 +366,64 @@ const ClaimableBalanceCheck = (props) => {
 
   const txSuccessful = tx?.completed && !tx?.error && !tx?.cancelled
 
-  return (<>{txSuccessful ?
-    <ClaimCompleted claimAmountCached={claimAmountCached} closeWizard={closeWizard} /> :
-    <ReceivingMessage
-      closeWizard={closeWizard}
-      isClaimed={isClaimed}
-      amountWithCommas={amountWithCommas}
-      formattedAmount={formattedAmount}
-      handleClaim={handleClaim}
-      tx={tx}
-    />}
-  </>)
+  return (
+    <>
+      {txSuccessful ? (
+        <ClaimCompleted claimAmountCached={claimAmountCached} closeWizard={closeWizard} />
+      ) : (
+        <ReceivingMessage
+          closeWizard={closeWizard}
+          isClaimed={isClaimed}
+          amountWithCommas={amountWithCommas}
+          formattedAmount={formattedAmount}
+          handleClaim={handleClaim}
+          tx={tx}
+        />
+      )}
+    </>
+  )
 }
 
 const ReceivingMessage = (props) => {
   const { closeWizard, isClaimed, formattedAmount, amountWithCommas, handleClaim, tx } = props
-  
+
   const { t } = useTranslation()
 
   const canClaim = formattedAmount !== 0 && !isClaimed
 
   const txInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent || tx?.completed)
 
-  return <div className='mx-auto flex flex-col' style={{ maxWidth: 550 }}>
-    {canClaim && !txInFlight && <CanClaimMessage
-      amountWithCommas={amountWithCommas}
-      handleClaim={handleClaim}
-      txInFlight={txInFlight}
-    />}
+  return (
+    <div className='mx-auto flex flex-col' style={{ maxWidth: 550 }}>
+      {canClaim && !txInFlight && (
+        <CanClaimMessage
+          amountWithCommas={amountWithCommas}
+          handleClaim={handleClaim}
+          txInFlight={txInFlight}
+        />
+      )}
 
-    {!canClaim && <CannotClaimMessage isClaimed={isClaimed} handleClose={closeWizard} />}
+      {!canClaim && <CannotClaimMessage isClaimed={isClaimed} handleClose={closeWizard} />}
 
-    <div className='mt-10'>
-      {tx && <>
-        <TxStatus gradient='basic' tx={tx} />
+      <div className='mt-10'>
+        {tx && (
+          <>
+            <TxStatus gradient='basic' tx={tx} />
 
-        {tx?.error && <>
-          <ButtonDrawer>
-            <Button onClick={handleClaim} textSize='lg' className='mt-4 sm:mt-8 w-full'>
-              {t('retryClaim')}
-            </Button>
-          </ButtonDrawer>
-        </>}
-      </>}
+            {tx?.error && (
+              <>
+                <ButtonDrawer>
+                  <Button onClick={handleClaim} textSize='lg' className='mt-4 sm:mt-8 w-full'>
+                    {t('retryClaim')}
+                  </Button>
+                </ButtonDrawer>
+              </>
+            )}
+          </>
+        )}
+      </div>
     </div>
-  </div>
+  )
 }
 
 export function ClaimRetroactiveSignInStep(props) {
@@ -443,38 +456,48 @@ const CannotClaimMessage = (props) => {
   const { handleClose, isClaimed } = props
   const { t } = useTranslation()
 
-  return (<>
-    <h2 className='text-highlight-1'>0 POOL</h2>
-    
-    {isClaimed ? <h5>{t('alreadyClaimed')}</h5> : <h5>{t('thereIsNoPoolToClaimForThisAddress')}</h5>}
+  return (
+    <>
+      <h2 className='text-highlight-1'>0 POOL</h2>
 
-    <ButtonDrawer>
-      <Button onClick={handleClose} className='mt-4 mx-auto'>
-        {t('closeThis')}
-      </Button>
-    </ButtonDrawer>
-  </>)
+      {isClaimed ? (
+        <h5>{t('alreadyClaimed')}</h5>
+      ) : (
+        <h5>{t('thereIsNoPoolToClaimForThisAddress')}</h5>
+      )}
+
+      <ButtonDrawer>
+        <Button onClick={handleClose} className='mt-4 mx-auto'>
+          {t('closeThis')}
+        </Button>
+      </ButtonDrawer>
+    </>
+  )
 }
 
 const CanClaimMessage = (props) => {
   const { handleClaim, amountWithCommas, txInFlight } = props
   const { t } = useTranslation()
 
-  return (<>
-    <h4 className='mt-2'>{t('youAreReceiving')}</h4>
+  return (
+    <>
+      <h4 className='mt-2'>{t('youAreReceiving')}</h4>
 
-    <div className='flex mx-auto mb-2 -mt-1'>
-      <h2 className='shake'>🎉</h2>
-      <h1 className='text-flashy mx-2'>{amountWithCommas} POOL</h1>
-      <h2 className='shake'>🎉</h2>
-    </div>
+      <div className='flex mx-auto mb-2 -mt-1'>
+        <h2 className='shake'>🎉</h2>
+        <h1 className='text-flashy mx-2'>{amountWithCommas} POOL</h1>
+        <h2 className='shake'>🎉</h2>
+      </div>
 
-    {!txInFlight && <ButtonDrawer>
-      <Button onClick={handleClaim} textSize='lg' className='w-full'>
-        {t('claimMyTokens')}
-      </Button>
-    </ButtonDrawer>}
-  </>)
+      {!txInFlight && (
+        <ButtonDrawer>
+          <Button onClick={handleClaim} textSize='lg' className='w-full'>
+            {t('claimMyTokens')}
+          </Button>
+        </ButtonDrawer>
+      )}
+    </>
+  )
 }
 
 const ClaimCompleted = (props) => {

@@ -33,19 +33,19 @@ export const AccountTickets = () => {
   const daiBalances = {
     poolBalance: usersV2Balances?.v2DaiPoolCommittedBalance,
     podBalance: usersV2Balances?.v2DaiPodCommittedBalance,
-    podSharesBalance: usersV2Balances?.v2DaiPodSharesBalance,
+    podSharesBalance: usersV2Balances?.v2DaiPodSharesBalance
   }
 
   const usdcBalances = {
     poolBalance: usersV2Balances?.v2UsdcPoolCommittedBalance,
     podBalance: usersV2Balances?.v2UsdcPodCommittedBalance,
-    podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance,
+    podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance
   }
 
-  let normalizedDaiPoolBalance = ethers.utils.bigNumberify(0)
-  let normalizedDaiPodBalance = ethers.utils.bigNumberify(0)
-  let normalizedUsdcPoolBalance = ethers.utils.bigNumberify(0)
-  let normalizedUsdcPodBalance = ethers.utils.bigNumberify(0)
+  let normalizedDaiPoolBalance = ethers.BigNumber.from(0)
+  let normalizedDaiPodBalance = ethers.BigNumber.from(0)
+  let normalizedUsdcPoolBalance = ethers.BigNumber.from(0)
+  let normalizedUsdcPodBalance = ethers.BigNumber.from(0)
   if (daiBalances.poolBalance) {
     normalizedDaiPoolBalance = normalizeTo18Decimals(daiBalances.poolBalance, 18)
     normalizedDaiPodBalance = normalizeTo18Decimals(daiBalances.podBalance, 18)

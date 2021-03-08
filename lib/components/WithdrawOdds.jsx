@@ -19,17 +19,17 @@ export function WithdrawOdds(props) {
 
   const withdrawAmountBN = props.withdrawAmount
     ? ethers.utils.parseUnits(props.withdrawAmount.toString(), decimals)
-    : ethers.utils.bigNumberify(0)
+    : ethers.BigNumber.from(0)
 
   const overBalance = withdrawAmountBN.gt(usersTicketBalanceBN)
 
   const numberOfWinners = pool?.numberOfWinners ? parseInt(pool?.numberOfWinners, 10) : 1
 
-  const ticketTotalSupply = ethers.utils.bigNumberify(pool.ticketSupply)
+  const ticketTotalSupply = ethers.BigNumber.from(pool.ticketSupply)
 
   const totalSupplyLessWithdrawAmountBN = ticketTotalSupply
     ? ticketTotalSupply.sub(withdrawAmountBN)
-    : ethers.utils.bigNumberify(0)
+    : ethers.BigNumber.from(0)
 
   const currentOdds = calculateOdds(
     usersTicketBalanceBN,
@@ -49,7 +49,7 @@ export function WithdrawOdds(props) {
     <>
       <div
         style={{
-          minHeight: 24,
+          minHeight: 24
         }}
       >
         {!props.withdrawAmount && (
@@ -67,11 +67,11 @@ export function WithdrawOdds(props) {
                 defaults='Your odds will be reduced from 1 in {{currentOdds}} to 1 in {{newOdds}}'
                 components={{
                   bold: <span className='font-bold' />,
-                  number: <PoolNumber />,
+                  number: <PoolNumber />
                 }}
                 values={{
                   currentOdds: numberWithCommas(currentOdds, { precision: 2 }),
-                  newOdds: numberWithCommas(newOdds, { precision: 2 }),
+                  newOdds: numberWithCommas(newOdds, { precision: 2 })
                 }}
               />
             ) : (

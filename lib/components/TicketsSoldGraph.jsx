@@ -37,7 +37,7 @@ export const TicketsSoldGraph = (props) => {
     // when compiling the array ...
     currentPrize = {
       ticketSupply: pool.ticketSupply,
-      awardedTimestamp: Date.now() / 1000,
+      awardedTimestamp: Date.now() / 1000
     }
 
     prizes.unshift(currentPrize)
@@ -57,7 +57,7 @@ export const TicketsSoldGraph = (props) => {
 
     return {
       value: parseInt(ticketsSold, 10),
-      date: fromUnixTime(prize.awardedTimestamp),
+      date: fromUnixTime(prize.awardedTimestamp)
     }
   })
 
@@ -71,8 +71,8 @@ export const TicketsSoldGraph = (props) => {
         days: 0,
         hours: 0,
         minutes: 0,
-        seconds: 0,
-      }),
+        seconds: 0
+      })
     })
   }
 

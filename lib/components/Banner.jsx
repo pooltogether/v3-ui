@@ -3,7 +3,7 @@ import classnames from 'classnames'
 
 export const BannerGradient = {
   purplePink: 'purple-pink',
-  rainbow: 'rainbow',
+  rainbow: 'rainbow'
 }
 
 const BannerUnmemoized = (props) => {
@@ -26,18 +26,22 @@ const BannerUnmemoized = (props) => {
       </div>
     )
   } else if (gradient === BannerGradient.purplePink) {
-    return <div className={classnames(bannerClass, 'pool-gradient-1', className)} style={style}>
-      {children}
-    </div>
+    return (
+      <div className={classnames(bannerClass, 'pool-gradient-1', className)} style={style}>
+        {children}
+      </div>
+    )
   } else {
-    return <div className={classnames(bannerClass, '', className)} style={style}>
-      {children}
-    </div>
+    return (
+      <div className={classnames(bannerClass, '', className)} style={style}>
+        {children}
+      </div>
+    )
   }
 }
 
 BannerUnmemoized.defaultProps = {
-  gradient: BannerGradient.purplePink,
+  gradient: BannerGradient.purplePink
 }
 
 export const Banner = React.memo(BannerUnmemoized)

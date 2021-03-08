@@ -19,26 +19,28 @@ import CompSvg from 'assets/images/comp.svg'
 const BannerMotionDIV = (props) => {
   const shouldReduceMotion = useReducedMotion()
 
-  return <motion.div
-    {...props}
-    className='flex flex-col justify-center items-center text-xs sm:text-lg lg:text-xl'
-    variants={ANIM_BANNER_VARIANTS(shouldReduceMotion)}
-    initial={{
-      scale: 0,
-      opacity: 1,
-    }}
-    style={{ originY: '60px' }} 
-  >
-    {props.children}
-  </motion.div>
+  return (
+    <motion.div
+      {...props}
+      className='flex flex-col justify-center items-center text-xs sm:text-lg lg:text-xl'
+      variants={ANIM_BANNER_VARIANTS(shouldReduceMotion)}
+      initial={{
+        scale: 0,
+        opacity: 1
+      }}
+      style={{ originY: '60px' }}
+    >
+      {props.children}
+    </motion.div>
+  )
 }
 
 export const IndexUI = (props) => {
   const { poolsDataLoading, pools, communityPools } = usePools()
-  
+
   const router = useRouter()
   // Don't switch back to the default tab if we're navigating away from the homepage
-  const defaultTab = (router.pathname === '/') && POOL_LIST_TABS.pools
+  const defaultTab = router.pathname === '/' && POOL_LIST_TABS.pools
   const selectedTab = router.query.tab || defaultTab
 
   return (
@@ -60,13 +62,16 @@ export const IndexUI = (props) => {
             <CommunityDisclaimerBanner />
           </BannerMotionDIV>
         </div>
-
       </div>
 
       {/* <NewPoolBanner /> */}
 
       <div className='mt-10'>
-        {poolsDataLoading ? <IndexUILoader /> : <PoolList pools={pools} communityPools={communityPools} />}
+        {poolsDataLoading ? (
+          <IndexUILoader />
+        ) : (
+          <PoolList pools={pools} communityPools={communityPools} />
+        )}
       </div>
 
       <Tagline />
@@ -77,23 +82,25 @@ export const IndexUI = (props) => {
 const NewPoolBanner = (props) => {
   const { t } = useTranslation()
 
-  return <Link href='/pools/[symbol]' as={`/pools/PT-cCOMP`}>
-    <a className='block mt-2 mb-3 text-center p-3 rounded-lg border-2 border-secondary font-bold text-inverse text-xxs xs:text-xs sm:text-sm'>
-      <span role='img' aria-label='megaphone emoji' className='mx-2 text-xl'>
-        📣
-      </span>
-      <br />{' '}
-      <img
-        src={CompSvg}
-        alt='comp logo'
-        className='w-4 h-4 inline-block relative'
-        style={{
-          top: -2,
-        }}
-      />{' '}
-      {t('tickerPoolIsNowOpen', {
-        ticker: 'COMP',
-      })}
-    </a>
-  </Link>
+  return (
+    <Link href='/pools/[symbol]' as={`/pools/PT-cCOMP`}>
+      <a className='block mt-2 mb-3 text-center p-3 rounded-lg border-2 border-secondary font-bold text-inverse text-xxs xs:text-xs sm:text-sm'>
+        <span role='img' aria-label='megaphone emoji' className='mx-2 text-xl'>
+          📣
+        </span>
+        <br />{' '}
+        <img
+          src={CompSvg}
+          alt='comp logo'
+          className='w-4 h-4 inline-block relative'
+          style={{
+            top: -2
+          }}
+        />{' '}
+        {t('tickerPoolIsNowOpen', {
+          ticker: 'COMP'
+        })}
+      </a>
+    </Link>
+  )
 }

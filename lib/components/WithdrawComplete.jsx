@@ -26,7 +26,7 @@ export function WithdrawComplete(props) {
       <div
         className='w-full text-center mx-auto rounded-xl text-orange bg-orange-darkened border-2 border-orange py-8 px-2 xs:px-8 mt-6 sm:mt-0 sm:my-10'
         style={{
-          maxWidth: 600,
+          maxWidth: 600
         }}
       >
         <h4 className='text-orange capitalize'>
@@ -35,10 +35,10 @@ export function WithdrawComplete(props) {
             i18nKey='amountTickets'
             defaults='<number>{{amount}}</number> tickets'
             components={{
-              number: <PoolNumber />,
+              number: <PoolNumber />
             }}
             values={{
-              amount: quantity,
+              amount: quantity
             }}
           />
         </h4>

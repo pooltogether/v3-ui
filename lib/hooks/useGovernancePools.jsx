@@ -8,7 +8,7 @@ import { usePoolsQuery } from 'lib/hooks/usePoolsQuery'
 import { getPoolDataFromQueryResult } from 'lib/services/getPoolDataFromQueryResult'
 import { poolToast } from 'lib/utils/poolToast'
 
-export function useGovernancePools () {
+export function useGovernancePools() {
   const { chainId } = useContext(AuthControllerContext)
 
   const { contractAddresses } = useContractAddresses()

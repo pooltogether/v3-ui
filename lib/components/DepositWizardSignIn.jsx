@@ -28,10 +28,10 @@ export function DepositWizardSignIn(props) {
           i18nKey='depositAmountTickets'
           defaults='Deposit <number>{{amount}}</number> tickets'
           components={{
-            number: <PoolNumber />,
+            number: <PoolNumber />
           }}
           values={{
-            amount: quantity,
+            amount: quantity
           }}
         />
       </PaneTitle>

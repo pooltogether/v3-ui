@@ -5,7 +5,7 @@ import { useTranslation } from 'lib/../i18n'
 import { ThemedClipLoader } from 'lib/components/ThemedClipLoader'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 
-export function PendingTxButton (props) {
+export function PendingTxButton(props) {
   const { t } = useTranslation()
   const [transactions] = useAtom(transactionsAtom)
 

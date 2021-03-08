@@ -24,7 +24,7 @@ const COMMUNITY_POOLS_BLOCK_LIST = [
   '0xcc6f8a4b3f04c688ea8681eb5ba33a5bc2f9df21',
   '0x3e2e88f6eaa189e397bf87153e085a757028c069',
   '0x91d7bbd2a8dfe4be5b88d4224b461de9b36d2aa9',
-  '0x55ab6e07fb3ae2598fe463ea4dcf872a006fec77',
+  '0x55ab6e07fb3ae2598fe463ea4dcf872a006fec77'
 ]
 
 export function useCommunityPoolAddresses() {
@@ -37,8 +37,8 @@ export function useCommunityPoolAddresses() {
   let communityPoolAddresses = []
   if (isFetched) {
     communityPoolAddresses = addresses
-      ?.filter(address => !governedPoolAddresses.includes(address))
-      .filter(address => !COMMUNITY_POOLS_BLOCK_LIST.includes(address))
+      ?.filter((address) => !governedPoolAddresses.includes(address))
+      .filter((address) => !COMMUNITY_POOLS_BLOCK_LIST.includes(address))
   }
 
   return { communityPoolAddresses }

@@ -38,7 +38,7 @@ export const LastWinnersListing = (props) => {
       result.push({
         ...prize,
         date,
-        prizeNumber: extractPrizeNumberFromPrize(prize),
+        prizeNumber: extractPrizeNumberFromPrize(prize)
       })
     }
     return result

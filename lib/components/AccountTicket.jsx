@@ -65,15 +65,13 @@ export const AccountTicket = (props) => {
       `/account/pools/[symbol]/manage-tickets`,
       `/account/pools/${pool?.symbol}/manage-tickets`,
       {
-        shallow: true,
+        shallow: true
       }
     )
   }
 
-  const isGovernedPool = pools.find(_pool => _pool.symbol === pool.symbol)
-  const ticketClassName = isGovernedPool ?
-    `ticket--${ticker?.toLowerCase()}` :
-    `ticket--generic`
+  const isGovernedPool = pools.find((_pool) => _pool.symbol === pool.symbol)
+  const ticketClassName = isGovernedPool ? `ticket--${ticker?.toLowerCase()}` : `ticket--generic`
 
   return (
     <>
@@ -83,14 +81,14 @@ export const AccountTicket = (props) => {
         key={`account-pool-ticket-${pool?.poolAddress}`}
         className={classnames('relative ticket bg-no-repeat text-xxxs xs:text-xs', {
           'xs:mr-6 mb-6': !noMargin,
-          'cursor-pointer': isLink,
+          'cursor-pointer': isLink
         })}
         whileHover={{
-          scale: isLink ? 1.025 : 1,
+          scale: isLink ? 1.025 : 1
         }}
         whileTap={{
           y: 1,
-          scale: 0.98,
+          scale: 0.98
         }}
         animate={{
           scale: 1,
@@ -98,8 +96,8 @@ export const AccountTicket = (props) => {
           transition: {
             duration: shouldReduceMotion ? 0 : 0.2,
             staggerChildren: shouldReduceMotion ? 0 : 0.5,
-            delayChildren: shouldReduceMotion ? 0 : 0.2,
-          },
+            delayChildren: shouldReduceMotion ? 0 : 0.2
+          }
         }}
         exit={{
           scale: 0,
@@ -107,15 +105,12 @@ export const AccountTicket = (props) => {
           transition: {
             duration: shouldReduceMotion ? 0 : 0.2,
             staggerChildren: shouldReduceMotion ? 0 : 0.05,
-            staggerDirection: -1,
-          },
+            staggerDirection: -1
+          }
         }}
       >
         <div
-          className={classnames(
-            ticketClassName,
-            `absolute rounded-b-lg bg-no-repeat ticket-strip`
-          )}
+          className={classnames(ticketClassName, `absolute rounded-b-lg bg-no-repeat ticket-strip`)}
         />
 
         <div className='flex items-start text-left'>
@@ -140,7 +135,7 @@ export const AccountTicket = (props) => {
                     <span
                       className='font-bold text-accent-3 text-default-soft'
                       style={{
-                        marginTop: 23,
+                        marginTop: 23
                       }}
                     >
                       {t('notAvailableAbbreviation')}
@@ -178,7 +173,7 @@ export const AccountTicket = (props) => {
                     src={PoolTogetherTrophyDetailed}
                     className='w-4 mr-1'
                     style={{
-                      filter: 'brightness(5)',
+                      filter: 'brightness(5)'
                     }}
                   />
                   <div className='font-bold text-xxxxxs xs:text-xxxs'>
@@ -192,7 +187,7 @@ export const AccountTicket = (props) => {
           <div
             className='pt-5 xs:pt-10 leading-none'
             style={{
-              width: 86,
+              width: 86
             }}
           >
             <div className='flex flex-col items-center w-20'>
@@ -206,7 +201,7 @@ export const AccountTicket = (props) => {
                   <span
                     className='relative inline-flex items-center justify-center text-center font-bold mt-8 xs:mt-10 xs:pt-3 z-10 text-darkened pl-2'
                     style={{
-                      right: -2,
+                      right: -2
                     }}
                   >
                     {t('manage')}{' '}
@@ -215,7 +210,7 @@ export const AccountTicket = (props) => {
                       strokeWidth='0.25rem'
                       className='relative w-3 h-3'
                       style={{
-                        top: 1,
+                        top: 1
                       }}
                     />
                   </span>

@@ -22,7 +22,7 @@ export function usePools() {
       communityPools,
       communityPoolsDataLoading,
       communityRefetch,
-      communityPoolsGraphData,
+      communityPoolsGraphData
     }
   }, [pools, communityPools, poolsGraphData, communityPoolsGraphData])
 

@@ -20,7 +20,7 @@ export function Input(props) {
     isError,
     required,
     register,
-    validate,
+    validate
   } = props
 
   const defaultTextClasses = 'text-xxs xs:text-sm sm:text-xl lg:text-2xl'
@@ -69,7 +69,7 @@ export function Input(props) {
     roundedClasses,
     props.className,
     {
-      'text-red': isError,
+      'text-red': isError
     }
   )
 
@@ -95,7 +95,7 @@ export function Input(props) {
     'unsignedWholeNumber',
     'centerLabel',
     'rightLabel',
-    'bottomRightLabel',
+    'bottomRightLabel'
   ])
 
   return (
@@ -106,7 +106,7 @@ export function Input(props) {
         ref={register({
           required,
           pattern,
-          validate,
+          validate
         })}
         className={classnames(className, 'focus:outline-none')}
       />

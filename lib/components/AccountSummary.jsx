@@ -32,13 +32,13 @@ export const AccountSummary = () => {
   const daiBalances = {
     poolBalance: usersV2Balances?.v2DaiPoolCommittedBalance,
     podBalance: usersV2Balances?.v2DaiPodCommittedBalance,
-    podSharesBalance: usersV2Balances?.v2DaiPodSharesBalance,
+    podSharesBalance: usersV2Balances?.v2DaiPodSharesBalance
   }
 
   const usdcBalances = {
     poolBalance: usersV2Balances?.v2UsdcPoolCommittedBalance,
     podBalance: usersV2Balances?.v2UsdcPodCommittedBalance,
-    podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance,
+    podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance
   }
 
   const addresses = playerTickets?.map(
@@ -47,7 +47,7 @@ export const AccountSummary = () => {
 
   const {
     data: uniswapPriceData,
-    error: uniswapError,
+    error: uniswapError
     // isFetching: uniswapIsFetching,
     // isFetched: uniswapIsFetched
   } = useUniswapTokensQuery(addresses)
@@ -55,7 +55,7 @@ export const AccountSummary = () => {
     console.error(uniswapError)
   }
 
-  let totalTickets = ethers.utils.bigNumberify(0)
+  let totalTickets = ethers.BigNumber.from(0)
   playerTickets?.forEach((playerTicket) => {
     let { balanceNormalized, balanceFormatted, pool } = playerTicket
 
@@ -119,7 +119,7 @@ export const AccountSummary = () => {
             className='w-32 xs:w-40 mx-auto relative mb-4 -mr-4'
             style={{
               right: -10,
-              top: 17,
+              top: 17
             }}
           />
         </div>

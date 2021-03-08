@@ -11,7 +11,7 @@ export function TimeTravelPool(props) {
   if (!querySymbol) {
     return children({
       timeTravelPool: {},
-      preAwardTimeTravelPool: {},
+      preAwardTimeTravelPool: {}
     })
   }
 
@@ -58,6 +58,6 @@ export function TimeTravelPool(props) {
 
   return children({
     timeTravelPool,
-    preAwardTimeTravelPool,
+    preAwardTimeTravelPool
   })
 }

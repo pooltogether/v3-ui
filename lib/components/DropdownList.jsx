@@ -13,7 +13,7 @@ export function DropdownList(props) {
     label,
     textColor,
     values,
-    onValueSet,
+    onValueSet
   } = props
 
   const [currentValue, setCurrentValue] = useState(current ? current : '')
@@ -42,7 +42,7 @@ export function DropdownList(props) {
           handleChangeValueClick(value)
         }}
         className={classnames({
-          selected,
+          selected
         })}
       >
         {formatValue ? formatValue(value) : value}
@@ -64,7 +64,7 @@ export function DropdownList(props) {
                 'text-highlight-1 inline-flex items-center justify-center trans font-bold',
                 {
                   [inactiveTextColorClasses]: !isExpanded,
-                  [activeTextColorClasses]: isExpanded,
+                  [activeTextColorClasses]: isExpanded
                 }
               )}
             >

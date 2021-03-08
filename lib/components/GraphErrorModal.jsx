@@ -5,7 +5,7 @@ import TheGraphLogo from 'assets/images/thegraphlogo.png'
 import { graphQLErrorAtom } from 'lib/atoms/graphQLErrorAtom'
 import { useAtom } from 'jotai'
 
-export function GraphErrorModal () {
+export function GraphErrorModal() {
   const [showModal, setShowModal] = useAtom(graphQLErrorAtom)
 
   if (!showModal) return null

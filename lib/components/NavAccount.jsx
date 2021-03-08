@@ -42,19 +42,19 @@ export function NavAccount(props) {
                   scale: 0,
                   transition: {
                     duration: shouldReduceMotion ? 0 : 0.1,
-                    staggerChildren: shouldReduceMotion ? 0 : 0.1,
-                  },
+                    staggerChildren: shouldReduceMotion ? 0 : 0.1
+                  }
                 },
                 enter: {
                   scale: 1,
                   transition: {
                     duration: shouldReduceMotion ? 0 : 0.1,
-                    staggerChildren: shouldReduceMotion ? 0 : 0.1,
-                  },
+                    staggerChildren: shouldReduceMotion ? 0 : 0.1
+                  }
                 },
                 initial: {
-                  scale: 0,
-                },
+                  scale: 0
+                }
               }}
             >
               <div className='flex flex-col items-center justify-center h-full w-full '>

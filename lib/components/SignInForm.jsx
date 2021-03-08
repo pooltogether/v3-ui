@@ -10,7 +10,7 @@ import PoolTogetherPOOLToken from 'assets/images/pool-icon.svg'
 
 export function SignInForm(props) {
   const { descriptionClassName, hideImg, retroClaim, postSignInCallback } = props
-  
+
   const { t } = useTranslation()
   // const { handleSubmit, register, errors, formState } = useForm({ mode: 'onBlur' })
 
@@ -25,13 +25,17 @@ export function SignInForm(props) {
   return (
     <>
       <div className='text-inverse'>
-        {!hideImg && <img
-          src={retroClaim ? PoolTogetherPOOLToken : PoolTogetherTrophyDetailed}
-          className='mx-auto mb-6 w-16 xs:w-1/12'
-        />}
+        {!hideImg && (
+          <img
+            src={retroClaim ? PoolTogetherPOOLToken : PoolTogetherTrophyDetailed}
+            className='mx-auto mb-6 w-16 xs:w-1/12'
+          />
+        )}
 
         <h5 className={descriptionClassName}>
-          {retroClaim ? t('connectWalletToClaimPoolTokens') : t('connectAWalletToManageTicketsAndRewards')}
+          {retroClaim
+            ? t('connectWalletToClaimPoolTokens')
+            : t('connectAWalletToManageTicketsAndRewards')}
         </h5>
 
         <Button

@@ -12,7 +12,7 @@ export function useErc20ChainQuery(poolGraphData) {
   const { data: erc20ChainData, error: erc20ChainError } = useEthereumErc20Query({
     provider: readProvider,
     graphErc20Awards: graphExternalErc20Awards,
-    balanceOfAddress: poolAddress,
+    balanceOfAddress: poolAddress
   })
 
   if (erc20ChainError) {

@@ -7,32 +7,32 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 
-const bn = ethers.utils.bigNumberify
+const bn = ethers.BigNumber.from
 
 export const V2MessageLarge = (props) => {
   const { t } = useTranslation()
 
   const { usersV2Balances } = useUsersV2Balances()
 
-  let usersTotalV2Balance = ethers.utils.bigNumberify(0)
+  let usersTotalV2Balance = ethers.BigNumber.from(0)
 
   if (usersV2Balances?.v2DaiPoolCommittedBalance) {
     const daiBalances = [
       usersV2Balances?.v2DaiPoolCommittedBalance,
-      usersV2Balances?.v2DaiPodCommittedBalance,
+      usersV2Balances?.v2DaiPodCommittedBalance
     ]
 
     const usdcBalances = [
       usersV2Balances?.v2UsdcPoolCommittedBalance,
-      usersV2Balances?.v2UsdcPodCommittedBalance,
+      usersV2Balances?.v2UsdcPodCommittedBalance
     ]
 
-    let usersTotalDaiBalance = ethers.utils.bigNumberify(0)
+    let usersTotalDaiBalance = ethers.BigNumber.from(0)
     daiBalances.map((bal) => {
       usersTotalDaiBalance = usersTotalDaiBalance.add(bal)
     })
 
-    let usersTotalUsdcBalance = ethers.utils.bigNumberify(0)
+    let usersTotalUsdcBalance = ethers.BigNumber.from(0)
     usdcBalances.map((bal) => {
       usersTotalUsdcBalance = usersTotalUsdcBalance.add(bal)
     })
@@ -66,10 +66,10 @@ export const V2MessageLarge = (props) => {
                 i18nKey='youCanManuallyWithdrawAmountFunds'
                 defaults='If you deposited into V2, you can now <bold>withdraw your ${{amount}}</bold> and deposit in V3 today!'
                 components={{
-                  bold: <span className='font-bold' />,
+                  bold: <span className='font-bold' />
                 }}
                 values={{
-                  amount: displayAmountInEther(usersTotalV2Balance),
+                  amount: displayAmountInEther(usersTotalV2Balance)
                 }}
               />
             </div>

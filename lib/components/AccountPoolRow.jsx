@@ -71,24 +71,24 @@ export const AccountPoolRow = (props) => {
               <div
                 className='inline-block text-left text-sm xs:text-xl sm:text-2xl font-bold text-inverse relative'
                 style={{
-                  top: -6,
+                  top: -6
                 }}
               >
                 <Trans
                   i18nKey='prizeAmount'
                   defaults='Prize $<prize>{{amount}}</prize>'
                   components={{
-                    prize: <PoolCountUp fontSansRegular decimals={2} duration={3} />,
+                    prize: <PoolCountUp fontSansRegular decimals={2} duration={3} />
                   }}
                   values={{
-                    amount: pool?.totalPrizeAmountUSD,
+                    amount: pool?.totalPrizeAmountUSD
                   }}
                 />
               </div>
               <div
                 className='inline-block text-left text-caption-2 relative mt-2'
                 style={{
-                  left: -2,
+                  left: -2
                 }}
               >
                 <span className='mr-1 sm:mr-2'>
@@ -112,7 +112,7 @@ export const AccountPoolRow = (props) => {
                   <div
                     className='font-bold text-accent-3 text-default-soft'
                     style={{
-                      marginTop: 23,
+                      marginTop: 23
                     }}
                   >
                     {t('notAvailableAbbreviation')}
@@ -133,7 +133,7 @@ export const AccountPoolRow = (props) => {
               <span
                 className='relative block text-caption uppercase font-number mt-0 opacity-70'
                 style={{
-                  top: 1,
+                  top: 1
                 }}
               >
                 {t('winningOdds')}
@@ -168,7 +168,7 @@ export const AccountPoolRow = (props) => {
                     />
                     <div className='inline-block xs:block ml-1 xs:ml-0 -mt-1 text-xs sm:text-sm'>
                       {t('lockedTicker', {
-                        ticker: ticker?.toUpperCase(),
+                        ticker: ticker?.toUpperCase()
                       })}
                     </div>
                   </span>
@@ -185,7 +185,7 @@ export const AccountPoolRow = (props) => {
               <div
                 className='w-full flex justify-between sm:justify-end lg:block lg:w-6/12 xs:text-right mt-4 lg:mt-0'
                 style={{
-                  lineHeight: 1.2,
+                  lineHeight: 1.2
                 }}
               >
                 <Link href='/account/pools/[symbol]' as={`/account/pools/${pool.symbol}`}>
@@ -201,7 +201,7 @@ export const AccountPoolRow = (props) => {
                       icon='arrow-right-circle'
                       className='inline-block relative w-4 h-4 mx-auto ml-1'
                       style={{
-                        top: -1,
+                        top: -1
                       }}
                     />
                   </a>

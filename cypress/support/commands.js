@@ -47,7 +47,7 @@ Cypress.Commands.overwrite('visit', (original, url, options) => {
           `https://rinkeby.infura.io/v3/${INFURA_ID}`
         )
         win.web3 = new Web3(p)
-      },
+      }
     }
   )
 })

@@ -30,7 +30,7 @@ export const PoolPrizesShow = (props) => {
     Cookies.set(WIZARD_REFERRER_AS_PATH, `/prizes/${pool.symbol}`, COOKIE_OPTIONS)
 
     router.push(`/pools/[symbol]/deposit`, `/pools/${pool.symbol}/deposit`, {
-      shallow: true,
+      shallow: true
     })
   }
 

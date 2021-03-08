@@ -4,9 +4,8 @@ import { Trans, useTranslation } from 'lib/../i18n'
 import { CardGrid } from 'lib/components/CardGrid'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
-import { PoolNumber } from 'lib/components/PoolNumber'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import CompoundFinanceIcon from 'assets/images/icon-compoundfinance.svg'
 import PrizeStrategyIcon from 'assets/images/icon-prizestrategy@2x.png'
@@ -17,9 +16,9 @@ import PrizeIcon from 'assets/images/icon-prize@2x.png'
 
 export const PoolShowCards = (props) => {
   const { pool } = props
-  
+
   const { t } = useTranslation()
-  
+
   const decimals = pool?.underlyingCollateralDecimals
 
   const cards = [
@@ -38,20 +37,23 @@ export const PoolShowCards = (props) => {
           <h3 className='mt-2'>
             {displayAmountInEther(pool.ticketSupply, {
               precision: 0,
-              decimals,
+              decimals
             })}
           </h3>
         </>
-      ),
+      )
     },
     {
       icon: TicketsIcon,
       title: t('totalDeposited'),
       content: (
         <h3 className='mt-2'>
-          $<PoolNumber>{numberWithCommas(pool.totalDepositedUSD, { precision: 2 })}</PoolNumber>
+          $
+          {numberWithCommas(pool.totalDepositedUSD, {
+            precision: getPrecision(pool.totalDepositedUSD)
+          })}
         </h3>
-      ),
+      )
     },
     {
       icon: PrizeStrategyIcon,
@@ -61,8 +63,8 @@ export const PoolShowCards = (props) => {
     {
       icon: PrizeIcon,
       title: t('pastFiveWinners'),
-      content: <LastWinnersListing pool={pool} />,
-    },
+      content: <LastWinnersListing pool={pool} />
+    }
   ]
 
   const yieldSourceCard = {
@@ -79,9 +81,9 @@ export const PoolShowCards = (props) => {
           Compound Finance
         </h6>
       </>
-    ),
+    )
   }
-  
+
   const stakePrizePoolCard = {
     icon: PrizeSourceIcon,
     title: t('prizeSource'),
@@ -92,16 +94,18 @@ export const PoolShowCards = (props) => {
             i18nKey='stakePrizePoolDescription'
             defaults='The prize for this pool is provided each prize period by the owner <a>Learn more</a>'
             components={{
-              a: <a
-                target='_blank'
-                className='underline text-highlight-9'
-                href='https://medium.com/pooltogether/prize-pool-builder-9f9c95fad860'
-              />
+              a: (
+                <a
+                  target='_blank'
+                  className='underline text-highlight-9'
+                  href='https://medium.com/pooltogether/prize-pool-builder-9f9c95fad860'
+                />
+              )
             }}
           />
         </h6>
       </>
-    ),
+    )
   }
 
   if (pool?.compoundPrizePool) {
@@ -110,10 +114,5 @@ export const PoolShowCards = (props) => {
     cards.splice(4, 0, stakePrizePoolCard)
   }
 
-  return (
-    <CardGrid
-      cardGroupId='pool-cards'
-      cards={cards}
-    />
-  )
+  return <CardGrid cardGroupId='pool-cards' cards={cards} />
 }

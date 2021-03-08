@@ -60,8 +60,8 @@ export function ConfirmWithdrawWithFeeForm(props) {
   }
 
   let tipJsx = null
-  let gross = ethers.utils.bigNumberify(0)
-  let net = ethers.utils.bigNumberify(0)
+  let gross = ethers.BigNumber.from(0)
+  let net = ethers.BigNumber.from(0)
   let grossFormatted, netFormatted, feeFormatted
 
   if (exitFee && quantity && decimals) {
@@ -83,14 +83,14 @@ export function ConfirmWithdrawWithFeeForm(props) {
         <br />
         {t('withdrawScheduledDescription', {
           amount: quantity,
-          ticker,
+          ticker
         })}
 
         <br />
         <br />
         {t('withdrawInstantDescription', {
           amount: displayAmountInEther(exitFee, { decimals, precision: 8 }),
-          ticker,
+          ticker
         })}
       </>
     )
@@ -103,7 +103,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
   const txName = t('withdrawWithFeeTxName', {
     quantity: quantityFormatted,
     tickerUpcased,
-    feeFormatted,
+    feeFormatted
   })
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
@@ -111,9 +111,9 @@ export function ConfirmWithdrawWithFeeForm(props) {
   const runTx = async () => {
     const params = [
       usersAddress,
-      ethers.utils.bigNumberify(gross),
+      ethers.BigNumber.from(gross),
       controlledTicketTokenAddress,
-      ethers.utils.bigNumberify(exitFee),
+      ethers.BigNumber.from(exitFee)
     ]
 
     const id = await sendTx(txName, PrizePoolAbi, poolAddress, method, params)
@@ -139,10 +139,10 @@ export function ConfirmWithdrawWithFeeForm(props) {
                 i18nKey='withdrawAmountTickets'
                 defaults='Withdraw <number>{{amount}}</number> tickets'
                 components={{
-                  number: <PoolNumber />,
+                  number: <PoolNumber />
                 }}
                 values={{
-                  amount: quantityFormatted,
+                  amount: quantityFormatted
                 }}
               />
             </PaneTitle>
@@ -180,8 +180,8 @@ export function ConfirmWithdrawWithFeeForm(props) {
                         {t('when')} <span className='block xs:inline font-bold'>{t('now')}</span>
                       </div>
                     </>
-                  ),
-                },
+                  )
+                }
               ]}
             />
 
@@ -193,20 +193,20 @@ export function ConfirmWithdrawWithFeeForm(props) {
                   scale: 1,
                   height: 'auto',
                   transition: {
-                    duration: shouldReduceMotion ? 0 : 0.25,
-                  },
+                    duration: shouldReduceMotion ? 0 : 0.25
+                  }
                 },
                 exit: {
                   scale: 0,
-                  height: 0,
-                },
+                  height: 0
+                }
               }}
               className={classnames(
                 'flex flex-col items-center justify-between w-full mx-auto rounded-xl sm:mx-auto text-inverse text-xs xs:text-sm sm:text-lg',
                 'overflow-hidden py-2 xs:py-4 px-6 h-40'
               )}
               style={{
-                maxWidth: 420,
+                maxWidth: 420
               }}
             >
               <CheckboxInputGroup
@@ -225,11 +225,11 @@ export function ConfirmWithdrawWithFeeForm(props) {
                   i18nKey='youChooseToPayFairnessFeeOfAmountTicker'
                   defaults='You choose to pay a Fairness Fee of <bold>{{amount}} {{ticker}}</bold> in order to withdraw early.'
                   components={{
-                    bold: <span className='font-bold' />,
+                    bold: <span className='font-bold' />
                   }}
                   values={{
                     amount: feeFormatted,
-                    ticker,
+                    ticker
                   }}
                 />
               </div>

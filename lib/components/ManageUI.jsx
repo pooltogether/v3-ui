@@ -53,16 +53,16 @@ export const ManageUI = (props) => {
           {
             href: '/',
             as: '/',
-            name: t('pools'),
+            name: t('pools')
           },
           {
             href: '/pools/[symbol]',
             as: `/pools/${pool?.symbol}`,
-            name: pool?.name,
+            name: pool?.name
           },
           {
-            name: t('manage'),
-          },
+            name: t('manage')
+          }
         ]}
       />
 
@@ -78,7 +78,7 @@ export const ManageUI = (props) => {
                   icon='lock'
                   className='inline-block w-6 h-6 relative'
                   style={{
-                    top: -3,
+                    top: -3
                   }}
                 />
               </>
@@ -91,7 +91,7 @@ export const ManageUI = (props) => {
                   icon='check'
                   className='inline-block w-6 h-6 relative'
                   style={{
-                    top: -3,
+                    top: -3
                   }}
                 />
               </>
@@ -104,7 +104,7 @@ export const ManageUI = (props) => {
                   icon='clock'
                   className='inline-block w-6 h-6 relative'
                   style={{
-                    top: -3,
+                    top: -3
                   }}
                 />
               </>
@@ -171,7 +171,7 @@ export const ManageUI = (props) => {
               {
                 icon: null,
                 title: t('prizePeriodInSeconds'),
-                content: <h3>{numberWithCommas(pool?.prizePeriodSeconds, { precision: 0 })}</h3>,
+                content: <h3>{numberWithCommas(pool?.prizePeriodSeconds, { precision: 0 })}</h3>
               },
               {
                 icon: null,
@@ -181,8 +181,8 @@ export const ManageUI = (props) => {
                     {displayAmountInEther(pool?.totalSponsorship, { decimals, precision: 0 })}{' '}
                     {tickerUpcased}
                   </h3>
-                ),
-              },
+                )
+              }
             ]}
           />
         </>

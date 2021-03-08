@@ -27,7 +27,7 @@ const onlyUnique = (value, index, self) => {
   return self.indexOf(value) === index
 }
 
-export function Layout (props) {
+export function Layout(props) {
   const { children } = props
 
   const shouldReduceMotion = useReducedMotion()

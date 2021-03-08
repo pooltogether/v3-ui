@@ -64,9 +64,7 @@ export const TxStatus = (props) => {
           />
         )}
 
-        <div className='text-white text-sm'>
-          {t('transactionStatus')}
-        </div>
+        <div className='text-white text-sm'>{t('transactionStatus')}</div>
 
         {txInWallet && !txError && (
           <div className='text-sm sm:text-base text-orange'>
@@ -120,5 +118,5 @@ TxStatus.defaultProps = {
   hideOnSuccess: false,
   hideOnInWallet: false,
   hideOnSent: false,
-  hideExtraMessage: false,
+  hideExtraMessage: false
 }

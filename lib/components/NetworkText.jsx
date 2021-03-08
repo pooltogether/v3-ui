@@ -7,7 +7,7 @@ import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 
 import IconNetwork from 'assets/images/icon-network.svg'
 
-export function NetworkText (props) {
+export function NetworkText(props) {
   const { openTransactions } = props
 
   const { supportedNetwork, chainId } = useContext(AuthControllerContext)

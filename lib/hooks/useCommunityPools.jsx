@@ -33,7 +33,12 @@ export function useCommunityPools() {
   communityPools = useMemo(() => {
     if (communityPoolsGraphData) {
       const keys = Object.keys(communityPoolsGraphData)
-      return keys?.map(key => {
+      // console.log(
+      //   keys?.map((key) => {
+      //     return communityPoolsGraphData[key]
+      //   })
+      // )
+      return keys?.map((key) => {
         return communityPoolsGraphData[key]
       })
     }
@@ -45,7 +50,7 @@ export function useCommunityPools() {
     communityPools,
     communityPoolsDataLoading,
     communityRefetch,
-    communityPoolsGraphData,
+    communityPoolsGraphData
   }
 }
 
@@ -62,7 +67,7 @@ const _initializeCommunityPoolData = (communityPoolsGraphData = []) => {
 
     poolData[poolGraphData.symbol] = {
       ...poolGraphData,
-      ...marshalledData,
+      ...marshalledData
     }
   })
 
