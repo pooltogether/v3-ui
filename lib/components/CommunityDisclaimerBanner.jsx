@@ -17,21 +17,25 @@ export const CommunityDisclaimerBanner = (props) => {
       <div className='mr-4 xs:mr-4 xs:ml-4 my-auto h-10'>
         <img className='shake' src={Bell} style={{ maxWidth: 30 }} />
       </div>
-      
+
       <h5 className='text-functional-red sm:leading-tight sm:ml-2'>
         {t('anyoneCanCreateAPrizePool')}
         <br />
-        <span className='font-normal'><Trans
-          i18nKey='learnAboutCommunityPrizePoolsHere'
-          defaults='Learn about community prize pools <a>here</a>'
-          components={{
-            a: <a
-              target='_blank'
-              className='underline text-functional-red'
-              href='https://medium.com/pooltogether/prize-pool-builder-9f9c95fad860'
-            />
-          }}
-        /></span>
+        <span className='font-normal'>
+          <Trans
+            i18nKey='learnAboutCommunityPrizePoolsHere'
+            defaults='Learn about community prize pools <a>here</a>'
+            components={{
+              a: (
+                <a
+                  target='_blank'
+                  className='underline text-functional-red'
+                  href='https://medium.com/pooltogether/prize-pool-builder-9f9c95fad860'
+                />
+              )
+            }}
+          />
+        </span>
       </h5>
     </Banner>
   )

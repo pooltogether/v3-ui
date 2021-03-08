@@ -9,7 +9,7 @@ import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
-export function PlunderLootBoxTxButton (props) {
+export function PlunderLootBoxTxButton(props) {
   const { t } = useTranslation()
 
   const { alreadyClaimed, prizeNumber, pool } = props

@@ -6,7 +6,7 @@ import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { calculateOdds } from 'lib/utils/calculateOdds'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 
-export function Odds (props) {
+export function Odds(props) {
   const { t } = useTranslation()
 
   const {

@@ -27,7 +27,7 @@ const COMMUNITY_POOLS_BLOCK_LIST = [
   '0x55ab6e07fb3ae2598fe463ea4dcf872a006fec77'
 ]
 
-export function useCommunityPoolAddresses () {
+export function useCommunityPoolAddresses() {
   const { contractAddresses } = useContractAddresses()
 
   const { data: addresses, isFetched } = usePoolAddressesQuery()

@@ -19,7 +19,7 @@ export function WizardLayout(props) {
     hideWizardSteps,
     totalWizardSteps,
     closeWizard,
-    children,
+    children
   } = props
 
   const shouldReduceMotion = useReducedMotion()
@@ -64,8 +64,8 @@ export function WizardLayout(props) {
           opacity: 0,
           transition: {
             duration: shouldReduceMotion ? 0 : 0.25,
-            delay: shouldReduceMotion ? 0 : 0.25,
-          },
+            delay: shouldReduceMotion ? 0 : 0.25
+          }
         }}
       />
 
@@ -84,7 +84,7 @@ export function WizardLayout(props) {
               'text-inverse hover:opacity-100 trans outline-none focus:outline-none active:outline-none',
               {
                 'opacity-70': !disabled,
-                'opacity-30': disabled,
+                'opacity-30': disabled
               }
             )}
           >
@@ -105,41 +105,43 @@ export function WizardLayout(props) {
                   y: 13,
                   transition: {
                     when: 'beforeChildren',
-                    staggerChildren: shouldReduceMotion ? 0 : 0.4,
-                  },
+                    staggerChildren: shouldReduceMotion ? 0 : 0.4
+                  }
                 },
                 exit: {
-                  y: -70,
-                },
+                  y: -70
+                }
               }}
               initial='exit'
               exit='exit'
               animate='enter'
             >
-              {!hideWizardSteps && (<>
-                {range1(totalWizardSteps).map((stepNum, index) => {
-                  return (
-                    <motion.div
-                      key={`step-counter-${index + 1}`}
-                      transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: 'easeIn' }}
-                      exit={{ scaleX: 0 }}
-                      onClick={(e) => {
-                        e.preventDefault()
+              {!hideWizardSteps && (
+                <>
+                  {range1(totalWizardSteps).map((stepNum, index) => {
+                    return (
+                      <motion.div
+                        key={`step-counter-${index + 1}`}
+                        transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: 'easeIn' }}
+                        exit={{ scaleX: 0 }}
+                        onClick={(e) => {
+                          e.preventDefault()
 
-                        if (currentWizardStep < index + 1) {
-                          return
-                        }
+                          if (currentWizardStep < index + 1) {
+                            return
+                          }
 
-                        moveToStep(index)
-                      }}
-                      className={classnames('cursor-pointer w-8 h-2 rounded-sm mx-1', {
-                        'bg-default': currentWizardStep < index + 1,
-                        'bg-purple': currentWizardStep >= index + 1,
-                      })}
-                    />
-                  )
-                })}
-              </>)}
+                          moveToStep(index)
+                        }}
+                        className={classnames('cursor-pointer w-8 h-2 rounded-sm mx-1', {
+                          'bg-default': currentWizardStep < index + 1,
+                          'bg-purple': currentWizardStep >= index + 1
+                        })}
+                      />
+                    )
+                  })}
+                </>
+              )}
             </motion.div>
           </AnimatePresence>
 
@@ -159,7 +161,7 @@ export function WizardLayout(props) {
         <div
           className='h-full flex flex-col justify-center px-4 xs:px-12 sm:px-36 lg:px-48 text-center mx-auto'
           style={{
-            maxWidth: 1160,
+            maxWidth: 1160
           }}
         >
           {children}

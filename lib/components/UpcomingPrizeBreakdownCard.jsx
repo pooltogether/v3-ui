@@ -29,18 +29,18 @@ export const UpcomingPrizeBreakdownCard = (props) => {
   let strategyDescriptionBasic
   if (Boolean(pool?.splitExternalErc20Awards)) {
     strategyDescriptionBasic = t('prizeSplitEvenlyBetweenAllWinners', {
-      numberOfWinners: pool?.numberOfWinners,
+      numberOfWinners: pool?.numberOfWinners
     })
   } else if (Boolean(pool?.ticketPrizeUSD)) {
     strategyDescriptionBasic = t('prizeInterestSplitBetweenNWinners', {
-      numberOfWinnersMinusOne,
+      numberOfWinnersMinusOne
     })
   }
-  
+
   if (pool?.numberOfWinners <= 1) {
     strategyDescriptionBasic = t('prizeGivenToASingleWinner')
   }
-  
+
   return (
     <>
       <div className='non-interactable-card my-6 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg'>
@@ -50,7 +50,6 @@ export const UpcomingPrizeBreakdownCard = (props) => {
 
         <p className='sm:w-2/3 text-accent-1'>
           {strategyDescriptionBasic}
-          
           <br />
           {t('willBeAwardedIn')}{' '}
           <span className='text-inverse'>
@@ -91,11 +90,12 @@ export const UpcomingPrizeBreakdownCard = (props) => {
                 <div
                   className='relative'
                   style={{
-                    top: 3,
+                    top: 3
                   }}
                 >
                   <h3>
-                    {Boolean(pool?.externalAwardsUSD > 0) && `$${numberWithCommas(pool.externalAwardsUSD)}`}
+                    {Boolean(pool?.externalAwardsUSD > 0) &&
+                      `$${numberWithCommas(pool.externalAwardsUSD)}`}
                   </h3>
                   <span className='text-sm xs:text-base sm:text-xl text-accent-1 leading-none'>
                     {t('lootBox')}
@@ -114,7 +114,9 @@ export const UpcomingPrizeBreakdownCard = (props) => {
               <tbody>
                 <tr>
                   <td className='w-1/3 lg:w-1/2'>
-                    <span className='font-bold'>{computedLootBoxAddress ? t('grandPrize') : t('winner')}</span>
+                    <span className='font-bold'>
+                      {computedLootBoxAddress ? t('grandPrize') : t('winner')}
+                    </span>
                   </td>
                   <td>
                     <span className='font-bold'>
@@ -124,12 +126,12 @@ export const UpcomingPrizeBreakdownCard = (props) => {
                       {' '}
                       {symbol} {t('tickets')}
                     </span>
-                    
                     {!pool?.splitExternalErc20Awards && Boolean(pool?.externalAwardsUSD) && (
                       <>
                         <span className='font-bold'>
                           {ticketPrizePerWinnerFormatted && pool?.externalAwardsUSD && ` + `}
-                          {pool?.externalAwardsUSD && `$${numberWithCommas(pool.externalAwardsUSD)}`}
+                          {pool?.externalAwardsUSD &&
+                            `$${numberWithCommas(pool.externalAwardsUSD)}`}
                         </span>{' '}
                         <span className='text-accent-1'>{t('lootBox')}</span>
                       </>
@@ -140,7 +142,9 @@ export const UpcomingPrizeBreakdownCard = (props) => {
                 {[...Array(numberOfWinnersMinusOne).keys()].map((index) => (
                   <tr key={`runner-up-row-${index}`}>
                     <td className='w-1/3 lg:w-1/2'>
-                      <span className='font-bold'>{computedLootBoxAddress ? t('runnerUp') : t('winner')}</span>
+                      <span className='font-bold'>
+                        {computedLootBoxAddress ? t('runnerUp') : t('winner')}
+                      </span>
                     </td>
                     <td>
                       <span className='font-bold'>{ticketPrizePerWinnerFormatted}</span>{' '}

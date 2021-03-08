@@ -21,7 +21,7 @@ const margin = {
   top: 20,
   bottom: 0,
   left: 20,
-  right: 20,
+  right: 20
 }
 
 export function DateValueLineGraph(props) {
@@ -31,12 +31,12 @@ export function DateValueLineGraph(props) {
     tooltipTop,
     tooltipData,
     hideTooltip,
-    showTooltip,
+    showTooltip
   } = useTooltip()
 
   const { containerRef, TooltipInPortal } = useTooltipInPortal({
     detectBounds: true,
-    scroll: true,
+    scroll: true
   })
 
   const { theme } = useContext(ThemeContext)
@@ -58,11 +58,11 @@ export function DateValueLineGraph(props) {
             // scales
             const xScale = scaleTime({
               range: [0, xMax],
-              domain: extent(allData, getX),
+              domain: extent(allData, getX)
             })
             const yScale = scaleLinear({
               range: [yMax, 0],
-              domain: [0, max(allData, getY)],
+              domain: [0, max(allData, getY)]
             })
 
             return (
@@ -81,7 +81,7 @@ export function DateValueLineGraph(props) {
                         Date:{' '}
                         <strong>
                           {formatDate(tooltipData.date / 1000, {
-                            short: true,
+                            short: true
                           })}
                         </strong>
                       </span>
@@ -141,7 +141,7 @@ export function DateValueLineGraph(props) {
                                 showTooltip({
                                   tooltipLeft: coords.x,
                                   tooltipTop: coords.y,
-                                  tooltipData: data,
+                                  tooltipData: data
                                 })
                               }}
                               onMouseMove={(event) => {
@@ -150,7 +150,7 @@ export function DateValueLineGraph(props) {
                                 showTooltip({
                                   tooltipLeft: coords.x,
                                   tooltipTop: coords.y,
-                                  tooltipData: data,
+                                  tooltipData: data
                                 })
                               }}
                             />

@@ -6,7 +6,7 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { calculateOdds } from 'lib/utils/calculateOdds'
 
-export function WithdrawOdds (props) {
+export function WithdrawOdds(props) {
   const { t } = useTranslation()
 
   const { pool, usersTicketBalanceBN } = props

@@ -18,16 +18,16 @@ export const PrizesPageHeader = (props) => {
           {
             href: '/',
             as: '/',
-            name: t('pools'),
+            name: t('pools')
           },
           {
             href: '/pools/[symbol]',
             as: `/pools/${pool?.symbol}`,
-            name: pool?.name,
+            name: pool?.name
           },
           {
-            name: t('prizes'),
-          },
+            name: t('prizes')
+          }
         ]}
       />
 

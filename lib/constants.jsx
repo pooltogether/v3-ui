@@ -268,7 +268,7 @@ export const POOL_LIST_TABS = {
 }
 
 export const HOTKEYS_KEY_MAP = {
-  TOGGLE_THEME: 'ctrl+shift+t',
+  TOGGLE_THEME: 'ctrl+shift+t'
 }
 
 export const ANIM_BANNER_VARIANTS = (shouldReduceMotion) => ({
@@ -276,16 +276,16 @@ export const ANIM_BANNER_VARIANTS = (shouldReduceMotion) => ({
     scale: 1,
     opacity: 1,
     transition: {
-      duration: shouldReduceMotion ? 0 : 0.2,
-    },
+      duration: shouldReduceMotion ? 0 : 0.2
+    }
   },
   exit: {
     scale: 0,
     opacity: 1,
     transition: {
-      duration: shouldReduceMotion ? 0 : 0.2,
-    },
-  },
+      duration: shouldReduceMotion ? 0 : 0.2
+    }
+  }
 })
 
 export const ANIM_LIST_VARIANTS = (shouldReduceMotion) => ({
@@ -294,19 +294,19 @@ export const ANIM_LIST_VARIANTS = (shouldReduceMotion) => ({
     y: 0,
     opacity: 1,
     transition: {
-      duration: shouldReduceMotion ? 0 : 0.2,
+      duration: shouldReduceMotion ? 0 : 0.2
       // staggerChildren: shouldReduceMotion ? 0 : 0.5,
       // delayChildren: shouldReduceMotion ? 0 : 0.2,
-    },
+    }
   },
   exit: {
     scale: 0,
     y: -100,
     opacity: 0,
     transition: {
-      duration: shouldReduceMotion ? 0 : 0.6,
+      duration: shouldReduceMotion ? 0 : 0.6
       // staggerChildren: shouldReduceMotion ? 0 : 0.05,
       // staggerDirection: -1,
-    },
-  },
+    }
+  }
 })

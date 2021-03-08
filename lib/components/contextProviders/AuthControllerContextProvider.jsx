@@ -7,7 +7,7 @@ import {
   COOKIE_OPTIONS,
   SUPPORTED_CHAIN_IDS,
   SELECTED_WALLET_COOKIE_KEY,
-  MAGIC_EMAIL,
+  MAGIC_EMAIL
 } from 'lib/constants'
 import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
@@ -42,7 +42,7 @@ export function AuthControllerContextProvider(props) {
     onboardWallet,
     reconnectWallet,
     connectWallet,
-    disconnectWallet,
+    disconnectWallet
   } = useContext(WalletContext)
 
   const { address, magic, signIn, signedIn, signOut: magicSignOut } = useContext(MagicContext)
@@ -174,7 +174,7 @@ export function AuthControllerContextProvider(props) {
         signInMagic,
         connectWallet,
         networkName,
-        supportedNetwork,
+        supportedNetwork
       }}
     >
       {children}

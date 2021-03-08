@@ -7,7 +7,7 @@ const IndexUIPlaceholderRow = () => {
         'w-full px-3 sm:px-4 sm:px-4 mb-3 py-3 sm:py-4 inline-block  trans rounded-lg border-0 text-inverse bg-primary hover:bg-secondary hover:text-primary cursor-pointer shadow-md hover:shadow-xl'
       }
       style={{
-        minHeight: 120,
+        minHeight: 120
       }}
     >
       <div className='flex justify-between items-center'>

@@ -37,7 +37,7 @@ export function CardGrid(props) {
             className={classnames({
               'sm:w-full': cards.length < 2,
               'sm:w-1/2': cards.length === 2,
-              'sm:w-1/2 lg:w-1/3': cards.length >= 3,
+              'sm:w-1/2 lg:w-1/3': cards.length >= 3
             })}
           />
         )

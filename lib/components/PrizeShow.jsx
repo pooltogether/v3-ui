@@ -36,21 +36,21 @@ export function PrizeShow(props) {
           {
             href: '/',
             as: '/',
-            name: t('pools'),
+            name: t('pools')
           },
           {
             href: '/pools/[symbol]',
             as: `/pools/${poolSymbol}`,
-            name: poolName,
+            name: poolName
           },
           {
             href: '/prizes/[symbol]',
             as: `/prizes/${poolSymbol}`,
-            name: t('prizes'),
+            name: t('prizes')
           },
           {
-            name: `${t('prize')} #${prizeNumber}`,
-          },
+            name: `${t('prize')} #${prizeNumber}`
+          }
         ]}
       />
 
@@ -86,13 +86,13 @@ export function PrizeShow(props) {
                   {preAwardTimeTravelPool?.ticketSupply
                     ? displayAmountInEther(preAwardTimeTravelPool.ticketSupply, {
                         decimals,
-                        precision: 0,
+                        precision: 0
                       })
                     : null}
                 </h3>
               </>
-            ),
-          },
+            )
+          }
         ]}
       />
 
@@ -122,7 +122,6 @@ export function PrizeShow(props) {
           )
         }}
       </PrizePlayersQuery>
-
     </>
   )
 }

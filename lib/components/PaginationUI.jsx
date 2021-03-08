@@ -21,7 +21,7 @@ export function PaginationUI({
   showNext,
   prevLabel,
   nextLabel,
-  className,
+  className
 }) {
   const { t } = useTranslation()
 
@@ -41,8 +41,8 @@ export function PaginationUI({
             href={{
               pathname: hrefPathname,
               query: {
-                page: prevPage,
-              },
+                page: prevPage
+              }
             }}
             scroll={false}
           >
@@ -62,8 +62,8 @@ export function PaginationUI({
                   href={{
                     pathname: hrefPathname,
                     query: {
-                      page: 1,
-                    },
+                      page: 1
+                    }
                   }}
                   scroll={false}
                 >
@@ -83,8 +83,8 @@ export function PaginationUI({
                 href={{
                   pathname: hrefPathname,
                   query: {
-                    page: prevPage,
-                  },
+                    page: prevPage
+                  }
                 }}
                 scroll={false}
               >
@@ -100,8 +100,8 @@ export function PaginationUI({
               href={{
                 pathname: hrefPathname,
                 query: {
-                  page: currentPage,
-                },
+                  page: currentPage
+                }
               }}
               scroll={false}
             >
@@ -115,8 +115,8 @@ export function PaginationUI({
                 href={{
                   pathname: hrefPathname,
                   query: {
-                    page: nextPage,
-                  },
+                    page: nextPage
+                  }
                 }}
                 scroll={false}
               >
@@ -136,8 +136,8 @@ export function PaginationUI({
                   href={{
                     pathname: hrefPathname,
                     query: {
-                      page: lastPage,
-                    },
+                      page: lastPage
+                    }
                   }}
                   scroll={false}
                 >
@@ -157,8 +157,8 @@ export function PaginationUI({
             href={{
               pathname: hrefPathname,
               query: {
-                page: nextPage,
-              },
+                page: nextPage
+              }
             }}
             scroll={false}
           >

@@ -9,10 +9,10 @@ export function usePoolChainQuery(poolGraphData) {
   const {
     data: poolChainData,
     error: poolChainError,
-    isFetching: poolIsFetching,
+    isFetching: poolIsFetching
   } = useEthereumPoolQuery({
     provider: readProvider,
-    poolGraphData,
+    poolGraphData
   })
 
   if (poolChainError) {

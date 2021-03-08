@@ -12,7 +12,7 @@ export function useUsersChainData(pool) {
   const { data: usersChainData, error: usersChainError } = useUsersChainQuery({
     provider: readProvider,
     pool,
-    usersAddress,
+    usersAddress
   })
 
   if (usersChainError) {

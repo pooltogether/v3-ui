@@ -55,7 +55,7 @@ export const TVLAndWeeklyPrizesBanner = (props) => {
       style={{ minHeight: 150 }}
     >
       <img src={Rocket} className='mr-4 xs:mr-4 xs:ml-4 my-auto w-12 h-12 xs:w-20 xs:h-20' />
-      
+
       <h4 className='text-white sm:leading-tight text-xs xs:text-lg sm:text-xl lg:text-2xl'>
         {t(`currentTvlAndPrize`, {
           tvl: totalValueLockedFormatted,

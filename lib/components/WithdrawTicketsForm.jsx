@@ -35,7 +35,7 @@ export function WithdrawTicketsForm(props) {
 
   const { handleSubmit, register, errors, formState, watch, setValue } = useForm({
     mode: 'all',
-    reValidateMode: 'onChange',
+    reValidateMode: 'onChange'
   })
 
   const watchQuantity = watch('quantity')
@@ -46,14 +46,14 @@ export function WithdrawTicketsForm(props) {
         ethers.utils.parseUnits(value, decimals).lte(usersTicketBalanceBN) ||
         t('pleaseEnterAmountLowerThanTicketBalance')
       )
-    },
+    }
   }
 
   const onSubmit = (values) => {
     if (formState.isValid) {
       queryParamUpdater.add(router, {
         quantity: values.quantity,
-        prevBalance: usersTicketBalanceBN.toString(),
+        prevBalance: usersTicketBalanceBN.toString()
       })
 
       nextStep()
@@ -107,7 +107,7 @@ export function WithdrawTicketsForm(props) {
         <div
           className='mt-2 text-sm text-highlight-1 mb-2'
           style={{
-            minHeight: 24,
+            minHeight: 24
           }}
         >
           {Object.values(errors).length > 0 ? (
@@ -119,7 +119,7 @@ export function WithdrawTicketsForm(props) {
               <div
                 className='odds-box mx-auto font-normal text-xxs xs:text-xs text-orange'
                 style={{
-                  maxWidth: 550,
+                  maxWidth: 550
                 }}
               >
                 <WithdrawOdds

@@ -17,7 +17,7 @@ import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
-export function DepositOrWithdrawSponsorshipModal (props) {
+export function DepositOrWithdrawSponsorshipModal(props) {
   const { t } = useTranslation()
   const { decimals, handleClose, isWithdraw, tickerUpcased, visible } = props
 

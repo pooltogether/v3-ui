@@ -20,7 +20,7 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 
 const bn = ethers.BigNumber.from
 
-export function ExecuteCryptoDeposit (props) {
+export function ExecuteCryptoDeposit(props) {
   const { t } = useTranslation()
 
   const { nextStep, previousStep } = props

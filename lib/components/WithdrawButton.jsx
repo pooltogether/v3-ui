@@ -20,7 +20,7 @@ export function WithdrawButton(props) {
     Cookies.set(WIZARD_REFERRER_AS_PATH, `/account/pools/${poolSymbol}`, COOKIE_OPTIONS)
 
     router.push(`/account/pools/[symbol]/withdraw`, `/account/pools/${poolSymbol}/withdraw`, {
-      shallow: true,
+      shallow: true
     })
   }
 

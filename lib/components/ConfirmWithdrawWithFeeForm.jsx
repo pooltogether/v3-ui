@@ -26,7 +26,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import IconLightning from 'assets/images/icon-lightning.svg'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
-export function ConfirmWithdrawWithFeeForm (props) {
+export function ConfirmWithdrawWithFeeForm(props) {
   const { t } = useTranslation()
   const router = useRouter()
 

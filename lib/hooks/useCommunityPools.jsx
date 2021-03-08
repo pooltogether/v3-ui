@@ -6,7 +6,7 @@ import { marshallPoolData } from 'lib/services/marshallPoolData'
 import { poolToast } from 'lib/utils/poolToast'
 import { symbolTemplate, nameTemplate } from 'lib/utils/communityPoolStringTemplates'
 
-export function useCommunityPools () {
+export function useCommunityPools() {
   const { communityPoolAddresses } = useCommunityPoolAddresses()
 
   let communityPools = []

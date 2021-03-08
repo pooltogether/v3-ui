@@ -19,7 +19,7 @@ export function ConfirmWithdrawWithFee(props) {
       <div
         className='mx-auto'
         style={{
-          maxWidth: 550,
+          maxWidth: 550
         }}
       >
         <PaneTitle>{t('uhOhYoureWithdrawingYourFundsTooSoon')}</PaneTitle>
@@ -30,7 +30,7 @@ export function ConfirmWithdrawWithFee(props) {
           i18nKey='toEnsureFairnessDescription'
           defaults='You are withdrawing <bold>{{amount}} {{ticker}}</bold> and paying a <bold>{{amountTwo}} {{ticker}}</bold> fee'
           components={{
-            bold: <span className='font-bold' />,
+            bold: <span className='font-bold' />
           }}
         />
       </PaneTitle>

@@ -17,7 +17,7 @@ export const VoteUI = (props) => {
           alt="chillin' wallet illustration"
           className='w-1/2 xs:w-1/3 lg:w-2/3 mx-auto relative mb-4'
           style={{
-            right: -30,
+            right: -30
           }}
         />
         <h4 className='mb-6'>{t('directTheFuture')}</h4>

@@ -14,7 +14,7 @@ import Bell from 'assets/images/bell@2x.png'
 
 export const RetroactivePoolClaimBanner = (props) => {
   const { t } = useTranslation()
-  
+
   const router = useRouter()
   const { usersAddress } = useContext(AuthControllerContext)
   const { data, loading } = useRetroactivePoolClaimData()

@@ -71,18 +71,18 @@ export function DepositWizardContainer(props) {
                         <DepositTicketQuantityForm
                           iconSrc={WalletIcon}
                           formName={t('depositTickerToWin', {
-                            ticker: tickerUpcased,
+                            ticker: tickerUpcased
                           })}
                           formSubName={
                             <Trans
                               i18nKey='amountTickerEqualsAmountTickets'
                               defaults='<number>{{amount}}</number> {{ticker}} = <number>{{amount}}</number> ticket'
                               components={{
-                                number: <PoolNumber />,
+                                number: <PoolNumber />
                               }}
                               values={{
                                 amount: '1',
-                                ticker: tickerUpcased,
+                                ticker: tickerUpcased
                               }}
                             />
                           }

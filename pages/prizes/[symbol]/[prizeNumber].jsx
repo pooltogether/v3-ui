@@ -32,7 +32,7 @@ export default function PrizeShowPage(props) {
     return (
       <BlankStateMessage>
         {t('couldNotFindPoolWithSymbol', {
-          symbol: querySymbol,
+          symbol: querySymbol
         })}
       </BlankStateMessage>
     )

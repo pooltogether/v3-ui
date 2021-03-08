@@ -22,7 +22,7 @@ import { usersDataForPool } from 'lib/utils/usersDataForPool'
 import { TxStatus } from 'lib/components/TxStatus'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
-export function DepositCryptoForm (props) {
+export function DepositCryptoForm(props) {
   const { t } = useTranslation()
 
   const { nextStep, previousStep } = props

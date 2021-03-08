@@ -30,22 +30,24 @@ const CoingeckoOrPlaceholder = (props) => {
     src = '/tokens/eth-placeholder.png'
   }
 
-  return <motion.img
+  return (
+    <motion.img
       src={src}
       className={className}
       animate={{ opacity: 1 }}
       initial={{ opacity: 0 }}
       exit={{ opacity: 0 }}
     />
+  )
 }
 
 export const PoolCurrencyIcon = (props) => {
   const { className, noMediaQueries, sm, lg, xl, xs, pool } = props
 
   const { theme } = useContext(ThemeContext)
-  
+
   const noMargin = props.noMargin || false
-  
+
   const address = pool?.underlyingCollateralToken
   const symbol = pool?.underlyingCollateralSymbol?.toLowerCase()
 
@@ -88,7 +90,7 @@ export const PoolCurrencyIcon = (props) => {
   const classes = classnames(sizeClasses, {
     [className]: className,
     'inline-block': !className,
-    'mr-1': !noMargin,
+    'mr-1': !noMargin
   })
 
   // Get from hard-coded img URL store
@@ -96,5 +98,9 @@ export const PoolCurrencyIcon = (props) => {
     src = TOKEN_IMAGES[address?.toLowerCase()]
   }
 
-  return !src ? <CoingeckoOrPlaceholder address={address} className={classes} /> : <img src={src} className={classes} />
+  return !src ? (
+    <CoingeckoOrPlaceholder address={address} className={classes} />
+  ) : (
+    <img src={src} className={classes} />
+  )
 }

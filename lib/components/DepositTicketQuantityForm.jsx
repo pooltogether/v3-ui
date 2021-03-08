@@ -26,7 +26,7 @@ import IconTarget from 'assets/images/icon-target@2x.png'
 
 const bn = ethers.BigNumber.from
 
-export function DepositTicketQuantityForm (props) {
+export function DepositTicketQuantityForm(props) {
   const { t } = useTranslation()
 
   const { balanceJsx, formName, formSubName, iconSrc, nextStep } = props

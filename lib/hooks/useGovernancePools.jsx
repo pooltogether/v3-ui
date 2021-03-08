@@ -11,16 +11,14 @@ import { poolToast } from 'lib/utils/poolToast'
 export function useGovernancePools() {
   const { chainId } = useContext(AuthControllerContext)
 
-  const { contractAddresses } = useContractAddresses()  
+  const { contractAddresses } = useContractAddresses()
 
   const blockNumber = -1
   const poolAddresses = contractAddresses?.pools
-  let {
-    refetch: poolsRefetch,
-    data: poolsGraphData,
-    error,
-    isFetched,
-  } = usePoolsQuery(poolAddresses, blockNumber)
+  let { refetch: poolsRefetch, data: poolsGraphData, error, isFetched } = usePoolsQuery(
+    poolAddresses,
+    blockNumber
+  )
 
   if (error) {
     poolToast.error(error)
@@ -43,7 +41,7 @@ export function useGovernancePools() {
       const _pool = {
         ...POOL,
         ...poolsGraphData[POOL.symbol],
-        id: contractAddresses[POOL.symbol],
+        id: contractAddresses[POOL.symbol]
       }
 
       if (_pool?.id) {
@@ -56,6 +54,6 @@ export function useGovernancePools() {
     pools,
     poolsDataLoading,
     poolsRefetch,
-    poolsGraphData,
+    poolsGraphData
   }
 }

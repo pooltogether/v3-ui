@@ -21,7 +21,7 @@ export function getButtonClasses(props) {
     transition,
     className,
     textSize,
-    width,
+    width
   } = props
 
   let defaultClasses =
@@ -57,7 +57,7 @@ export function getButtonClasses(props) {
     defaultHoverBg = 'hover:bg-body'
     defaultHoverText = 'hover:text-highlight-1'
   }
-  
+
   if (tertiary) {
     defaultBorder = 'border-transparent border-2'
     defaultBg = 'bg-highlight-3'
@@ -67,7 +67,6 @@ export function getButtonClasses(props) {
     defaultHoverBg = 'hover:bg-purple'
     defaultHoverText = 'hover:text-white'
   }
-
 
   bold = isUndefined(bold) ? 'font-bold' : ''
 

@@ -20,7 +20,7 @@ export const PageTitleAndBreadcrumbs = (props) => {
           className='inline-block text-left text-caption-2 relative uppercase mt-3'
           style={{
             left: 1,
-            bottom: 2,
+            bottom: 2
           }}
         >
           {breadcrumbs?.map((crumb, index) => (
@@ -53,16 +53,18 @@ export const PageTitleAndBreadcrumbs = (props) => {
 
             <div className='ml-1 sm:ml-6'>{crumbJsx}</div>
 
-            {typeof window !== 'undefined' && window.location.pathname.match('/pools/') && !pool.isCommunityPool && (
-              <div className='ml-4'>
-                <Chip
-                  className='font-bold uppercase'
-                  bgClasses='bg-highlight-6'
-                  textClasses='text-white font-bold'
-                  text={t('weekly')}
-                />
-              </div>
-            )}
+            {typeof window !== 'undefined' &&
+              window.location.pathname.match('/pools/') &&
+              !pool.isCommunityPool && (
+                <div className='ml-4'>
+                  <Chip
+                    className='font-bold uppercase'
+                    bgClasses='bg-highlight-6'
+                    textClasses='text-white font-bold'
+                    text={t('weekly')}
+                  />
+                </div>
+              )}
           </div>
         </>
       ) : (

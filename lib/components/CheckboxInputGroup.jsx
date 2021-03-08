@@ -19,26 +19,24 @@ export const CheckboxInputGroup = (props) => {
     <div
       className={classnames(defaultClasses, textClasses, marginClasses, roundedClasses, {
         'text-white inner-lg': checked,
-        'text-white': !checked,
+        'text-white': !checked
       })}
       onClick={handleClick}
     >
       <div
         id={id}
         onClick={handleClick}
-        className={classnames(
-          'flex items-center justify-center my-auto mr-3 leading-none'
-        )}
+        className={classnames('flex items-center justify-center my-auto mr-3 leading-none')}
       >
         <div
           className={classnames('flex items-center rounded-sm w-4 h-4 border-2 trans', {
             'text-white border-white hover:border-white': checked,
-            'text-darkened border-white hover:border-green': !checked,
+            'text-darkened border-white hover:border-green': !checked
           })}
         >
           <svg
             className={classnames('relative check', {
-              checked: checked,
+              checked: checked
             })}
             width='135'
             height='110'
@@ -49,9 +47,7 @@ export const CheckboxInputGroup = (props) => {
         </div>
       </div>
 
-      <div className='text-left flex flex-col items-start justify-start leading-snug'>
-        {label}
-      </div>
+      <div className='text-left flex flex-col items-start justify-start leading-snug'>{label}</div>
 
       {hint && (
         <PTHint title={title ? title : null} tip={hint}>

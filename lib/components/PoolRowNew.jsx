@@ -2,11 +2,7 @@ import React from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
-import {
-  COOKIE_OPTIONS,
-  WIZARD_REFERRER_HREF,
-  WIZARD_REFERRER_AS_PATH,
-} from 'lib/constants'
+import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -38,21 +34,22 @@ export const PoolRowNew = (props) => {
     Cookies.set(WIZARD_REFERRER_AS_PATH, `/`, COOKIE_OPTIONS)
 
     router.push(`/pools/[symbol]/deposit`, `/pools/${pool.symbol}/deposit`, {
-      shallow: true,
+      shallow: true
     })
   }
 
-  const ViewPoolDetailsButton = () => <button
-    className='flex justify-between items-center text-highlight-3 bg-transparent text-xxxs rounded-full px-2 trans'
-  >
-    {t('viewPool')}
-  </button>
+  const ViewPoolDetailsButton = () => (
+    <button className='flex justify-between items-center text-highlight-3 bg-transparent text-xxxs rounded-full px-2 trans'>
+      {t('viewPool')}
+    </button>
+  )
 
-  const TotalDepositedChip = () => <div
-    className='text-xxxs text-accent-1'
-  >
-    <img src={IconCoins} className='inline-block mr-2 w-4' /> {t('totalDeposited')} ${numberWithCommas(pool?.totalDepositedUSD, { precision: 0 })}
-  </div>
+  const TotalDepositedChip = () => (
+    <div className='text-xxxs text-accent-1'>
+      <img src={IconCoins} className='inline-block mr-2 w-4' /> {t('totalDeposited')} $
+      {numberWithCommas(pool?.totalDepositedUSD, { precision: 0 })}
+    </div>
+  )
 
   return (
     <>
@@ -64,25 +61,22 @@ export const PoolRowNew = (props) => {
         className='mt-1 sm:mt-2'
       >
         <div className='flex flex-col xs:flex-row items-center justify-between text-inverse'>
-
           <div className='pool-row-left-col h-full flex bg-body px-4 lg:px-8 pb-2 xs:pt-4 xs:pb-8 lg:pt-8 lg:pb-10 rounded-lg items-start justify-center xs:justify-start w-full xs:w-1/2'>
             <div className='relative mr-2 mt-4' style={{ top: 1 }}>
               <PoolCurrencyIcon noMediaQueries lg pool={pool} />
             </div>
-            
+
             <div className='flex flex-col'>
               <div className='text-3xl xs:text-3xl sm:text-5xl text-flashy font-bold'>
-                $<PoolCountUp fontSansRegular decimals={0} duration={6}>
+                $
+                <PoolCountUp fontSansRegular decimals={0} duration={6}>
                   {parseFloat(pool?.totalPrizeAmountUSD)}
                 </PoolCountUp>
               </div>
 
-              <div className='text-accent-1 text-xxxs'>
-                {t('prizeValue')}
-              </div>
+              <div className='text-accent-1 text-xxxs'>{t('prizeValue')}</div>
             </div>
           </div>
-
 
           <div className='pool-row-right-col flex flex-col items-center w-full xs:w-1/2 mt-4 xs:mt-0'>
             <NewPrizeCountdown textSize='text-sm sm:text-lg lg:text-xl' pool={pool} />
@@ -102,10 +96,9 @@ export const PoolRowNew = (props) => {
               disabled={!Boolean(pool?.symbol)}
             >
               {t('depositTicker', {
-                ticker: tickerUpcased,
+                ticker: tickerUpcased
               })}
             </Button>
-
 
             <div className='flex items-center justify-between mt-3 w-full'>
               <div className='hidden xs:flex'>
