@@ -236,7 +236,8 @@ export const QUERY_KEYS = {
   coingeckoImagesByContractAddressesQuery: 'coingeckoImagesByContractAddressesQuery',
   coingeckoImageQuery: 'coingeckoImageQuery',
   claimablePoolFromTokenFaucets: 'claimablePoolFromTokenFaucets',
-  claimablePoolTokenFaucetAddresses: 'claimablePoolTokenFaucetAddresses'
+  claimablePoolTokenFaucetAddresses: 'claimablePoolTokenFaucetAddresses',
+  tokenFaucetDripRateQuery: 'tokenFaucetDripRateQuery'
 }
 
 export const POOLTOGETHER_SUBGRAPH_URIS = {
