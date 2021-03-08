@@ -53,8 +53,6 @@ class MyDocument extends Document {
             />
             <meta property='twitter:url' content={url} />
             <meta property='twitter:creator' content={twitterHandle} />
-
-            <script type='text/javascript' src='/graph-error-modal.js' />
           </>
         </Head>
         <body className='bg-body'>

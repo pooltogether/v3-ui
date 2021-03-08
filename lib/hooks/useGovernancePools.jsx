@@ -29,11 +29,6 @@ export function useGovernancePools() {
 
   const poolsDataLoading = !isFetched
 
-  if (isFetched && !isEmpty(poolsGraphData)) {
-    // this should obviously be moved out of the global window namespace :)
-    window.hideGraphError()
-  }
-
   let pools = []
 
   if (contractAddresses && POOLS[chainId]) {

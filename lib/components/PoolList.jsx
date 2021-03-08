@@ -106,10 +106,7 @@ export const PoolList = (props) => {
                 return null
               }
 
-              return <PoolRowNew
-                key={`pool-row-${pool.id}`}
-                querySymbol={pool.symbol}
-              />
+              return <PoolRowNew key={`pool-row-${pool.id}`} querySymbol={pool.symbol} />
             })}
           </MotionUL>
         </AnimatePresence>

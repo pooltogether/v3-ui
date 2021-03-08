@@ -226,7 +226,7 @@ const ClaimAllButton = (props) => {
 
 const ClaimablePoolTokenItem = (props) => {
   const { pool, poolGraphData, refetchAllPoolTokenData } = props
-  
+
   const { t } = useTranslation()
   const { usersAddress } = useContext(AuthControllerContext)
   const { accountData } = useAccount(usersAddress)

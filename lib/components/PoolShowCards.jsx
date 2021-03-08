@@ -48,7 +48,10 @@ export const PoolShowCards = (props) => {
       title: t('totalDeposited'),
       content: (
         <h3 className='mt-2'>
-          ${numberWithCommas(pool.totalDepositedUSD, { precision: getPrecision(pool.totalDepositedUSD) })}
+          $
+          {numberWithCommas(pool.totalDepositedUSD, {
+            precision: getPrecision(pool.totalDepositedUSD)
+          })}
         </h3>
       )
     },
