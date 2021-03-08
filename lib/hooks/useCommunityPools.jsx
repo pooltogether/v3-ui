@@ -6,7 +6,7 @@ import { marshallPoolData } from 'lib/services/marshallPoolData'
 import { poolToast } from 'lib/utils/poolToast'
 import { symbolTemplate, nameTemplate } from 'lib/utils/communityPoolStringTemplates'
 
-export function useCommunityPools() {
+export function useCommunityPools () {
   const { communityPoolAddresses } = useCommunityPoolAddresses()
 
   let communityPools = []
@@ -33,7 +33,12 @@ export function useCommunityPools() {
   communityPools = useMemo(() => {
     if (communityPoolsGraphData) {
       const keys = Object.keys(communityPoolsGraphData)
-      return keys?.map(key => {
+      // console.log(
+      //   keys?.map((key) => {
+      //     return communityPoolsGraphData[key]
+      //   })
+      // )
+      return keys?.map((key) => {
         return communityPoolsGraphData[key]
       })
     }
@@ -45,7 +50,7 @@ export function useCommunityPools() {
     communityPools,
     communityPoolsDataLoading,
     communityRefetch,
-    communityPoolsGraphData,
+    communityPoolsGraphData
   }
 }
 
@@ -62,7 +67,7 @@ const _initializeCommunityPoolData = (communityPoolsGraphData = []) => {
 
     poolData[poolGraphData.symbol] = {
       ...poolGraphData,
-      ...marshalledData,
+      ...marshalledData
     }
   })
 

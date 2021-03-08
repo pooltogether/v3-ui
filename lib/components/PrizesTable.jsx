@@ -39,7 +39,7 @@ const formatPrizeObject = (t, pool, prize, querySymbol) => {
   //   displayAmountInEther(
   //     prize.amount,
   //     { decimals, precision: 2 }
-  //   ) : ethers.utils.bigNumberify(0)
+  //   ) : ethers.BigNumber.from(0)
 
   return {
     prizeNumber: id,
@@ -73,7 +73,7 @@ const formatPrizeObject = (t, pool, prize, querySymbol) => {
         </TimeTravelPool>
       </>
     ),
-    view: prizeLink(t, pool, { id }),
+    view: prizeLink(t, pool, { id })
   }
 }
 
@@ -87,11 +87,11 @@ export const PrizesTable = (props) => {
     return [
       {
         Header: '#',
-        accessor: 'prizeNumber',
+        accessor: 'prizeNumber'
       },
       {
         Header: t('prize'),
-        accessor: 'prizeAmount', // accessor is the "key" in the data
+        accessor: 'prizeAmount' // accessor is the "key" in the data
       },
       // {
       //   Header: row => <div
@@ -106,13 +106,13 @@ export const PrizesTable = (props) => {
       // },
       {
         Header: t('awardedOn'),
-        accessor: 'awardedAt',
+        accessor: 'awardedAt'
       },
       {
         Header: '',
         accessor: 'view',
-        Cell: (row) => <div style={{ textAlign: 'right' }}>{row.value}</div>,
-      },
+        Cell: (row) => <div style={{ textAlign: 'right' }}>{row.value}</div>
+      }
     ]
   }, [])
 
@@ -142,7 +142,7 @@ export const PrizesTable = (props) => {
           <Link href='/pools/[symbol]' as={`/pools/${querySymbol}`} shallow>
             <a className='trans text-right w-full'>{t('viewDetails')}</a>
           </Link>
-        ),
+        )
       }
 
       prizeRows.unshift(currentPrize)
@@ -153,7 +153,7 @@ export const PrizesTable = (props) => {
 
   const tableInstance = useTable({
     columns,
-    data,
+    data
   })
 
   return <BasicTable tableInstance={tableInstance} />

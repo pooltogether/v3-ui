@@ -18,9 +18,9 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { TxStatus } from 'lib/components/TxStatus'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
-const bn = ethers.utils.bigNumberify
+const bn = ethers.BigNumber.from
 
-export function ExecuteCryptoDeposit(props) {
+export function ExecuteCryptoDeposit (props) {
   const { t } = useTranslation()
 
   const { nextStep, previousStep } = props
@@ -93,11 +93,11 @@ export function ExecuteCryptoDeposit(props) {
           i18nKey='depositAmountTicker'
           defaults='Deposit <number>{{amount}}</number> {{ticker}}'
           components={{
-            number: <PoolNumber />,
+            number: <PoolNumber />
           }}
           values={{
             amount: quantityFormatted,
-            ticker: tickerUpcased,
+            ticker: tickerUpcased
           }}
         />
       </PaneTitle>
@@ -108,10 +108,10 @@ export function ExecuteCryptoDeposit(props) {
             i18nKey='forAmountTickets'
             defaults='for <number>{{amount}}</number> tickets'
             components={{
-              number: <PoolNumber />,
+              number: <PoolNumber />
             }}
             values={{
-              amount: quantityFormatted,
+              amount: quantityFormatted
             }}
           />
         </PaneTitle>

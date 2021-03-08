@@ -28,10 +28,10 @@ export const AccountWinnings = () => {
   let awardedControlledTokens = prizesWon?.awardedControlledTokens || []
 
   const awarded = {}
-  awardedControlledTokens.forEach(awardedControlledToken => {
+  awardedControlledTokens.forEach((awardedControlledToken) => {
     const pool = awardedControlledToken.prize.prizePool
-    const award = awarded[pool.id] || { total: ethers.utils.bigNumberify(0) }
-    const amount = ethers.utils.bigNumberify(awardedControlledToken.amount)
+    const award = awarded[pool.id] || { total: ethers.BigNumber.from(0) }
+    const amount = ethers.BigNumber.from(awardedControlledToken.amount)
 
     award.ticker = pool.underlyingCollateralSymbol
     award.decimals = pool.underlyingCollateralDecimals
@@ -51,7 +51,6 @@ export const AccountWinnings = () => {
 
       <div className='xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-2 sm:px-6 py-3'>
         <div className='flex justify-between xs:py-4 pb-0 px-2 xs:px-4'>
-
           <div className='w-1/2'>
             {/* TODO: Bring back the USD value of all winnings, when they won them and with all external tokens and lootbox tokens */}
             {/* <h6 className='flex items-center font-normal'>{t('allTimeWinnings')}</h6> */}
@@ -61,37 +60,42 @@ export const AccountWinnings = () => {
             {awardKeys.length === 0 ? (
               <div className='mb-10 font-bold'>
                 {t('youHaveNotWonYet')}
-                <br />{t('keepYourDepositsInThePoolsToWin')}
+                <br />
+                {t('keepYourDepositsInThePoolsToWin')}
               </div>
             ) : (
               <table className='table-fixed text-xxs xs:text-base sm:text-xl w-full'>
                 <tbody>
-                  {awardKeys.map(awardKey => {
+                  {awardKeys.map((awardKey) => {
                     const award = awarded[awardKey]
 
-                    return <tr key={`award-winnings-row-${awardKey}`}>
-                      <td className='px-2 sm:px-3 text-left font-bold'>
-                        <span className='mr-2'>
-                          <PoolCurrencyIcon sm pool={{ underlyingCollateralSymbol: award.ticker }} />
-                        </span>
-                        {displayAmountInEther(award.total, {
-                          precision: 2,
-                          decimals: award.decimals
-                        })} {award.ticker}
-                      </td>
-                    </tr>
+                    return (
+                      <tr key={`award-winnings-row-${awardKey}`}>
+                        <td className='px-2 sm:px-3 text-left font-bold'>
+                          <span className='mr-2'>
+                            <PoolCurrencyIcon
+                              sm
+                              pool={{ underlyingCollateralSymbol: award.ticker }}
+                            />
+                          </span>
+                          {displayAmountInEther(award.total, {
+                            precision: 2,
+                            decimals: award.decimals
+                          })}{' '}
+                          {award.ticker}
+                        </td>
+                      </tr>
+                    )
                   })}
                 </tbody>
               </table>
             )}
-
           </div>
 
           <div className='ml-auto'>
             <img src={IconTarget} className='w-24 h-24 mx-auto' />
           </div>
         </div>
-
       </div>
     </>
   )

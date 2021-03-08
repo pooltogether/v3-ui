@@ -22,7 +22,7 @@ export const V2AccountTicket = (props) => {
     v2DaiPodSharesBalance,
     v2UsdcPoolCommittedBalance,
     v2UsdcPodCommittedBalance,
-    v2UsdcPodSharesBalance,
+    v2UsdcPodSharesBalance
   } = usersV2Balances || {}
 
   let balances = {}
@@ -36,7 +36,7 @@ export const V2AccountTicket = (props) => {
     }
 
     return numberWithCommas(ethers.utils.formatUnits(balBN, decimals), {
-      precision: 8,
+      precision: 8
     })
   }
 
@@ -46,7 +46,7 @@ export const V2AccountTicket = (props) => {
       poolBalanceFormatted: formatBalance(v2DaiPoolCommittedBalance, 18),
       podBalance: v2DaiPodCommittedBalance,
       podBalanceFormatted: formatBalance(v2DaiPodCommittedBalance, 18),
-      podShares: v2DaiPodSharesBalance,
+      podShares: v2DaiPodSharesBalance
     }
   } else {
     balances = {
@@ -54,15 +54,15 @@ export const V2AccountTicket = (props) => {
       poolBalanceFormatted: formatBalance(v2UsdcPoolCommittedBalance, 6),
       podBalance: v2UsdcPodCommittedBalance,
       podBalanceFormatted: formatBalance(v2UsdcPodCommittedBalance, 6),
-      podShares: v2UsdcPodSharesBalance,
+      podShares: v2UsdcPodSharesBalance
     }
   }
 
   const havePoolBalance = balances.poolBalance?.gt(0)
   const havePodBalance = balances.podBalance?.gt(0)
 
-  let normalizedPoolBalance = ethers.utils.bigNumberify(0)
-  let normalizedPodBalance = ethers.utils.bigNumberify(0)
+  let normalizedPoolBalance = ethers.BigNumber.from(0)
+  let normalizedPodBalance = ethers.BigNumber.from(0)
   if (balances.poolBalance) {
     normalizedPoolBalance = normalizeTo18Decimals(balances.poolBalance, v2dai ? 18 : 6)
     normalizedPodBalance = normalizeTo18Decimals(balances.podBalance, v2dai ? 18 : 6)
@@ -101,16 +101,16 @@ export const V2AccountTicket = (props) => {
                     defaults='V2 {{ticker}} Pool Tickets: <bold>{{amount}}</bold>'
                     components={{
                       bold: <span className='font-bold' />,
-                      light: <span className='text-xs text-default-soft opacity-70' />,
+                      light: <span className='text-xs text-default-soft opacity-70' />
                     }}
                     values={{
                       amount: numberWithCommas(
                         ethers.utils.formatUnits(balances.poolBalance, decimals),
                         {
-                          precision: 0,
+                          precision: 0
                         }
                       ),
-                      ticker,
+                      ticker
                     }}
                   />
                   <div className='font-bold mt-1 opacity-40 text-xxxs'>
@@ -138,22 +138,22 @@ export const V2AccountTicket = (props) => {
                     defaults='V2 {{ticker}} Pod Tickets: <bold>{{amount}}</bold>'
                     components={{
                       bold: <span className='font-bold' />,
-                      light: <span className='text-xs text-default-soft opacity-70' />,
+                      light: <span className='text-xs text-default-soft opacity-70' />
                     }}
                     values={{
                       amount: numberWithCommas(
                         ethers.utils.formatUnits(balances.podBalance, decimals),
                         {
-                          precision: 0,
+                          precision: 0
                         }
                       ),
-                      ticker,
+                      ticker
                     }}
                   />
                   <div className='font-bold mt-1 opacity-40 text-xxxs'>
                     <PoolNumber>
                       {numberWithCommas(ethers.utils.formatUnits(balances.podBalance, decimals), {
-                        precision: 6,
+                        precision: 6
                       })}
                     </PoolNumber>{' '}
                     {ticker}
@@ -175,7 +175,7 @@ export const V2AccountTicket = (props) => {
           <div
             className='flex flex-col items-center pt-4'
             style={{
-              width: 114,
+              width: 114
             }}
           >
             <PoolCurrencyIcon
