@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 // import { orderBy } from 'lodash'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
-import { ANIM_LIST_VARIANTS, POOL_LIST_TABS } from 'lib/constants'
+import { ANIM_LIST_VARIANTS, POOL_LIST_TABS, CONTRACT_ADDRESSES } from 'lib/constants'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolRowNew } from 'lib/components/PoolRowNew'
 import { Tabs, Tab, ContentPane } from 'lib/components/Tabs'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
+import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 const MotionUL = (props) => {
@@ -105,7 +107,10 @@ export const PoolList = (props) => {
             {pools?.map((pool) => {
               if (!pool?.id) { return null }
 
-              return <PoolRowNew key={`pool-row-${pool.id}`} querySymbol={pool.symbol} />
+              return <PoolRowNew
+                key={`pool-row-${pool.id}`}
+                querySymbol={pool.symbol}
+              />
             })}
           </MotionUL>
         </AnimatePresence>

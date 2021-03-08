@@ -30,7 +30,8 @@ import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { usePool } from 'lib/hooks/usePool'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
+import { useTokenFaucetAPY } from 'lib/hooks/useTokenFaucetAPY'
+import { usePoolTokenUSD } from 'lib/hooks/usePoolTokenUSD'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -44,12 +45,6 @@ export const AccountGovernanceClaims = (props) => {
   const { refetch: refetchTotalClaimablePool } = useClaimablePoolFromTokenFaucets()
   const { chainId, usersAddress, walletName } = useContext(AuthControllerContext)
   const { refetch: refetchPoolTokenData } = usePoolTokenData()
-
-  const govTokenAddress = CONTRACT_ADDRESSES[chainId]?.GovernanceToken?.toLowerCase()
-  const addresses = [govTokenAddress]
-  const { data: uniswapPriceData, error: uniswapError } = useUniswapTokensQuery(addresses)
-  if (uniswapError) { console.error(uniswapError) }
-  const poolTokenUSD = uniswapPriceData?.[govTokenAddress]?.usd
 
   const refetchAllPoolTokenData = () => {
     refetchTotalClaimablePool()
@@ -81,7 +76,6 @@ export const AccountGovernanceClaims = (props) => {
               key={pool.id}
               pool={pool}
               poolGraphData={poolsGraphData[pool.symbol]}
-              poolTokenUSD={poolTokenUSD}
             />
           )
         })}
@@ -231,7 +225,7 @@ const ClaimAllButton = (props) => {
 }
 
 const ClaimablePoolTokenItem = (props) => {
-  const { pool, poolGraphData, refetchAllPoolTokenData, poolTokenUSD } = props
+  const { pool, poolGraphData, refetchAllPoolTokenData } = props
   
   const { t } = useTranslation()
   const { usersAddress } = useContext(AuthControllerContext)
@@ -248,7 +242,7 @@ const ClaimablePoolTokenItem = (props) => {
     tokenFaucetAddress
   )
 
-  const { dripRatePerSecond, measureTokenAddress, faucetPoolSupplyBN, amount } = data || {}
+  const { dripRatePerSecond, measureTokenAddress, amount } = data || {}
 
   const ticketData = playerTickets.find(
     (playerTicket) => playerTicket.pool.ticket.id === measureTokenAddress
@@ -280,11 +274,7 @@ const ClaimablePoolTokenItem = (props) => {
     precision: getPrecision(totalDripPerDay)
   })
 
-  const totalSupplyUSD = poolInfo.totalDepositedUSD
-  // (Daily distribution rate * price / pool AUM) * 365
-  const apy = (((totalDripPerDay * poolTokenUSD) / totalSupplyUSD) * 365) * 100
-
-  const secondsLeft = faucetPoolSupplyBN?.div(dripRatePerSecond).toNumber()
+  const apy = useTokenFaucetAPY(poolInfo)
 
   return (
     <div className='bg-body p-6 rounded-lg flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8 sm:items-center'>
@@ -310,8 +300,6 @@ const ClaimablePoolTokenItem = (props) => {
             <br />
             {displayPercentage(apy)}% APY
           </div>
-
-          <RewardTimeLeft initialSecondsLeft={secondsLeft} />
         </div>
       </div>
 
@@ -416,43 +404,4 @@ const ClaimButton = (props) => {
       {text}
     </Button>
   )
-}
-
-const RewardTimeLeft = (props) => {
-  const { t } = useTranslation()
-  // const { initialSecondsLeft } = props
-
-  const unixTimeNow = Date.now() / 1000
-  const initialSecondsLeft = 1622070000 - unixTimeNow // 1622070000 is May 26th @ 4pm PST
-  const { days, hours, minutes, secondsLeft } = useTimeCountdown(initialSecondsLeft, 60000)
-
-  const textColor = determineColor(secondsLeft)
-
-  return (
-    <div className='flex items-center text-accent-1 sm:mt-1 opacity-80 trans hover:opacity-100'>
-      <span className='inline-block'>{t('endsIn')}</span>
-
-      <div className='inline-flex items-center text-orange'>
-        <FeatherIcon
-          className={classnames(`h-4 w-4 stroke-current stroke-2 my-auto mx-2`, textColor)}
-          icon='clock'
-        />
-        <span className={classnames(textColor)}>
-          {!days ? null : `${days}d, `}
-          {!hours && !days ? null : `${hours}h, `}
-          {`${minutes}m`}
-        </span>
-      </div>
-    </div>
-  )
-}
-
-const determineColor = (secondsLeft) => {
-  if (secondsLeft <= SECONDS_PER_HOUR) {
-    return 'text-red'
-  } else if (secondsLeft <= SECONDS_PER_DAY) {
-    return 'text-orange'
-  }
-
-  return ''
 }
