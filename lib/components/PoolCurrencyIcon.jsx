@@ -9,6 +9,7 @@ import { useCoingeckoImageQuery } from 'lib/hooks/useCoingeckoImageQuery'
 
 import DaiSvg from 'assets/images/dai-new-transparent.png'
 import UsdcSvg from 'assets/images/usdc-new-transparent.png'
+import UsdtSvg from 'assets/images/usdt-new-transparent.png'
 import BatSvg from 'assets/images/bat-new-transparent.png'
 import CompSvg from 'assets/images/comp.svg'
 import UniSvg from 'assets/images/token-uni.png'
@@ -56,6 +57,8 @@ export const PoolCurrencyIcon = (props) => {
     src = DaiSvg
   } else if (symbol === 'usdc') {
     src = UsdcSvg
+  } else if (symbol === 'usdt') {
+    src = UsdtSvg
   } else if (symbol === 'comp') {
     src = CompSvg
   } else if (symbol === 'bat') {

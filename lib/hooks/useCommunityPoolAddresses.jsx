@@ -10,8 +10,6 @@ const COMMUNITY_POOLS_BLOCK_LIST = [
   '0x908d0f3bcdb4ece202f49bfd5037e1bdb4d57fd2',
   '0x0725ca260292d3c3911d7b67d525682ec861339b',
   '0x1ee6194b0e28c12df0fd107e5eb883aa071f8c9a',
-
-  // We may not want to remove some of these if they're still active:
   '0x258d1ab585593831f2dcc898722fb924fc0e3609',
   '0x3dd1749e00b6376779c5e63a38f7b5bbbd7ce3f2',
   '0x440a0622f124e4fd9925dac51b3bf1907e95f55b',
@@ -24,7 +22,8 @@ const COMMUNITY_POOLS_BLOCK_LIST = [
   '0xcc6f8a4b3f04c688ea8681eb5ba33a5bc2f9df21',
   '0x3e2e88f6eaa189e397bf87153e085a757028c069',
   '0x91d7bbd2a8dfe4be5b88d4224b461de9b36d2aa9',
-  '0x55ab6e07fb3ae2598fe463ea4dcf872a006fec77'
+  '0x55ab6e07fb3ae2598fe463ea4dcf872a006fec77',
+  '0x3bdbdb4b14f599dcd7d79ea48aff1f064fecc31e'
 ]
 
 export function useCommunityPoolAddresses() {
