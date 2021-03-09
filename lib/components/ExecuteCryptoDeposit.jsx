@@ -19,7 +19,7 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 
 import IconStar from 'assets/images/icon-star@2x.png'
 
-const bn = ethers.utils.bigNumberify
+const bn = ethers.BigNumber.from
 
 export function ExecuteCryptoDeposit(props) {
   const { t } = useTranslation()
@@ -60,7 +60,7 @@ export function ExecuteCryptoDeposit(props) {
         ethers.utils.getAddress(referrerAddress)
       } catch (e) {
         referrerAddress = ethers.constants.AddressZero
-        console.log(`referrer address was an invalid Ethereum address:`, e.message)
+        console.warn(`referrer address was an invalid Ethereum address:`, e.message)
       }
 
       const quantityBN = ethers.utils.parseUnits(quantity, Number(decimals))
@@ -108,7 +108,11 @@ export function ExecuteCryptoDeposit(props) {
       >
         <img className='mx-auto mb-3 h-16' src={IconStar} />
 
-        <p>{t('ticketsAreInstantAndPerpetual')}<br />{t('winningsAutomaticallyAdded')}</p>
+        <p>
+          {t('ticketsAreInstantAndPerpetual')}
+          <br />
+          {t('winningsAutomaticallyAdded')}
+        </p>
       </Banner>
     </>
   )

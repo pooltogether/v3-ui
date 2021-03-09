@@ -88,7 +88,7 @@ export function Gauge({ value = 50, min = 0, max = 100, label, units }) {
       <div
         className='relative'
         style={{
-          top: '-5.5rem',
+          top: '-5.5rem'
         }}
       >
         {label}

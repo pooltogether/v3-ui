@@ -35,11 +35,11 @@ export function WyreTopUpBalanceDropdown(props) {
       label: (
         <span className='text-xs'>
           {t('buyTickerDebitCreditCard', {
-            ticker: tickerUpcased,
+            ticker: tickerUpcased
           })}
           {applePay}
         </span>
-      ),
+      )
     },
     ETH: {
       label: (
@@ -47,8 +47,8 @@ export function WyreTopUpBalanceDropdown(props) {
           {t('buyEthDebitCreditCard')}
           {applePay}
         </span>
-      ),
-    },
+      )
+    }
   }
 
   const handleOpenWyre = async (currency) => {
@@ -57,14 +57,13 @@ export function WyreTopUpBalanceDropdown(props) {
     const params = {
       path: `/v3/orders/reserve`,
       dest: `ethereum:${usersAddress}`,
-      destCurrency: currency.toUpperCase(),
+      destCurrency: currency.toUpperCase()
     }
 
     let response
 
     try {
       response = await axiosInstance.post(`${WYRE_LAMBDA_PATH}`, params)
-      console.log(response)
 
       // dropdownRef.handleClose()
 
@@ -73,7 +72,7 @@ export function WyreTopUpBalanceDropdown(props) {
       if (url) {
         window.open(url)
       } else {
-        console.log(response.error)
+        console.warn(response.error)
       }
     } catch (e) {
       poolToast.error(`Wyre - purchase error, please try again or message support`)

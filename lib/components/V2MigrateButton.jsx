@@ -17,7 +17,7 @@ export const V2MigrateButton = (props) => {
   const [txId, setTxId] = useState(0)
   const txName = t(`migrateAmountTickerToV3`, {
     amount: balanceFormatted,
-    ticker,
+    ticker
   })
   const method = 'transfer'
   const sendTx = useSendTransaction()

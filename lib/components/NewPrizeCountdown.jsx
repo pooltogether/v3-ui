@@ -16,8 +16,6 @@ export const NewPrizeCountdown = (props) => {
 
   const [secondsRemaining, setSecondsRemaining] = useState(null)
 
-  // console.log('a', pool?.prizePeriodRemainingSeconds?.toString())
-
   // const secs = 167868
   const secs =
     pool?.prizePeriodRemainingSeconds && parseInt(pool?.prizePeriodRemainingSeconds.toString(), 10)
@@ -46,7 +44,7 @@ export const NewPrizeCountdown = (props) => {
           className={classnames(textSize, 'font-bold', {
             'text-flashy': flashy,
             'text-xs xs:text-sm sm:text-xl': !textSize,
-            'text-right': !textAlign,
+            'text-right': !textAlign
           })}
         >
           {t('prizeIsBeingAwarded')}
@@ -69,7 +67,7 @@ export const NewPrizeCountdown = (props) => {
         className={`bg-tertiary text-${textColor} font-bold rounded-sm`}
         style={{
           padding: '2px 8px',
-          margin: '0 1px',
+          margin: '0 1px'
         }}
       >
         {digit}
@@ -83,7 +81,7 @@ export const NewPrizeCountdown = (props) => {
         className={`bg-tertiary text-${textColor} font-bold rounded-sm`}
         style={{
           padding: '2px 8px',
-          margin: '0 1px',
+          margin: '0 1px'
         }}
       >
         {digit}
@@ -98,14 +96,14 @@ export const NewPrizeCountdown = (props) => {
       <div
         className={classnames(textSize, 'flex text-center', {
           'justify-center': center,
-          'text-sm xs:text-xs sm:text-base lg:text-xl': !textSize,
+          'text-sm xs:text-xs sm:text-base lg:text-xl': !textSize
         })}
       >
         <div
           className='flex flex-col sm:mr-2'
           style={{
             paddingLeft: 2,
-            paddingRight: 2,
+            paddingRight: 2
           }}
         >
           <div className='flex'>
@@ -118,7 +116,7 @@ export const NewPrizeCountdown = (props) => {
           className='flex flex-col'
           style={{
             paddingLeft: 2,
-            paddingRight: 2,
+            paddingRight: 2
           }}
         >
           <div className='flex'>
@@ -132,7 +130,7 @@ export const NewPrizeCountdown = (props) => {
           className='flex flex-col'
           style={{
             paddingLeft: 1,
-            paddingRight: 2,
+            paddingRight: 2
           }}
         >
           <div className='flex'>
@@ -146,7 +144,7 @@ export const NewPrizeCountdown = (props) => {
           className='flex flex-col'
           style={{
             paddingLeft: 1,
-            paddingRight: 2,
+            paddingRight: 2
           }}
         >
           <div className='flex'>

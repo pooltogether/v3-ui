@@ -44,7 +44,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
   let pool = {
     ...poolInfo,
     ...poolChainData,
-    ...poolGraphData,
+    ...poolGraphData
   }
 
   const isStakePrizePool = !pool.compoundPrizePool
@@ -62,7 +62,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
     data: uniswapPriceData,
     error: uniswapError,
     isFetching: uniswapIsFetching,
-    isFetched: uniswapIsFetched,
+    isFetched: uniswapIsFetched
   } = useUniswapTokensQuery(addresses, blockNumber)
   if (uniswapError) {
     console.error(uniswapError)
@@ -81,7 +81,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const externalErcAwards = {
     compiledExternalErc20Awards,
-    compiledExternalErc721Awards,
+    compiledExternalErc721Awards
   }
   const lootBox = useLootBox(externalErcAwards, blockNumber)
 
@@ -91,7 +91,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(lootBox.awards)
 
-  let ticketPrizeUSD = calculateEstimatedPoolPrize(pool)
+  let ticketPrizeUSD = parseFloat(calculateEstimatedPoolPrize(pool))
 
   if (underlyingCollateralValueUSD) {
     ticketPrizeUSD = (ticketPrizeUSD * parseInt(underlyingCollateralValueUSD * 100, 10)) / 100
@@ -118,8 +118,9 @@ export function usePool(poolSymbol, blockNumber = -1) {
       pool.ticketSupply,
       parseInt(pool.underlyingCollateralDecimals, 10)
     )
-    totalDepositedUSD = underlyingCollateralValueUSD ? 
-      ticketsFormatted * underlyingCollateralValueUSD : ticketsFormatted
+    totalDepositedUSD = underlyingCollateralValueUSD
+      ? ticketsFormatted * underlyingCollateralValueUSD
+      : ticketsFormatted
   }
 
   // Standardize the USD values so they're either all floats/strings or all bigNums  pool = {
@@ -135,10 +136,10 @@ export function usePool(poolSymbol, blockNumber = -1) {
     ticketPrizeUSD,
     externalAwardsUSD,
     compiledExternalErc20Awards,
-    compiledExternalErc721Awards,
+    compiledExternalErc721Awards
   }
 
   return {
-    pool,
+    pool
   }
 }

@@ -20,7 +20,7 @@ export function ConfirmFiatDeposit(props) {
     <>
       <PaneTitle small>
         {t('forAmountTickets', {
-          amount: quantity,
+          amount: quantity
         })}
       </PaneTitle>
 

@@ -96,7 +96,6 @@ describe('Smoke Test', () => {
           cy.contains('Continue').click()
 
           cy.get('._withdrawBtn').then(($btn) => {
-            console.log($btn)
             // Path 1: No early exit fee, full withdrawal amount
             if ($btn.hasClass('_confirmNoFee')) {
               $btn.click()

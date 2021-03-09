@@ -19,7 +19,7 @@ export function MagicContextProvider(props) {
         email,
         signedIn,
         signIn,
-        signOut,
+        signOut
       }}
     >
       {props.children}
@@ -48,7 +48,7 @@ export function MagicContextProvider(props) {
 
   useEffect(() => {
     const m = new Magic(process.env.NEXT_JS_MAGIC_PUB_KEY, {
-      network: networkName === 'homestead' ? 'mainnet' : networkName,
+      network: networkName === 'homestead' ? 'mainnet' : networkName
     })
     setMagic(m)
 
@@ -109,16 +109,16 @@ export function MagicContextProvider(props) {
       if (err instanceof RPCError) {
         switch (err.code) {
           case RPCErrorCode.MagicLinkFailedVerification:
-            console.log('MagicLinkFailedVerification')
+            console.warn('MagicLinkFailedVerification')
             break
           case RPCErrorCode.MagicLinkExpired:
-            console.log('MagicLinkExpired')
+            console.warn('MagicLinkExpired')
             break
           case RPCErrorCode.MagicLinkRateLimited:
-            console.log('MagicLinkRateLimited')
+            console.warn('MagicLinkRateLimited')
             break
           case RPCErrorCode.UserAlreadyLoggedIn:
-            console.log('UserAlreadyLoggedIn')
+            console.warn('UserAlreadyLoggedIn')
             break
         }
       }
@@ -134,7 +134,7 @@ export function MagicContextProvider(props) {
         email,
         signedIn,
         signIn,
-        signOut,
+        signOut
       }}
     >
       {props.children}

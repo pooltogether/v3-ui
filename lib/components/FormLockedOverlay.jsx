@@ -6,7 +6,7 @@ export const FormLockedOverlay = ({
   title,
   flexColJustifyClass = 'justify-center',
   topMarginClass = 'sm:-mt-4',
-  zLayerClass = 'z-20',
+  zLayerClass = 'z-20'
 }) => {
   if (flexColJustifyClass === 'justify-start') {
     topMarginClass = 'sm:mt-4'

@@ -1,8 +1,10 @@
 import { isEmpty } from 'lodash'
 import { ethers } from 'ethers'
 
+const bn = ethers.BigNumber.from
+
 // This is for past prizes / TimeTravelPool only
-export const compileHistoricalErc20Awards = (prize, uniswapPriceData) => {
+export const compileHistoricalErc20Awards = (prize, numOfWinners, splitExternalErc20Awards) => {
   const erc20GraphData = prize?.awardedExternalErc20Tokens
 
   const data = []
@@ -12,18 +14,17 @@ export const compileHistoricalErc20Awards = (prize, uniswapPriceData) => {
   }
 
   erc20GraphData.forEach((obj) => {
-    const balance = obj.balanceAwarded
-    const balanceBN = ethers.utils.bigNumberify(obj.balanceAwarded)
-    const balanceFormatted = ethers.utils.formatUnits(
-      obj.balanceAwarded,
-      parseInt(obj.decimals, 10)
-    )
+    const balanceBN = splitExternalErc20Awards
+      ? bn(obj.balanceAwarded).mul(numOfWinners)
+      : bn(obj.balanceAwarded)
+    const balanceAwarded = balanceBN.toString()
+    const balanceFormatted = ethers.utils.formatUnits(balanceAwarded, parseInt(obj.decimals, 10))
 
     data.push({
       ...obj,
-      balance,
+      balance: balanceAwarded,
       balanceBN,
-      balanceFormatted,
+      balanceFormatted
     })
   })
 

@@ -17,10 +17,10 @@ const CheckboxContainer = (props) => (
 
 export function CommunityPoolDisclaimerModal(props) {
   const { t } = useTranslation()
-  
+
   const [checked, setChecked] = useState(false)
   const [accepted, setAccepted] = useState(false)
-  
+
   const router = useRouter()
   const acceptedCookieKey = `accepted-${props.poolSymbol}`
 
@@ -46,13 +46,13 @@ export function CommunityPoolDisclaimerModal(props) {
         id='community-pool-disclaimer-modal'
         className='w-screen h-screen fixed t-0 l-0 r-0 b-0'
         style={{
-          zIndex: 299,
+          zIndex: 299
         }}
       >
         <div
           className={'fixed t-0 l-0 r-0 b-0 w-full h-full bg-overlay bg-blur'}
           style={{
-            zIndex: 298,
+            zIndex: 298
           }}
         ></div>
 
@@ -60,7 +60,7 @@ export function CommunityPoolDisclaimerModal(props) {
           className='warning-modal fixed xs:inset-4 bg-black text-white border-2 border-orange rounded-lg px-6 sm:px-12 py-8 mt-32'
           style={{
             maxHeight: '30rem',
-            zIndex: 300,
+            zIndex: 300
           }}
         >
           <div className='flex flex-col items-center justify-center h-full text-center rounded-lg text-orange'>
@@ -68,12 +68,12 @@ export function CommunityPoolDisclaimerModal(props) {
               className='h-8 w-8 stroke-current stroke-2 mx-2 mb-4'
               icon='alert-circle'
             />
-            <div className='font-bold text-xl'>
-              {t('headsUp')}
+            <div className='font-bold text-xl'>{t('headsUp')}</div>
+
+            <div className='mt-4 text-sm'>
+              {t('thisPrizePoolWasCreatedByAMemberOfTheCommunity')} {t('anyoneCanCreateAPrizePool')}
             </div>
 
-            <div className='mt-4 text-sm'>{t('thisPrizePoolWasCreatedByAMemberOfTheCommunity')} {t('anyoneCanCreateAPrizePool')}</div>
-            
             <div className='mt-4 text-base font-bold'>{t('thePrizeMayNeverBeAwarded')}</div>
 
             <div style={{ transform: 'scale(1.15)' }}>
@@ -90,7 +90,12 @@ export function CommunityPoolDisclaimerModal(props) {
               </CheckboxContainer>
             </div>
 
-            <Button tertiary onClick={handleHideModal} className='mt-2 w-48-percent' disabled={!checked}>
+            <Button
+              tertiary
+              onClick={handleHideModal}
+              className='mt-2 w-48-percent'
+              disabled={!checked}
+            >
               {t('continue')}
             </Button>
           </div>

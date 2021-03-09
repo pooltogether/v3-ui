@@ -50,7 +50,7 @@ export function PoolCountUp(props) {
         className={classnames({
           'font-sans': fontSansRegular,
           'font-mono': !fontSansRegular,
-          'font-bold': fontBold,
+          'font-bold': fontBold
         })}
       >
         <CountUp
@@ -59,8 +59,6 @@ export function PoolCountUp(props) {
           duration={duration || 1.4}
           separator={','}
           decimals={decimalsToUse}
-          // onEnd={() => console.log('Ended! 👏')}
-          // onStart={() => console.log('Started! 💨')}
         />
       </span>
     </>

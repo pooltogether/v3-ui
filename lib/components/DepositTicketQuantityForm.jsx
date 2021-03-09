@@ -23,7 +23,7 @@ import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
 
-const bn = ethers.utils.bigNumberify
+const bn = ethers.BigNumber.from
 
 export function DepositTicketQuantityForm(props) {
   const { t } = useTranslation()
@@ -55,7 +55,7 @@ export function DepositTicketQuantityForm(props) {
 
   const { handleSubmit, register, errors, formState, watch, setValue } = useForm({
     mode: 'all',
-    reValidateMode: 'onChange',
+    reValidateMode: 'onChange'
   })
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export function DepositTicketQuantityForm(props) {
     if (formState.isValid) {
       queryParamUpdater.add(router, {
         quantity: values.quantity,
-        prevBalance: usersTicketBalanceBN.toString(),
+        prevBalance: usersTicketBalanceBN.toString()
       })
 
       nextStep()
@@ -98,9 +98,7 @@ export function DepositTicketQuantityForm(props) {
     <>
       <DepositPaneTitle ticker={tickerUpcased} pool={pool} />
 
-      {balanceJsx && (
-        <div className='sm:my-4 mb-12'>{balanceJsx}</div>
-      )}
+      {balanceJsx && <div className='sm:my-4 mb-12'>{balanceJsx}</div>}
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='w-full mx-auto'>
@@ -163,7 +161,7 @@ export function DepositTicketQuantityForm(props) {
         <div
           className='text-sm text-highlight-1 font-bold mb-2'
           style={{
-            minHeight: 26,
+            minHeight: 26
           }}
         >
           {Object.values(errors).length > 0 && <ErrorsBox errors={errors} />}
@@ -182,20 +180,20 @@ export function DepositTicketQuantityForm(props) {
               role='img'
               aria-label='double exclaimation'
               style={{
-                top: 1,
+                top: 1
               }}
             >
               &#x203c;
             </span>{' '}
             {t('onlyAmountTicketsRemaining', {
-              amount: numberWithCommas(remainingTickets.toString(), { precision: 0 }),
+              amount: numberWithCommas(remainingTickets.toString(), { precision: 0 })
             })}{' '}
             <span
               className={`text-red font-bold hidden sm:inline-block sm:relative`}
               role='img'
               aria-label='double exclaimation'
               style={{
-                top: 1,
+                top: 1
               }}
             >
               &#x203c;

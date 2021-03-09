@@ -36,31 +36,29 @@ export function PrizeShow(props) {
           {
             href: '/',
             as: '/',
-            name: t('pools'),
+            name: t('pools')
           },
           {
             href: '/pools/[symbol]',
             as: `/pools/${poolSymbol}`,
-            name: poolName,
+            name: poolName
           },
           {
             href: '/prizes/[symbol]',
             as: `/prizes/${poolSymbol}`,
-            name: t('prizes'),
+            name: t('prizes')
           },
           {
-            name: `${t('prize')} #${prizeNumber}`,
-          },
+            name: `${t('prize')} #${prizeNumber}`
+          }
         ]}
       />
 
       <div className='rounded-lg px-4 xs:px-6 sm:px-10 py-4 text-white my-4 sm:mt-8 sm:mb-4 mx-auto border-flashy purple-pink-gradient-animation'>
-        <div>
-          <h1>
-            {preAwardTimeTravelPool?.totalPrizeAmountUSD &&
-              `$${numberWithCommas(preAwardTimeTravelPool?.totalPrizeAmountUSD)}`}
-          </h1>
-        </div>
+        <h1>
+          {preAwardTimeTravelPool?.totalPrizeAmountUSD &&
+            `$${numberWithCommas(preAwardTimeTravelPool?.totalPrizeAmountUSD)}`}
+        </h1>
       </div>
 
       <PrizeBreakdown
@@ -88,13 +86,13 @@ export function PrizeShow(props) {
                   {preAwardTimeTravelPool?.ticketSupply
                     ? displayAmountInEther(preAwardTimeTravelPool.ticketSupply, {
                         decimals,
-                        precision: 0,
+                        precision: 0
                       })
                     : null}
                 </h3>
               </>
-            ),
-          },
+            )
+          }
         ]}
       />
 
@@ -124,7 +122,6 @@ export function PrizeShow(props) {
           )
         }}
       </PrizePlayersQuery>
-
     </>
   )
 }

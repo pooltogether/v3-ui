@@ -42,15 +42,11 @@ export const PrizeWinner = (props) => {
     )
   }
 
-  
-
   return (
     <tr>
-      <td className='py-2'>{!hasLootBox ?
-        t('winner') : 
-        grandPrizeWinner ?
-          t('grandPrize') :
-          t('runnerUp')}</td>
+      <td className='py-2'>
+        {!hasLootBox ? t('winner') : grandPrizeWinner ? t('grandPrize') : t('runnerUp')}
+      </td>
 
       <td>
         <Link href='/players/[playerAddress]' as={`/players/${winnersAddress}`}>

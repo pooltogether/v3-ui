@@ -6,12 +6,12 @@ import { useHistoricalPool } from 'lib/services/useHistoricalPool'
 import { usePoolQuery } from 'lib/hooks/usePoolQuery'
 
 export function TimeTravelPool(props) {
-  const { children, poolAddress, prize, querySymbol } = props
+  const { children, poolAddress, prize, querySymbol, poolSplitExternalErc20Awards } = props
 
   if (!querySymbol) {
     return children({
       timeTravelPool: {},
-      preAwardTimeTravelPool: {},
+      preAwardTimeTravelPool: {}
     })
   }
 
@@ -43,7 +43,8 @@ export function TimeTravelPool(props) {
     preAwardGraphPool,
     poolAddress,
     preAwardBlockNumber,
-    prize
+    prize,
+    poolSplitExternalErc20Awards
   )
 
   const timeTravelPool = useHistoricalPool(
@@ -51,11 +52,12 @@ export function TimeTravelPool(props) {
     postAwardGraphPool,
     poolAddress,
     postAwardBlockNumber,
-    prize
+    prize,
+    poolSplitExternalErc20Awards
   )
 
   return children({
     timeTravelPool,
-    preAwardTimeTravelPool,
+    preAwardTimeTravelPool
   })
 }

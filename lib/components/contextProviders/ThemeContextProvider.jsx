@@ -67,7 +67,7 @@ export function ThemeContextProvider(props) {
     <ThemeContext.Provider
       value={{
         theme,
-        toggleTheme,
+        toggleTheme
       }}
     >
       <GlobalHotKeys keyMap={HOTKEYS_KEY_MAP} handlers={handlers} />

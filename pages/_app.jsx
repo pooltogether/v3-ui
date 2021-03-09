@@ -62,7 +62,7 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.NEXT_JS_SENTRY_DSN,
     release: process.env.NEXT_JS_RELEASE_VERSION,
-    integrations: [new Integrations.BrowserTracing()],
+    integrations: [new Integrations.BrowserTracing()]
   })
 }
 
@@ -70,38 +70,6 @@ function MyApp({ Component, pageProps, router }) {
   const [initialized, setInitialized] = useState(false)
 
   const shouldReduceMotion = useReducedMotion()
-
-  // const redirectIfBorked = () => {
-  //   const badPaths = [
-  //     'http://localhost:3000/en',
-  //     'https://app.pooltogether.com/en',
-  //     'https://app.pooltogether.com/es',
-  //     'https://app.pooltogether.com/it',
-  //     'https://app.pooltogether.com/ja',
-  //     'https://app.pooltogether.com/zh',
-  //     'https://app.pooltogether.com/hr',
-  //     'https://app.pooltogether.com/ko',
-  //     'https://app.pooltogether.com/tr',
-  //     'https://app.pooltogether.com/de',
-  //   ]
-  //   // console.log('checking')
-
-  //   if (badPaths.includes(window.location.href)) {
-  //     router.push(
-  //       '/',
-  //       '/',
-  //       { shallow: true }
-  //     )
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   redirectIfBorked()
-  // }, [])
-
-  // useInterval(() => {
-  //   redirectIfBorked()
-  // }, 1000)
 
   useEffect(() => {
     if (router?.query?.referrer) {
@@ -126,8 +94,8 @@ function MyApp({ Component, pageProps, router }) {
         includedDomains: [
           'app-v3.pooltogether.com',
           'app.pooltogether.com',
-          'staging-v3.pooltogether.com',
-        ],
+          'staging-v3.pooltogether.com'
+        ]
       })
 
       function onRouteChangeComplete(url) {
@@ -177,7 +145,10 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   return (
-    <HotKeys keyMap={HOTKEYS_KEY_MAP} className='outline-none focus:outline-none active:outline-none'>
+    <HotKeys
+      keyMap={HOTKEYS_KEY_MAP}
+      className='outline-none focus:outline-none active:outline-none'
+    >
       <Provider>
         <ReactQueryCacheProvider queryCache={queryCache}>
           <BodyClasses />
@@ -203,13 +174,13 @@ function MyApp({ Component, pageProps, router }) {
                     key={router.route}
                     transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: 'easeIn' }}
                     initial={{
-                      opacity: 0,
+                      opacity: 0
                     }}
                     exit={{
-                      opacity: 0,
+                      opacity: 0
                     }}
                     animate={{
-                      opacity: 1,
+                      opacity: 1
                     }}
                   >
                     <Component {...pageProps} />

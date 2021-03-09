@@ -14,7 +14,7 @@ async function reserveOrder(event, callback) {
   const params = {
     dest,
     destCurrency,
-    referrerAccountId,
+    referrerAccountId
   }
 
   const token = process.env.SENDWYRE_API_SECRET || process.env.TESTWYRE_API_SECRET
@@ -22,23 +22,18 @@ async function reserveOrder(event, callback) {
     headers: {
       'Authorization': `Bearer ${token}`,
       'cache-control': 'no-cache',
-      'Content-Type': 'application/json',
-    },
+      'Content-Type': 'application/json'
+    }
   }
-
-  console.log(url)
-  console.log(params)
-  console.log(config)
 
   let result
   try {
     result = await axiosInstance.post(url, params, config)
-    console.log(result)
 
     if (result.status < 400) {
       callback(null, {
         statusCode: 200,
-        body: JSON.stringify(result.data),
+        body: JSON.stringify(result.data)
       })
     } else {
       callback(result.error)

@@ -9,7 +9,7 @@ import {
   COOKIE_OPTIONS,
   SHOW_MANAGE_LINKS,
   WIZARD_REFERRER_HREF,
-  WIZARD_REFERRER_AS_PATH,
+  WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -47,6 +47,8 @@ export const PoolShow = (props) => {
   const poolSymbol = router?.query?.symbol
   const { pool } = usePool(poolSymbol)
 
+  // console.log('POOL', pool)
+
   const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
 
   const [cookieShowAward, setCookieShowAward] = useState(false)
@@ -66,7 +68,7 @@ export const PoolShow = (props) => {
     Cookies.set(WIZARD_REFERRER_AS_PATH, `/pools/${pool.symbol}`, COOKIE_OPTIONS)
 
     router.push(`/pools/[symbol]/deposit`, `/pools/${pool.symbol}/deposit`, {
-      shallow: true,
+      shallow: true
     })
   }
 
@@ -96,22 +98,22 @@ export const PoolShow = (props) => {
             opacity: 0,
             transition: {
               duration: shouldReduceMotion ? 0 : 0.5,
-              staggerChildren: shouldReduceMotion ? 0 : 0.1,
-            },
+              staggerChildren: shouldReduceMotion ? 0 : 0.1
+            }
           },
           enter: {
             transition: {
               duration: shouldReduceMotion ? 0 : 0.5,
-              staggerChildren: shouldReduceMotion ? 0 : 0.1,
-            },
+              staggerChildren: shouldReduceMotion ? 0 : 0.1
+            }
           },
           initial: {
             y: 0,
             opacity: 1,
             transition: {
-              duration: shouldReduceMotion ? 0 : 0.2,
-            },
-          },
+              duration: shouldReduceMotion ? 0 : 0.2
+            }
+          }
         }}
       >
         <>
@@ -124,11 +126,11 @@ export const PoolShow = (props) => {
                   {
                     href: '/',
                     as: '/',
-                    name: t('pools'),
+                    name: t('pools')
                   },
                   {
-                    name: translatedPoolName(t, pool?.name),
-                  },
+                    name: translatedPoolName(t, pool?.name)
+                  }
                 ]}
               />
             </div>
@@ -149,7 +151,7 @@ export const PoolShow = (props) => {
           <div
             className='custom-prize-box-padding pink-purple-gradient rounded-lg px-4 xs:px-6 sm:px-16 py-8 sm:pt-12 sm:pb-10 text-white my-8 sm:my-12 mx-auto'
             style={{
-              minHeight: 150,
+              minHeight: 150
             }}
           >
             <div className='flex flex-col xs:flex-row xs:items-center justify-between'>
@@ -191,7 +193,6 @@ export const PoolShow = (props) => {
 
           <PoolShowCards pool={pool} />
         </>
-          
 
         <PrizePlayersQuery pool={pool} blockNumber={-1}>
           {({ data, isFetching, isFetched }) => {
@@ -213,19 +214,14 @@ export const PoolShow = (props) => {
             <div className='m-2'>
               <Button textSize='xxs' noAnim onClick={handleAddTokenToMetaMask}>
                 {t('addTicketTokenToMetamask', {
-                  token: symbolForMetaMask,
+                  token: symbolForMetaMask
                 })}
               </Button>
             </div>
           )}
 
-          <div
-            className='m-2'
-          >
-            <ButtonLink
-              textSize='xxs'
-              href={formatEtherscanAddressUrl(pool.poolAddress, chainId)}
-            >
+          <div className='m-2'>
+            <ButtonLink textSize='xxs' href={formatEtherscanAddressUrl(pool.poolAddress, chainId)}>
               {t('viewPoolInEtherscan')}
             </ButtonLink>
           </div>
@@ -234,9 +230,7 @@ export const PoolShow = (props) => {
 
           {cookieShowAward && (
             <>
-              <div
-                className='m-2 button-scale'
-              >
+              <div className='m-2 button-scale'>
                 <ButtonLink
                   textSize='xxs'
                   href='/pools/[symbol]/manage'

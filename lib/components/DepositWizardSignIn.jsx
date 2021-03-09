@@ -18,7 +18,6 @@ export function DepositWizardSignIn(props) {
 
   // lazy load onboardjs when sign-in is shown
   useEffect(() => {
-    console.log('handleLoadOnboard deposit wizard sign in form')
     handleLoadOnboard()
   }, [])
 
@@ -29,10 +28,10 @@ export function DepositWizardSignIn(props) {
           i18nKey='depositAmountTickets'
           defaults='Deposit <number>{{amount}}</number> tickets'
           components={{
-            number: <PoolNumber />,
+            number: <PoolNumber />
           }}
           values={{
-            amount: quantity,
+            amount: quantity
           }}
         />
       </PaneTitle>

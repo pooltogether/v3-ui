@@ -33,7 +33,7 @@ export const compileErc721Awards = (externalErc721Awards, externalErc721ChainDat
         balanceFormatted,
         balanceBN,
         ...objData,
-        ...chainData,
+        ...chainData
       })
     })
   })

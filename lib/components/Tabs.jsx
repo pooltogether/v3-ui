@@ -15,7 +15,7 @@ export const Tab = ({ isSelected, onClick, children }) => {
         'focus:outline-none active:outline-none font-bold mx-4 sm:mx-8 text-default',
         {
           'hover:text-highlight-1 border-transparent': !isSelected,
-          'selected border-highlight-8': isSelected,
+          'selected border-highlight-8': isSelected
         }
       )}
     >
@@ -34,12 +34,10 @@ export const ContentPane = ({ children, isSelected, alwaysPresent }) => {
 
   return (
     <div
-      className={classnames(
-        'w-full',{
-          [hiddenClassName]: !isSelected,
-          [visibleClassName]: isSelected
-        }
-      )}
+      className={classnames('w-full', {
+        [hiddenClassName]: !isSelected,
+        [visibleClassName]: isSelected
+      })}
     >
       {children}
     </div>

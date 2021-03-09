@@ -28,13 +28,13 @@ export const PrizeFromInterestCard = (props) => {
         <h3 className='mt-1'>
           $
           {displayAmountInEther(ticketPrize, {
-            decimals,
+            decimals
           })}
         </h3>
 
         <p>
           {t('prizeInterestSplitBetweenNWinners', {
-            numberOfWinnersMinusOne,
+            numberOfWinnersMinusOne
           })}
         </p>
       </div>

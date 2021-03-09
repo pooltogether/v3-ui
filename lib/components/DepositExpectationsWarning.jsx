@@ -8,11 +8,11 @@ import { displayPercentage } from 'lib/utils/displayPercentage'
 
 import Bell from 'assets/images/bell-red@2x.png'
 
-const bn = ethers.utils.bigNumberify
+const bn = ethers.BigNumber.from
 
 export const DepositExpectationsWarning = (props) => {
   const { pool } = props
-  
+
   /// @return creditLimitMantissa The credit limit fraction
   //          This number is used to calculate both the credit limit and early exit fee.
   const creditLimitMantissa = pool?.tokenCreditRates?.[0]?.creditLimitMantissa
@@ -41,11 +41,13 @@ export const DepositExpectationsWarning = (props) => {
           i18nKey='youCanWithdrawWithNoPenaltyDescription'
           defaults='You can withdraw with no penalty {{days}} days after depositing. Funds withdrawn earlier are subjected to up to a {{percent}}% early exit fee. <a>Learn more</a>'
           components={{
-            a: <a
-              className='underline'
-              href='https://docs.pooltogether.com/protocol/prize-pool/fairness'
-              target='_blank'
-            />
+            a: (
+              <a
+                className='underline'
+                href='https://docs.pooltogether.com/protocol/prize-pool/fairness'
+                target='_blank'
+              />
+            )
           }}
           values={{
             days,

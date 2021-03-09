@@ -27,7 +27,7 @@ export function WithdrawTxButton(props) {
   const [txId, setTxId] = useState(0)
   const txName = t(`withdrawSponsorshipAmountTicker`, {
     amount: quantityFormatted,
-    ticker: tickerUpcased,
+    ticker: tickerUpcased
   })
   const method = 'withdrawInstantlyFrom'
   const sendTx = useSendTransaction()
@@ -45,7 +45,7 @@ export function WithdrawTxButton(props) {
       usersAddress,
       quantityBN,
       sponsorshipAddress,
-      ethers.utils.parseEther(maxExitFee),
+      ethers.utils.parseEther(maxExitFee)
     ]
 
     const id = await sendTx(txName, PrizePoolAbi, poolAddress, method, params)

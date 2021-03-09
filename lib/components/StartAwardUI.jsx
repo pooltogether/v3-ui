@@ -18,7 +18,7 @@ export function StartAwardUI(props) {
   const prizeStrategyAddress = pool?.prizeStrategy?.id
 
   const txName = t(`startAwardPoolName`, {
-    poolName: pool?.name,
+    poolName: pool?.name
   })
   const method = 'startAward'
   const [txId, setTxId] = useState(0)

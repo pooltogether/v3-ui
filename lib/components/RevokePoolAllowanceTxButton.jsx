@@ -45,7 +45,7 @@ export function RevokePoolAllowanceTxButton(props) {
 
     const params = [
       poolAddress,
-      ethers.utils.parseEther('0'),
+      ethers.utils.parseEther('0')
       // {
       //   gasLimit: 200000
       // }
@@ -67,7 +67,7 @@ export function RevokePoolAllowanceTxButton(props) {
           disabled={tx?.sent && !tx?.completed}
         >
           {t('revokePoolAllowance', {
-            ticker: pool?.underlyingCollateralSymbol,
+            ticker: pool?.underlyingCollateralSymbol
           })}
         </Button>
       </div>

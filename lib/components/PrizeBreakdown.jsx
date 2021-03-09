@@ -71,9 +71,7 @@ export const PrizeBreakdown = (props) => {
           >
             <img src={PrizeIllustration} className='w-40 mx-auto' />
             <div>
-              <h3>
-                {ticketPrizeUSD && `$${numberWithCommas(ticketPrizeUSD, { precision: 2 })}`}
-              </h3>
+              <h3>{ticketPrizeUSD && `$${numberWithCommas(ticketPrizeUSD, { precision: 2 })}`}</h3>
               <span className='text-sm xs:text-base sm:text-xl'>{t('tickets')}</span>
             </div>
           </div>
@@ -89,7 +87,7 @@ export const PrizeBreakdown = (props) => {
                 <div
                   className='relative'
                   style={{
-                    top: 3,
+                    top: 3
                   }}
                 >
                   <h3>${numberWithCommas(externalAwardsValueUSD)}</h3>
@@ -100,7 +98,6 @@ export const PrizeBreakdown = (props) => {
               <div className='hidden sm:block sm:w-2/12'>&nbsp;</div>
             </>
           )}
-
         </div>
 
         <div className='mt-1 xs:mt-0 xs:bg-primary px-4 py-2 xs:py-5 rounded-lg'>
@@ -135,7 +132,7 @@ export const PrizeBreakdown = (props) => {
                     colSpan='4'
                     className='text-center'
                     style={{
-                      paddingTop: '0.5rem',
+                      paddingTop: '0.5rem'
                     }}
                   >
                     {t('prizeNotAwardedYet')}

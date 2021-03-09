@@ -20,11 +20,9 @@ Object.keys(ifaces).forEach(function (ifname) {
 
     if (alias >= 1) {
       // this single interface has multiple ipv4 addresses
-      // console.log(ifname + ':' + alias, iface.address);
       ip = `${alias} ${iface.address}`
     } else {
       // this interface has only one ipv4 adress
-      // console.log(ifname, iface.address);
       ip = iface.address
     }
     ++alias
@@ -34,8 +32,8 @@ Object.keys(ifaces).forEach(function (ifname) {
 const devProxy = {
   '/.netlify': {
     target: 'http://localhost:9000',
-    pathRewrite: { '^/.netlify/functions': '' },
-  },
+    pathRewrite: { '^/.netlify/functions': '' }
+  }
 }
 
 const port = parseInt(process.env.PORT, 10) || 3000
@@ -43,7 +41,7 @@ const env = process.env.NODE_ENV || 'development'
 const dev = env !== 'production'
 const app = next({
   dir: '.', // base directory where everything is, could move to src later
-  dev,
+  dev
 })
 
 const handle = app.getRequestHandler()
@@ -76,6 +74,6 @@ app
     })
   })
   .catch((err) => {
-    console.log('An error occurred, unable to start the server')
-    console.log(err)
+    console.warn('An error occurred, unable to start the server')
+    console.warn(err)
   })

@@ -28,7 +28,7 @@ export function DepositSponsorshipTxButton(props) {
 
   const txName = t(`depositAmountTickerToSponsorship`, {
     amount: quantityFormatted,
-    ticker: tickerUpcased,
+    ticker: tickerUpcased
   })
   const method = 'depositTo'
   const [txId, setTxId] = useState(0)
@@ -44,7 +44,7 @@ export function DepositSponsorshipTxButton(props) {
       usersAddress,
       quantityBN,
       controlledSponsorshipTokenAddress,
-      ethers.constants.AddressZero,
+      ethers.constants.AddressZero
     ]
 
     const id = await sendTx(txName, PrizePoolAbi, poolAddress, method, params)

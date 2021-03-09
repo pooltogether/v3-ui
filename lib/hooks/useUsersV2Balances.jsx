@@ -15,7 +15,7 @@ export function useUsersV2Balances() {
   const { data: usersV2Balances, error: usersChainError } = useUsersV2Query({
     provider: readProvider,
     usersAddress,
-    contractAddresses,
+    contractAddresses
   })
 
   if (usersChainError) {

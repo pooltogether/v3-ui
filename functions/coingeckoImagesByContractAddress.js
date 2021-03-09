@@ -12,25 +12,25 @@ exports.handler = async (event, context, callback) => {
       return {
         statusCode: 404,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ [address]: null }),
+        body: JSON.stringify({ [address]: null })
       }
     } else if (response && response.status < 400) {
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ [address]: { image: response.data.image } }),
+        body: JSON.stringify({ [address]: { image: response.data.image } })
       }
     } else {
       return {
         statusCode: response.status,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ body: response.data }),
+        body: JSON.stringify({ body: response.data })
       }
     }
   } catch (e) {
     return {
       statusCode: 500,
-      body: e.message,
+      body: e.message
     }
   }
 }

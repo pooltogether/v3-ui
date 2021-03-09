@@ -63,18 +63,6 @@ export const AccountRewards = () => {
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
-  // const txsNotCompleted = transactions
-  //   ?.filter(t => !t.completed && !t.cancelled)
-  // useEffect(() => {
-  //   // this is a heavy-handed reset of active tx rows and should be improved but will require
-  //   // putting params/identifying data into the tx object
-  //   console.log(txsNotCompleted)
-  //   if (activeTxDripIds.length > 0 && txsNotCompleted && txsNotCompleted.length === 0) {
-  //     console.log('resetting!')
-  //     setActiveTxDripIds([])
-  //   }
-  // }, [txsNotCompleted])
-
   const handleClaim = async (drip) => {
     const { comptroller, updatePairs, dripTokens } = getParamsForClaim([drip.id])
     // shim
@@ -83,9 +71,8 @@ export const AccountRewards = () => {
     // 0xc7c406A867B324b9189b9a7503683eFC9BdCe5BA
     const oldDaiContractPair = {
       measure: updatePairs[0].measure,
-      source: '0xc7c406a867b324b9189b9a7503683efc9bdce5ba',
+      source: '0xc7c406a867b324b9189b9a7503683efc9bdce5ba'
     }
-    console.log([...updatePairs, oldDaiContractPair])
     const params = [[...updatePairs, oldDaiContractPair], usersAddress, dripTokens]
 
     const id = await sendTx(txName, ComptrollerAbi, comptroller, method, params)
@@ -113,14 +100,14 @@ export const AccountRewards = () => {
         measureTokenAddress,
         dripTokenAddress,
         isReferral,
-        playerAddress,
+        playerAddress
       ] = drip.id.split('-')
 
       isReferral = Boolean(parseInt(isReferral, 10))
 
       updatePairs.push({
         source: sourceAddress,
-        measure: measureTokenAddress,
+        measure: measureTokenAddress
       })
       dripTokens.push(dripTokenAddress)
       comptroller = comptroller || comptrollerAddress
@@ -163,10 +150,10 @@ export const AccountRewards = () => {
         id: dripTokenAddress,
         dripToken: {
           address: dripTokenAddress,
-          ...dripTokenData,
+          ...dripTokenData
         },
         claimable: zero,
-        balance: zero,
+        balance: zero
       }
     )
 
@@ -215,7 +202,7 @@ export const AccountRewards = () => {
       <>
         <a
           className={classnames('underline cursor-pointer stroke-current font-bold', {
-            'cursor-not-allowed opacity-20': disabled,
+            'cursor-not-allowed opacity-20': disabled
           })}
           onClick={(e) => {
             e.preventDefault()

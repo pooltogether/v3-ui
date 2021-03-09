@@ -18,7 +18,7 @@ export const CommunityDisclaimerBanner = (props) => {
       <div className='mr-4 xs:mr-4 xs:ml-4 my-auto h-12'>
         <img className='shake' src={Bell} style={{ maxWidth: 40 }} />
       </div>
-      
+
       <div className='text-inverse sm:leading-tight sm:ml-2 text-xs xs:text-sm sm:text-lg lg:text-xl'>
         <span className='font-bold'>{t('anyoneCanCreateAPrizePool')}</span>
         <br />
@@ -26,11 +26,13 @@ export const CommunityDisclaimerBanner = (props) => {
           i18nKey='learnAboutCommunityPrizePoolsHere'
           defaults='Learn about community prize pools <a>here</a>'
           components={{
-            a: <a
-              target='_blank'
-              className='underline text-inverse'
-              href='https://medium.com/pooltogether/prize-pool-builder-9f9c95fad860'
-            />
+            a: (
+              <a
+                target='_blank'
+                className='underline text-inverse'
+                href='https://medium.com/pooltogether/prize-pool-builder-9f9c95fad860'
+              />
+            )
           }}
         />
       </div>

@@ -62,9 +62,7 @@ export const LootBoxTable = (props) => {
             )}
           </div>
 
-          {!historical && (
-            <ContributeToLootBoxDropdown pool={pool} />
-          )}
+          {!historical && <ContributeToLootBoxDropdown pool={pool} />}
         </div>
 
         {awards.length > 0 && (
@@ -76,7 +74,7 @@ export const LootBoxTable = (props) => {
                     <th className='w-6/12'>
                       <h6 className='text-green text-left'>
                         {t('amountTokens', {
-                          amount: originalAwardsCount,
+                          amount: originalAwardsCount
                         })}
                       </h6>
                     </th>
@@ -133,12 +131,12 @@ export const LootBoxTable = (props) => {
                       variants={{
                         enter: {
                           opacity: 1,
-                          y: 0,
+                          y: 0
                         },
                         exit: {
                           y: -10,
-                          opacity: 0,
-                        },
+                          opacity: 0
+                        }
                       }}
                     >
                       {t('showMore')}

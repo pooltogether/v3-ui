@@ -25,7 +25,6 @@ export function SignInFormContainer(props) {
 
   // lazy load onboardjs when sign-in is shown
   useEffect(() => {
-    // console.log('handleLoadOnboard on sign in show')
     handleLoadOnboard()
 
     if (showSelectMenu) {
@@ -79,7 +78,7 @@ export function SignInFormContainer(props) {
         exit={{ opacity: 0, y: -50 }}
         transition={{ duration: shouldReduceMotion ? 0 : 0.25 }}
         style={{
-          maxHeight: 300,
+          maxHeight: 300
         }}
       >
         <nav className='fixed t-0 l-0 r-0 w-full px-4 pt-4 flex items-start justify-between h-20'>

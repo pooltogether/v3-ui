@@ -18,11 +18,11 @@ export const InteractableCard = (props) => {
           'interactable-card bg-card hover:bg-card-selected border-card w-full mb-4 rounded-lg text-inverse hover:text-inverse trans trans-fast',
           {
             'hover:shadow-xl cursor-pointer': !selected,
-            'selected': selected,
+            'selected': selected
           }
         )}
         style={{
-          minHeight: 120,
+          minHeight: 120
         }}
       >
         <Link href={props.href} as={props.as}>

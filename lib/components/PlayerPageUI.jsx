@@ -76,13 +76,13 @@ export function PlayerPageUI(props) {
         title={`${t('player')} ${playerAddress ? shorten(playerAddress) : ''}`}
         breadcrumbs={[
           {
-            name: t('players'),
+            name: t('players')
           },
           {
             href: '/players/[playerAddress]',
             as: `/players/${playerAddress}`,
-            name: `${t('player')} ${playerAddress ? playerAddress : ''}`,
-          },
+            name: `${t('player')} ${playerAddress ? playerAddress : ''}`
+          }
         ]}
       />
 
@@ -97,22 +97,22 @@ export function PlayerPageUI(props) {
             opacity: 0,
             transition: {
               duration: shouldReduceMotion ? 0 : 0.5,
-              staggerChildren: shouldReduceMotion ? 0 : 0.1,
-            },
+              staggerChildren: shouldReduceMotion ? 0 : 0.1
+            }
           },
           enter: {
             transition: {
               duration: shouldReduceMotion ? 0 : 0.5,
-              staggerChildren: shouldReduceMotion ? 0 : 0.1,
-            },
+              staggerChildren: shouldReduceMotion ? 0 : 0.1
+            }
           },
           initial: {
             y: 0,
             opacity: 1,
             transition: {
-              duration: shouldReduceMotion ? 0 : 0.2,
-            },
-          },
+              duration: shouldReduceMotion ? 0 : 0.2
+            }
+          }
         }}
       >
         <div className='mt-8'>

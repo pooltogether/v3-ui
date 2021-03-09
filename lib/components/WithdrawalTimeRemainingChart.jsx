@@ -26,7 +26,7 @@ const _label = (t, timeRemainingObj) => {
   const value = timeRemainingObj[varName]
 
   return t(`${varName}ToGoUntilFreeWithdrawal`, {
-    [varName]: parseInt(value, 10),
+    [varName]: parseInt(value, 10)
   })
 }
 
@@ -48,7 +48,7 @@ export function WithdrawalTimeRemainingChart(props) {
       <div
         className='mt-4 text-highlight-3'
         style={{
-          maxHeight: 220,
+          maxHeight: 220
         }}
       >
         <Gauge
@@ -61,7 +61,7 @@ export function WithdrawalTimeRemainingChart(props) {
               <div
                 className='text-xxxs mt-8 sm:mt-4 mx-auto'
                 style={{
-                  maxWidth: 160,
+                  maxWidth: 160
                 }}
               >
                 {_label(t, timeRemainingObj)}

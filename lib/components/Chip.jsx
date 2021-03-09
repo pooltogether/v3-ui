@@ -23,7 +23,7 @@ export const Chip = (props) => {
       <span
         className={classes}
         style={{
-          lineHeight: '0.35rem',
+          lineHeight: '0.35rem'
         }}
       >
         {text}

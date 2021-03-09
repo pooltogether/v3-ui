@@ -45,7 +45,7 @@ export function DepositCryptoForm(props) {
 
   const poolIsLocked = pool?.isRngRequested
 
-  let quantityBN = ethers.utils.bigNumberify(0)
+  let quantityBN = ethers.BigNumber.from(0)
   if (decimals) {
     quantityBN = ethers.utils.parseUnits(quantity || '0', Number(decimals))
   }
@@ -116,13 +116,13 @@ export function DepositCryptoForm(props) {
             icon='check'
             className='inline-block relative w-5 h-5 ml-auto mr-1'
             style={{
-              top: '-0.05rem',
+              top: '-0.05rem'
             }}
           />
         </>
       )}{' '}
       {t('allowTicker', {
-        ticker: tickerUpcased,
+        ticker: tickerUpcased
       })}
     </Button>
   )
@@ -142,7 +142,7 @@ export function DepositCryptoForm(props) {
             <div className='text-orange my-4 flex flex-col'>
               <h4 className=''>
                 {t('youDontHaveEnoughTicker', {
-                  ticker: tickerUpcased,
+                  ticker: tickerUpcased
                 })}
               </h4>
               {/*  TODO: Fix wyre integration
@@ -177,7 +177,7 @@ export function DepositCryptoForm(props) {
                     icon='arrow-left'
                     className='relative stroke-current w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 mr-2'
                     style={{
-                      top: 1,
+                      top: 1
                     }}
                   />{' '}
                   {t('changeQuantity')}
@@ -194,7 +194,7 @@ export function DepositCryptoForm(props) {
                   <div
                     className='text-sm mb-6 px-6 sm:px-10'
                     style={{
-                      minHeight: 97,
+                      minHeight: 97
                     }}
                   >
                     {!unlockTxInFlight && (
@@ -214,7 +214,7 @@ export function DepositCryptoForm(props) {
                       <>
                         <span className='font-bold'>
                           {t('unlockToDepositTicker', {
-                            ticker: tickerUpcased,
+                            ticker: tickerUpcased
                           })}
                         </span>
                       </>

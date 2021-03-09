@@ -12,7 +12,7 @@ export function usePlayerDrips(address, blockNumber = -1) {
   const {
     data: playerQueryData,
     error: playerQueryError,
-    isFetching: playerQueryFetching,
+    isFetching: playerQueryFetching
   } = usePlayerQuery(address)
   if (playerQueryError) {
     console.error(playerQueryError)
@@ -22,11 +22,11 @@ export function usePlayerDrips(address, blockNumber = -1) {
     playerDrips = {
       dripTokens: playerQueryData.playerDripToken,
       balanceDrips: playerQueryData.playerBalanceDrip,
-      volumeDrips: playerQueryData.playerVolumeDrip,
+      volumeDrips: playerQueryData.playerVolumeDrip
     }
   }
 
   return {
-    playerDrips,
+    playerDrips
   }
 }

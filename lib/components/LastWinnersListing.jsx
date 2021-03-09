@@ -9,7 +9,6 @@ import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { sumAwardedControlledTokens } from 'lib/utils/sumAwardedControlledTokens'
 
 export const LastWinnersListing = (props) => {
   const { t } = useTranslation()
@@ -30,18 +29,16 @@ export const LastWinnersListing = (props) => {
   prizes = prizes ? prizes.slice(0, 5) : []
 
   prizes = prizes?.reduce(function (result, prize) {
-    if (prize?.awardedControlledTokens?.length > 0) {
+    if (
+      prize?.awardedControlledTokens?.length > 0 ||
+      prize?.awardedExternalErc20Tokens?.length > 0
+    ) {
       const date = formatDate(prize?.awardedTimestamp, { short: true, year: false, noAbbrev: true })
-
-      const totalAwardedControlledTokensUSD = sumAwardedControlledTokens(
-        prize?.awardedControlledTokens
-      )
 
       result.push({
         ...prize,
         date,
-        prizeNumber: extractPrizeNumberFromPrize(prize),
-        totalControlledTokensWon: totalAwardedControlledTokensUSD,
+        prizeNumber: extractPrizeNumberFromPrize(prize)
       })
     }
     return result
@@ -54,9 +51,7 @@ export const LastWinnersListing = (props) => {
   return (
     <>
       {prizes === null ? (
-        <>
-          <h6>{t('noWinnersAwardedYet')}</h6>
-        </>
+        <h6>{t('noWinnersAwardedYet')}</h6>
       ) : (
         <>
           <div className='w-full text-flashy font-bold mb-1 text-xxs xs:text-xs'>
@@ -75,13 +70,9 @@ export const LastWinnersListing = (props) => {
               >
                 <a className='flex justify-between items-center font-bold mb-1 rounded-lg trans text-xxs xs:text-xs'>
                   <span>{prize?.date}</span>
-                  {/* <span
-              className='inline-block w-1/3 sm:w-5/12'
-            >
-              {shorten(prize?.address)}
-            </span> */}
                   <span className='text-right'>
                     <TimeTravelPool
+                      poolSplitExternalErc20Awards={pool?.splitExternalErc20Awards}
                       blockNumber={parseInt(prize?.awardedBlock, 10)}
                       poolAddress={pool?.id}
                       querySymbol={querySymbol}

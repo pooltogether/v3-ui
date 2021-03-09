@@ -51,9 +51,11 @@ export function OrderComplete(props) {
       <PaneTitle>
         <span className={`mx-auto`} role='img' aria-label='confetti emoji'>
           🎉
-        </span> <span className={`mx-auto`} role='img' aria-label='confetti emoji'>
+        </span>{' '}
+        <span className={`mx-auto`} role='img' aria-label='confetti emoji'>
           🎉
-        </span> <span className={`mx-auto`} role='img' aria-label='confetti emoji'>
+        </span>{' '}
+        <span className={`mx-auto`} role='img' aria-label='confetti emoji'>
           🎉
         </span>
       </PaneTitle>
@@ -65,10 +67,10 @@ export function OrderComplete(props) {
             i18nKey='AmountTickets'
             defaults='<number>{{amount}}</number> tickets'
             components={{
-              number: <PoolNumber />,
+              number: <PoolNumber />
             }}
             values={{
-              amount: numberWithCommas(quantity, { precision: 2 }),
+              amount: numberWithCommas(quantity, { precision: 2 })
             }}
           />
         </h1>
@@ -77,7 +79,7 @@ export function OrderComplete(props) {
           <div className='mt-4'>
             {t('youNowHaveAmountTicketsInTheTickerPool', {
               amount: numberWithCommas(Number(prevBalance) + Number(quantity), { precision: 4 }),
-              ticker: pool?.underlyingCollateralSymbol,
+              ticker: pool?.underlyingCollateralSymbol
             })}
           </div>
           <div className='mb-6'>

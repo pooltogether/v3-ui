@@ -24,13 +24,13 @@ export function Nav(props) {
             id='_navPoolsButton'
             className={classnames(navParentClasses, {
               'text-accent-4 hover:text-highlight-2': !poolPage,
-              'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': poolPage,
+              'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': poolPage
             })}
           >
             <div className='flex items-center justify-center'>
               <svg
                 style={{
-                  top: -2,
+                  top: -2
                 }}
                 className='fill-current mr-auto relative'
                 width='19'
@@ -55,13 +55,13 @@ export function Nav(props) {
             id='_navAccountButton'
             className={classnames(navParentClasses, {
               'text-accent-4 hover:text-highlight-2': !accountPage,
-              'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': accountPage,
+              'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': accountPage
             })}
           >
             <div className='flex items-center justify-center'>
               <svg
                 style={{
-                  top: 1,
+                  top: 1
                 }}
                 className='fill-current mr-auto relative'
                 width='20'
@@ -82,7 +82,7 @@ export function Nav(props) {
           <a
             className={classnames(navParentClasses, {
               'text-accent-4 hover:text-highlight-2': !votePage,
-              'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': votePage,
+              'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': votePage
             })}
           >
             <div className='flex items-center justify-center'>
@@ -90,7 +90,7 @@ export function Nav(props) {
                 style={{
                   left: 2,
                   top: 1,
-                  transform: 'scale(1.1)',
+                  transform: 'scale(1.1)'
                 }}
                 className='fill-current stroke-current mr-auto relative'
                 width='20'

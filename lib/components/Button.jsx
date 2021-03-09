@@ -19,7 +19,7 @@ export function Button(props) {
     'secondary',
     'tertiary',
     'textSize',
-    'padding',
+    'padding'
   ])
 
   return <button {...newProps} className={classes} />

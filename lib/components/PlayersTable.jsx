@@ -43,7 +43,7 @@ const formatPlayerObject = (t, pool, player, winners) => {
     odds: (
       <Odds timeTravelTicketSupply={pool.ticketSupply} pool={pool} usersBalance={player.balance} />
     ),
-    view: playerLink(t, player),
+    view: playerLink(t, player)
   }
 }
 
@@ -61,21 +61,21 @@ export const PlayersTable = (props) => {
     return [
       {
         Header: t('address'),
-        accessor: 'address',
+        accessor: 'address'
       },
       {
         Header: t('tickets'),
-        accessor: 'balance', // accessor is the "key" in the data
+        accessor: 'balance' // accessor is the "key" in the data
       },
       {
         Header: t('odds'),
-        accessor: 'odds',
+        accessor: 'odds'
       },
       {
         Header: '',
         accessor: 'view',
-        Cell: (row) => <div style={{ textAlign: 'right' }}>{row.value}</div>,
-      },
+        Cell: (row) => <div style={{ textAlign: 'right' }}>{row.value}</div>
+      }
     ]
   }, [])
 
@@ -91,7 +91,7 @@ export const PlayersTable = (props) => {
 
   const tableInstance = useTable({
     columns,
-    data,
+    data
   })
 
   if (!players || players?.length === 0) {

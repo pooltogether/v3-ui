@@ -37,12 +37,12 @@ const LootBoxWonTable = (props) => {
 
   const lootBoxErc721s = lootBoxAwards.erc721s.map((award) => ({
     address: award.erc721Entity.id,
-    tokenIds: [award.tokenId],
+    tokenIds: [award.tokenId]
   }))
 
   const lootBoxErc1155s = lootBoxAwards.erc1155s.map((award) => ({
     address: award.erc1155Entity.id,
-    tokenIds: [award.tokenId],
+    tokenIds: [award.tokenId]
   }))
   const { readProvider } = useReadProvider()
 
@@ -50,33 +50,33 @@ const LootBoxWonTable = (props) => {
     data: erc20Balances,
     error: erc20Error,
     isFetching: erc20IsFetching,
-    isFetched: erc20IsFetched,
+    isFetched: erc20IsFetched
   } = useEthereumErc20Query({
     provider: readProvider,
     graphErc20Awards: lootBoxErc20s,
-    balanceOfAddress: computedLootBoxAddress,
+    balanceOfAddress: computedLootBoxAddress
   })
 
   const {
     data: erc721Tokens,
     error: erc721Error,
     isFetching: erc721IsFetching,
-    isFetched: erc721IsFetched,
+    isFetched: erc721IsFetched
   } = useEthereumErc721Query({
     provider: readProvider,
     graphErc721Awards: lootBoxErc721s,
-    balanceOfAddress: computedLootBoxAddress,
+    balanceOfAddress: computedLootBoxAddress
   })
 
   const {
     data: erc1155Balances,
     error: erc1155Error,
     isFetching: erc1155IsFetching,
-    isFetched: erc1155IsFetched,
+    isFetched: erc1155IsFetched
   } = useEthereumErc1155Query({
     provider: readProvider,
     erc1155Awards: lootBoxErc1155s,
-    balanceOfAddress: computedLootBoxAddress,
+    balanceOfAddress: computedLootBoxAddress
   })
 
   if (erc20Error) {
@@ -92,8 +92,8 @@ const LootBoxWonTable = (props) => {
   const isFetching = erc20IsFetching || erc721IsFetching || erc1155IsFetching
   const isFetched = erc20IsFetched || erc721IsFetched || erc1155IsFetched
 
-  let lootBoxBalanceTotal = ethers.utils.bigNumberify(0)
-  let lootBoxErc1155BalanceTotal = ethers.utils.bigNumberify(0)
+  let lootBoxBalanceTotal = ethers.BigNumber.from(0)
+  let lootBoxErc1155BalanceTotal = ethers.BigNumber.from(0)
 
   erc20Balances?.forEach((award) => {
     lootBoxBalanceTotal = lootBoxBalanceTotal.add(award.balance)
@@ -120,7 +120,7 @@ const LootBoxWonTable = (props) => {
     <>
       <h6 className='flex items-center font-normal'>
         {t('lootBoxNumber', {
-          number: prizeNumber,
+          number: prizeNumber
         })}
       </h6>
 
@@ -130,14 +130,14 @@ const LootBoxWonTable = (props) => {
           <>
             <span className='text-accent-1'>{t('awardedOn')}:</span>{' '}
             {formatDate(prize?.awardedTimestamp, {
-              short: true,
+              short: true
             })}
             ,{' '}
             <div className='inline-block ml-1 relative' style={{ top: -2 }}>
               <PoolCurrencyIcon xs pool={pool} />
             </div>{' '}
             {t('tickerPool', {
-              ticker: pool?.underlyingCollateralSymbol?.toUpperCase(),
+              ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
             })}
           </>
         )}
@@ -164,7 +164,7 @@ const LootBoxWonTable = (props) => {
                   <th className='w-6/12' style={{ paddingBottom: 0 }}>
                     <h6 className='text-green text-left'>
                       {t('amountTokens', {
-                        amount: awards.length,
+                        amount: awards.length
                       })}
                     </h6>
                   </th>
@@ -233,6 +233,7 @@ export const LootBoxWon = (props) => {
 
   return (
     <TimeTravelPool
+      poolSplitExternalErc20Awards={pool?.splitExternalErc20Awards}
       blockNumber={blockNumber}
       poolAddress={poolAddress}
       querySymbol={pool?.symbol}

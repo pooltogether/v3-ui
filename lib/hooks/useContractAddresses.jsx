@@ -6,7 +6,7 @@ import { poolToast } from 'lib/utils/poolToast'
 
 export function useContractAddresses() {
   const { supportedNetwork, chainId } = useContext(AuthControllerContext)
-  
+
   let contractAddresses
 
   try {
