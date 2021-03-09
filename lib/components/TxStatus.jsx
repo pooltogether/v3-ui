@@ -68,25 +68,25 @@ export const TxStatus = (props) => {
           <div className='text-accent-1 text-sm'>{t('transactionStatus')}</div>
 
           {txInWallet && !txError && (
-            <div className='text-sm sm:text-base text-orange'>
+            <div className='text-sm sm:text-base text-orange font-bold'>
               {inWalletMessage ? inWalletMessage : t('pleaseConfirmInYourWallet')}
             </div>
           )}
 
           {txSent && (
-            <div className='text-sm sm:text-base text-primary'>
+            <div className='text-sm sm:text-base text-green font-bold'>
               {sentMessage ? sentMessage : t('transactionSentConfirming')}
             </div>
           )}
 
           {txCompleted && !txError && (
-            <div className='text-green text-sm sm:text-base'>
+            <div className='text-green text-sm sm:text-base font-bold'>
               {successMessage ? successMessage : t('transactionSuccessful')}
             </div>
           )}
 
           {txError && (
-            <div className='text-red text-sm sm:text-base'>
+            <div className='text-red text-sm sm:text-base font-bold'>
               {errorMessage ? errorMessage : t('transactionFailed')}
             </div>
           )}
