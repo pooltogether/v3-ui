@@ -4,7 +4,6 @@ import { Banner } from 'lib/components/Banner'
 import { Trans, useTranslation } from 'lib/../i18n'
 
 import Bell from 'assets/images/bell@2x.png'
-// import Bell from 'assets/images/bell-red@2x.png'
 
 export const CommunityDisclaimerBanner = (props) => {
   const { t } = useTranslation()
