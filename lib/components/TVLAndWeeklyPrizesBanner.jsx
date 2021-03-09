@@ -54,9 +54,12 @@ export const TVLAndWeeklyPrizesBanner = (props) => {
       className='absolute t-0 l-0 r-0 shadow-md mt-1 mb-8 flex flex-row items-center'
       style={{ minHeight: 150 }}
     >
-      <img src={Rocket} className='mr-4 xs:mr-4 xs:ml-4 my-auto w-12 h-12 xs:w-20 xs:h-20' />
+      <img
+        src={Rocket}
+        className='mr-4 xs:mr-4 xs:ml-4 my-auto w-12 h-12 xs:w-20 xs:h-20 sm:ml-auto'
+      />
 
-      <h4 className='text-white sm:leading-tight text-xs xs:text-lg sm:text-xl lg:text-2xl'>
+      <h4 className='text-white sm:leading-tight text-xs xs:text-lg sm:text-xl lg:text-2xl sm:w-9/12 lg:w-9/12 sm:mr-auto'>
         {t(`currentTvlAndPrize`, {
           tvl: totalValueLockedFormatted,
           prize: totalPrizeFormatted

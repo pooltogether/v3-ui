@@ -12,10 +12,9 @@ import { Banner } from 'lib/components/Banner'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
+import { DepositPaneTitle } from 'lib/components/DepositPaneTitle'
 import { NoMoreTicketsPane } from 'lib/components/NoMoreTicketsPane'
 import { Odds } from 'lib/components/Odds'
-import { PaneTitle } from 'lib/components/PaneTitle'
-import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { WyreTopUpBalanceDropdown } from 'lib/components/WyreTopUpBalanceDropdown'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
@@ -97,12 +96,7 @@ export function DepositTicketQuantityForm(props) {
 
   return (
     <>
-      <div className='pane-title'>
-        <div className='font-bold inline-block sm:block relative mb-2' style={{ top: -2 }}>
-          <PoolCurrencyIcon lg pool={pool} />
-        </div>
-        <PaneTitle>{formName}</PaneTitle>
-      </div>
+      <DepositPaneTitle ticker={tickerUpcased} pool={pool} />
 
       {balanceJsx && <div className='sm:my-4 mb-12'>{balanceJsx}</div>}
 

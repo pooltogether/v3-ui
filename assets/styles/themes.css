@@ -22,6 +22,7 @@
   --color-bg-accent-grey-3: #bbb2ce;
   --color-bg-accent-grey-4: #341762;
   --color-bg-accent-grey-5: rgba(69, 101, 255, 0.4);
+  --color-bg-accent-grey-6: rgba(53, 240, 208, 0.1);
   --color-bg-highlight-1: #35f0d0;
   --color-bg-highlight-2: #35f0d0;
   --color-bg-highlight-3: #401c94;
@@ -32,7 +33,7 @@
   --color-bg-highlight-8: #2a1660;
   --color-bg-highlight-9: #341762;
   --color-bg-raspberry: #49195c;
-  --color-bg-functional-red: #49195c;
+  --color-bg-functional-red: rgba(70, 22, 92, 0.75);
   --color-bg-red: #e61b1b;
   --color-bg-green: #3ef3d4;
   --color-bg-orange-darkened: rgba(211, 120, 2, 0.171);
@@ -115,6 +116,7 @@
   --color-bg-accent-grey-3: #f6f2ff;
   --color-bg-accent-grey-4: #f6f2ff;
   --color-bg-accent-grey-5: #f6f2ff;
+  --color-bg-accent-grey-6: #f6f2ff;
   --color-bg-highlight-1: #4c249f;
   --color-bg-highlight-2: #7f51d1;
   --color-bg-highlight-3: #4c249f;
@@ -134,7 +136,7 @@
   --color-bg-teal: #0ea3a4;
   --color-bg-purple: #4c249f;
 
-  --color-text-accent-1: #a5a0b3;
+  --color-text-accent-1: #a191cf;
   --color-text-accent-2: #4c249f;
   --color-text-accent-3: #a5a0b3;
   --color-text-accent-4: #9f82d7;
