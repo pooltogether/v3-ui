@@ -19,7 +19,6 @@ import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
 import { GraphErrorModal } from 'lib/components/GraphErrorModal'
 import { Layout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
-import { NewPrizeWinnerEventListener } from 'lib/components/NewPrizeWinnerEventListener'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
@@ -161,8 +160,6 @@ function MyApp({ Component, pageProps, router }) {
 
           <AllContextProviders>
             <CustomErrorBoundary>
-              <NewPrizeWinnerEventListener />
-
               <TransactionStatusChecker />
 
               <TxRefetchListener />
