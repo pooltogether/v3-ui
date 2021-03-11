@@ -14,7 +14,7 @@ export function TxRefetchListener(props) {
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { poolsRefetch } = usePools()
+  // const { poolsRefetch } = usePools()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
@@ -53,7 +53,7 @@ export function TxRefetchListener(props) {
       }, 16000)
     } else if (poolStateTransaction) {
       setTimeout(() => {
-        poolsRefetch()
+        // poolsRefetch()
         debug('refetch pool/prize!')
       }, 6000)
     } else if (tx?.refetch) {

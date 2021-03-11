@@ -9,7 +9,7 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { usePools } from 'lib/hooks/usePools'
 import { CommunityDisclaimerBanner } from 'lib/components/CommunityDisclaimerBanner'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
-import { PoolList } from 'lib/components/PoolList'
+import { PoolLists } from 'lib/components/PoolLists'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 import { Tagline } from 'lib/components/Tagline'
 import { TVLAndWeeklyPrizesBanner } from 'lib/components/TVLAndWeeklyPrizesBanner'
@@ -36,8 +36,6 @@ const BannerMotionDIV = (props) => {
 }
 
 export const IndexUI = (props) => {
-  const { poolsDataLoading, pools, communityPools } = usePools()
-
   const router = useRouter()
   // Don't switch back to the default tab if we're navigating away from the homepage
   const defaultTab = router.pathname === '/' && POOL_LIST_TABS.pools
@@ -66,13 +64,7 @@ export const IndexUI = (props) => {
 
       {/* <NewPoolBanner /> */}
 
-      <div className='mt-10'>
-        {poolsDataLoading ? (
-          <IndexUILoader />
-        ) : (
-          <PoolList pools={pools} communityPools={communityPools} />
-        )}
-      </div>
+      <PoolLists />
 
       <Tagline />
     </>
