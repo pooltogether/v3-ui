@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
-import { ANIM_LIST_VARIANTS, POOL_LIST_TABS, CONTRACT_ADDRESSES } from 'lib/constants'
+import { POOL_LIST_TABS } from 'lib/constants'
+import { ANIM_LIST_VARIANTS } from 'lib/constants/framerAnimations'
 import { PoolRowNew } from 'lib/components/PoolRowNew'
 import { Tabs, Tab, ContentPane } from 'lib/components/Tabs'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
@@ -17,6 +18,7 @@ export const PoolLists = () => {
 
   const { t } = useTranslation()
   const router = useRouter()
+
   // Don't switch back to the default tab if we're navigating away from the homepage
   const defaultTab = router.pathname === '/' && POOL_LIST_TABS.pools
   const selectedTab = router.query.tab || defaultTab
@@ -85,8 +87,6 @@ export const PoolLists = () => {
 const CommunityPoolsList = () => {
   const { communityPools, communityPoolsDataLoading } = useCommunityPools()
 
-  if (communityPoolsDataLoading) return <IndexUILoader />
-
   const communityPoolsSorted = useMemo(() => {
     // const communityPoolsSorted = orderBy(communityPools, ['totalPrizeAmountUSD'], ['desc'])
     // TODO: To be replaced by automated sorting based on prize size
@@ -107,6 +107,8 @@ const CommunityPoolsList = () => {
       return hardcodedSortOrder.indexOf(b.id) - hardcodedSortOrder.indexOf(a.id)
     })
   }, [communityPools])
+
+  if (communityPoolsDataLoading) return <IndexUILoader />
 
   return (
     <>

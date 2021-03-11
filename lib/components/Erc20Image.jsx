@@ -1,7 +1,7 @@
 import React from 'react'
 
+import { TOKEN_IMAGES } from 'lib/constants/tokenImages'
 import { useCoingeckoImageQuery } from 'lib/hooks/useCoingeckoImageQuery'
-import { TOKEN_IMAGES } from 'lib/constants'
 
 export const Erc20Image = (props) => {
   let src = TOKEN_IMAGES[props.address]
