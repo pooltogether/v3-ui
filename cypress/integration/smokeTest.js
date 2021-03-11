@@ -6,7 +6,6 @@ describe('Smoke Test', () => {
     // /* Connect Wallet */
     cy.get('#_navAccountButton').click()
     cy.contains('Connect wallet').click()
-    cy.contains('Show More').click()
     cy.contains('Web3 Wallet').click()
     cy.contains('0x0fd1..c048')
   }
