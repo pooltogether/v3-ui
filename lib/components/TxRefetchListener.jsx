@@ -32,8 +32,6 @@ export function TxRefetchListener(props) {
       tx.method === 'withdrawInstantlyFrom' ||
       tx.method === 'updateAndClaimDrips'
 
-    const poolStateTransaction = tx.method === 'startAward' || tx.method === 'completeAward'
-
     if (playerBalanceTransaction) {
       // we don't know when the Graph will have processed the new block data or when it has
       // so simply query a few times for the updated data
@@ -51,12 +49,6 @@ export function TxRefetchListener(props) {
         refetchAccountData()
         debug('refetch!')
       }, 16000)
-    } else if (poolStateTransaction) {
-      setTimeout(() => {
-        // TODO: Add refetchs to the individual transactions
-        // poolsRefetch()
-        debug('refetch pool/prize!')
-      }, 6000)
     } else if (tx?.refetch) {
       setTimeout(() => {
         tx.refetch()

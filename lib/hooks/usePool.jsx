@@ -29,7 +29,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
     poolSymbol = router?.query?.symbol
   }
 
-  const { poolsGraphData, communityPoolsGraphData } = usePools()
+  const { poolsGraphData, communityPoolsGraphData, poolsRefetch, communityRefetch } = usePools()
   let poolGraphData = poolsGraphData?.[poolSymbol]
   if (!poolGraphData) {
     poolGraphData = communityPoolsGraphData?.[poolSymbol]
@@ -138,6 +138,11 @@ export function usePool(poolSymbol, blockNumber = -1) {
       : ticketsFormatted
   }
 
+  const refetchAllPoolData = () => {
+    poolsRefetch()
+    communityRefetch()
+  }
+
   // Standardize the USD values so they're either all floats/strings or all bigNums  pool = {
   pool = {
     ...pool,
@@ -155,6 +160,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
   }
 
   return {
-    pool
+    pool,
+    refetchAllPoolData
   }
 }
