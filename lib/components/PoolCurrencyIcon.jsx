@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { isUndefined } from 'lodash'
 import { motion } from 'framer-motion'
 
-import { TOKEN_IMAGES } from 'lib/constants'
+import { TOKEN_IMAGES } from 'lib/constants/tokenImages'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 import { useCoingeckoImageQuery } from 'lib/hooks/useCoingeckoImageQuery'
 

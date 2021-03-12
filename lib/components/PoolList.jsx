@@ -1,15 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-// import { orderBy } from 'lodash'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
-import { ANIM_LIST_VARIANTS, POOL_LIST_TABS, CONTRACT_ADDRESSES } from 'lib/constants'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { POOL_LIST_TABS } from 'lib/constants'
+import { ANIM_LIST_VARIANTS } from 'lib/constants/framerAnimations'
 import { PoolRowNew } from 'lib/components/PoolRowNew'
 import { Tabs, Tab, ContentPane } from 'lib/components/Tabs'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
-import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 const MotionUL = (props) => {
@@ -39,6 +37,7 @@ export const PoolList = (props) => {
 
   const { t } = useTranslation()
   const router = useRouter()
+
   // Don't switch back to the default tab if we're navigating away from the homepage
   const defaultTab = router.pathname === '/' && POOL_LIST_TABS.pools
   const selectedTab = router.query.tab || defaultTab
