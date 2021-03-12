@@ -534,12 +534,10 @@ const ClaimCompleted = (props) => {
         <h5 className='mb-4 text-white'>{t('nowLetsUseTokens')}</h5>
 
         {otherButtonsVisible ? (
-          <>
-            <div className='flex flex-row'>
-              <ProposalButton closeWizard={closeWizard} />
-              <LearnMoreButton closeWizard={closeWizard} />
-            </div>
-          </>
+          <div className='flex flex-row'>
+            <ProposalButton closeWizard={closeWizard} />
+            <LearnMoreButton closeWizard={closeWizard} />
+          </div>
         ) : (
           <DelegateNow showOtherButtons={showOtherButtons} />
         )}
