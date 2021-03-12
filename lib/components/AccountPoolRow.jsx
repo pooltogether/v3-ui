@@ -149,7 +149,7 @@ export const AccountPoolRow = (props) => {
                   duration={0.5}
                 />
                 <div className='inline-block xs:block ml-1 xs:ml-0 -mt-1 text-xs sm:text-sm'>
-                  {t('tickets')}
+                  {pool?.underlyingCollateralSymbol}
                 </div>
               </span>
               <span className='block text-caption uppercase font-number mt-0 xs:mt-1 opacity-70'>

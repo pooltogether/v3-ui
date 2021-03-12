@@ -79,18 +79,16 @@ export function PrizeShow(props) {
           {
             noMinHeight: true,
             icon: TicketsIcon,
-            title: t('totalTickets'),
+            title: t('depositedAmount'),
             content: (
-              <>
-                <h3>
-                  {preAwardTimeTravelPool?.ticketSupply
-                    ? displayAmountInEther(preAwardTimeTravelPool.ticketSupply, {
-                        decimals,
-                        precision: 0
-                      })
-                    : null}
-                </h3>
-              </>
+              <h3>
+                {preAwardTimeTravelPool?.ticketSupply
+                  ? displayAmountInEther(preAwardTimeTravelPool.ticketSupply, {
+                      decimals,
+                      precision: 0
+                    })
+                  : null}
+              </h3>
             )
           }
         ]}

@@ -20,6 +20,7 @@ export const PoolShowCards = (props) => {
   const { t } = useTranslation()
 
   const decimals = pool?.underlyingCollateralDecimals
+  const symbol = pool?.underlyingCollateralSymbol
 
   const cards = [
     {
@@ -29,7 +30,7 @@ export const PoolShowCards = (props) => {
     },
     {
       icon: TicketsIcon,
-      title: t('totalTickets'),
+      title: t('depositedAmount'),
       content: (
         <>
           <TicketsSoldGraph pool={pool} />
@@ -38,7 +39,8 @@ export const PoolShowCards = (props) => {
             {displayAmountInEther(pool.ticketSupply, {
               precision: 0,
               decimals
-            })}
+            })}{' '}
+            {symbol}
           </h3>
         </>
       )

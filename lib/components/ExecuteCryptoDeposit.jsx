@@ -44,9 +44,7 @@ export function ExecuteCryptoDeposit(props) {
 
   const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
 
-  let txMainName = `${t('deposit')} ${quantityFormatted} ${t('tickets')}`
-  const txSubName = `${quantityFormatted} ${tickerUpcased}`
-  const txName = `${txMainName} (${txSubName})`
+  const txName = `${t('deposit')} ${quantityFormatted} ${tickerUpcased}`
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)

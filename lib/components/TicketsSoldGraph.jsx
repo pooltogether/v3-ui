@@ -4,6 +4,7 @@ import { sub, fromUnixTime } from 'date-fns'
 import { compact } from 'lodash'
 
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
+import { useTranslation } from 'lib/../i18n'
 import { DateValueLineGraph } from 'lib/components/DateValueLineGraph'
 import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 
@@ -12,10 +13,13 @@ const NUMBER_OF_POINTS = 10
 export const TicketsSoldGraph = (props) => {
   const { pool } = props
 
-  const first = NUMBER_OF_POINTS
-  const { data, error, isFetching, isFetched } = usePoolPrizesQuery(pool, first)
+  const { t } = useTranslation()
 
-  let prizes = compact([].concat(data?.prizePool?.prizes))
+  const page = 1
+  const skip = 0
+  const { data, error, isFetched } = usePoolPrizesQuery(pool, page, skip)
+
+  let prizes = data?.prizePool?.prizes
 
   if (error) {
     console.error(error)
@@ -23,7 +27,7 @@ export const TicketsSoldGraph = (props) => {
 
   const decimals = pool?.underlyingCollateralDecimals
 
-  if (!decimals || !prizes.length || (isFetching && !isFetched)) {
+  if (!decimals || !prizes || !prizes.length || !isFetched) {
     return null
   }
 
@@ -78,7 +82,11 @@ export const TicketsSoldGraph = (props) => {
 
   return (
     <>
-      <DateValueLineGraph id='tickets-sold-graph' valueLabel='Tickets' data={[dataArray]} />
+      <DateValueLineGraph
+        id='tickets-sold-graph'
+        valueLabel={t('depositedAmount')}
+        data={[dataArray]}
+      />
     </>
   )
 }
