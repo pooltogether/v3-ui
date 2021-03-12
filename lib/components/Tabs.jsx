@@ -25,7 +25,7 @@ export const Tab = ({ isSelected, onClick, children }) => {
 }
 
 export const ContentPane = (props) => {
-  const { children, isSelected, alwaysPresent, noRender } = props
+  const { children, isSelected, alwaysPresent, onlyRenderOnSelect } = props
   let hiddenClassName = 'hidden'
   let visibleClassName = 'flex-1'
 
@@ -33,7 +33,7 @@ export const ContentPane = (props) => {
     hiddenClassName = 'pointer-events-none opacity-0 w-0 flex-shrink'
   }
 
-  if (noRender && !isSelected) return null
+  if (onlyRenderOnSelect && !isSelected) return null
 
   return (
     <div

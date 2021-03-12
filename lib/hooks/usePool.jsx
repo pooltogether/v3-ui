@@ -52,14 +52,16 @@ export function usePool(poolSymbol, blockNumber = -1) {
   const { erc20ChainData } = useErc20ChainQuery(pool)
   const { erc721ChainData } = useErc721ChainQuery(pool)
 
+  const sablierStreamTokenAddress = poolChainData?.sablierPrize?.tokenAddress
+
   let addresses = pool.underlyingCollateralToken ? [pool.underlyingCollateralToken] : []
   const erc20Addresses = erc20ChainData
     ?.filter((award) => award.balance.gt(0))
     ?.map((award) => award.address)
   addresses = [...addresses, ...(erc20Addresses || [])]
 
-  if (poolChainData?.sablierPrize?.tokenAddress) {
-    addresses.push(poolChainData?.sablierPrize?.tokenAddress)
+  if (sablierStreamTokenAddress) {
+    addresses.push(sablierStreamTokenAddress)
   }
 
   const {
@@ -72,15 +74,14 @@ export function usePool(poolSymbol, blockNumber = -1) {
     console.error(uniswapError)
   }
 
-  let sablierPrizeUsd = 0
+  let sablierPrizeUSD = 0
   if (
     uniswapIsFetched &&
-    poolChainData?.sablierPrize?.tokenAddress &&
-    uniswapPriceData[poolChainData.sablierPrize.tokenAddress]?.usd
+    sablierStreamTokenAddress &&
+    uniswapPriceData[sablierStreamTokenAddress]?.usd
   ) {
-    sablierPrizeUsd =
-      poolChainData.sablierPrize.amount *
-      uniswapPriceData[poolChainData.sablierPrize.tokenAddress].usd
+    sablierPrizeUSD =
+      poolChainData.sablierPrize.amount * uniswapPriceData[sablierStreamTokenAddress].usd
   }
 
   const compiledExternalErc20Awards = compileErc20Awards(
@@ -106,7 +107,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(lootBox.awards)
 
-  let ticketPrizeUSD = parseFloat(calculateEstimatedPoolPrize(pool)) + sablierPrizeUsd
+  let ticketPrizeUSD = parseFloat(calculateEstimatedPoolPrize(pool)) + sablierPrizeUSD
 
   if (underlyingCollateralValueUSD) {
     ticketPrizeUSD = (ticketPrizeUSD * parseInt(underlyingCollateralValueUSD * 100, 10)) / 100

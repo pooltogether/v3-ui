@@ -55,7 +55,11 @@ export const PoolLists = () => {
         </Tabs>
       </motion.div>
 
-      <ContentPane key='pools-list' isSelected={selectedTab === POOL_LIST_TABS.pools} noRender>
+      <ContentPane
+        key='pools-list'
+        isSelected={selectedTab === POOL_LIST_TABS.pools}
+        onlyRenderOnSelect
+      >
         <AnimatePresence exitBeforeEnter>
           <MotionUL
             key='ul-pool-list'
@@ -69,7 +73,7 @@ export const PoolLists = () => {
       <ContentPane
         key='community-list'
         isSelected={selectedTab === POOL_LIST_TABS.community}
-        noRender
+        onlyRenderOnSelect
       >
         <AnimatePresence exitBeforeEnter>
           <MotionUL
