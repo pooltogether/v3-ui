@@ -53,6 +53,7 @@ export function TxRefetchListener(props) {
       }, 16000)
     } else if (poolStateTransaction) {
       setTimeout(() => {
+        // TODO: Add refetchs to the individual transactions
         // poolsRefetch()
         debug('refetch pool/prize!')
       }, 6000)
