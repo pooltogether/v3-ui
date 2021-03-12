@@ -305,11 +305,13 @@ const ClaimablePoolTokenItem = (props) => {
 
       <div className='sm:text-right'>
         <p className='text-inverse font-bold'>{t('availableToClaim')}</p>
-        <h4 className='leading-none flex items-center sm:justify-end'>
-          <span className={classnames({ 'opacity-80': amount === 0 })}>
-            <img src={PoolIcon} className='inline-block w-6 h-6 -mt-1' />{' '}
-            <ClaimableAmountCountUp amount={amount} />
-          </span>
+        <h4
+          className={classnames('flex items-center sm:justify-end mt-1', {
+            'opacity-80': amount === 0
+          })}
+        >
+          <img src={PoolIcon} className='inline-block w-6 h-6 mr-2' />{' '}
+          <ClaimableAmountCountUp amount={amount} />
         </h4>
         <div className='text-accent-1 text-xs mb-2 flex items-center sm:justify-end mt-1 opacity-80 trans hover:opacity-100'>
           {usersDripPerDayFormatted} <img src={PoolIcon} className='inline-block w-4 h-4 mx-2' />{' '}

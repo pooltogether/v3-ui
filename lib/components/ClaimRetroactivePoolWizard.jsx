@@ -28,6 +28,8 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { shorten } from 'lib/utils/shorten'
 
+import DelegateIllustration from 'assets/images/delegate-illustration@2x.png'
+
 export const ClaimRetroactivePoolWizardContainer = () => {
   const router = useRouter()
   const claim = router.query.claim
@@ -506,6 +508,8 @@ const ClaimCompleted = (props) => {
   const { t } = useTranslation()
   const { confetti } = useContext(ConfettiContext)
 
+  const [otherButtonsVisible, setOtherButtonsVisible] = useState(false)
+
   useEffect(() => {
     const key = setTimeout(() => {
       window.confettiContext = confetti
@@ -517,6 +521,10 @@ const ClaimCompleted = (props) => {
     }
   }, [])
 
+  const showOtherButtons = () => {
+    setOtherButtonsVisible(true)
+  }
+
   return (
     <div className='mx-auto' style={{ maxWidth: '550px' }}>
       <h3>🎉 🎉 🎉</h3>
@@ -524,10 +532,15 @@ const ClaimCompleted = (props) => {
       <h2 className='text-highlight-1 mb-8'>{claimAmountCached} POOL</h2>
       <WizardBanner>
         <h5 className='mb-4 text-white'>{t('nowLetsUseTokens')}</h5>
-        <div className='flex flex-row'>
-          <ProposalButton closeWizard={closeWizard} />
-          <LearnMoreButton closeWizard={closeWizard} />
-        </div>
+
+        {otherButtonsVisible ? (
+          <div className='flex flex-row'>
+            <ProposalButton closeWizard={closeWizard} />
+            <LearnMoreButton closeWizard={closeWizard} />
+          </div>
+        ) : (
+          <DelegateNow showOtherButtons={showOtherButtons} />
+        )}
       </WizardBanner>
     </div>
   )
@@ -540,6 +553,30 @@ const CheckboxContainer = (props) => (
     {props.children}
   </div>
 )
+
+const DelegateNow = (props) => {
+  const { showOtherButtons } = props
+
+  const { t } = useTranslation()
+
+  return (
+    <>
+      <p className='text-white -mt-2 mb-4 text-base sm:text-lg mx-auto' style={{ maxWidth: 400 }}>
+        {t('activateYourVotesNow')}
+      </p>
+      <img src={DelegateIllustration} className='mx-auto my-4' width='137' height='120' />
+      <a
+        href='https://sybil.org/#/delegates/pool'
+        onClick={showOtherButtons}
+        target='_blank'
+        className='button-scale mt-3 border-2 relative inline-block text-center leading-snug cursor-pointer outline-none focus:outline-none active:outline-none no-underline button-scale font-bold bg-green border-green py-1 rounded-full text-primary hover:bg-highlight-1 hover:border-highlight-1 hover:text-primary text-xs xs:text-xs sm:text-sm lg:text-base trans trans-fast'
+        style={{ width: 300 }}
+      >
+        {t('delegateMyVotes')}
+      </a>
+    </>
+  )
+}
 
 const ProposalButton = (props) => {
   const { t } = useTranslation()
