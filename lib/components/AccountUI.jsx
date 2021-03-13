@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AccountLootBoxes } from 'lib/components/AccountLootBoxes'
 import { AccountRewards } from 'lib/components/AccountRewards'
 import { AccountSummary } from 'lib/components/AccountSummary'
@@ -15,14 +17,26 @@ import { AccountGovernanceClaims } from 'lib/components/AccountGovernanceClaims'
 export const AccountUI = () => {
   const { t } = useTranslation()
 
+  const { usersAddress } = useContext(AuthControllerContext)
+
+  const router = useRouter()
+  const playerAddress = router?.query?.playerAddress
+
+  let isSelf = true
+  if (usersAddress === playerAddress) {
+    isSelf = false
+  }
+
+  const pageTitle = isSelf ? t('myAccount') : t('playerAddress', { address: playerAddress })
+
   return (
     <>
-      <Meta title={t('myAccount')} />
+      <Meta title={pageTitle} />
 
-      <RetroactivePoolClaimBanner />
+      {isSelf && <RetroactivePoolClaimBanner />}
 
       <PageTitleAndBreadcrumbs
-        title={t('myAccount')}
+        title={pageTitle}
         breadcrumbs={[
           {
             name: t('accountOverview')
