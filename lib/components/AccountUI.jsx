@@ -1,5 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { atom, useAtom } from 'jotai'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -13,6 +14,10 @@ import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Tagline } from 'lib/components/Tagline'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 import { AccountGovernanceClaims } from 'lib/components/AccountGovernanceClaims'
+import { shorten } from 'lib/utils/shorten'
+import { testAddress } from 'lib/utils/testAddress'
+
+export const isSelfAtom = atom(false)
 
 export const AccountUI = () => {
   const { t } = useTranslation()
@@ -22,17 +27,25 @@ export const AccountUI = () => {
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
 
-  let isSelf = true
-  if (usersAddress === playerAddress) {
-    isSelf = false
-  }
+  const [isSelf, setIsSelf] = useAtom(isSelfAtom)
 
-  const pageTitle = isSelf ? t('myAccount') : t('playerAddress', { address: playerAddress })
+  useEffect(() => {
+    const addressMatches = usersAddress?.toLowerCase() === playerAddress?.toLowerCase()
+    let isSelf = playerAddress ? addressMatches : router?.pathname === '/account'
+    setIsSelf(isSelf)
+  }, [playerAddress, usersAddress])
+
+  const pageTitle = isSelf
+    ? t('myAccount')
+    : t('playerAddress', { address: shorten(playerAddress) })
+
+  const addressError = testAddress(playerAddress)
 
   return (
     <>
       <Meta title={pageTitle} />
 
+      {addressError && <div className='text-red'>eerror</div>}
       {isSelf && <RetroactivePoolClaimBanner />}
 
       <PageTitleAndBreadcrumbs

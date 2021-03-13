@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { Dialog } from '@reach/dialog'
 
 import { useTranslation } from 'lib/../i18n'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
 import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -44,7 +45,11 @@ const PoolBalanceModal = (props) => {
   const { isOpen, closeModal, tokenData } = props
   const { usersBalance, totalSupply } = tokenData
 
-  const { total: totalClaimablePool, isFetched: totalClaimableIsFetched } = useTotalClaimablePool()
+  const { usersAddress } = useContext(AuthControllerContext)
+
+  const { total: totalClaimablePool, isFetched: totalClaimableIsFetched } = useTotalClaimablePool(
+    usersAddress
+  )
 
   const totalClaimablePoolFormatted = numberWithCommas(totalClaimablePool, {
     precision: getPrecision(totalClaimablePool)
