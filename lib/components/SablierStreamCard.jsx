@@ -20,7 +20,7 @@ export const SablierStreamCard = (props) => {
   const currentTime = ethers.BigNumber.from(secondsSinceEpoch())
   const streamTotalTime = stopTime.sub(startTime)
   const currentTimeRelativeToStreamStart = currentTime.sub(startTime)
-  const percentOfStreamDone = streamTotalTime.div(currentTimeRelativeToStreamStart)
+  const percentOfStreamDone = currentTimeRelativeToStreamStart.mul(100).div(streamTotalTime)
   const prizesToBeStreamedTo = streamTotalTime.div(prizePeriodSeconds)
 
   return (

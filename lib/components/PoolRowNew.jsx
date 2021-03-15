@@ -15,6 +15,7 @@ import { usePool } from 'lib/hooks/usePool'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 
 import PoolIcon from 'assets/images/pool-icon.svg'
+import BeatLoader from 'react-spinners/BeatLoader'
 
 export const PoolRowNew = (props) => {
   const { querySymbol } = props
@@ -70,12 +71,7 @@ export const PoolRowNew = (props) => {
             </div>
 
             <div className='flex flex-col'>
-              <div className='text-3xl sm:text-3xl sm:text-5xl text-flashy font-bold'>
-                $
-                <PoolCountUp fontSansRegular decimals={0} duration={6}>
-                  {parseFloat(pool?.totalPrizeAmountUSD)}
-                </PoolCountUp>
-              </div>
+              <PoolPrizeValue pool={pool} />
 
               <div className='text-accent-1 text-xxxs'>{t('prizeValue')}</div>
             </div>
@@ -120,4 +116,46 @@ export const PoolRowNew = (props) => {
       </InteractableCard>
     </>
   )
+}
+
+const PoolPrizeValue = (props) => {
+  const { pool } = props
+
+  if (!pool || pool.fetchingTotals) {
+    return <div className='text-3xl sm:text-5xl text-flashy font-bold'>$0</div>
+  }
+
+  if (pool.totalPrizeAmountUSD) {
+    return (
+      <div className='text-3xl sm:text-5xl text-flashy font-bold'>
+        $
+        <PoolCountUp fontSansRegular decimals={0} duration={6}>
+          {parseFloat(pool?.totalPrizeAmountUSD)}
+        </PoolCountUp>
+      </div>
+    )
+  }
+
+  if (pool.sablierStream?.id) {
+    if (!pool.sablierPrize) {
+      return (
+        <div className='text-3xl sm:text-5xl text-flashy font-bold'>
+          <BeatLoader size={10} color='rgba(255,255,255,0.3)' />
+        </div>
+      )
+    }
+
+    return (
+      <div className='text-3xl sm:text-5xl text-flashy font-bold'>
+        <PoolCountUp fontSansRegular decimals={0} duration={6}>
+          {parseFloat(pool.sablierPrize.amount)}
+        </PoolCountUp>
+        <span className='text-base lg:text-lg text-inverse mb-4 ml-2 mt-auto'>
+          {pool.sablierPrize.tokenSymbol}
+        </span>
+      </div>
+    )
+  }
+
+  return <div className='text-3xl sm:text-5xl text-flashy font-bold'>$0</div>
 }
