@@ -5,6 +5,7 @@ import { useTranslation } from 'lib/../i18n'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
+import { Erc20Image } from 'lib/components/Erc20Image'
 
 export const PoolPrizeCard = (props) => {
   const { pool } = props
@@ -65,6 +66,7 @@ const PrizeValue = (props) => {
 
     return (
       <TokenPrizeValue
+        tokenAddress={pool.sablierPrize.tokenAddress}
         amount={numberWithCommas(pool.sablierPrize.amount)}
         tokenSymbol={pool.sablierPrize.tokenSymbol}
       />
@@ -82,6 +84,7 @@ const PrizeValueHeader = (props) => (
 
 const TokenPrizeValue = (props) => (
   <PrizeValueHeader>
+    <Erc20Image address={props.tokenAddress} className='my-auto' />
     <PoolNumber>{props.amount}</PoolNumber>
     <span className='text-base lg:text-lg text-inverse mb-4 ml-2 mt-auto'>{props.tokenSymbol}</span>
   </PrizeValueHeader>

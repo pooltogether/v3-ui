@@ -7,6 +7,9 @@ import { getMaxPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 import { secondsSinceEpoch } from 'lib/utils/secondsSinceEpoch'
 import { ethers } from 'ethers'
 import { getDateFromSeconds } from 'lib/utils/getDateFromSeconds'
+import { Erc20Image } from 'lib/components/Erc20Image'
+import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
+import { shorten } from 'lib/utils/shorten'
 
 export const SablierStreamCard = (props) => {
   const { pool } = props
@@ -14,7 +17,15 @@ export const SablierStreamCard = (props) => {
 
   if (!pool?.sablierStream?.id || !pool?.sablierPrize) return null
 
-  const { amountPerPrizePeriod, tokenSymbol, startTime, stopTime, totalDeposit } = pool.sablierPrize
+  const {
+    amountPerPrizePeriod,
+    tokenSymbol,
+    tokenAddress,
+    tokenName,
+    startTime,
+    stopTime,
+    totalDeposit
+  } = pool.sablierPrize
   const { prizePeriodSeconds } = pool
 
   const currentTime = ethers.BigNumber.from(secondsSinceEpoch())
@@ -31,6 +42,17 @@ export const SablierStreamCard = (props) => {
       <div className='text-caption uppercase mb-3 text-inverse'>
         <img src={SablierSvg} className='fill-current text-inverse inline-block mr-2 card-icon' />
         Sablier stream
+      </div>
+
+      <div className='flex'>
+        <Erc20Image address={tokenAddress} className='my-auto' />
+        <h3>{tokenName}</h3>
+        <EtherscanAddressLink
+          className='text-accent-1 trans hover:text-inverse ml-4 mt-auto mb-2'
+          address={tokenAddress}
+        >
+          ({shorten(tokenAddress)})
+        </EtherscanAddressLink>
       </div>
 
       <div className='flex flex-col xs:flex-row justify-between mt-6'>
