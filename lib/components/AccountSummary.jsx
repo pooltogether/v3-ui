@@ -1,8 +1,12 @@
 import React, { useContext } from 'react'
+import classnames from 'classnames'
+import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
+import { useAtom } from 'jotai'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { isSelfAtom } from 'lib/components/AccountUI'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { SmallLoader } from 'lib/components/SmallLoader'
 import { useAccount } from 'lib/hooks/useAccount'
@@ -10,20 +14,23 @@ import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { useUsersV2Balances } from 'lib/hooks/useUsersV2Balances'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { numberWithCommas, getPrecision } from 'lib/utils/numberWithCommas'
 
 import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
+import WaterslideIllustration from 'assets/images/pt-waterslide-illustration@2x.png'
 
 export const AccountSummary = () => {
   const { t } = useTranslation()
 
+  const [isSelf] = useAtom(isSelfAtom)
+
   const { usersAddress } = useContext(AuthControllerContext)
 
-  const { usersV2Balances } = useUsersV2Balances()
-
-  // fill this in with a watched address or an address from router params
-  const playerAddress = ''
+  const router = useRouter()
+  const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
+
+  const { usersV2Balances } = useUsersV2Balances(address)
 
   const { accountData } = useAccount(address)
 
@@ -45,12 +52,7 @@ export const AccountSummary = () => {
     (playerTicket) => playerTicket.pool.underlyingCollateralToken
   )
 
-  const {
-    data: uniswapPriceData,
-    error: uniswapError
-    // isFetching: uniswapIsFetching,
-    // isFetched: uniswapIsFetched
-  } = useUniswapTokensQuery(addresses)
+  const { data: uniswapPriceData, error: uniswapError } = useUniswapTokensQuery(addresses)
   if (uniswapError) {
     console.error(uniswapError)
   }
@@ -90,8 +92,18 @@ export const AccountSummary = () => {
     totalTickets = totalTickets.add(normalizedUsdcPodBalance)
   }
 
+  const totalTicketsFormatted = parseFloat(ethers.utils.formatUnits(totalTickets, 18))
+
   return (
-    <div className='pool-gradient-1 rounded-lg pl-6 pr-10 xs:px-10 py-5 text-white my-4 sm:mt-8 sm:mb-12 mx-auto'>
+    <div
+      className={classnames(
+        'rounded-lg pl-6 pr-10 xs:px-10 py-5 text-white my-4 sm:mt-8 sm:mb-12 mx-auto',
+        {
+          'pool-gradient-1': isSelf,
+          'pool-gradient-2': !isSelf
+        }
+      )}
+    >
       <div className='flex justify-between items-center'>
         <div className='leading-tight'>
           <h6 className='font-normal'>{t('assets')}</h6>
@@ -100,7 +112,12 @@ export const AccountSummary = () => {
               <>
                 {totalTickets && (
                   <>
-                    $<PoolNumber>{displayAmountInEther(totalTickets)}</PoolNumber>
+                    $
+                    <PoolNumber>
+                      {numberWithCommas(totalTicketsFormatted, {
+                        precision: getPrecision(totalTicketsFormatted)
+                      })}
+                    </PoolNumber>
                   </>
                 )}
               </>
@@ -112,12 +129,14 @@ export const AccountSummary = () => {
 
         <div>
           <img
-            src={ChillWalletIllustration}
+            src={isSelf ? ChillWalletIllustration : WaterslideIllustration}
             alt={`chillin' wallet illustration`}
-            className='w-32 xs:w-40 mx-auto relative mb-4 -mr-4'
+            className={classnames('w-32 xs:w-40 mx-auto relative mb-4', {
+              '-mr-4': isSelf
+            })}
             style={{
-              right: -10,
-              top: 17
+              right: isSelf && -10,
+              top: isSelf ? 17 : 7
             }}
           />
         </div>

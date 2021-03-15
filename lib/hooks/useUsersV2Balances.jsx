@@ -1,13 +1,8 @@
-import { useContext } from 'react'
-
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useUsersV2Query } from 'lib/hooks/useUsersV2Query'
 import { useReadProvider } from 'lib/hooks/useReadProvider'
 
-export function useUsersV2Balances() {
-  const { usersAddress } = useContext(AuthControllerContext)
-
+export function useUsersV2Balances(usersAddress) {
   const { readProvider } = useReadProvider()
 
   const { contractAddresses } = useContractAddresses()

@@ -25,8 +25,8 @@ export function ErrorPage() {
           <div className='my-0 text-inverse pt-32 px-6 xs:pt-32 xs:px-20'>
             <PageTitleAndBreadcrumbs title={`${t('error')}`} breadcrumbs={[]} />
 
-            <h4>{t('anErrorOccurredAndWeveBeenNotified')}</h4>
-            <h6>{t('pleaseTryAgainSoon')}</h6>
+            <h4 className='leading-tight'>{t('anErrorOccurredAndWeveBeenNotified')}</h4>
+            <h6 className='mt-8'>{t('pleaseTryAgainSoon')}</h6>
           </div>
         </div>
       </div>

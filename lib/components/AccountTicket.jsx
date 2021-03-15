@@ -2,12 +2,14 @@ import React from 'react'
 import Cookies from 'js-cookie'
 import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
+import { useAtom } from 'jotai'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
+import { isSelfAtom } from 'lib/components/AccountUI'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
 import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -21,6 +23,8 @@ import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detai
 export const AccountTicket = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
+
+  const [isSelf] = useAtom(isSelfAtom)
 
   const { pools } = usePools()
 
@@ -54,7 +58,7 @@ export const AccountTicket = (props) => {
   const handleManageClick = (e) => {
     e.preventDefault()
 
-    if (!isLink) {
+    if (!isSelf || !isLink) {
       return
     }
 
@@ -81,14 +85,14 @@ export const AccountTicket = (props) => {
         key={`account-pool-ticket-${pool?.poolAddress}`}
         className={classnames('relative ticket bg-no-repeat text-xxxs xs:text-xs', {
           'xs:mr-6 mb-6': !noMargin,
-          'cursor-pointer': isLink
+          'cursor-pointer': isSelf && isLink
         })}
         whileHover={{
-          scale: isLink ? 1.025 : 1
+          scale: isSelf && isLink ? 1.025 : 1
         }}
         whileTap={{
-          y: 1,
-          scale: 0.98
+          y: isSelf && isLink ? 1 : 0,
+          scale: isSelf && isLink ? 0.98 : 1
         }}
         animate={{
           scale: 1,
@@ -196,7 +200,7 @@ export const AccountTicket = (props) => {
                 {ticker?.toUpperCase()}
               </div>
 
-              {isLink && (
+              {isSelf && isLink && (
                 <>
                   <span
                     className='relative inline-flex items-center justify-center text-center font-bold mt-8 xs:mt-10 xs:pt-3 z-10 text-darkened pl-2'
