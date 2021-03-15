@@ -29,7 +29,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
     poolSymbol = router?.query?.symbol
   }
 
-  const { poolsGraphData, communityPoolsGraphData } = usePools()
+  const { poolsGraphData, communityPoolsGraphData, poolsRefetch, communityRefetch } = usePools()
   let poolGraphData = poolsGraphData?.[poolSymbol]
   if (!poolGraphData) {
     poolGraphData = communityPoolsGraphData?.[poolSymbol]
@@ -52,11 +52,17 @@ export function usePool(poolSymbol, blockNumber = -1) {
   const { erc20ChainData } = useErc20ChainQuery(pool)
   const { erc721ChainData } = useErc721ChainQuery(pool)
 
+  const sablierStreamTokenAddress = poolChainData?.sablierPrize?.tokenAddress
+
   let addresses = pool.underlyingCollateralToken ? [pool.underlyingCollateralToken] : []
   const erc20Addresses = erc20ChainData
     ?.filter((award) => award.balance.gt(0))
     ?.map((award) => award.address)
   addresses = [...addresses, ...(erc20Addresses || [])]
+
+  if (sablierStreamTokenAddress) {
+    addresses.push(sablierStreamTokenAddress)
+  }
 
   const {
     data: uniswapPriceData,
@@ -66,6 +72,16 @@ export function usePool(poolSymbol, blockNumber = -1) {
   } = useUniswapTokensQuery(addresses, blockNumber)
   if (uniswapError) {
     console.error(uniswapError)
+  }
+
+  let sablierPrizeUSD = 0
+  if (
+    uniswapIsFetched &&
+    sablierStreamTokenAddress &&
+    uniswapPriceData[sablierStreamTokenAddress]?.usd
+  ) {
+    sablierPrizeUSD =
+      poolChainData.sablierPrize.amount * uniswapPriceData[sablierStreamTokenAddress].usd
   }
 
   const compiledExternalErc20Awards = compileErc20Awards(
@@ -91,7 +107,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(lootBox.awards)
 
-  let ticketPrizeUSD = parseFloat(calculateEstimatedPoolPrize(pool))
+  let ticketPrizeUSD = parseFloat(calculateEstimatedPoolPrize(pool)) + sablierPrizeUSD
 
   if (underlyingCollateralValueUSD) {
     ticketPrizeUSD = (ticketPrizeUSD * parseInt(underlyingCollateralValueUSD * 100, 10)) / 100
@@ -123,6 +139,11 @@ export function usePool(poolSymbol, blockNumber = -1) {
       : ticketsFormatted
   }
 
+  const refetchAllPoolData = () => {
+    poolsRefetch()
+    communityRefetch()
+  }
+
   // Standardize the USD values so they're either all floats/strings or all bigNums  pool = {
   pool = {
     ...pool,
@@ -140,6 +161,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
   }
 
   return {
-    pool
+    pool,
+    refetchAllPoolData
   }
 }

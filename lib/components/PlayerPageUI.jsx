@@ -123,9 +123,7 @@ export function PlayerPageUI(props) {
           ) : (
             <>
               {!playerData ? (
-                <>
-                  <IndexUILoader />
-                </>
+                <IndexUILoader />
               ) : playerData.length === 0 ? (
                 <>
                   <BlankStateMessage>

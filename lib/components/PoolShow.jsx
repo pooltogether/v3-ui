@@ -35,6 +35,7 @@ import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { translatedPoolName } from 'lib/utils/translatedPoolName'
+import { SablierStreamCard } from 'lib/components/SablierStreamCard'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -188,6 +189,8 @@ export const PoolShow = (props) => {
           <UpcomingPrizeBreakdownCard />
 
           <LootBoxTable pool={pool} basePath={`/pools/${pool?.symbol}`} />
+
+          <SablierStreamCard pool={pool} />
 
           <h6 className='text-accent-1 mt-8 mb-0 sm:t-4 relative'>{t('prizePoolStats')}</h6>
 
