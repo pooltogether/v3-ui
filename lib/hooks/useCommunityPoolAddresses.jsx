@@ -20,5 +20,6 @@ export function useCommunityPoolAddresses() {
       .filter((address) => !COMMUNITY_POOLS_BLOCK_LIST[chainId].includes(address.toLowerCase()))
   }
 
+  console.log(communityPoolAddresses)
   return { communityPoolAddresses }
 }
