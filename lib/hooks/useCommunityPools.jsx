@@ -33,11 +33,7 @@ export function useCommunityPools() {
   communityPools = useMemo(() => {
     if (communityPoolsGraphData) {
       const keys = Object.keys(communityPoolsGraphData)
-      // console.log(
-      //   keys?.map((key) => {
-      //     return communityPoolsGraphData[key]
-      //   })
-      // )
+
       return keys?.map((key) => {
         return communityPoolsGraphData[key]
       })

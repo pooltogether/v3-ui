@@ -48,8 +48,6 @@ export const PoolShow = (props) => {
   const poolSymbol = router?.query?.symbol
   const { pool } = usePool(poolSymbol)
 
-  // console.log('POOL', pool)
-
   const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
 
   const [cookieShowAward, setCookieShowAward] = useState(false)
