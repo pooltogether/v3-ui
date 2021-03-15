@@ -8,7 +8,7 @@ import { getPrizeStrategyAbiFromPool } from 'lib/services/getPrizeStrategyAbiFro
 
 export function CompleteAwardUI(props) {
   const { t } = useTranslation()
-  const { pool } = usePool()
+  const { pool, refetchAllPoolData } = usePool()
   const sendTx = useSendTransaction()
 
   const handleCompleteAwardClick = async (e) => {
@@ -21,7 +21,8 @@ export function CompleteAwardUI(props) {
       getPrizeStrategyAbiFromPool(pool),
       pool?.prizeStrategy?.id,
       'completeAward',
-      params
+      params,
+      refetchAllPoolData
     )
   }
 

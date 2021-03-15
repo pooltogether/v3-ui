@@ -17,6 +17,10 @@ export const prizePoolFragment = gql`
       cToken
     }
 
+    sablierStream {
+      id
+    }
+
     underlyingCollateralToken
     underlyingCollateralDecimals
     underlyingCollateralName

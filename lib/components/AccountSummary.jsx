@@ -105,9 +105,7 @@ export const AccountSummary = () => {
                 )}
               </>
             ) : (
-              <>
-                <SmallLoader />
-              </>
+              <SmallLoader />
             )}
           </h1>
         </div>

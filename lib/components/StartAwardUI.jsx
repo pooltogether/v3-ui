@@ -12,7 +12,7 @@ export function StartAwardUI(props) {
   const { t } = useTranslation()
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { pool } = usePool()
+  const { pool, refetchAllPoolData } = usePool()
 
   const canStartAward = pool?.canStartAward
   const prizeStrategyAddress = pool?.prizeStrategy?.id
@@ -44,7 +44,8 @@ export function StartAwardUI(props) {
       getPrizeStrategyAbiFromPool(pool),
       prizeStrategyAddress,
       method,
-      params
+      params,
+      refetchAllPoolData
     )
 
     setTxId(id)
