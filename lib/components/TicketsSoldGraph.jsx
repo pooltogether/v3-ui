@@ -19,7 +19,7 @@ export const TicketsSoldGraph = (props) => {
   const skip = 0
   const { data, error, isFetched } = usePoolPrizesQuery(pool, page, skip)
 
-  let prizes = data?.prizePool?.prizes
+  let prizes = [].concat(data?.prizePool?.prizes)
 
   if (error) {
     console.error(error)
@@ -27,18 +27,14 @@ export const TicketsSoldGraph = (props) => {
 
   const decimals = pool?.underlyingCollateralDecimals
 
-  if (!decimals || !prizes || !prizes.length || !isFetched) {
+  if (!decimals || !prizes.length || !isFetched) {
     return null
   }
 
   const lastPrize = prizes[0]
   let currentPrize
-  // const ticketSupply = pool?.ticketTo
 
-  // If we have a prize amount then we know the last prize has been rewarded
   if (lastPrize?.awardedBlock) {
-    // unsure why we need to divide by 1000 here when we do it again
-    // when compiling the array ...
     currentPrize = {
       ticketSupply: pool.ticketSupply,
       awardedTimestamp: Date.now() / 1000
@@ -48,10 +44,6 @@ export const TicketsSoldGraph = (props) => {
   }
 
   const dataArray = prizes.map((prize) => {
-    if (!prize) {
-      console.warn('why no prize here?', prize)
-    }
-
     const tickets = prize?.awardedBlock ? prize?.totalTicketSupply : prize?.ticketSupply
 
     const ticketsSold = ethers.utils.formatUnits(
@@ -60,7 +52,7 @@ export const TicketsSoldGraph = (props) => {
     )
 
     return {
-      value: parseInt(ticketsSold, 10),
+      value: parseFloat(ticketsSold),
       date: fromUnixTime(prize.awardedTimestamp)
     }
   })
@@ -81,12 +73,10 @@ export const TicketsSoldGraph = (props) => {
   }
 
   return (
-    <>
-      <DateValueLineGraph
-        id='tickets-sold-graph'
-        valueLabel={t('depositedAmount')}
-        data={[dataArray]}
-      />
-    </>
+    <DateValueLineGraph
+      id='tickets-sold-graph'
+      valueLabel={t('depositedTicker', { ticker: pool?.underlyingCollateralSymbol?.toUpperCase() })}
+      data={[dataArray]}
+    />
   )
 }

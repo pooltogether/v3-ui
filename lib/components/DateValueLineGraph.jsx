@@ -3,14 +3,14 @@ import ParentSize from '@vx/responsive/lib/components/ParentSize'
 import { localPoint } from '@vx/event'
 import { Group } from '@vx/group'
 import { LinePath } from '@vx/shape'
-import { useTooltip, useTooltipInPortal, TooltipWithBounds, defaultStyles } from '@vx/tooltip'
+import { useTooltip, useTooltipInPortal } from '@vx/tooltip'
 import { scaleTime, scaleLinear } from '@vx/scale'
 import { extent, max } from 'd3-array'
 import { LinearGradient } from '@vx/gradient'
 
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 import { formatDate } from 'lib/utils/formatDate'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { getMinPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 
 // data accessors
 const getX = (d) => d.date
@@ -76,12 +76,17 @@ export function DateValueLineGraph(props) {
                       className='vx-chart-tooltip'
                     >
                       {props.valueLabel || 'Value'}:{' '}
-                      <strong>{numberWithCommas(tooltipData.value, { precision: 0 })}</strong>
+                      <strong>
+                        {numberWithCommas(tooltipData.value, {
+                          precision: getMinPrecision(tooltipData.value)
+                        })}
+                      </strong>
                       <span className='block mt-2'>
                         Date:{' '}
                         <strong>
                           {formatDate(tooltipData.date / 1000, {
-                            short: true
+                            short: true,
+                            noTimezone: true
                           })}
                         </strong>
                       </span>

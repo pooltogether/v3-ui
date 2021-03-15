@@ -103,9 +103,7 @@ export const LootBoxTable = (props) => {
                             </EtherscanAddressLink>
                           </td>
                           <td className='text-left text-accent-1 truncate'>
-                            <PoolNumber>
-                              {numberWithCommas(award.balanceFormatted, { precision: 2 })}
-                            </PoolNumber>{' '}
+                            <PoolNumber>{numberWithCommas(award.balanceFormatted)}</PoolNumber>{' '}
                             {award.symbol}
                           </td>
                           <td className='font-bold text-right'>

@@ -1,11 +1,12 @@
 import React from 'react'
+import { ethers } from 'ethers'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { CardGrid } from 'lib/components/CardGrid'
-import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
+import { PoolNumber } from 'lib/components/PoolNumber'
+import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import CompoundFinanceIcon from 'assets/images/icon-compoundfinance.svg'
 import PrizeStrategyIcon from 'assets/images/icon-prizestrategy@2x.png'
@@ -14,6 +15,8 @@ import PlayersIcon from 'assets/images/players@2x.png'
 import PrizeSourceIcon from 'assets/images/icon-yieldsource@2x.png'
 import PrizeIcon from 'assets/images/icon-prize@2x.png'
 
+const bn = ethers.BigNumber.from
+
 export const PoolShowCards = (props) => {
   const { pool } = props
 
@@ -21,6 +24,8 @@ export const PoolShowCards = (props) => {
 
   const decimals = pool?.underlyingCollateralDecimals
   const symbol = pool?.underlyingCollateralSymbol
+
+  const ticketSupply = pool?.ticketSupply && bn(pool?.ticketSupply)
 
   const cards = [
     {
@@ -36,11 +41,7 @@ export const PoolShowCards = (props) => {
           <TicketsSoldGraph pool={pool} />
 
           <h3 className='mt-2'>
-            {displayAmountInEther(pool.ticketSupply, {
-              precision: 0,
-              decimals
-            })}{' '}
-            {symbol}
+            {numberWithCommas(ticketSupply, { decimals })} {symbol}
           </h3>
         </>
       )
@@ -50,10 +51,7 @@ export const PoolShowCards = (props) => {
       title: t('totalDeposited'),
       content: (
         <h3 className='mt-2'>
-          $
-          {numberWithCommas(pool.totalDepositedUSD, {
-            precision: getPrecision(pool.totalDepositedUSD)
-          })}
+          $<PoolNumber>{numberWithCommas(pool?.totalDepositedUSD, { precision: 2 })}</PoolNumber>
         </h3>
       )
     },
