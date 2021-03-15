@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import Cookies from 'js-cookie'
-import BeatLoader from 'react-spinners/BeatLoader'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { useInterval } from 'beautiful-react-hooks'
@@ -36,6 +35,7 @@ import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { translatedPoolName } from 'lib/utils/translatedPoolName'
 import { SablierStreamCard } from 'lib/components/SablierStreamCard'
+import { PoolPrizeCard } from 'lib/components/PoolPrizeCard'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -47,8 +47,6 @@ export const PoolShow = (props) => {
 
   const poolSymbol = router?.query?.symbol
   const { pool } = usePool(poolSymbol)
-
-  // console.log('POOL', pool)
 
   const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
 
@@ -79,8 +77,6 @@ export const PoolShow = (props) => {
     const tokenAddress = pool?.ticketToken?.id
     addTokenToMetaMask(symbolForMetaMask, tokenAddress, pool?.underlyingCollateralDecimals)
   }
-
-  const prizeEstimateFormatted = pool?.totalPrizeAmountUSD > 0 && pool.totalPrizeAmountUSD
 
   return (
     <>
@@ -149,42 +145,7 @@ export const PoolShow = (props) => {
             </div>
           </div>
 
-          <div
-            className='custom-prize-box-padding pink-purple-gradient rounded-lg px-4 xs:px-6 sm:px-16 py-8 sm:pt-12 sm:pb-10 text-white my-8 sm:my-12 mx-auto'
-            style={{
-              minHeight: 150
-            }}
-          >
-            <div className='flex flex-col xs:flex-row xs:items-center justify-between'>
-              <div className='w-1/2 sm:w-7/12'>
-                <h6 className='font-normal text-inverse opacity-60'>
-                  {t('prize')} #{pool?.currentPrizeId}
-                </h6>
-
-                <h1 className='text-6xl xs:text-4xl sm:text-5xl lg:text-6xl -mt-3 xs:mt-0 sm:-mt-3'>
-                  {pool?.fetchingTotals ? (
-                    <BeatLoader size={10} color='rgba(255,255,255,0.3)' />
-                  ) : (
-                    <>
-                      {prizeEstimateFormatted && (
-                        <>
-                          $<PoolNumber>{numberWithCommas(prizeEstimateFormatted)}</PoolNumber>
-                        </>
-                      )}
-                    </>
-                  )}
-                </h1>
-              </div>
-
-              <div className='flex flex-col justify-center pt-4 xs:pt-2 sm:pt-0 countdown-wrapper'>
-                <h6 className='relative font-normal mb-1 xs:mb-2 sm:-mt-3 opacity-60 text-inverse'>
-                  {t('willBeAwardedIn')}
-                </h6>
-
-                <NewPrizeCountdown textAlign='left' pool={pool} flashy={false} />
-              </div>
-            </div>
-          </div>
+          <PoolPrizeCard pool={pool} />
 
           <UpcomingPrizeBreakdownCard />
 
