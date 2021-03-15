@@ -24,13 +24,16 @@ export const Tab = ({ isSelected, onClick, children }) => {
   )
 }
 
-export const ContentPane = ({ children, isSelected, alwaysPresent }) => {
+export const ContentPane = (props) => {
+  const { children, isSelected, alwaysPresent, onlyRenderOnSelect } = props
   let hiddenClassName = 'hidden'
   let visibleClassName = 'flex-1'
 
   if (alwaysPresent) {
     hiddenClassName = 'pointer-events-none opacity-0 w-0 flex-shrink'
   }
+
+  if (onlyRenderOnSelect && !isSelected) return null
 
   return (
     <div

@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useMemo } from 'react'
 import { isEmpty } from 'lodash'
 
 import { POOLS } from 'lib/constants'
@@ -25,7 +25,10 @@ export function useGovernancePools() {
     console.error(error)
   }
 
-  poolsGraphData = getPoolDataFromQueryResult(chainId, contractAddresses, poolsGraphData)
+  poolsGraphData = useMemo(
+    () => getPoolDataFromQueryResult(chainId, contractAddresses, poolsGraphData),
+    [chainId, contractAddresses, poolsGraphData]
+  )
 
   const poolsDataLoading = !isFetched
 
