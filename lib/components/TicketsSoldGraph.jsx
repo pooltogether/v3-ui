@@ -9,6 +9,7 @@ import { DateValueLineGraph } from 'lib/components/DateValueLineGraph'
 import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 
 const NUMBER_OF_POINTS = 10
+const MIN_NUMBER_OF_POINTS = 2
 
 export const TicketsSoldGraph = (props) => {
   const { pool } = props
@@ -27,7 +28,7 @@ export const TicketsSoldGraph = (props) => {
 
   const decimals = pool?.underlyingCollateralDecimals
 
-  if (!decimals || !prizes.length || !isFetched) {
+  if (!decimals || !prizes.length || !isFetched || prizes.length < MIN_NUMBER_OF_POINTS) {
     return null
   }
 

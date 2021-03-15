@@ -4,7 +4,6 @@ import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { CardGrid } from 'lib/components/CardGrid'
 import { LastWinnersListing } from 'lib/components/LastWinnersListing'
-import { PoolNumber } from 'lib/components/PoolNumber'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -50,9 +49,7 @@ export const PoolShowCards = (props) => {
       icon: TicketsIcon,
       title: t('totalDeposited'),
       content: (
-        <h3 className='mt-2'>
-          $<PoolNumber>{numberWithCommas(pool?.totalDepositedUSD, { precision: 2 })}</PoolNumber>
-        </h3>
+        <h3 className='mt-2'>${numberWithCommas(pool?.totalDepositedUSD, { precision: 0 })}</h3>
       )
     },
     {
