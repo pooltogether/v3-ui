@@ -45,7 +45,6 @@ export const AccountUI = () => {
     <>
       <Meta title={pageTitle} />
 
-      {addressError && <div className='text-red'>eerror</div>}
       {isSelf && <RetroactivePoolClaimBanner />}
 
       <PageTitleAndBreadcrumbs
@@ -57,19 +56,27 @@ export const AccountUI = () => {
         ]}
       />
 
-      <AccountSummary />
+      {addressError ? (
+        <h6 className='text-orange my-4 font-normal'>
+          There was an issue with the address provided: {playerAddress}
+        </h6>
+      ) : (
+        <>
+          <AccountSummary />
 
-      <AccountTickets />
+          <AccountTickets />
 
-      <AccountGovernanceClaims />
+          <AccountGovernanceClaims />
 
-      <AccountRewards />
+          <AccountRewards />
 
-      <AccountLootBoxes />
+          <AccountLootBoxes />
 
-      <AccountWinnings />
+          <AccountWinnings />
 
-      {/* <AccountEmailSignup /> */}
+          {/* <AccountEmailSignup /> */}
+        </>
+      )}
 
       <Tagline />
     </>
