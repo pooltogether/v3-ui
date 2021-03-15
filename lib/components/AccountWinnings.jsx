@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
 import { isEmpty } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
+import { isSelfAtom } from 'lib/components/AccountUI'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { usePlayerPrizesQuery } from 'lib/hooks/usePlayerPrizesQuery'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
@@ -15,12 +16,12 @@ import IconTarget from 'assets/images/icon-target@2x.png'
 export const AccountWinnings = () => {
   const { t } = useTranslation()
 
+  const [isSelf] = useAtom(isSelfAtom)
+
   const { usersAddress } = useContext(AuthControllerContext)
 
-  const { contractAddresses } = useContractAddresses()
-
-  // fill this in with a watched address or an address from router params
-  const playerAddress = ''
+  const router = useRouter()
+  const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
 
   const { data: prizesWon } = usePlayerPrizesQuery(address)
@@ -47,7 +48,9 @@ export const AccountWinnings = () => {
 
   return (
     <>
-      <h5 className='font-normal text-accent-2 mt-16 mb-4'>{t('myWinnings')}</h5>
+      <h5 className='font-normal text-accent-2 mt-16 mb-4'>
+        {t(isSelf ? 'myWinnings' : 'winnings')}
+      </h5>
 
       <div className='xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-2 sm:px-6 py-3'>
         <div className='flex justify-between xs:py-4 pb-0 px-2 xs:px-4'>

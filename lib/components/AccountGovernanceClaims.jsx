@@ -1,7 +1,8 @@
 import React, { useContext, useMemo, useState } from 'react'
 import classnames from 'classnames'
-import FeatherIcon from 'feather-icons-react'
 import CountUp from 'react-countup'
+import { useRouter } from 'next/router'
+import { useAtom } from 'jotai'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { ethers } from 'ethers'
@@ -10,20 +11,14 @@ import { usePreviousValue } from 'beautiful-react-hooks'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucetProxyFactory'
 
-import {
-  CONTRACT_ADDRESSES,
-  DEFAULT_TOKEN_PRECISION,
-  SECONDS_PER_DAY,
-  SECONDS_PER_HOUR
-} from 'lib/constants'
+import { CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
+import { isSelfAtom } from 'lib/components/AccountUI'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { ThemedClipLoader } from 'lib/components/ThemedClipLoader'
 import { useAccount } from 'lib/hooks/useAccount'
-// import { useClaimablePoolTokenFaucetAddresses } from 'lib/hooks/useClaimablePoolTokenFaucetAddresses'
 import { usePools } from 'lib/hooks/usePools'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
 import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
 import { useClaimablePoolFromTokenFaucets } from 'lib/hooks/useClaimablePoolFromTokenFaucets'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
@@ -31,7 +26,6 @@ import { usePool } from 'lib/hooks/usePool'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { useTokenFaucetAPY } from 'lib/hooks/useTokenFaucetAPY'
-import { usePoolTokenUSD } from 'lib/hooks/usePoolTokenUSD'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -39,19 +33,25 @@ import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numbe
 import PoolIcon from 'assets/images/pool-icon.svg'
 
 export const AccountGovernanceClaims = (props) => {
-  const { pools, poolsGraphData } = usePools()
   const { t } = useTranslation()
 
-  const { refetch: refetchTotalClaimablePool } = useClaimablePoolFromTokenFaucets()
+  const { pools, poolsGraphData } = usePools()
+
   const { chainId, usersAddress, walletName } = useContext(AuthControllerContext)
-  const { refetch: refetchPoolTokenData } = usePoolTokenData()
+
+  const router = useRouter()
+  const playerAddress = router?.query?.playerAddress
+  const address = playerAddress || usersAddress
+
+  const { refetch: refetchTotalClaimablePool } = useClaimablePoolFromTokenFaucets(address)
+  const { refetch: refetchPoolTokenData } = usePoolTokenData(address)
 
   const refetchAllPoolTokenData = () => {
     refetchTotalClaimablePool()
     refetchPoolTokenData()
   }
 
-  if (!usersAddress) {
+  if (!address) {
     return null
   }
 
@@ -68,10 +68,11 @@ export const AccountGovernanceClaims = (props) => {
     <>
       <h5 className='font-normal text-accent-2 mt-16 mb-4'>{t('governance')}</h5>
       <div className='relative xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
-        <ClaimHeader refetchAllPoolTokenData={refetchAllPoolTokenData} />
+        <ClaimHeader address={address} refetchAllPoolTokenData={refetchAllPoolTokenData} />
         {pools.map((pool) => {
           return (
             <ClaimablePoolTokenItem
+              address={address}
               refetchAllPoolTokenData={refetchAllPoolTokenData}
               key={pool.id}
               pool={pool}
@@ -106,12 +107,15 @@ export const AccountGovernanceClaims = (props) => {
 }
 
 const ClaimHeader = (props) => {
+  const { address } = props
+
   const { t } = useTranslation()
   const { refetchAllPoolTokenData } = props
 
-  // TODO: get a link for "What can I Do with POOL"
-  const { data: claimablePoolFromTokenFaucets } = useClaimablePoolFromTokenFaucets()
+  const { data: claimablePoolFromTokenFaucets } = useClaimablePoolFromTokenFaucets(address)
   const totalClaimablePool = claimablePoolFromTokenFaucets?.total
+
+  const [isSelf] = useAtom(isSelfAtom)
 
   return (
     <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
@@ -127,10 +131,13 @@ const ClaimHeader = (props) => {
       </div>
 
       <div className='flex flex-col-reverse sm:flex-col'>
-        <ClaimAllButton
-          refetchAllPoolTokenData={refetchAllPoolTokenData}
-          claimable={totalClaimablePool > 0}
-        />
+        {isSelf && (
+          <ClaimAllButton
+            {...props}
+            refetchAllPoolTokenData={refetchAllPoolTokenData}
+            claimable={totalClaimablePool > 0}
+          />
+        )}
         <a
           href='https://medium.com/p/23b09f36db48'
           className='sm:text-right text-accent-1 text-xxs mb-3 sm:mb-0'
@@ -144,13 +151,13 @@ const ClaimHeader = (props) => {
 
 const ClaimAllButton = (props) => {
   const { t } = useTranslation()
-  const { claimable, refetchAllPoolTokenData } = props
+  const { address, claimable, refetchAllPoolTokenData } = props
 
-  const { usersAddress, chainId } = useContext(AuthControllerContext)
+  const { chainId } = useContext(AuthControllerContext)
   const {
     isFetched: isClaimablePoolDataFetched,
     data: claimablePoolFromTokenFaucets
-  } = useClaimablePoolFromTokenFaucets()
+  } = useClaimablePoolFromTokenFaucets(address)
 
   const tokenFaucetAddresses = useMemo(() => {
     if (claimablePoolFromTokenFaucets) {
@@ -177,7 +184,7 @@ const ClaimAllButton = (props) => {
   const handleClaim = async (e) => {
     e.preventDefault()
 
-    const params = [usersAddress, tokenFaucetAddresses]
+    const params = [address, tokenFaucetAddresses]
 
     const id = await sendTx(
       t('claimAll'),
@@ -225,11 +232,10 @@ const ClaimAllButton = (props) => {
 }
 
 const ClaimablePoolTokenItem = (props) => {
-  const { pool, poolGraphData, refetchAllPoolTokenData } = props
+  const { address, pool, poolGraphData, refetchAllPoolTokenData } = props
 
   const { t } = useTranslation()
-  const { usersAddress } = useContext(AuthControllerContext)
-  const { accountData } = useAccount(usersAddress)
+  const { accountData } = useAccount(address)
   const { playerTickets } = usePlayerTickets(accountData)
 
   const { symbol } = pool
@@ -239,7 +245,8 @@ const ClaimablePoolTokenItem = (props) => {
   const name = t('prizePoolTicker', { ticker: underlyingCollateralSymbol })
 
   const { refetch: refetchClaimablePool, data } = useClaimablePoolFromTokenFaucet(
-    tokenFaucetAddress
+    tokenFaucetAddress,
+    address
   )
 
   const { dripRatePerSecond, measureTokenAddress, amount } = data || {}
@@ -276,6 +283,8 @@ const ClaimablePoolTokenItem = (props) => {
 
   const apy = useTokenFaucetAPY(poolInfo)
 
+  const [isSelf] = useAtom(isSelfAtom)
+
   return (
     <div className='bg-body p-6 rounded-lg flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8 sm:items-center'>
       <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start mb-6 sm:mb-0'>
@@ -306,28 +315,31 @@ const ClaimablePoolTokenItem = (props) => {
       <div className='sm:text-right'>
         <p className='text-inverse font-bold'>{t('availableToClaim')}</p>
         <h4
-          className={classnames('flex items-center sm:justify-end mt-1', {
+          className={classnames('flex items-center sm:justify-end mt-1 sm:mt-0', {
             'opacity-80': amount === 0
           })}
         >
           <img src={PoolIcon} className='inline-block w-6 h-6 mr-2' />{' '}
           <ClaimableAmountCountUp amount={amount} />
         </h4>
-        <div className='text-accent-1 text-xs mb-2 flex items-center sm:justify-end mt-1 opacity-80 trans hover:opacity-100'>
+        <div className='text-accent-1 text-xs flex items-center sm:justify-end mt-1 sm:mt-0 mb-2 opacity-80 trans hover:opacity-100'>
           {usersDripPerDayFormatted} <img src={PoolIcon} className='inline-block w-4 h-4 mx-2' />{' '}
           POOL /&nbsp;<span className='lowercase'>{t('day')}</span>
         </div>
-        <div className='sm:w-40 sm:ml-auto'>
-          <ClaimButton
-            refetch={() => {
-              refetchClaimablePool()
-              refetchAllPoolTokenData()
-            }}
-            name={name}
-            tokenFaucetAddress={tokenFaucetAddress}
-            claimable={amount > 0}
-          />
-        </div>
+        {isSelf && (
+          <div className='sm:w-40 sm:ml-auto'>
+            <ClaimButton
+              {...props}
+              refetch={() => {
+                refetchClaimablePool()
+                refetchAllPoolTokenData()
+              }}
+              name={name}
+              tokenFaucetAddress={tokenFaucetAddress}
+              claimable={amount > 0}
+            />
+          </div>
+        )}
       </div>
     </div>
   )
@@ -352,10 +364,9 @@ ClaimableAmountCountUp.defaultProps = {
 }
 
 const ClaimButton = (props) => {
-  const { name, refetch, claimable } = props
-  const { tokenFaucetAddress } = props
+  const { address, name, refetch, claimable, tokenFaucetAddress } = props
+
   const { t } = useTranslation()
-  const { usersAddress } = useContext(AuthControllerContext)
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
@@ -368,7 +379,7 @@ const ClaimButton = (props) => {
   const handleClaim = async (e) => {
     e.preventDefault()
 
-    const params = [usersAddress]
+    const params = [address]
 
     const id = await sendTx(
       t('claimPoolFromPool', { poolName: name }),

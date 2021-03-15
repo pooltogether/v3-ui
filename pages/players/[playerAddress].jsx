@@ -1,5 +1,5 @@
-import { PlayerPageUI } from 'lib/components/PlayerPageUI'
+import { AccountUI } from 'lib/components/AccountUI'
 
 export default function PlayerPage(props) {
-  return <PlayerPageUI />
+  return <AccountUI />
 }
