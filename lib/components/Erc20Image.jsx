@@ -1,4 +1,5 @@
 import React from 'react'
+import classnames from 'classnames'
 
 import { TOKEN_IMAGES } from 'lib/constants/tokenImages'
 import { useCoingeckoImageQuery } from 'lib/hooks/useCoingeckoImageQuery'
@@ -12,10 +13,19 @@ export const Erc20Image = (props) => {
   }
 
   return src ? (
-    <img src={src} className='inline-block mr-2 w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full' />
+    <img
+      src={src}
+      className={classnames(
+        'inline-block mr-2 w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full',
+        props.className
+      )}
+    />
   ) : (
     <div
-      className='inline-block mr-2 bg-overlay-white w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full'
+      className={classnames(
+        'inline-block mr-2 bg-overlay-white w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full',
+        props.className
+      )}
       style={{
         minWidth: 12
       }}
