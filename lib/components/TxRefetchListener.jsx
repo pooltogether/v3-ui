@@ -14,7 +14,7 @@ export function TxRefetchListener(props) {
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { poolsRefetch } = usePools()
+  // const { poolsRefetch } = usePools()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
@@ -31,8 +31,6 @@ export function TxRefetchListener(props) {
       tx.method === 'approve' ||
       tx.method === 'withdrawInstantlyFrom' ||
       tx.method === 'updateAndClaimDrips'
-
-    const poolStateTransaction = tx.method === 'startAward' || tx.method === 'completeAward'
 
     if (playerBalanceTransaction) {
       // we don't know when the Graph will have processed the new block data or when it has
@@ -51,11 +49,6 @@ export function TxRefetchListener(props) {
         refetchAccountData()
         debug('refetch!')
       }, 16000)
-    } else if (poolStateTransaction) {
-      setTimeout(() => {
-        poolsRefetch()
-        debug('refetch pool/prize!')
-      }, 6000)
     } else if (tx?.refetch) {
       setTimeout(() => {
         tx.refetch()
