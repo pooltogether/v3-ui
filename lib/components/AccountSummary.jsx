@@ -32,7 +32,7 @@ export const AccountSummary = () => {
 
   const { usersV2Balances } = useUsersV2Balances(address)
 
-  const { accountData } = useAccount(address)
+  const { accountData, accountDataIsFetched } = useAccount(address)
 
   const { playerTickets } = usePlayerTickets(accountData)
 
@@ -92,7 +92,7 @@ export const AccountSummary = () => {
     totalTickets = totalTickets.add(normalizedUsdcPodBalance)
   }
 
-  const totalTicketsFormatted = parseFloat(ethers.utils.formatUnits(totalTickets, 18))
+  const totalTicketsFormatted = numberWithCommas(ethers.utils.formatUnits(totalTickets, 18))
 
   return (
     <div
@@ -108,18 +108,9 @@ export const AccountSummary = () => {
         <div className='leading-tight'>
           <h6 className='font-normal'>{t('assets')}</h6>
           <h1>
-            {usersAddress ? (
+            {accountDataIsFetched ? (
               <>
-                {totalTickets && (
-                  <>
-                    $
-                    <PoolNumber>
-                      {numberWithCommas(totalTicketsFormatted, {
-                        precision: getPrecision(totalTicketsFormatted)
-                      })}
-                    </PoolNumber>
-                  </>
-                )}
+                $<PoolNumber>{totalTicketsFormatted}</PoolNumber>
               </>
             ) : (
               <SmallLoader />
