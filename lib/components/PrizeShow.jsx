@@ -1,5 +1,6 @@
-import { useRouter } from 'next/router'
 import React from 'react'
+import { useRouter } from 'next/router'
+import { ethers } from 'ethers'
 
 import TicketsIcon from 'assets/images/icon-ticket@2x.png'
 import { useTranslation } from 'lib/../i18n'
@@ -10,8 +11,9 @@ import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PrizeBreakdown } from 'lib/components/PrizeBreakdown'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+
+const bn = ethers.BigNumber.from
 
 export function PrizeShow(props) {
   const { t } = useTranslation()
@@ -23,7 +25,11 @@ export function PrizeShow(props) {
   const poolName = postAwardTimeTravelPool?.name
   const poolSymbol = postAwardTimeTravelPool?.symbol
 
+  const ticker = postAwardTimeTravelPool?.underlyingCollateralSymbol
   const decimals = postAwardTimeTravelPool?.underlyingCollateralDecimals || 18
+
+  const ticketSupply =
+    preAwardTimeTravelPool?.ticketSupply && bn(preAwardTimeTravelPool?.ticketSupply)
 
   return (
     <>
@@ -79,18 +85,11 @@ export function PrizeShow(props) {
           {
             noMinHeight: true,
             icon: TicketsIcon,
-            title: t('totalTickets'),
+            title: t('depositedAmount'),
             content: (
-              <>
-                <h3>
-                  {preAwardTimeTravelPool?.ticketSupply
-                    ? displayAmountInEther(preAwardTimeTravelPool.ticketSupply, {
-                        decimals,
-                        precision: 0
-                      })
-                    : null}
-                </h3>
-              </>
+              <h3>
+                {numberWithCommas(ticketSupply, { decimals })} {ticker}
+              </h3>
             )
           }
         ]}
