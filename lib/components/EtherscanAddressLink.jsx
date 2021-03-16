@@ -11,16 +11,14 @@ export function EtherscanAddressLink(props) {
   const url = formatEtherscanAddressUrl(address, chainId)
 
   return (
-    <>
-      <a
-        href={url}
-        className={`trans no-underline ${className}`}
-        target='_blank'
-        rel='noopener noreferrer'
-        title='View on Etherscan'
-      >
-        {children} <FeatherIcon icon='external-link' className='is-etherscan-arrow inline-block' />
-      </a>
-    </>
+    <a
+      href={url}
+      className={`trans no-underline ${className}`}
+      target='_blank'
+      rel='noopener noreferrer'
+      title='View on Etherscan'
+    >
+      {children} <FeatherIcon icon='external-link' className='is-etherscan-arrow inline-block' />
+    </a>
   )
 }

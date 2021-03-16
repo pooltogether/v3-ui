@@ -22,7 +22,7 @@ export function WithdrawTxButton(props) {
   const poolAddress = pool?.poolAddress
   const sponsorshipAddress = pool?.sponsorshipToken?.id
 
-  const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
+  const quantityFormatted = numberWithCommas(quantity)
 
   const [txId, setTxId] = useState(0)
   const txName = t(`withdrawSponsorshipAmountTicker`, {

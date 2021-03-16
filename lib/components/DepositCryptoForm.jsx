@@ -133,7 +133,7 @@ export function DepositCryptoForm(props) {
 
       <div className='pool-gradient-2 text-white w-full text-center mx-auto my-4 sm:my-8 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-xl lg:text-2xl'>
         <span className='mr-4'>{t('yourDeposit')}</span>
-        <PoolNumber>{numberWithCommas(quantity, { precision: 4 })}</PoolNumber> {tickerUpcased}
+        <PoolNumber>{numberWithCommas(quantity)}</PoolNumber> {tickerUpcased}
       </div>
 
       <div className='flex flex-col mx-auto w-full mx-auto items-center justify-center'>

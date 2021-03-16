@@ -9,7 +9,7 @@ import { isSelfAtom } from 'lib/components/AccountUI'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { usePlayerPrizesQuery } from 'lib/hooks/usePlayerPrizesQuery'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
 
@@ -81,10 +81,7 @@ export const AccountWinnings = () => {
                               pool={{ underlyingCollateralSymbol: award.ticker }}
                             />
                           </span>
-                          {displayAmountInEther(award.total, {
-                            precision: 2,
-                            decimals: award.decimals
-                          })}{' '}
+                          {numberWithCommas(award.total, { decimals: award.decimals })}{' '}
                           {award.ticker}
                         </td>
                       </tr>
