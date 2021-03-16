@@ -24,7 +24,7 @@ export function WithdrawSponsorshipTxButton(props) {
 
   const [txId, setTxId] = useState(0)
 
-  const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
+  const quantityFormatted = numberWithCommas(quantity)
 
   const txName = t(`withdrawSponsorshipAmountTicker`, {
     amount: quantityFormatted,

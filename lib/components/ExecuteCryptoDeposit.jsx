@@ -42,11 +42,9 @@ export function ExecuteCryptoDeposit(props) {
 
   const [txExecuted, setTxExecuted] = useState(false)
 
-  const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
+  const quantityFormatted = numberWithCommas(quantity)
 
-  let txMainName = `${t('deposit')} ${quantityFormatted} ${t('tickets')}`
-  const txSubName = `${quantityFormatted} ${tickerUpcased}`
-  const txName = `${txMainName} (${txSubName})`
+  const txName = `${t('deposit')} ${quantityFormatted} ${tickerUpcased}`
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
@@ -90,7 +88,7 @@ export function ExecuteCryptoDeposit(props) {
 
       <div className='pool-gradient-2 text-accent-1 w-full text-center mx-auto my-4 sm:mt-8 sm:mb-2 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-xl lg:text-2xl'>
         <span className='mr-4'>{t('depositing')}</span>
-        <PoolNumber>{numberWithCommas(quantity, { precision: 4 })}</PoolNumber> {tickerUpcased}
+        <PoolNumber>{numberWithCommas(quantity)}</PoolNumber> {tickerUpcased}
       </div>
 
       <div style={{ minHeight: 103 }}>

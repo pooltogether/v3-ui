@@ -33,7 +33,11 @@ export const LastWinnersListing = (props) => {
       prize?.awardedControlledTokens?.length > 0 ||
       prize?.awardedExternalErc20Tokens?.length > 0
     ) {
-      const date = formatDate(prize?.awardedTimestamp, { short: true, year: false, noAbbrev: true })
+      const date = formatDate(prize?.awardedTimestamp, {
+        short: true,
+        year: false,
+        noTimezone: true
+      })
 
       result.push({
         ...prize,
