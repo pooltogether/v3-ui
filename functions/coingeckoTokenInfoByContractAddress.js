@@ -1,6 +1,6 @@
 import { axiosInstance } from '../lib/axiosInstance'
 
-https: exports.handler = async (event, context, callback) => {
+exports.handler = async (event, context, callback) => {
   const { address } = event.queryStringParameters
 
   const url = `https://api.coingecko.com/api/v3/coins/ethereum/contract/${address}`
