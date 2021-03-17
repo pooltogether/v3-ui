@@ -31,6 +31,8 @@ export const prizePoolFragment = gql`
     timelockTotalSupply
     liquidityCap
 
+    reserveRegistry
+
     cumulativePrizeNet
 
     currentPrizeId
