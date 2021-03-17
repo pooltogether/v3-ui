@@ -152,7 +152,7 @@ function MyApp({ Component, pageProps, router }) {
         <ReactQueryCacheProvider queryCache={queryCache}>
           <BodyClasses />
 
-          <GraphErrorModal />
+          {/* <GraphErrorModal /> */}
 
           <LoadingScreen initialized={initialized} />
 

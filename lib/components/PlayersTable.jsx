@@ -69,7 +69,7 @@ export const PlayersTable = (props) => {
         accessor: 'address'
       },
       {
-        Header: t('tickets'),
+        Header: t('balance'),
         accessor: 'balance' // accessor is the "key" in the data
       },
       {

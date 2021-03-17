@@ -9,7 +9,7 @@ export function PoolNumber(props) {
   const [fourthPart, setFourthPart] = useState(null)
 
   useEffect(() => {
-    const str = typeof props.children === 'object' ? props.children[0] : props.children.toString()
+    const str = typeof props.children === 'object' ? props.children[0] : props.children?.toString()
 
     if (str?.length > 0) {
       const parts = str.split('.')

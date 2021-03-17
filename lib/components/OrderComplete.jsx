@@ -70,7 +70,7 @@ export function OrderComplete(props) {
               number: <PoolNumber />
             }}
             values={{
-              amount: numberWithCommas(quantity, { precision: 2 })
+              amount: numberWithCommas(quantity)
             }}
           />
         </h1>
@@ -78,7 +78,7 @@ export function OrderComplete(props) {
         <div className='mb-4 text-highlight-2 text-sm'>
           <div className='mt-4'>
             {t('youNowHaveAmountTicketsInTheTickerPool', {
-              amount: numberWithCommas(Number(prevBalance) + Number(quantity), { precision: 4 }),
+              amount: numberWithCommas(Number(prevBalance) + Number(quantity)),
               ticker: pool?.underlyingCollateralSymbol
             })}
           </div>

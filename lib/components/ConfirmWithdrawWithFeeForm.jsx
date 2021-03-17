@@ -96,10 +96,9 @@ export function ConfirmWithdrawWithFeeForm(props) {
     )
   }
 
-  const quantityFormatted = numberWithCommas(quantity, { precision: 2 })
+  const quantityFormatted = numberWithCommas(quantity)
   const [txId, setTxId] = useState(0)
   const method = 'withdrawInstantlyFrom'
-  // `Withdraw ${quantity} ${tickerUpcased} (fee: $${feeFormatted})`
   const txName = t('withdrawWithFeeTxName', {
     quantity: quantityFormatted,
     tickerUpcased,

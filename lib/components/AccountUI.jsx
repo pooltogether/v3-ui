@@ -9,11 +9,13 @@ import { AccountRewards } from 'lib/components/AccountRewards'
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountTickets } from 'lib/components/AccountTickets'
 import { AccountWinnings } from 'lib/components/AccountWinnings'
+import { ButtonLink } from 'lib/components/ButtonLink'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Tagline } from 'lib/components/Tagline'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 import { AccountGovernanceClaims } from 'lib/components/AccountGovernanceClaims'
+import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { shorten } from 'lib/utils/shorten'
 import { testAddress } from 'lib/utils/testAddress'
 
@@ -22,10 +24,11 @@ export const isSelfAtom = atom(false)
 export const AccountUI = () => {
   const { t } = useTranslation()
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const { chainId, usersAddress } = useContext(AuthControllerContext)
 
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
+  const address = playerAddress || usersAddress
 
   const [isSelf, setIsSelf] = useAtom(isSelfAtom)
 
@@ -35,11 +38,9 @@ export const AccountUI = () => {
     setIsSelf(isSelf)
   }, [playerAddress, usersAddress])
 
-  const pageTitle = isSelf
-    ? t('myAccount')
-    : t('playerAddress', { address: shorten(playerAddress) })
+  const pageTitle = isSelf ? t('myAccount') : t('playerAddress', { address: shorten(address) })
 
-  const addressError = testAddress(playerAddress)
+  const addressError = testAddress(address)
 
   return (
     <>
@@ -48,6 +49,7 @@ export const AccountUI = () => {
       {isSelf && <RetroactivePoolClaimBanner />}
 
       <PageTitleAndBreadcrumbs
+        address={address}
         title={pageTitle}
         breadcrumbs={[
           {
@@ -74,7 +76,13 @@ export const AccountUI = () => {
 
           <AccountWinnings />
 
-          {/* <AccountEmailSignup /> */}
+          <div className='flex flex-col items-center justify-center mt-20'>
+            <div className='m-2'>
+              <ButtonLink textSize='xxs' href={formatEtherscanAddressUrl(address, chainId)}>
+                {t('viewPlayerInEtherscan')}
+              </ButtonLink>
+            </div>
+          </div>
         </>
       )}
 

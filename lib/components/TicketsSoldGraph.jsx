@@ -4,18 +4,23 @@ import { sub, fromUnixTime } from 'date-fns'
 import { compact } from 'lodash'
 
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
+import { useTranslation } from 'lib/../i18n'
 import { DateValueLineGraph } from 'lib/components/DateValueLineGraph'
 import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 
 const NUMBER_OF_POINTS = 10
+const MIN_NUMBER_OF_POINTS = 2
 
 export const TicketsSoldGraph = (props) => {
   const { pool } = props
 
-  const first = NUMBER_OF_POINTS
-  const { data, error, isFetching, isFetched } = usePoolPrizesQuery(pool, first)
+  const { t } = useTranslation()
 
-  let prizes = compact([].concat(data?.prizePool?.prizes))
+  const page = 1
+  const skip = 0
+  const { data, error, isFetched } = usePoolPrizesQuery(pool, page, skip)
+
+  let prizes = [].concat(data?.prizePool?.prizes)
 
   if (error) {
     console.error(error)
@@ -23,18 +28,14 @@ export const TicketsSoldGraph = (props) => {
 
   const decimals = pool?.underlyingCollateralDecimals
 
-  if (!decimals || !prizes.length || (isFetching && !isFetched)) {
+  if (!decimals || !prizes.length || !isFetched || prizes.length < MIN_NUMBER_OF_POINTS) {
     return null
   }
 
   const lastPrize = prizes[0]
   let currentPrize
-  // const ticketSupply = pool?.ticketTo
 
-  // If we have a prize amount then we know the last prize has been rewarded
   if (lastPrize?.awardedBlock) {
-    // unsure why we need to divide by 1000 here when we do it again
-    // when compiling the array ...
     currentPrize = {
       ticketSupply: pool.ticketSupply,
       awardedTimestamp: Date.now() / 1000
@@ -44,10 +45,6 @@ export const TicketsSoldGraph = (props) => {
   }
 
   const dataArray = prizes.map((prize) => {
-    if (!prize) {
-      console.warn('why no prize here?', prize)
-    }
-
     const tickets = prize?.awardedBlock ? prize?.totalTicketSupply : prize?.ticketSupply
 
     const ticketsSold = ethers.utils.formatUnits(
@@ -56,7 +53,7 @@ export const TicketsSoldGraph = (props) => {
     )
 
     return {
-      value: parseInt(ticketsSold, 10),
+      value: parseFloat(ticketsSold),
       date: fromUnixTime(prize.awardedTimestamp)
     }
   })
@@ -77,8 +74,10 @@ export const TicketsSoldGraph = (props) => {
   }
 
   return (
-    <>
-      <DateValueLineGraph id='tickets-sold-graph' valueLabel='Tickets' data={[dataArray]} />
-    </>
+    <DateValueLineGraph
+      id='tickets-sold-graph'
+      valueLabel={t('depositedTicker', { ticker: pool?.underlyingCollateralSymbol?.toUpperCase() })}
+      data={[dataArray]}
+    />
   )
 }
