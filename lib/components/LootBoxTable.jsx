@@ -23,7 +23,7 @@ export const LootBoxTable = (props) => {
 
   const [moreVisible, setMoreVisible] = useState(false)
 
-  const { awards: lootBoxAwards, lootBoxIsFetching, computedLootBoxAddress } = pool.lootBox
+  const { awards: lootBoxAwards, lootBoxIsFetched, computedLootBoxAddress } = pool.lootBox
 
   const originalAwardsCount = lootBoxAwards?.length
   let awards = []
@@ -49,15 +49,26 @@ export const LootBoxTable = (props) => {
 
       <div className='flex flex-col sm:flex-row justify-between sm:items-center mb-4'>
         <div>
-          {awards.length === 0 && !lootBoxIsFetching ? null : (
+          {awards.length === 0 && !lootBoxIsFetched ? null : (
             <h3>
-              $<PoolNumber>{numberWithCommas(pool.externalAwardsUSD, { precision: 2 })}</PoolNumber>
+              $
+              <PoolNumber>
+                {numberWithCommas(pool.externalAwardsUSD || '0', { precision: 2 })}
+              </PoolNumber>
             </h3>
           )}
         </div>
 
         {!historical && <ContributeToLootBoxDropdown pool={pool} />}
       </div>
+
+      {awards.length === 0 && (
+        <CardDetails>
+          <span className='text-accent-1 text-xs xs:text-base'>
+            Be the first to add to this prize's loot box!
+          </span>
+        </CardDetails>
+      )}
 
       {awards.length > 0 && (
         <CardDetails>
