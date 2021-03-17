@@ -7,7 +7,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
-import { useTokenFaucetAPY } from 'lib/hooks/useTokenFaucetAPY'
+import { useTokenFaucetAPR } from 'lib/hooks/useTokenFaucetAPR'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { Tooltip } from 'lib/components/Tooltip'
 import { Card, CardDetailsList } from 'lib/components/Card'
@@ -244,15 +244,15 @@ const SponsorshipStat = (props) => {
 const AprStats = (props) => {
   const { pool } = props
 
-  const apy = useTokenFaucetAPY(pool)
+  const apr = useTokenFaucetAPR(pool)
 
-  if (!apy) return null
+  if (!apr) return null
 
   return (
     <>
       <hr />
       <DailyPoolDistributionStat pool={pool} />
-      <EffectiveAprStat apy={apy} />
+      <EffectiveAprStat apr={apr} />
     </>
   )
 }
@@ -273,9 +273,9 @@ const DailyPoolDistributionStat = (props) => {
 }
 
 const EffectiveAprStat = (props) => {
-  const { apy } = props
+  const { apr } = props
 
   const { t } = useTranslation()
 
-  return <Stat title={t('effectiveApr')} percent={apy} tooltip={t('effectiveAprInfo')} />
+  return <Stat title={t('effectiveApr')} percent={apr} tooltip={t('effectiveAprInfo')} />
 }
