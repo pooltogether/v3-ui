@@ -64,6 +64,10 @@ export const POOLS = {
     {
       name: 'COMP Pool',
       symbol: 'PT-cCOMP'
+    },
+    {
+      name: 'POOL Pool',
+      symbol: 'PT-pPOOL'
     }
   ],
   4: [
