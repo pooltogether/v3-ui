@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 
 import { TOKEN_IMAGES } from 'lib/constants/tokenImages'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
-import { useCoingeckoImageQuery } from 'lib/hooks/useCoingeckoImageQuery'
+import { useCoingeckoTokenInfoQuery } from 'lib/hooks/useCoingeckoTokenInfoQuery'
 
 import DaiSvg from 'assets/images/dai-new-transparent.png'
 import UsdcSvg from 'assets/images/usdc-new-transparent.png'
@@ -23,8 +23,8 @@ const CoingeckoOrPlaceholder = (props) => {
   let src
 
   // Check Coingecko for img
-  const { data: tokenImagesData } = useCoingeckoImageQuery(address)
-  src = tokenImagesData?.[address]?.image?.small
+  const { data: tokenInfo } = useCoingeckoTokenInfoQuery(address)
+  src = tokenInfo?.image?.small
 
   // Fallback to placeholder
   if (!src) {
