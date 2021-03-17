@@ -12,7 +12,7 @@ const NUMBER_OF_POINTS = 10
 const MIN_NUMBER_OF_POINTS = 2
 
 export const TicketsSoldGraph = (props) => {
-  const { pool } = props
+  const { pool, renderEmptyState } = props
 
   const { t } = useTranslation()
 
@@ -29,6 +29,7 @@ export const TicketsSoldGraph = (props) => {
   const decimals = pool?.underlyingCollateralDecimals
 
   if (!decimals || !prizes.length || !isFetched || prizes.length < MIN_NUMBER_OF_POINTS) {
+    if (renderEmptyState) return renderEmptyState()
     return null
   }
 

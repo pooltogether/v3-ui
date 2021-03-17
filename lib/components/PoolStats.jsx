@@ -64,8 +64,6 @@ const StatsModal = (props) => {
   const currentPrize = pool.prizePool.captureAwardBalance[0]
   const currentPrizeFormatted = ethers.utils.formatUnits(currentPrize, decimals)
 
-  // console.log(pool)
-
   return (
     <Dialog aria-label='Pool Stats Modal' isOpen={isOpen} onDismiss={closeModal}>
       <div className='text-inverse p-4 bg-card h-full sm:h-auto rounded-none sm:rounded-xl sm:max-w-lg mx-auto flex flex-col'>
@@ -92,7 +90,7 @@ const StatsModal = (props) => {
             <PoolNumber>{numberWithCommas(totalDepositsFormatted, { precision: 2 })}</PoolNumber>
             <span>{tokenSymbol}</span>
           </span>
-          <TicketsSoldGraph pool={pool} />
+          <TicketsSoldGraph pool={pool} renderEmptyState={() => <GraphEmptyState />} />
         </div>
 
         <div className='mb-8'>
@@ -109,11 +107,16 @@ const StatsModal = (props) => {
             <PoolNumber>{numberWithCommas(currentPrizeFormatted, { precision: 2 })}</PoolNumber>
             <span>{tokenSymbol}</span>
           </span>
-          <PrizeValueGraph pool={pool} />
+          <PrizeValueGraph pool={pool} renderEmptyState={() => <GraphEmptyState />} />
         </div>
       </div>
     </Dialog>
   )
+}
+
+const GraphEmptyState = () => {
+  const { t } = useTranslation()
+  return <p className='mt-8 text-center text-accent-1 opacity-40'>{t('notEnoughData')}</p>
 }
 
 const StatsList = (props) => {
