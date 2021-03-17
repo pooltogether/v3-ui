@@ -11,6 +11,7 @@ import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { Card, CardDetailsList } from 'lib/components/Card'
 
 export const PastWinnersCard = (props) => {
   const { t } = useTranslation()
@@ -66,7 +67,7 @@ export const PastWinnersCard = (props) => {
   return (
     <Card>
       <h3 className='mb-4'>{t('pastFiveWinners')}</h3>
-      <CardDetails>
+      <CardDetailsList>
         <div className='w-full flex mb-4'>
           <span className='w-1/3'>{t('currentPrize')}</span>
           <span className='w-1/3 text-right text-flashy'>
@@ -79,7 +80,7 @@ export const PastWinnersCard = (props) => {
         ) : (
           <PrizesList prizes={prizes} pool={pool} />
         )}
-      </CardDetails>
+      </CardDetailsList>
     </Card>
   )
 }
@@ -137,17 +138,3 @@ const PrizeRow = (props) => {
     </li>
   )
 }
-
-// Cards
-
-const Card = (props) => (
-  <div className='non-interactable-card my-10 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'>
-    {props.children}
-  </div>
-)
-
-const CardDetails = (props) => (
-  <ul className='xs:bg-primary theme-light--no-gutter text-inverse rounded-lg p-0 xs:px-4 xs:py-8 mt-4'>
-    {props.children}
-  </ul>
-)

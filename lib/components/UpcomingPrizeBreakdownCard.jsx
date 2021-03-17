@@ -9,6 +9,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
 import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { Card, CardDetailsList } from 'lib/components/Card'
 
 export const UpcomingPrizeBreakdownCard = (props) => {
   const { t } = useTranslation()
@@ -105,7 +106,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
       </div>
 
       {hasTicketPrize && (
-        <CardDetails>
+        <CardDetailsList>
           <li className='flex justify-between xs:mx-4 mb-2'>
             <span className='text-accent-1'>
               {computedLootBoxAddress ? t('grandPrize') : t('winner')}
@@ -146,20 +147,8 @@ export const UpcomingPrizeBreakdownCard = (props) => {
               </span>
             </li>
           ))}
-        </CardDetails>
+        </CardDetailsList>
       )}
     </Card>
   )
 }
-
-const Card = (props) => (
-  <div className='non-interactable-card my-6 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'>
-    {props.children}
-  </div>
-)
-
-const CardDetails = (props) => (
-  <ul className='xs:bg-primary theme-light--no-gutter text-inverse rounded-lg p-0 xs:px-4 xs:py-8 mt-4 flex flex-col text-xs xs:text-base sm:text-lg'>
-    {props.children}
-  </ul>
-)

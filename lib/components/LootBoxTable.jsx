@@ -12,6 +12,7 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import GiftIcon from 'assets/images/icon-gift@2x.png'
+import { Card, CardDetailsList } from 'lib/components/Card'
 
 export const LootBoxTable = (props) => {
   const { basePath, historical, pool } = props
@@ -63,15 +64,15 @@ export const LootBoxTable = (props) => {
       </div>
 
       {awards.length === 0 && (
-        <CardDetails>
+        <CardDetailsList>
           <span className='text-accent-1 text-xs xs:text-base'>
             Be the first to add to this prize's loot box!
           </span>
-        </CardDetails>
+        </CardDetailsList>
       )}
 
       {awards.length > 0 && (
-        <CardDetails>
+        <CardDetailsList>
           <h6 className='text-green mb-4'>
             {t('amountTokens', {
               amount: originalAwardsCount
@@ -104,7 +105,7 @@ export const LootBoxTable = (props) => {
               </motion.button>
             </div>
           )}
-        </CardDetails>
+        </CardDetailsList>
       )}
     </Card>
   )
@@ -143,20 +144,3 @@ const AwardRow = (props) => {
     </li>
   )
 }
-
-// Cards
-
-const Card = (props) => (
-  <div
-    className='non-interactable-card my-10 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'
-    id='loot-box-table'
-  >
-    {props.children}
-  </div>
-)
-
-const CardDetails = (props) => (
-  <ul className='xs:bg-primary theme-light--no-gutter text-inverse rounded-lg p-0 xs:px-4 xs:py-8 mt-4 flex flex-col text-sm xs:text-base sm:text-lg'>
-    {props.children}
-  </ul>
-)

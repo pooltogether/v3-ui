@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 
 import { useTranslation } from 'lib/../i18n'
@@ -9,11 +9,18 @@ import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
 import { useTokenFaucetAPY } from 'lib/hooks/useTokenFaucetAPY'
 import { displayPercentage } from 'lib/utils/displayPercentage'
-import { useTokenFaucetDripRate } from 'lib/hooks/useTokenFaucetDripRate'
 import { Tooltip } from 'lib/components/Tooltip'
+import { Card, CardDetailsList } from 'lib/components/Card'
+import { useTokenFaucetData } from 'lib/hooks/useTokenFaucetData'
+import Dialog from '@reach/dialog'
+import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
+import { PrizeValueGraph } from 'lib/components/PrizeValueGraph'
 
 export const PoolStats = (props) => {
   const { pool } = props
+
+  const { t } = useTranslation()
+  const [isOpen, setIsOpen] = useState(false)
 
   const loading =
     !pool.ticketToken || !pool.sponsorshipToken || !pool.reserveRegistry || !pool.reserveTotalSupply
@@ -28,12 +35,82 @@ export const PoolStats = (props) => {
   }
 
   return (
-    <Card>
-      <h3>Pool's Stats</h3>
-      <CardDetails>
-        <StatsList {...props} />
-      </CardDetails>
-    </Card>
+    <>
+      <Card>
+        <div className='flex justify-between'>
+          <h3>Pool's Stats</h3>
+          <button className='text-accent-1' onClick={() => setIsOpen(true)}>
+            {t('showMore')}
+          </button>
+        </div>
+        <CardDetailsList>
+          <StatsList {...props} />
+        </CardDetailsList>
+      </Card>
+      <StatsModal pool={pool} isOpen={isOpen} closeModal={() => setIsOpen(false)} />
+    </>
+  )
+}
+
+const StatsModal = (props) => {
+  const { pool, closeModal, isOpen } = props
+
+  const decimals = pool.underlyingCollateralDecimals
+  const totalDeposits = ethers.BigNumber.from(pool.ticketToken.totalSupply)
+  const totalDepositsFormatted = ethers.utils.formatUnits(totalDeposits, decimals)
+  const tokenSymbol = pool.underlyingCollateralSymbol
+  const currentPrize = pool.prizePool.captureAwardBalance[0]
+  const currentPrizeFormatted = ethers.utils.formatUnits(currentPrize, decimals)
+
+  // console.log(pool)
+
+  return (
+    <Dialog aria-label='Pool Stats Modal' isOpen={isOpen} onDismiss={closeModal}>
+      <div className='text-inverse p-4 bg-card h-full sm:h-auto rounded-none sm:rounded-xl sm:max-w-lg mx-auto flex flex-col'>
+        <div className='flex'>
+          <button
+            className='my-auto ml-auto close-button trans text-inverse hover:opacity-30'
+            onClick={closeModal}
+          >
+            <FeatherIcon icon='x' className='w-6 h-6' />
+          </button>
+        </div>
+
+        <div className='mb-8'>
+          <div className='flex'>
+            <h5>Historic Deposits</h5>
+            <Tooltip
+              id={'historic-prizes'}
+              className='ml-2 my-auto text-accent-1'
+              tip={'Deposits include both tickets & sponsorship'}
+            />
+          </div>
+          <span>Current deposits:</span>
+          <span className='ml-4'>
+            <PoolNumber>{numberWithCommas(totalDepositsFormatted, { precision: 2 })}</PoolNumber>
+            <span>{tokenSymbol}</span>
+          </span>
+          <TicketsSoldGraph pool={pool} />
+        </div>
+
+        <div className='mb-8'>
+          <div className='flex'>
+            <h5>Historic Prizes </h5>
+            <Tooltip
+              id={'historic-prizes'}
+              className='ml-2 my-auto text-accent-1'
+              tip={'Prizes shown do not include externally added tokens'}
+            />
+          </div>
+          <span>Current prize:</span>
+          <span className='ml-4'>
+            <PoolNumber>{numberWithCommas(currentPrizeFormatted, { precision: 2 })}</PoolNumber>
+            <span>{tokenSymbol}</span>
+          </span>
+          <PrizeValueGraph pool={pool} />
+        </div>
+      </div>
+    </Dialog>
   )
 }
 
@@ -60,9 +137,7 @@ const Stat = (props) => {
     <li className='flex justify-between mb-2 last:mb-0 xs:mx-4'>
       <span className='text-accent-1 flex'>
         {title}:{' '}
-        {tooltip && (
-          <Tooltip id={`${title}`} className='ml-2 my-auto text-accent-1' tip={tooltip} />
-        )}
+        {tooltip && <Tooltip id={title} className='ml-2 my-auto text-accent-1' tip={tooltip} />}
       </span>
       {value && <span>{value}</span>}
       {tokenSymbol && tokenAmount && (
@@ -181,7 +256,7 @@ const AprStats = (props) => {
 const DailyPoolDistributionStat = (props) => {
   const { pool } = props
 
-  const { data, isFetched } = useTokenFaucetDripRate(pool.tokenListener)
+  const { data, isFetched } = useTokenFaucetData(pool.tokenListener)
 
   let tokenAmount = '0'
   if (isFetched) {
@@ -202,17 +277,3 @@ const EffectiveAprStat = (props) => {
     />
   )
 }
-
-// Cards
-
-const Card = (props) => (
-  <div className='non-interactable-card my-10 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'>
-    {props.children}
-  </div>
-)
-
-const CardDetails = (props) => (
-  <ul className='xs:bg-primary theme-light--no-gutter text-inverse rounded-lg p-0 xs:px-4 xs:py-8 mt-4 flex flex-col text-xs xs:text-base sm:text-lg'>
-    {props.children}
-  </ul>
-)
