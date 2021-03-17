@@ -1,20 +1,14 @@
-import React, { useState } from 'react'
-import FeatherIcon from 'feather-icons-react'
+import React from 'react'
+import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
-import { ethers } from 'ethers'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { PoolNumber } from 'lib/components/PoolNumber'
-import { IndexUILoader } from 'lib/components/IndexUILoader'
-import { DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
-import { useTokenFaucetAPR } from 'lib/hooks/useTokenFaucetAPR'
-import { displayPercentage } from 'lib/utils/displayPercentage'
-import { Tooltip } from 'lib/components/Tooltip'
 import { Card, CardDetailsList } from 'lib/components/Card'
-import { useTokenFaucetData } from 'lib/hooks/useTokenFaucetData'
-import Dialog from '@reach/dialog'
-import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
+import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { PoolNumber } from 'lib/components/PoolNumber'
 import { PrizeValueGraph } from 'lib/components/PrizeValueGraph'
+import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
+import { Tooltip } from 'lib/components/Tooltip'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const PoolCharts = (props) => {
   const { pool } = props
@@ -59,7 +53,7 @@ const DepositsAndPrizesCharts = (props) => {
 
   return (
     <div className='text-inverse p-4 bg-card h-full sm:h-auto rounded-none sm:rounded-xl mx-auto flex flex-col sm:flex-row'>
-      {/* <div className='mb-12'>
+      <div className='mb-12'>
         <div className='flex'>
           <h5>{t('historicDeposits')}</h5>
           <Tooltip
@@ -70,13 +64,13 @@ const DepositsAndPrizesCharts = (props) => {
         </div>
         <span>{t('currentDeposits')}:</span>
         <span className='ml-4'>
-          <PoolNumber>{numberWithCommas(totalDepositsFormatted, { precision: 2 })}</PoolNumber>
+          <PoolNumber>{numberWithCommas(totalDepositsFormatted)}</PoolNumber>
           <span>{tokenSymbol}</span>
         </span>
         <TicketsSoldGraph pool={pool} renderEmptyState={() => <ChartEmptyState />} />
-      </div> */}
+      </div>
 
-      {/* <div className='mb-8'>
+      <div className='mb-8'>
         <div className='flex'>
           <h5>{t('historicPrizes')}</h5>
           <Tooltip
@@ -87,11 +81,11 @@ const DepositsAndPrizesCharts = (props) => {
         </div>
         <span>{t('currentPrize')}:</span>
         <span className='ml-4'>
-          <PoolNumber>{numberWithCommas(currentPrizeFormatted, { precision: 2 })}</PoolNumber>
+          <PoolNumber>{numberWithCommas(currentPrizeFormatted)}</PoolNumber>
           <span>{tokenSymbol}</span>
         </span>
         <PrizeValueGraph pool={pool} renderEmptyState={() => <ChartEmptyState />} />
-      </div> */}
+      </div>
     </div>
   )
 }
