@@ -11,7 +11,7 @@ import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 const NUMBER_OF_POINTS = 10
 const MIN_NUMBER_OF_POINTS = 2
 
-export const TicketsSoldGraph = (props) => {
+export const PrizeValueGraph = (props) => {
   const { pool, renderEmptyState } = props
 
   const { t } = useTranslation()
@@ -33,28 +33,23 @@ export const TicketsSoldGraph = (props) => {
     return null
   }
 
-  const lastPrize = prizes[0]
-  let currentPrize
-
-  if (lastPrize?.awardedBlock) {
-    currentPrize = {
-      ticketSupply: pool.ticketSupply,
-      awardedTimestamp: Date.now() / 1000
-    }
-
-    prizes.unshift(currentPrize)
+  if (!prizes[0]?.awardedBlock) {
+    prizes.shift()
   }
 
   const dataArray = prizes.map((prize) => {
-    const tickets = prize?.awardedBlock ? prize?.totalTicketSupply : prize?.ticketSupply
+    const prizeValue = prize.awardedControlledTokens.reduce(
+      (accumulator, currentValue) => accumulator.add(ethers.BigNumber.from(currentValue.amount)),
+      ethers.constants.Zero
+    )
 
-    const ticketsSold = ethers.utils.formatUnits(
-      tickets || '0',
+    const prizeValueFormatted = ethers.utils.formatUnits(
+      prizeValue || '0',
       decimals || DEFAULT_TOKEN_PRECISION
     )
 
     return {
-      value: parseFloat(ticketsSold),
+      value: parseFloat(prizeValueFormatted),
       date: fromUnixTime(prize.awardedTimestamp)
     }
   })
@@ -76,8 +71,10 @@ export const TicketsSoldGraph = (props) => {
 
   return (
     <DateValueLineGraph
-      id='tickets-sold-graph'
-      valueLabel={t('depositedTicker', { ticker: pool?.underlyingCollateralSymbol?.toUpperCase() })}
+      id='historic-prizes-graph'
+      valueLabel={t('prizeValueLabel', {
+        tokenSymbol: pool?.underlyingCollateralSymbol?.toUpperCase()
+      })}
       data={[dataArray]}
     />
   )

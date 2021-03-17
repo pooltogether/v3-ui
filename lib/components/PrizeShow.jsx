@@ -79,21 +79,23 @@ export function PrizeShow(props) {
         basePath={`/prizes/${poolSymbol}/${prizeNumber}`}
       />
 
-      <CardGrid
-        cardGroupId='prize-cards'
-        cards={[
-          {
-            noMinHeight: true,
-            icon: TicketsIcon,
-            title: t('depositedAmount'),
-            content: (
-              <h3>
-                {numberWithCommas(ticketSupply, { decimals })} {ticker}
-              </h3>
-            )
-          }
-        ]}
-      />
+      <div className='-mt-10 sm:-mt-8'>
+        <CardGrid
+          cardGroupId='prize-cards'
+          cards={[
+            {
+              noMinHeight: true,
+              icon: TicketsIcon,
+              title: t('depositedAmount'),
+              content: (
+                <h3>
+                  {numberWithCommas(ticketSupply, { decimals })} {ticker}
+                </h3>
+              )
+            }
+          ]}
+        />
+      </div>
 
       <PrizePlayersQuery
         pool={postAwardTimeTravelPool}

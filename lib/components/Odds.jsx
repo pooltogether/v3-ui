@@ -1,5 +1,6 @@
 import React from 'react'
 import { ethers } from 'ethers'
+import classnames from 'classnames'
 
 import { useTranslation } from 'lib/../i18n'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
@@ -21,7 +22,8 @@ export function Odds(props) {
     altSplitLines,
     style,
     timeTravelTicketSupply,
-    usersBalance
+    usersBalance,
+    textFlashy
   } = props
 
   let { additionalAmount } = props
@@ -89,19 +91,31 @@ export function Odds(props) {
     content = (
       <>
         {label} {splitLines && <br />}
-        <span className={`${font} mt-1 font-bold text-flashy`}>1</span>
+        <span
+          className={classnames(`${font} mt-1 font-bold`, {
+            'text-flashy': textFlashy
+          })}
+        >
+          1
+        </span>
         {altSplitLines ? (
           <>
-            <div className='inline-block xs:block ml-1 xs:ml-0 -mt-1 text-xs sm:text-sm text-flashy'>
+            <div
+              className={classnames('inline-block xs:block ml-1 xs:ml-0 -mt-1 text-xs sm:text-sm', {
+                'text-flashy': textFlashy
+              })}
+            >
               {t('in')} {totalOdds}
             </div>
           </>
         ) : (
-          <span className='text-flashy'>
+          <span className={classnames({ 'text-flashy': textFlashy })}>
             &nbsp;{t('in')} {totalOdds}
           </span>
         )}{' '}
-        <span className='text-flashy'>{sayEveryWeek && t('everyWeek')}</span>
+        <span className={classnames({ 'text-flashy': textFlashy })}>
+          {sayEveryWeek && t('everyWeek')}
+        </span>
       </>
     )
   }
@@ -125,4 +139,8 @@ export function Odds(props) {
       </div>
     )
   }
+}
+
+Odds.defaultProps = {
+  textFlashy: true
 }

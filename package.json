@@ -125,6 +125,7 @@
     "react-table": "^7.5.0",
     "react-test-renderer": "16.13.1",
     "react-toastify": "^6.0.8",
+    "react-tooltip": "^4.2.15",
     "react-wizard-primitive": "^2.4.0",
     "request": "2.88.2",
     "rollup": "2.17.1",

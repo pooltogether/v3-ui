@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
@@ -7,11 +7,10 @@ import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxD
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
-import { LootBoxValue } from 'lib/components/LootBoxValue'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-import GiftIcon from 'assets/images/icon-gift@2x.png'
+import { Card, CardDetailsList } from 'lib/components/Card'
 
 export const LootBoxTable = (props) => {
   const { basePath, historical, pool } = props
@@ -23,7 +22,7 @@ export const LootBoxTable = (props) => {
 
   const [moreVisible, setMoreVisible] = useState(false)
 
-  const { awards: lootBoxAwards, lootBoxIsFetching, computedLootBoxAddress } = pool.lootBox
+  const { awards: lootBoxAwards, lootBoxIsFetched, computedLootBoxAddress } = pool.lootBox
 
   const originalAwardsCount = lootBoxAwards?.length
   let awards = []
@@ -44,108 +43,102 @@ export const LootBoxTable = (props) => {
   }
 
   return (
-    <>
-      <div
-        id='loot-box-table'
-        className='non-interactable-card my-6 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'
-      >
-        <div className='text-caption uppercase mb-3'>
-          <img src={GiftIcon} className='inline-block mr-2 card-icon' /> {t('lootBox')}
+    <Card>
+      <h5 className='font-normal'>{t('lootBox')}</h5>
+
+      <div className='flex flex-col sm:flex-row justify-between sm:items-center mb-4'>
+        <div>
+          {awards.length === 0 && !lootBoxIsFetched ? null : (
+            <h3>
+              $
+              <PoolNumber>
+                {numberWithCommas(pool.externalAwardsUSD || '0', { precision: 2 })}
+              </PoolNumber>
+            </h3>
+          )}
         </div>
 
-        <div className='flex flex-col sm:flex-row justify-between sm:items-center'>
-          <div>
-            {awards.length === 0 && !lootBoxIsFetching ? (
-              <>{/* {historical ? t('noOtherPrizesAwarded') : t('currentlyNoOtherPrizes')} */}</>
-            ) : (
-              <LootBoxValue awards={lootBoxAwards} />
-            )}
-          </div>
-
-          {!historical && <ContributeToLootBoxDropdown pool={pool} />}
-        </div>
-
-        {awards.length > 0 && (
-          <>
-            <div className='xs:bg-primary theme-light--no-gutter text-inverse rounded-lg p-0 xs:p-3 sm:pl-4 sm:pr-12 lg:pr-4 mt-4'>
-              <table className='table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'>
-                <thead>
-                  <tr style={{ background: 'none' }}>
-                    <th className='w-6/12'>
-                      <h6 className='text-green text-left'>
-                        {t('amountTokens', {
-                          amount: originalAwardsCount
-                        })}
-                      </h6>
-                    </th>
-                    <th className='w-4/12'></th>
-                    <th className='w-2/12 sm:w-1/12'></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {awards.map((award, index) => {
-                    const name = award.name
-
-                    if (!name) {
-                      return
-                    }
-
-                    return (
-                      <Fragment key={`${award.address}-${index}`}>
-                        <tr>
-                          <td className='flex items-center text-left font-bold'>
-                            <Erc20Image address={award.address} />{' '}
-                            <EtherscanAddressLink
-                              address={award.address}
-                              className='text-inverse truncate'
-                            >
-                              {name}
-                            </EtherscanAddressLink>
-                          </td>
-                          <td className='text-left text-accent-1 truncate'>
-                            <PoolNumber>{numberWithCommas(award.balanceFormatted)}</PoolNumber>{' '}
-                            {award.symbol}
-                          </td>
-                          <td className='font-bold text-right'>
-                            {award.value && `$${numberWithCommas(award.value, { precision: 2 })}`}
-                          </td>
-                        </tr>
-                      </Fragment>
-                    )
-                  })}
-                </tbody>
-              </table>
-
-              {originalAwardsCount > 10 && (
-                <>
-                  <div className='text-center'>
-                    <motion.button
-                      border='none'
-                      onClick={handleShowMore}
-                      className='mt-6 mb-3 underline font-bold text-xxs xs:text-base sm:text-lg text-center'
-                      animate={moreVisible ? 'exit' : 'enter'}
-                      initial='enter'
-                      transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
-                      variants={{
-                        enter: {
-                          opacity: 1,
-                          y: 0
-                        },
-                        exit: {
-                          y: -10,
-                          opacity: 0
-                        }
-                      }}
-                    >
-                      {t('showMore')}
-                    </motion.button>
-                  </div>
-                </>
-              )}
-            </div>
-          </>
-        )}
+        {!historical && <ContributeToLootBoxDropdown pool={pool} />}
       </div>
-    </>
+
+      {awards.length === 0 && (
+        <CardDetailsList>
+          <span className='text-accent-1 text-xs xs:text-base'>
+            {t('beTheFirstToAddToLootbox')}
+          </span>
+        </CardDetailsList>
+      )}
+
+      {awards.length > 0 && (
+        <CardDetailsList>
+          <h6 className='text-green mb-4'>
+            {t('amountTokens', {
+              amount: originalAwardsCount
+            })}
+          </h6>
+          {awards.map((award) => (
+            <AwardRow key={award?.address} award={award} />
+          ))}
+          {originalAwardsCount > 10 && (
+            <div className='text-right'>
+              <motion.button
+                border='none'
+                onClick={handleShowMore}
+                className='mt-6 mb-3 underline text-xxs xs:text-base sm:text-lg text-accent-1'
+                animate={moreVisible ? 'exit' : 'enter'}
+                initial='enter'
+                transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
+                variants={{
+                  enter: {
+                    opacity: 1,
+                    y: 0
+                  },
+                  exit: {
+                    y: -10,
+                    opacity: 0
+                  }
+                }}
+              >
+                {t('showMore')}
+              </motion.button>
+            </div>
+          )}
+        </CardDetailsList>
+      )}
+    </Card>
+  )
+}
+
+const AwardRow = (props) => {
+  const { award } = props
+
+  const name = award.name
+
+  if (!name) {
+    return
+  }
+
+  return (
+    <li className='w-full flex text-xxs sm:text-base mb-2 last:mb-0'>
+      <span className='flex w-1/3 items-center text-left'>
+        <Erc20Image address={award.address} />{' '}
+        <EtherscanAddressLink address={award.address} className='truncate text-accent-1'>
+          {name}
+        </EtherscanAddressLink>
+      </span>
+      <span className='w-1/3 sm:pl-6 text-right text-accent-1 truncate'>
+        <PoolNumber>{numberWithCommas(award.balanceFormatted, { precision: 2 })}</PoolNumber>{' '}
+        {award.symbol}
+      </span>
+      <span className='w-1/3 text-right'>
+        {award.value ? (
+          <span>
+            $<PoolNumber>{numberWithCommas(award.value, { precision: 2 })}</PoolNumber>
+          </span>
+        ) : (
+          <span className='text-accent-1 opacity-40'>$ --</span>
+        )}
+      </span>
+    </li>
   )
 }

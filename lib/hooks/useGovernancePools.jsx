@@ -1,5 +1,4 @@
 import { useContext, useMemo } from 'react'
-import { isEmpty } from 'lodash'
 
 import { POOLS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
