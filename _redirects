@@ -1,6 +1,9 @@
 https://app.pooltogether.us     https://app.pooltogether.com         301!
 https://app.pooltogether.us/*   https://app.pooltogether.com         301!
 
+# Change P-0x396b44 to POOL-0x396b44 on Saturday night if/when vote is executed:
+/pools/P-0x396b44            /pools/PT-pPOOL                      301!
+
 /account                                /account.html                                200
 /account/pools/:symbol/manage-tickets   /account/pools/[symbol]/manage-tickets.html  200
 
