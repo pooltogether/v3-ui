@@ -82,7 +82,7 @@ const StatsModal = (props) => {
           <div className='flex'>
             <h5>{t('historicDeposits')}</h5>
             <Tooltip
-              id={'historic-prizes'}
+              id={'historic-deposits'}
               className='ml-2 my-auto text-accent-1'
               tip={t('historicDepositsInfo')}
             />
