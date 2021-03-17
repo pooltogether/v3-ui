@@ -17,14 +17,11 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { CommunityPoolDisclaimerModal } from 'lib/components/CommunityPoolDisclaimerModal'
 import { LootBoxTable } from 'lib/components/LootBoxTable'
 import { PoolShowLoader } from 'lib/components/PoolShowLoader'
-import { PoolShowCards } from 'lib/components/PoolShowCards'
 import { UpcomingPrizeBreakdownCard } from 'lib/components/UpcomingPrizeBreakdownCard'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Meta } from 'lib/components/Meta'
-import { PoolNumber } from 'lib/components/PoolNumber'
 import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
-import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
 import { Tagline } from 'lib/components/Tagline'
 import { usePool } from 'lib/hooks/usePool'
@@ -32,11 +29,11 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { translatedPoolName } from 'lib/utils/translatedPoolName'
 import { SablierStreamCard } from 'lib/components/SablierStreamCard'
 import { PoolPrizeCard } from 'lib/components/PoolPrizeCard'
 import { PoolStats } from 'lib/components/PoolStats'
+import { PastWinnersCard } from 'lib/components/PastWinnersCard'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -114,50 +111,46 @@ export const PoolShow = (props) => {
           }
         }}
       >
-        <>
-          <div className='flex flex-col xs:flex-row justify-between xs:items-center'>
-            <div className='flex justify-between items-center xs:w-1/2'>
-              <PageTitleAndBreadcrumbs
-                title={translatedPoolName(t, pool?.name)}
-                pool={pool}
-                breadcrumbs={[
-                  {
-                    href: '/',
-                    as: '/',
-                    name: t('pools')
-                  },
-                  {
-                    name: translatedPoolName(t, pool?.name)
-                  }
-                ]}
-              />
-            </div>
-
-            <div className='flex xs:w-1/2 xs:justify-end items-start mt-4 xs:mt-0'>
-              <Button
-                id='_getTickets'
-                width='w-full xs:w-9/12 sm:w-8/12 lg:w-6/12'
-                textSize='lg'
-                onClick={handleGetTicketsClick}
-                disabled={!Boolean(pool?.symbol)}
-              >
-                {t('deposit')}
-              </Button>
-            </div>
+        <div className='flex flex-col xs:flex-row justify-between xs:items-center'>
+          <div className='flex justify-between items-center xs:w-1/2'>
+            <PageTitleAndBreadcrumbs
+              title={translatedPoolName(t, pool?.name)}
+              pool={pool}
+              breadcrumbs={[
+                {
+                  href: '/',
+                  as: '/',
+                  name: t('pools')
+                },
+                {
+                  name: translatedPoolName(t, pool?.name)
+                }
+              ]}
+            />
           </div>
 
-          <PoolPrizeCard pool={pool} />
+          <div className='flex xs:w-1/2 xs:justify-end items-start mt-4 xs:mt-0'>
+            <Button
+              id='_getTickets'
+              width='w-full xs:w-9/12 sm:w-8/12 lg:w-6/12'
+              textSize='lg'
+              onClick={handleGetTicketsClick}
+              disabled={!Boolean(pool?.symbol)}
+            >
+              {t('deposit')}
+            </Button>
+          </div>
+        </div>
 
-          <UpcomingPrizeBreakdownCard />
+        <PoolPrizeCard pool={pool} />
 
-          <LootBoxTable pool={pool} basePath={`/pools/${pool?.symbol}`} />
+        <UpcomingPrizeBreakdownCard />
 
-          <SablierStreamCard pool={pool} />
+        <LootBoxTable pool={pool} basePath={`/pools/${pool?.symbol}`} />
 
-          <PoolStats pool={pool} />
+        <SablierStreamCard pool={pool} />
 
-          <PoolShowCards pool={pool} />
-        </>
+        <PoolStats pool={pool} />
 
         <PrizePlayersQuery pool={pool} blockNumber={-1}>
           {({ data, isFetching, isFetched }) => {
@@ -173,6 +166,8 @@ export const PoolShow = (props) => {
             )
           }}
         </PrizePlayersQuery>
+
+        <PastWinnersCard pool={pool} />
 
         <div className='flex flex-col items-center justify-center mt-20'>
           {walletName === 'MetaMask' && (

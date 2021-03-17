@@ -32,9 +32,7 @@ export const PrizePlayerListing = (props) => {
       id='player-listings-table'
       className='non-interactable-card mt-2 sm:mt-10 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
-      <div className='text-caption uppercase mb-3'>
-        <img src={PlayersIcon} className='inline-block mr-2 card-icon' /> {t('players')}
-      </div>
+      <h5 className='font-normal'>{t('players')}</h5>
       <h3>{numberWithCommas(pool?.playerCount || 0, { precision: 0 })}</h3>
 
       {balances?.length === 0 && <>{t('noPlayers')}</>}

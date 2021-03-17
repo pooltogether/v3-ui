@@ -1,4 +1,5 @@
 import React from 'react'
+import FeatherIcon from 'feather-icons-react'
 
 import { useTranslation } from 'lib/../i18n'
 import { ethers } from 'ethers'
@@ -9,6 +10,7 @@ import { DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
 import { useTokenFaucetAPY } from 'lib/hooks/useTokenFaucetAPY'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { useTokenFaucetDripRate } from 'lib/hooks/useTokenFaucetDripRate'
+import { Tooltip } from 'lib/components/Tooltip'
 
 export const PoolStats = (props) => {
   const { pool } = props
@@ -39,22 +41,29 @@ const StatsList = (props) => {
   const { pool } = props
 
   return (
-    <div className='flex flex-col'>
+    <>
       <DepositsStat pool={pool} />
       <SponsorshipStat pool={pool} />
       <ReserveStat pool={pool} />
       <ReserveRateStat pool={pool} />
       <YieldSourceStat pool={pool} />
       <AprStats pool={pool} />
-    </div>
+    </>
   )
 }
 
+// Generic stat component
+
 const Stat = (props) => {
-  const { title, tokenSymbol, tokenAmount, value, percent } = props
+  const { title, tokenSymbol, tokenAmount, value, percent, tooltip } = props
   return (
-    <div className='flex justify-between text-sm xs:text-base sm:text-lg mb-4 last:mb-0 xs:mx-4'>
-      <span className='text-accent-1'>{title}:</span>
+    <li className='flex justify-between mb-2 last:mb-0 xs:mx-4'>
+      <span className='text-accent-1 flex'>
+        {title}:{' '}
+        {tooltip && (
+          <Tooltip id={`${title}`} className='ml-2 my-auto text-accent-1' tip={tooltip} />
+        )}
+      </span>
       {value && <span>{value}</span>}
       {tokenSymbol && tokenAmount && (
         <span>
@@ -63,7 +72,7 @@ const Stat = (props) => {
         </span>
       )}
       {percent && <span>{displayPercentage(percent)}%</span>}
-    </div>
+    </li>
   )
 }
 
@@ -100,6 +109,8 @@ const ReserveStat = (props) => {
       title='Reserve'
       tokenSymbol={pool.underlyingCollateralSymbol}
       tokenAmount={reserveAmount}
+      // TODO: Get better tooltips from leighton
+      tooltip='Governance controlled funds contributing interest to the prize without being eligible to win'
     />
   )
 }
@@ -110,12 +121,19 @@ const ReserveRateStat = (props) => {
   const reserveRatePercentage = pool.reserveRate.mul(100)
   const reserveRate = ethers.utils.formatUnits(reserveRatePercentage, DEFAULT_TOKEN_PRECISION)
 
-  return <Stat title='Reserve rate' percent={reserveRate} />
+  return (
+    <Stat
+      title='Reserve rate'
+      percent={reserveRate}
+      tooltip='Percent of each prize deposited into reserve'
+    />
+  )
 }
 
 const YieldSourceStat = (props) => {
   const { pool } = props
 
+  // TODO: Update `isStakePrizePool` across the app to support any yield source
   const yeildSource = pool.isStakePrizePool ? 'Stake' : 'Compound Finance'
 
   return <Stat title='Yield source' value={yeildSource} />
@@ -135,6 +153,7 @@ const SponsorshipStat = (props) => {
       title='Sponsorship'
       tokenSymbol={pool.underlyingCollateralSymbol}
       tokenAmount={sponsorshipDepositsFormatted}
+      tooltip='Deposited funds contributing interest to the prize without being eligible to win'
     />
   )
 }
@@ -143,6 +162,8 @@ const SponsorshipStat = (props) => {
 
 const AprStats = (props) => {
   const { pool } = props
+
+  // TODO: hardcode reserve rate for dai pool
 
   const apy = useTokenFaucetAPY(pool)
 
@@ -173,19 +194,25 @@ const DailyPoolDistributionStat = (props) => {
 
 const EffectiveAprStat = (props) => {
   const { apy } = props
-  return <Stat title='Effective APR' percent={apy} />
+  return (
+    <Stat
+      title='Effective APR'
+      percent={apy}
+      tooltip='Current APR of deposited funds based on value of POOL tokens received'
+    />
+  )
 }
 
 // Cards
 
 const Card = (props) => (
-  <div className='non-interactable-card my-6 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'>
+  <div className='non-interactable-card my-10 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'>
     {props.children}
   </div>
 )
 
 const CardDetails = (props) => (
-  <div className='xs:bg-primary theme-light--no-gutter text-inverse rounded-lg p-0 sm:px-4 sm:py-8 mt-4'>
+  <ul className='xs:bg-primary theme-light--no-gutter text-inverse rounded-lg p-0 xs:px-4 xs:py-8 mt-4 flex flex-col text-xs xs:text-base sm:text-lg'>
     {props.children}
-  </div>
+  </ul>
 )

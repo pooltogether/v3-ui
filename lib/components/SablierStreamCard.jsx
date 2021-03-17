@@ -37,12 +37,9 @@ export const SablierStreamCard = (props) => {
   return (
     <div
       id='sablier-card'
-      className='non-interactable-card my-6 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'
+      className='non-interactable-card my-10 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
-      <div className='text-caption uppercase mb-3 text-inverse'>
-        <img src={SablierSvg} className='fill-current text-inverse inline-block mr-2 card-icon' />
-        Sablier stream
-      </div>
+      <h3 className='mb-4'>Sablier stream</h3>
 
       <div className='flex'>
         <Erc20Image address={tokenAddress} className='my-auto' />

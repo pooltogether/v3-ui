@@ -14,7 +14,7 @@ import { shorten } from 'lib/utils/shorten'
 const playerLink = (t, player) => {
   return (
     <Link href='/players/[playerAddress]' as={`/players/${player?.account?.id}`} shallow>
-      <a className='trans'>{t('viewPlayerInfo')}</a>
+      <a className='trans text-accent-1 underline'>{t('viewPlayerInfo')}</a>
     </Link>
   )
 }
@@ -41,7 +41,12 @@ const formatPlayerObject = (t, pool, player, winners) => {
     ),
     address,
     odds: (
-      <Odds timeTravelTicketSupply={pool.ticketSupply} pool={pool} usersBalance={player.balance} />
+      <Odds
+        textFlashy={false}
+        timeTravelTicketSupply={pool.ticketSupply}
+        pool={pool}
+        usersBalance={player.balance}
+      />
     ),
     view: playerLink(t, player)
   }
