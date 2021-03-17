@@ -36,6 +36,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { translatedPoolName } from 'lib/utils/translatedPoolName'
 import { SablierStreamCard } from 'lib/components/SablierStreamCard'
 import { PoolPrizeCard } from 'lib/components/PoolPrizeCard'
+import { PoolStats } from 'lib/components/PoolStats'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -153,7 +154,7 @@ export const PoolShow = (props) => {
 
           <SablierStreamCard pool={pool} />
 
-          <h6 className='text-accent-1 mt-8 mb-0 sm:t-4 relative'>{t('prizePoolStats')}</h6>
+          <PoolStats pool={pool} />
 
           <PoolShowCards pool={pool} />
         </>
