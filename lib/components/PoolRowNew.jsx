@@ -9,7 +9,7 @@ import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
-import { useTokenFaucetAPY } from 'lib/hooks/useTokenFaucetAPY'
+import { useTokenFaucetAPR } from 'lib/hooks/useTokenFaucetAPR'
 import { usePool } from 'lib/hooks/usePool'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 
@@ -46,13 +46,13 @@ export const PoolRowNew = (props) => {
     </button>
   )
 
-  const ApyChip = () => (
+  const AprChip = () => (
     <div className='text-xxxs text-accent-1 flex items-center'>
-      <img src={PoolIcon} className='inline-block mr-2 w-4' /> {displayPercentage(apy)}% APY
+      <img src={PoolIcon} className='inline-block mr-2 w-4' /> {displayPercentage(apr)}% APR
     </div>
   )
 
-  const apy = useTokenFaucetAPY(pool)
+  const apr = useTokenFaucetAPR(pool)
 
   return (
     <>
@@ -99,14 +99,14 @@ export const PoolRowNew = (props) => {
             </Button>
 
             <div className='flex items-center justify-between mt-3 w-full'>
-              <div className='hidden sm:flex'>{apy && <ApyChip />}</div>
+              <div className='hidden sm:flex'>{apr && <AprChip />}</div>
 
               <span className='relative hidden sm:inline-block'>
                 <ViewPoolDetailsButton />
               </span>
             </div>
 
-            <span className='mt-1 relative sm:hidden'>{apy && <ApyChip />}</span>
+            <span className='mt-1 relative sm:hidden'>{apr && <AprChip />}</span>
             <div className='sm:hidden mt-1'>
               <ViewPoolDetailsButton />
             </div>

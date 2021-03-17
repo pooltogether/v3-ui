@@ -25,7 +25,7 @@ import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { usePool } from 'lib/hooks/usePool'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { useTokenFaucetAPY } from 'lib/hooks/useTokenFaucetAPY'
+import { useTokenFaucetAPR } from 'lib/hooks/useTokenFaucetAPR'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -281,7 +281,7 @@ const ClaimablePoolTokenItem = (props) => {
     precision: getPrecision(totalDripPerDay)
   })
 
-  const apy = useTokenFaucetAPY(poolInfo)
+  const apr = useTokenFaucetAPR(poolInfo)
 
   const [isSelf] = useAtom(isSelfAtom)
 
@@ -307,7 +307,7 @@ const ClaimablePoolTokenItem = (props) => {
             />{' '}
             POOL / <span className='lowercase'>{t('day')}</span>
             <br />
-            {displayPercentage(apy)}% APY
+            {displayPercentage(apr)}% APR
           </div>
         </div>
       </div>
