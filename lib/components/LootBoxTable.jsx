@@ -69,34 +69,31 @@ export const LootBoxTable = (props) => {
           {awards.map((award) => (
             <AwardRow award={award} />
           ))}
+          {originalAwardsCount > 10 && (
+            <div className='text-right'>
+              <motion.button
+                border='none'
+                onClick={handleShowMore}
+                className='mt-6 mb-3 underline text-xxs xs:text-base sm:text-lg text-accent-1'
+                animate={moreVisible ? 'exit' : 'enter'}
+                initial='enter'
+                transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
+                variants={{
+                  enter: {
+                    opacity: 1,
+                    y: 0
+                  },
+                  exit: {
+                    y: -10,
+                    opacity: 0
+                  }
+                }}
+              >
+                {t('showMore')}
+              </motion.button>
+            </div>
+          )}
         </CardDetails>
-      )}
-
-      {originalAwardsCount > 10 && (
-        <>
-          <div className='text-center'>
-            <motion.button
-              border='none'
-              onClick={handleShowMore}
-              className='mt-6 mb-3 underline font-bold text-xxs xs:text-base sm:text-lg text-center'
-              animate={moreVisible ? 'exit' : 'enter'}
-              initial='enter'
-              transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
-              variants={{
-                enter: {
-                  opacity: 1,
-                  y: 0
-                },
-                exit: {
-                  y: -10,
-                  opacity: 0
-                }
-              }}
-            >
-              {t('showMore')}
-            </motion.button>
-          </div>
-        </>
       )}
     </Card>
   )
@@ -113,9 +110,9 @@ const AwardRow = (props) => {
 
   return (
     <li className='w-full flex text-xxs sm:text-base mb-2 last:mb-0'>
-      <span className='flex w-1/3 items-center text-left font-bold'>
+      <span className='flex w-1/3 items-center text-left'>
         <Erc20Image address={award.address} />{' '}
-        <EtherscanAddressLink address={award.address} className='text-inverse truncate'>
+        <EtherscanAddressLink address={award.address} className='truncate text-accent-1'>
           {name}
         </EtherscanAddressLink>
       </span>
@@ -124,7 +121,13 @@ const AwardRow = (props) => {
         {award.symbol}
       </span>
       <span className='w-1/3 text-right'>
-        $<PoolNumber>{numberWithCommas(award.value || 0, { precision: 2 })}</PoolNumber>
+        {award.value ? (
+          <span>
+            $<PoolNumber>{numberWithCommas(award.value, { precision: 2 })}</PoolNumber>
+          </span>
+        ) : (
+          <span className='text-accent-1 opacity-40'>$ --</span>
+        )}
       </span>
     </li>
   )
@@ -134,7 +137,7 @@ const AwardRow = (props) => {
 
 const Card = (props) => (
   <div
-    className='non-interactable-card my-6 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'
+    className='non-interactable-card my-10 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     id='loot-box-table'
   >
     {props.children}

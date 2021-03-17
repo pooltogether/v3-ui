@@ -78,7 +78,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
         {computedLootBoxAddress && (
           <>
             <div className='w-full xs:w-2/12 text-center -mt-2 xs:mt-24 mb-2 xs:mb-0 xs:pt-3 text-5xl font-bold leading-none'>
-              +
+              {` + `}
             </div>
 
             <div className='flex flex-col items-center justify-center text-center w-full xs:w-5/12 h-56 xs:h-64'>
@@ -116,7 +116,9 @@ export const UpcomingPrizeBreakdownCard = (props) => {
               </span>
               {!pool?.splitExternalErc20Awards && Boolean(pool?.externalAwardsUSD) && (
                 <span>
-                  {ticketPrizePerWinnerFormatted && pool?.externalAwardsUSD && ` + `}
+                  {ticketPrizePerWinnerFormatted && pool?.externalAwardsUSD && (
+                    <span className='mx-1'>+</span>
+                  )}
                   {pool?.externalAwardsUSD && (
                     <span>
                       $
@@ -151,7 +153,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
 }
 
 const Card = (props) => (
-  <div className='non-interactable-card my-10 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'>
+  <div className='non-interactable-card my-6 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'>
     {props.children}
   </div>
 )

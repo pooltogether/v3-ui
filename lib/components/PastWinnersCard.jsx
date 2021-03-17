@@ -10,6 +10,7 @@ import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPri
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { PoolNumber } from 'lib/components/PoolNumber'
 
 export const PastWinnersCard = (props) => {
   const { t } = useTranslation()
@@ -69,7 +70,7 @@ export const PastWinnersCard = (props) => {
         <div className='w-full flex mb-4'>
           <span className='w-1/3'>{t('currentPrize')}</span>
           <span className='w-1/3 text-right text-flashy'>
-            ${numberWithCommas(pool?.totalPrizeAmountUSD)}
+            ${numberWithCommas(pool?.totalPrizeAmountUSD, { precision: 2 })}
           </span>
         </div>
 
@@ -121,7 +122,9 @@ const PrizeRow = (props) => {
   return (
     <li className='w-full flex mb-2 last:mb-0'>
       <span className='w-1/3'>{date}</span>
-      <span className='w-1/3 text-right'>${numberWithCommas(totalPrizeAmountUSD)}</span>
+      <span className='w-1/3 text-right'>
+        $<PoolNumber>{numberWithCommas(totalPrizeAmountUSD, { precision: 2 })}</PoolNumber>
+      </span>
       <span className='w-1/3 text-right'>
         <Link
           key={`last-winners-${prizeNumber}`}
