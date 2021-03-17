@@ -1,24 +1,16 @@
 import React, { useContext, useState } from 'react'
-import Cookies from 'js-cookie'
 import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
 import { Dialog } from '@reach/dialog'
 
 import { useTranslation } from 'lib/../i18n'
-import {
-  CONTRACT_ADDRESSES,
-  COOKIE_OPTIONS,
-  WIZARD_REFERRER_HREF,
-  WIZARD_REFERRER_AS_PATH
-} from 'lib/constants'
+import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { useCoingeckoTokenInfoQuery } from 'lib/hooks/useCoingeckoTokenInfoQuery'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 import Squiggle from 'assets/images/squiggle.svg'
 import PoolIcon from 'assets/images/pool-icon.svg'
@@ -73,17 +65,6 @@ const PoolBalanceModal = (props) => {
   const { data: tokenInfo } = useCoingeckoTokenInfoQuery(tokenAddress)
   const formattedInCirculation = numberWithCommas(tokenInfo?.market_data?.circulating_supply)
 
-  const openClaimRetro = (e) => {
-    e.preventDefault()
-
-    Cookies.set(WIZARD_REFERRER_HREF, window.location.pathname, COOKIE_OPTIONS)
-    Cookies.set(WIZARD_REFERRER_AS_PATH, window.location.pathname, COOKIE_OPTIONS)
-
-    queryParamUpdater.add(router, { claim: '1', address: usersAddress })
-
-    closeModal()
-  }
-
   const openClaimRewards = (e) => {
     closeModal()
   }
@@ -130,9 +111,6 @@ const PoolBalanceModal = (props) => {
           </div>
         </div>
 
-        <Button textSize='xxxs' width='w-full' className='mt-4' onClick={openClaimRetro}>
-          {t('claimRetro')}
-        </Button>
         <ButtonLink
           textSize='xxxs'
           onClick={openClaimRewards}
@@ -141,7 +119,7 @@ const PoolBalanceModal = (props) => {
           width='w-full'
           className='mt-4'
         >
-          {t('claimRewards')}
+          {t('claimPool')}
         </ButtonLink>
         <ButtonLink
           textSize='xxxs'
