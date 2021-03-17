@@ -77,7 +77,7 @@ export const LootBoxTable = (props) => {
             })}
           </h6>
           {awards.map((award) => (
-            <AwardRow award={award} />
+            <AwardRow key={award?.address} award={award} />
           ))}
           {originalAwardsCount > 10 && (
             <div className='text-right'>

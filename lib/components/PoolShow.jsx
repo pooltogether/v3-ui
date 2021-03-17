@@ -31,6 +31,7 @@ import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 import { translatedPoolName } from 'lib/utils/translatedPoolName'
 import { SablierStreamCard } from 'lib/components/SablierStreamCard'
+import { PoolCharts } from 'lib/components/PoolCharts'
 import { PoolPrizeCard } from 'lib/components/PoolPrizeCard'
 import { PoolStats } from 'lib/components/PoolStats'
 import { PastWinnersCard } from 'lib/components/PastWinnersCard'
@@ -152,6 +153,10 @@ export const PoolShow = (props) => {
 
         <PoolStats pool={pool} />
 
+        {/* <PoolCharts pool={pool} /> */}
+
+        <PastWinnersCard pool={pool} />
+
         <PrizePlayersQuery pool={pool} blockNumber={-1}>
           {({ data, isFetching, isFetched }) => {
             return (
@@ -166,8 +171,6 @@ export const PoolShow = (props) => {
             )
           }}
         </PrizePlayersQuery>
-
-        <PastWinnersCard pool={pool} />
 
         <div className='flex flex-col items-center justify-center mt-20'>
           {walletName === 'MetaMask' && (

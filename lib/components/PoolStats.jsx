@@ -1,26 +1,23 @@
-import React, { useState } from 'react'
-import FeatherIcon from 'feather-icons-react'
+import React from 'react'
+import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
-import { ethers } from 'ethers'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
-import { DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
-import { useTokenFaucetAPR } from 'lib/hooks/useTokenFaucetAPR'
-import { displayPercentage } from 'lib/utils/displayPercentage'
 import { Tooltip } from 'lib/components/Tooltip'
+import { useTokenFaucetAPR } from 'lib/hooks/useTokenFaucetAPR'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { useTokenFaucetData } from 'lib/hooks/useTokenFaucetData'
-import Dialog from '@reach/dialog'
-import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
-import { PrizeValueGraph } from 'lib/components/PrizeValueGraph'
+import { displayPercentage } from 'lib/utils/displayPercentage'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
+
+import CompSvg from 'assets/images/comp.svg'
 
 export const PoolStats = (props) => {
   const { pool } = props
 
   const { t } = useTranslation()
-  const [isOpen, setIsOpen] = useState(false)
 
   const loading =
     !pool.ticketToken || !pool.sponsorshipToken || !pool.reserveRegistry || !pool.reserveTotalSupply
@@ -39,84 +36,13 @@ export const PoolStats = (props) => {
       <Card>
         <div className='flex justify-between'>
           <h3>{t('poolsStats')}</h3>
-          <button className='text-accent-1' onClick={() => setIsOpen(true)}>
-            {t('showMore')}
-          </button>
         </div>
         <CardDetailsList>
           <StatsList {...props} />
         </CardDetailsList>
       </Card>
-      <StatsModal pool={pool} isOpen={isOpen} closeModal={() => setIsOpen(false)} />
     </>
   )
-}
-
-const StatsModal = (props) => {
-  const { pool, closeModal, isOpen } = props
-
-  const { t } = useTranslation()
-
-  const decimals = pool.underlyingCollateralDecimals
-  const totalDeposits = ethers.BigNumber.from(pool.ticketToken.totalSupply)
-  const totalDepositsFormatted = ethers.utils.formatUnits(totalDeposits, decimals)
-  const tokenSymbol = pool.underlyingCollateralSymbol
-  const currentPrize = pool.prizePool.captureAwardBalance[0]
-  const currentPrizeFormatted = ethers.utils.formatUnits(currentPrize, decimals)
-
-  return (
-    <Dialog aria-label='Pool Stats Modal' isOpen={isOpen} onDismiss={closeModal}>
-      <div className='text-inverse p-4 bg-card h-full sm:h-auto rounded-none sm:rounded-xl sm:max-w-lg mx-auto flex flex-col'>
-        <div className='flex'>
-          <button
-            className='my-auto ml-auto close-button trans text-inverse hover:opacity-30'
-            onClick={closeModal}
-          >
-            <FeatherIcon icon='x' className='w-6 h-6' />
-          </button>
-        </div>
-
-        <div className='mb-12'>
-          <div className='flex'>
-            <h5>{t('historicDeposits')}</h5>
-            <Tooltip
-              id={'historic-deposits'}
-              className='ml-2 my-auto text-accent-1'
-              tip={t('historicDepositsInfo')}
-            />
-          </div>
-          <span>{t('currentDeposits')}:</span>
-          <span className='ml-4'>
-            <PoolNumber>{numberWithCommas(totalDepositsFormatted, { precision: 2 })}</PoolNumber>
-            <span>{tokenSymbol}</span>
-          </span>
-          <TicketsSoldGraph pool={pool} renderEmptyState={() => <GraphEmptyState />} />
-        </div>
-
-        <div className='mb-8'>
-          <div className='flex'>
-            <h5>Historic Prizes </h5>
-            <Tooltip
-              id={'historic-prizes'}
-              className='ml-2 my-auto text-accent-1'
-              tip={t('historicPrizesInfo')}
-            />
-          </div>
-          <span>{t('currentPrize')}:</span>
-          <span className='ml-4'>
-            <PoolNumber>{numberWithCommas(currentPrizeFormatted, { precision: 2 })}</PoolNumber>
-            <span>{tokenSymbol}</span>
-          </span>
-          <PrizeValueGraph pool={pool} renderEmptyState={() => <GraphEmptyState />} />
-        </div>
-      </div>
-    </Dialog>
-  )
-}
-
-const GraphEmptyState = () => {
-  const { t } = useTranslation()
-  return <p className='mt-8 text-center text-accent-1 opacity-40'>{t('notEnoughData')}</p>
 }
 
 const StatsList = (props) => {
@@ -137,17 +63,22 @@ const StatsList = (props) => {
 // Generic stat component
 
 const Stat = (props) => {
-  const { title, tokenSymbol, tokenAmount, value, percent, tooltip } = props
+  const { title, tokenSymbol, sourceImage, tokenAmount, value, percent, tooltip } = props
+
   return (
-    <li className='flex justify-between mb-2 last:mb-0 xs:mx-4'>
+    <li className='flex justify-between mb-2 last:mb-0'>
       <span className='text-accent-1 flex'>
         {title}:{' '}
         {tooltip && <Tooltip id={title} className='ml-2 my-auto text-accent-1' tip={tooltip} />}
       </span>
-      {value && <span>{value}</span>}
+      {(sourceImage || value) && (
+        <span className='flex items-center'>
+          {sourceImage} {value && <span>{value}</span>}
+        </span>
+      )}
       {tokenSymbol && tokenAmount && (
         <span>
-          <PoolNumber>{numberWithCommas(tokenAmount, { precision: 2 })}</PoolNumber>
+          <PoolNumber>{numberWithCommas(tokenAmount)}</PoolNumber>
           <span>{tokenSymbol}</span>
         </span>
       )}
@@ -213,9 +144,14 @@ const YieldSourceStat = (props) => {
   const { pool } = props
 
   // TODO: Update `isStakePrizePool` across the app to support any yield source
-  const yeildSource = pool.isStakePrizePool ? 'Stake' : 'Compound Finance'
+  const yieldSource = pool.isStakePrizePool ? 'Stake' : 'Compound Finance'
 
-  return <Stat title='Yield source' value={yeildSource} />
+  let sourceImage
+  if (yieldSource === 'Compound Finance') {
+    sourceImage = <img src={CompSvg} className='w-6 mr-2' />
+  }
+
+  return <Stat title='Yield source' value={yieldSource} sourceImage={sourceImage} />
 }
 
 const SponsorshipStat = (props) => {
@@ -230,12 +166,14 @@ const SponsorshipStat = (props) => {
   )
 
   return (
-    <Stat
-      title={t('sponsorship')}
-      tokenSymbol={pool.underlyingCollateralSymbol}
-      tokenAmount={sponsorshipDepositsFormatted}
-      tooltip={t('sponsorshipInfo')}
-    />
+    <>
+      <Stat
+        title={t('sponsorship')}
+        tokenSymbol={pool.underlyingCollateralSymbol}
+        tokenAmount={sponsorshipDepositsFormatted}
+        tooltip={t('sponsorshipInfo')}
+      />
+    </>
   )
 }
 

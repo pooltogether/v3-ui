@@ -25,9 +25,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
     : 0
 
   const ticketPrizePerWinnerFormatted =
-    (pool?.ticketPrizePerWinnerUSD &&
-      `${numberWithCommas(pool?.ticketPrizePerWinnerUSD, { precision: 2 })}`) ||
-    '0'
+    (pool?.ticketPrizePerWinnerUSD && `${numberWithCommas(pool?.ticketPrizePerWinnerUSD)}`) || '0'
 
   const hasTicketPrize = Boolean(parseFloat(pool?.ticketPrizeUSD))
 
@@ -107,38 +105,32 @@ export const UpcomingPrizeBreakdownCard = (props) => {
 
       {hasTicketPrize && (
         <CardDetailsList>
-          <li className='flex justify-between xs:mx-4 mb-2'>
+          <li className='flex justify-between mb-2'>
             <span className='text-accent-1'>
               {computedLootBoxAddress ? t('grandPrize') : t('winner')}
             </span>
-            <span className='flex flex-col xs:flex-row text-center xs:text-left'>
-              <span>
-                $<PoolNumber>{ticketPrizePerWinnerFormatted}</PoolNumber>
-              </span>
+            <span className='flex flex-col xs:flex-row text-right xs:text-left'>
               {!pool?.splitExternalErc20Awards && Boolean(pool?.externalAwardsUSD) && (
                 <span>
-                  {ticketPrizePerWinnerFormatted && pool?.externalAwardsUSD && (
-                    <span className='mx-1'>+</span>
-                  )}
                   {pool?.externalAwardsUSD && (
                     <span>
-                      $
-                      <PoolNumber>
-                        {numberWithCommas(pool.externalAwardsUSD, { precision: 2 })}
-                      </PoolNumber>
+                      $<PoolNumber>{numberWithCommas(pool.externalAwardsUSD)}</PoolNumber>
                     </span>
                   )}
                   <span className='text-accent-1'>{t('lootBox')}</span>
+                  {ticketPrizePerWinnerFormatted && pool?.externalAwardsUSD && (
+                    <span className='mx-1'>+</span>
+                  )}
                 </span>
               )}
+              <span>
+                $<PoolNumber>{ticketPrizePerWinnerFormatted}</PoolNumber>
+              </span>
             </span>
           </li>
 
           {[...Array(numberOfWinnersMinusOne).keys()].map((index) => (
-            <li
-              key={`runner-up-row-${index}`}
-              className='flex justify-between mb-2 last:mb-0 xs:mx-4'
-            >
+            <li key={`runner-up-row-${index}`} className='flex justify-between mb-2 last:mb-0 '>
               <span className='text-accent-1'>
                 {computedLootBoxAddress ? t('runnerUp') : t('winner')}
               </span>

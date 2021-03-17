@@ -37,7 +37,7 @@ export const PastWinnersCard = (props) => {
         const date = formatDate(prize?.awardedTimestamp, {
           short: true,
           year: false,
-          noAbbrev: true
+          noTimezone: true
         })
 
         result.push({
@@ -65,9 +65,16 @@ export const PastWinnersCard = (props) => {
 
   return (
     <Card>
-      <h3 className='mb-4'>{t('pastFiveWinners')}</h3>
+      <div className='flex justify-between items-center'>
+        <h3 className='mb-4'>{t('pastFiveWinners')}</h3>
+        {pool?.symbol && (
+          <Link href='/prizes/[symbol]' as={`/prizes/${pool.symbol}`}>
+            <a className='text-accent-1'>{t('allPrizeHistory')}</a>
+          </Link>
+        )}
+      </div>
       <CardDetailsList>
-        <div className='w-full flex mb-4'>
+        <div className='w-full flex mb-6'>
           <span className='w-1/3'>{t('currentPrize')}</span>
           <span className='w-1/3 text-right text-flashy'>
             ${numberWithCommas(pool?.totalPrizeAmountUSD, { precision: 2 })}
@@ -86,7 +93,7 @@ export const PastWinnersCard = (props) => {
 
 const PrizesList = (props) => {
   const { prizes, pool } = props
-  const { splitExternalErc20Awards, awardedBlock, symbol, id } = pool
+  const { splitExternalErc20Awards, symbol, id } = pool
 
   return (
     <>
@@ -135,9 +142,7 @@ const PrizeRow = (props) => {
           href='/prizes/[symbol]/[prizeNumber]'
           as={`/prizes/${symbol}/${prizeNumber}`}
         >
-          <a className='trans underline text-accent-1 hover:text-inverse'>
-            {t('beTheFirstToAddToLootbox')}
-          </a>
+          <a className='trans underline text-accent-1 hover:text-inverse'>{t('viewPrize')}</a>
         </Link>
       </span>
     </li>

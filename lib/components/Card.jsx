@@ -11,7 +11,7 @@ export const Card = (props) => (
 
 export const CardDetailsList = (props) => (
   <ul
-    className='xs:bg-primary theme-light--no-gutter text-inverse rounded-lg p-0 xs:px-4 xs:py-8 mt-4 flex flex-col text-xs xs:text-base sm:text-lg'
+    className='xs:bg-primary theme-light--no-gutter text-inverse rounded-lg p-0 xs:px-4 sm:px-10 xs:py-8 mt-4 flex flex-col text-xs xs:text-base sm:text-lg'
     id={props.id}
   >
     {props.children}
