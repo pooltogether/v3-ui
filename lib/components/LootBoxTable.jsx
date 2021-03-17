@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
@@ -7,11 +7,9 @@ import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxD
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
-import { LootBoxValue } from 'lib/components/LootBoxValue'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-import GiftIcon from 'assets/images/icon-gift@2x.png'
 import { Card, CardDetailsList } from 'lib/components/Card'
 
 export const LootBoxTable = (props) => {
@@ -66,7 +64,7 @@ export const LootBoxTable = (props) => {
       {awards.length === 0 && (
         <CardDetailsList>
           <span className='text-accent-1 text-xs xs:text-base'>
-            Be the first to add to this prize's loot box!
+            {t('beTheFirstToAddToLootbox')}
           </span>
         </CardDetailsList>
       )}

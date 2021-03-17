@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { compact } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
-import { TableRowUILoader } from 'lib/components/TableRowUILoader'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
@@ -120,6 +119,10 @@ const PrizeRow = (props) => {
   const { date, prizeNumber } = prize
   const { symbol } = pool
 
+  const { t } = useTranslation()
+
+  // TODO: Add a link to historic winners page, does that work for all pools?
+
   return (
     <li className='w-full flex mb-2 last:mb-0'>
       <span className='w-1/3'>{date}</span>
@@ -132,7 +135,9 @@ const PrizeRow = (props) => {
           href='/prizes/[symbol]/[prizeNumber]'
           as={`/prizes/${symbol}/${prizeNumber}`}
         >
-          <a className='trans underline text-accent-1 hover:text-inverse'>View prize</a>
+          <a className='trans underline text-accent-1 hover:text-inverse'>
+            {t('beTheFirstToAddToLootbox')}
+          </a>
         </Link>
       </span>
     </li>

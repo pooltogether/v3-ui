@@ -28,8 +28,6 @@ export const PrizeValueGraph = (props) => {
 
   const decimals = pool?.underlyingCollateralDecimals
 
-  // console.log(prizes)
-
   if (!decimals || !prizes.length || !isFetched || prizes.length < MIN_NUMBER_OF_POINTS) {
     return null
   }
@@ -73,7 +71,9 @@ export const PrizeValueGraph = (props) => {
   return (
     <DateValueLineGraph
       id='historic-prizes-graph'
-      valueLabel={`Prize (${pool?.underlyingCollateralSymbol?.toUpperCase()})`}
+      valueLabel={t('prizeValueLabel', {
+        tokenSymbol: pool?.underlyingCollateralSymbol?.toUpperCase()
+      })}
       data={[dataArray]}
     />
   )
