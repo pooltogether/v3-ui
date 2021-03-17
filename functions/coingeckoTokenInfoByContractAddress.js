@@ -1,6 +1,6 @@
 import { axiosInstance } from '../lib/axiosInstance'
 
-exports.handler = async (event, context, callback) => {
+https: exports.handler = async (event, context, callback) => {
   const { address } = event.queryStringParameters
 
   const url = `https://api.coingecko.com/api/v3/coins/ethereum/contract/${address}`
@@ -12,13 +12,13 @@ exports.handler = async (event, context, callback) => {
       return {
         statusCode: 404,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ [address]: null })
+        body: JSON.stringify(null)
       }
     } else if (response && response.status < 400) {
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ [address]: { image: response.data.image } })
+        body: JSON.stringify(response.data)
       }
     } else {
       return {

@@ -124,7 +124,7 @@ const getTextSize = (size) => {
 }
 
 export function ButtonLink(props) {
-  let { children, as, href } = props
+  let { children, as, href, onClick } = props
 
   const classes = getButtonClasses(props)
 
@@ -132,7 +132,16 @@ export function ButtonLink(props) {
 
   return (
     <Link href={href} as={as} scroll={false}>
-      <a {...linkProps} className={classes} onClick={(e) => e.stopPropagation()}>
+      <a
+        {...linkProps}
+        className={classes}
+        onClick={(e) => {
+          e.stopPropagation()
+          if (onClick) {
+            onClick()
+          }
+        }}
+      >
         {children}
       </a>
     </Link>

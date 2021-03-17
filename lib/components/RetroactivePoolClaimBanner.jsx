@@ -10,8 +10,6 @@ import { Button } from 'lib/components/Button'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
-import Bell from 'assets/images/bell@2x.png'
-
 export const RetroactivePoolClaimBanner = (props) => {
   const { t } = useTranslation()
 
