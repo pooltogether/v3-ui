@@ -1,12 +1,12 @@
 import React, { Fragment, useContext } from 'react'
-import ParentSize from '@vx/responsive/lib/components/ParentSize'
-import { localPoint } from '@vx/event'
-import { Group } from '@vx/group'
-import { LinePath } from '@vx/shape'
-import { useTooltip, useTooltipInPortal } from '@vx/tooltip'
-import { scaleTime, scaleLinear } from '@vx/scale'
+import ParentSize from '@visx/responsive/lib/components/ParentSize'
+import { localPoint } from '@visx/event'
+import { Group } from '@visx/group'
+import { LinePath } from '@visx/shape'
+import { useTooltip, useTooltipInPortal } from '@visx/tooltip'
+import { scaleTime, scaleLinear } from '@visx/scale'
 import { extent, max } from 'd3-array'
-import { LinearGradient } from '@vx/gradient'
+import { LinearGradient } from '@visx/gradient'
 
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 import { formatDate } from 'lib/utils/formatDate'
@@ -49,7 +49,11 @@ export function DateValueLineGraph(props) {
 
   return (
     <div className='h-36'>
-      <ParentSize className='graph-container' debounceTime={100}>
+      <ParentSize
+        className='graph-container'
+        debounceTime={100}
+        // style={{ width: 300, height: 200 }}
+      >
         {({ height, width }) => {
           const xMax = width - margin.left - margin.right
           const yMax = height - margin.top - margin.bottom
@@ -63,6 +67,12 @@ export function DateValueLineGraph(props) {
             range: [yMax, 0],
             domain: [0, max(allData, getY)]
           })
+
+          const maxWidth = 500
+          const w = Math.min(width, maxWidth)
+
+          const maxHeight = 500
+          const h = Math.min(height, maxHeight)
 
           return (
             <Fragment key={`${id}-fragment`}>
@@ -89,8 +99,8 @@ export function DateValueLineGraph(props) {
                 </>
               )}
 
-              <svg ref={containerRef} width={width + 5} height={height + 5}>
-                {width > 8 &&
+              <svg ref={containerRef} width={w} height={h}>
+                {w > 8 &&
                   series.map((lineData, i) => (
                     <Group
                       key={`${id}-group-lines-${i}`}

@@ -5,7 +5,7 @@ import { useTranslation } from 'lib/../i18n'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { PrizeValueGraph } from 'lib/components/PrizeValueGraph'
+// import { PrizeValueGraph } from 'lib/components/PrizeValueGraph'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { Tooltip } from 'lib/components/Tooltip'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -48,8 +48,8 @@ const DepositsAndPrizesCharts = (props) => {
   const totalDeposits = ethers.BigNumber.from(pool.ticketToken.totalSupply)
   const totalDepositsFormatted = ethers.utils.formatUnits(totalDeposits, decimals)
   const tokenSymbol = pool.underlyingCollateralSymbol
-  const currentPrize = pool.prizePool.captureAwardBalance[0]
-  const currentPrizeFormatted = ethers.utils.formatUnits(currentPrize, decimals)
+  // const currentPrize = pool.prizePool.captureAwardBalance[0]
+  // const currentPrizeFormatted = ethers.utils.formatUnits(currentPrize, decimals)
 
   return (
     <div className='text-inverse p-4 bg-card h-full sm:h-auto rounded-none sm:rounded-xl mx-auto flex flex-col sm:flex-row'>
@@ -70,7 +70,7 @@ const DepositsAndPrizesCharts = (props) => {
         <TicketsSoldGraph pool={pool} renderEmptyState={() => <ChartEmptyState />} />
       </div>
 
-      <div className='mb-8'>
+      {/* <div className='mb-8'>
         <div className='flex'>
           <h5>{t('historicPrizes')}</h5>
           <Tooltip
@@ -85,7 +85,7 @@ const DepositsAndPrizesCharts = (props) => {
           <span>{tokenSymbol}</span>
         </span>
         <PrizeValueGraph pool={pool} renderEmptyState={() => <ChartEmptyState />} />
-      </div>
+      </div> */}
     </div>
   )
 }
