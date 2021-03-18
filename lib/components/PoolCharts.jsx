@@ -31,9 +31,7 @@ export const PoolCharts = (props) => {
     <>
       <Card>
         <div className='flex justify-between'>{/* <h3>{t('poolsStats')}</h3> */}</div>
-        <CardDetailsList>
-          <DepositsAndPrizesCharts pool={pool} />
-        </CardDetailsList>
+        <DepositsAndPrizesCharts pool={pool} />
       </Card>
     </>
   )
@@ -48,12 +46,10 @@ const DepositsAndPrizesCharts = (props) => {
   const totalDeposits = ethers.BigNumber.from(pool.ticketToken.totalSupply)
   const totalDepositsFormatted = ethers.utils.formatUnits(totalDeposits, decimals)
   const tokenSymbol = pool.underlyingCollateralSymbol
-  // const currentPrize = pool.prizePool.captureAwardBalance[0]
-  // const currentPrizeFormatted = ethers.utils.formatUnits(currentPrize, decimals)
 
   return (
     <div className='text-inverse p-4 bg-card h-full sm:h-auto rounded-none sm:rounded-xl mx-auto flex flex-col sm:flex-row'>
-      <div className='mb-12'>
+      <div className='mb-4 w-full'>
         <div className='flex'>
           <h5>{t('historicDeposits')}</h5>
           <Tooltip
