@@ -281,6 +281,28 @@ a:hover {
   }
 }
 
+.max-chart-width {
+  max-width: 270px;
+}
+
+@screen xs {
+  .max-chart-width {
+    max-width: 360px;
+  }
+}
+
+@screen sm {
+  .max-chart-width {
+    max-width: 490px;
+  }
+}
+
+@screen lg {
+  .max-chart-width {
+    max-width: 1000px;
+  }
+}
+
 .min-w-chip {
   min-width: 186px;
 }

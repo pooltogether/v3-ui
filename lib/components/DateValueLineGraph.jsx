@@ -1,16 +1,16 @@
 import React, { Fragment, useContext } from 'react'
-import ParentSize from '@vx/responsive/lib/components/ParentSize'
-import { localPoint } from '@vx/event'
-import { Group } from '@vx/group'
-import { LinePath } from '@vx/shape'
-import { useTooltip, useTooltipInPortal } from '@vx/tooltip'
-import { scaleTime, scaleLinear } from '@vx/scale'
+import ParentSize from '@visx/responsive/lib/components/ParentSize'
 import { extent, max } from 'd3-array'
-import { LinearGradient } from '@vx/gradient'
+import { localPoint } from '@visx/event'
+import { Group } from '@visx/group'
+import { LinePath } from '@visx/shape'
+import { useTooltip, useTooltipInPortal } from '@visx/tooltip'
+import { scaleTime, scaleLinear } from '@visx/scale'
+import { LinearGradient } from '@visx/gradient'
 
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 import { formatDate } from 'lib/utils/formatDate'
-import { getMinPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 // data accessors
 const getX = (d) => d.date
@@ -19,9 +19,9 @@ const getY = (d) => d.value
 // const height = 200
 const margin = {
   top: 20,
-  bottom: 0,
-  left: 20,
-  right: 20
+  bottom: 5,
+  left: 5,
+  right: 5
 }
 
 export function DateValueLineGraph(props) {
@@ -49,10 +49,16 @@ export function DateValueLineGraph(props) {
 
   return (
     <div className='h-36'>
-      <ParentSize className='graph-container' debounceTime={100}>
+      <ParentSize className='max-chart-width mx-auto'>
         {({ height, width }) => {
-          const xMax = width - margin.left - margin.right
-          const yMax = height - margin.top - margin.bottom
+          const maxWidth = 1100
+          const w = Math.min(width, maxWidth)
+
+          const maxHeight = 400
+          const h = Math.min(height, maxHeight)
+
+          const xMax = w - margin.left - margin.right
+          const yMax = h - margin.top - margin.bottom
 
           // scales
           const xScale = scaleTime({
@@ -89,8 +95,8 @@ export function DateValueLineGraph(props) {
                 </>
               )}
 
-              <svg ref={containerRef} width={width + 5} height={height + 5}>
-                {width > 8 &&
+              <svg ref={containerRef} width={w} height={h}>
+                {w > 8 &&
                   series.map((lineData, i) => (
                     <Group
                       key={`${id}-group-lines-${i}`}

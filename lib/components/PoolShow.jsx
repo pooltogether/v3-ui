@@ -153,7 +153,7 @@ export const PoolShow = (props) => {
 
         <PoolStats pool={pool} />
 
-        {/* <PoolCharts pool={pool} /> */}
+        <PoolCharts pool={pool} />
 
         <PastWinnersCard pool={pool} />
 

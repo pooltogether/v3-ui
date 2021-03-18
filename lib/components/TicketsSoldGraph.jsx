@@ -8,7 +8,7 @@ import { useTranslation } from 'lib/../i18n'
 import { DateValueLineGraph } from 'lib/components/DateValueLineGraph'
 import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 
-const NUMBER_OF_POINTS = 10
+const NUMBER_OF_POINTS = 20
 const MIN_NUMBER_OF_POINTS = 2
 
 export const TicketsSoldGraph = (props) => {
@@ -18,7 +18,7 @@ export const TicketsSoldGraph = (props) => {
 
   const page = 1
   const skip = 0
-  const { data, error, isFetched } = usePoolPrizesQuery(pool, page, skip)
+  const { data, error, isFetched } = usePoolPrizesQuery(pool, page, skip, -1, 20)
 
   let prizes = [].concat(data?.prizePool?.prizes)
 
