@@ -63,7 +63,7 @@ const DepositsAndPrizesCharts = (props) => {
           <PoolNumber>{numberWithCommas(totalDepositsFormatted)}</PoolNumber>
           <span>{tokenSymbol}</span>
         </span>
-        <TicketsSoldGraph pool={pool} renderEmptyState={() => <ChartEmptyState />} />
+        <TicketsSoldGraph pool={pool} />
       </div>
 
       {/* <div className='mb-8'>

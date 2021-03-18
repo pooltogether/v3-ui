@@ -115,7 +115,7 @@ const AwardRow = (props) => {
   const name = award.name
 
   if (!name) {
-    return
+    return null
   }
 
   return (
