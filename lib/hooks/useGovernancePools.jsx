@@ -12,11 +12,9 @@ export function useGovernancePools() {
 
   const { contractAddresses } = useContractAddresses()
 
-  const blockNumber = -1
   const poolAddresses = contractAddresses?.pools
   let { refetch: poolsRefetch, data: poolsGraphData, error, isFetched } = usePoolsQuery(
-    poolAddresses,
-    blockNumber
+    poolAddresses
   )
 
   if (error) {

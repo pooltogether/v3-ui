@@ -1,7 +1,5 @@
 import React, { useContext } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
 
-import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { Banner } from 'lib/components/Banner'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 import { useTotalPoolPrizeInterestUSD } from 'lib/hooks/useTotalPoolPrizeInterestUSD'
@@ -23,7 +21,6 @@ export const TVLAndWeeklyPrizesBanner = (props) => {
     data: totalPrizeInterestUSD,
     isFetched: totalPrizeIsFetched
   } = useTotalPoolPrizeInterestUSD()
-  const shouldReduceMotion = useReducedMotion()
 
   const formatNumbers = (num) => {
     if (num > 1000000) {
