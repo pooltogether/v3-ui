@@ -46,16 +46,13 @@ export const NavPoolBalance = () => {
 
 const PoolBalanceModal = (props) => {
   const { t } = useTranslation()
-  const router = useRouter()
 
   const { isOpen, closeModal, tokenData } = props
   const { usersBalance, totalSupply } = tokenData
 
   const { chainId, usersAddress } = useContext(AuthControllerContext)
 
-  const { total: totalClaimablePool, isFetched: totalClaimableIsFetched } = useTotalClaimablePool(
-    usersAddress
-  )
+  const { total: totalClaimablePool } = useTotalClaimablePool(usersAddress)
 
   const totalClaimablePoolFormatted = numberWithCommas(totalClaimablePool)
   const formattedBalance = numberWithCommas(usersBalance)
