@@ -23,7 +23,6 @@ export const TVLAndWeeklyPrizesBanner = (props) => {
     data: totalPrizeInterestUSD,
     isFetched: totalPrizeIsFetched
   } = useTotalPoolPrizeInterestUSD()
-  const shouldReduceMotion = useReducedMotion()
 
   const formatNumbers = (num) => {
     if (num > 1000000) {
