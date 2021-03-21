@@ -14,6 +14,7 @@ import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abi
 import { CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { ThemedClipLoader } from 'lib/components/ThemedClipLoader'
 import { useAccount } from 'lib/hooks/useAccount'
@@ -26,7 +27,6 @@ import { usePool } from 'lib/hooks/usePool'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { useTokenFaucetAPR } from 'lib/hooks/useTokenFaucetAPR'
-import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -37,7 +37,7 @@ export const AccountGovernanceClaims = (props) => {
 
   const { pools, poolsGraphData } = usePools()
 
-  const { chainId, usersAddress, walletName } = useContext(AuthControllerContext)
+  const { chainId, usersAddress } = useContext(AuthControllerContext)
 
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
@@ -56,13 +56,6 @@ export const AccountGovernanceClaims = (props) => {
   }
 
   // const earningsStarted = Date.now() / 1000 > 1613606400
-
-  const handleAddTokenToMetaMask = (e) => {
-    e.preventDefault()
-
-    const tokenAddress = CONTRACT_ADDRESSES[chainId].GovernanceToken
-    addTokenToMetaMask('POOL', tokenAddress)
-  }
 
   return (
     <>
@@ -83,26 +76,15 @@ export const AccountGovernanceClaims = (props) => {
           )
         })}
 
-        {walletName === 'MetaMask' && (
-          <>
-            <div className='mt-7 text-center'>
-              <button
-                type='button'
-                onClick={handleAddTokenToMetaMask}
-                className='font-bold mx-auto'
-              >
-                <img
-                  src={PoolIcon}
-                  className='relative inline-block w-4 h-4 mx-1'
-                  style={{ top: -2 }}
-                />
-                {t('addTicketTokenToMetamask', {
-                  token: 'POOL'
-                })}
-              </button>
-            </div>
-          </>
-        )}
+        <div className='mt-7 text-center'>
+          <AddTokenToMetaMaskButton
+            basic
+            showPoolIcon
+            textSize='xxs'
+            tokenAddress={CONTRACT_ADDRESSES[chainId].GovernanceToken}
+            tokenSymbol='POOL'
+          />
+        </div>
       </div>
     </>
   )
