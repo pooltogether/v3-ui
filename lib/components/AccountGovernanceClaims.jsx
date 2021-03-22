@@ -81,7 +81,7 @@ export const AccountGovernanceClaims = (props) => {
             basic
             showPoolIcon
             textSize='xxs'
-            tokenAddress={CONTRACT_ADDRESSES[chainId].GovernanceToken}
+            tokenAddress={CONTRACT_ADDRESSES[chainId]?.GovernanceToken}
             tokenSymbol='POOL'
           />
         </div>

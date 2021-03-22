@@ -7,6 +7,7 @@ export function Button(props) {
   const classes = getButtonClasses(props)
 
   let newProps = omit(props, [
+    'basic',
     'border',
     'bold',
     'text',
