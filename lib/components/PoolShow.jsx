@@ -12,6 +12,7 @@ import {
 } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CommunityPoolDisclaimerModal } from 'lib/components/CommunityPoolDisclaimerModal'
@@ -26,7 +27,6 @@ import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceT
 import { Tagline } from 'lib/components/Tagline'
 import { usePool } from 'lib/hooks/usePool'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
-import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 import { translatedPoolName } from 'lib/utils/translatedPoolName'
@@ -68,13 +68,6 @@ export const PoolShow = (props) => {
     router.push(`/pools/[symbol]/deposit`, `/pools/${pool.symbol}/deposit`, {
       shallow: true
     })
-  }
-
-  const handleAddTokenToMetaMask = (e) => {
-    e.preventDefault()
-
-    const tokenAddress = pool?.ticketToken?.id
-    addTokenToMetaMask(symbolForMetaMask, tokenAddress, pool?.underlyingCollateralDecimals)
   }
 
   return (
@@ -175,11 +168,13 @@ export const PoolShow = (props) => {
         <div className='flex flex-col items-center justify-center mt-20'>
           {walletName === 'MetaMask' && (
             <div className='m-2'>
-              <Button textSize='xxs' noAnim onClick={handleAddTokenToMetaMask}>
-                {t('addTicketTokenToMetamask', {
-                  token: symbolForMetaMask
-                })}
-              </Button>
+              <AddTokenToMetaMaskButton
+                noAnim
+                textSize='xxs'
+                tokenAddress={pool?.ticketToken?.id}
+                tokenDecimals={pool?.underlyingCollateralDecimals}
+                tokenSymbol={symbolForMetaMask}
+              />
             </div>
           )}
 

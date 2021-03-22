@@ -362,7 +362,7 @@ a:hover {
   transform: scale(1.02) translateY(-3px);
 }
 
-@media screen and (max-height: 460px) {
+@media screen and (max-height: 500px) {
   #manage-tickets-action-dropdown {
     display: none;
   }

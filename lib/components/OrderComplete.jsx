@@ -1,20 +1,24 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { usePool } from 'lib/hooks/usePool'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
-import { AccountEmailSignup } from 'lib/components/AccountEmailSignup'
+import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
+import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export function OrderComplete(props) {
   const [t] = useTranslation()
+
+  const { networkName, walletName } = useContext(AuthControllerContext)
 
   const router = useRouter()
   const quantity = router.query.quantity
@@ -28,6 +32,8 @@ export function OrderComplete(props) {
   if (prevBalance) {
     prevBalance = ethers.utils.formatUnits(prevBalance, decimals || 18)
   }
+
+  const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
 
   useEffect(() => {
     Cookies.set(WIZARD_REFERRER_HREF, '/account', COOKIE_OPTIONS)
@@ -74,6 +80,19 @@ export function OrderComplete(props) {
             }}
           />
         </h1>
+
+        {walletName === 'MetaMask' && (
+          <div className='m-2'>
+            <AddTokenToMetaMaskButton
+              basic
+              showPoolIcon
+              textSize='xxxs'
+              tokenAddress={pool?.ticketToken?.id}
+              tokenDecimals={pool?.underlyingCollateralDecimals}
+              tokenSymbol={symbolForMetaMask}
+            />
+          </div>
+        )}
 
         <div className='mb-4 text-highlight-2 text-sm'>
           <div className='mt-4'>

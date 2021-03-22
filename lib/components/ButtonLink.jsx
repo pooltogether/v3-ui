@@ -15,6 +15,7 @@ export function getButtonClasses(props) {
     noAnim,
     padding,
     rounded,
+    basic,
     secondary,
     tertiary,
     selected,
@@ -66,6 +67,16 @@ export function getButtonClasses(props) {
     defaultHoverBorder = 'hover:border-transparent'
     defaultHoverBg = 'hover:bg-purple'
     defaultHoverText = 'hover:text-white'
+  }
+
+  if (basic) {
+    defaultBorder = 'border-transparent border-2'
+    defaultBg = 'bg-transparent'
+    defaultText = 'text-highlight-2'
+
+    defaultHoverBorder = 'hover:border-transparent'
+    defaultHoverBg = 'hover:bg-transparent'
+    defaultHoverText = 'hover:text-highlight-1'
   }
 
   bold = isUndefined(bold) ? 'font-bold' : ''
