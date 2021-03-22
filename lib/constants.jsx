@@ -48,42 +48,48 @@ export const COOKIE_OPTIONS = {
 }
 
 export const POOLS = {
-  1: [
-    {
-      name: 'DAI Pool',
-      symbol: 'PT-cDAI'
-    },
-    {
-      name: 'USDC Pool',
-      symbol: 'PT-cUSDC'
-    },
-    {
-      name: 'UNI Pool',
-      symbol: 'PT-cUNI'
-    },
-    {
-      name: 'COMP Pool',
-      symbol: 'PT-cCOMP'
-    },
-    {
-      name: 'POOL Pool',
-      symbol: 'PT-stPOOL'
-    }
-  ],
-  4: [
-    {
-      name: 'DAI Pool',
-      symbol: 'PT-cDAI'
-    },
-    {
-      name: 'BAT Pool',
-      symbol: 'PT-cBAT'
-    },
-    {
-      name: 'USDC Pool',
-      symbol: 'PT-cUSDC'
-    }
-  ]
+  1: {
+    '3.1.0': [
+      {
+        name: 'DAI Pool',
+        symbol: 'PT-cDAI'
+      },
+      {
+        name: 'USDC Pool',
+        symbol: 'PT-cUSDC'
+      },
+      {
+        name: 'UNI Pool',
+        symbol: 'PT-cUNI'
+      },
+      {
+        name: 'COMP Pool',
+        symbol: 'PT-cCOMP'
+      }
+    ],
+    '3.3.2': [
+      {
+        name: 'POOL Pool',
+        symbol: 'PT-stPOOL'
+      }
+    ]
+  },
+  4: {
+    '3.1.0': [
+      {
+        name: 'DAI Pool',
+        symbol: 'PT-cDAI'
+      },
+      {
+        name: 'BAT Pool',
+        symbol: 'PT-cBAT'
+      },
+      {
+        name: 'USDC Pool',
+        symbol: 'PT-cUSDC'
+      }
+    ]
+  }
 }
 
 export const PRIZE_STRATEGY_TYPES = {
@@ -145,10 +151,10 @@ export const V2_CONTRACT_ADDRESSES = [
   '0x801b4872a635dccc7e679eeaf04bef08e562972a'.toLowerCase()
 ]
 
-export const POOLTOGETHER_SUBGRAPH_URIS = {
-  1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
-  3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
-  4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY
+export const POOLTOGETHER_SUBGRAPH_310_URIS = {
+  1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET_310,
+  3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN_310,
+  4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY_310
 }
 
 export const POOLTOGETHER_SUBGRAPH_332_URIS = {
