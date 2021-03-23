@@ -6,7 +6,7 @@ import { ethers } from 'ethers'
 import { useTranslation } from 'lib/../i18n'
 import { Odds } from 'lib/components/Odds'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { useAccount } from 'lib/hooks/useAccount'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
 
@@ -22,8 +22,7 @@ export const PrizeWinner = (props) => {
 
   const winnersAddress = awardedControlledToken.winner
 
-  const { accountData } = useAccount(winnersAddress, blockNumber - 1)
-
+  const { data: accountData } = useAccountQuery(winnersAddress, pool.version, blockNumber - 1)
   const ctBalance = accountData?.controlledTokenBalances.find(
     (ct) => ct.controlledToken.id === ticketAddress
   )
@@ -44,16 +43,12 @@ export const PrizeWinner = (props) => {
 
   return (
     <tr>
-      <td className='py-2'>
-        {!hasLootBox ? t('winner') : grandPrizeWinner ? t('grandPrize') : t('runnerUp')}
-      </td>
-
+      {hasLootBox && <td className='py-2'>{grandPrizeWinner ? t('grandPrize') : t('runnerUp')}</td>}
       <td>
         <Link href='/players/[playerAddress]' as={`/players/${winnersAddress}`}>
           <a className='text-accent-1'>{shorten(winnersAddress)}</a>
         </Link>
       </td>
-
       <td>
         <span className='block xs:inline-block'>
           <Odds
@@ -64,9 +59,9 @@ export const PrizeWinner = (props) => {
           />
         </span>
       </td>
-
-      <td width='70'>
-        <PoolNumber>{numberWithCommas(usersTicketBalance, { precision: 0 })}</PoolNumber>
+      <td width='120'>
+        <PoolNumber>{numberWithCommas(usersTicketBalance, { precision: 0 })}</PoolNumber>{' '}
+        {pool.underlyingCollateralSymbol}
       </td>
     </tr>
   )

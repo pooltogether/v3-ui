@@ -88,8 +88,14 @@ export const POOLS = {
         name: 'USDC Pool',
         symbol: 'PT-cUSDC'
       }
-    ]
+    ],
+    '3.3.2': []
   }
+}
+
+export const ALL_POOLS = {
+  1: [...POOLS[1]['3.1.0'], ...POOLS[1]['3.3.2']],
+  4: [...POOLS[4]['3.1.0'], ...POOLS[4]['3.3.2']]
 }
 
 export const PRIZE_STRATEGY_TYPES = {

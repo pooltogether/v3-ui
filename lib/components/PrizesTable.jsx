@@ -55,7 +55,7 @@ const formatPrizeObject = (t, pool, prize, querySymbol) => {
         <TimeTravelPool
           poolSplitExternalErc20Awards={pool?.splitExternalErc20Awards}
           blockNumber={parseInt(prize?.awardedBlock, 10)}
-          poolAddress={pool?.id}
+          pool={pool}
           querySymbol={querySymbol}
           prize={prize}
         >

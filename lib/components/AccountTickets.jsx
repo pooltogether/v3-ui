@@ -9,7 +9,7 @@ import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { TicketsLoader } from 'lib/components/TicketsLoader'
 import { V2AccountTicket } from 'lib/components/V2AccountTicket'
-import { useAccount } from 'lib/hooks/useAccount'
+import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { useUsersV2Balances } from 'lib/hooks/useUsersV2Balances'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
@@ -27,7 +27,7 @@ export const AccountTickets = () => {
 
   const { usersV2Balances } = useUsersV2Balances(address)
 
-  const { accountData, accountDataIsFetching, accountDataIsFetched } = useAccount(address)
+  const { accountData, accountDataIsFetched } = useMultiversionAccount(address)
 
   const { playerTickets } = usePlayerTickets(accountData)
 
@@ -63,7 +63,7 @@ export const AccountTickets = () => {
 
   return (
     <div className='mt-16'>
-      {accountDataIsFetching && !accountDataIsFetched ? (
+      {!accountDataIsFetched ? (
         <TicketsLoader />
       ) : playerTickets.length === 0 && (hasNoV2Balance || hasNoV2Balance === undefined) ? (
         <BlankStateMessage>

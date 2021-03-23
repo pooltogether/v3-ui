@@ -57,9 +57,7 @@ export default function PrizeShowPage(props) {
             </button>
           </>
         ) : (
-          <>
-            <TableRowUILoader rows={5} />
-          </>
+          <TableRowUILoader rows={5} />
         )}
       </div>
     )
@@ -69,7 +67,7 @@ export default function PrizeShowPage(props) {
     <TimeTravelPool
       poolSplitExternalErc20Awards={pool?.splitExternalErc20Awards}
       blockNumber={parseInt(prize?.awardedBlock, 10)}
-      poolAddress={pool.id}
+      pool={pool}
       querySymbol={querySymbol}
       prize={prize}
     >

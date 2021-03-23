@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 
-import { POOLS } from 'lib/constants'
+import { ALL_POOLS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useLootBox } from 'lib/hooks/useLootBox'
 import { usePools } from 'lib/hooks/usePools'
@@ -37,7 +37,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const { poolChainData } = usePoolChainQuery(poolGraphData)
 
-  const poolInfo = POOLS[chainId]?.find((POOL) => {
+  const poolInfo = ALL_POOLS[chainId]?.find((POOL) => {
     return POOL.symbol === poolSymbol
   })
 

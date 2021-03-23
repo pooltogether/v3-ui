@@ -221,7 +221,6 @@ export const LootBoxWon = (props) => {
 
   const prize = awardedExternalErc721LootBox.prize
   const pool = pools.find((_pool) => _pool.id === prize.prizePool.id)
-  const poolAddress = pool.id
 
   // Likely won a test pool that we don't use at all in production
   if (!pool) {
@@ -235,7 +234,7 @@ export const LootBoxWon = (props) => {
     <TimeTravelPool
       poolSplitExternalErc20Awards={pool?.splitExternalErc20Awards}
       blockNumber={blockNumber}
-      poolAddress={poolAddress}
+      pool={pool}
       querySymbol={pool?.symbol}
       prize={prize}
     >

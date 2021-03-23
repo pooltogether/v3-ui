@@ -50,12 +50,10 @@ export const PrizeBreakdown = (props) => {
         </h4>
 
         {prize?.awardedTimestamp && (
-          <>
-            <div className='-mt-1'>
-              <span className='text-accent-1'>{t('awardedOn')}:</span>{' '}
-              {formatDate(prize?.awardedTimestamp)}
-            </div>
-          </>
+          <div className='-mt-1'>
+            <span className='text-accent-1'>{t('awardedOn')}:</span>{' '}
+            {formatDate(prize?.awardedTimestamp)}
+          </div>
         )}
 
         <div className='flex flex-col xs:flex-row'>
@@ -72,7 +70,6 @@ export const PrizeBreakdown = (props) => {
             <img src={PrizeIllustration} className='w-40 mx-auto' />
             <div>
               <h3>{ticketPrizeUSD && `$${numberWithCommas(ticketPrizeUSD, { precision: 2 })}`}</h3>
-              <span className='text-sm xs:text-base sm:text-xl'>{t('tickets')}</span>
             </div>
           </div>
 
@@ -104,10 +101,10 @@ export const PrizeBreakdown = (props) => {
           <table className='theme-light--no-gutter w-full text-xxxs xs:text-xxs sm:text-sm align-top'>
             <thead>
               <tr style={{ background: 'none' }}>
-                <th>{t('prize')}</th>
+                {hasLootBox && <th>{t('prize')}</th>}
                 <th>{t('player')}</th>
                 <th>{t('odds')}</th>
-                <th width='70'>{t('tickets')}</th>
+                <th width='120'>{t('deposit')}</th>
               </tr>
             </thead>
             <tbody>

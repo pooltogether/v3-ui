@@ -9,7 +9,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { SmallLoader } from 'lib/components/SmallLoader'
-import { useAccount } from 'lib/hooks/useAccount'
+import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { useUsersV2Balances } from 'lib/hooks/useUsersV2Balances'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
@@ -32,7 +32,7 @@ export const AccountSummary = () => {
 
   const { usersV2Balances } = useUsersV2Balances(address)
 
-  const { accountData, accountDataIsFetched } = useAccount(address)
+  const { accountData, accountDataIsFetched } = useMultiversionAccount(address)
 
   const { playerTickets } = usePlayerTickets(accountData)
 

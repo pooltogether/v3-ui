@@ -1,12 +1,15 @@
 import { useContext } from 'react'
 
-import { POOLS } from 'lib/constants'
+import { ALL_POOLS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useHistoricalPool } from 'lib/services/useHistoricalPool'
 import { usePoolQuery } from 'lib/hooks/usePoolQuery'
 
 export function TimeTravelPool(props) {
-  const { children, poolAddress, prize, querySymbol, poolSplitExternalErc20Awards } = props
+  const { children, pool, prize, querySymbol, poolSplitExternalErc20Awards } = props
+
+  const poolAddress = pool?.id
+  const poolVersion = pool?.version
 
   if (!querySymbol) {
     return children({
@@ -25,18 +28,23 @@ export function TimeTravelPool(props) {
 
   const { data: preAwardGraphPool, error: preAwardPoolError } = usePoolQuery(
     poolAddress,
+    poolVersion,
     preAwardBlockNumber
   )
   if (preAwardPoolError) {
     console.warn(preAwardPoolError)
   }
 
-  const { data: postAwardGraphPool, error } = usePoolQuery(poolAddress, postAwardBlockNumber)
+  const { data: postAwardGraphPool, error } = usePoolQuery(
+    poolAddress,
+    poolVersion,
+    postAwardBlockNumber
+  )
   if (error) {
     console.warn(error)
   }
 
-  const poolInfo = POOLS[chainId]?.find((POOL) => POOL.symbol === querySymbol)
+  const poolInfo = ALL_POOLS[chainId]?.find((POOL) => POOL.symbol === querySymbol)
 
   const preAwardTimeTravelPool = useHistoricalPool(
     poolInfo,

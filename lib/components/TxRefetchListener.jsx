@@ -2,8 +2,8 @@ import { useContext, useState } from 'react'
 import { useAtom } from 'jotai'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePools } from 'lib/hooks/usePools'
-import { useAccount } from 'lib/hooks/useAccount'
+// import { usePools } from 'lib/hooks/usePools'
+import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 
 const debug = require('debug')('pool-app:TxRefetchListener')
@@ -20,7 +20,7 @@ export function TxRefetchListener(props) {
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { refetchAccountData } = useAccount(address)
+  const { refetchAccountData } = useMultiversionAccount(address)
 
   const pendingTransactions = transactions.filter((t) => !t.completed && !t.cancelled)
 

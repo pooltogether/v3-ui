@@ -11,7 +11,7 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { useCommunityPools } from 'lib/hooks/useCommunityPools'
-import { useGovernancePools } from 'lib/hooks/useGovernancePools'
+import { useMultiversionGovernancePools } from 'lib/hooks/useMultiversionGovernancePools'
 
 export const PoolLists = () => {
   const shouldReduceMotion = useReducedMotion()
@@ -133,7 +133,7 @@ const CommunityPoolsList = () => {
 }
 
 const GovernancePoolsList = (props) => {
-  const { pools, poolsDataLoading } = useGovernancePools()
+  const { pools, poolsDataLoading } = useMultiversionGovernancePools()
 
   if (poolsDataLoading) return <IndexUILoader />
 

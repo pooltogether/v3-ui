@@ -101,7 +101,7 @@ const PrizesList = (props) => {
         <TimeTravelPool
           poolSplitExternalErc20Awards={splitExternalErc20Awards}
           blockNumber={parseInt(prize?.awardedBlock, 10)}
-          poolAddress={id}
+          pool={pool}
           querySymbol={symbol}
           prize={prize}
           key={`${index}-${id}`}

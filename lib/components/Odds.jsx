@@ -5,7 +5,7 @@ import classnames from 'classnames'
 import { useTranslation } from 'lib/../i18n'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { calculateOdds } from 'lib/utils/calculateOdds'
-import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
+import { getMinPrecision, getPrecision } from 'lib/utils/numberWithCommas'
 
 export function Odds(props) {
   const { t } = useTranslation()
