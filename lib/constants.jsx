@@ -157,30 +157,6 @@ export const V2_CONTRACT_ADDRESSES = [
   '0x801b4872a635dccc7e679eeaf04bef08e562972a'.toLowerCase()
 ]
 
-export const POOLTOGETHER_SUBGRAPH_310_URIS = {
-  1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET_310,
-  3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN_310,
-  4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY_310
-}
-
-export const POOLTOGETHER_SUBGRAPH_332_URIS = {
-  1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET_332
-  // 3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN_332,
-  // 4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY_332
-}
-
-export const LOOTBOX_GRAPH_URIS = {
-  1: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_MAINNET,
-  3: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_ROPSTEN,
-  4: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_RINKEBY
-}
-
-export const UNISWAP_GRAPH_URIS = {
-  1: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_MAINNET, // https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2
-  3: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_ROPSTEN,
-  4: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_RINKEBY // https://api.thegraph.com/subgraphs/name/blockrockettech/uniswap-v2-subgraph-rinkeby
-}
-
 export const STRINGS = {
   transfer: 'transfer',
   withdraw: 'withdraw'
