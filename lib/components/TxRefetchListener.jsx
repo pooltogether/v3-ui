@@ -20,7 +20,7 @@ export function TxRefetchListener(props) {
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { refetchAccountData } = useMultiversionAccount(address)
+  const { refetch: refetchAccountData } = useMultiversionAccount(address)
 
   const pendingTransactions = transactions.filter((t) => !t.completed && !t.cancelled)
 

@@ -32,7 +32,7 @@ export const AccountSummary = () => {
 
   const { usersV2Balances } = useUsersV2Balances(address)
 
-  const { accountData, accountDataIsFetched } = useMultiversionAccount(address)
+  const { data: accountData, isFetched: accountDataIsFetched } = useMultiversionAccount(address)
 
   const { playerTickets } = usePlayerTickets(accountData)
 

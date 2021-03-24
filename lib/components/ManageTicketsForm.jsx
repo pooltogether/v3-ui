@@ -19,7 +19,7 @@ export function ManageTicketsForm(props) {
 
   const [action, setAction] = useState(STRINGS.withdraw)
 
-  const { accountData } = useMultiversionAccount(usersAddress)
+  const { data: accountData } = useMultiversionAccount(usersAddress)
 
   const { playerTickets } = usePlayerTickets(accountData)
   const playerTicket = playerTickets?.find((playerTicket) => playerTicket.pool.id === pool?.id)
