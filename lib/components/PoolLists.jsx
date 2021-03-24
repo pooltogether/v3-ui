@@ -140,8 +140,8 @@ const GovernancePoolsList = (props) => {
     //       due to the -1 returned by all the other pools in the sortFunction's indexOf() calls
     const hardcodedSortOrder = [
       '0x0650d780292142835f6ac58dd8e2a336e87b4393', // UNI
-      '0x396b4489da692788e327e2e4b2b0459a5ef26791', // POOL
       '0xbc82221e131c082336cf698f0ca3ebd18afd4ce7', // COMP
+      '0x396b4489da692788e327e2e4b2b0459a5ef26791', // POOL
       '0xde9ec95d7708b8319ccca4b8bc92c0a3b70bf416', // USDC
       '0xebfb47a7ad0fd6e57323c8a42b2e5a6a4f68fc1a' // DAI
     ]

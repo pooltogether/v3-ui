@@ -3,6 +3,11 @@ import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
+import {
+  CUSTOM_YIELD_SOURCE_NAMES,
+  CUSTOM_YIELD_SOURCE_IMAGES
+} from 'lib/constants/customYieldSourceImages'
+import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Tooltip } from 'lib/components/Tooltip'
@@ -64,7 +69,16 @@ const StatsList = (props) => {
 // Generic stat component
 
 const Stat = (props) => {
-  const { title, tokenSymbol, sourceImage, tokenAmount, value, percent, tooltip } = props
+  const {
+    title,
+    tokenSymbol,
+    sourceName,
+    sourceImage,
+    tokenAmount,
+    value,
+    percent,
+    tooltip
+  } = props
 
   return (
     <li className='flex justify-between mb-2 last:mb-0'>
@@ -74,7 +88,8 @@ const Stat = (props) => {
       </span>
       {(sourceImage || value) && (
         <span className='flex items-center'>
-          {sourceImage} {value && <span>{value}</span>}
+          <span className='capitalize mr-2'>{sourceName}</span> {sourceImage}{' '}
+          {value && <span>{value}</span>}
         </span>
       )}
       {tokenSymbol && tokenAmount && (
@@ -147,17 +162,42 @@ const YieldSourceStat = (props) => {
   const { t } = useTranslation()
   const yieldSource = determineYieldSource(pool)
 
-  let sourceImage
+  let sourceImage, sourceName, etherscanLink
   if (yieldSource === YieldSources.compoundFinanceYieldSource) {
+    sourceName = 'Compound Finance'
     sourceImage = <img src={CompSvg} className='w-6 mr-2' />
   }
 
   if (yieldSource === YieldSources.customYieldSource) {
-    sourceImage = <img src='/ticket-bg--light-sm.png' className='w-6 mr-2' />
+    const yieldSourceAddress = pool.yieldSourcePrizePool.yieldSource
+    etherscanLink = <EtherscanAddressLink address={yieldSourceAddress} />
+
+    sourceName = CUSTOM_YIELD_SOURCE_NAMES[yieldSourceAddress]
+
+    const providedCustomImage = CUSTOM_YIELD_SOURCE_IMAGES[sourceName]
+    let customYieldSourceIcon = '/ticket-bg--light-sm.png'
+    if (providedCustomImage) {
+      customYieldSourceIcon = providedCustomImage
+    }
+
+    sourceImage = <img src={customYieldSourceIcon} className='w-6 mr-2' />
   }
 
-  return <Stat title={t('yieldSource')} value={t(yieldSource)} sourceImage={sourceImage} />
+  return (
+    <Stat
+      title={t('yieldSource')}
+      value={
+        <>
+          {t(yieldSource)} {etherscanLink}
+        </>
+      }
+      sourceName={sourceName}
+      sourceImage={sourceImage}
+    />
+  )
 }
+
+// audited vs unaudited
 
 const SponsorshipStat = (props) => {
   const { pool } = props
