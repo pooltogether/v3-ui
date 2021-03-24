@@ -67,9 +67,6 @@ export const UpcomingPrizeBreakdownCard = (props) => {
             <img src={PrizeIllustration} className='w-40 mx-auto' />
             <div>
               <h3>{`$${numberWithCommas(pool?.ticketPrizeUSD)}`}</h3>
-              {/* <span className='text-sm xs:text-base sm:text-xl text-accent-1 leading-none'>
-                {t('tickets')}
-              </span> */}
             </div>
           </div>
         )}
@@ -92,9 +89,6 @@ export const UpcomingPrizeBreakdownCard = (props) => {
                   {Boolean(pool?.externalAwardsUSD > 0) &&
                     `$${numberWithCommas(pool.externalAwardsUSD)}`}
                 </h3>
-                <span className='text-sm xs:text-base sm:text-xl text-accent-1 leading-none'>
-                  {t('lootBox')}
-                </span>
               </div>
             </div>
 
