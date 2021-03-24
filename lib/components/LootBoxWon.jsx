@@ -223,7 +223,7 @@ export const LootBoxWon = (props) => {
   const pool = pools.find((_pool) => _pool.id === prize.prizePool.id)
 
   // Likely won a test pool that we don't use at all in production
-  if (!pool) {
+  if (!pool?.version) {
     return null
   }
 

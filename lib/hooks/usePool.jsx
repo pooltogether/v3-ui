@@ -47,8 +47,6 @@ export function usePool(poolSymbol, blockNumber = -1) {
     ...poolGraphData
   }
 
-  const isStakePrizePool = !pool.compoundPrizePool
-
   const { erc20ChainData } = useErc20ChainQuery(pool)
   const { erc721ChainData } = useErc721ChainQuery(pool)
 
@@ -147,7 +145,6 @@ export function usePool(poolSymbol, blockNumber = -1) {
   // Standardize the USD values so they're either all floats/strings or all bigNums  pool = {
   pool = {
     ...pool,
-    isStakePrizePool,
     fetchingTotals,
     lootBox,
     totalDepositedUSD,

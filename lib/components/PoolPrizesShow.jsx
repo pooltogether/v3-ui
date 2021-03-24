@@ -23,6 +23,10 @@ export const PoolPrizesShow = (props) => {
     return <BlankStateMessage>Could not find pool with symbol: ${querySymbol}</BlankStateMessage>
   }
 
+  if (!pool?.version) {
+    return null
+  }
+
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
 

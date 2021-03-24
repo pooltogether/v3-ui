@@ -28,7 +28,7 @@ export default function PrizeShowPage(props) {
 
   let prize = data?.prize
 
-  if (!pool) {
+  if (!pool.version) {
     return (
       <BlankStateMessage>
         {t('couldNotFindPoolWithSymbol', {

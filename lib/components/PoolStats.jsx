@@ -9,6 +9,7 @@ import { Tooltip } from 'lib/components/Tooltip'
 import { useTokenFaucetAPR } from 'lib/hooks/useTokenFaucetAPR'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { useTokenFaucetData } from 'lib/hooks/useTokenFaucetData'
+import { determineYieldSource, YieldSources } from 'lib/utils/determineYieldSource'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -143,15 +144,19 @@ const ReserveRateStat = (props) => {
 const YieldSourceStat = (props) => {
   const { pool } = props
 
-  // TODO: Update `isStakePrizePool` across the app to support any yield source
-  const yieldSource = pool.isStakePrizePool ? 'Stake' : 'Compound Finance'
+  const { t } = useTranslation()
+  const yieldSource = determineYieldSource(pool)
 
   let sourceImage
-  if (yieldSource === 'Compound Finance') {
+  if (yieldSource === YieldSources.compoundFinanceYieldSource) {
     sourceImage = <img src={CompSvg} className='w-6 mr-2' />
   }
 
-  return <Stat title='Yield source' value={yieldSource} sourceImage={sourceImage} />
+  if (yieldSource === YieldSources.customYieldSource) {
+    sourceImage = <img src='/ticket-bg--light-sm.png' className='w-6 mr-2' />
+  }
+
+  return <Stat title={t('yieldSource')} value={t(yieldSource)} sourceImage={sourceImage} />
 }
 
 const SponsorshipStat = (props) => {

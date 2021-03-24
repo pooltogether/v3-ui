@@ -1,4 +1,5 @@
 export const TOKEN_IMAGES = {
+  '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2': '/tokens/weth-128.png',
   '0x9d942bd31169ed25a1ca78c776dab92de104e50e':
     '/tokens/0x9d942bd31169ed25a1ca78c776dab92de104e50e.png',
   '0xb0dfd28d3cf7a5897c694904ace292539242f858': '/tokens/lotto.png',
@@ -38,8 +39,6 @@ export const TOKEN_IMAGES = {
     'https://assets.coingecko.com/coins/images/10775/small/COMP.png?1592625425',
   '0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f':
     'https://assets.coingecko.com/coins/images/3406/small/SNX.png?1598631139',
-  '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2':
-    'https://assets.coingecko.com/coins/images/2518/small/weth.png?1547036627',
   '0xd533a949740bb3306d119cc777fa900ba034cd52':
     'https://assets.coingecko.com/coins/images/12124/small/Curve.png?1597369484',
   '0xe2f2a5c287993345a840db3b0845fbc70f5935a5':

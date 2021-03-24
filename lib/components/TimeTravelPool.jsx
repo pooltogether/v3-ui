@@ -11,13 +11,6 @@ export function TimeTravelPool(props) {
   const poolAddress = pool?.id
   const poolVersion = pool?.version
 
-  if (!querySymbol) {
-    return children({
-      timeTravelPool: {},
-      preAwardTimeTravelPool: {}
-    })
-  }
-
   // Rewind to the block _before_ the prize was awarded
   const preAwardBlockNumber = props.blockNumber - 1
 
@@ -63,6 +56,13 @@ export function TimeTravelPool(props) {
     prize,
     poolSplitExternalErc20Awards
   )
+
+  if (!querySymbol || !poolAddress || !poolVersion) {
+    return children({
+      timeTravelPool: {},
+      preAwardTimeTravelPool: {}
+    })
+  }
 
   return children({
     timeTravelPool,

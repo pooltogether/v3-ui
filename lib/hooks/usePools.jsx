@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { useCommunityPools } from 'lib/hooks/useCommunityPools'
+import { useMultiversionCommunityPools } from 'lib/hooks/useMultiversionCommunityPools'
 import { useMultiversionGovernancePools } from 'lib/hooks/useMultiversionGovernancePools'
 
 export function usePools() {
@@ -10,7 +10,7 @@ export function usePools() {
     communityPoolsDataLoading,
     communityRefetch,
     communityPoolsGraphData
-  } = useCommunityPools()
+  } = useMultiversionCommunityPools()
 
   const allPools = useMemo(() => {
     return {

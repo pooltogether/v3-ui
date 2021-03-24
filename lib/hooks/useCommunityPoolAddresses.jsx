@@ -3,13 +3,13 @@ import { useContext } from 'react'
 import { COMMUNITY_POOLS_BLOCK_LIST } from 'lib/constants/communityPoolsBlockList'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
-import { usePoolAddressesQuery } from 'lib/hooks/usePoolAddressesQuery'
+import { useMultiversionPoolAddressesQuery } from 'lib/hooks/useMultiversionPoolAddressesQuery'
 
 export function useCommunityPoolAddresses() {
   const { contractAddresses } = useContractAddresses()
   const { chainId } = useContext(AuthControllerContext)
 
-  const { data: addresses, isFetched } = usePoolAddressesQuery()
+  const { data: addresses, isFetched } = useMultiversionPoolAddressesQuery()
 
   const governedPoolAddresses = contractAddresses?.pools
 
