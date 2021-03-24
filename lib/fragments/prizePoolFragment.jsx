@@ -17,6 +17,16 @@ export const prizePoolFragment = gql`
       cToken
     }
 
+    stakePrizePool {
+      id
+      stakeToken
+    }
+
+    yieldSourcePrizePool {
+      id
+      yieldSource
+    }
+
     sablierStream {
       id
     }

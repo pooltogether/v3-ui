@@ -10,8 +10,8 @@ import { Tabs, Tab, ContentPane } from 'lib/components/Tabs'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
-import { useCommunityPools } from 'lib/hooks/useCommunityPools'
-import { useGovernancePools } from 'lib/hooks/useGovernancePools'
+import { useMultiversionCommunityPools } from 'lib/hooks/useMultiversionCommunityPools'
+import { useMultiversionGovernancePools } from 'lib/hooks/useMultiversionGovernancePools'
 
 export const PoolLists = () => {
   const shouldReduceMotion = useReducedMotion()
@@ -89,10 +89,9 @@ export const PoolLists = () => {
 }
 
 const CommunityPoolsList = () => {
-  const { communityPools, communityPoolsDataLoading } = useCommunityPools()
+  const { communityPools, communityPoolsDataLoading } = useMultiversionCommunityPools()
 
   const communityPoolsSorted = useMemo(() => {
-    // const communityPoolsSorted = orderBy(communityPools, ['totalPrizeAmountUSD'], ['desc'])
     // TODO: To be replaced by automated sorting based on prize size
     //       also note this array is in reverse order of how we want the elements to appear in the list
     //       due to the -1 returned by all the other pools in the sortFunction's indexOf() calls
@@ -133,13 +132,29 @@ const CommunityPoolsList = () => {
 }
 
 const GovernancePoolsList = (props) => {
-  const { pools, poolsDataLoading } = useGovernancePools()
+  const { pools, poolsDataLoading } = useMultiversionGovernancePools()
+
+  const governancePoolsSorted = useMemo(() => {
+    // TODO: To be replaced by automated sorting based on prize size
+    //       also note this array is in reverse order of how we want the elements to appear in the list
+    //       due to the -1 returned by all the other pools in the sortFunction's indexOf() calls
+    const hardcodedSortOrder = [
+      '0x0650d780292142835f6ac58dd8e2a336e87b4393', // UNI
+      '0xbc82221e131c082336cf698f0ca3ebd18afd4ce7', // COMP
+      '0x396b4489da692788e327e2e4b2b0459a5ef26791', // POOL
+      '0xde9ec95d7708b8319ccca4b8bc92c0a3b70bf416', // USDC
+      '0xebfb47a7ad0fd6e57323c8a42b2e5a6a4f68fc1a' // DAI
+    ]
+    return pools.sort((a, b) => {
+      return hardcodedSortOrder.indexOf(b.id) - hardcodedSortOrder.indexOf(a.id)
+    })
+  }, [pools])
 
   if (poolsDataLoading) return <IndexUILoader />
 
   return (
     <>
-      {pools.map((pool) => {
+      {governancePoolsSorted.map((pool) => {
         if (!pool?.id) {
           return null
         }

@@ -8,7 +8,7 @@ import { useTranslation } from 'lib/../i18n'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { usePlayerPrizesQuery } from 'lib/hooks/usePlayerPrizesQuery'
+import { useMultiversionPlayerPrizes } from 'lib/hooks/useMultiversionPlayerPrizes'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
@@ -24,7 +24,7 @@ export const AccountWinnings = () => {
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
 
-  const { data: prizesWon } = usePlayerPrizesQuery(address)
+  const { data: prizesWon } = useMultiversionPlayerPrizes(address)
 
   let awardedControlledTokens = prizesWon?.awardedControlledTokens || []
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import Link from 'next/link'
-import FeatherIcon from 'feather-icons-react'
 
 import { useTranslation } from 'lib/../i18n'
 import { Chip } from 'lib/components/Chip'
@@ -18,7 +17,7 @@ export const PageTitleAndBreadcrumbs = (props) => {
         <div className='inline-flex items-center text-left text-xl sm:text-3xl font-bold text-accent-2 relative'>
           {title}{' '}
           <span className='text-base sm:text-xl ml-2'>
-            {address && <EtherscanAddressLink address={address}></EtherscanAddressLink>}
+            {address && <EtherscanAddressLink address={address} />}
           </span>
         </div>
         <div

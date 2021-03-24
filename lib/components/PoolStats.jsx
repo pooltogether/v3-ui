@@ -3,12 +3,18 @@ import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
+import {
+  CUSTOM_YIELD_SOURCE_NAMES,
+  CUSTOM_YIELD_SOURCE_IMAGES
+} from 'lib/constants/customYieldSourceImages'
+import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { Tooltip } from 'lib/components/Tooltip'
 import { useTokenFaucetAPR } from 'lib/hooks/useTokenFaucetAPR'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { useTokenFaucetData } from 'lib/hooks/useTokenFaucetData'
+import { determineYieldSource, YieldSources } from 'lib/utils/determineYieldSource'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -63,7 +69,16 @@ const StatsList = (props) => {
 // Generic stat component
 
 const Stat = (props) => {
-  const { title, tokenSymbol, sourceImage, tokenAmount, value, percent, tooltip } = props
+  const {
+    title,
+    tokenSymbol,
+    sourceName,
+    sourceImage,
+    tokenAmount,
+    value,
+    percent,
+    tooltip
+  } = props
 
   return (
     <li className='flex justify-between mb-2 last:mb-0'>
@@ -73,7 +88,8 @@ const Stat = (props) => {
       </span>
       {(sourceImage || value) && (
         <span className='flex items-center'>
-          {sourceImage} {value && <span>{value}</span>}
+          <span className='capitalize mr-2'>{sourceName}</span> {sourceImage}{' '}
+          {value && <span>{value}</span>}
         </span>
       )}
       {tokenSymbol && tokenAmount && (
@@ -143,16 +159,45 @@ const ReserveRateStat = (props) => {
 const YieldSourceStat = (props) => {
   const { pool } = props
 
-  // TODO: Update `isStakePrizePool` across the app to support any yield source
-  const yieldSource = pool.isStakePrizePool ? 'Stake' : 'Compound Finance'
+  const { t } = useTranslation()
+  const yieldSource = determineYieldSource(pool)
 
-  let sourceImage
-  if (yieldSource === 'Compound Finance') {
+  let sourceImage, sourceName, etherscanLink
+  if (yieldSource === YieldSources.compoundFinanceYieldSource) {
+    sourceName = 'Compound Finance'
     sourceImage = <img src={CompSvg} className='w-6 mr-2' />
   }
 
-  return <Stat title='Yield source' value={yieldSource} sourceImage={sourceImage} />
+  if (yieldSource === YieldSources.customYieldSource) {
+    const yieldSourceAddress = pool.yieldSourcePrizePool.yieldSource
+    etherscanLink = <EtherscanAddressLink address={yieldSourceAddress} />
+
+    sourceName = CUSTOM_YIELD_SOURCE_NAMES[yieldSourceAddress]
+
+    const providedCustomImage = CUSTOM_YIELD_SOURCE_IMAGES[sourceName]
+    let customYieldSourceIcon = '/ticket-bg--light-sm.png'
+    if (providedCustomImage) {
+      customYieldSourceIcon = providedCustomImage
+    }
+
+    sourceImage = <img src={customYieldSourceIcon} className='w-6 mr-2' />
+  }
+
+  return (
+    <Stat
+      title={t('yieldSource')}
+      value={
+        <>
+          {t(yieldSource)} {etherscanLink}
+        </>
+      }
+      sourceName={sourceName}
+      sourceImage={sourceImage}
+    />
+  )
 }
+
+// audited vs unaudited
 
 const SponsorshipStat = (props) => {
   const { pool } = props

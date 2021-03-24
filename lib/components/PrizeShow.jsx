@@ -1,4 +1,5 @@
 import React from 'react'
+import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 
@@ -30,6 +31,9 @@ export function PrizeShow(props) {
 
   const ticketSupply =
     preAwardTimeTravelPool?.ticketSupply && bn(preAwardTimeTravelPool?.ticketSupply)
+
+  const externalAwardsValueUSD = preAwardTimeTravelPool?.externalAwardsUSD
+  const hasLootBox = externalAwardsValueUSD
 
   return (
     <>
@@ -79,7 +83,7 @@ export function PrizeShow(props) {
         basePath={`/prizes/${poolSymbol}/${prizeNumber}`}
       />
 
-      <div className='-mt-10 sm:-mt-8'>
+      <div className={classnames({ '-mt-10 sm:-mt-8': hasLootBox })}>
         <CardGrid
           cardGroupId='prize-cards'
           cards={[

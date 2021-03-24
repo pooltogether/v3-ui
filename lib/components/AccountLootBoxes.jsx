@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { LootBoxWon } from 'lib/components/LootBoxWon'
-import { usePlayerPrizesQuery } from 'lib/hooks/usePlayerPrizesQuery'
+import { useMultiversionPlayerPrizes } from 'lib/hooks/useMultiversionPlayerPrizes'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { usePools } from 'lib/hooks/usePools'
 
@@ -18,7 +18,7 @@ export const AccountLootBoxes = () => {
 
   const { usersAddress } = useContext(AuthControllerContext)
 
-  const { data } = usePlayerPrizesQuery(usersAddress)
+  const { data } = useMultiversionPlayerPrizes(usersAddress)
 
   const awardedExternalErc721Nfts = data?.awardedExternalErc721Nfts || []
 

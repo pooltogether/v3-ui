@@ -17,7 +17,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { ThemedClipLoader } from 'lib/components/ThemedClipLoader'
-import { useAccount } from 'lib/hooks/useAccount'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 import { usePools } from 'lib/hooks/usePools'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
@@ -219,7 +219,7 @@ const ClaimablePoolTokenItem = (props) => {
   const { address, pool, poolGraphData, refetchAllPoolTokenData } = props
 
   const { t } = useTranslation()
-  const { accountData } = useAccount(address)
+  const { data: accountData } = useAccountQuery(address, pool.version)
   const { playerTickets } = usePlayerTickets(accountData)
 
   const { symbol } = pool

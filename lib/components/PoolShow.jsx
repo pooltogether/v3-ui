@@ -48,14 +48,13 @@ export const PoolShow = (props) => {
   const { pool } = usePool(poolSymbol)
 
   const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
-
   const [cookieShowAward, setCookieShowAward] = useState(false)
 
   useInterval(() => {
     setCookieShowAward(Cookies.get(SHOW_MANAGE_LINKS))
   }, 1000)
 
-  if (!pool) {
+  if (!pool?.version) {
     return <PoolShowLoader />
   }
 

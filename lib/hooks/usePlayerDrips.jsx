@@ -6,6 +6,8 @@ export const PlayerDataContext = React.createContext(null)
 
 const debug = require('debug')('pool-app:PoolDataContext')
 
+// This is deprecated but needs to be around for the old rewards system so people
+// can still claim from the drips. It only needs the 3_1_0 subgraph
 export function usePlayerDrips(address, blockNumber = -1) {
   let playerDrips
 

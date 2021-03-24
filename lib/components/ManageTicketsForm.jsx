@@ -4,9 +4,9 @@ import { STRINGS } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AccountTicket } from 'lib/components/AccountTicket'
-import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
+// import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
-import { useAccount } from 'lib/hooks/useAccount'
+import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
 import { usePool } from 'lib/hooks/usePool'
 
@@ -19,7 +19,7 @@ export function ManageTicketsForm(props) {
 
   const [action, setAction] = useState(STRINGS.withdraw)
 
-  const { accountData } = useAccount(usersAddress)
+  const { data: accountData } = useMultiversionAccount(usersAddress)
 
   const { playerTickets } = usePlayerTickets(accountData)
   const playerTicket = playerTickets?.find((playerTicket) => playerTicket.pool.id === pool?.id)

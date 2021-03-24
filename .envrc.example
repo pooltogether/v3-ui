@@ -7,12 +7,6 @@ export NEXT_JS_FORTMATIC_PRODUCTION_API_KEY=<YOUR_FORTMATIC_PRODUCTION_API_KEY>
 
 export NEXT_JS_PORTIS_API_KEY=<YOUR_PORTIS_API_KEY>
 
-export NEXT_JS_UNISWAP_SUBGRAPH_URI_MAINNET=https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2
-
-export NEXT_JS_SUBGRAPH_LOOTBOX_URI_MAINNET=
-export NEXT_JS_SUBGRAPH_LOOTBOX_URI_ROPSTEN=
-export NEXT_JS_SUBGRAPH_LOOTBOX_URI_RINKEBY=https://thegraph.com/explorer/subgraph/pooltogether/ptv3-lootbox-rinkeby-staging?version=current
-
 export NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME=homestead
 
 export NEXT_JS_INFURA_ID=<YOUR_INFURA_ID>

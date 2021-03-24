@@ -7,6 +7,8 @@ import { useReadProvider } from 'lib/hooks/useReadProvider'
 import { usePoolDripsQuery } from 'lib/hooks/usePoolDripsQuery'
 import { useUsersDripQuery } from 'lib/hooks/useUsersDripQuery'
 
+// This is deprecated but needs to be around for the old rewards system so people
+// can still claim from the drips. It only needs the 3_1_0 subgraph
 export function useUsersDripData() {
   const { usersAddress } = useContext(AuthControllerContext)
 

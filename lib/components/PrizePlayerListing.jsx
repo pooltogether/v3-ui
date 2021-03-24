@@ -8,8 +8,6 @@ import { PlayersTable } from 'lib/components/PlayersTable'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-import PlayersIcon from 'assets/images/players@2x.png'
-
 export const PrizePlayerListing = (props) => {
   const { t } = useTranslation()
   const { isFetching, isFetched, balances, pool, prize, baseAsPath, baseHref } = props

@@ -48,42 +48,54 @@ export const COOKIE_OPTIONS = {
 }
 
 export const POOLS = {
-  1: [
-    {
-      name: 'DAI Pool',
-      symbol: 'PT-cDAI'
-    },
-    {
-      name: 'USDC Pool',
-      symbol: 'PT-cUSDC'
-    },
-    {
-      name: 'UNI Pool',
-      symbol: 'PT-cUNI'
-    },
-    {
-      name: 'COMP Pool',
-      symbol: 'PT-cCOMP'
-    },
-    {
-      name: 'POOL Pool',
-      symbol: 'PT-stPOOL'
-    }
-  ],
-  4: [
-    {
-      name: 'DAI Pool',
-      symbol: 'PT-cDAI'
-    },
-    {
-      name: 'BAT Pool',
-      symbol: 'PT-cBAT'
-    },
-    {
-      name: 'USDC Pool',
-      symbol: 'PT-cUSDC'
-    }
-  ]
+  1: {
+    '3.1.0': [
+      {
+        name: 'DAI Pool',
+        symbol: 'PT-cDAI'
+      },
+      {
+        name: 'USDC Pool',
+        symbol: 'PT-cUSDC'
+      },
+      {
+        name: 'UNI Pool',
+        symbol: 'PT-cUNI'
+      },
+      {
+        name: 'COMP Pool',
+        symbol: 'PT-cCOMP'
+      }
+    ],
+    '3.3.2': [
+      {
+        name: 'POOL Pool',
+        symbol: 'PT-stPOOL'
+      }
+    ]
+  },
+  4: {
+    '3.1.0': [
+      {
+        name: 'DAI Pool',
+        symbol: 'PT-cDAI'
+      },
+      {
+        name: 'BAT Pool',
+        symbol: 'PT-cBAT'
+      },
+      {
+        name: 'USDC Pool',
+        symbol: 'PT-cUSDC'
+      }
+    ],
+    '3.3.2': []
+  }
+}
+
+export const ALL_POOLS = {
+  1: [...POOLS[1]['3.1.0'], ...POOLS[1]['3.3.2']],
+  4: [...POOLS[4]['3.1.0'], ...POOLS[4]['3.3.2']]
 }
 
 export const PRIZE_STRATEGY_TYPES = {
@@ -144,24 +156,6 @@ export const V2_CONTRACT_ADDRESSES = [
   '0xBD87447F48ad729C5c4b8bcb503e1395F62e8B98'.toLowerCase(),
   '0x801b4872a635dccc7e679eeaf04bef08e562972a'.toLowerCase()
 ]
-
-export const POOLTOGETHER_SUBGRAPH_URIS = {
-  1: process.env.NEXT_JS_SUBGRAPH_URI_MAINNET,
-  3: process.env.NEXT_JS_SUBGRAPH_URI_ROPSTEN,
-  4: process.env.NEXT_JS_SUBGRAPH_URI_RINKEBY
-}
-
-export const LOOTBOX_GRAPH_URIS = {
-  1: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_MAINNET,
-  3: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_ROPSTEN,
-  4: process.env.NEXT_JS_SUBGRAPH_LOOTBOX_URI_RINKEBY
-}
-
-export const UNISWAP_GRAPH_URIS = {
-  1: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_MAINNET, // https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2
-  3: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_ROPSTEN,
-  4: process.env.NEXT_JS_UNISWAP_SUBGRAPH_URI_RINKEBY // https://api.thegraph.com/subgraphs/name/blockrockettech/uniswap-v2-subgraph-rinkeby
-}
 
 export const STRINGS = {
   transfer: 'transfer',
