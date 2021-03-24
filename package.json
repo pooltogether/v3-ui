@@ -59,7 +59,7 @@
   "dependencies": {
     "3box": "^1.21.0",
     "@argent/smartwallet-utils": "^0.0.11",
-    "@pooltogether/bnc-onboard": "1.18.0",
+    "@pooltogether/bnc-onboard": "^1.20.2",
     "@pooltogether/current-pool-data": "3.3.1",
     "@pooltogether/etherplex": "1.0.0",
     "@pooltogether/loot-box": "1.1.0",
@@ -88,7 +88,7 @@
     "date-fns-tz": "^1.0.12",
     "email-validator": "^2.0.4",
     "eth-revert-reason": "^1.0.3",
-    "ethers": "^5.0.31",
+    "ethers": "^5.0.32",
     "fathom-client": "^3.0.0",
     "feather-icons-react": "^0.4.1",
     "framer-motion": "3.7.0",
