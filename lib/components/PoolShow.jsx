@@ -27,6 +27,7 @@ import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceT
 import { Tagline } from 'lib/components/Tagline'
 import { usePool } from 'lib/hooks/usePool'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
+import { determineYieldSource, YieldSources } from 'lib/utils/determineYieldSource'
 import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 import { translatedPoolName } from 'lib/utils/translatedPoolName'
@@ -35,6 +36,8 @@ import { PoolCharts } from 'lib/components/PoolCharts'
 import { PoolPrizeCard } from 'lib/components/PoolPrizeCard'
 import { PoolStats } from 'lib/components/PoolStats'
 import { PastWinnersCard } from 'lib/components/PastWinnersCard'
+
+import Bell from 'assets/images/bell-yellow@2x.png'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -104,7 +107,7 @@ export const PoolShow = (props) => {
           }
         }}
       >
-        <div className='flex flex-col xs:flex-row justify-between xs:items-center'>
+        <div className='flex flex-col xs:flex-row justify-between xs:items-center mb-10'>
           <div className='flex justify-between items-center xs:w-1/2'>
             <PageTitleAndBreadcrumbs
               title={translatedPoolName(t, pool?.name)}
@@ -135,6 +138,8 @@ export const PoolShow = (props) => {
           </div>
         </div>
 
+        <UnauditedWarning pool={pool} />
+
         <PoolPrizeCard pool={pool} />
 
         <UpcomingPrizeBreakdownCard />
@@ -164,7 +169,7 @@ export const PoolShow = (props) => {
           }}
         </PrizePlayersQuery>
 
-        <div className='flex flex-col items-center justify-center mt-20'>
+        <div className='flex flex-col items-center justify-center mt-10'>
           {walletName === 'MetaMask' && (
             <div className='m-2'>
               <AddTokenToMetaMaskButton
@@ -203,5 +208,24 @@ export const PoolShow = (props) => {
 
       <Tagline />
     </>
+  )
+}
+
+const UnauditedWarning = (props) => {
+  const { pool } = props
+
+  if (determineYieldSource(pool) !== YieldSources.customYieldSource) {
+    return null
+  }
+
+  const { t } = useTranslation()
+
+  return (
+    <div className='flex flex-col xs:flex-row text-center items-center justify-center bg-default rounded-lg mt-4 pt-4 pb-2 xs:py-4 px-4 text-orange'>
+      <div className='mb-2 xs:mb-0 xs:mr-4'>
+        <img className='shake' src={Bell} style={{ maxWidth: 20 }} />
+      </div>
+      {t('unauditedYieldSource')}
+    </div>
   )
 }
