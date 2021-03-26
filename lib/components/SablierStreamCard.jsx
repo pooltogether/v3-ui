@@ -37,7 +37,7 @@ export const SablierStreamCard = (props) => {
   return (
     <div
       id='sablier-card'
-      className='non-interactable-card my-10 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'
+      className='non-interactable-card my-4 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
       <h3 className='mb-4'>{t('sablierStream')}</h3>
 

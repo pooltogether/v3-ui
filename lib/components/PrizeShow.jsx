@@ -12,6 +12,7 @@ import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PrizeBreakdown } from 'lib/components/PrizeBreakdown'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
+import { Tagline } from 'lib/components/Tagline'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 const bn = ethers.BigNumber.from
@@ -127,6 +128,8 @@ export function PrizeShow(props) {
           )
         }}
       </PrizePlayersQuery>
+
+      <Tagline />
     </>
   )
 }
