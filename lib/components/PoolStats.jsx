@@ -72,6 +72,7 @@ const Stat = (props) => {
   const {
     title,
     tokenSymbol,
+    convertedValue,
     sourceName,
     sourceImage,
     tokenAmount,
@@ -94,6 +95,11 @@ const Stat = (props) => {
       )}
       {tokenSymbol && tokenAmount && (
         <span>
+          {Boolean(convertedValue) && (
+            <>
+              <span className='opacity-30'>(${numberWithCommas(convertedValue)})</span>{' '}
+            </>
+          )}
           <PoolNumber>{numberWithCommas(tokenAmount)}</PoolNumber>
           <span>{tokenSymbol}</span>
         </span>
@@ -119,6 +125,7 @@ const DepositsStat = (props) => {
   return (
     <Stat
       title={t('totalDeposits')}
+      convertedValue={pool.totalDepositedUSD}
       tokenSymbol={pool.underlyingCollateralSymbol}
       tokenAmount={ticketDepositsFormatted}
     />
@@ -138,6 +145,7 @@ const ReserveStat = (props) => {
   return (
     <Stat
       title={t('reserve')}
+      convertedValue={pool.totalReserveUSD}
       tokenSymbol={pool.underlyingCollateralSymbol}
       tokenAmount={reserveAmount}
       tooltip={t('reserveInfo')}
@@ -214,6 +222,7 @@ const SponsorshipStat = (props) => {
     <>
       <Stat
         title={t('sponsorship')}
+        convertedValue={pool.totalSponsoredUSD}
         tokenSymbol={pool.underlyingCollateralSymbol}
         tokenAmount={sponsorshipDepositsFormatted}
         tooltip={t('sponsorshipInfo')}

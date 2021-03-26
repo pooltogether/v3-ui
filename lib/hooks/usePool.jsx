@@ -47,6 +47,11 @@ export function usePool(poolSymbol, blockNumber = -1) {
     ...poolGraphData
   }
 
+  const sponsoredSupply = pool.totalSponsorship
+  const ticketSupply = pool.ticketSupply
+  const reserveSupply = pool.reserveTotalSupply
+  const tokenDecimals = pool.underlyingCollateralDecimals
+
   const { erc20ChainData } = useErc20ChainQuery(pool)
   const { erc721ChainData } = useErc721ChainQuery(pool)
 
@@ -101,14 +106,14 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const numWinners = parseInt(pool.numberOfWinners || 1, 10)
 
-  const underlyingCollateralValueUSD = uniswapPriceData?.[pool.underlyingCollateralToken]?.usd
+  const tokenValueUSD = uniswapPriceData?.[pool.underlyingCollateralToken]?.usd
 
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(lootBox.awards)
 
   let ticketPrizeUSD = parseFloat(calculateEstimatedPoolPrize(pool)) + sablierPrizeUSD
 
-  if (underlyingCollateralValueUSD) {
-    ticketPrizeUSD = (ticketPrizeUSD * parseInt(underlyingCollateralValueUSD * 100, 10)) / 100
+  if (tokenValueUSD) {
+    ticketPrizeUSD = (ticketPrizeUSD * parseInt(tokenValueUSD * 100, 10)) / 100
   } else {
     // console.warn('could not get USD value for price of underlying collateral token')
   }
@@ -126,16 +131,9 @@ export function usePool(poolSymbol, blockNumber = -1) {
   const fetchingTotals =
     externalAwardsUSD === null || (ticketPrizeUSD === 0 && uniswapIsFetching && !uniswapIsFetched)
 
-  let totalDepositedUSD
-  if (pool.ticketSupply && pool.underlyingCollateralDecimals) {
-    const ticketsFormatted = ethers.utils.formatUnits(
-      pool.ticketSupply,
-      parseInt(pool.underlyingCollateralDecimals, 10)
-    )
-    totalDepositedUSD = underlyingCollateralValueUSD
-      ? ticketsFormatted * underlyingCollateralValueUSD
-      : ticketsFormatted
-  }
+  const totalDepositedUSD = _calculateConvertedValue(ticketSupply, tokenDecimals, tokenValueUSD)
+  const totalSponsoredUSD = _calculateConvertedValue(sponsoredSupply, tokenDecimals, tokenValueUSD)
+  const totalReserveUSD = _calculateConvertedValue(reserveSupply, tokenDecimals, tokenValueUSD)
 
   const refetchAllPoolData = () => {
     poolsRefetch()
@@ -148,6 +146,8 @@ export function usePool(poolSymbol, blockNumber = -1) {
     fetchingTotals,
     lootBox,
     totalDepositedUSD,
+    totalSponsoredUSD,
+    totalReserveUSD,
     totalPrizeAmountUSD,
     grandPrizeAmountUSD,
     ticketPrizePerWinnerUSD,
@@ -161,4 +161,15 @@ export function usePool(poolSymbol, blockNumber = -1) {
     pool,
     refetchAllPoolData
   }
+}
+
+const _calculateConvertedValue = (tokenValue, decimals, tokenValueUSD) => {
+  let convertedValue
+
+  if (tokenValue && decimals) {
+    const valueFormatted = ethers.utils.formatUnits(tokenValue, parseInt(decimals, 10))
+    convertedValue = tokenValueUSD ? parseFloat(valueFormatted) * tokenValueUSD : valueFormatted
+  }
+
+  return convertedValue
 }
