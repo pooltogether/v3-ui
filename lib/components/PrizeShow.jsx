@@ -7,6 +7,7 @@ import TicketsIcon from 'assets/images/icon-ticket@2x.png'
 import { useTranslation } from 'lib/../i18n'
 import { CardGrid } from 'lib/components/CardGrid'
 import { LootBoxTable } from 'lib/components/LootBoxTable'
+import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PrizeBreakdown } from 'lib/components/PrizeBreakdown'
@@ -84,30 +85,28 @@ export function PrizeShow(props) {
         basePath={`/prizes/${poolSymbol}/${prizeNumber}`}
       />
 
-      <div className={classnames({ '-mt-10 sm:-mt-8': hasLootBox })}>
-        <CardGrid
-          cardGroupId='prize-cards'
-          cards={[
-            {
-              noMinHeight: true,
-              icon: TicketsIcon,
-              title: t('depositedAmount'),
-              content: (
-                <h3>
-                  {numberWithCommas(ticketSupply, { decimals })} {ticker}
-                </h3>
-              )
-            }
-          ]}
-        />
-      </div>
+      <CardGrid
+        cardGroupId='prize-cards'
+        cards={[
+          {
+            noMinHeight: true,
+            icon: TicketsIcon,
+            title: t('depositedAmount'),
+            content: (
+              <h3>
+                {numberWithCommas(ticketSupply, { decimals })} {ticker}
+              </h3>
+            )
+          }
+        ]}
+      />
 
       <PrizePlayersQuery
         pool={postAwardTimeTravelPool}
         blockNumber={postAwardTimeTravelPool.blockNumber}
       >
-        {({ data, isFetching, isFetched }) => {
-          if (!prize && prize !== null) {
+        {({ data, isFetched }) => {
+          if (!isFetched) {
             return (
               <div className='mt-10'>
                 <IndexUILoader />
@@ -119,7 +118,6 @@ export function PrizeShow(props) {
             <PrizePlayerListing
               baseAsPath={`/prizes/${poolSymbol}/${prizeNumber}`}
               baseHref='/prizes/[symbol]/[prizeNumber]'
-              isFetching={isFetching}
               isFetched={isFetched}
               balances={data}
               pool={postAwardTimeTravelPool}

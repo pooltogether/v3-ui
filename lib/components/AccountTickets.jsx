@@ -7,7 +7,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
-import { TicketsLoader } from 'lib/components/TicketsLoader'
+import { TicketsUILoader } from 'lib/components/loaders/TicketsUILoader'
 import { V2AccountTicket } from 'lib/components/V2AccountTicket'
 import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
@@ -62,9 +62,9 @@ export const AccountTickets = () => {
     normalizedUsdcPodBalance.lt('10000000000000')
 
   return (
-    <div className='mt-16'>
+    <div className='mt-8 xs:mt-16'>
       {!accountDataIsFetched ? (
-        <TicketsLoader />
+        <TicketsUILoader />
       ) : playerTickets.length === 0 && (hasNoV2Balance || hasNoV2Balance === undefined) ? (
         <BlankStateMessage>
           <div className='mb-10 font-bold'>

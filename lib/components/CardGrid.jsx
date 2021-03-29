@@ -6,7 +6,7 @@ export function Card(props) {
   const { content, icon, title, noMinHeight } = card
 
   return (
-    <div className={classnames(className, 'w-full px-4 mt-4 sm:mt-10')}>
+    <div className={classnames(className, 'w-full px-4')}>
       <div
         className={classnames(
           'non-interactable-card mb-2 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg',

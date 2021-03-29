@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 
 import { Banner } from 'lib/components/Banner'
-import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
+import { BannerUILoader } from 'lib/components/loaders/BannerUILoader'
 import { useTotalPoolPrizeInterestUSD } from 'lib/hooks/useTotalPoolPrizeInterestUSD'
 import { useTotalPoolPrizeValueLockedUSD } from 'lib/hooks/useTotalPoolPrizeValueLockedUSD'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -15,7 +15,6 @@ export const TVLAndWeeklyPrizesBanner = (props) => {
   const { t } = useTranslation()
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { data: retroData, loading } = useRetroactivePoolClaimData()
   const [totalValueLocked, totalPrizePoolValueLockedIsFetched] = useTotalPoolPrizeValueLockedUSD()
   const {
     data: totalPrizeInterestUSD,
@@ -32,14 +31,9 @@ export const TVLAndWeeklyPrizesBanner = (props) => {
     }
   }
 
-  // Check if retro banner is showing
-  if (loading && usersAddress) {
-    return null
-  }
-
   // Check if data has loaded
   if (!totalPrizeIsFetched || !totalPrizePoolValueLockedIsFetched) {
-    return null
+    return <BannerUILoader />
   }
 
   const totalPrizeFormatted = formatNumbers(totalPrizeInterestUSD)

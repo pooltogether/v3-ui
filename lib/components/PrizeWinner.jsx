@@ -59,7 +59,7 @@ export const PrizeWinner = (props) => {
           />
         </span>
       </td>
-      <td width='120'>
+      <td>
         <PoolNumber>{numberWithCommas(usersTicketBalance, { precision: 0 })}</PoolNumber>{' '}
         {pool.underlyingCollateralSymbol}
       </td>

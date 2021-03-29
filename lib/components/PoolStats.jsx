@@ -9,7 +9,7 @@ import {
 } from 'lib/constants/customYieldSourceImages'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { Tooltip } from 'lib/components/Tooltip'
 import { useTokenFaucetAPR } from 'lib/hooks/useTokenFaucetAPR'
 import { Card, CardDetailsList } from 'lib/components/Card'

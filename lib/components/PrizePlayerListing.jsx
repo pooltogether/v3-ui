@@ -10,7 +10,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const PrizePlayerListing = (props) => {
   const { t } = useTranslation()
-  const { isFetching, isFetched, balances, pool, prize, baseAsPath, baseHref } = props
+  const { isFetched, balances, pool, prize, baseAsPath, baseHref } = props
 
   const router = useRouter()
 
@@ -36,7 +36,7 @@ export const PrizePlayerListing = (props) => {
       {balances?.length === 0 && <>{t('noPlayers')}</>}
 
       <div className='xs:bg-primary theme-light--no-gutter text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-4 sm:px-8 mt-4 players-table-min-height'>
-        {isFetching && !isFetched && <V3LoadingDots />}
+        {!isFetched && <V3LoadingDots />}
 
         {balances?.length > 0 && (
           <>

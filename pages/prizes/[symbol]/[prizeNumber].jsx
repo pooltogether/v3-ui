@@ -5,7 +5,7 @@ import { useTranslation } from 'lib/../i18n'
 import { usePool } from 'lib/hooks/usePool'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PrizeShow } from 'lib/components/PrizeShow'
-import { TableRowUILoader } from 'lib/components/TableRowUILoader'
+import { PrizeShowUILoader } from 'lib/components/loaders/PrizeShowUILoader'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { usePrizeQuery } from 'lib/hooks/usePrizeQuery'
 
@@ -21,7 +21,7 @@ export default function PrizeShowPage(props) {
 
   const prizeId = `${pool?.id}-${prizeNumber}`
 
-  const { data, error } = usePrizeQuery(pool, prizeId)
+  const { isFetched, data, error } = usePrizeQuery(pool, prizeId)
   if (error) {
     console.error(error)
   }
@@ -38,27 +38,25 @@ export default function PrizeShowPage(props) {
     )
   }
 
-  if (!prize) {
+  if (!isFetched) {
+    return <PrizeShowUILoader />
+  }
+
+  if (prize === null) {
     return (
       <div className='mt-10'>
-        {prize === null ? (
-          <>
-            {t('couldntFindPrize')}
-            <br />
-            <button
-              type='button'
-              onClick={(e) => {
-                e.preventDefault()
+        {t('couldntFindPrize')}
+        <br />
+        <button
+          type='button'
+          onClick={(e) => {
+            e.preventDefault()
 
-                router.push(`/pools/${querySymbol}`)
-              }}
-            >
-              {t('viewPool')}
-            </button>
-          </>
-        ) : (
-          <TableRowUILoader rows={5} />
-        )}
+            router.push(`/pools/${querySymbol}`)
+          }}
+        >
+          {t('viewPool')}
+        </button>
       </div>
     )
   }
