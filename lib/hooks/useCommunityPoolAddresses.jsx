@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { COMMUNITY_POOLS_BLOCK_LIST } from 'lib/constants/communityPoolsBlockList'
+import { COMMUNITY_POOLS_ALLOW_LIST } from 'lib/constants/communityPoolsAllowList'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useMultiversionPoolAddressesQuery } from 'lib/hooks/useMultiversionPoolAddressesQuery'
@@ -17,7 +17,7 @@ export function useCommunityPoolAddresses() {
   if (isFetched) {
     communityPoolAddresses = addresses
       ?.filter((address) => !governedPoolAddresses.includes(address))
-      .filter((address) => !COMMUNITY_POOLS_BLOCK_LIST[chainId].includes(address.toLowerCase()))
+      .filter((address) => COMMUNITY_POOLS_ALLOW_LIST[chainId].includes(address.toLowerCase()))
   }
 
   return { communityPoolAddresses }
