@@ -89,6 +89,7 @@ export const PoolLists = () => {
 }
 
 const CommunityPoolsList = () => {
+  const { t } = useTranslation()
   const { communityPools, communityPoolsDataLoading } = useMultiversionCommunityPools()
 
   const communityPoolsSorted = useMemo(() => {
@@ -118,6 +119,12 @@ const CommunityPoolsList = () => {
 
         return <PoolRowNew key={`pool-row-${pool.id}`} querySymbol={pool.symbol} />
       })}
+
+      <div className='flex'>
+        <a href='https://community.pooltogether.com' className='mx-auto text-sm underline my-4'>
+          {t('allPoolsAreListedOnCommunityDotPTDotCom')}
+        </a>
+      </div>
     </>
   )
 }
