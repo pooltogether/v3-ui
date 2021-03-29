@@ -7,7 +7,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
-import { TicketsUILoader } from 'lib/components/TicketsUILoader'
+import { TicketsUILoader } from 'lib/components/loaders/TicketsUILoader'
 import { V2AccountTicket } from 'lib/components/V2AccountTicket'
 import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'

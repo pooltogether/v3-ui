@@ -9,7 +9,7 @@ import { PoolRowNew } from 'lib/components/PoolRowNew'
 import { Tabs, Tab, ContentPane } from 'lib/components/Tabs'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
-import { PoolsListUILoader } from 'lib/components/PoolsListUILoader'
+import { PoolsListUILoader } from 'lib/components/loaders/PoolsListUILoader'
 import { useMultiversionCommunityPools } from 'lib/hooks/useMultiversionCommunityPools'
 import { useMultiversionGovernancePools } from 'lib/hooks/useMultiversionGovernancePools'
 

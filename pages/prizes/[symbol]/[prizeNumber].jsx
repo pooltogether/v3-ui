@@ -5,7 +5,7 @@ import { useTranslation } from 'lib/../i18n'
 import { usePool } from 'lib/hooks/usePool'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PrizeShow } from 'lib/components/PrizeShow'
-import { PrizeShowUILoader } from 'lib/components/PrizeShowUILoader'
+import { PrizeShowUILoader } from 'lib/components/loaders/PrizeShowUILoader'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
 import { usePrizeQuery } from 'lib/hooks/usePrizeQuery'
 

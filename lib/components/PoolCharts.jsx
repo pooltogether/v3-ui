@@ -2,10 +2,9 @@ import React from 'react'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
-import { Card, CardDetailsList } from 'lib/components/Card'
-import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { Card } from 'lib/components/Card'
+import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { PoolNumber } from 'lib/components/PoolNumber'
-// import { PrizeValueGraph } from 'lib/components/PrizeValueGraph'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { Tooltip } from 'lib/components/Tooltip'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -21,7 +20,6 @@ export const PoolCharts = (props) => {
   if (loading) {
     return (
       <Card>
-        {/* <h3 className='mb-4'>{t('poolsStats')}</h3> */}
         <IndexUILoader />
       </Card>
     )

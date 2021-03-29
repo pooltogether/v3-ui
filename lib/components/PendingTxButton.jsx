@@ -2,7 +2,7 @@ import React from 'react'
 import { useAtom } from 'jotai'
 
 import { useTranslation } from 'lib/../i18n'
-import { ThemedClipLoader } from 'lib/components/ThemedClipLoader'
+import { ThemedClipLoader } from 'lib/components/loaders/ThemedClipLoader'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 
 export function PendingTxButton(props) {

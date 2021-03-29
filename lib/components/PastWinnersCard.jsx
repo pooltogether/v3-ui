@@ -8,7 +8,7 @@ import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Card, CardDetailsList } from 'lib/components/Card'
 
