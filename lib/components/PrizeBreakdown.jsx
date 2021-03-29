@@ -97,14 +97,14 @@ export const PrizeBreakdown = (props) => {
           )}
         </div>
 
-        <div className='mt-1 xs:mt-0 xs:bg-primary px-4 py-2 xs:py-5 rounded-lg'>
+        <div className='mt-1 xs:mt-0 xs:bg-primary xs:px-4 py-2 xs:py-5 rounded-lg'>
           <table className='theme-light--no-gutter w-full text-xxxs xs:text-xxs sm:text-sm align-top'>
             <thead>
               <tr style={{ background: 'none' }}>
                 {hasLootBox && <th>{t('prize')}</th>}
                 <th>{t('player')}</th>
                 <th>{t('odds')}</th>
-                <th width='120'>{t('deposit')}</th>
+                <th>{t('deposit')}</th>
               </tr>
             </thead>
             <tbody>

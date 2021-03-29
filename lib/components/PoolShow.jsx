@@ -17,7 +17,7 @@ import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CommunityPoolDisclaimerModal } from 'lib/components/CommunityPoolDisclaimerModal'
 import { LootBoxTable } from 'lib/components/LootBoxTable'
-import { PoolShowLoader } from 'lib/components/PoolShowLoader'
+import { PoolShowUILoader } from 'lib/components/PoolShowUILoader'
 import { UpcomingPrizeBreakdownCard } from 'lib/components/UpcomingPrizeBreakdownCard'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Meta } from 'lib/components/Meta'
@@ -58,7 +58,7 @@ export const PoolShow = (props) => {
   }, 1000)
 
   if (!pool?.version) {
-    return <PoolShowLoader />
+    return <PoolShowUILoader />
   }
 
   const handleGetTicketsClick = (e) => {
@@ -107,7 +107,7 @@ export const PoolShow = (props) => {
           }
         }}
       >
-        <div className='flex flex-col xs:flex-row justify-between xs:items-center mb-10'>
+        <div className='flex flex-col xs:flex-row justify-between xs:items-center mb-4 xs:mb-10'>
           <div className='flex justify-between items-center xs:w-1/2'>
             <PageTitleAndBreadcrumbs
               title={translatedPoolName(t, pool?.name)}

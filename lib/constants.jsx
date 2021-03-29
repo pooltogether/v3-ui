@@ -170,3 +170,9 @@ export const POOL_LIST_TABS = {
 export const HOTKEYS_KEY_MAP = {
   TOGGLE_THEME: 'ctrl+shift+t'
 }
+
+export const UI_LOADER_ANIM_DEFAULTS = {
+  gradientRatio: 2.5,
+  interval: 0.05,
+  speed: 0.6
+}

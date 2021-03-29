@@ -9,7 +9,7 @@ import { PoolRowNew } from 'lib/components/PoolRowNew'
 import { Tabs, Tab, ContentPane } from 'lib/components/Tabs'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
-import { IndexUILoader } from 'lib/components/IndexUILoader'
+import { PoolsListUILoader } from 'lib/components/PoolsListUILoader'
 import { useMultiversionCommunityPools } from 'lib/hooks/useMultiversionCommunityPools'
 import { useMultiversionGovernancePools } from 'lib/hooks/useMultiversionGovernancePools'
 
@@ -116,7 +116,7 @@ const CommunityPoolsList = () => {
     })
   }, [communityPools])
 
-  if (communityPoolsDataLoading) return <IndexUILoader />
+  if (communityPoolsDataLoading) return <PoolsListUILoader />
 
   return (
     <>
@@ -150,7 +150,7 @@ const GovernancePoolsList = (props) => {
     })
   }, [pools])
 
-  if (poolsDataLoading) return <IndexUILoader />
+  if (poolsDataLoading) return <PoolsListUILoader />
 
   return (
     <>

@@ -15,6 +15,7 @@ import { CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'li
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
+import { IndexUILoader } from 'lib/components/IndexUILoader'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { ThemedClipLoader } from 'lib/components/ThemedClipLoader'
 import { useAccountQuery } from 'lib/hooks/useAccountQuery'
@@ -52,7 +53,11 @@ export const AccountGovernanceClaims = (props) => {
   }
 
   if (!address) {
-    return null
+    return (
+      <div className='my-16'>
+        <IndexUILoader />
+      </div>
+    )
   }
 
   // const earningsStarted = Date.now() / 1000 > 1613606400

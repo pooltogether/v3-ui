@@ -3,7 +3,7 @@ import ContentLoader from 'react-content-loader'
 
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
-export const TicketsLoader = (props) => {
+export const PoolsListUILoader = (props) => {
   if (!window) {
     return null
   }
@@ -19,13 +19,15 @@ export const TicketsLoader = (props) => {
         gradientRatio={2.5}
         interval={0.05}
         speed={0.6}
-        viewBox='0 0 600 300'
+        viewBox='0 0 600 600'
         backgroundColor={bgColor}
         foregroundColor={foreColor}
       >
-        <rect x='0' y='0' rx='5' ry='5' width='240' height='120' />{' '}
-        <rect x='260' y='0' rx='5' ry='5' width='240' height='120' />
-        {/* <rect x="0" y="90" rx="5" ry="5" width="300" height="80" /> <rect x="310" y="90" rx="5" ry="5" width="300" height="80" /> */}
+        <rect x='0' y='0' rx='5' ry='5' width='600' height='100' />
+        <rect x='0' y='110' rx='5' ry='5' width='600' height='100' />
+        <rect x='0' y='220' rx='5' ry='5' width='600' height='100' />
+        <rect x='0' y='330' rx='5' ry='5' width='600' height='100' />
+        <rect x='0' y='440' rx='5' ry='5' width='600' height='100' />
       </ContentLoader>
     </>
   )

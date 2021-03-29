@@ -5,7 +5,7 @@ import { isMobile } from 'react-device-detect'
 import { UI_LOADER_ANIM_DEFAULTS } from 'lib/constants'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
-export const IndexUILoader = (props) => {
+export const BannerUILoader = (props) => {
   if (!window) {
     return null
   }
@@ -35,7 +35,7 @@ export const IndexUILoader = (props) => {
       backgroundColor={bgColor}
       foregroundColor={foreColor}
     >
-      <rect x='0' y='0' rx='5' ry='5' width='600' height='300' />
+      <rect x='0' y='0' rx='5' ry='5' width='600' height='80' />
     </ContentLoader>
   )
 }
