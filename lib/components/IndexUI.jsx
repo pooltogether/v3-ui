@@ -44,7 +44,7 @@ export const IndexUI = (props) => {
     <>
       <RetroactivePoolClaimBanner />
 
-      <div className='relative h-40'>
+      <div className='relative h-28 xs:h-40'>
         <div className='absolute t-0 l-0 r-0'>
           <BannerMotionDIV
             key='tvl-banner'

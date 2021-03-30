@@ -9,7 +9,7 @@ import { SignInForm } from 'lib/components/SignInForm'
 
 export function DepositWizardSignIn(props) {
   const { t } = useTranslation()
-  const { nextStep } = props
+  const { nextStep, tickerUpcased } = props
 
   const router = useRouter()
   const quantity = router.query.quantity
@@ -23,20 +23,19 @@ export function DepositWizardSignIn(props) {
 
   return (
     <>
-      <PaneTitle small>
+      <PaneTitle>
         <Trans
           i18nKey='depositAmountTickets'
-          defaults='Deposit <number>{{amount}}</number> tickets'
+          defaults='Deposit <number>{{amount}}</number> {{ticker}}'
           components={{
             number: <PoolNumber />
           }}
           values={{
-            amount: quantity
+            amount: quantity,
+            ticker: tickerUpcased
           }}
         />
       </PaneTitle>
-
-      <PaneTitle>{t('connectAWalletToContinue')}</PaneTitle>
 
       <div className='flex flex-col mx-auto w-full'>
         <SignInForm

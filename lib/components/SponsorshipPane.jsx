@@ -61,19 +61,14 @@ export const SponsorshipPane = (props) => {
         ) : (
           <>
             <div className='uppercase text-caption mb-4 font-bold'>
-              {t('balance')} {numberWithCommas(usersSponsorshipBalance, { precision: 0 })}{' '}
-              {tickerUpcased}
+              {t('balance')} {numberWithCommas(usersSponsorshipBalance)} {tickerUpcased}
             </div>
 
             <div className='flex text-center'>
               <Button
-                // secondary
-                bg='highlight-3'
-                hoverBg='green'
-                text='accent-3'
-                hoverText='primary'
-                border='highlight-2'
-                hoverBorder='transparent'
+                text='green'
+                border='green'
+                hoverBorder='green'
                 onClick={handleDepositSponsorshipClick}
                 className='w-1/2 sm:w-3/12 mr-2 border-2'
               >
@@ -81,13 +76,9 @@ export const SponsorshipPane = (props) => {
               </Button>
 
               <Button
-                // secondary
-                bg='highlight-3'
-                hoverBg='green'
-                text='accent-3'
-                hoverText='primary'
-                border='highlight-2'
-                hoverBorder='transparent'
+                text='green'
+                border='green'
+                hoverBorder='green'
                 onClick={handleWithdrawSponsorshipClick}
                 className='w-1/2 sm:w-3/12 ml-2 border-2'
               >

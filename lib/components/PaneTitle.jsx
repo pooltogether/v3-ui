@@ -11,7 +11,7 @@ export function PaneTitle(props) {
   let spacingClasses = 'pb-2 xs:pb-4'
 
   if (small) {
-    fontClasses = 'text-xxs xs:text-sm sm:text-lg lg:text-xl text-inverse font-bold'
+    fontClasses = 'text-xxs xs:text-sm sm:text-lg  text-inverse font-bold'
     spacingClasses = 'pb-2'
   }
 

@@ -34,7 +34,7 @@ export function ManageTicketsForm(props) {
         </div>
       </div>
 
-      <div className='mx-auto mt-4 xs:mb-8'>
+      <div className='mx-auto mt-4 mb-8 xs:mb-12'>
         <AccountTicket
           noMargin
           key={`account-pool-row-${pool?.poolAddress}`}

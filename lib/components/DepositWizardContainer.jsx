@@ -67,52 +67,34 @@ export function DepositWizardContainer(props) {
                 {(step) => {
                   return (
                     step.isActive && (
-                      <>
-                        <DepositTicketQuantityForm
-                          iconSrc={WalletIcon}
-                          formSubName={
-                            <Trans
-                              i18nKey='amountTickerEqualsAmountTickets'
-                              defaults='<number>{{amount}}</number> {{ticker}} = <number>{{amount}}</number> ticket'
-                              components={{
-                                number: <PoolNumber />
-                              }}
-                              values={{
-                                amount: '1',
-                                ticker: tickerUpcased
-                              }}
-                            />
-                          }
-                          nextStep={step.nextStep}
-                        />
-                      </>
+                      <DepositTicketQuantityForm
+                        iconSrc={WalletIcon}
+                        formSubName={
+                          <Trans
+                            i18nKey='amountTickerEqualsAmountTickets'
+                            defaults='<number>{{amount}}</number> {{ticker}} = <number>{{amount}}</number> ticket'
+                            components={{
+                              number: <PoolNumber />
+                            }}
+                            values={{
+                              amount: '1',
+                              ticker: tickerUpcased
+                            }}
+                          />
+                        }
+                        nextStep={step.nextStep}
+                      />
                     )
                   )
                 }}
               </WizardStep>
-              {/* <WizardStep>
-              {(step) => {
-                return step.isActive && <>
-                  <FiatOrCryptoForm
-                    nextStep={step.nextStep}
-                  />
-                </>
-              }}
-            </WizardStep> */}
+
               {!usersAddress && (
-                <>
-                  <WizardStep>
-                    {(step) => {
-                      return (
-                        step.isActive && (
-                          <>
-                            <DepositWizardSignIn />
-                          </>
-                        )
-                      )
-                    }}
-                  </WizardStep>
-                </>
+                <WizardStep>
+                  {(step) => {
+                    return step.isActive && <DepositWizardSignIn tickerUpcased={tickerUpcased} />
+                  }}
+                </WizardStep>
               )}
               <WizardStep>
                 {(step) => {

@@ -36,7 +36,6 @@ export function CompleteAwardUI(props) {
             hoverBorder='green'
             textSize='lg'
             onClick={handleCompleteAwardClick}
-            // disabled={disabled}
           >
             Complete Award
           </Button>

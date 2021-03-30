@@ -23,7 +23,7 @@ export const BannerUILoader = (props) => {
         backgroundColor={bgColor}
         foregroundColor={foreColor}
       >
-        <rect x='0' y='0' rx='5' ry='5' width='400' height='150' />
+        <rect x='0' y='20' rx='5' ry='5' width='400' height='120' />
       </ContentLoader>
     )
   }
@@ -31,7 +31,7 @@ export const BannerUILoader = (props) => {
   return (
     <ContentLoader
       {...UI_LOADER_ANIM_DEFAULTS}
-      viewBox='0 0 600 300'
+      viewBox='0 0 600 80'
       backgroundColor={bgColor}
       foregroundColor={foreColor}
     >
