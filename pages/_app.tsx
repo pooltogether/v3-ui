@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { AppProps } from 'next/dist/next-server/lib/router/router'
 import i18next from '../i18n'
 import Cookies from 'js-cookie'
 import * as Fathom from 'fathom-client'
@@ -12,9 +13,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { QueryCache, ReactQueryCacheProvider } from 'react-query'
 import { Provider } from 'jotai'
 
+import { BodyClasses } from 'lib/components/BodyClasses'
 import { HOTKEYS_KEY_MAP, COOKIE_OPTIONS, REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
-import { BodyClasses } from 'lib/components/BodyClasses'
 import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
 import { GraphErrorModal } from 'lib/components/GraphErrorModal'
 import { Layout } from 'lib/components/Layout'
@@ -65,7 +66,7 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
   })
 }
 
-function MyApp({ Component, pageProps, router }) {
+function MyApp({ Component, pageProps, router }: AppProps) {
   const [initialized, setInitialized] = useState(false)
 
   const shouldReduceMotion = useReducedMotion()
