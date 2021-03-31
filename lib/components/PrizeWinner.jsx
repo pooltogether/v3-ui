@@ -13,14 +13,12 @@ import { shorten } from 'lib/utils/shorten'
 export const PrizeWinner = (props) => {
   const { t } = useTranslation()
 
-  const { grandPrizeWinner, hasLootBox, pool, prize, awardedControlledToken } = props
+  const { grandPrizeWinner, hasLootBox, pool, prize, winnersAddress } = props
 
   const ticketAddress = pool?.ticketToken?.id?.toLowerCase()
   const decimals = pool?.underlyingCollateralDecimals || 18
 
   const blockNumber = prize?.awardedBlock
-
-  const winnersAddress = awardedControlledToken.winner
 
   const { data: accountData } = useAccountQuery(winnersAddress, pool.version, blockNumber - 1)
   const ctBalance = accountData?.controlledTokenBalances.find(

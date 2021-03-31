@@ -14,6 +14,8 @@ import GiftIcon from 'assets/images/icon-gift@2x.png'
 export const PrizeBreakdown = (props) => {
   const { prize, prizeNumber, preAwardTimeTravelPool } = props
 
+  // console.log(preAwardTimeTravelPool, prize)
+
   const { t } = useTranslation()
   const { contractAddresses } = useContractAddresses()
 
@@ -26,7 +28,7 @@ export const PrizeBreakdown = (props) => {
   )
   const grandPrizeWinnersAddress = lootBoxWon?.winner
 
-  const awardedControlledTokens = [...prize?.awardedControlledTokens]
+  let awardedControlledTokens = [...prize?.awardedControlledTokens]
   if (grandPrizeWinnersAddress) {
     const grandPrizeWinner = awardedControlledTokens.find(
       (awardedControlledToken) => awardedControlledToken.winner === grandPrizeWinnersAddress
@@ -36,6 +38,17 @@ export const PrizeBreakdown = (props) => {
       awardedControlledTokens.splice(indexToRemove, 1)
     }
     awardedControlledTokens.unshift(grandPrizeWinner)
+  }
+
+  // TODO: Make this better when refactoring usePool & usePools
+  // This will display the first user in the list as the grand prize winner
+  // Which would be false if: staking pool, none of the staked token to be awarded, erc20 external awards are split between all winners
+  // No pools are like that atm since split awards is hardcoded in the builder to be false
+  if (awardedControlledTokens.length === 0 && prize?.awardedExternalErc20Tokens?.length > 0) {
+    awardedControlledTokens = prize.awardedExternalErc20Tokens.map((token) => ({
+      winner: token.winner,
+      id: token.winner
+    }))
   }
 
   return (
@@ -118,6 +131,7 @@ export const PrizeBreakdown = (props) => {
                         pool={preAwardTimeTravelPool}
                         prize={prize}
                         awardedControlledToken={awardedControlledToken}
+                        winnersAddress={awardedControlledToken.winner}
                         grandPrizeWinner={index === 0}
                       />
                     )
