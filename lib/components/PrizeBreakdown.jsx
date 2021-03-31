@@ -14,8 +14,6 @@ import GiftIcon from 'assets/images/icon-gift@2x.png'
 export const PrizeBreakdown = (props) => {
   const { prize, prizeNumber, preAwardTimeTravelPool } = props
 
-  // console.log(preAwardTimeTravelPool, prize)
-
   const { t } = useTranslation()
   const { contractAddresses } = useContractAddresses()
 
@@ -45,9 +43,12 @@ export const PrizeBreakdown = (props) => {
   // Which would be false if: staking pool, none of the staked token to be awarded, erc20 external awards are split between all winners
   // No pools are like that atm since split awards is hardcoded in the builder to be false
   if (awardedControlledTokens.length === 0 && prize?.awardedExternalErc20Tokens?.length > 0) {
-    awardedControlledTokens = prize.awardedExternalErc20Tokens.map((token) => ({
-      winner: token.winner,
-      id: token.winner
+    const uniqueWinners = [
+      ...new Set(prize.awardedExternalErc20Tokens.map((token) => token.winner))
+    ]
+    awardedControlledTokens = uniqueWinners.map((address) => ({
+      winner: address,
+      id: address
     }))
   }
 
