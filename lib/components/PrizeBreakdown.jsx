@@ -26,7 +26,7 @@ export const PrizeBreakdown = (props) => {
   )
   const grandPrizeWinnersAddress = lootBoxWon?.winner
 
-  const awardedControlledTokens = [...prize?.awardedControlledTokens]
+  let awardedControlledTokens = [...prize?.awardedControlledTokens]
   if (grandPrizeWinnersAddress) {
     const grandPrizeWinner = awardedControlledTokens.find(
       (awardedControlledToken) => awardedControlledToken.winner === grandPrizeWinnersAddress
@@ -36,6 +36,19 @@ export const PrizeBreakdown = (props) => {
       awardedControlledTokens.splice(indexToRemove, 1)
     }
     awardedControlledTokens.unshift(grandPrizeWinner)
+  }
+
+  // TODO: Make this better when refactoring usePool & usePools
+  // This will display the first user in the list of unique addresses that won external erc20s as the grand prize winner.
+  // Which can be wrong be false if erc20 external awards are split between all winners.
+  if (awardedControlledTokens.length === 0 && prize?.awardedExternalErc20Tokens?.length > 0) {
+    const uniqueWinners = [
+      ...new Set(prize.awardedExternalErc20Tokens.map((token) => token.winner))
+    ]
+    awardedControlledTokens = uniqueWinners.map((address) => ({
+      winner: address,
+      id: address
+    }))
   }
 
   return (
@@ -118,6 +131,7 @@ export const PrizeBreakdown = (props) => {
                         pool={preAwardTimeTravelPool}
                         prize={prize}
                         awardedControlledToken={awardedControlledToken}
+                        winnersAddress={awardedControlledToken.winner}
                         grandPrizeWinner={index === 0}
                       />
                     )
