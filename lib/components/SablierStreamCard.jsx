@@ -32,10 +32,7 @@ export const SablierStreamCard = (props) => {
   const streamTotalTime = stopTime.sub(startTime)
   const currentTimeRelativeToStreamStart = currentTime.sub(startTime)
   const percentOfStreamDone = currentTimeRelativeToStreamStart.mul(100).div(streamTotalTime)
-  console.log(streamTotalTime.toString())
-  console.log(prizePeriodSeconds)
   const prizesToBeStreamedTo = streamTotalTime.div(prizePeriodSeconds)
-  console.log(prizesToBeStreamedTo.toString())
 
   return (
     <div
