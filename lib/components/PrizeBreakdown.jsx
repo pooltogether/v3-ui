@@ -39,9 +39,8 @@ export const PrizeBreakdown = (props) => {
   }
 
   // TODO: Make this better when refactoring usePool & usePools
-  // This will display the first user in the list as the grand prize winner
-  // Which would be false if: staking pool, none of the staked token to be awarded, erc20 external awards are split between all winners
-  // No pools are like that atm since split awards is hardcoded in the builder to be false
+  // This will display the first user in the list of unique addresses that won external erc20s as the grand prize winner.
+  // Which can be wrong be false if erc20 external awards are split between all winners.
   if (awardedControlledTokens.length === 0 && prize?.awardedExternalErc20Tokens?.length > 0) {
     const uniqueWinners = [
       ...new Set(prize.awardedExternalErc20Tokens.map((token) => token.winner))
