@@ -110,13 +110,15 @@ export function usePool(poolSymbol, blockNumber = -1) {
 
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(lootBox.awards)
 
-  let ticketPrizeUSD = parseFloat(calculateEstimatedPoolPrize(pool)) + sablierPrizeUSD
+  let ticketPrizeUSD = parseFloat(calculateEstimatedPoolPrize(pool))
 
   if (tokenValueUSD) {
     ticketPrizeUSD = (ticketPrizeUSD * parseInt(tokenValueUSD * 100, 10)) / 100
   } else {
     // console.warn('could not get USD value for price of underlying collateral token')
   }
+
+  ticketPrizeUSD += sablierPrizeUSD
 
   const ticketPrizePerWinnerUSD = ticketPrizeUSD / numWinners
 
