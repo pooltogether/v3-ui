@@ -6,7 +6,7 @@ import { AnimatePresence } from 'framer-motion'
 
 import MerkleDistributorAbi from 'abis/MerkleDistributor'
 
-import { CONTRACT_ADDRESSES } from 'lib/constants'
+import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
@@ -355,7 +355,7 @@ const ClaimableBalanceCheck = (props) => {
     const id = await sendTx(
       txName,
       MerkleDistributorAbi,
-      CONTRACT_ADDRESSES[chainId].MerkleDistributor,
+      CUSTOM_CONTRACT_ADDRESSES[chainId].MerkleDistributor,
       'claim',
       params
       // TODO: Add refetch

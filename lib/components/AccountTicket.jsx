@@ -15,7 +15,7 @@ import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { usePool } from 'lib/hooks/usePool'
-import { usePools } from 'lib/hooks/usePools'
+import { usePools_OLD } from 'lib/hooks/usePools_OLD'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
@@ -26,7 +26,7 @@ export const AccountTicket = (props) => {
 
   const [isSelf] = useAtom(isSelfAtom)
 
-  const { pools } = usePools()
+  const { pools } = usePools_OLD()
 
   const shouldReduceMotion = useReducedMotion()
 

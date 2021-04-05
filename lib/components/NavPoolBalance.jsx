@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { Dialog } from '@reach/dialog'
 
 import { useTranslation } from 'lib/../i18n'
-import { CONTRACT_ADDRESSES } from 'lib/constants'
+import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { useCoingeckoTokenInfoQuery } from 'lib/hooks/useCoingeckoTokenInfoQuery'
@@ -58,7 +58,7 @@ const PoolBalanceModal = (props) => {
   const formattedBalance = numberWithCommas(usersBalance)
   const formattedTotalSupply = numberWithCommas(totalSupply)
 
-  const tokenAddress = CONTRACT_ADDRESSES[chainId]?.GovernanceToken
+  const tokenAddress = CUSTOM_CONTRACT_ADDRESSES[chainId]?.GovernanceToken
   const { data: tokenInfo } = useCoingeckoTokenInfoQuery(tokenAddress)
   const formattedInCirculation = numberWithCommas(tokenInfo?.market_data?.circulating_supply)
 

@@ -103,7 +103,13 @@ export const PRIZE_STRATEGY_TYPES = {
   multipleWinners: 'multipleWinners'
 }
 
-export const CONTRACT_ADDRESSES = {
+export const PRIZE_POOL_TYPES = {
+  compound: 'compound',
+  genericYield: 'genericYield',
+  stake: 'stake'
+}
+
+export const CUSTOM_CONTRACT_ADDRESSES = {
   1: {
     Usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',
     TokenFaucetProxyFactory: TokenFaucetProxyFactoryMainnet.address,
@@ -147,7 +153,7 @@ export const HISTORICAL_TOKEN_VALUES = {
   }
 }
 
-export const V2_CONTRACT_ADDRESSES = [
+export const V2_CUSTOM_CONTRACT_ADDRESSES = [
   '0x29fe7D60DdF151E5b52e5FAB4f1325da6b2bD958'.toLowerCase(),
   '0x0034Ea9808E620A0EF79261c51AF20614B742B24'.toLowerCase(),
   '0x9F4C5D8d9BE360DF36E67F52aE55C1B137B4d0C4'.toLowerCase(),
@@ -176,3 +182,9 @@ export const UI_LOADER_ANIM_DEFAULTS = {
   interval: 0.05,
   speed: 0.6
 }
+
+export const NO_REFETCH_QUERY_OPTIONS = Object.freeze({
+  refetchInterval: false,
+  refetchOnReconnect: false,
+  refetchOnWindowFocus: false
+})

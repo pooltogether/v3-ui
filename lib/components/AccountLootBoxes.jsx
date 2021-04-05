@@ -5,7 +5,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { LootBoxWon } from 'lib/components/LootBoxWon'
 import { useMultiversionPlayerPrizes } from 'lib/hooks/useMultiversionPlayerPrizes'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
-import { usePools } from 'lib/hooks/usePools'
+import { usePools_OLD } from 'lib/hooks/usePools_OLD'
 
 import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 
@@ -14,7 +14,7 @@ export const AccountLootBoxes = () => {
   const { t } = useTranslation()
 
   const { contractAddresses } = useContractAddresses()
-  const { pools } = usePools()
+  const { pools } = usePools_OLD()
 
   const { usersAddress } = useContext(AuthControllerContext)
 

@@ -7,6 +7,7 @@ export const controlledTokenFragment = gql`
 
     name
     symbol
+    decimals
     numberOfHolders
   }
 `

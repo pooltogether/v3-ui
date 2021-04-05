@@ -11,7 +11,7 @@ import { usePreviousValue } from 'beautiful-react-hooks'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucetProxyFactory'
 
-import { CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
+import { CUSTOM_CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
@@ -19,7 +19,7 @@ import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { ThemedClipLoader } from 'lib/components/loaders/ThemedClipLoader'
 import { useAccountQuery } from 'lib/hooks/useAccountQuery'
-import { usePools } from 'lib/hooks/usePools'
+import { usePools_OLD } from 'lib/hooks/usePools_OLD'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
 import { useClaimablePoolFromTokenFaucets } from 'lib/hooks/useClaimablePoolFromTokenFaucets'
@@ -36,7 +36,7 @@ import PoolIcon from 'assets/images/pool-icon.svg'
 export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
 
-  const { pools, poolsGraphData } = usePools()
+  const { pools, poolsGraphData } = usePools_OLD()
 
   const { chainId, usersAddress } = useContext(AuthControllerContext)
 
@@ -86,7 +86,7 @@ export const AccountGovernanceClaims = (props) => {
             basic
             showPoolIcon
             textSize='xxs'
-            tokenAddress={CONTRACT_ADDRESSES[chainId]?.GovernanceToken}
+            tokenAddress={CUSTOM_CONTRACT_ADDRESSES[chainId]?.GovernanceToken}
             tokenSymbol='POOL'
           />
         </div>
@@ -178,7 +178,7 @@ const ClaimAllButton = (props) => {
     const id = await sendTx(
       t('claimAll'),
       TokenFaucetProxyFactoryAbi,
-      CONTRACT_ADDRESSES[chainId].TokenFaucetProxyFactory,
+      CUSTOM_CONTRACT_ADDRESSES[chainId].TokenFaucetProxyFactory,
       'claimAll',
       params,
       refetchAllPoolTokenData

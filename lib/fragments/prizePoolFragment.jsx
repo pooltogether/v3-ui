@@ -48,13 +48,6 @@ export const prizePoolFragment = gql`
     currentPrizeId
     currentState
 
-    # prizePoolAccounts {
-    #   ...prizePoolAccountFragment
-    # }
-    controlledTokens {
-      ...controlledTokenFragment
-    }
-
     tokenCreditRates {
       id
       creditRateMantissa

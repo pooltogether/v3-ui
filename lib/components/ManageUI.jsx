@@ -12,7 +12,7 @@ import { SponsorshipPane } from 'lib/components/SponsorshipPane'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { usePool } from 'lib/hooks/usePool'
-import { usePools } from 'lib/hooks/usePools'
+import { usePools_OLD } from 'lib/hooks/usePools_OLD'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { Tagline } from 'lib/components/Tagline'
@@ -23,7 +23,7 @@ export const ManageUI = (props) => {
   const { t } = useTranslation()
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { poolsDataLoading } = usePools()
+  const { poolsDataLoading } = usePools_OLD()
   const { contractAddresses } = useContractAddresses()
   const { pool } = usePool()
 

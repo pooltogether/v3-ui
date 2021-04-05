@@ -5,7 +5,6 @@ import { ethers } from 'ethers'
 import { ALL_POOLS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useLootBox } from 'lib/hooks/useLootBox'
-import { usePools } from 'lib/hooks/usePools'
 import { usePoolChainQuery } from 'lib/hooks/usePoolChainQuery'
 import { useErc20ChainQuery } from 'lib/hooks/useErc20ChainQuery'
 import { useErc721ChainQuery } from 'lib/hooks/useErc721ChainQuery'
@@ -14,6 +13,7 @@ import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPool
 import { calculateEstimatedExternalAwardsValue } from 'lib/services/calculateEstimatedExternalAwardsValue'
 import { compileErc20Awards } from 'lib/services/compileErc20Awards'
 import { compileErc721Awards } from 'lib/services/compileErc721Awards'
+import { usePools_OLD } from 'lib/hooks/usePools_OLD'
 
 // note: when calculating value of ERC20 tokens this uses current chain data (infura/alchemy) to get the balance
 // but uses the Uniswap subgraph to get the prices
@@ -29,7 +29,7 @@ export function usePool(poolSymbol, blockNumber = -1) {
     poolSymbol = router?.query?.symbol
   }
 
-  const { poolsGraphData, communityPoolsGraphData, poolsRefetch, communityRefetch } = usePools()
+  const { poolsGraphData, communityPoolsGraphData, poolsRefetch, communityRefetch } = usePools_OLD()
   let poolGraphData = poolsGraphData?.[poolSymbol]
   if (!poolGraphData) {
     poolGraphData = communityPoolsGraphData?.[poolSymbol]
@@ -111,6 +111,13 @@ export function usePool(poolSymbol, blockNumber = -1) {
   const externalAwardsUSD = calculateEstimatedExternalAwardsValue(lootBox.awards)
 
   let ticketPrizeUSD = parseFloat(calculateEstimatedPoolPrize(pool)) + sablierPrizeUSD
+
+  // console.log(
+  //   parseFloat(calculateEstimatedPoolPrize(pool)),
+  //   sablierPrizeUSD,
+  //   poolChainData.sablierPrize,
+  //   uniswapPriceData
+  // )
 
   if (tokenValueUSD) {
     ticketPrizeUSD = (ticketPrizeUSD * parseInt(tokenValueUSD * 100, 10)) / 100

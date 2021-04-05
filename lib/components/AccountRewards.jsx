@@ -15,7 +15,7 @@ import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { ThemedClipLoader } from 'lib/components/loaders/ThemedClipLoader'
 import { usePlayerDrips } from 'lib/hooks/usePlayerDrips'
 import { usePool } from 'lib/hooks/usePool'
-import { usePools } from 'lib/hooks/usePools'
+import { usePools_OLD } from 'lib/hooks/usePools_OLD'
 import { usePoolDripsQuery } from 'lib/hooks/usePoolDripsQuery'
 import { useUsersDripData } from 'lib/hooks/useUsersDripData'
 // import { useUsersChainData } from 'lib/hooks/useUsersChainData'
@@ -32,7 +32,7 @@ export const AccountRewards = () => {
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
-  const { pools } = usePools()
+  const { pools } = usePools_OLD()
 
   // rewards are only supported by the cDAI pool atm
   const { pool } = usePool('PT-cDAI')
