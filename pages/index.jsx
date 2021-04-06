@@ -25,13 +25,6 @@ export default function IndexPage(props) {
   //   )
   // }
 
-  if (!isFetched)
-    return (
-      <div>
-        <LoadingScreen initialized={true} />
-      </div>
-    )
-
   return (
     <ul>
       {isFetching ? <li>Fetching</li> : <li>Hold</li>}
