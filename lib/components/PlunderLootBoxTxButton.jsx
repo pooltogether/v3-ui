@@ -39,7 +39,8 @@ export function PlunderLootBoxTxButton(props) {
 
     const params = [
       lootBoxAddress,
-      pool.lootBox.tokenId,
+      // TODO: Double check this
+      pool.prize.lootBox.tokenId[0],
       lootBoxAwards.erc20s.map((award) => award.erc20Entity.id),
       lootBoxAwards.erc721s.map((award) => ({
         token: award.erc721Entity.id,

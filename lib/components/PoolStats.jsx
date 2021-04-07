@@ -2,7 +2,7 @@ import React from 'react'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
-import { DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
+import { DEFAULT_TOKEN_PRECISION, PRIZE_POOL_TYPES, SECONDS_PER_DAY } from 'lib/constants'
 import {
   CUSTOM_YIELD_SOURCE_NAMES,
   CUSTOM_YIELD_SOURCE_IMAGES
@@ -14,7 +14,6 @@ import { Tooltip } from 'lib/components/Tooltip'
 import { useTokenFaucetAPR } from 'lib/hooks/useTokenFaucetAPR'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { useTokenFaucetData } from 'lib/hooks/useTokenFaucetData'
-import { determineYieldSource, YieldSources } from 'lib/utils/determineYieldSource'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -168,15 +167,13 @@ const YieldSourceStat = (props) => {
   const { pool } = props
 
   const { t } = useTranslation()
-  const yieldSource = determineYieldSource(pool)
+  const yieldSource = pool.prizePool.type
 
   let sourceImage, sourceName, etherscanLink
-  if (yieldSource === YieldSources.compoundFinanceYieldSource) {
+  if (yieldSource === PRIZE_POOL_TYPES.compound) {
     sourceName = 'Compound Finance'
     sourceImage = <img src={CompSvg} className='w-6 mr-2' />
-  }
-
-  if (yieldSource === YieldSources.customYieldSource) {
+  } else if (yieldSource === PRIZE_POOL_TYPES.genericYield) {
     const yieldSourceAddress = pool.yieldSourcePrizePool.yieldSource
     etherscanLink = <EtherscanAddressLink address={yieldSourceAddress} />
 

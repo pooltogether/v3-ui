@@ -8,7 +8,8 @@ import {
   COOKIE_OPTIONS,
   SHOW_MANAGE_LINKS,
   WIZARD_REFERRER_HREF,
-  WIZARD_REFERRER_AS_PATH
+  WIZARD_REFERRER_AS_PATH,
+  PRIZE_POOL_TYPES
 } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -27,7 +28,6 @@ import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceT
 import { Tagline } from 'lib/components/Tagline'
 import { usePool } from 'lib/hooks/usePool'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
-import { determineYieldSource, YieldSources } from 'lib/utils/determineYieldSource'
 import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 import { translatedPoolName } from 'lib/utils/translatedPoolName'
@@ -36,20 +36,22 @@ import { PoolCharts } from 'lib/components/PoolCharts'
 import { PoolPrizeCard } from 'lib/components/PoolPrizeCard'
 import { PoolStats } from 'lib/components/PoolStats'
 import { PastWinnersCard } from 'lib/components/PastWinnersCard'
+import { usePoolBySymbol } from 'lib/hooks/usePools'
 
 import Bell from 'assets/images/bell-yellow@2x.png'
+import { usePooltogetherTvl } from 'lib/hooks/usePooltogetherTvl'
 
 export const PoolShow = (props) => {
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
   const router = useRouter()
+  // const shouldReduceMotion = useReducedMotion()
+  const { data: pool, isFetched: isPoolFetched } = usePoolBySymbol(router?.query?.symbol)
+  // const { chainId, networkName, usersAddress, walletName } = useContext(AuthControllerContext)
+  // const tvl = usePooltogetherTvl()
 
-  const shouldReduceMotion = useReducedMotion()
+  // console.log(pool)
 
-  const { chainId, networkName, usersAddress, walletName } = useContext(AuthControllerContext)
-
-  const poolSymbol = router?.query?.symbol
-  const { pool } = usePool(poolSymbol)
-
+  return null
   const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
   const [cookieShowAward, setCookieShowAward] = useState(false)
 
@@ -57,7 +59,7 @@ export const PoolShow = (props) => {
     setCookieShowAward(Cookies.get(SHOW_MANAGE_LINKS))
   }, 1000)
 
-  if (!pool?.version) {
+  if (!isPoolFetched) {
     return <PoolShowUILoader />
   }
 
@@ -65,18 +67,18 @@ export const PoolShow = (props) => {
     e.preventDefault()
 
     Cookies.set(WIZARD_REFERRER_HREF, '/pools/[symbol]', COOKIE_OPTIONS)
-    Cookies.set(WIZARD_REFERRER_AS_PATH, `/pools/${pool.symbol}`, COOKIE_OPTIONS)
+    Cookies.set(WIZARD_REFERRER_AS_PATH, `/pools/${pool.prizePool.symbol}`, COOKIE_OPTIONS)
 
-    router.push(`/pools/[symbol]/deposit`, `/pools/${pool.symbol}/deposit`, {
+    router.push(`/pools/[symbol]/deposit`, `/pools/${pool.prizePool.symbol}/deposit`, {
       shallow: true
     })
   }
 
   return (
     <>
-      <Meta title={pool?.name} />
+      <Meta title={pool.name} />
 
-      {pool?.isCommunityPool && <CommunityPoolDisclaimerModal poolSymbol={pool?.symbol} />}
+      {pool.contract.isCommunityPool && <CommunityPoolDisclaimerModal poolSymbol={pool.symbol} />}
 
       <motion.div
         initial='initial'
@@ -110,7 +112,7 @@ export const PoolShow = (props) => {
         <div className='flex flex-col xs:flex-row justify-between xs:items-center mb-4 xs:mb-10'>
           <div className='flex justify-between items-center xs:w-1/2'>
             <PageTitleAndBreadcrumbs
-              title={translatedPoolName(t, pool?.name)}
+              title={translatedPoolName(t, pool.name)}
               pool={pool}
               breadcrumbs={[
                 {
@@ -119,7 +121,7 @@ export const PoolShow = (props) => {
                   name: t('pools')
                 },
                 {
-                  name: translatedPoolName(t, pool?.name)
+                  name: translatedPoolName(t, pool.name)
                 }
               ]}
             />
@@ -131,7 +133,7 @@ export const PoolShow = (props) => {
               width='w-full xs:w-9/12 sm:w-8/12 lg:w-6/12'
               textSize='lg'
               onClick={handleGetTicketsClick}
-              disabled={!Boolean(pool?.symbol)}
+              disabled={!Boolean(pool.symbol)}
             >
               {t('deposit')}
             </Button>
@@ -214,7 +216,7 @@ export const PoolShow = (props) => {
 const UnauditedWarning = (props) => {
   const { pool } = props
 
-  if (determineYieldSource(pool) !== YieldSources.customYieldSource) {
+  if (pool.prizePool.type !== PRIZE_POOL_TYPES.genericYield) {
     return null
   }
 

@@ -50,8 +50,8 @@ export const PoolCurrencyIcon = (props) => {
 
   const noMargin = props.noMargin || false
 
-  const address = pool?.underlyingCollateralToken
-  const symbol = pool?.underlyingCollateralSymbol?.toLowerCase()
+  const address = pool.tokens.underlyingToken.address
+  const symbol = pool.tokens.underlyingToken.symbol.toLowerCase()
 
   let src
   if (symbol === 'dai') {

@@ -22,7 +22,7 @@ export const PoolPrizeCard = (props) => {
       <div className='flex flex-col xs:flex-row xs:items-center justify-between'>
         <div className='w-1/2 sm:w-7/12'>
           <h6 className='font-normal text-inverse opacity-60'>
-            {t('prize')} #{pool?.currentPrizeId}
+            {t('prize')} #{pool.prize.currentPrizeId}
           </h6>
 
           <PrizeValue pool={pool} />
@@ -43,7 +43,7 @@ export const PoolPrizeCard = (props) => {
 const PrizeValue = (props) => {
   const { pool } = props
 
-  if (!pool || pool.fetchingTotals) {
+  if (!pool) {
     return (
       <PrizeValueHeader>
         <BeatLoader size={10} color='rgba(255,255,255,0.3)' />
@@ -51,7 +51,7 @@ const PrizeValue = (props) => {
     )
   }
 
-  if (pool.totalPrizeAmountUSD > 0) {
+  if (pool.prize > 0) {
     return <USDPrizeValue amount={pool.totalPrizeAmountUSD} />
   }
 
