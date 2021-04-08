@@ -76,7 +76,7 @@ export const PoolShow = (props) => {
     <>
       <Meta title={pool.name} />
 
-      {pool.contract.isCommunityPool && <CommunityPoolDisclaimerModal poolSymbol={pool.symbol} />}
+      {pool.isCommunityPool && <CommunityPoolDisclaimerModal poolSymbol={pool.symbol} />}
 
       <motion.div
         initial='initial'
@@ -177,7 +177,7 @@ export const PoolShow = (props) => {
                 textSize='xxs'
                 tokenAddress={pool?.ticketToken?.id}
                 tokenDecimals={pool?.underlyingCollateralDecimals}
-                tokenSymbol={symbolForMetaMask}
+                tokenSymbol={'DAI'}
               />
             </div>
           )}

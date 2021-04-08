@@ -9,10 +9,15 @@ import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
 import { ReactQueryDevtools } from 'react-query-devtools'
 import { motion, AnimatePresence } from 'framer-motion'
-import { QueryCache, ReactQueryCacheProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider } from 'jotai'
 
-import { HOTKEYS_KEY_MAP, COOKIE_OPTIONS, REFERRER_ADDRESS_KEY } from 'lib/constants'
+import {
+  HOTKEYS_KEY_MAP,
+  COOKIE_OPTIONS,
+  REFERRER_ADDRESS_KEY,
+  NO_REFETCH_QUERY_OPTIONS
+} from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
 import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
@@ -51,7 +56,13 @@ import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'
 import 'assets/styles/vx--custom.css'
 
-const queryCache = new QueryCache()
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      ...NO_REFETCH_QUERY_OPTIONS
+    }
+  }
+})
 
 if (typeof window !== 'undefined') {
   window.ethers = ethers
@@ -149,7 +160,7 @@ function MyApp({ Component, pageProps, router }) {
       className='outline-none focus:outline-none active:outline-none'
     >
       <Provider>
-        <ReactQueryCacheProvider queryCache={queryCache}>
+        <QueryClientProvider client={queryClient}>
           <BodyClasses />
 
           {/* <GraphErrorModal /> */}
@@ -188,7 +199,7 @@ function MyApp({ Component, pageProps, router }) {
               <ReactQueryDevtools />
             </CustomErrorBoundary>
           </AllContextProviders>
-        </ReactQueryCacheProvider>
+        </QueryClientProvider>
       </Provider>
     </HotKeys>
   )

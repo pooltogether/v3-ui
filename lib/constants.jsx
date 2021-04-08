@@ -186,5 +186,6 @@ export const UI_LOADER_ANIM_DEFAULTS = {
 export const NO_REFETCH_QUERY_OPTIONS = Object.freeze({
   refetchInterval: false,
   refetchOnReconnect: false,
-  refetchOnWindowFocus: false
+  refetchOnWindowFocus: false,
+  refetchOnMount: false
 })

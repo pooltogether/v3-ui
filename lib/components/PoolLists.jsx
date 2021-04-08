@@ -12,6 +12,7 @@ import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { PoolsListUILoader } from 'lib/components/loaders/PoolsListUILoader'
 import { useMultiversionCommunityPools } from 'lib/hooks/useMultiversionCommunityPools'
 import { useMultiversionGovernancePools } from 'lib/hooks/useMultiversionGovernancePools'
+import { useCommunityPools } from 'lib/hooks/usePools'
 
 export const PoolLists = () => {
   const shouldReduceMotion = useReducedMotion()
@@ -90,7 +91,7 @@ export const PoolLists = () => {
 
 const CommunityPoolsList = () => {
   const { t } = useTranslation()
-  const { communityPools, communityPoolsDataLoading } = useMultiversionCommunityPools()
+  const { data: communityPools, isFetched: communityPoolsDataLoading } = useCommunityPools()
 
   const communityPoolsSorted = useMemo(() => {
     // TODO: To be replaced by automated sorting based on prize size

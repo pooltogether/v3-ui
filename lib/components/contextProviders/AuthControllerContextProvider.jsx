@@ -29,7 +29,8 @@ export function AuthControllerContextProvider(props) {
   const { children } = props
 
   const router = useRouter()
-  const queryCache = useQueryCache()
+  // TODO: Clear cache
+  // const queryCache = useQueryCache()
 
   const [changingNetwork, setChangingNetwork] = useState(false)
 
@@ -73,7 +74,7 @@ export function AuthControllerContextProvider(props) {
   useEffect(() => {
     const updateChainId = async () => {
       if (onboardNetwork && onboardNetwork !== chainId) {
-        queryCache.clear()
+        // queryCache.clear()
         setChangingNetwork(true)
 
         setChainId(onboardNetwork)
