@@ -42,18 +42,14 @@ import Bell from 'assets/images/bell-yellow@2x.png'
 import { usePooltogetherTvl } from 'lib/hooks/usePooltogetherTvl'
 
 export const PoolShow = (props) => {
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
   const router = useRouter()
-  // const shouldReduceMotion = useReducedMotion()
+  const shouldReduceMotion = useReducedMotion()
   const { data: pool, isFetched: isPoolFetched } = usePoolBySymbol(router?.query?.symbol)
-  // const { chainId, networkName, usersAddress, walletName } = useContext(AuthControllerContext)
-  // const tvl = usePooltogetherTvl()
-
-  // console.log(pool)
-
-  return null
-  const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
+  const { chainId, networkName, usersAddress, walletName } = useContext(AuthControllerContext)
   const [cookieShowAward, setCookieShowAward] = useState(false)
+
+  // const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
 
   useInterval(() => {
     setCookieShowAward(Cookies.get(SHOW_MANAGE_LINKS))
@@ -73,6 +69,8 @@ export const PoolShow = (props) => {
       shallow: true
     })
   }
+
+  console.log(pool)
 
   return (
     <>
