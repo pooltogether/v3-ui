@@ -3,30 +3,25 @@ import classnames from 'classnames'
 import { Trans, useTranslation } from 'lib/../i18n'
 
 import SablierSvg from 'assets/images/sablier.svg'
-import { getMaxPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
+import { getMaxPrecision, getMinPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 import { secondsSinceEpoch } from 'lib/utils/secondsSinceEpoch'
 import { ethers } from 'ethers'
 import { getDateFromSeconds } from 'lib/utils/getDateFromSeconds'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { shorten } from 'lib/utils/shorten'
+import { PoolNumber } from 'lib/components/PoolNumber'
+import { Tooltip } from 'lib/components/Tooltip'
 
 export const SablierStreamCard = (props) => {
   const { pool } = props
   const { t } = useTranslation()
 
-  if (!pool?.sablierStream?.id || !pool?.sablierPrize) return null
+  if (!pool.prize.sablierStream.id) return null
 
-  const {
-    amountPerPrizePeriod,
-    tokenSymbol,
-    tokenAddress,
-    tokenName,
-    startTime,
-    stopTime,
-    totalDeposit
-  } = pool.sablierPrize
-  const { prizePeriodSeconds } = pool
+  const { amountPerPrizePeriod, startTime, stopTime, amount } = pool.prize.sablierStream
+  const { symbol, address, name } = pool.tokens.sablierStreamToken
+  const { prizePeriodSeconds } = pool.config
 
   const currentTime = ethers.BigNumber.from(secondsSinceEpoch())
   const streamTotalTime = stopTime.sub(startTime)
@@ -42,33 +37,37 @@ export const SablierStreamCard = (props) => {
       <h3 className='mb-4'>{t('sablierStream')}</h3>
 
       <div className='flex'>
-        <Erc20Image address={tokenAddress} className='my-auto' />
-        <h3>{tokenName}</h3>
+        <Erc20Image address={address} className='my-auto' />
+        <h3>{name}</h3>
         <EtherscanAddressLink
           className='text-accent-1 trans hover:text-inverse ml-4 mt-auto mb-2'
-          address={tokenAddress}
+          address={address}
         >
-          ({shorten(tokenAddress)})
+          ({shorten(address)})
         </EtherscanAddressLink>
       </div>
 
       <div className='flex flex-col xs:flex-row justify-between mt-6'>
         <div className='flex mb-2 xs:mb-0'>
           <h3 className='leading-none'>
-            {numberWithCommas(amountPerPrizePeriod, {
-              precision: getMaxPrecision(amountPerPrizePeriod)
-            })}
+            <PoolNumber>
+              {numberWithCommas(amountPerPrizePeriod, {
+                precision: getMinPrecision(amountPerPrizePeriod)
+              })}
+            </PoolNumber>
           </h3>
-          <span className='ml-2 mt-auto'>{t('tokenEveryPrize', { token: tokenSymbol })}</span>
+          <span className='ml-2 mt-auto'>{t('tokenEveryPrize', { token: symbol })}</span>
         </div>
 
         <div className='flex mb-2 xs:mb-0'>
           <h3 className='leading-none'>
-            {numberWithCommas(totalDeposit, {
-              precision: getMaxPrecision(totalDeposit)
-            })}
+            <PoolNumber>
+              {numberWithCommas(amount, {
+                precision: getMinPrecision(amount)
+              })}
+            </PoolNumber>
           </h3>
-          <span className='ml-2 mt-auto'>{t('tokenInTotal', { token: tokenSymbol })}</span>
+          <span className='ml-2 mt-auto'>{t('tokenInTotal', { token: symbol })}</span>
         </div>
 
         <div className='flex'>
@@ -96,9 +95,11 @@ const StreamBar = (props) => {
   const { percentage } = props
 
   return (
-    <div className={classnames('w-full h-2 flex flex-row rounded-full overflow-hidden mt-2')}>
-      <div className='bg-secondary' style={{ width: `${percentage}%` }} />
-      <div className='bg-tertiary' style={{ width: `${100 - percentage}%` }} />
-    </div>
+    <Tooltip effect='float' id='sablier-stream-percentage' tip={`${percentage}%`}>
+      <div className={classnames('w-full h-2 flex flex-row rounded-full overflow-hidden mt-2')}>
+        <div className='bg-secondary' style={{ width: `${percentage}%` }} />
+        <div className='bg-tertiary' style={{ width: `${100 - percentage}%` }} />
+      </div>
+    </Tooltip>
   )
 }

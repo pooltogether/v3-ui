@@ -19,21 +19,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import CompSvg from 'assets/images/comp.svg'
 
 export const PoolStats = (props) => {
-  const { pool } = props
-
   const { t } = useTranslation()
-
-  const loading =
-    !pool.ticketToken || !pool.sponsorshipToken || !pool.reserveRegistry || !pool.reserveTotalSupply
-
-  if (loading) {
-    return (
-      <Card>
-        <h3 className='mb-4'>{t('poolsStats')}</h3>
-        <IndexUILoader />
-      </Card>
-    )
-  }
 
   return (
     <>
@@ -111,41 +97,45 @@ const Stat = (props) => {
 
 const DepositsStat = (props) => {
   const { pool } = props
-
   const { t } = useTranslation()
-
-  const ticketDeposits = ethers.BigNumber.from(pool.ticketToken.totalSupply)
-  const ticketDepositsFormatted = ethers.utils.formatUnits(
-    ticketDeposits,
-    pool.underlyingCollateralDecimals
-  )
 
   return (
     <Stat
       title={t('totalDeposits')}
-      convertedValue={pool.totalDepositedUSD}
-      tokenSymbol={pool.underlyingCollateralSymbol}
-      tokenAmount={ticketDepositsFormatted}
+      convertedValue={pool.tokens.ticket.totalValueUsd}
+      tokenSymbol={pool.tokens.underlyingToken.symbol}
+      tokenAmount={pool.tokens.ticket.totalSupplyUnformatted}
     />
+  )
+}
+
+const SponsorshipStat = (props) => {
+  const { pool } = props
+  const { t } = useTranslation()
+
+  return (
+    <>
+      <Stat
+        title={t('sponsorship')}
+        convertedValue={pool.tokens.sponsorship.totalValueUsd}
+        tokenSymbol={pool.tokens.sponsorship.symbol}
+        tokenAmount={pool.tokens.sponsorship.totalSupplyUnformatted}
+        tooltip={t('sponsorshipInfo')}
+      />
+    </>
   )
 }
 
 const ReserveStat = (props) => {
   const { pool } = props
-
   const { t } = useTranslation()
-
-  const reserveAmount = ethers.utils.formatUnits(
-    pool.reserveTotalSupply,
-    pool.underlyingCollateralDecimals
-  )
 
   return (
     <Stat
       title={t('reserve')}
-      convertedValue={pool.totalReserveUSD}
-      tokenSymbol={pool.underlyingCollateralSymbol}
-      tokenAmount={reserveAmount}
+      convertedValue={pool.reserve.totalValueUsd}
+      tokenSymbol={pool.tokens.underlyingToken.symbol}
+      tokenAmount={pool.reserve.amount}
       tooltip={t('reserveInfo')}
     />
   )
@@ -156,10 +146,15 @@ const ReserveRateStat = (props) => {
 
   const { t } = useTranslation()
 
-  const reserveRatePercentage = pool.reserveRate.mul(100)
-  const reserveRate = ethers.utils.formatUnits(reserveRatePercentage, DEFAULT_TOKEN_PRECISION)
+  const reserveRateUnformattedPercentage = pool.reserve.rateUnformatted.mul(100)
+  const reserveRatePercentage = ethers.utils.formatUnits(
+    reserveRateUnformattedPercentage,
+    DEFAULT_TOKEN_PRECISION
+  )
 
-  return <Stat title={t('reserveRate')} percent={reserveRate} tooltip={t('reserveRateInfo')} />
+  return (
+    <Stat title={t('reserveRate')} percent={reserveRatePercentage} tooltip={t('reserveRateInfo')} />
+  )
 }
 
 const YieldSourceStat = (props) => {
@@ -173,7 +168,7 @@ const YieldSourceStat = (props) => {
     sourceName = 'Compound Finance'
     sourceImage = <img src={CompSvg} className='w-6 mr-2' />
   } else if (yieldSource === PRIZE_POOL_TYPES.genericYield) {
-    const yieldSourceAddress = pool.yieldSourcePrizePool.yieldSource
+    const yieldSourceAddress = pool.prizePool.yieldSource
     etherscanLink = <EtherscanAddressLink address={yieldSourceAddress} />
 
     sourceName = CUSTOM_YIELD_SOURCE_NAMES[yieldSourceAddress]
@@ -203,30 +198,6 @@ const YieldSourceStat = (props) => {
 
 // audited vs unaudited
 
-const SponsorshipStat = (props) => {
-  const { pool } = props
-
-  const { t } = useTranslation()
-
-  const sponsorshipDeposits = ethers.BigNumber.from(pool.sponsorshipToken.totalSupply)
-  const sponsorshipDepositsFormatted = ethers.utils.formatUnits(
-    sponsorshipDeposits,
-    pool.underlyingCollateralDecimals
-  )
-
-  return (
-    <>
-      <Stat
-        title={t('sponsorship')}
-        convertedValue={pool.totalSponsoredUSD}
-        tokenSymbol={pool.underlyingCollateralSymbol}
-        tokenAmount={sponsorshipDepositsFormatted}
-        tooltip={t('sponsorshipInfo')}
-      />
-    </>
-  )
-}
-
 // APR Stats
 
 const AprStats = (props) => {
@@ -246,18 +217,19 @@ const AprStats = (props) => {
 }
 
 const DailyPoolDistributionStat = (props) => {
+  const { t } = useTranslation()
   const { pool } = props
 
-  const { t } = useTranslation()
-  const { data, isFetched } = useTokenFaucetData(pool.tokenListener)
+  const dripRatePerDayUnformatted = pool.reserve?.dripRatePerDayUnformatted || ethers.constants.Zero
+  const tokenAmountPerDay = ethers.utils.formatUnits(
+    dripRatePerDayUnformatted,
+    DEFAULT_TOKEN_PRECISION
+  )
 
-  let tokenAmount = '0'
-  if (isFetched) {
-    const dripRatePerDay = data.dripRatePerSecond.mul(SECONDS_PER_DAY)
-    tokenAmount = ethers.utils.formatUnits(dripRatePerDay, DEFAULT_TOKEN_PRECISION)
-  }
-
-  return <Stat title={t('dailyPoolDistribution')} tokenSymbol={'POOL'} tokenAmount={tokenAmount} />
+  // TODO: Hardcoded to POOL but we might let people drip other tokens
+  return (
+    <Stat title={t('dailyPoolDistribution')} tokenSymbol={'POOL'} tokenAmount={tokenAmountPerDay} />
+  )
 }
 
 const EffectiveAprStat = (props) => {

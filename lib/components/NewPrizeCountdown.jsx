@@ -17,8 +17,7 @@ export const NewPrizeCountdown = (props) => {
   const [secondsRemaining, setSecondsRemaining] = useState(null)
 
   // const secs = 167868
-  const secs =
-    pool?.prizePeriodRemainingSeconds && parseInt(pool?.prizePeriodRemainingSeconds.toString(), 10)
+  const secs = parseInt(pool.prize.prizePeriodRemainingSeconds.toString(), 10)
 
   useEffect(() => {
     setSecondsRemaining(secs)
@@ -28,7 +27,7 @@ export const NewPrizeCountdown = (props) => {
     setSecondsRemaining(secondsRemaining - 1)
   }, ONE_SECOND)
 
-  if (!pool || secs === undefined) {
+  if (secs === undefined) {
     return null
   }
 
@@ -37,7 +36,7 @@ export const NewPrizeCountdown = (props) => {
   const { days, hours, minutes, seconds } = subtractDates(futureDate, currentDate)
 
   let msg
-  if (pool?.isRngRequested) {
+  if (pool.prize.isRngRequested) {
     return (
       <>
         <p

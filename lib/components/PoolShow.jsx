@@ -46,10 +46,8 @@ export const PoolShow = (props) => {
   const router = useRouter()
   const shouldReduceMotion = useReducedMotion()
   const { data: pool, isFetched: isPoolFetched } = usePoolBySymbol(router?.query?.symbol)
-  const { chainId, networkName, usersAddress, walletName } = useContext(AuthControllerContext)
+  const { chainId, usersAddress, walletName } = useContext(AuthControllerContext)
   const [cookieShowAward, setCookieShowAward] = useState(false)
-
-  // const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
 
   useInterval(() => {
     setCookieShowAward(Cookies.get(SHOW_MANAGE_LINKS))
