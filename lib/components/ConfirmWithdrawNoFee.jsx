@@ -4,9 +4,8 @@ import { useRouter } from 'next/router'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
-import { useTranslation, Trans } from 'lib/../i18n'
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePool } from 'lib/hooks/usePool'
 import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
@@ -17,6 +16,7 @@ import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { useCurrentPool } from 'lib/hooks/usePools'
 
 export function ConfirmWithdrawNoFee(props) {
   const { t } = useTranslation()
@@ -28,7 +28,7 @@ export function ConfirmWithdrawNoFee(props) {
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
-  const { pool } = usePool()
+  const { data: pool } = useCurrentPool()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''

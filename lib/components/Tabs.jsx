@@ -1,8 +1,15 @@
 import React from 'react'
 import classnames from 'classnames'
 
-export const Tabs = ({ children }) => {
-  return <nav className='flex items-center justify-center mb-2 mx-auto text-center'>{children}</nav>
+export const Tabs = (props) => {
+  const { children, className } = props
+  return (
+    <nav
+      className={classnames('flex items-center justify-center mb-2 mx-auto text-center', className)}
+    >
+      {children}
+    </nav>
+  )
 }
 
 export const Tab = ({ isSelected, onClick, children }) => {

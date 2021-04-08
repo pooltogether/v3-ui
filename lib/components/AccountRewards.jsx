@@ -14,28 +14,26 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { ThemedClipLoader } from 'lib/components/loaders/ThemedClipLoader'
 import { usePlayerDrips } from 'lib/hooks/usePlayerDrips'
-import { usePool } from 'lib/hooks/usePool'
-import { usePools_OLD } from 'lib/hooks/usePools_OLD'
-import { usePoolDripsQuery } from 'lib/hooks/usePoolDripsQuery'
+import { useCurrentPool } from 'lib/hooks/usePools'
 import { useUsersDripData } from 'lib/hooks/useUsersDripData'
-// import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
+import { useTransaction } from 'lib/hooks/useTransaction'
+import { useAllPools, usePoolBySymbol } from 'lib/hooks/usePools'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
-import { useTransaction } from 'lib/hooks/useTransaction'
 
 export const AccountRewards = () => {
   const { t } = useTranslation()
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
-  const { pools } = usePools_OLD()
+  const { data: pools } = useAllPools()
 
   // rewards are only supported by the cDAI pool atm
-  const { pool } = usePool('PT-cDAI')
+  const { data: pool } = usePoolBySymbol('PT-cDAI')
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''

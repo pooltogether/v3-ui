@@ -16,6 +16,8 @@ import Squiggle from 'assets/images/squiggle.svg'
 import PoolIcon from 'assets/images/pool-icon.svg'
 
 export const NavPoolBalance = () => {
+  // TODO REMOVE
+  return null
   const { usersAddress } = useContext(AuthControllerContext)
 
   const [isOpen, setIsOpen] = useState(false)

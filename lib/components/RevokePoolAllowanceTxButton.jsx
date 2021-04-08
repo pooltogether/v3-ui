@@ -6,7 +6,7 @@ import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/Contro
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePool } from 'lib/hooks/usePool'
+import { useCurrentPool } from 'lib/hooks/usePools'
 import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
@@ -17,16 +17,15 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 export function RevokePoolAllowanceTxButton(props) {
   const { t } = useTranslation()
 
-  const { pool } = usePool()
-  const { usersChainData } = useUsersChainData(pool)
-
+  const { pool } = props
+  const { usersChainData } = useUsersChainData()
   const { usersTokenAllowance } = usersDataForPool(pool, usersChainData)
 
-  const poolAddress = pool?.poolAddress
-  const tokenAddress = pool?.underlyingCollateralToken
+  const poolAddress = pool.prizePool.address
+  const tokenAddress = pool.tokens.underlyingToken.address
 
-  const ticker = pool && pool.underlyingCollateralSymbol
-  const tickerUpcased = ticker && ticker.toUpperCase()
+  const ticker = pool.tokens.underlyingToken.symbol
+  const tickerUpcased = ticker.toUpperCase()
 
   const [txId, setTxId] = useState(0)
 
@@ -67,7 +66,7 @@ export function RevokePoolAllowanceTxButton(props) {
           disabled={tx?.sent && !tx?.completed}
         >
           {t('revokePoolAllowance', {
-            ticker: pool?.underlyingCollateralSymbol
+            ticker
           })}
         </Button>
       </div>

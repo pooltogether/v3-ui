@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePool } from 'lib/hooks/usePool'
+import { useCurrentPool } from 'lib/hooks/usePools'
 import { ConfirmWithdrawWithFeeForm } from 'lib/components/ConfirmWithdrawWithFeeForm'
 import { Meta } from 'lib/components/Meta'
 import { ManageTicketsForm } from 'lib/components/ManageTicketsForm'
@@ -22,7 +22,7 @@ export function ManageTicketsWizardContainer(props) {
     initialStepIndex = 1
   }
 
-  const { pool } = usePool()
+  const { data: pool } = useCurrentPool()
 
   const [totalWizardSteps, setTotalWizardSteps] = useState(3)
 

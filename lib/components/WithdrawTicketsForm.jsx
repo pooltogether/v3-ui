@@ -6,7 +6,7 @@ import { ethers } from 'ethers'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
-import { usePool } from 'lib/hooks/usePool'
+import { useCurrentPool } from 'lib/hooks/usePools'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
@@ -25,7 +25,7 @@ export function WithdrawTicketsForm(props) {
   const router = useRouter()
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { pool } = usePool()
+  const { data: pool } = useCurrentPool()
 
   const { usersTicketBalance, usersTicketBalanceBN } = usePlayerPoolBalances(usersAddress, pool)
 

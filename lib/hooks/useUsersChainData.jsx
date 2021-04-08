@@ -4,14 +4,13 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { useUsersChainQuery } from 'lib/hooks/useUsersChainQuery'
 import { useReadProvider } from 'lib/hooks/useReadProvider'
 
-export function useUsersChainData(pool) {
+export function useUsersChainData() {
   const { usersAddress } = useContext(AuthControllerContext)
 
   const { readProvider } = useReadProvider()
 
   const { data: usersChainData, error: usersChainError } = useUsersChainQuery({
     provider: readProvider,
-    pool,
     usersAddress
   })
 

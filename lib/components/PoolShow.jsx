@@ -26,7 +26,7 @@ import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
 import { Tagline } from 'lib/components/Tagline'
-import { usePool } from 'lib/hooks/usePool'
+import { useCurrentPool } from 'lib/hooks/usePools'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
@@ -142,7 +142,7 @@ export const PoolShow = (props) => {
 
         <PoolPrizeCard pool={pool} />
 
-        <UpcomingPrizeBreakdownCard />
+        <UpcomingPrizeBreakdownCard pool={pool} />
 
         <LootBoxTable pool={pool} basePath={`/pools/${pool?.symbol}`} />
 
@@ -152,9 +152,9 @@ export const PoolShow = (props) => {
 
         <PoolCharts pool={pool} />
 
-        <PastWinnersCard pool={pool} />
+        {/* <PastWinnersCard pool={pool} /> */}
 
-        <PrizePlayersQuery pool={pool} blockNumber={-1}>
+        {/* <PrizePlayersQuery pool={pool} blockNumber={-1}>
           {({ data, isFetching, isFetched }) => {
             return (
               <PrizePlayerListing
@@ -167,7 +167,7 @@ export const PoolShow = (props) => {
               />
             )
           }}
-        </PrizePlayersQuery>
+        </PrizePlayersQuery> */}
 
         <div className='flex flex-col items-center justify-center mt-10'>
           {walletName === 'MetaMask' && (
@@ -175,15 +175,18 @@ export const PoolShow = (props) => {
               <AddTokenToMetaMaskButton
                 noAnim
                 textSize='xxs'
-                tokenAddress={pool?.ticketToken?.id}
-                tokenDecimals={pool?.underlyingCollateralDecimals}
-                tokenSymbol={'DAI'}
+                tokenAddress={pool.tokens.ticket.address}
+                tokenDecimals={pool.tokens.ticket.decimals}
+                tokenSymbol={pool.tokens.ticket.symbol}
               />
             </div>
           )}
 
           <div className='m-2'>
-            <ButtonLink textSize='xxs' href={formatEtherscanAddressUrl(pool.poolAddress, chainId)}>
+            <ButtonLink
+              textSize='xxs'
+              href={formatEtherscanAddressUrl(pool.prizePool.address, chainId)}
+            >
               {t('viewPoolInEtherscan')}
             </ButtonLink>
           </div>
@@ -196,7 +199,7 @@ export const PoolShow = (props) => {
                 <ButtonLink
                   textSize='xxs'
                   href='/pools/[symbol]/manage'
-                  as={`/pools/${pool?.symbol}/manage`}
+                  as={`/pools/${pool.symbol}/manage`}
                 >
                   {t('managePool')}
                 </ButtonLink>

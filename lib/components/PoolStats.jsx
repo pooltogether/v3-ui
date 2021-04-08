@@ -11,7 +11,6 @@ import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { Tooltip } from 'lib/components/Tooltip'
-import { useTokenFaucetAPR } from 'lib/hooks/useTokenFaucetAPR'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { useTokenFaucetData } from 'lib/hooks/useTokenFaucetData'
 import { displayPercentage } from 'lib/utils/displayPercentage'
@@ -233,7 +232,7 @@ const SponsorshipStat = (props) => {
 const AprStats = (props) => {
   const { pool } = props
 
-  const apr = useTokenFaucetAPR(pool)
+  const apr = pool.tokenListener?.apr
 
   if (!apr) return null
 

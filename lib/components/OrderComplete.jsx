@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
-import { usePool } from 'lib/hooks/usePool'
+import { useCurrentPool } from 'lib/hooks/usePools'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
@@ -26,7 +26,7 @@ export function OrderComplete(props) {
 
   const { confetti } = useContext(ConfettiContext)
 
-  const { pool } = usePool()
+  const { data: pool } = useCurrentPool()
 
   const decimals = pool?.underlyingCollateralDecimals
   if (prevBalance) {

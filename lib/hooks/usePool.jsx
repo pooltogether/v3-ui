@@ -13,7 +13,6 @@ import { calculateEstimatedPoolPrize } from 'lib/services/calculateEstimatedPool
 import { calculateEstimatedExternalAwardsValue } from 'lib/services/calculateEstimatedExternalAwardsValue'
 import { compileErc20Awards } from 'lib/services/compileErc20Awards'
 import { compileErc721Awards } from 'lib/services/compileErc721Awards'
-import { usePools_OLD } from 'lib/hooks/usePools_OLD'
 
 // note: when calculating value of ERC20 tokens this uses current chain data (infura/alchemy) to get the balance
 // but uses the Uniswap subgraph to get the prices

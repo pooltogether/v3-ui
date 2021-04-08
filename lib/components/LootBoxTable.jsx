@@ -11,23 +11,25 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import { Card, CardDetailsList } from 'lib/components/Card'
+import { useExternalErc20Awards } from 'lib/hooks/useExternalErc20Awards'
 
 export const LootBoxTable = (props) => {
   const { basePath, historical, pool } = props
 
   const { t } = useTranslation()
   const router = useRouter()
-
-  const shouldReduceMotion = useReducedMotion()
-
   const [moreVisible, setMoreVisible] = useState(false)
+  const shouldReduceMotion = useReducedMotion()
+  const allAwards = useExternalErc20Awards(pool).sort(
+    (a, b) => Number(b.valueUsd) - Number(a.valueUsd)
+  )
 
-  const { awards: lootBoxAwards, lootBoxIsFetched, computedLootBoxAddress } = pool.lootBox
+  const computedLootBoxAddress = pool.prize.lootBoxes?.[0].address
+  const originalAwardsCount = allAwards.length
 
-  const originalAwardsCount = lootBoxAwards?.length
   let awards = []
   if (originalAwardsCount > 0) {
-    awards = moreVisible ? lootBoxAwards : lootBoxAwards?.slice(0, 10)
+    awards = moreVisible ? allAwards : allAwards.slice(0, 10)
   }
 
   const handleShowMore = (e) => {
@@ -48,17 +50,15 @@ export const LootBoxTable = (props) => {
 
       <div className='flex flex-col sm:flex-row justify-between sm:items-center mb-4'>
         <div>
-          {awards.length === 0 && !lootBoxIsFetched ? null : (
-            <h3>
-              $
-              <PoolNumber>
-                {numberWithCommas(pool.externalAwardsUSD || '0', { precision: 2 })}
-              </PoolNumber>
-            </h3>
-          )}
+          <h3>
+            $
+            <PoolNumber>
+              {numberWithCommas(pool.prize.totalExternalAwardsUsd || '0', { precision: 2 })}
+            </PoolNumber>
+          </h3>
         </div>
 
-        {!historical && <ContributeToLootBoxDropdown pool={pool} />}
+        {!historical && <ContributeToLootBoxDropdown address={computedLootBoxAddress} />}
       </div>
 
       {awards.length === 0 && (
@@ -127,13 +127,12 @@ const AwardRow = (props) => {
         </EtherscanAddressLink>
       </span>
       <span className='w-1/3 sm:pl-6 text-right text-accent-1 truncate'>
-        <PoolNumber>{numberWithCommas(award.balanceFormatted, { precision: 2 })}</PoolNumber>{' '}
-        {award.symbol}
+        <PoolNumber>{numberWithCommas(award.amount, { precision: 2 })}</PoolNumber> {award.symbol}
       </span>
       <span className='w-1/3 text-right'>
-        {award.value ? (
+        {award.valueUsd ? (
           <span>
-            $<PoolNumber>{numberWithCommas(award.value, { precision: 2 })}</PoolNumber>
+            $<PoolNumber>{numberWithCommas(award.valueUsd, { precision: 2 })}</PoolNumber>
           </span>
         ) : (
           <span className='text-accent-1 opacity-40'>$ --</span>

@@ -7,7 +7,7 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
-import { usePool } from 'lib/hooks/usePool'
+import { useCurrentPool } from 'lib/hooks/usePools'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -19,7 +19,7 @@ export function DepositSponsorshipTxButton(props) {
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
-  const { pool } = usePool()
+  const { data: pool } = useCurrentPool()
 
   const poolAddress = pool?.poolAddress
 

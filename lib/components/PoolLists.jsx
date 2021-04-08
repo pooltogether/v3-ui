@@ -10,9 +10,7 @@ import { Tabs, Tab, ContentPane } from 'lib/components/Tabs'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { PoolsListUILoader } from 'lib/components/loaders/PoolsListUILoader'
-import { useMultiversionCommunityPools } from 'lib/hooks/useMultiversionCommunityPools'
-import { useMultiversionGovernancePools } from 'lib/hooks/useMultiversionGovernancePools'
-import { useCommunityPools } from 'lib/hooks/usePools'
+import { useAllPools, useCommunityPools, useGovernancePools } from 'lib/hooks/usePools'
 
 export const PoolLists = () => {
   const shouldReduceMotion = useReducedMotion()
@@ -36,7 +34,7 @@ export const PoolLists = () => {
         }}
         style={{ originY: '60px' }}
       >
-        <Tabs>
+        <Tabs className='mb-10'>
           <Tab
             isSelected={selectedTab === POOL_LIST_TABS.pools}
             onClick={() => {
@@ -91,36 +89,11 @@ export const PoolLists = () => {
 
 const CommunityPoolsList = () => {
   const { t } = useTranslation()
-  const { data: communityPools, isFetched: communityPoolsDataLoading } = useCommunityPools()
-
-  const communityPoolsSorted = useMemo(() => {
-    // TODO: To be replaced by automated sorting based on prize size
-    //       also note this array is in reverse order of how we want the elements to appear in the list
-    //       due to the -1 returned by all the other pools in the sortFunction's indexOf() calls
-    const hardcodedSortOrder = [
-      '0xdf19f2f606dcc5849199594e77058898a7caa73d', // ZRX-0xdf19f2
-      '0xa88ca010b32a54d446fc38091ddbca55750cbfc3', // wETH
-      '0x639d4140a1f7723b7cefef7505d1d7be11a43de0', // UNI-V2
-      '0x9f7905c7bd5ec9e870ed50f0e286f2742c19f5b3', // DPI
-      '0xea7eaecbff99ce2412e794437325f3bd225ee78f' // BOND
-    ]
-    return communityPools.sort((a, b) => {
-      return hardcodedSortOrder.indexOf(b.id) - hardcodedSortOrder.indexOf(a.id)
-    })
-  }, [communityPools])
-
-  if (communityPoolsDataLoading) return <PoolsListUILoader />
+  const { data: communityPools, isFetched } = useCommunityPools()
 
   return (
     <>
-      {communityPoolsSorted.map((pool) => {
-        if (!pool?.id) {
-          return null
-        }
-
-        return <PoolRowNew key={`pool-row-${pool.id}`} querySymbol={pool.symbol} />
-      })}
-
+      <PoolList pools={communityPools} isFetched={isFetched} />
       <div className='flex'>
         <a href='https://community.pooltogether.com' className='mx-auto text-sm underline my-4'>
           {t('allPoolsAreListedOnCommunityDotPTDotCom')}
@@ -131,37 +104,8 @@ const CommunityPoolsList = () => {
 }
 
 const GovernancePoolsList = (props) => {
-  const { pools, poolsDataLoading } = useMultiversionGovernancePools()
-
-  const governancePoolsSorted = useMemo(() => {
-    // TODO: To be replaced by automated sorting based on prize size
-    //       also note this array is in reverse order of how we want the elements to appear in the list
-    //       due to the -1 returned by all the other pools in the sortFunction's indexOf() calls
-    const hardcodedSortOrder = [
-      '0x0650d780292142835f6ac58dd8e2a336e87b4393', // UNI
-      '0xbc82221e131c082336cf698f0ca3ebd18afd4ce7', // COMP
-      '0x396b4489da692788e327e2e4b2b0459a5ef26791', // POOL
-      '0xde9ec95d7708b8319ccca4b8bc92c0a3b70bf416', // USDC
-      '0xebfb47a7ad0fd6e57323c8a42b2e5a6a4f68fc1a' // DAI
-    ]
-    return pools.sort((a, b) => {
-      return hardcodedSortOrder.indexOf(b.id) - hardcodedSortOrder.indexOf(a.id)
-    })
-  }, [pools])
-
-  if (poolsDataLoading) return <PoolsListUILoader />
-
-  return (
-    <>
-      {governancePoolsSorted.map((pool) => {
-        if (!pool?.id) {
-          return null
-        }
-
-        return <PoolRowNew key={`pool-row-${pool.id}`} querySymbol={pool.symbol} />
-      })}
-    </>
-  )
+  const { data: pools, isFetched } = useGovernancePools()
+  return <PoolList pools={pools} isFetched={isFetched} />
 }
 
 const MotionUL = (props) => {
@@ -181,5 +125,22 @@ const MotionUL = (props) => {
     <motion.ul {...props} {...sharedListProps}>
       {props.children}
     </motion.ul>
+  )
+}
+
+const PoolList = (props) => {
+  const { pools, isFetched } = props
+  if (!isFetched) return <PoolsListUILoader />
+  return (
+    <div>
+      <ul>
+        {/* TODO: Actual sorting! */}
+        {pools
+          .sort((a, b) => Number(b.prize.totalValueUsd) - Number(a.prize.totalValueUsd))
+          .map((pool) => (
+            <PoolRowNew key={`pool-row-${pool.prizePool.address}`} pool={pool} />
+          ))}
+      </ul>
+    </div>
   )
 }

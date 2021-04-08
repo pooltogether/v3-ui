@@ -43,7 +43,7 @@ export const PoolPrizeCard = (props) => {
 const PrizeValue = (props) => {
   const { pool } = props
 
-  if (!pool) {
+  if (!pool || !pool.prize?.totalValueUsd) {
     return (
       <PrizeValueHeader>
         <BeatLoader size={10} color='rgba(255,255,255,0.3)' />
@@ -51,24 +51,19 @@ const PrizeValue = (props) => {
     )
   }
 
-  if (pool.prize > 0) {
-    return <USDPrizeValue amount={pool.totalPrizeAmountUSD} />
+  if (Number(pool.prize.totalValueUsd) > 0) {
+    return <USDPrizeValue amount={pool.prize.totalValueUsd} />
   }
 
-  if (pool.sablierStream?.id) {
-    if (!pool.sablierPrize) {
-      return (
-        <PrizeValueHeader>
-          <BeatLoader size={10} color='rgba(255,255,255,0.3)' />
-        </PrizeValueHeader>
-      )
-    }
-
+  if (
+    pool.prize.sablierStream?.id &&
+    !pool.prize.sablierStream?.amountThisPrizePeriodUnformatted?.isZero()
+  ) {
     return (
       <TokenPrizeValue
-        tokenAddress={pool.sablierPrize.tokenAddress}
-        amount={numberWithCommas(pool.sablierPrize.amount)}
-        tokenSymbol={pool.sablierPrize.tokenSymbol}
+        tokenAddress={pool.tokens.sablierStreamToken.address}
+        amount={numberWithCommas(pool.prize.sablierStream.amountThisPrizePeriod)}
+        tokenSymbol={pool.tokens.sablierStreamToken.tokenSymbol}
       />
     )
   }

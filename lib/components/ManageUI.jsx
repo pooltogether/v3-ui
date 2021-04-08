@@ -11,21 +11,23 @@ import { Meta } from 'lib/components/Meta'
 import { SponsorshipPane } from 'lib/components/SponsorshipPane'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
-import { usePool } from 'lib/hooks/usePool'
-import { usePools_OLD } from 'lib/hooks/usePools_OLD'
+import { useCurrentPool } from 'lib/hooks/usePools'
+
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { Tagline } from 'lib/components/Tagline'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { useAllPools } from 'lib/hooks/usePools'
 
 export const ManageUI = (props) => {
   const { t } = useTranslation()
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { poolsDataLoading } = usePools_OLD()
+  const { isFetched: poolsDataLoading } = useAllPools()
+
   const { contractAddresses } = useContractAddresses()
-  const { pool } = usePool()
+  const { data: pool } = useCurrentPool()
 
   if (poolsDataLoading) {
     return <IndexUILoader />

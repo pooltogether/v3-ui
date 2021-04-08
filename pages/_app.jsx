@@ -16,7 +16,7 @@ import {
   HOTKEYS_KEY_MAP,
   COOKIE_OPTIONS,
   REFERRER_ADDRESS_KEY,
-  NO_REFETCH_QUERY_OPTIONS
+  DEFAULT_QUERY_OPTIONS
 } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
@@ -59,7 +59,7 @@ import 'assets/styles/vx--custom.css'
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      ...NO_REFETCH_QUERY_OPTIONS
+      ...DEFAULT_QUERY_OPTIONS
     }
   }
 })

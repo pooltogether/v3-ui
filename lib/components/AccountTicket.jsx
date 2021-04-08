@@ -14,11 +14,12 @@ import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWord
 import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
-import { usePool } from 'lib/hooks/usePool'
-import { usePools_OLD } from 'lib/hooks/usePools_OLD'
+import { useCurrentPool } from 'lib/hooks/usePools'
+
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
+import { useAllPools, usePoolBySymbol } from 'lib/hooks/usePools'
 
 export const AccountTicket = (props) => {
   const { t } = useTranslation()
@@ -26,14 +27,14 @@ export const AccountTicket = (props) => {
 
   const [isSelf] = useAtom(isSelfAtom)
 
-  const { pools } = usePools_OLD()
+  const { data: pools } = useAllPools()
 
   const shouldReduceMotion = useReducedMotion()
 
   const { noMargin, isLink, playerTicket } = props
   let { href, as } = props
 
-  const { pool } = usePool(playerTicket?.pool?.symbol)
+  const { data: pool } = usePoolBySymbol(playerTicket?.pool?.symbol)
 
   if (!playerTicket?.pool?.symbol) {
     return null

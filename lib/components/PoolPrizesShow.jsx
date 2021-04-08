@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
-import { usePool } from 'lib/hooks/usePool'
+import { useCurrentPool } from 'lib/hooks/usePools'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { Button } from 'lib/components/Button'
 import { Meta } from 'lib/components/Meta'
@@ -15,7 +15,7 @@ export const PoolPrizesShow = (props) => {
   const [t] = useTranslation()
   const router = useRouter()
 
-  const { pool } = usePool()
+  const { data: pool } = useCurrentPool()
 
   const querySymbol = router.query?.symbol
 

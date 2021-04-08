@@ -7,18 +7,7 @@ import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 
 export function ContributeToLootBoxDropdown(props) {
   const { t } = useTranslation()
-
-  const { pool } = props
-
-  const { lootBoxIsFetching, lootBoxIsFetched, computedLootBoxAddress } = pool.lootBox
-
-  if (lootBoxIsFetching && !lootBoxIsFetched) {
-    return <V3LoadingDots />
-  }
-
-  if (!computedLootBoxAddress) {
-    return null
-  }
+  const { address } = props
 
   return (
     <div>
@@ -31,7 +20,7 @@ export function ContributeToLootBoxDropdown(props) {
         <div className='text-inverse text-xxs xs:text-xs mr-4 xs:mr-10 w-64 xs:w-auto sm:w-auto px-5 py-3 bg-card border-2 border-secondary rounded-lg'>
           <div className='mb-2'>{t('transferTokensToLootBoxContractAddress')}</div>
 
-          <PTCopyToClipboard widths='w-full' text={computedLootBoxAddress} />
+          <PTCopyToClipboard widths='w-full' text={address} />
         </div>
       </DropdownGeneric>
     </div>

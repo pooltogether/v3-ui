@@ -8,14 +8,14 @@ import { AccountTicket } from 'lib/components/AccountTicket'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
 import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
-import { usePool } from 'lib/hooks/usePool'
+import { useCurrentPool } from 'lib/hooks/usePools'
 
 export function ManageTicketsForm(props) {
   const { t } = useTranslation()
 
   const { usersAddress } = useContext(AuthControllerContext)
 
-  const { pool } = usePool()
+  const { data: pool } = useCurrentPool()
 
   const [action, setAction] = useState(STRINGS.withdraw)
 

@@ -3,7 +3,7 @@ import classnames from 'classnames'
 
 import { useTranslation } from 'lib/../i18n'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
-import { usePool } from 'lib/hooks/usePool'
+import { useCurrentPool } from 'lib/hooks/usePools'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
@@ -14,25 +14,25 @@ import { Card, CardDetailsList } from 'lib/components/Card'
 export const UpcomingPrizeBreakdownCard = (props) => {
   const { t } = useTranslation()
 
-  const { pool } = usePool()
+  const { pool } = props
 
-  const { computedLootBoxAddress } = pool.lootBox
+  const computedLootBoxAddress = pool.lootBoxes?.[0].address
+  const symbol = pool.tokens.underlyingToken.symbol
+  const { numberOfWinners, splitExternalErc20Awards } = pool.config
+  const numberOfWinnersMinusOne = numberOfWinners ? parseInt(numberOfWinners, 10) - 1 : 0
+  const totalValuePerWinnerUsd = numberWithCommas(pool.prize.totalValuePerWinnerUsd)
+  const totalValueGrandPrizeWinnerUsdScaled = numberWithCommas(
+    pool.prize.totalValueGrandPrizeWinnerUsdScaled
+  )
+  const totalExternalAwardsUsd = numberWithCommas(pool.prize.totalExternalAwardsUsd)
+  const externalAwardsGreaterThanZero = !pool.prize.totalExternalAwardsUsdScaled.isZero()
 
-  const symbol = pool?.underlyingCollateralSymbol?.toUpperCase()
-
-  const numberOfWinnersMinusOne = pool?.numberOfWinners
-    ? parseInt(pool?.numberOfWinners, 10) - 1
-    : 0
-
-  const ticketPrizePerWinnerFormatted =
-    (pool?.ticketPrizePerWinnerUSD && `${numberWithCommas(pool?.ticketPrizePerWinnerUSD)}`) || '0'
-
-  const hasTicketPrize = Boolean(parseFloat(pool?.ticketPrizeUSD))
+  const hasTicketPrize = Boolean(parseFloat(pool.prize.totalValuePerWinnerUsd))
 
   let strategyDescriptionBasic
-  if (Boolean(pool?.splitExternalErc20Awards)) {
+  if (splitExternalErc20Awards) {
     strategyDescriptionBasic = t('prizeSplitEvenlyBetweenAllWinners', {
-      numberOfWinners: pool?.numberOfWinners
+      numberOfWinners: numberOfWinners
     })
   } else if (hasTicketPrize) {
     strategyDescriptionBasic = t('prizeInterestSplitBetweenNWinners', {
@@ -47,7 +47,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
   return (
     <Card>
       <h3 className='text-center'>
-        {symbol} {t('prize')} #{pool?.currentPrizeId}
+        {symbol} {t('prize')} #{pool.prize.currentPrizeId}
       </h3>
 
       <p className='mx-auto text-accent-1 text-center'>{strategyDescriptionBasic}</p>
@@ -66,12 +66,12 @@ export const UpcomingPrizeBreakdownCard = (props) => {
           >
             <img src={PrizeIllustration} className='w-40 mx-auto' />
             <div>
-              <h3>{`$${numberWithCommas(pool?.ticketPrizeUSD)}`}</h3>
+              <h3>{`$${numberWithCommas(pool.prize.totalValueUsd)}`}</h3>
             </div>
           </div>
         )}
 
-        {computedLootBoxAddress && (
+        {externalAwardsGreaterThanZero && (
           <>
             <div className='w-full xs:w-2/12 text-center -mt-2 xs:mt-24 mb-2 xs:mb-0 xs:pt-3 text-5xl font-bold leading-none'>
               {` + `}
@@ -85,10 +85,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
                   top: 3
                 }}
               >
-                <h3>
-                  {Boolean(pool?.externalAwardsUSD > 0) &&
-                    `$${numberWithCommas(pool.externalAwardsUSD)}`}
-                </h3>
+                <h3>{externalAwardsGreaterThanZero && `$${totalExternalAwardsUsd}`}</h3>
               </div>
             </div>
 
@@ -97,44 +94,61 @@ export const UpcomingPrizeBreakdownCard = (props) => {
         )}
       </div>
 
-      {hasTicketPrize && numberOfWinnersMinusOne > 1 && (
+      {hasTicketPrize && numberOfWinners > 1 && (
         <CardDetailsList>
-          <li className='flex justify-between mb-2'>
-            <span className='text-accent-1'>
-              {computedLootBoxAddress ? t('grandPrize') : t('winner')}
-            </span>
-            <span className='flex flex-col xs:flex-row text-right xs:text-left'>
-              {!pool?.splitExternalErc20Awards && Boolean(pool?.externalAwardsUSD) && (
-                <span>
-                  {pool?.externalAwardsUSD && (
-                    <span>
-                      $<PoolNumber>{numberWithCommas(pool.externalAwardsUSD)}</PoolNumber>
-                    </span>
-                  )}
-                  <span className='text-accent-1'>{t('lootBox')}</span>
-                  {ticketPrizePerWinnerFormatted && pool?.externalAwardsUSD && (
-                    <span className='mx-1'>+</span>
-                  )}
-                </span>
-              )}
-              <span>
-                $<PoolNumber>{ticketPrizePerWinnerFormatted}</PoolNumber>
-              </span>
-            </span>
-          </li>
-
+          <GrandPrize
+            splitExternalErc20Awards={splitExternalErc20Awards}
+            externalPrizeExists={externalAwardsGreaterThanZero}
+            externalPrize={totalExternalAwardsUsd}
+            prize={totalValuePerWinnerUsd}
+          />
           {[...Array(numberOfWinnersMinusOne).keys()].map((index) => (
-            <li key={`runner-up-row-${index}`} className='flex justify-between mb-2 last:mb-0 '>
-              <span className='text-accent-1'>
-                {computedLootBoxAddress ? t('runnerUp') : t('winner')}
-              </span>
-              <span>
-                $<PoolNumber>{ticketPrizePerWinnerFormatted}</PoolNumber>
-              </span>
-            </li>
+            <RunnerUp key={`runner-up-row-${index}`} prize={totalValuePerWinnerUsd} />
           ))}
         </CardDetailsList>
       )}
     </Card>
+  )
+}
+
+const GrandPrize = (props) => {
+  const { t } = useTranslation()
+
+  const { splitExternalErc20Awards, externalPrizeExists, externalPrize, prize } = props
+
+  return (
+    <li className='flex justify-between mb-2'>
+      <span className='text-accent-1'>{t('grandPrize')}</span>
+      <span className='flex flex-col xs:flex-row text-right xs:text-left'>
+        {!splitExternalErc20Awards && externalPrizeExists && (
+          <span>
+            {externalPrizeExists && (
+              <span>
+                $<PoolNumber>{externalPrize}</PoolNumber>
+              </span>
+            )}
+            <span className='text-accent-1'>{t('lootBox')}</span>
+            {prize && externalPrizeExists && <span className='mx-1'>+</span>}
+          </span>
+        )}
+        <span>
+          $<PoolNumber>{prize}</PoolNumber>
+        </span>
+      </span>
+    </li>
+  )
+}
+
+const RunnerUp = (props) => {
+  const { t } = useTranslation()
+  const { prize } = props
+
+  return (
+    <li className='flex justify-between mb-2 last:mb-0 '>
+      <span className='text-accent-1'>{t('runnerUp')}</span>
+      <span>
+        {/* TODO: Display "winner" if historic */}$<PoolNumber>{prize}</PoolNumber>
+      </span>
+    </li>
   )
 }

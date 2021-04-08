@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { useAtom } from 'jotai'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-// import { usePools_OLD } from 'lib/hooks/usePools_OLD'
+//
 import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 

@@ -10,16 +10,13 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 
 import Rocket from 'assets/images/rocketship@2x.png'
+import { usePooltogetherTotalPrizes, usePooltogetherTvl } from 'lib/hooks/usePooltogetherTvl'
 
 export const TVLAndWeeklyPrizesBanner = (props) => {
   const { t } = useTranslation()
 
-  const { usersAddress } = useContext(AuthControllerContext)
-  const [totalValueLocked, totalPrizePoolValueLockedIsFetched] = useTotalPoolPrizeValueLockedUSD()
-  const {
-    data: totalPrizeInterestUSD,
-    isFetched: totalPrizeIsFetched
-  } = useTotalPoolPrizeInterestUSD()
+  const totalValueLocked = usePooltogetherTvl()
+  const totalPrizes = usePooltogetherTotalPrizes()
 
   const formatNumbers = (num) => {
     if (num > 1000000) {
@@ -32,11 +29,11 @@ export const TVLAndWeeklyPrizesBanner = (props) => {
   }
 
   // Check if data has loaded
-  if (!totalPrizeIsFetched || !totalPrizePoolValueLockedIsFetched) {
+  if (totalValueLocked === null || totalPrizes === null) {
     return <BannerUILoader />
   }
 
-  const totalPrizeFormatted = formatNumbers(totalPrizeInterestUSD)
+  const totalPrizeFormatted = formatNumbers(totalPrizes)
   const totalValueLockedFormatted = formatNumbers(totalValueLocked)
 
   return (

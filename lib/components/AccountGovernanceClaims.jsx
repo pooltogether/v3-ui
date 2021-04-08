@@ -19,24 +19,22 @@ import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { ThemedClipLoader } from 'lib/components/loaders/ThemedClipLoader'
 import { useAccountQuery } from 'lib/hooks/useAccountQuery'
-import { usePools_OLD } from 'lib/hooks/usePools_OLD'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
 import { useClaimablePoolFromTokenFaucets } from 'lib/hooks/useClaimablePoolFromTokenFaucets'
 import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
-import { usePool } from 'lib/hooks/usePool'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { useTokenFaucetAPR } from 'lib/hooks/useTokenFaucetAPR'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import PoolIcon from 'assets/images/pool-icon.svg'
+import { useGovernancePools, usePoolBySymbol } from 'lib/hooks/usePools'
 
 export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
 
-  const { pools, poolsGraphData } = usePools_OLD()
+  const { data: pools } = useGovernancePools()
 
   const { chainId, usersAddress } = useContext(AuthControllerContext)
 
@@ -228,7 +226,7 @@ const ClaimablePoolTokenItem = (props) => {
   const { playerTickets } = usePlayerTickets(accountData)
 
   const { symbol } = pool
-  const { pool: poolInfo } = usePool(symbol)
+  const { data: poolInfo } = usePoolBySymbol(symbol)
   const tokenFaucetAddress = poolInfo.tokenListener
   const { underlyingCollateralDecimals, underlyingCollateralSymbol } = poolInfo
   const name = t('prizePoolTicker', { ticker: underlyingCollateralSymbol })
@@ -270,7 +268,7 @@ const ClaimablePoolTokenItem = (props) => {
     precision: getPrecision(totalDripPerDay)
   })
 
-  const apr = useTokenFaucetAPR(poolInfo)
+  const apr = poolInfo.tokenListener?.apr
 
   const [isSelf] = useAtom(isSelfAtom)
 

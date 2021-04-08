@@ -12,7 +12,7 @@ import { Banner } from 'lib/components/Banner'
 import { DepositPaneTitle } from 'lib/components/DepositPaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { usePool } from 'lib/hooks/usePool'
+import { useCurrentPool } from 'lib/hooks/usePools'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { TxStatus } from 'lib/components/TxStatus'
 import { useTransaction } from 'lib/hooks/useTransaction'
@@ -30,7 +30,7 @@ export function ExecuteCryptoDeposit(props) {
   const quantity = router.query.quantity
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { pool } = usePool()
+  const { data: pool } = useCurrentPool()
 
   const decimals = pool?.underlyingCollateralDecimals
   const ticker = pool?.underlyingCollateralSymbol

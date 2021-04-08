@@ -9,24 +9,19 @@ import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
-import { useTokenFaucetAPR } from 'lib/hooks/useTokenFaucetAPR'
-import { usePool } from 'lib/hooks/usePool'
 import { displayPercentage } from 'lib/utils/displayPercentage'
-
 import PoolIcon from 'assets/images/pool-icon.svg'
 import BeatLoader from 'react-spinners/BeatLoader'
 
 export const PoolRowNew = (props) => {
-  const { querySymbol } = props
+  const { pool } = props
 
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { pool } = usePool(querySymbol)
-
   const symbol = pool.symbol
 
-  const ticker = pool?.underlyingCollateralSymbol
+  const ticker = pool.tokens.underlyingToken.symbol
   const tickerUpcased = ticker?.toUpperCase()
 
   const handleGetTicketsClick = (e) => {
@@ -52,7 +47,7 @@ export const PoolRowNew = (props) => {
     </div>
   )
 
-  const apr = useTokenFaucetAPR(pool)
+  const apr = pool.tokenListener?.apr
 
   return (
     <>
@@ -120,37 +115,33 @@ export const PoolRowNew = (props) => {
 const PoolPrizeValue = (props) => {
   const { pool } = props
 
-  if (!pool || pool.fetchingTotals) {
+  if (!pool || !pool.prize?.totalValueUsd) {
     return <div className='text-3xl sm:text-5xl text-flashy font-bold'>$0</div>
   }
 
-  if (pool.totalPrizeAmountUSD) {
+  if (pool.prize.totalValueUsd) {
     return (
       <div className='text-3xl sm:text-5xl text-flashy font-bold'>
         $
         <PoolCountUp fontSansRegular decimals={0} duration={6}>
-          {parseFloat(pool?.totalPrizeAmountUSD)}
+          {parseFloat(pool.prize.totalValueUsd)}
         </PoolCountUp>
       </div>
     )
   }
 
-  if (pool.sablierStream?.id) {
-    if (!pool.sablierPrize) {
-      return (
-        <div className='text-3xl sm:text-5xl text-flashy font-bold'>
-          <BeatLoader size={10} color='rgba(255,255,255,0.3)' />
-        </div>
-      )
-    }
-
+  if (
+    pool.prize.sablierStream.id &&
+    !pool.prize.sablierStream?.amountThisPrizePeriodUnformatted?.isZero()
+  ) {
+    console.log(pool)
     return (
       <div className='text-3xl sm:text-5xl text-flashy font-bold'>
         <PoolCountUp fontSansRegular decimals={0} duration={6}>
-          {parseFloat(pool.sablierPrize.amount)}
+          {parseFloat(pool.prize.sablierStream.amountThisPrizePeriod)}
         </PoolCountUp>
         <span className='text-base lg:text-lg text-inverse mb-4 ml-2 mt-auto'>
-          {pool.sablierPrize.tokenSymbol}
+          {pool.tokens.sablierStreamToken.tokenSymbol}
         </span>
       </div>
     )
