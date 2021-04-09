@@ -48,20 +48,11 @@ export const AccountSummary = () => {
     podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance
   }
 
-  const addresses = playerTickets?.map(
-    (playerTicket) => playerTicket.pool.underlyingCollateralToken
-  )
-
-  const { data: uniswapPriceData, error: uniswapError } = useUniswapTokensQuery(addresses)
-  if (uniswapError) {
-    console.error(uniswapError)
-  }
-
   let totalTickets = ethers.BigNumber.from(0)
   playerTickets?.forEach((playerTicket) => {
     let { balanceNormalized, balanceFormatted, pool } = playerTicket
 
-    const priceUSD = uniswapPriceData?.[pool.underlyingCollateralToken]?.usd
+    const priceUSD = pool.tokens.underlyingToken?.usd
 
     if (priceUSD) {
       try {

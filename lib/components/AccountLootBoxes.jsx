@@ -16,7 +16,9 @@ export const AccountLootBoxes = () => {
   const { contractAddresses } = useContractAddresses()
   const { data: pools } = useAllPools()
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  // const { usersAddress } = useContext(AuthControllerContext)
+
+  const usersAddress = '0x80845058350b8c3df5c3015d8a717d64b3bf9267'
 
   const { data } = useMultiversionPlayerPrizes(usersAddress)
 

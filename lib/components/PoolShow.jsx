@@ -45,7 +45,7 @@ export const PoolShow = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
   const shouldReduceMotion = useReducedMotion()
-  const { data: pool, isFetched: isPoolFetched } = usePoolBySymbol(router?.query?.symbol)
+  const { data: pool, isFetched: poolIsFetched } = usePoolBySymbol(router?.query?.symbol)
   const { chainId, usersAddress, walletName } = useContext(AuthControllerContext)
   const [cookieShowAward, setCookieShowAward] = useState(false)
 
@@ -53,7 +53,7 @@ export const PoolShow = (props) => {
     setCookieShowAward(Cookies.get(SHOW_MANAGE_LINKS))
   }, 1000)
 
-  if (!isPoolFetched) {
+  if (!poolIsFetched) {
     return <PoolShowUILoader />
   }
 
@@ -68,13 +68,11 @@ export const PoolShow = (props) => {
     })
   }
 
-  console.log(pool)
-
   return (
     <>
       <Meta title={pool.name} />
 
-      {pool.isCommunityPool && <CommunityPoolDisclaimerModal poolSymbol={pool.symbol} />}
+      {pool.contract.isCommunityPool && <CommunityPoolDisclaimerModal poolSymbol={pool.symbol} />}
 
       <motion.div
         initial='initial'

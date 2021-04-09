@@ -95,6 +95,8 @@ const PrizesList = (props) => {
   const { prizes, pool } = props
   const { splitExternalErc20Awards, symbol, id } = pool
 
+  console.log(prizes)
+
   return null
 
   // TODO:

@@ -59,7 +59,7 @@ export const PageTitleAndBreadcrumbs = (props) => {
 
             {typeof window !== 'undefined' &&
               window.location.pathname.match('/pools/') &&
-              !pool.isCommunityPool && (
+              !pool.contract.isCommunityPool && (
                 <div className='ml-4'>
                   <Chip
                     className='font-bold uppercase'

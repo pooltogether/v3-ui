@@ -15,7 +15,8 @@ export const NewPrizeCountdownInWords = (props) => {
   const [secondsRemaining, setSecondsRemaining] = useState(null)
 
   const secs =
-    pool?.prizePeriodRemainingSeconds && parseInt(pool?.prizePeriodRemainingSeconds.toString(), 10)
+    pool.prize.prizePeriodRemainingSeconds &&
+    parseInt(pool.prize.prizePeriodRemainingSeconds.toString(), 10)
 
   useEffect(() => {
     setSecondsRemaining(secs)
@@ -44,7 +45,7 @@ export const NewPrizeCountdownInWords = (props) => {
   const secondsWords = secondsArray.length > 1 ? secondsArray.join('') : secondsArray[0]
 
   let content
-  if (pool?.isRngRequested) {
+  if (pool.prize.isRngRequested) {
     content = <>{t('prizeIsBeingAwarded')}</>
   } else if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
     content = <>{t('prizeAwardedSoon')}</>
@@ -57,7 +58,7 @@ export const NewPrizeCountdownInWords = (props) => {
     )
   }
 
-  if (extraShort && pool?.isRngRequested) {
+  if (extraShort && pool.prize.isRngRequested) {
     content = <>{t('beingAwarded')}</>
   } else if (extraShort && days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
     content = <>{t('awarding')}</>

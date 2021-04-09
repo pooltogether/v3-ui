@@ -14,20 +14,17 @@ import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWord
 import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
-import { useCurrentPool } from 'lib/hooks/usePools'
 
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
-import { useAllPools, usePoolBySymbol } from 'lib/hooks/usePools'
+import { usePoolBySymbol } from 'lib/hooks/usePools'
 
 export const AccountTicket = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
   const [isSelf] = useAtom(isSelfAtom)
-
-  const { data: pools } = useAllPools()
 
   const shouldReduceMotion = useReducedMotion()
 
@@ -54,7 +51,7 @@ export const AccountTicket = (props) => {
     usersBalance = Number(ethers.utils.formatUnits(balance, Number(decimals)))
   }
 
-  const ticker = pool?.underlyingCollateralSymbol
+  const ticker = pool.tokens.underlyingToken.symbol
 
   const handleManageClick = (e) => {
     e.preventDefault()
@@ -68,14 +65,14 @@ export const AccountTicket = (props) => {
 
     router.push(
       `/account/pools/[symbol]/manage-tickets`,
-      `/account/pools/${pool?.symbol}/manage-tickets`,
+      `/account/pools/${pool.symbol}/manage-tickets`,
       {
         shallow: true
       }
     )
   }
 
-  const isGovernedPool = pools.find((_pool) => _pool.symbol === pool.symbol)
+  const isGovernedPool = !pool.contract.isCommunityPool
   const ticketClassName = isGovernedPool ? `ticket--${ticker?.toLowerCase()}` : `ticket--generic`
 
   return (
@@ -83,7 +80,7 @@ export const AccountTicket = (props) => {
       <motion.div
         // id={`_account${pool?.name}Ticket`}
         onClick={handleManageClick}
-        key={`account-pool-ticket-${pool?.poolAddress}`}
+        key={`account-pool-ticket-${pool.prizePool.poolAddress}`}
         className={classnames('relative ticket bg-no-repeat text-xxxs xs:text-xs', {
           'xs:mr-6 mb-6': !noMargin,
           'cursor-pointer': isSelf && isLink
@@ -131,14 +128,14 @@ export const AccountTicket = (props) => {
               </div>
 
               <div className='mt-2'>
-                <span className='relative text-inverse inline-block leading-normal text-accent-1'>
+                <span className='relative text-inverse inline-block leading-normal'>
                   {t('winningOdds')}:
                 </span>
                 <br />{' '}
                 {usersBalance < 1 ? (
                   <>
                     <span
-                      className='font-bold text-accent-3 text-default-soft'
+                      className='font-bold text-accent-3'
                       style={{
                         marginTop: 23
                       }}
@@ -161,14 +158,14 @@ export const AccountTicket = (props) => {
 
               <div className='flex items-center text-left text-xs xs:text-xl font-bold text-darkened relative mt-5 xs:mt-8 pt-2 xs:pt-1'>
                 <div className=''>
-                  {pool?.totalPrizeAmountUSD && decimals && (
+                  {pool.prize.totalValueUsd && decimals && (
                     <>
                       $
                       <PoolCountUp
                         fontSansRegular
                         decimals={0}
                         duration={3}
-                        end={parseFloat(pool?.totalPrizeAmountUSD)}
+                        end={parseFloat(pool.prize.totalValueUsd)}
                       />
                     </>
                   )}

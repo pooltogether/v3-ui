@@ -54,6 +54,8 @@ export const AccountTickets = () => {
     normalizedUsdcPodBalance = normalizeTo18Decimals(usdcBalances.podBalance, 6)
   }
 
+  // TODO: V2 tickets are broken
+
   let hasNoV2Balance = true
   hasNoV2Balance =
     normalizedDaiPoolBalance.lt('10000000000000') &&
