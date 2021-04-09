@@ -18,7 +18,7 @@ export const TicketsSoldGraph = (props) => {
 
   const page = 1
   const skip = 0
-  const { data, error, isFetched } = usePoolPrizesQuery(pool, page, skip, -1, 20)
+  const { data, error, isFetched } = usePoolPrizesQuery(pool.contract, page, skip, -1, 20)
 
   let prizes = [].concat(data?.prizePool?.prizes)
 
@@ -26,7 +26,7 @@ export const TicketsSoldGraph = (props) => {
     console.error(error)
   }
 
-  const decimals = pool?.underlyingCollateralDecimals
+  const { symbol, decimals } = pool.tokens.underlyingToken
 
   if (!decimals || !prizes.length || !isFetched || prizes.length < MIN_NUMBER_OF_POINTS) {
     if (renderEmptyState) return renderEmptyState()
@@ -38,7 +38,7 @@ export const TicketsSoldGraph = (props) => {
 
   if (lastPrize?.awardedBlock) {
     currentPrize = {
-      ticketSupply: pool.ticketSupply,
+      ticketSupply: pool.tokens.ticket.totalSupplyUnformatted,
       awardedTimestamp: Date.now() / 1000
     }
 
@@ -77,7 +77,7 @@ export const TicketsSoldGraph = (props) => {
   return (
     <DateValueLineGraph
       id='tickets-sold-graph'
-      valueLabel={t('depositedTicker', { ticker: pool?.underlyingCollateralSymbol?.toUpperCase() })}
+      valueLabel={t('depositedTicker', { ticker: symbol.toUpperCase() })}
       data={[dataArray]}
     />
   )

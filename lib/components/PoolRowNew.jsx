@@ -11,7 +11,6 @@ import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import PoolIcon from 'assets/images/pool-icon.svg'
-import BeatLoader from 'react-spinners/BeatLoader'
 
 export const PoolRowNew = (props) => {
   const { pool } = props

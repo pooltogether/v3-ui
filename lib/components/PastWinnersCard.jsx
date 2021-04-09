@@ -18,7 +18,7 @@ export const PastWinnersCard = (props) => {
 
   const page = 1
   const skip = 0
-  const { data, error, isFetched } = usePoolPrizesQuery(pool, page, skip)
+  const { data, error, isFetched } = usePoolPrizesQuery(pool.contract, page, skip)
 
   if (error) {
     console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))
@@ -67,7 +67,7 @@ export const PastWinnersCard = (props) => {
     <Card>
       <div className='flex justify-between items-center'>
         <h3 className='mb-4'>{t('pastFiveWinners')}</h3>
-        {pool?.symbol && (
+        {pool.symbol && (
           <Link href='/prizes/[symbol]' as={`/prizes/${pool.symbol}`}>
             <a className='text-accent-1'>{t('allPrizeHistory')}</a>
           </Link>
@@ -77,7 +77,7 @@ export const PastWinnersCard = (props) => {
         <div className='w-full flex mb-6'>
           <span className='w-1/3'>{t('currentPrize')}</span>
           <span className='w-1/3 text-right text-flashy'>
-            ${numberWithCommas(pool?.totalPrizeAmountUSD, { precision: 2 })}
+            ${numberWithCommas(pool.prize.totalValueUsd, { precision: 2 })}
           </span>
         </div>
 
@@ -95,6 +95,9 @@ const PrizesList = (props) => {
   const { prizes, pool } = props
   const { splitExternalErc20Awards, symbol, id } = pool
 
+  return null
+
+  // TODO:
   return (
     <>
       {prizes.map((prize, index) => (

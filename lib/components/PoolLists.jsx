@@ -95,7 +95,11 @@ const CommunityPoolsList = () => {
     <>
       <PoolList pools={communityPools} isFetched={isFetched} />
       <div className='flex'>
-        <a href='https://community.pooltogether.com' className='mx-auto text-sm underline my-4'>
+        <a
+          href='https://community.pooltogether.com'
+          target='_blank'
+          className='mx-auto text-sm underline my-4'
+        >
           {t('allPoolsAreListedOnCommunityDotPTDotCom')}
         </a>
       </div>

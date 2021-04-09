@@ -104,7 +104,7 @@ const DepositsStat = (props) => {
       title={t('totalDeposits')}
       convertedValue={pool.tokens.ticket.totalValueUsd}
       tokenSymbol={pool.tokens.underlyingToken.symbol}
-      tokenAmount={pool.tokens.ticket.totalSupplyUnformatted}
+      tokenAmount={pool.tokens.ticket.totalSupply}
     />
   )
 }
@@ -118,8 +118,8 @@ const SponsorshipStat = (props) => {
       <Stat
         title={t('sponsorship')}
         convertedValue={pool.tokens.sponsorship.totalValueUsd}
-        tokenSymbol={pool.tokens.sponsorship.symbol}
-        tokenAmount={pool.tokens.sponsorship.totalSupplyUnformatted}
+        tokenSymbol={pool.tokens.underlyingToken.symbol}
+        tokenAmount={pool.tokens.sponsorship.totalSupply}
         tooltip={t('sponsorshipInfo')}
       />
     </>
@@ -146,6 +146,8 @@ const ReserveRateStat = (props) => {
 
   const { t } = useTranslation()
 
+  if (!pool.reserve.rateUnformatted) return null
+
   const reserveRateUnformattedPercentage = pool.reserve.rateUnformatted.mul(100)
   const reserveRatePercentage = ethers.utils.formatUnits(
     reserveRateUnformattedPercentage,
@@ -170,7 +172,6 @@ const YieldSourceStat = (props) => {
   } else if (yieldSource === PRIZE_POOL_TYPES.genericYield) {
     const yieldSourceAddress = pool.prizePool.yieldSource
     etherscanLink = <EtherscanAddressLink address={yieldSourceAddress} />
-
     sourceName = CUSTOM_YIELD_SOURCE_NAMES[yieldSourceAddress]
 
     const providedCustomImage = CUSTOM_YIELD_SOURCE_IMAGES[sourceName]
@@ -220,15 +221,11 @@ const DailyPoolDistributionStat = (props) => {
   const { t } = useTranslation()
   const { pool } = props
 
-  const dripRatePerDayUnformatted = pool.reserve?.dripRatePerDayUnformatted || ethers.constants.Zero
-  const tokenAmountPerDay = ethers.utils.formatUnits(
-    dripRatePerDayUnformatted,
-    DEFAULT_TOKEN_PRECISION
-  )
+  const dripRatePerDay = pool.tokenListener?.dripRatePerDay || ethers.constants.Zero
 
   // TODO: Hardcoded to POOL but we might let people drip other tokens
   return (
-    <Stat title={t('dailyPoolDistribution')} tokenSymbol={'POOL'} tokenAmount={tokenAmountPerDay} />
+    <Stat title={t('dailyPoolDistribution')} tokenSymbol={'POOL'} tokenAmount={dripRatePerDay} />
   )
 }
 

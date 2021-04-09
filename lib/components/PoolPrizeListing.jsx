@@ -17,7 +17,7 @@ export const PoolPrizeListing = (props) => {
 
   const page = router?.query?.page ? parseInt(router.query.page, 10) : 1
   const skip = (page - 1) * PRIZE_PAGE_SIZE
-  const { data, error, isFetching, isFetched } = usePoolPrizesQuery(pool, page, skip)
+  const { data, error, isFetching, isFetched } = usePoolPrizesQuery(pool.contract, page, skip)
 
   let prizes = data?.prizePool?.prizes
 

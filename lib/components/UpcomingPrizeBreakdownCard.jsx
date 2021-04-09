@@ -21,10 +21,8 @@ export const UpcomingPrizeBreakdownCard = (props) => {
   const { numberOfWinners, splitExternalErc20Awards } = pool.config
   const numberOfWinnersMinusOne = numberOfWinners ? parseInt(numberOfWinners, 10) - 1 : 0
   const totalValuePerWinnerUsd = numberWithCommas(pool.prize.totalValuePerWinnerUsd)
-  const totalValueGrandPrizeWinnerUsdScaled = numberWithCommas(
-    pool.prize.totalValueGrandPrizeWinnerUsdScaled
-  )
   const totalExternalAwardsUsd = numberWithCommas(pool.prize.totalExternalAwardsUsd)
+  const totalInternalAwardsUsd = numberWithCommas(pool.prize.totalInternalAwardsUsd)
   const externalAwardsGreaterThanZero = !pool.prize.totalExternalAwardsUsdScaled.isZero()
 
   const hasTicketPrize = Boolean(parseFloat(pool.prize.totalValuePerWinnerUsd))
@@ -66,7 +64,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
           >
             <img src={PrizeIllustration} className='w-40 mx-auto' />
             <div>
-              <h3>{`$${numberWithCommas(pool.prize.totalValueUsd)}`}</h3>
+              <h3>{`$${totalInternalAwardsUsd}`}</h3>
             </div>
           </div>
         )}

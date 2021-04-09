@@ -150,7 +150,7 @@ export const PoolShow = (props) => {
 
         <PoolCharts pool={pool} />
 
-        {/* <PastWinnersCard pool={pool} /> */}
+        <PastWinnersCard pool={pool} />
 
         {/* <PrizePlayersQuery pool={pool} blockNumber={-1}>
           {({ data, isFetching, isFetched }) => {
