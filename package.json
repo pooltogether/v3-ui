@@ -64,7 +64,7 @@
     "@pooltogether/current-pool-data": "3.3.1",
     "@pooltogether/etherplex": "1.0.0",
     "@pooltogether/loot-box": "1.1.0",
-    "@pooltogether/pooltogether-contracts": "3.2.0",
+    "@pooltogether/pooltogether-contracts": "3.3.7",
     "@reach/dialog": "^0.10.5",
     "@reach/menu-button": "^0.10.5",
     "@reach/tooltip": "^0.10.5",
