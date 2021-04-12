@@ -34,9 +34,11 @@ export function Odds(props) {
 
   const hasBalance = !isNaN(usersBalance) && usersBalance > 0
 
-  const underlyingCollateralDecimals = pool?.underlyingCollateralDecimals
-  const ticketSupply = timeTravelTicketSupply || pool?.ticketSupply
-  const numberOfWinners = pool?.numberOfWinners ? parseInt(pool?.numberOfWinners, 10) : 1
+  const underlyingCollateralDecimals = pool.tokens.underlyingToken.decimals
+  const ticketSupply = timeTravelTicketSupply || pool.tokens.ticket.totalSupplyUnformatted
+  const numberOfWinners = pool.config.numberOfWinners
+    ? parseInt(pool.config.numberOfWinners, 10)
+    : 1
 
   const usersBalanceBN = usersBalance
     ? ethers.BigNumber.from(usersBalance)

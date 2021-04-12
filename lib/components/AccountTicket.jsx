@@ -39,11 +39,11 @@ export const AccountTicket = (props) => {
 
   const { balance } = playerTicket
 
-  const decimals = pool?.underlyingCollateralDecimals
+  const decimals = pool.tokens.underlyingToken.decimals
 
   if (!href && !as) {
     href = '/account/pools/[symbol]'
-    as = `/account/pools/${pool?.symbol}`
+    as = `/account/pools/${pool.symbol}`
   }
 
   let usersBalance = 0
@@ -193,7 +193,12 @@ export const AccountTicket = (props) => {
             }}
           >
             <div className='flex flex-col items-center w-20'>
-              <PoolCurrencyIcon noMediaQueries noMargin pool={pool} />
+              <PoolCurrencyIcon
+                noMediaQueries
+                noMargin
+                symbol={ticker}
+                address={pool.tokens.underlyingToken.address}
+              />
               <div className='capitalize mt-2 text-xs xs:text-lg font-bold text-inverse-purple'>
                 {ticker?.toUpperCase()}
               </div>

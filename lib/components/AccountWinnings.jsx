@@ -76,10 +76,7 @@ export const AccountWinnings = () => {
                       <tr key={`award-winnings-row-${awardKey}`}>
                         <td className='px-2 sm:px-3 text-left font-bold'>
                           <span className='mr-2'>
-                            <PoolCurrencyIcon
-                              sm
-                              pool={{ underlyingCollateralSymbol: award.ticker }}
-                            />
+                            <PoolCurrencyIcon sm symbol={award.ticker} />
                           </span>
                           {numberWithCommas(award.total, { decimals: award.decimals })}{' '}
                           {award.ticker}

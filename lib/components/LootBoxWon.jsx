@@ -134,10 +134,10 @@ const LootBoxWonTable = (props) => {
             })}
             ,{' '}
             <div className='inline-block ml-1 relative' style={{ top: -2 }}>
-              <PoolCurrencyIcon xs pool={pool} />
+              <PoolCurrencyIcon xs symbol={pool.tokens.underlyingToken.symbol} />
             </div>{' '}
             {t('tickerPool', {
-              ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
+              ticker: pool.tokens.underlyingToken.symbol.toUpperCase()
             })}
           </>
         )}

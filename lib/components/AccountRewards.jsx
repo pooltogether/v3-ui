@@ -233,7 +233,7 @@ export const AccountRewards = () => {
           <td className='px-2 sm:px-3 py-2 text-left font-bold'>
             {isPoolDaiTickets && (
               <>
-                <PoolCurrencyIcon sm pool={{ underlyingCollateralSymbol: 'dai' }} />
+                <PoolCurrencyIcon sm symbol='DAI' />
               </>
             )}{' '}
             {isPoolDaiTickets ? t('daiTickets') : dripData.dripToken.name}

@@ -35,7 +35,10 @@ export const PrizesPageHeader = (props) => {
         <>
           <div className='bg-card mt-6 mb-6 text-sm py-4 flex items-center justify-center rounded-lg'>
             <div className='flex flex-col items-center justify-center text-lg'>
-              <PoolCurrencyIcon pool={pool} />{' '}
+              <PoolCurrencyIcon
+                symbol={pool.tokens.underlyingToken.symbol}
+                address={pool.tokens.underlyingToken.address}
+              />{' '}
               <div className='mt-1'>
                 <Link href='/prizes/[symbol]' as={`/prizes/${pool?.symbol}`}>
                   <a>{pool?.name}</a>

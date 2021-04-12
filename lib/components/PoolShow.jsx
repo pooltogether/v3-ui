@@ -40,6 +40,7 @@ import { usePoolBySymbol } from 'lib/hooks/usePools'
 
 import Bell from 'assets/images/bell-yellow@2x.png'
 import { usePooltogetherTvl } from 'lib/hooks/usePooltogetherTvl'
+import { usePastPrizes } from 'lib/hooks/usePastPrizes'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -48,6 +49,9 @@ export const PoolShow = (props) => {
   const { data: pool, isFetched: poolIsFetched } = usePoolBySymbol(router?.query?.symbol)
   const { chainId, usersAddress, walletName } = useContext(AuthControllerContext)
   const [cookieShowAward, setCookieShowAward] = useState(false)
+
+  const pastPrizes = usePastPrizes()
+  console.log(pastPrizes)
 
   useInterval(() => {
     setCookieShowAward(Cookies.get(SHOW_MANAGE_LINKS))
@@ -146,9 +150,9 @@ export const PoolShow = (props) => {
 
         <PoolStats pool={pool} />
 
-        <PoolCharts pool={pool} />
+        {/* <PoolCharts pool={pool} /> */}
 
-        <PastWinnersCard pool={pool} />
+        {/* <PastWinnersCard pool={pool} /> */}
 
         {/* <PrizePlayersQuery pool={pool} blockNumber={-1}>
           {({ data, isFetching, isFetched }) => {

@@ -68,13 +68,14 @@ export const AccountUI = () => {
 
           <AccountTickets />
 
-          {/* <AccountGovernanceClaims />
+          <AccountGovernanceClaims />
 
-          <AccountRewards />
+          {/* TODO: address to test this with */}
+          {/* <AccountRewards /> */}
 
-          <AccountLootBoxes />
+          {/* <AccountLootBoxes /> */}
 
-          <AccountWinnings /> */}
+          <AccountWinnings />
 
           <div className='flex flex-col items-center justify-center mt-20'>
             <div className='m-2'>

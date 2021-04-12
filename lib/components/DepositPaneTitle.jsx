@@ -12,7 +12,11 @@ export function DepositPaneTitle(props) {
   return (
     <PaneTitle>
       <div className='font-bold inline-block sm:block relative mb-2' style={{ top: -2 }}>
-        <PoolCurrencyIcon lg pool={pool} />
+        <PoolCurrencyIcon
+          lg
+          symbol={pool.tokens.underlyingToken.symbol}
+          address={pool.tokens.underlyingToken.address}
+        />
       </div>{' '}
       {t('depositTickerToWin', {
         ticker

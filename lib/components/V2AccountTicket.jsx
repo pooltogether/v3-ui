@@ -178,12 +178,7 @@ export const V2AccountTicket = (props) => {
               width: 114
             }}
           >
-            <PoolCurrencyIcon
-              noMediaQueries
-              noMargin
-              pool={{ underlyingCollateralSymbol: ticker }}
-              className='-mt-2'
-            />
+            <PoolCurrencyIcon noMediaQueries noMargin symbol={ticker} className='-mt-2' />
             <div className='mt-1 text-lg font-bold'>{ticker.toUpperCase()}</div>
           </div>
         </div>

@@ -60,7 +60,12 @@ export const PoolRowNew = (props) => {
         <div className='flex flex-col sm:flex-row items-center justify-between sm:justify-evenly text-inverse'>
           <div className='pool-row-left-col h-full flex bg-body px-4 sm:px-6 lg:px-8 pb-2 sm:pt-4 sm:pb-8 lg:pt-8 lg:pb-10 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
             <div className='relative mr-2 mt-4' style={{ top: 1 }}>
-              <PoolCurrencyIcon noMediaQueries lg pool={pool} />
+              <PoolCurrencyIcon
+                noMediaQueries
+                lg
+                symbol={pool.tokens.underlyingToken.symbol}
+                address={pool.tokens.underlyingToken.address}
+              />
             </div>
 
             <div className='flex flex-col'>

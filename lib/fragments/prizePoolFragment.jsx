@@ -1,7 +1,6 @@
 import gql from 'graphql-tag'
 
 import { prizeStrategyFragment } from 'lib/fragments/prizeStrategyFragment'
-import { prizePoolAccountFragment } from 'lib/fragments/prizePoolAccountFragment'
 import { controlledTokenFragment } from 'lib/fragments/controlledTokenFragment'
 
 export const prizePoolFragment = gql`
@@ -58,4 +57,3 @@ export const prizePoolFragment = gql`
 
   ${controlledTokenFragment}
 `
-// ${prizePoolAccountFragment}

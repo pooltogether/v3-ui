@@ -53,7 +53,11 @@ export const PageTitleAndBreadcrumbs = (props) => {
       {pool ? (
         <>
           <div className='flex justify-start items-center'>
-            <PoolCurrencyIcon xl pool={pool} />
+            <PoolCurrencyIcon
+              xl
+              symbol={pool.tokens.underlyingToken.symbol}
+              address={pool.tokens.underlyingToken.address}
+            />
 
             <div className='ml-1 sm:ml-6'>{crumbJsx}</div>
 

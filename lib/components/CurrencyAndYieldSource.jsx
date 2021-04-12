@@ -7,9 +7,12 @@ export const CurrencyAndYieldSource = (props) => {
 
   return (
     <>
-      <PoolCurrencyIcon pool={pool} />
+      <PoolCurrencyIcon
+        symbol={pool.tokens.underlyingToken.symbol}
+        address={pool.tokens.underlyingToken.address}
+      />
       <div className='bg-darkened rounded-lg px-2 uppercase text-xxs sm:text-sm font-bold mr-1'>
-        {pool.underlyingCollateralSymbol}
+        {pool.tokens.underlyingToken.symbol}
       </div>
       {/* <div
       className='bg-darkened rounded-lg px-2 uppercase text-xxs sm:text-sm font-bold mr-1'

@@ -19,6 +19,9 @@ const debug = require('debug')('AuthControllerContextProvider')
 
 export const AuthControllerContext = React.createContext(null)
 
+// TODO: Defaults to mainnet, which kicks off fetching, but wallet could be on another network
+// so we need to refetch everything. Will probably be solved when adding support for Matic, etc.
+
 // This AuthController allows us to have one place to interface with both the Magic context and
 // the Onboardjs/Wallet context - this provides us with more control of what happens to
 // both when one is signed in / signed out of and avoids circular dependencies

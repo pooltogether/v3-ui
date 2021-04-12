@@ -35,13 +35,10 @@ export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
 
   const { data: pools } = useGovernancePools()
-
   const { chainId, usersAddress } = useContext(AuthControllerContext)
-
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
-
   const { refetch: refetchTotalClaimablePool } = useClaimablePoolFromTokenFaucets(address)
   const { refetch: refetchPoolTokenData } = usePoolTokenData(address)
 
@@ -67,14 +64,13 @@ export const AccountGovernanceClaims = (props) => {
       </h5>
       <div className='relative xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
         <ClaimHeader address={address} refetchAllPoolTokenData={refetchAllPoolTokenData} />
-        {pools.map((pool) => {
+        {pools.sort(sortByDripAmount).map((pool) => {
           return (
             <ClaimablePoolTokenItem
               address={address}
               refetchAllPoolTokenData={refetchAllPoolTokenData}
-              key={pool.id}
+              key={pool.prizePool.address}
               pool={pool}
-              poolGraphData={poolsGraphData[pool.symbol]}
             />
           )
         })}
@@ -92,6 +88,11 @@ export const AccountGovernanceClaims = (props) => {
     </>
   )
 }
+
+const sortByDripAmount = (a, b) =>
+  b.tokens.tokenFaucetDripToken.amountUnformatted.sub(
+    a.tokens.tokenFaucetDripToken.amountUnformatted
+  )
 
 const ClaimHeader = (props) => {
   const { address } = props
@@ -219,41 +220,27 @@ const ClaimAllButton = (props) => {
 }
 
 const ClaimablePoolTokenItem = (props) => {
-  const { address, pool, poolGraphData, refetchAllPoolTokenData } = props
+  const { address, pool, refetchAllPoolTokenData } = props
 
   const { t } = useTranslation()
   const { data: accountData } = useAccountQuery(address, pool.version)
   const { playerTickets } = usePlayerTickets(accountData)
 
-  const { symbol } = pool
-  const { data: poolInfo } = usePoolBySymbol(symbol)
-  const tokenFaucetAddress = poolInfo.tokenListener
-  const { underlyingCollateralDecimals, underlyingCollateralSymbol } = poolInfo
-  const name = t('prizePoolTicker', { ticker: underlyingCollateralSymbol })
+  const tokenFaucetAddress = pool.tokenListener.address
+  const { data: claimablePoolData } = useClaimablePoolFromTokenFaucet(tokenFaucetAddress, address)
+  const dripRatePerSecond = claimablePoolData?.dripRatePerSecond || ethers.constants.Zero
 
-  const { refetch: refetchClaimablePool, data } = useClaimablePoolFromTokenFaucet(
-    tokenFaucetAddress,
-    address
+  const dripToken = pool.tokens.tokenFaucetDripToken
+  const underlyingToken = pool.tokens.underlyingToken
+  const name = t('prizePoolTicker', { ticker: dripToken.symbol })
+
+  const ticketData = playerTickets?.find((t) => t.poolAddress === pool.prizePool.address)
+
+  const ticketTotalSupply = pool.tokens.ticket.totalSupply
+  const totalSupplyOfTickets = parseInt(ticketTotalSupply, 10)
+  const usersBalance = Number(
+    ethers.utils.formatUnits(ticketData?.balance || 0, underlyingToken.decimals)
   )
-
-  const { dripRatePerSecond, measureTokenAddress, amount } = data || {}
-
-  const ticketData = playerTickets.find(
-    (playerTicket) => playerTicket.pool.ticket.id === measureTokenAddress
-  )
-
-  const ticketTotalSupply = poolGraphData?.ticket?.totalSupply || 0
-  const totalSupplyOfTickets = Number(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(ticketTotalSupply),
-      Number(underlyingCollateralDecimals || 0)
-    )
-  )
-  const usersBalance = ticketData?.balance
-    ? Number(
-        ethers.utils.formatUnits(ticketData.balance, Number(underlyingCollateralDecimals || 0))
-      )
-    : 0
 
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
   const dripRatePerSecondNumber = dripRatePerSecond
@@ -268,16 +255,21 @@ const ClaimablePoolTokenItem = (props) => {
     precision: getPrecision(totalDripPerDay)
   })
 
-  const apr = poolInfo.tokenListener?.apr
+  const apr = pool.tokenListener?.apr
+
+  if (pool.symbol === 'PT-cUNI') {
+    console.log(totalSupplyOfTickets, pool, playerTickets)
+  }
 
   const [isSelf] = useAtom(isSelfAtom)
 
   return (
     <div className='bg-body p-6 rounded-lg flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8 sm:items-center'>
-      <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start mb-6 sm:mb-0'>
+      <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start'>
         <PoolCurrencyIcon
           lg
-          pool={{ underlyingCollateralSymbol: poolInfo.underlyingCollateralSymbol }}
+          symbol={underlyingToken.symbol}
+          address={underlyingToken.address}
           className='sm:mr-4'
         />
         <div className='xs:w-64'>
@@ -299,15 +291,15 @@ const ClaimablePoolTokenItem = (props) => {
         </div>
       </div>
 
-      <div className='sm:text-right'>
+      <div className='sm:text-right mt-6 sm:mt-0'>
         <p className='text-inverse font-bold'>{t('availableToClaim')}</p>
         <h4
           className={classnames('flex items-center sm:justify-end mt-1 sm:mt-0', {
-            'opacity-80': amount === 0
+            'opacity-80': claimablePoolData?.amountBN.isZero()
           })}
         >
           <img src={PoolIcon} className='inline-block w-6 h-6 mr-2' />{' '}
-          <ClaimableAmountCountUp amount={amount} />
+          <ClaimableAmountCountUp amount={claimablePoolData?.amount} />
         </h4>
         <div className='text-accent-1 text-xs flex items-center sm:justify-end mt-1 sm:mt-0 mb-2 opacity-80 trans hover:opacity-100'>
           {usersDripPerDayFormatted} <img src={PoolIcon} className='inline-block w-4 h-4 mx-2' />{' '}
@@ -318,12 +310,11 @@ const ClaimablePoolTokenItem = (props) => {
             <ClaimButton
               {...props}
               refetch={() => {
-                refetchClaimablePool()
                 refetchAllPoolTokenData()
               }}
               name={name}
               tokenFaucetAddress={tokenFaucetAddress}
-              claimable={amount > 0}
+              claimable={!claimablePoolData?.amountBN.isZero()}
             />
           </div>
         )}

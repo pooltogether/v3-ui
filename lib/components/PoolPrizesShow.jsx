@@ -8,11 +8,11 @@ import { useCurrentPool } from 'lib/hooks/usePools'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { Button } from 'lib/components/Button'
 import { Meta } from 'lib/components/Meta'
-import { PoolPrizeListing } from 'lib/components/PoolPrizeListing'
+import { PoolPrizesTable } from 'lib/components/PoolPrizesTable'
 import { PrizesPageHeader } from 'lib/components/PrizesPageHeader'
 
 export const PoolPrizesShow = (props) => {
-  const [t] = useTranslation()
+  const { t } = useTranslation()
   const router = useRouter()
 
   const { data: pool } = useCurrentPool()
@@ -21,10 +21,6 @@ export const PoolPrizesShow = (props) => {
 
   if (pool === null) {
     return <BlankStateMessage>Could not find pool with symbol: ${querySymbol}</BlankStateMessage>
-  }
-
-  if (!pool?.version) {
-    return null
   }
 
   const handleGetTicketsClick = (e) => {
@@ -45,7 +41,7 @@ export const PoolPrizesShow = (props) => {
       <PrizesPageHeader pool={pool} />
       <h6 className='text-accent-2 mb-0 mt-8'>{t('prizeHistory')}</h6>
 
-      <PoolPrizeListing pool={pool} querySymbol={querySymbol} />
+      <PoolPrizesTable pool={pool} querySymbol={querySymbol} />
 
       <div className='mx-auto mt-10 text-center'>
         <Button
