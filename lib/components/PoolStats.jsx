@@ -73,7 +73,8 @@ const Stat = (props) => {
       </span>
       {(sourceImage || value) && (
         <span className='flex items-center'>
-          <span className='capitalize mr-2'>{sourceName}</span> {sourceImage}{' '}
+          {sourceName && <span className='capitalize'>{sourceName}</span>}
+          {sourceImage && <img src={sourceImage} className='ml-2 w-6 h-6' />}
           {value && <span>{value}</span>}
         </span>
       )}
@@ -165,32 +166,26 @@ const YieldSourceStat = (props) => {
   const { t } = useTranslation()
   const yieldSource = pool.prizePool.type
 
-  let sourceImage, sourceName, etherscanLink
+  let sourceImage, sourceName, value
   if (yieldSource === PRIZE_POOL_TYPES.compound) {
     sourceName = 'Compound Finance'
-    sourceImage = <img src={CompSvg} className='w-6 mr-2' />
+    sourceImage = CompSvg
   } else if (yieldSource === PRIZE_POOL_TYPES.genericYield) {
     const yieldSourceAddress = pool.prizePool.yieldSource
-    etherscanLink = <EtherscanAddressLink address={yieldSourceAddress} />
+    value = <EtherscanAddressLink address={yieldSourceAddress} />
     sourceName = CUSTOM_YIELD_SOURCE_NAMES[yieldSourceAddress]
-
-    const providedCustomImage = CUSTOM_YIELD_SOURCE_IMAGES[sourceName]
-    let customYieldSourceIcon = '/ticket-bg--light-sm.png'
-    if (providedCustomImage) {
-      customYieldSourceIcon = providedCustomImage
+    if (!sourceName) {
+      sourceName = t('customYieldSource')
     }
-
-    sourceImage = <img src={customYieldSourceIcon} className='w-6 mr-2' />
+    sourceImage = CUSTOM_YIELD_SOURCE_IMAGES[sourceName]
+  } else {
+    value = <span className='opacity-40'>--</span>
   }
 
   return (
     <Stat
       title={t('yieldSource')}
-      value={
-        <>
-          {t(yieldSource)} {etherscanLink}
-        </>
-      }
+      value={value}
       sourceName={sourceName}
       sourceImage={sourceImage}
     />

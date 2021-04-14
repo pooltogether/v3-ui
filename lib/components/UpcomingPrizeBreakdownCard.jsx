@@ -101,7 +101,11 @@ export const UpcomingPrizeBreakdownCard = (props) => {
             prize={totalValuePerWinnerUsd}
           />
           {[...Array(numberOfWinnersMinusOne).keys()].map((index) => (
-            <RunnerUp key={`runner-up-row-${index}`} prize={totalValuePerWinnerUsd} />
+            <RunnerUp
+              key={`runner-up-row-${index}`}
+              prize={totalValuePerWinnerUsd}
+              externalPrizeExists={externalAwardsGreaterThanZero}
+            />
           ))}
         </CardDetailsList>
       )}
@@ -116,7 +120,7 @@ const GrandPrize = (props) => {
 
   return (
     <li className='flex justify-between mb-2'>
-      <span className='text-accent-1'>{t('grandPrize')}</span>
+      <span className='text-accent-1'>{externalPrizeExists ? t('grandPrize') : t('winner')}</span>
       <span className='flex flex-col xs:flex-row text-right xs:text-left'>
         {!splitExternalErc20Awards && externalPrizeExists && (
           <span>
@@ -139,11 +143,11 @@ const GrandPrize = (props) => {
 
 const RunnerUp = (props) => {
   const { t } = useTranslation()
-  const { prize } = props
+  const { prize, externalPrizeExists } = props
 
   return (
     <li className='flex justify-between mb-2 last:mb-0 '>
-      <span className='text-accent-1'>{t('runnerUp')}</span>
+      <span className='text-accent-1'>{externalPrizeExists ? t('runnerUp') : t('winner')}</span>
       <span>
         {/* TODO: Display "winner" if historic */}$<PoolNumber>{prize}</PoolNumber>
       </span>

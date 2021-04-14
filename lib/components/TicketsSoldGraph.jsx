@@ -15,32 +15,21 @@ export const TicketsSoldGraph = (props) => {
 
   const { t } = useTranslation()
 
-  const page = 1
-  const skip = 0
   // Call it twice so we can share cached data between the past 5 winners & the prizes table
-  const {
-    data: firstTenPrizes,
-    error: firstTenError,
-    isFetched: firstTenIsFetched
-  } = usePastPrizes(pool, 1)
-  const {
-    data: secondTenPrizes,
-    error: secondTenError,
-    isFetched: secondTenIsFetched
-  } = usePastPrizes(pool, 2)
+  const { data: prizes, error, isFetched } = usePastPrizes(pool, 1, CHART_PRIZE_PAGE_SIZE)
 
-  if (firstTenError || secondTenError) {
-    console.error(firstTenError || secondTenError)
-  }
-
-  if (!firstTenIsFetched || !secondTenIsFetched) {
+  if (error) {
+    console.error(error)
     return null
   }
 
-  const prizes = [...firstTenPrizes, ...secondTenPrizes]
+  if (!isFetched) {
+    return null
+  }
+
   const { symbol, decimals } = pool.tokens.underlyingToken
 
-  if (!decimals || !prizes.length || prizes.length < MIN_NUMBER_OF_POINTS) {
+  if (!decimals || !prizes?.length || prizes.length < MIN_NUMBER_OF_POINTS) {
     if (renderEmptyState) return renderEmptyState()
     return null
   }

@@ -34,11 +34,10 @@ export const SablierStreamCard = (props) => {
       id='sablier-card'
       className='non-interactable-card my-4 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
-      <h3 className='mb-4'>{t('sablierStream')}</h3>
-
-      <div className='flex'>
+      <h3>{t('prizeStream')}</h3>
+      <div className='flex mb-4'>
         <Erc20Image address={address} className='my-auto' />
-        <h3>{name}</h3>
+        <h6>{name}</h6>
         <EtherscanAddressLink
           className='text-accent-1 trans hover:text-inverse ml-4 mt-auto mb-2'
           address={address}
@@ -49,31 +48,31 @@ export const SablierStreamCard = (props) => {
 
       <div className='flex flex-col xs:flex-row justify-between mt-6'>
         <div className='flex mb-2 xs:mb-0'>
-          <h3 className='leading-none'>
+          <h5 className='leading-none'>
             <PoolNumber>
               {numberWithCommas(amountPerPrizePeriod, {
                 precision: getMinPrecision(amountPerPrizePeriod)
               })}
             </PoolNumber>
-          </h3>
+          </h5>
           <span className='ml-2 mt-auto'>{t('tokenEveryPrize', { token: symbol })}</span>
         </div>
 
         <div className='flex mb-2 xs:mb-0'>
-          <h3 className='leading-none'>
+          <h5 className='leading-none'>
             <PoolNumber>
               {numberWithCommas(amount, {
                 precision: getMinPrecision(amount)
               })}
             </PoolNumber>
-          </h3>
+          </h5>
           <span className='ml-2 mt-auto'>{t('tokenInTotal', { token: symbol })}</span>
         </div>
 
         <div className='flex'>
-          <h3 className='leading-none'>
-            {numberWithCommas(prizesToBeStreamedTo, { precision: 0 })}
-          </h3>
+          <h5 className='leading-none'>
+            {numberWithCommas(prizesToBeStreamedTo.toString(), { precision: 0 })}
+          </h5>
           <span className='ml-2 mt-auto lowercase'>{t('prizes')}</span>
         </div>
       </div>
