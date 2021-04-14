@@ -7,7 +7,9 @@ import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PrizeShow } from 'lib/components/PrizeShow'
 import { PrizeShowUILoader } from 'lib/components/loaders/PrizeShowUILoader'
 import { TimeTravelPool } from 'lib/components/TimeTravelPool'
-import { usePrizeQuery } from 'lib/hooks/usePrizeQuery'
+import { usePastPrize } from 'lib/hooks/usePastPrizes'
+import { useHistoricPool } from 'lib/hooks/useHistoricPool'
+import { usePoolContractBySymbol } from 'lib/hooks/usePoolContracts'
 
 export default function PrizeShowPage(props) {
   const { t } = useTranslation()
@@ -16,19 +18,20 @@ export default function PrizeShowPage(props) {
   const querySymbol = router.query?.symbol
   const prizeNumber = router.query?.prizeNumber
 
-  // need the pool to get the historical prize ... chicken & egg
-  let { pool } = usePool(querySymbol)
+  const poolContract = usePoolContractBySymbol(querySymbol)
+  const { data: pool, isFetched: poolIsFetched } = useCurrentPool()
+  const { data: prize, isFetched: prizeIsFetched } = usePastPrize(pool, prizeNumber)
+  const { data: historicPools, isFetched: historicPoolsIsFetched } = useHistoricPool(
+    poolContract,
+    prize?.awardedBlock
+  )
 
-  const prizeId = `${pool?.id}-${prizeNumber}`
-
-  const { isFetched, data, error } = usePrizeQuery(pool, prizeId)
-  if (error) {
-    console.error(error)
+  if (!poolIsFetched || !prizeIsFetched || !historicPoolsIsFetched) {
+    return <PrizeShowUILoader />
   }
 
-  let prize = data?.prize
-
-  if (!pool.version) {
+  // TODO: Better error case
+  if (poolIsFetched && !pool) {
     return (
       <BlankStateMessage>
         {t('couldNotFindPoolWithSymbol', {
@@ -36,10 +39,6 @@ export default function PrizeShowPage(props) {
         })}
       </BlankStateMessage>
     )
-  }
-
-  if (!isFetched) {
-    return <PrizeShowUILoader />
   }
 
   if (prize === null) {
@@ -62,22 +61,11 @@ export default function PrizeShowPage(props) {
   }
 
   return (
-    <TimeTravelPool
-      poolSplitExternalErc20Awards={pool?.splitExternalErc20Awards}
-      blockNumber={parseInt(prize?.awardedBlock, 10)}
+    <PrizeShow
       pool={pool}
-      querySymbol={querySymbol}
+      preAwardPool={historicPools.preAward}
+      postAwardPool={historicPools.postAward}
       prize={prize}
-    >
-      {({ preAwardTimeTravelPool, timeTravelPool }) => {
-        return (
-          <PrizeShow
-            postAwardTimeTravelPool={timeTravelPool}
-            preAwardTimeTravelPool={preAwardTimeTravelPool}
-            prize={prize}
-          />
-        )
-      }}
-    </TimeTravelPool>
+    />
   )
 }

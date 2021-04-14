@@ -11,14 +11,13 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Card, CardDetailsList } from 'lib/components/Card'
+import { usePastPrizes } from 'lib/hooks/usePastPrizes'
 
 export const PastWinnersCard = (props) => {
   const { t } = useTranslation()
   const { pool } = props
 
-  const page = 1
-  const skip = 0
-  const { data, error, isFetched } = usePoolPrizesQuery(pool.contract, page, skip)
+  const { data, error, isFetched } = usePastPrizes(pool, 1)
 
   if (error) {
     console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))
@@ -26,7 +25,7 @@ export const PastWinnersCard = (props) => {
   }
 
   const prizes = useMemo(() => {
-    let prizes = compact([].concat(data?.prizePool?.prizes))
+    let prizes = data || []
     prizes = prizes ? prizes.slice(0, 5) : []
 
     prizes = prizes?.reduce(function (result, prize) {
@@ -43,7 +42,7 @@ export const PastWinnersCard = (props) => {
         result.push({
           ...prize,
           date,
-          prizeNumber: extractPrizeNumberFromPrize(prize)
+          prizeNumber: prize.id
         })
       }
       return result
@@ -95,39 +94,17 @@ const PrizesList = (props) => {
   const { prizes, pool } = props
   const { splitExternalErc20Awards, symbol, id } = pool
 
-  console.log(prizes)
-
-  return null
-
-  // TODO:
   return (
     <>
       {prizes.map((prize, index) => (
-        <TimeTravelPool
-          poolSplitExternalErc20Awards={splitExternalErc20Awards}
-          blockNumber={parseInt(prize?.awardedBlock, 10)}
-          pool={pool}
-          querySymbol={symbol}
-          prize={prize}
-          key={`${index}-${id}`}
-        >
-          {({ timeTravelPool }) => {
-            return (
-              <PrizeRow
-                pool={pool}
-                prize={prize}
-                totalPrizeAmountUSD={timeTravelPool?.totalPrizeAmountUSD || '0'}
-              />
-            )
-          }}
-        </TimeTravelPool>
+        <PrizeRow key={`prize-${index}`} pool={pool} prize={prize} />
       ))}
     </>
   )
 }
 
 const PrizeRow = (props) => {
-  const { prize, pool, totalPrizeAmountUSD } = props
+  const { prize, pool } = props
   const { date, prizeNumber } = prize
   const { symbol } = pool
 
@@ -139,7 +116,7 @@ const PrizeRow = (props) => {
     <li className='w-full flex mb-2 last:mb-0'>
       <span className='w-1/3'>{date}</span>
       <span className='w-1/3 text-right'>
-        $<PoolNumber>{numberWithCommas(totalPrizeAmountUSD, { precision: 2 })}</PoolNumber>
+        $<PoolNumber>{numberWithCommas(prize.totalValueUsd, { precision: 2 })}</PoolNumber>
       </span>
       <span className='w-1/3 text-right'>
         <Link

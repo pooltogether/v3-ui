@@ -22,6 +22,7 @@ export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? 22 * 1
 
 export const PLAYER_PAGE_SIZE = 10
 export const PRIZE_PAGE_SIZE = 10
+export const CHART_PRIZE_PAGE_SIZE = 20
 
 export const MAX_SAFE_INTEGER = 7199254740991
 

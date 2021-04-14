@@ -11,25 +11,69 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import { Card, CardDetailsList } from 'lib/components/Card'
-import { useExternalErc20Awards } from 'lib/hooks/useExternalErc20Awards'
+import { useAllErc20Awards } from 'lib/hooks/useAllErc20Awards'
 
+/**
+ * Table use in PoolShow
+ * @param {*} props
+ * @returns
+ */
+export const PoolShowLootBoxTable = (props) => {
+  const { pool } = props
+  const allAwards = useAllErc20Awards(pool.prize).sort(
+    (a, b) => Number(b.totalValueUsd) - Number(a.totalValueUsd)
+  )
+  return (
+    <LootBoxTable
+      allAwards={allAwards}
+      basePath={`/pools/${pool.symbol}`}
+      totalExternalAwardsValueUsd={pool.prize.totalExternalAwardsValueUsd}
+      lootBoxAddress={pool.prize.lootBox?.address}
+    />
+  )
+}
+
+/**
+ * Table use in PrizeShow
+ * @param {*} props
+ * @returns
+ */
+export const PrizeShowLootBoxTable = (props) => {
+  const { prize, poolSymbol } = props
+  const allAwards = useAllErc20Awards(prize).sort(
+    (a, b) => Number(b.totalValueUsd) - Number(a.totalValueUsd)
+  )
+  return (
+    <LootBoxTable
+      historical
+      allAwards={allAwards}
+      totalExternalAwardsValueUsd={prize.external.totalValueUsd}
+      basePath={`/prizes/${poolSymbol}/${prize.id}`}
+    />
+  )
+}
+
+/**
+ * Base component for the table
+ * @param {*} props
+ * @returns
+ */
 export const LootBoxTable = (props) => {
-  const { basePath, historical, pool } = props
+  const { basePath, historical, allAwards, totalExternalAwardsValueUsd, lootBoxAddress } = props
 
   const { t } = useTranslation()
   const router = useRouter()
   const [moreVisible, setMoreVisible] = useState(false)
   const shouldReduceMotion = useReducedMotion()
-  const allAwards = useExternalErc20Awards(pool).sort(
-    (a, b) => Number(b.valueUsd) - Number(a.valueUsd)
+  const allAwardsSorted = allAwards.sort(
+    (a, b) => Number(b.totalValueUsd) - Number(a.totalValueUsd)
   )
 
-  const computedLootBoxAddress = pool.prize.lootBoxes?.[0].address
-  const originalAwardsCount = allAwards.length
+  const originalAwardsCount = allAwardsSorted.length
 
   let awards = []
   if (originalAwardsCount > 0) {
-    awards = moreVisible ? allAwards : allAwards.slice(0, 10)
+    awards = moreVisible ? allAwardsSorted : allAwardsSorted.slice(0, 10)
   }
 
   const handleShowMore = (e) => {
@@ -40,7 +84,7 @@ export const LootBoxTable = (props) => {
     router.push(`${basePath}#loot-box-table`)
   }
 
-  if (!awards || (awards.length === 0 && !computedLootBoxAddress)) {
+  if (!awards || (awards.length === 0 && !lootBoxAddress)) {
     return null
   }
 
@@ -53,12 +97,12 @@ export const LootBoxTable = (props) => {
           <h3>
             $
             <PoolNumber>
-              {numberWithCommas(pool.prize.totalExternalAwardsUsd || '0', { precision: 2 })}
+              {numberWithCommas(totalExternalAwardsValueUsd || '0', { precision: 2 })}
             </PoolNumber>
           </h3>
         </div>
 
-        {!historical && <ContributeToLootBoxDropdown address={computedLootBoxAddress} />}
+        {!historical && lootBoxAddress && <ContributeToLootBoxDropdown address={lootBoxAddress} />}
       </div>
 
       {awards.length === 0 && (
@@ -130,9 +174,9 @@ const AwardRow = (props) => {
         <PoolNumber>{numberWithCommas(award.amount, { precision: 2 })}</PoolNumber> {award.symbol}
       </span>
       <span className='w-1/3 text-right'>
-        {award.valueUsd ? (
+        {award.totalValueUsd ? (
           <span>
-            $<PoolNumber>{numberWithCommas(award.valueUsd, { precision: 2 })}</PoolNumber>
+            $<PoolNumber>{numberWithCommas(award.totalValueUsd, { precision: 2 })}</PoolNumber>
           </span>
         ) : (
           <span className='text-accent-1 opacity-40'>$ --</span>

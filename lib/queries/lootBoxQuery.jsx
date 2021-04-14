@@ -23,3 +23,39 @@ export const lootBoxQuery = (number) => {
     ${lootBoxFragment}
   `
 }
+
+export const lootBoxesQuery = (prizes) => {
+  const querySelections = []
+  prizes.forEach((prize) => {
+    const lootBox = prize.lootBox
+    if (lootBox.id) {
+      const selection = QUERY_TEMPLATE
+      selection.replace('__alias__', `${lootBox.id}`)
+      selection.replace('__address__', `${lootBox.address}`)
+      selection.replace('__tokenId__', `${lootBox.id}`)
+      selection.replace('__blockNumber__', `${prize.awardedBlock - 1}`)
+      querySelections.push(selection)
+    }
+  })
+
+  return gql`
+    query lootBoxQuery() {
+      ${querySelections.join(',')}
+    }
+    ${lootBoxFragment}
+  `
+}
+
+const QUERY_TEMPLATE = `__alias__: lootBoxes( where: { erc721: __address__, tokenId: __tokenId__ } , block: { number: __blockNumber__}) {
+  ...lootBoxFragment
+}`
+
+const _getBlockFilter = (blockNumber) => {
+  let blockFilter = ''
+
+  if (Number(blockNumber) > 0) {
+    blockFilter = `, block: { number: ${blockNumber} }`
+  }
+
+  return blockFilter
+}

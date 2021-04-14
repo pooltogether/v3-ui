@@ -138,7 +138,6 @@ const PoolPrizeValue = (props) => {
     pool.prize.sablierStream.id &&
     !pool.prize.sablierStream?.amountThisPrizePeriodUnformatted?.isZero()
   ) {
-    console.log(pool)
     return (
       <div className='text-3xl sm:text-5xl text-flashy font-bold'>
         <PoolCountUp fontSansRegular decimals={0} duration={6}>

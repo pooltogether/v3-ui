@@ -16,14 +16,14 @@ export const UpcomingPrizeBreakdownCard = (props) => {
 
   const { pool } = props
 
-  const computedLootBoxAddress = pool.lootBoxes?.[0].address
+  const computedLootBoxAddress = pool.lootBox?.address
   const symbol = pool.tokens.underlyingToken.symbol
   const { numberOfWinners, splitExternalErc20Awards } = pool.config
   const numberOfWinnersMinusOne = numberOfWinners ? parseInt(numberOfWinners, 10) - 1 : 0
   const totalValuePerWinnerUsd = numberWithCommas(pool.prize.totalValuePerWinnerUsd)
-  const totalExternalAwardsUsd = numberWithCommas(pool.prize.totalExternalAwardsUsd)
+  const totalExternalAwardsValueUsd = numberWithCommas(pool.prize.totalExternalAwardsValueUsd)
   const totalInternalAwardsUsd = numberWithCommas(pool.prize.totalInternalAwardsUsd)
-  const externalAwardsGreaterThanZero = !pool.prize.totalExternalAwardsUsdScaled.isZero()
+  const externalAwardsGreaterThanZero = !pool.prize.totalExternalAwardsValueUsdScaled.isZero()
 
   const hasTicketPrize = Boolean(parseFloat(pool.prize.totalValuePerWinnerUsd))
 
@@ -83,7 +83,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
                   top: 3
                 }}
               >
-                <h3>{externalAwardsGreaterThanZero && `$${totalExternalAwardsUsd}`}</h3>
+                <h3>{externalAwardsGreaterThanZero && `$${totalExternalAwardsValueUsd}`}</h3>
               </div>
             </div>
 
@@ -97,7 +97,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
           <GrandPrize
             splitExternalErc20Awards={splitExternalErc20Awards}
             externalPrizeExists={externalAwardsGreaterThanZero}
-            externalPrize={totalExternalAwardsUsd}
+            externalPrize={totalExternalAwardsValueUsd}
             prize={totalValuePerWinnerUsd}
           />
           {[...Array(numberOfWinnersMinusOne).keys()].map((index) => (

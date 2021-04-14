@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Link from 'next/link'
 import { useTable } from 'react-table'
 import BeatLoader from 'react-spinners/BeatLoader'
@@ -8,8 +8,7 @@ import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { TableRowUILoader } from 'lib/components/loaders/TableRowUILoader'
 import { DefaultPaginationButtons } from 'lib/components/PaginationUI'
-import { usePastPrizes } from 'lib/hooks/usePastPrizes'
-import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
+import { usePaginatedPastPrizes } from 'lib/hooks/usePastPrizes'
 import { formatDate } from 'lib/utils/formatDate'
 import { BasicTable } from 'lib/components/BasicTable'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -24,7 +23,7 @@ export const PoolPrizesTable = (props) => {
   const { t } = useTranslation()
   const { pool } = props
 
-  const { data: prizes, page, pages, isFetched: prizePoolsIsFetched } = usePastPrizes(pool)
+  const { data: prizes, page, pages, isFetched: prizePoolsIsFetched } = usePaginatedPastPrizes(pool)
   const baseAsPath = `/prizes/${pool?.symbol}`
   const baseHref = '/prizes/[symbol]'
 
@@ -74,27 +73,30 @@ const PrizesTable = (props) => {
   const { t } = useTranslation()
   const { pool, prizes, querySymbol } = props
 
-  const columns = [
-    {
-      Header: '#',
-      accessor: 'prizeNumber'
-    },
-    {
-      Header: t('prize'),
-      accessor: 'prizeAmount' // accessor is the "key" in the data
-    },
-    {
-      Header: t('awardedOn'),
-      accessor: 'awardedAt'
-    },
-    {
-      Header: '',
-      accessor: 'view',
-      Cell: (row) => <div style={{ textAlign: 'right' }}>{row.value}</div>
-    }
-  ]
+  const columns = useMemo(
+    () => [
+      {
+        Header: '#',
+        accessor: 'prizeNumber'
+      },
+      {
+        Header: t('prize'),
+        accessor: 'prizeAmount' // accessor is the "key" in the data
+      },
+      {
+        Header: t('awardedOn'),
+        accessor: 'awardedAt'
+      },
+      {
+        Header: '',
+        accessor: 'view',
+        Cell: (row) => <div style={{ textAlign: 'right' }}>{row.value}</div>
+      }
+    ],
+    []
+  )
 
-  const data = React.useMemo(() => {
+  const data = useMemo(() => {
     const prizeRows = prizes.map((prize) => formatPrizeObject(t, pool, prize, querySymbol))
 
     const lastPrize = prizes[0]
@@ -103,11 +105,11 @@ const PrizesTable = (props) => {
 
     // If we have a prize amount then we know the last prize has been rewarded
     if (lastPrize.awardedBlock) {
-      const amount = pool?.totalPrizeAmountUSD
-
       currentPrize = {
         prizeAmount: (
-          <span className='text-flashy'>${numberWithCommas(amount, { precision: 2 })}</span>
+          <span className='text-flashy'>
+            ${numberWithCommas(pool.prize.totalValueUsd, { precision: 2 })}
+          </span>
         ),
         awardedAt: <span className='text-flashy'>{t('current')}</span>,
         view: (
@@ -133,12 +135,11 @@ const PrizesTable = (props) => {
 
 /**
  * A link to the prize view
- * @param {*} t
- * @param {*} pool
- * @param {*} prize
+ * @param {*} props
  * @returns
  */
-const PrizeLink = (t, pool, prize) => {
+const PrizeLink = (props) => {
+  const { t, pool, prize } = props
   return (
     <Link href='/prizes/[symbol]/[prizeNumber]' as={`/prizes/${pool.symbol}/${prize.id}`} shallow>
       <a className='trans text-right w-full'>{t('viewDetails')}</a>
@@ -154,36 +155,10 @@ const PrizeLink = (t, pool, prize) => {
  * @param {*} querySymbol
  * @returns
  */
-const formatPrizeObject = (t, pool, prize, querySymbol) => {
-  const id = extractPrizeNumberFromPrize(prize)
-
-  return {
-    prizeNumber: id,
-    startedAt: formatDate(prize?.prizePeriodStartedTimestamp),
-    awardedAt: <span className='block'>{formatDate(prize?.awardedTimestamp)}</span>,
-    prizeAmount: (
-      <>
-        <TimeTravelPool
-          poolSplitExternalErc20Awards={pool?.splitExternalErc20Awards}
-          blockNumber={parseInt(prize?.awardedBlock, 10)}
-          pool={pool}
-          querySymbol={querySymbol}
-          prize={prize}
-        >
-          {({ timeTravelPool }) => {
-            return (
-              <>
-                {timeTravelPool?.fetchingTotals ? (
-                  <BeatLoader size={3} color='rgba(255,255,255,0.3)' />
-                ) : (
-                  `$${numberWithCommas(timeTravelPool?.totalPrizeAmountUSD)}`
-                )}
-              </>
-            )
-          }}
-        </TimeTravelPool>
-      </>
-    ),
-    view: <PrizeLink t={t} pool={pool} prize={prize} />
-  }
-}
+const formatPrizeObject = (t, pool, prize, querySymbol) => ({
+  prizeNumber: prize.id,
+  startedAt: formatDate(prize.prizePeriodStartedTimestamp),
+  awardedAt: <span className='block'>{formatDate(prize.awardedTimestamp)}</span>,
+  prizeAmount: <span>{`$${numberWithCommas(prize.totalValueUsd, { precision: 2 })}`}</span>,
+  view: <PrizeLink t={t} pool={pool} prize={prize} />
+})

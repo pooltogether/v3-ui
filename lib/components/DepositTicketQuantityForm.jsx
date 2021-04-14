@@ -216,7 +216,9 @@ export function DepositTicketQuantityForm(props) {
                 sayEveryWeek
                 showLabel
                 splitLines
-                pool={pool}
+                ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
+                decimals={pool.tokens.ticket.decimals}
+                numberOfWinners={pool.config.numberOfWinners}
                 usersBalance={usersTicketBalanceBN.toString()}
                 additionalAmount={watchQuantity}
               />

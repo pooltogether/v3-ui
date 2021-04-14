@@ -18,7 +18,7 @@ const playerLink = (t, player) => {
 }
 
 const formatPlayerObject = (t, pool, player, winners) => {
-  const decimals = pool.underlyingCollateralDecimals
+  const decimals = pool.tokens.underlyingToken.decimals
 
   const playerAddress = player?.account?.id
 
@@ -41,8 +41,9 @@ const formatPlayerObject = (t, pool, player, winners) => {
     odds: (
       <Odds
         textFlashy={false}
-        timeTravelTicketSupply={pool.ticketSupply}
-        pool={pool}
+        ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
+        decimals={pool.tokens.ticket.decimals}
+        numberOfWinners={pool.config.numberOfWinners}
         usersBalance={player.balance}
       />
     ),
@@ -60,8 +61,8 @@ export const PlayersTable = (props) => {
 
   const { pool, prize } = props
 
-  const columns = React.useMemo(() => {
-    return [
+  const columns = React.useMemo(
+    () => [
       {
         Header: t('address'),
         accessor: 'address'
@@ -79,8 +80,9 @@ export const PlayersTable = (props) => {
         accessor: 'view',
         Cell: (row) => <div style={{ textAlign: 'right' }}>{row.value}</div>
       }
-    ]
-  }, [])
+    ],
+    []
+  )
 
   const winners = prize?.awardedControlledTokens.map((awardedControlledToken) => {
     return awardedControlledToken.winner
@@ -90,7 +92,7 @@ export const PlayersTable = (props) => {
     return players.map((player) => {
       return formatPlayerObject(t, pool, player, winners)
     })
-  }, [players, pool, pool?.ticketSupply])
+  }, [players, pool, pool.tokens.ticket.totalSupply])
 
   const tableInstance = useTable({
     columns,

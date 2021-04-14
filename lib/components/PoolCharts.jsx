@@ -12,7 +12,6 @@ export const PoolCharts = (props) => {
 
   return (
     <Card>
-      <div className='flex justify-between'>{/* <h3>{t('poolsStats')}</h3> */}</div>
       <DepositsAndPrizesCharts pool={pool} />
     </Card>
   )

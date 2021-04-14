@@ -15,13 +15,14 @@ export function Odds(props) {
     className,
     hide,
     fontSansRegular,
-    pool,
+    ticketSupplyUnformatted,
+    decimals,
+    numberOfWinners,
     showLabel,
     sayEveryWeek,
     splitLines,
     altSplitLines,
     style,
-    timeTravelTicketSupply,
     usersBalance,
     textFlashy
   } = props
@@ -34,21 +35,13 @@ export function Odds(props) {
 
   const hasBalance = !isNaN(usersBalance) && usersBalance > 0
 
-  const underlyingCollateralDecimals = pool.tokens.underlyingToken.decimals
-  const ticketSupply = timeTravelTicketSupply || pool.tokens.ticket.totalSupplyUnformatted
-  const numberOfWinners = pool.config.numberOfWinners
-    ? parseInt(pool.config.numberOfWinners, 10)
-    : 1
-
   const usersBalanceBN = usersBalance
     ? ethers.BigNumber.from(usersBalance)
     : ethers.BigNumber.from(0)
-  const ticketSupplyBN = ticketSupply
-    ? ethers.BigNumber.from(ticketSupply)
-    : ethers.BigNumber.from(0)
+  const ticketSupplyBN = ticketSupplyUnformatted
 
   const additionalAmountBN = additionalAmount
-    ? ethers.utils.parseUnits(additionalAmount, underlyingCollateralDecimals)
+    ? ethers.utils.parseUnits(additionalAmount, decimals)
     : ethers.BigNumber.from(0)
 
   const ticketSupplyWithDepositAmountBN = ticketSupplyBN
@@ -58,7 +51,7 @@ export function Odds(props) {
   const result = calculateOdds(
     usersBalanceBN.add(additionalAmountBN),
     ticketSupplyWithDepositAmountBN,
-    underlyingCollateralDecimals,
+    decimals,
     numberOfWinners
   )
 

@@ -149,8 +149,10 @@ export const AccountTicket = (props) => {
                       asSpan
                       fontSansRegular
                       className='font-bold text-flashy'
-                      pool={pool}
                       usersBalance={balance}
+                      ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
+                      decimals={pool.tokens.ticket.decimals}
+                      numberOfWinners={pool.config.numberOfWinners}
                     />
                   </>
                 )}

@@ -38,22 +38,27 @@ export const PoolPrizesShow = (props) => {
     <>
       <Meta title={pool?.name && `${t('prizes')} - ${pool.name}`} />
 
-      <PrizesPageHeader pool={pool} />
-      <h6 className='text-accent-2 mb-0 mt-8'>{t('prizeHistory')}</h6>
+      <div className='flex justify-between'>
+        <PrizesPageHeader pool={pool} />
 
+        <div className='my-auto'>
+          <Button
+            border='green'
+            text='green'
+            hoverBorder='green'
+            onClick={handleGetTicketsClick}
+            disabled={!Boolean(pool?.symbol)}
+          >
+            {t('deposit')}
+          </Button>
+        </div>
+      </div>
+
+      <h6 className='text-accent-2 mb-0 mt-8'>{t('prizeHistory')}</h6>
       <PoolPrizesTable pool={pool} querySymbol={querySymbol} />
 
-      <div className='mx-auto mt-10 text-center'>
-        <Button
-          border='green'
-          text='green'
-          hoverBorder='green'
-          onClick={handleGetTicketsClick}
-          disabled={!Boolean(pool?.symbol)}
-        >
-          {t('deposit')}
-        </Button>
-      </div>
+      {/* TODO: Add prize value graph */}
+
       {/* <AllPoolsTotalAwarded /> */}
     </>
   )

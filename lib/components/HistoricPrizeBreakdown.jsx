@@ -2,7 +2,6 @@ import React from 'react'
 import classnames from 'classnames'
 
 import { useTranslation } from 'lib/../i18n'
-import { PrizeWinner } from 'lib/components/PrizeWinner'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -10,16 +9,24 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
 import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 import GiftIcon from 'assets/images/icon-gift@2x.png'
+import { useAccountQuery } from 'lib/hooks/useAccountQuery'
+import { shorten } from 'lib/utils/shorten'
+import Link from 'next/link'
+import { Odds } from 'lib/components/Odds'
+import { PoolNumber } from 'lib/components/PoolNumber'
+import { BeatLoader } from 'react-spinners'
+import { ethers } from 'ethers'
+import { stringWithPrecision } from 'lib/utils/stringWithPrecision'
 
-export const PrizeBreakdown = (props) => {
-  const { prize, prizeNumber, preAwardTimeTravelPool } = props
+export const HistoricPrizeBreakdown = (props) => {
+  const { prize, prizeNumber, preAwardPool, pool } = props
 
   const { t } = useTranslation()
   const { contractAddresses } = useContractAddresses()
 
-  const ticketPrizeUSD = preAwardTimeTravelPool?.ticketPrizeUSD
-  const externalAwardsValueUSD = preAwardTimeTravelPool?.externalAwardsUSD
-  const hasLootBox = externalAwardsValueUSD
+  const yieldPrizeUsd = prize.yield.totalValueUsd
+  const externalPrizeUsd = prize.external.totalValueUsd
+  const hasLootBox = Boolean(externalPrizeUsd) && Number(externalPrizeUsd) > 0
 
   const lootBoxWon = prize?.awardedExternalErc721Nfts.find(
     (_awardedNft) => _awardedNft.address === contractAddresses.lootBox
@@ -69,7 +76,7 @@ export const PrizeBreakdown = (props) => {
           >
             <img src={PrizeIllustration} className='w-40 mx-auto' />
             <div>
-              <h3>{ticketPrizeUSD && `$${numberWithCommas(ticketPrizeUSD, { precision: 2 })}`}</h3>
+              <h3>{`$${numberWithCommas(yieldPrizeUsd, { precision: 2 })}`}</h3>
             </div>
           </div>
 
@@ -87,7 +94,7 @@ export const PrizeBreakdown = (props) => {
                     top: 3
                   }}
                 >
-                  <h3>${numberWithCommas(externalAwardsValueUSD)}</h3>
+                  <h3>{`$${numberWithCommas(externalPrizeUsd, { precision: 2 })}`}</h3>
                   <span className='text-sm xs:text-base sm:text-xl'>{t('lootBox')}</span>
                 </div>
               </div>
@@ -114,11 +121,11 @@ export const PrizeBreakdown = (props) => {
                     return (
                       <PrizeWinner
                         key={`prize-winner-row-${awardedControlledToken.id}`}
-                        hasLootBox={hasLootBox}
-                        pool={preAwardTimeTravelPool}
+                        isGrandPrizeWinner={index === 0}
                         prize={prize}
-                        awardedControlledToken={awardedControlledToken}
-                        grandPrizeWinner={index === 0}
+                        preAwardPool={preAwardPool}
+                        winnersAddress={awardedControlledToken.winner}
+                        poolContract={pool?.contract}
                       />
                     )
                   })}
@@ -141,5 +148,66 @@ export const PrizeBreakdown = (props) => {
         </div>
       </div>
     </>
+  )
+}
+
+const PrizeWinner = (props) => {
+  const { t } = useTranslation()
+
+  const { isGrandPrizeWinner, prize, winnersAddress, preAwardPool, poolContract } = props
+  const underlyingToken = preAwardPool.tokens.underlyingToken
+  const ticketToken = preAwardPool.tokens.ticket
+  const ticketAddress = ticketToken.address
+  const decimals = ticketToken.decimals
+  const blockNumber = prize.awardedBlock
+
+  const { data: accountData } = useAccountQuery(
+    winnersAddress,
+    poolContract.subgraphVersion,
+    blockNumber - 1
+  )
+  const ctBalance = accountData?.controlledTokenBalances.find(
+    (ct) => ct.controlledToken.id === ticketAddress
+  )
+
+  const usersTicketBalance = ctBalance?.balance
+    ? Number(ethers.utils.formatUnits(ctBalance.balance, Number(decimals)))
+    : ''
+
+  if (!ctBalance) {
+    return (
+      <tr>
+        <td>
+          <BeatLoader size={3} color='rgba(255,255,255,0.3)' />
+        </td>
+      </tr>
+    )
+  }
+
+  return (
+    <tr>
+      <td className='py-2'>{isGrandPrizeWinner ? t('grandPrize') : t('runnerUp')}</td>
+      <td>
+        <Link href='/players/[playerAddress]' as={`/players/${winnersAddress}`}>
+          <a className='text-accent-1'>{shorten(winnersAddress)}</a>
+        </Link>
+      </td>
+      <td>
+        <span className='block xs:inline-block'>
+          <Odds
+            fontSansRegular
+            className='font-bold text-flashy'
+            usersBalance={ctBalance?.balance}
+            ticketSupplyUnformatted={preAwardPool.tokens.ticket.totalSupplyUnformatted}
+            decimals={preAwardPool.tokens.ticket.decimals}
+            numberOfWinners={preAwardPool.config.numberOfWinners}
+          />
+        </span>
+      </td>
+      <td>
+        <PoolNumber>{numberWithCommas(usersTicketBalance, { precision: 0 })}</PoolNumber>{' '}
+        {underlyingToken.symbol}
+      </td>
+    </tr>
   )
 }

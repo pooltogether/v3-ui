@@ -10,11 +10,11 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const PrizePlayerListing = (props) => {
   const { t } = useTranslation()
-  const { isFetched, balances, pool, prize, baseAsPath, baseHref } = props
+  const { isFetched, isFetching, balances, pool, prize, baseAsPath, baseHref } = props
 
   const router = useRouter()
 
-  const playerCount = pool?.playerCount
+  const playerCount = pool.tokens.ticket.numberOfHolders
 
   const page = router?.query?.page ? parseInt(router.query.page, 10) : 1
   const pages = Math.ceil(Number(playerCount / PLAYER_PAGE_SIZE))
@@ -31,12 +31,14 @@ export const PrizePlayerListing = (props) => {
       className='non-interactable-card mt-2 sm:mt-4 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
       <h5 className='font-normal'>{t('players')}</h5>
-      <h3>{numberWithCommas(pool?.playerCount || 0, { precision: 0 })}</h3>
+      <h3>{numberWithCommas(playerCount || 0, { precision: 0 })}</h3>
 
       {balances?.length === 0 && <>{t('noPlayers')}</>}
 
-      <div className='xs:bg-primary theme-light--no-gutter text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-4 sm:px-8 mt-4 players-table-min-height'>
-        {!isFetched && <V3LoadingDots />}
+      <div className='xs:bg-primary relative theme-light--no-gutter text-inverse flex flex-col justify-between rounded-lg p-0 xs:p-4 sm:px-8 mt-4 players-table-min-height'>
+        {!isFetched && (
+          <div className='w-full absolute opacity-60 bg-body left-0 top-0 rounded-lg' />
+        )}
 
         {balances?.length > 0 && (
           <>

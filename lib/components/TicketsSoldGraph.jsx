@@ -1,12 +1,11 @@
 import React from 'react'
 import { ethers } from 'ethers'
 import { sub, fromUnixTime } from 'date-fns'
-import { compact } from 'lodash'
 
-import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
+import { CHART_PRIZE_PAGE_SIZE, DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { DateValueLineGraph } from 'lib/components/DateValueLineGraph'
-import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
+import { usePastPrizes } from 'lib/hooks/usePastPrizes'
 
 const NUMBER_OF_POINTS = 20
 const MIN_NUMBER_OF_POINTS = 2
@@ -18,17 +17,30 @@ export const TicketsSoldGraph = (props) => {
 
   const page = 1
   const skip = 0
-  const { data, error, isFetched } = usePoolPrizesQuery(pool.contract, page, skip, -1, 20)
+  // Call it twice so we can share cached data between the past 5 winners & the prizes table
+  const {
+    data: firstTenPrizes,
+    error: firstTenError,
+    isFetched: firstTenIsFetched
+  } = usePastPrizes(pool, 1)
+  const {
+    data: secondTenPrizes,
+    error: secondTenError,
+    isFetched: secondTenIsFetched
+  } = usePastPrizes(pool, 2)
 
-  let prizes = [].concat(data?.prizePool?.prizes)
-
-  if (error) {
-    console.error(error)
+  if (firstTenError || secondTenError) {
+    console.error(firstTenError || secondTenError)
   }
 
+  if (!firstTenIsFetched || !secondTenIsFetched) {
+    return null
+  }
+
+  const prizes = [...firstTenPrizes, ...secondTenPrizes]
   const { symbol, decimals } = pool.tokens.underlyingToken
 
-  if (!decimals || !prizes.length || !isFetched || prizes.length < MIN_NUMBER_OF_POINTS) {
+  if (!decimals || !prizes.length || prizes.length < MIN_NUMBER_OF_POINTS) {
     if (renderEmptyState) return renderEmptyState()
     return null
   }

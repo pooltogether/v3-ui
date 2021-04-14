@@ -257,10 +257,6 @@ const ClaimablePoolTokenItem = (props) => {
 
   const apr = pool.tokenListener?.apr
 
-  if (pool.symbol === 'PT-cUNI') {
-    console.log(totalSupplyOfTickets, pool, playerTickets)
-  }
-
   const [isSelf] = useAtom(isSelfAtom)
 
   return (

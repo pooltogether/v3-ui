@@ -17,30 +17,26 @@ import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButto
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CommunityPoolDisclaimerModal } from 'lib/components/CommunityPoolDisclaimerModal'
-import { LootBoxTable } from 'lib/components/LootBoxTable'
+import { PoolShowLootBoxTable } from 'lib/components/LootBoxTable'
 import { PoolShowUILoader } from 'lib/components/loaders/PoolShowUILoader'
 import { UpcomingPrizeBreakdownCard } from 'lib/components/UpcomingPrizeBreakdownCard'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Meta } from 'lib/components/Meta'
-import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
-import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
 import { Tagline } from 'lib/components/Tagline'
-import { useCurrentPool } from 'lib/hooks/usePools'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
-import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 import { translatedPoolName } from 'lib/utils/translatedPoolName'
 import { SablierStreamCard } from 'lib/components/SablierStreamCard'
-import { PoolCharts } from 'lib/components/PoolCharts'
 import { PoolPrizeCard } from 'lib/components/PoolPrizeCard'
 import { PoolStats } from 'lib/components/PoolStats'
-import { PastWinnersCard } from 'lib/components/PastWinnersCard'
 import { usePoolBySymbol } from 'lib/hooks/usePools'
 
 import Bell from 'assets/images/bell-yellow@2x.png'
-import { usePooltogetherTvl } from 'lib/hooks/usePooltogetherTvl'
-import { usePastPrizes } from 'lib/hooks/usePastPrizes'
+import { PoolCharts } from 'lib/components/PoolCharts'
+import { PastWinnersCard } from 'lib/components/PastWinnersCard'
+import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
+import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -49,9 +45,6 @@ export const PoolShow = (props) => {
   const { data: pool, isFetched: poolIsFetched } = usePoolBySymbol(router?.query?.symbol)
   const { chainId, usersAddress, walletName } = useContext(AuthControllerContext)
   const [cookieShowAward, setCookieShowAward] = useState(false)
-
-  const pastPrizes = usePastPrizes()
-  console.log(pastPrizes)
 
   useInterval(() => {
     setCookieShowAward(Cookies.get(SHOW_MANAGE_LINKS))
@@ -144,17 +137,17 @@ export const PoolShow = (props) => {
 
         <UpcomingPrizeBreakdownCard pool={pool} />
 
-        <LootBoxTable pool={pool} basePath={`/pools/${pool?.symbol}`} />
+        <PoolShowLootBoxTable pool={pool} />
 
         <SablierStreamCard pool={pool} />
 
         <PoolStats pool={pool} />
 
-        {/* <PoolCharts pool={pool} /> */}
+        <PoolCharts pool={pool} />
 
-        {/* <PastWinnersCard pool={pool} /> */}
+        <PastWinnersCard pool={pool} />
 
-        {/* <PrizePlayersQuery pool={pool} blockNumber={-1}>
+        <PrizePlayersQuery pool={pool} blockNumber={-1}>
           {({ data, isFetching, isFetched }) => {
             return (
               <PrizePlayerListing
@@ -167,7 +160,7 @@ export const PoolShow = (props) => {
               />
             )
           }}
-        </PrizePlayersQuery> */}
+        </PrizePlayersQuery>
 
         <div className='flex flex-col items-center justify-center mt-10'>
           {walletName === 'MetaMask' && (
