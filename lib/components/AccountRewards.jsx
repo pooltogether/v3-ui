@@ -24,11 +24,23 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 import { useAllPools, usePoolBySymbol } from 'lib/hooks/usePools'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
+import { useRouter } from 'next/router'
 
 export const AccountRewards = () => {
-  const { t } = useTranslation()
+  const { usersAddress } = useContext(AuthControllerContext)
+  const router = useRouter()
+  const playerAddress = router?.query?.playerAddress
 
-  const { usersAddress, provider } = useContext(AuthControllerContext)
+  // Don't show component for other users
+  if (playerAddress) {
+    return null
+  }
+
+  return <AccountRewardsView address={usersAddress} />
+}
+
+export const AccountRewardsView = (props) => {
+  const { t } = useTranslation()
 
   const { data: pools } = useAllPools()
 
@@ -37,10 +49,9 @@ export const AccountRewards = () => {
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
-  const address = playerAddress || usersAddress
+  const address = props.address
 
   const { playerDrips } = usePlayerDrips(address)
-
   const { usersDripData, graphDripData } = useUsersDripData()
 
   const poolAddresses = map(pools, 'poolAddress')
@@ -50,8 +61,8 @@ export const AccountRewards = () => {
   if (window && window.location) {
     domain = `${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`
   }
-  const referralAddress = `https://${domain}/?referrer=${usersAddress ? usersAddress : ''}`
-  const shortReferralAddress = `${domain}/?referrer=${usersAddress ? shorten(usersAddress) : ''}`
+  const referralAddress = `https://${domain}/?referrer=${address ? address : ''}`
+  const shortReferralAddress = `${domain}/?referrer=${address ? shorten(address) : ''}`
 
   const [activeTxDripIds, setActiveTxDripIds] = useState([])
 

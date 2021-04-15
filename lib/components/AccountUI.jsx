@@ -16,6 +16,7 @@ import { AccountGovernanceClaims } from 'lib/components/AccountGovernanceClaims'
 import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { shorten } from 'lib/utils/shorten'
 import { testAddress } from 'lib/utils/testAddress'
+import { AccountRewards } from 'lib/components/AccountRewards'
 
 export const isSelfAtom = atom(false)
 
@@ -68,8 +69,7 @@ export const AccountUI = () => {
 
           <AccountGovernanceClaims />
 
-          {/* TODO: address to test this with */}
-          {/* <AccountRewards /> */}
+          <AccountRewards />
 
           {/* <AccountLootBoxes /> */}
 
