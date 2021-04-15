@@ -54,6 +54,15 @@ export const AccountTickets = () => {
           </div>
         </div>
       )}
+
+      <div className='text-center flex flex-col text-default-soft mt-4 text-xxs'>
+        <span>
+          {t('areSomeOfYourDepositsMissing')} {t('checkOnTheCompletePoolListingForYourBalances')}
+        </span>
+        <a className='text-primary-soft' href='https://community.pooltogether.com' target='_blank'>
+          https://community.pooltogether.com
+        </a>
+      </div>
     </div>
   )
 }

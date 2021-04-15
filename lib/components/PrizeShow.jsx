@@ -57,7 +57,7 @@ export function PrizeShow(props) {
         ]}
       />
 
-      <div className='rounded-lg px-4 xs:px-6 sm:px-10 py-4 text-white my-4 sm:mt-8 sm:mb-4 mx-auto border-flashy purple-pink-gradient-animation'>
+      <div className='rounded-lg px-4 xs:px-6 sm:px-10 py-4 text-inverse my-4 sm:mt-8 sm:mb-4 mx-auto border-flashy purple-pink-gradient-animation'>
         <h1>{`$${numberWithCommas(prizeValueUsd)}`}</h1>
       </div>
 
