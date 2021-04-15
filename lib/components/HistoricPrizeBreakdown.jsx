@@ -47,7 +47,7 @@ export const HistoricPrizeBreakdown = (props) => {
 
   return (
     <>
-      <div className='non-interactable-card mt-4 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'>
+      <div className='non-interactable-card mt-4 mb-6 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'>
         <div className='text-caption uppercase'>
           <img src={GiftIcon} className='inline-block mr-2 card-icon' /> {t('prizeAndWinners')}
         </div>
