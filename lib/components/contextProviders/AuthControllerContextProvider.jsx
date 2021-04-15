@@ -32,8 +32,6 @@ export function AuthControllerContextProvider(props) {
   const { children } = props
 
   const router = useRouter()
-  // TODO: Clear cache
-  // const queryCache = useQueryCache()
 
   const [changingNetwork, setChangingNetwork] = useState(false)
 
@@ -68,9 +66,6 @@ export function AuthControllerContextProvider(props) {
 
   useEffect(() => {
     let provider = onboardProvider
-    // if (!provider && signedIn) {
-    //   provider = provider
-    // }
     setProvider(provider)
   }, [onboardProvider, signedIn])
 

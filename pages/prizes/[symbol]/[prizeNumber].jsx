@@ -29,17 +29,6 @@ export default function PrizeShowPage(props) {
     return <PrizeShowUILoader />
   }
 
-  // TODO: Better error case
-  if (poolIsFetched && !pool) {
-    return (
-      <BlankStateMessage>
-        {t('couldNotFindPoolWithSymbol', {
-          symbol: querySymbol
-        })}
-      </BlankStateMessage>
-    )
-  }
-
   if (prize === null) {
     return (
       <div className='mt-10'>

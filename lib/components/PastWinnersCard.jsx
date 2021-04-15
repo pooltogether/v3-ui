@@ -106,8 +106,6 @@ const PrizeRow = (props) => {
 
   const { t } = useTranslation()
 
-  // TODO: Add a link to historic winners page, does that work for all pools?
-
   return (
     <li className='w-full flex mb-2 last:mb-0'>
       <span className='w-1/3'>{date}</span>

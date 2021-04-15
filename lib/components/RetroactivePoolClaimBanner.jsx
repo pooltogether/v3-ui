@@ -11,8 +11,6 @@ import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimDa
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 export const RetroactivePoolClaimBanner = (props) => {
-  // TODO:
-  return null
   const { t } = useTranslation()
 
   const router = useRouter()

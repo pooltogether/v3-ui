@@ -37,9 +37,9 @@ export function PlunderLootBoxTxButton(props) {
   const handlePlunderClick = async (e) => {
     e.preventDefault()
 
+    // TODO: Double check this
     const params = [
       lootBoxAddress,
-      // TODO: Double check this
       pool.prize.lootBox.tokenId[0],
       lootBoxAwards.erc20s.map((award) => award.erc20Entity.id),
       lootBoxAwards.erc721s.map((award) => ({

@@ -146,7 +146,7 @@ const RunnerUp = (props) => {
     <li className='flex justify-between mb-2 last:mb-0 '>
       <span className='text-accent-1'>{externalPrizeExists ? t('runnerUp') : t('winner')}</span>
       <span>
-        {/* TODO: Display "winner" if historic */}$<PoolNumber>{prize}</PoolNumber>
+        $<PoolNumber>{prize}</PoolNumber>
       </span>
     </li>
   )
