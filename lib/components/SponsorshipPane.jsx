@@ -3,8 +3,8 @@ import React, { useContext, useState } from 'react'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { DepositOrWithdrawSponsorshipModal } from 'lib/components/DepositOrWithdrawSponsorshipModal'
-import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { usePlayerTicketsByPool } from 'lib/hooks/useAllPlayerTickets'
 
 export const SponsorshipPane = (props) => {
   const { t } = useTranslation()
@@ -17,7 +17,8 @@ export const SponsorshipPane = (props) => {
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { usersSponsorshipBalance } = usePlayerPoolBalances(address, pool)
+  const { sponsorship } = usePlayerTicketsByPool(pool.prizePool.address, address)
+  const usersSponsorshipBalance = sponsorship?.amount
 
   const handleDepositSponsorshipClick = (e) => {
     e.preventDefault()

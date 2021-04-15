@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { ApproveSponsorshipTxButton } from 'lib/components/ApproveSponsorshipTxButton'
@@ -16,6 +15,7 @@ import { Modal } from 'lib/components/Modal'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
+import { usePlayerTicketsByPool } from 'lib/hooks/useAllPlayerTickets'
 
 export function DepositOrWithdrawSponsorshipModal(props) {
   const { t } = useTranslation()
@@ -26,16 +26,13 @@ export function DepositOrWithdrawSponsorshipModal(props) {
   const { usersAddress } = useContext(AuthControllerContext)
 
   const { data: pool } = useCurrentPool()
-  const { usersChainData } = useUsersChainData(pool)
+  const { data: usersChainData } = useUsersChainData()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { usersSponsorshipBalance, usersSponsorshipBalanceBN } = usePlayerPoolBalances(
-    address,
-    pool
-  )
+  const { sponsorship } = usePlayerTicketsByPool(pool, address)
 
   const { register, errors, watch, setValue } = useForm({
     mode: 'all',
@@ -67,13 +64,14 @@ export function DepositOrWithdrawSponsorshipModal(props) {
   let contextualBalanceBN = usersTokenBalanceBN
   let contextualBalance = usersTokenBalance
   let validate = null
+  debugger
   if (isWithdraw) {
-    contextualBalance = usersSponsorshipBalance
-    contextualBalanceBN = usersSponsorshipBalanceBN
+    contextualBalance = sponsorship?.amount
+    contextualBalanceBN = sponsorship?.amountUnformatted
 
     validate = {
       greaterThanBalance: (value) =>
-        ethers.utils.parseUnits(value, decimals).lte(usersSponsorshipBalanceBN) ||
+        ethers.utils.parseUnits(value, decimals).lte(sponsorship?.amountUnformatted) ||
         t('enterAmountLowerThanSponsorshipBalance')
     }
   } else {
@@ -141,7 +139,7 @@ export function DepositOrWithdrawSponsorshipModal(props) {
             )}
           </div>
 
-          <div className='flex flex-col mx-auto w-full mx-auto items-center justify-center'>
+          <div className='flex flex-col mx-auto w-full items-center justify-center'>
             <ButtonDrawer>
               {isWithdraw ? (
                 <>

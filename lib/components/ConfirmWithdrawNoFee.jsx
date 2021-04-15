@@ -6,7 +6,6 @@ import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -17,6 +16,7 @@ import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { useCurrentPool } from 'lib/hooks/usePools'
+import { usePlayerTicketsByPool } from 'lib/hooks/useAllPlayerTickets'
 
 export function ConfirmWithdrawNoFee(props) {
   const { t } = useTranslation()
@@ -34,7 +34,8 @@ export function ConfirmWithdrawNoFee(props) {
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { usersTicketBalanceBN } = usePlayerPoolBalances(address, pool)
+  const { ticket } = usePlayerTicketsByPool(pool.prizePool.address, address)
+  const amountUnformatted = ticket?.amountUnformatted
 
   const decimals = pool?.underlyingCollateralDecimals
   const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
@@ -96,7 +97,7 @@ export function ConfirmWithdrawNoFee(props) {
 
             <WithdrawOdds
               pool={pool}
-              usersTicketBalanceBN={usersTicketBalanceBN}
+              usersTicketBalanceBN={amountUnformatted}
               withdrawAmount={quantity}
             />
           </div>

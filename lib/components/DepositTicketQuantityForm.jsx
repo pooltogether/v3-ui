@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { Banner } from 'lib/components/Banner'
@@ -22,6 +21,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
+import { usePlayerTicketsByPool } from 'lib/hooks/useAllPlayerTickets'
 
 const bn = ethers.BigNumber.from
 
@@ -36,13 +36,15 @@ export function DepositTicketQuantityForm(props) {
   const { usersAddress } = useContext(AuthControllerContext)
 
   const { data: pool } = useCurrentPool()
-  const { usersChainData } = useUsersChainData(pool)
+  const { data: usersChainData } = useUsersChainData()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { usersTicketBalanceBN } = usePlayerPoolBalances(address, pool)
+  const { ticket } = usePlayerTicketsByPool(pool.prizePool.address, address)
+  const amount = ticket?.amount
+  const amountUnformatted = ticket?.amountUnformatted
 
   const liquidityCap = pool?.liquidityCap ? bn(pool?.liquidityCap) : bn(0)
   let remainingTickets
@@ -72,7 +74,7 @@ export function DepositTicketQuantityForm(props) {
     if (formState.isValid) {
       queryParamUpdater.add(router, {
         quantity: values.quantity,
-        prevBalance: usersTicketBalanceBN.toString()
+        prevBalance: amount
       })
 
       nextStep()
@@ -167,7 +169,7 @@ export function DepositTicketQuantityForm(props) {
           {Object.values(errors).length > 0 && <ErrorsBox errors={errors} />}
         </div>
 
-        <div className='flex flex-col mx-auto w-full mx-auto items-center justify-center'>
+        <div className='flex flex-col mx-auto w-full items-center justify-center'>
           <ButtonDrawer>{continueButton}</ButtonDrawer>
         </div>
       </form>
@@ -219,7 +221,7 @@ export function DepositTicketQuantityForm(props) {
                 ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
                 decimals={pool.tokens.ticket.decimals}
                 numberOfWinners={pool.config.numberOfWinners}
-                usersBalance={usersTicketBalanceBN.toString()}
+                usersBalance={amountUnformatted}
                 additionalAmount={watchQuantity}
               />
             </div>

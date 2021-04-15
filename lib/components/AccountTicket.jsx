@@ -19,6 +19,8 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
 import { usePoolBySymbol } from 'lib/hooks/usePools'
+import { getMinPrecision, getPrecision } from 'lib/utils/numberWithCommas'
+import { stringWithPrecision } from 'lib/utils/stringWithPrecision'
 
 export const AccountTicket = (props) => {
   const { t } = useTranslation()
@@ -31,24 +33,14 @@ export const AccountTicket = (props) => {
   const { noMargin, isLink, playerTicket } = props
   let { href, as } = props
 
-  const { data: pool } = usePoolBySymbol(playerTicket?.pool?.symbol)
-
-  if (!playerTicket?.pool?.symbol) {
-    return null
-  }
-
-  const { balance } = playerTicket
+  const { ticket, pool } = playerTicket
+  const { amount, amountUnformatted } = ticket
 
   const decimals = pool.tokens.underlyingToken.decimals
 
   if (!href && !as) {
     href = '/account/pools/[symbol]'
     as = `/account/pools/${pool.symbol}`
-  }
-
-  let usersBalance = 0
-  if (balance && !isNaN(decimals)) {
-    usersBalance = Number(ethers.utils.formatUnits(balance, Number(decimals)))
   }
 
   const ticker = pool.tokens.underlyingToken.symbol
@@ -121,8 +113,9 @@ export const AccountTicket = (props) => {
               <div className='text-xl xs:text-4xl font-bold text-inverse-purple'>
                 <PoolCountUp
                   fontSansRegular
-                  end={Math.floor(Number.parseFloat(usersBalance))}
-                  decimals={null}
+                  end={stringWithPrecision(amount, {
+                    precision: getMinPrecision(amount)
+                  })}
                   duration={0.5}
                 />
               </div>
@@ -132,7 +125,7 @@ export const AccountTicket = (props) => {
                   {t('winningOdds')}:
                 </span>
                 <br />{' '}
-                {usersBalance < 1 ? (
+                {Number(amount) < 1 ? (
                   <>
                     <span
                       className='font-bold text-accent-3'
@@ -149,7 +142,7 @@ export const AccountTicket = (props) => {
                       asSpan
                       fontSansRegular
                       className='font-bold text-flashy'
-                      usersBalance={balance}
+                      usersBalance={amountUnformatted.toString()}
                       ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
                       decimals={pool.tokens.ticket.decimals}
                       numberOfWinners={pool.config.numberOfWinners}

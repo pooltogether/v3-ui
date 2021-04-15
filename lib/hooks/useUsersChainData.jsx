@@ -6,17 +6,10 @@ import { useReadProvider } from 'lib/hooks/useReadProvider'
 
 export function useUsersChainData() {
   const { usersAddress } = useContext(AuthControllerContext)
-
   const { readProvider } = useReadProvider()
 
-  const { data: usersChainData, error: usersChainError } = useUsersChainQuery({
+  return useUsersChainQuery({
     provider: readProvider,
     usersAddress
   })
-
-  if (usersChainError) {
-    console.error(usersChainError)
-  }
-
-  return { usersChainData }
 }

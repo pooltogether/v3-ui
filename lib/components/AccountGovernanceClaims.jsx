@@ -22,7 +22,7 @@ import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
 import { useClaimablePoolFromTokenFaucets } from 'lib/hooks/useClaimablePoolFromTokenFaucets'
-import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
+import { useAllPlayerTickets } from 'lib/hooks/useAllPlayerTickets'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { displayPercentage } from 'lib/utils/displayPercentage'
@@ -223,8 +223,7 @@ const ClaimablePoolTokenItem = (props) => {
   const { address, pool, refetchAllPoolTokenData } = props
 
   const { t } = useTranslation()
-  const { data: accountData } = useAccountQuery(address, pool.version)
-  const { playerTickets } = usePlayerTickets(accountData)
+  const { data: playerTickets } = useAllPlayerTickets(address)
 
   const tokenFaucetAddress = pool.tokenListener.address
   const { data: claimablePoolData } = useClaimablePoolFromTokenFaucet(tokenFaucetAddress, address)
@@ -234,13 +233,12 @@ const ClaimablePoolTokenItem = (props) => {
   const underlyingToken = pool.tokens.underlyingToken
   const name = t('prizePoolTicker', { ticker: dripToken.symbol })
 
-  const ticketData = playerTickets?.find((t) => t.poolAddress === pool.prizePool.address)
+  const poolTicketData = playerTickets?.find((t) => t.poolAddress === pool.prizePool.address)
+  const ticketData = poolTicketData?.ticket
 
   const ticketTotalSupply = pool.tokens.ticket.totalSupply
   const totalSupplyOfTickets = parseInt(ticketTotalSupply, 10)
-  const usersBalance = Number(
-    ethers.utils.formatUnits(ticketData?.balance || 0, underlyingToken.decimals)
-  )
+  const usersBalance = ticketData?.amount
 
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
   const dripRatePerSecondNumber = dripRatePerSecond

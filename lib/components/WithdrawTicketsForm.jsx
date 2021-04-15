@@ -5,7 +5,6 @@ import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { usePlayerPoolBalances } from 'lib/hooks/usePlayerPoolBalances'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
@@ -16,6 +15,7 @@ import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
+import { usePlayerTicketsByPool } from 'lib/hooks/useAllPlayerTickets'
 
 export function WithdrawTicketsForm(props) {
   const { t } = useTranslation()
@@ -27,7 +27,7 @@ export function WithdrawTicketsForm(props) {
   const { usersAddress } = useContext(AuthControllerContext)
   const { data: pool } = useCurrentPool()
 
-  const { usersTicketBalance, usersTicketBalanceBN } = usePlayerPoolBalances(usersAddress, pool)
+  const { amount, amountUnformatted } = usePlayerTicketsByPool(pool.prizePool.address, usersAddress)
 
   const ticker = pool?.underlyingCollateralSymbol
   const decimals = pool?.underlyingCollateralDecimals
@@ -43,7 +43,7 @@ export function WithdrawTicketsForm(props) {
   const validate = {
     greaterThanBalance: (value) => {
       return (
-        ethers.utils.parseUnits(value, decimals).lte(usersTicketBalanceBN) ||
+        ethers.utils.parseUnits(value, decimals).lte(amountUnformatted) ||
         t('pleaseEnterAmountLowerThanTicketBalance')
       )
     }
@@ -53,7 +53,7 @@ export function WithdrawTicketsForm(props) {
     if (formState.isValid) {
       queryParamUpdater.add(router, {
         quantity: values.quantity,
-        prevBalance: usersTicketBalanceBN.toString()
+        prevBalance: amount.toString()
       })
 
       nextStep()
@@ -85,7 +85,7 @@ export function WithdrawTicketsForm(props) {
           autoComplete='off'
           rightLabel={
             usersAddress &&
-            usersTicketBalance && (
+            amount && (
               <>
                 <button
                   id='_setMaxWithdrawAmount'
@@ -93,11 +93,11 @@ export function WithdrawTicketsForm(props) {
                   className='font-bold inline-flex items-center'
                   onClick={(e) => {
                     e.preventDefault()
-                    setValue('quantity', usersTicketBalance, { shouldValidate: true })
+                    setValue('quantity', amount, { shouldValidate: true })
                   }}
                 >
                   <img src={TicketIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
-                  {numberWithCommas(usersTicketBalance, { precision: 2 })} {tickerUpcased}
+                  {numberWithCommas(amount, { precision: 2 })} {tickerUpcased}
                 </button>
               </>
             )
@@ -124,7 +124,7 @@ export function WithdrawTicketsForm(props) {
               >
                 <WithdrawOdds
                   pool={pool}
-                  usersTicketBalanceBN={usersTicketBalanceBN}
+                  usersTicketBalanceBN={amountUnformatted}
                   withdrawAmount={watchQuantity}
                 />
               </div>

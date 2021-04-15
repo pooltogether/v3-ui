@@ -10,7 +10,7 @@ import { isSelfAtom } from 'lib/components/AccountUI'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { SmallLoader } from 'lib/components/loaders/SmallLoader'
 import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
-import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
+import { useAllPlayerTickets, usePlayerTotalDepositValue } from 'lib/hooks/useAllPlayerTickets'
 import { useUsersV2Balances } from 'lib/hooks/useUsersV2Balances'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
@@ -32,58 +32,40 @@ export const AccountSummary = () => {
 
   const { usersV2Balances } = useUsersV2Balances(address)
 
-  const { data: accountData, isFetched: accountDataIsFetched } = useMultiversionAccount(address)
+  const { data: totalTicketValues, isFetched: playerTicketsIsFetched } = usePlayerTotalDepositValue(
+    address
+  )
+  const totalValueUsd = totalTicketValues?.totalValueUsd
 
-  const { playerTickets } = usePlayerTickets(accountData)
-
+  // Add v2 values
   const daiBalances = {
     poolBalance: usersV2Balances?.v2DaiPoolCommittedBalance,
     podBalance: usersV2Balances?.v2DaiPodCommittedBalance,
     podSharesBalance: usersV2Balances?.v2DaiPodSharesBalance
   }
-
   const usdcBalances = {
     poolBalance: usersV2Balances?.v2UsdcPoolCommittedBalance,
     podBalance: usersV2Balances?.v2UsdcPodCommittedBalance,
     podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance
   }
-
-  let totalTickets = ethers.BigNumber.from(0)
-  playerTickets?.forEach((playerTicket) => {
-    let { balanceNormalized, balanceFormatted, pool } = playerTicket
-
-    const priceUSD = pool.tokens.underlyingToken?.usd
-
-    if (priceUSD) {
-      try {
-        const value = priceUSD && balanceFormatted && parseFloat(balanceFormatted) * priceUSD
-        totalTickets = totalTickets.add(ethers.utils.parseEther(value.toString()))
-      } catch (e) {
-        console.warn(
-          `could not parse value, probably negative exponent value (ie. '$0.000000000000000124' aka dust)`
-        )
-      }
-    } else {
-      // fall back to assuming it's a stablecoin, this is helpful for testnets or if we don't have USD price
-      totalTickets = totalTickets.add(balanceNormalized)
-    }
-  })
-
+  let totalTicketsNormalized = ethers.utils.parseUnits(totalValueUsd || '0', 18)
   if (daiBalances.poolBalance) {
     const normalizedDaiPoolBalance = normalizeTo18Decimals(daiBalances.poolBalance, 18)
-    totalTickets = totalTickets.add(normalizedDaiPoolBalance)
+    totalTicketsNormalized = totalTicketsNormalized.add(normalizedDaiPoolBalance)
 
     const normalizedDaiPodBalance = normalizeTo18Decimals(daiBalances.podBalance, 18)
-    totalTickets = totalTickets.add(normalizedDaiPodBalance)
+    totalTicketsNormalized = totalTicketsNormalized.add(normalizedDaiPodBalance)
 
     const normalizedUsdcPoolBalance = normalizeTo18Decimals(usdcBalances.poolBalance, 6)
-    totalTickets = totalTickets.add(normalizedUsdcPoolBalance)
+    totalTicketsNormalized = totalTicketsNormalized.add(normalizedUsdcPoolBalance)
 
     const normalizedUsdcPodBalance = normalizeTo18Decimals(usdcBalances.podBalance, 6)
-    totalTickets = totalTickets.add(normalizedUsdcPodBalance)
+    totalTicketsNormalized = totalTicketsNormalized.add(normalizedUsdcPodBalance)
   }
 
-  const totalTicketsFormatted = numberWithCommas(ethers.utils.formatUnits(totalTickets, 18))
+  const totalTicketsFormatted = numberWithCommas(
+    ethers.utils.formatUnits(totalTicketsNormalized, 18)
+  )
 
   return (
     <div
@@ -99,9 +81,10 @@ export const AccountSummary = () => {
         <div className='leading-tight'>
           <h6 className='font-normal'>{t('assets')}</h6>
           <h1>
-            {accountDataIsFetched ? (
+            {playerTicketsIsFetched ? (
               <>
-                $<PoolNumber>{totalTicketsFormatted}</PoolNumber>
+                $
+                <PoolNumber>{numberWithCommas(totalTicketsFormatted, { precision: 2 })}</PoolNumber>
               </>
             ) : (
               <SmallLoader />

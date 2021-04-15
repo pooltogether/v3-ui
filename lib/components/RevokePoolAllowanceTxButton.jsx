@@ -18,7 +18,7 @@ export function RevokePoolAllowanceTxButton(props) {
   const { t } = useTranslation()
 
   const { pool } = props
-  const { usersChainData } = useUsersChainData()
+  const { data: usersChainData } = useUsersChainData()
   const { usersTokenAllowance } = usersDataForPool(pool, usersChainData)
 
   const poolAddress = pool.prizePool.address

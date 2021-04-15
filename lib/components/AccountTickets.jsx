@@ -10,7 +10,7 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { TicketsUILoader } from 'lib/components/loaders/TicketsUILoader'
 import { V2AccountTicket } from 'lib/components/V2AccountTicket'
 import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
-import { usePlayerTickets } from 'lib/hooks/usePlayerTickets'
+import { useAllPlayerTickets } from 'lib/hooks/useAllPlayerTickets'
 import { useUsersV2Balances } from 'lib/hooks/useUsersV2Balances'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 
@@ -27,9 +27,7 @@ export const AccountTickets = () => {
 
   const { usersV2Balances } = useUsersV2Balances(address)
 
-  const { data: accountData, isFetched: accountDataIsFetched } = useMultiversionAccount(address)
-
-  const { playerTickets } = usePlayerTickets(accountData)
+  const { data: playerTickets, isFetched: playerTicketsIsFetched } = useAllPlayerTickets(address)
 
   const daiBalances = {
     poolBalance: usersV2Balances?.v2DaiPoolCommittedBalance,
@@ -65,7 +63,7 @@ export const AccountTickets = () => {
 
   return (
     <div className='mt-8 xs:mt-16'>
-      {!accountDataIsFetched ? (
+      {!playerTicketsIsFetched ? (
         <TicketsUILoader />
       ) : playerTickets.length === 0 && (hasNoV2Balance || hasNoV2Balance === undefined) ? (
         <BlankStateMessage>
@@ -99,17 +97,6 @@ export const AccountTickets = () => {
             <V2AccountTicket v2usdc key={`v2-usdc-account-ticket-pool`} />
             <V2AccountTicket isPod v2usdc key={`v2-usdc-account-ticket-pod`} />
           </div>
-
-          {/* <h6 className='font-normal text-accent-2 mb-4'>{t('communityPoolTickets')}</h6> */}
-          {/* {communityPoolPlayerTickets?.map((playerTicket) => {
-                  return (
-                    <AccountTicket
-                      isLink
-                      key={`account-pool-row-${playerTicket?.poolAddress}`}
-                      playerTicket={playerTicket}
-                    />
-                  )
-                })} */}
         </div>
       )}
     </div>

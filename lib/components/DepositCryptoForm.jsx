@@ -31,7 +31,7 @@ export function DepositCryptoForm(props) {
   const quantity = router.query.quantity
 
   const { data: pool } = useCurrentPool()
-  const { usersChainData } = useUsersChainData(pool)
+  const { data: usersChainData } = useUsersChainData()
 
   const decimals = pool?.underlyingCollateralDecimals
   const tokenAddress = pool?.underlyingCollateralToken
