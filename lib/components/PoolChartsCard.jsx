@@ -14,9 +14,9 @@ export const PoolChartsCard = (props) => {
 
   const { data: prizes, isFetched } = usePastPrizes(pool, 1, CHART_PRIZE_PAGE_SIZE)
 
-  if (!isFetched) return null
+  if (!isFetched || !prizes || prizes?.length < MIN_NUMBER_OF_POINTS) return null
 
-  if (prizes.length < MIN_NUMBER_OF_POINTS) return null
+  console.log(prizes, pool)
 
   return (
     <Card>

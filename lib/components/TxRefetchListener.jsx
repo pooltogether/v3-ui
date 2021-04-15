@@ -5,6 +5,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 //
 import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
+import { useAllPlayerTickets } from 'lib/hooks/useAllPlayerTickets'
 
 const debug = require('debug')('pool-app:TxRefetchListener')
 
@@ -20,7 +21,7 @@ export function TxRefetchListener(props) {
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { refetch: refetchAccountData } = useMultiversionAccount(address)
+  const { refetch: refetchTicketData } = useAllPlayerTickets(address)
 
   const pendingTransactions = transactions.filter((t) => !t.completed && !t.cancelled)
 
@@ -36,17 +37,17 @@ export function TxRefetchListener(props) {
       // we don't know when the Graph will have processed the new block data or when it has
       // so simply query a few times for the updated data
       setTimeout(() => {
-        refetchAccountData()
+        refetchTicketData()
         debug('refetch!')
       }, 2000)
 
       setTimeout(() => {
-        refetchAccountData()
+        refetchTicketData()
         debug('refetch!')
       }, 8000)
 
       setTimeout(() => {
-        refetchAccountData()
+        refetchTicketData()
         debug('refetch!')
       }, 16000)
     } else if (tx?.refetch) {

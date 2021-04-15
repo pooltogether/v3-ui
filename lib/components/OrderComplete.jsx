@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
+import { ethers } from 'ethers'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
@@ -28,10 +29,7 @@ export function OrderComplete(props) {
 
   const { data: pool } = useCurrentPool()
 
-  const decimals = pool.tkoens.underlyingToken.decimals
-  if (prevBalance) {
-    prevBalance = ethers.utils.formatUnits(prevBalance, decimals || 18)
-  }
+  const decimals = pool.tokens.underlyingToken.decimals
 
   const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
 

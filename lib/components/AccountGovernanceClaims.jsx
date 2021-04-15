@@ -231,7 +231,7 @@ const ClaimablePoolTokenItem = (props) => {
 
   const dripToken = pool.tokens.tokenFaucetDripToken
   const underlyingToken = pool.tokens.underlyingToken
-  const name = t('prizePoolTicker', { ticker: dripToken.symbol })
+  const name = t('prizePoolTicker', { ticker: underlyingToken.symbol })
 
   const poolTicketData = playerTickets?.find((t) => t.poolAddress === pool.prizePool.address)
   const ticketData = poolTicketData?.ticket

@@ -13,10 +13,12 @@ export function ManageTicketsForm(props) {
 
   const { t } = useTranslation()
   const { usersAddress } = useContext(AuthControllerContext)
-  const { data: pool } = useCurrentPool()
   const [action, setAction] = useState(STRINGS.withdraw)
-
+  const { data: pool } = useCurrentPool()
   const { data: playerTickets } = useAllPlayerTickets(usersAddress)
+
+  if (!pool) return null
+
   const playerPoolTicketData = playerTickets?.find(
     (playerPoolTicketData) => playerPoolTicketData.poolAddress === pool.prizePool.address
   )

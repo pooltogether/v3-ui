@@ -173,7 +173,7 @@ function MyApp({ Component, pageProps, router }) {
             <CustomErrorBoundary>
               <TransactionStatusChecker />
 
-              {/* <TxRefetchListener /> */}
+              <TxRefetchListener />
 
               <Layout props={pageProps}>
                 <AnimatePresence exitBeforeEnter>

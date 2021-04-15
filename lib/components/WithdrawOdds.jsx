@@ -44,8 +44,6 @@ export function WithdrawOdds(props) {
     numberOfWinners
   )
 
-  console.log(usersTicketBalanceUnformatted, withdrawAmountBN, newOdds)
-
   return (
     <>
       <div
