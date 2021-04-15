@@ -13,8 +13,6 @@ import { PoolsListUILoader } from 'lib/components/loaders/PoolsListUILoader'
 import { useCommunityPools, useGovernancePools } from 'lib/hooks/usePools'
 
 export const PoolLists = () => {
-  const shouldReduceMotion = useReducedMotion()
-
   const { t } = useTranslation()
   const router = useRouter()
 
@@ -24,17 +22,8 @@ export const PoolLists = () => {
 
   return (
     <div className='mt-10'>
-      <motion.div
-        animate='enter'
-        className='flex flex-col justify-center items-center text-xs sm:text-lg lg:text-xl'
-        variants={ANIM_LIST_VARIANTS(shouldReduceMotion)}
-        initial={{
-          scale: 0,
-          opacity: 1
-        }}
-        style={{ originY: '60px' }}
-      >
-        <Tabs className='mb-10'>
+      <div className='flex flex-col justify-center items-center text-xs sm:text-lg lg:text-xl'>
+        <Tabs className='mb-4'>
           <Tab
             isSelected={selectedTab === POOL_LIST_TABS.pools}
             onClick={() => {
@@ -52,7 +41,7 @@ export const PoolLists = () => {
             {t('communityPools')}
           </Tab>
         </Tabs>
-      </motion.div>
+      </div>
 
       <ContentPane
         key='pools-list'
