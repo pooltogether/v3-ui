@@ -90,7 +90,7 @@ export const PoolRowNew = (props) => {
               textSize='xxxs'
               className='mt-3'
               padding='py-1'
-              disabled={!Boolean(pool?.symbol)}
+              disabled={!Boolean(pool.symbol)}
             >
               {t('depositTicker', {
                 ticker: tickerUpcased

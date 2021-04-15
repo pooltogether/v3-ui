@@ -10,7 +10,7 @@ export const PrizeFromInterestCard = (props) => {
 
   const { ticketPrize, decimals, pool } = props
 
-  const numWinners = pool?.numberOfWinners
+  const numWinners = pool.config.numberOfWinners
 
   const numberOfWinnersMinusOne = parseInt(numWinners, 10) - 1
 

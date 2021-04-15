@@ -31,19 +31,23 @@ export function DepositCryptoForm(props) {
   const quantity = router.query.quantity
 
   const { data: pool } = useCurrentPool()
-  const { data: usersChainData } = useUsersChainData()
+  const { data: usersChainData } = useUsersChainData(
+    pool.prizePool.address,
+    pool.tokens.underlyingToken.address
+  )
 
-  const decimals = pool?.underlyingCollateralDecimals
-  const tokenAddress = pool?.underlyingCollateralToken
-  const ticker = pool?.underlyingCollateralSymbol
-  const poolAddress = pool?.poolAddress
+  const underlyingToken = pool.tokens.underlyingToken
+  const decimals = underlyingToken.decimals
+  const tokenAddress = underlyingToken.address
+  const ticker = underlyingToken.symbol
+  const poolAddress = pool.prizePool.address
 
   const tickerUpcased = ticker?.toUpperCase()
 
   const [needsApproval, setNeedsApproval] = useState(true)
   const [cachedUsersBalance, setCachedUsersBalance] = useState()
 
-  const poolIsLocked = pool?.isRngRequested
+  const poolIsLocked = pool.prize.isRngRequested
 
   let quantityBN = ethers.BigNumber.from(0)
   if (decimals) {

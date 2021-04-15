@@ -41,7 +41,8 @@ export function WithdrawalTimeRemainingChart(props) {
   const futureDate = addSeconds(currentDate, secondsRemaining)
   const timeRemainingObj = subtractDates(futureDate, currentDate)
 
-  const percentTimeRemaining = (secondsRemaining / parseInt(pool?.maxTimelockDuration, 10)) * 100
+  const percentTimeRemaining =
+    (secondsRemaining / parseInt(pool.config.maxTimelockDurationSeconds, 10)) * 100
 
   return (
     <>

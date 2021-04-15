@@ -19,6 +19,7 @@ import { WizardLayout } from 'lib/components/WizardLayout'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 import WalletIcon from 'assets/images/icon-wallet.svg'
+import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 
 export function DepositWizardContainer(props) {
   const { t } = useTranslation()
@@ -36,9 +37,13 @@ export function DepositWizardContainer(props) {
   }
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { data: pool } = useCurrentPool()
+  const { data: pool, isFetched: poolIsFetched } = useCurrentPool()
 
-  const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
+  if (!poolIsFetched) {
+    return null
+  }
+
+  const tickerUpcased = pool.tokens.underlyingToken.symbol
 
   return (
     <>

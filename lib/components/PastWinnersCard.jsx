@@ -1,11 +1,7 @@
 import React, { useMemo } from 'react'
 import Link from 'next/link'
-import { compact } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
-import { TimeTravelPool } from 'lib/components/TimeTravelPool'
-import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
-import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'

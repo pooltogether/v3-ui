@@ -9,41 +9,42 @@ import { calculateOdds } from 'lib/utils/calculateOdds'
 export function WithdrawOdds(props) {
   const { t } = useTranslation()
 
-  const { pool, usersTicketBalanceBN } = props
+  const { pool, usersTicketBalanceUnformatted } = props
 
-  if (!pool || !pool.ticketSupply || !usersTicketBalanceBN) {
+  if (!pool || !usersTicketBalanceUnformatted) {
     return null
   }
 
-  const decimals = pool.underlyingCollateralDecimals
+  const decimals = pool.tokens.underlyingToken.decimals
+  const numberOfWinners = pool.config.numberOfWinners
 
   const withdrawAmountBN = props.withdrawAmount
     ? ethers.utils.parseUnits(props.withdrawAmount.toString(), decimals)
     : ethers.BigNumber.from(0)
 
-  const overBalance = withdrawAmountBN.gt(usersTicketBalanceBN)
+  const overBalance = withdrawAmountBN.gt(usersTicketBalanceUnformatted)
 
-  const numberOfWinners = pool?.numberOfWinners ? parseInt(pool?.numberOfWinners, 10) : 1
-
-  const ticketTotalSupply = ethers.BigNumber.from(pool.ticketSupply)
+  const ticketTotalSupply = ethers.BigNumber.from(pool.tokens.ticket.totalSupplyUnformatted)
 
   const totalSupplyLessWithdrawAmountBN = ticketTotalSupply
     ? ticketTotalSupply.sub(withdrawAmountBN)
     : ethers.BigNumber.from(0)
 
   const currentOdds = calculateOdds(
-    usersTicketBalanceBN,
+    usersTicketBalanceUnformatted,
     ticketTotalSupply,
     decimals,
     numberOfWinners
   )
 
   const newOdds = calculateOdds(
-    usersTicketBalanceBN.sub(withdrawAmountBN),
+    usersTicketBalanceUnformatted.sub(withdrawAmountBN),
     totalSupplyLessWithdrawAmountBN,
     decimals,
     numberOfWinners
   )
+
+  console.log(usersTicketBalanceUnformatted, withdrawAmountBN, newOdds)
 
   return (
     <>

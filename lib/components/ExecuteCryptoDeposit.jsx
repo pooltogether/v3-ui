@@ -32,11 +32,12 @@ export function ExecuteCryptoDeposit(props) {
   const { usersAddress } = useContext(AuthControllerContext)
   const { data: pool } = useCurrentPool()
 
-  const decimals = pool?.underlyingCollateralDecimals
-  const ticker = pool?.underlyingCollateralSymbol
-  const tokenAddress = pool?.underlyingCollateralToken
-  const poolAddress = pool?.poolAddress
-  const controlledTicketTokenAddress = pool?.ticket?.id
+  const underlyingToken = pool.tokens.underlyingToken
+  const decimals = underlyingToken.decimals
+  const ticker = underlyingToken.symbol
+  const tokenAddress = underlyingToken.address
+  const poolAddress = pool.prizePool.address
+  const controlledTicketTokenAddress = pool.tokens.ticket.address
 
   const tickerUpcased = ticker?.toUpperCase()
 

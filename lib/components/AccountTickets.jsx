@@ -81,12 +81,12 @@ export const AccountTickets = () => {
       ) : (
         <div>
           <div className='flex flex-wrap'>
-            {playerTickets?.map((playerTicket) => {
+            {playerTickets?.map((playerPoolTicketData) => {
               return (
                 <AccountTicket
                   isLink
-                  key={`account-pool-row-${playerTicket?.poolAddress}`}
-                  playerTicket={playerTicket}
+                  key={`account-pool-row-${playerPoolTicketData?.poolAddress}`}
+                  playerPoolTicketData={playerPoolTicketData}
                 />
               )
             })}

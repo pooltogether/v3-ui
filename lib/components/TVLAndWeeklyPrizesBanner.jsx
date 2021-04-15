@@ -2,8 +2,6 @@ import React, { useContext } from 'react'
 
 import { Banner } from 'lib/components/Banner'
 import { BannerUILoader } from 'lib/components/loaders/BannerUILoader'
-import { useTotalPoolPrizeInterestUSD } from 'lib/hooks/useTotalPoolPrizeInterestUSD'
-import { useTotalPoolPrizeValueLockedUSD } from 'lib/hooks/useTotalPoolPrizeValueLockedUSD'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { useTranslation } from 'lib/../i18n'
 

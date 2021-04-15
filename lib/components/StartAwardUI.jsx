@@ -1,24 +1,24 @@
 import React, { useContext, useState } from 'react'
+import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PeriodicPrizeStrategy'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { ButtonTx } from 'lib/components/ButtonTx'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { getPrizeStrategyAbiFromPool } from 'lib/services/getPrizeStrategyAbiFromPool'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
 export function StartAwardUI(props) {
   const { t } = useTranslation()
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { pool, refetchAllPoolData } = usePool()
+  const { data: pool, refetch: refetchPoolData } = useCurrentPool()
 
-  const canStartAward = pool?.canStartAward
-  const prizeStrategyAddress = pool?.prizeStrategy?.id
+  const canStartAward = pool.prize.canStartAward
+  const prizeStrategyAddress = pool.prizeStrategy.address
 
   const txName = t(`startAwardPoolName`, {
-    poolName: pool?.name
+    poolName: pool.name
   })
   const method = 'startAward'
   const [txId, setTxId] = useState(0)
@@ -41,11 +41,11 @@ export function StartAwardUI(props) {
 
     const id = await sendTx(
       txName,
-      getPrizeStrategyAbiFromPool(pool),
+      PrizeStrategyAbi,
       prizeStrategyAddress,
       method,
       params,
-      refetchAllPoolData
+      refetchPoolData
     )
 
     setTxId(id)

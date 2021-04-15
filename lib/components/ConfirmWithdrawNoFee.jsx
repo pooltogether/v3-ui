@@ -24,11 +24,9 @@ export function ConfirmWithdrawNoFee(props) {
   const router = useRouter()
   const quantity = router.query.quantity
 
-  const { nextStep, previousStep } = props
+  const { nextStep, previousStep, pool } = props
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
-
-  const { data: pool } = useCurrentPool()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
@@ -37,10 +35,11 @@ export function ConfirmWithdrawNoFee(props) {
   const { ticket } = usePlayerTicketsByPool(pool.prizePool.address, address)
   const amountUnformatted = ticket?.amountUnformatted
 
-  const decimals = pool?.underlyingCollateralDecimals
-  const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
-  const poolAddress = pool?.poolAddress
-  const controlledTicketTokenAddress = pool?.ticket?.id
+  const underlyingToken = pool.tokens.underlyingToken
+  const decimals = underlyingToken.decimals
+  const tickerUpcased = underlyingToken.symbol
+  const poolAddress = pool.prizePool.address
+  const controlledTicketTokenAddress = pool.tokens.ticket.address
 
   const [txExecuted, setTxExecuted] = useState(false)
 
@@ -97,7 +96,7 @@ export function ConfirmWithdrawNoFee(props) {
 
             <WithdrawOdds
               pool={pool}
-              usersTicketBalanceBN={amountUnformatted}
+              usersTicketBalanceUnformatted={amountUnformatted}
               withdrawAmount={quantity}
             />
           </div>

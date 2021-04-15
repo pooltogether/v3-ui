@@ -1,14 +1,14 @@
 import React from 'react'
+import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PeriodicPrizeStrategy'
 
 import { useTranslation } from 'lib/../i18n'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { getPrizeStrategyAbiFromPool } from 'lib/services/getPrizeStrategyAbiFromPool'
 
 export function CompleteAwardUI(props) {
   const { t } = useTranslation()
-  const { pool, refetchAllPoolData } = usePool()
+  const { data: pool, refetch: refetchPoolChainData } = useCurrentPool()
   const sendTx = useSendTransaction()
 
   const handleCompleteAwardClick = async (e) => {
@@ -17,18 +17,18 @@ export function CompleteAwardUI(props) {
     const params = []
 
     sendTx(
-      t(`completeAwardPoolName`, { poolName: pool?.name }),
-      getPrizeStrategyAbiFromPool(pool),
-      pool?.prizeStrategy?.id,
+      t(`completeAwardPoolName`, { poolName: pool.name }),
+      PrizeStrategyAbi,
+      pool.prizeStrategy.address,
       'completeAward',
       params,
-      refetchAllPoolData
+      refetchPoolChainData
     )
   }
 
   return (
     <>
-      {pool?.canCompleteAward && (
+      {pool.prize.canCompleteAward && (
         <>
           <Button
             text='green'

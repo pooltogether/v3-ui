@@ -58,9 +58,9 @@ export const PoolShow = (props) => {
     e.preventDefault()
 
     Cookies.set(WIZARD_REFERRER_HREF, '/pools/[symbol]', COOKIE_OPTIONS)
-    Cookies.set(WIZARD_REFERRER_AS_PATH, `/pools/${pool.prizePool.symbol}`, COOKIE_OPTIONS)
+    Cookies.set(WIZARD_REFERRER_AS_PATH, `/pools/${pool.symbol}`, COOKIE_OPTIONS)
 
-    router.push(`/pools/[symbol]/deposit`, `/pools/${pool.prizePool.symbol}/deposit`, {
+    router.push(`/pools/[symbol]/deposit`, `/pools/${pool.symbol}/deposit`, {
       shallow: true
     })
   }
@@ -151,7 +151,7 @@ export const PoolShow = (props) => {
           {({ data, isFetching, isFetched }) => {
             return (
               <PrizePlayerListing
-                baseAsPath={`/pools/${pool?.symbol}`}
+                baseAsPath={`/pools/${pool.symbol}`}
                 baseHref='/pools/[symbol]'
                 isFetching={isFetching}
                 isFetched={isFetched}

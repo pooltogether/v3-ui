@@ -18,14 +18,13 @@ export function RevokePoolAllowanceTxButton(props) {
   const { t } = useTranslation()
 
   const { pool } = props
-  const { data: usersChainData } = useUsersChainData()
-  const { usersTokenAllowance } = usersDataForPool(pool, usersChainData)
-
   const poolAddress = pool.prizePool.address
   const tokenAddress = pool.tokens.underlyingToken.address
-
   const ticker = pool.tokens.underlyingToken.symbol
   const tickerUpcased = ticker.toUpperCase()
+
+  const { data: usersChainData } = useUsersChainData(poolAddress, tokenAddress)
+  const { usersTokenAllowance } = usersDataForPool(pool, usersChainData)
 
   const [txId, setTxId] = useState(0)
 

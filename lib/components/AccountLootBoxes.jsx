@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { LootBoxWon } from 'lib/components/LootBoxWon'
 import { useMultiversionPlayerPrizes } from 'lib/hooks/useMultiversionPlayerPrizes'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
@@ -9,6 +8,7 @@ import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 import { useAllPools } from 'lib/hooks/usePools'
 
+// TODO: FINISH & TTEST this component
 // This component should only show up for the currentUser viewing their own account
 export const AccountLootBoxes = () => {
   const { t } = useTranslation()

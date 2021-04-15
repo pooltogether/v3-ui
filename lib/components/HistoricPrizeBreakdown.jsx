@@ -125,7 +125,7 @@ export const HistoricPrizeBreakdown = (props) => {
                         prize={prize}
                         preAwardPool={preAwardPool}
                         winnersAddress={awardedControlledToken.winner}
-                        poolContract={pool?.contract}
+                        poolContract={pool.contract}
                       />
                     )
                   })}

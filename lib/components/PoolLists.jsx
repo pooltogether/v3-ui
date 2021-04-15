@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/router'
 
@@ -10,7 +10,7 @@ import { Tabs, Tab, ContentPane } from 'lib/components/Tabs'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { PoolsListUILoader } from 'lib/components/loaders/PoolsListUILoader'
-import { useAllPools, useCommunityPools, useGovernancePools } from 'lib/hooks/usePools'
+import { useCommunityPools, useGovernancePools } from 'lib/hooks/usePools'
 
 export const PoolLists = () => {
   const shouldReduceMotion = useReducedMotion()

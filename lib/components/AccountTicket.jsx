@@ -30,12 +30,11 @@ export const AccountTicket = (props) => {
 
   const shouldReduceMotion = useReducedMotion()
 
-  const { noMargin, isLink, playerTicket } = props
+  const { noMargin, isLink, playerPoolTicketData } = props
   let { href, as } = props
 
-  const { ticket, pool } = playerTicket
+  const { ticket, pool } = playerPoolTicketData
   const { amount, amountUnformatted } = ticket
-
   const decimals = pool.tokens.underlyingToken.decimals
 
   if (!href && !as) {
@@ -70,7 +69,6 @@ export const AccountTicket = (props) => {
   return (
     <>
       <motion.div
-        // id={`_account${pool?.name}Ticket`}
         onClick={handleManageClick}
         key={`account-pool-ticket-${pool.prizePool.poolAddress}`}
         className={classnames('relative ticket bg-no-repeat text-xxxs xs:text-xs', {
@@ -144,7 +142,7 @@ export const AccountTicket = (props) => {
                       className='font-bold text-flashy'
                       usersBalance={amountUnformatted.toString()}
                       ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
-                      decimals={pool.tokens.ticket.decimals}
+                      decimals={decimals}
                       numberOfWinners={pool.config.numberOfWinners}
                     />
                   </>
