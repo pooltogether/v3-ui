@@ -43,9 +43,6 @@ export const AccountWinnings = () => {
 
   const awardKeys = !isEmpty(awarded) ? Object.keys(awarded) : []
 
-  // TODO: We should calculate all of the ERC20s someone won, their value on the day it was awarded
-  // as well as the interest prizes!
-
   return (
     <>
       <h5 className='font-normal text-accent-2 mt-16 mb-4'>
