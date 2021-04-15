@@ -36,10 +36,12 @@ export function ConfirmWithdrawWithFeeForm(props) {
 
   const { usersAddress, provider } = useContext(AuthControllerContext)
 
-  const ticker = pool?.underlyingCollateralSymbol
-  const decimals = pool?.underlyingCollateralDecimals
-  const poolAddress = pool?.poolAddress
-  const controlledTicketTokenAddress = pool?.ticket?.id
+  const underlyingToken = pool.tokens.underlyingToken
+  const ticker = underlyingToken.symbol
+  const decimals = underlyingToken.decimals
+
+  const poolAddress = pool.prizePool.address
+  const controlledTicketTokenAddress = pool.tokens.ticket.address
 
   const tickerUpcased = ticker?.toUpperCase()
 

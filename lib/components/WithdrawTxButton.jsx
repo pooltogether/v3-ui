@@ -19,8 +19,8 @@ export function WithdrawTxButton(props) {
   const { usersAddress, provider } = useContext(AuthControllerContext)
   const { data: pool } = useCurrentPool()
 
-  const poolAddress = pool?.poolAddress
-  const sponsorshipAddress = pool?.sponsorshipToken?.id
+  const poolAddress = pool.prizePool.address
+  const sponsorshipAddress = pool.tokens.sponsorship.address
 
   const quantityFormatted = numberWithCommas(quantity)
 

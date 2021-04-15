@@ -5,7 +5,6 @@ import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { useCurrentPool } from 'lib/hooks/usePools'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
@@ -15,23 +14,21 @@ import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
-import { usePlayerTicketsByPool } from 'lib/hooks/useAllPlayerTickets'
 
 export function WithdrawTicketsForm(props) {
+  const { nextStep, pool, playerPoolTicketData } = props
+
   const { t } = useTranslation()
-
-  const { nextStep } = props
-
+  const { usersAddress } = useContext(AuthControllerContext)
   const router = useRouter()
 
-  const { usersAddress } = useContext(AuthControllerContext)
-  const { data: pool } = useCurrentPool()
+  const playerTicket = playerPoolTicketData?.ticket
+  const amount = playerTicket?.amount
+  const amountUnformatted = playerTicket?.amountUnformatted
 
-  const { amount, amountUnformatted } = usePlayerTicketsByPool(pool.prizePool.address, usersAddress)
-
-  const ticker = pool?.underlyingCollateralSymbol
-  const decimals = pool?.underlyingCollateralDecimals
-  const tickerUpcased = ticker?.toUpperCase()
+  const underlyingToken = pool.tokens.underlyingToken
+  const ticker = underlyingToken.symbol
+  const decimals = underlyingToken.decimals
 
   const { handleSubmit, register, errors, formState, watch, setValue } = useForm({
     mode: 'all',
@@ -97,7 +94,7 @@ export function WithdrawTicketsForm(props) {
                   }}
                 >
                   <img src={TicketIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
-                  {numberWithCommas(amount, { precision: 2 })} {tickerUpcased}
+                  {numberWithCommas(amount, { precision: 2 })} {ticker}
                 </button>
               </>
             )
@@ -124,7 +121,7 @@ export function WithdrawTicketsForm(props) {
               >
                 <WithdrawOdds
                   pool={pool}
-                  usersTicketBalanceBN={amountUnformatted}
+                  usersTicketBalanceUnformatted={amountUnformatted}
                   withdrawAmount={watchQuantity}
                 />
               </div>

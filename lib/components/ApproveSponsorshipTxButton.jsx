@@ -8,18 +8,17 @@ import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { usePoolBySymbol } from 'lib/hooks/usePools'
+import { useCurrentPool, usePoolBySymbol } from 'lib/hooks/usePools'
 
 export function ApproveSponsorshipTxButton(props) {
   const { t } = useTranslation()
 
   const { decimals, disabled, needsApproval, tickerUpcased } = props
 
-  // TODO: Makes no sense
-  const { pool } = usePoolBySymbol('PT-cDAI')
+  const { data: pool } = useCurrentPool()
 
-  const poolAddress = pool?.poolAddress
-  const tokenAddress = pool?.underlyingCollateralToken
+  const poolAddress = pool.prizePool.address
+  const tokenAddress = pool.tokens.underlyingToken.address
 
   const [txId, setTxId] = useState(0)
   const txName = t(`allowTickerPoolSponsorship`, { ticker: tickerUpcased })

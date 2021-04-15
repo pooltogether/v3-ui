@@ -26,13 +26,16 @@ export function DepositOrWithdrawSponsorshipModal(props) {
   const { usersAddress } = useContext(AuthControllerContext)
 
   const { data: pool } = useCurrentPool()
-  const { data: usersChainData } = useUsersChainData()
+  const { data: usersChainData } = useUsersChainData(
+    pool.prizePool.address,
+    pool.underlyingToken.address
+  )
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { sponsorship } = usePlayerTicketsByPool(pool, address)
+  const { sponsorship } = usePlayerTicketsByPool(pool.prizePool.address, address)
 
   const { register, errors, watch, setValue } = useForm({
     mode: 'all',

@@ -15,7 +15,7 @@ export const DepositExpectationsWarning = (props) => {
 
   /// @return creditLimitMantissa The credit limit fraction
   //          This number is used to calculate both the credit limit and early exit fee.
-  const creditLimitMantissa = pool?.tokenCreditRates?.[0]?.creditLimitMantissa
+  const creditLimitMantissa = pool.config.tokenCreditRates[0].creditLimitMantissa
   if (!creditLimitMantissa) {
     return null
   }
@@ -24,7 +24,7 @@ export const DepositExpectationsWarning = (props) => {
   const percent = ethers.utils.formatEther(creditLimitMantissaBN.mul(100)) || '-'
 
   /// @return creditRateMantissa The credit rate. This is the amount of tokens that accrue per second
-  const creditRateMantissaBN = bn(pool?.tokenCreditRates?.[0]?.creditRateMantissa)
+  const creditRateMantissaBN = bn(pool.config.tokenCreditRates[0].creditRateMantissa)
   const durationInSecondsBN = creditLimitMantissaBN.div(creditRateMantissaBN)
   const days = durationInSecondsBN.toNumber() / SECONDS_PER_DAY
 

@@ -21,9 +21,9 @@ export function DepositSponsorshipTxButton(props) {
 
   const { data: pool } = useCurrentPool()
 
-  const poolAddress = pool?.poolAddress
+  const poolAddress = pool.prizePool.poolAddress
 
-  const controlledSponsorshipTokenAddress = pool?.sponsorshipToken?.id
+  const controlledSponsorshipTokenAddress = pool.tokens.sponsorship.address
   const quantityFormatted = numberWithCommas(quantity)
 
   const txName = t(`depositAmountTickerToSponsorship`, {

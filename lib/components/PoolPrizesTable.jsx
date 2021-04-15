@@ -24,7 +24,7 @@ export const PoolPrizesTable = (props) => {
   const { pool } = props
 
   const { data: prizes, page, pages, isFetched: prizePoolsIsFetched } = usePaginatedPastPrizes(pool)
-  const baseAsPath = `/prizes/${pool?.symbol}`
+  const baseAsPath = `/prizes/${pool.symbol}`
   const baseHref = '/prizes/[symbol]'
 
   if (!prizePoolsIsFetched || !pool) {
@@ -43,7 +43,7 @@ export const PoolPrizesTable = (props) => {
             {t('thereAreNoPrizesYet')}
             {/* There are no prizes for this pool yet. */}
           </div>
-          <ButtonLink secondary href='/pools/[symbol]/manage' as={`/pools/${pool?.symbol}/manage`}>
+          <ButtonLink secondary href='/pools/[symbol]/manage' as={`/pools/${pool.symbol}/manage`}>
             {t('managePool')}
           </ButtonLink>
         </BlankStateMessage>

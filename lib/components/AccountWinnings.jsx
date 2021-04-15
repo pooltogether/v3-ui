@@ -31,14 +31,14 @@ export const AccountWinnings = () => {
   const awarded = {}
   awardedControlledTokens.forEach((awardedControlledToken) => {
     const pool = awardedControlledToken.prize.prizePool
-    const award = awarded[pool.id] || { total: ethers.BigNumber.from(0) }
+    const award = awarded[pool.prizePool.address] || { total: ethers.BigNumber.from(0) }
     const amount = ethers.BigNumber.from(awardedControlledToken.amount)
 
-    award.ticker = pool.underlyingCollateralSymbol
-    award.decimals = pool.underlyingCollateralDecimals
+    award.ticker = pool.tokens.underlyingToken.symbol
+    award.decimals = pool.tokens.underlyingToken.decimals
     award.total = award.total.gt(0) ? award.total.add(amount) : amount
 
-    awarded[pool.id] = award
+    awarded[pool.prizePool.address] = award
   })
 
   const awardKeys = !isEmpty(awarded) ? Object.keys(awarded) : []

@@ -14,11 +14,10 @@ export const AllPoolsTotalAwarded = (props) => {
 
   let cumulativePrizeNetAllPools = ethers.BigNumber.from(0)
   pools?.forEach((_pool) => {
-    if (_pool.cumulativePrizeNet) {
-      const decimals = _pool?.underlyingCollateralDecimals
-
-      const cumulativePrizeNetForPool = normalizeTo18Decimals(_pool.cumulativePrizeNet, decimals)
-
+    const cumulativePrizeNet = _pool.prize.cumulativePrizeNet
+    if (cumulativePrizeNet) {
+      const decimals = _pool.tokens.underlyingToken.decimals
+      const cumulativePrizeNetForPool = normalizeTo18Decimals(cumulativePrizeNet, decimals)
       cumulativePrizeNetAllPools = cumulativePrizeNetAllPools.add(cumulativePrizeNetForPool)
     }
   })

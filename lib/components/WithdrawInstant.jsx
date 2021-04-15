@@ -43,7 +43,7 @@ export function WithdrawInstant(props) {
           exitFees={exitFees}
         />
       ) : (
-        <ConfirmWithdrawNoFee nextStep={nextStep} previousStep={previousStep} />
+        <ConfirmWithdrawNoFee pool={pool} nextStep={nextStep} previousStep={previousStep} />
       )}
     </>
   )

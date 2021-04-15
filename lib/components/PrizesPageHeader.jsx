@@ -22,8 +22,8 @@ export const PrizesPageHeader = (props) => {
           },
           {
             href: '/pools/[symbol]',
-            as: `/pools/${pool?.symbol}`,
-            name: pool?.name
+            as: `/pools/${pool.symbol}`,
+            name: pool.name
           },
           {
             name: t('prizes')
@@ -40,8 +40,8 @@ export const PrizesPageHeader = (props) => {
                 address={pool.tokens.underlyingToken.address}
               />{' '}
               <div className='mt-1'>
-                <Link href='/prizes/[symbol]' as={`/prizes/${pool?.symbol}`}>
-                  <a>{pool?.name}</a>
+                <Link href='/prizes/[symbol]' as={`/prizes/${pool.symbol}`}>
+                  <a>{pool.name}</a>
                 </Link>
               </div>
             </div>

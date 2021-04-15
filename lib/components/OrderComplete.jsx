@@ -28,7 +28,7 @@ export function OrderComplete(props) {
 
   const { data: pool } = useCurrentPool()
 
-  const decimals = pool?.underlyingCollateralDecimals
+  const decimals = pool.tkoens.underlyingToken.decimals
   if (prevBalance) {
     prevBalance = ethers.utils.formatUnits(prevBalance, decimals || 18)
   }
@@ -87,8 +87,8 @@ export function OrderComplete(props) {
               basic
               showPoolIcon
               textSize='xxxs'
-              tokenAddress={pool?.ticketToken?.id}
-              tokenDecimals={pool?.underlyingCollateralDecimals}
+              tokenAddress={pool.tokens.ticket.address}
+              tokenDecimals={pool.tokens.ticket.decimals}
               tokenSymbol={symbolForMetaMask}
             />
           </div>
@@ -98,7 +98,7 @@ export function OrderComplete(props) {
           <div className='mt-4'>
             {t('youNowHaveAmountTicketsInTheTickerPool', {
               amount: numberWithCommas(Number(prevBalance) + Number(quantity)),
-              ticker: pool?.underlyingCollateralSymbol
+              ticker: pool.tokens.underlyingToken.symbol
             })}
           </div>
           <div className='mb-6'>

@@ -38,7 +38,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
     })
   }
 
-  if (pool?.numberOfWinners <= 1) {
+  if (pool.config.numberOfWinners <= 1) {
     strategyDescriptionBasic = t('prizeGivenToASingleWinner')
   }
 

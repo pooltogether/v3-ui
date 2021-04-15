@@ -9,16 +9,17 @@ import { useAllPlayerTickets } from 'lib/hooks/useAllPlayerTickets'
 import { useCurrentPool } from 'lib/hooks/usePools'
 
 export function ManageTicketsForm(props) {
+  const { nextStep } = props
+
   const { t } = useTranslation()
-
   const { usersAddress } = useContext(AuthControllerContext)
-
   const { data: pool } = useCurrentPool()
-
   const [action, setAction] = useState(STRINGS.withdraw)
 
   const { data: playerTickets } = useAllPlayerTickets(usersAddress)
-  const playerTicket = playerTickets?.find((playerTicket) => playerTicket.pool.id === pool?.id)
+  const playerPoolTicketData = playerTickets?.find(
+    (playerPoolTicketData) => playerPoolTicketData.poolAddress === pool.prizePool.address
+  )
 
   return (
     <>
@@ -31,11 +32,13 @@ export function ManageTicketsForm(props) {
       </div>
 
       <div className='mx-auto mt-4 mb-8 xs:mb-12'>
-        <AccountTicket
-          noMargin
-          key={`account-pool-row-${pool?.poolAddress}`}
-          playerTicket={playerTicket}
-        />
+        {playerPoolTicketData && (
+          <AccountTicket
+            noMargin
+            key={`account-pool-row-${pool.prizePool.address}`}
+            playerPoolTicketData={playerPoolTicketData}
+          />
+        )}
       </div>
 
       {/* <DropdownInputGroup
@@ -56,7 +59,11 @@ export function ManageTicketsForm(props) {
       {action === STRINGS.withdraw && (
         <>
           <h6 className='text-accent-1'>{t('withdraw')}</h6>
-          <WithdrawTicketsForm {...props} />
+          <WithdrawTicketsForm
+            nextStep={nextStep}
+            pool={pool}
+            playerPoolTicketData={playerPoolTicketData}
+          />
         </>
       )}
     </>

@@ -33,20 +33,22 @@ export const ManageUI = (props) => {
     return <IndexUILoader />
   }
 
-  const decimals = pool?.underlyingCollateralDecimals
-  const tickerUpcased = pool?.underlyingCollateralSymbol?.toUpperCase()
+  const underlyingToken = pool.tokens.underlyingToken
+  const decimals = underlyingToken.decimals
+  const tickerUpcased = underlyingToken.symbol
 
-  const isRngCompleted = pool?.isRngCompleted
-  const isRngRequested = pool?.isRngRequested
-  const canStartAward = pool?.canStartAward
-  const canCompleteAward = pool?.canCompleteAward
+  const prize = pool.prize
+  const isRngCompleted = prize.isRngCompleted
+  const isRngRequested = prize.isRngRequested
+  const canStartAward = prize.canStartAward
+  const canCompleteAward = prize.canCompleteAward
 
   const poolLocked = canCompleteAward || (isRngRequested && !canCompleteAward)
   const openPhase = !canStartAward && !canCompleteAward && !isRngRequested
 
   return (
     <>
-      <Meta title={pool?.name && `${t('manage')} - ${pool.name}`} />
+      <Meta title={`${t('manage')} - ${pool.name}`} />
 
       <PageTitleAndBreadcrumbs
         title={`Pool Management`}
@@ -59,8 +61,8 @@ export const ManageUI = (props) => {
           },
           {
             href: '/pools/[symbol]',
-            as: `/pools/${pool?.symbol}`,
-            name: pool?.name
+            as: `/pools/${pool.symbol}`,
+            name: pool.name
           },
           {
             name: t('manage')
@@ -165,30 +167,26 @@ export const ManageUI = (props) => {
         usersAddress={usersAddress}
       />
 
-      {pool && !isEmpty(pool) && (
-        <>
-          <CardGrid
-            cardGroupId='manage-pool-cards'
-            cards={[
-              {
-                icon: null,
-                title: t('prizePeriodInSeconds'),
-                content: <h3>{numberWithCommas(pool?.prizePeriodSeconds, { precision: 0 })}</h3>
-              },
-              {
-                icon: null,
-                title: t('sponsorship'),
-                content: (
-                  <h3>
-                    {displayAmountInEther(pool?.totalSponsorship, { decimals, precision: 0 })}{' '}
-                    {tickerUpcased}
-                  </h3>
-                )
-              }
-            ]}
-          />
-        </>
-      )}
+      <CardGrid
+        cardGroupId='manage-pool-cards'
+        cards={[
+          {
+            icon: null,
+            title: t('prizePeriodInSeconds'),
+            content: <h3>{numberWithCommas(pool.config.prizePeriodSeconds, { precision: 0 })}</h3>
+          },
+          {
+            icon: null,
+            title: t('sponsorship'),
+            content: (
+              <h3>
+                {numberWithCommas(pool.tickets.sponsorship.amount, { decimals: 0 })}
+                {tickerUpcased}
+              </h3>
+            )
+          }
+        ]}
+      />
 
       <Tagline />
     </>

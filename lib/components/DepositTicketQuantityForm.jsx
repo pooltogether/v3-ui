@@ -15,7 +15,6 @@ import { DepositPaneTitle } from 'lib/components/DepositPaneTitle'
 import { NoMoreTicketsPane } from 'lib/components/NoMoreTicketsPane'
 import { Odds } from 'lib/components/Odds'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
-import { WyreTopUpBalanceDropdown } from 'lib/components/WyreTopUpBalanceDropdown'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
@@ -36,7 +35,10 @@ export function DepositTicketQuantityForm(props) {
   const { usersAddress } = useContext(AuthControllerContext)
 
   const { data: pool } = useCurrentPool()
-  const { data: usersChainData } = useUsersChainData()
+  const { data: usersChainData } = useUsersChainData(
+    pool.prizePool.address,
+    pool.tokens.underlyingToken.address
+  )
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
@@ -46,13 +48,14 @@ export function DepositTicketQuantityForm(props) {
   const amount = ticket?.amount
   const amountUnformatted = ticket?.amountUnformatted
 
-  const liquidityCap = pool?.liquidityCap ? bn(pool?.liquidityCap) : bn(0)
+  const liquidityCap = bn(pool.config.liquidityCap)
   let remainingTickets
   if (liquidityCap.gt(0)) {
-    remainingTickets = liquidityCap.sub(pool.ticketSupply).div(ethers.constants.WeiPerEther)
+    remainingTickets = liquidityCap
+      .sub(pool.tokens.ticket.totalSupplyUnformatted)
+      .div(ethers.constants.WeiPerEther)
   }
-
-  const ticker = pool?.underlyingCollateralSymbol
+  const ticker = pool.tokens.underlyingToken.symbol
   const tickerUpcased = ticker?.toUpperCase()
 
   const { handleSubmit, register, errors, formState, watch, setValue } = useForm({
