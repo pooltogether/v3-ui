@@ -67,7 +67,6 @@ export function DepositOrWithdrawSponsorshipModal(props) {
   let contextualBalanceBN = usersTokenBalanceBN
   let contextualBalance = usersTokenBalance
   let validate = null
-  debugger
   if (isWithdraw) {
     contextualBalance = sponsorship?.amount
     contextualBalanceBN = sponsorship?.amountUnformatted
