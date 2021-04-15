@@ -102,7 +102,7 @@ export function ExecuteCryptoDeposit(props) {
 
       <Banner
         gradient={null}
-        className='bg-primary mt-4 sm:mt-2 mx-auto w-full text-accent-1'
+        className='bg-primary mt-4 sm:mt-8 mx-auto w-full text-accent-1 text-xxs sm:text-sm'
         style={{ maxWidth: 380 }}
       >
         <img className='mx-auto mb-3 h-16' src={IconStar} />

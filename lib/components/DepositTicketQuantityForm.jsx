@@ -211,7 +211,7 @@ export function DepositTicketQuantityForm(props) {
         <div className='odds-box'>
           <Banner
             gradient={null}
-            className='bg-primary mt-4 sm:mt-12 mx-auto w-full'
+            className='bg-primary mt-4 sm:mt-8 mx-auto w-full'
             style={{ maxWidth: 380 }}
           >
             <img className='mx-auto mb-3 h-16' src={IconTarget} />

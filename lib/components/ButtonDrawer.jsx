@@ -6,7 +6,7 @@ export function ButtonDrawer(props) {
 
   return (
     <>
-      <div className='hidden sm:flex items-center justify-between mt-12 sm:mt-2 w-full'>
+      <div className='hidden sm:flex items-center justify-between mt-12 sm:mt-0 w-full'>
         {children}
       </div>
 
