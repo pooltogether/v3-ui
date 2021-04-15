@@ -1,17 +1,16 @@
 import React from 'react'
 import classnames from 'classnames'
-import { Trans, useTranslation } from 'lib/../i18n'
-
-import SablierSvg from 'assets/images/sablier.svg'
-import { getMaxPrecision, getMinPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
-import { secondsSinceEpoch } from 'lib/utils/secondsSinceEpoch'
 import { ethers } from 'ethers'
-import { getDateFromSeconds } from 'lib/utils/getDateFromSeconds'
-import { Erc20Image } from 'lib/components/Erc20Image'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
-import { shorten } from 'lib/utils/shorten'
+
+import { useTranslation } from 'lib/../i18n'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { Erc20Image } from 'lib/components/Erc20Image'
 import { Tooltip } from 'lib/components/Tooltip'
+import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
+import { getDateFromSeconds } from 'lib/utils/getDateFromSeconds'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { secondsSinceEpoch } from 'lib/utils/secondsSinceEpoch'
+import { shorten } from 'lib/utils/shorten'
 
 export const SablierStreamCard = (props) => {
   const { pool } = props
@@ -34,12 +33,13 @@ export const SablierStreamCard = (props) => {
       id='sablier-card'
       className='non-interactable-card my-4 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
-      <h3>{t('prizeStream')}</h3>
-      <div className='flex mb-4'>
-        <Erc20Image address={address} className='my-auto' />
+      <h3 className=''>{t('prizeStream')}</h3>
+
+      <div className='flex items-center'>
+        <Erc20Image address={address} />
         <h6>{name}</h6>
         <EtherscanAddressLink
-          className='text-accent-1 trans hover:text-inverse ml-4 mt-auto mb-2'
+          className='text-accent-1 trans hover:text-inverse ml-4'
           address={address}
         >
           ({shorten(address)})
@@ -47,33 +47,23 @@ export const SablierStreamCard = (props) => {
       </div>
 
       <div className='flex flex-col xs:flex-row justify-between mt-6'>
-        <div className='flex mb-2 xs:mb-0'>
-          <h5 className='leading-none'>
-            <PoolNumber>
-              {numberWithCommas(amountPerPrizePeriod, {
-                precision: getMinPrecision(amountPerPrizePeriod)
-              })}
-            </PoolNumber>
+        <div className='flex items-baseline mb-2 xs:mb-0'>
+          <h5>
+            <PoolNumber>{numberWithCommas(amountPerPrizePeriod)}</PoolNumber>
           </h5>
-          <span className='ml-2 mt-auto'>{t('tokenEveryPrize', { token: symbol })}</span>
+          <span className='ml-2'>{t('tokenEveryPrize', { token: symbol })}</span>
         </div>
 
-        <div className='flex mb-2 xs:mb-0'>
-          <h5 className='leading-none'>
-            <PoolNumber>
-              {numberWithCommas(amount, {
-                precision: getMinPrecision(amount)
-              })}
-            </PoolNumber>
+        <div className='flex items-baseline mb-2 xs:mb-0'>
+          <h5>
+            <PoolNumber>{numberWithCommas(amount)}</PoolNumber>
           </h5>
-          <span className='ml-2 mt-auto'>{t('tokenInTotal', { token: symbol })}</span>
+          <span className='ml-2'>{t('tokenInTotal', { token: symbol })}</span>
         </div>
 
-        <div className='flex'>
-          <h5 className='leading-none'>
-            {numberWithCommas(prizesToBeStreamedTo.toString(), { precision: 0 })}
-          </h5>
-          <span className='ml-2 mt-auto lowercase'>{t('prizes')}</span>
+        <div className='flex items-baseline'>
+          <h5>{prizesToBeStreamedTo.toString()}</h5>
+          <span className='ml-2 lowercase'>{t('prizes')}</span>
         </div>
       </div>
 

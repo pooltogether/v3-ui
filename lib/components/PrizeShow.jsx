@@ -1,11 +1,8 @@
 import React from 'react'
-import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
 
-import TicketsIcon from 'assets/images/icon-ticket@2x.png'
 import { useTranslation } from 'lib/../i18n'
 import { CardGrid } from 'lib/components/CardGrid'
-import { LootBoxTable, PrizeShowLootBoxTable } from 'lib/components/LootBoxTable'
+import { PrizeShowLootBoxTable } from 'lib/components/LootBoxTable'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
@@ -15,10 +12,12 @@ import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { Tagline } from 'lib/components/Tagline'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
+import TicketsIcon from 'assets/images/icon-ticket@2x.png'
+
 export function PrizeShow(props) {
   const { t } = useTranslation()
 
-  const { pool, preAwardPool, postAwardPool, prize } = props
+  const { pool, preAwardPool, prize } = props
 
   const prizeNumber = prize.id
   const poolName = pool.name
