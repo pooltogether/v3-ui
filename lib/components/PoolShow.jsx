@@ -33,7 +33,7 @@ import { PoolStats } from 'lib/components/PoolStats'
 import { usePoolBySymbol } from 'lib/hooks/usePools'
 
 import Bell from 'assets/images/bell-yellow@2x.png'
-import { PoolCharts } from 'lib/components/PoolCharts'
+import { PoolChartsCard } from 'lib/components/PoolChartsCard'
 import { PastWinnersCard } from 'lib/components/PastWinnersCard'
 import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
@@ -143,7 +143,7 @@ export const PoolShow = (props) => {
 
         <PoolStats pool={pool} />
 
-        <PoolCharts pool={pool} />
+        <PoolChartsCard pool={pool} />
 
         <PastWinnersCard pool={pool} />
 

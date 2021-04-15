@@ -9,7 +9,7 @@ export function Card(props) {
     <div className={classnames(className, 'w-full px-4')}>
       <div
         className={classnames(
-          'non-interactable-card mb-2 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg',
+          'non-interactable-card py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg',
           {
             'card-min-height-desktop': !noMinHeight
           }
@@ -25,10 +25,10 @@ export function Card(props) {
 }
 
 export function CardGrid(props) {
-  const { cards, cardGroupId } = props
+  const { cards, cardGroupId, className } = props
 
   return (
-    <div className='flex flex-col sm:flex-row sm:flex-wrap -mx-4'>
+    <div className={classnames('flex flex-col sm:flex-row sm:flex-wrap -mx-4', className)}>
       {cards.map((card, index) => {
         return (
           <Card

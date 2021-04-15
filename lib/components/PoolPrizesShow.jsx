@@ -15,7 +15,11 @@ export const PoolPrizesShow = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const { data: pool } = useCurrentPool()
+  const { data: pool, isFetched } = useCurrentPool()
+
+  if (!isFetched) {
+    return null
+  }
 
   const querySymbol = router.query?.symbol
 

@@ -6,9 +6,17 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
 import { Tooltip } from 'lib/components/Tooltip'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { usePastPrizes } from 'lib/hooks/usePastPrizes'
+import { CHART_PRIZE_PAGE_SIZE } from 'lib/constants'
 
-export const PoolCharts = (props) => {
+export const PoolChartsCard = (props) => {
   const { pool } = props
+
+  const { data: prizes, isFetched } = usePastPrizes(pool, 1, CHART_PRIZE_PAGE_SIZE)
+
+  if (!isFetched) return null
+
+  if (prizes.length < MIN_NUMBER_OF_POINTS) return null
 
   return (
     <Card>
@@ -16,6 +24,8 @@ export const PoolCharts = (props) => {
     </Card>
   )
 }
+
+const MIN_NUMBER_OF_POINTS = 2
 
 const DepositsAndPrizesCharts = (props) => {
   const { pool } = props
@@ -27,7 +37,7 @@ const DepositsAndPrizesCharts = (props) => {
 
   return (
     <div className='text-inverse p-4 bg-card h-full sm:h-auto rounded-none sm:rounded-xl mx-auto flex flex-col sm:flex-row'>
-      <div className='mb-4 w-full'>
+      <div className='w-full'>
         <div className='flex'>
           <h5>{t('historicDeposits')}</h5>
           <Tooltip

@@ -71,6 +71,7 @@ export function PrizeShow(props) {
       <PrizeShowLootBoxTable historical prize={prize} poolSymbol={poolSymbol} />
 
       <CardGrid
+        className='my-4'
         cardGroupId='prize-cards'
         cards={[
           {
