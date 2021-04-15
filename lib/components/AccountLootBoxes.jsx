@@ -7,18 +7,31 @@ import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 
 import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 import { useAllPools } from 'lib/hooks/usePools'
+import { useRouter } from 'next/router'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 
-// TODO: FINISH & TTEST this component
 // This component should only show up for the currentUser viewing their own account
 export const AccountLootBoxes = () => {
+  const { usersAddress } = useContext(AuthControllerContext)
+  const router = useRouter()
+  const playerAddress = router?.query?.playerAddress
+
+  // Don't show component for other users
+  // if (playerAddress) {
+  //   return null
+  // }
+
+  // return <AccountLootBoxesView usersAddress={usersAddress} />
+  return <AccountLootBoxesView usersAddress={playerAddress} />
+}
+
+export const AccountLootBoxesView = (props) => {
   const { t } = useTranslation()
 
   const { contractAddresses } = useContractAddresses()
   const { data: pools } = useAllPools()
 
-  // const { usersAddress } = useContext(AuthControllerContext)
-
-  const usersAddress = '0x80845058350b8c3df5c3015d8a717d64b3bf9267'
+  const { usersAddress } = props
 
   const { data } = useMultiversionPlayerPrizes(usersAddress)
 
@@ -29,8 +42,10 @@ export const AccountLootBoxes = () => {
   )
 
   lootBoxesWon = lootBoxesWon.filter((lootBoxWon) =>
-    pools.find((_pool) => _pool.id === lootBoxWon.prize.prizePool.id)
+    pools.find((_pool) => _pool.prizePool.address === lootBoxWon.prize.prizePool.id)
   )
+
+  console.log(data, lootBoxesWon)
 
   if (lootBoxesWon.length === 0) {
     return null

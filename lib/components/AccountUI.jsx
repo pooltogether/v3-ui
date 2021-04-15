@@ -17,6 +17,7 @@ import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { shorten } from 'lib/utils/shorten'
 import { testAddress } from 'lib/utils/testAddress'
 import { AccountRewards } from 'lib/components/AccountRewards'
+import { AccountLootBoxes } from 'lib/components/AccountLootBoxes'
 
 export const isSelfAtom = atom(false)
 
