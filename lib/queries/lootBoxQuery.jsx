@@ -24,38 +24,66 @@ export const lootBoxQuery = (number) => {
   `
 }
 
-export const lootBoxesQuery = (prizes) => {
+export const getLootBoxQueryAlias = (id) => `lootBox_${id}`
+
+export const lootBoxesQuery = (lootBoxAddress, prizes) => {
   const querySelections = []
+
   prizes.forEach((prize) => {
     const lootBox = prize.lootBox
     if (lootBox.id) {
-      const selection = QUERY_TEMPLATE
-      selection.replace('__alias__', `${lootBox.id}`)
-      selection.replace('__address__', `${lootBox.address}`)
-      selection.replace('__tokenId__', `${lootBox.id}`)
-      selection.replace('__blockNumber__', `${prize.awardedBlock - 1}`)
+      let selection = QUERY_TEMPLATE
+      selection = selection.replace('__alias__', getLootBoxQueryAlias(lootBox.id))
+      selection = selection.replace('__address__', `"${lootBoxAddress}"`)
+      selection = selection.replace('__tokenId__', `${lootBox.id}`)
+      selection = selection.replace('__blockNumber__', `${prize.awardedBlock - 1}`)
       querySelections.push(selection)
     }
   })
 
   return gql`
-    query lootBoxQuery() {
-      ${querySelections.join(',')}
+    query {
+      ${querySelections.join('\n')}
     }
-    ${lootBoxFragment}
   `
 }
 
-const QUERY_TEMPLATE = `__alias__: lootBoxes( where: { erc721: __address__, tokenId: __tokenId__ } , block: { number: __blockNumber__}) {
-  ...lootBoxFragment
-}`
+const QUERY_TEMPLATE = `__alias__: lootBoxes( where: { erc721: __address__, tokenId: __tokenId__ }, block: { number: __blockNumber__ }) {
+  id
+  erc721
+  tokenId
 
-const _getBlockFilter = (blockNumber) => {
-  let blockFilter = ''
+  erc20Balances {
+    id
+    balance
 
-  if (Number(blockNumber) > 0) {
-    blockFilter = `, block: { number: ${blockNumber} }`
+    erc20Entity {
+      id
+      name
+      symbol
+      decimals
+    }
   }
 
-  return blockFilter
-}
+  erc721Tokens {
+    id
+    tokenId
+
+    erc721Entity {
+      id
+      isLootBox
+      name
+      uri
+    }
+  }
+  
+  erc1155Balances {
+    id
+    balance
+    tokenId
+
+    erc1155Entity {
+      id
+    }
+  }
+}`
