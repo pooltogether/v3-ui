@@ -11,7 +11,6 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { SmallLoader } from 'lib/components/loaders/SmallLoader'
 import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
 import { useAllPlayerTickets, usePlayerTotalDepositValue } from 'lib/hooks/useAllPlayerTickets'
-import { useUsersV2Balances } from 'lib/hooks/useUsersV2Balances'
 import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
 import { numberWithCommas, getPrecision } from 'lib/utils/numberWithCommas'
@@ -30,43 +29,10 @@ export const AccountSummary = () => {
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
 
-  const { usersV2Balances } = useUsersV2Balances(address)
-
   const { data: totalTicketValues, isFetched: playerTicketsIsFetched } = usePlayerTotalDepositValue(
     address
   )
   const totalValueUsd = totalTicketValues?.totalValueUsd
-
-  // TODO: Fix v2 tickets
-  // // Add v2 values
-  // const daiBalances = {
-  //   poolBalance: usersV2Balances?.v2DaiPoolCommittedBalance,
-  //   podBalance: usersV2Balances?.v2DaiPodCommittedBalance,
-  //   podSharesBalance: usersV2Balances?.v2DaiPodSharesBalance
-  // }
-  // const usdcBalances = {
-  //   poolBalance: usersV2Balances?.v2UsdcPoolCommittedBalance,
-  //   podBalance: usersV2Balances?.v2UsdcPodCommittedBalance,
-  //   podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance
-  // }
-  // let totalTicketsNormalized = ethers.utils.parseUnits(totalValueUsd || '0', 18)
-  // if (daiBalances.poolBalance) {
-  //   const normalizedDaiPoolBalance = normalizeTo18Decimals(daiBalances.poolBalance, 18)
-  //   totalTicketsNormalized = totalTicketsNormalized.add(normalizedDaiPoolBalance)
-
-  //   const normalizedDaiPodBalance = normalizeTo18Decimals(daiBalances.podBalance, 18)
-  //   totalTicketsNormalized = totalTicketsNormalized.add(normalizedDaiPodBalance)
-
-  //   const normalizedUsdcPoolBalance = normalizeTo18Decimals(usdcBalances.poolBalance, 6)
-  //   totalTicketsNormalized = totalTicketsNormalized.add(normalizedUsdcPoolBalance)
-
-  //   const normalizedUsdcPodBalance = normalizeTo18Decimals(usdcBalances.podBalance, 6)
-  //   totalTicketsNormalized = totalTicketsNormalized.add(normalizedUsdcPodBalance)
-  // }
-
-  // const totalTicketsFormatted = numberWithCommas(
-  //   ethers.utils.formatUnits(totalTicketsNormalized, 18)
-  // )
 
   return (
     <div

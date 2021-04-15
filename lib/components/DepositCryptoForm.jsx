@@ -135,7 +135,7 @@ export function DepositCryptoForm(props) {
     <>
       <DepositPaneTitle ticker={tickerUpcased} pool={pool} />
 
-      <div className='pool-gradient-2 text-white w-full text-center mx-auto my-4 sm:my-8 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-xl lg:text-2xl'>
+      <div className='pool-gradient-2 text-white w-full text-center mx-auto my-0 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-xl lg:text-2xl'>
         <span className='mr-4'>{t('yourDeposit')}</span>
         <PoolNumber>{numberWithCommas(quantity)}</PoolNumber> {tickerUpcased}
       </div>
@@ -192,11 +192,11 @@ export function DepositCryptoForm(props) {
           </>
         ) : (
           <>
-            <div className='text-inverse mb-4 text-lg w-full'>
+            <div className='text-inverse text-lg w-full'>
               {needsApproval && (
                 <>
                   <div
-                    className='text-sm mb-6 px-6 sm:px-10'
+                    className='text-sm px-6 sm:px-10'
                     style={{
                       minHeight: 97
                     }}
@@ -224,13 +224,11 @@ export function DepositCryptoForm(props) {
                       </>
                     )}
 
-                    <div className='flex flex-col mt-4'>
-                      <TxStatus
-                        tx={tx}
-                        inWalletMessage={t('confirmApprovalInWallet')}
-                        sentMessage={t('approvalConfirming')}
-                      />
-                    </div>
+                    <TxStatus
+                      tx={tx}
+                      inWalletMessage={t('confirmApprovalInWallet')}
+                      sentMessage={t('approvalConfirming')}
+                    />
                   </div>
                 </>
               )}

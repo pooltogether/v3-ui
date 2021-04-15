@@ -40,7 +40,7 @@ export function NoMoreTicketsPane(props) {
           </div>
         </PaneTitle>
 
-        <div className='my-6 xs:mt-8 sm:mt-12 p-4 sm:p-6 sm:w-2/3 mx-auto text-xxs xs:text-xs sm:text-base text-white bg-raspberry border-highlight-7 border-2 rounded-sm'>
+        <div className='my-6 xs:mt-8 p-4 sm:p-6 sm:w-2/3 mx-auto text-xxs xs:text-xs sm:text-base text-white bg-raspberry border-highlight-7 border-2 rounded-sm'>
           <p className='font-bold mb-2'>{t('thePoolIsCurrentlyFull')}</p>
 
           <p>{t('noMoreTicketsCanBePurchased')}</p>

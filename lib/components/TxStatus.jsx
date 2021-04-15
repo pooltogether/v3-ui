@@ -48,7 +48,7 @@ export const TxStatus = (props) => {
 
         <Banner gradient={gradient || ''} className='flex flex-col'>
           {txSent && !txCompleted && !txError && (
-            <Loader type='Oval' height={50} width={50} color='#bbb2ce' className='mx-auto mb-4' />
+            <Loader type='Oval' height={40} width={40} color='#bbb2ce' className='mx-auto mb-2' />
           )}
 
           {txCompleted && !txError && (
@@ -65,47 +65,41 @@ export const TxStatus = (props) => {
             />
           )}
 
-          <div className='text-accent-1 text-sm'>{t('transactionStatus')}</div>
-
           {txInWallet && !txError && (
-            <div className='text-sm sm:text-base text-orange font-bold'>
+            <div className='text-xs sm:text-sm text-orange font-bold'>
               {inWalletMessage ? inWalletMessage : t('pleaseConfirmInYourWallet')}
             </div>
           )}
 
           {txSent && (
-            <div className='text-sm sm:text-base text-green font-bold'>
+            <div className='text-xs sm:text-sm text-green font-bold'>
               {sentMessage ? sentMessage : t('transactionSentConfirming')}
             </div>
           )}
 
           {txCompleted && !txError && (
-            <div className='text-green text-sm sm:text-base font-bold'>
+            <div className='text-xs sm:text-sm text-green font-bold'>
               {successMessage ? successMessage : t('transactionSuccessful')}
             </div>
           )}
 
           {txError && (
-            <div className='text-red text-sm sm:text-base font-bold'>
+            <div className='text-xs sm:text-sm text-red font-bold'>
               {errorMessage ? errorMessage : t('transactionFailed')}
             </div>
           )}
 
           {tx.hash && (
-            <div className='text-xxs sm:text-sm text-accent-1 opacity-80 mt-2'>
+            <div className='text-xxs sm:text-xs text-accent-1 opacity-60'>
               {t('transactionHash')}
-              <EtherscanTxLink
-                chainId={chainId}
-                hash={tx.hash}
-                className='underline text-accent-1 opacity-80'
-              >
+              <EtherscanTxLink chainId={chainId} hash={tx.hash} className='underline text-accent-1'>
                 {shorten(tx.hash)}
               </EtherscanTxLink>
             </div>
           )}
 
           {showExtraMessage && (
-            <div className='text-xxs sm:text-sm text-accent-4 mt-2'>
+            <div className='text-xxs sm:text-xs text-accent-4'>
               {t('transactionsMayTakeAFewMinutes')}
             </div>
           )}
