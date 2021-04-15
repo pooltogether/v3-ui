@@ -87,7 +87,7 @@ export function ExecuteCryptoDeposit(props) {
     <>
       <DepositPaneTitle ticker={tickerUpcased} pool={pool} />
 
-      <div className='pool-gradient-2 text-accent-1 w-full text-center mx-auto my-4 sm:mt-8 sm:mb-2 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-xl lg:text-2xl'>
+      <div className='pool-gradient-2 text-accent-1 w-full text-center mx-auto mb-4 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-xl lg:text-2xl'>
         <span className='mr-4'>{t('depositing')}</span>
         <PoolNumber>{numberWithCommas(quantity)}</PoolNumber> {tickerUpcased}
       </div>
@@ -102,7 +102,7 @@ export function ExecuteCryptoDeposit(props) {
 
       <Banner
         gradient={null}
-        className='bg-primary mt-4 sm:mt-8 mx-auto w-full text-accent-1 text-xxs sm:text-sm'
+        className='bg-primary mt-2 mx-auto w-full text-accent-1 text-xxs sm:text-sm'
         style={{ maxWidth: 380 }}
       >
         <img className='mx-auto mb-3 h-16' src={IconStar} />

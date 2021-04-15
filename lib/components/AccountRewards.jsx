@@ -168,7 +168,6 @@ export const AccountRewards = () => {
       disabled = true
     }
 
-    // TODO: Handle multiple claims at once
     if (tx && !tx.completed && activeTxDripIds.includes(dripData.id)) {
       return (
         <>

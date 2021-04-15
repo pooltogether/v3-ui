@@ -8,11 +8,11 @@ export function PaneTitle(props) {
   }
 
   let fontClasses = 'text-lg sm:text-xl text-inverse font-bold'
-  let spacingClasses = 'pb-2 xs:pb-4'
+  let spacingClasses = 'mb-2 xs:mb-4'
 
   if (small) {
     fontClasses = 'text-xxs xs:text-sm sm:text-lg  text-inverse font-bold'
-    spacingClasses = 'pb-2'
+    spacingClasses = 'mb-2'
   }
 
   return (
