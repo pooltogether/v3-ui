@@ -16,8 +16,6 @@ export const PoolChartsCard = (props) => {
 
   if (!isFetched || !prizes || prizes?.length < MIN_NUMBER_OF_POINTS) return null
 
-  console.log(prizes, pool)
-
   return (
     <Card>
       <DepositsAndPrizesCharts pool={pool} />

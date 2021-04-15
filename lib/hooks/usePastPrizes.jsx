@@ -59,8 +59,6 @@ export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
 
   const data = formatAndCalculatePrizeValues(prizes, tokenPrices, pool?.tokens?.underlyingToken)
 
-  // console.log('Prize', data)
-
   return {
     data,
     isFetched,
@@ -104,8 +102,6 @@ export const usePastPrize = (pool, prizeNumber) => {
 
   const isFetched = prizeData.isFetched && tokenPricesData.isFetched
   const isFetching = prizeData.isFetching && tokenPricesData.isFetching
-
-  // console.log('Prize', data?.[0])
 
   return { data: data?.[0], isFetched, isFetching }
 }
@@ -159,8 +155,6 @@ const populateCaches = (chainId, poolAddress, queryClient, prizes) => {
  */
 const getErc20AddressesByBlockNumberFromPrizes = (prizes, underlyingTokenAddress) => {
   if (!prizes || prizes.filter(Boolean).length === 0) return null
-
-  console.log(prizes)
 
   const addresses = {}
   prizes.forEach((prize) => {
