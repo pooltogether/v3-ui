@@ -79,7 +79,7 @@ export function Layout(props) {
 
       <AnimatePresence>{manage && <ManageTicketsWizardContainer {...props} />}</AnimatePresence>
 
-      {/* <ClaimRetroactivePoolWizardContainer /> */}
+      <ClaimRetroactivePoolWizardContainer />
 
       <WrongNetworkModal />
 
@@ -110,9 +110,9 @@ export function Layout(props) {
                 <NetworkText openTransactions={openTransactions} />
               )}
 
-              {/* <NavPoolBalance /> */}
+              <NavPoolBalance />
 
-              {/* {usersAddress && (
+              {usersAddress && (
                 <>
                   <NavAccount
                     openTransactions={openTransactions}
@@ -120,7 +120,7 @@ export function Layout(props) {
                     showTransactionsDialog={showTransactionsDialog}
                   />
                 </>
-              )} */}
+              )}
 
               {/* this pushes the lang picker and settings gear onto it's own roll on mobile/tablet */}
               <div className='w-full sm:hidden'></div>
