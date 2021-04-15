@@ -135,7 +135,7 @@ export function DepositCryptoForm(props) {
     <>
       <DepositPaneTitle ticker={tickerUpcased} pool={pool} />
 
-      <div className='pool-gradient-2 text-white w-full text-center mx-auto my-0 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-xl lg:text-2xl'>
+      <div className='pool-gradient-2 text-white w-full text-center mx-auto mb-4 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-xl lg:text-2xl'>
         <span className='mr-4'>{t('yourDeposit')}</span>
         <PoolNumber>{numberWithCommas(quantity)}</PoolNumber> {tickerUpcased}
       </div>
