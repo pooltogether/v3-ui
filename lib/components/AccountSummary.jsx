@@ -37,35 +37,36 @@ export const AccountSummary = () => {
   )
   const totalValueUsd = totalTicketValues?.totalValueUsd
 
-  // Add v2 values
-  const daiBalances = {
-    poolBalance: usersV2Balances?.v2DaiPoolCommittedBalance,
-    podBalance: usersV2Balances?.v2DaiPodCommittedBalance,
-    podSharesBalance: usersV2Balances?.v2DaiPodSharesBalance
-  }
-  const usdcBalances = {
-    poolBalance: usersV2Balances?.v2UsdcPoolCommittedBalance,
-    podBalance: usersV2Balances?.v2UsdcPodCommittedBalance,
-    podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance
-  }
-  let totalTicketsNormalized = ethers.utils.parseUnits(totalValueUsd || '0', 18)
-  if (daiBalances.poolBalance) {
-    const normalizedDaiPoolBalance = normalizeTo18Decimals(daiBalances.poolBalance, 18)
-    totalTicketsNormalized = totalTicketsNormalized.add(normalizedDaiPoolBalance)
+  // TODO: Fix v2 tickets
+  // // Add v2 values
+  // const daiBalances = {
+  //   poolBalance: usersV2Balances?.v2DaiPoolCommittedBalance,
+  //   podBalance: usersV2Balances?.v2DaiPodCommittedBalance,
+  //   podSharesBalance: usersV2Balances?.v2DaiPodSharesBalance
+  // }
+  // const usdcBalances = {
+  //   poolBalance: usersV2Balances?.v2UsdcPoolCommittedBalance,
+  //   podBalance: usersV2Balances?.v2UsdcPodCommittedBalance,
+  //   podSharesBalance: usersV2Balances?.v2UsdcPodSharesBalance
+  // }
+  // let totalTicketsNormalized = ethers.utils.parseUnits(totalValueUsd || '0', 18)
+  // if (daiBalances.poolBalance) {
+  //   const normalizedDaiPoolBalance = normalizeTo18Decimals(daiBalances.poolBalance, 18)
+  //   totalTicketsNormalized = totalTicketsNormalized.add(normalizedDaiPoolBalance)
 
-    const normalizedDaiPodBalance = normalizeTo18Decimals(daiBalances.podBalance, 18)
-    totalTicketsNormalized = totalTicketsNormalized.add(normalizedDaiPodBalance)
+  //   const normalizedDaiPodBalance = normalizeTo18Decimals(daiBalances.podBalance, 18)
+  //   totalTicketsNormalized = totalTicketsNormalized.add(normalizedDaiPodBalance)
 
-    const normalizedUsdcPoolBalance = normalizeTo18Decimals(usdcBalances.poolBalance, 6)
-    totalTicketsNormalized = totalTicketsNormalized.add(normalizedUsdcPoolBalance)
+  //   const normalizedUsdcPoolBalance = normalizeTo18Decimals(usdcBalances.poolBalance, 6)
+  //   totalTicketsNormalized = totalTicketsNormalized.add(normalizedUsdcPoolBalance)
 
-    const normalizedUsdcPodBalance = normalizeTo18Decimals(usdcBalances.podBalance, 6)
-    totalTicketsNormalized = totalTicketsNormalized.add(normalizedUsdcPodBalance)
-  }
+  //   const normalizedUsdcPodBalance = normalizeTo18Decimals(usdcBalances.podBalance, 6)
+  //   totalTicketsNormalized = totalTicketsNormalized.add(normalizedUsdcPodBalance)
+  // }
 
-  const totalTicketsFormatted = numberWithCommas(
-    ethers.utils.formatUnits(totalTicketsNormalized, 18)
-  )
+  // const totalTicketsFormatted = numberWithCommas(
+  //   ethers.utils.formatUnits(totalTicketsNormalized, 18)
+  // )
 
   return (
     <div
@@ -83,8 +84,7 @@ export const AccountSummary = () => {
           <h1>
             {playerTicketsIsFetched ? (
               <>
-                $
-                <PoolNumber>{numberWithCommas(totalTicketsFormatted, { precision: 2 })}</PoolNumber>
+                $<PoolNumber>{numberWithCommas(totalValueUsd, { precision: 2 })}</PoolNumber>
               </>
             ) : (
               <SmallLoader />

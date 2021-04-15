@@ -19,8 +19,9 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
 import { usePoolBySymbol } from 'lib/hooks/usePools'
-import { getMinPrecision, getPrecision } from 'lib/utils/numberWithCommas'
+import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 import { stringWithPrecision } from 'lib/utils/stringWithPrecision'
+import { PoolNumber } from 'lib/components/PoolNumber'
 
 export const AccountTicket = (props) => {
   const { t } = useTranslation()
@@ -109,13 +110,7 @@ export const AccountTicket = (props) => {
           <div className='flex items-center w-3/4'>
             <div className='flex flex-col justify-start w-full pl-6 pt-4 xs:pl-10 xs:pt-6 leading-none'>
               <div className='text-xl xs:text-4xl font-bold text-inverse-purple'>
-                <PoolCountUp
-                  fontSansRegular
-                  end={stringWithPrecision(amount, {
-                    precision: getMinPrecision(amount)
-                  })}
-                  duration={0.5}
-                />
+                <PoolNumber>{numberWithCommas(amount)}</PoolNumber>
               </div>
 
               <div className='mt-2'>

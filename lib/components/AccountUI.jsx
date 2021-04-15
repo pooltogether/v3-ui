@@ -4,8 +4,6 @@ import { atom, useAtom } from 'jotai'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { AccountLootBoxes } from 'lib/components/AccountLootBoxes'
-import { AccountRewards } from 'lib/components/AccountRewards'
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountTickets } from 'lib/components/AccountTickets'
 import { AccountWinnings } from 'lib/components/AccountWinnings'
