@@ -160,11 +160,14 @@ const populateCaches = (chainId, poolAddress, queryClient, prizes) => {
 const getErc20AddressesByBlockNumberFromPrizes = (prizes, underlyingTokenAddress) => {
   if (!prizes || prizes.filter(Boolean).length === 0) return null
 
+  console.log(prizes)
+
   const addresses = {}
   prizes.forEach((prize) => {
     const tokenAddresses = new Set([underlyingTokenAddress])
     const blockNumber = prize.awardedBlock
     prize.awardedExternalErc20Tokens.forEach((token) => tokenAddresses.add(token.address))
+    prize.lootBox?.erc20Tokens?.forEach((token) => tokenAddresses.add(token.address))
     addresses[blockNumber] = [...tokenAddresses]
   })
 
@@ -194,6 +197,8 @@ const formatAndCalculatePrizeValues = (prizes, tokenPrices, underlyingToken) => 
  */
 const formatAndCalculatePrizeValue = (_prize, tokenPrices, underlyingToken) => {
   const prize = { ..._prize, id: extractPrizeNumberFromPrize(_prize) }
+
+  // Yield
   const yieldPrizeUnformatted = addBigNumbers(
     prize.awardedControlledTokens.map((token) => ethers.BigNumber.from(token.amount))
   )
@@ -205,6 +210,7 @@ const formatAndCalculatePrizeValue = (_prize, tokenPrices, underlyingToken) => {
   )
   prize.yield = yieldValues
 
+  // External ERC20 prizes
   prize.awardedExternalErc20Tokens = prize.awardedExternalErc20Tokens.map((token) => {
     const tokenPrice = tokenPrices[token.address]
     const tokenUsd = tokenPrice?.usd || '0'
@@ -225,9 +231,31 @@ const formatAndCalculatePrizeValue = (_prize, tokenPrices, underlyingToken) => {
   prize.external = { totalValueUsdScaled: addBigNumbers(externalErc20UsdValuesScaled) }
   prize.external.totalValueUsd = ethers.utils.formatUnits(prize.external.totalValueUsdScaled, 2)
 
+  // LootBox
+  if (prize.lootBox?.id) {
+    prize.lootBox.erc20Tokens = prize.lootBox.erc20Tokens.map((token) => {
+      const tokenPrice = tokenPrices[token.address]
+      const tokenUsd = tokenPrice?.usd || '0'
+      const tokenValues = calculateTokenValues(token.amountUnformatted, tokenUsd, token.decimals)
+      return {
+        ...token,
+        ...tokenValues
+      }
+    })
+
+    const lootBoxErc20UsdValuesScaled = prize.lootBox.erc20Tokens.map(
+      (token) => token.totalValueUsdScaled
+    )
+    prize.lootBox.totalValueUsdScaled = addBigNumbers(lootBoxErc20UsdValuesScaled)
+    prize.lootBox.totalValueUsd = ethers.utils.formatUnits(prize.lootBox.totalValueUsdScaled, 2)
+  }
+
   prize.totalValueUsdScaled = prize.external.totalValueUsdScaled.add(
     prize.yield.totalValueUsdScaled
   )
+  if (prize.lootBox?.id) {
+    prize.totalValueUsdScaled = prize.totalValueUsdScaled.add(prize.lootBox.totalValueUsdScaled)
+  }
   prize.totalValueUsd = ethers.utils.formatUnits(prize.totalValueUsdScaled, 2)
 
   return prize
