@@ -72,7 +72,7 @@ export const AccountUI = () => {
 
           <AccountRewards />
 
-          {/* <AccountLootBoxes /> */}
+          <AccountLootBoxes />
 
           <AccountWinnings />
 

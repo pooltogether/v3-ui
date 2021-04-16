@@ -7,42 +7,58 @@ import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { LootBoxValue } from 'lib/components/LootBoxValue'
 import { PlunderLootBoxTxButton } from 'lib/components/PlunderLootBoxTxButton'
 import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
 import { useEthereumErc1155Query } from 'lib/hooks/useEthereumErc1155Query'
-import { usePools } from 'lib/hooks/usePools'
+import { usePoolByAddress, usePools } from 'lib/hooks/usePools'
 import { useReadProvider } from 'lib/hooks/useReadProvider'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
+import { usePastPrize } from 'lib/hooks/usePastPrizes'
+import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 
-// TODO: I think we should only show LootBox awards here and not external (top-level) ones
-// Instead we should say "Any other tokens that were in the lootbox have automatically
-// been sent to you"
+export const LootBoxWon = (props) => {
+  const { lootBox } = props
+
+  const prizeNumber = extractPrizeNumberFromPrize(lootBox.prize)
+  const prizePooladdress = lootBox.prize.prizePool.id
+
+  const { data: pool, isFetched: poolIsFetched } = usePoolByAddress(prizePooladdress)
+  const { data: prize, isFetched: prizeIsFetched } = usePastPrize(pool, prizeNumber)
+
+  if (!poolIsFetched || !prizeIsFetched) {
+    return (
+      <div className='flex w-ful justify-center'>
+        <V3LoadingDots />
+      </div>
+    )
+  }
+
+  return (
+    <LootBoxWonTable lootBox={prize?.lootBox} pool={pool} prizeNumber={prizeNumber} prize={prize} />
+  )
+}
+
 const LootBoxWonTable = (props) => {
   const { t } = useTranslation()
 
-  const { prizeNumber, pool, prize } = props
+  const { lootBox, prizeNumber, pool, prize } = props
+  const computedAddress = lootBox.computedAddress
 
-  if (!pool || !pool.lootBox) {
-    return null
-  }
+  // const { awards, lootBoxAwards, computedLootBoxAddress } = pool.lootBox || {}
 
-  const { awards, lootBoxAwards, computedLootBoxAddress } = pool.lootBox || {}
-
-  const lootBoxErc20s = lootBoxAwards.erc20s.map((award) => ({ address: award.erc20Entity.id }))
-
-  const lootBoxErc721s = lootBoxAwards.erc721s.map((award) => ({
+  const lootBoxErc20s = lootBox.erc20Tokens.map((award) => ({ address: award.address }))
+  const lootBoxErc721s = lootBox.erc721Tokens.map((award) => ({
     address: award.erc721Entity.id,
     tokenIds: [award.tokenId]
   }))
-
-  const lootBoxErc1155s = lootBoxAwards.erc1155s.map((award) => ({
+  const lootBoxErc1155s = lootBox.erc1155Tokens.map((award) => ({
     address: award.erc1155Entity.id,
     tokenIds: [award.tokenId]
   }))
+
   const { readProvider } = useReadProvider()
 
   const {
@@ -53,7 +69,7 @@ const LootBoxWonTable = (props) => {
   } = useEthereumErc20Query({
     provider: readProvider,
     graphErc20Awards: lootBoxErc20s,
-    balanceOfAddress: computedLootBoxAddress
+    balanceOfAddress: computedAddress
   })
 
   const {
@@ -64,7 +80,7 @@ const LootBoxWonTable = (props) => {
   } = useEthereumErc721Query({
     provider: readProvider,
     graphErc721Awards: lootBoxErc721s,
-    balanceOfAddress: computedLootBoxAddress
+    balanceOfAddress: computedAddress
   })
 
   const {
@@ -75,7 +91,7 @@ const LootBoxWonTable = (props) => {
   } = useEthereumErc1155Query({
     provider: readProvider,
     erc1155Awards: lootBoxErc1155s,
-    balanceOfAddress: computedLootBoxAddress
+    balanceOfAddress: computedAddress
   })
 
   if (erc20Error) {
@@ -91,6 +107,14 @@ const LootBoxWonTable = (props) => {
   const isFetching = erc20IsFetching || erc721IsFetching || erc1155IsFetching
   const isFetched = erc20IsFetched || erc721IsFetched || erc1155IsFetched
 
+  if (!isFetched) {
+    return (
+      <div className='flex w-ful justify-center'>
+        <V3LoadingDots />
+      </div>
+    )
+  }
+
   let lootBoxBalanceTotal = ethers.BigNumber.from(0)
   let lootBoxErc1155BalanceTotal = ethers.BigNumber.from(0)
 
@@ -102,7 +126,7 @@ const LootBoxWonTable = (props) => {
   if (erc721Tokens) {
     lootBoxErc721s.forEach((erc721) => {
       const award = erc721Tokens[erc721.address]
-      if (award?.ownerOf === computedLootBoxAddress) {
+      if (award?.ownerOf === computedAddress) {
         alreadyClaimed = false
       }
     })
@@ -123,7 +147,11 @@ const LootBoxWonTable = (props) => {
         })}
       </h6>
 
-      <LootBoxValue awards={awards} />
+      <h3 className='mb-1'>
+        $<PoolNumber>{numberWithCommas(lootBox.totalValueUsd, { precision: 2 })}</PoolNumber>{' '}
+        {t('value')}
+      </h3>
+
       <span className='text-caption'>
         {prize?.awardedTimestamp && (
           <>
@@ -133,7 +161,7 @@ const LootBoxWonTable = (props) => {
             })}
             ,{' '}
             <div className='inline-block ml-1 relative' style={{ top: -2 }}>
-              <PoolCurrencyIcon xs pool={pool} />
+              <PoolCurrencyIcon xs symbol={pool.tokens.underlyingToken.symbol} />
             </div>{' '}
             {t('tickerPool', {
               ticker: pool?.underlyingCollateralSymbol?.toUpperCase()
@@ -147,14 +175,14 @@ const LootBoxWonTable = (props) => {
           <BeatLoader size={10} color='rgba(255,255,255,0.3)' />
         ) : (
           <PlunderLootBoxTxButton
-            pool={pool}
+            lootBox={lootBox}
             alreadyClaimed={alreadyClaimed}
             prizeNumber={prizeNumber}
           />
         )}
       </div>
 
-      {awards.length > 0 && (
+      {lootBox.erc20Tokens.length > 0 && (
         <>
           <div className='text-inverse rounded-lg p-0 xs:pb-3 mb-4'>
             <table className='table-fixed text-xxxs xs:text-xxs sm:text-sm align-top'>
@@ -163,7 +191,7 @@ const LootBoxWonTable = (props) => {
                   <th className='w-6/12' style={{ paddingBottom: 0 }}>
                     <h6 className='text-green text-left'>
                       {t('amountTokens', {
-                        amount: awards.length
+                        amount: lootBox.erc20Tokens.length
                       })}
                     </h6>
                   </th>
@@ -172,20 +200,20 @@ const LootBoxWonTable = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {awards.map((award, index) => {
-                  const name = award.name
+                {lootBox.erc20Tokens.map((erc20, index) => {
+                  const name = erc20.name
 
                   if (!name) {
                     return
                   }
 
                   return (
-                    <Fragment key={`${award.address}-${index}`}>
+                    <Fragment key={`${erc20.address}-${index}`}>
                       <tr>
                         <td className='flex items-center text-left font-bold'>
-                          <Erc20Image address={award.address} />{' '}
+                          <Erc20Image address={erc20.address} />{' '}
                           <EtherscanAddressLink
-                            address={award.address}
+                            address={erc20.address}
                             className='text-inverse truncate'
                           >
                             {name}
@@ -193,12 +221,12 @@ const LootBoxWonTable = (props) => {
                         </td>
                         <td className='text-left text-accent-1 truncate'>
                           <PoolNumber>
-                            {numberWithCommas(award.balanceFormatted, { precision: 2 })}
+                            {numberWithCommas(erc20.amount, { precision: 2 })}
                           </PoolNumber>{' '}
-                          {award.symbol}
+                          {erc20.symbol}
                         </td>
                         <td className='font-bold text-right'>
-                          {award.value && `$${numberWithCommas(award.value, { precision: 2 })}`}
+                          {`$${numberWithCommas(erc20.totalValueUsd, { precision: 2 })}`}
                         </td>
                       </tr>
                     </Fragment>
@@ -206,48 +234,10 @@ const LootBoxWonTable = (props) => {
                 })}
               </tbody>
             </table>
-
             <hr />
           </div>
         </>
       )}
     </>
-  )
-}
-
-export const LootBoxWon = (props) => {
-  const { awardedExternalErc721LootBox, pools } = props
-
-  console.log(awardedExternalErc721LootBox)
-  return null
-
-  const prize = awardedExternalErc721LootBox.prize
-  const pool = pools.find((_pool) => _pool.id === prize.prizePool.id)
-
-  // Likely won a test pool that we don't use at all in production
-  if (!pool?.version) {
-    return null
-  }
-
-  const blockNumber = parseInt(prize.awardedBlock, 10)
-  const prizeNumber = extractPrizeNumberFromPrize(prize)
-
-  return (
-    <TimeTravelPool
-      poolSplitExternalErc20Awards={pool?.splitExternalErc20Awards}
-      blockNumber={blockNumber}
-      pool={pool}
-      querySymbol={pool?.symbol}
-      prize={prize}
-    >
-      {({ preAwardTimeTravelPool }) => (
-        <LootBoxWonTable
-          historical
-          pool={preAwardTimeTravelPool}
-          prizeNumber={prizeNumber}
-          prize={prize}
-        />
-      )}
-    </TimeTravelPool>
   )
 }
