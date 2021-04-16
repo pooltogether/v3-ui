@@ -196,7 +196,7 @@ const formatAndCalculatePrizeValue = (_prize, tokenPrices, underlyingToken) => {
   const yieldPrizeUnformatted = addBigNumbers(
     prize.awardedControlledTokens.map((token) => ethers.BigNumber.from(token.amount))
   )
-  const underlyingTokenValueUsd = tokenPrices[underlyingToken.address].usd
+  const underlyingTokenValueUsd = tokenPrices[underlyingToken.address]?.usd || '0'
   const yieldValues = calculateTokenValues(
     yieldPrizeUnformatted,
     underlyingTokenValueUsd,
