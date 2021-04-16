@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { isEmpty, map, find, defaultTo, sum } from 'lodash'
+import { useRouter } from 'next/router'
+import { useAtom } from 'jotai'
 
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
 
@@ -14,7 +16,6 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { ThemedClipLoader } from 'lib/components/loaders/ThemedClipLoader'
 import { usePlayerDrips } from 'lib/hooks/usePlayerDrips'
-import { useCurrentPool } from 'lib/hooks/usePools'
 import { useUsersDripData } from 'lib/hooks/useUsersDripData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
@@ -22,34 +23,28 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { useAllPools, usePoolBySymbol } from 'lib/hooks/usePools'
+import { isSelfAtom } from 'lib/components/AccountUI'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
-import { useRouter } from 'next/router'
 
 export const AccountRewards = () => {
-  const { usersAddress } = useContext(AuthControllerContext)
-  const router = useRouter()
-  const playerAddress = router?.query?.playerAddress
+  const [isSelf] = useAtom(isSelfAtom)
 
-  // Don't show component for other users
-  if (playerAddress) {
+  if (!isSelf) {
     return null
   }
 
-  return <AccountRewardsView address={usersAddress} />
+  return <AccountRewardsView />
 }
 
 export const AccountRewardsView = (props) => {
   const { t } = useTranslation()
+  const { usersAddress: address } = useContext(AuthControllerContext)
 
   const { data: pools } = useAllPools()
 
   // rewards are only supported by the cDAI pool atm
   const { data: pool } = usePoolBySymbol('PT-cDAI')
-
-  // fill this in with a watched address or an address from router params
-  const playerAddress = ''
-  const address = props.address
 
   const { playerDrips } = usePlayerDrips(address)
   const { usersDripData, graphDripData } = useUsersDripData()
