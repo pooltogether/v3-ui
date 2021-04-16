@@ -10,7 +10,7 @@ import { ToastContainer } from 'react-toastify'
 import { ReactQueryDevtools } from 'react-query-devtools'
 import { motion, AnimatePresence } from 'framer-motion'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { Provider } from 'jotai'
+import { Provider as JotaiProvider } from 'jotai'
 
 import {
   HOTKEYS_KEY_MAP,
@@ -56,13 +56,15 @@ import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'
 import 'assets/styles/vx--custom.css'
 
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      ...DEFAULT_QUERY_OPTIONS
-    }
-  }
-})
+export const queryClient = new QueryClient()
+// export const queryClient = new QueryClient({
+//   defaultOptions: {
+//     queries: {
+//       ...DEFAULT_QUERY_OPTIONS
+//     }
+//   }
+// })
+console.log({ queryClient })
 
 if (typeof window !== 'undefined') {
   window.ethers = ethers
@@ -159,7 +161,7 @@ function MyApp({ Component, pageProps, router }) {
       keyMap={HOTKEYS_KEY_MAP}
       className='outline-none focus:outline-none active:outline-none'
     >
-      <Provider>
+      <JotaiProvider>
         <QueryClientProvider client={queryClient}>
           <BodyClasses />
 
@@ -200,7 +202,7 @@ function MyApp({ Component, pageProps, router }) {
             </CustomErrorBoundary>
           </AllContextProviders>
         </QueryClientProvider>
-      </Provider>
+      </JotaiProvider>
     </HotKeys>
   )
 }
