@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import { AnimatePresence, motion, useViewportScroll } from 'framer-motion'
 
-import { SUPPORTED_CHAIN_IDS } from 'lib/constants'
+import { SUPPORTED_NETWORKS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { NavAccount } from 'lib/components/NavAccount'
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
@@ -66,7 +66,7 @@ export function Layout(props) {
   const showingBanner = false
   // const showingBanner = chainId !== 1
 
-  let supportedNetworkNames = SUPPORTED_CHAIN_IDS.map((chainId) => chainIdToNetworkName(chainId))
+  let supportedNetworkNames = SUPPORTED_NETWORKS.map((chainId) => chainIdToNetworkName(chainId))
   supportedNetworkNames = supportedNetworkNames.filter(onlyUnique)
 
   return (

@@ -20,6 +20,6 @@ export function useReadProvider() {
 
   return {
     readProvider: defaultReadProvider,
-    isLoaded: Object.keys(defaultReadProvider).length > 0
+    isLoaded: defaultReadProvider && Object.keys(defaultReadProvider).length > 0
   }
 }

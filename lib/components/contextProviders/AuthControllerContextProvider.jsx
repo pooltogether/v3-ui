@@ -1,14 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
-import { useQueryCache } from 'react-query'
 
-import {
-  COOKIE_OPTIONS,
-  SUPPORTED_CHAIN_IDS,
-  SELECTED_WALLET_COOKIE_KEY,
-  MAGIC_EMAIL
-} from 'lib/constants'
+import { SUPPORTED_NETWORKS, SELECTED_WALLET_COOKIE_KEY, MAGIC_EMAIL } from 'lib/constants'
 import { MagicContext } from 'lib/components/contextProviders/MagicContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
@@ -155,7 +149,7 @@ export function AuthControllerContextProvider(props) {
   }, [onboard])
 
   const networkName = chainIdToNetworkName(chainId)
-  const supportedNetwork = SUPPORTED_CHAIN_IDS.includes(chainId)
+  const supportedNetwork = SUPPORTED_NETWORKS.includes(chainId)
 
   const pauseQueries = !supportedNetwork || changingNetwork
 

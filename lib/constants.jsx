@@ -5,7 +5,11 @@
 import TokenFaucetProxyFactoryMainnet from '@pooltogether/pooltogether-contracts/deployments/mainnet/TokenFaucetProxyFactory.json'
 import TokenFaucetProxyFactoryRinkeby from '@pooltogether/pooltogether-contracts/deployments/rinkeby/TokenFaucetProxyFactory.json'
 
-export const SUPPORTED_CHAIN_IDS = [1, 4, 31337, 1234]
+export const ETHEREUM_NETWORKS = [1, 3, 4, 5, 42]
+export const SUPPORTED_NETWORKS = [1, 4, 137, 80001]
+// TODO: Remove once we have versioning package
+// export const NETWORKS_TO_IGNORE_VERSION_CHECKS = [56, 77, 97, 100, 137, 31337, 80001]
+// export const NETWORKS_WITHOUT_LOGS = [137, 80001]
 
 export const SECONDS_PER_BLOCK = 14
 
