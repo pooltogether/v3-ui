@@ -39,7 +39,7 @@ export function PlunderLootBoxTxButton(props) {
       lootBoxAddress,
       lootBox.id,
       lootBox.erc20Tokens.map((token) => token.address),
-      lootBox.erc721s.map((award) => ({
+      lootBox.erc721Tokens.map((award) => ({
         token: award.erc721Entity.id,
         tokenIds: [award.tokenId]
       })),

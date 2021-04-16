@@ -37,7 +37,9 @@ export const AccountLootBoxesView = (props) => {
             {lootBoxesWon.map((lootBox) => (
               <LootBoxWon key={lootBox.id} lootBox={lootBox} />
             ))}
-            <span className='py-4 text-accent-1'>{t('otherLootBoxTokensHaveBeenSent')}</span>
+            <div className='text-center flex flex-col text-default-soft mt-4 text-xxs'>
+              {t('otherLootBoxTokensHaveBeenSent')}
+            </div>
           </div>
 
           <div className='order-1 xs:order-2 ml-auto'>

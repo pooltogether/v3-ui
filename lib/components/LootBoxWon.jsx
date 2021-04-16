@@ -45,9 +45,11 @@ const LootBoxWonTable = (props) => {
   const { t } = useTranslation()
 
   const { lootBox, prizeNumber, pool, prize } = props
-  const computedAddress = lootBox.computedAddress
+  const computedAddress = lootBox?.computedAddress
 
-  // const { awards, lootBoxAwards, computedLootBoxAddress } = pool.lootBox || {}
+  if (!computedAddress) {
+    return <div>Error resolving lootbox address!</div>
+  }
 
   const lootBoxErc20s = lootBox.erc20Tokens.map((award) => ({ address: award.address }))
   const lootBoxErc721s = lootBox.erc721Tokens.map((award) => ({
