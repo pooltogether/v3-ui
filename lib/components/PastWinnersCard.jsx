@@ -13,7 +13,8 @@ export const PastWinnersCard = (props) => {
   const { t } = useTranslation()
   const { pool } = props
 
-  const { data, error, isFetched } = usePastPrizes(pool, 1)
+  const pageNum = 1
+  const { data, error, isFetched } = usePastPrizes(pool, pageNum)
 
   if (error) {
     console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))
@@ -52,7 +53,7 @@ export const PastWinnersCard = (props) => {
   if (loading) {
     return (
       <Card>
-        <h5 className='mb-4'>Players</h5>
+        <h3 className='mb-4'>{t('pastFiveWinners')}</h3>
         <IndexUILoader />
       </Card>
     )
@@ -88,7 +89,6 @@ export const PastWinnersCard = (props) => {
 
 const PrizesList = (props) => {
   const { prizes, pool } = props
-  const { splitExternalErc20Awards, symbol, id } = pool
 
   return (
     <>

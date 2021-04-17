@@ -32,17 +32,17 @@ export const usePaginatedPastPrizes = (pool, pageSize = PRIZE_PAGE_SIZE) => {
  */
 export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
   const queryClient = useQueryClient()
-  const { pauseQueries } = useContext(AuthControllerContext)
   const chainId = useChainId()
-  const { readProvdier } = useReadProvider()
+  const { pauseQueries } = useContext(AuthControllerContext)
+  const { readProvider, isLoaded: readProviderReady } = useReadProvider()
 
   const poolAddress = pool?.prizePool?.address
 
   const { data: prizes, ...prizeData } = useQuery(
     [QUERY_KEYS.poolPrizesQuery, chainId, poolAddress, page, pageSize],
-    async () => await getPoolPrizesData(chainId, readProvdier, pool?.contract, page, pageSize),
+    async () => await getPoolPrizesData(chainId, readProvider, pool?.contract, page, pageSize),
     {
-      enabled: Boolean(!pauseQueries && poolAddress),
+      enabled: Boolean(!pauseQueries && poolAddress && readProviderReady),
       keepPreviousData: true,
       onSuccess: (data) => populateCaches(chainId, poolAddress, queryClient, data)
     }
