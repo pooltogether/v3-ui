@@ -238,7 +238,7 @@ const ClaimablePoolTokenItem = (props) => {
 
   const ticketTotalSupply = pool.tokens.ticket.totalSupply
   const totalSupplyOfTickets = parseInt(ticketTotalSupply, 10)
-  const usersBalance = ticketData?.amount
+  const usersBalance = ticketData?.amount || 0
 
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
   const dripRatePerSecondNumber = dripRatePerSecond
