@@ -40,7 +40,7 @@ export const PoolPrizesShow = (props) => {
 
   return (
     <>
-      <Meta title={pool.name && `${t('prizes')} - ${pool.name}`} />
+      <Meta title={pool?.name && `${t('prizes')} - ${pool?.name}`} />
 
       <div className='flex justify-between'>
         <PrizesPageHeader pool={pool} />
@@ -51,7 +51,7 @@ export const PoolPrizesShow = (props) => {
             text='green'
             hoverBorder='green'
             onClick={handleGetTicketsClick}
-            disabled={!Boolean(pool.symbol)}
+            disabled={!Boolean(pool?.symbol)}
           >
             {t('deposit')}
           </Button>

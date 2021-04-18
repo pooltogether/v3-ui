@@ -23,6 +23,10 @@ export const PoolPrizesTable = (props) => {
   const { t } = useTranslation()
   const { pool } = props
 
+  if (!pool) {
+    return null
+  }
+
   const { data: prizes, page, pages, isFetched: prizePoolsIsFetched } = usePaginatedPastPrizes(pool)
   const baseAsPath = `/prizes/${pool.symbol}`
   const baseHref = '/prizes/[symbol]'

@@ -179,10 +179,21 @@ const getErc20AddressesByBlockNumberFromPrizes = (prizes, underlyingTokenAddress
  * @param {*} tokenPrices
  */
 const formatAndCalculatePrizeValues = (prizes, tokenPrices, underlyingToken) => {
-  if (!prizes || prizes.filter(Boolean).length === 0 || !tokenPrices) return null
+  if (!prizes || prizes.filter(Boolean).length === 0 || !tokenPrices || !underlyingToken) {
+    return null
+  }
 
   return prizes.map((prize) => {
     const relevantPrices = tokenPrices[prize.awardedBlock]
+
+    // this state can happen when a prize is being awarded
+    // the graph gets messed up for this 5 - 10 minutes
+    // could improve on the fix by not passing the new prize object
+    // that hasn't completed being awarded yet
+    if (!relevantPrices) {
+      return {}
+    }
+
     return formatAndCalculatePrizeValue(prize, relevantPrices, underlyingToken)
   })
 }
@@ -201,7 +212,7 @@ const formatAndCalculatePrizeValue = (_prize, tokenPrices, underlyingToken) => {
   const yieldPrizeUnformatted = addBigNumbers(
     prize.awardedControlledTokens.map((token) => ethers.BigNumber.from(token.amount))
   )
-  const underlyingTokenValueUsd = tokenPrices[underlyingToken.address]?.usd || '0'
+  const underlyingTokenValueUsd = tokenPrices[underlyingToken?.address]?.usd || '0'
   const yieldValues = calculateTokenValues(
     yieldPrizeUnformatted,
     underlyingTokenValueUsd,
