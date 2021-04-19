@@ -1,36 +1,53 @@
 import React, { useContext, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
-import { isEmpty } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { CardGrid } from 'lib/components/CardGrid'
+import { PoolActionsUI } from 'lib/components/PoolActionsUI'
+import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
+import { Tagline } from 'lib/components/Tagline'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Meta } from 'lib/components/Meta'
 import { SponsorshipPane } from 'lib/components/SponsorshipPane'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
-import { useCurrentPool } from 'lib/hooks/usePools'
-
-import { PoolActionsUI } from 'lib/components/PoolActionsUI'
-import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
-import { Tagline } from 'lib/components/Tagline'
-import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { useCurrentPool, useAllPools } from 'lib/hooks/usePools'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { useAllPools } from 'lib/hooks/usePools'
 
 export const ManageUI = (props) => {
   const { t } = useTranslation()
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const { isFetched: poolsDataLoading } = useAllPools()
+  const { isFetched } = useAllPools()
 
   const { contractAddresses } = useContractAddresses()
   const { data: pool } = useCurrentPool()
 
-  if (poolsDataLoading) {
-    return <IndexUILoader />
+  if (!pool || !isFetched) {
+    return (
+      <>
+        <PageTitleAndBreadcrumbs
+          title={`Pool Management`}
+          breadcrumbs={[
+            {
+              href: '/',
+              as: '/',
+              name: t('pools')
+            },
+            {
+              name: '...'
+            },
+            {
+              name: t('manage')
+            }
+          ]}
+        />
+        <div className='mb-16'></div>
+        <IndexUILoader />
+      </>
+    )
   }
 
   const underlyingToken = pool.tokens.underlyingToken
@@ -38,7 +55,6 @@ export const ManageUI = (props) => {
   const tickerUpcased = underlyingToken.symbol
 
   const prize = pool.prize
-  const isRngCompleted = prize.isRngCompleted
   const isRngRequested = prize.isRngRequested
   const canStartAward = prize.canStartAward
   const canCompleteAward = prize.canCompleteAward
@@ -173,15 +189,14 @@ export const ManageUI = (props) => {
           {
             icon: null,
             title: t('prizePeriodInSeconds'),
-            content: <h3>{numberWithCommas(pool.config.prizePeriodSeconds, { precision: 0 })}</h3>
+            content: <h3>{numberWithCommas(pool.config.prizePeriodSeconds)}</h3>
           },
           {
             icon: null,
             title: t('sponsorship'),
             content: (
               <h3>
-                {numberWithCommas(pool.tickets.sponsorship.amount, { decimals: 0 })}
-                {tickerUpcased}
+                {numberWithCommas(pool.tokens.sponsorship.totalSupply)} {tickerUpcased}
               </h3>
             )
           }

@@ -28,7 +28,7 @@ export function DepositOrWithdrawSponsorshipModal(props) {
   const { data: pool } = useCurrentPool()
   const { data: usersChainData } = useUsersChainData(
     pool.prizePool.address,
-    pool.underlyingToken.address
+    pool.tokens.underlyingToken.address
   )
 
   // fill this in with a watched address or an address from router params
