@@ -1,17 +1,18 @@
 import { ethers } from 'ethers'
+import { useRouter } from 'next/router'
+import { useContext } from 'react'
+import { useQuery, useQueryClient } from 'react-query'
+
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PRIZE_PAGE_SIZE } from 'lib/constants'
 import { QUERY_KEYS } from 'lib/constants/queryKeys'
 import { getPoolPrizeData, getPoolPrizesData } from 'lib/fetchers/getPoolPrizesData'
-import { addBigNumbers, calculateTokenValues } from 'lib/fetchers/getPools'
+import { addBigNumbers, calculateTokenValues } from 'lib/utils/poolDataUtils'
 import { useChainId } from 'lib/hooks/useChainId'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { useReadProvider } from 'lib/hooks/useReadProvider'
 import { useTokenPrices } from 'lib/hooks/useTokenPrices'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
-import { useRouter } from 'next/router'
-import { useContext } from 'react'
-import { useQuery, useQueryClient } from 'react-query'
 
 /**
  * Handles reading the page from the router for you!
