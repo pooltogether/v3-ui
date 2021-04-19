@@ -95,6 +95,17 @@ function MyApp({ Component, pageProps, router }) {
     }
   }, [])
 
+  // ChunkLoadErrors happen when someone has the app loaded, then we deploy a
+  // new release, and the user's app points to previous chunks that no longer exist
+  useEffect(() => {
+    window.addEventListener('error', (e) => {
+      console.log(e)
+      if (/Loading chunk [\d]+ failed/.test(e.message)) {
+        window.location.reload()
+      }
+    })
+  }, [])
+
   useEffect(() => {
     const fathomSiteId = process.env.NEXT_JS_FATHOM_SITE_ID
 
