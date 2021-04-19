@@ -326,6 +326,7 @@ const ClaimableAmountCountUp = (props) => {
       start={prevAmount}
       end={amount}
       decimals={getMinPrecision(amount, { additionalDigits: getPrecision(amount) || 2 })}
+      separator=','
       {...countUpProps}
     />
   )

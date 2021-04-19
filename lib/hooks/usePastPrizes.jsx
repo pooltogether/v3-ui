@@ -6,6 +6,7 @@ import { getPoolPrizeData, getPoolPrizesData } from 'lib/fetchers/getPoolPrizesD
 import { addBigNumbers, calculateTokenValues } from 'lib/fetchers/getPools'
 import { useChainId } from 'lib/hooks/useChainId'
 import { useCurrentPool } from 'lib/hooks/usePools'
+import { useReadProvider } from 'lib/hooks/useReadProvider'
 import { useTokenPrices } from 'lib/hooks/useTokenPrices'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { useRouter } from 'next/router'
@@ -31,16 +32,17 @@ export const usePaginatedPastPrizes = (pool, pageSize = PRIZE_PAGE_SIZE) => {
  */
 export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
   const queryClient = useQueryClient()
-  const { pauseQueries } = useContext(AuthControllerContext)
   const chainId = useChainId()
+  const { pauseQueries } = useContext(AuthControllerContext)
+  const { readProvider, isLoaded: readProviderReady } = useReadProvider()
 
   const poolAddress = pool?.prizePool?.address
 
   const { data: prizes, ...prizeData } = useQuery(
     [QUERY_KEYS.poolPrizesQuery, chainId, poolAddress, page, pageSize],
-    async () => await getPoolPrizesData(chainId, pool?.contract, page, pageSize),
+    async () => await getPoolPrizesData(chainId, readProvider, pool?.contract, page, pageSize),
     {
-      enabled: Boolean(!pauseQueries && poolAddress),
+      enabled: Boolean(!pauseQueries && poolAddress && readProviderReady),
       keepPreviousData: true,
       onSuccess: (data) => populateCaches(chainId, poolAddress, queryClient, data)
     }
@@ -80,6 +82,7 @@ export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
 export const usePastPrize = (pool, prizeNumber) => {
   const { pauseQueries } = useContext(AuthControllerContext)
   const chainId = useChainId()
+  const { readProvider, isLoaded: providerIsLoaded } = useReadProvider()
 
   const poolContract = pool?.contract
   const poolAddress = poolContract?.prizePool?.address
@@ -88,10 +91,12 @@ export const usePastPrize = (pool, prizeNumber) => {
   const { data: prize, ...prizeData } = useQuery(
     getPrizeQueryKey(chainId, poolAddress, prizeNumber),
     async () => {
-      return getPoolPrizeData(chainId, poolContract, prizeNumber)
+      return getPoolPrizeData(chainId, readProvider, poolContract, prizeNumber)
     },
     {
-      enabled: Boolean(!pauseQueries && poolAddress && prizeNumber && underlyingToken)
+      enabled: Boolean(
+        !pauseQueries && poolAddress && prizeNumber && underlyingToken && providerIsLoaded
+      )
     }
   )
 
@@ -196,7 +201,7 @@ const formatAndCalculatePrizeValue = (_prize, tokenPrices, underlyingToken) => {
   const yieldPrizeUnformatted = addBigNumbers(
     prize.awardedControlledTokens.map((token) => ethers.BigNumber.from(token.amount))
   )
-  const underlyingTokenValueUsd = tokenPrices[underlyingToken.address].usd
+  const underlyingTokenValueUsd = tokenPrices[underlyingToken.address]?.usd || '0'
   const yieldValues = calculateTokenValues(
     yieldPrizeUnformatted,
     underlyingTokenValueUsd,
