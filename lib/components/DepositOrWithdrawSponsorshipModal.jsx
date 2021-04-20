@@ -15,7 +15,7 @@ import { Modal } from 'lib/components/Modal'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
-import { usePlayerTicketsByPool } from 'lib/hooks/useAllPlayerTickets'
+import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
 
 export function DepositOrWithdrawSponsorshipModal(props) {
   const { t } = useTranslation()
@@ -35,7 +35,7 @@ export function DepositOrWithdrawSponsorshipModal(props) {
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { sponsorship } = usePlayerTicketsByPool(pool.prizePool.address, address)
+  const { sponsorship } = useUserTicketsByPool(pool.prizePool.address, address)
 
   const { register, errors, watch, setValue } = useForm({
     mode: 'all',

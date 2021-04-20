@@ -1,11 +1,22 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
-import { useUserTickets } from 'lib/hooks/useUserTickets'
+import { useUserTickets, useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import {
+  useAllPools,
+  useAllPoolsFlattened,
+  useCommunityPools,
+  useGovernancePools
+} from 'lib/hooks/usePools'
+import { getPool, getPoolsByChainId, getPoolsByChainIds } from 'lib/fetchers/getPools'
 
 export default function TestPage(props) {
   const { usersAddress } = useContext(AuthControllerContext)
-  useUserTickets(usersAddress)
+  const { data } = useCommunityPools()
+
+  useEffect(() => {
+    console.log(data)
+  }, [data])
 
   return null
 }

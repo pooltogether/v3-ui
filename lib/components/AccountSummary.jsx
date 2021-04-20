@@ -8,7 +8,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { SmallLoader } from 'lib/components/loaders/SmallLoader'
-import { usePlayerTotalDepositValue } from 'lib/hooks/useAllPlayerTickets'
+import { usePlayerTotalDepositValue } from 'lib/hooks/useUserTickets'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'

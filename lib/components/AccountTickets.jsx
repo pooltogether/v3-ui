@@ -7,9 +7,9 @@ import { AccountTicket } from 'lib/components/AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { TicketsUILoader } from 'lib/components/loaders/TicketsUILoader'
-import { useAllPlayerTickets } from 'lib/hooks/useAllPlayerTickets'
 
 import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
+import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 
 export const AccountTickets = () => {
   const { t } = useTranslation()
@@ -20,7 +20,9 @@ export const AccountTickets = () => {
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
 
-  const { data: playerTickets, isFetched: playerTicketsIsFetched } = useAllPlayerTickets(address)
+  const { data: playerTickets, isFetched: playerTicketsIsFetched } = useUserTicketsFormattedByPool(
+    address
+  )
 
   return (
     <div className='mt-8 xs:mt-16'>

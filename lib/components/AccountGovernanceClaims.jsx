@@ -21,7 +21,6 @@ import { ThemedClipLoader } from 'lib/components/loaders/ThemedClipLoader'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
 import { useClaimablePoolFromTokenFaucets } from 'lib/hooks/useClaimablePoolFromTokenFaucets'
-import { useAllPlayerTickets } from 'lib/hooks/useAllPlayerTickets'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { displayPercentage } from 'lib/utils/displayPercentage'
@@ -30,6 +29,7 @@ import { NETWORK } from 'lib/utils/networks'
 
 import PoolIcon from 'assets/images/pool-icon.svg'
 import { useGovernancePools } from 'lib/hooks/usePools'
+import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 
 export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
@@ -223,7 +223,7 @@ const ClaimablePoolTokenItem = (props) => {
   const { address, pool, refetchAllPoolTokenData } = props
 
   const { t } = useTranslation()
-  const { data: playerTickets } = useAllPlayerTickets(address)
+  const { data: playerTickets } = useUserTicketsFormattedByPool(address)
 
   const tokenFaucetAddress = pool.tokenListener.address
   const { data: claimablePoolData } = useClaimablePoolFromTokenFaucet(tokenFaucetAddress, address)

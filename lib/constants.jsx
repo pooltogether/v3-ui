@@ -46,11 +46,11 @@ export const DEFAULT_INPUT_CLASSES =
   'w-full text-inverse inline-flex items-center justify-between trans'
 
 const domain = process.env.NEXT_JS_DOMAIN_NAME && `.${process.env.NEXT_JS_DOMAIN_NAME}`
-export const COOKIE_OPTIONS = {
+export const COOKIE_OPTIONS = Object.freeze({
   sameSite: 'strict',
   secure: process.env.NEXT_JS_DOMAIN_NAME === 'pooltogether.com',
   domain
-}
+})
 
 export const POOLS = {
   1: {

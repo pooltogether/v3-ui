@@ -11,6 +11,7 @@ import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import PoolIcon from 'assets/images/pool-icon.svg'
+import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 
 export const PoolRowNew = (props) => {
   const { pool } = props
@@ -111,6 +112,7 @@ export const PoolRowNew = (props) => {
             </div>
           </div>
         </div>
+        {chainIdToNetworkName(pool.chainId)}
       </InteractableCard>
     </>
   )

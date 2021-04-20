@@ -18,9 +18,9 @@ import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
+import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
-import { usePlayerTicketsByPool } from 'lib/hooks/useAllPlayerTickets'
 
 const bn = ethers.BigNumber.from
 
@@ -44,7 +44,7 @@ export function DepositTicketQuantityForm(props) {
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { ticket } = usePlayerTicketsByPool(pool.prizePool.address, address)
+  const { ticket } = useUserTicketsByPool(pool.prizePool.address, address)
   const amount = ticket?.amount
   const amountUnformatted = ticket?.amountUnformatted
 

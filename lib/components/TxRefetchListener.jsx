@@ -5,7 +5,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 //
 import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
-import { useAllPlayerTickets } from 'lib/hooks/useAllPlayerTickets'
+import { useUserTickets } from 'lib/hooks/useUserTickets'
 
 const debug = require('debug')('pool-app:TxRefetchListener')
 

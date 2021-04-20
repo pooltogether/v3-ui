@@ -5,8 +5,8 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
-import { useAllPlayerTickets } from 'lib/hooks/useAllPlayerTickets'
 import { useCurrentPool } from 'lib/hooks/usePools'
+import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 
 export function ManageTicketsForm(props) {
   const { nextStep } = props
@@ -15,7 +15,7 @@ export function ManageTicketsForm(props) {
   const { usersAddress } = useContext(AuthControllerContext)
   const [action, setAction] = useState(STRINGS.withdraw)
   const { data: pool } = useCurrentPool()
-  const { data: playerTickets } = useAllPlayerTickets(usersAddress)
+  const { data: playerTickets } = useUserTicketsFormattedByPool(usersAddress)
 
   if (!pool) return null
 

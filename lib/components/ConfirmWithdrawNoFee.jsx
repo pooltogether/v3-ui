@@ -15,8 +15,7 @@ import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { useCurrentPool } from 'lib/hooks/usePools'
-import { usePlayerTicketsByPool } from 'lib/hooks/useAllPlayerTickets'
+import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
 
 export function ConfirmWithdrawNoFee(props) {
   const { t } = useTranslation()
@@ -32,7 +31,7 @@ export function ConfirmWithdrawNoFee(props) {
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { ticket } = usePlayerTicketsByPool(pool.prizePool.address, address)
+  const { ticket } = useUserTicketsByPool(pool.prizePool.address, address)
   const amountUnformatted = ticket?.amountUnformatted
 
   const underlyingToken = pool.tokens.underlyingToken
