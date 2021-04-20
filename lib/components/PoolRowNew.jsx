@@ -52,7 +52,7 @@ export const PoolRowNew = (props) => {
     <>
       <InteractableCard
         id={`_view${symbol}Pool`}
-        key={`pool-row-${pool.id}`}
+        key={`pool-row-card-${pool.id}`}
         href='/pools/[symbol]'
         as={`/pools/${symbol}`}
         className='mt-1 sm:mt-2'
