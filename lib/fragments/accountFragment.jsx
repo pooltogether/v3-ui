@@ -13,16 +13,6 @@ export const accountFragment = gql`
         ...controlledTokenFragment
       }
     }
-
-    prizePoolAccounts {
-      id
-      timelockedBalance
-      unlockTimestamp
-
-      prizePool {
-        id
-      }
-    }
   }
   ${controlledTokenFragment}
 `

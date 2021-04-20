@@ -8,7 +8,7 @@ import { PRIZE_PAGE_SIZE } from 'lib/constants'
 import { QUERY_KEYS } from 'lib/constants/queryKeys'
 import { getPoolPrizeData, getPoolPrizesData } from 'lib/fetchers/getPoolPrizesData'
 import { addBigNumbers, calculateTokenValues } from 'lib/utils/poolDataUtils'
-import { useChainId } from 'lib/hooks/useChainId'
+import { useWalletChainId } from 'lib/hooks/useWalletChainId'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { useReadProvider } from 'lib/hooks/useReadProvider'
 import { useTokenPrices } from 'lib/hooks/useTokenPrices'
@@ -33,7 +33,7 @@ export const usePaginatedPastPrizes = (pool, pageSize = PRIZE_PAGE_SIZE) => {
  */
 export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
   const queryClient = useQueryClient()
-  const chainId = useChainId()
+  const chainId = useWalletChainId()
   const { pauseQueries } = useContext(AuthControllerContext)
   const { readProvider, isLoaded: readProviderReady } = useReadProvider()
 
@@ -82,7 +82,7 @@ export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
  */
 export const usePastPrize = (pool, prizeNumber) => {
   const { pauseQueries } = useContext(AuthControllerContext)
-  const chainId = useChainId()
+  const chainId = useWalletChainId()
   const { readProvider, isLoaded: providerIsLoaded } = useReadProvider()
 
   const poolContract = pool?.contract

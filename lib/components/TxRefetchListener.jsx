@@ -21,7 +21,9 @@ export function TxRefetchListener(props) {
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { refetch: refetchTicketData } = useAllPlayerTickets(address)
+  // TODO: Replace
+  // const { refetch: refetchTicketData } = useAllPlayerTickets(address)
+  const refetchTicketData = () => null
 
   const pendingTransactions = transactions.filter((t) => !t.completed && !t.cancelled)
 
