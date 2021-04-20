@@ -7,8 +7,8 @@ import { Integrations } from '@sentry/tracing'
 import { HotKeys } from 'react-hotkeys'
 import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
-import { ReactQueryDevtools } from 'react-query-devtools'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ReactQueryDevtools } from 'react-query/devtools'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider as JotaiProvider } from 'jotai'
 
@@ -56,15 +56,13 @@ import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'
 import 'assets/styles/vx--custom.css'
 
-export const queryClient = new QueryClient()
-// export const queryClient = new QueryClient({
-//   defaultOptions: {
-//     queries: {
-//       ...DEFAULT_QUERY_OPTIONS
-//     }
-//   }
-// })
-console.log({ queryClient })
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      ...DEFAULT_QUERY_OPTIONS
+    }
+  }
+})
 
 if (typeof window !== 'undefined') {
   window.ethers = ethers
@@ -95,6 +93,17 @@ function MyApp({ Component, pageProps, router }) {
         console.error(`referrer address was an invalid Ethereum address:`, e.message)
       }
     }
+  }, [])
+
+  // ChunkLoadErrors happen when someone has the app loaded, then we deploy a
+  // new release, and the user's app points to previous chunks that no longer exist
+  useEffect(() => {
+    window.addEventListener('error', (e) => {
+      console.log(e)
+      if (/Loading chunk [\d]+ failed/.test(e.message)) {
+        window.location.reload()
+      }
+    })
   }, [])
 
   useEffect(() => {

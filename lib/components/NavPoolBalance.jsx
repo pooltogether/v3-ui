@@ -11,6 +11,7 @@ import { useCoingeckoTokenInfoQuery } from 'lib/hooks/useCoingeckoTokenInfoQuery
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTotalClaimablePool } from 'lib/hooks/useTotalClaimablePool'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { NETWORK } from 'lib/utils/networks'
 
 import Squiggle from 'assets/images/squiggle.svg'
 import PoolIcon from 'assets/images/pool-icon.svg'
@@ -51,7 +52,8 @@ const PoolBalanceModal = (props) => {
   const { isOpen, closeModal, tokenData } = props
   const { usersBalance, totalSupply } = tokenData
 
-  const { chainId, usersAddress } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
+  const chainId = NETWORK.mainnet
 
   const { total: totalClaimablePool } = useTotalClaimablePool(usersAddress)
 

@@ -18,7 +18,6 @@ import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButto
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { ThemedClipLoader } from 'lib/components/loaders/ThemedClipLoader'
-import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
 import { useClaimablePoolFromTokenFaucets } from 'lib/hooks/useClaimablePoolFromTokenFaucets'
@@ -27,15 +26,16 @@ import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
+import { NETWORK } from 'lib/utils/networks'
 
 import PoolIcon from 'assets/images/pool-icon.svg'
-import { useGovernancePools, usePoolBySymbol } from 'lib/hooks/usePools'
+import { useGovernancePools } from 'lib/hooks/usePools'
 
 export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
 
   const { data: pools } = useGovernancePools()
-  const { chainId, usersAddress } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
@@ -80,7 +80,7 @@ export const AccountGovernanceClaims = (props) => {
             basic
             showPoolIcon
             textSize='xxs'
-            tokenAddress={CUSTOM_CONTRACT_ADDRESSES[chainId]?.GovernanceToken}
+            tokenAddress={CUSTOM_CONTRACT_ADDRESSES[NETWORK.mainnet]?.GovernanceToken}
             tokenSymbol='POOL'
           />
         </div>
@@ -229,7 +229,6 @@ const ClaimablePoolTokenItem = (props) => {
   const { data: claimablePoolData } = useClaimablePoolFromTokenFaucet(tokenFaucetAddress, address)
   const dripRatePerSecond = claimablePoolData?.dripRatePerSecond || ethers.constants.Zero
 
-  const dripToken = pool.tokens.tokenFaucetDripToken
   const underlyingToken = pool.tokens.underlyingToken
   const name = t('prizePoolTicker', { ticker: underlyingToken.symbol })
 
@@ -238,7 +237,7 @@ const ClaimablePoolTokenItem = (props) => {
 
   const ticketTotalSupply = pool.tokens.ticket.totalSupply
   const totalSupplyOfTickets = parseInt(ticketTotalSupply, 10)
-  const usersBalance = ticketData?.amount
+  const usersBalance = ticketData?.amount || 0
 
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
   const dripRatePerSecondNumber = dripRatePerSecond
@@ -326,6 +325,7 @@ const ClaimableAmountCountUp = (props) => {
       start={prevAmount}
       end={amount}
       decimals={getMinPrecision(amount, { additionalDigits: getPrecision(amount) || 2 })}
+      separator=','
       {...countUpProps}
     />
   )

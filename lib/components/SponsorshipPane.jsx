@@ -1,10 +1,13 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
+import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { DepositOrWithdrawSponsorshipModal } from 'lib/components/DepositOrWithdrawSponsorshipModal'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usePlayerTicketsByPool } from 'lib/hooks/useAllPlayerTickets'
+
+const bn = ethers.BigNumber.from
 
 export const SponsorshipPane = (props) => {
   const { t } = useTranslation()
@@ -18,7 +21,7 @@ export const SponsorshipPane = (props) => {
   const address = playerAddress || usersAddress
 
   const { sponsorship } = usePlayerTicketsByPool(pool.prizePool.address, address)
-  const usersSponsorshipBalance = sponsorship?.amount
+  const usersSponsorshipBalance = sponsorship?.amount || bn(0)
 
   const handleDepositSponsorshipClick = (e) => {
     e.preventDefault()

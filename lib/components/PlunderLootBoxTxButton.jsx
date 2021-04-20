@@ -12,9 +12,7 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 export function PlunderLootBoxTxButton(props) {
   const { t } = useTranslation()
 
-  const { alreadyClaimed, prizeNumber, pool } = props
-
-  const { lootBoxAwards } = pool.lootBox
+  const { alreadyClaimed, prizeNumber, lootBox } = props
 
   const [txId, setTxId] = useState(0)
 
@@ -37,16 +35,15 @@ export function PlunderLootBoxTxButton(props) {
   const handlePlunderClick = async (e) => {
     e.preventDefault()
 
-    // TODO: Double check this
     const params = [
       lootBoxAddress,
-      pool.prize.lootBox.tokenId[0],
-      lootBoxAwards.erc20s.map((award) => award.erc20Entity.id),
-      lootBoxAwards.erc721s.map((award) => ({
+      lootBox.id,
+      lootBox.erc20Tokens.map((token) => token.address),
+      lootBox.erc721Tokens.map((award) => ({
         token: award.erc721Entity.id,
         tokenIds: [award.tokenId]
       })),
-      lootBoxAwards.erc1155s.map((award) => ({
+      lootBox.erc1155Tokens.map((award) => ({
         token: award.erc1155Entity.id,
         ids: [award.tokenId],
         amounts: [ethers.BigNumber.from(award.balance)],

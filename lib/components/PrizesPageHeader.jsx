@@ -9,6 +9,10 @@ export const PrizesPageHeader = (props) => {
   const { t } = useTranslation()
   const { showPoolLink, pool } = props
 
+  if (!pool) {
+    return null
+  }
+
   return (
     <>
       <PageTitleAndBreadcrumbs

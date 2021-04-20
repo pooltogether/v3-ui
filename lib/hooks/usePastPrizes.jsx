@@ -1,16 +1,18 @@
 import { ethers } from 'ethers'
+import { useRouter } from 'next/router'
+import { useContext } from 'react'
+import { useQuery, useQueryClient } from 'react-query'
+
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PRIZE_PAGE_SIZE } from 'lib/constants'
 import { QUERY_KEYS } from 'lib/constants/queryKeys'
 import { getPoolPrizeData, getPoolPrizesData } from 'lib/fetchers/getPoolPrizesData'
-import { addBigNumbers, calculateTokenValues } from 'lib/fetchers/getPools'
+import { addBigNumbers, calculateTokenValues } from 'lib/utils/poolDataUtils'
 import { useChainId } from 'lib/hooks/useChainId'
 import { useCurrentPool } from 'lib/hooks/usePools'
+import { useReadProvider } from 'lib/hooks/useReadProvider'
 import { useTokenPrices } from 'lib/hooks/useTokenPrices'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
-import { useRouter } from 'next/router'
-import { useContext } from 'react'
-import { useQuery, useQueryClient } from 'react-query'
 
 /**
  * Handles reading the page from the router for you!
@@ -31,16 +33,17 @@ export const usePaginatedPastPrizes = (pool, pageSize = PRIZE_PAGE_SIZE) => {
  */
 export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
   const queryClient = useQueryClient()
-  const { pauseQueries } = useContext(AuthControllerContext)
   const chainId = useChainId()
+  const { pauseQueries } = useContext(AuthControllerContext)
+  const { readProvider, isLoaded: readProviderReady } = useReadProvider()
 
   const poolAddress = pool?.prizePool?.address
 
   const { data: prizes, ...prizeData } = useQuery(
     [QUERY_KEYS.poolPrizesQuery, chainId, poolAddress, page, pageSize],
-    async () => await getPoolPrizesData(chainId, pool?.contract, page, pageSize),
+    async () => await getPoolPrizesData(chainId, readProvider, pool?.contract, page, pageSize),
     {
-      enabled: Boolean(!pauseQueries && poolAddress),
+      enabled: Boolean(!pauseQueries && poolAddress && readProviderReady),
       keepPreviousData: true,
       onSuccess: (data) => populateCaches(chainId, poolAddress, queryClient, data)
     }
@@ -80,6 +83,7 @@ export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
 export const usePastPrize = (pool, prizeNumber) => {
   const { pauseQueries } = useContext(AuthControllerContext)
   const chainId = useChainId()
+  const { readProvider, isLoaded: providerIsLoaded } = useReadProvider()
 
   const poolContract = pool?.contract
   const poolAddress = poolContract?.prizePool?.address
@@ -88,10 +92,12 @@ export const usePastPrize = (pool, prizeNumber) => {
   const { data: prize, ...prizeData } = useQuery(
     getPrizeQueryKey(chainId, poolAddress, prizeNumber),
     async () => {
-      return getPoolPrizeData(chainId, poolContract, prizeNumber)
+      return getPoolPrizeData(chainId, readProvider, poolContract, prizeNumber)
     },
     {
-      enabled: Boolean(!pauseQueries && poolAddress && prizeNumber && underlyingToken)
+      enabled: Boolean(
+        !pauseQueries && poolAddress && prizeNumber && underlyingToken && providerIsLoaded
+      )
     }
   )
 
@@ -174,10 +180,21 @@ const getErc20AddressesByBlockNumberFromPrizes = (prizes, underlyingTokenAddress
  * @param {*} tokenPrices
  */
 const formatAndCalculatePrizeValues = (prizes, tokenPrices, underlyingToken) => {
-  if (!prizes || prizes.filter(Boolean).length === 0 || !tokenPrices) return null
+  if (!prizes || prizes.filter(Boolean).length === 0 || !tokenPrices || !underlyingToken) {
+    return null
+  }
 
   return prizes.map((prize) => {
     const relevantPrices = tokenPrices[prize.awardedBlock]
+
+    // this state can happen when a prize is being awarded
+    // the graph gets messed up for this 5 - 10 minutes
+    // could improve on the fix by not passing the new prize object
+    // that hasn't completed being awarded yet
+    if (!relevantPrices) {
+      return {}
+    }
+
     return formatAndCalculatePrizeValue(prize, relevantPrices, underlyingToken)
   })
 }
@@ -196,7 +213,7 @@ const formatAndCalculatePrizeValue = (_prize, tokenPrices, underlyingToken) => {
   const yieldPrizeUnformatted = addBigNumbers(
     prize.awardedControlledTokens.map((token) => ethers.BigNumber.from(token.amount))
   )
-  const underlyingTokenValueUsd = tokenPrices[underlyingToken.address].usd
+  const underlyingTokenValueUsd = tokenPrices[underlyingToken?.address]?.usd || '0'
   const yieldValues = calculateTokenValues(
     yieldPrizeUnformatted,
     underlyingTokenValueUsd,

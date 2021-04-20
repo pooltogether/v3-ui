@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
+import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { shorten } from 'lib/utils/shorten'
 
@@ -50,12 +51,8 @@ export function WalletInfo(props) {
               </div>
               <div className='flex justify-between items-center sm:text-xs lg:text-sm text-default mt-1 mb-2 sm:mb-4'>
                 <div>
-                  {walletName}{' '}
-                  {chainId && chainId !== 1 && (
-                    <>
-                      - <span className='capitalize'>{networkName}</span>
-                    </>
-                  )}
+                  <NetworkIcon chainId={chainId} />
+                  <span className='capitalize ml-2'>{networkName}</span> via {walletName}
                 </div>
                 <button
                   onClick={(e) => {

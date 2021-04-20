@@ -131,6 +131,9 @@ export const CUSTOM_CONTRACT_ADDRESSES = {
     MerkleDistributor: '0x93a6540DcE05a4A5E5B906eB97bBCBb723768F2D',
     GovernanceToken: '0xc4E90a8Dc6CaAb329f08ED3C8abc6b197Cf0F40A',
     Sablier: '0xc04Ad234E01327b24a831e3718DBFcbE245904CC'
+  },
+  137: {
+    GovernanceToken: ''
   }
 }
 
