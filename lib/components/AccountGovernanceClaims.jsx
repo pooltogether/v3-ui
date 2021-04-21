@@ -55,8 +55,6 @@ export const AccountGovernanceClaims = (props) => {
     )
   }
 
-  // const earningsStarted = Date.now() / 1000 > 1613606400
-
   return (
     <>
       <h5 id='governance-claims' className='font-normal text-accent-2 mt-16 mb-4'>

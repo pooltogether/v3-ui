@@ -87,7 +87,7 @@ const CommunityPoolsList = () => {
         <a
           href='https://community.pooltogether.com'
           target='_blank'
-          className='mx-auto text-sm underline my-4'
+          className='mx-auto text-xxs xs:text-xs sm:text-sm text-center underline my-4'
         >
           {t('allPoolsAreListedOnCommunityDotPTDotCom')}
         </a>

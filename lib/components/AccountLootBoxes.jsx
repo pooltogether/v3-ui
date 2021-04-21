@@ -19,13 +19,16 @@ export const AccountLootBoxes = (props) => {
   return <AccountLootBoxesView />
 }
 
+{
+  /* TODO: ADD CHAIN ID TO THE USE POOL BY ADDRESS CALL */
+}
 export const AccountLootBoxesView = (props) => {
   const { t } = useTranslation()
-  const lootBoxesWon = useLootBoxesWon()
+  // const lootBoxesWon = useLootBoxesWon()
 
-  if (lootBoxesWon.length === 0) {
-    return null
-  }
+  // if (lootBoxesWon.length === 0) {
+  //   return null
+  // }
 
   return (
     <>
@@ -34,7 +37,6 @@ export const AccountLootBoxesView = (props) => {
       <div className='xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-2 sm:px-6 py-3'>
         <div className='flex justify-between flex-col xs:flex-row xs:pt-4 pb-0 px-2 xs:px-4'>
           <div className='flex-col order-2 xs:order-1 xs:w-3/4'>
-            {/* TODO: ADD CHAIN ID TO THE USE POOL BY ADDRESS CALL */}
             {/* {lootBoxesWon.map((lootBox) => (
               <LootBoxWon key={lootBox.id} lootBox={lootBox} />
             ))} */}

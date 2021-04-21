@@ -13,6 +13,7 @@ import { useCurrentPool } from 'lib/hooks/usePools'
 import { useReadProvider } from 'lib/hooks/useReadProvider'
 import { useTokenPrices } from 'lib/hooks/useTokenPrices'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
+import { useRouterChainId } from 'lib/hooks/chainId/useRouterChainId'
 
 /**
  * Handles reading the page from the router for you!
@@ -33,7 +34,7 @@ export const usePaginatedPastPrizes = (pool, pageSize = PRIZE_PAGE_SIZE) => {
  */
 export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
   const queryClient = useQueryClient()
-  const chainId = useWalletChainId()
+  const chainId = useRouterChainId()
   const { pauseQueries } = useContext(AuthControllerContext)
   const { readProvider, isLoaded: readProviderReady } = useReadProvider()
 

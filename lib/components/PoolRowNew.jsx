@@ -12,6 +12,8 @@ import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import PoolIcon from 'assets/images/pool-icon.svg'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
+import { NetworkIcon } from 'lib/components/NetworkIcon'
+import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
 export const PoolRowNew = (props) => {
   const { pool } = props
@@ -63,20 +65,23 @@ export const PoolRowNew = (props) => {
         className='mt-1 sm:mt-2'
       >
         <div className='flex flex-col sm:flex-row items-center justify-between sm:justify-evenly text-inverse'>
-          <div className='pool-row-left-col h-full flex bg-body px-4 sm:px-6 lg:px-8 pb-2 sm:pt-4 sm:pb-8 lg:pt-8 lg:pb-10 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
-            <div className='relative mr-2 mt-4' style={{ top: 1 }}>
-              <PoolCurrencyIcon
-                noMediaQueries
-                lg
-                symbol={pool.tokens.underlyingToken.symbol}
-                address={pool.tokens.underlyingToken.address}
-              />
-            </div>
+          <div className='pool-row-left-col h-full flex bg-body py-2 p-4 sm:px-6 sm:py-4 lg:px-8 lg:py-6 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
+            <div className='flex flex-col mx-auto'>
+              <div className='flex'>
+                <PoolCurrencyIcon
+                  noMediaQueries
+                  lg
+                  symbol={pool.tokens.underlyingToken.symbol}
+                  address={pool.tokens.underlyingToken.address}
+                  className='my-auto'
+                />
 
-            <div className='flex flex-col'>
-              <PoolPrizeValue pool={pool} />
+                <PoolPrizeValue pool={pool} />
+              </div>
 
-              <div className='text-accent-1 text-xxxs'>{t('prizeValue')}</div>
+              <div className='text-accent-1 text-xxxs text-center'>{t('prizeValue')}</div>
+
+              <NetworkBadge networkName={pool.networkName} chainId={pool.chainId} />
             </div>
           </div>
 
@@ -116,7 +121,6 @@ export const PoolRowNew = (props) => {
             </div>
           </div>
         </div>
-        {chainIdToNetworkName(pool.chainId)}
       </InteractableCard>
     </>
   )
@@ -131,7 +135,7 @@ const PoolPrizeValue = (props) => {
 
   if (pool.prize.totalValueUsd) {
     return (
-      <div className='text-3xl sm:text-5xl text-flashy font-bold'>
+      <div className='text-3xl sm:text-5xl text-flashy font-bold ml-2'>
         $
         <PoolCountUp fontSansRegular decimals={0} duration={6}>
           {parseFloat(pool.prize.totalValueUsd)}
@@ -145,7 +149,7 @@ const PoolPrizeValue = (props) => {
     !pool.prize.sablierStream?.amountThisPrizePeriodUnformatted?.isZero()
   ) {
     return (
-      <div className='text-3xl sm:text-5xl text-flashy font-bold'>
+      <div className='text-3xl sm:text-5xl text-flashy font-bold ml-2'>
         <PoolCountUp fontSansRegular decimals={0} duration={6}>
           {parseFloat(pool.prize.sablierStream.amountThisPrizePeriod)}
         </PoolCountUp>
@@ -156,5 +160,17 @@ const PoolPrizeValue = (props) => {
     )
   }
 
-  return <div className='text-3xl sm:text-5xl text-flashy font-bold'>$0</div>
+  return <div className='text-3xl sm:text-5xl text-flashy font-bold ml-2'>$0</div>
+}
+
+const NetworkBadge = (props) => {
+  const { chainId, networkName } = props
+  return (
+    <div className='mx-auto mt-2 flex'>
+      <NetworkIcon className='my-auto' sizeClasses='w-4 h-4' chainId={chainId} />
+      <span className='ml-1 my-auto text-xxs text-accent-1 capitalize'>
+        {getNetworkNiceNameByChainId(chainId)}
+      </span>
+    </div>
+  )
 }

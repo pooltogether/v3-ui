@@ -56,7 +56,7 @@ export const AccountTicket = (props) => {
     Cookies.set(WIZARD_REFERRER_AS_PATH, `/account`, COOKIE_OPTIONS)
 
     router.push(
-      `/account/pools/[networkName][symbol]/manage-tickets`,
+      `/account/pools/[networkName]/[symbol]/manage-tickets`,
       `/account/pools/${pool.networkName}/${pool.symbol}/manage-tickets`,
       {
         shallow: true
