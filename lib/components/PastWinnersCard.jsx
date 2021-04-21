@@ -16,6 +16,8 @@ export const PastWinnersCard = (props) => {
   const pageNum = 1
   const { data, error, isFetched } = usePastPrizes(pool, pageNum)
 
+  // console.log(data)
+
   if (error) {
     console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))
     console.error(error.message)
@@ -26,22 +28,17 @@ export const PastWinnersCard = (props) => {
     prizes = prizes ? prizes.slice(0, 5) : []
 
     prizes = prizes?.reduce(function (result, prize) {
-      if (
-        prize?.awardedControlledTokens?.length > 0 ||
-        prize?.awardedExternalErc20Tokens?.length > 0
-      ) {
-        const date = formatDate(prize?.awardedTimestamp, {
-          short: true,
-          year: false,
-          noTimezone: true
-        })
+      const date = formatDate(prize?.awardedTimestamp, {
+        short: true,
+        year: false,
+        noTimezone: true
+      })
 
-        result.push({
-          ...prize,
-          date,
-          prizeNumber: prize.id
-        })
-      }
+      result.push({
+        ...prize,
+        date,
+        prizeNumber: prize.id
+      })
       return result
     }, [])
 

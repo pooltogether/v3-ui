@@ -24,6 +24,7 @@ export const AccountWinnings = () => {
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
 
+  // TODO: UPDATE THIS
   const { data: prizesWon } = useMultiversionPlayerPrizes(address)
 
   let awardedControlledTokens = prizesWon?.awardedControlledTokens || []

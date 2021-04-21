@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { useQuery, useQueryClient } from 'react-query'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -34,7 +34,7 @@ export const usePaginatedPastPrizes = (pool, pageSize = PRIZE_PAGE_SIZE) => {
  */
 export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
   const queryClient = useQueryClient()
-  const chainId = useRouterChainId()
+  const chainId = pool?.chainId
   const { pauseQueries } = useContext(AuthControllerContext)
   const { readProvider, isLoaded: readProviderReady } = useReadProvider()
 
@@ -44,9 +44,9 @@ export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
     [QUERY_KEYS.poolPrizesQuery, chainId, poolAddress, page, pageSize],
     async () => await getPoolPrizesData(chainId, readProvider, pool?.contract, page, pageSize),
     {
-      enabled: Boolean(!pauseQueries && poolAddress && readProviderReady),
-      keepPreviousData: true,
-      onSuccess: (data) => populateCaches(chainId, poolAddress, queryClient, data)
+      enabled: Boolean(!pauseQueries && poolAddress && readProviderReady && chainId),
+      keepPreviousData: true
+      // onSuccess: (data) => populateCaches(chainId, poolAddress, queryClient, data)
     }
   )
 
@@ -54,7 +54,7 @@ export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
     prizes,
     pool?.tokens?.underlyingToken?.address
   )
-  const { data: tokenPrices, ...tokenPricesData } = useTokenPrices(addresses)
+  const { data: tokenPrices, ...tokenPricesData } = useTokenPrices(chainId, addresses)
 
   const count = pool?.prize?.currentPrizeId || 0
   const pages = Math.ceil(Number(count / PRIZE_PAGE_SIZE))
@@ -195,7 +195,6 @@ const formatAndCalculatePrizeValues = (prizes, tokenPrices, underlyingToken) => 
     if (!relevantPrices) {
       return {}
     }
-
     return formatAndCalculatePrizeValue(prize, relevantPrices, underlyingToken)
   })
 }

@@ -133,7 +133,11 @@ export const CUSTOM_CONTRACT_ADDRESSES = {
     Sablier: '0xc04Ad234E01327b24a831e3718DBFcbE245904CC'
   },
   137: {
-    GovernanceToken: ''
+    GovernanceToken: '',
+    // PoS-Dai
+    Usdt: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063'
+    // PoS-USDT
+    // Usdt: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F'
   }
 }
 
