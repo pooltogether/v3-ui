@@ -22,6 +22,7 @@ export function PrizeShow(props) {
   const prizeNumber = prize.id
   const poolName = pool.name
   const poolSymbol = pool.symbol
+  const poolNetworkName = pool.networkName
   const ticker = pool.tokens.underlyingToken.symbol
   const decimals = pool.tokens.underlyingToken.decimals
   const preAwardTicketSupply = preAwardPool.tokens.ticket.totalSupply
@@ -41,13 +42,13 @@ export function PrizeShow(props) {
             name: t('pools')
           },
           {
-            href: '/pools/[symbol]',
-            as: `/pools/${poolSymbol}`,
+            href: '/pools/[networkName]/[symbol]',
+            as: `/pools/${poolNetworkName}/${poolSymbol}`,
             name: poolName
           },
           {
-            href: '/prizes/[symbol]',
-            as: `/prizes/${poolSymbol}`,
+            href: '/prizes/[networkName]/[symbol]',
+            as: `/prizes/${poolNetworkName}/${poolSymbol}`,
             name: t('prizes')
           },
           {
@@ -67,7 +68,12 @@ export function PrizeShow(props) {
         preAwardPool={preAwardPool}
       />
 
-      <PrizeShowLootBoxTable historical prize={prize} poolSymbol={poolSymbol} />
+      <PrizeShowLootBoxTable
+        historical
+        prize={prize}
+        poolSymbol={poolSymbol}
+        poolNetworkName={poolNetworkName}
+      />
 
       <CardGrid
         className='my-4'
@@ -98,8 +104,8 @@ export function PrizeShow(props) {
 
           return (
             <PrizePlayerListing
-              baseAsPath={`/prizes/${poolSymbol}/${prizeNumber}`}
-              baseHref='/prizes/[symbol]/[prizeNumber]'
+              baseAsPath={`/prizes/${poolNetworkName}/${poolSymbol}/${prizeNumber}`}
+              baseHref='/prizes/[networkName]/[symbol]/[prizeNumber]'
               isFetched={isFetched}
               isFetching={isFetching}
               balances={data}

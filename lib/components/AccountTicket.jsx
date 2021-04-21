@@ -39,8 +39,8 @@ export const AccountTicket = (props) => {
   const decimals = pool.tokens.underlyingToken.decimals
 
   if (!href && !as) {
-    href = '/account/pools/[symbol]'
-    as = `/account/pools/${pool.symbol}`
+    href = '/account/pools/[networkName]/[symbol]'
+    as = `/account/pools/${pool.networkName}/${pool.symbol}`
   }
 
   const ticker = pool.tokens.underlyingToken.symbol
@@ -56,8 +56,8 @@ export const AccountTicket = (props) => {
     Cookies.set(WIZARD_REFERRER_AS_PATH, `/account`, COOKIE_OPTIONS)
 
     router.push(
-      `/account/pools/[symbol]/manage-tickets`,
-      `/account/pools/${pool.symbol}/manage-tickets`,
+      `/account/pools/[networkName][symbol]/manage-tickets`,
+      `/account/pools/${pool.networkName}/${pool.symbol}/manage-tickets`,
       {
         shallow: true
       }

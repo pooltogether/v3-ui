@@ -39,7 +39,7 @@ export default function PrizeShowPage(props) {
           onClick={(e) => {
             e.preventDefault()
 
-            router.push(`/pools/${querySymbol}`)
+            router.push(`/pools/${pool.networkName}/${querySymbol}`)
           }}
         >
           {t('viewPool')}

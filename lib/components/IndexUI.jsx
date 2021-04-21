@@ -74,7 +74,7 @@ const NewPoolBanner = (props) => {
   const { t } = useTranslation()
 
   return (
-    <Link href='/pools/[symbol]' as={`/pools/PT-cCOMP`}>
+    <Link href='/pools/[networkName]/[symbol]' as={`/pools/mainnet/PT-cCOMP`}>
       <a className='block mt-2 mb-3 text-center p-3 rounded-lg border-2 border-secondary font-bold text-inverse text-xxs xs:text-xs sm:text-sm'>
         <span role='img' aria-label='megaphone emoji' className='mx-2 text-xl'>
           📣

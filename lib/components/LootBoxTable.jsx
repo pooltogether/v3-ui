@@ -26,7 +26,7 @@ export const PoolShowLootBoxTable = (props) => {
   return (
     <LootBoxTable
       allAwards={allAwards}
-      basePath={`/pools/${pool.symbol}`}
+      basePath={`/pools/${pool.networkName}/${pool.symbol}`}
       totalExternalAwardsValueUsd={pool.prize.totalExternalAwardsValueUsd}
       lootBoxAddress={pool.prize.lootBox?.address}
     />
@@ -39,7 +39,7 @@ export const PoolShowLootBoxTable = (props) => {
  * @returns
  */
 export const PrizeShowLootBoxTable = (props) => {
-  const { prize, poolSymbol } = props
+  const { prize, poolSymbol, poolNetworkName } = props
   const allAwards = useAllErc20Awards(prize).sort(
     (a, b) => Number(b.totalValueUsd) - Number(a.totalValueUsd)
   )
@@ -48,7 +48,7 @@ export const PrizeShowLootBoxTable = (props) => {
       historical
       allAwards={allAwards}
       totalExternalAwardsValueUsd={prize.external.totalValueUsd}
-      basePath={`/prizes/${poolSymbol}/${prize.id}`}
+      basePath={`/prizes/${poolNetworkName}/${poolSymbol}/${prize.id}`}
     />
   )
 }

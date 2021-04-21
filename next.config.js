@@ -29,7 +29,7 @@ const allConfig =
         return [
           {
             source: '/prizes',
-            destination: '/prizes/PT-cDAI',
+            destination: '/prizes/mainnet/PT-cDAI',
             permanent: true,
           }
         ]

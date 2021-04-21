@@ -30,12 +30,20 @@ export const PoolPrizesShow = (props) => {
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
 
-    Cookies.set(WIZARD_REFERRER_HREF, '/prizes/[symbol]', COOKIE_OPTIONS)
-    Cookies.set(WIZARD_REFERRER_AS_PATH, `/prizes/${pool.symbol}`, COOKIE_OPTIONS)
+    Cookies.set(WIZARD_REFERRER_HREF, '/prizes/[networkName]/[symbol]', COOKIE_OPTIONS)
+    Cookies.set(
+      WIZARD_REFERRER_AS_PATH,
+      `/prizes/${pool.networkName}/${pool.symbol}`,
+      COOKIE_OPTIONS
+    )
 
-    router.push(`/pools/[symbol]/deposit`, `/pools/${pool.symbol}/deposit`, {
-      shallow: true
-    })
+    router.push(
+      `/pools/[networkName]/[symbol]/deposit`,
+      `/pools/${pool.networkName}/${pool.symbol}/deposit`,
+      {
+        shallow: true
+      }
+    )
   }
 
   return (

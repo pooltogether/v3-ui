@@ -76,8 +76,8 @@ export const ManageUI = (props) => {
             name: t('pools')
           },
           {
-            href: '/pools/[symbol]',
-            as: `/pools/${pool.symbol}`,
+            href: '/pools/[networkName]/[symbol]',
+            as: `/pools/${pool.networkName}/${pool.symbol}`,
             name: pool.name
           },
           {
