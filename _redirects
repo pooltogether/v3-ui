@@ -4,16 +4,16 @@ https://app.pooltogether.us/*   https://app.pooltogether.com         301!
 /pools/POOL-0x396b44            /pools/PT-stPOOL                     301!
 
 /account                                /account.html                                200
-/account/pools/:symbol/manage-tickets   /account/pools/[symbol]/manage-tickets.html  200
+/account/pools/:networkName/:symbol/manage-tickets   /account/pools/[networkName]/[symbol]/manage-tickets.html  200
 
 /players/:playerAddress         /players/[playerAddress].html        200
 
-/pools/:symbol/deposit          /pools/[symbol]/deposit.html         200
-/pools/:symbol/manage           /pools/[symbol]/manage.html          200
-/pools/:symbol                  /pools/[symbol].html                 200
+/pools/:networkName/:symbol/deposit          /pools/[networkName]/[symbol]/deposit.html         200
+/pools/:networkName/:symbol/manage           /pools/[networkName]/[symbol]/manage.html          200
+/pools/:networkName/:symbol                  /pools/[networkName]/[symbol].html                 200
 
-/prizes/:symbol/:prizeNumber    /prizes/[symbol]/[prizeNumber].html  200
-/prizes/:symbol                 /prizes/[symbol].html                200
+/prizes/:networkName/:symbol/:prizeNumber    /prizes/[networkName]/[symbol]/[prizeNumber].html  200
+/prizes/:networkName/:symbol                 /prizes/[networkName]/[symbol].html                200
 /prizes                         /prizes/dai.html                     200
 
 /sponsor                        /sponsor.html                        200

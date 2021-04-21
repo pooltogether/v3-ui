@@ -44,7 +44,7 @@ export const AccountRewardsView = (props) => {
   const { data: pools } = useAllPools()
 
   // rewards are only supported by the cDAI pool atm
-  const { data: pool } = usePoolBySymbol('PT-cDAI')
+  const { data: pool } = usePoolBySymbol('1', 'PT-cDAI')
 
   const { playerDrips } = usePlayerDrips(address)
   const { usersDripData, graphDripData } = useUsersDripData()

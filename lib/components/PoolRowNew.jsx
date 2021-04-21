@@ -30,9 +30,13 @@ export const PoolRowNew = (props) => {
     Cookies.set(WIZARD_REFERRER_HREF, '/', COOKIE_OPTIONS)
     Cookies.set(WIZARD_REFERRER_AS_PATH, `/`, COOKIE_OPTIONS)
 
-    router.push(`/pools/[symbol]/deposit`, `/pools/${pool.symbol}/deposit`, {
-      shallow: true
-    })
+    router.push(
+      `/pools/[networkName]/[symbol]/deposit`,
+      `/pools/${pool.networkName}/${pool.symbol}/deposit`,
+      {
+        shallow: true
+      }
+    )
   }
 
   const ViewPoolDetailsButton = () => (
@@ -54,8 +58,8 @@ export const PoolRowNew = (props) => {
       <InteractableCard
         id={`_view${symbol}Pool`}
         key={`pool-row-${pool.id}`}
-        href='/pools/[symbol]'
-        as={`/pools/${symbol}`}
+        href='/pools/[networkName]/[symbol]'
+        as={`/pools/${pool.networkName}/${symbol}`}
         className='mt-1 sm:mt-2'
       >
         <div className='flex flex-col sm:flex-row items-center justify-between sm:justify-evenly text-inverse'>

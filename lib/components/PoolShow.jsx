@@ -37,13 +37,16 @@ import { PoolChartsCard } from 'lib/components/PoolChartsCard'
 import { PastWinnersCard } from 'lib/components/PastWinnersCard'
 import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
+import { useRouterChainId } from 'lib/hooks/chainId/useRouterChainId'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
   const shouldReduceMotion = useReducedMotion()
-  const { data: pool, isFetched: poolIsFetched } = usePoolBySymbol(router?.query?.symbol)
-  const { chainId, usersAddress, walletName } = useContext(AuthControllerContext)
+  const chainId = useRouterChainId()
+
+  const { data: pool, isFetched: poolIsFetched } = usePoolBySymbol(chainId, router?.query?.symbol)
+  const { usersAddress, walletName } = useContext(AuthControllerContext)
   const [cookieShowAward, setCookieShowAward] = useState(false)
 
   useInterval(() => {
@@ -57,12 +60,20 @@ export const PoolShow = (props) => {
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
 
-    Cookies.set(WIZARD_REFERRER_HREF, '/pools/[symbol]', COOKIE_OPTIONS)
-    Cookies.set(WIZARD_REFERRER_AS_PATH, `/pools/${pool.symbol}`, COOKIE_OPTIONS)
+    Cookies.set(WIZARD_REFERRER_HREF, '/pools/[networkName]/[symbol]', COOKIE_OPTIONS)
+    Cookies.set(
+      WIZARD_REFERRER_AS_PATH,
+      `/pools/${pool.networkName}/${pool.symbol}`,
+      COOKIE_OPTIONS
+    )
 
-    router.push(`/pools/[symbol]/deposit`, `/pools/${pool.symbol}/deposit`, {
-      shallow: true
-    })
+    router.push(
+      `/pools/[networkName]/[symbol]/deposit`,
+      `/pools/${pool.networkName}/${pool.symbol}/deposit`,
+      {
+        shallow: true
+      }
+    )
   }
 
   return (
@@ -151,8 +162,8 @@ export const PoolShow = (props) => {
           {({ data, isFetching, isFetched }) => {
             return (
               <PrizePlayerListing
-                baseAsPath={`/pools/${pool.symbol}`}
-                baseHref='/pools/[symbol]'
+                baseAsPath={`/pools/${pool.networkName}/${pool.symbol}`}
+                baseHref='/pools/[networkName]/[symbol]'
                 isFetching={isFetching}
                 isFetched={isFetched}
                 balances={data}
@@ -191,8 +202,8 @@ export const PoolShow = (props) => {
               <div className='m-2 button-scale'>
                 <ButtonLink
                   textSize='xxs'
-                  href='/pools/[symbol]/manage'
-                  as={`/pools/${pool.symbol}/manage`}
+                  href='/pools/[networkName]/[symbol]/manage'
+                  as={`/pools/${pool.networkName}/${pool.symbol}/manage`}
                 >
                   {t('managePool')}
                 </ButtonLink>
