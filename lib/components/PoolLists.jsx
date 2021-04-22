@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/router'
 
@@ -11,10 +11,18 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { PoolsListUILoader } from 'lib/components/loaders/PoolsListUILoader'
 import { useCommunityPools, useGovernancePools } from 'lib/hooks/usePools'
+import { DropdownGeneric } from 'lib/components/DropdownGeneric'
+import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
+import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
+import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
+import { NetworkIcon } from 'lib/components/NetworkIcon'
 
 export const PoolLists = () => {
   const { t } = useTranslation()
   const router = useRouter()
+  const poolFilters = usePoolFilters()
+  const [chainIdFilter, setChainIdFilter] = useState('all')
+  const formatValue = (key) => poolFilters[key].view
 
   // Don't switch back to the default tab if we're navigating away from the homepage
   const defaultTab = router.pathname === '/' && POOL_LIST_TABS.pools
@@ -22,7 +30,7 @@ export const PoolLists = () => {
 
   return (
     <div className='mt-10'>
-      <div className='flex flex-col justify-center items-center text-xs sm:text-lg lg:text-xl'>
+      <div className='flex flex-row justify-between items-center text-xs sm:text-lg lg:text-xl'>
         <Tabs className='mb-4'>
           <Tab
             isSelected={selectedTab === POOL_LIST_TABS.pools}
@@ -41,6 +49,16 @@ export const PoolLists = () => {
             {t('communityPools')}
           </Tab>
         </Tabs>
+
+        <DropdownInputGroup
+          id='pool-filter'
+          // label={'Random number generator service'}
+          containerClassName=''
+          formatValue={formatValue}
+          onValueSet={setChainIdFilter}
+          initial={chainIdFilter}
+          values={poolFilters}
+        />
       </div>
 
       <ContentPane
@@ -53,7 +71,7 @@ export const PoolLists = () => {
             key='ul-pool-list'
             animate={selectedTab === POOL_LIST_TABS.pools ? 'enter' : 'exit'}
           >
-            <GovernancePoolsList />
+            <GovernancePoolsList chainIdFilter={chainIdFilter} />
           </MotionUL>
         </AnimatePresence>
       </ContentPane>
@@ -68,7 +86,7 @@ export const PoolLists = () => {
             key='ul-community-list'
             animate={selectedTab === POOL_LIST_TABS.community ? 'enter' : 'exit'}
           >
-            <CommunityPoolsList />
+            <CommunityPoolsList chainIdFilter={chainIdFilter} />
           </MotionUL>
         </AnimatePresence>
       </ContentPane>
@@ -76,13 +94,13 @@ export const PoolLists = () => {
   )
 }
 
-const CommunityPoolsList = () => {
-  const { t } = useTranslation()
+const CommunityPoolsList = (props) => {
   const { data: communityPools, isFetched } = useCommunityPools()
+  const { t } = useTranslation()
 
   return (
     <>
-      <PoolList pools={communityPools} isFetched={isFetched} />
+      <PoolList pools={communityPools} isFetched={isFetched} chainIdFilter={props.chainIdFilter} />
       <div className='flex'>
         <a
           href='https://community.pooltogether.com'
@@ -98,7 +116,7 @@ const CommunityPoolsList = () => {
 
 const GovernancePoolsList = (props) => {
   const { data: pools, isFetched } = useGovernancePools()
-  return <PoolList pools={pools} isFetched={isFetched} />
+  return <PoolList pools={pools} isFetched={isFetched} chainIdFilter={props.chainIdFilter} />
 }
 
 const MotionUL = (props) => {
@@ -122,7 +140,7 @@ const MotionUL = (props) => {
 }
 
 const PoolList = (props) => {
-  const { pools, isFetched } = props
+  const { pools, isFetched, chainIdFilter } = props
   if (!isFetched) return <PoolsListUILoader />
   return (
     <div>
@@ -130,10 +148,36 @@ const PoolList = (props) => {
         {/* TODO: Actual sorting! */}
         {pools
           .sort((a, b) => Number(b.prize.totalValueUsd) - Number(a.prize.totalValueUsd))
+          .filter((pool) => filterByChainId(pool, chainIdFilter))
           .map((pool) => (
             <PoolRowNew key={`pool-row-${pool.prizePool.address}`} pool={pool} />
           ))}
       </ul>
     </div>
+  )
+}
+
+const filterByChainId = (pool, chainIdFilter) => {
+  debugger
+  if (chainIdFilter === 'all') return true
+  return pool.chainId === Number(chainIdFilter)
+}
+
+const usePoolFilters = () => {
+  const chainIds = useEnvChainIds()
+  return chainIds.reduce(
+    (allFilters, chainId) => {
+      allFilters[chainId] = {
+        value: chainId,
+        view: (
+          <>
+            <NetworkIcon sizeClasses='my-auto h-6 w-6' chainId={chainId} />
+            <span className='capitalize ml-2'>{getNetworkNiceNameByChainId(chainId)}</span>
+          </>
+        )
+      }
+      return allFilters
+    },
+    { all: { view: 'All Networks', value: null } }
   )
 }

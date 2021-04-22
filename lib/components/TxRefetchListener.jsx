@@ -14,7 +14,6 @@ export function TxRefetchListener(props) {
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
   const { usersAddress } = useContext(AuthControllerContext)
-  // const { poolsRefetch } = usePools_OLD()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
