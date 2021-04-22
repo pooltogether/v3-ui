@@ -3,10 +3,9 @@ import { ethers } from 'ethers'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
-import { Trans, useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useCurrentPool } from 'lib/hooks/usePools'
-import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { Banner } from 'lib/components/Banner'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
@@ -21,6 +20,7 @@ import { usersDataForPool } from 'lib/utils/usersDataForPool'
 import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
+import { useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 
 const bn = ethers.BigNumber.from
 
@@ -35,10 +35,7 @@ export function DepositTicketQuantityForm(props) {
   const { usersAddress } = useContext(AuthControllerContext)
 
   const { data: pool } = useCurrentPool()
-  const { data: usersChainData } = useUsersChainData(
-    pool.prizePool.address,
-    pool.tokens.underlyingToken.address
-  )
+  const { data: usersChainData } = useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''

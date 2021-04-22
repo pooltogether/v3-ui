@@ -11,13 +11,13 @@ import { PlunderLootBoxTxButton } from 'lib/components/PlunderLootBoxTxButton'
 import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
 import { useEthereumErc1155Query } from 'lib/hooks/useEthereumErc1155Query'
-import { usePoolByAddress, usePools } from 'lib/hooks/usePools'
-import { useReadProvider } from 'lib/hooks/useReadProvider'
+import { usePoolByAddress } from 'lib/hooks/usePools'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { usePastPrize } from 'lib/hooks/usePastPrizes'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
+import { useReadProvider } from 'lib/hooks/providers/useReadProvider'
 
 export const LootBoxWon = (props) => {
   const { lootBox } = props
@@ -61,7 +61,7 @@ const LootBoxWonTable = (props) => {
     tokenIds: [award.tokenId]
   }))
 
-  const { readProvider } = useReadProvider()
+  const { data: readProvider } = useReadProvider(pool.chainId)
 
   const {
     data: erc20Balances,

@@ -10,10 +10,10 @@ import { getPoolPrizeData, getPoolPrizesData } from 'lib/fetchers/getPoolPrizesD
 import { addBigNumbers, calculateTokenValues } from 'lib/utils/poolDataUtils'
 import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 import { useCurrentPool } from 'lib/hooks/usePools'
-import { useReadProvider } from 'lib/hooks/useReadProvider'
 import { useTokenPrices } from 'lib/hooks/useTokenPrices'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { useRouterChainId } from 'lib/hooks/chainId/useRouterChainId'
+import { useReadProvider } from 'lib/hooks/providers/useReadProvider'
 
 /**
  * Handles reading the page from the router for you!
@@ -36,7 +36,7 @@ export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
   const queryClient = useQueryClient()
   const chainId = pool?.chainId
   const { pauseQueries } = useContext(AuthControllerContext)
-  const { readProvider, isLoaded: readProviderReady } = useReadProvider()
+  const { data: readProvider, isFetched: readProviderReady } = useReadProvider(chainId)
 
   const poolAddress = pool?.prizePool?.address
 
@@ -83,7 +83,7 @@ export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
  */
 export const usePastPrize = (pool, prizeNumber) => {
   const { pauseQueries } = useContext(AuthControllerContext)
-  const chainId = useWalletChainId()
+  const chainId = pool?.chainId
   const { readProvider, isLoaded: providerIsLoaded } = useReadProvider()
 
   const poolContract = pool?.contract
@@ -97,7 +97,12 @@ export const usePastPrize = (pool, prizeNumber) => {
     },
     {
       enabled: Boolean(
-        !pauseQueries && poolAddress && prizeNumber && underlyingToken && providerIsLoaded
+        !pauseQueries &&
+          poolAddress &&
+          prizeNumber &&
+          underlyingToken &&
+          providerIsLoaded &&
+          chainId
       )
     }
   )

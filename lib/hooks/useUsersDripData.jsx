@@ -3,16 +3,18 @@ import { uniqWith, isEqual } from 'lodash'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
-import { useReadProvider } from 'lib/hooks/useReadProvider'
 import { usePoolDripsQuery } from 'lib/hooks/usePoolDripsQuery'
 import { useUsersDripQuery } from 'lib/hooks/useUsersDripQuery'
+import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
+import { useReadProvider } from 'lib/hooks/providers/useReadProvider'
 
 // This is deprecated but needs to be around for the old rewards system so people
 // can still claim from the drips. It only needs the 3_1_0 subgraph
 export function useUsersDripData() {
   const { usersAddress } = useContext(AuthControllerContext)
 
-  const { readProvider } = useReadProvider()
+  const chainId = usePoolTokenChainId()
+  const { data: readProvider } = useReadProvider(chainId)
 
   const { contractAddresses } = useContractAddresses()
 

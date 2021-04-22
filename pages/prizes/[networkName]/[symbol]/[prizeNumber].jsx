@@ -21,10 +21,12 @@ export default function PrizeShowPage(props) {
   const { data: pool, isFetched: poolIsFetched } = useCurrentPool()
   const { data: prize, isFetched: prizeIsFetched } = usePastPrize(pool, prizeNumber)
   const { data: historicPools, isFetched: historicPoolsIsFetched } = useHistoricPool(
+    pool?.chainId,
     poolContract,
     prize?.awardedBlock
   )
 
+  console.log(pool, prize, historicPools)
   if (!poolIsFetched || !prizeIsFetched || !historicPoolsIsFetched) {
     return <PrizeShowUILoader />
   }

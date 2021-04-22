@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/ControlledToken'
 
 import { useTranslation } from 'lib/../i18n'
-import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
@@ -21,6 +20,7 @@ import { usersDataForPool } from 'lib/utils/usersDataForPool'
 import { TxStatus } from 'lib/components/TxStatus'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { useCurrentPool } from 'lib/hooks/usePools'
+import { useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 
 export function DepositCryptoForm(props) {
   const { t } = useTranslation()
@@ -31,10 +31,7 @@ export function DepositCryptoForm(props) {
   const quantity = router.query.quantity
 
   const { data: pool } = useCurrentPool()
-  const { data: usersChainData } = useUsersChainData(
-    pool.prizePool.address,
-    pool.tokens.underlyingToken.address
-  )
+  const { data: usersChainData } = useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool()
 
   const underlyingToken = pool.tokens.underlyingToken
   const decimals = underlyingToken.decimals

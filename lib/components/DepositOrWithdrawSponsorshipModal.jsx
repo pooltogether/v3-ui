@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useCurrentPool } from 'lib/hooks/usePools'
-import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { ApproveSponsorshipTxButton } from 'lib/components/ApproveSponsorshipTxButton'
 import { DepositSponsorshipTxButton } from 'lib/components/DepositSponsorshipTxButton'
 import { WithdrawSponsorshipTxButton } from 'lib/components/WithdrawSponsorshipTxButton'
@@ -16,6 +15,7 @@ import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
+import { useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 
 export function DepositOrWithdrawSponsorshipModal(props) {
   const { t } = useTranslation()
@@ -26,10 +26,7 @@ export function DepositOrWithdrawSponsorshipModal(props) {
   const { usersAddress } = useContext(AuthControllerContext)
 
   const { data: pool } = useCurrentPool()
-  const { data: usersChainData } = useUsersChainData(
-    pool.prizePool.address,
-    pool.tokens.underlyingToken.address
-  )
+  const { data: usersChainData } = useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''

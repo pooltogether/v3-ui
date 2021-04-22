@@ -1,29 +1,30 @@
 import React, { useContext, useState } from 'react'
-import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
 
 import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/ControlledToken'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { useCurrentPool } from 'lib/hooks/usePools'
-import { useUsersChainData } from 'lib/hooks/useUsersChainData'
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 import { useTransaction } from 'lib/hooks/useTransaction'
+import { useCurrentUsersTokenBalanceAndAllowance } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 
 export function RevokePoolAllowanceTxButton(props) {
   const { t } = useTranslation()
 
   const { pool } = props
+  const chainId = pool.chainId
   const poolAddress = pool.prizePool.address
   const tokenAddress = pool.tokens.underlyingToken.address
   const ticker = pool.tokens.underlyingToken.symbol
   const tickerUpcased = ticker.toUpperCase()
 
-  const { data: usersChainData } = useUsersChainData(poolAddress, tokenAddress)
+  const { data: usersChainData } = useCurrentUsersTokenBalanceAndAllowance(
+    chainId,
+    poolAddress,
+    tokenAddress
+  )
   const { usersTokenAllowance } = usersDataForPool(pool, usersChainData)
 
   const [txId, setTxId] = useState(0)
