@@ -31,21 +31,20 @@ export const AccountWinnings = () => {
   const awarded = {}
   prizesWon.forEach((prize) => {
     let total = ethers.constants.Zero
-    const prizeId = prize.awardedControlledTokens?.[0]?.prize.id
-    const token = prize.awardedControlledTokens?.[0]?.token
-    const underlyingTokenAddress =
-      prize.awardedControlledTokens?.[0]?.prize.prizePool.underlyingCollateralToken
+
     prize.awardedControlledTokens.forEach((awardedControlledToken) => {
-      total = total.add(ethers.BigNumber.from(awardedControlledToken.amount))
-    })
-    if (!total.isZero()) {
+      const prizeId = awardedControlledToken.prize.id
+      const token = awardedControlledToken.token
+      const underlyingTokenAddress =
+        awardedControlledToken.prize.prizePool.underlyingCollateralToken
+      const amount = awardedControlledToken.amount
       awarded[prizeId] = {
-        total,
+        total: ethers.utils.formatUnits(amount, token.decimals),
         ticker: token.symbol,
         decimals: token.decimals,
         address: underlyingTokenAddress
       }
-    }
+    })
   })
 
   const awardKeys = !isEmpty(awarded) ? Object.keys(awarded) : []
