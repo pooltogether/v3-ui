@@ -1,6 +1,7 @@
 import React from 'react'
 import { ethers } from 'ethers'
 import { sub, fromUnixTime } from 'date-fns'
+import { isEmpty } from 'lodash'
 
 import { CHART_PRIZE_PAGE_SIZE, DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
@@ -12,9 +13,12 @@ export const TicketsSoldGraph = (props) => {
 
   const { t } = useTranslation()
 
-  const { data: prizes } = usePastPrizes(pool, 1, CHART_PRIZE_PAGE_SIZE)
+  let { data: prizes } = usePastPrizes(pool, 1, CHART_PRIZE_PAGE_SIZE)
 
   const { symbol, decimals } = pool.tokens.underlyingToken
+
+  // Filter out prize objects that are being awarded right now
+  prizes = prizes.filter((prize) => !isEmpty(prize))
 
   const lastPrize = prizes[0]
   let currentPrize

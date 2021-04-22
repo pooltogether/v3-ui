@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import Link from 'next/link'
+import { isEmpty } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
 import { formatDate } from 'lib/utils/formatDate'
@@ -16,8 +17,6 @@ export const PastWinnersCard = (props) => {
   const pageNum = 1
   const { data, error, isFetched } = usePastPrizes(pool, pageNum)
 
-  // console.log(data)
-
   if (error) {
     console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))
     console.error(error.message)
@@ -28,6 +27,11 @@ export const PastWinnersCard = (props) => {
     prizes = prizes ? prizes.slice(0, 5) : []
 
     prizes = prizes?.reduce(function (result, prize) {
+      // If this is a new prize object that is being awarded just skip this row
+      if (isEmpty(prize)) {
+        return result
+      }
+
       const date = formatDate(prize?.awardedTimestamp, {
         short: true,
         year: false,
