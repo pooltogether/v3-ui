@@ -11,7 +11,6 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { PoolsListUILoader } from 'lib/components/loaders/PoolsListUILoader'
 import { useCommunityPools, useGovernancePools } from 'lib/hooks/usePools'
-import { DropdownGeneric } from 'lib/components/DropdownGeneric'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
@@ -30,8 +29,8 @@ export const PoolLists = () => {
 
   return (
     <div className='mt-10'>
-      <div className='flex flex-row justify-between items-center text-xs sm:text-lg lg:text-xl'>
-        <Tabs className='mb-4'>
+      <div className='flex flex-col xs:flex-row flex-col-reverse justify-between items-center text-xs sm:text-lg lg:text-xl'>
+        <Tabs className=''>
           <Tab
             isSelected={selectedTab === POOL_LIST_TABS.pools}
             onClick={() => {
@@ -50,10 +49,8 @@ export const PoolLists = () => {
           </Tab>
         </Tabs>
 
-        <DropdownInputGroup
+        <SmallDropdownInputGroup
           id='pool-filter'
-          // label={'Random number generator service'}
-          containerClassName=''
           formatValue={formatValue}
           onValueSet={setChainIdFilter}
           initial={chainIdFilter}
@@ -139,9 +136,25 @@ const MotionUL = (props) => {
   )
 }
 
+const SmallDropdownInputGroup = (props) => {
+  return (
+    <DropdownInputGroup
+      {...props}
+      backgroundClasses='bg-tertiary'
+      textClasses='text-accent-2 text-xs xs:text-sm  trans'
+      roundedClasses='rounded-lg'
+      paddingClasses='py-2 px-4'
+      containerClassName='w-full xs:w-1/2 sm:w-96'
+      iconSizeClasses='w-6 h-6'
+    />
+  )
+}
+
 const PoolList = (props) => {
   const { pools, isFetched, chainIdFilter } = props
+
   if (!isFetched) return <PoolsListUILoader />
+
   return (
     <div>
       <ul>

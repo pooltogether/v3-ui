@@ -47,8 +47,10 @@ export const DropdownInputGroup = (props) => {
     textClasses,
     roundedClasses,
     marginClasses,
+    paddingClasses,
     borderClasses,
     backgroundClasses,
+    iconSizeClasses,
     labelClassName,
     unitsClassName,
     containerClassName,
@@ -56,58 +58,63 @@ export const DropdownInputGroup = (props) => {
     isSuccess
   } = props
 
-  textClasses = textClasses
-    ? textClasses
-    : classnames('text-xs xs:text-sm sm:text-xl lg:text-2xl trans', {
-        'text-accent-1': disabled || !currentValue
-      })
+  iconSizeClasses = iconSizeClasses ?? 'w-4 h-4 sm:w-8 sm:h-8'
 
-  containerClassName = containerClassName ? containerClassName : 'w-full'
+  textClasses =
+    textClasses ??
+    classnames('text-xs xs:text-sm sm:text-xl lg:text-2xl trans', {
+      'text-accent-1': disabled || !currentValue
+    })
 
-  roundedClasses = roundedClasses ? roundedClasses : 'rounded-full'
+  containerClassName = containerClassName ?? 'w-full'
 
-  marginClasses = marginClasses ? marginClasses : 'mb-2 lg:mb-2'
+  roundedClasses = roundedClasses ?? 'rounded-full'
 
-  borderClasses = borderClasses
-    ? borderClasses
-    : classnames('border', {
-        'border-red-1': isError,
-        'border-green-2': isSuccess,
-        'border-transparent': !isError && !isSuccess,
-        'hover:border-accent-3 focus-within:border-accent-3 focus-within:shadow-green': !disabled
-      })
+  marginClasses = marginClasses ?? 'mb-2 lg:mb-2'
 
-  backgroundClasses = backgroundClasses
-    ? backgroundClasses
-    : classnames(backgroundClasses, {
-        'bg-grey': disabled
-      })
+  paddingClasses = paddingClasses ?? 'py-2 px-5 sm:py-4 sm:px-10'
 
-  labelClassName = labelClassName
-    ? labelClassName
-    : classnames('mt-0 mb-1 text-xs sm:text-sm', {
-        'cursor-not-allowed opacity-30': disabled,
-        'text-accent-1': !disabled
-      })
+  borderClasses =
+    borderClasses ??
+    classnames('border', {
+      'border-red-1': isError,
+      'border-green-2': isSuccess,
+      'border-transparent': !isError && !isSuccess,
+      'hover:border-accent-3 focus-within:border-accent-3 focus-within:shadow-green': !disabled
+    })
 
-  unitsClassName = unitsClassName
-    ? unitsClassName
-    : classnames('font-bold text-xs sm:text-sm whitespace-no-wrap', {
-        'cursor-not-allowed opacity-30': disabled,
-        'font-white': !disabled
-      })
+  backgroundClasses =
+    backgroundClasses ??
+    classnames('bg-body', {
+      'bg-grey': disabled
+    })
+
+  labelClassName =
+    labelClassName ??
+    classnames('mt-0 mb-1 text-xs sm:text-sm', {
+      'cursor-not-allowed opacity-30': disabled,
+      'text-accent-1': !disabled
+    })
+
+  unitsClassName =
+    unitsClassName ??
+    classnames('font-bold text-xs sm:text-sm whitespace-no-wrap', {
+      'cursor-not-allowed opacity-30': disabled,
+      'font-white': !disabled
+    })
 
   const className = classnames(
-    'trans py-2 px-5 sm:py-4 sm:px-10 bg-body',
+    'trans',
     containerClassName,
     textClasses,
     roundedClasses,
     marginClasses,
+    paddingClasses,
     borderClasses,
     backgroundClasses
   )
 
-  let selectedItem = placeHolder ? placeHolder : null
+  let selectedItem = placeHolder ?? null
   if (currentValue) {
     selectedItem = formatValue ? formatValue(currentValue) : currentValue
   }
@@ -118,15 +125,17 @@ export const DropdownInputGroup = (props) => {
         {({ isExpanded }) => (
           <>
             <MenuButton className={classnames(className, 'focus:outline-none')}>
-              <div className='flex flex-col text-left'>
-                <label htmlFor={id} className={labelClassName}>
-                  {label}
-                </label>
-                <div className='w-full flex justify-between'>
+              <div className='flex flex-col items-center text-left'>
+                {label && (
+                  <label htmlFor={id} className={labelClassName}>
+                    {label}
+                  </label>
+                )}
+                <div className='w-full flex items-center justify-between'>
                   <div className='flex'>{selectedItem}</div>
                   <FeatherIcon
                     icon={isExpanded ? 'chevron-up' : 'chevron-down'}
-                    className='relative w-4 h-4 sm:w-8 sm:h-8 inline-block my-auto'
+                    className={classnames(`relative inline-block my-auto`, iconSizeClasses)}
                     strokeWidth='0.15rem'
                   />
                 </div>
