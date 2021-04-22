@@ -34,7 +34,7 @@ import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
 
-  const { data: pools } = useGovernancePools()
+  const { data: pools, isFetched: poolIsFetched } = useGovernancePools()
   const { usersAddress } = useContext(AuthControllerContext)
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
@@ -47,7 +47,7 @@ export const AccountGovernanceClaims = (props) => {
     refetchPoolTokenData()
   }
 
-  if (!address) {
+  if (!address || !poolIsFetched) {
     return (
       <div className='my-16'>
         <IndexUILoader />

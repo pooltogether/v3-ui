@@ -18,6 +18,7 @@ import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPri
 import { usePastPrize } from 'lib/hooks/usePastPrizes'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { useReadProvider } from 'lib/hooks/providers/useReadProvider'
+import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
 
 export const LootBoxWon = (props) => {
   const { lootBox } = props
@@ -25,8 +26,11 @@ export const LootBoxWon = (props) => {
   const prizeNumber = extractPrizeNumberFromPrize(lootBox.prize)
   const prizePooladdress = lootBox.prize.prizePool.id
 
-  const { data: pool, isFetched: poolIsFetched } = usePoolByAddress(prizePooladdress)
+  const chainId = usePoolTokenChainId()
+  const { data: pool, isFetched: poolIsFetched } = usePoolByAddress(chainId, prizePooladdress)
   const { data: prize, isFetched: prizeIsFetched } = usePastPrize(pool, prizeNumber)
+
+  // console.log(poolIsFetched, pool, prizeIsFetched, prize)
 
   if (!poolIsFetched || !prizeIsFetched) {
     return (
@@ -69,6 +73,7 @@ const LootBoxWonTable = (props) => {
     isFetching: erc20IsFetching,
     isFetched: erc20IsFetched
   } = useEthereumErc20Query({
+    chainId: pool.chainId,
     provider: readProvider,
     graphErc20Awards: lootBoxErc20s,
     balanceOfAddress: computedAddress
@@ -80,6 +85,7 @@ const LootBoxWonTable = (props) => {
     isFetching: erc721IsFetching,
     isFetched: erc721IsFetched
   } = useEthereumErc721Query({
+    chainId: pool.chainId,
     provider: readProvider,
     graphErc721Awards: lootBoxErc721s,
     balanceOfAddress: computedAddress
@@ -91,6 +97,7 @@ const LootBoxWonTable = (props) => {
     isFetching: erc1155IsFetching,
     isFetched: erc1155IsFetched
   } = useEthereumErc1155Query({
+    chainId: pool.chainId,
     provider: readProvider,
     erc1155Awards: lootBoxErc1155s,
     balanceOfAddress: computedAddress
@@ -108,6 +115,8 @@ const LootBoxWonTable = (props) => {
 
   const isFetching = erc20IsFetching || erc721IsFetching || erc1155IsFetching
   const isFetched = erc20IsFetched || erc721IsFetched || erc1155IsFetched
+
+  if (lootBoxErc20s.length + lootBoxErc721s.length + lootBoxErc1155s.length === 0) return null
 
   if (!isFetched) {
     return (
@@ -236,7 +245,6 @@ const LootBoxWonTable = (props) => {
                 })}
               </tbody>
             </table>
-            <hr />
           </div>
         </>
       )}

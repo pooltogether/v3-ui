@@ -45,7 +45,7 @@ const CoingeckoOrPlaceholder = (props) => {
 
 export const PoolCurrencyIcon = (props) => {
   const { className, noMediaQueries, sm, lg, xl, xs, address } = props
-  const symbol = props.symbol.toLowerCase()
+  const symbol = props.symbol?.toLowerCase()
   const { theme } = useContext(ThemeContext)
 
   const noMargin = props.noMargin || false
