@@ -22,9 +22,13 @@ export function ManageTicketsWizardContainer(props) {
     initialStepIndex = 1
   }
 
-  const { data: pool } = useCurrentPool()
+  const { data: pool, isFetched: poolIsFetched } = useCurrentPool()
 
   const [totalWizardSteps, setTotalWizardSteps] = useState(3)
+
+  if (!poolIsFetched) {
+    return null
+  }
 
   return (
     <>
