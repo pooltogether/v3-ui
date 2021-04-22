@@ -26,7 +26,7 @@ export default function PrizeShowPage(props) {
     prize?.awardedBlock
   )
 
-  console.log(pool, prize, historicPools)
+  // console.log(pool, prize, historicPools)
   if (!poolIsFetched || !prizeIsFetched || !historicPoolsIsFetched) {
     return <PrizeShowUILoader />
   }

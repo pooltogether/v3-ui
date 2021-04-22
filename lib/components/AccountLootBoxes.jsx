@@ -12,23 +12,20 @@ import { useLootBoxesWon } from 'lib/hooks/useLootBoxesWon'
 export const AccountLootBoxes = (props) => {
   const [isSelf] = useAtom(isSelfAtom)
 
-  if (!isSelf) {
-    return null
-  }
+  // if (!isSelf) {
+  //   return null
+  // }
 
   return <AccountLootBoxesView />
 }
 
-{
-  /* TODO: ADD CHAIN ID TO THE USE POOL BY ADDRESS CALL */
-}
 export const AccountLootBoxesView = (props) => {
   const { t } = useTranslation()
-  // const lootBoxesWon = useLootBoxesWon()
+  const lootBoxesWon = useLootBoxesWon()
 
-  // if (lootBoxesWon.length === 0) {
-  //   return null
-  // }
+  if (lootBoxesWon.length === 0) {
+    return null
+  }
 
   return (
     <>

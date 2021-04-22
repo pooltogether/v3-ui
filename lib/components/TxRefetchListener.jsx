@@ -3,7 +3,6 @@ import { useAtom } from 'jotai'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 //
-import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { useUserTickets } from 'lib/hooks/useUserTickets'
 

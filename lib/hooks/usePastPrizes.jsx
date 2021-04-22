@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { useQuery, useQueryClient } from 'react-query'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
@@ -8,11 +8,9 @@ import { PRIZE_PAGE_SIZE } from 'lib/constants'
 import { QUERY_KEYS } from 'lib/constants/queryKeys'
 import { getPoolPrizeData, getPoolPrizesData } from 'lib/fetchers/getPoolPrizesData'
 import { addBigNumbers, calculateTokenValues } from 'lib/utils/poolDataUtils'
-import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { useTokenPrices } from 'lib/hooks/useTokenPrices'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
-import { useRouterChainId } from 'lib/hooks/chainId/useRouterChainId'
 import { useReadProvider } from 'lib/hooks/providers/useReadProvider'
 
 /**
@@ -84,7 +82,7 @@ export const usePastPrizes = (pool, page, pageSize = PRIZE_PAGE_SIZE) => {
 export const usePastPrize = (pool, prizeNumber) => {
   const { pauseQueries } = useContext(AuthControllerContext)
   const chainId = pool?.chainId
-  const { readProvider, isLoaded: providerIsLoaded } = useReadProvider()
+  const { data: readProvider, isFetched: providerIsLoaded } = useReadProvider(chainId)
 
   const poolContract = pool?.contract
   const poolAddress = poolContract?.prizePool?.address
@@ -108,9 +106,10 @@ export const usePastPrize = (pool, prizeNumber) => {
   )
 
   const addresses = getErc20AddressesByBlockNumberFromPrizes([prize], underlyingToken?.address)
-  const { data: tokenPrices, ...tokenPricesData } = useTokenPrices(addresses)
+  const { data: tokenPrices, ...tokenPricesData } = useTokenPrices(chainId, addresses)
 
   const data = formatAndCalculatePrizeValues([prize], tokenPrices, underlyingToken)
+  console.log(prize, tokenPrices, data)
 
   const isFetched = prizeData.isFetched && tokenPricesData.isFetched
   const isFetching = prizeData.isFetching && tokenPricesData.isFetching
@@ -198,6 +197,7 @@ const formatAndCalculatePrizeValues = (prizes, tokenPrices, underlyingToken) => 
     // could improve on the fix by not passing the new prize object
     // that hasn't completed being awarded yet
     if (!relevantPrices) {
+      debugger
       return {}
     }
     return formatAndCalculatePrizeValue(prize, relevantPrices, underlyingToken)
