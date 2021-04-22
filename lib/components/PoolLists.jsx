@@ -158,7 +158,6 @@ const PoolList = (props) => {
 }
 
 const filterByChainId = (pool, chainIdFilter) => {
-  debugger
   if (chainIdFilter === 'all') return true
   return pool.chainId === Number(chainIdFilter)
 }
