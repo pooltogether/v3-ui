@@ -71,7 +71,7 @@ export const AccountTicket = (props) => {
     <>
       <motion.div
         onClick={handleManageClick}
-        key={`account-pool-ticket-${pool.prizePool.poolAddress}`}
+        key={`account-pool-ticket-${pool.prizePool.address}`}
         className={classnames('relative ticket bg-no-repeat text-xxxs xs:text-xs', {
           'xs:mr-6 mb-6': !noMargin,
           'cursor-pointer': isSelf && isLink
