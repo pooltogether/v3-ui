@@ -10,12 +10,12 @@ import { InteractableCard } from 'lib/components/InteractableCard'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayPercentage } from 'lib/utils/displayPercentage'
-import PoolIcon from 'assets/images/pool-icon.svg'
-import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
-export const PoolRowNew = (props) => {
+import PoolIcon from 'assets/images/pool-icon.svg'
+
+export const PoolRow = (props) => {
   const { pool } = props
 
   const { t } = useTranslation()
@@ -79,7 +79,11 @@ export const PoolRowNew = (props) => {
                 <PoolPrizeValue pool={pool} />
               </div>
 
-              <div className='text-accent-1 text-xxxs text-center'>{t('prizeValue')}</div>
+              <div className='block mx-auto'>
+                <div className='text-accent-1 text-xxxs text-center bg-accent-grey-1 text-highlight-3 rounded-full px-2'>
+                  {t('prizeValue')}
+                </div>
+              </div>
 
               <NetworkBadge networkName={pool.networkName} chainId={pool.chainId} />
             </div>
@@ -164,7 +168,7 @@ const PoolPrizeValue = (props) => {
 }
 
 const NetworkBadge = (props) => {
-  const { chainId, networkName } = props
+  const { chainId } = props
   return (
     <div className='mx-auto mt-2 flex'>
       <NetworkIcon className='my-auto' sizeClasses='w-4 h-4' chainId={chainId} />

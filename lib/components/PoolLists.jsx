@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'lib/../i18n'
 import { POOL_LIST_TABS } from 'lib/constants'
 import { ANIM_LIST_VARIANTS } from 'lib/constants/framerAnimations'
-import { PoolRowNew } from 'lib/components/PoolRowNew'
+import { PoolRow } from 'lib/components/PoolRow'
 import { Tabs, Tab, ContentPane } from 'lib/components/Tabs'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
@@ -163,7 +163,7 @@ const PoolList = (props) => {
           .sort((a, b) => Number(b.prize.totalValueUsd) - Number(a.prize.totalValueUsd))
           .filter((pool) => filterByChainId(pool, chainIdFilter))
           .map((pool) => (
-            <PoolRowNew key={`pool-row-${pool.prizePool.address}`} pool={pool} />
+            <PoolRow key={`pool-row-${pool.prizePool.address}`} pool={pool} />
           ))}
       </ul>
     </div>
