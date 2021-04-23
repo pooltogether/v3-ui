@@ -7,14 +7,12 @@ import {
   CUSTOM_YIELD_SOURCE_NAMES,
   CUSTOM_YIELD_SOURCE_IMAGES
 } from 'lib/constants/customYieldSourceImages'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { Tooltip } from 'lib/components/Tooltip'
 import { Card, CardDetailsList } from 'lib/components/Card'
-import { useTokenFaucetData } from 'lib/hooks/useTokenFaucetData'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
 import CompSvg from 'assets/images/comp.svg'
 
@@ -172,7 +170,7 @@ const YieldSourceStat = (props) => {
     sourceImage = CompSvg
   } else if (yieldSource === PRIZE_POOL_TYPES.genericYield) {
     const yieldSourceAddress = pool.prizePool.yieldSource
-    value = <EtherscanAddressLink address={yieldSourceAddress} />
+    value = <BlockExplorerLink chainId={pool.chainId} address={yieldSourceAddress} />
     sourceName = CUSTOM_YIELD_SOURCE_NAMES[yieldSourceAddress]
     if (!sourceName) {
       sourceName = t('customYieldSource')

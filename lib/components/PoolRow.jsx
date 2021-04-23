@@ -55,77 +55,74 @@ export const PoolRow = (props) => {
   const apr = pool.tokenListener?.apr
 
   return (
-    <>
-      <InteractableCard
-        id={`_view${symbol}Pool`}
-        key={`pool-row-${pool.id}`}
-        href='/pools/[networkName]/[symbol]'
-        as={`/pools/${pool.networkName}/${symbol}`}
-        className='mt-1 sm:mt-2'
-      >
-        <div className='flex flex-col sm:flex-row items-center justify-between sm:justify-evenly text-inverse'>
-          <div className='pool-row-left-col h-full flex bg-body py-2 p-4 sm:px-6 sm:pt-3 sm:pb-5 lg:px-8 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
-            <div className='flex flex-col mx-auto'>
-              <div className='flex'>
-                <PoolCurrencyIcon
-                  noMediaQueries
-                  lg
-                  symbol={pool.tokens.underlyingToken.symbol}
-                  address={pool.tokens.underlyingToken.address}
-                  className='my-auto'
-                />
+    <InteractableCard
+      id={`_view${symbol}Pool`}
+      href='/pools/[networkName]/[symbol]'
+      as={`/pools/${pool.networkName}/${symbol}`}
+      className='mt-1 sm:mt-2'
+    >
+      <div className='flex flex-col sm:flex-row items-center justify-between sm:justify-evenly text-inverse'>
+        <div className='pool-row-left-col h-full flex bg-body py-2 p-4 sm:px-6 sm:pt-3 sm:pb-5 lg:px-8 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
+          <div className='flex flex-col mx-auto'>
+            <div className='flex'>
+              <PoolCurrencyIcon
+                noMediaQueries
+                lg
+                symbol={pool.tokens.underlyingToken.symbol}
+                address={pool.tokens.underlyingToken.address}
+                className='my-auto'
+              />
 
-                <PoolPrizeValue pool={pool} />
+              <PoolPrizeValue pool={pool} />
+            </div>
+
+            <div className='block mx-auto mb-1 sm:mb-2'>
+              <div className='text-accent-1 text-xxxs text-center bg-accent-grey-1 text-highlight-3 rounded-full px-2'>
+                {t('prizeValue')}
               </div>
-
-              <div className='block mx-auto mb-1 sm:mb-2'>
-                <div className='text-accent-1 text-xxxs text-center bg-accent-grey-1 text-highlight-3 rounded-full px-2'>
-                  {t('prizeValue')}
-                </div>
-              </div>
-
-              <NetworkBadge chainId={pool.chainId} />
-            </div>
-          </div>
-
-          <div className='pool-row-right-col flex flex-col items-center w-full sm:w-1/2 mt-4 sm:mt-0'>
-            <NewPrizeCountdown textSize='text-sm sm:text-lg lg:text-xl' pool={pool} />
-
-            <Button
-              border='green'
-              text='primary'
-              bg='green'
-              hoverBorder='green'
-              hoverText='primary'
-              hoverBg='green'
-              onClick={handleGetTicketsClick}
-              width='w-full'
-              textSize='xxxs'
-              className='mt-3'
-              padding='py-1'
-              disabled={!Boolean(pool.symbol)}
-            >
-              {t('depositTicker', {
-                ticker: tickerUpcased
-              })}
-            </Button>
-
-            <div className='flex items-center justify-between mt-3 w-full'>
-              <div className='hidden sm:flex'>{apr && <AprChip />}</div>
-
-              <span className='relative hidden sm:inline-block'>
-                <ViewPoolDetailsButton />
-              </span>
             </div>
 
-            <span className='mt-1 relative sm:hidden'>{apr && <AprChip />}</span>
-            <div className='sm:hidden mt-1'>
-              <ViewPoolDetailsButton />
-            </div>
+            <NetworkBadge chainId={pool.chainId} />
           </div>
         </div>
-      </InteractableCard>
-    </>
+
+        <div className='pool-row-right-col flex flex-col items-center w-full sm:w-1/2 mt-4 sm:mt-0'>
+          <NewPrizeCountdown textSize='text-sm sm:text-lg lg:text-xl' pool={pool} />
+
+          <Button
+            border='green'
+            text='primary'
+            bg='green'
+            hoverBorder='green'
+            hoverText='primary'
+            hoverBg='green'
+            onClick={handleGetTicketsClick}
+            width='w-full'
+            textSize='xxxs'
+            className='mt-3'
+            padding='py-1'
+            disabled={!Boolean(pool.symbol)}
+          >
+            {t('depositTicker', {
+              ticker: tickerUpcased
+            })}
+          </Button>
+
+          <div className='flex items-center justify-between mt-3 w-full'>
+            <div className='hidden sm:flex'>{apr && <AprChip />}</div>
+
+            <span className='relative hidden sm:inline-block'>
+              <ViewPoolDetailsButton />
+            </span>
+          </div>
+
+          <span className='mt-1 relative sm:hidden'>{apr && <AprChip />}</span>
+          <div className='sm:hidden mt-1'>
+            <ViewPoolDetailsButton />
+          </div>
+        </div>
+      </div>
+    </InteractableCard>
   )
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/router'
 
@@ -13,23 +13,60 @@ import { PoolsListUILoader } from 'lib/components/loaders/PoolsListUILoader'
 import { useCommunityPools, useGovernancePools } from 'lib/hooks/usePools'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
-import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
+import { ALL_NETWORKS_ID, getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { NetworkIcon } from 'lib/components/NetworkIcon'
+import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
+import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
 
 export const PoolLists = () => {
   const { t } = useTranslation()
   const router = useRouter()
   const poolFilters = usePoolFilters()
-  const [chainIdFilter, setChainIdFilter] = useState('all')
+  const [chainIdFilter, setChainIdFilter] = useState(ALL_NETWORKS_ID)
+  const [selectedTab, setSelectedTab] = useState()
   const formatValue = (key) => poolFilters[key].view
 
-  // Don't switch back to the default tab if we're navigating away from the homepage
-  const defaultTab = router.pathname === '/' && POOL_LIST_TABS.pools
-  const selectedTab = router.query.tab || defaultTab
+  const queryTab = router?.query?.tab
+  const pathFilter = router?.query?.networkName
+  const queryFilter = router?.query?.filter
+
+  // TODO: This is kind of messy. Fighting with animations triggering between
+  // /pools/polygon vs /pools vs pools?filter=polygon.
+  // Current solution ALWAYS adds ?tab=pools
+  // and will not change the route, just adds filters to query params.
+  useEffect(() => {
+    if (queryTab) {
+      setSelectedTab(queryTab)
+    } else if (!selectedTab && router.isReady) {
+      queryParamUpdater.add(router, { tab: POOL_LIST_TABS.pools })
+    }
+  }, [queryTab, router.isReady])
+
+  const setChainFilter = (chainIdFilter) => {
+    if (chainIdFilter !== ALL_NETWORKS_ID) {
+      queryParamUpdater.add(router, { filter: chainIdToNetworkName(Number(chainIdFilter)) })
+    } else {
+      queryParamUpdater.remove(router, 'filter')
+    }
+  }
+
+  useEffect(() => {
+    if (!queryFilter) {
+      if (pathFilter) {
+        const filterChainId = networkNameToChainId(pathFilter)
+        setChainIdFilter(Number(filterChainId) || ALL_NETWORKS_ID)
+      } else {
+        setChainIdFilter(ALL_NETWORKS_ID)
+      }
+    } else {
+      const filterChainId = networkNameToChainId(queryFilter)
+      setChainIdFilter(Number(filterChainId) || ALL_NETWORKS_ID)
+    }
+  }, [queryFilter, pathFilter])
 
   return (
     <div className='mt-10'>
-      <div className='flex flex-col xs:flex-row flex-col-reverse justify-between items-center text-xs sm:text-lg lg:text-xl'>
+      <div className='flex flex-col xs:flex-row justify-between items-center text-xs sm:text-lg lg:text-xl'>
         <Tabs className=''>
           <Tab
             isSelected={selectedTab === POOL_LIST_TABS.pools}
@@ -52,8 +89,8 @@ export const PoolLists = () => {
         <SmallDropdownInputGroup
           id='pool-filter'
           formatValue={formatValue}
-          onValueSet={setChainIdFilter}
-          initial={chainIdFilter}
+          onValueSet={setChainFilter}
+          currentValue={chainIdFilter}
           values={poolFilters}
         />
       </div>
@@ -151,32 +188,45 @@ const SmallDropdownInputGroup = (props) => {
 }
 
 const PoolList = (props) => {
+  const { t } = useTranslation()
+
   const { pools, isFetched, chainIdFilter } = props
+
+  const poolsToRender = useMemo(
+    () =>
+      pools
+        ?.sort((a, b) => Number(b.prize.totalValueUsd) - Number(a.prize.totalValueUsd))
+        .filter((pool) => filterByChainId(pool, chainIdFilter))
+        .map((pool) => <PoolRow key={`pool-row-${pool.prizePool.address}`} pool={pool} />) || [],
+    [pools, chainIdFilter]
+  )
 
   if (!isFetched) return <PoolsListUILoader />
 
   return (
     <div>
       <ul>
-        {/* TODO: Actual sorting! */}
-        {pools
-          .sort((a, b) => Number(b.prize.totalValueUsd) - Number(a.prize.totalValueUsd))
-          .filter((pool) => filterByChainId(pool, chainIdFilter))
-          .map((pool) => (
-            <PoolRow key={`pool-row-${pool.prizePool.address}`} pool={pool} />
-          ))}
+        {poolsToRender}
+        {poolsToRender.length === 0 && (
+          <div className='flex flex-col'>
+            <span className='mt-10 mx-auto text-accent-1'>
+              {t('noBlankPoolsYet', { networkName: getNetworkNiceNameByChainId(chainIdFilter) })}
+            </span>
+          </div>
+        )}
       </ul>
     </div>
   )
 }
 
 const filterByChainId = (pool, chainIdFilter) => {
-  if (chainIdFilter === 'all') return true
-  return pool.chainId === Number(chainIdFilter)
+  if (chainIdFilter === ALL_NETWORKS_ID) return true
+  return pool.chainId === chainIdFilter
 }
 
 const usePoolFilters = () => {
   const chainIds = useEnvChainIds()
+  const { t } = useTranslation()
   return chainIds.reduce(
     (allFilters, chainId) => {
       allFilters[chainId] = {
@@ -190,6 +240,6 @@ const usePoolFilters = () => {
       }
       return allFilters
     },
-    { all: { view: 'All Networks', value: null } }
+    { [-1]: { view: t('allNetworks'), value: null } }
   )
 }

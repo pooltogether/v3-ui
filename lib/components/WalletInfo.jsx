@@ -3,12 +3,12 @@ import Link from 'next/link'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { shorten } from 'lib/utils/shorten'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
+import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
 export function WalletInfo(props) {
   const { t } = useTranslation()
@@ -33,9 +33,9 @@ export function WalletInfo(props) {
               {t('accountAddress')}
             </div>
             <div className='flex justify-between items-center sm:text-xs lg:text-sm text-default mt-1 mb-2 sm:mb-4'>
-              <EtherscanAddressLink address={usersAddress}>
+              <BlockExplorerLink chainId={walletChainId} address={usersAddress}>
                 {shorten(usersAddress)}
-              </EtherscanAddressLink>
+              </BlockExplorerLink>
               <Link href='/account' as='/account' shallow>
                 <a
                   onClick={(e) => {
