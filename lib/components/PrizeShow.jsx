@@ -10,6 +10,7 @@ import { HistoricPrizeBreakdown } from 'lib/components/HistoricPrizeBreakdown'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { Tagline } from 'lib/components/Tagline'
+import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import TicketsIcon from 'assets/images/icon-ticket@2x.png'
@@ -40,6 +41,11 @@ export function PrizeShow(props) {
             href: '/',
             as: '/',
             name: t('pools')
+          },
+          {
+            href: '/pools/[networkName]',
+            as: `/pools/${pool.networkName}`,
+            name: getNetworkNiceNameByChainId(pool.chainId)
           },
           {
             href: '/pools/[networkName]/[symbol]',

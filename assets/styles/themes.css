@@ -72,6 +72,7 @@
   --color-text-teal: #049c9c;
   --color-text-purple: #401c94;
 
+  --color-border-body: #290b5a;
   --color-border-accent-1: #bbb2ce;
   --color-border-accent-2: #bbb2ce;
   --color-border-accent-3: #4c249f;
@@ -166,6 +167,7 @@
   --color-text-teal: #049c9c;
   --color-text-purple: #401c94;
 
+  --color-border-body: #fff;
   --color-border-accent-1: #bbb2ce;
   --color-border-accent-2: #4c249f;
   --color-border-accent-3: #666;

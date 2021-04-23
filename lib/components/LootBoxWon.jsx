@@ -186,6 +186,7 @@ const LootBoxWonTable = (props) => {
           <BeatLoader size={10} color='rgba(255,255,255,0.3)' />
         ) : (
           <PlunderLootBoxTxButton
+            pool={pool}
             lootBox={lootBox}
             alreadyClaimed={alreadyClaimed}
             prizeNumber={prizeNumber}

@@ -68,9 +68,12 @@ export const AccountTicket = (props) => {
       <motion.div
         onClick={handleManageClick}
         key={`account-pool-ticket-${pool.prizePool.poolAddress}`}
-        className={classnames('bg-accent-grey-4 rounded-lg relative text-xxxs xs:text-xs mb-3', {
-          'cursor-pointer': isSelf && isLink
-        })}
+        className={classnames(
+          'bg-accent-grey-4 py-2 rounded-lg relative text-xxxs xs:text-xs mb-3',
+          {
+            'cursor-pointer': isSelf && isLink
+          }
+        )}
         animate={{
           scale: 1,
           opacity: 1,
@@ -90,8 +93,8 @@ export const AccountTicket = (props) => {
           }
         }}
       >
-        <div className='flex items-center justify-between'>
-          <div className='w-32 sm:w-40 flex flex-col items-center'>
+        <div className='h-24  flex items-center justify-between'>
+          <div className='h-24 w-32 sm:w-40 flex flex-col items-center justify-center border-accent-3 border-dashed border-r-2'>
             <PoolCurrencyIcon
               lg
               noMargin
@@ -163,7 +166,7 @@ export const AccountTicket = (props) => {
                   </>
                 )}
 
-                <span className='text-xxxxs xs:text-xxs'>
+                <span className='text-xxxxs xs:text-xxs font-regular'>
                   <NewPrizeCountdownInWords onTicket extraShort pool={pool} />
                 </span>
               </div>

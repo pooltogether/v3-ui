@@ -78,7 +78,7 @@ export const PoolRow = (props) => {
                 <PoolPrizeValue pool={pool} />
               </div>
 
-              <div className='block mx-auto sm:my-1'>
+              <div className='block mx-auto mb-1 sm:mb-2'>
                 <div className='text-accent-1 text-xxxs text-center bg-accent-grey-1 text-highlight-3 rounded-full px-2'>
                   {t('prizeValue')}
                 </div>

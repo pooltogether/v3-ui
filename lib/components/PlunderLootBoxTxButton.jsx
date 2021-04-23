@@ -12,11 +12,11 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 export function PlunderLootBoxTxButton(props) {
   const { t } = useTranslation()
 
-  const { alreadyClaimed, prizeNumber, lootBox } = props
+  const { alreadyClaimed, prizeNumber, lootBox, pool } = props
 
   const [txId, setTxId] = useState(0)
 
-  const { contractAddresses } = useContractAddresses()
+  const { contractAddresses } = useContractAddresses(pool.chainId)
 
   const lootBoxControllerAddress = contractAddresses?.lootBoxController
   const lootBoxAddress = contractAddresses?.lootBox
