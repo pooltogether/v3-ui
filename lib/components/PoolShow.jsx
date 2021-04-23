@@ -19,26 +19,27 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 import { CommunityPoolDisclaimerModal } from 'lib/components/CommunityPoolDisclaimerModal'
 import { PoolShowLootBoxTable } from 'lib/components/LootBoxTable'
-import { PoolShowUILoader } from 'lib/components/loaders/PoolShowUILoader'
-import { UpcomingPrizeBreakdownCard } from 'lib/components/UpcomingPrizeBreakdownCard'
-import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
-import { Meta } from 'lib/components/Meta'
-import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
-import { Tagline } from 'lib/components/Tagline'
-import { useReducedMotion } from 'lib/hooks/useReducedMotion'
-import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
-import { translatedPoolName } from 'lib/utils/translatedPoolName'
-import { SablierStreamCard } from 'lib/components/SablierStreamCard'
-import { PoolPrizeCard } from 'lib/components/PoolPrizeCard'
-import { PoolStats } from 'lib/components/PoolStats'
-import { usePoolBySymbol } from 'lib/hooks/usePools'
-
-import Bell from 'assets/images/bell-yellow@2x.png'
 import { PoolChartsCard } from 'lib/components/PoolChartsCard'
 import { PastWinnersCard } from 'lib/components/PastWinnersCard'
 import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
+import { PoolPrizeCard } from 'lib/components/PoolPrizeCard'
+import { PoolStats } from 'lib/components/PoolStats'
+import { PoolShowUILoader } from 'lib/components/loaders/PoolShowUILoader'
+import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
+import { SablierStreamCard } from 'lib/components/SablierStreamCard'
+import { UpcomingPrizeBreakdownCard } from 'lib/components/UpcomingPrizeBreakdownCard'
+import { Meta } from 'lib/components/Meta'
+import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
+import { Tagline } from 'lib/components/Tagline'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
+import { usePoolBySymbol } from 'lib/hooks/usePools'
+import { translatedPoolName } from 'lib/utils/translatedPoolName'
+import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
+
 import { useRouterChainId } from 'lib/hooks/chainId/useRouterChainId'
+
+import Bell from 'assets/images/bell-yellow@2x.png'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -122,6 +123,11 @@ export const PoolShow = (props) => {
                   href: '/',
                   as: '/',
                   name: t('pools')
+                },
+                {
+                  href: '/pools/[networkName]',
+                  as: `/pools/${pool.networkName}`,
+                  name: getNetworkNiceNameByChainId(pool.chainId)
                 },
                 {
                   name: translatedPoolName(t, pool.name)

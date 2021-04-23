@@ -271,8 +271,6 @@ export const AccountRewardsView = (props) => {
 
   return (
     <>
-      <h5 className='font-normal text-accent-2 mt-12 mb-4'>{t('myRewards')}</h5>
-
       <div className='xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-2 sm:px-6 py-3'>
         <div className='flex justify-between flex-col xs:flex-row xs:pt-4 pb-0 px-2 xs:px-4'>
           <div className='flex-col order-2 xs:order-1'>
