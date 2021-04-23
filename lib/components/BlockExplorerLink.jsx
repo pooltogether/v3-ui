@@ -53,13 +53,17 @@ export const BlockExplorerLink = (props) => {
             >
               {display}
             </span>
-            {noIcon && <LinkIcon className={iconClassName} />}
+            {!noIcon && <LinkIcon className={iconClassName} />}
           </div>
         )}
       </a>
       {copyable && <CopyIcon className='ml-2 my-auto' text={display} />}
     </>
   )
+}
+
+BlockExplorerLink.defaultProps = {
+  noIcon: false
 }
 
 export const LinkIcon = (props) => (
