@@ -4,14 +4,14 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { useAllErc20Awards } from 'lib/hooks/useAllErc20Awards'
+import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
+import { useCurrentPool } from 'lib/hooks/usePools'
 
 /**
  * Table use in PoolShow
@@ -156,6 +156,8 @@ export const LootBoxTable = (props) => {
 const AwardRow = (props) => {
   const { award } = props
 
+  const { data: pool } = useCurrentPool()
+
   const name = award.name
 
   if (!name) {
@@ -166,9 +168,13 @@ const AwardRow = (props) => {
     <li className='w-full flex text-xxs sm:text-base mb-2 last:mb-0'>
       <span className='flex w-1/3 items-center text-left'>
         <Erc20Image address={award.address} />{' '}
-        <EtherscanAddressLink address={award.address} className='truncate text-accent-1'>
+        <BlockExplorerLink
+          chainId={pool.chainId}
+          address={award.address}
+          className='truncate text-accent-1'
+        >
           {name}
-        </EtherscanAddressLink>
+        </BlockExplorerLink>
       </span>
       <span className='w-1/3 sm:pl-6 text-right text-accent-1 truncate'>
         <PoolNumber>{numberWithCommas(award.amount, { precision: 2 })}</PoolNumber> {award.symbol}

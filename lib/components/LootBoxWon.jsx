@@ -3,7 +3,6 @@ import BeatLoader from 'react-spinners/BeatLoader'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -19,6 +18,7 @@ import { usePastPrize } from 'lib/hooks/usePastPrizes'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { useReadProvider } from 'lib/hooks/providers/useReadProvider'
 import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
+import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
 export const LootBoxWon = (props) => {
   const { lootBox } = props
@@ -224,12 +224,13 @@ const LootBoxWonTable = (props) => {
                       <tr>
                         <td className='flex items-center text-left font-bold'>
                           <Erc20Image address={erc20.address} />{' '}
-                          <EtherscanAddressLink
+                          <BlockExplorerLink
                             address={erc20.address}
                             className='text-inverse truncate'
+                            chainId={pool.chainId}
                           >
                             {name}
-                          </EtherscanAddressLink>
+                          </BlockExplorerLink>
                         </td>
                         <td className='text-left text-accent-1 truncate'>
                           <PoolNumber>

@@ -49,6 +49,7 @@ export const AccountUI = () => {
       {isSelf && <RetroactivePoolClaimBanner />}
 
       <PageTitleAndBreadcrumbs
+        chainId={chainId}
         address={address}
         title={pageTitle}
         breadcrumbs={[

@@ -4,9 +4,9 @@ import Loader from 'react-loader-spinner'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Banner } from 'lib/components/Banner'
-import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { shorten } from 'lib/utils/shorten'
 import { useTranslation } from 'lib/../i18n'
+import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
 export const TxStatus = (props) => {
   const { gradient, tx, title, subtitle } = props
@@ -92,9 +92,13 @@ export const TxStatus = (props) => {
           {tx.hash && (
             <div className='text-xxs sm:text-xs text-accent-1 opacity-60'>
               {t('transactionHash')}
-              <EtherscanTxLink chainId={chainId} hash={tx.hash} className='underline text-accent-1'>
+              <BlockExplorerLink
+                chainId={chainId}
+                txHash={tx.hash}
+                className='underline text-accent-1'
+              >
                 {shorten(tx.hash)}
-              </EtherscanTxLink>
+              </BlockExplorerLink>
             </div>
           )}
 

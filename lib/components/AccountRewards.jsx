@@ -10,7 +10,6 @@ import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptrolle
 import { useTranslation } from 'lib/../i18n'
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
@@ -27,6 +26,7 @@ import { isSelfAtom } from 'lib/components/AccountUI'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
 import { NETWORK } from 'lib/utils/networks'
+import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
 export const AccountRewards = () => {
   const [isSelf] = useAtom(isSelfAtom)
@@ -187,13 +187,13 @@ export const AccountRewardsView = (props) => {
             <span className='order-2 sm:order-1'>
               {!isEmpty(tx.hash) && (
                 <>
-                  <EtherscanTxLink
+                  <BlockExplorerLink
                     chainId={tx.ethersTx.chainId}
-                    hash={tx.hash}
+                    txHash={tx.hash}
                     className='text-xxxs text-teal sm:mr-3'
                   >
                     Etherscan
-                  </EtherscanTxLink>
+                  </BlockExplorerLink>
                 </>
               )}
             </span>

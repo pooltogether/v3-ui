@@ -3,13 +3,13 @@ import Link from 'next/link'
 
 import { useTranslation } from 'lib/../i18n'
 import { Chip } from 'lib/components/Chip'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { BlockExplorerLink, LinkIcon } from 'lib/components/BlockExplorerLink'
 
 export const PageTitleAndBreadcrumbs = (props) => {
   const { t } = useTranslation()
 
-  const { address, breadcrumbs, title, pool } = props
+  const { chainId, address, breadcrumbs, title, pool } = props
 
   const crumbJsx = (
     <>
@@ -17,7 +17,11 @@ export const PageTitleAndBreadcrumbs = (props) => {
         <div className='inline-flex items-center text-left text-xl sm:text-3xl font-bold text-accent-2 relative'>
           {title}{' '}
           <span className='text-base sm:text-xl ml-2'>
-            {address && <EtherscanAddressLink address={address} />}
+            {address && chainId && (
+              <BlockExplorerLink address={address} chainId={chainId}>
+                <LinkIcon />
+              </BlockExplorerLink>
+            )}
           </span>
         </div>
         <div

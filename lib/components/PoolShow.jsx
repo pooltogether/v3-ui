@@ -188,13 +188,13 @@ export const PoolShow = (props) => {
           )}
 
           <div className='m-2'>
-            <BlockExplorerLink address={pool.prizePool.address}>
+            <BlockExplorerLink address={pool.prizePool.address} chainId={pool.chainId}>
               {t('viewPoolInEtherscan')}
             </BlockExplorerLink>
           </div>
 
           <div className='m-2'>
-            <BlockExplorerLink address={pool.tokens.underlyingToken.address}>
+            <BlockExplorerLink address={pool.tokens.underlyingToken.address} chainId={pool.chainId}>
               {t('viewDepositTokenOnEtherscan')}
             </BlockExplorerLink>
           </div>

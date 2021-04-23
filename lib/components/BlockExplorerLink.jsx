@@ -5,20 +5,28 @@ import React from 'react'
 import { CopyIcon } from 'lib/components/CopyIcon'
 import { formatBlockExplorerAddressUrl, formatBlockExplorerTxUrl } from 'lib/utils/networks'
 import { shorten as shortenHash } from 'lib/utils/shorten'
-import { useNetwork } from 'lib/hooks/useNetwork'
 
 export const BlockExplorerLink = (props) => {
-  const { address, tx, children, className, shorten, iconClassName, copyable } = props
-  const { chainId } = useNetwork()
+  const {
+    address,
+    txHash,
+    children,
+    className,
+    shorten,
+    noIcon,
+    iconClassName,
+    copyable,
+    chainId
+  } = props
 
   let url
-  if (tx) {
-    url = formatBlockExplorerTxUrl(tx, chainId)
+  if (txHash) {
+    url = formatBlockExplorerTxUrl(txHash, chainId)
   } else if (address) {
     url = formatBlockExplorerAddressUrl(address, chainId)
   }
 
-  const display = tx || address
+  const display = txHash || address
 
   return (
     <>
@@ -45,7 +53,7 @@ export const BlockExplorerLink = (props) => {
             >
               {display}
             </span>
-            <LinkIcon className={iconClassName} />
+            {noIcon && <LinkIcon className={iconClassName} />}
           </div>
         )}
       </a>
