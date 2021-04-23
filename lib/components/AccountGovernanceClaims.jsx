@@ -32,6 +32,7 @@ import { useGovernancePools } from 'lib/hooks/usePools'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
 import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
+import { Erc20Image } from 'lib/components/Erc20Image'
 
 export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
@@ -252,6 +253,7 @@ const ClaimablePoolTokenItem = (props) => {
   if (!isFetched) return null
 
   const dripRatePerSecond = pool.tokenListener.dripRatePerSecond || 0
+  const dripToken = pool.tokens.tokenFaucetDripToken
 
   const underlyingToken = pool.tokens.underlyingToken
   const name = t('prizePoolTicker', { ticker: underlyingToken.symbol })
@@ -292,12 +294,11 @@ const ClaimablePoolTokenItem = (props) => {
             {t('poolNamesDripRate', { poolName: name })}
             <br />
             {totalDripPerDayFormatted}{' '}
-            <img
-              src={PoolIcon}
+            <Erc20Image
+              address={dripToken.address}
               className='relative inline-block w-4 h-4 mx-1'
-              style={{ top: -2 }}
-            />{' '}
-            POOL / <span className='lowercase'>{t('day')}</span>
+            />
+            {dripToken.symbol} / <span className='lowercase'>{t('day')}</span>
             <br />
             {displayPercentage(apr)}% APR
           </div>
@@ -316,7 +317,7 @@ const ClaimablePoolTokenItem = (props) => {
         </h4>
         <div className='text-accent-1 text-xs flex items-center sm:justify-end mt-1 sm:mt-0 mb-2 opacity-80 trans hover:opacity-100'>
           {usersDripPerDayFormatted} <img src={PoolIcon} className='inline-block w-4 h-4 mx-2' />{' '}
-          POOL /&nbsp;<span className='lowercase'>{t('day')}</span>
+          {dripToken.symbol} /&nbsp;<span className='lowercase'>{t('day')}</span>
         </div>
         {isSelf && (
           <div className='sm:w-40 sm:ml-auto'>
