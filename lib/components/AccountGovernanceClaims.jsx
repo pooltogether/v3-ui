@@ -30,6 +30,8 @@ import { NETWORK } from 'lib/utils/networks'
 import PoolIcon from 'assets/images/pool-icon.svg'
 import { useGovernancePools } from 'lib/hooks/usePools'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
+import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
+import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 
 export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
@@ -41,6 +43,8 @@ export const AccountGovernanceClaims = (props) => {
   const address = playerAddress || usersAddress
   const { refetch: refetchTotalClaimablePool } = useClaimablePoolFromTokenFaucets(address)
   const { refetch: refetchPoolTokenData } = usePoolTokenData(address)
+  const poolTokenChainId = usePoolTokenChainId()
+  const walletChainId = useWalletChainId()
 
   const refetchAllPoolTokenData = () => {
     refetchTotalClaimablePool()
@@ -73,15 +77,18 @@ export const AccountGovernanceClaims = (props) => {
           )
         })}
 
-        <div className='mt-7 text-center'>
-          <AddTokenToMetaMaskButton
-            basic
-            showPoolIcon
-            textSize='xxs'
-            tokenAddress={CUSTOM_CONTRACT_ADDRESSES[NETWORK.mainnet]?.GovernanceToken}
-            tokenSymbol='POOL'
-          />
-        </div>
+        {walletChainId === poolTokenChainId && (
+          <div className='mt-7 text-center'>
+            <AddTokenToMetaMaskButton
+              basic
+              showPoolIcon
+              textSize='xxs'
+              tokenAddress={CUSTOM_CONTRACT_ADDRESSES[poolTokenChainId]?.GovernanceToken}
+              tokenDecimals={DEFAULT_TOKEN_PRECISION}
+              tokenSymbol='POOL'
+            />
+          </div>
+        )}
       </div>
     </>
   )
