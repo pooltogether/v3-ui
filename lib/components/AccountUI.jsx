@@ -49,8 +49,6 @@ export const AccountUI = () => {
       {isSelf && <RetroactivePoolClaimBanner />}
 
       <PageTitleAndBreadcrumbs
-        chainId={chainId}
-        address={address}
         title={pageTitle}
         breadcrumbs={[
           {
@@ -76,14 +74,6 @@ export const AccountUI = () => {
           <AccountLootBoxes />
 
           <AccountWinnings />
-
-          <div className='flex flex-col items-center justify-center mt-20'>
-            <div className='m-2'>
-              <ButtonLink textSize='xxs' href={formatEtherscanAddressUrl(address, chainId)}>
-                {t('viewPlayerInEtherscan')}
-              </ButtonLink>
-            </div>
-          </div>
         </>
       )}
 
