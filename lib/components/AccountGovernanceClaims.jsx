@@ -19,8 +19,8 @@ import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { ThemedClipLoader } from 'lib/components/loaders/ThemedClipLoader'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useClaimablePoolFromTokenFaucet } from 'lib/hooks/useClaimablePoolFromTokenFaucet'
-import { useClaimablePoolFromTokenFaucets } from 'lib/hooks/useClaimablePoolFromTokenFaucets'
+import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
+import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { displayPercentage } from 'lib/utils/displayPercentage'
@@ -41,7 +41,7 @@ export const AccountGovernanceClaims = (props) => {
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
-  const { refetch: refetchTotalClaimablePool } = useClaimablePoolFromTokenFaucets(address)
+  const { refetch: refetchTotalClaimablePool } = useClaimableTokenFromTokenFaucets(address)
   const { refetch: refetchPoolTokenData } = usePoolTokenData(address)
   const poolTokenChainId = usePoolTokenChainId()
   const walletChainId = useWalletChainId()
@@ -105,8 +105,12 @@ const ClaimHeader = (props) => {
   const { t } = useTranslation()
   const { refetchAllPoolTokenData } = props
 
-  const { data: claimablePoolFromTokenFaucets } = useClaimablePoolFromTokenFaucets(address)
-  const totalClaimablePool = claimablePoolFromTokenFaucets?.total
+  const poolTokenChainId = usePoolTokenChainId()
+  const poolTokenAddress = CUSTOM_CONTRACT_ADDRESSES[poolTokenChainId].GovernanceToken.toLowerCase()
+
+  const { data: claimableFromTokenFaucets } = useClaimableTokenFromTokenFaucets(address)
+  const totalClaimablePool =
+    Number(claimableFromTokenFaucets?.totals?.[poolTokenAddress]?.totalClaimableAmount) || 0
 
   const [isSelf] = useAtom(isSelfAtom)
 
@@ -142,24 +146,31 @@ const ClaimHeader = (props) => {
   )
 }
 
+/**
+ * Claims from all POOL token faucets
+ * @param {*} props
+ * @returns
+ */
 const ClaimAllButton = (props) => {
   const { t } = useTranslation()
   const { address, claimable, refetchAllPoolTokenData } = props
 
-  const { chainId } = useContext(AuthControllerContext)
+  const walletChainId = useWalletChainId()
+  const poolTokenChainId = usePoolTokenChainId()
+
   const {
     isFetched: isClaimablePoolDataFetched,
     data: claimablePoolFromTokenFaucets
-  } = useClaimablePoolFromTokenFaucets(address)
+  } = useClaimableTokenFromTokenFaucets(address)
 
   const tokenFaucetAddresses = useMemo(() => {
     if (claimablePoolFromTokenFaucets) {
       const addresses = []
       Object.keys(claimablePoolFromTokenFaucets).forEach((key) => {
-        if (key === 'total') return
+        if (key === 'totals') return
 
         const claimablePoolData = claimablePoolFromTokenFaucets[key]
-        if (claimablePoolData.amount) {
+        if (!claimablePoolData.claimableAmountUnformatted.isZero()) {
           addresses.push(key)
         }
       })
@@ -182,7 +193,7 @@ const ClaimAllButton = (props) => {
     const id = await sendTx(
       t('claimAll'),
       TokenFaucetProxyFactoryAbi,
-      CUSTOM_CONTRACT_ADDRESSES[chainId].TokenFaucetProxyFactory,
+      CUSTOM_CONTRACT_ADDRESSES[poolTokenChainId].TokenFaucetProxyFactory,
       'claimAll',
       params,
       refetchAllPoolTokenData
@@ -204,7 +215,9 @@ const ClaimAllButton = (props) => {
       type='button'
       onClick={handleClaim}
       className='mb-4'
-      disabled={!isClaimablePoolDataFetched || !claimable || txPending}
+      disabled={
+        !isClaimablePoolDataFetched || !claimable || txPending || walletChainId !== poolTokenChainId
+      }
       padding='px-8 py-1'
       border='green'
       text='primary'
@@ -227,12 +240,18 @@ const ClaimAllButton = (props) => {
 const ClaimablePoolTokenItem = (props) => {
   const { address, pool, refetchAllPoolTokenData } = props
 
+  const [isSelf] = useAtom(isSelfAtom)
   const { t } = useTranslation()
   const { data: playerTickets } = useUserTicketsFormattedByPool(address)
-
   const tokenFaucetAddress = pool.tokenListener.address
-  const { data: claimablePoolData } = useClaimablePoolFromTokenFaucet(tokenFaucetAddress, address)
-  const dripRatePerSecond = claimablePoolData?.dripRatePerSecond || ethers.constants.Zero
+  const { data: claimablePoolData, isFetched } = useClaimableTokenFromTokenFaucet(
+    tokenFaucetAddress,
+    address
+  )
+
+  if (!isFetched) return null
+
+  const dripRatePerSecond = pool.tokenListener.dripRatePerSecond || 0
 
   const underlyingToken = pool.tokens.underlyingToken
   const name = t('prizePoolTicker', { ticker: underlyingToken.symbol })
@@ -245,10 +264,8 @@ const ClaimablePoolTokenItem = (props) => {
   const usersBalance = ticketData?.amount || 0
 
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
-  const dripRatePerSecondNumber = dripRatePerSecond
-    ? Number(ethers.utils.formatUnits(dripRatePerSecond, DEFAULT_TOKEN_PRECISION))
-    : 0
-  const totalDripPerDay = dripRatePerSecondNumber * SECONDS_PER_DAY
+
+  const totalDripPerDay = dripRatePerSecond * SECONDS_PER_DAY
   const usersDripPerDay = totalDripPerDay * ownershipPercentage
   const usersDripPerDayFormatted = numberWithCommas(usersDripPerDay, {
     precision: getPrecision(usersDripPerDay)
@@ -258,8 +275,6 @@ const ClaimablePoolTokenItem = (props) => {
   })
 
   const apr = pool.tokenListener?.apr
-
-  const [isSelf] = useAtom(isSelfAtom)
 
   return (
     <div className='bg-body p-6 rounded-lg flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8 sm:items-center'>
@@ -293,11 +308,11 @@ const ClaimablePoolTokenItem = (props) => {
         <p className='text-inverse font-bold'>{t('availableToClaim')}</p>
         <h4
           className={classnames('flex items-center sm:justify-end mt-1 sm:mt-0', {
-            'opacity-80': claimablePoolData?.amountBN.isZero()
+            'opacity-80': claimablePoolData.claimableAmountUnformatted?.isZero()
           })}
         >
           <img src={PoolIcon} className='inline-block w-6 h-6 mr-2' />{' '}
-          <ClaimableAmountCountUp amount={claimablePoolData?.amount} />
+          <ClaimableAmountCountUp amount={Number(claimablePoolData.claimableAmount)} />
         </h4>
         <div className='text-accent-1 text-xs flex items-center sm:justify-end mt-1 sm:mt-0 mb-2 opacity-80 trans hover:opacity-100'>
           {usersDripPerDayFormatted} <img src={PoolIcon} className='inline-block w-4 h-4 mx-2' />{' '}
@@ -310,9 +325,10 @@ const ClaimablePoolTokenItem = (props) => {
               refetch={() => {
                 refetchAllPoolTokenData()
               }}
+              chainId={pool.chainId}
               name={name}
               tokenFaucetAddress={tokenFaucetAddress}
-              claimable={!claimablePoolData?.amountBN.isZero()}
+              claimable={!claimablePoolData.claimableAmountUnformatted?.isZero()}
             />
           </div>
         )}
@@ -341,7 +357,9 @@ ClaimableAmountCountUp.defaultProps = {
 }
 
 const ClaimButton = (props) => {
-  const { address, name, refetch, claimable, tokenFaucetAddress } = props
+  const { address, name, refetch, claimable, tokenFaucetAddress, chainId } = props
+
+  const walletChainId = useWalletChainId()
 
   const { t } = useTranslation()
   const [txId, setTxId] = useState(0)
@@ -382,7 +400,7 @@ const ClaimButton = (props) => {
     <Button
       textSize='xxxs'
       padding='px-4 py-1'
-      disabled={txPending || !claimable}
+      disabled={txPending || !claimable || walletChainId !== chainId}
       className='w-full'
       onClick={handleClaim}
     >
