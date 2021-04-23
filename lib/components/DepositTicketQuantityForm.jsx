@@ -153,7 +153,7 @@ export function DepositTicketQuantityForm(props) {
                     }}
                   >
                     <img src={iconSrc} className='mr-2' style={{ maxHeight: 12 }} />{' '}
-                    {numberWithCommas(usersTokenBalance, { precision: 2 })} {tickerUpcased}
+                    {numberWithCommas(usersTokenBalance)} {tickerUpcased}
                   </button>
                 </>
               )

@@ -16,6 +16,7 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { Button } from 'lib/components/Button'
 import { ButtonLink } from 'lib/components/ButtonLink'
+import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 import { CommunityPoolDisclaimerModal } from 'lib/components/CommunityPoolDisclaimerModal'
 import { PoolShowLootBoxTable } from 'lib/components/LootBoxTable'
 import { PoolShowUILoader } from 'lib/components/loaders/PoolShowUILoader'
@@ -173,12 +174,12 @@ export const PoolShow = (props) => {
           }}
         </PrizePlayersQuery>
 
-        <div className='flex flex-col items-center justify-center mt-10'>
+        <div className='flex flex-col  items-center justify-center mt-10'>
           {walletName === 'MetaMask' && (
             <div className='m-2'>
               <AddTokenToMetaMaskButton
                 noAnim
-                textSize='xxs'
+                textSize='xxxs'
                 tokenAddress={pool.tokens.ticket.address}
                 tokenDecimals={pool.tokens.ticket.decimals}
                 tokenSymbol={pool.tokens.ticket.symbol}
@@ -187,12 +188,15 @@ export const PoolShow = (props) => {
           )}
 
           <div className='m-2'>
-            <ButtonLink
-              textSize='xxs'
-              href={formatEtherscanAddressUrl(pool.prizePool.address, chainId)}
-            >
+            <BlockExplorerLink address={pool.prizePool.address}>
               {t('viewPoolInEtherscan')}
-            </ButtonLink>
+            </BlockExplorerLink>
+          </div>
+
+          <div className='m-2'>
+            <BlockExplorerLink address={pool.tokens.underlyingToken.address}>
+              {t('viewDepositTokenOnEtherscan')}
+            </BlockExplorerLink>
           </div>
 
           {usersAddress && <RevokePoolAllowanceTxButton pool={pool} />}
@@ -201,7 +205,7 @@ export const PoolShow = (props) => {
             <>
               <div className='m-2 button-scale'>
                 <ButtonLink
-                  textSize='xxs'
+                  textSize='xxxs'
                   href='/pools/[networkName]/[symbol]/manage'
                   as={`/pools/${pool.networkName}/${pool.symbol}/manage`}
                 >

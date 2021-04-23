@@ -7,15 +7,14 @@ import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
+import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayPercentage } from 'lib/utils/displayPercentage'
-import PoolIcon from 'assets/images/pool-icon.svg'
-import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
-import { NetworkIcon } from 'lib/components/NetworkIcon'
-import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
-export const PoolRowNew = (props) => {
+import PoolIcon from 'assets/images/pool-icon.svg'
+
+export const PoolRow = (props) => {
   const { pool } = props
 
   const { t } = useTranslation()
@@ -65,7 +64,7 @@ export const PoolRowNew = (props) => {
         className='mt-1 sm:mt-2'
       >
         <div className='flex flex-col sm:flex-row items-center justify-between sm:justify-evenly text-inverse'>
-          <div className='pool-row-left-col h-full flex bg-body py-2 p-4 sm:px-6 sm:py-4 lg:px-8 lg:py-6 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
+          <div className='pool-row-left-col h-full flex bg-body py-2 p-4 sm:px-6 sm:pt-3 sm:pb-5 lg:px-8 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
             <div className='flex flex-col mx-auto'>
               <div className='flex'>
                 <PoolCurrencyIcon
@@ -79,9 +78,13 @@ export const PoolRowNew = (props) => {
                 <PoolPrizeValue pool={pool} />
               </div>
 
-              <div className='text-accent-1 text-xxxs text-center'>{t('prizeValue')}</div>
+              <div className='block mx-auto sm:my-1'>
+                <div className='text-accent-1 text-xxxs text-center bg-accent-grey-1 text-highlight-3 rounded-full px-2'>
+                  {t('prizeValue')}
+                </div>
+              </div>
 
-              <NetworkBadge networkName={pool.networkName} chainId={pool.chainId} />
+              <NetworkBadge chainId={pool.chainId} />
             </div>
           </div>
 
@@ -161,16 +164,4 @@ const PoolPrizeValue = (props) => {
   }
 
   return <div className='text-3xl sm:text-5xl text-flashy font-bold ml-2'>$0</div>
-}
-
-const NetworkBadge = (props) => {
-  const { chainId, networkName } = props
-  return (
-    <div className='mx-auto mt-2 flex'>
-      <NetworkIcon className='my-auto' sizeClasses='w-4 h-4' chainId={chainId} />
-      <span className='ml-1 my-auto text-xxs text-accent-1 capitalize'>
-        {getNetworkNiceNameByChainId(chainId)}
-      </span>
-    </div>
-  )
 }

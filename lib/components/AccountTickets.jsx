@@ -25,7 +25,7 @@ export const AccountTickets = () => {
   )
 
   return (
-    <div className='mt-8 xs:mt-16'>
+    <div className='mt-8'>
       {!playerTicketsIsFetched ? (
         <TicketsUILoader />
       ) : playerTickets.length === 0 ? (
@@ -42,18 +42,16 @@ export const AccountTickets = () => {
           </ButtonLink>
         </BlankStateMessage>
       ) : (
-        <div>
-          <div className='flex flex-wrap'>
-            {playerTickets?.map((playerPoolTicketData) => {
-              return (
-                <AccountTicket
-                  isLink
-                  key={`account-pool-row-${playerPoolTicketData?.poolAddress}`}
-                  playerPoolTicketData={playerPoolTicketData}
-                />
-              )
-            })}
-          </div>
+        <div className='flex flex-col'>
+          {playerTickets?.map((playerPoolTicketData) => {
+            return (
+              <AccountTicket
+                isLink
+                key={`account-pool-row-${playerPoolTicketData?.poolAddress}`}
+                playerPoolTicketData={playerPoolTicketData}
+              />
+            )
+          })}
         </div>
       )}
 
@@ -61,9 +59,15 @@ export const AccountTickets = () => {
         <span>
           {t('areSomeOfYourDepositsMissing')} {t('checkOnTheCompletePoolListingForYourBalances')}
         </span>
-        <a className='text-primary-soft' href='https://community.pooltogether.com' target='_blank'>
-          https://community.pooltogether.com
-        </a>
+        <div>
+          <a
+            className='text-primary-soft'
+            href='https://community.pooltogether.com'
+            target='_blank'
+          >
+            https://community.pooltogether.com
+          </a>
+        </div>
       </div>
     </div>
   )

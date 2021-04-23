@@ -19,6 +19,7 @@ import GiftIcon from 'assets/images/icon-gift@2x.png'
 
 export const HistoricPrizeBreakdown = (props) => {
   const { prize, prizeNumber, preAwardPool, pool } = props
+  console.log(pool)
 
   const { t } = useTranslation()
   const { contractAddresses } = useContractAddresses()

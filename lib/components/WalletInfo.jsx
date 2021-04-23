@@ -5,14 +5,17 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { NetworkIcon } from 'lib/components/NetworkIcon'
+import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { shorten } from 'lib/utils/shorten'
+import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 
 export function WalletInfo(props) {
   const { t } = useTranslation()
   const { closeTransactions } = props
 
   const { usersAddress, chainId, signOut, walletName } = useContext(AuthControllerContext)
+  const { walletChainId } = useWalletNetwork()
 
   let content = null
   let networkName = null
@@ -50,9 +53,12 @@ export function WalletInfo(props) {
                 {t('connectedTo')}
               </div>
               <div className='flex justify-between items-center sm:text-xs lg:text-sm text-default mt-1 mb-2 sm:mb-4'>
-                <div>
-                  <NetworkIcon chainId={chainId} />
-                  <span className='capitalize ml-2'>{networkName}</span> via {walletName}
+                <div className='flex items-center'>
+                  <NetworkIcon sizeClasses='h-5 w-5' chainId={chainId} />
+                  <span className={`capitalize mx-1 text-${networkTextColorClassname(chainId)}`}>
+                    {networkName}
+                  </span>
+                  {walletName}
                 </div>
                 <button
                   onClick={(e) => {

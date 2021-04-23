@@ -24,20 +24,18 @@ export const AddTokenToMetaMaskButton = (props) => {
   }
 
   return (
-    <Button
-      basic={basic}
-      noAnim={noAnim}
-      textSize={textSize}
+    <a
       onClick={handleAddTokenToMetaMask}
-      className='font-bold mx-auto'
+      className={`trans hover:opacity-70 inline-flex cursor-pointer flex items-center`}
+      target='_blank'
+      rel='noopener noreferrer'
+      title='View on Block Explorer'
     >
-      {showPoolIcon && (
-        <img src={PoolIcon} className='relative inline-block w-4 h-4 mx-1' style={{ top: -2 }} />
-      )}
+      {showPoolIcon && <img src={PoolIcon} className='relative inline-block w-4 h-4 mx-2' />}
       {t('addTicketTokenToMetamask', {
         token: tokenSymbol
       })}
-    </Button>
+    </a>
   )
 }
 

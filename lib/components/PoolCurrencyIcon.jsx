@@ -46,6 +46,8 @@ const CoingeckoOrPlaceholder = (props) => {
 export const PoolCurrencyIcon = (props) => {
   const { className, noMediaQueries, sm, lg, xl, xs, address } = props
   const symbol = props.symbol?.toLowerCase()
+  let { sizeClasses } = props
+
   const { theme } = useContext(ThemeContext)
 
   const noMargin = props.noMargin || false
@@ -69,8 +71,8 @@ export const PoolCurrencyIcon = (props) => {
     src = theme === 'light' ? UniThemeLightSvg : UniSvg
   }
 
-  let sizeClasses = 'w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10'
-  if (isUndefined(noMediaQueries)) {
+  // sizeClasses = sizeClasses ?? 'w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10'
+  if (!sizeClasses && isUndefined(noMediaQueries)) {
     if (xs) {
       sizeClasses = 'w-3 h-3 sm:w-5 sm:h-5 lg:w-6 lg:h-6'
     } else if (sm) {
@@ -80,7 +82,7 @@ export const PoolCurrencyIcon = (props) => {
     } else if (xl) {
       sizeClasses = 'w-12 h-12 sm:w-16 sm:h-16 lg:w-18 lg:h-18'
     }
-  } else {
+  } else if (!sizeClasses) {
     if (lg) {
       sizeClasses = 'w-10 h-10'
     } else if (xl) {

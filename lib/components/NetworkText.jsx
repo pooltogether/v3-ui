@@ -30,7 +30,7 @@ export function NetworkText(props) {
           'text-xxs sm:text-xs px-2 xs:px-4 rounded-full h-8 mx-1'
         )}
       >
-        <NetworkIcon chainId={walletChainId} />
+        <NetworkIcon sizeClasses='h-4 w-4' chainId={walletChainId} />
         <span className='capitalize'>
           {networkName?.charAt(0)}
           <span className='hidden sm:inline-block lowercase'>
