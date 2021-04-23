@@ -27,7 +27,7 @@ export const AccountTicket = (props) => {
 
   const shouldReduceMotion = useReducedMotion()
 
-  const { noMargin, isLink, playerPoolTicketData } = props
+  const { isLink, playerPoolTicketData } = props
   let { href, as } = props
 
   const { ticket, pool } = playerPoolTicketData
@@ -59,9 +59,6 @@ export const AccountTicket = (props) => {
       }
     )
   }
-
-  const isGovernedPool = !pool.contract.isCommunityPool
-  // const ticketClassName = isGovernedPool ? `ticket--${ticker?.toLowerCase()}` : `ticket--generic`
 
   return (
     <>
