@@ -19,7 +19,10 @@ export function WithdrawInstant(props) {
   }
 
   useEffect(() => {
-    setTotalWizardSteps(notEnoughCredit ? 4 : 3)
+    if (notEnoughCredit) {
+      console.log({ notEnoughCredit })
+      setTotalWizardSteps(totalWizardSteps + 1)
+    }
   }, [notEnoughCredit])
 
   useEffect(() => {

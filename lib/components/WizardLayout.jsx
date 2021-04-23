@@ -133,10 +133,13 @@ export function WizardLayout(props) {
 
                           moveToStep(index)
                         }}
-                        className={classnames('cursor-pointer w-8 h-2 rounded-sm mx-1', {
-                          'bg-default': currentWizardStep < index + 1,
-                          'bg-purple': currentWizardStep >= index + 1
+                        className={classnames('w-10 rounded-sm mx-1', {
+                          'cursor-pointer bg-inverse': currentWizardStep >= index + 1,
+                          'bg-secondary': currentWizardStep < index + 1
                         })}
+                        style={{
+                          height: 6
+                        }}
                       />
                     )
                   })}

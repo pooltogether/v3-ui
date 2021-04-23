@@ -63,13 +63,9 @@ export const AccountTicket = (props) => {
   return (
     <>
       <motion.div
-        onClick={handleManageClick}
         key={`account-pool-ticket-${pool.prizePool.poolAddress}`}
         className={classnames(
-          'bg-accent-grey-4 py-2 rounded-lg relative text-xxxs xs:text-xs mb-3',
-          {
-            'cursor-pointer': isSelf && isLink
-          }
+          'bg-accent-grey-4 py-2 rounded-lg relative text-xxxs xs:text-xs mb-3'
         )}
         animate={{
           scale: 1,
@@ -176,9 +172,12 @@ export const AccountTicket = (props) => {
                       textClasses='text-xxxxs xs:text-xxxs text-default'
                       chainId={pool.chainId}
                     />
-                    <span className='text-accent-1 underline text-xxxs xs:text-xxs'>
+                    <button
+                      onClick={handleManageClick}
+                      className='text-accent-1 underline text-xxxs xs:text-xxs'
+                    >
                       {t('manage')}
-                    </span>
+                    </button>
                   </>
                 )}
               </div>

@@ -33,7 +33,7 @@ export function ManageTicketsForm(props) {
         </div>
       </div>
 
-      <div className='mx-auto mt-4 mb-8 xs:mb-12'>
+      <div className='mx-auto mt-4 mb-8 xs:mb-12 w-full'>
         {playerPoolTicketData && (
           <AccountTicket
             noMargin
@@ -60,7 +60,7 @@ export function ManageTicketsForm(props) {
 
       {action === STRINGS.withdraw && (
         <>
-          <h6 className='text-accent-1'>{t('withdraw')}</h6>
+          <h6 className='text-accent-1 mb-2'>{t('withdraw')}</h6>
           <WithdrawTicketsForm
             nextStep={nextStep}
             pool={pool}

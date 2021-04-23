@@ -30,8 +30,6 @@ export const LootBoxWon = (props) => {
   const { data: pool, isFetched: poolIsFetched } = usePoolByAddress(chainId, prizePooladdress)
   const { data: prize, isFetched: prizeIsFetched } = usePastPrize(pool, prizeNumber)
 
-  // console.log(poolIsFetched, pool, prizeIsFetched, prize)
-
   if (!poolIsFetched || !prizeIsFetched) {
     return (
       <div className='flex w-ful justify-center'>
