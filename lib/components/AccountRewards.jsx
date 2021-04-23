@@ -26,6 +26,7 @@ import { useAllPools, usePoolBySymbol } from 'lib/hooks/usePools'
 import { isSelfAtom } from 'lib/components/AccountUI'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
+import { NETWORK } from 'lib/utils/networks'
 
 export const AccountRewards = () => {
   const [isSelf] = useAtom(isSelfAtom)
@@ -44,7 +45,7 @@ export const AccountRewardsView = (props) => {
   const { data: pools } = useAllPools()
 
   // rewards are only supported by the cDAI pool atm
-  const { data: pool } = usePoolBySymbol('1', 'PT-cDAI')
+  const { data: pool } = usePoolBySymbol(NETWORK.mainnet, 'PT-cDAI')
 
   const { playerDrips } = usePlayerDrips(address)
   const { usersDripData, graphDripData } = useUsersDripData()

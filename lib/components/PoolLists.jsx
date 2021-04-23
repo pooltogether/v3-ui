@@ -13,14 +13,14 @@ import { PoolsListUILoader } from 'lib/components/loaders/PoolsListUILoader'
 import { useCommunityPools, useGovernancePools } from 'lib/hooks/usePools'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
-import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
+import { ALL_NETWORKS_ID, getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { NetworkIcon } from 'lib/components/NetworkIcon'
 
 export const PoolLists = () => {
   const { t } = useTranslation()
   const router = useRouter()
   const poolFilters = usePoolFilters()
-  const [chainIdFilter, setChainIdFilter] = useState('all')
+  const [chainIdFilter, setChainIdFilter] = useState(ALL_NETWORKS_ID)
   const formatValue = (key) => poolFilters[key].view
 
   // Don't switch back to the default tab if we're navigating away from the homepage
@@ -154,7 +154,6 @@ const PoolList = (props) => {
   const { pools, isFetched, chainIdFilter } = props
 
   if (!isFetched) return <PoolsListUILoader />
-
   return (
     <div>
       <ul>
@@ -171,12 +170,13 @@ const PoolList = (props) => {
 }
 
 const filterByChainId = (pool, chainIdFilter) => {
-  if (chainIdFilter === 'all') return true
+  if (chainIdFilter === ALL_NETWORKS_ID) return true
   return pool.chainId === Number(chainIdFilter)
 }
 
 const usePoolFilters = () => {
   const chainIds = useEnvChainIds()
+  const { t } = useTranslation()
   return chainIds.reduce(
     (allFilters, chainId) => {
       allFilters[chainId] = {
@@ -190,6 +190,6 @@ const usePoolFilters = () => {
       }
       return allFilters
     },
-    { all: { view: 'All Networks', value: null } }
+    { '-1': { view: t('allNetworks'), value: null } }
   )
 }

@@ -113,17 +113,17 @@ export const PRIZE_POOL_TYPES = {
 
 export const CUSTOM_CONTRACT_ADDRESSES = {
   1: {
-    Usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+    Stablecoin: '0xdac17f958d2ee523a2206206994597c13d831ec7',
     TokenFaucetProxyFactory: TokenFaucetProxyFactoryMainnet.address,
     MerkleDistributor: '0xBE1a33519F586A4c8AA37525163Df8d67997016f',
     GovernanceToken: '0x0cEC1A9154Ff802e7934Fc916Ed7Ca50bDE6844e',
     Sablier: '0xA4fc358455Febe425536fd1878bE67FfDBDEC59a'
   },
   3: {
-    Usdt: '0x0736d0c130b2ead47476cc262dbed90d7c4eeabd'
+    Stablecoin: '0x0736d0c130b2ead47476cc262dbed90d7c4eeabd'
   },
   4: {
-    Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
+    Stablecoin: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
     TokenFaucetProxyFactory: TokenFaucetProxyFactoryRinkeby.address,
     MerkleDistributor: '0x93a6540DcE05a4A5E5B906eB97bBCBb723768F2D',
     GovernanceToken: '0xc4E90a8Dc6CaAb329f08ED3C8abc6b197Cf0F40A',
@@ -132,9 +132,9 @@ export const CUSTOM_CONTRACT_ADDRESSES = {
   137: {
     GovernanceToken: '',
     // PoS-Dai
-    Usdt: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063'
-    // PoS-USDT
-    // Usdt: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F'
+    Stablecoin: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063'
+    // PoS-Stablecoin
+    // Stablecoin: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F'
   }
 }
 
