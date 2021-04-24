@@ -89,13 +89,11 @@ export function ConfirmWithdrawNoFee(props) {
             pool={pool}
           />
 
-          <div className='mt-8 mb-4'>
-            <WithdrawAndDepositBanner
-              label={t('youreWithdrawing')}
-              quantity={quantity}
-              tickerUpcased={tickerUpcased}
-            />
-          </div>
+          <WithdrawAndDepositBanner
+            label={t('youreWithdrawing')}
+            quantity={quantity}
+            tickerUpcased={tickerUpcased}
+          />
 
           <div
             className='text-center mx-auto rounded-lg text-orange bg-orange-darkened border-2 border-orange py-2 xs:py-4 px-2 xs:px-8'

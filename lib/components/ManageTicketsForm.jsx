@@ -60,7 +60,7 @@ export function ManageTicketsForm(props) {
 
       {action === STRINGS.withdraw && (
         <>
-          <h6 className='text-accent-1 mb-2'>{t('withdraw')}</h6>
+          {/* <h6 className='text-accent-1 mb-2'>{t('withdraw')}</h6> */}
           <WithdrawTicketsForm
             nextStep={nextStep}
             pool={pool}

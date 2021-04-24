@@ -64,13 +64,13 @@ export function WithdrawSwitchNetwork(props) {
         pool={pool}
       />
 
-      <div className='mt-8 mb-12'>
-        <WithdrawAndDepositBanner
-          label={t('youreWithdrawing')}
-          quantity={quantity}
-          tickerUpcased={tickerUpcased}
-        />
-      </div>
+      <WithdrawAndDepositBanner
+        label={t('youreWithdrawing')}
+        quantity={quantity}
+        tickerUpcased={tickerUpcased}
+      />
+
+      <div className='my-4'></div>
 
       <ButtonDrawer>
         <Button onClick={() => addNetwork()} textSize='lg' className='w-full'>

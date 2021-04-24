@@ -9,7 +9,7 @@ import { useExitFees } from 'lib/hooks/useExitFees'
 export function WithdrawInstant(props) {
   const { t } = useTranslation()
 
-  const { quantity, nextStep, previousStep, setTotalWizardSteps, pool } = props
+  const { quantity, nextStep, previousStep, totalWizardSteps, setTotalWizardSteps, pool } = props
 
   const { exitFees } = useExitFees(pool, quantity)
 

@@ -24,7 +24,7 @@ export function ManageTicketsWizardContainer(props) {
 
   const { data: pool, isFetched: poolIsFetched } = useCurrentPool()
 
-  const [totalWizardSteps, setTotalWizardSteps] = useState(3)
+  const [totalWizardSteps, setTotalWizardSteps] = useState(4)
 
   if (!poolIsFetched) {
     return null
@@ -76,6 +76,7 @@ export function ManageTicketsWizardContainer(props) {
                         quantity={quantity}
                         nextStep={step.nextStep}
                         previousStep={step.previousStep}
+                        totalWizardSteps={totalWizardSteps}
                         setTotalWizardSteps={setTotalWizardSteps}
                       />
                     )
