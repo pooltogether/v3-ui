@@ -24,7 +24,7 @@ export const Tooltip = (props) => {
         place='top'
         effect={effect}
         data-multiline
-        className='p-1 xs:p-2 max-w-3/4 sm:max-w-sm'
+        className='p-1 xs:p-2 max-w-3/4 sm:max-w-sm text-center'
         overridePosition={({ left, top }, currentEvent, currentTarget, node) => {
           const d = document.documentElement
           left = Math.min(d.clientWidth - node.clientWidth, left)

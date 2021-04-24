@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 import { useAtom } from 'jotai'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
-import { ethers } from 'ethers'
 import { usePreviousValue } from 'beautiful-react-hooks'
 
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
@@ -18,6 +17,7 @@ import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButto
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { ThemedClipLoader } from 'lib/components/loaders/ThemedClipLoader'
+import { Tooltip } from 'lib/components/Tooltip'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
@@ -25,14 +25,14 @@ import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
-import { NETWORK } from 'lib/utils/networks'
-
-import PoolIcon from 'assets/images/pool-icon.svg'
+import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useGovernancePools } from 'lib/hooks/usePools'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
 import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 import { Erc20Image } from 'lib/components/Erc20Image'
+
+import PoolIcon from 'assets/images/pool-icon.svg'
 
 export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
@@ -211,14 +211,14 @@ const ClaimAllButton = (props) => {
     }
   }
 
-  return (
+  const walletOnWrongNetwork = walletChainId !== poolTokenChainId
+
+  const button = (
     <Button
       type='button'
       onClick={handleClaim}
       className='mb-4'
-      disabled={
-        !isClaimablePoolDataFetched || !claimable || txPending || walletChainId !== poolTokenChainId
-      }
+      disabled={!isClaimablePoolDataFetched || !claimable || txPending || walletOnWrongNetwork}
       padding='px-8 py-1'
       border='green'
       text='primary'
@@ -235,6 +235,19 @@ const ClaimAllButton = (props) => {
       )}
       {text}
     </Button>
+  )
+
+  return walletOnWrongNetwork ? (
+    <Tooltip
+      className='ml-auto'
+      tip={t('yourWalletIsOnTheWrongNetwork', {
+        networkName: getNetworkNiceNameByChainId(poolTokenChainId)
+      })}
+    >
+      {button}
+    </Tooltip>
+  ) : (
+    button
   )
 }
 
@@ -397,11 +410,13 @@ const ClaimButton = (props) => {
     }
   }
 
-  return (
+  const walletOnWrongNetwork = walletChainId !== chainId
+
+  const button = (
     <Button
       textSize='xxxs'
       padding='px-4 py-1'
-      disabled={txPending || !claimable || walletChainId !== chainId}
+      disabled={txPending || !claimable || walletOnWrongNetwork}
       className='w-full'
       onClick={handleClaim}
     >
@@ -412,5 +427,18 @@ const ClaimButton = (props) => {
       )}
       {text}
     </Button>
+  )
+
+  return walletOnWrongNetwork ? (
+    <Tooltip
+      className='ml-auto'
+      tip={t('yourWalletIsOnTheWrongNetwork', {
+        networkName: getNetworkNiceNameByChainId(chainId)
+      })}
+    >
+      {button}
+    </Tooltip>
+  ) : (
+    button
   )
 }
