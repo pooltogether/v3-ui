@@ -10,7 +10,7 @@ import { Banner } from 'lib/components/Banner'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
-import { DepositPaneTitle } from 'lib/components/DepositPaneTitle'
+import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { NoMoreTicketsPane } from 'lib/components/NoMoreTicketsPane'
 import { Odds } from 'lib/components/Odds'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
@@ -98,7 +98,12 @@ export function DepositTicketQuantityForm(props) {
 
   return (
     <>
-      <DepositPaneTitle ticker={tickerUpcased} pool={pool} />
+      <WithdrawAndDepositPaneTitle
+        label={t('depositTickerToWin', {
+          ticker: tickerUpcased
+        })}
+        pool={pool}
+      />
 
       {balanceJsx && <div className='sm:my-4 mb-12'>{balanceJsx}</div>}
 

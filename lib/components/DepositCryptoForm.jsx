@@ -9,13 +9,12 @@ import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
-import { DepositPaneTitle } from 'lib/components/DepositPaneTitle'
+import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { DepositTxButton } from 'lib/components/DepositTxButton'
 import { PaneTitle } from 'lib/components/PaneTitle'
-import { PoolNumber } from 'lib/components/PoolNumber'
+import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { PTHint } from 'lib/components/PTHint'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 import { TxStatus } from 'lib/components/TxStatus'
 import { useTransaction } from 'lib/hooks/useTransaction'
@@ -130,12 +129,18 @@ export function DepositCryptoForm(props) {
 
   return (
     <>
-      <DepositPaneTitle ticker={tickerUpcased} pool={pool} />
+      <WithdrawAndDepositPaneTitle
+        label={t('depositTickerToWin', {
+          ticker: tickerUpcased
+        })}
+        pool={pool}
+      />
 
-      <div className='pool-gradient-2 text-white w-full text-center mx-auto mb-4 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-xl lg:text-2xl'>
-        <span className='mr-4'>{t('yourDeposit')}</span>
-        <PoolNumber>{numberWithCommas(quantity)}</PoolNumber> {tickerUpcased}
-      </div>
+      <WithdrawAndDepositBanner
+        label={t('yourDeposit')}
+        quantity={quantity}
+        tickerUpcased={tickerUpcased}
+      />
 
       <div className='flex flex-col mx-auto w-full mx-auto items-center justify-center'>
         {overBalance ? (

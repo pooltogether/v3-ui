@@ -53,7 +53,6 @@ export function ManageTicketsWizardContainer(props) {
 
               <WizardStep>
                 {(step) => {
-                  console.log(step.isActive)
                   return (
                     step.isActive && (
                       <WithdrawSwitchNetwork

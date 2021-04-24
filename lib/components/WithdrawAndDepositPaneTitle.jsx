@@ -1,13 +1,10 @@
 import React from 'react'
 
-import { useTranslation } from 'lib/../i18n'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 
-export function DepositPaneTitle(props) {
-  const { ticker, pool } = props
-
-  const { t } = useTranslation()
+export function WithdrawAndDepositPaneTitle(props) {
+  const { label, pool } = props
 
   return (
     <PaneTitle>
@@ -18,9 +15,7 @@ export function DepositPaneTitle(props) {
           address={pool.tokens.underlyingToken.address}
         />
       </div>{' '}
-      {t('depositTickerToWin', {
-        ticker
-      })}
+      {label}
     </PaneTitle>
   )
 }

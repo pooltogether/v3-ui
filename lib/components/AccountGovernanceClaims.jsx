@@ -292,7 +292,7 @@ const ClaimablePoolTokenItem = (props) => {
   const apr = pool.tokenListener?.apr
 
   return (
-    <div className='bg-body p-6 rounded-lg flex flex-col sm:flex-row sm:justify-between mt-4 sm:mt-8 sm:items-center'>
+    <div className='bg-body p-6 rounded-lg flex flex-col sm:flex-row sm:justify-between mt-4 sm:items-center'>
       <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start'>
         <PoolCurrencyIcon
           lg
