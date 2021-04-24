@@ -17,14 +17,32 @@ import { ALL_NETWORKS_ID, getNetworkNiceNameByChainId } from 'lib/utils/networks
 import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
+import { useAppEnv } from 'lib/hooks/useAppEnv'
+import { useOnEnvChange } from 'lib/hooks/useOnEnvChange'
 
+/**
+ * Displays a list of Pools.
+ * Filters based on query parameter `filter=[networkName]` OR a the path `/pools/[networkName]`
+ * If the app is in the wrong mode for the filter
+ * (ex. filter mainnet pools by rinkeby) or the filter is invalid, it is ignored.
+ * @returns
+ */
 export const PoolLists = () => {
   const { t } = useTranslation()
   const router = useRouter()
   const poolFilters = usePoolFilters()
+  const envChainIds = useEnvChainIds()
   const [chainIdFilter, setChainIdFilter] = useState(ALL_NETWORKS_ID)
   const [selectedTab, setSelectedTab] = useState()
-  const formatValue = (key) => poolFilters[key].view
+
+  // TODO: Clean & generalize. This is ugly.
+  // Need to have a fallback for the render switching from
+  // mainnet -> testnet and poolFilters have updated
+  // but useOnEnvChange hasn't triggered yet
+  const formatValue = (key) => poolFilters[key]?.view || null
+  useOnEnvChange(() => {
+    setChainFilter(ALL_NETWORKS_ID)
+  })
 
   const queryTab = router?.query?.tab
   const pathFilter = router?.query?.networkName
@@ -51,18 +69,25 @@ export const PoolLists = () => {
   }
 
   useEffect(() => {
-    if (!queryFilter) {
-      if (pathFilter) {
-        const filterChainId = networkNameToChainId(pathFilter)
+    // Only for undefined. !queryFilter catches the ALL state and then path filter overrides it.
+    if (queryFilter === undefined) {
+      const filterChainId = networkNameToChainId(pathFilter)
+      // Only set path filter IF we are in the right environment
+      if (pathFilter && filterChainId && envChainIds.includes(filterChainId)) {
         setChainIdFilter(Number(filterChainId) || ALL_NETWORKS_ID)
       } else {
         setChainIdFilter(ALL_NETWORKS_ID)
       }
     } else {
+      // Check if filter matches app env
       const filterChainId = networkNameToChainId(queryFilter)
-      setChainIdFilter(Number(filterChainId) || ALL_NETWORKS_ID)
+      if (filterChainId && envChainIds.includes(filterChainId)) {
+        setChainIdFilter(Number(filterChainId))
+      } else {
+        setChainIdFilter(ALL_NETWORKS_ID)
+      }
     }
-  }, [queryFilter, pathFilter])
+  }, [queryFilter, pathFilter, envChainIds])
 
   return (
     <div className='mt-10'>

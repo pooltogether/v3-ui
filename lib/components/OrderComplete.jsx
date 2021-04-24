@@ -19,7 +19,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 export function OrderComplete(props) {
   const [t] = useTranslation()
 
-  const { networkName, walletName } = useContext(AuthControllerContext)
+  const { walletName } = useContext(AuthControllerContext)
 
   const router = useRouter()
   const quantity = router.query.quantity
@@ -28,10 +28,6 @@ export function OrderComplete(props) {
   const { confetti } = useContext(ConfettiContext)
 
   const { data: pool } = useCurrentPool()
-
-  const decimals = pool.tokens.underlyingToken.decimals
-
-  const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
 
   useEffect(() => {
     Cookies.set(WIZARD_REFERRER_HREF, '/account', COOKIE_OPTIONS)
@@ -87,7 +83,7 @@ export function OrderComplete(props) {
               textSize='xxxs'
               tokenAddress={pool.tokens.ticket.address}
               tokenDecimals={pool.tokens.ticket.decimals}
-              tokenSymbol={symbolForMetaMask}
+              tokenSymbol={pool.tokens.ticket.symbol}
             />
           </div>
         )}

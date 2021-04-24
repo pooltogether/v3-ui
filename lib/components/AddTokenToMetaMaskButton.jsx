@@ -4,11 +4,10 @@ import PoolIcon from 'assets/images/pool-icon.svg'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { Button } from 'lib/components/Button'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 
 export const AddTokenToMetaMaskButton = (props) => {
-  const { basic, noAnim, textSize, showPoolIcon, tokenAddress, tokenSymbol, tokenDecimals } = props
+  const { showPoolIcon, tokenAddress, tokenSymbol, tokenDecimals } = props
 
   const { t } = useTranslation()
   const { walletName } = useContext(AuthControllerContext)
@@ -19,7 +18,6 @@ export const AddTokenToMetaMaskButton = (props) => {
 
   const handleAddTokenToMetaMask = (e) => {
     e.preventDefault()
-
     addTokenToMetaMask(t, tokenSymbol, tokenAddress, tokenDecimals)
   }
 

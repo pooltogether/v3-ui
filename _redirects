@@ -1,19 +1,29 @@
 https://app.pooltogether.us     https://app.pooltogether.com         301!
 https://app.pooltogether.us/*   https://app.pooltogether.com         301!
 
-/pools/POOL-0x396b44            /pools/PT-stPOOL                     301!
+/pools/PT-cDAI                  /pools/mainnet/PT-cDAI               301!
+/pools/PT-cUNI                  /pools/mainnet/PT-cUNI               301! 
+/pools/PT-cUSDC                 /pools/mainnet/PT-cUSDC              301! 
+/pools/PT-stPOOL                /pools/mainnet/PT-stPOOL             301! 
+/pools/PT-cCOMP                 /pools/mainnet/PT-cCOMP              301! 
+/pools/PT-stBADGER              /pools/mainnet/PT-stBADGER           301! 
+/pools/POOL-0x396b44            /pools/mainnet/PT-stPOOL             301!
+/pools/WETH-0xa88ca0            /pools/mainnet/WETH-0xa88ca0         301! 
+/pools/BOND-0xea7eae            /pools/mainnet/BOND-0xea7eae         301! 
+/pools/ZRX-0xdf19f2             /pools/mainnet/ZRX-0xdf19f2          301! 
+/pools/UNI-V2-0x639d41          /pools/mainnet/UNI-V2-0x639d41       301! 
+/pools/USDT-0x481f1B            /pools/mainnet/USDT-0x481f1B         301! 
+/pools/DPI-0x9f7905             /pools/mainnet/DPI-0x9f7905          301! 
 
-/account                                /account.html                                200
-/account/pools/:networkName/:symbol/manage-tickets   /account/pools/[networkName]/[symbol]/manage-tickets.html  200
+/account                                           /account.html                                200
+/account/pools/:networkName/:symbol/manage-tickets /account/pools/[networkName]/[symbol]/manage-tickets.html  200
 
-/players/:playerAddress         /players/[playerAddress].html        200
+/players/:playerAddress /players/[playerAddress].html        200
 
-/pools/:networkName/:symbol/deposit          /pools/[networkName]/[symbol]/deposit.html         200
-/pools/:networkName/:symbol/manage           /pools/[networkName]/[symbol]/manage.html          200
-/pools/:networkName/:symbol                  /pools/[networkName]/[symbol].html                 200
+/pools/:networkName/:symbol/deposit /pools/[networkName]/[symbol]/deposit.html         200
+/pools/:networkName/:symbol/manage  /pools/[networkName]/[symbol]/manage.html          200
+/pools/:networkName/:symbol         /pools/[networkName]/[symbol].html                 200
 
-/prizes/:networkName/:symbol/:prizeNumber    /prizes/[networkName]/[symbol]/[prizeNumber].html  200
-/prizes/:networkName/:symbol                 /prizes/[networkName]/[symbol].html                200
-/prizes                         /prizes/dai.html                     200
-
-/sponsor                        /sponsor.html                        200
+/prizes/:networkName/:symbol/:prizeNumber /prizes/[networkName]/[symbol]/[prizeNumber].html  200
+/prizes/:networkName/:symbol              /prizes/[networkName]/[symbol].html                200
+/prizes                                   /prizes/dai.html                     200
