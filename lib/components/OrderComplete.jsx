@@ -13,7 +13,6 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
-import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export function OrderComplete(props) {
