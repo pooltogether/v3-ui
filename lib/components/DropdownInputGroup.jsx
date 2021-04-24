@@ -77,7 +77,7 @@ export const DropdownInputGroup = (props) => {
       'border-red-1': isError,
       'border-green-2': isSuccess,
       'border-transparent': !isError && !isSuccess,
-      'hover:border-accent-3 focus-within:border-accent-3 focus-within:shadow-green': !disabled
+      'hover:border-accent-4 hover:bg-card-selected focus-within:border-accent-3 focus-within:shadow-green': !disabled
     })
 
   backgroundClasses =

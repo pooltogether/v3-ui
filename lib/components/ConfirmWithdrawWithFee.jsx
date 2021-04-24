@@ -32,7 +32,7 @@ export function ConfirmWithdrawWithFee(props) {
           i18nKey='toEnsureFairnessDescription'
           defaults='You are withdrawing <bold>{{amount}} {{ticker}}</bold> and paying a <bold>{{amountTwo}} {{ticker}}</bold> fee'
           components={{
-            bold: <span className='font-bold leading-relaxed' />
+            bold: <span className='font-bold' />
           }}
         />
       </PaneTitle>

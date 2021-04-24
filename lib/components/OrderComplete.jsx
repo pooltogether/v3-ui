@@ -22,8 +22,9 @@ export function OrderComplete(props) {
   const { walletName } = useContext(AuthControllerContext)
 
   const router = useRouter()
-  const quantity = router.query.quantity
-  let prevBalance = router.query.prevBalance
+  const quantity = Number(router.query.quantity)
+  const prevBalance = Number(router.query.prevBalance)
+  const newBalance = prevBalance ? prevBalance + quantity : quantity
 
   const { confetti } = useContext(ConfettiContext)
 
@@ -91,7 +92,7 @@ export function OrderComplete(props) {
         <div className='mb-4 text-highlight-2 text-sm'>
           <div className='mt-4'>
             {t('youNowHaveAmountTicketsInTheTickerPool', {
-              amount: numberWithCommas(Number(prevBalance) + Number(quantity)),
+              amount: numberWithCommas(newBalance),
               ticker: pool.tokens.underlyingToken.symbol
             })}
           </div>

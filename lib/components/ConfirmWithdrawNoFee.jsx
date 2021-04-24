@@ -116,7 +116,6 @@ export function ConfirmWithdrawNoFee(props) {
             <Button
               onClick={runTx}
               textSize='lg'
-              // disabled={poolIsLocked}
               className={'_withdrawBtn _confirmNoFee mx-auto sm:mt-16'}
             >
               {t('confirmWithdrawal')}
