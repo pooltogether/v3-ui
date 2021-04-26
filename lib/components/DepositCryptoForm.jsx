@@ -204,26 +204,19 @@ export function DepositCryptoForm(props) {
                     }}
                   >
                     {!unlockTxInFlight && (
-                      <>
-                        <div className='pt-6'>
-                          <PaneTitle small>
-                            {needsApproval && t('yourApprovalIsNecessary')}
+                      <div>
+                        <PaneTitle small>
+                          {needsApproval && t('yourApprovalIsNecessary')}
 
-                            {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
-                            {tx?.inWallet && !tx?.cancelled && t('confirmApprovalInWallet')}
-                          </PaneTitle>
-                        </div>
-                      </>
-                    )}
-
-                    {!unlockTxInFlight && needsApproval && (
-                      <>
-                        <span className='font-bold'>
+                          {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
+                          {tx?.inWallet && !tx?.cancelled && t('confirmApprovalInWallet')}
+                        </PaneTitle>
+                        <div className=''>
                           {t('unlockToDepositTicker', {
                             ticker: tickerUpcased
                           })}
-                        </span>
-                      </>
+                        </div>
+                      </div>
                     )}
 
                     <TxStatus

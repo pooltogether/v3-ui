@@ -1,25 +1,26 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { useCurrentPool } from 'lib/hooks/usePools'
 import { ExecuteCryptoDeposit } from 'lib/components/ExecuteCryptoDeposit'
 import { ConfirmFiatDeposit } from 'lib/components/ConfirmFiatDeposit'
 import { DepositCryptoForm } from 'lib/components/DepositCryptoForm'
 import { DepositFiatForm } from 'lib/components/DepositFiatForm'
 import { DepositWizardSignIn } from 'lib/components/DepositWizardSignIn'
-// import { FiatOrCryptoForm } from 'lib/components/FiatOrCryptoForm'
-import { Meta } from 'lib/components/Meta'
+import { WizardSwitchNetwork } from 'lib/components/WizardSwitchNetwork'
 import { OrderComplete } from 'lib/components/OrderComplete'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { DepositTicketQuantityForm } from 'lib/components/DepositTicketQuantityForm'
 import { WizardLayout } from 'lib/components/WizardLayout'
+import { useCurrentPool } from 'lib/hooks/usePools'
+import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 import WalletIcon from 'assets/images/icon-wallet.svg'
-import { V3LoadingDots } from 'lib/components/V3LoadingDots'
+
+const NETWORK_SWITCH_STEP_INDEX = 1
 
 export function DepositWizardContainer(props) {
   const { t } = useTranslation()
@@ -33,11 +34,15 @@ export function DepositWizardContainer(props) {
     initialStepIndex = 1
   }
   if (method) {
-    initialStepIndex = 2
+    initialStepIndex = 3
   }
 
   const { usersAddress } = useContext(AuthControllerContext)
   const { data: pool, isFetched: poolIsFetched } = useCurrentPool()
+
+  const walletChainId = useWalletChainId()
+  const poolChainId = pool?.chainId
+  const networkMismatch = walletChainId !== poolChainId
 
   if (!poolIsFetched) {
     return null
@@ -61,12 +66,18 @@ export function DepositWizardContainer(props) {
             previousStep()
           }
 
+          useEffect(() => {
+            if (activeStepIndex > NETWORK_SWITCH_STEP_INDEX && pool.chainId !== walletChainId) {
+              moveToStep(NETWORK_SWITCH_STEP_INDEX)
+            }
+          }, [activeStepIndex, walletChainId, pool.chainId])
+
           return (
             <WizardLayout
               currentWizardStep={activeStepIndex + 1}
               handlePreviousStep={back}
               moveToStep={moveToStep}
-              totalWizardSteps={usersAddress ? 4 : 5}
+              totalWizardSteps={5}
             >
               <WizardStep>
                 {(step) => {
@@ -101,6 +112,24 @@ export function DepositWizardContainer(props) {
                   }}
                 </WizardStep>
               )}
+
+              <WizardStep>
+                {(step) => {
+                  return (
+                    step.isActive && (
+                      <WizardSwitchNetwork
+                        pool={pool}
+                        quantity={quantity}
+                        nextStep={step.nextStep}
+                        networkMismatch={networkMismatch}
+                        paneTitleLocizeKey={'depositTicker'}
+                        bannerLabel={t('yourDeposit')}
+                      />
+                    )
+                  )
+                }}
+              </WizardStep>
+
               <WizardStep>
                 {(step) => {
                   return (

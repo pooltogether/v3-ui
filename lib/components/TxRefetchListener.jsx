@@ -15,11 +15,7 @@ export function TxRefetchListener(props) {
 
   const { usersAddress } = useContext(AuthControllerContext)
 
-  // fill this in with a watched address or an address from router params
-  const playerAddress = ''
-  const address = playerAddress || usersAddress
-
-  const { refetch: refetchTicketData } = useUserTickets(address)
+  const { refetch: refetchTicketData } = useUserTickets(usersAddress)
 
   const pendingTransactions = transactions.filter((t) => !t.completed && !t.cancelled)
 

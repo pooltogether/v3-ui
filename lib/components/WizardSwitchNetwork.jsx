@@ -14,10 +14,10 @@ import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
 import IconNetwork from 'assets/images/icon-network@2x.png'
 
-export function WithdrawSwitchNetwork(props) {
+export function WizardSwitchNetwork(props) {
   const { t } = useTranslation()
 
-  const { quantity, nextStep, networkMismatch, pool } = props
+  const { bannerLabel, paneTitleLocizeKey, quantity, nextStep, networkMismatch, pool } = props
 
   const { walletName } = useWalletNetwork()
 
@@ -58,13 +58,13 @@ export function WithdrawSwitchNetwork(props) {
         </Banner>
       </div>
       <WithdrawAndDepositPaneTitle
-        label={t('withdrawTicker', {
+        label={t(paneTitleLocizeKey, {
           ticker: tickerUpcased
         })}
         pool={pool}
       />
       <WithdrawAndDepositBanner
-        label={t('youreWithdrawing')}
+        label={bannerLabel}
         quantity={quantity}
         tickerUpcased={tickerUpcased}
       />

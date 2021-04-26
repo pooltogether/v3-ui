@@ -10,7 +10,7 @@ import { Meta } from 'lib/components/Meta'
 import { ManageTicketsForm } from 'lib/components/ManageTicketsForm'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
 import { WithdrawInstant } from 'lib/components/WithdrawInstant'
-import { WithdrawSwitchNetwork } from 'lib/components/WithdrawSwitchNetwork'
+import { WizardSwitchNetwork } from 'lib/components/WizardSwitchNetwork'
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { useExitFees } from 'lib/hooks/useExitFees'
@@ -35,14 +35,6 @@ export function ManageTicketsWizardContainer(props) {
   const poolChainId = pool?.chainId
   const networkMismatch = walletChainId !== poolChainId
 
-  let totalWizardSteps = 4
-  const { exitFees } = useExitFees(pool, quantity)
-  let notEnoughCredit = null
-  if (exitFees && exitFees.exitFee) {
-    notEnoughCredit = exitFees.exitFee.gt(0)
-  }
-  totalWizardSteps = notEnoughCredit ? totalWizardSteps + 1 : totalWizardSteps
-
   if (!poolIsFetched) {
     return null
   }
@@ -54,6 +46,12 @@ export function ManageTicketsWizardContainer(props) {
       <Wizard initialStepIndex={initialStepIndex}>
         {(wizard) => {
           const { activeStepIndex, previousStep, moveToStep } = wizard
+
+          const { exitFees } = useExitFees(pool, quantity)
+          let notEnoughCredit = null
+          if (exitFees && exitFees.exitFee) {
+            notEnoughCredit = exitFees.exitFee.gt(0)
+          }
 
           useEffect(() => {
             if (activeStepIndex > NETWORK_SWITCH_STEP_INDEX && pool.chainId !== walletChainId) {
@@ -67,7 +65,7 @@ export function ManageTicketsWizardContainer(props) {
               currentWizardStep={activeStepIndex + 1}
               handlePreviousStep={previousStep}
               moveToStep={moveToStep}
-              totalWizardSteps={totalWizardSteps}
+              totalWizardSteps={4}
             >
               {activeStepIndex > 1 && notEnoughCredit === null ? (
                 <div className='flex flex-col justify-center'>
@@ -92,11 +90,12 @@ export function ManageTicketsWizardContainer(props) {
                     {(step) => {
                       return (
                         step.isActive && (
-                          <WithdrawSwitchNetwork
+                          <WizardSwitchNetwork
                             pool={pool}
                             quantity={quantity}
                             nextStep={step.nextStep}
                             networkMismatch={networkMismatch}
+                            paneTitleLocizeKey={'withdrawTicker'}
                           />
                         )
                       )
