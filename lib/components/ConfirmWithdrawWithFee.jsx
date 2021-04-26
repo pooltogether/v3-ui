@@ -7,8 +7,6 @@ import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { WithdrawalTimeRemainingChart } from 'lib/components/WithdrawalTimeRemainingChart'
 
-// TODO: Enforce wallet chainID here, in case they've already passed the switch network msg
-// but are now on the wrong network
 export function ConfirmWithdrawWithFee(props) {
   const { t } = useTranslation()
 

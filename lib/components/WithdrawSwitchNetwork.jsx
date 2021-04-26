@@ -17,35 +17,26 @@ import IconNetwork from 'assets/images/icon-network@2x.png'
 export function WithdrawSwitchNetwork(props) {
   const { t } = useTranslation()
 
-  const { quantity, nextStep, totalWizardSteps, setTotalWizardSteps, pool } = props
+  const { quantity, nextStep, networkMismatch, pool } = props
 
-  const { walletName, walletChainId } = useWalletNetwork()
+  const { walletName } = useWalletNetwork()
 
   const poolChainId = pool.chainId
   const tickerUpcased = pool.tokens?.underlyingToken.symbol
   const addNetwork = useAddNetworkToMetamask(poolChainId)
-  const networkMismatch = walletChainId !== poolChainId
   const isMetaMask = walletName === 'MetaMask'
 
   const changingToEthereum = ETHEREUM_NETWORKS.includes(poolChainId)
-  console.log({ changingToEthereum })
 
   const pleaseChangeWalletTranslationKey = isMetaMask
     ? 'openMetaMaskAndSelectEthereumToContinue'
     : 'openYourWalletAndSelectNetworkToContinue'
 
-  console.log(isMetaMask)
-  useEffect(() => {
-    if (networkMismatch) {
-      setTotalWizardSteps(totalWizardSteps + 1)
-    }
-  }, [])
-
   useEffect(() => {
     if (!networkMismatch) {
       nextStep()
     }
-  }, [walletChainId])
+  }, [networkMismatch])
 
   return (
     <>

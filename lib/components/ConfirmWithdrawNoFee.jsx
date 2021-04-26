@@ -17,17 +17,16 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
 
-// TODO: Enforce wallet chainID here, in case they've already passed the switch network msg
-// but are now on the wrong network
 export function ConfirmWithdrawNoFee(props) {
   const { t } = useTranslation()
 
   const router = useRouter()
   const quantity = router.query.quantity
+  const prevBalance = router.query.prevBalance
 
   const { nextStep, previousStep, pool } = props
 
-  const { usersAddress, provider } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
@@ -96,14 +95,18 @@ export function ConfirmWithdrawNoFee(props) {
           />
 
           <div
-            className='text-center mx-auto rounded-lg text-orange bg-orange-darkened border-2 border-orange py-2 xs:py-4 px-2 xs:px-8'
+            className='text-center mx-auto rounded-lg text-orange bg-orange-darkened border-2 border-orange py-2 xs:py-4 px-4 xs:px-8'
             style={{
               maxWidth: 600
             }}
           >
-            <h6 className='text-orange'>
-              -<PoolNumber>{quantity}</PoolNumber> {tickerUpcased}
-            </h6>
+            <p className='text-base xs:text-xl'>
+              <span className='font-bold'>{t('balance')}:</span> {numberWithCommas(prevBalance)} -{' '}
+              {numberWithCommas(quantity)} ={' '}
+              <span className='font-bold'>
+                {numberWithCommas(Number(prevBalance) - Number(quantity))} {tickerUpcased}
+              </span>
+            </p>
 
             <WithdrawOdds
               pool={pool}

@@ -28,8 +28,6 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import IconLightning from 'assets/images/icon-lightning.svg'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
-// TODO: Enforce wallet chainID here, in case they've already passed the switch network msg
-// but are now on the wrong network
 export function ConfirmWithdrawWithFeeForm(props) {
   const { t } = useTranslation()
   const router = useRouter()
@@ -38,7 +36,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
 
   const { nextStep, previousStep, pool, quantity } = props
 
-  const { usersAddress, provider } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
 
   const underlyingToken = pool.tokens.underlyingToken
   const ticker = underlyingToken.symbol

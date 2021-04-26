@@ -24,7 +24,7 @@ export const ManageUI = (props) => {
   const { isFetched } = useAllPools()
 
   const { data: pool } = useCurrentPool()
-  const { contractAddresses } = useContractAddresses(pool.chainId)
+  const { contractAddresses } = useContractAddresses(pool?.chainId)
 
   if (!pool || !isFetched) {
     return (

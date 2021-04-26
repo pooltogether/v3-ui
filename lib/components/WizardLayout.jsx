@@ -11,10 +11,15 @@ function range1(i) {
   return i ? range1(i - 1).concat(i) : []
 }
 
+WizardLayout.defaultProps = {
+  showPreviousButton: true
+}
+
 export function WizardLayout(props) {
   const {
     currentWizardStep,
     handlePreviousStep,
+    showPreviousButton,
     moveToStep,
     hideWizardSteps,
     totalWizardSteps,
@@ -76,24 +81,29 @@ export function WizardLayout(props) {
         transition={{ duration: shouldReduceMotion ? 0 : 0.25 }}
       >
         <nav className='fixed t-0 l-0 r-0 w-full px-4 pt-4 flex items-start justify-between h-20'>
-          <button
-            disabled={disabled}
-            type='button'
-            onClick={handlePreviousStep}
-            className={classnames(
-              'text-inverse hover:opacity-100 trans outline-none focus:outline-none active:outline-none',
-              {
-                'opacity-70': !disabled,
-                'opacity-30': disabled
-              }
-            )}
-          >
-            <FeatherIcon
-              icon='arrow-left-circle'
-              className='w-8 h-8 sm:w-16 sm:h-16'
-              strokeWidth='0.09rem'
-            />
-          </button>
+          {showPreviousButton ? (
+            <button
+              disabled={disabled}
+              type='button'
+              onClick={handlePreviousStep}
+              className={classnames(
+                'text-inverse hover:opacity-100 trans outline-none focus:outline-none active:outline-none',
+                {
+                  'opacity-70': !disabled,
+                  'opacity-30': disabled
+                }
+              )}
+            >
+              <FeatherIcon
+                icon='arrow-left-circle'
+                className='w-8 h-8 sm:w-16 sm:h-16'
+                strokeWidth='0.09rem'
+              />
+            </button>
+          ) : (
+            // render div for flexbox
+            <div className='w-8 h-8 sm:w-16 sm:h-16' />
+          )}
 
           <AnimatePresence exitBeforeEnter>
             <motion.div
