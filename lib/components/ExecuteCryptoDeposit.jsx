@@ -6,11 +6,11 @@ import { useRouter } from 'next/router'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
-import { Trans, useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Banner } from 'lib/components/Banner'
-import { DepositPaneTitle } from 'lib/components/DepositPaneTitle'
-import { PoolNumber } from 'lib/components/PoolNumber'
+import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
+import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -18,8 +18,6 @@ import { TxStatus } from 'lib/components/TxStatus'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
 import IconStar from 'assets/images/icon-star@2x.png'
-
-const bn = ethers.BigNumber.from
 
 export function ExecuteCryptoDeposit(props) {
   const { t } = useTranslation()
@@ -85,12 +83,18 @@ export function ExecuteCryptoDeposit(props) {
 
   return (
     <>
-      <DepositPaneTitle ticker={tickerUpcased} pool={pool} />
+      <WithdrawAndDepositPaneTitle
+        label={t('depositTickerToWin', {
+          ticker: tickerUpcased
+        })}
+        pool={pool}
+      />
 
-      <div className='pool-gradient-2 text-accent-1 w-full text-center mx-auto mb-4 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-xl lg:text-2xl'>
-        <span className='mr-4'>{t('depositing')}</span>
-        <PoolNumber>{numberWithCommas(quantity)}</PoolNumber> {tickerUpcased}
-      </div>
+      <WithdrawAndDepositBanner
+        label={t('depositing')}
+        quantity={quantity}
+        tickerUpcased={tickerUpcased}
+      />
 
       <div style={{ minHeight: 103 }}>
         <TxStatus

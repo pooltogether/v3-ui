@@ -15,9 +15,9 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 export function DepositSponsorshipTxButton(props) {
   const { t } = useTranslation()
 
-  const { quantity, quantityBN, needsApproval, tickerUpcased } = props
+  const { quantity, quantityBN, needsApproval, tickerUpcased, refetch } = props
 
-  const { usersAddress, provider } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
 
   const { data: pool } = useCurrentPool()
 

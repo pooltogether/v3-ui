@@ -1,25 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Menu, MenuButton, MenuItem, MenuItems, MenuPopover } from '@reach/menu-button'
+import { positionMatchWidth } from '@reach/popover'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
-import { Menu, MenuList, MenuButton, MenuItem } from '@reach/menu-button'
 
-import { DEFAULT_INPUT_CLASSES } from 'lib/constants'
+export const DropdownInputGroup = (props) => {
+  // Dropdown Logic
 
-export function DropdownInputGroup(props) {
-  const { id, className, current, setCurrent, label, textColor, hoverTextColor, options } = props
+  const { id, formatValue, label, placeHolder, values, currentValue, onValueSet, disabled } = props
 
-  let optionsArray = []
-  if (typeof options === 'object') {
-    optionsArray = Object.keys(options).map((v) => v)
+  const handleChangeValueClick = (newValue) => {
+    onValueSet(newValue)
   }
 
-  const currentValue = current ? current : optionsArray?.[0]
-
-  const handleChange = (newValue) => {
-    setCurrent(newValue)
+  let valuesArray = []
+  if (typeof values === 'object') {
+    valuesArray = Object.keys(values).map((v) => v)
   }
 
-  const menuItems = optionsArray.map((valueItem) => {
+  const menuItems = valuesArray.map((valueItem) => {
     let value = valueItem
 
     const selected = value === currentValue
@@ -28,59 +27,124 @@ export function DropdownInputGroup(props) {
       <MenuItem
         key={`${id}-value-picker-item-${value}`}
         onSelect={() => {
-          handleChange(value)
+          handleChangeValueClick(value)
         }}
         className={classnames({
           selected
         })}
       >
-        {options[value]}
+        {formatValue ? formatValue(value) : value}
       </MenuItem>
     )
   })
 
-  const inactiveTextColorClasses = `${textColor} hover:${hoverTextColor}`
-  const activeTextColorClasses = `${hoverTextColor} hover:${hoverTextColor}`
+  // Styling
+
+  let {
+    textClasses,
+    roundedClasses,
+    marginClasses,
+    paddingClasses,
+    borderClasses,
+    backgroundClasses,
+    iconSizeClasses,
+    labelClassName,
+    unitsClassName,
+    containerClassName,
+    isError,
+    isSuccess
+  } = props
+
+  iconSizeClasses = iconSizeClasses ?? 'w-4 h-4 sm:w-8 sm:h-8'
+
+  textClasses =
+    textClasses ??
+    classnames('text-xs xs:text-sm sm:text-xl lg:text-2xl trans', {
+      'text-accent-1': disabled || !currentValue
+    })
+
+  containerClassName = containerClassName ?? 'w-full'
+
+  roundedClasses = roundedClasses ?? 'rounded-full'
+
+  marginClasses = marginClasses ?? 'mb-2 lg:mb-2'
+
+  paddingClasses = paddingClasses ?? 'py-2 px-5 sm:py-4 sm:px-10'
+
+  borderClasses =
+    borderClasses ??
+    classnames('border', {
+      'border-red-1': isError,
+      'border-green-2': isSuccess,
+      'border-transparent': !isError && !isSuccess,
+      'hover:border-accent-4 hover:bg-card-selected focus-within:border-accent-3 focus-within:shadow-green': !disabled
+    })
+
+  backgroundClasses =
+    backgroundClasses ??
+    classnames('bg-body', {
+      'bg-grey': disabled
+    })
+
+  labelClassName =
+    labelClassName ??
+    classnames('mt-0 mb-1 text-xs sm:text-sm', {
+      'cursor-not-allowed opacity-30': disabled,
+      'text-accent-1': !disabled
+    })
+
+  unitsClassName =
+    unitsClassName ??
+    classnames('font-bold text-xs sm:text-sm whitespace-no-wrap', {
+      'cursor-not-allowed opacity-30': disabled,
+      'font-white': !disabled
+    })
+
+  const className = classnames(
+    'trans',
+    containerClassName,
+    textClasses,
+    roundedClasses,
+    marginClasses,
+    paddingClasses,
+    borderClasses,
+    backgroundClasses
+  )
+
+  let selectedItem = placeHolder ?? null
+  if (currentValue) {
+    selectedItem = formatValue ? formatValue(currentValue) : currentValue
+  }
 
   return (
     <>
-      <div id={id} className='fieldset mx-auto'>
-        <div className='flex justify-between'>
-          <label>{label}</label>
-        </div>
-        <Menu>
-          {({ isExpanded }) => (
-            <>
-              <MenuButton
-                className={classnames(
-                  'text-xxs xs:text-sm sm:text-xl lg:text-2xl',
-                  'mb-2 lg:mb-2',
-                  'rounded-full',
-                  'px-8 py-3',
-                  'bg-input',
-                  'border',
-                  'font-bold',
-                  DEFAULT_INPUT_CLASSES,
-                  className,
-                  {
-                    [inactiveTextColorClasses]: !isExpanded,
-                    [activeTextColorClasses]: isExpanded
-                  }
+      <Menu>
+        {({ isExpanded }) => (
+          <>
+            <MenuButton className={classnames(className, 'focus:outline-none')}>
+              <div className='flex flex-col items-center text-left'>
+                {label && (
+                  <label htmlFor={id} className={labelClassName}>
+                    {label}
+                  </label>
                 )}
-              >
-                <span>{options[currentValue]}</span>{' '}
-                <FeatherIcon
-                  icon={isExpanded ? 'chevron-up' : 'chevron-down'}
-                  className='relative w-4 h-4 inline-block ml-2'
-                  strokeWidth='0.15rem'
-                />
-              </MenuButton>
+                <div className='w-full flex items-center justify-between'>
+                  <div className='flex'>{selectedItem}</div>
+                  <FeatherIcon
+                    icon={isExpanded ? 'chevron-up' : 'chevron-down'}
+                    className={classnames(`relative inline-block my-auto`, iconSizeClasses)}
+                    strokeWidth='0.15rem'
+                  />
+                </div>
+              </div>
+            </MenuButton>
 
-              <MenuList className='slide-down'>{menuItems}</MenuList>
-            </>
-          )}
-        </Menu>
-      </div>
+            <MenuPopover position={positionMatchWidth}>
+              <MenuItems>{menuItems}</MenuItems>
+            </MenuPopover>
+          </>
+        )}
+      </Menu>
     </>
   )
 }

@@ -59,14 +59,15 @@ export function WithdrawOdds(props) {
         )}
 
         {props.withdrawAmount && !overBalance && (
-          <span className='text-xs sm:text-sm text-orange-500 ml-0 sm:ml-4'>
+          <span className='text-xs sm:text-sm text-orange-500 ml-0 sm:ml-4 opacity-50'>
             {newOdds ? (
               <Trans
                 i18nKey='yourOddsWillReduceTo'
                 defaults='Your odds will be reduced from 1 in {{currentOdds}} to 1 in {{newOdds}}'
                 components={{
                   bold: <span className='font-bold' />,
-                  number: <PoolNumber />
+                  number: <PoolNumber />,
+                  lineBreak: <div />
                 }}
                 values={{
                   currentOdds: numberWithCommas(currentOdds, { precision: 2 }),

@@ -8,10 +8,10 @@ import { useTranslation } from 'lib/../i18n'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { useMultiversionPlayerPrizes } from 'lib/hooks/useMultiversionPlayerPrizes'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
+import { useAllUsersPrizes } from 'lib/hooks/useAllUsersPrizes'
 
 export const AccountWinnings = () => {
   const { t } = useTranslation()
@@ -24,21 +24,27 @@ export const AccountWinnings = () => {
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
 
-  const { data: prizesWon } = useMultiversionPlayerPrizes(address)
+  const { data: prizesWon, isFetched } = useAllUsersPrizes(address)
 
-  let awardedControlledTokens = prizesWon?.awardedControlledTokens || []
+  if (!isFetched) return null
 
   const awarded = {}
-  awardedControlledTokens.forEach((awardedControlledToken) => {
-    const pool = awardedControlledToken.prize.prizePool
-    const award = awarded[pool.id] || { total: ethers.BigNumber.from(0) }
-    const amount = ethers.BigNumber.from(awardedControlledToken.amount)
+  prizesWon.forEach((prize) => {
+    let total = ethers.constants.Zero
 
-    award.ticker = pool.underlyingCollateralSymbol
-    award.decimals = pool.underlyingCollateralDecimals
-    award.total = award.total.gt(0) ? award.total.add(amount) : amount
-
-    awarded[pool.id] = award
+    prize.awardedControlledTokens.forEach((awardedControlledToken) => {
+      const prizeId = awardedControlledToken.prize.id
+      const token = awardedControlledToken.token
+      const underlyingTokenAddress =
+        awardedControlledToken.prize.prizePool.underlyingCollateralToken
+      const amount = awardedControlledToken.amount
+      awarded[prizeId] = {
+        total: ethers.utils.formatUnits(amount, token.decimals),
+        ticker: token.symbol,
+        decimals: token.decimals,
+        address: underlyingTokenAddress
+      }
+    })
   })
 
   const awardKeys = !isEmpty(awarded) ? Object.keys(awarded) : []
@@ -73,7 +79,7 @@ export const AccountWinnings = () => {
                       <tr key={`award-winnings-row-${awardKey}`}>
                         <td className='px-2 sm:px-3 text-left font-bold'>
                           <span className='mr-2'>
-                            <PoolCurrencyIcon sm symbol={award.ticker} />
+                            <PoolCurrencyIcon sm address={award.address} />
                           </span>
                           {numberWithCommas(award.total, { decimals: award.decimals })}{' '}
                           {award.ticker}

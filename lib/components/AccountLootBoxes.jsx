@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { useTranslation } from 'lib/../i18n'
 import { LootBoxWon } from 'lib/components/LootBoxWon'
@@ -7,6 +7,7 @@ import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 import { useAtom } from 'jotai'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { useLootBoxesWon } from 'lib/hooks/useLootBoxesWon'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 
 // This component should only show up for the currentUser viewing their own account
 export const AccountLootBoxes = (props) => {
@@ -19,11 +20,12 @@ export const AccountLootBoxes = (props) => {
   return <AccountLootBoxesView />
 }
 
-export const AccountLootBoxesView = (props) => {
+const AccountLootBoxesView = (props) => {
   const { t } = useTranslation()
-  const lootBoxesWon = useLootBoxesWon()
+  const { usersAddress } = useContext(AuthControllerContext)
+  const { data: lootBoxesWon, isFetched: lootBoxesIsFetched } = useLootBoxesWon(usersAddress)
 
-  if (lootBoxesWon.length === 0) {
+  if (!lootBoxesIsFetched || lootBoxesWon.length === 0) {
     return null
   }
 

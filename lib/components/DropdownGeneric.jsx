@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
-import { Menu, MenuList, MenuPopover, MenuButton, MenuItem, MenuItems } from '@reach/menu-button'
+import { Menu, MenuPopover, MenuButton } from '@reach/menu-button'
 
 export function DropdownGeneric(props) {
   const { children, className, hoverTextColor, label, textColor } = props

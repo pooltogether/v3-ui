@@ -14,6 +14,7 @@ import { SponsorshipPane } from 'lib/components/SponsorshipPane'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useCurrentPool, useAllPools } from 'lib/hooks/usePools'
+import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const ManageUI = (props) => {
@@ -22,8 +23,8 @@ export const ManageUI = (props) => {
   const { usersAddress } = useContext(AuthControllerContext)
   const { isFetched } = useAllPools()
 
-  const { contractAddresses } = useContractAddresses()
   const { data: pool } = useCurrentPool()
+  const { contractAddresses } = useContractAddresses(pool?.chainId)
 
   if (!pool || !isFetched) {
     return (
@@ -76,8 +77,13 @@ export const ManageUI = (props) => {
             name: t('pools')
           },
           {
-            href: '/pools/[symbol]',
-            as: `/pools/${pool.symbol}`,
+            href: '/pools/[networkName]',
+            as: `/pools/${pool.networkName}`,
+            name: getNetworkNiceNameByChainId(pool.chainId)
+          },
+          {
+            href: '/pools/[networkName]/[symbol]',
+            as: `/pools/${pool.networkName}/${pool.symbol}`,
             name: pool.name
           },
           {

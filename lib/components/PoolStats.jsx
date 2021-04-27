@@ -2,19 +2,17 @@ import React from 'react'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
-import { DEFAULT_TOKEN_PRECISION, PRIZE_POOL_TYPES, SECONDS_PER_DAY } from 'lib/constants'
+import { DEFAULT_TOKEN_PRECISION, PRIZE_POOL_TYPES } from 'lib/constants'
 import {
   CUSTOM_YIELD_SOURCE_NAMES,
   CUSTOM_YIELD_SOURCE_IMAGES
 } from 'lib/constants/customYieldSourceImages'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { Tooltip } from 'lib/components/Tooltip'
 import { Card, CardDetailsList } from 'lib/components/Card'
-import { useTokenFaucetData } from 'lib/hooks/useTokenFaucetData'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { BlockExplorerLink, LinkIcon } from 'lib/components/BlockExplorerLink'
 
 import CompSvg from 'assets/images/comp.svg'
 
@@ -75,7 +73,7 @@ const Stat = (props) => {
         <span className='flex items-center'>
           {sourceName && <span className='capitalize'>{sourceName}</span>}
           {sourceImage && <img src={sourceImage} className='ml-2 w-6 h-6' />}
-          {value && <span>{value}</span>}
+          {value && <span className='flex items-center'>{value}</span>}
         </span>
       )}
       {tokenSymbol && tokenAmount && (
@@ -171,9 +169,13 @@ const YieldSourceStat = (props) => {
     sourceName = 'Compound Finance'
     sourceImage = CompSvg
   } else if (yieldSource === PRIZE_POOL_TYPES.genericYield) {
-    const yieldSourceAddress = pool.prizePool.yieldSource
-    value = <EtherscanAddressLink address={yieldSourceAddress} />
-    sourceName = CUSTOM_YIELD_SOURCE_NAMES[yieldSourceAddress]
+    const yieldSourceAddress = pool.prizePool.yieldSource.address
+    value = (
+      <BlockExplorerLink chainId={pool.chainId} address={yieldSourceAddress}>
+        <LinkIcon />
+      </BlockExplorerLink>
+    )
+    sourceName = CUSTOM_YIELD_SOURCE_NAMES[pool.chainId]?.[yieldSourceAddress]
     if (!sourceName) {
       sourceName = t('customYieldSource')
     }

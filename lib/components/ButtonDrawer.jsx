@@ -11,7 +11,7 @@ export function ButtonDrawer(props) {
       </div>
 
       <div
-        className='flex items-center justify-between sm:hidden h-20 l-0 r-0 b-0 fixed w-full mx-auto px-4'
+        className='flex items-center justify-between sm:hidden h-20 l-0 r-0 b-0 fixed w-full mx-auto px-2'
         id='button-portal'
         style={{
           zIndex: 123141241

@@ -28,8 +28,8 @@ export const PoolPrizesTable = (props) => {
   }
 
   const { data: prizes, page, pages, isFetched: prizePoolsIsFetched } = usePaginatedPastPrizes(pool)
-  const baseAsPath = `/prizes/${pool.symbol}`
-  const baseHref = '/prizes/[symbol]'
+  const baseAsPath = `/prizes/${pool.networkName}/${pool.symbol}`
+  const baseHref = '/prizes/[networkName]/[symbol]'
 
   if (!prizePoolsIsFetched || !pool) {
     return (
@@ -47,7 +47,11 @@ export const PoolPrizesTable = (props) => {
             {t('thereAreNoPrizesYet')}
             {/* There are no prizes for this pool yet. */}
           </div>
-          <ButtonLink secondary href='/pools/[symbol]/manage' as={`/pools/${pool.symbol}/manage`}>
+          <ButtonLink
+            secondary
+            href='/pools/[networkName]/[symbol]/manage'
+            as={`/pools/${pool.networkName}/${pool.symbol}/manage`}
+          >
             {t('managePool')}
           </ButtonLink>
         </BlankStateMessage>
@@ -117,7 +121,11 @@ const PrizesTable = (props) => {
         ),
         awardedAt: <span className='text-flashy'>{t('current')}</span>,
         view: (
-          <Link href='/pools/[symbol]' as={`/pools/${querySymbol}`} shallow>
+          <Link
+            href='/pools/[networkName]/[symbol]'
+            as={`/pools/${pool.networkName}/${querySymbol}`}
+            shallow
+          >
             <a className='trans text-right w-full'>{t('viewDetails')}</a>
           </Link>
         )
@@ -145,7 +153,11 @@ const PrizesTable = (props) => {
 const PrizeLink = (props) => {
   const { t, pool, prize } = props
   return (
-    <Link href='/prizes/[symbol]/[prizeNumber]' as={`/prizes/${pool.symbol}/${prize.id}`} shallow>
+    <Link
+      href='/prizes/[networkName]/[symbol]/[prizeNumber]'
+      as={`/prizes/${pool.networkName}/${pool.symbol}/${prize.id}`}
+      shallow
+    >
       <a className='trans text-right w-full'>{t('viewDetails')}</a>
     </Link>
   )

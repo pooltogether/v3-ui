@@ -6,11 +6,11 @@ import { useTranslation } from 'lib/../i18n'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { Tooltip } from 'lib/components/Tooltip'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { getDateFromSeconds } from 'lib/utils/getDateFromSeconds'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { secondsSinceEpoch } from 'lib/utils/secondsSinceEpoch'
 import { shorten } from 'lib/utils/shorten'
+import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
 export const SablierStreamCard = (props) => {
   const { pool } = props
@@ -38,12 +38,13 @@ export const SablierStreamCard = (props) => {
       <div className='flex items-center'>
         <Erc20Image address={address} />
         <h6>{name}</h6>
-        <EtherscanAddressLink
+        <BlockExplorerLink
+          chainId={pool.chainId}
           className='text-accent-1 trans hover:text-inverse ml-4'
           address={address}
         >
           ({shorten(address)})
-        </EtherscanAddressLink>
+        </BlockExplorerLink>
       </div>
 
       <div className='flex flex-col xs:flex-row justify-between mt-6'>

@@ -21,7 +21,7 @@ export const HistoricPrizeBreakdown = (props) => {
   const { prize, prizeNumber, preAwardPool, pool } = props
 
   const { t } = useTranslation()
-  const { contractAddresses } = useContractAddresses()
+  const { contractAddresses } = useContractAddresses(pool.chainId)
 
   const yieldPrizeUsd = prize.yield.totalValueUsd
   const externalPrizeUsd = prize.external.totalValueUsd
@@ -139,6 +139,7 @@ export const HistoricPrizeBreakdown = (props) => {
                         preAwardPool={preAwardPool}
                         winnersAddress={awardedControlledToken.winner}
                         poolContract={pool.contract}
+                        chainId={pool.chainId}
                       />
                     )
                   })}
@@ -173,7 +174,8 @@ const PrizeWinner = (props) => {
     prize,
     winnersAddress,
     preAwardPool,
-    poolContract
+    poolContract,
+    chainId
   } = props
   const underlyingToken = preAwardPool.tokens.underlyingToken
   const ticketToken = preAwardPool.tokens.ticket
@@ -182,6 +184,7 @@ const PrizeWinner = (props) => {
   const blockNumber = prize.awardedBlock
 
   const { data: accountData } = useAccountQuery(
+    chainId,
     winnersAddress,
     poolContract.subgraphVersion,
     blockNumber - 1

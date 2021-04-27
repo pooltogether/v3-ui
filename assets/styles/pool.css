@@ -457,3 +457,19 @@ a:hover {
     padding-right: 2.5rem;
   }
 }
+
+.wizard-fixed-top-banner {
+  width: 90%;
+}
+
+@screen sm {
+  .wizard-fixed-top-banner {
+    width: 872px;
+  }
+}
+
+@screen lg {
+  .wizard-fixed-top-banner {
+    width: 780px;
+  }
+}

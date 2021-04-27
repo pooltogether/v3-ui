@@ -47,7 +47,7 @@ export function WithdrawalTimeRemainingChart(props) {
   return (
     <>
       <div
-        className='mt-4 text-highlight-3'
+        className='mt-10 mb-6 text-highlight-3'
         style={{
           maxHeight: 220
         }}

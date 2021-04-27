@@ -3,24 +3,11 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'lib/../i18n'
 import { ConfirmWithdrawNoFee } from 'lib/components/ConfirmWithdrawNoFee'
 import { ConfirmWithdrawWithFee } from 'lib/components/ConfirmWithdrawWithFee'
-import { PaneTitle } from 'lib/components/PaneTitle'
-import { useExitFees } from 'lib/hooks/useExitFees'
 
 export function WithdrawInstant(props) {
   const { t } = useTranslation()
 
-  const { quantity, nextStep, previousStep, setTotalWizardSteps, pool } = props
-
-  const { exitFees } = useExitFees(pool, quantity)
-
-  let notEnoughCredit = null
-  if (exitFees && exitFees.exitFee) {
-    notEnoughCredit = exitFees.exitFee.gt(0)
-  }
-
-  useEffect(() => {
-    setTotalWizardSteps(notEnoughCredit ? 4 : 3)
-  }, [notEnoughCredit])
+  const { exitFees, notEnoughCredit, nextStep, previousStep, pool } = props
 
   useEffect(() => {
     if (exitFees === 'error') {
@@ -31,17 +18,8 @@ export function WithdrawInstant(props) {
 
   return (
     <>
-      {notEnoughCredit === null ? (
-        <>
-          <PaneTitle>{t('gettingAvailableCredit')}</PaneTitle>
-        </>
-      ) : notEnoughCredit ? (
-        <ConfirmWithdrawWithFee
-          pool={pool}
-          nextStep={nextStep}
-          previousStep={previousStep}
-          exitFees={exitFees}
-        />
+      {notEnoughCredit ? (
+        <ConfirmWithdrawWithFee pool={pool} nextStep={nextStep} exitFees={exitFees} />
       ) : (
         <ConfirmWithdrawNoFee pool={pool} nextStep={nextStep} previousStep={previousStep} />
       )}

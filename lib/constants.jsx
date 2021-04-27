@@ -5,7 +5,8 @@
 import TokenFaucetProxyFactoryMainnet from '@pooltogether/pooltogether-contracts/deployments/mainnet/TokenFaucetProxyFactory.json'
 import TokenFaucetProxyFactoryRinkeby from '@pooltogether/pooltogether-contracts/deployments/rinkeby/TokenFaucetProxyFactory.json'
 
-export const SUPPORTED_CHAIN_IDS = [1, 4, 31337, 1234]
+export const ETHEREUM_NETWORKS = [1, 3, 4, 5, 42]
+export const SUPPORTED_NETWORKS = [1, 4, 137, 80001]
 
 export const SECONDS_PER_BLOCK = 14
 
@@ -42,11 +43,11 @@ export const DEFAULT_INPUT_CLASSES =
   'w-full text-inverse inline-flex items-center justify-between trans'
 
 const domain = process.env.NEXT_JS_DOMAIN_NAME && `.${process.env.NEXT_JS_DOMAIN_NAME}`
-export const COOKIE_OPTIONS = {
+export const COOKIE_OPTIONS = Object.freeze({
   sameSite: 'strict',
   secure: process.env.NEXT_JS_DOMAIN_NAME === 'pooltogether.com',
   domain
-}
+})
 
 export const POOLS = {
   1: {
@@ -112,21 +113,32 @@ export const PRIZE_POOL_TYPES = {
 
 export const CUSTOM_CONTRACT_ADDRESSES = {
   1: {
-    Usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+    Stablecoin: '0xdac17f958d2ee523a2206206994597c13d831ec7',
     TokenFaucetProxyFactory: TokenFaucetProxyFactoryMainnet.address,
     MerkleDistributor: '0xBE1a33519F586A4c8AA37525163Df8d67997016f',
     GovernanceToken: '0x0cEC1A9154Ff802e7934Fc916Ed7Ca50bDE6844e',
     Sablier: '0xA4fc358455Febe425536fd1878bE67FfDBDEC59a'
   },
   3: {
-    Usdt: '0x0736d0c130b2ead47476cc262dbed90d7c4eeabd'
+    Stablecoin: '0x0736d0c130b2ead47476cc262dbed90d7c4eeabd'
   },
   4: {
-    Usdt: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
+    Stablecoin: '0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad',
     TokenFaucetProxyFactory: TokenFaucetProxyFactoryRinkeby.address,
     MerkleDistributor: '0x93a6540DcE05a4A5E5B906eB97bBCBb723768F2D',
     GovernanceToken: '0xc4E90a8Dc6CaAb329f08ED3C8abc6b197Cf0F40A',
     Sablier: '0xc04Ad234E01327b24a831e3718DBFcbE245904CC'
+  },
+  137: {
+    GovernanceToken: '',
+    // PoS-Dai
+    Stablecoin: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063'
+    // PoS-Stablecoin
+    // Stablecoin: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F'
+  },
+  80001: {
+    GovernanceToken: '',
+    Stablecoin: ''
   }
 }
 

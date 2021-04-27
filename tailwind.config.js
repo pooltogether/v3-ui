@@ -110,6 +110,7 @@ module.exports = {
         purple: 'var(--color-text-purple)',
       },
       borderColor: {
+        'body': 'var(--color-border-body)',
         'accent-1': 'var(--color-border-accent-1)',
         'accent-2': 'var(--color-border-accent-2)',
         'accent-3': 'var(--color-border-accent-3)',

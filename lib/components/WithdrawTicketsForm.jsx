@@ -64,7 +64,7 @@ export function WithdrawTicketsForm(props) {
       onClick={handleSubmit(onSubmit)}
       className={'mx-auto w-48-percent'}
     >
-      {t('continue')}
+      {t('reviewWithdrawal')}
     </Button>
   )
 
@@ -94,7 +94,7 @@ export function WithdrawTicketsForm(props) {
                   }}
                 >
                   <img src={TicketIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
-                  {numberWithCommas(amount, { precision: 2 })} {ticker}
+                  {numberWithCommas(amount)} {ticker}
                 </button>
               </>
             )

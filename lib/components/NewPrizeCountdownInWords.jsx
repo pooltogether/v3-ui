@@ -61,11 +61,11 @@ export const NewPrizeCountdownInWords = (props) => {
   if (extraShort && pool.prize.isRngRequested) {
     content = <>{t('beingAwarded')}</>
   } else if (extraShort && days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
-    content = <>{t('awarding')}</>
+    content = <span className='font-normal ml-2'>{t('awarding')}</span>
   } else if (extraShort) {
     content = (
       <>
-        {onTicket && <div className='font-normal'>{t('prizeIn')}</div>}
+        {onTicket && <span className='font-normal mx-1'>{t('in')}</span>}
         {t('numDaysShort', { days: daysWords })}, {t('numHoursShort', { hours: hoursWords })},{' '}
         {t('numMinutesShort', { minutes: minutesWords })},{' '}
         {t('numSecondsShort', { seconds: secondsWords })}

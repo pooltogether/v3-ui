@@ -2,12 +2,19 @@ import { useContext, useState } from 'react'
 import { useAtom } from 'jotai'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-//
-import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
-import { useAllPlayerTickets } from 'lib/hooks/useAllPlayerTickets'
+import { useUserTickets } from 'lib/hooks/useUserTickets'
 
-const debug = require('debug')('pool-app:TxRefetchListener')
+const PLAYER_BALANCE_METHODS = [
+  'depositTo',
+  'transfer',
+  'withdrawInstantlyFrom',
+  'updateAndClaimDrips'
+]
+
+const isPlayerBalanceTransaction = (tx) => {
+  return PLAYER_BALANCE_METHODS.includes(tx.method)
+}
 
 export function TxRefetchListener(props) {
   const [transactions] = useAtom(transactionsAtom)
@@ -15,51 +22,48 @@ export function TxRefetchListener(props) {
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
   const { usersAddress } = useContext(AuthControllerContext)
-  // const { poolsRefetch } = usePools_OLD()
 
-  // fill this in with a watched address or an address from router params
-  const playerAddress = ''
-  const address = playerAddress || usersAddress
-
-  const { refetch: refetchTicketData } = useAllPlayerTickets(address)
+  const { refetch: refetchTicketData } = useUserTickets(usersAddress)
 
   const pendingTransactions = transactions.filter((t) => !t.completed && !t.cancelled)
 
   const runRefetch = (tx) => {
-    const playerBalanceTransaction =
-      tx.method === 'depositTo' ||
-      tx.method === 'transfer' ||
-      tx.method === 'approve' ||
-      tx.method === 'withdrawInstantlyFrom' ||
-      tx.method === 'updateAndClaimDrips'
+    if (tx?.refetch) {
+      setTimeout(() => {
+        tx.refetch()
+        console.log('refetch 4!')
+      }, 2000)
 
-    if (playerBalanceTransaction) {
+      setTimeout(() => {
+        tx.refetch()
+        console.log('refetch 5!')
+      }, 8000)
+
+      setTimeout(() => {
+        tx.refetch()
+        console.log('refetch 5!')
+      }, 16000)
+    }
+
+    console.log(' is player b tx? ', isPlayerBalanceTransaction(tx))
+
+    if (isPlayerBalanceTransaction(tx)) {
       // we don't know when the Graph will have processed the new block data or when it has
       // so simply query a few times for the updated data
       setTimeout(() => {
         refetchTicketData()
-        debug('refetch!')
+        console.log('refetch 1!')
       }, 2000)
 
       setTimeout(() => {
         refetchTicketData()
-        debug('refetch!')
+        console.log('refetch 2!')
       }, 8000)
 
       setTimeout(() => {
         refetchTicketData()
-        debug('refetch!')
+        console.log('refetch 3!')
       }, 16000)
-    } else if (tx?.refetch) {
-      setTimeout(() => {
-        tx.refetch()
-        debug('refetch!')
-      }, 2000)
-
-      setTimeout(() => {
-        tx.refetch()
-        debug('refetch!')
-      }, 8000)
     }
   }
 

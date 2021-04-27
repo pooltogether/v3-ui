@@ -2,19 +2,20 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
+import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
-
-import IconNetwork from 'assets/images/icon-network.svg'
 
 export function NetworkText(props) {
   const { openTransactions } = props
 
-  const { supportedNetwork, chainId } = useContext(AuthControllerContext)
+  const { supportedNetwork } = useContext(AuthControllerContext)
+  const { walletChainId } = useWalletNetwork()
 
   let networkName = null
-  if (chainId && supportedNetwork) {
-    networkName = chainIdToNetworkName(chainId)
+  if (walletChainId && supportedNetwork) {
+    networkName = chainIdToNetworkName(walletChainId)
   }
 
   return (
@@ -22,20 +23,15 @@ export function NetworkText(props) {
       <button
         onClick={openTransactions}
         className={classnames(
-          'tracking-wide flex items-center capitalize trans trans-fast',
+          'tracking-wide flex items-center capitalize trans trans-fast font-bold',
           `bg-default hover:bg-body text-${networkTextColorClassname(
-            chainId
+            walletChainId
           )} hover:text-inverse border border-accent-4 hover:border-primary`,
-          'text-xxs sm:text-xs px-2 xs:px-4 rounded-full h-8 mx-1'
+          'text-xxs sm:text-xs px-2 xs:px-4 rounded-full h-8 mr-1 sm:mr-2 mb-1 sm:mb-0'
         )}
       >
-        <img src={IconNetwork} className='w-4 mr-1 xs:mr-2' />
-        <span className='capitalize'>
-          {networkName?.charAt(0)}
-          <span className='hidden sm:inline-block lowercase'>
-            {networkName?.substr(1, networkName.length)}
-          </span>
-        </span>
+        <NetworkIcon sizeClasses='h-4 w-4' chainId={walletChainId} />
+        <span className='capitalize'>{networkName}</span>
       </button>
     </>
   )

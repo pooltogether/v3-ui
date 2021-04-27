@@ -5,8 +5,8 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
-import { useAllPlayerTickets } from 'lib/hooks/useAllPlayerTickets'
 import { useCurrentPool } from 'lib/hooks/usePools'
+import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 
 export function ManageTicketsForm(props) {
   const { nextStep } = props
@@ -15,7 +15,7 @@ export function ManageTicketsForm(props) {
   const { usersAddress } = useContext(AuthControllerContext)
   const [action, setAction] = useState(STRINGS.withdraw)
   const { data: pool } = useCurrentPool()
-  const { data: playerTickets } = useAllPlayerTickets(usersAddress)
+  const { data: playerTickets } = useUserTicketsFormattedByPool(usersAddress)
 
   if (!pool) return null
 
@@ -33,7 +33,7 @@ export function ManageTicketsForm(props) {
         </div>
       </div>
 
-      <div className='mx-auto mt-4 mb-8 xs:mb-12'>
+      <div className='mx-auto mt-4 mb-8 xs:mb-12 w-full'>
         {playerPoolTicketData && (
           <AccountTicket
             noMargin
@@ -60,7 +60,7 @@ export function ManageTicketsForm(props) {
 
       {action === STRINGS.withdraw && (
         <>
-          <h6 className='text-accent-1'>{t('withdraw')}</h6>
+          {/* <h6 className='text-accent-1 mb-2'>{t('withdraw')}</h6> */}
           <WithdrawTicketsForm
             nextStep={nextStep}
             pool={pool}

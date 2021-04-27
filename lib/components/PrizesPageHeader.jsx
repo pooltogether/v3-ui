@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useTranslation } from 'lib/../i18n'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
 export const PrizesPageHeader = (props) => {
   const { t } = useTranslation()
@@ -25,8 +26,13 @@ export const PrizesPageHeader = (props) => {
             name: t('pools')
           },
           {
-            href: '/pools/[symbol]',
-            as: `/pools/${pool.symbol}`,
+            href: '/pools/[networkName]',
+            as: `/pools/${pool.networkName}`,
+            name: getNetworkNiceNameByChainId(pool.chainId)
+          },
+          {
+            href: '/pools/[networkName]/[symbol]',
+            as: `/pools/${pool.networkName}/${pool.symbol}`,
             name: pool.name
           },
           {
@@ -44,7 +50,10 @@ export const PrizesPageHeader = (props) => {
                 address={pool.tokens.underlyingToken.address}
               />{' '}
               <div className='mt-1'>
-                <Link href='/prizes/[symbol]' as={`/prizes/${pool.symbol}`}>
+                <Link
+                  href='/prizes/[networkName]/[symbol]'
+                  as={`/prizes/${pool.networkName}/${pool.symbol}`}
+                >
                   <a>{pool.name}</a>
                 </Link>
               </div>

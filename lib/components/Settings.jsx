@@ -20,6 +20,7 @@ import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { PTHint } from 'lib/components/PTHint'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
+import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
 
 export function Settings(props) {
   const { t } = useTranslation()
@@ -187,7 +188,36 @@ export function Settings(props) {
             {t('openPoolClaim')}
           </Button>
         </div>
+
+        <div className='mt-10'>
+          <label className='uppercase text-accent-1 font-bold text-xxs mb-4 mr-2'>
+            {t('developmentMode')}
+          </label>
+          <TestnetToggle />
+        </div>
       </motion.div>
     </>
+  )
+}
+
+const TestnetToggle = () => {
+  const { appEnv, setAppEnv } = useAppEnv()
+  const { t } = useTranslation()
+
+  return (
+    <CheckboxInputGroup
+      large
+      id='testnets-view-toggle'
+      name='testnets-view-toggle'
+      label={t('showTestnets')}
+      checked={appEnv === APP_ENVIRONMENT.testnets}
+      handleClick={() => {
+        if (appEnv === APP_ENVIRONMENT.testnets) {
+          setAppEnv(APP_ENVIRONMENT.mainnets)
+        } else {
+          setAppEnv(APP_ENVIRONMENT.testnets)
+        }
+      }}
+    />
   )
 }

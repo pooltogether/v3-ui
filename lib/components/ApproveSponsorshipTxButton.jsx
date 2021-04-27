@@ -8,12 +8,12 @@ import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { useCurrentPool, usePoolBySymbol } from 'lib/hooks/usePools'
+import { useCurrentPool } from 'lib/hooks/usePools'
 
 export function ApproveSponsorshipTxButton(props) {
   const { t } = useTranslation()
 
-  const { decimals, disabled, needsApproval, tickerUpcased } = props
+  const { decimals, disabled, needsApproval, tickerUpcased, refetch } = props
 
   const { data: pool } = useCurrentPool()
 
@@ -26,18 +26,16 @@ export function ApproveSponsorshipTxButton(props) {
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
+  if (tx) {
+    tx.refetch = refetch
+  }
+
   const unlockTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)
 
   const handleApproveClick = async (e) => {
     e.preventDefault()
 
-    const params = [
-      poolAddress,
-      ethers.utils.parseUnits('9999999999', Number(decimals))
-      // {
-      //   gasLimit: 200000
-      // }
-    ]
+    const params = [poolAddress, ethers.utils.parseUnits('9999999999', Number(decimals))]
 
     const id = await sendTx(txName, ControlledTokenAbi, tokenAddress, method, params)
 

@@ -16,38 +16,34 @@ export function DepositTxButton(props) {
   const buttonClassName = poolIsLocked ? 'w-full' : 'w-48-percent'
 
   const button = (
-    <>
-      <Button
-        id='_depositToken'
-        noAnim={disabled}
-        textSize='lg'
-        onClick={handleDepositClick}
-        disabled={disabled}
-        className={buttonClassName}
-      >
-        {t('deposit')}
-      </Button>
-    </>
+    <Button
+      id='_depositToken'
+      noAnim={disabled}
+      textSize='lg'
+      onClick={handleDepositClick}
+      disabled={disabled}
+      className={buttonClassName}
+    >
+      {t('deposit')}
+    </Button>
   )
 
   return (
     <>
       {poolIsLocked ? (
-        <>
-          <PTHint
-            isButton={poolIsLocked}
-            title={t('poolIsLocked')}
-            tip={
-              <>
-                <div className='my-2 text-xs sm:text-sm'>{t('poolCurrentlyBeingAwarded')}</div>
-                <div className='text-xs sm:text-sm'>{t('youWontNeedToRefreshThePage')}</div>
-              </>
-            }
-            className='w-48-percent'
-          >
-            {button}
-          </PTHint>
-        </>
+        <PTHint
+          isButton={poolIsLocked}
+          title={t('poolIsLocked')}
+          tip={
+            <>
+              <div className='my-2 text-xs sm:text-sm'>{t('poolCurrentlyBeingAwarded')}</div>
+              <div className='text-xs sm:text-sm'>{t('youWontNeedToRefreshThePage')}</div>
+            </>
+          }
+          className='w-48-percent'
+        >
+          {button}
+        </PTHint>
       ) : (
         button
       )}

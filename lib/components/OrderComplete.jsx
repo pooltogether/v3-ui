@@ -13,25 +13,21 @@ import { ButtonLink } from 'lib/components/ButtonLink'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
-import { getSymbolForMetaMask } from 'lib/utils/getSymbolForMetaMask'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export function OrderComplete(props) {
   const [t] = useTranslation()
 
-  const { networkName, walletName } = useContext(AuthControllerContext)
+  const { walletName } = useContext(AuthControllerContext)
 
   const router = useRouter()
-  const quantity = router.query.quantity
-  let prevBalance = router.query.prevBalance
+  const quantity = Number(router.query.quantity)
+  const prevBalance = Number(router.query.prevBalance)
+  const newBalance = prevBalance ? prevBalance + quantity : quantity
 
   const { confetti } = useContext(ConfettiContext)
 
   const { data: pool } = useCurrentPool()
-
-  const decimals = pool.tokens.underlyingToken.decimals
-
-  const symbolForMetaMask = getSymbolForMetaMask(networkName, pool)
 
   useEffect(() => {
     Cookies.set(WIZARD_REFERRER_HREF, '/account', COOKIE_OPTIONS)
@@ -87,7 +83,7 @@ export function OrderComplete(props) {
               textSize='xxxs'
               tokenAddress={pool.tokens.ticket.address}
               tokenDecimals={pool.tokens.ticket.decimals}
-              tokenSymbol={symbolForMetaMask}
+              tokenSymbol={pool.tokens.ticket.symbol}
             />
           </div>
         )}
@@ -95,7 +91,7 @@ export function OrderComplete(props) {
         <div className='mb-4 text-highlight-2 text-sm'>
           <div className='mt-4'>
             {t('youNowHaveAmountTicketsInTheTickerPool', {
-              amount: numberWithCommas(Number(prevBalance) + Number(quantity)),
+              amount: numberWithCommas(newBalance),
               ticker: pool.tokens.underlyingToken.symbol
             })}
           </div>

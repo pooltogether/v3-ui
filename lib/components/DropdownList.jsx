@@ -71,7 +71,7 @@ export function DropdownList(props) {
               {label ? label : currentValue}{' '}
               <FeatherIcon
                 icon={isExpanded ? 'chevron-up' : 'chevron-down'}
-                className='relative w-4 h-4 inline-block ml-2'
+                className='relative w-4 h-4 inline-block ml-1'
                 strokeWidth='0.15rem'
               />
             </MenuButton>

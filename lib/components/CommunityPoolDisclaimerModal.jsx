@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import Portal from '@reach/portal'
 import Cookies from 'js-cookie'
-import { useRouter } from 'next/router'
 
 import { COOKIE_OPTIONS } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { Button } from 'lib/components/Button'
+import { useIsPoolYieldSourceKnown } from 'lib/hooks/useIsPoolYieldSourceKnown'
 
 const CheckboxContainer = (props) => (
   <div className='flex mx-auto px-4 py-2 sm:px-8 sm:py-2 mt-4 text-inverse rounded-lg font-bold'>
@@ -18,16 +18,12 @@ const CheckboxContainer = (props) => (
 export function CommunityPoolDisclaimerModal(props) {
   const { t } = useTranslation()
 
-  const [checked, setChecked] = useState(false)
-  const [accepted, setAccepted] = useState(false)
-
-  const router = useRouter()
   const acceptedCookieKey = `accepted-${props.poolSymbol}`
 
-  useEffect(() => {
-    const hasAccepted = Cookies.get(acceptedCookieKey)
-    setAccepted(Boolean(hasAccepted))
-  }, [])
+  const [checked, setChecked] = useState(false)
+  const [accepted, setAccepted] = useState(Boolean(Cookies.get(acceptedCookieKey)))
+
+  const { pool } = props
 
   const handleHideModal = (e) => {
     e.preventDefault()
@@ -35,8 +31,9 @@ export function CommunityPoolDisclaimerModal(props) {
     Cookies.set(acceptedCookieKey, 'true', COOKIE_OPTIONS)
     setAccepted(true)
   }
+  const isYieldSourceKnown = useIsPoolYieldSourceKnown(pool)
 
-  if (accepted) {
+  if (!pool.contract.isCommunityPool || accepted || isYieldSourceKnown) {
     return null
   }
 

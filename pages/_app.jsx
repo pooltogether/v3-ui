@@ -10,7 +10,7 @@ import { ToastContainer } from 'react-toastify'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { Provider } from 'jotai'
+import { Provider as JotaiProvider } from 'jotai'
 
 import {
   HOTKEYS_KEY_MAP,
@@ -170,7 +170,7 @@ function MyApp({ Component, pageProps, router }) {
       keyMap={HOTKEYS_KEY_MAP}
       className='outline-none focus:outline-none active:outline-none'
     >
-      <Provider>
+      <JotaiProvider>
         <QueryClientProvider client={queryClient}>
           <BodyClasses />
 
@@ -211,7 +211,7 @@ function MyApp({ Component, pageProps, router }) {
             </CustomErrorBoundary>
           </AllContextProviders>
         </QueryClientProvider>
-      </Provider>
+      </JotaiProvider>
     </HotKeys>
   )
 }

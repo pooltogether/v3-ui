@@ -3,31 +3,31 @@ import { ethers } from 'ethers'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
-import { Trans, useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useCurrentPool } from 'lib/hooks/usePools'
-import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { Banner } from 'lib/components/Banner'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
-import { DepositPaneTitle } from 'lib/components/DepositPaneTitle'
+import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { NoMoreTicketsPane } from 'lib/components/NoMoreTicketsPane'
 import { Odds } from 'lib/components/Odds'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
+import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
+import { useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
-import { usePlayerTicketsByPool } from 'lib/hooks/useAllPlayerTickets'
 
 const bn = ethers.BigNumber.from
 
 export function DepositTicketQuantityForm(props) {
   const { t } = useTranslation()
 
-  const { balanceJsx, formName, formSubName, iconSrc, nextStep } = props
+  const { balanceJsx, iconSrc, nextStep } = props
 
   const router = useRouter()
   const quantity = router.query.quantity
@@ -35,16 +35,13 @@ export function DepositTicketQuantityForm(props) {
   const { usersAddress } = useContext(AuthControllerContext)
 
   const { data: pool } = useCurrentPool()
-  const { data: usersChainData } = useUsersChainData(
-    pool.prizePool.address,
-    pool.tokens.underlyingToken.address
-  )
+  const { data: usersChainData } = useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { ticket } = usePlayerTicketsByPool(pool.prizePool.address, address)
+  const { ticket } = useUserTicketsByPool(pool.prizePool.address, address)
   const amount = ticket?.amount
   const amountUnformatted = ticket?.amountUnformatted
 
@@ -91,7 +88,7 @@ export function DepositTicketQuantityForm(props) {
       onClick={handleSubmit(onSubmit)}
       className={'mx-auto w-48-percent'}
     >
-      {t('continue')}
+      {t('reviewDeposit')}
     </Button>
   )
 
@@ -101,7 +98,12 @@ export function DepositTicketQuantityForm(props) {
 
   return (
     <>
-      <DepositPaneTitle ticker={tickerUpcased} pool={pool} />
+      <WithdrawAndDepositPaneTitle
+        label={t('depositTickerToWin', {
+          ticker: tickerUpcased
+        })}
+        pool={pool}
+      />
 
       {balanceJsx && <div className='sm:my-4 mb-12'>{balanceJsx}</div>}
 
@@ -156,7 +158,7 @@ export function DepositTicketQuantityForm(props) {
                     }}
                   >
                     <img src={iconSrc} className='mr-2' style={{ maxHeight: 12 }} />{' '}
-                    {numberWithCommas(usersTokenBalance, { precision: 2 })} {tickerUpcased}
+                    {numberWithCommas(usersTokenBalance)} {tickerUpcased}
                   </button>
                 </>
               )

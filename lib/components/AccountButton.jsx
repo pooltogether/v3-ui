@@ -15,7 +15,7 @@ export function AccountButton(props) {
     <>
       <button
         onClick={openTransactions}
-        className='text-highlight-2 font-bold hover:text-inverse text-xs trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20 h-8'
+        className='text-highlight-2 font-bold hover:text-inverse text-xs trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20 h-8 mb-1 sm:mb-0'
       >
         <div
           className={classnames(

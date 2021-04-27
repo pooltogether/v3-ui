@@ -1,27 +1,23 @@
 import React from 'react'
 import Cookies from 'js-cookie'
-import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
 import { useAtom } from 'jotai'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { isSelfAtom } from 'lib/components/AccountUI'
+import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
 import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
-
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
+import { PoolNumber } from 'lib/components/PoolNumber'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
-import { usePoolBySymbol } from 'lib/hooks/usePools'
-import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
-import { stringWithPrecision } from 'lib/utils/stringWithPrecision'
-import { PoolNumber } from 'lib/components/PoolNumber'
 
 export const AccountTicket = (props) => {
   const { t } = useTranslation()
@@ -31,7 +27,7 @@ export const AccountTicket = (props) => {
 
   const shouldReduceMotion = useReducedMotion()
 
-  const { noMargin, isLink, playerPoolTicketData } = props
+  const { isLink, playerPoolTicketData } = props
   let { href, as } = props
 
   const { ticket, pool } = playerPoolTicketData
@@ -39,8 +35,8 @@ export const AccountTicket = (props) => {
   const decimals = pool.tokens.underlyingToken.decimals
 
   if (!href && !as) {
-    href = '/account/pools/[symbol]'
-    as = `/account/pools/${pool.symbol}`
+    href = '/account/pools/[networkName]/[symbol]'
+    as = `/account/pools/${pool.networkName}/${pool.symbol}`
   }
 
   const ticker = pool.tokens.underlyingToken.symbol
@@ -56,33 +52,21 @@ export const AccountTicket = (props) => {
     Cookies.set(WIZARD_REFERRER_AS_PATH, `/account`, COOKIE_OPTIONS)
 
     router.push(
-      `/account/pools/[symbol]/manage-tickets`,
-      `/account/pools/${pool.symbol}/manage-tickets`,
+      `/account/pools/[networkName]/[symbol]/manage-tickets`,
+      `/account/pools/${pool.networkName}/${pool.symbol}/manage-tickets`,
       {
         shallow: true
       }
     )
   }
 
-  const isGovernedPool = !pool.contract.isCommunityPool
-  const ticketClassName = isGovernedPool ? `ticket--${ticker?.toLowerCase()}` : `ticket--generic`
-
   return (
     <>
       <motion.div
-        onClick={handleManageClick}
         key={`account-pool-ticket-${pool.prizePool.address}`}
-        className={classnames('relative ticket bg-no-repeat text-xxxs xs:text-xs', {
-          'xs:mr-6 mb-6': !noMargin,
-          'cursor-pointer': isSelf && isLink
-        })}
-        whileHover={{
-          scale: isSelf && isLink ? 1.025 : 1
-        }}
-        whileTap={{
-          y: isSelf && isLink ? 1 : 0,
-          scale: isSelf && isLink ? 0.98 : 1
-        }}
+        className={classnames(
+          'bg-accent-grey-4 py-2 rounded-lg relative text-xxxs sm:text-xs mb-3'
+        )}
         animate={{
           scale: 1,
           opacity: 1,
@@ -102,22 +86,30 @@ export const AccountTicket = (props) => {
           }
         }}
       >
-        <div
-          className={classnames(ticketClassName, `absolute rounded-b-lg bg-no-repeat ticket-strip`)}
-        />
+        <div className='h-24 flex items-center justify-between'>
+          <div className='h-24 w-32 sm:w-40 flex flex-col items-center justify-center border-accent-3 border-dashed border-r-2'>
+            <PoolCurrencyIcon
+              lg
+              noMargin
+              sizeClasses='w-6 h-6'
+              symbol={ticker}
+              address={pool.tokens.underlyingToken.address}
+            />
+            <div className='capitalize mt-2 text-xs font-bold text-inverse-purple'>
+              {ticker?.toUpperCase()}
+            </div>
+          </div>
 
-        <div className='flex items-start text-left'>
-          <div className='flex items-center w-3/4'>
-            <div className='flex flex-col justify-start w-full pl-6 pt-4 xs:pl-10 xs:pt-6 leading-none'>
-              <div className='text-xl xs:text-4xl font-bold text-inverse-purple'>
+          <div className='flex flex-col sm:flex-row w-full'>
+            <div className='w-10/12 sm:w-5/12 mx-auto flex flex-col items-start justify-start sm:justify-center leading-none sm:pl-8'>
+              <div className='text-lg sm:text-xl sm:text-3xl lg:text-4xl font-bold text-inverse-purple'>
                 <PoolNumber>{numberWithCommas(amount)}</PoolNumber>
               </div>
 
-              <div className='mt-2'>
-                <span className='relative text-inverse inline-block leading-normal'>
+              <div className='flex sm:flex-col items-baseline sm:items-start'>
+                <span className='relative inline-block leading-normal text-accent-1 mr-1 sm:mr-0'>
                   {t('winningOdds')}:
-                </span>
-                <br />{' '}
+                </span>{' '}
                 {Number(amount) < 1 ? (
                   <>
                     <span
@@ -143,74 +135,53 @@ export const AccountTicket = (props) => {
                   </>
                 )}
               </div>
-
-              <div className='flex items-center text-left text-xs xs:text-xl font-bold text-darkened relative mt-5 xs:mt-8 pt-2 xs:pt-1'>
-                <div className=''>
-                  {pool.prize.totalValueUsd && decimals && (
-                    <>
-                      $
-                      <PoolCountUp
-                        fontSansRegular
-                        decimals={0}
-                        duration={3}
-                        end={parseFloat(pool.prize.totalValueUsd)}
-                      />
-                    </>
-                  )}
-                </div>
-                <div className='w-7/12 pl-1 flex items-center'>
-                  <img
-                    src={PoolTogetherTrophyDetailed}
-                    className='w-4 mr-1'
-                    style={{
-                      filter: 'brightness(5)'
-                    }}
-                  />
-                  <div className='font-bold text-xxxxxs xs:text-xxxs'>
-                    <NewPrizeCountdownInWords onTicket extraShort pool={pool} />
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
 
-          <div
-            className='pt-5 xs:pt-10 leading-none'
-            style={{
-              width: 86
-            }}
-          >
-            <div className='flex flex-col items-center w-20'>
-              <PoolCurrencyIcon
-                noMediaQueries
-                noMargin
-                symbol={ticker}
-                address={pool.tokens.underlyingToken.address}
-              />
-              <div className='capitalize mt-2 text-xs xs:text-lg font-bold text-inverse-purple'>
-                {ticker?.toUpperCase()}
+            <div className='w-10/12 sm:w-7/12 mx-auto flex flex-col sm:items-end sm:justify-end pt-1 sm:pt-3 sm:pb-4 sm:pl-2 sm:pr-12'>
+              <div className='flex items-baseline text-xs sm:text-xl font-bold text-accent-1'>
+                <img
+                  src={PoolTogetherTrophyDetailed}
+                  className='relative w-3 sm:w-4 mr-1 sm:mr-2 opacity-70'
+                  style={{
+                    filter: 'brightness(5)',
+                    top: 2
+                  }}
+                />
+                {pool.prize.totalValueUsd && decimals && (
+                  <>
+                    $
+                    <PoolCountUp
+                      fontSansRegular
+                      decimals={0}
+                      duration={3}
+                      end={parseFloat(pool.prize.totalValueUsd)}
+                    />
+                  </>
+                )}
+
+                <span className='text-xxxxs sm:text-xxs font-regular'>
+                  <NewPrizeCountdownInWords onTicket extraShort pool={pool} />
+                </span>
               </div>
 
-              {isSelf && isLink && (
-                <>
-                  <span
-                    className='relative inline-flex items-center justify-center text-center font-bold mt-8 xs:mt-10 xs:pt-3 z-10 text-darkened pl-2'
-                    style={{
-                      right: -2
-                    }}
-                  >
-                    {t('manage')}{' '}
-                    <FeatherIcon
-                      icon='chevron-right'
-                      strokeWidth='0.25rem'
-                      className='relative w-3 h-3'
-                      style={{
-                        top: 1
-                      }}
+              <div className='flex sm:flex-col items-center sm:items-end mt-1 sm:mt-0'>
+                {isSelf && isLink && (
+                  <>
+                    <NetworkBadge
+                      className='sm:mx-auto'
+                      sizeClasses='w-3 h-3'
+                      textClasses='text-xxxs sm:text-xxs text-default'
+                      chainId={pool.chainId}
                     />
-                  </span>
-                </>
-              )}
+                    <button
+                      onClick={handleManageClick}
+                      className='text-accent-1 underline text-xxxs sm:text-xxs ml-2 sm:ml-0'
+                    >
+                      {t('manage')}
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import Cookies from 'js-cookie'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { useInterval } from 'beautiful-react-hooks'
@@ -15,35 +16,40 @@ import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { Button } from 'lib/components/Button'
-import { ButtonLink } from 'lib/components/ButtonLink'
+import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 import { CommunityPoolDisclaimerModal } from 'lib/components/CommunityPoolDisclaimerModal'
 import { PoolShowLootBoxTable } from 'lib/components/LootBoxTable'
-import { PoolShowUILoader } from 'lib/components/loaders/PoolShowUILoader'
-import { UpcomingPrizeBreakdownCard } from 'lib/components/UpcomingPrizeBreakdownCard'
-import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
-import { Meta } from 'lib/components/Meta'
-import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
-import { Tagline } from 'lib/components/Tagline'
-import { useReducedMotion } from 'lib/hooks/useReducedMotion'
-import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
-import { translatedPoolName } from 'lib/utils/translatedPoolName'
-import { SablierStreamCard } from 'lib/components/SablierStreamCard'
-import { PoolPrizeCard } from 'lib/components/PoolPrizeCard'
-import { PoolStats } from 'lib/components/PoolStats'
-import { usePoolBySymbol } from 'lib/hooks/usePools'
-
-import Bell from 'assets/images/bell-yellow@2x.png'
 import { PoolChartsCard } from 'lib/components/PoolChartsCard'
 import { PastWinnersCard } from 'lib/components/PastWinnersCard'
 import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
+import { PoolPrizeCard } from 'lib/components/PoolPrizeCard'
+import { PoolStats } from 'lib/components/PoolStats'
+import { PoolShowUILoader } from 'lib/components/loaders/PoolShowUILoader'
+import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
+import { SablierStreamCard } from 'lib/components/SablierStreamCard'
+import { UpcomingPrizeBreakdownCard } from 'lib/components/UpcomingPrizeBreakdownCard'
+import { Meta } from 'lib/components/Meta'
+import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
+import { Tagline } from 'lib/components/Tagline'
+import { useIsPoolYieldSourceKnown } from 'lib/hooks/useIsPoolYieldSourceKnown'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
+import { usePoolBySymbol } from 'lib/hooks/usePools'
+import { translatedPoolName } from 'lib/utils/translatedPoolName'
+import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
+
+import { useRouterChainId } from 'lib/hooks/chainId/useRouterChainId'
+
+import Bell from 'assets/images/bell-yellow@2x.png'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
   const shouldReduceMotion = useReducedMotion()
-  const { data: pool, isFetched: poolIsFetched } = usePoolBySymbol(router?.query?.symbol)
-  const { chainId, usersAddress, walletName } = useContext(AuthControllerContext)
+  const chainId = useRouterChainId()
+
+  const { data: pool, isFetched: poolIsFetched } = usePoolBySymbol(chainId, router?.query?.symbol)
+  const { usersAddress, walletName } = useContext(AuthControllerContext)
   const [cookieShowAward, setCookieShowAward] = useState(false)
 
   useInterval(() => {
@@ -57,19 +63,27 @@ export const PoolShow = (props) => {
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
 
-    Cookies.set(WIZARD_REFERRER_HREF, '/pools/[symbol]', COOKIE_OPTIONS)
-    Cookies.set(WIZARD_REFERRER_AS_PATH, `/pools/${pool.symbol}`, COOKIE_OPTIONS)
+    Cookies.set(WIZARD_REFERRER_HREF, '/pools/[networkName]/[symbol]', COOKIE_OPTIONS)
+    Cookies.set(
+      WIZARD_REFERRER_AS_PATH,
+      `/pools/${pool.networkName}/${pool.symbol}`,
+      COOKIE_OPTIONS
+    )
 
-    router.push(`/pools/[symbol]/deposit`, `/pools/${pool.symbol}/deposit`, {
-      shallow: true
-    })
+    router.push(
+      `/pools/[networkName]/[symbol]/deposit`,
+      `/pools/${pool.networkName}/${pool.symbol}/deposit`,
+      {
+        shallow: true
+      }
+    )
   }
 
   return (
     <>
       <Meta title={pool.name} />
 
-      {pool.contract.isCommunityPool && <CommunityPoolDisclaimerModal poolSymbol={pool.symbol} />}
+      <CommunityPoolDisclaimerModal pool={pool} poolSymbol={pool.symbol} />
 
       <motion.div
         initial='initial'
@@ -112,6 +126,11 @@ export const PoolShow = (props) => {
                   name: t('pools')
                 },
                 {
+                  href: '/pools/[networkName]',
+                  as: `/pools/${pool.networkName}`,
+                  name: getNetworkNiceNameByChainId(pool.chainId)
+                },
+                {
                   name: translatedPoolName(t, pool.name)
                 }
               ]}
@@ -151,8 +170,8 @@ export const PoolShow = (props) => {
           {({ data, isFetching, isFetched }) => {
             return (
               <PrizePlayerListing
-                baseAsPath={`/pools/${pool.symbol}`}
-                baseHref='/pools/[symbol]'
+                baseAsPath={`/pools/${pool.networkName}/${pool.symbol}`}
+                baseHref='/pools/[networkName]/[symbol]'
                 isFetching={isFetching}
                 isFetched={isFetched}
                 balances={data}
@@ -162,12 +181,12 @@ export const PoolShow = (props) => {
           }}
         </PrizePlayersQuery>
 
-        <div className='flex flex-col items-center justify-center mt-10'>
+        <div className='flex flex-col  items-center justify-center mt-10'>
           {walletName === 'MetaMask' && (
             <div className='m-2'>
               <AddTokenToMetaMaskButton
                 noAnim
-                textSize='xxs'
+                textSize='xxxs'
                 tokenAddress={pool.tokens.ticket.address}
                 tokenDecimals={pool.tokens.ticket.decimals}
                 tokenSymbol={pool.tokens.ticket.symbol}
@@ -176,26 +195,29 @@ export const PoolShow = (props) => {
           )}
 
           <div className='m-2'>
-            <ButtonLink
-              textSize='xxs'
-              href={formatEtherscanAddressUrl(pool.prizePool.address, chainId)}
-            >
+            <BlockExplorerLink address={pool.prizePool.address} chainId={pool.chainId}>
               {t('viewPoolInEtherscan')}
-            </ButtonLink>
+            </BlockExplorerLink>
+          </div>
+
+          <div className='m-2'>
+            <BlockExplorerLink address={pool.tokens.underlyingToken.address} chainId={pool.chainId}>
+              {t('viewDepositTokenOnEtherscan')}
+            </BlockExplorerLink>
           </div>
 
           {usersAddress && <RevokePoolAllowanceTxButton pool={pool} />}
 
           {cookieShowAward && (
             <>
-              <div className='m-2 button-scale'>
-                <ButtonLink
-                  textSize='xxs'
-                  href='/pools/[symbol]/manage'
-                  as={`/pools/${pool.symbol}/manage`}
+              <div className='m-2'>
+                <Link
+                  textSize='xxxs'
+                  href='/pools/[networkName]/[symbol]/manage'
+                  as={`/pools/${pool.networkName}/${pool.symbol}/manage`}
                 >
                   {t('managePool')}
-                </ButtonLink>
+                </Link>
               </div>
             </>
           )}
@@ -208,13 +230,17 @@ export const PoolShow = (props) => {
 }
 
 const UnauditedWarning = (props) => {
+  const { t } = useTranslation()
   const { pool } = props
 
-  if (pool.prizePool.type !== PRIZE_POOL_TYPES.genericYield) {
+  const isYieldSourceKnown = useIsPoolYieldSourceKnown(pool)
+
+  const isNotCustomYieldSource = pool.prizePool.type !== PRIZE_POOL_TYPES.genericYield
+  if (isNotCustomYieldSource) {
     return null
   }
 
-  const { t } = useTranslation()
+  if (isYieldSourceKnown) return null
 
   return (
     <div className='flex flex-col xs:flex-row text-center items-center justify-center bg-default rounded-lg mt-4 pt-4 pb-2 xs:py-4 px-4 text-orange'>

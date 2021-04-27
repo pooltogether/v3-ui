@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import Link from 'next/link'
+import { isEmpty } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
 import { formatDate } from 'lib/utils/formatDate'
@@ -14,7 +15,7 @@ export const PastWinnersCard = (props) => {
   const { pool } = props
 
   const pageNum = 1
-  const { data, error, isFetched } = usePastPrizes(pool, pageNum)
+  const { data, error, isFetched, isFetching } = usePastPrizes(pool, pageNum)
 
   if (error) {
     console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))
@@ -26,34 +27,32 @@ export const PastWinnersCard = (props) => {
     prizes = prizes ? prizes.slice(0, 5) : []
 
     prizes = prizes?.reduce(function (result, prize) {
-      if (
-        prize?.awardedControlledTokens?.length > 0 ||
-        prize?.awardedExternalErc20Tokens?.length > 0
-      ) {
-        const date = formatDate(prize?.awardedTimestamp, {
-          short: true,
-          year: false,
-          noTimezone: true
-        })
-
-        result.push({
-          ...prize,
-          date,
-          prizeNumber: prize.id
-        })
+      // If this is a new prize object that is being awarded just skip this row
+      if (isEmpty(prize)) {
+        return result
       }
+
+      const date = formatDate(prize?.awardedTimestamp, {
+        short: true,
+        year: false,
+        noTimezone: true
+      })
+
+      result.push({
+        ...prize,
+        date,
+        prizeNumber: prize.id
+      })
       return result
     }, [])
 
     return prizes
   }, [data])
 
-  const loading = (!prizes && prizes !== null) || !isFetched
-
-  if (loading) {
+  if (!isFetched) {
     return (
       <Card>
-        <h3 className='mb-4'>{t('pastFiveWinners')}</h3>
+        <h3 className='mb-4'>{t('pastPrizes')}</h3>
         <IndexUILoader />
       </Card>
     )
@@ -62,9 +61,12 @@ export const PastWinnersCard = (props) => {
   return (
     <Card>
       <div className='flex justify-between items-center'>
-        <h3 className='mb-4'>{t('pastFiveWinners')}</h3>
+        <h3 className='mb-4'>{t('pastPrizes')}</h3>
         {pool.symbol && (
-          <Link href='/prizes/[symbol]' as={`/prizes/${pool.symbol}`}>
+          <Link
+            href='/prizes/[networkName]/[symbol]'
+            as={`/prizes/${pool.networkName}/${pool.symbol}`}
+          >
             <a className='text-accent-1'>{t('allPrizeHistory')}</a>
           </Link>
         )}
@@ -77,7 +79,7 @@ export const PastWinnersCard = (props) => {
           </span>
         </div>
 
-        {prizes === null ? (
+        {prizes.length === 0 ? (
           <h6>{t('noWinnersAwardedYet')}</h6>
         ) : (
           <PrizesList prizes={prizes} pool={pool} />
@@ -102,7 +104,7 @@ const PrizesList = (props) => {
 const PrizeRow = (props) => {
   const { prize, pool } = props
   const { date, prizeNumber } = prize
-  const { symbol } = pool
+  const { symbol, networkName } = pool
 
   const { t } = useTranslation()
 
@@ -115,8 +117,8 @@ const PrizeRow = (props) => {
       <span className='w-1/3 text-right'>
         <Link
           key={`last-winners-${prizeNumber}`}
-          href='/prizes/[symbol]/[prizeNumber]'
-          as={`/prizes/${symbol}/${prizeNumber}`}
+          href='/prizes/[networkName]/[symbol]/[prizeNumber]'
+          as={`/prizes/${networkName}/${symbol}/${prizeNumber}`}
         >
           <a className='trans underline text-accent-1 hover:text-inverse'>{t('viewPrize')}</a>
         </Link>

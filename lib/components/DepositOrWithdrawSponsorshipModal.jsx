@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useCurrentPool } from 'lib/hooks/usePools'
-import { useUsersChainData } from 'lib/hooks/useUsersChainData'
 import { ApproveSponsorshipTxButton } from 'lib/components/ApproveSponsorshipTxButton'
 import { DepositSponsorshipTxButton } from 'lib/components/DepositSponsorshipTxButton'
 import { WithdrawSponsorshipTxButton } from 'lib/components/WithdrawSponsorshipTxButton'
@@ -15,7 +14,8 @@ import { Modal } from 'lib/components/Modal'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
-import { usePlayerTicketsByPool } from 'lib/hooks/useAllPlayerTickets'
+import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
+import { useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 
 export function DepositOrWithdrawSponsorshipModal(props) {
   const { t } = useTranslation()
@@ -26,16 +26,13 @@ export function DepositOrWithdrawSponsorshipModal(props) {
   const { usersAddress } = useContext(AuthControllerContext)
 
   const { data: pool } = useCurrentPool()
-  const { data: usersChainData } = useUsersChainData(
-    pool.prizePool.address,
-    pool.tokens.underlyingToken.address
-  )
+  const { data: usersChainData, refetch } = useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
   const address = playerAddress || usersAddress
 
-  const { sponsorship } = usePlayerTicketsByPool(pool.prizePool.address, address)
+  const { sponsorship } = useUserTicketsByPool(pool.prizePool.address, address)
 
   const { register, errors, watch, setValue } = useForm({
     mode: 'all',
@@ -155,11 +152,13 @@ export function DepositOrWithdrawSponsorshipModal(props) {
                 <>
                   <ApproveSponsorshipTxButton
                     {...props}
+                    refetch={refetch}
                     disabled={needsApproval === null}
                     needsApproval={needsApproval}
                   />
                   <DepositSponsorshipTxButton
                     {...props}
+                    refetch={refetch}
                     quantity={quantity}
                     quantityBN={quantityBN}
                     needsApproval={needsApproval}

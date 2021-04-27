@@ -16,6 +16,8 @@ import { PTHint } from 'lib/components/PTHint'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { TxStatus } from 'lib/components/TxStatus'
+import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
+import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { useExitFees } from 'lib/hooks/useExitFees'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -34,7 +36,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
 
   const { nextStep, previousStep, pool, quantity } = props
 
-  const { usersAddress, provider } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
 
   const underlyingToken = pool.tokens.underlyingToken
   const ticker = underlyingToken.symbol
@@ -238,7 +240,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
 
             <div className='mt-3 xs:mt-8'>
               <Button textSize='lg' disabled={!iUnderstandChecked} onClick={runTx}>
-                {t('continue')}
+                {t('confirmWithdrawal')}
               </Button>
             </div>
 
@@ -254,16 +256,22 @@ export function ConfirmWithdrawWithFeeForm(props) {
         </>
       )}
 
-      <TxStatus
-        hideOnInWallet
-        tx={tx}
-        title={t('withdrawing')}
-        subtitle={
-          <>
-            {quantityFormatted} {tickerUpcased}
-          </>
-        }
-      />
+      {tx && tx?.sent && (
+        <>
+          <WithdrawAndDepositPaneTitle
+            label={t('withdrawTicker', {
+              ticker: tickerUpcased
+            })}
+            pool={pool}
+          />
+          <WithdrawAndDepositBanner
+            label={t('youreWithdrawing')}
+            quantity={quantityFormatted}
+            tickerUpcased={tickerUpcased}
+          />
+        </>
+      )}
+      <TxStatus hideOnInWallet tx={tx} />
     </>
   )
 }

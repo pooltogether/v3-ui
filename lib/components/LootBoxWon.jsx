@@ -3,7 +3,6 @@ import BeatLoader from 'react-spinners/BeatLoader'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -11,13 +10,15 @@ import { PlunderLootBoxTxButton } from 'lib/components/PlunderLootBoxTxButton'
 import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
 import { useEthereumErc1155Query } from 'lib/hooks/useEthereumErc1155Query'
-import { usePoolByAddress, usePools } from 'lib/hooks/usePools'
-import { useReadProvider } from 'lib/hooks/useReadProvider'
+import { usePoolByAddress } from 'lib/hooks/usePools'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { usePastPrize } from 'lib/hooks/usePastPrizes'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
+import { useReadProvider } from 'lib/hooks/providers/useReadProvider'
+import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
+import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
 export const LootBoxWon = (props) => {
   const { lootBox } = props
@@ -25,7 +26,8 @@ export const LootBoxWon = (props) => {
   const prizeNumber = extractPrizeNumberFromPrize(lootBox.prize)
   const prizePooladdress = lootBox.prize.prizePool.id
 
-  const { data: pool, isFetched: poolIsFetched } = usePoolByAddress(prizePooladdress)
+  const chainId = usePoolTokenChainId()
+  const { data: pool, isFetched: poolIsFetched } = usePoolByAddress(chainId, prizePooladdress)
   const { data: prize, isFetched: prizeIsFetched } = usePastPrize(pool, prizeNumber)
 
   if (!poolIsFetched || !prizeIsFetched) {
@@ -61,7 +63,7 @@ const LootBoxWonTable = (props) => {
     tokenIds: [award.tokenId]
   }))
 
-  const { readProvider } = useReadProvider()
+  const { data: readProvider } = useReadProvider(pool.chainId)
 
   const {
     data: erc20Balances,
@@ -69,6 +71,7 @@ const LootBoxWonTable = (props) => {
     isFetching: erc20IsFetching,
     isFetched: erc20IsFetched
   } = useEthereumErc20Query({
+    chainId: pool.chainId,
     provider: readProvider,
     graphErc20Awards: lootBoxErc20s,
     balanceOfAddress: computedAddress
@@ -80,6 +83,7 @@ const LootBoxWonTable = (props) => {
     isFetching: erc721IsFetching,
     isFetched: erc721IsFetched
   } = useEthereumErc721Query({
+    chainId: pool.chainId,
     provider: readProvider,
     graphErc721Awards: lootBoxErc721s,
     balanceOfAddress: computedAddress
@@ -91,6 +95,7 @@ const LootBoxWonTable = (props) => {
     isFetching: erc1155IsFetching,
     isFetched: erc1155IsFetched
   } = useEthereumErc1155Query({
+    chainId: pool.chainId,
     provider: readProvider,
     erc1155Awards: lootBoxErc1155s,
     balanceOfAddress: computedAddress
@@ -108,6 +113,8 @@ const LootBoxWonTable = (props) => {
 
   const isFetching = erc20IsFetching || erc721IsFetching || erc1155IsFetching
   const isFetched = erc20IsFetched || erc721IsFetched || erc1155IsFetched
+
+  if (lootBoxErc20s.length + lootBoxErc721s.length + lootBoxErc1155s.length === 0) return null
 
   if (!isFetched) {
     return (
@@ -177,6 +184,7 @@ const LootBoxWonTable = (props) => {
           <BeatLoader size={10} color='rgba(255,255,255,0.3)' />
         ) : (
           <PlunderLootBoxTxButton
+            pool={pool}
             lootBox={lootBox}
             alreadyClaimed={alreadyClaimed}
             prizeNumber={prizeNumber}
@@ -214,12 +222,13 @@ const LootBoxWonTable = (props) => {
                       <tr>
                         <td className='flex items-center text-left font-bold'>
                           <Erc20Image address={erc20.address} />{' '}
-                          <EtherscanAddressLink
+                          <BlockExplorerLink
                             address={erc20.address}
                             className='text-inverse truncate'
+                            chainId={pool.chainId}
                           >
                             {name}
-                          </EtherscanAddressLink>
+                          </BlockExplorerLink>
                         </td>
                         <td className='text-left text-accent-1 truncate'>
                           <PoolNumber>
@@ -236,7 +245,6 @@ const LootBoxWonTable = (props) => {
                 })}
               </tbody>
             </table>
-            <hr />
           </div>
         </>
       )}

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
 import { useAtom } from 'jotai'
 
 import { useTranslation } from 'lib/../i18n'
@@ -9,11 +8,8 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { SmallLoader } from 'lib/components/loaders/SmallLoader'
-import { useMultiversionAccount } from 'lib/hooks/useMultiversionAccount'
-import { useAllPlayerTickets, usePlayerTotalDepositValue } from 'lib/hooks/useAllPlayerTickets'
-import { useUniswapTokensQuery } from 'lib/hooks/useUniswapTokensQuery'
-import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
-import { numberWithCommas, getPrecision } from 'lib/utils/numberWithCommas'
+import { usePlayerTotalDepositValue } from 'lib/hooks/useUserTickets'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
 import WaterslideIllustration from 'assets/images/pt-waterslide-illustration@2x.png'
