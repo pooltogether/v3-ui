@@ -23,11 +23,11 @@ export function NetworkText(props) {
       <button
         onClick={openTransactions}
         className={classnames(
-          'tracking-wide flex items-center capitalize trans trans-fast',
+          'tracking-wide flex items-center capitalize trans trans-fast font-bold',
           `bg-default hover:bg-body text-${networkTextColorClassname(
             walletChainId
           )} hover:text-inverse border border-accent-4 hover:border-primary`,
-          'text-xxs sm:text-xs px-2 xs:px-4 rounded-full h-8 mx-1 mb-1'
+          'text-xxs sm:text-xs px-2 xs:px-4 rounded-full h-8 mr-1 xs:mr-2 mb-1 xs:mb-0'
         )}
       >
         <NetworkIcon sizeClasses='h-4 w-4' chainId={walletChainId} />
