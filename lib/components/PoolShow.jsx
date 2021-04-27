@@ -11,6 +11,7 @@ import {
   WIZARD_REFERRER_AS_PATH,
   PRIZE_POOL_TYPES
 } from 'lib/constants'
+import { CUSTOM_YIELD_SOURCE_NAMES } from 'lib/constants/customYieldSourceImages'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
@@ -231,7 +232,16 @@ export const PoolShow = (props) => {
 const UnauditedWarning = (props) => {
   const { pool } = props
 
-  if (pool.prizePool.type !== PRIZE_POOL_TYPES.genericYield) {
+  const yieldSourceAddress = pool.prizePool.yieldSource.address
+  const isKnownAaveYieldSource = Boolean(
+    CUSTOM_YIELD_SOURCE_NAMES[pool.chainId][yieldSourceAddress]
+  )
+  if (isKnownAaveYieldSource) {
+    return null
+  }
+
+  const isNotCustomYieldSource = pool.prizePool.type !== PRIZE_POOL_TYPES.genericYield
+  if (isNotCustomYieldSource) {
     return null
   }
 

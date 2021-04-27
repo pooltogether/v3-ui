@@ -2,7 +2,7 @@ import React from 'react'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'lib/../i18n'
-import { DEFAULT_TOKEN_PRECISION, PRIZE_POOL_TYPES, SECONDS_PER_DAY } from 'lib/constants'
+import { DEFAULT_TOKEN_PRECISION, PRIZE_POOL_TYPES } from 'lib/constants'
 import {
   CUSTOM_YIELD_SOURCE_NAMES,
   CUSTOM_YIELD_SOURCE_IMAGES
@@ -73,7 +73,7 @@ const Stat = (props) => {
         <span className='flex items-center'>
           {sourceName && <span className='capitalize'>{sourceName}</span>}
           {sourceImage && <img src={sourceImage} className='ml-2 w-6 h-6' />}
-          {value && <span>{value}</span>}
+          {value && <span className='flex items-center'>{value}</span>}
         </span>
       )}
       {tokenSymbol && tokenAmount && (

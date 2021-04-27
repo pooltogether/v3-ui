@@ -4,7 +4,12 @@ export const CUSTOM_YIELD_SOURCE_NAMES = {
     '0x4c8d99b0c7022923ef1a81adb4e4e326f8e91ac9': 'aave',
     '0x858415fdb262f17f7a63f6b1f6fed7af8308a1a7': 'aave',
     '0x2ba1e000a381ad42af10c6e33afe5994ee878d72': 'aave'
-  }
+  },
+  4: {},
+  137: {
+    '0x3c7cdfb942eb98cce7e4d004e2927788cd9e54fe': 'aave'
+  },
+  80001: {}
 }
 
 export const CUSTOM_YIELD_SOURCE_IMAGES = {
