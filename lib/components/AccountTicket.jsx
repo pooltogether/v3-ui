@@ -101,13 +101,13 @@ export const AccountTicket = (props) => {
           </div>
 
           <div className='flex flex-col sm:flex-row w-full'>
-            <div className='w-10/12 sm:w-5/12 mx-auto flex flex-col justify-center leading-none sm:pl-8'>
+            <div className='w-10/12 sm:w-5/12 mx-auto flex flex-col items-start justify-start sm:justify-center leading-none sm:pl-8'>
               <div className='text-lg sm:text-xl sm:text-3xl lg:text-4xl font-bold text-inverse-purple'>
                 <PoolNumber>{numberWithCommas(amount)}</PoolNumber>
               </div>
 
-              <div>
-                <span className='relative inline-block leading-normal text-accent-1'>
+              <div className='flex sm:flex-col items-baseline sm:items-start'>
+                <span className='relative inline-block leading-normal text-accent-1 mr-1 sm:mr-0'>
                   {t('winningOdds')}:
                 </span>{' '}
                 {Number(amount) < 1 ? (
@@ -137,7 +137,7 @@ export const AccountTicket = (props) => {
               </div>
             </div>
 
-            <div className='w-10/12 sm:w-7/12 mx-auto flex flex-col sm:items-end sm:justify-end py-1 sm:pt-3 sm:pb-4 sm:pl-2 sm:pr-12'>
+            <div className='w-10/12 sm:w-7/12 mx-auto flex flex-col sm:items-end sm:justify-end pt-1 sm:pt-3 sm:pb-4 sm:pl-2 sm:pr-12'>
               <div className='flex items-baseline text-xs sm:text-xl font-bold text-accent-1'>
                 <img
                   src={PoolTogetherTrophyDetailed}

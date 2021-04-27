@@ -65,7 +65,7 @@ export const NewPrizeCountdownInWords = (props) => {
   } else if (extraShort) {
     content = (
       <>
-        {onTicket && <span className='font-normal mx-2'>{t('in')}</span>}
+        {onTicket && <span className='font-normal mx-1'>{t('in')}</span>}
         {t('numDaysShort', { days: daysWords })}, {t('numHoursShort', { hours: hoursWords })},{' '}
         {t('numMinutesShort', { minutes: minutesWords })},{' '}
         {t('numSecondsShort', { seconds: secondsWords })}
