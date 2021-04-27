@@ -81,7 +81,7 @@ export function LanguagePicker(props) {
     <>
       <DropdownList
         id='language-picker-dropdown'
-        className='ml-2 xs:ml-4 mr-2 my-2 text-xxs sm:text-sm'
+        className='ml-2 xs:ml-4 mr-1 my-2 text-xxs sm:text-sm'
         label={currentLang?.toUpperCase()}
         formatValue={formatValue}
         onValueSet={onValueSet}

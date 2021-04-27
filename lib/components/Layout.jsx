@@ -108,20 +108,18 @@ export function Layout(props) {
             >
               {usersAddress && <NetworkText openTransactions={openTransactions} />}
 
-              <NavPoolBalance />
-
               {usersAddress && (
-                <>
-                  <NavAccount
-                    openTransactions={openTransactions}
-                    closeTransactions={closeTransactions}
-                    showTransactionsDialog={showTransactionsDialog}
-                  />
-                </>
+                <NavAccount
+                  openTransactions={openTransactions}
+                  closeTransactions={closeTransactions}
+                  showTransactionsDialog={showTransactionsDialog}
+                />
               )}
 
+              <NavPoolBalance />
+
               {/* this pushes the lang picker and settings gear onto it's own roll on mobile/tablet */}
-              <div className='w-full sm:hidden'></div>
+              {/* <div className='w-full sm:hidden'></div> */}
 
               <PendingTxButton openTransactions={openTransactions} />
 

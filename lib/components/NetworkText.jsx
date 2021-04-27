@@ -27,16 +27,11 @@ export function NetworkText(props) {
           `bg-default hover:bg-body text-${networkTextColorClassname(
             walletChainId
           )} hover:text-inverse border border-accent-4 hover:border-primary`,
-          'text-xxs sm:text-xs px-2 xs:px-4 rounded-full h-8 mx-1'
+          'text-xxs sm:text-xs px-2 xs:px-4 rounded-full h-8 mx-1 mb-1'
         )}
       >
         <NetworkIcon sizeClasses='h-4 w-4' chainId={walletChainId} />
-        <span className='capitalize'>
-          {networkName?.charAt(0)}
-          <span className='hidden sm:inline-block lowercase'>
-            {networkName?.substr(1, networkName.length)}
-          </span>
-        </span>
+        <span className='capitalize'>{networkName}</span>
       </button>
     </>
   )
