@@ -135,6 +135,10 @@ export const CUSTOM_CONTRACT_ADDRESSES = {
     Stablecoin: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063'
     // PoS-Stablecoin
     // Stablecoin: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F'
+  },
+  80001: {
+    GovernanceToken: '',
+    Stablecoin: ''
   }
 }
 

@@ -106,9 +106,7 @@ export function Layout(props) {
                 lineHeight: 0
               }}
             >
-              {usersAddress && chainId && chainId !== 1 && (
-                <NetworkText openTransactions={openTransactions} />
-              )}
+              {usersAddress && <NetworkText openTransactions={openTransactions} />}
 
               <NavPoolBalance />
 

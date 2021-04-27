@@ -17,7 +17,6 @@ import { ALL_NETWORKS_ID, getNetworkNiceNameByChainId } from 'lib/utils/networks
 import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
-import { useAppEnv } from 'lib/hooks/useAppEnv'
 import { useOnEnvChange } from 'lib/hooks/useOnEnvChange'
 
 /**
