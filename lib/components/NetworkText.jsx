@@ -3,7 +3,7 @@ import classnames from 'classnames'
 
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { NetworkIcon } from 'lib/components/NetworkIcon'
-import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
+import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 
@@ -15,7 +15,7 @@ export function NetworkText(props) {
 
   let networkName = null
   if (walletChainId && supportedNetwork) {
-    networkName = chainIdToNetworkName(walletChainId)
+    networkName = getNetworkNiceNameByChainId(walletChainId)
   }
 
   return (

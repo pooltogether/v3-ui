@@ -3,12 +3,12 @@ import Link from 'next/link'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
-import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
+import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { shorten } from 'lib/utils/shorten'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
-import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
 export function WalletInfo(props) {
   const { t } = useTranslation()
@@ -21,7 +21,7 @@ export function WalletInfo(props) {
   let networkName = null
 
   if (chainId) {
-    networkName = <span className={'inline-block'}>{chainIdToNetworkName(chainId)}</span>
+    networkName = <span className={'inline-block'}>{getNetworkNiceNameByChainId(chainId)}</span>
   }
 
   if (usersAddress && walletName) {
