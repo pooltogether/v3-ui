@@ -12,7 +12,7 @@ import { Tooltip } from 'lib/components/Tooltip'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
+import { BlockExplorerLink, LinkIcon } from 'lib/components/BlockExplorerLink'
 
 import CompSvg from 'assets/images/comp.svg'
 
@@ -169,9 +169,13 @@ const YieldSourceStat = (props) => {
     sourceName = 'Compound Finance'
     sourceImage = CompSvg
   } else if (yieldSource === PRIZE_POOL_TYPES.genericYield) {
-    const yieldSourceAddress = pool.prizePool.yieldSource
-    value = <BlockExplorerLink chainId={pool.chainId} address={yieldSourceAddress} />
-    sourceName = CUSTOM_YIELD_SOURCE_NAMES[yieldSourceAddress]
+    const yieldSourceAddress = pool.prizePool.yieldSource.address
+    value = (
+      <BlockExplorerLink chainId={pool.chainId} address={yieldSourceAddress}>
+        <LinkIcon />
+      </BlockExplorerLink>
+    )
+    sourceName = CUSTOM_YIELD_SOURCE_NAMES[pool.chainId][yieldSourceAddress]
     if (!sourceName) {
       sourceName = t('customYieldSource')
     }
