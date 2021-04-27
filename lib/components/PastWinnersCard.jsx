@@ -16,7 +16,6 @@ export const PastWinnersCard = (props) => {
 
   const pageNum = 1
   const { data, error, isFetched, isFetching } = usePastPrizes(pool, pageNum)
-  console.log(data, error, isFetched, isFetching)
 
   if (error) {
     console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))
@@ -53,17 +52,8 @@ export const PastWinnersCard = (props) => {
   if (!isFetched) {
     return (
       <Card>
-        <h3 className='mb-4'>{t('pastFiveWinners')}</h3>
+        <h3 className='mb-4'>{t('pastPrizes')}</h3>
         <IndexUILoader />
-      </Card>
-    )
-  }
-
-  if (isFetched && !prizes) {
-    return (
-      <Card>
-        <h3 className='mb-4'>{t('pastFiveWinners')}</h3>
-        <span>No prizes yet</span>
       </Card>
     )
   }
@@ -71,7 +61,7 @@ export const PastWinnersCard = (props) => {
   return (
     <Card>
       <div className='flex justify-between items-center'>
-        <h3 className='mb-4'>{t('pastFiveWinners')}</h3>
+        <h3 className='mb-4'>{t('pastPrizes')}</h3>
         {pool.symbol && (
           <Link
             href='/prizes/[networkName]/[symbol]'
@@ -89,7 +79,7 @@ export const PastWinnersCard = (props) => {
           </span>
         </div>
 
-        {prizes === null ? (
+        {prizes.length === 0 ? (
           <h6>{t('noWinnersAwardedYet')}</h6>
         ) : (
           <PrizesList prizes={prizes} pool={pool} />
