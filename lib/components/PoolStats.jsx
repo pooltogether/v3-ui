@@ -175,7 +175,7 @@ const YieldSourceStat = (props) => {
         <LinkIcon />
       </BlockExplorerLink>
     )
-    sourceName = CUSTOM_YIELD_SOURCE_NAMES[yieldSourceAddress]
+    sourceName = CUSTOM_YIELD_SOURCE_NAMES[pool.chainId][yieldSourceAddress]
     if (!sourceName) {
       sourceName = t('customYieldSource')
     }
