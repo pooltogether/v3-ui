@@ -171,7 +171,7 @@ const ClaimAllButton = (props) => {
         if (key === 'totals') return
 
         const claimablePoolData = claimablePoolFromTokenFaucets[key]
-        if (!claimablePoolData.claimableAmountUnformatted.isZero()) {
+        if (!claimablePoolData?.claimableAmountUnformatted.isZero()) {
           addresses.push(key)
         }
       })
@@ -322,11 +322,11 @@ const ClaimablePoolTokenItem = (props) => {
         <p className='text-inverse font-bold'>{t('availableToClaim')}</p>
         <h4
           className={classnames('flex items-center sm:justify-end mt-1 sm:mt-0', {
-            'opacity-80': claimablePoolData.claimableAmountUnformatted?.isZero()
+            'opacity-80': claimablePoolData?.claimableAmountUnformatted?.isZero()
           })}
         >
           <img src={PoolIcon} className='inline-block w-6 h-6 mr-2' />{' '}
-          <ClaimableAmountCountUp amount={Number(claimablePoolData.claimableAmount)} />
+          <ClaimableAmountCountUp amount={Number(claimablePoolData?.claimableAmount)} />
         </h4>
         <div className='text-accent-1 text-xs flex items-center sm:justify-end mt-1 sm:mt-0 mb-2 opacity-80 trans hover:opacity-100'>
           {usersDripPerDayFormatted} <img src={PoolIcon} className='inline-block w-4 h-4 mx-2' />{' '}
@@ -342,7 +342,7 @@ const ClaimablePoolTokenItem = (props) => {
               chainId={pool.chainId}
               name={name}
               tokenFaucetAddress={tokenFaucetAddress}
-              claimable={!claimablePoolData.claimableAmountUnformatted?.isZero()}
+              claimable={!claimablePoolData?.claimableAmountUnformatted?.isZero()}
             />
           </div>
         )}

@@ -19,11 +19,7 @@ export function NavAccount(props) {
 
   return (
     <>
-      {usersAddress && (
-        <>
-          <AccountButton openTransactions={openTransactions} />
-        </>
-      )}
+      {usersAddress && <AccountButton openTransactions={openTransactions} />}
 
       {usersAddress && (
         <>

@@ -1,34 +1,35 @@
 import React, { useContext, useState } from 'react'
 
-import { SUPPORTED_NETWORKS } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
+import { ETHEREUM_NETWORKS } from 'lib/constants'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Modal } from 'lib/components/Modal'
-import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
+import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
-import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
-
-const onlyUnique = (value, index, self) => {
-  return self.indexOf(value) === index
-}
+import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
+import { useAddNetworkToMetamask } from 'lib/hooks/useAddNetworkToMetamask'
+import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
+import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
+import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
 
 export function WrongNetworkModal(props) {
   const { t } = useTranslation()
 
   const [bypassed, setBypassed] = useState(false)
 
-  const { networkName, supportedNetwork } = useContext(AuthControllerContext)
-
-  let supportedNetworkNames = SUPPORTED_NETWORKS.map((_chainId) => chainIdToNetworkName(_chainId))
-  supportedNetworkNames = supportedNetworkNames
-    .filter(onlyUnique)
-    .filter((name) => name !== 'localhost')
+  const { networkName } = useContext(AuthControllerContext)
+  const { appEnv, setAppEnv } = useAppEnv()
+  const chainIds = useEnvChainIds()
+  const { walletChainId, walletName } = useWalletNetwork()
+  const isMetaMask = walletName === 'MetaMask'
 
   const handleClose = (e) => {
     e.preventDefault()
 
     setBypassed(true)
   }
+
+  const supportedNetwork = chainIds.includes(walletChainId)
 
   if (supportedNetwork) {
     return null
@@ -56,19 +57,53 @@ export function WrongNetworkModal(props) {
       >
         {t('yourEthereumNetworkIsUnsupported')}{' '}
         <div className='flex flex-col items-start justify-start text-center mt-2'>
-          {supportedNetworkNames.map((name) => {
-            const chainId = networkNameToChainId(name)
+          {chainIds.map((chainId) => {
+            const changingToEthereum = ETHEREUM_NETWORKS.includes(chainId)
+
             return (
               <div
-                key={`network-${name}`}
-                className={`block text-${networkTextColorClassname(chainId)} mt-2`}
+                key={`network-${getNetworkNiceNameByChainId(chainId)}`}
+                className={`flex items-center text-${networkTextColorClassname(chainId)} mt-2`}
               >
-                <span className='capitalize font-bold'>{name}</span>{' '}
-                <span className='opacity-20 text-inverse'> (chainId: {chainId})</span>
+                <span className='flex items-center capitalize font-bold'>
+                  <NetworkIcon
+                    className='inline-block mr-2'
+                    sizeClasses='w-4 h-4'
+                    chainId={chainId}
+                  />{' '}
+                  {getNetworkNiceNameByChainId(chainId)}
+                </span>
+                <span className='opacity-20 text-inverse mx-2'> (chainId: {chainId})</span>
+                {isMetaMask && !changingToEthereum && (
+                  <span>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault()
+                        const switchNetworkFxn = useAddNetworkToMetamask(chainId)
+                        switchNetworkFxn()
+                      }}
+                    >
+                      {t('switch')}
+                    </button>
+                  </span>
+                )}
               </div>
             )
           })}
         </div>
+        {appEnv === APP_ENVIRONMENT.testnets && (
+          <div className='mt-20'>
+            The app settings are set to testnets.{' '}
+            <button
+              onClick={(e) => {
+                e.preventDefault()
+                setAppEnv(APP_ENVIRONMENT.mainnets)
+              }}
+            >
+              Switch to mainnets
+            </button>
+          </div>
+        )}
       </Modal>
     </>
   )

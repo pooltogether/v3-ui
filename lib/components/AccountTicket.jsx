@@ -65,7 +65,7 @@ export const AccountTicket = (props) => {
       <motion.div
         key={`account-pool-ticket-${pool.prizePool.poolAddress}`}
         className={classnames(
-          'bg-accent-grey-4 py-2 rounded-lg relative text-xxxs xs:text-xs mb-3'
+          'bg-accent-grey-4 py-2 rounded-lg relative text-xxxs sm:text-xs mb-3'
         )}
         animate={{
           scale: 1,
@@ -86,7 +86,7 @@ export const AccountTicket = (props) => {
           }
         }}
       >
-        <div className='h-24  flex items-center justify-between'>
+        <div className='h-24 flex items-center justify-between'>
           <div className='h-24 w-32 sm:w-40 flex flex-col items-center justify-center border-accent-3 border-dashed border-r-2'>
             <PoolCurrencyIcon
               lg
@@ -100,14 +100,14 @@ export const AccountTicket = (props) => {
             </div>
           </div>
 
-          <div className='flex w-full'>
-            <div className='w-5/12 flex flex-col justify-center leading-none sm:pl-8'>
-              <div className='text-lg xs:text-xl sm:text-3xl lg:text-4xl font-bold text-inverse-purple'>
+          <div className='flex flex-col sm:flex-row w-full'>
+            <div className='w-10/12 sm:w-5/12 mx-auto flex flex-col items-start justify-start sm:justify-center leading-none sm:pl-8'>
+              <div className='text-lg sm:text-xl sm:text-3xl lg:text-4xl font-bold text-inverse-purple'>
                 <PoolNumber>{numberWithCommas(amount)}</PoolNumber>
               </div>
 
-              <div>
-                <span className='relative inline-block leading-normal text-accent-1'>
+              <div className='flex sm:flex-col items-baseline sm:items-start'>
+                <span className='relative inline-block leading-normal text-accent-1 mr-1 sm:mr-0'>
                   {t('winningOdds')}:
                 </span>{' '}
                 {Number(amount) < 1 ? (
@@ -137,11 +137,11 @@ export const AccountTicket = (props) => {
               </div>
             </div>
 
-            <div className='w-7/12 flex flex-col items-end justify-end pt-3 pb-4 pl-2 pr-8 sm:pr-12'>
-              <div className='flex items-baseline text-xs xs:text-xl font-bold text-accent-1'>
+            <div className='w-10/12 sm:w-7/12 mx-auto flex flex-col sm:items-end sm:justify-end pt-1 sm:pt-3 sm:pb-4 sm:pl-2 sm:pr-12'>
+              <div className='flex items-baseline text-xs sm:text-xl font-bold text-accent-1'>
                 <img
                   src={PoolTogetherTrophyDetailed}
-                  className='relative w-4 mr-2 opacity-70'
+                  className='relative w-3 sm:w-4 mr-1 sm:mr-2 opacity-70'
                   style={{
                     filter: 'brightness(5)',
                     top: 2
@@ -159,22 +159,23 @@ export const AccountTicket = (props) => {
                   </>
                 )}
 
-                <span className='text-xxxxs xs:text-xxs font-regular'>
+                <span className='text-xxxxs sm:text-xxs font-regular'>
                   <NewPrizeCountdownInWords onTicket extraShort pool={pool} />
                 </span>
               </div>
 
-              <div className='flex flex-col items-end'>
+              <div className='flex sm:flex-col items-center sm:items-end mt-1 sm:mt-0'>
                 {isSelf && isLink && (
                   <>
                     <NetworkBadge
+                      className='sm:mx-auto'
                       sizeClasses='w-3 h-3'
-                      textClasses='text-xxxxs xs:text-xxxs text-default'
+                      textClasses='text-xxxs sm:text-xxs text-default'
                       chainId={pool.chainId}
                     />
                     <button
                       onClick={handleManageClick}
-                      className='text-accent-1 underline text-xxxs xs:text-xxs'
+                      className='text-accent-1 underline text-xxxs sm:text-xxs ml-2 sm:ml-0'
                     >
                       {t('manage')}
                     </button>

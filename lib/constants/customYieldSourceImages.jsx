@@ -6,9 +6,11 @@ export const CUSTOM_YIELD_SOURCE_NAMES = Object.freeze({
     '0x2ba1e000a381ad42af10c6e33afe5994ee878d72': 'aave',
     '0x6e159b199423383572b7cb05fbbd54103a827f2b': 'aave'
   },
+  4: {},
   137: {
     '0x3c7cdfb942eb98cce7e4d004e2927788cd9e54fe': 'aave'
-  }
+  },
+  80001: {}
 })
 
 export const KNOWN_YIELD_SOURCES = Object.keys(CUSTOM_YIELD_SOURCE_NAMES).reduce(
