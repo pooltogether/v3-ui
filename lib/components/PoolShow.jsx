@@ -41,6 +41,7 @@ import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useRouterChainId } from 'lib/hooks/chainId/useRouterChainId'
 
 import Bell from 'assets/images/bell-yellow@2x.png'
+import { useIsPoolYieldSourceKnown } from 'lib/hooks/useIsPoolYieldSourceKnown'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -83,7 +84,7 @@ export const PoolShow = (props) => {
     <>
       <Meta title={pool.name} />
 
-      {pool.contract.isCommunityPool && <CommunityPoolDisclaimerModal poolSymbol={pool.symbol} />}
+      <CommunityPoolDisclaimerModal pool={pool} poolSymbol={pool.symbol} />
 
       <motion.div
         initial='initial'
@@ -246,6 +247,10 @@ const UnauditedWarning = (props) => {
   }
 
   const { t } = useTranslation()
+
+  const isYieldSourceKnown = useIsPoolYieldSourceKnown(pool)
+
+  if (isYieldSourceKnown) return null
 
   return (
     <div className='flex flex-col xs:flex-row text-center items-center justify-center bg-default rounded-lg mt-4 pt-4 pb-2 xs:py-4 px-4 text-orange'>
