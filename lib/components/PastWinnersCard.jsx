@@ -15,7 +15,8 @@ export const PastWinnersCard = (props) => {
   const { pool } = props
 
   const pageNum = 1
-  const { data, error, isFetched } = usePastPrizes(pool, pageNum)
+  const { data, error, isFetched, isFetching } = usePastPrizes(pool, pageNum)
+  console.log(data, error, isFetched, isFetching)
 
   if (error) {
     console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))
@@ -49,13 +50,20 @@ export const PastWinnersCard = (props) => {
     return prizes
   }, [data])
 
-  const loading = (!prizes && prizes !== null) || !isFetched
-
-  if (loading) {
+  if (!isFetched) {
     return (
       <Card>
         <h3 className='mb-4'>{t('pastFiveWinners')}</h3>
         <IndexUILoader />
+      </Card>
+    )
+  }
+
+  if (isFetched && !prizes) {
+    return (
+      <Card>
+        <h3 className='mb-4'>{t('pastFiveWinners')}</h3>
+        <span>No prizes yet</span>
       </Card>
     )
   }
