@@ -3,12 +3,13 @@ import Link from 'next/link'
 import { isEmpty } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
-import { formatDate } from 'lib/utils/formatDate'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { hardcodedAprAmountUsd } from 'lib/components/PoolPrizeCard'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { usePastPrizes } from 'lib/hooks/usePastPrizes'
+import { formatDate } from 'lib/utils/formatDate'
+import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const PastWinnersCard = (props) => {
   const { t } = useTranslation()
@@ -75,7 +76,13 @@ export const PastWinnersCard = (props) => {
         <div className='w-full flex mb-6'>
           <span className='w-1/3'>{t('currentPrize')}</span>
           <span className='w-1/3 text-right text-flashy'>
-            ${numberWithCommas(pool.prize.totalValueUsd, { precision: 2 })}
+            $
+            {numberWithCommas(
+              pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4'
+                ? hardcodedAprAmountUsd(pool)
+                : pool.prize.totalValueUsd,
+              { precision: 2 }
+            )}
           </span>
         </div>
 

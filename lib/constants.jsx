@@ -10,6 +10,7 @@ export const SUPPORTED_NETWORKS = [1, 4, 137, 80001]
 
 export const SECONDS_PER_BLOCK = 14
 
+export const SECONDS_PER_YEAR = 31536000
 export const SECONDS_PER_WEEK = 604800
 export const SECONDS_PER_DAY = 86400
 export const SECONDS_PER_HOUR = 3600
