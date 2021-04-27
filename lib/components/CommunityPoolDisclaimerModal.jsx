@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import Portal from '@reach/portal'
 import Cookies from 'js-cookie'
-import { useRouter } from 'next/router'
 
 import { COOKIE_OPTIONS } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { Button } from 'lib/components/Button'
-import { KNOWN_YIELD_SOURCES } from 'lib/constants/customYieldSourceImages'
-import { PRIZE_POOL_TYPES } from '@pooltogether/current-pool-data'
 import { useIsPoolYieldSourceKnown } from 'lib/hooks/useIsPoolYieldSourceKnown'
 
 const CheckboxContainer = (props) => (
@@ -22,7 +19,6 @@ export function CommunityPoolDisclaimerModal(props) {
   const { t } = useTranslation()
 
   const acceptedCookieKey = `accepted-${props.poolSymbol}`
-  const router = useRouter()
 
   const [checked, setChecked] = useState(false)
   const [accepted, setAccepted] = useState(Boolean(Cookies.get(acceptedCookieKey)))

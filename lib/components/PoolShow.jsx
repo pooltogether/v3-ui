@@ -33,6 +33,7 @@ import { UpcomingPrizeBreakdownCard } from 'lib/components/UpcomingPrizeBreakdow
 import { Meta } from 'lib/components/Meta'
 import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
 import { Tagline } from 'lib/components/Tagline'
+import { useIsPoolYieldSourceKnown } from 'lib/hooks/useIsPoolYieldSourceKnown'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { usePoolBySymbol } from 'lib/hooks/usePools'
 import { translatedPoolName } from 'lib/utils/translatedPoolName'
@@ -41,7 +42,6 @@ import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useRouterChainId } from 'lib/hooks/chainId/useRouterChainId'
 
 import Bell from 'assets/images/bell-yellow@2x.png'
-import { useIsPoolYieldSourceKnown } from 'lib/hooks/useIsPoolYieldSourceKnown'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -231,24 +231,15 @@ export const PoolShow = (props) => {
 }
 
 const UnauditedWarning = (props) => {
+  const { t } = useTranslation()
   const { pool } = props
 
-  const yieldSourceAddress = pool.prizePool.yieldSource.address
-  const isKnownAaveYieldSource = Boolean(
-    CUSTOM_YIELD_SOURCE_NAMES[pool.chainId][yieldSourceAddress]
-  )
-  if (isKnownAaveYieldSource) {
-    return null
-  }
+  const isYieldSourceKnown = useIsPoolYieldSourceKnown(pool)
 
   const isNotCustomYieldSource = pool.prizePool.type !== PRIZE_POOL_TYPES.genericYield
   if (isNotCustomYieldSource) {
     return null
   }
-
-  const { t } = useTranslation()
-
-  const isYieldSourceKnown = useIsPoolYieldSourceKnown(pool)
 
   if (isYieldSourceKnown) return null
 
