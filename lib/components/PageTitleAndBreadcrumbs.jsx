@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 
+import { SECONDS_PER_DAY } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { Chip } from 'lib/components/Chip'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -44,6 +45,8 @@ export const PageTitleAndBreadcrumbs = (props) => {
     </>
   )
 
+  const isDaily = pool?.prize?.prizePeriodSeconds?.toNumber() === SECONDS_PER_DAY
+
   return (
     <>
       {pool ? (
@@ -65,7 +68,7 @@ export const PageTitleAndBreadcrumbs = (props) => {
                     className='font-bold uppercase'
                     bgClasses='bg-highlight-6'
                     textClasses='text-white font-bold'
-                    text={t('weekly')}
+                    text={isDaily ? t('daily') : t('weekly')}
                   />
                 </div>
               )}

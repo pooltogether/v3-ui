@@ -289,7 +289,16 @@ const ClaimablePoolTokenItem = (props) => {
     precision: getPrecision(totalDripPerDay)
   })
 
-  const apr = pool.tokenListener?.apr
+  let apr = pool.tokenListener?.apr
+
+  if (!apr) {
+    const { dripRatePerSecond } = pool.tokenListener
+    const totalDripPerDay = Number(dripRatePerSecond) * SECONDS_PER_DAY
+    const totalDripDailyValue = totalDripPerDay * 1
+    const tokens = pool.tokens
+    const totalSupply = Number(tokens.ticket.totalSupply) + Number(tokens.sponsorship.totalSupply)
+    apr = (totalDripDailyValue / totalSupply) * 365 * 100
+  }
 
   return (
     <div className='bg-body p-6 rounded-lg flex flex-col sm:flex-row sm:justify-between mt-4 sm:items-center'>

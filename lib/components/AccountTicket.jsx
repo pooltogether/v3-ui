@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { isSelfAtom } from 'lib/components/AccountUI'
+import { hardcodedAprAmountUsd } from 'lib/components/PoolPrizeCard'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
 import { Odds } from 'lib/components/Odds'
@@ -143,7 +144,11 @@ export const AccountTicket = (props) => {
                       fontSansRegular
                       decimals={0}
                       duration={3}
-                      end={parseFloat(pool.prize.totalValueUsd)}
+                      end={
+                        pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4'
+                          ? hardcodedAprAmountUsd(pool)
+                          : parseFloat(pool.prize.totalValueUsd)
+                      }
                     />
                   </>
                 )}
