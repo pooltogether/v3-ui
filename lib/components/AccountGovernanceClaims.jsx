@@ -355,6 +355,7 @@ const ClaimablePoolTokenItem = (props) => {
               }}
               chainId={pool.chainId}
               name={name}
+              dripToken={pool.tokens.tokenFaucetDripToken.symbol}
               tokenFaucetAddress={tokenFaucetAddress}
               claimable={!claimablePoolData?.claimableAmountUnformatted?.isZero()}
             />
@@ -385,7 +386,7 @@ ClaimableAmountCountUp.defaultProps = {
 }
 
 const ClaimButton = (props) => {
-  const { address, name, refetch, claimable, tokenFaucetAddress, chainId } = props
+  const { address, dripToken, name, refetch, claimable, tokenFaucetAddress, chainId } = props
 
   const walletChainId = useWalletChainId()
 
@@ -393,8 +394,6 @@ const ClaimButton = (props) => {
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
-
-  const [refetching, setRefetching] = useState(false)
 
   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
   const txCompleted = tx?.completed
@@ -405,7 +404,7 @@ const ClaimButton = (props) => {
     const params = [address]
 
     const id = await sendTx(
-      t('claimPoolFromPool', { poolName: name }),
+      t('claimTickerFromPool', { ticker: dripToken, poolName: name }),
       TokenFaucetAbi,
       tokenFaucetAddress,
       'claim',

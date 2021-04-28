@@ -103,7 +103,7 @@ export const AccountTicket = (props) => {
 
           <div className='flex flex-col sm:flex-row w-full'>
             <div className='w-10/12 sm:w-5/12 mx-auto flex flex-col items-start justify-start sm:justify-center leading-none sm:pl-8'>
-              <div className='text-lg sm:text-xl sm:text-3xl lg:text-4xl font-bold text-inverse-purple'>
+              <div className='text-lg sm:text-xl sm:text-3xl font-bold text-inverse-purple'>
                 <PoolNumber>{numberWithCommas(amount)}</PoolNumber>
               </div>
 

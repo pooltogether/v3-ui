@@ -1,4 +1,7 @@
 export const TOKEN_IMAGES = {
+  '0x056fd409e1d7a124bd7017459dfea2f387b6d5cd': '/tokens/gusd.png',
+  '0x57ab1ec28d129707052df4df418d58a2d46d5f51': '/tokens/susd.png',
+  '0x4fabb145d64652a948d72533023f6e7a623c7c53': '/tokens/busd.svg',
   '0x0cec1a9154ff802e7934fc916ed7ca50bde6844e': '/tokens/pool-icon.svg',
   '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270': '/tokens/matic.png',
   '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2': '/tokens/weth-128.png',
