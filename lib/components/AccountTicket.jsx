@@ -111,28 +111,17 @@ export const AccountTicket = (props) => {
                   {t('winningOdds')}:
                 </span>{' '}
                 {Number(amount) < 1 ? (
-                  <>
-                    <span
-                      className='font-bold text-accent-3'
-                      style={{
-                        marginTop: 23
-                      }}
-                    >
-                      {t('notAvailableAbbreviation')}
-                    </span>
-                  </>
+                  <span className='font-bold text-accent-3'>{t('notAvailableAbbreviation')}</span>
                 ) : (
-                  <>
-                    <Odds
-                      asSpan
-                      fontSansRegular
-                      className='font-bold text-flashy'
-                      usersBalance={amountUnformatted.toString()}
-                      ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
-                      decimals={decimals}
-                      numberOfWinners={pool.config.numberOfWinners}
-                    />
-                  </>
+                  <Odds
+                    asSpan
+                    fontSansRegular
+                    className='font-bold text-flashy'
+                    usersBalance={amountUnformatted.toString()}
+                    ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
+                    decimals={decimals}
+                    numberOfWinners={pool.config.numberOfWinners}
+                  />
                 )}
               </div>
             </div>

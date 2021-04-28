@@ -1,8 +1,14 @@
 import React from 'react'
 import Cookies from 'js-cookie'
+import classnames from 'classnames'
 import { useRouter } from 'next/router'
 
-import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
+import {
+  SECONDS_PER_DAY,
+  COOKIE_OPTIONS,
+  WIZARD_REFERRER_HREF,
+  WIZARD_REFERRER_AS_PATH
+} from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
@@ -55,6 +61,7 @@ export const PoolRow = (props) => {
   )
 
   const apr = pool.tokenListener?.apr
+  const isDaily = pool.prize.prizePeriodSeconds.toNumber() === SECONDS_PER_DAY
 
   return (
     <InteractableCard
@@ -79,8 +86,13 @@ export const PoolRow = (props) => {
             </div>
 
             <div className='block mx-auto mb-1 sm:mb-2'>
-              <div className='text-accent-1 text-xxxs text-center bg-accent-grey-1 text-highlight-3 rounded-full px-2'>
-                {t('prizeValue')}
+              <div
+                className={classnames('text-xxxs text-center rounded-full px-2', {
+                  'bg-accent-grey-1 text-highlight-3': !isDaily,
+                  'bg-accent-grey-4 text-highlight-6': isDaily
+                })}
+              >
+                {isDaily ? t('dailyPrize') : t('prizeValue')}
               </div>
             </div>
 
