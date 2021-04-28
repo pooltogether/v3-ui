@@ -1,4 +1,6 @@
 export const TOKEN_IMAGES = {
+  '0x0cec1a9154ff802e7934fc916ed7ca50bde6844e': '/tokens/pool-icon.svg',
+  '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270': '/tokens/matic.png',
   '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2': '/tokens/weth-128.png',
   '0x9d942bd31169ed25a1ca78c776dab92de104e50e':
     '/tokens/0x9d942bd31169ed25a1ca78c776dab92de104e50e.png',

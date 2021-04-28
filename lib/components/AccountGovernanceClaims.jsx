@@ -311,13 +311,13 @@ const ClaimablePoolTokenItem = (props) => {
         <div className='xs:w-64'>
           <h5 className='leading-none'>{name}</h5>
 
-          <div className='text-accent-1 text-xs mb-1 mt-2 sm:mt-1 opacity-80 trans hover:opacity-100'>
+          <div className='text-accent-1 text-xs mb-1 mt-2 sm:mt-1'>
             {t('poolNamesDripRate', { poolName: name })}
             <br />
             {totalDripPerDayFormatted}{' '}
             <Erc20Image
               address={dripToken.address}
-              className='relative inline-block w-4 h-4 mx-1'
+              className='relative inline-block w-3 h-3 mx-1'
             />
             {dripToken.symbol} / <span className='lowercase'>{t('day')}</span>
             <br />
@@ -333,12 +333,14 @@ const ClaimablePoolTokenItem = (props) => {
             'opacity-80': claimablePoolData?.claimableAmountUnformatted?.isZero()
           })}
         >
-          <img src={PoolIcon} className='inline-block w-6 h-6 mr-2' />{' '}
+          <Erc20Image address={dripToken.address} className='inline-block w-6 h-6 mr-2' />
           <ClaimableAmountCountUp amount={Number(claimablePoolData?.claimableAmount)} />
         </h4>
         <div className='text-accent-1 text-xs flex items-center sm:justify-end mt-1 sm:mt-0 mb-2 opacity-80 trans hover:opacity-100'>
-          {usersDripPerDayFormatted} <img src={PoolIcon} className='inline-block w-4 h-4 mx-2' />{' '}
-          {dripToken.symbol} /&nbsp;<span className='lowercase'>{t('day')}</span>
+          {usersDripPerDayFormatted}{' '}
+          <Erc20Image address={dripToken.address} className='inline-block w-4 h-4 mx-2' />
+          {dripToken.symbol} /&nbsp;
+          <span className='lowercase'>{t('day')}</span>
         </div>
         {isSelf && (
           <div className='sm:w-40 sm:ml-auto'>
