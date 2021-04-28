@@ -4347,10 +4347,10 @@
     walletlink "^2.0.3"
     web3-provider-engine "^16.0.1"
 
-"@pooltogether/current-pool-data@3.4.6":
-  version "3.4.6"
-  resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.4.6.tgz#e45773962a07d68a51344d50de165defb3e7c679"
-  integrity sha512-FBanBSBGvD+Gxvp56p9Y3qk6a7fB/muxoTx6ONB57NUYnQgA9OdpxibuIO9AXcsMEzp76LXV8mHuvFTWvgpUYQ==
+"@pooltogether/current-pool-data@3.4.8":
+  version "3.4.8"
+  resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.4.8.tgz#ae5989de90ab9808bbf2d44f33203f976e7bc61c"
+  integrity sha512-mKmKmN5O8BQ8xefhuqHplgt4AcjzQf9GhKen36jfich/zuc/ZPcO9qCQ+XTGOEaALmlCwyIXl0YLzQjgy8WW9g==
 
 "@pooltogether/etherplex@1.1.1":
   version "1.1.1"
@@ -7519,7 +7519,7 @@ browserslist@^4.11.1, browserslist@^4.12.0, browserslist@^4.8.5:
     node-releases "^1.1.53"
     pkg-up "^2.0.0"
 
-browserslist@^4.14.5, browserslist@^4.16.4:
+browserslist@^4.14.5:
   version "4.16.4"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.16.4.tgz#7ebf913487f40caf4637b892b268069951c35d58"
   integrity sha512-d7rCxYV8I9kj41RH8UKYnvDYCRENUlHRgyXy/Rhr/1BaeLGfiCptEdFE8MIrvGfWbBFNjVYx76SQWvNX1j+/cQ==
