@@ -164,7 +164,7 @@ export const AccountTicket = (props) => {
                     <NetworkBadge
                       className='sm:mx-auto'
                       sizeClasses='w-3 h-3'
-                      textClasses='text-xxxs sm:text-xxs text-default'
+                      textClasses='text-xxxs sm:text-xxs'
                       chainId={pool.chainId}
                     />
                     <button

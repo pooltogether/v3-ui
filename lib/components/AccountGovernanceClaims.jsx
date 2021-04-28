@@ -15,6 +15,7 @@ import { isSelfAtom } from 'lib/components/AccountUI'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
+import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { ThemedClipLoader } from 'lib/components/loaders/ThemedClipLoader'
 import { Tooltip } from 'lib/components/Tooltip'
@@ -308,8 +309,11 @@ const ClaimablePoolTokenItem = (props) => {
           address={underlyingToken.address}
           className='sm:mr-4'
         />
-        <div className='xs:w-64'>
-          <h5 className='leading-none'>{name}</h5>
+        <div className='xs:w-64 sm:w-96'>
+          <div className='flex items-baseline mb-1'>
+            <h5 className='leading-none'>{name}</h5>{' '}
+            <NetworkBadge className='ml-2' sizeClasses='h-4 w-4' chainId={pool.chainId} />
+          </div>
 
           <div className='text-accent-1 text-xs mb-1 mt-2 sm:mt-1'>
             {t('poolNamesDripRate', { poolName: name })}
@@ -329,7 +333,7 @@ const ClaimablePoolTokenItem = (props) => {
       <div className='sm:text-right mt-6 sm:mt-0'>
         <p className='text-inverse font-bold'>{t('availableToClaim')}</p>
         <h4
-          className={classnames('flex items-center sm:justify-end mt-1 sm:mt-0', {
+          className={classnames('flex items-center sm:justify-end', {
             'opacity-80': claimablePoolData?.claimableAmountUnformatted?.isZero()
           })}
         >
