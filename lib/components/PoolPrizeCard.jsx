@@ -12,7 +12,7 @@ export const hardcodedAprAmountUsd = (pool) => {
   const tokens = pool.tokens
   const totalSupply = Number(tokens.ticket.totalSupply) + Number(tokens.sponsorship.totalSupply)
 
-  const hardcodedApr = 0.0834 // USDT AAVE POLYGON POOL ONLY!
+  const hardcodedApr = 0.185 // USDT AAVE POLYGON POOL ONLY!
 
   const supplyRatePerYear = totalSupply * hardcodedApr
   const supplyRatePerSecond = supplyRatePerYear / SECONDS_PER_YEAR // = 0.001930556
