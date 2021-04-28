@@ -29,10 +29,6 @@ export function RevokePoolAllowanceTxButton(props) {
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
-  if (tx) {
-    tx.refetch = refetch
-  }
-
   if (usersTokenAllowance.eq(0)) {
     return null
   }
@@ -42,7 +38,7 @@ export function RevokePoolAllowanceTxButton(props) {
 
     const params = [poolAddress, ethers.utils.parseEther('0')]
 
-    const id = await sendTx(txName, ControlledTokenAbi, tokenAddress, method, params)
+    const id = await sendTx(txName, ControlledTokenAbi, tokenAddress, method, params, refetch)
 
     setTxId(id)
   }

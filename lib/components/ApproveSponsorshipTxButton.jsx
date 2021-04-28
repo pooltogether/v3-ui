@@ -26,10 +26,6 @@ export function ApproveSponsorshipTxButton(props) {
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
-  if (tx) {
-    tx.refetch = refetch
-  }
-
   const unlockTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)
 
   const handleApproveClick = async (e) => {
@@ -37,7 +33,7 @@ export function ApproveSponsorshipTxButton(props) {
 
     const params = [poolAddress, ethers.utils.parseUnits('9999999999', Number(decimals))]
 
-    const id = await sendTx(txName, ControlledTokenAbi, tokenAddress, method, params)
+    const id = await sendTx(txName, ControlledTokenAbi, tokenAddress, method, params, refetch)
 
     setTxId(id)
   }
