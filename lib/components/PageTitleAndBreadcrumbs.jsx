@@ -65,10 +65,9 @@ export const PageTitleAndBreadcrumbs = (props) => {
               !pool.contract.isCommunityPool && (
                 <div className='ml-4'>
                   <Chip
-                    className='font-bold uppercase'
-                    bgClasses='bg-highlight-6'
-                    textClasses='text-white font-bold'
-                    text={isDaily ? t('daily') : t('weekly')}
+                    bgClasses={isDaily ? 'bg-accent-grey-4' : 'bg-accent-grey-1'}
+                    textClasses={isDaily ? 'text-highlight-6' : 'text-highlight-3'}
+                    text={isDaily ? t('dailyPrize') : t('prizeValue')}
                   />
                 </div>
               )}
