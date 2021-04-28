@@ -18,7 +18,8 @@ export const hardcodedAprAmountUsd = (pool) => {
   const supplyRatePerSecond = supplyRatePerYear / SECONDS_PER_YEAR // = 0.001930556
 
   const secondsLeft = pool.prize.prizePeriodRemainingSeconds
-  const estimatedPrize = secondsLeft.toNumber() * supplyRatePerSecond
+  const estimatedPrize =
+    secondsLeft.toNumber() * supplyRatePerSecond + Number(pool.prize.yield.amount)
 
   return estimatedPrize
 }
