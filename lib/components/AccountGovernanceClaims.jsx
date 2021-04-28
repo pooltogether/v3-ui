@@ -294,9 +294,8 @@ const ClaimablePoolTokenItem = (props) => {
   if (!apr) {
     const { dripRatePerSecond } = pool.tokenListener
     const totalDripPerDay = Number(dripRatePerSecond) * SECONDS_PER_DAY
-    const totalDripDailyValue = totalDripPerDay * 1
-    const tokens = pool.tokens
-    const totalSupply = Number(tokens.ticket.totalSupply) + Number(tokens.sponsorship.totalSupply)
+    const totalDripDailyValue = totalDripPerDay * 0.86
+    const totalSupply = Number(pool.tokens.ticket.totalSupply)
     apr = (totalDripDailyValue / totalSupply) * 365 * 100
   }
 
