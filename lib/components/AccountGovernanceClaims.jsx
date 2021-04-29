@@ -8,7 +8,6 @@ import { Button } from 'lib/components/Button'
 import { usePreviousValue } from 'beautiful-react-hooks'
 
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
-import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucetProxyFactory'
 
 import { CUSTOM_CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
 import { isSelfAtom } from 'lib/components/AccountUI'
