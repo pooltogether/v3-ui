@@ -151,7 +151,10 @@ const PoolPrizeValue = (props) => {
   if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
     return (
       <div className='text-3xl sm:text-5xl text-flashy font-bold ml-2'>
-        ${numberWithCommas(hardcodedAprAmountUsd(pool))}
+        $
+        <PoolCountUp fontSansRegular decimals={0} duration={6}>
+          {parseFloat(hardcodedAprAmountUsd(pool))}
+        </PoolCountUp>
       </div>
     )
   }
