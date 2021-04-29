@@ -32,7 +32,13 @@ import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
 import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 import { Erc20Image } from 'lib/components/Erc20Image'
 
-import PoolIcon from 'assets/images/pool-icon.svg'
+export const hardcodedWMaticApr = (pool) => {
+  const { dripRatePerSecond } = pool.tokenListener
+  const totalDripPerDay = Number(dripRatePerSecond) * SECONDS_PER_DAY
+  const totalDripDailyValue = totalDripPerDay * 0.885 // USD MATIC PRICE
+  const totalSupply = Number(pool.tokens.ticket.totalSupply)
+  return (totalDripDailyValue / totalSupply) * 365 * 100
+}
 
 export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
@@ -180,12 +186,8 @@ const ClaimablePoolTokenItem = (props) => {
 
   let apr = pool.tokenListener?.apr
 
-  if (!apr) {
-    const { dripRatePerSecond } = pool.tokenListener
-    const totalDripPerDay = Number(dripRatePerSecond) * SECONDS_PER_DAY
-    const totalDripDailyValue = totalDripPerDay * 0.86
-    const totalSupply = Number(pool.tokens.ticket.totalSupply)
-    apr = (totalDripDailyValue / totalSupply) * 365 * 100
+  if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
+    apr = hardcodedWMaticApr(pool)
   }
 
   return (

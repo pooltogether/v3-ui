@@ -19,6 +19,7 @@ import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { hardcodedAprAmountUsd } from 'lib/components/PoolPrizeCard'
+import { hardcodedWMaticApr } from 'lib/components/AccountGovernanceClaims'
 
 export const PoolRow = (props) => {
   const { pool } = props
@@ -57,6 +58,15 @@ export const PoolRow = (props) => {
 
     const dripTokenAddress = pool.tokens.tokenFaucetDripToken?.address
 
+    let apr = pool.tokenListener?.apr
+    if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
+      apr = hardcodedWMaticApr(pool)
+    }
+
+    if (!apr) {
+      return null
+    }
+
     return (
       <div className='text-xxxs text-accent-1 flex items-center'>
         <Erc20Image address={dripTokenAddress} className='inline-block mr-2 w-4' />
@@ -65,7 +75,6 @@ export const PoolRow = (props) => {
     )
   }
 
-  const apr = pool.tokenListener?.apr
   const isDaily = pool.prize.prizePeriodSeconds.toNumber() === SECONDS_PER_DAY
 
   return (
@@ -128,14 +137,14 @@ export const PoolRow = (props) => {
           </Button>
 
           <div className='flex items-center justify-between mt-3 w-full'>
-            <div className='hidden sm:flex'>{apr && <AprChip pool={pool} />}</div>
+            <div className='hidden sm:flex'>{<AprChip pool={pool} />}</div>
 
             <span className='relative hidden sm:inline-block'>
               <ViewPoolDetailsButton />
             </span>
           </div>
 
-          <span className='mt-1 relative sm:hidden'>{apr && <AprChip pool={pool} />}</span>
+          <span className='mt-1 relative sm:hidden'>{<AprChip pool={pool} />}</span>
           <div className='sm:hidden mt-1'>
             <ViewPoolDetailsButton />
           </div>
