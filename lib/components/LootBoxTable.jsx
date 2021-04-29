@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
+import FeatherIcon from 'feather-icons-react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
+import { NFTE } from '@nfte/react'
 
 import { useTranslation } from 'lib/../i18n'
 import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
+import { Modal } from 'lib/components/Modal'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { useAllErc20Awards } from 'lib/hooks/useAllErc20Awards'
-import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
+import { useAllErc721Awards } from 'lib/hooks/useAllErc721Awards'
+import { BlockExplorerLink, LinkIcon } from 'lib/components/BlockExplorerLink'
 import { useCurrentPool } from 'lib/hooks/usePools'
 
 /**
@@ -20,12 +24,15 @@ import { useCurrentPool } from 'lib/hooks/usePools'
  */
 export const PoolShowLootBoxTable = (props) => {
   const { pool } = props
-  const allAwards = useAllErc20Awards(pool.prize).sort(
+  const allErc20Awards = useAllErc20Awards(pool.prize).sort(
     (a, b) => Number(b.totalValueUsd) - Number(a.totalValueUsd)
   )
+  const allErc721Awards = useAllErc721Awards(pool.prize)
+
   return (
     <LootBoxTable
-      allAwards={allAwards}
+      allErc20Awards={allErc20Awards}
+      allErc721Awards={allErc721Awards}
       basePath={`/pools/${pool.networkName}/${pool.symbol}`}
       totalExternalAwardsValueUsd={pool.prize.totalExternalAwardsValueUsd}
       lootBoxAddress={pool.prize.lootBox?.address}
@@ -40,13 +47,16 @@ export const PoolShowLootBoxTable = (props) => {
  */
 export const PrizeShowLootBoxTable = (props) => {
   const { prize, poolSymbol, poolNetworkName } = props
-  const allAwards = useAllErc20Awards(prize).sort(
+  const allErc20Awards = useAllErc20Awards(prize).sort(
     (a, b) => Number(b.totalValueUsd) - Number(a.totalValueUsd)
   )
+  const allErc721Awards = useAllErc721Awards(prize)
+
   return (
     <LootBoxTable
       historical
-      allAwards={allAwards}
+      allErc20Awards={allErc20Awards}
+      allErc721Awards={allErc721Awards}
       totalExternalAwardsValueUsd={prize.external.totalValueUsd}
       basePath={`/prizes/${poolNetworkName}/${poolSymbol}/${prize.id}`}
     />
@@ -59,21 +69,28 @@ export const PrizeShowLootBoxTable = (props) => {
  * @returns
  */
 export const LootBoxTable = (props) => {
-  const { basePath, historical, allAwards, totalExternalAwardsValueUsd, lootBoxAddress } = props
+  const {
+    basePath,
+    historical,
+    allErc20Awards,
+    allErc721Awards,
+    totalExternalAwardsValueUsd,
+    lootBoxAddress
+  } = props
 
   const { t } = useTranslation()
   const router = useRouter()
   const [moreVisible, setMoreVisible] = useState(false)
   const shouldReduceMotion = useReducedMotion()
-  const allAwardsSorted = allAwards.sort(
+  const allErc20AwardsSorted = allErc20Awards.sort(
     (a, b) => Number(b.totalValueUsd) - Number(a.totalValueUsd)
   )
 
-  const originalAwardsCount = allAwardsSorted.length
+  const originalErc20AwardsCount = allErc20AwardsSorted.length
 
-  let awards = []
-  if (originalAwardsCount > 0) {
-    awards = moreVisible ? allAwardsSorted : allAwardsSorted.slice(0, 10)
+  let erc20Awards = []
+  if (originalErc20AwardsCount > 0) {
+    erc20Awards = moreVisible ? allErc20AwardsSorted : allErc20AwardsSorted.slice(0, 10)
   }
 
   const handleShowMore = (e) => {
@@ -84,7 +101,9 @@ export const LootBoxTable = (props) => {
     router.push(`${basePath}#loot-box-table`)
   }
 
-  if (!awards || (awards.length === 0 && !lootBoxAddress)) {
+  const allAwards = [...erc20Awards, ...allErc721Awards]
+
+  if (!allAwards || (allAwards.length === 0 && !lootBoxAddress)) {
     return null
   }
 
@@ -105,7 +124,7 @@ export const LootBoxTable = (props) => {
         {!historical && lootBoxAddress && <ContributeToLootBoxDropdown address={lootBoxAddress} />}
       </div>
 
-      {awards.length === 0 && (
+      {allAwards.length === 0 && (
         <CardDetailsList>
           <span className='text-accent-1 text-xs xs:text-base'>
             {t('beTheFirstToAddToLootbox')}
@@ -113,17 +132,17 @@ export const LootBoxTable = (props) => {
         </CardDetailsList>
       )}
 
-      {awards.length > 0 && (
+      {erc20Awards.length > 0 && (
         <CardDetailsList>
           <h6 className='text-green mb-4'>
             {t('amountTokens', {
-              amount: originalAwardsCount
+              amount: originalErc20AwardsCount
             })}
           </h6>
-          {awards.map((award) => (
-            <AwardRow key={award?.address} award={award} />
+          {erc20Awards.map((award) => (
+            <AwardRowErc20 key={award?.address} award={award} />
           ))}
-          {originalAwardsCount > 10 && (
+          {originalErc20AwardsCount > 10 && (
             <div className='text-right'>
               <motion.button
                 border='none'
@@ -149,11 +168,24 @@ export const LootBoxTable = (props) => {
           )}
         </CardDetailsList>
       )}
+
+      {allErc721Awards.length > 0 && (
+        <CardDetailsList>
+          <h6 className='text-green mb-4'>
+            {t('amountNfts', {
+              amount: allErc721Awards.length
+            })}
+          </h6>
+          {allErc721Awards.map((award) => (
+            <AwardRowErc721 key={award?.address} award={award} />
+          ))}
+        </CardDetailsList>
+      )}
     </Card>
   )
 }
 
-const AwardRow = (props) => {
+const AwardRowErc20 = (props) => {
   const { award } = props
 
   const { data: pool } = useCurrentPool()
@@ -166,14 +198,13 @@ const AwardRow = (props) => {
 
   return (
     <li className='w-full flex text-xxs sm:text-base mb-2 last:mb-0'>
-      <span className='flex w-1/3 items-center text-left'>
-        <Erc20Image address={award.address} />{' '}
+      <span className='flex w-1/3 text-left'>
         <BlockExplorerLink
           chainId={pool.chainId}
           address={award.address}
-          className='truncate text-accent-1'
+          className='truncate text-accent-1 flex items-center'
         >
-          {name}
+          <Erc20Image address={award.address} /> {name} <LinkIcon className={'w-4 h-4'} />
         </BlockExplorerLink>
       </span>
       <span className='w-1/3 sm:pl-6 text-right text-accent-1 truncate'>
@@ -187,6 +218,52 @@ const AwardRow = (props) => {
         ) : (
           <span className='text-accent-1 opacity-40'>$ --</span>
         )}
+      </span>
+    </li>
+  )
+}
+
+const AwardRowErc721 = (props) => {
+  const { award } = props
+
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const name = award.erc721Entity?.name
+  const address = award.erc721Entity?.id
+  const tokenId = award.tokenId
+
+  if (!name) {
+    return null
+  }
+
+  const handleClose = (e) => {
+    e.preventDefault()
+    setModalOpen(false)
+  }
+
+  const handleOpen = (e) => {
+    e.preventDefault()
+    setModalOpen(true)
+  }
+
+  return (
+    <li className='w-full flex text-xxs sm:text-base mb-2 last:mb-0'>
+      <span className='flex w-1/3 text-left'>
+        <Modal handleClose={handleClose} visible={modalOpen} header={null}>
+          <NFTE contract={address} tokenId={tokenId} className='mx-auto' />
+        </Modal>
+        <button
+          onClick={handleOpen}
+          className='truncate text-accent-1 hover:text-highlight-1 flex items-center'
+        >
+          <FeatherIcon icon='image' className='mr-1 w-5 h-5' /> {name}{' '}
+        </button>
+      </span>
+      <span className='w-1/3 sm:pl-6 text-right text-accent-1 truncate'>
+        <PoolNumber>1</PoolNumber> {award.symbol}
+      </span>
+      <span className='w-1/3 text-right'>
+        <span className='text-accent-1 opacity-40'>$ --</span>
       </span>
     </li>
   )

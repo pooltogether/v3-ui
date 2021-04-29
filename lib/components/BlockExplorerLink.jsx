@@ -1,6 +1,6 @@
+import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
-import React from 'react'
 
 import { CopyIcon } from 'lib/components/CopyIcon'
 import { formatBlockExplorerAddressUrl, formatBlockExplorerTxUrl } from 'lib/utils/networks'
@@ -32,7 +32,7 @@ export const BlockExplorerLink = (props) => {
     <>
       <a
         href={url}
-        className={`trans hover:opacity-70 ${className} inline-flex`}
+        className={`trans hover:text-highlight-1 ${className} inline-flex`}
         target='_blank'
         rel='noopener noreferrer'
         title='View on Block Explorer'
@@ -69,6 +69,6 @@ BlockExplorerLink.defaultProps = {
 export const LinkIcon = (props) => (
   <FeatherIcon
     icon='external-link'
-    className={classnames('em-1 ml-1 my-auto inline-block', props.className)}
+    className={classnames('ml-1 my-auto inline-block', props.className)}
   />
 )

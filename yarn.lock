@@ -4177,6 +4177,11 @@
   resolved "https://registry.yarnpkg.com/@next/react-refresh-utils/-/react-refresh-utils-10.1.1.tgz#c4db27a207919f03a25ad5253f54b919421619ce"
   integrity sha512-Ey4AR+BwEYW55dejMh06wvGhZmC+5OpY4ekwYX6Ipwk+K5jecDvbrZQCYvh4iPKNq9JV7o+D3+QuFtYaDjkXmw==
 
+"@nfte/react@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@nfte/react/-/react-1.0.4.tgz#b584cc6640e3d650609bf1a49bf53c569c0996c4"
+  integrity sha512-qLgAdWGvAKi2miwb8CaYszOuLoWZnGcTt3xrnLgiOQwScvNS5zcwMs4pr32VLGN5gotPBNR7b2GHbaqYjL0S8g==
+
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.3.tgz#3a582bdb53804c6ba6d146579c46e52130cf4a3b"

@@ -473,3 +473,37 @@ a:hover {
     width: 780px;
   }
 }
+
+.modal-no-header {
+  @apply bg-default h-full;
+}
+
+@screen sm {
+  .modal-no-header {
+    @apply h-auto;
+    background: transparent;
+  }
+}
+
+.modal-no-header--close {
+  height: 20px;
+  width: 20px;
+  position: fixed;
+
+  right: 30px;
+  top: 20px;
+}
+
+@screen sm {
+  .modal-no-header--close {
+    position: absolute;
+    right: 40px;
+    top: -40px;
+  }
+}
+
+@screen lg {
+  .modal-no-header--close {
+    right: 140px;
+  }
+}
