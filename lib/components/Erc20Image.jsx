@@ -5,7 +5,8 @@ import { TOKEN_IMAGES } from 'lib/constants/tokenImages'
 import { useCoingeckoTokenInfoQuery } from 'lib/hooks/useCoingeckoTokenInfoQuery'
 
 export const Erc20Image = (props) => {
-  let src = TOKEN_IMAGES[props.address]
+  const marginClasses = props.marginClasses ?? 'mr-2'
+  let src = TOKEN_IMAGES[props.address.toLowerCase()]
 
   if (!src) {
     const { data: tokenInfo } = useCoingeckoTokenInfoQuery(props.address)
@@ -15,16 +16,14 @@ export const Erc20Image = (props) => {
   return src ? (
     <img
       src={src}
-      className={classnames(
-        'inline-block mr-2 w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full',
-        props.className
-      )}
+      className={classnames('inline-block w-5 h-5 rounded-full', props.className, marginClasses)}
     />
   ) : (
     <div
       className={classnames(
-        'inline-block mr-2 bg-overlay-white w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full',
-        props.className
+        'inline-block bg-overlay-white w-5 h-5 rounded-full',
+        props.className,
+        marginClasses
       )}
       style={{
         minWidth: 12
