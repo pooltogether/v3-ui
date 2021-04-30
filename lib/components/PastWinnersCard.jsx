@@ -76,13 +76,7 @@ export const PastWinnersCard = (props) => {
         <div className='w-full flex mb-6'>
           <span className='w-1/3'>{t('currentPrize')}</span>
           <span className='w-1/3 text-right text-flashy'>
-            $
-            {numberWithCommas(
-              pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4'
-                ? hardcodedAprAmountUsd(pool)
-                : pool.prize.totalValueUsd,
-              { precision: 2 }
-            )}
+            ${numberWithCommas(pool.prize.totalValueUsd, { precision: 2 })}
           </span>
         </div>
 

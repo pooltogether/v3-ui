@@ -144,11 +144,7 @@ export const AccountTicket = (props) => {
                       fontSansRegular
                       decimals={0}
                       duration={3}
-                      end={
-                        pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4'
-                          ? hardcodedAprAmountUsd(pool)
-                          : parseFloat(pool.prize.totalValueUsd)
-                      }
+                      end={parseFloat(pool.prize.totalValueUsd)}
                     />
                   </>
                 )}
