@@ -8,22 +8,6 @@ import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-export const hardcodedAprAmountUsd = (pool) => {
-  const tokens = pool.tokens
-  const totalSupply = Number(tokens.ticket.totalSupply) + Number(tokens.sponsorship.totalSupply)
-
-  const hardcodedApr = 0.0339 // USDT AAVE POLYGON POOL ONLY!
-
-  const supplyRatePerYear = totalSupply * hardcodedApr
-  const supplyRatePerSecond = supplyRatePerYear / SECONDS_PER_YEAR // = 0.001930556
-
-  const secondsLeft = pool.prize.prizePeriodRemainingSeconds
-  const estimatedPrize =
-    secondsLeft.toNumber() * supplyRatePerSecond + Number(pool.prize.yield.amount)
-
-  return estimatedPrize
-}
-
 export const PoolPrizeCard = (props) => {
   const { pool } = props
 
