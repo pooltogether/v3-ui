@@ -1,4 +1,5 @@
 export const TOKEN_IMAGES = {
+  '0xc2132d05d31c914a87c6611c10748aeb04b58e8f': '/tokens/usdt-new-transparent.png',
   '0x056fd409e1d7a124bd7017459dfea2f387b6d5cd': '/tokens/gusd.png',
   '0x57ab1ec28d129707052df4df418d58a2d46d5f51': '/tokens/susd.png',
   '0x4fabb145d64652a948d72533023f6e7a623c7c53': '/tokens/busd.svg',
@@ -34,8 +35,7 @@ export const TOKEN_IMAGES = {
     'https://assets.coingecko.com/coins/images/12380/small/build.PNG?1599463828',
   '0x7865af71cf0b288b4e7f654f4f7851eb46a2b7f8':
     'https://assets.coingecko.com/coins/images/7383/small/2x9veCp.png?1598409975',
-  '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9':
-    'https://assets.coingecko.com/coins/images/12645/small/AAVE.png?1601374110',
+  '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9': '/tokens/AAVE.png',
   '0x8ba6dcc667d3ff64c1a2123ce72ff5f0199e5315':
     'https://assets.coingecko.com/coins/images/10972/small/ALEX.png?1586742545',
   '0xa0246c9032bc3a600820415ae600c6388619a14d':
@@ -53,8 +53,8 @@ export const TOKEN_IMAGES = {
   // '0x2e703d658f8dd21709a7b458967ab4081f8d3d05': '',
   '0x8b9c35c79af5319c70dd9a3e3850f368822ed64e':
     '/tokens/0x8b9c35c79af5319c70dd9a3e3850f368822ed64e.png',
-  '0xdac17f958d2ee523a2206206994597c13d831ec7':
-    'https://assets.coingecko.com/coins/images/325/small/Tether-logo.png?1602230054',
+  // '0xdac17f958d2ee523a2206206994597c13d831ec7':
+  //   'https://assets.coingecko.com/coins/images/325/small/Tether-logo.png?1602230054',
   '0xa91ac63d040deb1b7a5e4d4134ad23eb0ba07e14':
     'https://assets.coingecko.com/coins/images/12478/small/Bella.png?1602230054',
   '0x08d32b0da63e2c3bcf8019c9c5d849d7a9d791e6':

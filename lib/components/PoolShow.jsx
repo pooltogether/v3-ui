@@ -114,8 +114,8 @@ export const PoolShow = (props) => {
           }
         }}
       >
-        <div className='flex flex-col xs:flex-row justify-between xs:items-center mb-4 xs:mb-10'>
-          <div className='flex justify-between items-center xs:w-1/2'>
+        <div className='flex flex-col sm:flex-row justify-between sm:items-center mb-4 sm:mb-10'>
+          <div className='flex justify-between items-center sm:w-7/12'>
             <PageTitleAndBreadcrumbs
               title={translatedPoolName(t, pool.name)}
               pool={pool}
@@ -137,10 +137,10 @@ export const PoolShow = (props) => {
             />
           </div>
 
-          <div className='flex xs:w-1/2 xs:justify-end items-start mt-4 xs:mt-0'>
+          <div className='flex sm:w-5/12 sm:justify-end items-start mt-4 sm:mt-0'>
             <Button
               id='_getTickets'
-              width='w-full xs:w-9/12 sm:w-8/12 lg:w-6/12'
+              width='w-full sm:w-8/12 lg:w-6/12'
               textSize='lg'
               onClick={handleGetTicketsClick}
               disabled={!Boolean(pool.symbol)}

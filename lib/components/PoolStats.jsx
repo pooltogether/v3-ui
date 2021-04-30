@@ -5,8 +5,9 @@ import { useTranslation } from 'lib/../i18n'
 import { DEFAULT_TOKEN_PRECISION, PRIZE_POOL_TYPES } from 'lib/constants'
 import {
   CUSTOM_YIELD_SOURCE_NAMES,
-  CUSTOM_YIELD_SOURCE_IMAGES
+  CUSTOM_YIELD_SOURCE_TOKEN_ADDRESS
 } from 'lib/constants/customYieldSourceImages'
+import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Tooltip } from 'lib/components/Tooltip'
 import { Card, CardDetailsList } from 'lib/components/Card'
@@ -53,11 +54,12 @@ const StatsList = (props) => {
 const Stat = (props) => {
   const {
     title,
-    tokenSymbol,
     convertedValue,
     sourceName,
-    sourceImage,
+    sourceAddress,
+    tokenAddress,
     tokenAmount,
+    tokenSymbol,
     value,
     percent,
     tooltip
@@ -69,22 +71,22 @@ const Stat = (props) => {
         {title}:{' '}
         {tooltip && <Tooltip id={title} className='ml-2 my-auto text-accent-1' tip={tooltip} />}
       </span>
-      {(sourceImage || value) && (
+      {(sourceAddress || value) && (
         <span className='flex items-center'>
           {sourceName && <span className='capitalize'>{sourceName}</span>}
-          {sourceImage && <img src={sourceImage} className='ml-2 w-6 h-6' />}
+          {sourceAddress && <Erc20Image address={sourceAddress} marginClasses='ml-1 mr-0' />}
           {value && <span className='flex items-center'>{value}</span>}
         </span>
       )}
+
       {tokenSymbol && tokenAmount && (
-        <span>
+        <span className='flex items-center'>
           {Boolean(convertedValue) && (
-            <>
-              <span className='opacity-30'>(${numberWithCommas(convertedValue)})</span>{' '}
-            </>
+            <span className='opacity-30 mr-1'>(${numberWithCommas(convertedValue)})</span>
           )}
           <PoolNumber>{numberWithCommas(tokenAmount)}</PoolNumber>
-          <span>{tokenSymbol}</span>
+          {tokenAddress && <Erc20Image address={tokenAddress} marginClasses='ml-1 mr-0' />}
+          <span className='ml-1'>{tokenSymbol}</span>
         </span>
       )}
       {percent && <span>{displayPercentage(percent)}%</span>}
@@ -102,6 +104,7 @@ const DepositsStat = (props) => {
     <Stat
       title={t('totalDeposits')}
       convertedValue={pool.tokens.ticket.totalValueUsd}
+      tokenAddress={pool.tokens.underlyingToken.address}
       tokenSymbol={pool.tokens.underlyingToken.symbol}
       tokenAmount={pool.tokens.ticket.totalSupply}
     />
@@ -117,6 +120,7 @@ const SponsorshipStat = (props) => {
       <Stat
         title={t('sponsorship')}
         convertedValue={pool.tokens.sponsorship.totalValueUsd}
+        tokenAddress={pool.tokens.underlyingToken.address}
         tokenSymbol={pool.tokens.underlyingToken.symbol}
         tokenAmount={pool.tokens.sponsorship.totalSupply}
         tooltip={t('sponsorshipInfo')}
@@ -133,6 +137,7 @@ const ReserveStat = (props) => {
     <Stat
       title={t('reserve')}
       convertedValue={pool.reserve.totalValueUsd}
+      tokenAddress={pool.tokens.underlyingToken.address}
       tokenSymbol={pool.tokens.underlyingToken.symbol}
       tokenAmount={pool.reserve.amount}
       tooltip={t('reserveInfo')}
@@ -164,10 +169,11 @@ const YieldSourceStat = (props) => {
   const { t } = useTranslation()
   const yieldSource = pool.prizePool.type
 
-  let sourceImage, sourceName, value
+  let sourceAddress, sourceName, value
   if (yieldSource === PRIZE_POOL_TYPES.compound) {
     sourceName = 'Compound Finance'
-    sourceImage = CompSvg
+    sourceAddress = ''
+    sourceAddress = CUSTOM_YIELD_SOURCE_TOKEN_ADDRESS['comp']
   } else if (yieldSource === PRIZE_POOL_TYPES.genericYield) {
     const yieldSourceAddress = pool.prizePool.yieldSource.address
     value = (
@@ -175,11 +181,13 @@ const YieldSourceStat = (props) => {
         <LinkIcon />
       </BlockExplorerLink>
     )
+
     sourceName = CUSTOM_YIELD_SOURCE_NAMES[pool.chainId]?.[yieldSourceAddress]
     if (!sourceName) {
       sourceName = t('customYieldSource')
     }
-    sourceImage = CUSTOM_YIELD_SOURCE_IMAGES[sourceName]
+
+    sourceAddress = CUSTOM_YIELD_SOURCE_TOKEN_ADDRESS[sourceName]
   } else {
     value = <span className='opacity-40'>--</span>
   }
@@ -189,7 +197,7 @@ const YieldSourceStat = (props) => {
       title={t('yieldSource')}
       value={value}
       sourceName={sourceName}
-      sourceImage={sourceImage}
+      sourceAddress={sourceAddress}
     />
   )
 }
@@ -208,21 +216,28 @@ const AprStats = (props) => {
   return (
     <>
       <hr />
-      <DailyPoolDistributionStat pool={pool} />
+      <DailyRewardsDistributionStat pool={pool} />
       <EffectiveAprStat apr={apr} />
     </>
   )
 }
 
-const DailyPoolDistributionStat = (props) => {
+const DailyRewardsDistributionStat = (props) => {
   const { t } = useTranslation()
   const { pool } = props
 
   const dripRatePerDay = pool.tokenListener?.dripRatePerDay || ethers.constants.Zero
+  const dripTokenSymbol = pool.tokens.tokenFaucetDripToken?.symbol
+  const dripTokenAddress = pool.tokens.tokenFaucetDripToken?.address
 
   // TODO: Hardcoded to POOL but we might let people drip other tokens
   return (
-    <Stat title={t('dailyPoolDistribution')} tokenSymbol={'POOL'} tokenAmount={dripRatePerDay} />
+    <Stat
+      title={t('dailyPoolDistribution')}
+      tokenAddress={dripTokenAddress}
+      tokenSymbol={dripTokenSymbol}
+      tokenAmount={dripRatePerDay}
+    />
   )
 }
 
