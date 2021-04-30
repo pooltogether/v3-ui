@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { isEmpty } from 'lodash'
 
 import { useTranslation } from 'lib/../i18n'
-import { hardcodedAprAmountUsd } from 'lib/components/PoolPrizeCard'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Card, CardDetailsList } from 'lib/components/Card'

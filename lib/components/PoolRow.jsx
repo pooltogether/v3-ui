@@ -18,7 +18,6 @@ import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayPercentage } from 'lib/utils/displayPercentage'
-import { hardcodedAprAmountUsd } from 'lib/components/PoolPrizeCard'
 import { hardcodedWMaticApr } from 'lib/components/AccountGovernanceClaims'
 
 export const PoolRow = (props) => {
