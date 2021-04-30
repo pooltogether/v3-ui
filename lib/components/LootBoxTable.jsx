@@ -226,6 +226,8 @@ const AwardRowErc20 = (props) => {
 const AwardRowErc721 = (props) => {
   const { award } = props
 
+  const { t } = useTranslation()
+
   const [modalOpen, setModalOpen] = useState(false)
 
   const name = award.erc721Entity?.name
@@ -260,7 +262,12 @@ const AwardRowErc721 = (props) => {
         </button>
       </span>
       <span className='w-1/3 sm:pl-6 text-right text-accent-1 truncate'>
-        <PoolNumber>1</PoolNumber> {award.symbol}
+        <button
+          onClick={handleOpen}
+          className='flex items-center ml-auto capitalize text-accent-1 hover:text-highlight-1'
+        >
+          <FeatherIcon icon='zoom-in' className='mr-1 w-5 h-5' /> {t('view')}
+        </button>
       </span>
       <span className='w-1/3 text-right'>
         <span className='text-accent-1 opacity-40'>$ --</span>
