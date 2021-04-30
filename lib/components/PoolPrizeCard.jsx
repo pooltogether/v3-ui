@@ -60,11 +60,6 @@ export const PoolPrizeCard = (props) => {
 const PrizeValue = (props) => {
   const { pool } = props
 
-  // Obviously move this to the API for all known Aave yield source pools and get the APR from Aave:
-  if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-    return <USDPrizeValue amount={hardcodedAprAmountUsd(pool)} />
-  }
-
   if (!pool || !pool.prize?.totalValueUsd) {
     return (
       <PrizeValueHeader>
