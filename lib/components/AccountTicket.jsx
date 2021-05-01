@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { isSelfAtom } from 'lib/components/AccountUI'
-import { hardcodedAprAmountUsd } from 'lib/components/PoolPrizeCard'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
 import { Odds } from 'lib/components/Odds'
@@ -61,6 +60,16 @@ export const AccountTicket = (props) => {
     )
   }
 
+  const handlePoolClick = (e) => {
+    e.preventDefault()
+
+    if (!isSelf || !isLink) {
+      return
+    }
+
+    router.push(`/pools/[networkName]/[symbol]`, `/pools/${pool.networkName}/${pool.symbol}`)
+  }
+
   return (
     <>
       <motion.div
@@ -89,16 +98,18 @@ export const AccountTicket = (props) => {
       >
         <div className='h-24 flex items-center justify-between'>
           <div className='h-24 w-32 sm:w-40 flex flex-col items-center justify-center border-accent-3 border-dashed border-r-2'>
-            <PoolCurrencyIcon
-              lg
-              noMargin
-              sizeClasses='w-6 h-6'
-              symbol={ticker}
-              address={pool.tokens.underlyingToken.address}
-            />
-            <div className='capitalize mt-2 text-xs font-bold text-inverse-purple'>
-              {ticker?.toUpperCase()}
-            </div>
+            <button onClick={handlePoolClick}>
+              <PoolCurrencyIcon
+                lg
+                noMargin
+                sizeClasses='w-6 h-6'
+                symbol={ticker}
+                address={pool.tokens.underlyingToken.address}
+              />
+              <div className='capitalize mt-2 text-xs font-bold text-inverse-purple'>
+                {ticker?.toUpperCase()}
+              </div>
+            </button>
           </div>
 
           <div className='flex flex-col sm:flex-row w-full'>
@@ -144,11 +155,7 @@ export const AccountTicket = (props) => {
                       fontSansRegular
                       decimals={0}
                       duration={3}
-                      end={
-                        pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4'
-                          ? hardcodedAprAmountUsd(pool)
-                          : parseFloat(pool.prize.totalValueUsd)
-                      }
+                      end={parseFloat(pool.prize.totalValueUsd)}
                     />
                   </>
                 )}
@@ -169,7 +176,7 @@ export const AccountTicket = (props) => {
                     />
                     <button
                       onClick={handleManageClick}
-                      className='text-accent-1 underline text-xxxs sm:text-xxs ml-2 sm:ml-0'
+                      className='underline text-xxxs sm:text-xxs ml-2 sm:ml-0'
                     >
                       {t('manage')}
                     </button>

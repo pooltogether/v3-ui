@@ -18,7 +18,6 @@ import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { displayPercentage } from 'lib/utils/displayPercentage'
-import { hardcodedAprAmountUsd } from 'lib/components/PoolPrizeCard'
 import { hardcodedWMaticApr } from 'lib/components/AccountGovernanceClaims'
 
 export const PoolRow = (props) => {
@@ -159,18 +158,6 @@ const PoolPrizeValue = (props) => {
 
   if (!pool || !pool.prize?.totalValueUsd) {
     return <div className='text-3xl sm:text-5xl text-flashy font-bold'>$0</div>
-  }
-
-  // Obviously move this to the API for all known Aave yield source pools and get the APR from Aave:
-  if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-    return (
-      <div className='text-3xl sm:text-5xl text-flashy font-bold ml-2'>
-        $
-        <PoolCountUp fontSansRegular decimals={0} duration={6}>
-          {parseFloat(hardcodedAprAmountUsd(pool))}
-        </PoolCountUp>
-      </div>
-    )
   }
 
   if (pool.prize.totalValueUsd) {

@@ -1,28 +1,11 @@
 import React from 'react'
 import BeatLoader from 'react-spinners/BeatLoader'
 
-import { SECONDS_PER_YEAR } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-
-export const hardcodedAprAmountUsd = (pool) => {
-  const tokens = pool.tokens
-  const totalSupply = Number(tokens.ticket.totalSupply) + Number(tokens.sponsorship.totalSupply)
-
-  const hardcodedApr = 0.093 // USDT AAVE POLYGON POOL ONLY!
-
-  const supplyRatePerYear = totalSupply * hardcodedApr
-  const supplyRatePerSecond = supplyRatePerYear / SECONDS_PER_YEAR // = 0.001930556
-
-  const secondsLeft = pool.prize.prizePeriodRemainingSeconds
-  const estimatedPrize =
-    secondsLeft.toNumber() * supplyRatePerSecond + Number(pool.prize.yield.amount)
-
-  return estimatedPrize
-}
 
 export const PoolPrizeCard = (props) => {
   const { pool } = props
@@ -59,11 +42,6 @@ export const PoolPrizeCard = (props) => {
 
 const PrizeValue = (props) => {
   const { pool } = props
-
-  // Obviously move this to the API for all known Aave yield source pools and get the APR from Aave:
-  if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-    return <USDPrizeValue amount={hardcodedAprAmountUsd(pool)} />
-  }
 
   if (!pool || !pool.prize?.totalValueUsd) {
     return (

@@ -1,6 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react'
 import classnames from 'classnames'
 import CountUp from 'react-countup'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useAtom } from 'jotai'
 import { useTranslation } from 'lib/../i18n'
@@ -193,15 +194,23 @@ const ClaimablePoolTokenItem = (props) => {
   return (
     <div className='bg-body p-6 rounded-lg flex flex-col sm:flex-row sm:justify-between mt-4 sm:items-center'>
       <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start'>
-        <PoolCurrencyIcon
-          lg
-          symbol={underlyingToken.symbol}
-          address={underlyingToken.address}
-          className='sm:mr-4'
-        />
+        <Link href={`/pools/${pool.networkName}/${pool.symbol}`}>
+          <a>
+            <PoolCurrencyIcon
+              lg
+              symbol={underlyingToken.symbol}
+              address={underlyingToken.address}
+              className='sm:mr-4'
+            />
+          </a>
+        </Link>
         <div className='xs:w-64 sm:w-96'>
           <div className='flex items-baseline mb-1'>
-            <h5 className='leading-none'>{name}</h5>{' '}
+            <Link href={`/pools/${pool.networkName}/${pool.symbol}`}>
+              <a>
+                <h5 className='leading-none text-inverse'>{name}</h5>
+              </a>
+            </Link>{' '}
             <NetworkBadge className='ml-2' sizeClasses='h-4 w-4' chainId={pool.chainId} />
           </div>
 

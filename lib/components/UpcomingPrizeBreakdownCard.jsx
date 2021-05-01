@@ -50,25 +50,21 @@ export const UpcomingPrizeBreakdownCard = (props) => {
       <div className='flex flex-col xs:flex-row'>
         {externalAwardsGreaterThanZero && <div className='hidden sm:block sm:w-2/12'>&nbsp;</div>}
 
-        {pool.prizePool.address !== '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4' && (
-          <>
-            {hasTicketPrize && (
-              <div
-                className={classnames(
-                  'flex flex-col items-center justify-center text-center w-full h-56 xs:h-64',
-                  {
-                    'xs:w-5/12': externalAwardsGreaterThanZero
-                  }
-                )}
-              >
-                <img src={PrizeIllustration} className='w-40 mx-auto' />
-
-                <div>
-                  <h3>{`$${totalInternalAwardsUsd}`}</h3>
-                </div>
-              </div>
+        {hasTicketPrize && (
+          <div
+            className={classnames(
+              'flex flex-col items-center justify-center text-center w-full h-56 xs:h-64',
+              {
+                'xs:w-5/12': externalAwardsGreaterThanZero
+              }
             )}
-          </>
+          >
+            <img src={PrizeIllustration} className='w-40 mx-auto' />
+
+            <div>
+              <h3>{`$${totalInternalAwardsUsd}`}</h3>
+            </div>
+          </div>
         )}
 
         {externalAwardsGreaterThanZero && (
