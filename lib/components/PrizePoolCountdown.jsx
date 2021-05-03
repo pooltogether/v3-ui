@@ -2,24 +2,20 @@ import React, { useEffect, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 
 import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
+import { getSecondsSinceEpoch } from 'lib/utils/getSecondsSinceEpoch'
+import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
+import { formatUnits } from '@ethersproject/units'
+import { usePrizePeriodTimeLeft } from 'lib/hooks/usePrizePeriodTimeLeft'
 
 export const PrizePoolCountdown = (props) => {
   const { pool } = props
 
-  const [secondsRemaining, setSecondsRemaining] = useState(null)
+  const { secondsLeft } = usePrizePeriodTimeLeft(pool)
 
-  // const secs = 167868
-  const secs =
-    pool.prizePeriodRemainingSeconds && parseInt(pool.prizePeriodRemainingSeconds.toString(), 10)
-
-  useEffect(() => {
-    setSecondsRemaining(secs)
-  }, [secs])
-
-  const formatted = formatFutureDateInSeconds(secondsRemaining)
+  const formatted = formatFutureDateInSeconds(secondsLeft)
 
   let msg
-  if (!secondsRemaining) {
+  if (!secondsLeft) {
     msg = (
       <>
         <div className='text-xxxs'>prize awarded soon...</div>
