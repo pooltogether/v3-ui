@@ -9,7 +9,7 @@ import { PoolRow } from 'lib/components/PoolRow'
 import { Tabs, Tab, ContentPane } from 'lib/components/Tabs'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
-import { PoolsListUILoader } from 'lib/components/loaders/PoolsListUILoader'
+import { PoolsListRowLoader, PoolsListUILoader } from 'lib/components/loaders/PoolsListUILoader'
 import { useCommunityPools, useGovernancePools } from 'lib/hooks/usePools'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
@@ -225,7 +225,7 @@ const PoolList = (props) => {
     [pools, chainIdFilter]
   )
 
-  if (!isFetched) return <PoolsListUILoader />
+  if (!isFetched && poolsToRender.length === 0) return <PoolsListUILoader />
 
   return (
     <div>
@@ -239,6 +239,7 @@ const PoolList = (props) => {
           </div>
         )}
       </ul>
+      {!isFetched && <PoolsListRowLoader />}
     </div>
   )
 }
