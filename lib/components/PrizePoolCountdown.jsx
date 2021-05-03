@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 
 import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
-import { getSecondsSinceEpoch } from 'lib/utils/getSecondsSinceEpoch'
-import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
-import { formatUnits } from '@ethersproject/units'
 import { usePrizePeriodTimeLeft } from 'lib/hooks/usePrizePeriodTimeLeft'
 
 export const PrizePoolCountdown = (props) => {

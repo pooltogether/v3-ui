@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import addSeconds from 'date-fns/addSeconds'
-import classnames from 'classnames'
-import { useInterval } from 'beautiful-react-hooks'
 
 import { useTranslation } from 'lib/../i18n'
 import { subtractDates } from 'lib/utils/subtractDates'
 import { usePrizePeriodTimeLeft } from 'lib/hooks/usePrizePeriodTimeLeft'
-
-const ONE_SECOND = 1000
 
 export const NewPrizeCountdownInWords = (props) => {
   const { t } = useTranslation()
