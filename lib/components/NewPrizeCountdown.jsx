@@ -1,38 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import classnames from 'classnames'
 import addSeconds from 'date-fns/addSeconds'
-import { useInterval } from 'beautiful-react-hooks'
 
 import { useTranslation } from 'lib/../i18n'
-// import { formatFutureDateInSeconds } from 'lib/utils/formatFutureDateInSeconds'
 import { subtractDates } from 'lib/utils/subtractDates'
+import { usePrizePeriodTimeLeft } from 'lib/hooks/usePrizePeriodTimeLeft'
+import { SECONDS_PER_DAY } from '@pooltogether/current-pool-data'
 
-const ONE_SECOND = 1000
+const EIGHT_HOURS_IN_SECONDS = 28800
 
 export const NewPrizeCountdown = (props) => {
   const { t } = useTranslation()
   const { pool, center, textAlign, textSize } = props
   let flashy = props.flashy === false ? false : true
 
-  const [secondsRemaining, setSecondsRemaining] = useState(null)
-
-  // const secs = 167868
-  const secs = parseInt(pool.prize.prizePeriodRemainingSeconds.toString(), 10)
-
-  useEffect(() => {
-    setSecondsRemaining(secs)
-  }, [secs])
-
-  useInterval(() => {
-    setSecondsRemaining(secondsRemaining - 1)
-  }, ONE_SECOND)
-
-  if (secs === undefined) {
-    return null
-  }
+  const { secondsLeft } = usePrizePeriodTimeLeft(pool)
 
   const currentDate = new Date(Date.now())
-  const futureDate = addSeconds(currentDate, secondsRemaining)
+  const futureDate = addSeconds(currentDate, secondsLeft)
   const { days, hours, minutes, seconds } = subtractDates(futureDate, currentDate)
 
   let msg
@@ -58,7 +43,11 @@ export const NewPrizeCountdown = (props) => {
   const secondsArray = ('' + seconds).split('')
 
   const textColor =
-    secondsRemaining >= 86400 ? 'green' : secondsRemaining >= 28800 ? 'orange' : 'red'
+    secondsLeft >= SECONDS_PER_DAY
+      ? 'green'
+      : secondsLeft >= EIGHT_HOURS_IN_SECONDS
+      ? 'orange'
+      : 'red'
 
   const LeftSideJsx = ({ digit }) => {
     return (

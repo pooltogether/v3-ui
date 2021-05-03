@@ -1,37 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import addSeconds from 'date-fns/addSeconds'
-import classnames from 'classnames'
-import { useInterval } from 'beautiful-react-hooks'
 
 import { useTranslation } from 'lib/../i18n'
 import { subtractDates } from 'lib/utils/subtractDates'
-
-const ONE_SECOND = 1000
+import { usePrizePeriodTimeLeft } from 'lib/hooks/usePrizePeriodTimeLeft'
 
 export const NewPrizeCountdownInWords = (props) => {
   const { t } = useTranslation()
   const { pool, extraShort, onTicket } = props
 
-  const [secondsRemaining, setSecondsRemaining] = useState(null)
-
-  const secs =
-    pool.prize.prizePeriodRemainingSeconds &&
-    parseInt(pool.prize.prizePeriodRemainingSeconds.toString(), 10)
-
-  useEffect(() => {
-    setSecondsRemaining(secs)
-  }, [secs])
-
-  useInterval(() => {
-    setSecondsRemaining(secondsRemaining - 1)
-  }, ONE_SECOND)
-
-  if (!pool) {
-    return null
-  }
+  const { secondsLeft } = usePrizePeriodTimeLeft(pool)
 
   const currentDate = new Date(Date.now())
-  const futureDate = addSeconds(currentDate, secondsRemaining)
+  const futureDate = addSeconds(currentDate, secondsLeft)
   const { days, hours, minutes, seconds } = subtractDates(futureDate, currentDate)
 
   const daysArray = ('' + days).split('')
