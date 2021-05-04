@@ -136,6 +136,14 @@ const ClaimHeader = (props) => {
       </div>
 
       <div className='flex flex-col-reverse sm:flex-col'>
+        {isSelf && (
+          <ClaimAllButton
+            {...props}
+            refetchAllPoolTokenData={refetchAllPoolTokenData}
+            claimable={totalClaimablePool > 0}
+          />
+        )}
+
         <a
           href='https://medium.com/p/23b09f36db48'
           className='sm:text-right text-accent-1 text-xxs mb-3 sm:mb-0'
@@ -346,6 +354,109 @@ const ClaimButton = (props) => {
       className='ml-auto'
       tip={t('yourWalletIsOnTheWrongNetwork', {
         networkName: getNetworkNiceNameByChainId(chainId)
+      })}
+    >
+      {button}
+    </Tooltip>
+  ) : (
+    button
+  )
+}
+
+/**
+ * Claims from all POOL token faucets
+ * @param {*} props
+ * @returns
+ */
+const ClaimAllButton = (props) => {
+  const { t } = useTranslation()
+  const { address, claimable, refetchAllPoolTokenData } = props
+
+  const walletChainId = useWalletChainId()
+  const poolTokenChainId = usePoolTokenChainId()
+
+  const {
+    isFetched: isClaimablePoolDataFetched,
+    data: claimablePoolFromTokenFaucets
+  } = useClaimableTokenFromTokenFaucets(address)
+
+  const tokenFaucetAddresses = useMemo(() => {
+    if (claimablePoolFromTokenFaucets) {
+      const addresses = []
+      Object.keys(claimablePoolFromTokenFaucets).forEach((key) => {
+        if (key === 'totals') return
+
+        const claimablePoolData = claimablePoolFromTokenFaucets[key]
+        if (!claimablePoolData?.claimableAmountUnformatted.isZero()) {
+          addresses.push(key)
+        }
+      })
+
+      return addresses
+    }
+  }, [claimablePoolFromTokenFaucets])
+
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
+
+  const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
+
+  const handleClaim = async (e) => {
+    e.preventDefault()
+
+    const params = [address, tokenFaucetAddresses]
+
+    const id = await sendTx(
+      t('claimAll'),
+      TokenFaucetProxyFactoryAbi,
+      CUSTOM_CONTRACT_ADDRESSES[poolTokenChainId].TokenFaucetProxyFactory,
+      'claimAll',
+      params,
+      refetchAllPoolTokenData
+    )
+    setTxId(id)
+  }
+  let text = t('claimAll')
+  if (txPending) {
+    if (tx.sent) {
+      text = t('confirming')
+    } else {
+      text = t('claiming')
+    }
+  }
+
+  const walletOnWrongNetwork = walletChainId !== poolTokenChainId
+
+  const button = (
+    <Button
+      type='button'
+      onClick={handleClaim}
+      className='mb-4'
+      disabled={!isClaimablePoolDataFetched || !claimable || txPending || walletOnWrongNetwork}
+      padding='px-8 py-1'
+      border='green'
+      text='primary'
+      bg='green'
+      hoverBorder='green'
+      hoverText='primary'
+      hoverBg='green'
+      textSize='xxs'
+    >
+      {txPending && (
+        <span className='mr-2'>
+          <ThemedClipLoader />
+        </span>
+      )}
+      {text}
+    </Button>
+  )
+
+  return walletOnWrongNetwork ? (
+    <Tooltip
+      className='ml-auto'
+      tip={t('yourWalletIsOnTheWrongNetwork', {
+        networkName: getNetworkNiceNameByChainId(poolTokenChainId)
       })}
     >
       {button}
