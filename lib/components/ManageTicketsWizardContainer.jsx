@@ -47,7 +47,13 @@ export function ManageTicketsWizardContainer(props) {
         {(wizard) => {
           const { activeStepIndex, previousStep, moveToStep } = wizard
 
-          const { exitFees } = useExitFees(pool, quantity)
+          const { exitFees } = useExitFees(
+            pool.chainId,
+            pool.prizePool.address,
+            pool.tokens.ticket.address,
+            pool.tokens.ticket.decimals,
+            quantity
+          )
           let notEnoughCredit = null
           if (exitFees && exitFees.exitFee) {
             notEnoughCredit = exitFees.exitFee.gt(0)

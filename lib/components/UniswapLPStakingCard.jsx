@@ -3,30 +3,33 @@ import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { useForm } from 'react-hook-form'
 import Dialog from '@reach/dialog'
+import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { Card } from 'lib/components/Card'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { useUniswapLPPoolAddress } from 'lib/hooks/useUniswapLPPoolAddress'
 import { useUniswapStakingPool } from 'lib/hooks/useUniswapLPStakingPool'
-import { Erc20Image } from 'lib/components/Erc20Image'
-import { NETWORK } from 'lib/utils/networks'
-import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
 import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
 import useScreenSize from 'lib/hooks/useScreenSize'
-import { TextInputGroup } from 'lib/components/TextInputGroup'
-import { Input } from 'lib/components/Input'
 import { Button } from 'lib/components/Button'
-
-import PoolIcon from 'assets/images/pool-icon.svg'
-import EtherIcon from 'assets/images/ether-icon.png'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { parseUnits } from 'ethers/lib/utils'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTransaction } from 'lib/hooks/useTransaction'
+
+import PoolIcon from 'assets/images/pool-icon.svg'
+import EtherIcon from 'assets/images/ether-icon.png'
+import { useUniswapLPPoolAddress } from 'lib/hooks/useUniswapLPPoolAddress'
+import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
+import { getNetworkNiceNameByChainId, NETWORK } from 'lib/utils/networks'
+import { ethers } from 'ethers'
+import { useExitFees } from 'lib/hooks/useExitFees'
+import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 
 export const UniswapLPStakingCard = (props) => {
   const { appEnv } = useAppEnv()
   const { usersAddress } = useContext(AuthControllerContext)
-  const { data: stakingPoolData, isFetched } = useUniswapStakingPool()
+  const { data: stakingPoolData, isFetched, refetch } = useUniswapStakingPool()
   const screenSize = useScreenSize()
 
   if (appEnv !== APP_ENVIRONMENT.mainnets || !isFetched || !usersAddress) {
@@ -59,8 +62,8 @@ export const UniswapLPStakingCard = (props) => {
           </div>
 
           <div className='flex flex-col sm:flex-row justify-between w-full py-2 px-4 xs:px-6 sm:px-10'>
-            <ClaimTokens stakingPoolData={stakingPoolData} />
-            <ManageStakedAmount stakingPoolData={stakingPoolData} />
+            <ClaimTokens stakingPoolData={stakingPoolData} refetch={refetch} />
+            <ManageStakedAmount stakingPoolData={stakingPoolData} refetch={refetch} />
           </div>
         </div>
       </Card>
@@ -92,7 +95,7 @@ LPTokenLogo.defaultProps = {
 }
 
 const ManageStakedAmount = (props) => {
-  const { stakingPoolData } = props
+  const { stakingPoolData, refetch } = props
   const { user } = stakingPoolData
   const { lpToken, tickets } = user
   const { balance: lpBalance, balanceUnformatted: lpBalanceUnformatted } = lpToken
@@ -127,11 +130,13 @@ const ManageStakedAmount = (props) => {
         stakingPoolData={stakingPoolData}
         isOpen={depositModalIsOpen}
         closeModal={() => setDepositModalIsOpen(false)}
+        refetch={refetch}
       />
       <WithdrawModal
         stakingPoolData={stakingPoolData}
         isOpen={withdrawModalIsOpen}
         closeModal={() => setWithdrawModalIsOpen(false)}
+        refetch={refetch}
       />
     </div>
   )
@@ -177,9 +182,11 @@ const ClaimTokens = (props) => {
         <img src={PoolIcon} className='my-auto ml-2 mr-1 rounded-full w-4 h-4' /> POOL / day
       </span>
 
-      <div className='mr-auto mt-2'>
-        <TransactionButton>Claim</TransactionButton>
-      </div>
+      {!claimableBalanceUnformatted.isZero() && (
+        <div className='mr-auto mt-2'>
+          <TransactionButton>Claim</TransactionButton>
+        </div>
+      )}
     </div>
   )
 }
@@ -191,29 +198,74 @@ const TransactionButton = (props) => {
 const onSubmit = (d, e) => console.log(d, e)
 const onError = (d, e) => console.log(d, e)
 
-const WithdrawModal = (props) => (
-  <ActionModal
-    {...props}
-    title={'Unstake'}
-    action={'withdraw'}
-    ticker={'POOL/ETH UNI-V2 LP'}
-    onSubmit={onSubmit}
-    maxAmount={props.stakingPoolData.user.tickets.balance}
-    maxAmountUnformatted={props.stakingPoolData.user.tickets.balanceUnformatted}
-  />
-)
+const WithdrawModal = (props) => {
+  const action = 'withdraw'
 
-const DepositModal = (props) => (
-  <ActionModal
-    {...props}
-    title={'Stake'}
-    action={'deposit'}
-    ticker='POOL/ETH UNI-V2 LP'
-    onSubmit={onSubmit}
-    maxAmount={props.stakingPoolData.user.lpToken.balance}
-    maxAmountUnformatted={props.stakingPoolData.user.lpToken.balanceUnformatted}
-  />
-)
+  const { usersAddress } = useContext(AuthControllerContext)
+  const form = useForm({
+    mode: 'onChange',
+    reValidateMode: 'onChange'
+  })
+
+  const uniswapLPPoolTicket = CUSTOM_CONTRACT_ADDRESSES[NETWORK.mainnet].UniswapLPPoolTicket
+  const usersTicketData = props.stakingPoolData.user.tickets
+  const maxAmount = usersTicketData.balance
+  const decimals = usersTicketData.decimals
+  const maxAmountUnformatted = usersTicketData.balanceUnformatted
+
+  return (
+    <ActionModal
+      {...props}
+      {...form}
+      title={'Unstake'}
+      action={action}
+      ticker={'POOL/ETH UNI-V2 LP'}
+      onSubmit={onSubmit}
+      maxAmount={maxAmount}
+      maxAmountUnformatted={maxAmountUnformatted}
+      method='withdrawInstantlyFrom'
+      getParams={(quantity) => [
+        usersAddress,
+        ethers.utils.parseUnits(quantity, decimals),
+        uniswapLPPoolTicket,
+        ethers.constants.Zero
+      ]}
+    />
+  )
+}
+
+const DepositModal = (props) => {
+  const form = useForm({
+    mode: 'onChange',
+    reValidateMode: 'onChange'
+  })
+
+  const { usersAddress } = useContext(AuthControllerContext)
+  const uniswapLPPoolTicket = CUSTOM_CONTRACT_ADDRESSES[NETWORK.mainnet].UniswapLPPoolTicket
+  const maxAmount = props.stakingPoolData.user.lpToken.balance
+  const decimals = props.stakingPoolData.user.lpToken.decimals
+  const maxAmountUnformatted = props.stakingPoolData.user.lpToken.balanceUnformatted
+
+  return (
+    <ActionModal
+      {...props}
+      {...form}
+      title={'Stake'}
+      action={'deposit'}
+      ticker='POOL/ETH UNI-V2 LP'
+      onSubmit={onSubmit}
+      maxAmount={maxAmount}
+      maxAmountUnformatted={maxAmountUnformatted}
+      method='depositTo'
+      getParams={(quantity) => [
+        usersAddress,
+        ethers.utils.parseUnits(quantity, decimals),
+        uniswapLPPoolTicket,
+        ethers.constants.AddressZero
+      ]}
+    />
+  )
+}
 
 const ActionModal = (props) => {
   const {
@@ -221,24 +273,49 @@ const ActionModal = (props) => {
     closeModal,
     title,
     action,
-    onSubmit,
     maxAmount,
     maxAmountUnformatted,
-    ticker,
-    stakingPoolData
+    stakingPoolData,
+    method,
+    getParams,
+    refetch,
+    register,
+    handleSubmit,
+    setValue,
+    errors,
+    formState,
+    disabled
   } = props
 
   const decimals = stakingPoolData.user.lpToken.decimals
-  // const step = 1 * Math.pow(10, -1 * decimals)
-  // console.log(decimals, step)
 
-  const { register, handleSubmit, setValue, errors, formState } = useForm({
-    mode: 'onChange',
-    reValidateMode: 'onChange'
-  })
-  const { isDirty, isValid } = formState
+  const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
+  const txCompleted = tx?.completed
 
-  console.log(errors, isDirty, isValid)
+  const { isValid } = formState
+
+  const walletChainId = useWalletChainId()
+  const uniswapLPPoolAddress = useUniswapLPPoolAddress()
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
+
+  const isOnProperNetwork = walletChainId === NETWORK.mainnet
+
+  const onSubmit = async (formData) => {
+    console.log(formData, getParams(formData[action]))
+    const id = await sendTx(
+      action,
+      PrizePoolAbi,
+      uniswapLPPoolAddress,
+      method,
+      getParams(formData[action]),
+      refetch
+    )
+    setTxId(id)
+  }
+
+  console.log(errors, isValid, disabled)
 
   return (
     <Dialog
@@ -260,6 +337,8 @@ const ActionModal = (props) => {
           <LPTokenLogo small className='my-auto mr-2' />
           <h5>{title} POOL/ETH LP</h5>
         </div>
+
+        <NetworkWarning />
 
         <form onSubmit={handleSubmit(onSubmit, onError)} className='flex flex-col'>
           <div className='flex flex-row justify-between mt-4 mb-2'>
@@ -310,7 +389,7 @@ const ActionModal = (props) => {
               hoverBg='green'
               className='ml-2'
               width='w-full'
-              disabled={!isDirty || !isValid}
+              disabled={!isValid || disabled || !isOnProperNetwork}
             >
               Confirm
             </Button>
@@ -321,23 +400,15 @@ const ActionModal = (props) => {
   )
 }
 
-const DepositIntoPool = (props) => {
-  const { stakingPoolData } = props
-  return <ManageContainer></ManageContainer>
+const NetworkWarning = () => {
+  const walletChainId = useWalletChainId()
+
+  if (walletChainId === NETWORK.mainnet) return null
+
+  return (
+    <span className='flex flex-row'>
+      <FeatherIcon icon='alert-circle' className='text-orange w-4 h-4 mr-2 my-auto' />
+      Please switch to {getNetworkNiceNameByChainId(NETWORK.mainnet)} to participate
+    </span>
+  )
 }
-
-const WithdrawFromPool = (props) => {
-  const { stakingPoolData } = props
-
-  const { register } = useForm({
-    mode: 'all'
-  })
-
-  return <ManageContainer></ManageContainer>
-}
-
-const ManageContainer = (props) => (
-  <div className={classnames('sm:bg-body p-2 sm:p-4 rounded mb-2 last:mb-0', props.className)}>
-    {props.children}
-  </div>
-)
