@@ -1,10 +1,13 @@
 import React, { useContext, useState } from 'react'
+import { ClockLoader } from 'react-spinners'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { useForm } from 'react-hook-form'
 import Dialog from '@reach/dialog'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
+import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 
+import ERC20Abi from 'abis/ERC20Abi'
 import { Card } from 'lib/components/Card'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useUniswapStakingPool } from 'lib/hooks/useUniswapLPStakingPool'
@@ -25,12 +28,14 @@ import { getNetworkNiceNameByChainId, NETWORK } from 'lib/utils/networks'
 import { ethers } from 'ethers'
 import { useExitFees } from 'lib/hooks/useExitFees'
 import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
+import { LinkIcon } from 'lib/components/BlockExplorerLink'
+
+const LP_TOKEN_NAME = 'POOL/ETH UNI-V2 LP'
 
 export const UniswapLPStakingCard = (props) => {
   const { appEnv } = useAppEnv()
   const { usersAddress } = useContext(AuthControllerContext)
   const { data: stakingPoolData, isFetched, refetch } = useUniswapStakingPool()
-  const screenSize = useScreenSize()
 
   if (appEnv !== APP_ENVIRONMENT.mainnets || !isFetched || !usersAddress) {
     return null
@@ -53,16 +58,21 @@ export const UniswapLPStakingCard = (props) => {
                 href='https://info.uniswap.org/pairs#/pools/0xff2bdf3044c601679dede16f5d4a460b35cebfee'
                 target='_blank'
                 rel='noreferrer noopener'
-                className='text-xs font-bold my-auto ml-2 sm:ml-0 sm:mt-2 text-inverse hover:opacity-70'
+                className='text-xs font-bold my-auto ml-2 sm:ml-0 sm:mt-2 text-inverse hover:opacity-70 flex'
               >
                 POOL/ETH Pair
+                <LinkIcon className='h-4 w-4' />
               </a>
             </div>
             <div className='sm:bg-body'></div>
           </div>
 
           <div className='flex flex-col sm:flex-row justify-between w-full py-2 px-4 xs:px-6 sm:px-10'>
-            <ClaimTokens stakingPoolData={stakingPoolData} refetch={refetch} />
+            <ClaimTokens
+              usersAddress={usersAddress}
+              stakingPoolData={stakingPoolData}
+              refetch={refetch}
+            />
             <ManageStakedAmount stakingPoolData={stakingPoolData} refetch={refetch} />
           </div>
         </div>
@@ -98,7 +108,7 @@ const ManageStakedAmount = (props) => {
   const { stakingPoolData, refetch } = props
   const { user } = stakingPoolData
   const { lpToken, tickets } = user
-  const { balance: lpBalance, balanceUnformatted: lpBalanceUnformatted } = lpToken
+  const { balance: lpBalance, balanceUnformatted: lpBalanceUnformatted, allowance } = lpToken
   const { balance: ticketBalance, balanceUnformatted: ticketBalanceUnformatted } = tickets
 
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
@@ -108,13 +118,17 @@ const ManageStakedAmount = (props) => {
     <div className='flex flex-col text-left sm:text-right'>
       <div className='flex sm:justify-end mb-2'>
         <LPTokenLogo small className='my-auto' />
-        <span className='ml-2 text-xxs font-bold uppercase'>POOL/ETH UNI-V2 LP</span>
+        <span className='ml-2 text-xxs font-bold uppercase'>{LP_TOKEN_NAME}</span>
       </div>
 
-      <span className='text-xxxs font-bold uppercase'>Deposited</span>
-      <span className='text-xl font-bold leading-none mb-2'>
-        <PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>
-      </span>
+      {!allowance.isZero() && (
+        <>
+          <span className='text-xxxs font-bold uppercase'>Deposited</span>
+          <span className='text-xl font-bold leading-none mb-2'>
+            <PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>
+          </span>
+        </>
+      )}
 
       <span className='text-xxxs font-bold uppercase'>Balance</span>
       <span className='text-xl font-bold leading-none mb-2'>
@@ -122,8 +136,10 @@ const ManageStakedAmount = (props) => {
       </span>
 
       <ManageDepositTriggers
+        stakingPoolData={stakingPoolData}
         openDepositModal={() => setDepositModalIsOpen(true)}
         openWithdrawModal={() => setWithdrawModalIsOpen(true)}
+        refetch={refetch}
       />
 
       <DepositModal
@@ -143,9 +159,29 @@ const ManageStakedAmount = (props) => {
 }
 
 const ManageDepositTriggers = (props) => {
-  const { openDepositModal, openWithdrawModal } = props
+  const { openDepositModal, openWithdrawModal, stakingPoolData, refetch } = props
 
-  // TODO: Allow trigger
+  const uniswapLPPoolAddress = useUniswapLPPoolAddress()
+  const uniswapPOOLLPToken = CUSTOM_CONTRACT_ADDRESSES[NETWORK.mainnet].UniswapPOOLLPToken
+
+  const allowance = stakingPoolData.user.lpToken.allowance
+  const decimals = stakingPoolData.user.lpToken.decimals
+
+  if (allowance.isZero()) {
+    return (
+      <TransactionButton
+        className='ml-auto mt-2'
+        name={'approve'}
+        abi={ERC20Abi}
+        contractAddress={uniswapPOOLLPToken}
+        method={'approve'}
+        params={[uniswapLPPoolAddress, ethers.utils.parseUnits('9999999999', Number(decimals))]}
+        refetch={refetch}
+      >
+        Enable deposits
+      </TransactionButton>
+    )
+  }
 
   return (
     <div className='flex flex-row mr-auto sm:mr-0 sm:ml-auto'>
@@ -157,14 +193,38 @@ const ManageDepositTriggers = (props) => {
 }
 
 const ClaimTokens = (props) => {
-  const { stakingPoolData } = props
+  const { stakingPoolData, usersAddress, refetch } = props
   const { user } = stakingPoolData
   const { claimableBalance, claimableBalanceUnformatted, tickets, dripTokensPerDay } = user
   const { balanceUnformatted: ticketBalanceUnformatted } = tickets
+  const uniswapLPTokenFaucet = CUSTOM_CONTRACT_ADDRESSES[NETWORK.mainnet].UniswapLPTokenFaucet
 
   const showClaimable = !ticketBalanceUnformatted.isZero() || !claimableBalanceUnformatted.isZero()
 
-  if (!showClaimable) return null
+  if (!showClaimable) {
+    return (
+      <div className='flex flex-col mb-6 sm:mb-0'>
+        <span className='mb-4 font-bold'>To participate in {LP_TOKEN_NAME} staking</span>
+        <ol className='list-decimal pl-4'>
+          <li>
+            <span className=''>
+              Deposit ETH and POOL into{' '}
+              <a
+                href='https://info.uniswap.org/pairs#/pools/0xff2bdf3044c601679dede16f5d4a460b35cebfee'
+                target='_blank'
+                rel='noreferrer noopener'
+                className='inline-flex ml-1'
+              >
+                Uniswap V2 <LinkIcon className='h-4 w-4' />
+              </a>
+            </span>
+          </li>
+          <li>Enable deposits here</li>
+          <li>Deposit your ETH/POOL </li>
+        </ol>
+      </div>
+    )
+  }
 
   return (
     <div className='flex flex-col text-left mb-4 sm:mb-0'>
@@ -183,16 +243,64 @@ const ClaimTokens = (props) => {
       </span>
 
       {!claimableBalanceUnformatted.isZero() && (
-        <div className='mr-auto mt-2'>
-          <TransactionButton>Claim</TransactionButton>
-        </div>
+        <TransactionButton
+          className='mr-auto mt-2'
+          name={'claim'}
+          abi={TokenFaucetAbi}
+          contractAddress={uniswapLPTokenFaucet}
+          method={'claim'}
+          params={[usersAddress]}
+          refetch={refetch}
+        >
+          Claim
+        </TransactionButton>
       )}
     </div>
   )
 }
 
 const TransactionButton = (props) => {
-  return <button>{props.children}</button>
+  const { name, abi, contractAddress, method, params, refetch, className } = props
+
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
+
+  console.log(tx)
+
+  const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
+  const txCompleted = tx?.completed && !tx?.cancelled
+
+  if (txPending) {
+    return (
+      <div className={classnames('flex flex-row', className)}>
+        <div className='my-auto'>
+          <ClockLoader size={15} color='#bbb2ce' />
+        </div>
+        <span className='ml-2 text-accent-1'>Transaction pending</span>
+      </div>
+    )
+  } else if (txCompleted) {
+    return (
+      <div className={classnames('flex flex-row', className)}>
+        <FeatherIcon icon='check-circle' className='w-4 h-4 text-green my-auto' />
+        <span className='ml-2'>Success</span>
+      </div>
+    )
+  }
+
+  return (
+    <button
+      type='button'
+      onClick={async () => {
+        const id = await sendTx(name, abi, contractAddress, method, params, refetch)
+        setTxId(id)
+      }}
+      className={classnames('flex flex-row', className)}
+    >
+      {props.children}
+    </button>
+  )
 }
 
 const onSubmit = (d, e) => console.log(d, e)
@@ -202,10 +310,6 @@ const WithdrawModal = (props) => {
   const action = 'withdraw'
 
   const { usersAddress } = useContext(AuthControllerContext)
-  const form = useForm({
-    mode: 'onChange',
-    reValidateMode: 'onChange'
-  })
 
   const uniswapLPPoolTicket = CUSTOM_CONTRACT_ADDRESSES[NETWORK.mainnet].UniswapLPPoolTicket
   const usersTicketData = props.stakingPoolData.user.tickets
@@ -216,10 +320,8 @@ const WithdrawModal = (props) => {
   return (
     <ActionModal
       {...props}
-      {...form}
       title={'Unstake'}
       action={action}
-      ticker={'POOL/ETH UNI-V2 LP'}
       onSubmit={onSubmit}
       maxAmount={maxAmount}
       maxAmountUnformatted={maxAmountUnformatted}
@@ -235,11 +337,6 @@ const WithdrawModal = (props) => {
 }
 
 const DepositModal = (props) => {
-  const form = useForm({
-    mode: 'onChange',
-    reValidateMode: 'onChange'
-  })
-
   const { usersAddress } = useContext(AuthControllerContext)
   const uniswapLPPoolTicket = CUSTOM_CONTRACT_ADDRESSES[NETWORK.mainnet].UniswapLPPoolTicket
   const maxAmount = props.stakingPoolData.user.lpToken.balance
@@ -249,10 +346,8 @@ const DepositModal = (props) => {
   return (
     <ActionModal
       {...props}
-      {...form}
       title={'Stake'}
       action={'deposit'}
-      ticker='POOL/ETH UNI-V2 LP'
       onSubmit={onSubmit}
       maxAmount={maxAmount}
       maxAmountUnformatted={maxAmountUnformatted}
@@ -278,17 +373,17 @@ const ActionModal = (props) => {
     stakingPoolData,
     method,
     getParams,
-    refetch,
-    register,
-    handleSubmit,
-    setValue,
-    errors,
-    formState,
-    disabled
+    refetch
   } = props
+
+  const { register, handleSubmit, setValue, errors, formState } = useForm({
+    mode: 'onChange',
+    reValidateMode: 'onChange'
+  })
 
   const decimals = stakingPoolData.user.lpToken.decimals
 
+  // TODO: tx states
   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
   const txCompleted = tx?.completed
 
@@ -303,7 +398,6 @@ const ActionModal = (props) => {
   const isOnProperNetwork = walletChainId === NETWORK.mainnet
 
   const onSubmit = async (formData) => {
-    console.log(formData, getParams(formData[action]))
     const id = await sendTx(
       action,
       PrizePoolAbi,
@@ -315,11 +409,9 @@ const ActionModal = (props) => {
     setTxId(id)
   }
 
-  console.log(errors, isValid, disabled)
-
   return (
     <Dialog
-      aria-label={`POOL/ETH UNI-V2 LP Pool ${action} Modal`}
+      aria-label={`${LP_TOKEN_NAME} Pool ${action} Modal`}
       isOpen={isOpen}
       onDismiss={closeModal}
     >
@@ -389,7 +481,7 @@ const ActionModal = (props) => {
               hoverBg='green'
               className='ml-2'
               width='w-full'
-              disabled={!isValid || disabled || !isOnProperNetwork}
+              disabled={!isValid || !isOnProperNetwork}
             >
               Confirm
             </Button>
