@@ -1,8 +1,11 @@
 import React from 'react'
+import classnames from 'classnames'
 
 export const Card = (props) => (
   <div
-    className='non-interactable-card my-4 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 bg-card rounded-lg'
+    className={classnames('non-interactable-card my-4  bg-card rounded-lg', {
+      'py-4 xs:py-6 px-4 xs:px-6 sm:px-10': !props.noPad
+    })}
     id={props.id}
   >
     {props.children}

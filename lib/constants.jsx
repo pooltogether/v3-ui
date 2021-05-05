@@ -119,8 +119,11 @@ export const CUSTOM_CONTRACT_ADDRESSES = {
     MerkleDistributor: '0xBE1a33519F586A4c8AA37525163Df8d67997016f',
     GovernanceToken: '0x0cEC1A9154Ff802e7934Fc916Ed7Ca50bDE6844e',
     Sablier: '0xA4fc358455Febe425536fd1878bE67FfDBDEC59a',
+    // Uniswap LP Pool
     UniswapLPPool: '0x3af7072d29adde20fc7e173a7cb9e45307d2fb0a',
-    UniswapLPTokenFaucet: '0x9a29401ef1856b669f55ae5b24505b3b6faeb370'
+    UniswapLPPoolTicket: '0xeb8928ee92efb06c44d072a24c2bcb993b61e543',
+    UniswapLPTokenFaucet: '0x9a29401ef1856b669f55ae5b24505b3b6faeb370',
+    UniswapPOOLLPToken: '0x85cb0bab616fe88a89a35080516a8928f38b518b'
   },
   3: {
     Stablecoin: '0x0736d0c130b2ead47476cc262dbed90d7c4eeabd'
