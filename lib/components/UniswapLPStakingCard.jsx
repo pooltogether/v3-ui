@@ -326,7 +326,9 @@ const TransactionButton = (props) => {
     return (
       <Tooltip
         id={method}
-        tip={t('pleaseSwitchToNetwork', { network: getNetworkNiceNameByChainId(chainId) })}
+        tip={t('yourWalletIsOnTheWrongNetwork', {
+          networkName: getNetworkNiceNameByChainId(chainId)
+        })}
       >
         <button
           type='button'
@@ -566,7 +568,7 @@ const NetworkWarning = (props) => {
   return (
     <span className='flex flex-row'>
       <FeatherIcon icon='alert-circle' className='text-orange w-4 h-4 mr-2 my-auto' />
-      {t('pleaseSwitchToNetwork', { network: getNetworkNiceNameByChainId(chainId) })}
+      {t('yourWalletIsOnTheWrongNetwork', { networkName: getNetworkNiceNameByChainId(chainId) })}
     </span>
   )
 }
