@@ -9,6 +9,7 @@ import { Button } from 'lib/components/Button'
 import { usePreviousValue } from 'beautiful-react-hooks'
 
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
+import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucetProxyFactory'
 
 import { CUSTOM_CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
 import { isSelfAtom } from 'lib/components/AccountUI'
@@ -32,11 +33,12 @@ import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
 import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 import { Erc20Image } from 'lib/components/Erc20Image'
+import { NETWORK } from 'lib/utils/networks'
 
 export const hardcodedWMaticApr = (pool) => {
   const { dripRatePerSecond } = pool.tokenListener
   const totalDripPerDay = Number(dripRatePerSecond) * SECONDS_PER_DAY
-  const totalDripDailyValue = totalDripPerDay * 0.885 // USD MATIC PRICE
+  const totalDripDailyValue = totalDripPerDay * 0.7143 // USD MATIC PRICE
   const totalSupply = Number(pool.tokens.ticket.totalSupply)
   return (totalDripDailyValue / totalSupply) * 365 * 100
 }
@@ -49,7 +51,13 @@ export const AccountGovernanceClaims = (props) => {
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
-  const { refetch: refetchTotalClaimablePool } = useClaimableTokenFromTokenFaucets(address)
+
+  // This currently is `refetchTotalClaimablePool`, assuming it's only mainnet but may need to be updated to include
+  // refetching Polygon data claimable data (and renamed)
+  const { refetch: refetchTotalClaimablePool } = useClaimableTokenFromTokenFaucets(
+    NETWORK.mainnet,
+    address
+  )
   const { refetch: refetchPoolTokenData } = usePoolTokenData(address)
   const poolTokenChainId = usePoolTokenChainId()
   const walletChainId = useWalletChainId()
@@ -73,20 +81,26 @@ export const AccountGovernanceClaims = (props) => {
         {t('rewards')}
       </h5>
       <div className='relative xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
-        <ClaimHeader address={address} refetchAllPoolTokenData={refetchAllPoolTokenData} />
-        {pools.sort(sortByDripAmount).map((pool) => {
-          return (
-            <ClaimablePoolTokenItem
-              address={address}
-              refetchAllPoolTokenData={refetchAllPoolTokenData}
-              key={pool.prizePool.address}
-              pool={pool}
-            />
-          )
-        })}
-
-        {walletChainId === poolTokenChainId && (
-          <div className='mt-7 text-center'>
+        <ClaimHeader
+          chainId={NETWORK.mainnet}
+          address={address}
+          refetchAllPoolTokenData={refetchAllPoolTokenData}
+        />
+        {pools
+          .filter((pool) => pool.chainId === NETWORK.mainnet)
+          .sort(sortByDripAmount)
+          .map((pool) => {
+            return (
+              <ClaimablePoolTokenItem
+                address={address}
+                refetchAllPoolTokenData={refetchAllPoolTokenData}
+                key={pool.prizePool.address}
+                pool={pool}
+              />
+            )
+          })}
+        <div className='mt-4 mb-20 text-center'>
+          {walletChainId === poolTokenChainId && (
             <AddTokenToMetaMaskButton
               basic
               showPoolIcon
@@ -95,8 +109,27 @@ export const AccountGovernanceClaims = (props) => {
               tokenDecimals={DEFAULT_TOKEN_PRECISION}
               tokenSymbol='POOL'
             />
-          </div>
-        )}
+          )}
+        </div>
+
+        <ClaimHeader
+          chainId={NETWORK.polygon}
+          address={address}
+          refetchAllPoolTokenData={refetchAllPoolTokenData}
+        />
+        {pools
+          .filter((pool) => pool.chainId === NETWORK.polygon)
+          .sort(sortByDripAmount)
+          .map((pool) => {
+            return (
+              <ClaimablePoolTokenItem
+                address={address}
+                refetchAllPoolTokenData={refetchAllPoolTokenData}
+                key={pool.prizePool.address}
+                pool={pool}
+              />
+            )
+          })}
       </div>
     </>
   )
@@ -108,7 +141,7 @@ const sortByDripAmount = (a, b) =>
   )
 
 const ClaimHeader = (props) => {
-  const { address } = props
+  const { address, chainId } = props
 
   const { t } = useTranslation()
   const { refetchAllPoolTokenData } = props
@@ -116,34 +149,59 @@ const ClaimHeader = (props) => {
   const poolTokenChainId = usePoolTokenChainId()
   const poolTokenAddress = CUSTOM_CONTRACT_ADDRESSES[poolTokenChainId].GovernanceToken.toLowerCase()
 
-  const { data: claimableFromTokenFaucets } = useClaimableTokenFromTokenFaucets(address)
+  // Hard-coded to 1 for mainnet as $POOL is only on mainnet
+  const { data: claimableFromTokenFaucets } = useClaimableTokenFromTokenFaucets(
+    NETWORK.mainnet,
+    address
+  )
   const totalClaimablePool =
     Number(claimableFromTokenFaucets?.totals?.[poolTokenAddress]?.totalClaimableAmount) || 0
 
   const [isSelf] = useAtom(isSelfAtom)
 
   return (
-    <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
-      <div className='flex sm:flex-col justify-between sm:justify-start'>
-        <h6 className='flex items-center font-normal'>{t('claimablePool')}</h6>
-        <h2
-          className={classnames('leading-none text-2xl sm:text-3xl mt-0 xs:mt-2', {
-            'text-flashy': totalClaimablePool > 0
-          })}
-        >
-          <ClaimableAmountCountUp amount={totalClaimablePool} />
-        </h2>
+    <>
+      <div className='flex justify-center mb-2'>
+        <NetworkBadge chainId={chainId} textClasses='text-base' sizeClasses='w-6 h-6' />
       </div>
 
-      <div className='flex flex-col-reverse sm:flex-col'>
-        <a
-          href='https://medium.com/p/23b09f36db48'
-          className='sm:text-right text-accent-1 text-xxs mb-3 sm:mb-0'
-        >
-          {t('whatCanIDoWithPool')}
-        </a>
+      <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
+        <div className='flex sm:flex-col justify-between sm:justify-start'>
+          {chainId === NETWORK.mainnet && (
+            <>
+              <h6 className='flex items-center font-normal'>{t('claimablePool')}</h6>
+              <h2
+                className={classnames('leading-none text-2xl sm:text-3xl mt-0 xs:mt-2', {
+                  'text-flashy': totalClaimablePool > 0
+                })}
+              >
+                <ClaimableAmountCountUp amount={totalClaimablePool} />
+              </h2>
+            </>
+          )}
+        </div>
+
+        <div className='flex flex-col-reverse sm:flex-col'>
+          {isSelf && chainId === NETWORK.mainnet && (
+            <ClaimAllButton
+              {...props}
+              chainId={NETWORK.mainnet}
+              refetchAllPoolTokenData={refetchAllPoolTokenData}
+              claimable={totalClaimablePool > 0}
+            />
+          )}
+
+          {chainId === NETWORK.mainnet && (
+            <a
+              href='https://medium.com/p/23b09f36db48'
+              className='sm:text-right text-accent-1 text-xxs mb-3 sm:mb-0'
+            >
+              {t('whatCanIDoWithPool')}
+            </a>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
@@ -155,6 +213,7 @@ const ClaimablePoolTokenItem = (props) => {
   const { data: playerTickets } = useUserTicketsFormattedByPool(address)
   const tokenFaucetAddress = pool.tokenListener.address
   const { data: claimablePoolData, isFetched } = useClaimableTokenFromTokenFaucet(
+    pool.chainId,
     tokenFaucetAddress,
     address
   )
@@ -331,6 +390,109 @@ const ClaimButton = (props) => {
       disabled={txPending || !claimable || walletOnWrongNetwork}
       className='w-full'
       onClick={handleClaim}
+    >
+      {txPending && (
+        <span className='mr-2'>
+          <ThemedClipLoader />
+        </span>
+      )}
+      {text}
+    </Button>
+  )
+
+  return walletOnWrongNetwork ? (
+    <Tooltip
+      className='ml-auto'
+      tip={t('yourWalletIsOnTheWrongNetwork', {
+        networkName: getNetworkNiceNameByChainId(chainId)
+      })}
+    >
+      {button}
+    </Tooltip>
+  ) : (
+    button
+  )
+}
+
+/**
+ * Claims from all POOL token faucets
+ * @param {*} props
+ * @returns
+ */
+const ClaimAllButton = (props) => {
+  const { t } = useTranslation()
+  const { address, chainId, claimable, refetchAllPoolTokenData } = props
+
+  const walletChainId = useWalletChainId()
+
+  const {
+    isFetched: isClaimablePoolDataFetched,
+    data: claimablePoolFromTokenFaucets
+  } = useClaimableTokenFromTokenFaucets(chainId, address)
+
+  const tokenFaucetAddresses = useMemo(() => {
+    if (claimablePoolFromTokenFaucets) {
+      const addresses = []
+      Object.keys(claimablePoolFromTokenFaucets).forEach((key) => {
+        if (key === 'totals') return
+
+        const claimablePoolData = claimablePoolFromTokenFaucets[key]
+        const hasBalance = !claimablePoolData?.claimableAmountUnformatted.isZero()
+        if (hasBalance) {
+          addresses.push(key)
+        }
+      })
+
+      return addresses
+    }
+  }, [claimablePoolFromTokenFaucets])
+
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
+
+  const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
+
+  const handleClaim = async (e) => {
+    e.preventDefault()
+
+    const params = [address, tokenFaucetAddresses]
+
+    const id = await sendTx(
+      t('claimAll'),
+      TokenFaucetProxyFactoryAbi,
+      CUSTOM_CONTRACT_ADDRESSES[chainId].TokenFaucetProxyFactory,
+      'claimAll',
+      params,
+      refetchAllPoolTokenData
+    )
+    setTxId(id)
+  }
+  let text = t('claimAll')
+  if (txPending) {
+    if (tx.sent) {
+      text = t('confirming')
+    } else {
+      text = t('claiming')
+    }
+  }
+
+  const walletOnWrongNetwork = walletChainId !== chainId
+
+  const button = (
+    <Button
+      type='button'
+      onClick={handleClaim}
+      className='mb-4'
+      disabled={!isClaimablePoolDataFetched || !claimable || txPending || walletOnWrongNetwork}
+      padding='px-8 py-1'
+      border='green'
+      text='primary'
+      bg='green'
+      hoverBorder='green'
+      hoverText='primary'
+      hoverBg='green'
+      textSize='xxs'
     >
       {txPending && (
         <span className='mr-2'>

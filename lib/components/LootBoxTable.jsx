@@ -16,6 +16,7 @@ import { useAllErc20Awards } from 'lib/hooks/useAllErc20Awards'
 import { useAllErc721Awards } from 'lib/hooks/useAllErc721Awards'
 import { BlockExplorerLink, LinkIcon } from 'lib/components/BlockExplorerLink'
 import { useCurrentPool } from 'lib/hooks/usePools'
+import { Tooltip } from 'lib/components/Tooltip'
 
 /**
  * Table use in PoolShow
@@ -112,13 +113,17 @@ export const LootBoxTable = (props) => {
       <h5 className='font-normal'>{t('lootBox')}</h5>
 
       <div className='flex flex-col sm:flex-row justify-between sm:items-center mb-4'>
-        <div>
+        <div className='flex'>
           <h3>
             $
             <PoolNumber>
               {numberWithCommas(totalExternalAwardsValueUsd || '0', { precision: 2 })}
             </PoolNumber>
           </h3>
+          <Tooltip
+            className='ml-2 my-auto text-inverse hover:opacity-70'
+            tip={t('lootboxValueExtraInfo')}
+          />
         </div>
 
         {!historical && lootBoxAddress && <ContributeToLootBoxDropdown address={lootBoxAddress} />}

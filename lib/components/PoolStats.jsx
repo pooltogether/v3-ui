@@ -7,15 +7,14 @@ import {
   CUSTOM_YIELD_SOURCE_NAMES,
   CUSTOM_YIELD_SOURCE_TOKEN_ADDRESS
 } from 'lib/constants/customYieldSourceImages'
+import { BlockExplorerLink, LinkIcon } from 'lib/components/BlockExplorerLink'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Tooltip } from 'lib/components/Tooltip'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { BlockExplorerLink, LinkIcon } from 'lib/components/BlockExplorerLink'
-
-import CompSvg from 'assets/images/comp.svg'
+import { hardcodedWMaticApr } from 'lib/components/AccountGovernanceClaims'
 
 export const PoolStats = (props) => {
   const { t } = useTranslation()
@@ -209,7 +208,11 @@ const YieldSourceStat = (props) => {
 const AprStats = (props) => {
   const { pool } = props
 
-  const apr = pool.tokenListener?.apr
+  let apr = pool.tokenListener?.apr
+
+  if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
+    apr = hardcodedWMaticApr(pool)
+  }
 
   if (!apr) return null
 
