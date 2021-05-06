@@ -47,8 +47,6 @@ export const AccountUI = () => {
     <>
       <Meta title={pageTitle} />
 
-      <UniswapLPStakingCard />
-
       {isSelf && <RetroactivePoolClaimBanner />}
 
       <PageTitleAndBreadcrumbs
@@ -71,6 +69,8 @@ export const AccountUI = () => {
           <AccountTickets />
 
           <AccountGovernanceClaims />
+
+          <UniswapLPStakingCard />
 
           <AccountRewards />
 
