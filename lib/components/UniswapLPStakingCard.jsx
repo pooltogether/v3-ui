@@ -6,29 +6,29 @@ import { useForm } from 'react-hook-form'
 import Dialog from '@reach/dialog'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
+import { ethers } from 'ethers'
 
 import ERC20Abi from 'abis/ERC20Abi'
 import { Card } from 'lib/components/Card'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useUniswapStakingPool } from 'lib/hooks/useUniswapLPStakingPool'
 import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
-import useScreenSize from 'lib/hooks/useScreenSize'
 import { Button } from 'lib/components/Button'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { parseUnits } from 'ethers/lib/utils'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
-
-import PoolIcon from 'assets/images/pool-icon.svg'
-import EtherIcon from 'assets/images/ether-icon.png'
 import { useUniswapLPPoolAddress } from 'lib/hooks/useUniswapLPPoolAddress'
 import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
 import { getNetworkNiceNameByChainId, NETWORK } from 'lib/utils/networks'
-import { ethers } from 'ethers'
-import { useExitFees } from 'lib/hooks/useExitFees'
 import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 import { LinkIcon } from 'lib/components/BlockExplorerLink'
+import { TxStatus } from 'lib/components/TxStatus'
+
+import PoolIcon from 'assets/images/pool-icon.svg'
+import EtherIcon from 'assets/images/ether-icon.png'
+import { Tooltip } from 'lib/components/Tooltip'
 
 const LP_TOKEN_NAME = 'POOL/ETH UNI-V2 LP'
 
@@ -36,8 +36,9 @@ export const UniswapLPStakingCard = (props) => {
   const { appEnv } = useAppEnv()
   const { usersAddress } = useContext(AuthControllerContext)
   const { data: stakingPoolData, isFetched, refetch } = useUniswapStakingPool()
+  const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
 
-  if (appEnv !== APP_ENVIRONMENT.mainnets || !isFetched || !usersAddress) {
+  if (!isFetched || !usersAddress) {
     return null
   }
 
@@ -69,11 +70,16 @@ export const UniswapLPStakingCard = (props) => {
 
           <div className='flex flex-col sm:flex-row justify-between w-full py-2 px-4 xs:px-6 sm:px-10'>
             <ClaimTokens
+              chainId={chainId}
               usersAddress={usersAddress}
               stakingPoolData={stakingPoolData}
               refetch={refetch}
             />
-            <ManageStakedAmount stakingPoolData={stakingPoolData} refetch={refetch} />
+            <ManageStakedAmount
+              chainId={chainId}
+              stakingPoolData={stakingPoolData}
+              refetch={refetch}
+            />
           </div>
         </div>
       </Card>
@@ -105,7 +111,7 @@ LPTokenLogo.defaultProps = {
 }
 
 const ManageStakedAmount = (props) => {
-  const { stakingPoolData, refetch } = props
+  const { stakingPoolData, refetch, chainId } = props
   const { user } = stakingPoolData
   const { lpToken, tickets } = user
   const { balance: lpBalance, balanceUnformatted: lpBalanceUnformatted, allowance } = lpToken
@@ -121,34 +127,37 @@ const ManageStakedAmount = (props) => {
         <span className='ml-2 text-xxs font-bold uppercase'>{LP_TOKEN_NAME}</span>
       </div>
 
+      <span className='text-xxxs font-bold uppercase'>Balance</span>
+      <span className='text-xl font-bold leading-none mb-2'>
+        <PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>
+      </span>
+
       {!allowance.isZero() && (
         <>
           <span className='text-xxxs font-bold uppercase'>Deposited</span>
           <span className='text-xl font-bold leading-none mb-2'>
-            <PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>
+            <PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>
           </span>
         </>
       )}
-
-      <span className='text-xxxs font-bold uppercase'>Balance</span>
-      <span className='text-xl font-bold leading-none mb-2'>
-        <PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>
-      </span>
 
       <ManageDepositTriggers
         stakingPoolData={stakingPoolData}
         openDepositModal={() => setDepositModalIsOpen(true)}
         openWithdrawModal={() => setWithdrawModalIsOpen(true)}
         refetch={refetch}
+        chainId={chainId}
       />
 
       <DepositModal
+        chainId={chainId}
         stakingPoolData={stakingPoolData}
         isOpen={depositModalIsOpen}
         closeModal={() => setDepositModalIsOpen(false)}
         refetch={refetch}
       />
       <WithdrawModal
+        chainId={chainId}
         stakingPoolData={stakingPoolData}
         isOpen={withdrawModalIsOpen}
         closeModal={() => setWithdrawModalIsOpen(false)}
@@ -159,10 +168,10 @@ const ManageStakedAmount = (props) => {
 }
 
 const ManageDepositTriggers = (props) => {
-  const { openDepositModal, openWithdrawModal, stakingPoolData, refetch } = props
+  const { openDepositModal, openWithdrawModal, stakingPoolData, refetch, chainId } = props
 
   const uniswapLPPoolAddress = useUniswapLPPoolAddress()
-  const uniswapPOOLLPToken = CUSTOM_CONTRACT_ADDRESSES[NETWORK.mainnet].UniswapPOOLLPToken
+  const uniswapPOOLLPToken = CUSTOM_CONTRACT_ADDRESSES[chainId].UniswapPOOLLPToken
 
   const allowance = stakingPoolData.user.lpToken.allowance
   const decimals = stakingPoolData.user.lpToken.decimals
@@ -170,6 +179,7 @@ const ManageDepositTriggers = (props) => {
   if (allowance.isZero()) {
     return (
       <TransactionButton
+        chainId={chainId}
         className='ml-auto mt-2'
         name={'approve'}
         abi={ERC20Abi}
@@ -193,11 +203,11 @@ const ManageDepositTriggers = (props) => {
 }
 
 const ClaimTokens = (props) => {
-  const { stakingPoolData, usersAddress, refetch } = props
+  const { stakingPoolData, usersAddress, refetch, chainId } = props
   const { user } = stakingPoolData
   const { claimableBalance, claimableBalanceUnformatted, tickets, dripTokensPerDay } = user
   const { balanceUnformatted: ticketBalanceUnformatted } = tickets
-  const uniswapLPTokenFaucet = CUSTOM_CONTRACT_ADDRESSES[NETWORK.mainnet].UniswapLPTokenFaucet
+  const uniswapLPTokenFaucet = CUSTOM_CONTRACT_ADDRESSES[chainId].UniswapLPTokenFaucet
 
   const showClaimable = !ticketBalanceUnformatted.isZero() || !claimableBalanceUnformatted.isZero()
 
@@ -244,6 +254,7 @@ const ClaimTokens = (props) => {
 
       {!claimableBalanceUnformatted.isZero() && (
         <TransactionButton
+          chainId={chainId}
           className='mr-auto mt-2'
           name={'claim'}
           abi={TokenFaucetAbi}
@@ -260,11 +271,14 @@ const ClaimTokens = (props) => {
 }
 
 const TransactionButton = (props) => {
-  const { name, abi, contractAddress, method, params, refetch, className } = props
+  const { name, abi, contractAddress, method, params, refetch, className, chainId } = props
+  const walletChainId = useWalletChainId()
 
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
+
+  const isOnProperNetwork = walletChainId === chainId
 
   console.log(tx)
 
@@ -287,6 +301,23 @@ const TransactionButton = (props) => {
         <span className='ml-2'>Success</span>
       </div>
     )
+  } else if (!isOnProperNetwork) {
+    return (
+      <Tooltip id={method} tip={`Please switch to ${getNetworkNiceNameByChainId(chainId)}`}>
+        <button
+          type='button'
+          onClick={async () => {
+            console.log(name, abi, contractAddress, method, params, refetch)
+            const id = await sendTx(name, abi, contractAddress, method, params, refetch)
+            setTxId(id)
+          }}
+          className={classnames('flex flex-row', className)}
+          disabled
+        >
+          {props.children}
+        </button>
+      </Tooltip>
+    )
   }
 
   return (
@@ -307,11 +338,12 @@ const onSubmit = (d, e) => console.log(d, e)
 const onError = (d, e) => console.log(d, e)
 
 const WithdrawModal = (props) => {
+  const { chainId } = props
   const action = 'withdraw'
 
   const { usersAddress } = useContext(AuthControllerContext)
 
-  const uniswapLPPoolTicket = CUSTOM_CONTRACT_ADDRESSES[NETWORK.mainnet].UniswapLPPoolTicket
+  const uniswapLPPoolTicket = CUSTOM_CONTRACT_ADDRESSES[chainId].UniswapLPPoolTicket
   const usersTicketData = props.stakingPoolData.user.tickets
   const maxAmount = usersTicketData.balance
   const decimals = usersTicketData.decimals
@@ -337,8 +369,9 @@ const WithdrawModal = (props) => {
 }
 
 const DepositModal = (props) => {
+  const { chainId } = props
   const { usersAddress } = useContext(AuthControllerContext)
-  const uniswapLPPoolTicket = CUSTOM_CONTRACT_ADDRESSES[NETWORK.mainnet].UniswapLPPoolTicket
+  const uniswapLPPoolTicket = CUSTOM_CONTRACT_ADDRESSES[chainId].UniswapLPPoolTicket
   const maxAmount = props.stakingPoolData.user.lpToken.balance
   const decimals = props.stakingPoolData.user.lpToken.decimals
   const maxAmountUnformatted = props.stakingPoolData.user.lpToken.balanceUnformatted
@@ -373,7 +406,8 @@ const ActionModal = (props) => {
     stakingPoolData,
     method,
     getParams,
-    refetch
+    refetch,
+    chainId
   } = props
 
   const { register, handleSubmit, setValue, errors, formState } = useForm({
@@ -383,10 +417,6 @@ const ActionModal = (props) => {
 
   const decimals = stakingPoolData.user.lpToken.decimals
 
-  // TODO: tx states
-  const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
-  const txCompleted = tx?.completed
-
   const { isValid } = formState
 
   const walletChainId = useWalletChainId()
@@ -394,8 +424,9 @@ const ActionModal = (props) => {
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
+  const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
 
-  const isOnProperNetwork = walletChainId === NETWORK.mainnet
+  const isOnProperNetwork = walletChainId === chainId
 
   const onSubmit = async (formData) => {
     const id = await sendTx(
@@ -430,77 +461,85 @@ const ActionModal = (props) => {
           <h5>{title} POOL/ETH LP</h5>
         </div>
 
-        <NetworkWarning />
+        <NetworkWarning isOnProperNetwork={isOnProperNetwork} chainId={chainId} />
 
-        <form onSubmit={handleSubmit(onSubmit, onError)} className='flex flex-col'>
-          <div className='flex flex-row justify-between mt-4 mb-2'>
-            <label className='my-0 capitalize' htmlFor={`_${action}`}>
-              {action}
-            </label>
-            <div>
-              <span className='mr-1'>Balance:</span>
-              <button
-                type='button'
-                onClick={() => setValue(action, maxAmount, { shouldValidate: true })}
-              >
-                {numberWithCommas(maxAmount)}
-              </button>
+        {txPending && (
+          <div className='mx-auto text-center'>
+            <TxStatus gradient='basic' tx={tx} />
+          </div>
+        )}
+
+        {!txPending && (
+          <form onSubmit={handleSubmit(onSubmit, onError)} className='flex flex-col'>
+            <div className='flex flex-row justify-between mt-4 mb-2'>
+              <label className='my-0 capitalize' htmlFor={`_${action}`}>
+                {action}
+              </label>
+              <div>
+                <span className='mr-1'>Balance:</span>
+                <button
+                  type='button'
+                  onClick={() => setValue(action, maxAmount, { shouldValidate: true })}
+                >
+                  {numberWithCommas(maxAmount)}
+                </button>
+              </div>
             </div>
-          </div>
-          <input
-            name={action}
-            ref={register({
-              required: true,
-              pattern: {
-                value: /^\d*\.?\d*$/,
-                message: 'please enter a positive number'
-              },
-              validate: {
-                greaterThanBalance: (value) =>
-                  parseUnits(value, decimals).lte(maxAmountUnformatted) ||
-                  'Please enter a number less than your balance'
-              }
-            })}
-            className='bg-body p-2 w-full rounded-xl'
-          />
-          <span className='h-6 w-full text-xxs text-orange'>
-            {errors?.[action]?.message || null}
-          </span>
+            <input
+              name={action}
+              ref={register({
+                required: true,
+                pattern: {
+                  value: /^\d*\.?\d*$/,
+                  message: 'please enter a positive number'
+                },
+                validate: {
+                  greaterThanBalance: (value) =>
+                    parseUnits(value, decimals).lte(maxAmountUnformatted) ||
+                    'Please enter a number less than your balance'
+                }
+              })}
+              className='bg-body p-2 w-full rounded-xl'
+            />
+            <span className='h-6 w-full text-xxs text-orange'>
+              {errors?.[action]?.message || null}
+            </span>
 
-          <div className='flex flex-row w-full justify-between mt-2'>
-            <Button type='button' className='mr-2' width='w-full' onClick={closeModal}>
-              Cancel
-            </Button>
-            <Button
-              type='submit'
-              border='green'
-              text='primary'
-              bg='green'
-              hoverBorder='green'
-              hoverText='primary'
-              hoverBg='green'
-              className='ml-2'
-              width='w-full'
-              disabled={!isValid || !isOnProperNetwork}
-            >
-              Confirm
-            </Button>
-          </div>
-        </form>
+            <div className='flex flex-row w-full justify-between mt-2'>
+              <Button type='button' className='mr-2' width='w-full' onClick={closeModal}>
+                Cancel
+              </Button>
+              <Button
+                type='submit'
+                border='green'
+                text='primary'
+                bg='green'
+                hoverBorder='green'
+                hoverText='primary'
+                hoverBg='green'
+                className='ml-2'
+                width='w-full'
+                disabled={!isValid || !isOnProperNetwork}
+              >
+                Confirm
+              </Button>
+            </div>
+          </form>
+        )}
       </div>
     </Dialog>
   )
 }
 
-const NetworkWarning = () => {
-  const walletChainId = useWalletChainId()
+const NetworkWarning = (props) => {
+  const { chainId, isOnProperNetwork } = props
 
-  if (walletChainId === NETWORK.mainnet) return null
+  if (isOnProperNetwork) return null
 
   return (
     <span className='flex flex-row'>
       <FeatherIcon icon='alert-circle' className='text-orange w-4 h-4 mr-2 my-auto' />
-      Please switch to {getNetworkNiceNameByChainId(NETWORK.mainnet)} to participate
+      Please switch to {getNetworkNiceNameByChainId(chainId)} to participate
     </span>
   )
 }

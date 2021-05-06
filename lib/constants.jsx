@@ -133,7 +133,12 @@ export const CUSTOM_CONTRACT_ADDRESSES = {
     TokenFaucetProxyFactory: TokenFaucetProxyFactoryRinkeby.address,
     MerkleDistributor: '0x93a6540DcE05a4A5E5B906eB97bBCBb723768F2D',
     GovernanceToken: '0xc4E90a8Dc6CaAb329f08ED3C8abc6b197Cf0F40A',
-    Sablier: '0xc04Ad234E01327b24a831e3718DBFcbE245904CC'
+    Sablier: '0xc04Ad234E01327b24a831e3718DBFcbE245904CC',
+    // Uniswap LP Pool
+    UniswapLPPool: '0xD38739ef75245b6764cbdf178B524b1A4b0CE617',
+    UniswapLPPoolTicket: '0xa5b882a002f4c8c888acd6428cd56442de732fbb',
+    UniswapLPTokenFaucet: '0x97b99693613aaa74a3fa0b2f05378b8f6a74a893',
+    UniswapPOOLLPToken: '0xd5eb8b90a4862b1361b14eb02134f0fbef1b6caa'
   },
   137: {
     GovernanceToken: '',
