@@ -7,12 +7,13 @@ import Dialog from '@reach/dialog'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import { ethers } from 'ethers'
+import ContentLoader from 'react-content-loader'
+import { isMobile } from 'react-device-detect'
 
 import { Trans, useTranslation } from 'lib/../i18n'
 import ERC20Abi from 'abis/ERC20Abi'
 import { Card } from 'lib/components/Card'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { useUniswapStakingPool } from 'lib/hooks/useUniswapLPStakingPool'
 import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
 import { Button } from 'lib/components/Button'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -20,96 +21,212 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { parseUnits } from 'ethers/lib/utils'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { useUniswapLPPoolAddress } from 'lib/hooks/useUniswapLPPoolAddress'
-import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
 import { getNetworkNiceNameByChainId, NETWORK } from 'lib/utils/networks'
 import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 import { LinkIcon } from 'lib/components/BlockExplorerLink'
 import { TxStatus } from 'lib/components/TxStatus'
-
-import PoolIcon from 'assets/images/pool-icon.svg'
-import EtherIcon from 'assets/images/ether-icon.png'
 import { Tooltip } from 'lib/components/Tooltip'
+import { useStakingPoolChainData, useStakingPoolsAddresses } from 'lib/hooks/useStakingPools'
+import { Erc20Image } from 'lib/components/Erc20Image'
+import { TOKEN_IMAGES_BY_SYMBOL } from 'lib/constants/tokenImages'
+import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
+import { UI_LOADER_ANIM_DEFAULTS } from 'lib/constants'
 
-const TOKEN_1 = 'POOL'
-const TOKEN_2 = 'ETH'
-const TOKEN_PAIR = `${TOKEN_1}/${TOKEN_2}`
-const LP_TOKEN_NAME = `${TOKEN_PAIR} UNI-V2 LP`
+const UNISWAP_V2_PAIR_URL = 'https://app.uniswap.org/#/add/v2/ETH/'
 
-export const UniswapLPStakingCard = (props) => {
+export const StakingPools = () => {
   const { t } = useTranslation()
-  const { appEnv } = useAppEnv()
-  const { usersAddress } = useContext(AuthControllerContext)
-  const { data: stakingPoolData, isFetched, refetch } = useUniswapStakingPool()
-  const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
 
-  if (!isFetched || !usersAddress) {
-    return null
-  }
-
+  const stakingPoolsAddresses = useStakingPoolsAddresses()
+  console.log(stakingPoolsAddresses)
   return (
     <>
       <h5 id='governance-claims' className='font-normal text-accent-2 mt-16 mb-4'>
         {t('staking')}
       </h5>
-      <Card noPad>
-        <div className='flex flex-col sm:flex-row py-2'>
-          <div className='border-accent-3 sm:border-dashed sm:border-r-2 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 flex'>
-            <div
-              className='flex flex-row sm:flex-col justify-center my-auto'
-              style={{ minWidth: 'max-content' }}
-            >
-              <LPTokenLogo className='sm:mx-auto' />
-              <a
-                href='https://info.uniswap.org/pairs#/pools/0xff2bdf3044c601679dede16f5d4a460b35cebfee'
-                target='_blank'
-                rel='noreferrer noopener'
-                className='text-xs font-bold my-auto ml-2 sm:ml-0 sm:mt-2 text-inverse hover:opacity-70 flex'
-              >
-                {t('tokenPair', { tokens: TOKEN_PAIR })}
-                <LinkIcon className='h-4 w-4' />
-              </a>
-            </div>
-            <div className='sm:bg-body'></div>
-          </div>
-
-          <div className='flex flex-col sm:flex-row justify-between w-full py-2 px-4 xs:px-6 sm:px-10'>
-            <ClaimTokens
-              chainId={chainId}
-              usersAddress={usersAddress}
-              stakingPoolData={stakingPoolData}
-              refetch={refetch}
-            />
-            <ManageStakedAmount
-              chainId={chainId}
-              stakingPoolData={stakingPoolData}
-              refetch={refetch}
-            />
-          </div>
-        </div>
-      </Card>
+      {stakingPoolsAddresses.map((stakingPoolAddresses) => (
+        <StakingPoolCard
+          key={stakingPoolAddresses.prizePool.address}
+          stakingPoolAddresses={stakingPoolAddresses}
+        />
+      ))}
     </>
+  )
+}
+
+const StakingPoolCard = (props) => {
+  const { stakingPoolAddresses } = props
+  const { t } = useTranslation()
+  const { usersAddress } = useContext(AuthControllerContext)
+  const { data: stakingPoolChainData, isFetched, refetch, error } = useStakingPoolChainData(
+    stakingPoolAddresses
+  )
+
+  const cardClassName = 'flex flex-col sm:flex-row py-2'
+
+  if (!isFetched || !usersAddress) {
+    return (
+      <Card noPad className={cardClassName}>
+        <LPTokenCardHeader stakingPoolAddresses={stakingPoolAddresses} />
+        <CardMainContentsLoading />
+      </Card>
+    )
+  } else if (error) {
+    return (
+      <Card noPad className={cardClassName}>
+        <LPTokenCardHeader stakingPoolAddresses={stakingPoolAddresses} />
+        <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
+      </Card>
+    )
+  }
+
+  return (
+    <Card noPad className={cardClassName}>
+      <LPTokenCardHeader stakingPoolAddresses={stakingPoolAddresses} />
+      <CardMainContents
+        stakingPoolChainData={stakingPoolChainData}
+        stakingPoolAddresses={stakingPoolAddresses}
+        usersAddress={usersAddress}
+        refetch={refetch}
+      />
+    </Card>
+  )
+}
+
+const LPTokenCardHeader = (props) => {
+  const { t } = useTranslation()
+  const { stakingPoolAddresses } = props
+  const { underlyingToken, dripToken } = stakingPoolAddresses
+  const { token1, token2, pair: tokenPair } = underlyingToken
+  return (
+    <div className='border-accent-3 sm:border-dashed sm:border-r-2 py-4 xs:py-6 px-4 xs:px-6 sm:px-10 flex'>
+      <div
+        className='flex flex-row sm:flex-col justify-center my-auto'
+        style={{ minWidth: 'max-content' }}
+      >
+        <LPTokenLogo className='sm:mx-auto' token1={token1} token2={token2} />
+        <a
+          href={`${UNISWAP_V2_PAIR_URL}${dripToken.address}`}
+          target='_blank'
+          rel='noreferrer noopener'
+          className='text-xs font-bold my-auto ml-2 sm:ml-0 sm:mt-2 text-inverse hover:opacity-70 flex'
+        >
+          {t('tokenPair', { tokens: tokenPair })}
+          <LinkIcon className='h-4 w-4' />
+        </a>
+      </div>
+      <div className='sm:bg-body'></div>
+    </div>
+  )
+}
+
+const CardMainContents = (props) => {
+  const { usersAddress, stakingPoolAddresses, stakingPoolChainData, refetch } = props
+  const { appEnv } = useAppEnv()
+  const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
+
+  return (
+    <div className='flex flex-col sm:flex-row justify-between w-full py-2 px-4 xs:px-6 sm:px-10'>
+      <ClaimTokens
+        chainId={chainId}
+        usersAddress={usersAddress}
+        stakingPoolAddresses={stakingPoolAddresses}
+        stakingPoolChainData={stakingPoolChainData}
+        refetch={refetch}
+      />
+      <ManageStakedAmount
+        chainId={chainId}
+        stakingPoolAddresses={stakingPoolAddresses}
+        stakingPoolChainData={stakingPoolChainData}
+        refetch={refetch}
+      />
+    </div>
+  )
+}
+
+const CardMainContentsLoading = () => {
+  if (!window) {
+    return null
+  }
+
+  const { theme } = useContext(ThemeContext)
+
+  const bgColor = theme === 'light' ? '#ffffff' : '#401C94'
+  const foreColor = theme === 'light' ? '#f5f5f5' : '#501C94'
+
+  if (isMobile) {
+    return (
+      <div className='w-full p-4'>
+        <ContentLoader
+          {...UI_LOADER_ANIM_DEFAULTS}
+          viewBox='0 0 100% 20'
+          width='100%'
+          height={90}
+          backgroundColor={bgColor}
+          foregroundColor={foreColor}
+        >
+          <rect x='0' y='0' rx='2' ry='2' width='60%' height='40' />
+          <rect x='0' y='50' rx='2' ry='2' width='40%' height='30' />
+        </ContentLoader>
+      </div>
+    )
+  }
+
+  return (
+    <div className='w-full p-4'>
+      <ContentLoader
+        {...UI_LOADER_ANIM_DEFAULTS}
+        viewBox='0 0 100% 20'
+        width='100%'
+        height={90}
+        backgroundColor={bgColor}
+        foregroundColor={foreColor}
+      >
+        <rect x='0' y='0' rx='2' ry='2' width='90' height='45' />
+        <rect x='85%' y='0' rx='2' ry='2' width='80' height='30' />
+        <rect x='85%' y='45' rx='2' ry='2' width='80' height='30' />
+      </ContentLoader>
+    </div>
   )
 }
 
 const LPTokenLogo = (props) => (
   <div className={classnames('relative', props.className)}>
-    <img
-      src={PoolIcon}
-      className={classnames('absolute rounded-full', {
+    <TokenIcon
+      token={props.token1}
+      className={classnames('absolute', {
         'w-8 h-8': !props.small,
         'w-4 h-4': props.small
       })}
     />
-    <img
-      src={EtherIcon}
-      className={classnames('rounded-full', {
+    <TokenIcon
+      token={props.token2}
+      className={{
         'w-8 h-8 ml-4': !props.small,
         'w-4 h-4 ml-2': props.small
-      })}
+      }}
     />
   </div>
 )
+
+const TokenIcon = (props) => {
+  if (props.token.symbol === 'POOL') {
+    return (
+      <img
+        src={TOKEN_IMAGES_BY_SYMBOL.pool}
+        className={classnames('rounded-full', props.className)}
+      />
+    )
+  } else if (props.token.symbol === 'ETH') {
+    return (
+      <img
+        src={TOKEN_IMAGES_BY_SYMBOL.eth}
+        className={classnames('rounded-full', props.className)}
+      />
+    )
+  }
+  return <Erc20Image {...props.token} className={props.className} />
+}
 
 LPTokenLogo.defaultProps = {
   small: false
@@ -117,20 +234,23 @@ LPTokenLogo.defaultProps = {
 
 const ManageStakedAmount = (props) => {
   const { t } = useTranslation()
-  const { stakingPoolData, refetch, chainId } = props
-  const { user } = stakingPoolData
-  const { lpToken, tickets } = user
-  const { balance: lpBalance, balanceUnformatted: lpBalanceUnformatted, allowance } = lpToken
-  const { balance: ticketBalance, balanceUnformatted: ticketBalanceUnformatted } = tickets
+  const { stakingPoolChainData, refetch, chainId, stakingPoolAddresses } = props
+  const { user } = stakingPoolChainData
+  const { underlyingToken: underlyingTokenChainData, tickets } = user
+  const { balance: lpBalance, allowance } = underlyingTokenChainData
+  const { balance: ticketBalance } = tickets
 
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
 
+  const { underlyingToken } = stakingPoolAddresses
+  const { token1, token2 } = underlyingToken
+
   return (
     <div className='flex flex-col text-left sm:text-right'>
       <div className='flex sm:justify-end mb-2'>
-        <LPTokenLogo small className='my-auto' />
-        <span className='ml-2 text-xxs font-bold uppercase'>{LP_TOKEN_NAME}</span>
+        <LPTokenLogo small className='my-auto' token1={token1} token2={token2} />
+        <span className='ml-2 text-xxs font-bold uppercase'>{underlyingToken.symbol}</span>
       </div>
 
       <span className='text-xxxs font-bold uppercase'>{t('balance')}</span>
@@ -148,23 +268,26 @@ const ManageStakedAmount = (props) => {
       )}
 
       <ManageDepositTriggers
-        stakingPoolData={stakingPoolData}
+        chainId={chainId}
+        stakingPoolChainData={stakingPoolChainData}
+        stakingPoolAddresses={stakingPoolAddresses}
         openDepositModal={() => setDepositModalIsOpen(true)}
         openWithdrawModal={() => setWithdrawModalIsOpen(true)}
         refetch={refetch}
-        chainId={chainId}
       />
 
       <DepositModal
         chainId={chainId}
-        stakingPoolData={stakingPoolData}
+        stakingPoolChainData={stakingPoolChainData}
+        stakingPoolAddresses={stakingPoolAddresses}
         isOpen={depositModalIsOpen}
         closeModal={() => setDepositModalIsOpen(false)}
         refetch={refetch}
       />
       <WithdrawModal
         chainId={chainId}
-        stakingPoolData={stakingPoolData}
+        stakingPoolChainData={stakingPoolChainData}
+        stakingPoolAddresses={stakingPoolAddresses}
         isOpen={withdrawModalIsOpen}
         closeModal={() => setWithdrawModalIsOpen(false)}
         refetch={refetch}
@@ -175,13 +298,19 @@ const ManageStakedAmount = (props) => {
 
 const ManageDepositTriggers = (props) => {
   const { t } = useTranslation()
-  const { openDepositModal, openWithdrawModal, stakingPoolData, refetch, chainId } = props
+  const {
+    openDepositModal,
+    openWithdrawModal,
+    stakingPoolChainData,
+    refetch,
+    chainId,
+    stakingPoolAddresses
+  } = props
 
-  const uniswapLPPoolAddress = useUniswapLPPoolAddress()
-  const uniswapPOOLLPToken = CUSTOM_CONTRACT_ADDRESSES[chainId].UniswapPOOLLPToken
+  const { prizePool, underlyingToken } = stakingPoolAddresses
 
-  const allowance = stakingPoolData.user.lpToken.allowance
-  const decimals = stakingPoolData.user.lpToken.decimals
+  const allowance = stakingPoolChainData.user.underlyingToken.allowance
+  const decimals = stakingPoolChainData.user.underlyingToken.decimals
 
   if (allowance.isZero()) {
     return (
@@ -190,9 +319,9 @@ const ManageDepositTriggers = (props) => {
         className='sm:ml-auto mt-2 capitalize'
         name={t('enableDeposits')}
         abi={ERC20Abi}
-        contractAddress={uniswapPOOLLPToken}
+        contractAddress={underlyingToken.address}
         method={'approve'}
-        params={[uniswapLPPoolAddress, ethers.utils.parseUnits('9999999999', Number(decimals))]}
+        params={[prizePool.address, ethers.utils.parseUnits('9999999999', Number(decimals))]}
         refetch={refetch}
       >
         {t('enableDeposits')}
@@ -211,11 +340,14 @@ const ManageDepositTriggers = (props) => {
 
 const ClaimTokens = (props) => {
   const { t } = useTranslation()
-  const { stakingPoolData, usersAddress, refetch, chainId } = props
-  const { user } = stakingPoolData
+  const { stakingPoolChainData, usersAddress, refetch, chainId, stakingPoolAddresses } = props
+  const { user } = stakingPoolChainData
   const { claimableBalance, claimableBalanceUnformatted, tickets, dripTokensPerDay } = user
   const { balanceUnformatted: ticketBalanceUnformatted } = tickets
-  const uniswapLPTokenFaucet = CUSTOM_CONTRACT_ADDRESSES[chainId].UniswapLPTokenFaucet
+
+  const { underlyingToken, tokenFaucet, dripToken } = stakingPoolAddresses
+  const token1 = underlyingToken.token1
+  const token2 = underlyingToken.token2
 
   const showClaimable = !ticketBalanceUnformatted.isZero() || !claimableBalanceUnformatted.isZero()
 
@@ -223,7 +355,7 @@ const ClaimTokens = (props) => {
     return (
       <div className='flex flex-col mb-6 sm:mb-0 text-xxs sm:text-xs'>
         <span className='mb-4 font-bold'>
-          {t('participateInTokenStaking', { token: LP_TOKEN_NAME })}
+          {t('participateInTokenStaking', { token: underlyingToken.symbol })}
         </span>
         <ol className='list-decimal pl-4 '>
           <li>
@@ -234,20 +366,24 @@ const ClaimTokens = (props) => {
                 components={{
                   a: (
                     <a
-                      href='https://info.uniswap.org/pairs#/pools/0xff2bdf3044c601679dede16f5d4a460b35cebfee'
+                      href={`${UNISWAP_V2_PAIR_URL}${dripToken.address}`}
                       target='_blank'
                       rel='noreferrer noopener'
                       className='inline-flex'
                     />
                   ),
-                  token1: TOKEN_1,
-                  token2: TOKEN_2
+                  token1: token1.symbol,
+                  token2: token2.symbol
                 }}
               />
             </span>
           </li>
           <li>{t('uniswapLPInstructionsStep2')}</li>
-          <li>{t('uniswapLPInstructionsStep3', { token: LP_TOKEN_NAME })}</li>
+          <li>
+            {t('uniswapLPInstructionsStep3', {
+              token: underlyingToken.symbol
+            })}
+          </li>
         </ol>
       </div>
     )
@@ -256,9 +392,9 @@ const ClaimTokens = (props) => {
   return (
     <div className='flex flex-col text-left mb-4 sm:mb-0'>
       <div className='flex mb-2'>
-        <img src={PoolIcon} className='my-auto mr-2 rounded-full w-4 h-4' />
+        <TokenIcon token={dripToken} className='my-auto mr-2 rounded-full w-4 h-4' />
         <span className='text-xxs font-bold capitalize'>
-          {t('tokenEarned', { token: TOKEN_1 })}
+          {t('tokenEarned', { token: token1.symbol })}
         </span>
       </div>
 
@@ -268,8 +404,8 @@ const ClaimTokens = (props) => {
 
       <span className='text-xxs flex'>
         {numberWithCommas(dripTokensPerDay)}
-        <img src={PoolIcon} className='my-auto ml-2 mr-1 rounded-full w-4 h-4' /> {TOKEN_1} /{' '}
-        {t('day')}
+        <TokenIcon token={dripToken} className='my-auto ml-2 mr-1 rounded-full w-4 h-4' />
+        {token1.symbol} / {t('day')}
       </span>
 
       {!claimableBalanceUnformatted.isZero() && (
@@ -278,7 +414,7 @@ const ClaimTokens = (props) => {
           className='mr-auto mt-2 capitalize'
           name={t('claimPool')}
           abi={TokenFaucetAbi}
-          contractAddress={uniswapLPTokenFaucet}
+          contractAddress={tokenFaucet.address}
           method={'claim'}
           params={[usersAddress]}
           refetch={refetch}
@@ -357,20 +493,17 @@ const TransactionButton = (props) => {
   )
 }
 
-const onError = (d, e) => console.error(d, e)
-
 const WithdrawModal = (props) => {
   const { t } = useTranslation()
-  const { chainId } = props
-  const action = 'withdraw'
+  const { stakingPoolAddresses, stakingPoolChainData } = props
+  const { ticket } = stakingPoolAddresses
 
   const { usersAddress } = useContext(AuthControllerContext)
 
-  const uniswapLPPoolTicket = CUSTOM_CONTRACT_ADDRESSES[chainId].UniswapLPPoolTicket
-  const usersTicketData = props.stakingPoolData.user.tickets
-  const maxAmount = usersTicketData.balance
-  const decimals = usersTicketData.decimals
-  const maxAmountUnformatted = usersTicketData.balanceUnformatted
+  const { tickets } = stakingPoolChainData.user
+  const maxAmount = tickets.balance
+  const decimals = tickets.decimals
+  const maxAmountUnformatted = tickets.balanceUnformatted
 
   return (
     <ActionModal
@@ -382,7 +515,7 @@ const WithdrawModal = (props) => {
       getParams={(quantity) => [
         usersAddress,
         ethers.utils.parseUnits(quantity, decimals),
-        uniswapLPPoolTicket,
+        ticket.address,
         ethers.constants.Zero
       ]}
     />
@@ -391,12 +524,15 @@ const WithdrawModal = (props) => {
 
 const DepositModal = (props) => {
   const { t } = useTranslation()
-  const { chainId } = props
+  const { stakingPoolAddresses, stakingPoolChainData } = props
   const { usersAddress } = useContext(AuthControllerContext)
-  const uniswapLPPoolTicket = CUSTOM_CONTRACT_ADDRESSES[chainId].UniswapLPPoolTicket
-  const maxAmount = props.stakingPoolData.user.lpToken.balance
-  const decimals = props.stakingPoolData.user.lpToken.decimals
-  const maxAmountUnformatted = props.stakingPoolData.user.lpToken.balanceUnformatted
+  const { ticket } = stakingPoolAddresses
+
+  const { underlyingToken } = stakingPoolChainData.user
+
+  const maxAmount = underlyingToken.balance
+  const decimals = underlyingToken.decimals
+  const maxAmountUnformatted = underlyingToken.balanceUnformatted
 
   return (
     <ActionModal
@@ -408,7 +544,7 @@ const DepositModal = (props) => {
       getParams={(quantity) => [
         usersAddress,
         ethers.utils.parseUnits(quantity, decimals),
-        uniswapLPPoolTicket,
+        ticket.address,
         ethers.constants.AddressZero
       ]}
     />
@@ -424,11 +560,12 @@ const ActionModal = (props) => {
     action,
     maxAmount,
     maxAmountUnformatted,
-    stakingPoolData,
+    stakingPoolChainData,
     method,
     getParams,
     refetch,
-    chainId
+    chainId,
+    stakingPoolAddresses
   } = props
 
   const { register, handleSubmit, setValue, errors, formState } = useForm({
@@ -436,12 +573,14 @@ const ActionModal = (props) => {
     reValidateMode: 'onChange'
   })
 
-  const decimals = stakingPoolData.user.lpToken.decimals
+  const decimals = stakingPoolChainData.user.underlyingToken.decimals
 
   const { isValid } = formState
 
+  const { prizePool, underlyingToken } = stakingPoolAddresses
+  const { token1, token2 } = underlyingToken
+
   const walletChainId = useWalletChainId()
-  const uniswapLPPoolAddress = useUniswapLPPoolAddress()
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
@@ -451,9 +590,9 @@ const ActionModal = (props) => {
 
   const onSubmit = async (formData) => {
     const id = await sendTx(
-      `${action} ${LP_TOKEN_NAME}`,
+      `${action} ${underlyingToken.symbol}`,
       PrizePoolAbi,
-      uniswapLPPoolAddress,
+      prizePool.address,
       method,
       getParams(formData[action]),
       refetch
@@ -463,7 +602,7 @@ const ActionModal = (props) => {
 
   return (
     <Dialog
-      aria-label={`${LP_TOKEN_NAME} Pool ${action} Modal`}
+      aria-label={`${underlyingToken.symbol} Pool ${action} Modal`}
       isOpen={isOpen}
       onDismiss={closeModal}
     >
@@ -478,9 +617,9 @@ const ActionModal = (props) => {
         </div>
 
         <div className='flex flex-row mb-4 mt-10 sm:mt-0'>
-          <LPTokenLogo small className='my-auto mr-2' />
+          <LPTokenLogo small className='my-auto mr-2' token1={token1} token2={token2} />
           <h5>
-            {action} {LP_TOKEN_NAME}
+            {action} {underlyingToken.symbol}
           </h5>
         </div>
 
@@ -493,7 +632,7 @@ const ActionModal = (props) => {
         )}
 
         {!txPending && (
-          <form onSubmit={handleSubmit(onSubmit, onError)} className='flex flex-col'>
+          <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>
             <div className='flex flex-row justify-between mt-4 mb-2'>
               <label className='my-0 capitalize' htmlFor={`_${action}`}>
                 {action}
@@ -561,9 +700,11 @@ const NetworkWarning = (props) => {
   if (isOnProperNetwork) return null
 
   return (
-    <span className='flex flex-row'>
-      <FeatherIcon icon='alert-circle' className='text-orange w-4 h-4 mr-2 my-auto' />
-      {t('yourWalletIsOnTheWrongNetwork', { networkName: getNetworkNiceNameByChainId(chainId) })}
-    </span>
+    <div className='flex flex-row'>
+      <FeatherIcon icon='alert-circle' className='text-orange w-6 h-6 mr-2 my-auto' />
+      <span className='text-xxs'>
+        {t('yourWalletIsOnTheWrongNetwork', { networkName: getNetworkNiceNameByChainId(chainId) })}
+      </span>
+    </div>
   )
 }

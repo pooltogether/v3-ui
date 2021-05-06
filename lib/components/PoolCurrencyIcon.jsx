@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { isUndefined } from 'lodash'
 import { motion } from 'framer-motion'
 
-import { TOKEN_IMAGES } from 'lib/constants/tokenImages'
+import { TOKEN_IMAGES_BY_ADDRESS } from 'lib/constants/tokenImages'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 import { useCoingeckoTokenInfoQuery } from 'lib/hooks/useCoingeckoTokenInfoQuery'
 
@@ -100,7 +100,7 @@ export const PoolCurrencyIcon = (props) => {
 
   // Get from hard-coded img URL store
   if (!src) {
-    src = TOKEN_IMAGES[address?.toLowerCase()]
+    src = TOKEN_IMAGES_BY_ADDRESS[address?.toLowerCase()]
   }
 
   return !src ? (

@@ -15,6 +15,8 @@ export const SECONDS_PER_WEEK = 604800
 export const SECONDS_PER_DAY = 86400
 export const SECONDS_PER_HOUR = 3600
 
+export const ONE_MINUTE_IN_MILLISECONDS = 60000
+
 export const DEFAULT_TOKEN_PRECISION = 18
 
 export const COINGECKO_POLLING_INTERVAL = 120 * 1000
@@ -118,12 +120,7 @@ export const CUSTOM_CONTRACT_ADDRESSES = {
     TokenFaucetProxyFactory: TokenFaucetProxyFactoryMainnet.address,
     MerkleDistributor: '0xBE1a33519F586A4c8AA37525163Df8d67997016f',
     GovernanceToken: '0x0cEC1A9154Ff802e7934Fc916Ed7Ca50bDE6844e',
-    Sablier: '0xA4fc358455Febe425536fd1878bE67FfDBDEC59a',
-    // Uniswap LP Pool
-    UniswapLPPool: '0x3af7072d29adde20fc7e173a7cb9e45307d2fb0a',
-    UniswapLPPoolTicket: '0xeb8928ee92efb06c44d072a24c2bcb993b61e543',
-    UniswapLPTokenFaucet: '0x9a29401ef1856b669f55ae5b24505b3b6faeb370',
-    UniswapPOOLLPToken: '0x85cb0bab616fe88a89a35080516a8928f38b518b'
+    Sablier: '0xA4fc358455Febe425536fd1878bE67FfDBDEC59a'
   },
   3: {
     Stablecoin: '0x0736d0c130b2ead47476cc262dbed90d7c4eeabd'
@@ -133,12 +130,7 @@ export const CUSTOM_CONTRACT_ADDRESSES = {
     TokenFaucetProxyFactory: TokenFaucetProxyFactoryRinkeby.address,
     MerkleDistributor: '0x93a6540DcE05a4A5E5B906eB97bBCBb723768F2D',
     GovernanceToken: '0xc4E90a8Dc6CaAb329f08ED3C8abc6b197Cf0F40A',
-    Sablier: '0xc04Ad234E01327b24a831e3718DBFcbE245904CC',
-    // Uniswap LP Pool
-    UniswapLPPool: '0xD38739ef75245b6764cbdf178B524b1A4b0CE617', // Actually a BAT/ETH LP Pool
-    UniswapLPPoolTicket: '0xa5b882a002f4c8c888acd6428cd56442de732fbb',
-    UniswapLPTokenFaucet: '0x97b99693613aaa74a3fa0b2f05378b8f6a74a893', // Token faucet for BAT Pool - not linked to the BAT?ETH LP pool
-    UniswapPOOLLPToken: '0xd5eb8b90a4862b1361b14eb02134f0fbef1b6caa'
+    Sablier: '0xc04Ad234E01327b24a831e3718DBFcbE245904CC'
   },
   137: {
     GovernanceToken: '',

@@ -18,7 +18,7 @@ import { shorten } from 'lib/utils/shorten'
 import { testAddress } from 'lib/utils/testAddress'
 import { AccountRewards } from 'lib/components/AccountRewards'
 import { AccountLootBoxes } from 'lib/components/AccountLootBoxes'
-import { UniswapLPStakingCard } from 'lib/components/UniswapLPStakingCard'
+import { StakingPools } from 'lib/components/StakingPools'
 
 export const isSelfAtom = atom(false)
 
@@ -70,7 +70,7 @@ export const AccountUI = () => {
 
           <AccountGovernanceClaims />
 
-          <UniswapLPStakingCard />
+          <StakingPools />
 
           <AccountRewards />
 

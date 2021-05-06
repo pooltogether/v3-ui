@@ -1,12 +1,12 @@
 import React from 'react'
 import classnames from 'classnames'
 
-import { TOKEN_IMAGES } from 'lib/constants/tokenImages'
+import { TOKEN_IMAGES_BY_ADDRESS } from 'lib/constants/tokenImages'
 import { useCoingeckoTokenInfoQuery } from 'lib/hooks/useCoingeckoTokenInfoQuery'
 
 export const Erc20Image = (props) => {
   const marginClasses = props.marginClasses ?? 'mr-2'
-  let src = TOKEN_IMAGES[props.address.toLowerCase()]
+  let src = TOKEN_IMAGES_BY_ADDRESS[props.address.toLowerCase()]
 
   if (!src) {
     const { data: tokenInfo } = useCoingeckoTokenInfoQuery(props.address)
