@@ -38,7 +38,7 @@ import { NETWORK } from 'lib/utils/networks'
 export const hardcodedWMaticApr = (pool) => {
   const { dripRatePerSecond } = pool.tokenListener
   const totalDripPerDay = Number(dripRatePerSecond) * SECONDS_PER_DAY
-  const totalDripDailyValue = totalDripPerDay * 0.7143 // USD MATIC PRICE
+  const totalDripDailyValue = totalDripPerDay * 0.7603 // USD MATIC PRICE
   const totalSupply = Number(pool.tokens.ticket.totalSupply)
   return (totalDripDailyValue / totalSupply) * 365 * 100
 }
