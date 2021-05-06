@@ -301,8 +301,6 @@ const TransactionButton = (props) => {
 
   const isOnProperNetwork = walletChainId === chainId
 
-  console.log(tx)
-
   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
   const txCompleted = tx?.completed && !tx?.cancelled
 
@@ -359,8 +357,7 @@ const TransactionButton = (props) => {
   )
 }
 
-const onSubmit = (d, e) => console.log(d, e)
-const onError = (d, e) => console.log(d, e)
+const onError = (d, e) => console.error(d, e)
 
 const WithdrawModal = (props) => {
   const { t } = useTranslation()
@@ -379,7 +376,6 @@ const WithdrawModal = (props) => {
     <ActionModal
       {...props}
       action={t('withdraw')}
-      onSubmit={onSubmit}
       maxAmount={maxAmount}
       maxAmountUnformatted={maxAmountUnformatted}
       method='withdrawInstantlyFrom'
@@ -406,7 +402,6 @@ const DepositModal = (props) => {
     <ActionModal
       {...props}
       action={t('deposit')}
-      onSubmit={onSubmit}
       maxAmount={maxAmount}
       maxAmountUnformatted={maxAmountUnformatted}
       method='depositTo'
