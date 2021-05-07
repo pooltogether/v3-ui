@@ -6,6 +6,7 @@ import { useAtom } from 'jotai'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { isSelfAtom } from 'lib/components/AccountUI'
+import { Button } from 'lib/components/Button'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { SmallLoader } from 'lib/components/loaders/SmallLoader'
 import { usePlayerTotalDepositValue } from 'lib/hooks/useUserTickets'
@@ -19,7 +20,7 @@ export const AccountSummary = () => {
 
   const [isSelf] = useAtom(isSelfAtom)
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const { connectWallet, usersAddress } = useContext(AuthControllerContext)
 
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
@@ -43,15 +44,29 @@ export const AccountSummary = () => {
       <div className='flex justify-between items-center'>
         <div className='leading-tight'>
           <h6 className='font-normal'>{t('assets')}</h6>
-          <h1>
-            {playerTicketsIsFetched ? (
-              <>
-                $<PoolNumber>{numberWithCommas(totalValueUsd, { precision: 2 })}</PoolNumber>
-              </>
-            ) : (
-              <SmallLoader />
-            )}
-          </h1>
+          {playerTicketsIsFetched ? (
+            <h1>
+              $<PoolNumber>{numberWithCommas(totalValueUsd, { precision: 2 })}</PoolNumber>
+            </h1>
+          ) : !address ? (
+            <>
+              <h5>{t('connectAWalletToManageTicketsAndRewards')}</h5>
+
+              <Button
+                textSize='xs'
+                padding='px-4 py-1'
+                className='mt-4'
+                onClick={(e) => {
+                  e.preventDefault()
+                  connectWallet(() => {})
+                }}
+              >
+                {t('connectWallet')}
+              </Button>
+            </>
+          ) : (
+            <SmallLoader />
+          )}
         </div>
 
         <div>

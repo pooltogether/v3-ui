@@ -4,7 +4,9 @@ import { useRouter } from 'next/router'
 import { AnimatePresence, motion, useViewportScroll } from 'framer-motion'
 
 import { SUPPORTED_NETWORKS } from 'lib/constants'
+import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { Button } from 'lib/components/Button'
 import { NavAccount } from 'lib/components/NavAccount'
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
@@ -28,6 +30,7 @@ const onlyUnique = (value, index, self) => {
 }
 
 export function Layout(props) {
+  const { t } = useTranslation()
   const { children } = props
 
   const shouldReduceMotion = useReducedMotion()
@@ -55,11 +58,10 @@ export function Layout(props) {
 
   const router = useRouter()
 
-  const signIn = router.query.signIn
   const deposit = /deposit/.test(router.asPath)
   const manage = /\/manage-tickets/.test(router.asPath)
 
-  const { usersAddress, chainId } = useContext(AuthControllerContext)
+  const { connectWallet, usersAddress } = useContext(AuthControllerContext)
 
   // this is useful for showing a big banner at the top that catches
   // people's attention
@@ -73,7 +75,7 @@ export function Layout(props) {
     <>
       <Meta />
 
-      <AnimatePresence>{signIn && <SignInFormContainer />}</AnimatePresence>
+      {/* <AnimatePresence>{signIn && <SignInFormContainer />}</AnimatePresence> */}
 
       <AnimatePresence>{deposit && <DepositWizardContainer {...props} />}</AnimatePresence>
 
@@ -122,6 +124,20 @@ export function Layout(props) {
               <NavPoolBalance />
 
               <PendingTxButton openTransactions={openTransactions} />
+
+              {!usersAddress && (
+                <button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    connectWallet(() => {})
+                  }}
+                  className='text-highlight-2 font-bold hover:text-inverse text-xs trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20 h-8 mb-1 sm:mb-0'
+                >
+                  <div className='flex items-center bg-default hover:bg-body rounded-full border border-highlight-2 px-2 xs:px-4 trans trans-fastest z-20 h-8'>
+                    {t('connectWallet')}
+                  </div>
+                </button>
+              )}
 
               <LanguagePicker />
 

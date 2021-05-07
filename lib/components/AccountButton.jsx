@@ -9,8 +9,6 @@ import { ProfileName } from 'lib/components/ProfileName'
 export function AccountButton(props) {
   const { openTransactions } = props
 
-  const [transactions] = useAtom(transactionsAtom)
-
   return (
     <>
       <button

@@ -7,16 +7,17 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountTickets } from 'lib/components/AccountTickets'
 import { AccountWinnings } from 'lib/components/AccountWinnings'
-import { Meta } from 'lib/components/Meta'
-import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
-import { Tagline } from 'lib/components/Tagline'
-import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 import { AccountGovernanceClaims } from 'lib/components/AccountGovernanceClaims'
-import { shorten } from 'lib/utils/shorten'
-import { testAddress } from 'lib/utils/testAddress'
 import { AccountRewards } from 'lib/components/AccountRewards'
 import { AccountLootBoxes } from 'lib/components/AccountLootBoxes'
 import { AccountStakingPools } from 'lib/components/AccountStakingPools'
+import { Meta } from 'lib/components/Meta'
+import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
+import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
+import { SignInForm } from 'lib/components/SignInForm'
+import { Tagline } from 'lib/components/Tagline'
+import { shorten } from 'lib/utils/shorten'
+import { testAddress } from 'lib/utils/testAddress'
 
 export const isSelfAtom = atom(false)
 
@@ -56,7 +57,9 @@ export const AccountUI = () => {
         ]}
       />
 
-      {addressError ? (
+      {!address ? (
+        <AccountSummary />
+      ) : addressError ? (
         <h6 className='text-orange my-4 font-normal'>
           There was an issue with the address provided: {playerAddress}
         </h6>
@@ -78,7 +81,9 @@ export const AccountUI = () => {
         </>
       )}
 
-      <Tagline />
+      <div className='mt-20'>
+        <Tagline />
+      </div>
     </>
   )
 }
