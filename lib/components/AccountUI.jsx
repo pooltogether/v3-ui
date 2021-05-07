@@ -7,25 +7,23 @@ import { AuthControllerContext } from 'lib/components/contextProviders/AuthContr
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountTickets } from 'lib/components/AccountTickets'
 import { AccountWinnings } from 'lib/components/AccountWinnings'
-import { ButtonLink } from 'lib/components/ButtonLink'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { Tagline } from 'lib/components/Tagline'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 import { AccountGovernanceClaims } from 'lib/components/AccountGovernanceClaims'
-import { formatEtherscanAddressUrl } from 'lib/utils/formatEtherscanAddressUrl'
 import { shorten } from 'lib/utils/shorten'
 import { testAddress } from 'lib/utils/testAddress'
 import { AccountRewards } from 'lib/components/AccountRewards'
 import { AccountLootBoxes } from 'lib/components/AccountLootBoxes'
-import { StakingPools } from 'lib/components/StakingPools'
+import { AccountStakingPools } from 'lib/components/AccountStakingPools'
 
 export const isSelfAtom = atom(false)
 
 export const AccountUI = () => {
   const { t } = useTranslation()
 
-  const { chainId, usersAddress } = useContext(AuthControllerContext)
+  const { usersAddress } = useContext(AuthControllerContext)
 
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
@@ -68,9 +66,9 @@ export const AccountUI = () => {
 
           <AccountTickets />
 
-          <AccountGovernanceClaims />
+          <AccountStakingPools />
 
-          <StakingPools />
+          <AccountGovernanceClaims />
 
           <AccountRewards />
 
