@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
-import { ButtonLink } from 'lib/components/ButtonLink'
 import { TicketsUILoader } from 'lib/components/loaders/TicketsUILoader'
 
 import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
@@ -30,16 +30,16 @@ export const AccountTickets = () => {
         <TicketsUILoader />
       ) : playerTickets.length === 0 ? (
         <BlankStateMessage>
-          <div className='mb-10 font-bold'>
+          <div className='mb-2 font-bold'>
             <img src={TicketIcon} className='mx-auto w-16 mb-8' />
 
             <span id='_ticketsBlankState'>{t('youCurrentlyHaveNoTickets')}</span>
             <br />
             {t('depositInAPoolNow')}
           </div>
-          <ButtonLink href='/' as='/'>
-            {t('viewPools')}
-          </ButtonLink>
+          <Link href='/' as='/'>
+            <a>{t('viewPools')}</a>
+          </Link>
         </BlankStateMessage>
       ) : (
         <div className='flex flex-col'>
