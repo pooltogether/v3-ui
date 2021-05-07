@@ -56,6 +56,7 @@ export const PoolRow = (props) => {
     const { pool } = props
 
     const dripTokenAddress = pool.tokens.tokenFaucetDripToken?.address
+    const dripTokenSymbol = pool.tokens.tokenFaucetDripToken?.symbol
 
     let apr = pool.tokenListener?.apr
     if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
@@ -68,8 +69,8 @@ export const PoolRow = (props) => {
 
     return (
       <div className='text-xxxs text-accent-1 flex items-center'>
-        <Erc20Image address={dripTokenAddress} className='inline-block mr-2 w-4' />
-        {displayPercentage(apr)}% APR
+        <Erc20Image address={dripTokenAddress} className='mr-2' sizeClasses='w-4 h-4' />
+        {t('earnNumPercentApr', { ticker: dripTokenSymbol, percentApr: displayPercentage(apr) })}
       </div>
     )
   }
@@ -98,7 +99,7 @@ export const PoolRow = (props) => {
               <PoolPrizeValue pool={pool} />
             </div>
 
-            <div className='block mx-auto mb-1 sm:mb-2'>
+            <div className='flex items-center justify-between'>
               <div
                 className={classnames('text-xxxs text-center rounded-full px-2', {
                   'bg-accent-grey-1 text-highlight-3': !isDaily,
@@ -107,14 +108,13 @@ export const PoolRow = (props) => {
               >
                 {isDaily ? t('dailyPrize') : t('prizeValue')}
               </div>
+              <NetworkBadge className='' chainId={pool.chainId} />
             </div>
-
-            <NetworkBadge chainId={pool.chainId} />
           </div>
         </div>
 
         <div className='pool-row-right-col flex flex-col items-center w-full sm:w-1/2 mt-4 sm:mt-0'>
-          <NewPrizeCountdown textSize='text-sm sm:text-lg lg:text-xl' pool={pool} />
+          <NewPrizeCountdown textSize='text-sm sm:text-lg' pool={pool} />
 
           <Button
             border='green'
@@ -135,7 +135,7 @@ export const PoolRow = (props) => {
             })}
           </Button>
 
-          <div className='flex items-center justify-between mt-3 w-full'>
+          <div className='flex items-center justify-between mt-2 w-full'>
             <div className='hidden sm:flex'>{<AprChip pool={pool} />}</div>
 
             <span className='relative hidden sm:inline-block'>
