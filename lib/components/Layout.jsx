@@ -6,7 +6,6 @@ import { AnimatePresence, motion, useViewportScroll } from 'framer-motion'
 import { SUPPORTED_NETWORKS } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { Button } from 'lib/components/Button'
 import { NavAccount } from 'lib/components/NavAccount'
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
@@ -18,7 +17,6 @@ import { Nav } from 'lib/components/Nav'
 import { PendingTxButton } from 'lib/components/PendingTxButton'
 import { LanguagePicker } from 'lib/components/LanguagePicker'
 import { Settings } from 'lib/components/Settings'
-import { SignInFormContainer } from 'lib/components/SignInFormContainer'
 import { WrongNetworkModal } from 'lib/components/WrongNetworkModal'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
@@ -74,8 +72,6 @@ export function Layout(props) {
   return (
     <>
       <Meta />
-
-      {/* <AnimatePresence>{signIn && <SignInFormContainer />}</AnimatePresence> */}
 
       <AnimatePresence>{deposit && <DepositWizardContainer {...props} />}</AnimatePresence>
 
