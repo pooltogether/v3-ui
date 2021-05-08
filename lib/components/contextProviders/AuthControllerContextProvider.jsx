@@ -95,7 +95,7 @@ export function AuthControllerContextProvider(props) {
   }, [address, onboardAddress])
 
   const postDisconnectRedirect = () => {
-    queryParamUpdater.add(router, { signIn: '1' })
+    // queryParamUpdater.add(router, { signIn: '1' })
   }
 
   const signOut = async (e) => {

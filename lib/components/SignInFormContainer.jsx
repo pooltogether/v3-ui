@@ -29,7 +29,7 @@ export function SignInFormContainer(props) {
 
     if (showSelectMenu) {
       const postSignInCallback = () => {
-        queryParamUpdater.remove(router, 'signIn')
+        // queryParamUpdater.remove(router, 'signIn')
       }
 
       connectWallet(postSignInCallback)
@@ -52,7 +52,7 @@ export function SignInFormContainer(props) {
   }, [])
 
   const handleCloseSignIn = () => {
-    queryParamUpdater.remove(router, 'signIn')
+    // queryParamUpdater.remove(router, 'signIn')
 
     if (router.asPath.match('account')) {
       router.push('/', '/', { shallow: true })
@@ -101,7 +101,7 @@ export function SignInFormContainer(props) {
             hideImg
             descriptionClassName='mb-4 text-xxs xs:text-sm sm:text-xl lg:text-2xl xs:w-1/2 sm:w-1/2 lg:w-full mx-auto'
             postSignInCallback={() => {
-              queryParamUpdater.remove(router, 'signIn')
+              // queryParamUpdater.remove(router, 'signIn')
             }}
           />
         </div>

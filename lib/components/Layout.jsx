@@ -131,9 +131,9 @@ export function Layout(props) {
                     e.preventDefault()
                     connectWallet(() => {})
                   }}
-                  className='text-highlight-2 font-bold hover:text-inverse text-xs trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20 h-8 mb-1 sm:mb-0'
+                  className='text-highlight-2 font-bold hover:text-inverse text-xs trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20 h-8 mb-1 sm:mb-0 mr-2 sm:mr-1'
                 >
-                  <div className='flex items-center bg-default hover:bg-body rounded-full border border-highlight-2 px-2 xs:px-4 trans trans-fastest z-20 h-8'>
+                  <div className='flex items-center bg-default hover:bg-body rounded-full border border-highlight-2 px-4 trans trans-fastest z-20 h-8'>
                     {t('connectWallet')}
                   </div>
                 </button>
