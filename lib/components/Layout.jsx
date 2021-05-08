@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import { AnimatePresence, motion, useViewportScroll } from 'framer-motion'
@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useViewportScroll } from 'framer-motion'
 import { SUPPORTED_NETWORKS } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { NavAccount } from 'lib/components/NavAccount'
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
@@ -60,6 +61,11 @@ export function Layout(props) {
   const manage = /\/manage-tickets/.test(router.asPath)
 
   const { connectWallet, usersAddress } = useContext(AuthControllerContext)
+  const { handleLoadOnboard } = useContext(WalletContext)
+  // lazy load onboardjs when sign-in is shown
+  useEffect(() => {
+    handleLoadOnboard()
+  }, [])
 
   // this is useful for showing a big banner at the top that catches
   // people's attention
