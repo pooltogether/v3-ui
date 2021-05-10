@@ -67,7 +67,7 @@ export function Settings(props) {
     <>
       <button
         onClick={toggleOpen}
-        className={classnames('w-5 h-5 sm:w-6 sm:h-6 ml-2 my-2 hover:text-inverse', {
+        className={classnames('w-5 h-5 sm:w-6 sm:h-6 ml-2 my-1 hover:text-inverse', {
           'text-highlight-2': !isOpen,
           'text-highlight-1': isOpen
         })}

@@ -208,8 +208,6 @@ export const ManageUI = (props) => {
           }
         ]}
       />
-
-      <Tagline />
     </>
   )
 }

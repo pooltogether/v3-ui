@@ -77,8 +77,6 @@ export const AccountUI = () => {
           <AccountWinnings />
         </>
       )}
-
-      <Tagline />
     </>
   )
 }

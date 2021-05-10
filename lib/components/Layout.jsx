@@ -22,6 +22,9 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { ClaimRetroactivePoolWizardContainer } from 'lib/components/ClaimRetroactivePoolWizard'
 import { NavPoolBalance } from 'lib/components/NavPoolBalance'
+import { NotificationBanners } from 'lib/components/NotificationBanners'
+import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
+import { Tagline } from 'lib/components/Tagline'
 
 const onlyUnique = (value, index, self) => {
   return self.indexOf(value) === index
@@ -89,70 +92,12 @@ export function Layout(props) {
           minHeight: '100vh'
         }}
       >
-        <motion.div
-          className={classnames(
-            'header fixed w-full bg-body z-30 pt-1 pb-1 xs:pt-2 xs:pb-0 sm:py-0 mx-auto l-0 r-0',
-            {
-              'showing-network-banner': showingBanner
-            }
-          )}
-        >
-          <div className='flex justify-between items-center px-4 xs:px-12 sm:px-10 py-4 xs:pb-6 sm:pt-5 sm:pb-7 mx-auto'>
-            <HeaderLogo />
-
-            <div
-              className={classnames('flex items-center justify-end flex-row flex-wrap relative')}
-              style={{
-                lineHeight: 0
-              }}
-            >
-              {usersAddress && <NetworkText openTransactions={openTransactions} />}
-
-              {usersAddress && (
-                <NavAccount
-                  openTransactions={openTransactions}
-                  closeTransactions={closeTransactions}
-                  showTransactionsDialog={showTransactionsDialog}
-                />
-              )}
-
-              {/* this pushes the lang picker and settings gear onto it's own roll on mobile/tablet */}
-              <div className='w-full sm:hidden'></div>
-
-              <NavPoolBalance />
-
-              <PendingTxButton openTransactions={openTransactions} />
-
-              <LanguagePicker />
-
-              <Settings />
-            </div>
-          </div>
-
-          <motion.div
-            className='w-full'
-            style={{
-              boxShadow: 'rgba(0, 0, 0, 0.025) 0px 0px 1px 1px, rgba(0, 0, 0, 0.1) 0px 1px 7px 1px',
-              height: 0,
-              maxWidth: '100vw'
-            }}
-            animate={yScrollPosition > 1 ? 'enter' : 'exit'}
-            variants={{
-              enter: {
-                opacity: 1,
-                transition: {
-                  duration: shouldReduceMotion ? 0 : 1
-                }
-              },
-              exit: {
-                opacity: 0,
-                transition: {
-                  duration: shouldReduceMotion ? 0 : 1
-                }
-              }
-            }}
-          ></motion.div>
-        </motion.div>
+        <Header
+          usersAddress={usersAddress}
+          openTransactions={openTransactions}
+          closeTransactions={closeTransactions}
+          showTransactionsDialog={showTransactionsDialog}
+        />
 
         <div
           className={classnames('grid-wrapper', {
@@ -197,5 +142,178 @@ export function Layout(props) {
         <NavMobile />
       </div>
     </>
+  )
+}
+
+const Header = () => {
+  const { usersAddress } = useContext(AuthControllerContext)
+  const [showTransactionsDialog, setShowTransactionsDialog] = useState(false)
+
+  const openTransactions = (e) => {
+    e.preventDefault()
+    setShowTransactionsDialog(true)
+  }
+
+  const closeTransactions = (e) => {
+    if (e) {
+      e.preventDefault()
+    }
+    setShowTransactionsDialog(false)
+  }
+
+  return (
+    <div className='w-full z-30 bg-body'>
+      <div className='flex flex-row justify-between mx-auto max-w-screen-lg px-4 xs:px-12 sm:px-10 py-4 xs:pb-6 sm:pt-5 sm:pb-7 '>
+        <HeaderLogo />
+        <div className='flex flex-col xs:flex-row'>
+          <div className='flex flex-row'>
+            {usersAddress && <NetworkText openTransactions={openTransactions} />}
+            <NavPoolBalance />
+            <PendingTxButton openTransactions={openTransactions} />
+            {usersAddress && (
+              <NavAccount
+                openTransactions={openTransactions}
+                closeTransactions={closeTransactions}
+                showTransactionsDialog={showTransactionsDialog}
+              />
+            )}
+          </div>
+          <div className='flex flex-row justify-end'>
+            <LanguagePicker />
+            <Settings />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export const PageLayout = (props) => {
+  const { Component, pageProps, router } = props
+
+  return (
+    <AnimatedPageGrid
+      router={router}
+      banner={<NotificationBanners />}
+      header={<Header />}
+      content={<Component {...pageProps} />}
+      sideNavigation={<Nav />}
+      bottomNavigation={<NavMobile />}
+      footer={<Tagline />}
+    />
+  )
+}
+
+/**
+ * Generic page layout component
+ * Small screens displays navigation at the bottom of the page
+ * Anything larger than xs has a sidebar
+ */
+const PageGrid = ({ banner, header, sideNavigation, bottomNavigation, content, footer }) => {
+  const screenSize = useScreenSize()
+
+  if (screenSize === ScreenSize.xs) {
+    return (
+      <div className='page-grid-wrapper h-screen'>
+        <div className='grid-banner'>{banner}</div>
+        <div className='grid-header'>{header}</div>
+        <ContentWithFooter content={content} footer={footer} />
+        <div className='grid-bottom-navigation'>{bottomNavigation}</div>
+      </div>
+    )
+  }
+
+  return (
+    <div className='page-grid-wrapper h-screen'>
+      <div className='grid-banner'>{banner}</div>
+      <div className='grid-header'>{header}</div>
+      <ContentWithSideNavigation
+        content={content}
+        footer={footer}
+        sideNavigation={sideNavigation}
+      />
+    </div>
+  )
+}
+
+/**
+ * Simple wrapper for PageGrid with animations on the page content
+ */
+const AnimatedPageGrid = ({
+  banner,
+  header,
+  sideNavigation,
+  bottomNavigation,
+  content,
+  footer,
+  router
+}) => (
+  <PageGrid
+    banner={banner}
+    header={header}
+    content={<AnimateContent router={router}>{content}</AnimateContent>}
+    footer={footer}
+    sideNavigation={sideNavigation}
+    bottomNavigation={bottomNavigation}
+  />
+)
+
+/**
+ * Page content with a footer pushed to the bottom of the screen
+ */
+const ContentWithFooter = ({ content, footer }) => (
+  <div className='content-grid-wrapper grid-content-with-footer overflow-y-auto'>
+    <Content>{content}</Content>
+    <div className='grid-footer'>{footer}</div>
+  </div>
+)
+
+/**
+ * Page content with a footer pushed to the bottom of the screen
+ * and a navigation bar to the left side
+ */
+const ContentWithSideNavigation = ({ content, footer, sideNavigation }) => (
+  <div className='grid-content-with-side-navigation overflow-y-auto'>
+    <div className='content-grid-wrapper'>
+      <div className='grid-side-navigation'>{sideNavigation}</div>
+      <Content>{content}</Content>
+      <div className='grid-footer'>{footer}</div>
+    </div>
+  </div>
+)
+
+/**
+ * Lowest level wrapper of page content
+ * Base padding so content isn't touching the edge of the screen
+ */
+const Content = ({ children }) => <div className='grid-content p-4 sm:p-8 lg:p-10'>{children}</div>
+
+/**
+ * Simple wrapper for Content with animation
+ */
+const AnimateContent = (props) => {
+  const { router } = props
+  const shouldReduceMotion = useReducedMotion()
+
+  return (
+    <AnimatePresence exitBeforeEnter>
+      <motion.div
+        id='content-animation-wrapper'
+        key={router.route}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: 'easeIn' }}
+        initial={{
+          opacity: 0
+        }}
+        exit={{
+          opacity: 0
+        }}
+        animate={{
+          opacity: 1
+        }}
+        className='max-w-screen-lg mx-auto w-full'
+      >
+        {props.children}
+      </motion.div>
+    </AnimatePresence>
   )
 }

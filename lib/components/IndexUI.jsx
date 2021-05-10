@@ -64,8 +64,6 @@ export const IndexUI = (props) => {
       {/* <NewPoolBanner /> */}
 
       <PoolLists />
-
-      <Tagline />
     </>
   )
 }

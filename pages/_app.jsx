@@ -22,7 +22,7 @@ import { AllContextProviders } from 'lib/components/contextProviders/AllContextP
 import { BodyClasses } from 'lib/components/BodyClasses'
 import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
 import { GraphErrorModal } from 'lib/components/GraphErrorModal'
-import { Layout } from 'lib/components/Layout'
+import { Layout, PageLayout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
@@ -186,26 +186,7 @@ function MyApp({ Component, pageProps, router }) {
 
               <TxRefetchListener />
 
-              <Layout props={pageProps}>
-                <AnimatePresence exitBeforeEnter>
-                  <motion.div
-                    id='content-animation-wrapper'
-                    key={router.route}
-                    transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: 'easeIn' }}
-                    initial={{
-                      opacity: 0
-                    }}
-                    exit={{
-                      opacity: 0
-                    }}
-                    animate={{
-                      opacity: 1
-                    }}
-                  >
-                    <Component {...pageProps} />
-                  </motion.div>
-                </AnimatePresence>
-              </Layout>
+              <PageLayout pageProps={pageProps} Component={Component} router={router} />
 
               <ReactQueryDevtools />
             </CustomErrorBoundary>
