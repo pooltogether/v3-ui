@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
+
 import { useChecklyStatus } from 'lib/hooks/useChecklyStatus'
+import { useTranslation } from 'lib/../i18n'
 
 export const NotificationBanners = (props) => {
-  return <div className='flex flex-col w-full t-0 z-50'>{/* <ChecklyNotificationBanner /> */}</div>
+  return (
+    <div className='flex flex-col w-full t-0 z-50'>
+      <ChecklyNotificationBanner />
+    </div>
+  )
 }
 
 export const NotificationBanner = (props) => {
@@ -16,10 +22,9 @@ export const NotificationBanner = (props) => {
 
   return (
     <div
-      className={classnames(
-        'text-center text-sm sm:text-base text-white z-50 flex relative',
-        props.className
-      )}
+      className={classnames('z-50 flex relative', props.className, {
+        'text-center': !props.noCenter
+      })}
     >
       <div className='max-w-screen-lg sm:px-6 py-2 sm:py-3 mx-auto flex-grow px-8'>
         {props.children}
@@ -41,6 +46,24 @@ export const CloseBannerButton = (props) => (
 // Banners
 
 const ChecklyNotificationBanner = () => {
-  useChecklyStatus()
-  return <NotificationBanner className='bg-red'>Hey</NotificationBanner>
+  const { t } = useTranslation()
+
+  const { data: checklyStatus, isFetched } = useChecklyStatus()
+
+  if (!isFetched || !checklyStatus?.hasErrors) return null
+
+  return (
+    <NotificationBanner className='bg-functional-red text-xxs xs:text-xxs sm:text-xs text-inverse'>
+      <b>{t('warning')}:</b>
+      <span className='mx-1'>{t('dataProvidersAreDownWarning')}</span>
+      <a
+        className='text-inverse underline hover:opacity-70 trans'
+        href='https://status.pooltogether.com/'
+        target='_blank'
+        rel='noopener noreferrer'
+      >
+        {t('moreInfo')}.
+      </a>
+    </NotificationBanner>
+  )
 }

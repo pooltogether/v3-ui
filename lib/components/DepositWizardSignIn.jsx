@@ -8,7 +8,6 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { SignInForm } from 'lib/components/SignInForm'
 
 export function DepositWizardSignIn(props) {
-  const { t } = useTranslation()
   const { nextStep, tickerUpcased } = props
 
   const router = useRouter()

@@ -16,7 +16,7 @@ export function AccountLoggedIn(props) {
   const selectedWallet = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
 
   const redirectToSignIn = () => {
-    router.push('/account?signIn=1', '/account?signIn=1', { shallow: true })
+    router.push('/account', '/account')
   }
 
   useEffect(() => {

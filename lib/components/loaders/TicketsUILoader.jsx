@@ -19,11 +19,11 @@ export const TicketsUILoader = (props) => {
     return (
       <ContentLoader
         {...UI_LOADER_ANIM_DEFAULTS}
-        viewBox='0 0 190 80'
+        viewBox='0 0 200 80'
         backgroundColor={bgColor}
         foregroundColor={foreColor}
       >
-        <rect x='0' y='0' rx='5' ry='5' width='190' height='80' />
+        <rect x='0' y='0' rx='3' ry='3' width='200' height='70' />
       </ContentLoader>
     )
   }
@@ -31,12 +31,11 @@ export const TicketsUILoader = (props) => {
   return (
     <ContentLoader
       {...UI_LOADER_ANIM_DEFAULTS}
-      viewBox='0 0 400 100'
+      viewBox='0 0 400 50'
       backgroundColor={bgColor}
       foregroundColor={foreColor}
     >
-      <rect x='0' y='0' rx='5' ry='5' width='190' height='100' />{' '}
-      <rect x='210' y='0' rx='5' ry='5' width='190' height='100' />
+      <rect x='0' y='0' rx='3' ry='3' width='400' height='40' />{' '}
     </ContentLoader>
   )
 }

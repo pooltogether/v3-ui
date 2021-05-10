@@ -22,7 +22,7 @@ exports.handler = async (event, context, callback) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(null)
       }
-    } else if (response && response.status < 401) {
+    } else if (response && response.status === 401) {
       return {
         statusCode: 401,
         headers: { 'Content-Type': 'application/json' },

@@ -1,4 +1,6 @@
 .bn-onboard-custom.bn-onboard-modal {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(2px);
   z-index: 9001;
 }
 

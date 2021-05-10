@@ -77,14 +77,15 @@ export const NewPrizeCountdown = (props) => {
     )
   }
 
-  const unitClasses = 'opacity-60 text-inverse text-xxs xs:text-xs sm:text-xs pt-1'
+  const unitClasses = 'opacity-60 text-inverse text-xxxs'
+  const unitStyles = { paddingTop: 3 }
 
   return (
     <>
       <div
         className={classnames(textSize, 'flex text-center', {
           'justify-center': center,
-          'text-sm xs:text-xs sm:text-base lg:text-xl': !textSize
+          'text-sm xs:text-xs sm:text-base': !textSize
         })}
       >
         <div
@@ -98,7 +99,9 @@ export const NewPrizeCountdown = (props) => {
             <LeftSideJsx digit={daysArray.length < 2 ? 0 : daysArray[0]} />
             <RightSideJsx digit={daysArray.length > 1 ? daysArray[1] : daysArray[0]} />
           </div>
-          <div className={unitClasses}>{t('countdownDayShort')}</div>
+          <div className={unitClasses} style={unitStyles}>
+            {t('countdownDayShort')}
+          </div>
         </div>
         <div
           className='flex flex-col'
@@ -111,7 +114,9 @@ export const NewPrizeCountdown = (props) => {
             <LeftSideJsx digit={hoursArray.length < 2 ? 0 : hoursArray[0]} />
             <RightSideJsx digit={hoursArray.length > 1 ? hoursArray[1] : hoursArray[0]} />
           </div>
-          <div className={unitClasses}>{t('countdownHourShort')}</div>
+          <div className={unitClasses} style={unitStyles}>
+            {t('countdownHourShort')}
+          </div>
         </div>
         <div className={`px-0 sm:px-1 font-bold text-${textColor}`}>:</div>
         <div
@@ -125,7 +130,9 @@ export const NewPrizeCountdown = (props) => {
             <LeftSideJsx digit={minutesArray.length < 2 ? 0 : minutesArray[0]} />
             <RightSideJsx digit={minutesArray.length > 1 ? minutesArray[1] : minutesArray[0]} />
           </div>
-          <div className={unitClasses}>{t('countdownMinuteShort')}</div>
+          <div className={unitClasses} style={unitStyles}>
+            {t('countdownMinuteShort')}
+          </div>
         </div>
         <div className={`px-0 sm:px-1 font-bold text-${textColor}`}>:</div>
         <div
@@ -139,7 +146,9 @@ export const NewPrizeCountdown = (props) => {
             <LeftSideJsx digit={secondsArray.length < 2 ? 0 : secondsArray[0]} />
             <RightSideJsx digit={secondsArray.length > 1 ? secondsArray[1] : secondsArray[0]} />
           </div>
-          <div className={unitClasses}>{t('countdownSecondShort')}</div>
+          <div className={unitClasses} style={unitStyles}>
+            {t('countdownSecondShort')}
+          </div>
         </div>
         {msg}
       </div>

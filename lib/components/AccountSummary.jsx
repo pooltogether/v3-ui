@@ -1,13 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import classnames from 'classnames'
+import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
 import { useAtom } from 'jotai'
 
 import { useTranslation } from 'lib/../i18n'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { isSelfAtom } from 'lib/components/AccountUI'
+import { Button } from 'lib/components/Button'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { SmallLoader } from 'lib/components/loaders/SmallLoader'
+import { Tooltip } from 'lib/components/Tooltip'
 import { usePlayerTotalDepositValue } from 'lib/hooks/useUserTickets'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -19,7 +23,13 @@ export const AccountSummary = () => {
 
   const [isSelf] = useAtom(isSelfAtom)
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const { connectWallet, usersAddress } = useContext(AuthControllerContext)
+
+  const { handleLoadOnboard } = useContext(WalletContext)
+  // lazy load onboardjs when sign-in is shown
+  useEffect(() => {
+    handleLoadOnboard()
+  }, [])
 
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
@@ -43,15 +53,65 @@ export const AccountSummary = () => {
       <div className='flex justify-between items-center'>
         <div className='leading-tight'>
           <h6 className='font-normal'>{t('assets')}</h6>
-          <h1>
-            {playerTicketsIsFetched ? (
-              <>
-                $<PoolNumber>{numberWithCommas(totalValueUsd, { precision: 2 })}</PoolNumber>
-              </>
-            ) : (
-              <SmallLoader />
-            )}
-          </h1>
+          {playerTicketsIsFetched ? (
+            <h1>
+              $<PoolNumber>{numberWithCommas(totalValueUsd, { precision: 2 })}</PoolNumber>
+            </h1>
+          ) : !address ? (
+            <>
+              <div className='text-xxxs sm:text-base font-bold mt-1'>
+                {t('connectAWalletToManageTicketsAndRewards')}
+              </div>
+
+              <Button
+                textSize='xs'
+                padding='px-4 py-1'
+                className='mt-4'
+                onClick={(e) => {
+                  e.preventDefault()
+                  connectWallet(() => {})
+                }}
+              >
+                {t('connectWallet')}
+              </Button>
+
+              <div className='flex flex-col sm:flex-row sm:items-center mt-8'>
+                <Tooltip
+                  tip={
+                    <>
+                      Ethereum Wallet?
+                      <br />
+                      {t('whatIsEthereumOne')}
+                      <br />
+                      <br />
+                      {t('whatIsEthereumTwo')}
+                    </>
+                  }
+                >
+                  <div className='flex items-center opacity-60 font-bold text-accent-1 text-xxs'>
+                    <FeatherIcon icon='info' className='w-3 h-3 sm:w-4 sm:h-4 inline-block mr-1' />
+                    {t('whatsAnEthereum')}
+                  </div>
+                </Tooltip>
+
+                <div className='opacity-60 font-bold sm:ml-8 mt-1 sm:mt-0'>
+                  <a
+                    href='https://ethereum.org/en/wallets'
+                    target='_blank'
+                    className='text-accent-1 text-xxxxs sm:text-xxs flex items-center'
+                  >
+                    {t('learnMoreAboutEthereumWallets')}{' '}
+                    <FeatherIcon
+                      icon='external-link'
+                      className='w-3 h-3 sm:w-4 sm:h-4 inline-block ml-1'
+                    />
+                  </a>
+                </div>
+              </div>
+            </>
+          ) : (
+            <SmallLoader />
+          )}
         </div>
 
         <div>

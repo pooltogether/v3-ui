@@ -271,13 +271,7 @@ a:hover {
 
 @screen sm {
   .pool-row-right-col {
-    max-width: 278px;
-  }
-}
-
-@screen lg {
-  .pool-row-right-col {
-    max-width: 300px;
+    max-width: 280px;
   }
 }
 

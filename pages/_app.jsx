@@ -22,7 +22,7 @@ import { AllContextProviders } from 'lib/components/contextProviders/AllContextP
 import { BodyClasses } from 'lib/components/BodyClasses'
 import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
 import { GraphErrorModal } from 'lib/components/GraphErrorModal'
-import { Layout, PageLayout } from 'lib/components/Layout'
+import { Layout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
@@ -174,8 +174,6 @@ function MyApp({ Component, pageProps, router }) {
         <QueryClientProvider client={queryClient}>
           <BodyClasses />
 
-          {/* <GraphErrorModal /> */}
-
           <LoadingScreen initialized={initialized} />
 
           <ToastContainer className='pool-toast' position='top-center' autoClose={7000} />
@@ -186,7 +184,7 @@ function MyApp({ Component, pageProps, router }) {
 
               <TxRefetchListener />
 
-              <PageLayout pageProps={pageProps} Component={Component} router={router} />
+              <Layout pageProps={pageProps} Component={Component} router={router} />
 
               <ReactQueryDevtools />
             </CustomErrorBoundary>

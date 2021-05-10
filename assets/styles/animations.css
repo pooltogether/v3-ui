@@ -357,7 +357,7 @@
   display: inline-block;
 
   background-size: 1000% auto;
-  animation: cycleBackgroundPos 15000ms infinite steps(100);
+  animation: cycleBackgroundPos 15000ms infinite steps(60);
 }
 
 .border-flashy {
