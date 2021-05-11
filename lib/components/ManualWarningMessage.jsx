@@ -9,18 +9,21 @@ export const ManualWarningMessage = (props) => {
   if (!showPopup) return null
 
   return (
-    <div className='fixed z-50 text-inverse p-6 rounded-xl sm:bottom-4 sm:right-4 sm:clear-top text-white border-2 border-orange bg-black flex flex-row max-w-full'>
+    <div className='fixed flex flex-row z-50 rounded-xl shadow-4xl p-6 bottom-20 right-4 left-4 sm:bottom-8 sm:right-8 sm:left-auto sm:clear-top text-white border-2 border-orange bg-black'>
       <button
         onClick={(e) => {
           e.preventDefault()
           setShowPopup(false)
         }}
-        className='absolute r-0 t-0 text-inverse opacity-70 hover:opacity-100 trans outline-none focus:outline-none active:outline-none mt-2 mr-2'
+        className='absolute r-0 t-0 text-white opacity-50 hover:opacity-100 trans outline-none focus:outline-none active:outline-none mt-2 mr-2'
       >
-        <FeatherIcon icon='x' className='w-4 h-4' strokeWidth='0.09rem' />
+        <FeatherIcon icon='x' className='w-6 h-6' strokeWidth='0.16rem' />
       </button>
-      <FeatherIcon icon='alert-triangle' className='my-auto mx-auto w-8 h-8 text-orange' />
-      <span className='ml-4 max-w-3/4 sm:max-w-xs'>{WARNING_MESSAGE}</span>
+
+      <div className='flex items-center'>
+        <FeatherIcon icon='alert-triangle' className='my-auto mx-auto w-6 h-6 text-orange' />
+        <span className='ml-4 sm:max-w-xs text-sm sm:pl-6 sm:pr-10'>{WARNING_MESSAGE}</span>
+      </div>
     </div>
   )
 }
