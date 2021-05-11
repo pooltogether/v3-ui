@@ -7,7 +7,6 @@ import { Integrations } from '@sentry/tracing'
 import { HotKeys } from 'react-hotkeys'
 import { ethers } from 'ethers'
 import { ToastContainer } from 'react-toastify'
-import { motion, AnimatePresence } from 'framer-motion'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider as JotaiProvider } from 'jotai'
@@ -21,7 +20,6 @@ import {
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
 import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
-import { GraphErrorModal } from 'lib/components/GraphErrorModal'
 import { Layout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
@@ -55,6 +53,7 @@ import 'assets/styles/tickets.css'
 import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'
 import 'assets/styles/vx--custom.css'
+import { ManualWarningMessage } from 'lib/components/ManualWarningMessage'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -174,8 +173,6 @@ function MyApp({ Component, pageProps, router }) {
         <QueryClientProvider client={queryClient}>
           <BodyClasses />
 
-          {/* <GraphErrorModal /> */}
-
           <LoadingScreen initialized={initialized} />
 
           <ToastContainer className='pool-toast' position='top-center' autoClose={7000} />
@@ -186,26 +183,9 @@ function MyApp({ Component, pageProps, router }) {
 
               <TxRefetchListener />
 
-              <Layout props={pageProps}>
-                <AnimatePresence exitBeforeEnter>
-                  <motion.div
-                    id='content-animation-wrapper'
-                    key={router.route}
-                    transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: 'easeIn' }}
-                    initial={{
-                      opacity: 0
-                    }}
-                    exit={{
-                      opacity: 0
-                    }}
-                    animate={{
-                      opacity: 1
-                    }}
-                  >
-                    <Component {...pageProps} />
-                  </motion.div>
-                </AnimatePresence>
-              </Layout>
+              <ManualWarningMessage />
+
+              <Layout pageProps={pageProps} Component={Component} router={router} />
 
               <ReactQueryDevtools />
             </CustomErrorBoundary>

@@ -14,8 +14,6 @@ import { AccountStakingPools } from 'lib/components/AccountStakingPools'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
-import { SignInForm } from 'lib/components/SignInForm'
-import { Tagline } from 'lib/components/Tagline'
 import { shorten } from 'lib/utils/shorten'
 import { testAddress } from 'lib/utils/testAddress'
 
@@ -80,10 +78,6 @@ export const AccountUI = () => {
           <AccountWinnings />
         </>
       )}
-
-      <div className='mt-20'>
-        <Tagline />
-      </div>
     </>
   )
 }

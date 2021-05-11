@@ -22,7 +22,7 @@ import WalletIcon from 'assets/images/icon-wallet.svg'
 
 const NETWORK_SWITCH_STEP_INDEX = 1
 
-export function DepositWizardContainer(props) {
+export function DepositWizardContainer() {
   const { t } = useTranslation()
   const router = useRouter()
 

@@ -223,8 +223,6 @@ export const PoolShow = (props) => {
           )}
         </div>
       </motion.div>
-
-      <Tagline />
     </>
   )
 }

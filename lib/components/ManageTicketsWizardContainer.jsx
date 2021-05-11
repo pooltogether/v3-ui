@@ -18,7 +18,7 @@ import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 
 const NETWORK_SWITCH_STEP_INDEX = 1
 
-export function ManageTicketsWizardContainer(props) {
+export function ManageTicketsWizardContainer() {
   const { t } = useTranslation()
   const router = useRouter()
   const quantity = router.query.quantity
