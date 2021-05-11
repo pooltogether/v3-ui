@@ -170,7 +170,7 @@ const AnimateContent = (props) => {
         animate={{
           opacity: 1
         }}
-        className='max-w-screen-lg mx-auto w-full'
+        className='max-w-screen-sm lg:max-w-screen-lg mx-auto w-full'
       >
         {props.children}
       </motion.div>
