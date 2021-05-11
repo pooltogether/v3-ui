@@ -4,216 +4,176 @@ import { useRouter } from 'next/router'
 import { AnimatePresence, motion, useViewportScroll } from 'framer-motion'
 
 import { SUPPORTED_NETWORKS } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
+
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
-import { NavAccount } from 'lib/components/NavAccount'
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
-import { HeaderLogo } from 'lib/components/HeaderLogo'
 import { NavMobile } from 'lib/components/NavMobile'
-import { NetworkText } from 'lib/components/NetworkText'
 import { ManageTicketsWizardContainer } from 'lib/components/ManageTicketsWizardContainer'
 import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
-import { PendingTxButton } from 'lib/components/PendingTxButton'
-import { LanguagePicker } from 'lib/components/LanguagePicker'
-import { Settings } from 'lib/components/Settings'
 import { WrongNetworkModal } from 'lib/components/WrongNetworkModal'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { ClaimRetroactivePoolWizardContainer } from 'lib/components/ClaimRetroactivePoolWizard'
-import { NavPoolBalance } from 'lib/components/NavPoolBalance'
+import { NotificationBanners } from 'lib/components/NotificationBanners'
+import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
+import { Tagline } from 'lib/components/Tagline'
+import { Header } from 'lib/components/PageHeader'
 
-const onlyUnique = (value, index, self) => {
-  return self.indexOf(value) === index
-}
-
-export function Layout(props) {
-  const { t } = useTranslation()
-  const { children } = props
-
-  const shouldReduceMotion = useReducedMotion()
-
-  const [yScrollPosition, setYScrollPosition] = useState()
-  const { scrollY } = useViewportScroll()
-
-  scrollY.onChange((y) => {
-    setYScrollPosition(y)
-  })
-
-  const [showTransactionsDialog, setShowTransactionsDialog] = useState(false)
-
-  const openTransactions = (e) => {
-    e.preventDefault()
-    setShowTransactionsDialog(true)
-  }
-
-  const closeTransactions = (e) => {
-    if (e) {
-      e.preventDefault()
-    }
-    setShowTransactionsDialog(false)
-  }
-
-  const router = useRouter()
-
+export function Layout({ pageProps, Component, router }) {
   const deposit = /deposit/.test(router.asPath)
   const manage = /\/manage-tickets/.test(router.asPath)
 
-  const { connectWallet, usersAddress } = useContext(AuthControllerContext)
-  const { handleLoadOnboard } = useContext(WalletContext)
   // lazy load onboardjs when sign-in is shown
+  const { handleLoadOnboard } = useContext(WalletContext)
   useEffect(() => {
     handleLoadOnboard()
   }, [])
 
-  // this is useful for showing a big banner at the top that catches
-  // people's attention
-  const showingBanner = false
-  // const showingBanner = chainId !== 1
-
-  let supportedNetworkNames = SUPPORTED_NETWORKS.map((chainId) => chainIdToNetworkName(chainId))
-  supportedNetworkNames = supportedNetworkNames.filter(onlyUnique)
-
   return (
     <>
-      <Meta />
+      <AnimatePresence>{deposit && <DepositWizardContainer />}</AnimatePresence>
 
-      <AnimatePresence>{deposit && <DepositWizardContainer {...props} />}</AnimatePresence>
-
-      <AnimatePresence>{manage && <ManageTicketsWizardContainer {...props} />}</AnimatePresence>
+      <AnimatePresence>{manage && <ManageTicketsWizardContainer />}</AnimatePresence>
 
       <ClaimRetroactivePoolWizardContainer />
 
       <WrongNetworkModal />
 
-      <div
-        className='flex flex-col w-full'
-        style={{
-          minHeight: '100vh'
-        }}
-      >
-        <motion.div
-          className={classnames(
-            'header fixed w-full bg-body z-30 pt-1 pb-1 xs:pt-2 xs:pb-0 sm:py-0 mx-auto l-0 r-0',
-            {
-              'showing-network-banner': showingBanner
-            }
-          )}
-        >
-          <div className='flex justify-between items-center px-4 xs:px-12 sm:px-10 py-4 xs:pb-6 sm:pt-5 sm:pb-7 mx-auto'>
-            <HeaderLogo />
-
-            <div
-              className={classnames('flex items-center justify-end flex-row flex-wrap relative')}
-              style={{
-                lineHeight: 0
-              }}
-            >
-              {usersAddress && <NetworkText openTransactions={openTransactions} />}
-
-              {usersAddress && (
-                <NavAccount
-                  openTransactions={openTransactions}
-                  closeTransactions={closeTransactions}
-                  showTransactionsDialog={showTransactionsDialog}
-                />
-              )}
-
-              {/* this pushes the lang picker and settings gear onto it's own roll on mobile/tablet */}
-              <div className='w-full sm:hidden'></div>
-
-              <NavPoolBalance />
-
-              <PendingTxButton openTransactions={openTransactions} />
-
-              {!usersAddress && (
-                <button
-                  onClick={(e) => {
-                    e.preventDefault()
-                    connectWallet(() => {})
-                  }}
-                  className='text-highlight-2 font-bold hover:text-inverse text-xs trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20 h-8 mb-1 sm:mb-0 mr-2 sm:mr-1'
-                >
-                  <div className='flex items-center bg-default hover:bg-body rounded-full border border-highlight-2 px-4 trans trans-fastest z-20 h-8'>
-                    {t('connectWallet')}
-                  </div>
-                </button>
-              )}
-
-              <LanguagePicker />
-
-              <Settings />
-            </div>
-          </div>
-
-          <motion.div
-            className='w-full'
-            style={{
-              boxShadow: 'rgba(0, 0, 0, 0.025) 0px 0px 1px 1px, rgba(0, 0, 0, 0.1) 0px 1px 7px 1px',
-              height: 0,
-              maxWidth: '100vw'
-            }}
-            animate={yScrollPosition > 1 ? 'enter' : 'exit'}
-            variants={{
-              enter: {
-                opacity: 1,
-                transition: {
-                  duration: shouldReduceMotion ? 0 : 1
-                }
-              },
-              exit: {
-                opacity: 0,
-                transition: {
-                  duration: shouldReduceMotion ? 0 : 1
-                }
-              }
-            }}
-          ></motion.div>
-        </motion.div>
-
-        <div
-          className={classnames('grid-wrapper', {
-            'showing-network-banner': showingBanner
-          })}
-        >
-          <div
-            className={classnames('sidebar hidden sm:block z-20', {
-              'showing-network-banner': showingBanner
-            })}
-          >
-            <Nav />
-          </div>
-
-          <div className='content'>
-            <div className='pool-container w-full flex flex-grow relative z-10 h-full page px-4 xs:px-12 sm:px-10 pt-6 xs:pt-6 sm:pt-8 pb-32'>
-              <div className='flex flex-col flex-grow'>
-                <div
-                  className='relative flex flex-col flex-grow h-full z-10 text-white'
-                  style={{
-                    flex: 1
-                  }}
-                >
-                  <div className='my-0 text-inverse sm:pt-2 lg:pt-4'>
-                    {React.cloneElement(children, {
-                      ...props
-                    })}
-                  </div>
-                </div>
-
-                {/* 
-              <div
-                className='main-footer z-10'
-              >
-                <Footer />
-              </div> */}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <NavMobile />
-      </div>
+      <PageLayout pageProps={pageProps} Component={Component} router={router} />
     </>
+  )
+}
+
+const PageLayout = (props) => {
+  const { Component, pageProps, router } = props
+
+  return (
+    <AnimatedPageGrid
+      router={router}
+      banner={<NotificationBanners />}
+      header={<Header />}
+      content={<Component {...pageProps} />}
+      sideNavigation={<Nav />}
+      bottomNavigation={<NavMobile />}
+      footer={<Tagline />}
+    />
+  )
+}
+
+/**
+ * Generic page layout component
+ * Small screens displays navigation at the bottom of the page
+ * Anything larger than xs has a sidebar
+ */
+const PageGrid = ({ banner, header, sideNavigation, bottomNavigation, content, footer }) => {
+  const screenSize = useScreenSize()
+
+  if (screenSize <= ScreenSize.sm) {
+    return (
+      <div className='page-grid-wrapper h-screen'>
+        <div className='grid-banner'>{banner}</div>
+        <div className='grid-header'>{header}</div>
+        <ContentWithFooter content={content} footer={footer} />
+        <div className='grid-bottom-navigation'>{bottomNavigation}</div>
+      </div>
+    )
+  }
+
+  return (
+    <div className='page-grid-wrapper h-screen'>
+      <div className='grid-banner'>{banner}</div>
+      <div className='grid-header'>{header}</div>
+      <ContentWithSideNavigation
+        content={content}
+        footer={footer}
+        sideNavigation={sideNavigation}
+      />
+    </div>
+  )
+}
+
+/**
+ * Simple wrapper for PageGrid with animations on the page content
+ */
+const AnimatedPageGrid = ({
+  banner,
+  header,
+  sideNavigation,
+  bottomNavigation,
+  content,
+  footer,
+  router
+}) => (
+  <PageGrid
+    banner={banner}
+    header={header}
+    content={<AnimateContent router={router}>{content}</AnimateContent>}
+    footer={footer}
+    sideNavigation={sideNavigation}
+    bottomNavigation={bottomNavigation}
+  />
+)
+
+/**
+ * Page content with a footer pushed to the bottom of the screen
+ */
+const ContentWithFooter = ({ content, footer }) => (
+  <div className='content-grid-wrapper grid-content-with-footer overflow-y-auto'>
+    <Content>{content}</Content>
+    <div className='grid-footer'>{footer}</div>
+  </div>
+)
+
+/**
+ * Page content with a footer pushed to the bottom of the screen
+ * and a navigation bar to the left side
+ */
+const ContentWithSideNavigation = ({ content, footer, sideNavigation }) => (
+  <div className='grid-content-with-side-navigation overflow-y-auto'>
+    <div className='content-grid-wrapper'>
+      <div className='grid-side-navigation'>{sideNavigation}</div>
+      <Content>{content}</Content>
+      <div className='grid-footer'>{footer}</div>
+    </div>
+  </div>
+)
+
+/**
+ * Lowest level wrapper of page content
+ * Base padding so content isn't touching the edge of the screen
+ */
+const Content = ({ children }) => (
+  <div className='grid-content p-4 sm:p-8 lg:p-10 text-inverse'>{children}</div>
+)
+
+/**
+ * Simple wrapper for Content with animation
+ */
+const AnimateContent = (props) => {
+  const { router } = props
+  const shouldReduceMotion = useReducedMotion()
+
+  return (
+    <AnimatePresence exitBeforeEnter>
+      <motion.div
+        id='content-animation-wrapper'
+        key={router.route}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: 'easeIn' }}
+        initial={{
+          opacity: 0
+        }}
+        exit={{
+          opacity: 0
+        }}
+        animate={{
+          opacity: 1
+        }}
+        className='max-w-screen-lg mx-auto w-full'
+      >
+        {props.children}
+      </motion.div>
+    </AnimatePresence>
   )
 }

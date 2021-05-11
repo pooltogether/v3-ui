@@ -19,7 +19,7 @@ export function NavMobile(props) {
   return (
     <>
       <nav
-        className='w-screen flex justify-between items-center fixed b-0 l-0 r-0 bg-card-purple sm:hidden z-20'
+        className='w-screen flex justify-between items-center b-0 l-0 r-0 bg-card-purple sm:hidden z-20'
         style={{
           height: 76
         }}

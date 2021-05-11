@@ -35,8 +35,6 @@ export const VoteUI = (props) => {
           {t('voteNow')}
         </ButtonLink>
       </div>
-
-      <Tagline />
     </>
   )
 }

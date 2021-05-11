@@ -121,8 +121,6 @@ export function PrizeShow(props) {
           )
         }}
       </PrizePlayersQuery>
-
-      <Tagline />
     </>
   )
 }
