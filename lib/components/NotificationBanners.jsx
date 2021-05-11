@@ -53,7 +53,7 @@ const ChecklyNotificationBanner = () => {
   if (!isFetched || !checklyStatus?.hasErrors) return null
 
   return (
-    <NotificationBanner className='bg-functional-red text-xxs xs:text-xxs sm:text-xs text-inverse'>
+    <NotificationBanner className='bg-warning-red text-xxs xs:text-xxs sm:text-xs text-inverse'>
       <b>{t('warning')}:</b>
       <span className='mx-1'>{t('dataProvidersAreDownWarning')}</span>
       <a

@@ -33,7 +33,8 @@
   --color-bg-highlight-8: #2a1660;
   --color-bg-highlight-9: #341762;
   --color-bg-raspberry: #49195c;
-  --color-bg-functional-red: #ff6666;
+  --color-bg-functional-red: rgba(70, 22, 92, 0.75);
+  --color-bg-warning-red: #ff6666;
   --color-bg-red: #e61b1b;
   --color-bg-green: #3ef3d4;
   --color-bg-orange-darkened: rgba(211, 120, 2, 0.171);
