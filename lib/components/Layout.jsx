@@ -70,7 +70,7 @@ const PageLayout = (props) => {
 const PageGrid = ({ banner, header, sideNavigation, bottomNavigation, content, footer }) => {
   const screenSize = useScreenSize()
 
-  if (screenSize === ScreenSize.xs) {
+  if (screenSize <= ScreenSize.sm) {
     return (
       <div className='page-grid-wrapper h-screen'>
         <div className='grid-banner'>{banner}</div>

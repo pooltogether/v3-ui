@@ -28,9 +28,9 @@ export const Header = () => {
 
   return (
     <div className='w-full z-30 bg-body'>
-      <div className='flex flex-row justify-between mx-auto max-w-screen-lg px-4 xs:px-12 sm:px-10 py-4 xs:pb-6 sm:pt-5 sm:pb-7 '>
+      <div className='flex flex-row justify-between mx-auto max-w-screen-lg px-4 sm:px-10 py-4 sm:pb-6 sm:pt-5'>
         <HeaderLogo />
-        <div className='flex flex-col xs:flex-row'>
+        <div className='flex flex-col sm:flex-row'>
           <div className='flex flex-row'>
             {usersAddress && <NetworkText openTransactions={openTransactions} />}
             <NavPoolBalance />

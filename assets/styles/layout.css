@@ -147,7 +147,7 @@ body {
     'bottomNavigation';
 }
 
-@screen xs {
+@screen sm {
   .page-grid-wrapper {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto 1fr auto;
@@ -165,7 +165,7 @@ body {
   grid-template-areas: 'content' 'footer';
 }
 
-@screen xs {
+@screen sm {
   .content-grid-wrapper {
     margin: 0 auto;
     height: 100%;
