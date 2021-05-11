@@ -53,6 +53,7 @@ import 'assets/styles/tickets.css'
 import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'
 import 'assets/styles/vx--custom.css'
+import { ManualWarningMessage } from 'lib/components/ManualWarningMessage'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -181,6 +182,8 @@ function MyApp({ Component, pageProps, router }) {
               <TransactionStatusChecker />
 
               <TxRefetchListener />
+
+              <ManualWarningMessage />
 
               <Layout pageProps={pageProps} Component={Component} router={router} />
 
