@@ -138,6 +138,7 @@ body {
 
 .page-grid-wrapper {
   display: grid;
+  max-height: -webkit-fill-available;
   grid-template-columns: 1fr;
   grid-template-rows: auto auto 1fr auto;
   grid-template-areas:
@@ -168,7 +169,6 @@ body {
 @screen sm {
   .content-grid-wrapper {
     margin: 0 auto;
-    height: 100%;
     max-width: 1460px;
     grid-template-columns: auto 1fr;
     grid-template-rows: 1fr auto;
