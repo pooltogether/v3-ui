@@ -45,7 +45,7 @@ export const PageTitleAndBreadcrumbs = (props) => {
     </>
   )
 
-  const isDaily = pool?.prize?.prizePeriodSeconds?.toNumber() === SECONDS_PER_DAY
+  const isDaily = pool?.prize?.prizePeriodSeconds == SECONDS_PER_DAY.toString()
 
   return (
     <>

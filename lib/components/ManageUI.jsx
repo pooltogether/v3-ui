@@ -195,7 +195,7 @@ export const ManageUI = (props) => {
           {
             icon: null,
             title: t('prizePeriodInSeconds'),
-            content: <h3>{numberWithCommas(pool.config.prizePeriodSeconds)}</h3>
+            content: <h3>{numberWithCommas(pool.prize.prizePeriodSeconds.toString())}</h3>
           },
           {
             icon: null,
