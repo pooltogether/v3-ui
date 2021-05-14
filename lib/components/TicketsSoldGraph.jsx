@@ -49,7 +49,7 @@ export const TicketsSoldGraph = (props) => {
   if (dataArray.length < CHART_PRIZE_PAGE_SIZE) {
     dataArray.push({
       value: 0,
-      date: sub(dataArray[dataArray.length - 1].date, {
+      date: sub(dataArray[dataArray.length - 1]?.date, {
         years: 0,
         months: 0,
         weeks: 1,

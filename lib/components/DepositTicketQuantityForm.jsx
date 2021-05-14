@@ -21,6 +21,7 @@ import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
 import { useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
+import { SECONDS_PER_WEEK } from '@pooltogether/current-pool-data'
 
 const bn = ethers.BigNumber.from
 
@@ -220,7 +221,7 @@ export function DepositTicketQuantityForm(props) {
 
             <div className='mt-6'>
               <Odds
-                sayEveryWeek
+                sayEveryWeek={pool.prize.prizePeriodSeconds.toString() == SECONDS_PER_WEEK}
                 showLabel
                 splitLines
                 ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}

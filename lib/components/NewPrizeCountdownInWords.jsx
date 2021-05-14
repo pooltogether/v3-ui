@@ -33,8 +33,10 @@ export const NewPrizeCountdownInWords = (props) => {
   } else {
     content = (
       <>
-        {t('numDays', { days: daysWords })}, {t('numHours', { hours: hoursWords })},{' '}
-        {t('numMinutes', { minutes: minutesWords })}, {t('numSeconds', { seconds: secondsWords })}
+        {daysWords !== '0' && <>{t('numDays', { days: daysWords })}, </>}
+        {hoursWords !== '0' && <>{t('numHours', { hours: hoursWords })}, </>}
+        {minutesWords !== '0' && <>{t('numMinutes', { minutes: minutesWords })}, </>}
+        {secondsWords !== '0' && <>{t('numSeconds', { seconds: secondsWords })}</>}
       </>
     )
   }
@@ -47,9 +49,10 @@ export const NewPrizeCountdownInWords = (props) => {
     content = (
       <>
         {onTicket && <span className='font-normal mx-1'>{t('in')}</span>}
-        {t('numDaysShort', { days: daysWords })}, {t('numHoursShort', { hours: hoursWords })},{' '}
-        {t('numMinutesShort', { minutes: minutesWords })},{' '}
-        {t('numSecondsShort', { seconds: secondsWords })}
+        {daysWords !== '0' && <>{t('numDaysShort', { days: daysWords })}, </>}
+        {hoursWords !== '0' && <>{t('numHoursShort', { hours: hoursWords })}, </>}
+        {minutesWords !== '0' && <>{t('numMinutesShort', { minutes: minutesWords })}, </>}
+        {secondsWords !== '0' && <>{t('numSecondsShort', { seconds: secondsWords })}</>}
       </>
     )
   }

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
+import { getTimeBreakdown } from '@pooltogether/utilities'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
@@ -14,6 +14,7 @@ import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { getTimeSentence } from 'lib/utils/getTimeSentence'
 
 export function OrderComplete(props) {
   const [t] = useTranslation()
@@ -28,6 +29,10 @@ export function OrderComplete(props) {
   const { confetti } = useContext(ConfettiContext)
 
   const { data: pool } = useCurrentPool()
+
+  const { years, weeks, days, hours, minutes, seconds } = getTimeBreakdown(
+    pool.prize.prizePeriodSeconds.toString()
+  )
 
   useEffect(() => {
     Cookies.set(WIZARD_REFERRER_HREF, '/account', COOKIE_OPTIONS)
@@ -97,7 +102,7 @@ export function OrderComplete(props) {
           </div>
           <div className='mb-6'>
             {t('youWillBeEligibleToWinPrizeEveryFrequency', {
-              frequency: t('week')
+              frequency: getTimeSentence(t, years, weeks, days, hours, minutes, seconds)
             })}
           </div>
           <div className='mb-3 text-inverse'>
