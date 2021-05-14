@@ -23,6 +23,7 @@ https://app.pooltogether.us/*   https://app.pooltogether.com         301!
 /pools/:networkName/:symbol/deposit /pools/[networkName]/[symbol]/deposit.html         200
 /pools/:networkName/:symbol/manage  /pools/[networkName]/[symbol]/manage.html          200
 /pools/:networkName/:symbol         /pools/[networkName]/[symbol].html                 200
+/pools/:networkName                 /pools/[networkName]                               200 
 
 /prizes/:networkName/:symbol/:prizeNumber /prizes/[networkName]/[symbol]/[prizeNumber].html  200
 /prizes/:networkName/:symbol              /prizes/[networkName]/[symbol].html                200
