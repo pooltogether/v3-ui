@@ -4,17 +4,22 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
+import { CountBadge } from 'lib/components/CountBadge'
+import { useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
 
 export function Nav(props) {
   const { t } = useTranslation()
   const router = useRouter()
+
+  const { sortedProposals } = useAllProposalsSorted()
+  const activeCount = sortedProposals?.active?.length
 
   const accountPage = router.pathname.match('account')
   const votePage = router.pathname.match('vote')
   const poolPage = !accountPage && !votePage
 
   const navParentClasses =
-    'leading-none rounded-full hover:bg-accent-grey-1 w-full flex justify-start items-center text-lg lg:text-xl py-3 px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none my-3 font-bold ml-3 lg:ml-0 h-10'
+    'relative leading-none rounded-full hover:bg-accent-grey-1 w-full flex justify-start items-center text-lg lg:text-xl py-3 px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none my-3 font-bold ml-3 lg:ml-0 h-10'
 
   return (
     <nav className='flex-col items-start hidden sm:block sticky top-0 pt-8 lg:pt-10 pl-2 sm:pr-12 base:pr-24 lg:pr-32 text-center'>
@@ -53,6 +58,15 @@ export function Nav(props) {
             'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': votePage
           })}
         >
+          {activeCount > 0 && (
+            <div className='absolute' style={{ top: 8, right: 40 }}>
+              <CountBadge
+                backgroundClass='bg-tertiary'
+                sizeClasses='w-6 h-6 text-xs'
+                count={activeCount}
+              />
+            </div>
+          )}
           <VoteIcon />
           <span className='pl-3 capitalize'>{t('vote')}</span>
         </a>

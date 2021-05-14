@@ -31,38 +31,30 @@ export function TxRefetchListener(props) {
     if (tx?.refetch) {
       setTimeout(() => {
         tx.refetch()
-        console.log('refetch 4!')
       }, 2000)
 
       setTimeout(() => {
         tx.refetch()
-        console.log('refetch 5!')
       }, 8000)
 
       setTimeout(() => {
         tx.refetch()
-        console.log('refetch 5!')
       }, 16000)
     }
-
-    console.log(' is player b tx? ', isPlayerBalanceTransaction(tx))
 
     if (isPlayerBalanceTransaction(tx)) {
       // we don't know when the Graph will have processed the new block data or when it has
       // so simply query a few times for the updated data
       setTimeout(() => {
         refetchTicketData()
-        console.log('refetch 1!')
       }, 2000)
 
       setTimeout(() => {
         refetchTicketData()
-        console.log('refetch 2!')
       }, 8000)
 
       setTimeout(() => {
         refetchTicketData()
-        console.log('refetch 3!')
       }, 16000)
     }
   }
