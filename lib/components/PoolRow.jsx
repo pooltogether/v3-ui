@@ -86,7 +86,7 @@ export const PoolRow = (props) => {
     >
       <div className='flex flex-col sm:flex-row items-center justify-between sm:justify-evenly text-inverse'>
         <div className='pool-row-left-col h-full flex bg-body py-2 p-4 sm:px-6 sm:pt-3 sm:pb-5 lg:px-8 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
-          <div className='flex flex-col mx-auto'>
+          <div className='pool-row-left-col--inner flex flex-col mx-auto'>
             <div className='flex'>
               <PoolCurrencyIcon
                 noMediaQueries

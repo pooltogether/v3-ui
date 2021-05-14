@@ -259,6 +259,16 @@ a:hover {
   }
 }
 
+.pool-row-left-col--inner {
+  width: 184px;
+}
+
+@screen sm {
+  .pool-row-left-col--inner {
+    width: 230px;
+  }
+}
+
 .pool-row-right-col {
   max-width: 247px;
 }
