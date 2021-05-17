@@ -9,8 +9,14 @@ import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
 import { ClipLoader } from 'react-spinners'
 import { isMobile } from 'react-device-detect'
+import {
+  addBigNumbers,
+  amountMultByUsd,
+  calculateAPR,
+  calculateLPTokenPrice
+} from '@pooltogether/utilities'
 
-import { parseUnits } from 'ethers/lib/utils'
+import { formatUnits, parseUnits } from 'ethers/lib/utils'
 
 import ERC20Abi from 'abis/ERC20Abi'
 import { Trans, useTranslation } from 'lib/../i18n'
@@ -32,6 +38,10 @@ import { LinkIcon } from 'lib/components/BlockExplorerLink'
 import { useStakingPoolChainData, useStakingPoolsAddresses } from 'lib/hooks/useStakingPools'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { getNetworkNiceNameByChainId, NETWORK } from 'lib/utils/networks'
+import { useTokenBalances } from 'lib/hooks/useTokenBalances'
+import { useTokenPrices } from 'lib/hooks/useTokenPrices'
+import { LoadingSpinner } from 'lib/components/LoadingSpinner'
+import { toScaledUsdBigNumber } from 'lib/utils/poolDataUtils'
 
 const UNISWAP_V2_PAIR_URL = 'https://app.uniswap.org/#/add/v2/ETH/'
 
@@ -59,9 +69,12 @@ const StakingPoolCard = (props) => {
   const { stakingPoolAddresses } = props
   const { t } = useTranslation()
   const { usersAddress } = useContext(AuthControllerContext)
-  const { data: stakingPoolChainData, isFetched, refetch, error } = useStakingPoolChainData(
-    stakingPoolAddresses
-  )
+  const {
+    data: stakingPoolChainData,
+    isFetched,
+    refetch,
+    error
+  } = useStakingPoolChainData(stakingPoolAddresses, usersAddress)
 
   const cardClassName = 'flex flex-col lg:flex-row py-2'
 
@@ -355,8 +368,15 @@ const ManageDepositTriggers = (props) => {
 const ClaimTokens = (props) => {
   const { t } = useTranslation()
   const { stakingPoolChainData, usersAddress, refetch, chainId, stakingPoolAddresses } = props
-  const { user } = stakingPoolChainData
-  const { claimableBalance, claimableBalanceUnformatted, tickets, dripTokensPerDay } = user
+  const { user, tokenFaucet: tokenFaucetData } = stakingPoolChainData
+  const {
+    claimableBalance,
+    claimableBalanceUnformatted,
+    tickets,
+    dripTokensPerDay,
+    underlyingToken: underlyingTokenData
+  } = user
+  const { dripRatePerDayUnformatted } = tokenFaucetData
   const { balanceUnformatted: ticketBalanceUnformatted } = tickets
 
   const { underlyingToken, tokenFaucet, dripToken } = stakingPoolAddresses
@@ -368,6 +388,19 @@ const ClaimTokens = (props) => {
   if (!showClaimable) {
     return (
       <div className='flex flex-col mb-6 lg:mb-0 text-xxs lg:text-xs'>
+        <span
+          className='text-base mb-4 bg-body px-2 rounded-full'
+          style={{ maxWidth: 'max-content' }}
+        >
+          <StakingAPR
+            chainId={chainId}
+            underlyingToken={underlyingToken}
+            underlyingTokenData={underlyingTokenData}
+            dripToken={dripToken}
+            dripRatePerDayUnformatted={dripRatePerDayUnformatted}
+            tickets={tickets}
+          />
+        </span>
         <span className='mb-2 font-bold'>
           {t('participateInTokenStaking', { token: underlyingToken.symbol })}
         </span>
@@ -420,8 +453,20 @@ const ClaimTokens = (props) => {
         <PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>
       </span>
 
+      <span className='text-xxs my-2 bg-body px-2 rounded-full' style={{ maxWidth: 'max-content' }}>
+        <StakingAPR
+          chainId={chainId}
+          underlyingToken={underlyingToken}
+          underlyingTokenData={underlyingTokenData}
+          dripToken={dripToken}
+          dripRatePerDayUnformatted={dripRatePerDayUnformatted}
+          tickets={tickets}
+        />
+      </span>
+
       <span className='text-xxs flex'>
-        {numberWithCommas(dripTokensPerDay)}
+        <span className='mr-1'>{t('earning')}</span>
+        <b>{numberWithCommas(dripTokensPerDay)}</b>
         <TokenIcon token={dripToken} className='my-auto ml-2 mr-1 rounded-full w-4 h-4' />
         {token1.symbol} / {t('day')}
       </span>
@@ -725,5 +770,81 @@ const NetworkWarning = (props) => {
         {t('yourWalletIsOnTheWrongNetwork', { networkName: getNetworkNiceNameByChainId(chainId) })}
       </span>
     </div>
+  )
+}
+
+const StakingAPR = (props) => {
+  const {
+    chainId,
+    underlyingToken,
+    underlyingTokenData,
+    dripRatePerDayUnformatted,
+    dripToken,
+    className,
+    tickets
+  } = props
+  const { token1, token2 } = underlyingToken
+
+  const { theme } = useContext(ThemeContext)
+
+  const currentBlock = '-1'
+
+  const { data: lPTokenBalances, isFetched: tokenBalancesIsFetched } = useTokenBalances(
+    chainId,
+    underlyingToken.address,
+    [token1.address, token2.address]
+  )
+  const { data: tokenPrices, isFetched: tokenPricesIsFetched } = useTokenPrices(chainId, {
+    [currentBlock]: [token1.address, token2.address, dripToken.address]
+  })
+
+  if (!tokenPricesIsFetched || !tokenBalancesIsFetched) {
+    return (
+      <span className={classnames('flex', className)}>
+        <img src={TOKEN_IMAGES_BY_SYMBOL.pool} className='rounded-full w-4 h-4 my-auto mr-1' />
+        <div className='mx-1'>
+          <ClipLoader size={12} color={theme === 'dark' ? '#fff' : '#4C249F'} />
+        </div>
+        <span className='ml-1'>APR</span>
+      </span>
+    )
+  }
+
+  const lpTokenPrice = calculateLPTokenPrice(
+    formatUnits(
+      lPTokenBalances[token1.address].balanceOf[0],
+      lPTokenBalances[token1.address].decimals[0]
+    ),
+    formatUnits(
+      lPTokenBalances[token2.address].balanceOf[0],
+      lPTokenBalances[token2.address].decimals[0]
+    ),
+    tokenPrices[currentBlock][token1.address.toLowerCase()]?.usd || '0',
+    tokenPrices[currentBlock][token2.address.toLowerCase()]?.usd || '0',
+    underlyingTokenData.totalSupply
+  )
+
+  const totalDailyValueUnformatted = amountMultByUsd(
+    dripRatePerDayUnformatted,
+    tokenPrices[currentBlock][dripToken.address.toLowerCase()]?.usd || '0'
+  )
+  const totalDailyValue = formatUnits(totalDailyValueUnformatted, underlyingTokenData.decimals)
+  const totalDailyValueScaled = toScaledUsdBigNumber(totalDailyValue)
+
+  const totalValueUnformatted = amountMultByUsd(
+    tickets.totalSupplyUnformatted,
+    lpTokenPrice.toNumber()
+  )
+  const totalValue = formatUnits(totalValueUnformatted, underlyingTokenData.decimals)
+  const totalValueScaled = toScaledUsdBigNumber(totalValue)
+
+  const apr = calculateAPR(totalDailyValueScaled, totalValueScaled)
+
+  return (
+    <span className={classnames('flex', className)}>
+      <img src={TOKEN_IMAGES_BY_SYMBOL.pool} className='rounded-full w-4 h-4 my-auto mr-1' />
+      <b className='mr-1'>{apr}%</b>
+      <span className='flex'>APR</span>
+    </span>
   )
 }
