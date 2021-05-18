@@ -179,6 +179,33 @@ export const V2_CUSTOM_CONTRACT_ADDRESSES = [
   '0x801b4872a635dccc7e679eeaf04bef08e562972a'.toLowerCase()
 ]
 
+export const V2_POOLS = [
+  {
+    prizePool: {
+      address: '0x29fe7D60DdF151E5b52e5FAB4f1325da6b2bD958'
+    },
+    ticket: {
+      address: '0x49d716dfe60b37379010a75329ae09428f17118d'
+    },
+    underlyingToken: {
+      address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+      symbol: 'DAI'
+    }
+  },
+  {
+    prizePool: {
+      address: '0x0034Ea9808E620A0EF79261c51AF20614B742B24'
+    },
+    ticket: {
+      address: '0xbd87447f48ad729c5c4b8bcb503e1395f62e8b98'
+    },
+    underlyingToken: {
+      address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+      symbol: 'USDC'
+    }
+  }
+]
+
 export const STRINGS = {
   transfer: 'transfer',
   withdraw: 'withdraw'
