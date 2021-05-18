@@ -13,10 +13,6 @@ export const V2Tickets = (props) => {
   const { usersAddress } = props
   const { data: balances, isFetched } = useV2Balances(usersAddress)
 
-  useEffect(() => {
-    console.log('balances', balances)
-  }, [balances])
-
   if (!isFetched) return null
 
   return (
