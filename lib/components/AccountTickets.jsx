@@ -10,6 +10,7 @@ import { TicketsUILoader } from 'lib/components/loaders/TicketsUILoader'
 
 import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
+import { V2Tickets } from 'lib/components/V2Tickets'
 
 export const AccountTickets = () => {
   const { t } = useTranslation()
@@ -20,9 +21,8 @@ export const AccountTickets = () => {
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
 
-  const { data: playerTickets, isFetched: playerTicketsIsFetched } = useUserTicketsFormattedByPool(
-    address
-  )
+  const { data: playerTickets, isFetched: playerTicketsIsFetched } =
+    useUserTicketsFormattedByPool(address)
 
   return (
     <div className='mt-8'>
@@ -54,6 +54,8 @@ export const AccountTickets = () => {
           })}
         </div>
       )}
+
+      <V2Tickets usersAddress={address} />
 
       <div className='text-center flex flex-col text-default-soft mt-4 text-xxs'>
         <span>

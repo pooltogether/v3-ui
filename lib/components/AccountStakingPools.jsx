@@ -812,12 +812,12 @@ const StakingAPR = (props) => {
 
   const lpTokenPrice = calculateLPTokenPrice(
     formatUnits(
-      lPTokenBalances[token1.address].balanceOf[0],
-      lPTokenBalances[token1.address].decimals[0]
+      lPTokenBalances[token1.address].amountUnformatted,
+      lPTokenBalances[token1.address].decimals
     ),
     formatUnits(
-      lPTokenBalances[token2.address].balanceOf[0],
-      lPTokenBalances[token2.address].decimals[0]
+      lPTokenBalances[token2.address].amountUnformatted,
+      lPTokenBalances[token2.address].decimals
     ),
     tokenPrices[currentBlock][token1.address.toLowerCase()]?.usd || '0',
     tokenPrices[currentBlock][token2.address.toLowerCase()]?.usd || '0',
