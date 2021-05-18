@@ -71,8 +71,6 @@ export function CommunityPoolDisclaimerModal(props) {
               {t('thisPrizePoolWasCreatedByAMemberOfTheCommunity')} {t('anyoneCanCreateAPrizePool')}
             </div>
 
-            <div className='mt-4 text-base font-bold'>{t('thePrizeMayNeverBeAwarded')}</div>
-
             <div style={{ transform: 'scale(1.15)' }}>
               <CheckboxContainer>
                 <CheckboxInputGroup
