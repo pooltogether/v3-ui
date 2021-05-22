@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'lib/../i18n'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 
@@ -24,9 +24,17 @@ export function ErrorPage() {
         <div className='content mx-auto' style={{ maxWidth: 700 }}>
           <div className='my-0 text-inverse pt-32 px-6 xs:pt-32 xs:px-20'>
             <PageTitleAndBreadcrumbs title={`${t('error')}`} breadcrumbs={[]} />
-
-            <h4 className='leading-tight'>{t('anErrorOccurredAndWeveBeenNotified')}</h4>
-            <h6 className='mt-8'>{t('pleaseTryAgainSoon')}</h6>
+            <h6 className='leading-tight'>{t('anErrorOccurredAndWeveBeenNotified')}</h6>
+            <h4 className='my-10'>{t('dontWorryYourFundsAreSafe')}</h4>
+            <h6 className='mt-8'>
+              <Trans
+                i18nKey='tryAgainSoonOrTryAnAlternativeUI'
+                defaults='Please try again soon or try an alternative interface like <linkToCommunity>community.pooltogether.com</linkToCommunity>'
+                components={{
+                  linkToCommunity: <a href='https://community.pooltogether.com' target='_blank' />
+                }}
+              />
+            </h6>
           </div>
         </div>
       </div>
