@@ -1,26 +1,24 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 
 import { useTranslation } from 'lib/../i18n'
 import { ETHEREUM_NETWORKS } from 'lib/constants'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Modal } from 'lib/components/Modal'
 import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useAddNetworkToMetamask } from 'lib/hooks/useAddNetworkToMetamask'
 import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
-import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
+import { useOnboard } from '@pooltogether/hooks'
 
 export function WrongNetworkModal(props) {
   const { t } = useTranslation()
 
   const [bypassed, setBypassed] = useState(false)
 
-  const { networkName } = useContext(AuthControllerContext)
   const { appEnv, setAppEnv } = useAppEnv()
   const chainIds = useEnvChainIds()
-  const { walletChainId, walletName } = useWalletNetwork()
+  const { network: walletChainId, walletName, networkName } = useOnboard()
   const isMetaMask = walletName === 'MetaMask'
 
   const handleClose = (e) => {

@@ -9,12 +9,8 @@ import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
 import { ClipLoader } from 'react-spinners'
 import { isMobile } from 'react-device-detect'
-import {
-  addBigNumbers,
-  amountMultByUsd,
-  calculateAPR,
-  calculateLPTokenPrice
-} from '@pooltogether/utilities'
+import { amountMultByUsd, calculateAPR, calculateLPTokenPrice } from '@pooltogether/utilities'
+import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 
 import { formatUnits, parseUnits } from 'ethers/lib/utils'
 
@@ -24,7 +20,6 @@ import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvid
 import { TOKEN_IMAGES_BY_SYMBOL } from 'lib/constants/tokenImages'
 import { UI_LOADER_ANIM_DEFAULTS } from 'lib/constants'
 import { Card } from 'lib/components/Card'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { TxStatus } from 'lib/components/TxStatus'
@@ -33,14 +28,12 @@ import { Erc20Image } from 'lib/components/Erc20Image'
 import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 import { LinkIcon } from 'lib/components/BlockExplorerLink'
 import { useStakingPoolChainData, useStakingPoolsAddresses } from 'lib/hooks/useStakingPools'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { getNetworkNiceNameByChainId, NETWORK } from 'lib/utils/networks'
 import { useTokenBalances } from 'lib/hooks/useTokenBalances'
 import { useTokenPrices } from 'lib/hooks/useTokenPrices'
-import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 import { toScaledUsdBigNumber } from 'lib/utils/poolDataUtils'
 
 const UNISWAP_V2_PAIR_URL = 'https://app.uniswap.org/#/add/v2/ETH/'
@@ -68,7 +61,7 @@ export const AccountStakingPools = () => {
 const StakingPoolCard = (props) => {
   const { stakingPoolAddresses } = props
   const { t } = useTranslation()
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
   const {
     data: stakingPoolChainData,
     isFetched,
@@ -492,7 +485,7 @@ const ClaimTokens = (props) => {
 const TransactionButton = (props) => {
   const { t } = useTranslation()
   const { name, abi, contractAddress, method, params, refetch, className, chainId } = props
-  const walletChainId = useWalletChainId()
+  const { network: walletChainId } = useOnboard()
 
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
@@ -561,7 +554,7 @@ const WithdrawModal = (props) => {
   const { stakingPoolAddresses, stakingPoolChainData } = props
   const { ticket } = stakingPoolAddresses
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
 
   const { tickets } = stakingPoolChainData.user
   const maxAmount = tickets.balance
@@ -588,7 +581,7 @@ const WithdrawModal = (props) => {
 const DepositModal = (props) => {
   const { t } = useTranslation()
   const { stakingPoolAddresses, stakingPoolChainData } = props
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
   const { ticket } = stakingPoolAddresses
 
   const { underlyingToken } = stakingPoolChainData.user
@@ -643,7 +636,7 @@ const ActionModal = (props) => {
   const { prizePool, underlyingToken } = stakingPoolAddresses
   const { token1, token2 } = underlyingToken
 
-  const walletChainId = useWalletChainId()
+  const { network: walletChainId } = useOnboard()
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)

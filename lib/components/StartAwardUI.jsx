@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PeriodicPrizeStrategy'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { ButtonTx } from 'lib/components/ButtonTx'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -11,7 +11,7 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 export function StartAwardUI(props) {
   const { t } = useTranslation()
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
   const { data: pool, refetch: refetchPoolData } = useCurrentPool()
 
   const canStartAward = pool.prize.canStartAward

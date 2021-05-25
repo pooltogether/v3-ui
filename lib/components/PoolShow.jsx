@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import Cookies from 'js-cookie'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { useInterval } from 'beautiful-react-hooks'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import {
   COOKIE_OPTIONS,
@@ -13,7 +14,6 @@ import {
   PRIZE_POOL_TYPES
 } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { Button } from 'lib/components/Button'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
@@ -49,7 +49,7 @@ export const PoolShow = (props) => {
   const chainId = useRouterChainId()
 
   const { data: pool, isFetched: poolIsFetched } = usePoolBySymbol(chainId, router?.query?.symbol)
-  const { usersAddress, walletName } = useContext(AuthControllerContext)
+  const { address: usersAddress, walletName } = useUsersAddress()
   const [cookieShowAward, setCookieShowAward] = useState(false)
 
   useInterval(() => {

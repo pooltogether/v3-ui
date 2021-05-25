@@ -1,7 +1,7 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { useAtom } from 'jotai'
+import { useUsersAddress } from '@pooltogether/hooks'
 
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { useUserTickets } from 'lib/hooks/useUserTickets'
 
@@ -21,7 +21,7 @@ export function TxRefetchListener(props) {
 
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
 
   const { refetch: refetchTicketData } = useUserTickets(usersAddress)
 

@@ -1,9 +1,9 @@
+import { useEffect } from 'react'
 import Cookies from 'js-cookie'
-import { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import { SELECTED_WALLET_COOKIE_KEY } from 'lib/constants'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 
 const MILLISECOND_BEFORE_FAST_REDIRECT = 500
 const MILLISECONDS_BEFORE_REDIRECT = 2000
@@ -11,7 +11,7 @@ const MILLISECONDS_BEFORE_REDIRECT = 2000
 export function AccountLoggedIn(props) {
   const router = useRouter()
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
 
   const selectedWallet = Cookies.get(SELECTED_WALLET_COOKIE_KEY)
 

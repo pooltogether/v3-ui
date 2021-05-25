@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { atom, useAtom } from 'jotai'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountTickets } from 'lib/components/AccountTickets'
 import { AccountWinnings } from 'lib/components/AccountWinnings'
@@ -22,7 +22,7 @@ export const isSelfAtom = atom(false)
 export const AccountUI = () => {
   const { t } = useTranslation()
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
 
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress

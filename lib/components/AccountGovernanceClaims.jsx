@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import classnames from 'classnames'
 import CountUp from 'react-countup'
 import Link from 'next/link'
@@ -7,13 +7,13 @@ import { useAtom } from 'jotai'
 import { useTranslation } from 'lib/../i18n'
 import { Button } from 'lib/components/Button'
 import { usePreviousValue } from 'beautiful-react-hooks'
+import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucetProxyFactory'
 
 import { CUSTOM_CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
 import { isSelfAtom } from 'lib/components/AccountUI'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
@@ -31,7 +31,6 @@ import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useGovernancePools } from 'lib/hooks/usePools'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
-import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { NETWORK } from 'lib/utils/networks'
 
@@ -47,7 +46,7 @@ export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
 
   const { data: pools, isFetched: poolIsFetched } = useGovernancePools()
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
@@ -60,7 +59,7 @@ export const AccountGovernanceClaims = (props) => {
   )
   const { refetch: refetchPoolTokenData } = usePoolTokenData(address)
   const poolTokenChainId = usePoolTokenChainId()
-  const walletChainId = useWalletChainId()
+  const { network: walletChainId } = useOnboard()
 
   const refetchAllPoolTokenData = () => {
     refetchTotalClaimablePool()
@@ -346,7 +345,7 @@ ClaimableAmountCountUp.defaultProps = {
 const ClaimButton = (props) => {
   const { address, dripToken, name, refetch, claimable, tokenFaucetAddress, chainId } = props
 
-  const walletChainId = useWalletChainId()
+  const { network: walletChainId } = useOnboard()
 
   const { t } = useTranslation()
   const [txId, setTxId] = useState(0)
@@ -423,7 +422,7 @@ const ClaimAllButton = (props) => {
   const { t } = useTranslation()
   const { address, chainId, claimable, refetchAllPoolTokenData } = props
 
-  const walletChainId = useWalletChainId()
+  const { network: walletChainId } = useOnboard()
 
   const { isFetched: isClaimablePoolDataFetched, data: claimablePoolFromTokenFaucets } =
     useClaimableTokenFromTokenFaucets(chainId, address)

@@ -1,15 +1,14 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { isEmpty, map, find, defaultTo, sum } from 'lodash'
-import { useRouter } from 'next/router'
 import { useAtom } from 'jotai'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
 
 import { useTranslation } from 'lib/../i18n'
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
@@ -40,7 +39,7 @@ export const AccountRewards = () => {
 
 export const AccountRewardsView = (props) => {
   const { t } = useTranslation()
-  const { usersAddress: address } = useContext(AuthControllerContext)
+  const address = useUsersAddress()
 
   const { data: pools } = useAllPools()
 

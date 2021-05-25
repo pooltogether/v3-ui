@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
 
-import { Trans, useTranslation } from 'lib/../i18n'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
+import { Trans } from 'lib/../i18n'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { SignInForm } from 'lib/components/SignInForm'
@@ -12,13 +11,6 @@ export function DepositWizardSignIn(props) {
 
   const router = useRouter()
   const quantity = router.query.quantity
-
-  const { handleLoadOnboard } = useContext(WalletContext)
-
-  // lazy load onboardjs when sign-in is shown
-  useEffect(() => {
-    handleLoadOnboard()
-  }, [])
 
   return (
     <>

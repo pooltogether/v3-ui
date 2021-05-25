@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import { STRINGS } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
 import { useCurrentPool } from 'lib/hooks/usePools'
@@ -12,7 +12,7 @@ export function ManageTicketsForm(props) {
   const { nextStep } = props
 
   const { t } = useTranslation()
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
   const [action, setAction] = useState(STRINGS.withdraw)
   const { data: pool } = useCurrentPool()
   const { data: playerTickets } = useUserTicketsFormattedByPool(usersAddress)

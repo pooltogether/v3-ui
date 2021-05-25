@@ -1,18 +1,18 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import classnames from 'classnames'
+import { useIsWalletOnSupportedNetwork, useOnboard } from '@pooltogether/hooks'
 
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
-import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
+import { SUPPORTED_NETWORKS } from 'lib/constants'
 
 export function NetworkText(props) {
   const { openTransactions } = props
 
-  const { supportedNetwork } = useContext(AuthControllerContext)
-  const { walletChainId } = useWalletNetwork()
+  const supportedNetwork = useIsWalletOnSupportedNetwork(SUPPORTED_NETWORKS)
+  const { network: walletChainId } = useOnboard()
   const screenSize = useScreenSize()
 
   let networkName = null

@@ -1,10 +1,11 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
+import { useUsersAddress } from '@pooltogether/hooks'
+import { SECONDS_PER_WEEK } from '@pooltogether/current-pool-data'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { Banner } from 'lib/components/Banner'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
@@ -21,7 +22,6 @@ import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
 import { useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 
 import IconTarget from 'assets/images/icon-target@2x.png'
-import { SECONDS_PER_WEEK } from '@pooltogether/current-pool-data'
 
 const bn = ethers.BigNumber.from
 
@@ -33,7 +33,7 @@ export function DepositTicketQuantityForm(props) {
   const router = useRouter()
   const quantity = router.query.quantity
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
 
   const { data: pool } = useCurrentPool()
   const { data: usersChainData } = useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool()

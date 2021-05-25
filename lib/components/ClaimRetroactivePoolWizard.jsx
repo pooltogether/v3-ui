@@ -3,13 +3,12 @@ import { Wizard, useWizard } from 'react-wizard-primitive'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { AnimatePresence } from 'framer-motion'
+import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 
 import MerkleDistributorAbi from 'abis/MerkleDistributor'
 
 import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { Banner } from 'lib/components/Banner'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
@@ -60,7 +59,7 @@ const ClaimRetroactivePoolWizard = (props) => {
 const ClaimRetroactivePoolWizardStepManager = (props) => {
   const { closeWizard } = props
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
   const { activeStepIndex, previousStep, moveToStep, nextStep } = useWizard({
     initialStepIndex: usersAddress ? 1 : 0
   })
@@ -304,7 +303,7 @@ const StepThree = (props) => {
 const ClaimableBalanceCheck = (props) => {
   const { closeWizard, address } = props
 
-  const { chainId } = useContext(AuthControllerContext)
+  const { network: chainId } = useOnboard()
   const { t } = useTranslation()
 
   const { data: claimData, refetch, loading, error } = useRetroactivePoolClaimData(address)
@@ -432,12 +431,6 @@ export function ClaimRetroactiveSignInStep(props) {
   const { nextStep, isActive } = props
 
   const { t } = useTranslation()
-  const { handleLoadOnboard } = useContext(WalletContext)
-
-  // lazy load onboardjs when sign-in is shown
-  useEffect(() => {
-    handleLoadOnboard()
-  }, [])
 
   if (!isActive) {
     return null

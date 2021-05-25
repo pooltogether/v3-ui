@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
+import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 
 import { Trans, useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ExecuteCryptoDeposit } from 'lib/components/ExecuteCryptoDeposit'
 import { ConfirmFiatDeposit } from 'lib/components/ConfirmFiatDeposit'
 import { DepositCryptoForm } from 'lib/components/DepositCryptoForm'
@@ -15,7 +15,6 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { DepositTicketQuantityForm } from 'lib/components/DepositTicketQuantityForm'
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { useCurrentPool } from 'lib/hooks/usePools'
-import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
 import WalletIcon from 'assets/images/icon-wallet.svg'
@@ -37,10 +36,10 @@ export function DepositWizardContainer() {
     initialStepIndex = 3
   }
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
   const { data: pool, isFetched: poolIsFetched } = useCurrentPool()
 
-  const walletChainId = useWalletChainId()
+  const { network: walletChainId } = useOnboard()
   const poolChainId = pool?.chainId
   const networkMismatch = walletChainId !== poolChainId
 

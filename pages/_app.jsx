@@ -24,7 +24,6 @@ import { Layout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
-import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 
 import '@reach/dialog/styles.css'
 import '@reach/menu-button/styles.css'
@@ -54,6 +53,7 @@ import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'
 import 'assets/styles/vx--custom.css'
 import { ManualWarningMessage } from 'lib/components/ManualWarningMessage'
+import { useInitializeOnboard } from '@pooltogether/hooks'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -78,7 +78,7 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 function MyApp({ Component, pageProps, router }) {
   const [initialized, setInitialized] = useState(false)
 
-  const shouldReduceMotion = useReducedMotion()
+  useInitializeOnboard()
 
   useEffect(() => {
     if (router?.query?.referrer) {

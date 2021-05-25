@@ -1,20 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
-import classnames from 'classnames'
-import { useRouter } from 'next/router'
-import { AnimatePresence, motion, useViewportScroll } from 'framer-motion'
+import React from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 
-import { SUPPORTED_NETWORKS } from 'lib/constants'
-
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { NavMobile } from 'lib/components/NavMobile'
 import { ManageTicketsWizardContainer } from 'lib/components/ManageTicketsWizardContainer'
-import { Meta } from 'lib/components/Meta'
 import { Nav } from 'lib/components/Nav'
 import { WrongNetworkModal } from 'lib/components/WrongNetworkModal'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
-import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { ClaimRetroactivePoolWizardContainer } from 'lib/components/ClaimRetroactivePoolWizard'
 import { NotificationBanners } from 'lib/components/NotificationBanners'
 import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
@@ -24,12 +16,6 @@ import { Header } from 'lib/components/PageHeader'
 export function Layout({ pageProps, Component, router }) {
   const deposit = /deposit/.test(router.asPath)
   const manage = /\/manage-tickets/.test(router.asPath)
-
-  // lazy load onboardjs when sign-in is shown
-  const { handleLoadOnboard } = useContext(WalletContext)
-  useEffect(() => {
-    handleLoadOnboard()
-  }, [])
 
   return (
     <>

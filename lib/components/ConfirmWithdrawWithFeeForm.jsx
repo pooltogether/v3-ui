@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { Trans, useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -36,7 +36,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
 
   const { nextStep, previousStep, pool, quantity } = props
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
 
   const underlyingToken = pool.tokens.underlyingToken
   const ticker = underlyingToken.symbol

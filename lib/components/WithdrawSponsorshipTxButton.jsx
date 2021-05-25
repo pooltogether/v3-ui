@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { ethers } from 'ethers'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -16,7 +16,7 @@ export function WithdrawSponsorshipTxButton(props) {
 
   const { quantityBN, quantity, needsApproval, tickerUpcased } = props
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
   const { data: pool } = useCurrentPool()
 
   const poolAddress = pool.prizePool.address

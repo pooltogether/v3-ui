@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useForm } from 'react-hook-form'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { ApproveSponsorshipTxButton } from 'lib/components/ApproveSponsorshipTxButton'
 import { DepositSponsorshipTxButton } from 'lib/components/DepositSponsorshipTxButton'
@@ -23,7 +23,7 @@ export function DepositOrWithdrawSponsorshipModal(props) {
 
   const [needsApproval, setNeedsApproval] = useState(null)
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
 
   const { data: pool } = useCurrentPool()
   const { data: usersChainData, refetch } = useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool()

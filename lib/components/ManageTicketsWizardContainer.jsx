@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Loader from 'react-loader-spinner'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
 import { useRouter } from 'next/router'
+import { useOnboard } from '@pooltogether/hooks'
 
 import { useTranslation } from 'lib/../i18n'
 import { ConfirmWithdrawWithFeeForm } from 'lib/components/ConfirmWithdrawWithFeeForm'
@@ -14,7 +15,6 @@ import { WizardSwitchNetwork } from 'lib/components/WizardSwitchNetwork'
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { useExitFees } from 'lib/hooks/useExitFees'
-import { useWalletChainId } from 'lib/hooks/chainId/useWalletChainId'
 
 const NETWORK_SWITCH_STEP_INDEX = 1
 
@@ -31,7 +31,7 @@ export function ManageTicketsWizardContainer() {
 
   const { data: pool, isFetched: poolIsFetched } = useCurrentPool()
 
-  const walletChainId = useWalletChainId()
+  const { network: walletChainId } = useOnboard()
   const poolChainId = pool?.chainId
   const networkMismatch = walletChainId !== poolChainId
 

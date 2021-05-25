@@ -1,20 +1,20 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'lib/../i18n'
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Banner } from 'lib/components/Banner'
 import { Button } from 'lib/components/Button'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 export const RetroactivePoolClaimBanner = (props) => {
   const { t } = useTranslation()
 
   const router = useRouter()
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
   const { data, loading } = useRetroactivePoolClaimData()
 
   if (loading || data?.isMissing || data?.isClaimed) {

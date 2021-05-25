@@ -1,11 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Link from 'next/link'
+import { useOnboard } from '@pooltogether/hooks'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 import { NetworkIcon } from 'lib/components/NetworkIcon'
-import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { shorten } from 'lib/utils/shorten'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
@@ -14,8 +13,8 @@ export function WalletInfo(props) {
   const { t } = useTranslation()
   const { closeTransactions } = props
 
-  const { usersAddress, chainId, signOut, walletName } = useContext(AuthControllerContext)
-  const { walletChainId } = useWalletNetwork()
+  const { address: usersAddress, network: chainId, disconnectWallet, walletName } = useOnboard()
+  const { network: walletChainId } = useOnboard()
 
   let content = null
   let networkName = null
@@ -65,7 +64,7 @@ export function WalletInfo(props) {
                     e.preventDefault()
 
                     closeTransactions()
-                    signOut()
+                    disconnectWallet()
                   }}
                   className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 px-2 trans trans-fastest font-bold'
                 >

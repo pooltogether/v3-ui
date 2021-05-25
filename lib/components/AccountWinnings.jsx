@@ -1,12 +1,12 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
 import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
 import { isEmpty } from 'lodash'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import { useTranslation } from 'lib/../i18n'
 import { isSelfAtom } from 'lib/components/AccountUI'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -18,7 +18,7 @@ export const AccountWinnings = () => {
 
   const [isSelf] = useAtom(isSelfAtom)
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
 
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress

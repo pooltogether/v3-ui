@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { TicketsUILoader } from 'lib/components/loaders/TicketsUILoader'
@@ -15,7 +15,7 @@ import { V2Tickets } from 'lib/components/V2Tickets'
 export const AccountTickets = () => {
   const { t } = useTranslation()
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
 
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress

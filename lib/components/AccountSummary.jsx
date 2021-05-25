@@ -1,12 +1,11 @@
-import React, { useContext, useEffect } from 'react'
+import React from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
 import { useAtom } from 'jotai'
+import { useOnboard } from '@pooltogether/hooks'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
-import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { Button } from 'lib/components/Button'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -23,21 +22,14 @@ export const AccountSummary = () => {
 
   const [isSelf] = useAtom(isSelfAtom)
 
-  const { connectWallet, usersAddress } = useContext(AuthControllerContext)
-
-  const { handleLoadOnboard } = useContext(WalletContext)
-  // lazy load onboardjs when sign-in is shown
-  useEffect(() => {
-    handleLoadOnboard()
-  }, [])
+  const { connectWallet, address: usersAddress } = useOnboard()
 
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
 
-  const { data: totalTicketValues, isFetched: playerTicketsIsFetched } = usePlayerTotalDepositValue(
-    address
-  )
+  const { data: totalTicketValues, isFetched: playerTicketsIsFetched } =
+    usePlayerTotalDepositValue(address)
   const totalValueUsd = totalTicketValues?.totalValueUsd
 
   return (

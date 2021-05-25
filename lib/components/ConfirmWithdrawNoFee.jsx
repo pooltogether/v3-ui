@@ -1,13 +1,13 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
+import { useUsersAddress } from '@pooltogether/hooks'
+
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
-import { PoolNumber } from 'lib/components/PoolNumber'
 import { TxStatus } from 'lib/components/TxStatus'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
@@ -26,7 +26,7 @@ export function ConfirmWithdrawNoFee(props) {
 
   const { nextStep, previousStep, pool } = props
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''

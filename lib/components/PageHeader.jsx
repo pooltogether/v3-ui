@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { useOnboard } from '@pooltogether/hooks'
+
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
 import { NetworkText } from 'lib/components/NetworkText'
 import { NavPoolBalance } from 'lib/components/NavPoolBalance'
@@ -11,7 +12,7 @@ import { Settings } from 'lib/components/Settings'
 
 export const Header = () => {
   const { t } = useTranslation()
-  const { usersAddress, connectWallet } = useContext(AuthControllerContext)
+  const { address: usersAddress, connectWallet } = useOnboard()
   const [showTransactionsDialog, setShowTransactionsDialog] = useState(false)
 
   const openTransactions = (e) => {

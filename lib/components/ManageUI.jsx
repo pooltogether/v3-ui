@@ -1,12 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
+import { useUsersAddress } from '@pooltogether/hooks'
 import FeatherIcon from 'feather-icons-react'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { CardGrid } from 'lib/components/CardGrid'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
-import { Tagline } from 'lib/components/Tagline'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Meta } from 'lib/components/Meta'
@@ -20,7 +19,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 export const ManageUI = (props) => {
   const { t } = useTranslation()
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
   const { isFetched } = useAllPools()
 
   const { data: pool } = useCurrentPool()

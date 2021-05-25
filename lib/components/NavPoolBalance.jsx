@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
-import { useRouter } from 'next/router'
 import { Dialog } from '@reach/dialog'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import { useTranslation } from 'lib/../i18n'
 import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
@@ -18,7 +18,7 @@ import PoolIcon from 'assets/images/pool-icon.svg'
 
 export const NavPoolBalance = () => {
   // TODO REMOVE
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
 
   const [isOpen, setIsOpen] = useState(false)
   const openModal = () => setIsOpen(true)

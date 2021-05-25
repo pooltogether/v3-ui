@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import VisuallyHidden from '@reach/visually-hidden'
 import FeatherIcon from 'feather-icons-react'
 import { motion } from 'framer-motion'
 import { Dialog } from '@reach/dialog'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import { AccountButton } from 'lib/components/AccountButton'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TransactionsList } from 'lib/components/TransactionsList'
 import { WalletInfo } from 'lib/components/WalletInfo'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
@@ -13,7 +13,7 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 export function NavAccount(props) {
   const { openTransactions, closeTransactions, showTransactionsDialog } = props
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
 
   const shouldReduceMotion = useReducedMotion()
 

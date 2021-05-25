@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { getTimeBreakdown } from '@pooltogether/utilities'
@@ -6,7 +6,6 @@ import { getTimeBreakdown } from '@pooltogether/utilities'
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { useCurrentPool } from 'lib/hooks/usePools'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { ButtonLink } from 'lib/components/ButtonLink'
@@ -15,11 +14,12 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { getTimeSentence } from 'lib/utils/getTimeSentence'
+import { useOnboard } from '@pooltogether/hooks'
 
 export function OrderComplete(props) {
   const [t] = useTranslation()
 
-  const { walletName } = useContext(AuthControllerContext)
+  const { walletName } = useOnboard()
 
   const router = useRouter()
   const quantity = Number(router.query.quantity)

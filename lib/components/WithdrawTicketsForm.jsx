@@ -1,10 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import { useTranslation } from 'lib/../i18n'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
@@ -19,7 +19,7 @@ export function WithdrawTicketsForm(props) {
   const { nextStep, pool, playerPoolTicketData } = props
 
   const { t } = useTranslation()
-  const { usersAddress } = useContext(AuthControllerContext)
+  const usersAddress = useUsersAddress()
   const router = useRouter()
 
   const playerTicket = playerPoolTicketData?.ticket

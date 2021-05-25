@@ -9,22 +9,21 @@ import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { useAddNetworkToMetamask } from 'lib/hooks/useAddNetworkToMetamask'
-import { useWalletNetwork } from 'lib/hooks/useWalletNetwork'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
 import IconNetwork from 'assets/images/icon-network@2x.png'
+import { useIsWalletMetamask, useOnboard } from '@pooltogether/hooks'
 
 export function WizardSwitchNetwork(props) {
   const { t } = useTranslation()
 
   const { bannerLabel, paneTitleLocizeKey, quantity, nextStep, networkMismatch, pool } = props
 
-  const { walletName } = useWalletNetwork()
+  const isMetaMask = useIsWalletMetamask()
 
   const poolChainId = pool.chainId
   const tickerUpcased = pool.tokens?.underlyingToken.symbol
   const addNetwork = useAddNetworkToMetamask(poolChainId)
-  const isMetaMask = walletName === 'MetaMask'
 
   const changingToEthereum = ETHEREUM_NETWORKS.includes(poolChainId)
 
