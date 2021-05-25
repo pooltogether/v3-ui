@@ -4,7 +4,7 @@ import ContentLoader from 'react-content-loader'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
 export const PoolsListUILoader = (props) => {
-  if (!window) {
+  if (typeof window === 'undefined') {
     return null
   }
 
@@ -34,7 +34,7 @@ export const PoolsListUILoader = (props) => {
 }
 
 export const PoolsListRowLoader = (props) => {
-  if (!window) {
+  if (typeof window === 'undefined') {
     return null
   }
 

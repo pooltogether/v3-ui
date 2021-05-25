@@ -10,7 +10,6 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { CommunityDisclaimerBanner } from 'lib/components/CommunityDisclaimerBanner'
 import { PoolLists } from 'lib/components/PoolLists'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
-import { Tagline } from 'lib/components/Tagline'
 import { TVLAndWeeklyPrizesBanner } from 'lib/components/TVLAndWeeklyPrizesBanner'
 
 import CompSvg from 'assets/images/comp.svg'

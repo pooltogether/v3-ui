@@ -21,7 +21,7 @@ export const CommunityDisclaimerBanner = (props) => {
       <div className='text-inverse sm:leading-tight sm:ml-2 text-xs xs:text-sm sm:text-lg lg:text-xl'>
         <span className='font-bold'>{t('anyoneCanCreateAPrizePool')}</span>
         <br />
-        <Trans
+        {/* <Trans
           i18nKey='learnAboutCommunityPrizePoolsHere'
           defaults='Learn about community prize pools <a>here</a>'
           components={{
@@ -33,7 +33,7 @@ export const CommunityDisclaimerBanner = (props) => {
               />
             )
           }}
-        />
+        /> */}
       </div>
     </Banner>
   )

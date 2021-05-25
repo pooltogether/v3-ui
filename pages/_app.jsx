@@ -76,9 +76,8 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 }
 
 function MyApp({ Component, pageProps, router }) {
-  const [initialized, setInitialized] = useState(false)
-
   useInitializeOnboard()
+  const [initialized, setInitialized] = useState(false)
 
   useEffect(() => {
     if (router?.query?.referrer) {

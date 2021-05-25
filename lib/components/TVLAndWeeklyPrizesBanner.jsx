@@ -1,11 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import { Banner } from 'lib/components/Banner'
 import { BannerUILoader } from 'lib/components/loaders/BannerUILoader'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { useTranslation } from 'lib/../i18n'
-
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 
 import Rocket from 'assets/images/rocketship@2x.png'
 import { usePooltogetherTotalPrizes, usePooltogetherTvl } from 'lib/hooks/usePooltogetherTvl'

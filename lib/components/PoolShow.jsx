@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { useInterval } from 'beautiful-react-hooks'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/hooks'
 
 import {
   COOKIE_OPTIONS,
@@ -31,7 +31,6 @@ import { SablierStreamCard } from 'lib/components/SablierStreamCard'
 import { UpcomingPrizeBreakdownCard } from 'lib/components/UpcomingPrizeBreakdownCard'
 import { Meta } from 'lib/components/Meta'
 import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
-import { Tagline } from 'lib/components/Tagline'
 import { useIsPoolYieldSourceKnown } from 'lib/hooks/useIsPoolYieldSourceKnown'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { usePoolBySymbol } from 'lib/hooks/usePools'
@@ -49,7 +48,7 @@ export const PoolShow = (props) => {
   const chainId = useRouterChainId()
 
   const { data: pool, isFetched: poolIsFetched } = usePoolBySymbol(chainId, router?.query?.symbol)
-  const { address: usersAddress, walletName } = useUsersAddress()
+  const { address: usersAddress, walletName } = useOnboard()
   const [cookieShowAward, setCookieShowAward] = useState(false)
 
   useInterval(() => {

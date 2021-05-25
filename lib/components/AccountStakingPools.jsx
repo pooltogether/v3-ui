@@ -152,7 +152,7 @@ const CardMainContents = (props) => {
 }
 
 const CardMainContentsLoading = () => {
-  if (!window) {
+  if (typeof window === 'undefined') {
     return null
   }
 

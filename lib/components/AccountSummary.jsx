@@ -69,6 +69,7 @@ export const AccountSummary = () => {
 
               <div className='flex flex-col sm:flex-row sm:items-center mt-8'>
                 <Tooltip
+                  id='whatIsEthereum'
                   tip={
                     <>
                       Ethereum Wallet?

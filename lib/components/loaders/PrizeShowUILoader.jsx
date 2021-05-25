@@ -6,7 +6,7 @@ import { UI_LOADER_ANIM_DEFAULTS } from 'lib/constants'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
 export const PrizeShowUILoader = (props) => {
-  if (!window) {
+  if (typeof window === 'undefined') {
     return null
   }
 

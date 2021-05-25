@@ -9,7 +9,7 @@ import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useAddNetworkToMetamask } from 'lib/hooks/useAddNetworkToMetamask'
 import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
 import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
-import { useOnboard } from '@pooltogether/hooks'
+import { useIsWalletOnSupportedNetwork, useOnboard } from '@pooltogether/hooks'
 
 export function WrongNetworkModal(props) {
   const { t } = useTranslation()
@@ -27,9 +27,9 @@ export function WrongNetworkModal(props) {
     setBypassed(true)
   }
 
-  const supportedNetwork = chainIds.includes(walletChainId)
+  const supportedNetwork = useIsWalletOnSupportedNetwork(chainIds)
 
-  if (supportedNetwork) {
+  if (!walletChainId || !supportedNetwork) {
     return null
   }
 

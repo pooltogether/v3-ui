@@ -37,13 +37,6 @@ export function PoolCountUp(props) {
     decimalsToUse = 2
   }
 
-  // TODO: Replace this! What we need is a clever formatter (maybe the one from v2)
-  // that only shows the # of decimals necessary
-  if (decimalsToUse === 0) {
-    prev = parseInt(prev, 10)
-    value = parseInt(value, 10)
-  }
-
   return (
     <>
       <span
