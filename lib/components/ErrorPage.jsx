@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Trans, useTranslation } from 'lib/../i18n'
+import { Meta } from 'lib/components/Meta'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 
@@ -9,6 +10,8 @@ export function ErrorPage() {
 
   return (
     <>
+      <Meta title='PoolTogether' />
+
       <div
         className='flex flex-col w-full'
         style={{
@@ -24,8 +27,9 @@ export function ErrorPage() {
         <div className='content mx-auto' style={{ maxWidth: 700 }}>
           <div className='my-0 text-inverse pt-32 px-6 xs:pt-32 xs:px-20'>
             <PageTitleAndBreadcrumbs title={`${t('error')}`} breadcrumbs={[]} />
+
             <h6 className='leading-tight'>{t('anErrorOccurredAndWeveBeenNotified')}</h6>
-            <h4 className='my-10'>{t('dontWorryYourFundsAreSafe')}</h4>
+            <h5 className='my-10 text-orange'>{t('dontWorryYourFundsAreSafe')}</h5>
             <h6 className='mt-8'>
               <Trans
                 i18nKey='tryAgainSoonOrTryAnAlternativeUI'

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
 import { ANIM_BANNER_VARIANTS } from 'lib/constants/framerAnimations'
+import { Meta } from 'lib/components/Meta'
 import { POOL_LIST_TABS } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
@@ -42,6 +43,8 @@ export const IndexUI = (props) => {
 
   return (
     <>
+      <Meta title='PoolTogether' />
+
       <RetroactivePoolClaimBanner />
 
       <div className='relative h-40'>
