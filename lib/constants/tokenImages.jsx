@@ -12,6 +12,7 @@ export const TOKEN_IMAGES_BY_ADDRESS = {
   '0x9d942bd31169ed25a1ca78c776dab92de104e50e':
     '/tokens/0x9d942bd31169ed25a1ca78c776dab92de104e50e.png',
   '0xb0dfd28d3cf7a5897c694904ace292539242f858': '/tokens/lotto.png',
+  '0x3472a5a71965499acd81997a54bba8d852c6e53d': '/tokens/badger.png',
   '0x0391d2021f89dc339f60fff84546ea23e337750f': '/tokens/bond.png',
   '0x9f7905c7bd5ec9e870ed50f0e286f2742c19f5b3': '/tokens/dpi.png',
   '0x03ab458634910aad20ef5f1c8ee96f1d6ac54919': '/tokens/rai.png',
