@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
+import { useAtom } from 'jotai'
 
 import { useTranslation } from 'lib/../i18n'
 import { LootBoxWon } from 'lib/components/LootBoxWon'
 
 import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
-import { useAtom } from 'jotai'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { useLootBoxesWon } from 'lib/hooks/useLootBoxesWon'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
