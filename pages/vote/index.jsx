@@ -9,5 +9,3 @@ export default function VotePage() {
     </>
   )
 }
-
-export { getStaticProps } from 'lib/utils/getI18nStaticProps'

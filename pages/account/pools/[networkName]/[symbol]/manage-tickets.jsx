@@ -10,11 +10,3 @@ export default function AccountManage(props) {
     </AccountLoggedIn>
   )
 }
-
-export { getStaticProps } from 'lib/utils/getI18nStaticProps'
-export const getStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: false
-  }
-}
