@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'

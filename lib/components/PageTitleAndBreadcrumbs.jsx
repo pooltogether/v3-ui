@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 
 import { SECONDS_PER_DAY } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { Chip } from 'lib/components/Chip'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 

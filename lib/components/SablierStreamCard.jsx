@@ -2,7 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { Tooltip } from 'lib/components/Tooltip'

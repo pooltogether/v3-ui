@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { EmailSignup } from 'lib/components/EmailSignup'
 
 import IconEmail from 'assets/images/icon-glossy-email@2x.png'

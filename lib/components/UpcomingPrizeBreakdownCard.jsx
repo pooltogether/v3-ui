@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'

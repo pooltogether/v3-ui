@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { Card } from 'lib/components/Card'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'

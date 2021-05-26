@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 import { useForm } from 'react-hook-form'
 import { useUsersAddress } from '@pooltogether/hooks'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { ApproveSponsorshipTxButton } from 'lib/components/ApproveSponsorshipTxButton'
 import { DepositSponsorshipTxButton } from 'lib/components/DepositSponsorshipTxButton'

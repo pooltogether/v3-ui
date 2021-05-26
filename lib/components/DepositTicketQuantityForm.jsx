@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useUsersAddress } from '@pooltogether/hooks'
 import { SECONDS_PER_WEEK } from '@pooltogether/current-pool-data'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { Banner } from 'lib/components/Banner'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'

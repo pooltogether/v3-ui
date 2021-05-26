@@ -1,7 +1,7 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { PTHint } from 'lib/components/PTHint'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'

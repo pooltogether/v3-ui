@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { DropdownGeneric } from 'lib/components/DropdownGeneric'
 import { PTCopyToClipboard } from 'lib/components/PTCopyToClipboard'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'

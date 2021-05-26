@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Banner } from 'lib/components/Banner'
-import { Trans, useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'next-i18next'
 
 import Bell from 'assets/images/bell@2x.png'
 
@@ -21,7 +21,7 @@ export const CommunityDisclaimerBanner = (props) => {
       <div className='text-inverse sm:leading-tight sm:ml-2 text-xs xs:text-sm sm:text-lg lg:text-xl'>
         <span className='font-bold'>{t('anyoneCanCreateAPrizePool')}</span>
         <br />
-        {/* <Trans
+        <Trans
           i18nKey='learnAboutCommunityPrizePoolsHere'
           defaults='Learn about community prize pools <a>here</a>'
           components={{
@@ -33,7 +33,7 @@ export const CommunityDisclaimerBanner = (props) => {
               />
             )
           }}
-        /> */}
+        />
       </div>
     </Banner>
   )

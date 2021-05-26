@@ -1,7 +1,7 @@
 import React from 'react'
 import { useUsersAddress } from '@pooltogether/hooks'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { LootBoxWon } from 'lib/components/LootBoxWon'
 
 import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'

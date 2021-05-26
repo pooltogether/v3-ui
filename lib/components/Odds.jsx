@@ -2,7 +2,7 @@ import React from 'react'
 import { ethers } from 'ethers'
 import classnames from 'classnames'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { calculateOdds } from 'lib/utils/calculateOdds'
 import { getMinPrecision, getPrecision } from 'lib/utils/numberWithCommas'

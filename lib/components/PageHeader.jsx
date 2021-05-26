@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useOnboard } from '@pooltogether/hooks'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
 import { NetworkText } from 'lib/components/NetworkText'
 import { NavPoolBalance } from 'lib/components/NavPoolBalance'

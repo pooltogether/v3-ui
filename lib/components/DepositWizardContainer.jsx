@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 
-import { Trans, useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'next-i18next'
 import { ExecuteCryptoDeposit } from 'lib/components/ExecuteCryptoDeposit'
 import { ConfirmFiatDeposit } from 'lib/components/ConfirmFiatDeposit'
 import { DepositCryptoForm } from 'lib/components/DepositCryptoForm'

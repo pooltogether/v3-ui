@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { Tagline } from 'lib/components/Tagline'
 

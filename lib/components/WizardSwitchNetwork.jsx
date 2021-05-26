@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { ETHEREUM_NETWORKS } from 'lib/constants'
 import { Banner } from 'lib/components/Banner'
 import { Button } from 'lib/components/Button'

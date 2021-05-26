@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 
 import { ANIM_BANNER_VARIANTS } from 'lib/constants/framerAnimations'
 import { POOL_LIST_TABS } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { CommunityDisclaimerBanner } from 'lib/components/CommunityDisclaimerBanner'
 import { PoolLists } from 'lib/components/PoolLists'

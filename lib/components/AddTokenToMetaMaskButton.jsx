@@ -3,7 +3,7 @@ import { useOnboard } from '@pooltogether/hooks'
 
 import PoolIcon from 'assets/images/pool-icon.svg'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 
 export const AddTokenToMetaMaskButton = (props) => {

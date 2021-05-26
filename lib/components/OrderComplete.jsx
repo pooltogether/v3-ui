@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { getTimeBreakdown } from '@pooltogether/utilities'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
-import { Trans, useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'next-i18next'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'

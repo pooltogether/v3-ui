@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { CardGrid } from 'lib/components/CardGrid'
 import { PrizeShowLootBoxTable } from 'lib/components/LootBoxTable'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'

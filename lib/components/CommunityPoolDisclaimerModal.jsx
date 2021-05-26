@@ -4,7 +4,7 @@ import Portal from '@reach/portal'
 import Cookies from 'js-cookie'
 
 import { COOKIE_OPTIONS } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { Button } from 'lib/components/Button'
 import { useIsPoolYieldSourceKnown } from 'lib/hooks/useIsPoolYieldSourceKnown'

@@ -4,7 +4,7 @@
 // import { compact } from 'lodash'
 
 // import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
-// import { useTranslation } from 'lib/../i18n'
+// import { useTranslation } from 'next-i18next'
 // import { DateValueLineGraph } from 'lib/components/DateValueLineGraph'
 // import { usePoolPrizesQuery } from 'lib/hooks/usePoolPrizesQuery'
 

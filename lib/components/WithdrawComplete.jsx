@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 
-import { useTranslation, Trans } from 'lib/../i18n'
+import { useTranslation, Trans } from 'next-i18next'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { ButtonLink } from 'lib/components/ButtonLink'

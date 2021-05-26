@@ -9,3 +9,11 @@ export default function PoolShowPage(props) {
     </>
   )
 }
+
+export { getStaticProps } from 'lib/utils/getI18nStaticProps'
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking'
+  }
+}

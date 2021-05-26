@@ -2,7 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import addSeconds from 'date-fns/addSeconds'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { subtractDates } from 'lib/utils/subtractDates'
 import { usePrizePeriodTimeLeft } from 'lib/hooks/usePrizePeriodTimeLeft'
 import { SECONDS_PER_DAY } from '@pooltogether/current-pool-data'

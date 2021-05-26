@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useTable } from 'react-table'
 import BeatLoader from 'react-spinners/BeatLoader'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { TableRowUILoader } from 'lib/components/loaders/TableRowUILoader'

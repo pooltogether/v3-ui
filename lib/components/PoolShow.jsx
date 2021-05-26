@@ -13,7 +13,7 @@ import {
   WIZARD_REFERRER_AS_PATH,
   PRIZE_POOL_TYPES
 } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { Button } from 'lib/components/Button'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'

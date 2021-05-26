@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import Link from 'next/link'
 import { isEmpty } from 'lodash'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Card, CardDetailsList } from 'lib/components/Card'

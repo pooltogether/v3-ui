@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useOnboard } from '@pooltogether/hooks'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'

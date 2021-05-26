@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { VoteUI } from 'lib/components/VoteUI'
 
 export default function VotePage() {
@@ -7,3 +9,5 @@ export default function VotePage() {
     </>
   )
 }
+
+export { getStaticProps } from 'lib/utils/getI18nStaticProps'

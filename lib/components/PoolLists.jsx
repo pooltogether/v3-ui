@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/router'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { POOL_LIST_TABS } from 'lib/constants'
 import { ANIM_LIST_VARIANTS } from 'lib/constants/framerAnimations'
 import { PoolRow } from 'lib/components/PoolRow'

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useAtom } from 'jotai'
 import { useOnboard } from '@pooltogether/hooks'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { Button } from 'lib/components/Button'
 import { PoolNumber } from 'lib/components/PoolNumber'

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useUsersAddress } from '@pooltogether/hooks'
 
 import { STRINGS } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
 import { useCurrentPool } from 'lib/hooks/usePools'

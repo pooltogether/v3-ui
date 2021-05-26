@@ -2,6 +2,15 @@ import React from 'react'
 
 import { IndexUI } from 'lib/components/IndexUI'
 
-export default function PoolsByNetworkPage(props) {
+const PoolsByNetworkPage = (props) => {
   return <IndexUI {...props} />
+}
+
+export { getStaticProps } from 'lib/utils/getI18nStaticProps'
+export default PoolsByNetworkPage
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking'
+  }
 }

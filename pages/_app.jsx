@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import i18next from '../i18n'
 import Cookies from 'js-cookie'
 import * as Fathom from 'fathom-client'
 import * as Sentry from '@sentry/react'
@@ -10,6 +9,8 @@ import { ToastContainer } from 'react-toastify'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider as JotaiProvider } from 'jotai'
+import { appWithTranslation, Trans } from 'next-i18next'
+import { useInitializeOnboard } from '@pooltogether/hooks'
 
 import {
   HOTKEYS_KEY_MAP,
@@ -24,6 +25,9 @@ import { Layout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
+import nextI18NextConfig from '../next-i18next.config'
+import { useInitializeI18N } from 'lib/hooks/useInitializeI18N'
+import { ManualWarningMessage } from 'lib/components/ManualWarningMessage'
 
 import '@reach/dialog/styles.css'
 import '@reach/menu-button/styles.css'
@@ -52,8 +56,6 @@ import 'assets/styles/tickets.css'
 import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'
 import 'assets/styles/vx--custom.css'
-import { ManualWarningMessage } from 'lib/components/ManualWarningMessage'
-import { useInitializeOnboard } from '@pooltogether/hooks'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -77,7 +79,7 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 
 function MyApp({ Component, pageProps, router }) {
   useInitializeOnboard()
-  const [initialized, setInitialized] = useState(false)
+  // const { isInitialized } = useInitializeI18N()
 
   useEffect(() => {
     if (router?.query?.referrer) {
@@ -154,14 +156,7 @@ function MyApp({ Component, pageProps, router }) {
     }
   }, [])
 
-  useEffect(() => {
-    const initi18next = async () => {
-      await i18next.initPromise.then(() => {
-        setInitialized(true)
-      })
-    }
-    initi18next()
-  }, [])
+  // if (!isInitialized) return <LoadingScreen initialized={false} />
 
   return (
     <HotKeys
@@ -172,7 +167,7 @@ function MyApp({ Component, pageProps, router }) {
         <QueryClientProvider client={queryClient}>
           <BodyClasses />
 
-          <LoadingScreen initialized={initialized} />
+          {/* <LoadingScreen initialized={isInitialized} /> */}
 
           <ToastContainer className='pool-toast' position='top-center' autoClose={7000} />
 
@@ -195,4 +190,4 @@ function MyApp({ Component, pageProps, router }) {
   )
 }
 
-export default MyApp
+export default appWithTranslation(MyApp, nextI18NextConfig)

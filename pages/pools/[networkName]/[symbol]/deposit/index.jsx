@@ -9,3 +9,5 @@ export default function DepositPage(props) {
     </>
   )
 }
+
+export { getStaticProps } from 'lib/utils/getI18nStaticProps'

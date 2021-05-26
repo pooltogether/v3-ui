@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PrizeShow } from 'lib/components/PrizeShow'
@@ -10,7 +10,7 @@ import { usePastPrize } from 'lib/hooks/usePastPrizes'
 import { useHistoricPool } from 'lib/hooks/useHistoricPool'
 import { usePoolContractBySymbol } from 'lib/hooks/usePoolContracts'
 
-export default function PrizeShowPage(props) {
+function PrizeShowPage(props) {
   const { t } = useTranslation()
   const router = useRouter()
 
@@ -58,3 +58,13 @@ export default function PrizeShowPage(props) {
     />
   )
 }
+
+export { getStaticProps } from 'lib/utils/getI18nStaticProps'
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking'
+  }
+}
+
+export default PrizeShowPage

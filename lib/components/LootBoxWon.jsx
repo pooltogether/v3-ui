@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import BeatLoader from 'react-spinners/BeatLoader'
 import { ethers } from 'ethers'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'

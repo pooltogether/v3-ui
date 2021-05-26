@@ -5,7 +5,7 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { useV2Balances } from 'lib/hooks/useV2Balances'
 import { NETWORK } from 'lib/utils/networks'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { useEffect } from 'react'
 

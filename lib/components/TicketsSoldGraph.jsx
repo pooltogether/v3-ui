@@ -4,7 +4,7 @@ import { sub, fromUnixTime } from 'date-fns'
 import { isEmpty } from 'lodash'
 
 import { CHART_PRIZE_PAGE_SIZE, DEFAULT_TOKEN_PRECISION } from 'lib/constants'
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'next-i18next'
 import { DateValueLineGraph } from 'lib/components/DateValueLineGraph'
 import { usePastPrizes } from 'lib/hooks/usePastPrizes'
 
