@@ -8,6 +8,9 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 
 const supportedLocales = ['en', 'es', 'de', 'fr', 'it', 'ko', 'pt', 'tr', 'zh']
 
+// NOTE: For future reference:
+// https://dev.to/adrai/how-to-properly-internationalize-a-react-application-using-i18next-3hdb
+
 // @ts-ignore
 i18n
   .use(Locize)
@@ -19,10 +22,10 @@ i18n
       locales: supportedLocales
     },
     debug: dev,
-    // partialBundledLanguages: true,
+    partialBundledLanguages: true,
     fallbackLng: 'en',
-    // supportedLngs: supportedLocales,
-    // preload: supportedLocales,
+    supportedLngs: supportedLocales,
+    preload: supportedLocales,
     ns: ['common'],
     defaultNS: 'common',
     saveMissing: dev,
