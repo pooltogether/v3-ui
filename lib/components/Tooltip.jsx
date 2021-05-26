@@ -14,7 +14,7 @@ export const Tooltip = (props) => {
         data-for={`${id}-tooltip`}
         className={classnames('inline cursor-pointer', className)}
       >
-        {children || <FeatherIcon icon='info' className='w-4 h-4' />}
+        {children || <FeatherIcon icon='info' className={classnames('w-4 h-4', className)} />}
       </a>
       <ReactTooltip
         clickable
@@ -24,7 +24,7 @@ export const Tooltip = (props) => {
         place='top'
         effect={effect}
         data-multiline
-        className='p-1 xs:p-2 max-w-3/4 sm:max-w-sm text-center'
+        className='p-1 xs:p-2 max-w-3/4 sm:max-w-sm text-center leading-relaxed font-normal'
         overridePosition={({ left, top }, currentEvent, currentTarget, node) => {
           const d = document.documentElement
           left = Math.min(d.clientWidth - node.clientWidth, left)

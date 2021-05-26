@@ -4,12 +4,12 @@ import { useTable } from 'react-table'
 
 import { useTranslation } from 'lib/../i18n'
 import { BasicTable } from 'lib/components/BasicTable'
+import { PlayerLabel } from 'lib/components/PlayerLabel'
 import { Odds } from 'lib/components/Odds'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { shorten } from 'lib/utils/shorten'
 
-const playerLink = (t, player) => {
+const _playerLink = (t, player) => {
   return (
     <Link href='/players/[playerAddress]' as={`/players/${player?.account?.id}`} shallow>
       <a className='trans text-accent-1 underline'>{t('viewPlayerInfo')}</a>
@@ -20,13 +20,16 @@ const playerLink = (t, player) => {
 const formatPlayerObject = (t, pool, player, winners) => {
   const decimals = pool.tokens.underlyingToken.decimals
 
-  const playerAddress = player?.account?.id
+  const playerAddress = player?.account?.id?.toLowerCase()
 
   const isWinner = winners?.includes(playerAddress)
 
   const address = (
     <>
-      {shorten(playerAddress)}{' '}
+      <PlayerLabel
+        id={`tooltip-playerLabel-${playerAddress}-playersTable`}
+        playerAddress={playerAddress}
+      />
       {isWinner && <span className='text-flashy font-bold'>{t('winner')}</span>}
     </>
   )
@@ -47,7 +50,7 @@ const formatPlayerObject = (t, pool, player, winners) => {
         usersBalance={player.balance}
       />
     ),
-    view: playerLink(t, player)
+    view: _playerLink(t, player)
   }
 }
 
