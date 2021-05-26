@@ -2,7 +2,7 @@ import React from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { Banner } from 'lib/components/Banner'
 import { Button } from 'lib/components/Button'

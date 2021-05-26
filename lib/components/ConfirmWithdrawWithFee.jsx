@@ -1,7 +1,7 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 
-import { Trans, useTranslation } from 'next-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'

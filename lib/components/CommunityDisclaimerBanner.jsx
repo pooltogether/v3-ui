@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Banner } from 'lib/components/Banner'
-import { Trans, useTranslation } from 'next-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 
 import Bell from 'assets/images/bell@2x.png'
 

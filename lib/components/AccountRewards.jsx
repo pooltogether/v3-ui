@@ -7,7 +7,7 @@ import { useUsersAddress } from '@pooltogether/hooks'
 
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { NFTE } from '@nfte/react'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'

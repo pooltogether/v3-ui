@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useTable } from 'react-table'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { BasicTable } from 'lib/components/BasicTable'
 import { Odds } from 'lib/components/Odds'
 import { PoolNumber } from 'lib/components/PoolNumber'

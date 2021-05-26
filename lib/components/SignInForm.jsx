@@ -1,7 +1,7 @@
 import React from 'react'
 import { useOnboard } from '@pooltogether/hooks'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { Button } from 'lib/components/Button'
 import { PTHint } from 'lib/components/PTHint'
 

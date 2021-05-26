@@ -1,6 +1,6 @@
 // import React from 'react'
 
-// import { useTranslation } from 'next-i18next'
+// import { useTranslation } from 'react-i18next'
 // import { Erc20AwardsTable } from 'lib/components/Erc20AwardsTable'
 // import { Erc721AwardsTable } from 'lib/components/Erc721AwardsTable'
 

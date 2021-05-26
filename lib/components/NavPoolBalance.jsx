@@ -3,7 +3,7 @@ import FeatherIcon from 'feather-icons-react'
 import { Dialog } from '@reach/dialog'
 import { useUsersAddress } from '@pooltogether/hooks'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { useCoingeckoTokenInfoQuery } from 'lib/hooks/useCoingeckoTokenInfoQuery'

@@ -9,7 +9,6 @@ import { ToastContainer } from 'react-toastify'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider as JotaiProvider } from 'jotai'
-import { appWithTranslation, Trans } from 'next-i18next'
 import { useInitializeOnboard } from '@pooltogether/hooks'
 
 import {
@@ -25,7 +24,6 @@ import { Layout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
-import nextI18NextConfig from '../next-i18next.config'
 import { useInitializeI18N } from 'lib/hooks/useInitializeI18N'
 import { ManualWarningMessage } from 'lib/components/ManualWarningMessage'
 
@@ -57,6 +55,10 @@ import 'assets/styles/bnc-onboard--custom.css'
 import 'assets/styles/reach--custom.css'
 import 'assets/styles/vx--custom.css'
 
+// Imoport i18n config
+import '../i18n'
+import { useTranslation } from 'react-i18next'
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -79,9 +81,11 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 
 function MyApp({ Component, pageProps, router }) {
   useInitializeOnboard()
+  const { i18n } = useTranslation()
   // const { isInitialized } = useInitializeI18N()
 
   useEffect(() => {
+    console.log(i18n)
     if (router?.query?.referrer) {
       const referrerAddress = router.query.referrer
 
@@ -156,7 +160,7 @@ function MyApp({ Component, pageProps, router }) {
     }
   }, [])
 
-  // if (!isInitialized) return <LoadingScreen initialized={false} />
+  if (!i18n.isInitialized) return <LoadingScreen initialized={false} />
 
   return (
     <HotKeys
@@ -190,4 +194,4 @@ function MyApp({ Component, pageProps, router }) {
   )
 }
 
-export default appWithTranslation(MyApp, nextI18NextConfig)
+export default MyApp

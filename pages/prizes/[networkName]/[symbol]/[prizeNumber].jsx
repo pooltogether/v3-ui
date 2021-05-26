@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PrizeShow } from 'lib/components/PrizeShow'

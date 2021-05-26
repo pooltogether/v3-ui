@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { ETHEREUM_NETWORKS } from 'lib/constants'
 import { Modal } from 'lib/components/Modal'
 import { NetworkIcon } from 'lib/components/NetworkIcon'

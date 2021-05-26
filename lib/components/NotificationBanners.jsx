@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 
 import { useChecklyStatus } from 'lib/hooks/useChecklyStatus'
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 
 export const NotificationBanners = (props) => {
   return (

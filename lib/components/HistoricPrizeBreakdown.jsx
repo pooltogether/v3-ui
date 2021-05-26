@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { BeatLoader } from 'react-spinners'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 import { Odds } from 'lib/components/Odds'

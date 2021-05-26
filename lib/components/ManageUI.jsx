@@ -2,7 +2,7 @@ import React from 'react'
 import { useUsersAddress } from '@pooltogether/hooks'
 import FeatherIcon from 'feather-icons-react'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { CardGrid } from 'lib/components/CardGrid'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'

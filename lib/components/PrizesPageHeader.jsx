@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'

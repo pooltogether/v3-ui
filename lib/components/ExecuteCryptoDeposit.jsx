@@ -7,7 +7,7 @@ import { useUsersAddress } from '@pooltogether/hooks'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { Banner } from 'lib/components/Banner'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'

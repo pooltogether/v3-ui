@@ -5,7 +5,7 @@ import { ethers } from 'ethers'
 import { isEmpty } from 'lodash'
 import { useUsersAddress } from '@pooltogether/hooks'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'

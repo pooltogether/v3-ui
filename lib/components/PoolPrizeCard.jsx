@@ -1,7 +1,7 @@
 import React from 'react'
 import BeatLoader from 'react-spinners/BeatLoader'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Erc20Image } from 'lib/components/Erc20Image'

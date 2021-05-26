@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useUsersAddress } from '@pooltogether/hooks'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { TicketsUILoader } from 'lib/components/loaders/TicketsUILoader'

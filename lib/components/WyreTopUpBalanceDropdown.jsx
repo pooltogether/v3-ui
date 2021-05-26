@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { isSafari } from 'react-device-detect'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { axiosInstance } from 'lib/axiosInstance'
 import { DropdownList } from 'lib/components/DropdownList'
 import { poolToast } from 'lib/utils/poolToast'

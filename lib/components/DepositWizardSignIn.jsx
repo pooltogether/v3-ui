@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
-import { Trans } from 'next-i18next'
+import { Trans } from 'react-i18next'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { SignInForm } from 'lib/components/SignInForm'

@@ -8,7 +8,7 @@ import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 import MerkleDistributorAbi from 'abis/MerkleDistributor'
 
 import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { Banner } from 'lib/components/Banner'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'

@@ -5,7 +5,7 @@ import Loader from 'react-loader-spinner'
 
 import { Banner } from 'lib/components/Banner'
 import { shorten } from 'lib/utils/shorten'
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
 export const TxStatus = (props) => {

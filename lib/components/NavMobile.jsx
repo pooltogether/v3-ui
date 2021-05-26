@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { CountBadge } from 'lib/components/CountBadge'
 import { useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
 

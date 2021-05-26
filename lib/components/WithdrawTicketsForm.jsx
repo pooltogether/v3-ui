@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useUsersAddress } from '@pooltogether/hooks'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'

@@ -2,7 +2,7 @@ const chalk = require("chalk")
 const withImages = require('next-images')
 const webpack = require('webpack')
 const _ = require('lodash')
-const { i18n } = require('./next-i18next.config')
+// const i18n = require('./i18n')
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -15,7 +15,7 @@ const nextConfig = {
     webpack5: true,
     strictPostcssConfiguration: true
   },
-  i18n,
+  // i18n,
   compress: false,
   inlineImageLimit: 48, // make it tiny so that it doesn't inline,
 }

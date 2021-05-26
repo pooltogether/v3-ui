@@ -4,7 +4,7 @@ import { Wizard, WizardStep } from 'react-wizard-primitive'
 import { useRouter } from 'next/router'
 import { useOnboard } from '@pooltogether/hooks'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { ConfirmWithdrawWithFeeForm } from 'lib/components/ConfirmWithdrawWithFeeForm'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { Meta } from 'lib/components/Meta'

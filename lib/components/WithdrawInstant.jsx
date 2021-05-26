@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { ConfirmWithdrawNoFee } from 'lib/components/ConfirmWithdrawNoFee'
 import { ConfirmWithdrawWithFee } from 'lib/components/ConfirmWithdrawWithFee'
 

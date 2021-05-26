@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { atom, useAtom } from 'jotai'
 import { useUsersAddress } from '@pooltogether/hooks'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountTickets } from 'lib/components/AccountTickets'
 import { AccountWinnings } from 'lib/components/AccountWinnings'

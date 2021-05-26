@@ -1,7 +1,7 @@
 import React from 'react'
 import { ethers } from 'ethers'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { DEFAULT_TOKEN_PRECISION, PRIZE_POOL_TYPES } from 'lib/constants'
 import {
   CUSTOM_YIELD_SOURCE_NAMES,

@@ -5,7 +5,7 @@ import { useUsersAddress } from '@pooltogether/hooks'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { Button } from 'lib/components/Button'
 import { TxStatus } from 'lib/components/TxStatus'

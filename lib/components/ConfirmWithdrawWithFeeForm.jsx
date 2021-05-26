@@ -7,7 +7,7 @@ import { useUsersAddress } from '@pooltogether/hooks'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
-import { Trans, useTranslation } from 'next-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Button } from 'lib/components/Button'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { PaneTitle } from 'lib/components/PaneTitle'

@@ -2,7 +2,7 @@ import React from 'react'
 import { useRouter } from 'next/router'
 
 import { PLAYER_PAGE_SIZE } from 'lib/constants'
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { PaginationUI } from 'lib/components/PaginationUI'
 import { PlayersTable } from 'lib/components/PlayersTable'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'

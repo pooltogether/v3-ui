@@ -1,7 +1,7 @@
 import React from 'react'
 import { useAtom } from 'jotai'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import { ThemedClipLoader } from 'lib/components/loaders/ThemedClipLoader'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 

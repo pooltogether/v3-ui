@@ -2,7 +2,7 @@ import React from 'react'
 import { ethers } from 'ethers'
 
 import { SECONDS_PER_DAY } from 'lib/constants'
-import { Trans } from 'next-i18next'
+import { Trans } from 'react-i18next'
 import { Banner } from 'lib/components/Banner'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 

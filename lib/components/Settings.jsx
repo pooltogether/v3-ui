@@ -6,7 +6,7 @@ import VisuallyHidden from '@reach/visually-hidden'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
-import { useTranslation } from 'next-i18next'
+import { useTranslation } from 'react-i18next'
 import {
   COOKIE_OPTIONS,
   SHOW_MANAGE_LINKS,
