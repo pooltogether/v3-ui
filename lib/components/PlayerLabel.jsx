@@ -2,7 +2,6 @@ import React from 'react'
 
 import { Tooltip } from 'lib/components/Tooltip'
 import { shorten } from 'lib/utils/shorten'
-import { BlockExplorerLink } from './BlockExplorerLink'
 
 const PLAYER_LABELS = {
   '0x57e848a6915455a7e77cf0d55a1474befd9c374d': 'yearn.finance Users'

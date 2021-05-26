@@ -8,6 +8,7 @@ import { useTranslation } from 'lib/../i18n'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 import { Odds } from 'lib/components/Odds'
+import { PlayerLabel } from 'lib/components/PlayerLabel'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -214,7 +215,12 @@ const PrizeWinner = (props) => {
       )}
       <td>
         <Link href='/players/[playerAddress]' as={`/players/${winnersAddress}`}>
-          <a className='text-accent-1'>{shorten(winnersAddress)}</a>
+          <a className='text-accent-1'>
+            <PlayerLabel
+              id={`tooltip-playerLabel-${winnersAddress}-historicPrizeBreakdown`}
+              playerAddress={winnersAddress}
+            />{' '}
+          </a>
         </Link>
       </td>
       <td>
