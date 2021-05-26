@@ -5,16 +5,12 @@ import Dialog from '@reach/dialog'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import ContentLoader from 'react-content-loader'
+import { useAtom } from 'jotai'
 import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
 import { ClipLoader } from 'react-spinners'
 import { isMobile } from 'react-device-detect'
-import {
-  addBigNumbers,
-  amountMultByUsd,
-  calculateAPR,
-  calculateLPTokenPrice
-} from '@pooltogether/utilities'
+import { amountMultByUsd, calculateAPR, calculateLPTokenPrice } from '@pooltogether/utilities'
 
 import { formatUnits, parseUnits } from 'ethers/lib/utils'
 
@@ -23,6 +19,7 @@ import { Trans, useTranslation } from 'lib/../i18n'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 import { TOKEN_IMAGES_BY_SYMBOL } from 'lib/constants/tokenImages'
 import { UI_LOADER_ANIM_DEFAULTS } from 'lib/constants'
+import { isSelfAtom } from 'lib/components/AccountUI'
 import { Card } from 'lib/components/Card'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
@@ -45,10 +42,17 @@ import { toScaledUsdBigNumber } from 'lib/utils/poolDataUtils'
 
 const UNISWAP_V2_PAIR_URL = 'https://app.uniswap.org/#/add/v2/ETH/'
 
+// This component should only show up for the currentUser viewing their own account
 export const AccountStakingPools = () => {
   const { t } = useTranslation()
 
   const stakingPoolsAddresses = useStakingPoolsAddresses()
+
+  const [isSelf] = useAtom(isSelfAtom)
+
+  if (!isSelf) {
+    return null
+  }
 
   return (
     <>

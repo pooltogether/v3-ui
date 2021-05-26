@@ -23,6 +23,10 @@ export const HistoricPrizeBreakdown = (props) => {
   const { t } = useTranslation()
   const { contractAddresses } = useContractAddresses(pool.chainId)
 
+  if (!contractAddresses) {
+    return null
+  }
+
   const yieldPrizeUsd = prize.yield.totalValueUsd
   const externalPrizeUsd = prize.external.totalValueUsd
   const hasLootBox = Boolean(externalPrizeUsd) && Number(externalPrizeUsd) > 0
