@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { useTranslation } from 'lib/../i18n'
 import { Tooltip } from 'lib/components/Tooltip'
 import { shorten } from 'lib/utils/shorten'
 
@@ -20,6 +21,7 @@ const YEARN_STRATEGIES_TO_NUM_HOLDERS = {
 }
 
 export const PlayerLabel = (props) => {
+  const { t } = useTranslation()
   const { playerAddress, id } = props
 
   let label = Boolean(PLAYER_LABELS[playerAddress])
@@ -38,7 +40,7 @@ export const PlayerLabel = (props) => {
           <Tooltip
             id={id}
             className='inline-block ml-1'
-            tip={`There were ${numHolders} unique depositors in this yearn.finance vault last time this was updated.`}
+            tip={t('numHoldersInYearnVault', { numHolders })}
           />
         </>
       )}{' '}
