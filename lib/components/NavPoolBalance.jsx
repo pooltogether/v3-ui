@@ -16,7 +16,6 @@ import Squiggle from 'assets/images/squiggle.svg'
 import PoolIcon from 'assets/images/pool-icon.svg'
 
 export const NavPoolBalance = () => {
-  // TODO REMOVE
   const usersAddress = useUsersAddress()
 
   const [isOpen, setIsOpen] = useState(false)

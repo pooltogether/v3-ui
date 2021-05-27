@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { useUsersAddress } from '@pooltogether/hooks'
 
-import { useTranslation } from 'react-i18next'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { ApproveSponsorshipTxButton } from 'lib/components/ApproveSponsorshipTxButton'
 import { DepositSponsorshipTxButton } from 'lib/components/DepositSponsorshipTxButton'

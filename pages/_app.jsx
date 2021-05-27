@@ -24,7 +24,6 @@ import { Layout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
-import { useInitializeI18N } from 'lib/hooks/useInitializeI18N'
 import { ManualWarningMessage } from 'lib/components/ManualWarningMessage'
 
 import '@reach/dialog/styles.css'
@@ -83,10 +82,8 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 function MyApp({ Component, pageProps, router }) {
   useInitializeOnboard()
   const { i18n } = useTranslation()
-  // const { isInitialized } = useInitializeI18N()
 
   useEffect(() => {
-    console.log(i18n)
     if (router?.query?.referrer) {
       const referrerAddress = router.query.referrer
 
@@ -171,8 +168,6 @@ function MyApp({ Component, pageProps, router }) {
       <JotaiProvider>
         <QueryClientProvider client={queryClient}>
           <BodyClasses />
-
-          {/* <LoadingScreen initialized={isInitialized} /> */}
 
           <ToastContainer className='pool-toast' position='top-center' autoClose={7000} />
 

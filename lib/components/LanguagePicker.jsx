@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { DropdownList } from 'lib/components/DropdownList'
 import { useTranslation } from 'react-i18next'
 
+// TODO: Switch this back to being dynamically generated based on locize
 export function LanguagePicker(props) {
   const langs = {
     en: {

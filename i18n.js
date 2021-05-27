@@ -21,7 +21,7 @@ i18n
       defaultLocale: 'en',
       locales: supportedLocales
     },
-    debug: dev,
+    // debug: dev,
     partialBundledLanguages: true,
     fallbackLng: 'en',
     supportedLngs: supportedLocales,
