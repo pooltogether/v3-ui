@@ -25,7 +25,7 @@ i18n
     partialBundledLanguages: true,
     fallbackLng: 'en',
     supportedLngs: supportedLocales,
-    preload: supportedLocales,
+    // preload: supportedLocales,
     ns: ['common'],
     defaultNS: 'common',
     saveMissing: dev,

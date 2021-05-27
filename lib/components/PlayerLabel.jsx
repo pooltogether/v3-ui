@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'react-i18next'
 import { Tooltip } from 'lib/components/Tooltip'
 import { shorten } from 'lib/utils/shorten'
 
