@@ -18,7 +18,7 @@ export const V2Tickets = (props) => {
   return (
     <ul>
       {balances?.map((pool) => (
-        <V2Ticket {...pool} key={pool.prizePool.address} />
+        <V2Ticket key={`v2Ticket-${pool.prizePool.address}`} {...pool} />
       ))}
     </ul>
   )

@@ -1,11 +1,10 @@
 import React from 'react'
 import { useUsersAddress } from '@pooltogether/hooks'
-
-import { useTranslation } from 'react-i18next'
-import { LootBoxWon } from 'lib/components/LootBoxWon'
-
-import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 import { useAtom } from 'jotai'
+import { useTranslation } from 'react-i18next'
+
+import { LootBoxWon } from 'lib/components/LootBoxWon'
+import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { useLootBoxesWon } from 'lib/hooks/useLootBoxesWon'
 

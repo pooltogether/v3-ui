@@ -30,7 +30,9 @@ export const AccountWinnings = () => {
 
   const awarded = {}
   prizesWon.forEach((prize) => {
-    let total = ethers.constants.Zero
+    if (!prize) {
+      return
+    }
 
     prize.awardedControlledTokens.forEach((awardedControlledToken) => {
       const prizeId = awardedControlledToken.prize.id

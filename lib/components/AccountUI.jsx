@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { atom, useAtom } from 'jotai'
 import { useUsersAddress } from '@pooltogether/hooks'
+import { Trans, useTranslation } from 'react-i18next'
 
-import { useTranslation } from 'react-i18next'
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountTickets } from 'lib/components/AccountTickets'
 import { AccountWinnings } from 'lib/components/AccountWinnings'
@@ -12,9 +12,9 @@ import { AccountRewards } from 'lib/components/AccountRewards'
 import { AccountLootBoxes } from 'lib/components/AccountLootBoxes'
 import { AccountStakingPools } from 'lib/components/AccountStakingPools'
 import { Meta } from 'lib/components/Meta'
+import { PlayerLabel } from 'lib/components/PlayerLabel'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
-import { shorten } from 'lib/utils/shorten'
 import { testAddress } from 'lib/utils/testAddress'
 
 export const isSelfAtom = atom(false)
@@ -36,13 +36,29 @@ export const AccountUI = () => {
     setIsSelf(isSelf)
   }, [playerAddress, usersAddress])
 
-  const pageTitle = isSelf ? t('myAccount') : t('playerAddress', { address: shorten(address) })
+  const pageTitle = isSelf ? (
+    t('myAccount')
+  ) : (
+    <Trans
+      i18nKey='playerAddressWithLabel'
+      defaults='Player <label>{{address}}</label>'
+      components={{
+        label: (
+          <PlayerLabel
+            id={`tooltip-playerLabel-${playerAddress}-accountUi`}
+            playerAddress={playerAddress}
+          />
+        ),
+        address: playerAddress
+      }}
+    />
+  )
 
   const addressError = testAddress(address)
 
   return (
     <>
-      <Meta title={pageTitle} />
+      <Meta title={t('playerAddress', { address: playerAddress })} />
 
       {isSelf && <RetroactivePoolClaimBanner />}
 
