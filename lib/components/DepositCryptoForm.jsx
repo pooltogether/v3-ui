@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
 
 import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/ControlledToken'
 
-import { useTranslation } from 'react-i18next'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
@@ -60,7 +60,7 @@ export function DepositCryptoForm(props) {
   }, [usersTokenBalance])
 
   useEffect(() => {
-    if (quantityBN.gt(0) && usersTokenAllowance.gte(quantityBN)) {
+    if (quantityBN.gte(0) && usersTokenAllowance.gte(quantityBN)) {
       setNeedsApproval(false)
     } else {
       setNeedsApproval(true)
@@ -72,6 +72,7 @@ export function DepositCryptoForm(props) {
     overBalance =
       quantity && usersTokenBalanceBN.lt(ethers.utils.parseUnits(quantity, Number(decimals)))
   }
+  const quantityIsZero = quantityBN.isZero()
 
   const txName = t(`allowTickerPool`, { ticker: tickerUpcased })
   const method = 'approve'
@@ -246,7 +247,7 @@ export function DepositCryptoForm(props) {
                 <DepositTxButton
                   needsApproval={needsApproval}
                   quantity={quantity}
-                  disabled={poolIsLocked || needsApproval || overBalance}
+                  disabled={poolIsLocked || needsApproval || overBalance || quantityIsZero}
                   poolIsLocked={poolIsLocked}
                   nextStep={nextStep}
                 />
