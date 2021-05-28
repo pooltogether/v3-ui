@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import Link from 'next/link'
-import { useTable } from 'react-table'
-import BeatLoader from 'react-spinners/BeatLoader'
+import { useTable, useBlockLayout } from 'react-table'
 
 import { useTranslation } from 'lib/../i18n'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
@@ -85,19 +84,23 @@ const PrizesTable = (props) => {
     () => [
       {
         Header: '#',
-        accessor: 'prizeNumber'
+        accessor: 'prizeNumber',
+        className: 'td-prizeNumber'
       },
       {
         Header: t('prize'),
-        accessor: 'prizeAmount' // accessor is the "key" in the data
+        accessor: 'prizeAmount', // accessor is the "key" in the data
+        className: 'td-prizeAmount'
       },
       {
         Header: t('awardedOn'),
-        accessor: 'awardedAt'
+        accessor: 'awardedAt',
+        className: 'td-date'
       },
       {
         Header: '',
         accessor: 'view',
+        className: 'td-view',
         Cell: (row) => <div style={{ textAlign: 'right' }}>{row.value}</div>
       }
     ],
@@ -137,10 +140,13 @@ const PrizesTable = (props) => {
     return prizeRows
   }, [pool, prizes])
 
-  const tableInstance = useTable({
-    columns,
-    data
-  })
+  const tableInstance = useTable(
+    {
+      columns,
+      data
+    },
+    useBlockLayout
+  )
 
   return <BasicTable tableInstance={tableInstance} />
 }

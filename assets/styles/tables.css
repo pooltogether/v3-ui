@@ -1,117 +1,136 @@
-table {
+.table {
   @apply text-xxxs;
+
+  display: inline-block;
   border-spacing: 0;
 }
 
 @screen xs {
-  table {
+  .table {
     @apply text-xs;
   }
 }
 
 @screen sm {
-  table {
-    @apply text-sm;
+  .table {
+    @apply text-xs;
   }
 }
 
 @screen lg {
-  table {
+  .table {
     @apply text-lg;
   }
 }
 
-tr:last-child td {
+.table .tr {
+  display: block !important;
+  width: 100% !important;
+}
+
+.table .tr:last-child .td {
   border-bottom: 0;
 }
 
-th,
-td {
+.table .th,
+.table .td {
+  margin: 0;
+  padding: 0.25rem;
+}
+
+.table .th:last-child,
+.table .td:last-child {
+  border-right: 0;
+}
+
+.th {
+  @apply font-bold;
+}
+
+.th,
+.td {
   @apply py-1;
+
   padding-left: 0;
   padding-right: 0;
   text-align: left;
   margin: 0;
-  max-width: 100px;
 }
 
 @screen xs {
-  th,
-  td {
+  .th,
+  .td {
     @apply px-1;
     max-width: none;
   }
 }
 
 @screen xs {
-  th:first-child {
-    @apply rounded-tl-sm px-2 py-2;
+  .th:first-child {
+    @apply rounded-tl-sm px-2;
   }
 
-  th:last-child {
-    @apply rounded-tr-sm px-2 py-2;
+  .th:last-child {
+    @apply rounded-tr-sm px-2;
   }
 
-  td:first-child {
-    @apply rounded-tl-sm rounded-bl-sm px-2 py-2;
+  .td:first-child {
+    @apply rounded-tl-sm rounded-bl-sm px-2;
   }
 
-  td:last-child {
-    @apply rounded-tr-sm rounded-br-sm px-2 py-2;
+  .td:last-child {
+    @apply rounded-tr-sm rounded-br-sm px-2;
   }
 }
 
 @screen sm {
-  th,
-  td {
+  .th,
+  .td {
     @apply px-3;
   }
 }
 
-thead tr {
-  @apply bg-default rounded-lg;
+.tr {
+  @apply rounded-lg;
 
-  transition: all 150ms ease-in-out;
+  transition: all 100ms ease-in-out;
 }
 
-th:last-child,
-td:last-child {
+.tr:hover {
+  @apply bg-default;
+}
+
+.th:last-child,
+.td:last-child {
   border-right: 0;
 }
 
-.table--small-headers thead tr {
-  background-color: rgba(0, 0, 0, 0);
+/* Player listing */
+.td-address {
+  width: 40% !important;
 }
 
-.table--small-headers th {
-  @apply text-xxxs pb-0 uppercase;
+.td-balance {
+  width: 40% !important;
 }
 
-.table--no-padding {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+.td-view {
+  width: 20% !important;
 }
 
-.table--no-padding th:first-child,
-.table--no-padding th:last-child,
-.table--no-padding td:first-child,
-.table--no-padding td:last-child {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+/* Pool Prizes list */
+.td-prizeNumber {
+  width: 10% !important;
 }
 
-.players-table-min-height {
-  min-height: 400px;
+.td-prizeAmount {
+  width: 20% !important;
 }
 
-@screen xs {
-  .players-table-min-height {
-    min-height: 550px;
-  }
+.td-date {
+  width: 50% !important;
 }
 
-@screen sm {
-  .players-table-min-height {
-    min-height: 620px;
-  }
+.td-view {
+  width: 20% !important;
 }

@@ -7,12 +7,10 @@ import { BeatLoader } from 'react-spinners'
 import { useTranslation } from 'lib/../i18n'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useAccountQuery } from 'lib/hooks/useAccountQuery'
-import { Odds } from 'lib/components/Odds'
 import { PlayerLabel } from 'lib/components/PlayerLabel'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { shorten } from 'lib/utils/shorten'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
 import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
@@ -127,7 +125,6 @@ export const HistoricPrizeBreakdown = (props) => {
               <tr style={{ background: 'none' }}>
                 {hasLootBox && <th>{t('prize')}</th>}
                 <th>{t('player')}</th>
-                <th>{t('odds')}</th>
                 <th>{t('deposit')}</th>
               </tr>
             </thead>
@@ -226,18 +223,6 @@ const PrizeWinner = (props) => {
             />{' '}
           </a>
         </Link>
-      </td>
-      <td>
-        <span className='block xs:inline-block'>
-          <Odds
-            fontSansRegular
-            className='font-bold text-flashy'
-            usersBalance={ctBalance?.balance}
-            ticketSupplyUnformatted={preAwardPool.tokens.ticket.totalSupplyUnformatted}
-            decimals={preAwardPool.tokens.ticket.decimals}
-            numberOfWinners={preAwardPool.config.numberOfWinners}
-          />
-        </span>
       </td>
       <td>
         <PoolNumber>{numberWithCommas(usersTicketBalance, { precision: 0 })}</PoolNumber>{' '}
