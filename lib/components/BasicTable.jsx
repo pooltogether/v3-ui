@@ -5,10 +5,7 @@ export const BasicTable = (props) => {
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance
 
-  let className = 'w-full'
-  // if (nestedTable) {
-  className = 'table table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
-  // }
+  let className = 'table table-fixed w-full text-xxxs xs:text-xxs sm:text-sm align-top'
 
   return (
     <>
