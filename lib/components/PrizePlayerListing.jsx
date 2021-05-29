@@ -5,12 +5,12 @@ import { PLAYER_PAGE_SIZE } from 'lib/constants'
 import { useTranslation } from 'react-i18next'
 import { PaginationUI } from 'lib/components/PaginationUI'
 import { PlayersTable } from 'lib/components/PlayersTable'
-import { V3LoadingDots } from 'lib/components/V3LoadingDots'
+import { PodsCTA } from 'lib/components/PodsCTA'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const PrizePlayerListing = (props) => {
   const { t } = useTranslation()
-  const { isFetched, isFetching, balances, pool, prize, baseAsPath, baseHref } = props
+  const { isFetched, balances, pool, prize, baseAsPath, baseHref } = props
 
   const router = useRouter()
 
@@ -42,7 +42,9 @@ export const PrizePlayerListing = (props) => {
 
         {balances?.length > 0 && (
           <>
-            <PlayersTable nestedTable pool={pool} balances={balances} prize={prize} />
+            <PodsCTA pool={pool} />
+
+            <PlayersTable pool={pool} balances={balances} prize={prize} />
 
             <PaginationUI
               prevPath={prevPath}

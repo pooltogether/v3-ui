@@ -7,12 +7,11 @@ import { BeatLoader } from 'react-spinners'
 import { useTranslation } from 'react-i18next'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useAccountQuery } from 'lib/hooks/useAccountQuery'
-import { Odds } from 'lib/components/Odds'
 import { PlayerLabel } from 'lib/components/PlayerLabel'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { PodsCTA } from 'lib/components/PodsCTA'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { shorten } from 'lib/utils/shorten'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
 import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
@@ -121,13 +120,14 @@ export const HistoricPrizeBreakdown = (props) => {
           )}
         </div>
 
-        <div className='mt-1 xs:mt-0 xs:bg-primary xs:px-4 py-2 xs:py-5 rounded-lg'>
+        <PodsCTA pool={pool} />
+
+        <div className='mt-1 xs:mt-0 xs:bg-primary xs:px-10 py-2 xs:py-5 rounded-lg'>
           <table className='theme-light--no-gutter w-full text-xxxs xs:text-xxs sm:text-sm align-top'>
             <thead>
               <tr style={{ background: 'none' }}>
                 {hasLootBox && <th>{t('prize')}</th>}
                 <th>{t('player')}</th>
-                <th>{t('odds')}</th>
                 <th>{t('deposit')}</th>
               </tr>
             </thead>
@@ -226,18 +226,6 @@ const PrizeWinner = (props) => {
             />{' '}
           </a>
         </Link>
-      </td>
-      <td>
-        <span className='block xs:inline-block'>
-          <Odds
-            fontSansRegular
-            className='font-bold text-flashy'
-            usersBalance={ctBalance?.balance}
-            ticketSupplyUnformatted={preAwardPool.tokens.ticket.totalSupplyUnformatted}
-            decimals={preAwardPool.tokens.ticket.decimals}
-            numberOfWinners={preAwardPool.config.numberOfWinners}
-          />
-        </span>
       </td>
       <td>
         <PoolNumber>{numberWithCommas(usersTicketBalance, { precision: 0 })}</PoolNumber>{' '}

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import ReactTooltip from 'react-tooltip'
 import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
@@ -9,13 +9,13 @@ export const Tooltip = (props) => {
 
   return (
     <>
-      <a
+      <span
         data-tip
         data-for={`${id}-tooltip`}
         className={classnames('inline cursor-pointer', className)}
       >
         {children || <FeatherIcon icon='info' className={classnames('w-4 h-4', className)} />}
-      </a>
+      </span>
       <ReactTooltip
         clickable
         ref={ref}

@@ -1,11 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
-import { useTable } from 'react-table'
+import { useTable, useBlockLayout } from 'react-table'
 
 import { useTranslation } from 'react-i18next'
 import { BasicTable } from 'lib/components/BasicTable'
 import { PlayerLabel } from 'lib/components/PlayerLabel'
-import { Odds } from 'lib/components/Odds'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
@@ -41,15 +40,6 @@ const formatPlayerObject = (t, pool, player, winners) => {
       ''
     ),
     address,
-    odds: (
-      <Odds
-        textFlashy={false}
-        ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
-        decimals={pool.tokens.ticket.decimals}
-        numberOfWinners={pool.config.numberOfWinners}
-        usersBalance={player.balance}
-      />
-    ),
     view: _playerLink(t, player)
   }
 }
@@ -68,19 +58,18 @@ export const PlayersTable = (props) => {
     () => [
       {
         Header: t('address'),
-        accessor: 'address'
+        accessor: 'address',
+        className: 'td-address'
       },
       {
         Header: t('balance'),
-        accessor: 'balance' // accessor is the "key" in the data
-      },
-      {
-        Header: t('odds'),
-        accessor: 'odds'
+        accessor: 'balance',
+        className: 'td-balance'
       },
       {
         Header: '',
         accessor: 'view',
+        className: 'td-view',
         Cell: (row) => <div style={{ textAlign: 'right' }}>{row.value}</div>
       }
     ],
@@ -97,10 +86,13 @@ export const PlayersTable = (props) => {
     })
   }, [players, pool, pool.tokens.ticket.totalSupply])
 
-  const tableInstance = useTable({
-    columns,
-    data
-  })
+  const tableInstance = useTable(
+    {
+      columns,
+      data
+    },
+    useBlockLayout
+  )
 
   if (!players || players?.length === 0) {
     return null
