@@ -9,6 +9,7 @@ import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 import { PlayerLabel } from 'lib/components/PlayerLabel'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import { PodsCTA } from 'lib/components/PodsCTA'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -119,7 +120,9 @@ export const HistoricPrizeBreakdown = (props) => {
           )}
         </div>
 
-        <div className='mt-1 xs:mt-0 xs:bg-primary xs:px-4 py-2 xs:py-5 rounded-lg'>
+        <PodsCTA pool={pool} />
+
+        <div className='mt-1 xs:mt-0 xs:bg-primary xs:px-10 py-2 xs:py-5 rounded-lg'>
           <table className='theme-light--no-gutter w-full text-xxxs xs:text-xxs sm:text-sm align-top'>
             <thead>
               <tr style={{ background: 'none' }}>

@@ -5,6 +5,7 @@ import { PLAYER_PAGE_SIZE } from 'lib/constants'
 import { useTranslation } from 'lib/../i18n'
 import { PaginationUI } from 'lib/components/PaginationUI'
 import { PlayersTable } from 'lib/components/PlayersTable'
+import { PodsCTA } from 'lib/components/PodsCTA'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const PrizePlayerListing = (props) => {
@@ -41,6 +42,8 @@ export const PrizePlayerListing = (props) => {
 
         {balances?.length > 0 && (
           <>
+            <PodsCTA pool={pool} />
+
             <PlayersTable pool={pool} balances={balances} prize={prize} />
 
             <PaginationUI

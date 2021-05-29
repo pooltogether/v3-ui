@@ -43,8 +43,9 @@
   border-right: 0;
 }
 
+th,
 .th {
-  @apply font-bold;
+  @apply font-bold text-left;
 }
 
 .th,
