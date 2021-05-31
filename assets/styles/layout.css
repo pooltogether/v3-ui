@@ -19,10 +19,10 @@ body {
   height: 100%;
 }
 
-body {
+/* body {
   display: flex;
   flex-direction: column;
-}
+} */
 
 .nav-min-height {
   min-height: 60px;

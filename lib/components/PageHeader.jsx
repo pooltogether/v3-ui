@@ -29,9 +29,10 @@ export const Header = () => {
 
   return (
     <div className='w-full z-30 bg-body'>
-      <div className='flex flex-row justify-between mx-auto max-w-screen-lg px-4 sm:px-10 py-4 sm:pb-6 sm:pt-5'>
+      <div className='flex justify-between items-center mx-auto max-w-screen-lg px-4 sm:px-10 py-4 sm:pb-6 sm:pt-5'>
         <HeaderLogo />
-        <div className='flex flex-col sm:flex-row'>
+        {/* flex flex-col sm:flex-row */}
+        <div className='flex items-center justify-end flex-row flex-wrap relative leading-none'>
           <div className='flex flex-row'>
             {usersAddress && <NetworkText openTransactions={openTransactions} />}
             <NavPoolBalance />
