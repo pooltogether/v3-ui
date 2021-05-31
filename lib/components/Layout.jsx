@@ -6,12 +6,12 @@ import { NavMobile } from 'lib/components/NavMobile'
 import { ManageTicketsWizardContainer } from 'lib/components/ManageTicketsWizardContainer'
 import { Nav } from 'lib/components/Nav'
 import { WrongNetworkModal } from 'lib/components/WrongNetworkModal'
-import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { ClaimRetroactivePoolWizardContainer } from 'lib/components/ClaimRetroactivePoolWizard'
 import { NotificationBanners } from 'lib/components/NotificationBanners'
-import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
 import { Tagline } from 'lib/components/Tagline'
 import { Header } from 'lib/components/PageHeader'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
+import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
 
 export function Layout({ pageProps, Component, router }) {
   const deposit = /deposit/.test(router.asPath)
@@ -58,19 +58,24 @@ const PageGrid = ({ banner, header, sideNavigation, bottomNavigation, content, f
 
   if (screenSize <= ScreenSize.sm) {
     return (
-      <div className='page-grid-wrapper h-screen'>
-        <div className='grid-banner'>{banner}</div>
-        <div className='grid-header'>{header}</div>
+      <div className='grid-page-wrapper'>
+        <div className='grid-header-wrapper bg-body z-10'>
+          <div className='grid-banner'>{banner}</div>
+          <div className='grid-header w-full bg-body z-10 mx-auto l-0 r-0'>{header}</div>
+        </div>
         <ContentWithFooter content={content} footer={footer} />
-        <div className='grid-bottom-navigation'>{bottomNavigation}</div>
+        <div className='bottom-navigation fixed b-0'>{bottomNavigation}</div>
       </div>
     )
   }
 
   return (
-    <div className='page-grid-wrapper h-screen'>
-      <div className='grid-banner'>{banner}</div>
-      <div className='grid-header'>{header}</div>
+    <div className='grid-page-wrapper'>
+      <div className='grid-header-wrapper bg-body z-10'>
+        <div className='grid-banner'>{banner}</div>
+        <div className='grid-header w-full bg-body z-10 mx-auto l-0 r-0'>{header}</div>
+      </div>
+
       <ContentWithSideNavigation
         content={content}
         footer={footer}
@@ -106,7 +111,7 @@ const AnimatedPageGrid = ({
  * Page content with a footer pushed to the bottom of the screen
  */
 const ContentWithFooter = ({ content, footer }) => (
-  <div className='content-grid-wrapper grid-content-with-footer overflow-y-auto'>
+  <div className='grid-content-wrapper grid-content-with-footer sticky'>
     <Content>{content}</Content>
     <div className='grid-footer'>{footer}</div>
   </div>
@@ -117,9 +122,9 @@ const ContentWithFooter = ({ content, footer }) => (
  * and a navigation bar to the left side
  */
 const ContentWithSideNavigation = ({ content, footer, sideNavigation }) => (
-  <div className='grid-content-with-side-navigation overflow-y-auto'>
-    <div className='content-grid-wrapper'>
-      <div className='grid-side-navigation'>{sideNavigation}</div>
+  <div className='grid-content-with-side-navigation'>
+    <div className='grid-content-wrapper'>
+      <div className='grid-side-nav sticky'>{sideNavigation}</div>
       <Content>{content}</Content>
       <div className='grid-footer'>{footer}</div>
     </div>

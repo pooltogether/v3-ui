@@ -28,40 +28,38 @@ export const Header = () => {
   }
 
   return (
-    <div className='w-full z-30 bg-body'>
-      <div className='flex justify-between items-center mx-auto max-w-screen-lg px-4 sm:px-10 py-4 sm:pb-6 sm:pt-5'>
-        <HeaderLogo />
-        {/* flex flex-col sm:flex-row */}
-        <div className='flex items-center justify-end flex-row flex-wrap relative leading-none'>
-          <div className='flex flex-row'>
-            {usersAddress && <NetworkText openTransactions={openTransactions} />}
-            <NavPoolBalance />
-            <PendingTxButton openTransactions={openTransactions} />
-            {usersAddress && (
-              <NavAccount
-                openTransactions={openTransactions}
-                closeTransactions={closeTransactions}
-                showTransactionsDialog={showTransactionsDialog}
-              />
-            )}
-            {!usersAddress && (
-              <button
-                onClick={(e) => {
-                  e.preventDefault()
-                  connectWallet(() => {})
-                }}
-                className='text-highlight-2 font-bold hover:text-inverse text-xs trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20 h-8 mb-1 sm:mb-0 mr-2 sm:mr-1'
-              >
-                <div className='flex items-center bg-default hover:bg-body rounded-full border border-highlight-2 px-4 trans trans-fastest z-20 h-8'>
-                  {t('connectWallet')}
-                </div>
-              </button>
-            )}
-          </div>
-          <div className='flex flex-row justify-end'>
-            <LanguagePicker />
-            <Settings />
-          </div>
+    <div className='flex justify-between items-center mx-auto max-w-screen-lg px-4 sm:px-10 py-4 sm:pb-6 sm:pt-5'>
+      <HeaderLogo />
+
+      <div className='flex items-center justify-end flex-row flex-wrap relative leading-none'>
+        <div className='flex flex-row'>
+          {usersAddress && <NetworkText openTransactions={openTransactions} />}
+          <NavPoolBalance />
+          <PendingTxButton openTransactions={openTransactions} />
+          {usersAddress && (
+            <NavAccount
+              openTransactions={openTransactions}
+              closeTransactions={closeTransactions}
+              showTransactionsDialog={showTransactionsDialog}
+            />
+          )}
+          {!usersAddress && (
+            <button
+              onClick={(e) => {
+                e.preventDefault()
+                connectWallet(() => {})
+              }}
+              className='text-highlight-2 font-bold hover:text-inverse text-xs trans trans-fastest tracking-wider outline-none focus:outline-none active:outline-none z-20 h-8 mb-1 sm:mb-0 mr-2 sm:mr-1'
+            >
+              <div className='flex items-center bg-default hover:bg-body rounded-full border border-highlight-2 px-4 trans trans-fastest z-20 h-8'>
+                {t('connectWallet')}
+              </div>
+            </button>
+          )}
+        </div>
+        <div className='flex flex-row justify-end'>
+          <LanguagePicker />
+          <Settings />
         </div>
       </div>
     </div>

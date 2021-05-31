@@ -79,10 +79,12 @@ export function Settings(props) {
         key='settings-overlay'
         onClick={toggleOpen}
         className={classnames('fixed t-0 l-0 r-0 b-0 w-full h-full z-30 bg-overlay bg-blur', {
-          'pointer-events-none': !isOpen
+          'pointer-events-none': !isOpen,
+          'border-t-4': isOpen
         })}
         style={{
-          top: 108
+          borderColor: 'black',
+          top: 104
         }}
         animate={isOpen ? 'enter' : 'exit'}
         initial='initial'
@@ -95,8 +97,9 @@ export function Settings(props) {
       />
 
       <motion.div
-        className='bg-highlight-3 h-full fixed t-0 b-0 z-40 px-8 pr-16 py-8 shadow-md'
+        className='bg-highlight-3 border-l-4 h-full fixed t-0 b-0 z-40 px-8 pr-16 py-8 shadow-md'
         style={{
+          borderColor: 'black',
           height: '100vh',
           right: -30,
           top: '108px',

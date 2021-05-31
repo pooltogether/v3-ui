@@ -1,3 +1,8 @@
+* {
+  --mobile-header-height: 92px;
+  --mobile-nav-height: 76px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
@@ -14,32 +19,16 @@
   padding: 0;
 }
 
-html,
-body {
+/* html {
   height: 100%;
-}
-
-/* body {
-  display: flex;
-  flex-direction: column;
 } */
 
-.nav-min-height {
-  min-height: 60px;
-}
-
-@screen sm {
-  .nav-min-height {
-    min-height: 90px;
-  }
+body {
+  height: auto;
 }
 
 .nav--pool-logo-container {
   width: 50px;
-}
-
-.nav--account-controls-container {
-  max-width: 244px;
 }
 
 @screen xs {
@@ -52,10 +41,6 @@ body {
   .nav--pool-logo-container {
     min-width: 154px;
   }
-
-  .nav--account-controls-container {
-    max-width: 560px;
-  }
 }
 
 @screen lg {
@@ -64,148 +49,100 @@ body {
   }
 }
 
-@screen lg {
-  .pool-container {
-    max-width: 1400px;
-  }
-}
-
-.pool-max-width {
-  max-width: 1400px;
-}
-
-.modal-max-width {
-  max-width: 640px;
-}
-
-.modal-wrapper {
-  min-height: 300px;
-  max-height: 100vh;
-  overflow-y: auto;
-}
-
-.modal-content-container {
-  max-height: 100vh;
-}
-
-@screen sm {
-  .modal-wrapper {
-    max-height: calc(100vh - 1px);
-  }
-}
-
-.page {
-  min-height: 400px;
-  width: 100%;
-}
-
-.section-min-height {
-  min-height: 70vh;
-}
-
-.scene {
-  margin: 0 auto;
-  z-index: 3;
-  width: 95%;
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
-.fadeOut {
-  animation-name: fadeOut;
-  pointer-events: none;
-}
-
-.notification-close-btn {
-  padding: 0.08rem;
-}
-
-@screen sm {
-  .notification-close-btn {
-    padding: 0.5rem;
-  }
-}
-
 /* Page Layout */
 
-.page-grid-wrapper {
+.grid-page-wrapper {
   display: grid;
-  max-height: -webkit-fill-available;
+  /* max-height: -webkit-fill-available; */
+  /* height: 100vh; */
   grid-template-columns: 1fr;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto 1fr;
   grid-template-areas:
-    'banner'
-    'header'
-    'contentWithFooter'
-    'bottomNavigation';
+    'grid-header-wrapper'
+    'grid-content-with-footer';
 }
 
 @screen sm {
-  .page-grid-wrapper {
+  .grid-page-wrapper {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto 1fr auto;
+    grid-template-rows: auto 1fr;
     grid-template-areas:
-      'banner'
-      'header'
-      'contentWithSideNavigation';
+      'grid-header-wrapper'
+      'grid-content-with-side-nav';
   }
 }
 
-.content-grid-wrapper {
+.grid-header-wrapper {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr auto;
-  grid-template-areas: 'content' 'footer';
+  grid-template-areas: 'grid-banner' 'grid-header';
+  position: sticky;
+  top: 0;
 }
 
-@screen sm {
-  .content-grid-wrapper {
+/* @screen sm {
+  .grid-header-wrapper {
     margin: 0 auto;
     max-width: 1460px;
     grid-template-columns: auto 1fr;
     grid-template-rows: 1fr auto;
     grid-template-areas:
-      'sideNavigation content'
-      'sideNavigation footer';
+      'grid-side-nav grid-content'
+      'grid-side-nav grid-footer';
+  }
+} */
+
+.grid-content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto;
+  grid-template-areas: 'grid-content' 'grid-footer';
+}
+
+@screen sm {
+  .grid-content-wrapper {
+    margin: 0 auto;
+    max-width: 1460px;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+      'grid-side-nav grid-content'
+      'grid-side-nav grid-footer';
   }
 }
 
 .grid-banner {
-  grid-area: banner;
+  grid-area: grid-banner;
 }
 
 .grid-content-with-side-navigation {
-  grid-area: contentWithSideNavigation;
+  grid-area: grid-content-with-side-nav;
 }
 
 .grid-content-with-footer {
-  grid-area: contentWithFooter;
+  grid-area: grid-content-with-footer;
+  /* height: 100vh; */
+  /* height: calc(100vh - var(--mobile-header-height)); */
+  top: var(--mobile-header-height);
+}
+
+.grid-header-wrapper {
+  grid-area: grid-header-wrapper;
 }
 
 .grid-header {
-  grid-area: header;
-}
-
-.grid-bottom-navigation {
-  grid-area: bottomNavigation;
+  grid-area: grid-header;
 }
 
 .grid-footer {
-  grid-area: footer;
+  grid-area: grid-footer;
 }
 
 .grid-content {
-  grid-area: content;
+  grid-area: grid-content;
 }
 
-.grid-side-navigation {
-  grid-area: sideNavigation;
+.grid-side-nav {
+  grid-area: grid-side-nav;
 }

@@ -18,7 +18,7 @@ export const NotificationBanner = (props) => {
 
   const [userHasClosedBanner, setUserHasClosedBanner] = useState(false)
 
-  if (userHasClosedBanner) return null
+  // if (userHasClosedBanner) return null
 
   return (
     <div
@@ -50,7 +50,7 @@ const ChecklyNotificationBanner = () => {
 
   const { data: checklyStatus, isFetched } = useChecklyStatus()
 
-  if (!isFetched || !checklyStatus?.hasErrors) return null
+  // if (!isFetched || !checklyStatus?.hasErrors) return null
 
   return (
     <NotificationBanner className='bg-warning-red text-xxs xs:text-xxs sm:text-xs text-inverse'>
@@ -62,7 +62,7 @@ const ChecklyNotificationBanner = () => {
         target='_blank'
         rel='noopener noreferrer'
       >
-        {t('moreInfo')}.
+        {t('moreInfo')}
       </a>
     </NotificationBanner>
   )
