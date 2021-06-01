@@ -127,7 +127,7 @@ const LPTokenCardHeader = (props) => {
           rel='noreferrer noopener'
           className='text-xs font-bold my-auto ml-2 lg:ml-0 lg:mt-2 text-inverse hover:opacity-70 flex'
         >
-          {t('tokenPair', { tokens: tokenPair })}
+          {t('tokenPair', { tokens: tokenPair, interpolation: { escapeValue: false } })}
           <LinkIcon className='h-4 w-4' />
         </a>
       </div>
@@ -404,7 +404,10 @@ const ClaimTokens = (props) => {
           />
         </span>
         <span className='mb-2 font-bold'>
-          {t('participateInTokenStaking', { token: underlyingToken.symbol })}
+          {t('participateInTokenStaking', {
+            token: underlyingToken.symbol,
+            interpolation: { escapeValue: false }
+          })}
         </span>
         <ol className='list-decimal pl-4 '>
           <li>
