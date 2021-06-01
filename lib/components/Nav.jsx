@@ -59,10 +59,10 @@ export function Nav(props) {
           })}
         >
           {activeCount > 0 && (
-            <div className='absolute' style={{ top: 8, right: 40 }}>
+            <div className='absolute' style={{ top: 2, left: 14 }}>
               <CountBadge
                 backgroundClass='bg-tertiary'
-                sizeClasses='w-6 h-6 text-xs'
+                sizeClasses='w-6 h-6 text-xxs'
                 count={activeCount}
               />
             </div>

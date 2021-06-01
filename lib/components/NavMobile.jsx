@@ -84,10 +84,10 @@ export function NavMobile(props) {
             })}
           >
             {activeCount > 0 && (
-              <div className='absolute' style={{ top: 14, right: 30 }}>
+              <div className='absolute' style={{ top: 11, left: 38 }}>
                 <CountBadge
                   backgroundClass='bg-tertiary'
-                  sizeClasses='w-5 h-5 text-xs'
+                  sizeClasses='w-5 h-5 text-xxs'
                   count={activeCount}
                 />
               </div>
