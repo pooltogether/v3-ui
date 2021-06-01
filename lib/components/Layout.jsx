@@ -1,17 +1,19 @@
 import React from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useAtom } from 'jotai'
 
+import { notificationBannerVisibleAtom } from 'lib/components/NotificationBanners'
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { NavMobile } from 'lib/components/NavMobile'
 import { ManageTicketsWizardContainer } from 'lib/components/ManageTicketsWizardContainer'
 import { Nav } from 'lib/components/Nav'
 import { WrongNetworkModal } from 'lib/components/WrongNetworkModal'
-import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { ClaimRetroactivePoolWizardContainer } from 'lib/components/ClaimRetroactivePoolWizard'
 import { NotificationBanners } from 'lib/components/NotificationBanners'
-import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
 import { Tagline } from 'lib/components/Tagline'
 import { Header } from 'lib/components/PageHeader'
+import { useReducedMotion } from 'lib/hooks/useReducedMotion'
+import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
 
 export function Layout({ pageProps, Component, router }) {
   const deposit = /deposit/.test(router.asPath)
@@ -58,19 +60,24 @@ const PageGrid = ({ banner, header, sideNavigation, bottomNavigation, content, f
 
   if (screenSize <= ScreenSize.sm) {
     return (
-      <div className='page-grid-wrapper h-screen'>
-        <div className='grid-banner'>{banner}</div>
-        <div className='grid-header'>{header}</div>
+      <div className='grid-page-wrapper'>
+        <div className='grid-header-wrapper bg-body z-10'>
+          <div className='grid-banner'>{banner}</div>
+          <div className='grid-header w-full bg-body z-10 mx-auto l-0 r-0'>{header}</div>
+        </div>
         <ContentWithFooter content={content} footer={footer} />
-        <div className='grid-bottom-navigation'>{bottomNavigation}</div>
+        <div className='bottom-navigation fixed b-0'>{bottomNavigation}</div>
       </div>
     )
   }
 
   return (
-    <div className='page-grid-wrapper h-screen'>
-      <div className='grid-banner'>{banner}</div>
-      <div className='grid-header'>{header}</div>
+    <div className='grid-page-wrapper'>
+      <div className='grid-header-wrapper bg-body z-10 w-full'>
+        <div className='grid-banner'>{banner}</div>
+        <div className='grid-header w-full bg-body z-10 mx-auto l-0 r-0'>{header}</div>
+      </div>
+
       <ContentWithSideNavigation
         content={content}
         footer={footer}
@@ -106,7 +113,7 @@ const AnimatedPageGrid = ({
  * Page content with a footer pushed to the bottom of the screen
  */
 const ContentWithFooter = ({ content, footer }) => (
-  <div className='content-grid-wrapper grid-content-with-footer overflow-y-auto'>
+  <div className='grid-content-with-footer sticky'>
     <Content>{content}</Content>
     <div className='grid-footer'>{footer}</div>
   </div>
@@ -116,22 +123,31 @@ const ContentWithFooter = ({ content, footer }) => (
  * Page content with a footer pushed to the bottom of the screen
  * and a navigation bar to the left side
  */
-const ContentWithSideNavigation = ({ content, footer, sideNavigation }) => (
-  <div className='grid-content-with-side-navigation overflow-y-auto'>
-    <div className='content-grid-wrapper'>
-      <div className='grid-side-navigation'>{sideNavigation}</div>
-      <Content>{content}</Content>
-      <div className='grid-footer'>{footer}</div>
+const ContentWithSideNavigation = ({ content, footer, sideNavigation }) => {
+  const [notificationBannerVisible] = useAtom(notificationBannerVisibleAtom)
+  const top = notificationBannerVisible ? 184 : 138
+
+  return (
+    <div className='desktop-content-wrapper flex justify-between w-full mx-auto pt-8'>
+      <div className='fixed h-screen' style={{ top }}>
+        {sideNavigation}
+      </div>
+      <div className='push-sidebar-padding flex flex-col flex-1'>
+        <Content>{content}</Content>
+        {footer}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 /**
  * Lowest level wrapper of page content
  * Base padding so content isn't touching the edge of the screen
  */
 const Content = ({ children }) => (
-  <div className='grid-content p-4 sm:p-8 lg:p-10 text-inverse'>{children}</div>
+  <div className='grid-content p-4 sm:pt-0 sm:px-8 lg:pt-0 lg:px-10 text-inverse max-w-5xl lg:max-w-6xl w-full mx-auto lg:ml-auto'>
+    {children}
+  </div>
 )
 
 /**
@@ -156,7 +172,7 @@ const AnimateContent = (props) => {
         animate={{
           opacity: 1
         }}
-        className='max-w-screen-sm lg:max-w-screen-lg mx-auto w-full'
+        className='mx-auto w-full'
       >
         {props.children}
       </motion.div>

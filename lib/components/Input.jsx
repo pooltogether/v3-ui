@@ -42,7 +42,7 @@ export function Input(props) {
   }
 
   if (borderClasses === undefined) {
-    borderClasses = 'border'
+    borderClasses = 'border border-default'
   }
 
   if (bgClasses === undefined) {

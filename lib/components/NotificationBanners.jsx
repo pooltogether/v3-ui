@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
+import { useAtom, atom } from 'jotai'
 
 import { useChecklyStatus } from 'lib/hooks/useChecklyStatus'
 import { useTranslation } from 'react-i18next'
+
+export const notificationBannerVisibleAtom = atom(false)
 
 export const NotificationBanners = (props) => {
   return (
@@ -50,7 +53,13 @@ const ChecklyNotificationBanner = () => {
 
   const { data: checklyStatus, isFetched } = useChecklyStatus()
 
-  if (!isFetched || !checklyStatus?.hasErrors) return null
+  const isVisible = isFetched && checklyStatus?.hasErrors
+  const [, setNotificationBannerVisible] = useAtom(notificationBannerVisibleAtom)
+  useEffect(() => {
+    setNotificationBannerVisible(isVisible)
+  }, [isVisible])
+
+  if (!isVisible) return null
 
   return (
     <NotificationBanner className='bg-warning-red text-xxs xs:text-xxs sm:text-xs text-inverse'>

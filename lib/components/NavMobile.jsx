@@ -24,9 +24,9 @@ export function NavMobile(props) {
   return (
     <>
       <nav
-        className='w-screen flex justify-center items-center b-0 l-0 r-0 bg-card-purple sm:hidden z-20'
+        className='w-screen flex justify-center items-center b-0 l-0 r-0 bg-card-purple sm:hidden z-20 pb-6'
         style={{
-          height: 76
+          height: 96
         }}
       >
         <Link href='/' as='/' shallow>

@@ -19,10 +19,10 @@ export function Nav(props) {
   const poolPage = !accountPage && !votePage
 
   const navParentClasses =
-    'relative leading-none rounded-full hover:bg-accent-grey-1 w-full flex justify-start items-center text-lg lg:text-xl py-3 px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none my-3 font-bold ml-3 lg:ml-0 h-10'
+    'relative leading-none rounded-full hover:bg-accent-grey-1 w-full flex justify-start items-center text-lg lg:text-xl py-3 px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none mb-3 font-bold ml-3 lg:ml-0 h-10'
 
   return (
-    <nav className='flex-col items-start hidden sm:block sticky top-0 pt-8 lg:pt-10 pl-2 sm:pr-12 base:pr-24 lg:pr-32 text-center'>
+    <nav className='flex-col items-start hidden sm:block pt-8 sm:pt-0 pl-2 sm:pr-12 lg:pr-16 text-center'>
       <Link href='/' as='/' shallow>
         <a
           id='_navPoolsButton'

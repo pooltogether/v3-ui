@@ -77,7 +77,8 @@ export const DropdownInputGroup = (props) => {
       'border-red-1': isError,
       'border-green-2': isSuccess,
       'border-transparent': !isError && !isSuccess,
-      'hover:border-accent-4 hover:bg-card-selected focus-within:border-accent-3 focus-within:shadow-green': !disabled
+      'hover:border-accent-4 hover:bg-card-selected focus-within:border-accent-3 focus-within:shadow-green':
+        !disabled
     })
 
   backgroundClasses =
@@ -95,7 +96,7 @@ export const DropdownInputGroup = (props) => {
 
   unitsClassName =
     unitsClassName ??
-    classnames('font-bold text-xs sm:text-sm whitespace-no-wrap', {
+    classnames('font-bold text-xs sm:text-sm whitespace-nowrap', {
       'cursor-not-allowed opacity-30': disabled,
       'font-white': !disabled
     })
