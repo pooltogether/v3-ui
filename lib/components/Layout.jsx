@@ -1,6 +1,8 @@
 import React from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useAtom } from 'jotai'
 
+import { notificationBannerVisibleAtom } from 'lib/components/NotificationBanners'
 import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { NavMobile } from 'lib/components/NavMobile'
 import { ManageTicketsWizardContainer } from 'lib/components/ManageTicketsWizardContainer'
@@ -111,7 +113,7 @@ const AnimatedPageGrid = ({
  * Page content with a footer pushed to the bottom of the screen
  */
 const ContentWithFooter = ({ content, footer }) => (
-  <div className='grid-content-wrapper grid-content-with-footer sticky'>
+  <div className='grid-content-with-footer sticky'>
     <Content>{content}</Content>
     <div className='grid-footer'>{footer}</div>
   </div>
@@ -121,17 +123,22 @@ const ContentWithFooter = ({ content, footer }) => (
  * Page content with a footer pushed to the bottom of the screen
  * and a navigation bar to the left side
  */
-const ContentWithSideNavigation = ({ content, footer, sideNavigation }) => (
-  <div className='grid-content-with-side-navigation'>
+const ContentWithSideNavigation = ({ content, footer, sideNavigation }) => {
+  const [notificationBannerVisible] = useAtom(notificationBannerVisibleAtom)
+  const top = notificationBannerVisible ? 184 : 138
+
+  return (
     <div className='desktop-content-wrapper flex justify-between w-full mx-auto pt-8'>
-      {sideNavigation}
-      <div className='flex flex-col flex-1'>
+      <div className='fixed h-screen' style={{ top }}>
+        {sideNavigation}
+      </div>
+      <div className='push-sidebar-padding flex flex-col flex-1'>
         <Content>{content}</Content>
-        <div className='grid-footer'>{footer}</div>
+        {footer}
       </div>
     </div>
-  </div>
-)
+  )
+}
 
 /**
  * Lowest level wrapper of page content

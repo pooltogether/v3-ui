@@ -1,8 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import { useAtom } from 'jotai'
 
-import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { ProfileAvatar } from 'lib/components/ProfileAvatar'
 import { ProfileName } from 'lib/components/ProfileName'
 

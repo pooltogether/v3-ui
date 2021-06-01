@@ -126,10 +126,10 @@ a:hover {
 }
 
 .pool-logo {
-  height: 60px;
+  height: 50px;
   position: relative;
   z-index: 1;
-  width: 35px;
+  width: 29px;
 }
 
 .pool-logo:hover {
@@ -138,8 +138,8 @@ a:hover {
 
 @screen xs {
   .pool-logo {
-    height: 66px;
-    width: 39px;
+    height: 60px;
+    width: 35px;
   }
 }
 

@@ -28,7 +28,7 @@ export const Header = () => {
   }
 
   return (
-    <div className='flex justify-between items-center mx-auto max-w-screen-lg px-4 sm:px-10 py-4 sm:pb-6 sm:pt-5'>
+    <div className='flex justify-between items-center mx-auto max-w-screen-lg px-4 sm:px-8 py-4 sm:pb-6 sm:pt-5'>
       <HeaderLogo />
 
       <div className='flex items-center justify-end flex-row flex-wrap relative leading-none'>
