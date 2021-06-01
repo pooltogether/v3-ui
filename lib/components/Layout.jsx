@@ -71,7 +71,7 @@ const PageGrid = ({ banner, header, sideNavigation, bottomNavigation, content, f
 
   return (
     <div className='grid-page-wrapper'>
-      <div className='grid-header-wrapper bg-body z-10'>
+      <div className='grid-header-wrapper bg-body z-10 w-full'>
         <div className='grid-banner'>{banner}</div>
         <div className='grid-header w-full bg-body z-10 mx-auto l-0 r-0'>{header}</div>
       </div>
@@ -123,10 +123,13 @@ const ContentWithFooter = ({ content, footer }) => (
  */
 const ContentWithSideNavigation = ({ content, footer, sideNavigation }) => (
   <div className='grid-content-with-side-navigation'>
-    <div className='grid-content-wrapper'>
-      <div className='grid-side-nav sticky'>{sideNavigation}</div>
-      <Content>{content}</Content>
-      <div className='grid-footer'>{footer}</div>
+    <div className='desktop-content-wrapper flex justify-between w-full mx-auto'>
+      <div className='sticky'>{sideNavigation}</div>
+      {/* <div className='grid-side-nav sticky'>{sideNavigation}</div> */}
+      <div className='flex flex-col flex-1'>
+        <Content>{content}</Content>
+        <div className='grid-footer'>{footer}</div>
+      </div>
     </div>
   </div>
 )

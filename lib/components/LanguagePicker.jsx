@@ -65,16 +65,14 @@ export function LanguagePicker(props) {
   }
 
   return (
-    <div className='mt-1'>
-      <DropdownList
-        id='language-picker-dropdown'
-        className='ml-2 xs:ml-4 mr-1 text-xxs sm:text-sm'
-        label={currentLang?.toUpperCase()}
-        formatValue={formatValue}
-        onValueSet={onValueSet}
-        current={currentLang}
-        values={langs}
-      />
-    </div>
+    <DropdownList
+      id='language-picker-dropdown'
+      className='ml-2 xs:ml-4 mr-1 text-xxs sm:text-sm'
+      label={currentLang?.toUpperCase()}
+      formatValue={formatValue}
+      onValueSet={onValueSet}
+      current={currentLang}
+      values={langs}
+    />
   )
 }

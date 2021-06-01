@@ -57,7 +57,7 @@ export const Header = () => {
             </button>
           )}
         </div>
-        <div className='flex flex-row justify-end'>
+        <div className='flex flex-row justify-end items-center'>
           <LanguagePicker />
           <Settings />
         </div>
