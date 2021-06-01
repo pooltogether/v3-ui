@@ -123,9 +123,8 @@ const ContentWithFooter = ({ content, footer }) => (
  */
 const ContentWithSideNavigation = ({ content, footer, sideNavigation }) => (
   <div className='grid-content-with-side-navigation'>
-    <div className='desktop-content-wrapper flex justify-between w-full mx-auto'>
-      <div className='sticky'>{sideNavigation}</div>
-      {/* <div className='grid-side-nav sticky'>{sideNavigation}</div> */}
+    <div className='desktop-content-wrapper flex justify-between w-full mx-auto pt-8'>
+      {sideNavigation}
       <div className='flex flex-col flex-1'>
         <Content>{content}</Content>
         <div className='grid-footer'>{footer}</div>
@@ -139,7 +138,9 @@ const ContentWithSideNavigation = ({ content, footer, sideNavigation }) => (
  * Base padding so content isn't touching the edge of the screen
  */
 const Content = ({ children }) => (
-  <div className='grid-content p-4 sm:p-8 lg:p-10 text-inverse'>{children}</div>
+  <div className='grid-content p-4 sm:pt-0 sm:px-8 lg:pt-0 lg:px-10 text-inverse max-w-5xl lg:max-w-6xl w-full mx-auto lg:ml-auto'>
+    {children}
+  </div>
 )
 
 /**
@@ -164,7 +165,7 @@ const AnimateContent = (props) => {
         animate={{
           opacity: 1
         }}
-        className='max-w-screen-sm lg:max-w-screen-lg mx-auto w-full'
+        className='mx-auto w-full'
       >
         {props.children}
       </motion.div>
