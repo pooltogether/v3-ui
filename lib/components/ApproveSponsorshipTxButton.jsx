@@ -60,11 +60,9 @@ export function ApproveSponsorshipTxButton(props) {
           <Tooltip
             title='Allowance'
             tip={
-              <>
-                <div className='my-2 text-xs sm:text-sm'>
-                  You have provided enough allowance to this pool and don't need to approve anymore.
-                </div>
-              </>
+              <div>
+                You have provided enough allowance to this pool and don't need to approve anymore.
+              </div>
             }
             className='w-48-percent'
           >
