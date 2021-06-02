@@ -14,7 +14,7 @@ export const Tooltip = (props) => {
         data-for={`${id}-tooltip`}
         className={classnames('inline cursor-pointer', className)}
       >
-        {children || <FeatherIcon icon='info' className={classnames('w-4 h-4', className)} />}
+        {children || <FeatherIcon icon='info' className={classnames('w-4 h-4')} />}
       </span>
       <ReactTooltip
         clickable

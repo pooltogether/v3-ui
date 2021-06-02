@@ -65,28 +65,34 @@ const Stat = (props) => {
   } = props
 
   return (
-    <li className='flex justify-between mb-2 last:mb-0'>
+    <li className='flex items-center justify-between mb-2 last:mb-0'>
       <span className='text-accent-1 flex'>
         {title}:{' '}
-        {tooltip && <Tooltip id={title} className='ml-2 my-auto text-accent-1' tip={tooltip} />}
+        {tooltip && (
+          <Tooltip id={title} className='ml-1 sm:ml-2 my-auto text-accent-1' tip={tooltip} />
+        )}
       </span>
       {(sourceAddress || value) && (
-        <span className='flex items-center'>
+        <div className='flex items-center'>
           {sourceName && <span className='capitalize'>{sourceName}</span>}
-          {sourceAddress && <Erc20Image address={sourceAddress} marginClasses='ml-1 mr-0' />}
+          {sourceAddress && <Erc20Image address={sourceAddress} marginClasses='ml-1' />}
           {value && <span className='flex items-center'>{value}</span>}
-        </span>
+        </div>
       )}
 
       {tokenSymbol && tokenAmount && (
-        <span className='flex items-center'>
+        <div className='flex flex-col sm:flex-row flex-wrap justify-end items-end sm:items-center'>
+          <div className='flex items-center'>
+            <PoolNumber>{numberWithCommas(tokenAmount)}</PoolNumber>
+            {tokenAddress && <Erc20Image address={tokenAddress} marginClasses='mx-1' />}
+            <span>{tokenSymbol}</span>
+          </div>
           {Boolean(convertedValue) && (
-            <span className='opacity-30 mr-1'>(${numberWithCommas(convertedValue)})</span>
+            <span className='opacity-30 sm:order-first sm:mr-2'>
+              (${numberWithCommas(convertedValue)})
+            </span>
           )}
-          <PoolNumber>{numberWithCommas(tokenAmount)}</PoolNumber>
-          {tokenAddress && <Erc20Image address={tokenAddress} marginClasses='ml-1 mr-0' />}
-          <span className='ml-1'>{tokenSymbol}</span>
-        </span>
+        </div>
       )}
       {percent && <span>{displayPercentage(percent)}%</span>}
     </li>

@@ -2,6 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { isIOS } from 'react-device-detect'
 
 import { useTranslation } from 'react-i18next'
 import { CountBadge } from 'lib/components/CountBadge'
@@ -24,9 +25,15 @@ export function NavMobile(props) {
   return (
     <>
       <nav
-        className='w-screen flex justify-center items-center b-0 l-0 r-0 bg-card-purple sm:hidden z-20 pb-6'
+        className={classnames(
+          `w-screen flex justify-center items-center b-0 l-0 r-0 bg-card-purple sm:hidden z-20`,
+          {
+            'pb-4': isIOS,
+            'pb-1': !isIOS
+          }
+        )}
         style={{
-          height: 96
+          height: isIOS ? 90 : 76
         }}
       >
         <Link href='/' as='/' shallow>
@@ -84,10 +91,10 @@ export function NavMobile(props) {
             })}
           >
             {activeCount > 0 && (
-              <div className='absolute' style={{ top: 11, left: 38 }}>
+              <div className='absolute' style={{ top: 11, left: 43 }}>
                 <CountBadge
-                  backgroundClass='bg-tertiary'
-                  sizeClasses='w-5 h-5 text-xxs'
+                  backgroundClass='bg-blue'
+                  sizeClasses='w-4 h-4 text-xxxs'
                   count={activeCount}
                 />
               </div>
