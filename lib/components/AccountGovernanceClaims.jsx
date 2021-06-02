@@ -18,7 +18,7 @@ import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButto
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { ThemedClipLoader } from 'lib/components/loaders/ThemedClipLoader'
+import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { Tooltip } from 'lib/components/Tooltip'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
@@ -392,7 +392,7 @@ const ClaimButton = (props) => {
     >
       {txPending && (
         <span className='mr-2'>
-          <ThemedClipLoader />
+          <ThemedClipSpinner size={12} />
         </span>
       )}
       {text}
@@ -493,7 +493,7 @@ const ClaimAllButton = (props) => {
     >
       {txPending && (
         <span className='mr-2'>
-          <ThemedClipLoader />
+          <ThemedClipSpinner />
         </span>
       )}
       {text}

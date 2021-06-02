@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { CardGrid } from 'lib/components/CardGrid'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
-import { LoadingSpinner } from 'lib/components/LoadingSpinner'
+import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Meta } from 'lib/components/Meta'
 import { SponsorshipPane } from 'lib/components/SponsorshipPane'
@@ -142,7 +142,7 @@ export const ManageUI = (props) => {
             <>
               {t('waitingOnRandomNumberGeneration')}
               <span className='w-6 flex items-start justify-start mt-6'>
-                <LoadingSpinner />
+                <ThemedClipSpinner />
               </span>
             </>
           )}
