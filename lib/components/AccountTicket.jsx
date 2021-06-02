@@ -95,7 +95,7 @@ export const AccountTicket = (props) => {
         }}
       >
         <div className='h-28 flex w-full items-center justify-between'>
-          <div className='h-28 w-32 sm:w-40 lg:w-48 notched-box rounded-l-lg bg-accent-grey-4 flex flex-col items-center justify-center'>
+          <div className='h-28 w-40 lg:w-48 notched-box rounded-l-lg bg-accent-grey-4 flex flex-col items-center justify-center'>
             <div
               className={classnames(`notched-corner notched-top-right`, cornerBgClassName)}
             ></div>
