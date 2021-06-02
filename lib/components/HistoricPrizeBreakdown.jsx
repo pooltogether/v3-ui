@@ -2,7 +2,6 @@ import React from 'react'
 import Link from 'next/link'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
-import { BeatLoader } from 'react-spinners'
 
 import { useTranslation } from 'react-i18next'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
@@ -10,6 +9,7 @@ import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 import { PlayerLabel } from 'lib/components/PlayerLabel'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PodsCTA } from 'lib/components/PodsCTA'
+import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -206,7 +206,7 @@ const PrizeWinner = (props) => {
     return (
       <tr>
         <td>
-          <BeatLoader size={3} color='rgba(255,255,255,0.3)' />
+          <ThemedClipSpinner size={10} />
         </td>
       </tr>
     )

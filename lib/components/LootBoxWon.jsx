@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import BeatLoader from 'react-spinners/BeatLoader'
 import { ethers } from 'ethers'
 
 import { useTranslation } from 'react-i18next'
@@ -7,6 +6,7 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PlunderLootBoxTxButton } from 'lib/components/PlunderLootBoxTxButton'
+import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { useEthereumErc20Query } from 'lib/hooks/useEthereumErc20Query'
 import { useEthereumErc721Query } from 'lib/hooks/useEthereumErc721Query'
 import { useEthereumErc1155Query } from 'lib/hooks/useEthereumErc1155Query'
@@ -181,7 +181,7 @@ const LootBoxWonTable = (props) => {
 
       <div className='xs:w-2/4 sm:w-5/12 lg:w-1/4 mt-3 mb-2'>
         {isFetching && !isFetched ? (
-          <BeatLoader size={10} color='rgba(255,255,255,0.3)' />
+          <ThemedClipSpinner size={10} />
         ) : (
           <PlunderLootBoxTxButton
             pool={pool}

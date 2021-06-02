@@ -3,7 +3,7 @@ import FeatherIcon from 'feather-icons-react'
 
 import { useTranslation } from 'react-i18next'
 import { Tooltip } from 'lib/components/Tooltip'
-import { LoadingSpinner } from 'lib/components/LoadingSpinner'
+import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
 export function TransactionsListItem(props) {
@@ -39,7 +39,7 @@ export function TransactionsListItem(props) {
                   transform: 'scale(0.9)'
                 }}
               >
-                <LoadingSpinner />
+                <ThemedClipSpinner />
               </div>
             </>
           )}

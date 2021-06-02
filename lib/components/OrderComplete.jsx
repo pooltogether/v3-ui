@@ -66,7 +66,7 @@ export function OrderComplete(props) {
       </PaneTitle>
       <PaneTitle>{t('successfullyDeposited')}</PaneTitle>
 
-      <div className='border-highlight-2 border-2 bg-accent-grey-1 p-4 sm:p-8 my-4 sm:my-8 rounded-lg'>
+      <div className='bg-accent-grey-1 p-4 sm:p-8 my-4 sm:my-8 rounded-lg'>
         <h1 className='text-highlight-2'>
           <Trans
             i18nKey='AmountTickets'
