@@ -437,7 +437,8 @@ const ClaimTokens = (props) => {
           </li>
           <li>
             {t('uniswapLPInstructionsStep3', {
-              token: underlyingToken.symbol
+              token: underlyingToken.symbol,
+              interpolation: { escapeValue: false }
             })}
           </li>
         </ol>
