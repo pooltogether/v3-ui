@@ -3,7 +3,7 @@ import { useOnboard } from '@pooltogether/hooks'
 
 import { useTranslation } from 'react-i18next'
 import { Button } from 'lib/components/Button'
-import { PTHint } from 'lib/components/PTHint'
+import { Tooltip } from 'lib/components/Tooltip'
 
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
 import PoolTogetherPOOLToken from 'assets/images/pool-icon.svg'
@@ -40,19 +40,20 @@ export function SignInForm(props) {
         {t('connectWallet')}
       </Button>
 
+      <br />
+      <br />
       {!retroClaim && (
-        <PTHint
+        <Tooltip
           title='Ethereum'
           className='mt-4 mx-auto w-48'
           tip={
             <>
-              <div className='my-2 text-xs sm:text-sm'>{t('whatIsEthereumOne')}</div>
-              <div className='text-xs sm:text-sm'>{t('whatIsEthereumTwo')}</div>
+              {t('whatIsEthereumOne')} {t('whatIsEthereumTwo')}
             </>
           }
         >
           <span className='opacity-60 font-bold text-caption w-48'>{t('whatsAnEthereum')}</span>
-        </PTHint>
+        </Tooltip>
       )}
     </div>
   )

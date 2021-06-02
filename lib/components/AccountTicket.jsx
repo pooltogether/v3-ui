@@ -27,7 +27,7 @@ export const AccountTicket = (props) => {
 
   const shouldReduceMotion = useReducedMotion()
 
-  const { isLink, playerPoolTicketData } = props
+  const { isLink, playerPoolTicketData, cornerBgClassName } = props
   let { href, as } = props
 
   const { ticket, pool } = playerPoolTicketData
@@ -74,9 +74,7 @@ export const AccountTicket = (props) => {
     <>
       <motion.div
         key={`account-pool-ticket-${pool.prizePool.address}`}
-        className={classnames(
-          'bg-accent-grey-4 py-2 rounded-lg relative text-xxxs sm:text-xs mb-3'
-        )}
+        className={classnames('relative text-xxxs sm:text-xs mb-3')}
         animate={{
           scale: 1,
           opacity: 1,
@@ -96,8 +94,15 @@ export const AccountTicket = (props) => {
           }
         }}
       >
-        <div className='h-24 flex items-center justify-between'>
-          <div className='h-24 w-32 sm:w-40 flex flex-col items-center justify-center border-accent-3 border-dashed border-r-2'>
+        <div className='h-28 flex w-full items-center justify-between'>
+          <div className='h-28 w-32 sm:w-40 lg:w-48 notched-box rounded-l-lg bg-accent-grey-4 flex flex-col items-center justify-center'>
+            <div
+              className={classnames(`notched-corner notched-top-right`, cornerBgClassName)}
+            ></div>
+            <div
+              className={classnames(`notched-corner notched-bottom-right`, cornerBgClassName)}
+            ></div>
+
             <button onClick={handlePoolClick}>
               <PoolCurrencyIcon
                 lg
@@ -111,8 +116,17 @@ export const AccountTicket = (props) => {
               </div>
             </button>
           </div>
-
-          <div className='flex flex-col sm:flex-row w-full'>
+          <div
+            className='h-24 bg-accent-grey-4 border-body border-dotted border-r-4'
+            style={{ width: 1 }}
+          >
+            &nbsp;
+          </div>
+          <div className='h-28 notched-box rounded-r-lg bg-accent-grey-4 flex flex-col justify-center sm:flex-row w-full'>
+            <div className={classnames(`notched-corner notched-top-left`, cornerBgClassName)}></div>
+            <div
+              className={classnames(`notched-corner notched-bottom-left`, cornerBgClassName)}
+            ></div>
             <div className='w-10/12 sm:w-5/12 mx-auto flex flex-col items-start justify-start sm:justify-center leading-none sm:pl-8'>
               <div className='text-lg sm:text-2xl font-bold text-inverse-purple mb-1'>
                 <PoolNumber>{numberWithCommas(amount)}</PoolNumber>
@@ -137,8 +151,7 @@ export const AccountTicket = (props) => {
                 )}
               </div>
             </div>
-
-            <div className='w-10/12 sm:w-7/12 mx-auto flex flex-col sm:items-end sm:justify-end pt-1 sm:pt-3 sm:pb-4 sm:pl-2 sm:pr-12'>
+            <div className='sm:h-28 w-10/12 sm:w-7/12 mx-auto flex flex-col sm:items-end sm:justify-between sm:py-4 sm:pl-2 sm:pr-12'>
               <div className='flex items-baseline text-xs sm:text-xl font-bold text-accent-1'>
                 <img
                   src={PoolTogetherTrophyDetailed}

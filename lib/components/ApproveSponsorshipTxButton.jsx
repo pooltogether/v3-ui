@@ -5,7 +5,7 @@ import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/Contro
 
 import { useTranslation } from 'react-i18next'
 import { Button } from 'lib/components/Button'
-import { PTHint } from 'lib/components/PTHint'
+import { Tooltip } from 'lib/components/Tooltip'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { useCurrentPool } from 'lib/hooks/usePools'
@@ -57,7 +57,7 @@ export function ApproveSponsorshipTxButton(props) {
     <>
       {!needsApproval ? (
         <>
-          <PTHint
+          <Tooltip
             title='Allowance'
             tip={
               <>
@@ -69,7 +69,7 @@ export function ApproveSponsorshipTxButton(props) {
             className='w-48-percent'
           >
             {approveButton}
-          </PTHint>
+          </Tooltip>
         </>
       ) : (
         approveButton

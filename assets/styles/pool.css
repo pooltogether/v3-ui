@@ -511,3 +511,55 @@ a:hover {
     right: 140px;
   }
 }
+
+.__react_component_tooltip.show.type-custom {
+  opacity: 0.97;
+  padding: 8px 21px 20px;
+}
+
+@screen xs {
+  .__react_component_tooltip.show.type-custom {
+    padding: 8px 21px;
+  }
+}
+
+.notched-box {
+  position: relative;
+}
+
+.notched-corner {
+  /* @apply bg-body; */
+
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  border: 1px solid transparent;
+}
+
+.notched-top-left {
+  top: -1px;
+  left: -1px;
+  border-radius: 0 0 100% 0;
+  border-width: 0 1px 1px 0;
+}
+
+.notched-top-right {
+  top: -1px;
+  right: -1px;
+  border-radius: 0 0 0 100%;
+  border-width: 0 0 1px 1px;
+}
+
+.notched-bottom-left {
+  bottom: 0;
+  left: -1px;
+  border-radius: 0 100% 0 0;
+  border-width: 1px 1px 0 0;
+}
+
+.notched-bottom-right {
+  bottom: 0;
+  right: -1px;
+  border-radius: 100% 0 0 0;
+  border-width: 1px 0 0 1px;
+}

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { Button } from 'lib/components/Button'
-import { PTHint } from 'lib/components/PTHint'
+import { Tooltip } from 'lib/components/Tooltip'
 
 export function DepositTxButton(props) {
   const { t } = useTranslation()
@@ -31,19 +31,19 @@ export function DepositTxButton(props) {
   return (
     <>
       {poolIsLocked ? (
-        <PTHint
+        <Tooltip
           isButton={poolIsLocked}
           title={t('poolIsLocked')}
           tip={
             <>
-              <div className='my-2 text-xs sm:text-sm'>{t('poolCurrentlyBeingAwarded')}</div>
-              <div className='text-xs sm:text-sm'>{t('youWontNeedToRefreshThePage')}</div>
+              <div>{t('poolCurrentlyBeingAwarded')}</div>
+              <div>{t('youWontNeedToRefreshThePage')}</div>
             </>
           }
           className='w-48-percent'
         >
           {button}
-        </PTHint>
+        </Tooltip>
       ) : (
         button
       )}

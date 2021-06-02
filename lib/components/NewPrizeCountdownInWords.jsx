@@ -52,7 +52,7 @@ export const NewPrizeCountdownInWords = (props) => {
         {daysWords !== '0' && <>{t('numDaysShort', { days: daysWords })}, </>}
         {hoursWords !== '0' && <>{t('numHoursShort', { hours: hoursWords })}, </>}
         {minutesWords !== '0' && <>{t('numMinutesShort', { minutes: minutesWords })}, </>}
-        {secondsWords !== '0' && <>{t('numSecondsShort', { seconds: secondsWords })}</>}
+        {t('numSecondsShort', { seconds: secondsWords })}
       </>
     )
   }

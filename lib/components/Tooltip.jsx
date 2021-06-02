@@ -4,7 +4,7 @@ import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
 
 export const Tooltip = (props) => {
-  const { children, tip, className, id, effect } = props
+  const { children, tip, className, svgClassName, id, effect } = props
   const ref = useRef(null)
 
   return (
@@ -14,7 +14,7 @@ export const Tooltip = (props) => {
         data-for={`${id}-tooltip`}
         className={classnames('inline cursor-pointer', className)}
       >
-        {children || <FeatherIcon icon='info' className={classnames('w-4 h-4')} />}
+        {children || <FeatherIcon icon='info' className={classnames('w-4 h-4', svgClassName)} />}
       </span>
       <ReactTooltip
         clickable
@@ -24,7 +24,7 @@ export const Tooltip = (props) => {
         place='top'
         effect={effect}
         data-multiline
-        className='p-1 xs:p-2 max-w-3/4 sm:max-w-sm text-center leading-relaxed font-normal'
+        className='max-w-3/4 sm:max-w-sm text-center leading-relaxed font-normal rounded-lg'
         overridePosition={({ left, top }, currentEvent, currentTarget, node) => {
           const d = document.documentElement
           left = Math.min(d.clientWidth - node.clientWidth, left)
@@ -43,7 +43,7 @@ export const Tooltip = (props) => {
             }}
             className='ml-auto mb-2 block xs:hidden'
           >
-            <FeatherIcon icon='x' className='w-4 h-4 text-inverse' />
+            <FeatherIcon icon='x' className='w-4 h-4 text-white relative -r-3' />
           </button>
           {tip}
         </>

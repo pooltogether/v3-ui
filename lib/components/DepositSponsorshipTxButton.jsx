@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { Button } from 'lib/components/Button'
-import { PTHint } from 'lib/components/PTHint'
+import { Tooltip } from 'lib/components/Tooltip'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
@@ -69,17 +69,13 @@ export function DepositSponsorshipTxButton(props) {
     <>
       {needsApproval ? (
         <>
-          <PTHint
+          <Tooltip
             title='Allowance'
-            tip={
-              <>
-                <div className='my-2 text-xs sm:text-sm'>{t('needToProvideEnoughAllowance')}</div>
-              </>
-            }
+            tip={t('needToProvideEnoughAllowance')}
             className='w-48-percent'
           >
             {depositSponsorshipButton}
-          </PTHint>
+          </Tooltip>
         </>
       ) : (
         depositSponsorshipButton

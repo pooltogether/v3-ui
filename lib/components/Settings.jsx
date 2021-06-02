@@ -17,7 +17,7 @@ import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { Button } from 'lib/components/Button'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
-import { PTHint } from 'lib/components/PTHint'
+import { Tooltip } from 'lib/components/Tooltip'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
@@ -150,23 +150,20 @@ export function Settings(props) {
         <h6 className='text-white mt-4 mb-16 capitalize'>{t('settings')}</h6>
 
         <div className='mt-4'>
-          <label className='uppercase text-accent-1 font-bold text-xxs mb-4'>{t('theme')}</label>
+          <label className='uppercase text-accent-1 font-bold text-xxs mb-2'>{t('theme')}</label>
           <ThemeSwitcher />
         </div>
 
-        <div className='mt-6'>
-          <div className='flex items-end'>
-            <label className='uppercase text-accent-1 font-bold text-xxs mb-2 mr-2'>
+        <div className='mt-10'>
+          <div className='flex items-center'>
+            <label className='uppercase text-accent-1 font-bold text-xxs mr-2 mt-1'>
               {t('manage')}
             </label>{' '}
-            <PTHint
+            <Tooltip
+              svgClassName='text-white'
               title={t('managePools')}
-              tip={
-                <div className='my-2 text-xs sm:text-sm'>{t('showPoolManagementDescription')}</div>
-              }
-            >
-              <QuestionMarkCircle />
-            </PTHint>
+              tip={t('showPoolManagementDescription')}
+            ></Tooltip>
           </div>
           <CheckboxInputGroup
             large
@@ -179,7 +176,7 @@ export function Settings(props) {
         </div>
 
         <div className='mt-10'>
-          <label className='uppercase text-accent-1 font-bold text-xxs mb-4 mr-2'>
+          <label className='uppercase text-accent-1 font-bold text-xxs mb-2 mr-2'>
             {t('claim')}
           </label>
 
@@ -193,7 +190,7 @@ export function Settings(props) {
         </div>
 
         <div className='mt-10'>
-          <label className='uppercase text-accent-1 font-bold text-xxs mb-4 mr-2'>
+          <label className='uppercase text-accent-1 font-bold text-xxs mb-2 mr-2'>
             {t('developmentMode')}
           </label>
           <TestnetToggle />

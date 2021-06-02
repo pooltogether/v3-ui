@@ -12,7 +12,7 @@ import { Button } from 'lib/components/Button'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { PTHint } from 'lib/components/PTHint'
+import { Tooltip } from 'lib/components/Tooltip'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { TxStatus } from 'lib/components/TxStatus'
@@ -91,15 +91,9 @@ export function ConfirmWithdrawWithFeeForm(props) {
 
         <br />
         <br />
-        {t('withdrawScheduledDescription', {
-          amount: quantity,
-          ticker
-        })}
-
-        <br />
-        <br />
         {t('withdrawInstantDescription', {
-          amount: displayAmountInEther(exitFee, { decimals, precision: 8 }),
+          amount: netFormatted,
+          fee: feeFormatted,
           ticker
         })}
       </>
@@ -167,14 +161,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
                   icon: <img src={IconLightning} className='w-7 h-7 xs:w-auto xs:h-auto' />,
                   label: (
                     <>
-                      {t('instantly')}{' '}
-                      <PTHint className='inline-block relative -t-6 r-2' tip={tipJsx}>
-                        <>
-                          <div className='inline-bold relative'>
-                            <QuestionMarkCircle />
-                          </div>
-                        </>
-                      </PTHint>
+                      {t('instantly')} <Tooltip svgClassName='inline relative -t-1' tip={tipJsx} />
                     </>
                   ),
                   description: (

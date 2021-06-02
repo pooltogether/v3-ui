@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 
-import { PTHint } from 'lib/components/PTHint'
+import { Tooltip } from 'lib/components/Tooltip'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 
 export const CheckboxInputGroup = (props) => {
@@ -50,9 +50,9 @@ export const CheckboxInputGroup = (props) => {
       <div className='text-left flex flex-col items-start justify-start leading-snug'>{label}</div>
 
       {hint && (
-        <PTHint title={title ? title : null} tip={hint}>
+        <Tooltip title={title ? title : null} tip={hint}>
           <QuestionMarkCircle white />
-        </PTHint>
+        </Tooltip>
       )}
     </div>
   )

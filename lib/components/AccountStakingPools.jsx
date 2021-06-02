@@ -115,7 +115,7 @@ const LPTokenCardHeader = (props) => {
   const { underlyingToken, dripToken } = stakingPoolAddresses
   const { token1, token2, pair: tokenPair } = underlyingToken
   return (
-    <div className='border-accent-3 lg:border-dashed lg:border-r-2 py-4 xs:py-6 px-4 xs:px-6 lg:px-10 flex'>
+    <div className='border-body lg:border-dotted lg:border-r-4 py-4 xs:py-6 px-4 xs:px-6 lg:px-10 flex'>
       <div
         className='flex flex-row lg:flex-col justify-center my-auto'
         style={{ minWidth: 'max-content' }}
@@ -355,7 +355,7 @@ const ManageDepositTriggers = (props) => {
   }
 
   return (
-    <div className='flex flex-row mr-auto lg:mr-0 lg:ml-auto'>
+    <div className='flex flex-row mr-auto lg:mr-0 lg:ml-auto lg:flex-row-reverse'>
       <button className='underline' onClick={openDepositModal}>
         {t('deposit')}
       </button>
