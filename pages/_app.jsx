@@ -28,7 +28,6 @@ import { ManualWarningMessage } from 'lib/components/ManualWarningMessage'
 
 import '@reach/dialog/styles.css'
 import '@reach/menu-button/styles.css'
-import '@reach/tooltip/styles.css'
 import 'react-toastify/dist/ReactToastify.css'
 
 import 'assets/styles/utils.css'

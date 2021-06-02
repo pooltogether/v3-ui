@@ -2,7 +2,7 @@ import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 
 import { useTranslation } from 'react-i18next'
-import { PTHint } from 'lib/components/PTHint'
+import { Tooltip } from 'lib/components/Tooltip'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
@@ -57,7 +57,7 @@ export function TransactionsListItem(props) {
 
           {tx.reason && (
             <>
-              <PTHint tip={tx.reason}>{errorIcon}</PTHint>
+              <Tooltip tip={tx.reason}>{errorIcon}</Tooltip>
             </>
           )}
 

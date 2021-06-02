@@ -87,7 +87,7 @@ export function DepositTicketQuantityForm(props) {
       textSize='lg'
       disabled={!formState.isValid}
       onClick={handleSubmit(onSubmit)}
-      className={'mx-auto w-48-percent'}
+      className={'mx-auto'}
     >
       {t('reviewDeposit')}
     </Button>

@@ -47,6 +47,7 @@ export const AccountTickets = () => {
             return (
               <AccountTicket
                 isLink
+                cornerBgClassName='bg-body'
                 key={`account-pool-row-${playerPoolTicketData?.poolAddress}`}
                 playerPoolTicketData={playerPoolTicketData}
               />

@@ -3,13 +3,10 @@ import { omit } from 'lodash'
 import { useRouter } from 'next/router'
 
 import { Button } from 'lib/components/Button'
-import { ButtonLink } from 'lib/components/ButtonLink'
-import { PTHint } from 'lib/components/PTHint'
+import { Tooltip } from 'lib/components/Tooltip'
 
 export function ButtonTx(props) {
   const { children, usersAddress } = props
-
-  const router = useRouter()
 
   let newProps = omit(props, ['usersAddress'])
 
@@ -23,7 +20,7 @@ export function ButtonTx(props) {
     <>
       {!usersAddress ? (
         <>
-          <PTHint
+          <Tooltip
             title='Connect a wallet'
             tip={
               <>
@@ -35,7 +32,7 @@ export function ButtonTx(props) {
             }
           >
             {button}
-          </PTHint>
+          </Tooltip>
         </>
       ) : (
         button

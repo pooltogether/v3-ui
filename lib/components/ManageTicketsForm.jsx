@@ -37,6 +37,7 @@ export function ManageTicketsForm(props) {
         {playerPoolTicketData && (
           <AccountTicket
             noMargin
+            cornerBgClassName='bg-darkened'
             key={`account-pool-row-${pool.prizePool.address}`}
             playerPoolTicketData={playerPoolTicketData}
           />

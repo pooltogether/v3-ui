@@ -13,7 +13,7 @@ import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPa
 import { DepositTxButton } from 'lib/components/DepositTxButton'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
-import { PTHint } from 'lib/components/PTHint'
+import { Tooltip } from 'lib/components/Tooltip'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { usersDataForPool } from 'lib/utils/usersDataForPool'
 import { TxStatus } from 'lib/components/TxStatus'
@@ -228,7 +228,7 @@ export function DepositCryptoForm(props) {
               <ButtonDrawer>
                 {!needsApproval ? (
                   <>
-                    <PTHint
+                    <Tooltip
                       title={t('allowance')}
                       tip={
                         <div className='my-2 text-xs sm:text-sm'>
@@ -238,7 +238,7 @@ export function DepositCryptoForm(props) {
                       className='w-48-percent'
                     >
                       {approveButton}
-                    </PTHint>
+                    </Tooltip>
                   </>
                 ) : (
                   approveButton
