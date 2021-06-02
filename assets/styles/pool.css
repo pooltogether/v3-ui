@@ -511,3 +511,8 @@ a:hover {
     right: 140px;
   }
 }
+
+.break {
+  flex-basis: 100%;
+  height: 0;
+}

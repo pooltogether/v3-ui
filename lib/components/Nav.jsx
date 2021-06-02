@@ -19,7 +19,7 @@ export function Nav(props) {
   const poolPage = !accountPage && !votePage
 
   const navParentClasses =
-    'relative leading-none rounded-full hover:bg-accent-grey-1 w-full flex justify-start items-center text-lg lg:text-xl py-3 px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none mb-3 font-bold ml-3 lg:ml-0 h-10'
+    'relative leading-none rounded-full hover:bg-accent-grey-1 w-full flex justify-start items-center text-xl py-3 px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none mb-3 font-bold ml-3 lg:ml-0 h-10'
 
   return (
     <nav className='flex-col items-start hidden sm:block pt-8 sm:pt-0 pl-2 sm:pr-12 lg:pr-16 text-center'>
@@ -59,11 +59,12 @@ export function Nav(props) {
           })}
         >
           {activeCount > 0 && (
-            <div className='absolute' style={{ top: 2, left: 14 }}>
+            <div className='absolute z-10' style={{ top: 1, left: 20 }}>
               <CountBadge
-                backgroundClass='bg-tertiary'
-                sizeClasses='w-6 h-6 text-xxs'
+                backgroundClass='bg-blue'
+                sizeClasses='w-5 h-5 text-xxs'
                 count={activeCount}
+                textStyle={{ left: 1 }}
               />
             </div>
           )}
