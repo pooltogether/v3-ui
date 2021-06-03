@@ -3,6 +3,11 @@ const {
 } = require('tailwindcss/defaultTheme')
 
 module.exports = {
+  mode: 'jit',
+  purge: [
+    './lib/**/*.{js,jsx,ts,tsx}',
+    './pages/**/*.{js,jsx,ts,tsx}'
+  ],
   experimental: 'all',
   corePlugins: {
     container: true
@@ -266,11 +271,5 @@ module.exports = {
     ]
   },
   plugins: [],
-  purge: false
-  // purge: [
-  //   './components/**/*.jsx',
-  //   './components/**/*.js',
-  //   './pages/**/*.jsx',
-  //   './pages/**/*.js'
-  // ],
+  
 }
