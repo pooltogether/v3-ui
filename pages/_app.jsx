@@ -10,6 +10,7 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider as JotaiProvider } from 'jotai'
 import { useInitializeOnboard } from '@pooltogether/hooks'
+// import { Layout } from '@pooltogether/pooltogether-react-components'
 
 import {
   HOTKEYS_KEY_MAP,
@@ -20,7 +21,6 @@ import {
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
 import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
-import { Layout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
@@ -79,7 +79,6 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 }
 
 function MyApp({ Component, pageProps, router }) {
-  useInitializeOnboard()
   const { i18n } = useTranslation()
 
   useEffect(() => {
@@ -154,28 +153,36 @@ function MyApp({ Component, pageProps, router }) {
       className='outline-none focus:outline-none active:outline-none'
     >
       <JotaiProvider>
-        <QueryClientProvider client={queryClient}>
-          <BodyClasses />
+        <InitializeOnboard>
+          <div></div>
+          <QueryClientProvider client={queryClient}>
+            <BodyClasses />
 
-          <ToastContainer className='pool-toast' position='top-center' autoClose={7000} />
+            <ToastContainer className='pool-toast' position='top-center' autoClose={7000} />
 
-          <AllContextProviders>
-            <CustomErrorBoundary>
-              <TransactionStatusChecker />
+            <AllContextProviders>
+              <CustomErrorBoundary>
+                <TransactionStatusChecker />
 
-              <TxRefetchListener />
+                <TxRefetchListener />
 
-              <ManualWarningMessage />
+                <ManualWarningMessage />
 
-              <Layout pageProps={pageProps} Component={Component} router={router} />
+                <Layout pageProps={pageProps} Component={Component} router={router} />
 
-              <ReactQueryDevtools />
-            </CustomErrorBoundary>
-          </AllContextProviders>
-        </QueryClientProvider>
+                <ReactQueryDevtools />
+              </CustomErrorBoundary>
+            </AllContextProviders>
+          </QueryClientProvider>
+        </InitializeOnboard>
       </JotaiProvider>
     </HotKeys>
   )
+}
+
+const InitializeOnboard = (props) => {
+  useInitializeOnboard()
+  return props.children
 }
 
 export default MyApp

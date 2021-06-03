@@ -24,7 +24,9 @@
     "cypress": "NEXT_JS_REDUCE_MOTION=true start-server-and-test dev http://localhost:3000 cypress:run",
     "cypress:open-local": "NEXT_JS_REDUCE_MOTION=true start-server-and-test dev http://localhost:3000 cypress:open",
     "cypress:open": "npx cypress open --env infura_id=$NEXT_JS_INFURA_ID",
-    "cypress:run": "npx cypress run --record --key $CYPRESS_RECORD_KEY --env infura_id=$NEXT_JS_INFURA_ID"
+    "cypress:run": "npx cypress run --record --key $CYPRESS_RECORD_KEY --env infura_id=$NEXT_JS_INFURA_ID",
+    "link-hooks": "cd node_modules/react && yarn link && cd ../react-query && yarn link && cd ../react-dom && yarn link && cd ../jotai && yarn link && cd ../.. && yarn link @pooltogether/hooks && yarn link @pooltogether/pooltogether-react-components",
+    "unlink-hooks": "cd node_modules/react && yarn unlink && cd ../react-query && yarn unlink && cd ../react-dom && yarn unlink && cd ../jotai && yarn unlink && cd ../.. && yarn unlink @pooltogether/hooks && yarn unlink @pooltogether/pooltogether-react-components && yarn install --force"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -111,7 +113,7 @@
     "i18next-http-backend": "^1.2.6",
     "i18next-locize-backend": "^4.2.2",
     "i18next-node-locize-backend": "^3.1.2",
-    "jotai": "^0.11.2",
+    "jotai": "^0.14.0",
     "js-cookie": "^2.2.1",
     "lodash.clonedeep": "^4.5.0",
     "lodash.merge": "^4.6.2",
