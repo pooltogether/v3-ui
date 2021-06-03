@@ -32,7 +32,7 @@ const V2Ticket = (props) => {
 
   return (
     <div className='bg-accent-grey-4 py-2 rounded-lg relative text-xxxs sm:text-xs mb-3 flex flex-row '>
-      <div className='flex flex-col justify-center text-center border-accent-3 border-dashed border-r-2 w-32 sm:w-40'>
+      <div className='flex flex-col justify-center text-center border-body border-dotted border-r-4 w-32 sm:w-40'>
         <Erc20Image address={underlyingToken.address} marginClasses='mx-auto' />
         <span className='capitalize mt-2 text-xs font-bold text-inverse-purple'>
           {underlyingToken.symbol}

@@ -28,7 +28,6 @@ import { ManualWarningMessage } from 'lib/components/ManualWarningMessage'
 
 import '@reach/dialog/styles.css'
 import '@reach/menu-button/styles.css'
-import '@reach/tooltip/styles.css'
 import 'react-toastify/dist/ReactToastify.css'
 
 import 'assets/styles/utils.css'
@@ -95,17 +94,6 @@ function MyApp({ Component, pageProps, router }) {
         console.error(`referrer address was an invalid Ethereum address:`, e.message)
       }
     }
-  }, [])
-
-  // ChunkLoadErrors happen when someone has the app loaded, then we deploy a
-  // new release, and the user's app points to previous chunks that no longer exist
-  useEffect(() => {
-    window.addEventListener('error', (e) => {
-      console.log(e)
-      if (/Loading chunk [\d]+ failed/.test(e.message)) {
-        window.location.reload()
-      }
-    })
   }, [])
 
   useEffect(() => {

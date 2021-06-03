@@ -8,7 +8,6 @@ import ContentLoader from 'react-content-loader'
 import { useAtom } from 'jotai'
 import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
-import { ClipLoader } from 'react-spinners'
 import { isMobile } from 'react-device-detect'
 import { amountMultByUsd, calculateAPR, calculateLPTokenPrice } from '@pooltogether/utilities'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
@@ -24,8 +23,9 @@ import { isSelfAtom } from 'lib/components/AccountUI'
 import { Card } from 'lib/components/Card'
 import { Button } from 'lib/components/Button'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { TxStatus } from 'lib/components/TxStatus'
+import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { Tooltip } from 'lib/components/Tooltip'
+import { TxStatus } from 'lib/components/TxStatus'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -115,7 +115,7 @@ const LPTokenCardHeader = (props) => {
   const { underlyingToken, dripToken } = stakingPoolAddresses
   const { token1, token2, pair: tokenPair } = underlyingToken
   return (
-    <div className='border-accent-3 lg:border-dashed lg:border-r-2 py-4 xs:py-6 px-4 xs:px-6 lg:px-10 flex'>
+    <div className='border-body lg:border-dotted lg:border-r-4 py-4 xs:py-6 px-4 xs:px-6 lg:px-10 flex'>
       <div
         className='flex flex-row lg:flex-col justify-center my-auto'
         style={{ minWidth: 'max-content' }}
@@ -355,7 +355,7 @@ const ManageDepositTriggers = (props) => {
   }
 
   return (
-    <div className='flex flex-row mr-auto lg:mr-0 lg:ml-auto'>
+    <div className='flex flex-row mr-auto lg:mr-0 lg:ml-auto lg:flex-row-reverse'>
       <button className='underline' onClick={openDepositModal}>
         {t('deposit')}
       </button>
@@ -543,7 +543,7 @@ const TransactionButton = (props) => {
     <>
       {txPending && (
         <span className='mr-1'>
-          <ClipLoader size={12} color='#bbb2ce' />
+          <ThemedClipSpinner size={12} color='#bbb2ce' />
         </span>
       )}
 
@@ -791,8 +791,6 @@ const StakingAPR = (props) => {
   } = props
   const { token1, token2 } = underlyingToken
 
-  const { theme } = useContext(ThemeContext)
-
   const currentBlock = '-1'
 
   const { data: lPTokenBalances, isFetched: tokenBalancesIsFetched } = useTokenBalances(
@@ -809,7 +807,7 @@ const StakingAPR = (props) => {
       <span className={classnames('flex', className)}>
         <img src={TOKEN_IMAGES_BY_SYMBOL.pool} className='rounded-full w-4 h-4 my-auto mr-1' />
         <div className='mx-1'>
-          <ClipLoader size={12} color={theme === 'dark' ? '#fff' : '#4C249F'} />
+          <ThemedClipSpinner size={12} />
         </div>
         <span className='ml-1'>APR</span>
       </span>

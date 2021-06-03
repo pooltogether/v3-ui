@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { Button } from 'lib/components/Button'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { SmallLoader } from 'lib/components/loaders/SmallLoader'
+import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { Tooltip } from 'lib/components/Tooltip'
 import { usePlayerTotalDepositValue } from 'lib/hooks/useUserTickets'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -103,7 +103,7 @@ export const AccountSummary = () => {
               </div>
             </>
           ) : (
-            <SmallLoader />
+            <ThemedClipSpinner />
           )}
         </div>
 

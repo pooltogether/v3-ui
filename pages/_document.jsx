@@ -56,6 +56,7 @@ class MyDocument extends Document {
           </>
         </Head>
         <body className='bg-body'>
+          <script src='/reload-on-chunk-error.js'></script>
           <Meta />
 
           <Main />

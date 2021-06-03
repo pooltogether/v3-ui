@@ -1,12 +1,12 @@
 import FeatherIcon from 'feather-icons-react'
 import React, { useEffect, useState } from 'react'
 import { useOnboard } from '@pooltogether/hooks'
-import Loader from 'react-loader-spinner'
 
 import { Banner } from 'lib/components/Banner'
+import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
+import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { shorten } from 'lib/utils/shorten'
 import { useTranslation } from 'react-i18next'
-import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
 export const TxStatus = (props) => {
   const { gradient, tx, title, subtitle } = props
@@ -46,9 +46,11 @@ export const TxStatus = (props) => {
 
         {subtitle && <h6 className='text-accent-1 mb-4 -mt-4'>{subtitle}</h6>}
 
-        <Banner gradient={gradient || ''} className='flex flex-col'>
+        <Banner gradient={gradient || ''} className='flex flex-col items-center'>
           {txSent && !txCompleted && !txError && (
-            <Loader type='Oval' height={40} width={40} color='#bbb2ce' className='mx-auto mb-2' />
+            <div className='mb-2'>
+              <ThemedClipSpinner size={32} />
+            </div>
           )}
 
           {txCompleted && !txError && (

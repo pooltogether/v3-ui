@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import Loader from 'react-loader-spinner'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
 import { useRouter } from 'next/router'
 import { useOnboard } from '@pooltogether/hooks'
@@ -9,6 +8,7 @@ import { ConfirmWithdrawWithFeeForm } from 'lib/components/ConfirmWithdrawWithFe
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { Meta } from 'lib/components/Meta'
 import { ManageTicketsForm } from 'lib/components/ManageTicketsForm'
+import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { WithdrawComplete } from 'lib/components/WithdrawComplete'
 import { WithdrawInstant } from 'lib/components/WithdrawInstant'
 import { WizardSwitchNetwork } from 'lib/components/WizardSwitchNetwork'
@@ -74,14 +74,8 @@ export function ManageTicketsWizardContainer() {
               totalWizardSteps={4}
             >
               {activeStepIndex > 1 && notEnoughCredit === null ? (
-                <div className='flex flex-col justify-center'>
-                  <Loader
-                    type='Oval'
-                    height={40}
-                    width={40}
-                    color='#bbb2ce'
-                    className='mx-auto mb-2'
-                  />
+                <div className='flex flex-col justify-center items-center'>
+                  <ThemedClipSpinner size={32} />
                   <PaneTitle>{t('gettingAvailableCredit')}</PaneTitle>
                 </div>
               ) : (

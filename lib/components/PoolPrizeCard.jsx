@@ -1,10 +1,10 @@
 import React from 'react'
-import BeatLoader from 'react-spinners/BeatLoader'
-
 import { useTranslation } from 'react-i18next'
+
+import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
-import { Erc20Image } from 'lib/components/Erc20Image'
+import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const PoolPrizeCard = (props) => {
@@ -46,7 +46,9 @@ const PrizeValue = (props) => {
   if (!pool || !pool.prize?.totalValueUsd) {
     return (
       <PrizeValueHeader>
-        <BeatLoader size={10} color='rgba(255,255,255,0.3)' />
+        <div className='mt-1'>
+          <ThemedClipSpinner size={32} />
+        </div>
       </PrizeValueHeader>
     )
   }

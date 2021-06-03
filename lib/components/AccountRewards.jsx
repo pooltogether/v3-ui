@@ -12,7 +12,7 @@ import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
-import { ThemedClipLoader } from 'lib/components/loaders/ThemedClipLoader'
+import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { usePlayerDrips } from 'lib/hooks/usePlayerDrips'
 import { useUsersDripData } from 'lib/hooks/useUsersDripData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
@@ -179,7 +179,7 @@ export const AccountRewardsView = (props) => {
         <>
           <div className='flex flex-col sm:flex-row items-center justify-end'>
             <span className='order-1 sm:order-2'>
-              <ThemedClipLoader />
+              <ThemedClipSpinner />
               <span className='text-teal font-bold ml-2 mt-1'>{t('claiming')}</span>
             </span>
 
