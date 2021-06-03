@@ -27,7 +27,9 @@ import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
 import { NETWORK } from 'lib/utils/networks'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
-export const AccountRewards = () => {
+// This has been removed from the app for most people, but if someone still has rewards/tickets to claim
+// it will show up for them
+export const DeprecatedRewards = () => {
   const [isSelf] = useAtom(isSelfAtom)
 
   if (!isSelf) {

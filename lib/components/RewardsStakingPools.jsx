@@ -5,7 +5,6 @@ import Dialog from '@reach/dialog'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import ContentLoader from 'react-content-loader'
-import { useAtom } from 'jotai'
 import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
 import { isMobile } from 'react-device-detect'
@@ -19,7 +18,6 @@ import { Trans, useTranslation } from 'react-i18next'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 import { TOKEN_IMAGES_BY_SYMBOL } from 'lib/constants/tokenImages'
 import { UI_LOADER_ANIM_DEFAULTS } from 'lib/constants'
-import { isSelfAtom } from 'lib/components/AccountUI'
 import { Card } from 'lib/components/Card'
 import { Button } from 'lib/components/Button'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -41,22 +39,32 @@ import { toScaledUsdBigNumber } from 'lib/utils/poolDataUtils'
 const UNISWAP_V2_PAIR_URL = 'https://app.uniswap.org/#/add/v2/ETH/'
 
 // This component should only show up for the currentUser viewing their own account
-export const AccountStakingPools = () => {
+export const RewardsStakingPools = () => {
   const { t } = useTranslation()
 
   const stakingPoolsAddresses = useStakingPoolsAddresses()
 
-  const [isSelf] = useAtom(isSelfAtom)
-
-  if (!isSelf) {
-    return null
-  }
-
   return (
     <>
       <h5 id='governance-claims' className='font-normal text-accent-2 mt-16 mb-4'>
-        {t('staking')}
+        {t('lpStakingRewards')}
       </h5>
+
+      <div className='bg-card rounded-lg border border-accent-3 px-4 xs:px-8 py-4'>
+        <div className='flex items-baseline flex-row-reverse xs:flex-row'>
+          <div className='pool-gradient-1 px-2 mr-2 rounded-lg inline-block capitalize text-xxs text-white'>
+            {t('tips')}
+          </div>
+          <h5 className='inline-block'>{t('earnStakingRewardsTipDescription')}</h5>
+        </div>
+
+        <ol className='list-decimal block mt-2 px-8 text-xs text-accent-1'>
+          <li>{t('earnStakingRewardsTipOne')}</li>
+          <li>{t('earnStakingRewardsTipTwo')}</li>
+          <li>{t('earnStakingRewardsTipThree')}</li>
+        </ol>
+      </div>
+
       {stakingPoolsAddresses.map((stakingPoolAddresses) => (
         <StakingPoolCard
           key={stakingPoolAddresses.prizePool.address}

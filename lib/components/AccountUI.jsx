@@ -8,9 +8,7 @@ import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountTickets } from 'lib/components/AccountTickets'
 import { AccountWinnings } from 'lib/components/AccountWinnings'
 import { AccountGovernanceClaims } from 'lib/components/AccountGovernanceClaims'
-import { AccountRewards } from 'lib/components/AccountRewards'
 import { AccountLootBoxes } from 'lib/components/AccountLootBoxes'
-import { AccountStakingPools } from 'lib/components/AccountStakingPools'
 import { Meta } from 'lib/components/Meta'
 import { PlayerLabel } from 'lib/components/PlayerLabel'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
@@ -83,11 +81,7 @@ export const AccountUI = () => {
 
           <AccountTickets />
 
-          <AccountStakingPools />
-
           <AccountGovernanceClaims />
-
-          <AccountRewards />
 
           <AccountLootBoxes />
 
