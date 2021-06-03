@@ -145,7 +145,8 @@ const LPTokenCardHeader = (props) => {
 }
 
 const CardMainContents = (props) => {
-  const { usersAddress, stakingPoolAddresses, stakingPoolChainData, refetch } = props
+  const { stakingPoolAddresses, stakingPoolChainData, refetch } = props
+  const usersAddress = useUsersAddress()
   const { appEnv } = useAppEnv()
   const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
 
@@ -377,7 +378,8 @@ const ManageDepositTriggers = (props) => {
 
 const ClaimTokens = (props) => {
   const { t } = useTranslation()
-  const { stakingPoolChainData, usersAddress, refetch, chainId, stakingPoolAddresses } = props
+  const usersAddress = useUsersAddress()
+  const { stakingPoolChainData, refetch, chainId, stakingPoolAddresses } = props
   const { user, tokenFaucet: tokenFaucetData } = stakingPoolChainData
   const {
     claimableBalance,
