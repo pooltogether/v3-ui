@@ -28,7 +28,7 @@ export const AccountTickets = () => {
     <div className='mt-8'>
       {!playerTicketsIsFetched ? (
         <TicketsUILoader />
-      ) : playerTickets.length === 0 ? (
+      ) : playerTickets?.length === 0 ? (
         <BlankStateMessage>
           <div className='mb-2 font-bold'>
             <img src={TicketIcon} className='mx-auto w-16 mb-8' />
