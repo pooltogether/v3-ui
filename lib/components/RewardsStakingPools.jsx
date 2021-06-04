@@ -86,49 +86,43 @@ const StakingPoolCard = (props) => {
     error
   } = useStakingPoolChainData(stakingPoolAddresses, usersAddress)
 
-  const cardClassName = 'flex flex-col lg:flex-row py-2'
-
+  let mainContent
   if (!isFetched || !usersAddress) {
-    return (
-      <Card noPad className={cardClassName}>
-        <LPTokenCardHeader stakingPoolAddresses={stakingPoolAddresses} />
-        <CardMainContentsLoading />
-      </Card>
-    )
+    mainContent = <CardMainContentsLoading />
   } else if (error) {
-    return (
-      <Card noPad className={cardClassName}>
-        <LPTokenCardHeader stakingPoolAddresses={stakingPoolAddresses} />
-        <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
-      </Card>
-    )
-  }
-
-  return (
-    <Card noPad className={cardClassName}>
-      <LPTokenCardHeader stakingPoolAddresses={stakingPoolAddresses} />
+    mainContent = <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
+  } else {
+    mainContent = (
       <CardMainContents
         stakingPoolChainData={stakingPoolChainData}
         stakingPoolAddresses={stakingPoolAddresses}
         usersAddress={usersAddress}
         refetch={refetch}
       />
+    )
+  }
+
+  return (
+    <Card className={'flex py-2'}>
+      <LPAssetHeader stakingPoolAddresses={stakingPoolAddresses} />
+      {mainContent}
     </Card>
   )
 }
 
-const LPTokenCardHeader = (props) => {
+const LPAssetHeader = (props) => {
   const { t } = useTranslation()
   const { stakingPoolAddresses } = props
   const { underlyingToken, dripToken } = stakingPoolAddresses
   const { token1, token2, pair: tokenPair } = underlyingToken
   return (
-    <div className='border-body lg:border-dotted lg:border-r-4 py-4 xs:py-6 px-4 xs:px-6 lg:px-10 flex'>
+    <div className='px-4 xs:px-6 lg:px-10 flex items-center'>
+      <LPTokenLogo className='' token1={token1} token2={token2} />
+
       <div
         className='flex flex-row lg:flex-col justify-center my-auto'
         style={{ minWidth: 'max-content' }}
       >
-        <LPTokenLogo className='lg:mx-auto' token1={token1} token2={token2} />
         <a
           href={`${UNISWAP_V2_PAIR_URL}${dripToken.address}`}
           target='_blank'
@@ -151,7 +145,7 @@ const CardMainContents = (props) => {
   const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
 
   return (
-    <div className='flex flex-col lg:flex-row justify-between w-full py-2 px-4 xs:px-6 lg:px-10'>
+    <div className='flex justify-between w-full py-2 px-4 xs:px-6 lg:px-10'>
       <ClaimTokens
         chainId={chainId}
         usersAddress={usersAddress}
@@ -216,41 +210,46 @@ const CardMainContentsLoading = () => {
 }
 
 const LPTokenLogo = (props) => (
-  <div className={classnames('relative', props.className)}>
+  <div className={classnames('w-16 h-8 relative', props.className)}>
     <TokenIcon
       token={props.token1}
-      className={classnames('absolute', {
+      className={classnames('absolute z-10', {
         'w-8 h-8': !props.small,
         'w-4 h-4': props.small
       })}
     />
     <TokenIcon
       token={props.token2}
-      className={{
-        'w-8 h-8 ml-4': !props.small,
-        'w-4 h-4 ml-2': props.small
-      }}
+      className={classnames('absolute', {
+        'w-8 h-8': !props.small,
+        'w-4 h-4': props.small
+      })}
+      style={{ left: 20, top: 0 }}
     />
   </div>
 )
 
 const TokenIcon = (props) => {
-  if (props.token.symbol === 'POOL') {
+  const { style, className, token } = props
+
+  if (token.symbol === 'POOL') {
     return (
       <img
         src={TOKEN_IMAGES_BY_SYMBOL.pool}
-        className={classnames('rounded-full', props.className)}
+        className={classnames('rounded-full', className)}
+        style={style}
       />
     )
-  } else if (props.token.symbol === 'ETH') {
+  } else if (token.symbol === 'ETH') {
     return (
       <img
         src={TOKEN_IMAGES_BY_SYMBOL.eth}
-        className={classnames('rounded-full', props.className)}
+        className={classnames('rounded-full', className)}
+        style={style}
       />
     )
   }
-  return <Erc20Image {...props.token} className={props.className} />
+  return <Erc20Image {...token} className={className} />
 }
 
 LPTokenLogo.defaultProps = {
@@ -274,7 +273,6 @@ const ManageStakedAmount = (props) => {
   return (
     <div className='flex flex-col text-left lg:text-right'>
       <div className='flex lg:justify-end mb-2'>
-        <LPTokenLogo small className='my-auto' token1={token1} token2={token2} />
         <span className='ml-2 text-xxs font-bold uppercase'>{underlyingToken.symbol}</span>
       </div>
 
@@ -397,22 +395,22 @@ const ClaimTokens = (props) => {
 
   const showClaimable = !ticketBalanceUnformatted.isZero() || !claimableBalanceUnformatted.isZero()
 
+  const stakingAprJsx = (
+    <StakingAPR
+      chainId={chainId}
+      underlyingToken={underlyingToken}
+      underlyingTokenData={underlyingTokenData}
+      dripToken={dripToken}
+      dripRatePerDayUnformatted={dripRatePerDayUnformatted}
+      tickets={tickets}
+    />
+  )
+
   if (!showClaimable) {
     return (
-      <div className='flex flex-col mb-6 lg:mb-0 text-xxs lg:text-xs'>
-        <span
-          className='text-base mb-4 bg-body px-2 rounded-full'
-          style={{ maxWidth: 'max-content' }}
-        >
-          <StakingAPR
-            chainId={chainId}
-            underlyingToken={underlyingToken}
-            underlyingTokenData={underlyingTokenData}
-            dripToken={dripToken}
-            dripRatePerDayUnformatted={dripRatePerDayUnformatted}
-            tickets={tickets}
-          />
-        </span>
+      <div className='flex mb-6 lg:mb-0 text-xxs lg:text-xs'>
+        <div>{stakingAprJsx}</div>
+
         <span className='mb-2 font-bold'>
           {t('participateInTokenStaking', {
             token: underlyingToken.symbol,
@@ -457,36 +455,24 @@ const ClaimTokens = (props) => {
   }
 
   return (
-    <div className='flex flex-col text-left mb-4 lg:mb-0'>
+    <div className='flex text-left mb-4 lg:mb-0'>
+      {stakingAprJsx}
+
       <div className='flex mb-2'>
         <TokenIcon token={dripToken} className='my-auto mr-2 rounded-full w-4 h-4' />
         <span className='text-xxs font-bold capitalize'>
           {t('tokenEarned', { token: token1.symbol })}
         </span>
       </div>
-
       <span className='text-2xl font-bold leading-none mb-1'>
         <PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>
       </span>
-
-      <span className='text-xxs my-2 bg-body px-2 rounded-full' style={{ maxWidth: 'max-content' }}>
-        <StakingAPR
-          chainId={chainId}
-          underlyingToken={underlyingToken}
-          underlyingTokenData={underlyingTokenData}
-          dripToken={dripToken}
-          dripRatePerDayUnformatted={dripRatePerDayUnformatted}
-          tickets={tickets}
-        />
-      </span>
-
-      <span className='text-xxs flex'>
+      {/* <span className='text-xxs flex'>
         <span className='mr-1'>{t('earning')}</span>
         <b>{numberWithCommas(dripTokensPerDay)}</b>
         <TokenIcon token={dripToken} className='my-auto ml-2 mr-1 rounded-full w-4 h-4' />
         {token1.symbol} / {t('day')}
-      </span>
-
+      </span> */}
       {!claimableBalanceUnformatted.isZero() && (
         <TransactionButton
           chainId={chainId}
@@ -815,7 +801,6 @@ const StakingAPR = (props) => {
   if (!tokenPricesIsFetched || !tokenBalancesIsFetched) {
     return (
       <span className={classnames('flex', className)}>
-        <img src={TOKEN_IMAGES_BY_SYMBOL.pool} className='rounded-full w-4 h-4 my-auto mr-1' />
         <div className='mx-1'>
           <ThemedClipSpinner size={12} />
         </div>
@@ -856,7 +841,6 @@ const StakingAPR = (props) => {
 
   return (
     <span className={classnames('flex', className)}>
-      <img src={TOKEN_IMAGES_BY_SYMBOL.pool} className='rounded-full w-4 h-4 my-auto mr-1' />
       <b className='mr-1'>{apr}%</b>
       <span className='flex'>APR</span>
     </span>
