@@ -65,6 +65,15 @@ export const RewardsStakingPools = () => {
         </ol>
       </div>
 
+      <div className='bg-card flex justify-between rounded-lg px-4 xs:px-8 py-2 mt-5 text-xxs text-accent-1 capitalize'>
+        <div className='w-64'>{t('asset')}</div>
+        <div className='w-20'>{t('apr')}</div>
+        <div className='w-20'>{t('rewards')}</div>
+        <div className='w-20'>{t('myStake')}</div>
+        <div className='w-20'></div>
+        <div className='w-20'>{t('wallet')}</div>
+      </div>
+
       {stakingPoolsAddresses.map((stakingPoolAddresses) => (
         <StakingPoolCard
           key={stakingPoolAddresses.prizePool.address}
@@ -88,12 +97,12 @@ const StakingPoolCard = (props) => {
 
   let mainContent
   if (!isFetched || !usersAddress) {
-    mainContent = <CardMainContentsLoading />
+    mainContent = <StakingPoolCardMainContentsLoading />
   } else if (error) {
     mainContent = <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
   } else {
     mainContent = (
-      <CardMainContents
+      <StakingPoolCardMainContents
         stakingPoolChainData={stakingPoolChainData}
         stakingPoolAddresses={stakingPoolAddresses}
         usersAddress={usersAddress}
@@ -103,7 +112,7 @@ const StakingPoolCard = (props) => {
   }
 
   return (
-    <Card className={'flex justify-between items-center py-2'}>
+    <Card noMargin noPad className={'flex justify-between items-center py-4 px-8 my-1'}>
       <LPAssetHeader stakingPoolAddresses={stakingPoolAddresses} />
       {mainContent}
     </Card>
@@ -121,7 +130,7 @@ const LPAssetHeader = (props) => {
       <LPTokenLogo className='' token1={token1} token2={token2} />
 
       <div
-        className='flex flex-col justify-center my-auto font-bold'
+        className='flex flex-col justify-center my-auto font-bold text-sm'
         style={{ minWidth: 'max-content' }}
       >
         {t('dexLpToken', { dex })}
@@ -133,7 +142,7 @@ const LPAssetHeader = (props) => {
           href={`${UNISWAP_V2_PAIR_URL}${dripToken.address}`}
           target='_blank'
           rel='noreferrer noopener'
-          className='flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast'
+          className='underline flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast opacity-60 hover:opacity-100'
         >
           {t('getLpToken')} <LinkIcon className='h-4 w-4' />
         </a>
@@ -143,7 +152,7 @@ const LPAssetHeader = (props) => {
   )
 }
 
-const CardMainContents = (props) => {
+const StakingPoolCardMainContents = (props) => {
   const { stakingPoolAddresses, stakingPoolChainData, refetch } = props
   const usersAddress = useUsersAddress()
   const { appEnv } = useAppEnv()
@@ -168,7 +177,7 @@ const CardMainContents = (props) => {
   )
 }
 
-const CardMainContentsLoading = () => {
+const StakingPoolCardMainContentsLoading = () => {
   if (typeof window === 'undefined') {
     return null
   }
@@ -265,7 +274,7 @@ const TableCell = (props) => {
   const { topContentJsx, centerContentJsx, bottomContentJsx } = props
 
   return (
-    <div className='w-20 h-24 flex flex-col justify-between items-start'>
+    <div className='w-20 h-20 flex flex-col justify-between items-start'>
       <span className='text-lg font-bold'>{topContentJsx}</span>
 
       <div className='flex items-center justify-center h-6'>{centerContentJsx}</div>
@@ -312,7 +321,7 @@ const ManageStakedAmount = (props) => {
         }
       />
 
-      <div className='flex flex-col items-center w-20 mr-4'>
+      <div className='flex flex-col items-center w-20'>
         <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
           &nbsp;
         </div>
@@ -861,7 +870,7 @@ const StakingAPR = (props) => {
   const apr = calculateAPR(totalDailyValueScaled, totalValueScaled)
 
   return (
-    <div className='w-24 text-lg'>
+    <div className='w-20 text-lg'>
       <span className='font-bold'>{apr.split('.')?.[0]}</span>.{apr.split('.')?.[1]}%
     </div>
   )
