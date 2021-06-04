@@ -68,7 +68,7 @@ BlockExplorerLink.defaultProps = {
 
 export const LinkIcon = (props) => (
   <FeatherIcon
-    icon='external-link'
+    icon='arrow-up-right'
     className={classnames('ml-1 my-auto inline-block', props.className)}
   />
 )

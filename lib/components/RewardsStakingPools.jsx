@@ -46,12 +46,12 @@ export const RewardsStakingPools = () => {
 
   return (
     <>
-      <h5 id='governance-claims' className='font-normal text-accent-2 mt-16 mb-4'>
+      <h5 id='governance-claims' className='font-normal text-accent-2 my-4'>
         {t('lpStakingRewards')}
       </h5>
 
       <div className='bg-card rounded-lg border border-accent-3 px-4 xs:px-8 py-4'>
-        <div className='flex items-baseline flex-row-reverse xs:flex-row'>
+        <div className='flex items-baseline xs:items-center flex-row-reverse xs:flex-row'>
           <div className='pool-gradient-1 px-2 mr-2 rounded-lg inline-block capitalize text-xxs text-white'>
             {t('tips')}
           </div>
@@ -103,7 +103,7 @@ const StakingPoolCard = (props) => {
   }
 
   return (
-    <Card className={'flex py-2'}>
+    <Card className={'flex justify-between items-center py-2'}>
       <LPAssetHeader stakingPoolAddresses={stakingPoolAddresses} />
       {mainContent}
     </Card>
@@ -114,23 +114,28 @@ const LPAssetHeader = (props) => {
   const { t } = useTranslation()
   const { stakingPoolAddresses } = props
   const { underlyingToken, dripToken } = stakingPoolAddresses
-  const { token1, token2, pair: tokenPair } = underlyingToken
+  const { token1, token2, pair: tokenPair, dex } = underlyingToken
+
   return (
-    <div className='px-4 xs:px-6 lg:px-10 flex items-center'>
+    <div className='w-64 pr-1 flex flex-col xs:flex-row items-center'>
       <LPTokenLogo className='' token1={token1} token2={token2} />
 
       <div
-        className='flex flex-row lg:flex-col justify-center my-auto'
+        className='flex flex-col justify-center my-auto font-bold'
         style={{ minWidth: 'max-content' }}
       >
+        {t('dexLpToken', { dex })}
+        <br />
+        {t('tokenPair', { tokens: tokenPair, interpolation: { escapeValue: false } })}
+        <br />
+
         <a
           href={`${UNISWAP_V2_PAIR_URL}${dripToken.address}`}
           target='_blank'
           rel='noreferrer noopener'
-          className='text-xs font-bold my-auto ml-2 lg:ml-0 lg:mt-2 text-inverse hover:opacity-70 flex'
+          className='flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast'
         >
-          {t('tokenPair', { tokens: tokenPair, interpolation: { escapeValue: false } })}
-          <LinkIcon className='h-4 w-4' />
+          {t('getLpToken')} <LinkIcon className='h-4 w-4' />
         </a>
       </div>
       <div className='lg:bg-body'></div>
@@ -145,7 +150,7 @@ const CardMainContents = (props) => {
   const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
 
   return (
-    <div className='flex justify-between w-full py-2 px-4 xs:px-6 lg:px-10'>
+    <>
       <ClaimTokens
         chainId={chainId}
         usersAddress={usersAddress}
@@ -159,7 +164,7 @@ const CardMainContents = (props) => {
         stakingPoolChainData={stakingPoolChainData}
         refetch={refetch}
       />
-    </div>
+    </>
   )
 }
 
@@ -256,6 +261,20 @@ LPTokenLogo.defaultProps = {
   small: false
 }
 
+const TableCell = (props) => {
+  const { topContentJsx, centerContentJsx, bottomContentJsx } = props
+
+  return (
+    <div className='w-20 h-24 flex flex-col justify-between items-start'>
+      <span className='text-lg font-bold'>{topContentJsx}</span>
+
+      <div className='flex items-center justify-center h-6'>{centerContentJsx}</div>
+
+      {bottomContentJsx}
+    </div>
+  )
+}
+
 const ManageStakedAmount = (props) => {
   const { t } = useTranslation()
   const { stakingPoolChainData, refetch, chainId, stakingPoolAddresses } = props
@@ -268,39 +287,43 @@ const ManageStakedAmount = (props) => {
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
 
   const { underlyingToken } = stakingPoolAddresses
-  const { token1, token2 } = underlyingToken
 
   return (
-    <div className='flex flex-col text-left lg:text-right'>
-      <div className='flex lg:justify-end mb-2'>
-        <span className='ml-2 text-xxs font-bold uppercase'>{underlyingToken.symbol}</span>
-      </div>
-
+    <>
+      {/* {!allowance.isZero() && (
       <div className='flex items-center lg:flex-row-reverse'>
-        <div className='flex flex-col'>
-          <span className='text-xxxs font-bold uppercase'>{t('balance')}</span>
-          <span className='text-xl font-bold leading-none mb-2'>
-            <PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>
-          </span>
-        </div>
-
-        {!allowance.isZero() && (
           <div className='flex flex-col justify-start ml-8 lg:ml-0 lg:mr-12'>
-            <span className='text-xxxs font-bold uppercase'>{t('deposited')}</span>
-            <span className='text-xl font-bold leading-none mb-2'>
-              <PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>
-            </span>
+            // <span className='text-xxs font-bold uppercase'>{t('deposited')}</span> 
           </div>
-        )}
+      </div>
+        )} */}
+      <TableCell
+        topContentJsx={<PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>}
+        centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
+        bottomContentJsx={
+          <DepositTriggers
+            chainId={chainId}
+            stakingPoolChainData={stakingPoolChainData}
+            stakingPoolAddresses={stakingPoolAddresses}
+            openDepositModal={() => setDepositModalIsOpen(true)}
+            openWithdrawModal={() => setWithdrawModalIsOpen(true)}
+            refetch={refetch}
+          />
+        }
+      />
+
+      <div className='flex flex-col items-center w-20 mr-4'>
+        <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
+          &nbsp;
+        </div>
       </div>
 
-      <ManageDepositTriggers
-        chainId={chainId}
-        stakingPoolChainData={stakingPoolChainData}
-        stakingPoolAddresses={stakingPoolAddresses}
-        openDepositModal={() => setDepositModalIsOpen(true)}
-        openWithdrawModal={() => setWithdrawModalIsOpen(true)}
-        refetch={refetch}
+      <TableCell
+        topContentJsx={<PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>}
+        centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
+        bottomContentJsx={
+          <WithdrawTriggers openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
+        }
       />
 
       <DepositModal
@@ -319,7 +342,7 @@ const ManageStakedAmount = (props) => {
         closeModal={() => setWithdrawModalIsOpen(false)}
         refetch={refetch}
       />
-    </div>
+    </>
   )
 }
 
@@ -347,30 +370,35 @@ const EnableDepositsButton = (props) => {
   )
 }
 
-const ManageDepositTriggers = (props) => {
+const DepositTriggers = (props) => {
   const { t } = useTranslation()
-  const { openDepositModal, openWithdrawModal, stakingPoolChainData } = props
+  const { openDepositModal } = props
 
-  const allowance = stakingPoolChainData.user.underlyingToken.allowance
+  // const allowance = stakingPoolChainData.user.underlyingToken.allowance
 
-  if (allowance.isZero()) {
-    return (
-      <div className='flex items-center justify-end'>
-        <EnableDepositsButton {...props}>{t('enableDeposits')}</EnableDepositsButton>
-      </div>
-    )
-  }
+  // if (allowance.isZero()) {
+  //   return (
+  //     <div className='flex items-center justify-end'>
+  //       <EnableDepositsButton {...props}>{t('enableDeposits')}</EnableDepositsButton>
+  //     </div>
+  //   )
+  // }
 
   return (
-    <div className='flex flex-row mr-auto lg:mr-0 lg:ml-auto lg:flex-row-reverse'>
-      <button className='underline' onClick={openDepositModal}>
-        {t('deposit')}
-      </button>
-      <span className='mx-2 opacity-20'>&mdash;</span>
-      <button className='underline' onClick={openWithdrawModal}>
-        {t('withdraw')}
-      </button>
-    </div>
+    <button className='capitalize underline' onClick={openDepositModal}>
+      {t('stake')}
+    </button>
+  )
+}
+
+const WithdrawTriggers = (props) => {
+  const { t } = useTranslation()
+  const { openWithdrawModal } = props
+
+  return (
+    <button className='capitalize underline' onClick={openWithdrawModal}>
+      {t('withdraw')}
+    </button>
   )
 }
 
@@ -455,39 +483,35 @@ const ClaimTokens = (props) => {
   }
 
   return (
-    <div className='flex text-left mb-4 lg:mb-0'>
+    <>
       {stakingAprJsx}
 
-      <div className='flex mb-2'>
-        <TokenIcon token={dripToken} className='my-auto mr-2 rounded-full w-4 h-4' />
-        <span className='text-xxs font-bold capitalize'>
-          {t('tokenEarned', { token: token1.symbol })}
-        </span>
-      </div>
-      <span className='text-2xl font-bold leading-none mb-1'>
-        <PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>
-      </span>
-      {/* <span className='text-xxs flex'>
-        <span className='mr-1'>{t('earning')}</span>
-        <b>{numberWithCommas(dripTokensPerDay)}</b>
-        <TokenIcon token={dripToken} className='my-auto ml-2 mr-1 rounded-full w-4 h-4' />
-        {token1.symbol} / {t('day')}
-      </span> */}
-      {!claimableBalanceUnformatted.isZero() && (
-        <TransactionButton
-          chainId={chainId}
-          className='mr-auto mt-2 capitalize'
-          name={t('claimPool')}
-          abi={TokenFaucetAbi}
-          contractAddress={tokenFaucet.address}
-          method={'claim'}
-          params={[usersAddress]}
-          refetch={refetch}
-        >
-          {t('claim')}
-        </TransactionButton>
-      )}
-    </div>
+      <TableCell
+        topContentJsx={<PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>}
+        centerContentJsx={
+          <>
+            <TokenIcon token={dripToken} className='mr-2 rounded-full w-4 h-4' />
+            <span className='text-xxs uppercase'>{token1.symbol}</span>
+          </>
+        }
+        bottomContentJsx={
+          !claimableBalanceUnformatted.isZero() && (
+            <TransactionButton
+              chainId={chainId}
+              className='capitalize'
+              name={t('claimPool')}
+              abi={TokenFaucetAbi}
+              contractAddress={tokenFaucet.address}
+              method={'claim'}
+              params={[usersAddress]}
+              refetch={refetch}
+            >
+              {t('claim')}
+            </TransactionButton>
+          )
+        }
+      />
+    </>
   )
 }
 
@@ -526,7 +550,7 @@ const TransactionButton = (props) => {
             const id = await sendTx(name, abi, contractAddress, method, params, refetch)
             setTxId(id)
           }}
-          className={classnames('flex flex-row', className)}
+          className={classnames('flex flex-row underline', className)}
           disabled
         >
           {props.children}
@@ -549,7 +573,7 @@ const TransactionButton = (props) => {
           const id = await sendTx(name, abi, contractAddress, method, params, refetch)
           setTxId(id)
         }}
-        className={classnames(className)}
+        className={classnames('underline', className)}
         // className={classnames('flex flex-row', className)}
       >
         {props.children}
@@ -801,10 +825,7 @@ const StakingAPR = (props) => {
   if (!tokenPricesIsFetched || !tokenBalancesIsFetched) {
     return (
       <span className={classnames('flex', className)}>
-        <div className='mx-1'>
-          <ThemedClipSpinner size={12} />
-        </div>
-        <span className='ml-1'>APR</span>
+        <ThemedClipSpinner size={12} />
       </span>
     )
   }
@@ -840,9 +861,8 @@ const StakingAPR = (props) => {
   const apr = calculateAPR(totalDailyValueScaled, totalValueScaled)
 
   return (
-    <span className={classnames('flex', className)}>
-      <b className='mr-1'>{apr}%</b>
-      <span className='flex'>APR</span>
-    </span>
+    <div className='w-24 text-lg'>
+      <span className='font-bold'>{apr.split('.')?.[0]}</span>.{apr.split('.')?.[1]}%
+    </div>
   )
 }
