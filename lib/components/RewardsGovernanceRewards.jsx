@@ -36,22 +36,13 @@ import { useTokenBalances } from 'lib/hooks/useTokenBalances'
 import { useTokenPrices } from 'lib/hooks/useTokenPrices'
 import { toScaledUsdBigNumber } from 'lib/utils/poolDataUtils'
 
-const UNISWAP_V2_PAIR_URL = 'https://app.uniswap.org/#/add/v2/ETH/'
-const SUSHISWAP_V2_PAIR_URL = 'https://app.sushi.com/#/add/ETH/'
-
-export const RewardsStakingPools = () => {
+export const RewardsGovernanceRewards = () => {
   const { t } = useTranslation()
-
-  const stakingPoolsAddresses = useStakingPoolsAddresses()
-
-  const { appEnv } = useAppEnv()
-  const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
-  const poolGovTokenAddress = CONTRACT_ADDRESSES?.[chainId]?.GovernanceToken
 
   return (
     <>
       <h5 id='governance-claims' className='font-normal text-accent-2 my-4'>
-        {t('lpStakingRewards')}
+        {t('governanceRewards', 'Governance rewards')}
       </h5>
 
       <div className='bg-card rounded-lg border border-accent-3 px-4 xs:px-8 py-4'>
@@ -59,34 +50,24 @@ export const RewardsStakingPools = () => {
           <div className='pool-gradient-1 px-2 mr-2 rounded-lg inline-block capitalize text-xxs text-white'>
             {t('tips')}
           </div>
-          <h5 className='inline-block'>{t('earnStakingRewardsTipDescription')}</h5>
+          <h5 className='inline-block'>
+            {t('voteGasFreeWhileEarningRewards', 'Vote gas-free while earning rewards!')}
+          </h5>
         </div>
 
         <ol className='list-decimal block mt-2 px-8 text-xs text-accent-1'>
           <li>
-            <Trans
-              i18nKey='earnStakingRewardsTipOne'
-              defaults='Provide liquidity for the POOL/ETH pair on <linkUni>UniSwap</linkUni> or <linkSushi>SushiSwap</linkSushi>'
-              components={{
-                linkUni: (
-                  <a
-                    target='_blank'
-                    className='text-accent-1 underline text-inverse'
-                    href={`${UNISWAP_V2_PAIR_URL}${poolGovTokenAddress}`}
-                  />
-                ),
-                linkSushi: (
-                  <a
-                    target='_blank'
-                    className='text-accent-1 underline text-inverse'
-                    href={`${SUSHISWAP_V2_PAIR_URL}${poolGovTokenAddress}`}
-                  />
-                )
-              }}
-            />
+            {t(
+              'depositPoolTokenToThePoolPoolToGetPtPoolToken',
+              'Deposit POOL token to POOL Pool to get ptPOOL token'
+            )}
           </li>
-          <li>{t('earnStakingRewardsTipTwo')}</li>
-          <li>{t('earnStakingRewardsTipThree')}</li>
+          <li>
+            {t(
+              'earnRewardsImmediatelyWhileEligibleForGasFree',
+              'Earn rewards immediately while eligible for gas-free votes on SnapShot'
+            )}
+          </li>
         </ol>
       </div>
 

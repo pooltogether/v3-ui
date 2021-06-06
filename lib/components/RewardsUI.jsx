@@ -3,6 +3,7 @@ import { useUsersAddress } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
 
 import { DeprecatedRewards } from 'lib/components/DeprecatedRewards'
+import { RewardsGovernanceRewards } from 'lib/components/RewardsGovernanceRewards'
 import { RewardsStakingPools } from 'lib/components/RewardsStakingPools'
 import { Meta } from 'lib/components/Meta'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
@@ -21,6 +22,8 @@ export const RewardsUI = () => {
       {!usersAddress && <p>Connect a wallet!</p>}
 
       <RewardsStakingPools />
+
+      <RewardsGovernanceRewards />
 
       <DeprecatedRewards />
     </>
