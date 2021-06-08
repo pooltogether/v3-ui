@@ -18,7 +18,6 @@ import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButto
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { Tooltip } from 'lib/components/Tooltip'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
