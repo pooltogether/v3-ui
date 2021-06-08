@@ -70,7 +70,7 @@ const V2Ticket = (props) => {
                 className='underline text-xxxs sm:text-xxs ml-2 sm:ml-0 inline-flex'
               >
                 <span>{t('withdrawOnV2')}</span>
-                <FeatherIcon icon='external-link' className='w-4 h-4 my-auto ml-1' />
+                <FeatherIcon icon='arrow-up-right' className='w-4 h-4 my-auto ml-1' />
               </a>
             </div>
           </div>

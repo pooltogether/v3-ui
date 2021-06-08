@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
-import { shorten } from 'lib/utils/shorten'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 
 export function WalletInfo(props) {
@@ -32,9 +31,7 @@ export function WalletInfo(props) {
               {t('accountAddress')}
             </div>
             <div className='flex justify-between items-center sm:text-xs lg:text-sm text-default mt-1 mb-2 sm:mb-4'>
-              <BlockExplorerLink chainId={walletChainId} address={usersAddress}>
-                {shorten(usersAddress)}
-              </BlockExplorerLink>
+              <BlockExplorerLink chainId={walletChainId} address={usersAddress} shorten />
               <Link href='/account' as='/account' shallow>
                 <a
                   onClick={(e) => {

@@ -2487,7 +2487,16 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/uniform-random-number/-/uniform-random-number-1.0.0-beta.1.tgz#72257401fe8536e95f9f812f1d249262659084a7"
   integrity sha512-V4iqLOpNFNhnUqfKRlvqUeRwvKaODdz+qn4Qi65C3iMOnDb0J31tBvyhwKbhP4wauNuUN64WfepqkkxET9U7EQ==
 
-"@pooltogether/utilities@0.0.17", "@pooltogether/utilities@^0.0.17":
+"@pooltogether/utilities@0.0.22":
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.22.tgz#453d6b6020474f9b2915e189e77bde4239a7a45e"
+  integrity sha512-qj4R1W3VOYY+JC8u3IcJhRrtgU9C1MoasBLpPYaEcHEXQIYnhTBVcn2omEZakLuBPMr6/dXGZ3iw3GBMzmNPXw==
+  dependencies:
+    "@pooltogether/current-pool-data" "^3.4.3"
+    ethers "^5.1.2"
+    lodash.clonedeep "^4.5.0"
+
+"@pooltogether/utilities@^0.0.17":
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.17.tgz#0d0ac7482331cc8596819c7332372291c302418d"
   integrity sha512-T1Sy7e1hCJo3CclMoG348AylO89C5NGJWqCpMK55i2AYsBAfAeAO0T3qkicRatrEA3O8tEPfyUKuflHjG2wzUQ==

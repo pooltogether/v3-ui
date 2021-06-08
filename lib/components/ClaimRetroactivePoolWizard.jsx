@@ -4,11 +4,11 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { AnimatePresence } from 'framer-motion'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
-
-import MerkleDistributorAbi from 'abis/MerkleDistributor'
+import { shorten } from '@pooltogether/utilities'
+import { useTranslation } from 'react-i18next'
 
 import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
-import { useTranslation } from 'react-i18next'
+import MerkleDistributorAbi from 'abis/MerkleDistributor'
 import { Banner } from 'lib/components/Banner'
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
@@ -25,7 +25,6 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
-import { shorten } from 'lib/utils/shorten'
 
 import DelegateIllustration from 'assets/images/delegate-illustration@2x.png'
 

@@ -72,7 +72,7 @@
     "@pooltogether/hooks": "^0.0.9",
     "@pooltogether/loot-box": "1.1.0",
     "@pooltogether/pooltogether-contracts": "3.3.8",
-    "@pooltogether/utilities": "0.0.17",
+    "@pooltogether/utilities": "0.0.22",
     "@reach/dialog": "^0.15.0",
     "@reach/menu-button": "^0.15.1",
     "@reach/tooltip": "^0.15.0",

@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 import { isEmpty, map, find, defaultTo, sum } from 'lodash'
 import { useAtom } from 'jotai'
 import { useUsersAddress } from '@pooltogether/hooks'
+// import { shorten } from '@pooltogether/utilities'
 
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
 
@@ -18,7 +19,6 @@ import { useUsersDripData } from 'lib/hooks/useUsersDripData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { shorten } from 'lib/utils/shorten'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { useAllPools, usePoolBySymbol } from 'lib/hooks/usePools'
 import { isSelfAtom } from 'lib/components/AccountUI'
@@ -56,8 +56,8 @@ export const AccountRewardsView = (props) => {
   if (window && window.location) {
     domain = `${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`
   }
-  const referralAddress = `https://${domain}/?referrer=${address ? address : ''}`
-  const shortReferralAddress = `${domain}/?referrer=${address ? shorten(address) : ''}`
+  // const referralAddress = `https://${domain}/?referrer=${address ? address : ''}`
+  // const shortReferralAddress = `${domain}/?referrer=${address ? shorten(address) : ''}`
 
   const [activeTxDripIds, setActiveTxDripIds] = useState([])
 

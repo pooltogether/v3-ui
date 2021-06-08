@@ -3,6 +3,7 @@ import FeatherIcon from 'feather-icons-react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { NFTE } from '@nfte/react'
+import { shorten } from '@pooltogether/utilities'
 
 import { useTranslation } from 'react-i18next'
 import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
@@ -18,7 +19,6 @@ import { useAllErc20Awards } from 'lib/hooks/useAllErc20Awards'
 import { useAllErc721Awards } from 'lib/hooks/useAllErc721Awards'
 import { useAllErc1155Awards } from 'lib/hooks/useAllErc1155Awards'
 import { useCurrentPool } from 'lib/hooks/usePools'
-import { shorten } from 'lib/utils/shorten'
 
 /**
  * Table use in PoolShow
@@ -32,8 +32,6 @@ export const PoolShowLootBoxTable = (props) => {
   )
   const allErc721Awards = useAllErc721Awards(pool.prize)
   const allErc1155Awards = useAllErc1155Awards(pool.prize)
-  console.log(pool.prize)
-  console.log(allErc1155Awards)
 
   return (
     <LootBoxTable
