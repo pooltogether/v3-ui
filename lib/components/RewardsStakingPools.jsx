@@ -1,13 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import Dialog from '@reach/dialog'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
-import ContentLoader from 'react-content-loader'
 import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
-import { isMobile } from 'react-device-detect'
 import { Trans, useTranslation } from 'react-i18next'
 import { amountMultByUsd, calculateAPR, calculateLPTokenPrice } from '@pooltogether/utilities'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
@@ -15,12 +13,16 @@ import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 import { formatUnits, parseUnits } from 'ethers/lib/utils'
 
 import ERC20Abi from 'abis/ERC20Abi'
-import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 import { TOKEN_IMAGES_BY_SYMBOL } from 'lib/constants/tokenImages'
-import { CONTRACT_ADDRESSES, UI_LOADER_ANIM_DEFAULTS } from 'lib/constants'
-import { Card } from 'lib/components/Card'
+import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { Button } from 'lib/components/Button'
 import { PoolNumber } from 'lib/components/PoolNumber'
+import {
+  RewardsTable,
+  RewardsTableRow,
+  RewardsTableCell,
+  RewardsTableContentsLoading
+} from 'lib/components/RewardsTable'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { Tooltip } from 'lib/components/Tooltip'
 import { TxStatus } from 'lib/components/TxStatus'
@@ -28,7 +30,6 @@ import { Erc20Image } from 'lib/components/Erc20Image'
 import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
 import { LinkIcon } from 'lib/components/BlockExplorerLink'
 import { DEXES, useStakingPoolChainData, useStakingPoolsAddresses } from 'lib/hooks/useStakingPools'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -51,10 +52,9 @@ export const RewardsStakingPools = () => {
 
   return (
     <>
-      <h5 id='governance-claims' className='font-normal text-accent-2 my-2 sm:my-4'>
+      <h5 id='rewards-staking-pools' className='font-normal text-accent-2 my-2 sm:my-4'>
         {t('lpStakingRewards')}
       </h5>
-
       <div className='bg-card rounded-lg border border-accent-3 px-4 sm:px-8 py-4'>
         <div className='flex items-baseline sm:items-center flex-col sm:flex-row'>
           <div className='pool-gradient-1 px-2 mr-2 mb-2 sm:mb-0 rounded-lg inline-block capitalize text-xxs text-white'>
@@ -91,25 +91,15 @@ export const RewardsStakingPools = () => {
         </ol>
       </div>
 
-      <div className='hidden sm:flex bg-card justify-between rounded-lg px-4 sm:px-8 py-2 mt-5 text-xxs text-accent-1 capitalize'>
-        <div className='w-64'>{t('asset')}</div>
-        <div className='w-20'>{t('apr')}</div>
-        <div className='w-20'>{t('rewards')}</div>
-
-        <div className='w-64 flex flex-row'>
-          <div className='w-20'>{t('yourStake')}</div>
-          <div className='w-20'></div>
-          <div className='w-20'>{t('wallet')}</div>
-        </div>
-      </div>
-
-      {stakingPoolsAddresses.map((stakingPoolAddresses) => (
-        <StakingPoolCard
-          chainId={chainId}
-          key={`staking-pool-card-${stakingPoolAddresses.underlyingToken.dex}-${stakingPoolAddresses.underlyingToken.address}`}
-          stakingPoolAddresses={stakingPoolAddresses}
-        />
-      ))}
+      <RewardsTable>
+        {stakingPoolsAddresses.map((stakingPoolAddresses) => (
+          <StakingPoolCard
+            chainId={chainId}
+            key={`staking-pool-card-${stakingPoolAddresses.underlyingToken.dex}-${stakingPoolAddresses.underlyingToken.address}`}
+            stakingPoolAddresses={stakingPoolAddresses}
+          />
+        ))}
+      </RewardsTable>
     </>
   )
 }
@@ -119,7 +109,6 @@ const StakingPoolCard = (props) => {
 
   const { stakingPoolAddresses, chainId } = props
 
-  const screenSize = useScreenSize()
   const usersAddress = useUsersAddress()
   const {
     data: stakingPoolChainData,
@@ -130,7 +119,7 @@ const StakingPoolCard = (props) => {
 
   let mainContent, stakingAprJsx
   if (!isFetched || !usersAddress || !stakingPoolChainData) {
-    mainContent = <StakingPoolCardMainContentsLoading />
+    mainContent = <RewardsTableContentsLoading />
   } else if (error) {
     mainContent = <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
   } else {
@@ -161,60 +150,49 @@ const StakingPoolCard = (props) => {
     )
   }
 
-  if (screenSize <= ScreenSize.sm) {
-    return (
-      <div className='bg-card flex flex-col justify-center items-center rounded-lg py-4 px-4 my-4 border-b-8-gradient border-uniswap-gradient'>
-        <div className='flex flex-col items-center text-center rounded-lg w-full py-6'>
-          <LPAssetHeader stakingPoolAddresses={stakingPoolAddresses} />
-          {stakingAprJsx}
-        </div>
-        {mainContent}
-      </div>
-    )
-  }
-
   return (
-    <Card
-      noMargin
-      noPad
-      className={
-        'flex justify-between items-center py-4 px-8 my-1 border-b-8-gradient border-uniswap-gradient'
-      }
-    >
-      <LPAssetHeader stakingPoolAddresses={stakingPoolAddresses} />
-      {stakingAprJsx}
-      {mainContent}
-    </Card>
+    <RewardsTableRow
+      uniswap
+      gradientBorder
+      columnOneImage={<ColumnOneImage stakingPoolAddresses={stakingPoolAddresses} />}
+      columnOneContents={<ColumnOneContents stakingPoolAddresses={stakingPoolAddresses} />}
+      columnTwoContents={stakingAprJsx}
+      remainingColumnsContents={mainContent}
+    />
   )
 }
 
-const LPAssetHeader = (props) => {
+const ColumnOneImage = (props) => {
+  const { stakingPoolAddresses } = props
+  const { underlyingToken } = stakingPoolAddresses
+  const { token1, token2 } = underlyingToken
+
+  return <LPTokensLogo className='' token1={token1} token2={token2} />
+}
+
+const ColumnOneContents = (props) => {
   const { t } = useTranslation()
   const { stakingPoolAddresses } = props
   const { underlyingToken, dripToken } = stakingPoolAddresses
-  const { token1, token2, pair: tokenPair, dex } = underlyingToken
+  const { pair: tokenPair, dex } = underlyingToken
 
   const baseSwapUrl = dex === DEXES.UniSwap ? UNISWAP_V2_PAIR_URL : SUSHISWAP_V2_PAIR_URL
 
   return (
-    <div className='sm:w-64 sm:pr-1 flex flex-col sm:flex-row items-center'>
-      <LPTokenLogo className='' token1={token1} token2={token2} />
-
-      <div
-        className='flex flex-col justify-center my-auto leading-none sm:leading-normal'
-        style={{ minWidth: 'max-content' }}
+    <div
+      className='flex flex-col justify-center my-auto leading-none sm:leading-normal'
+      style={{ minWidth: 'max-content' }}
+    >
+      <div className='text-sm font-bold mt-3 sm:mt-0'>{tokenPair}</div>
+      <div className='text-xs mt-1 sm:mt-0'>{dex}</div>
+      <a
+        href={`${baseSwapUrl}${dripToken.address}`}
+        target='_blank'
+        rel='noreferrer noopener'
+        className='mx-auto sm:mx-0 mt-5 sm:mt-0 underline flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast opacity-60 hover:opacity-100'
       >
-        <div className='text-sm font-bold mt-3 sm:mt-0'>{tokenPair}</div>
-        <div className='text-xs mt-1 sm:mt-0'>{dex}</div>
-        <a
-          href={`${baseSwapUrl}${dripToken.address}`}
-          target='_blank'
-          rel='noreferrer noopener'
-          className='mx-auto sm:mx-0 mt-5 sm:mt-0 underline flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast opacity-60 hover:opacity-100'
-        >
-          {t('getDexLpToken', { dex })} <LinkIcon className='h-4 w-4' />
-        </a>
-      </div>
+        {t('getDexLpToken', { dex })} <LinkIcon className='h-4 w-4' />
+      </a>
     </div>
   )
 }
@@ -244,60 +222,15 @@ const StakingPoolCardMainContents = (props) => {
   )
 }
 
-const StakingPoolCardMainContentsLoading = () => {
-  if (typeof window === 'undefined') {
-    return null
-  }
-
-  const { theme } = useContext(ThemeContext)
-
-  const bgColor = theme === 'light' ? '#ffffff' : '#401C94'
-  const foreColor = theme === 'light' ? '#f5f5f5' : '#501C94'
-
-  if (isMobile) {
-    return (
-      <div className='w-full p-4'>
-        <ContentLoader
-          {...UI_LOADER_ANIM_DEFAULTS}
-          viewBox='0 0 100% 20'
-          width='100%'
-          height={90}
-          backgroundColor={bgColor}
-          foregroundColor={foreColor}
-        >
-          <rect x='0' y='0' rx='2' ry='2' width='60%' height='40' />
-          <rect x='0' y='50' rx='2' ry='2' width='40%' height='30' />
-        </ContentLoader>
-      </div>
-    )
-  }
-
-  return (
-    <div className='w-full p-4'>
-      <ContentLoader
-        {...UI_LOADER_ANIM_DEFAULTS}
-        viewBox='0 0 100% 20'
-        width='100%'
-        height={90}
-        backgroundColor={bgColor}
-        foregroundColor={foreColor}
-      >
-        <rect x='0' y='0' rx='2' ry='2' width='90' height='45' />
-        <rect x='85%' y='0' rx='2' ry='2' width='80' height='30' />
-        <rect x='85%' y='45' rx='2' ry='2' width='80' height='30' />
-      </ContentLoader>
-    </div>
-  )
-}
-
-const LPTokenLogo = (props) => (
+const LPTokensLogo = (props) => (
   <div className={classnames('w-16 h-8 relative', props.className)}>
     <TokenIcon
       token={props.token1}
-      className={classnames('absolute z-10', {
+      className={classnames('absolute', {
         'w-8 h-8': !props.small,
         'w-4 h-4': props.small
       })}
+      style={{ zIndex: 2 }}
     />
     <TokenIcon
       token={props.token2}
@@ -333,30 +266,8 @@ const TokenIcon = (props) => {
   return <Erc20Image {...token} className={className} />
 }
 
-LPTokenLogo.defaultProps = {
+LPTokensLogo.defaultProps = {
   small: false
-}
-
-const TableCell = (props) => {
-  const { label, topContentJsx, centerContentJsx, bottomContentJsx } = props
-
-  return (
-    <>
-      <div className='w-full sm:w-20 flex flex-col items-start my-2'>
-        {label && <h6 className='sm:hidden'>{label}</h6>}
-        <div className='w-full sm:w-20 sm:h-20 flex sm:flex-col justify-between items-start'>
-          <span className='flex sm:inline items-baseline'>
-            <span className='text-lg font-bold'>{topContentJsx}</span>
-            <div className='flex items-center justify-center sm:h-6 ml-2 sm:ml-0'>
-              {centerContentJsx}
-            </div>
-          </span>
-
-          {bottomContentJsx}
-        </div>
-      </div>
-    </>
-  )
 }
 
 const ManageStakedAmount = (props) => {
@@ -383,9 +294,24 @@ const ManageStakedAmount = (props) => {
         )} */}
 
       <span className='w-full sm:w-64 flex flex-col-reverse sm:flex-row'>
-        <TableCell
+        <RewardsTableCell
           label={t('wallet')}
           topContentJsx={<PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>}
+          centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
+          bottomContentJsx={
+            <WithdrawTriggers openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
+          }
+        />
+
+        <div className='hidden sm:flex flex-col items-center sm:w-20'>
+          <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
+            &nbsp;
+          </div>
+        </div>
+
+        <RewardsTableCell
+          label={t('yourStake')}
+          topContentJsx={<PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>}
           centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
           bottomContentJsx={
             <DepositTriggers
@@ -396,21 +322,6 @@ const ManageStakedAmount = (props) => {
               openWithdrawModal={() => setWithdrawModalIsOpen(true)}
               refetch={refetch}
             />
-          }
-        />
-
-        <div className='hidden sm:flex flex-col items-center sm:w-20'>
-          <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
-            &nbsp;
-          </div>
-        </div>
-
-        <TableCell
-          label={t('yourStake')}
-          topContentJsx={<PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>}
-          centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
-          bottomContentJsx={
-            <WithdrawTriggers openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
           }
         />
       </span>
@@ -474,7 +385,7 @@ const DepositTriggers = (props) => {
   // }
 
   return (
-    <button className='capitalize underline' onClick={openDepositModal}>
+    <button className='capitalize underline hover:text-green' onClick={openDepositModal}>
       {t('stake')}
     </button>
   )
@@ -485,7 +396,10 @@ const WithdrawTriggers = (props) => {
   const { openWithdrawModal } = props
 
   return (
-    <button className='capitalize underline' onClick={openWithdrawModal}>
+    <button
+      className='capitalize underline text-accent-1 hover:text-green'
+      onClick={openWithdrawModal}
+    >
       {t('withdraw')}
     </button>
   )
@@ -503,18 +417,13 @@ const ClaimTokens = (props) => {
     dripTokensPerDay,
     underlyingToken: underlyingTokenData
   } = user
-  const { dripRatePerDayUnformatted } = tokenFaucetData
-  const { balanceUnformatted: ticketBalanceUnformatted } = tickets
 
   const { underlyingToken, tokenFaucet, dripToken } = stakingPoolAddresses
   const token1 = underlyingToken.token1
-  const token2 = underlyingToken.token2
-
-  const showClaimable = !ticketBalanceUnformatted.isZero() || !claimableBalanceUnformatted.isZero()
 
   return (
     <>
-      <TableCell
+      <RewardsTableCell
         label={t('rewards')}
         topContentJsx={<PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>}
         centerContentJsx={
@@ -527,7 +436,7 @@ const ClaimTokens = (props) => {
           <TransactionButton
             disabled={claimableBalanceUnformatted.isZero()}
             chainId={chainId}
-            className='capitalize'
+            className='capitalize text-accent-1 hover:text-green'
             name={t('claimPool')}
             abi={TokenFaucetAbi}
             contractAddress={tokenFaucet.address}
@@ -590,24 +499,25 @@ const TransactionButton = (props) => {
 
   return (
     <>
-      {txPending && (
-        <span className='mr-1'>
-          <ThemedClipSpinner size={12} color='#bbb2ce' />
-        </span>
-      )}
+      <div className='flex items-center'>
+        <button
+          type='button'
+          onClick={async () => {
+            const id = await sendTx(name, abi, contractAddress, method, params, refetch)
+            setTxId(id)
+          }}
+          className={classnames('underline', className)}
+          disabled={disabled}
+        >
+          {props.children}
+        </button>
 
-      <button
-        type='button'
-        onClick={async () => {
-          const id = await sendTx(name, abi, contractAddress, method, params, refetch)
-          setTxId(id)
-        }}
-        className={classnames('underline', className)}
-        disabled={disabled}
-        // className={classnames('flex flex-row', className)}
-      >
-        {props.children}
-      </button>
+        {txPending && (
+          <span className='ml-1'>
+            <ThemedClipSpinner size={12} color='#bbb2ce' />
+          </span>
+        )}
+      </div>
     </>
   )
 }
@@ -736,7 +646,7 @@ const ActionModal = (props) => {
         </div>
 
         <div className='flex flex-row mb-4 mt-10 sm:mt-0'>
-          <LPTokenLogo small className='my-auto mr-2' token1={token1} token2={token2} />
+          <LPTokensLogo small className='my-auto mr-2' token1={token1} token2={token2} />
           <h5>
             {action} {underlyingToken.symbol}
           </h5>
@@ -891,9 +801,9 @@ const StakingAPR = (props) => {
   const apr = calculateAPR(totalDailyValueScaled, totalValueScaled)
 
   return (
-    <div className='sm:w-20 mt-1 sm:mt-0 text-xl sm:text-lg'>
+    <>
       <span className='font-bold'>{apr.split('.')?.[0]}</span>.{apr.split('.')?.[1]}%{' '}
       <span className='sm:hidden text-xxs text-accent-1'>APY</span>
-    </div>
+    </>
   )
 }
