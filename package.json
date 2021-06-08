@@ -118,7 +118,6 @@
     "lodash.remove": "^4.7.0",
     "luxon": "^1.27.0",
     "next": "10.2.3",
-    "next-i18next": "^8.3.0",
     "next-images": "^1.4.1",
     "postcss": "^8.3.0",
     "postcss-easy-import": "^3.0.0",
