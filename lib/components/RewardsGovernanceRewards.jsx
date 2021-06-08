@@ -37,7 +37,10 @@ import { useTokenPrices } from 'lib/hooks/useTokenPrices'
 import { toScaledUsdBigNumber } from 'lib/utils/poolDataUtils'
 
 export const RewardsGovernanceRewards = () => {
+  return null
   const { t } = useTranslation()
+
+  const stakingPoolsAddresses = useStakingPoolsAddresses()
 
   return (
     <>

@@ -24,7 +24,9 @@
     "cypress": "NEXT_JS_REDUCE_MOTION=true start-server-and-test dev http://localhost:3000 cypress:run",
     "cypress:open-local": "NEXT_JS_REDUCE_MOTION=true start-server-and-test dev http://localhost:3000 cypress:open",
     "cypress:open": "npx cypress open --env infura_id=$NEXT_JS_INFURA_ID",
-    "cypress:run": "npx cypress run --record --key $CYPRESS_RECORD_KEY --env infura_id=$NEXT_JS_INFURA_ID"
+    "cypress:run": "npx cypress run --record --key $CYPRESS_RECORD_KEY --env infura_id=$NEXT_JS_INFURA_ID",
+    "link-hooks": "cd node_modules/react && yarn link && cd ../react-query && yarn link && cd ../react-dom && yarn link && cd ../jotai && yarn link && cd ../.. && yarn link @pooltogether/hooks",
+    "unlink-hooks": "cd node_modules/react && yarn unlink && cd ../react-query && yarn unlink && cd ../react-dom && yarn unlink && cd ../jotai && yarn unlink && cd ../.. && yarn unlink @pooltogether/hooks && yarn install --force"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -69,7 +71,7 @@
     "@pooltogether/current-pool-data": "3.4.11",
     "@pooltogether/etherplex": "1.1.1",
     "@pooltogether/evm-chains-extended": "^0.4.3",
-    "@pooltogether/hooks": "^0.0.9",
+    "@pooltogether/hooks": "^0.0.34",
     "@pooltogether/loot-box": "1.1.0",
     "@pooltogether/pooltogether-contracts": "3.3.8",
     "@pooltogether/utilities": "0.0.17",

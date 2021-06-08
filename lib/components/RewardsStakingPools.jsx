@@ -28,6 +28,7 @@ import { Erc20Image } from 'lib/components/Erc20Image'
 import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
+import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
 import { LinkIcon } from 'lib/components/BlockExplorerLink'
 import { DEXES, useStakingPoolChainData, useStakingPoolsAddresses } from 'lib/hooks/useStakingPools'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -90,17 +91,18 @@ export const RewardsStakingPools = () => {
         </ol>
       </div>
 
-      <div className='bg-card flex justify-between rounded-lg px-4 xs:px-8 py-2 mt-5 text-xxs text-accent-1 capitalize'>
+      <div className='hidden xs:flex bg-card justify-between rounded-lg px-4 xs:px-8 py-2 mt-5 text-xxs text-accent-1 capitalize'>
         <div className='w-64'>{t('asset')}</div>
         <div className='w-20'>{t('apr')}</div>
         <div className='w-20'>{t('rewards')}</div>
         <div className='w-20'>{t('yourStake')}</div>
-        <div className='w-20'></div>
+        <div className='w-4'></div>
         <div className='w-20'>{t('wallet')}</div>
       </div>
 
       {stakingPoolsAddresses.map((stakingPoolAddresses) => (
         <StakingPoolCard
+          chainId={chainId}
           key={stakingPoolAddresses.prizePool.address}
           stakingPoolAddresses={stakingPoolAddresses}
         />
@@ -110,8 +112,11 @@ export const RewardsStakingPools = () => {
 }
 
 const StakingPoolCard = (props) => {
-  const { stakingPoolAddresses } = props
   const { t } = useTranslation()
+
+  const { stakingPoolAddresses, chainId } = props
+
+  const screenSize = useScreenSize()
   const usersAddress = useUsersAddress()
   const {
     data: stakingPoolChainData,
@@ -136,9 +141,39 @@ const StakingPoolCard = (props) => {
     )
   }
 
+  const { user, tokenFaucet: tokenFaucetData } = stakingPoolChainData || {}
+  const { tickets, underlyingToken: underlyingTokenData } = user || {}
+  const { dripRatePerDayUnformatted } = tokenFaucetData || {}
+
+  const { underlyingToken, dripToken } = stakingPoolAddresses
+
+  const stakingAprJsx = (
+    <StakingAPR
+      chainId={chainId}
+      underlyingToken={underlyingToken}
+      underlyingTokenData={underlyingTokenData}
+      dripToken={dripToken}
+      dripRatePerDayUnformatted={dripRatePerDayUnformatted}
+      tickets={tickets}
+    />
+  )
+
+  if (screenSize <= ScreenSize.sm) {
+    return (
+      <div className='bg-card flex flex-col justify-center items-center rounded-lg py-4 px-4 my-4'>
+        <div className='flex flex-col items-center text-center bg-body rounded-lg w-full py-6'>
+          <LPAssetHeader stakingPoolAddresses={stakingPoolAddresses} />
+          {stakingAprJsx}
+        </div>
+        {mainContent}
+      </div>
+    )
+  }
+
   return (
     <Card noMargin noPad className={'flex justify-between items-center py-4 px-8 my-1'}>
       <LPAssetHeader stakingPoolAddresses={stakingPoolAddresses} />
+      {stakingAprJsx}
       {mainContent}
     </Card>
   )
@@ -153,7 +188,7 @@ const LPAssetHeader = (props) => {
   const baseSwapUrl = dex === DEXES.UniSwap ? UNISWAP_V2_PAIR_URL : SUSHISWAP_V2_PAIR_URL
 
   return (
-    <div className='w-64 pr-1 flex flex-col xs:flex-row items-center'>
+    <div className='w-20 pr-1 flex flex-col xs:flex-row items-center'>
       <LPTokenLogo className='' token1={token1} token2={token2} />
 
       <div
@@ -169,7 +204,7 @@ const LPAssetHeader = (props) => {
           href={`${baseSwapUrl}${dripToken.address}`}
           target='_blank'
           rel='noreferrer noopener'
-          className='underline flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast opacity-60 hover:opacity-100'
+          className='mx-auto xs:mx-0 underline flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast opacity-60 hover:opacity-100'
         >
           {t('getLpToken')} <LinkIcon className='h-4 w-4' />
         </a>
@@ -298,16 +333,19 @@ LPTokenLogo.defaultProps = {
 }
 
 const TableCell = (props) => {
-  const { topContentJsx, centerContentJsx, bottomContentJsx } = props
+  const { label, topContentJsx, centerContentJsx, bottomContentJsx } = props
 
   return (
-    <div className='w-20 h-20 flex flex-col justify-between items-start'>
-      <span className='text-lg font-bold'>{topContentJsx}</span>
-
-      <div className='flex items-center justify-center h-6'>{centerContentJsx}</div>
-
-      {bottomContentJsx}
-    </div>
+    <>
+      <div className='w-full flex flex-col items-start my-2'>
+        {label && <h6 className='xs:hidden'>{label}</h6>}
+        <div className='w-full xs:w-20 xs:h-20 flex xs:flex-col justify-between items-start'>
+          <span className='text-lg font-bold'>{topContentJsx}</span>
+          <div className='flex items-center justify-center h-6'>{centerContentJsx}</div>
+          {bottomContentJsx}
+        </div>
+      </div>
+    </>
   )
 }
 
@@ -333,34 +371,39 @@ const ManageStakedAmount = (props) => {
           </div>
       </div>
         )} */}
-      <TableCell
-        topContentJsx={<PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>}
-        centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
-        bottomContentJsx={
-          <DepositTriggers
-            chainId={chainId}
-            stakingPoolChainData={stakingPoolChainData}
-            stakingPoolAddresses={stakingPoolAddresses}
-            openDepositModal={() => setDepositModalIsOpen(true)}
-            openWithdrawModal={() => setWithdrawModalIsOpen(true)}
-            refetch={refetch}
-          />
-        }
-      />
 
-      <div className='flex flex-col items-center w-20'>
-        <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
-          &nbsp;
+      <div className='flex flex-col-reverse xs:inline'>
+        <TableCell
+          label={t('wallet')}
+          topContentJsx={<PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>}
+          centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
+          bottomContentJsx={
+            <DepositTriggers
+              chainId={chainId}
+              stakingPoolChainData={stakingPoolChainData}
+              stakingPoolAddresses={stakingPoolAddresses}
+              openDepositModal={() => setDepositModalIsOpen(true)}
+              openWithdrawModal={() => setWithdrawModalIsOpen(true)}
+              refetch={refetch}
+            />
+          }
+        />
+
+        <div className='hidden xs:flex flex-col items-center w-4 lg:w-20'>
+          <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
+            &nbsp;
+          </div>
         </div>
-      </div>
 
-      <TableCell
-        topContentJsx={<PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>}
-        centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
-        bottomContentJsx={
-          <WithdrawTriggers openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
-        }
-      />
+        <TableCell
+          label={t('yourStake')}
+          topContentJsx={<PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>}
+          centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
+          bottomContentJsx={
+            <WithdrawTriggers openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
+          }
+        />
+      </div>
 
       <DepositModal
         chainId={chainId}
@@ -459,22 +502,10 @@ const ClaimTokens = (props) => {
 
   const showClaimable = !ticketBalanceUnformatted.isZero() || !claimableBalanceUnformatted.isZero()
 
-  const stakingAprJsx = (
-    <StakingAPR
-      chainId={chainId}
-      underlyingToken={underlyingToken}
-      underlyingTokenData={underlyingTokenData}
-      dripToken={dripToken}
-      dripRatePerDayUnformatted={dripRatePerDayUnformatted}
-      tickets={tickets}
-    />
-  )
-
   return (
     <>
-      {stakingAprJsx}
-
       <TableCell
+        label={t('rewards')}
         topContentJsx={<PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>}
         centerContentJsx={
           <>
