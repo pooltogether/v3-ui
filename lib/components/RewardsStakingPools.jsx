@@ -51,19 +51,19 @@ export const RewardsStakingPools = () => {
 
   return (
     <>
-      <h5 id='governance-claims' className='font-normal text-accent-2 my-4'>
+      <h5 id='governance-claims' className='font-normal text-accent-2 my-2 xs:my-4'>
         {t('lpStakingRewards')}
       </h5>
 
       <div className='bg-card rounded-lg border border-accent-3 px-4 xs:px-8 py-4'>
-        <div className='flex items-baseline xs:items-center flex-row-reverse xs:flex-row'>
-          <div className='pool-gradient-1 px-2 mr-2 rounded-lg inline-block capitalize text-xxs text-white'>
+        <div className='flex items-baseline xs:items-center flex-col xs:flex-row'>
+          <div className='pool-gradient-1 px-2 mr-2 mb-2 xs:mb-0 rounded-lg inline-block capitalize text-xxs text-white'>
             {t('tips')}
           </div>
-          <h5 className='inline-block'>{t('earnStakingRewardsTipDescription')}</h5>
+          <h6 className='inline-block'>{t('earnStakingRewardsTipDescription')}</h6>
         </div>
 
-        <ol className='list-decimal block mt-2 px-8 text-xs text-accent-1'>
+        <ol className='list-decimal block mt-2 pl-4 xs:px-8 text-xs text-accent-1'>
           <li>
             <Trans
               i18nKey='earnStakingRewardsTipOne'
@@ -125,12 +125,29 @@ const StakingPoolCard = (props) => {
     error
   } = useStakingPoolChainData(stakingPoolAddresses, usersAddress)
 
-  let mainContent
-  if (!isFetched || !usersAddress) {
+  let mainContent, stakingAprJsx
+  if (!isFetched || !usersAddress || !stakingPoolChainData) {
     mainContent = <StakingPoolCardMainContentsLoading />
   } else if (error) {
     mainContent = <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
   } else {
+    const { user, tokenFaucet: tokenFaucetData } = stakingPoolChainData
+    const { tickets, underlyingToken: underlyingTokenData } = user
+    const { dripRatePerDayUnformatted } = tokenFaucetData
+
+    const { underlyingToken, dripToken } = stakingPoolAddresses
+
+    stakingAprJsx = (
+      <StakingAPR
+        chainId={chainId}
+        underlyingToken={underlyingToken}
+        underlyingTokenData={underlyingTokenData}
+        dripToken={dripToken}
+        dripRatePerDayUnformatted={dripRatePerDayUnformatted}
+        tickets={tickets}
+      />
+    )
+
     mainContent = (
       <StakingPoolCardMainContents
         stakingPoolChainData={stakingPoolChainData}
@@ -141,27 +158,10 @@ const StakingPoolCard = (props) => {
     )
   }
 
-  const { user, tokenFaucet: tokenFaucetData } = stakingPoolChainData || {}
-  const { tickets, underlyingToken: underlyingTokenData } = user || {}
-  const { dripRatePerDayUnformatted } = tokenFaucetData || {}
-
-  const { underlyingToken, dripToken } = stakingPoolAddresses
-
-  const stakingAprJsx = (
-    <StakingAPR
-      chainId={chainId}
-      underlyingToken={underlyingToken}
-      underlyingTokenData={underlyingTokenData}
-      dripToken={dripToken}
-      dripRatePerDayUnformatted={dripRatePerDayUnformatted}
-      tickets={tickets}
-    />
-  )
-
   if (screenSize <= ScreenSize.sm) {
     return (
       <div className='bg-card flex flex-col justify-center items-center rounded-lg py-4 px-4 my-4'>
-        <div className='flex flex-col items-center text-center bg-body rounded-lg w-full py-6'>
+        <div className='flex flex-col items-center text-center rounded-lg w-full py-6'>
           <LPAssetHeader stakingPoolAddresses={stakingPoolAddresses} />
           {stakingAprJsx}
         </div>
@@ -188,25 +188,22 @@ const LPAssetHeader = (props) => {
   const baseSwapUrl = dex === DEXES.UniSwap ? UNISWAP_V2_PAIR_URL : SUSHISWAP_V2_PAIR_URL
 
   return (
-    <div className='w-20 pr-1 flex flex-col xs:flex-row items-center'>
+    <div className='xs:w-20 xs:pr-1 flex flex-col xs:flex-row items-center'>
       <LPTokenLogo className='' token1={token1} token2={token2} />
 
       <div
-        className='flex flex-col justify-center my-auto font-bold text-sm'
+        className='flex flex-col justify-center my-auto leading-none xs:leading-normal'
         style={{ minWidth: 'max-content' }}
       >
-        {t('dexLpToken', { dex })}
-        <br />
-        {t('tokenPair', { tokens: tokenPair, interpolation: { escapeValue: false } })}
-        <br />
-
+        <div className='text-sm font-bold mt-3 xs:mt-0'>{tokenPair}</div>
+        <div className='text-xs mt-1 xs:mt-0'>{dex}</div>
         <a
           href={`${baseSwapUrl}${dripToken.address}`}
           target='_blank'
           rel='noreferrer noopener'
-          className='mx-auto xs:mx-0 underline flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast opacity-60 hover:opacity-100'
+          className='mx-auto xs:mx-0 mt-5 xs:mt-0 underline flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast opacity-60 hover:opacity-100'
         >
-          {t('getLpToken')} <LinkIcon className='h-4 w-4' />
+          {t('getDexLpToken', { dex })} <LinkIcon className='h-4 w-4' />
         </a>
       </div>
       <div className='lg:bg-body'></div>
@@ -340,8 +337,13 @@ const TableCell = (props) => {
       <div className='w-full flex flex-col items-start my-2'>
         {label && <h6 className='xs:hidden'>{label}</h6>}
         <div className='w-full xs:w-20 xs:h-20 flex xs:flex-col justify-between items-start'>
-          <span className='text-lg font-bold'>{topContentJsx}</span>
-          <div className='flex items-center justify-center h-6'>{centerContentJsx}</div>
+          <span className='flex xs:inline items-baseline'>
+            <span className='text-lg font-bold'>{topContentJsx}</span>
+            <div className='flex items-center justify-center xs:h-6 ml-2 xs:ml-0'>
+              {centerContentJsx}
+            </div>
+          </span>
+
           {bottomContentJsx}
         </div>
       </div>
@@ -372,7 +374,7 @@ const ManageStakedAmount = (props) => {
       </div>
         )} */}
 
-      <div className='flex flex-col-reverse xs:inline'>
+      <div className='w-full flex flex-col-reverse xs:inline'>
         <TableCell
           label={t('wallet')}
           topContentJsx={<PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>}
@@ -881,8 +883,9 @@ const StakingAPR = (props) => {
   const apr = calculateAPR(totalDailyValueScaled, totalValueScaled)
 
   return (
-    <div className='w-20 text-lg'>
-      <span className='font-bold'>{apr.split('.')?.[0]}</span>.{apr.split('.')?.[1]}%
+    <div className='xs:w-20 mt-1 xs:mt-0 text-xl xs:text-lg'>
+      <span className='font-bold'>{apr.split('.')?.[0]}</span>.{apr.split('.')?.[1]}%{' '}
+      <span className='xs:hidden text-xxs text-accent-1'>APY</span>
     </div>
   )
 }
