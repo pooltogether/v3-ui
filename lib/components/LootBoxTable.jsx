@@ -9,14 +9,16 @@ import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxD
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { Modal } from 'lib/components/Modal'
+import { Tooltip } from 'lib/components/Tooltip'
+import { Card, CardDetailsList } from 'lib/components/Card'
+import { BlockExplorerLink, LinkIcon } from 'lib/components/BlockExplorerLink'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { Card, CardDetailsList } from 'lib/components/Card'
 import { useAllErc20Awards } from 'lib/hooks/useAllErc20Awards'
 import { useAllErc721Awards } from 'lib/hooks/useAllErc721Awards'
-import { BlockExplorerLink, LinkIcon } from 'lib/components/BlockExplorerLink'
+import { useAllErc1155Awards } from 'lib/hooks/useAllErc1155Awards'
 import { useCurrentPool } from 'lib/hooks/usePools'
-import { Tooltip } from 'lib/components/Tooltip'
+import { shorten } from 'lib/utils/shorten'
 
 /**
  * Table use in PoolShow
@@ -29,11 +31,15 @@ export const PoolShowLootBoxTable = (props) => {
     (a, b) => Number(b.totalValueUsd) - Number(a.totalValueUsd)
   )
   const allErc721Awards = useAllErc721Awards(pool.prize)
+  const allErc1155Awards = useAllErc1155Awards(pool.prize)
+  console.log(pool.prize)
+  console.log(allErc1155Awards)
 
   return (
     <LootBoxTable
       allErc20Awards={allErc20Awards}
       allErc721Awards={allErc721Awards}
+      allErc1155Awards={allErc1155Awards}
       basePath={`/pools/${pool.networkName}/${pool.symbol}`}
       totalExternalAwardsValueUsd={pool.prize.totalExternalAwardsValueUsd}
       lootBoxAddress={pool.prize.lootBox?.address}
@@ -52,12 +58,15 @@ export const PrizeShowLootBoxTable = (props) => {
     (a, b) => Number(b.totalValueUsd) - Number(a.totalValueUsd)
   )
   const allErc721Awards = useAllErc721Awards(prize)
+  const allErc1155Awards = useAllErc1155Awards(prize)
+  console.log(prize)
 
   return (
     <LootBoxTable
       historical
       allErc20Awards={allErc20Awards}
       allErc721Awards={allErc721Awards}
+      allErc1155Awards={allErc1155Awards}
       totalExternalAwardsValueUsd={prize.external.totalValueUsd}
       basePath={`/prizes/${poolNetworkName}/${poolSymbol}/${prize.id}`}
     />
@@ -75,6 +84,7 @@ export const LootBoxTable = (props) => {
     historical,
     allErc20Awards,
     allErc721Awards,
+    allErc1155Awards,
     totalExternalAwardsValueUsd,
     lootBoxAddress
   } = props
@@ -102,7 +112,7 @@ export const LootBoxTable = (props) => {
     router.push(`${basePath}#loot-box-table`)
   }
 
-  const allAwards = [...erc20Awards, ...allErc721Awards]
+  const allAwards = [...erc20Awards, ...allErc721Awards, ...allErc1155Awards]
 
   if (!allAwards || (allAwards.length === 0 && !lootBoxAddress)) {
     return null
@@ -183,6 +193,19 @@ export const LootBoxTable = (props) => {
           </h6>
           {allErc721Awards.map((award) => (
             <AwardRowErc721 key={award?.address} award={award} />
+          ))}
+        </CardDetailsList>
+      )}
+
+      {allErc1155Awards.length > 0 && (
+        <CardDetailsList>
+          <h6 className='text-green mb-4'>
+            {t('amountNfts', {
+              amount: allErc1155Awards.length
+            })}
+          </h6>
+          {allErc1155Awards.map((award) => (
+            <AwardRowErc1155 key={award?.address} award={award} />
           ))}
         </CardDetailsList>
       )}
@@ -274,6 +297,37 @@ const AwardRowErc721 = (props) => {
           <FeatherIcon icon='zoom-in' className='mr-1 w-5 h-5' /> {t('view')}
         </button>
       </span>
+      <span className='w-1/3 text-right'>
+        <span className='text-accent-1 opacity-40'>$ --</span>
+      </span>
+    </li>
+  )
+}
+
+const AwardRowErc1155 = (props) => {
+  const { award } = props
+
+  const { t } = useTranslation()
+
+  const { data: pool } = useCurrentPool()
+
+  const name = award.erc1155Entity?.name
+  const address = award.erc1155Entity?.id
+  // const tokenId = award.tokenId
+
+  return (
+    <li className='w-full flex text-xxs sm:text-base mb-2 last:mb-0'>
+      <span className='flex w-1/3 text-left'>
+        <BlockExplorerLink
+          chainId={pool.chainId}
+          address={address}
+          className='text-accent-1 flex items-center'
+        >
+          {name ? name : shorten(address)}{' '}
+          <FeatherIcon icon='arrow-up-right' className='mr-1 w-5 h-5' />{' '}
+        </BlockExplorerLink>
+      </span>
+      <span className='w-1/3 sm:pl-6 text-right text-accent-1 truncate'></span>
       <span className='w-1/3 text-right'>
         <span className='text-accent-1 opacity-40'>$ --</span>
       </span>
