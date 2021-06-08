@@ -1,51 +1,25 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
-import FeatherIcon from 'feather-icons-react'
-import Dialog from '@reach/dialog'
-import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
-import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import ContentLoader from 'react-content-loader'
-import { useForm } from 'react-hook-form'
-import { ethers } from 'ethers'
 import { isMobile } from 'react-device-detect'
-import { Trans, useTranslation } from 'react-i18next'
-import { amountMultByUsd, calculateAPR, calculateLPTokenPrice } from '@pooltogether/utilities'
-import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
+import { useTranslation } from 'react-i18next'
 
-import { formatUnits, parseUnits } from 'ethers/lib/utils'
-
-import ERC20Abi from 'abis/ERC20Abi'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
-import { TOKEN_IMAGES_BY_SYMBOL } from 'lib/constants/tokenImages'
-import { CONTRACT_ADDRESSES, UI_LOADER_ANIM_DEFAULTS } from 'lib/constants'
+import { UI_LOADER_ANIM_DEFAULTS } from 'lib/constants'
 import { Card } from 'lib/components/Card'
-import { Button } from 'lib/components/Button'
-import { PoolNumber } from 'lib/components/PoolNumber'
-import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
-import { Tooltip } from 'lib/components/Tooltip'
-import { TxStatus } from 'lib/components/TxStatus'
-import { Erc20Image } from 'lib/components/Erc20Image'
-import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useTransaction } from 'lib/hooks/useTransaction'
 import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
-import { LinkIcon } from 'lib/components/BlockExplorerLink'
-import { DEXES, useStakingPoolChainData, useStakingPoolsAddresses } from 'lib/hooks/useStakingPools'
-import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { getNetworkNiceNameByChainId, NETWORK } from 'lib/utils/networks'
-import { useTokenBalances } from 'lib/hooks/useTokenBalances'
-import { useTokenPrices } from 'lib/hooks/useTokenPrices'
-import { toScaledUsdBigNumber } from 'lib/utils/poolDataUtils'
 
 export const RewardsTable = (props) => {
   const { t } = useTranslation()
 
   const { children } = props
 
+  const widthClass = props.columnOneWidthClass ?? 'sm:w-64'
+
   return (
     <>
       <div className='hidden sm:flex bg-card justify-between rounded-lg px-4 sm:px-8 py-2 mt-5 text-xxs text-accent-1 capitalize'>
-        <div className='w-64'>{t('asset')}</div>
+        <div className={widthClass}>{t('asset')}</div>
         <div className='w-20'>{t('apr')}</div>
         <div className='w-20'>{t('rewards')}</div>
 
@@ -105,8 +79,10 @@ export const RewardsTableRow = (props) => {
 }
 
 const ColumnOne = (props) => {
+  const widthClass = props.columnOneWidthClass ?? 'sm:w-64'
+
   return (
-    <div className='sm:w-64 sm:pr-1 flex flex-col sm:flex-row items-center'>
+    <div className={`${widthClass} sm:pr-1 flex flex-col sm:flex-row items-center`}>
       {props.columnOneImage}
 
       <div
@@ -191,6 +167,17 @@ export const RewardsTableCell = (props) => {
           {bottomContentJsx}
         </div>
       </div>
+    </>
+  )
+}
+
+export const RewardsTableAprDisplay = (props) => {
+  const { apr } = props
+
+  return (
+    <>
+      <span className='font-bold'>{apr.split('.')?.[0]}</span>.{apr.split('.')?.[1]}%{' '}
+      <span className='sm:hidden text-xxs text-accent-1'>APR</span>
     </>
   )
 }

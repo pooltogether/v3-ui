@@ -21,7 +21,8 @@ import {
   RewardsTable,
   RewardsTableRow,
   RewardsTableCell,
-  RewardsTableContentsLoading
+  RewardsTableContentsLoading,
+  RewardsTableAprDisplay
 } from 'lib/components/RewardsTable'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { Tooltip } from 'lib/components/Tooltip'
@@ -800,10 +801,5 @@ const StakingAPR = (props) => {
 
   const apr = calculateAPR(totalDailyValueScaled, totalValueScaled)
 
-  return (
-    <>
-      <span className='font-bold'>{apr.split('.')?.[0]}</span>.{apr.split('.')?.[1]}%{' '}
-      <span className='sm:hidden text-xxs text-accent-1'>APY</span>
-    </>
-  )
+  return <RewardsTableAprDisplay apr={apr} />
 }
