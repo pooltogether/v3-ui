@@ -51,19 +51,19 @@ export const RewardsStakingPools = () => {
 
   return (
     <>
-      <h5 id='governance-claims' className='font-normal text-accent-2 my-2 xs:my-4'>
+      <h5 id='governance-claims' className='font-normal text-accent-2 my-2 sm:my-4'>
         {t('lpStakingRewards')}
       </h5>
 
-      <div className='bg-card rounded-lg border border-accent-3 px-4 xs:px-8 py-4'>
-        <div className='flex items-baseline xs:items-center flex-col xs:flex-row'>
-          <div className='pool-gradient-1 px-2 mr-2 mb-2 xs:mb-0 rounded-lg inline-block capitalize text-xxs text-white'>
+      <div className='bg-card rounded-lg border border-accent-3 px-4 sm:px-8 py-4'>
+        <div className='flex items-baseline sm:items-center flex-col sm:flex-row'>
+          <div className='pool-gradient-1 px-2 mr-2 mb-2 sm:mb-0 rounded-lg inline-block capitalize text-xxs text-white'>
             {t('tips')}
           </div>
           <h6 className='inline-block'>{t('earnStakingRewardsTipDescription')}</h6>
         </div>
 
-        <ol className='list-decimal block mt-2 pl-4 xs:px-8 text-xs text-accent-1'>
+        <ol className='list-decimal block mt-2 pl-4 sm:px-8 text-xs text-accent-1'>
           <li>
             <Trans
               i18nKey='earnStakingRewardsTipOne'
@@ -91,19 +91,22 @@ export const RewardsStakingPools = () => {
         </ol>
       </div>
 
-      <div className='hidden xs:flex bg-card justify-between rounded-lg px-4 xs:px-8 py-2 mt-5 text-xxs text-accent-1 capitalize'>
+      <div className='hidden sm:flex bg-card justify-between rounded-lg px-4 sm:px-8 py-2 mt-5 text-xxs text-accent-1 capitalize'>
         <div className='w-64'>{t('asset')}</div>
         <div className='w-20'>{t('apr')}</div>
         <div className='w-20'>{t('rewards')}</div>
-        <div className='w-20'>{t('yourStake')}</div>
-        <div className='w-4'></div>
-        <div className='w-20'>{t('wallet')}</div>
+
+        <div className='w-64 flex flex-row'>
+          <div className='w-20'>{t('yourStake')}</div>
+          <div className='w-20'></div>
+          <div className='w-20'>{t('wallet')}</div>
+        </div>
       </div>
 
       {stakingPoolsAddresses.map((stakingPoolAddresses) => (
         <StakingPoolCard
           chainId={chainId}
-          key={stakingPoolAddresses.prizePool.address}
+          key={`staking-pool-card-${stakingPoolAddresses.underlyingToken.dex}-${stakingPoolAddresses.underlyingToken.address}`}
           stakingPoolAddresses={stakingPoolAddresses}
         />
       ))}
@@ -160,7 +163,7 @@ const StakingPoolCard = (props) => {
 
   if (screenSize <= ScreenSize.sm) {
     return (
-      <div className='bg-card flex flex-col justify-center items-center rounded-lg py-4 px-4 my-4'>
+      <div className='bg-card flex flex-col justify-center items-center rounded-lg py-4 px-4 my-4 border-b-8-gradient border-uniswap-gradient'>
         <div className='flex flex-col items-center text-center rounded-lg w-full py-6'>
           <LPAssetHeader stakingPoolAddresses={stakingPoolAddresses} />
           {stakingAprJsx}
@@ -171,7 +174,13 @@ const StakingPoolCard = (props) => {
   }
 
   return (
-    <Card noMargin noPad className={'flex justify-between items-center py-4 px-8 my-1'}>
+    <Card
+      noMargin
+      noPad
+      className={
+        'flex justify-between items-center py-4 px-8 my-1 border-b-8-gradient border-uniswap-gradient'
+      }
+    >
       <LPAssetHeader stakingPoolAddresses={stakingPoolAddresses} />
       {stakingAprJsx}
       {mainContent}
@@ -188,25 +197,24 @@ const LPAssetHeader = (props) => {
   const baseSwapUrl = dex === DEXES.UniSwap ? UNISWAP_V2_PAIR_URL : SUSHISWAP_V2_PAIR_URL
 
   return (
-    <div className='xs:w-20 xs:pr-1 flex flex-col xs:flex-row items-center'>
+    <div className='sm:w-64 sm:pr-1 flex flex-col sm:flex-row items-center'>
       <LPTokenLogo className='' token1={token1} token2={token2} />
 
       <div
-        className='flex flex-col justify-center my-auto leading-none xs:leading-normal'
+        className='flex flex-col justify-center my-auto leading-none sm:leading-normal'
         style={{ minWidth: 'max-content' }}
       >
-        <div className='text-sm font-bold mt-3 xs:mt-0'>{tokenPair}</div>
-        <div className='text-xs mt-1 xs:mt-0'>{dex}</div>
+        <div className='text-sm font-bold mt-3 sm:mt-0'>{tokenPair}</div>
+        <div className='text-xs mt-1 sm:mt-0'>{dex}</div>
         <a
           href={`${baseSwapUrl}${dripToken.address}`}
           target='_blank'
           rel='noreferrer noopener'
-          className='mx-auto xs:mx-0 mt-5 xs:mt-0 underline flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast opacity-60 hover:opacity-100'
+          className='mx-auto sm:mx-0 mt-5 sm:mt-0 underline flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast opacity-60 hover:opacity-100'
         >
           {t('getDexLpToken', { dex })} <LinkIcon className='h-4 w-4' />
         </a>
       </div>
-      <div className='lg:bg-body'></div>
     </div>
   )
 }
@@ -334,12 +342,12 @@ const TableCell = (props) => {
 
   return (
     <>
-      <div className='w-full flex flex-col items-start my-2'>
-        {label && <h6 className='xs:hidden'>{label}</h6>}
-        <div className='w-full xs:w-20 xs:h-20 flex xs:flex-col justify-between items-start'>
-          <span className='flex xs:inline items-baseline'>
+      <div className='w-full sm:w-20 flex flex-col items-start my-2'>
+        {label && <h6 className='sm:hidden'>{label}</h6>}
+        <div className='w-full sm:w-20 sm:h-20 flex sm:flex-col justify-between items-start'>
+          <span className='flex sm:inline items-baseline'>
             <span className='text-lg font-bold'>{topContentJsx}</span>
-            <div className='flex items-center justify-center xs:h-6 ml-2 xs:ml-0'>
+            <div className='flex items-center justify-center sm:h-6 ml-2 sm:ml-0'>
               {centerContentJsx}
             </div>
           </span>
@@ -374,7 +382,7 @@ const ManageStakedAmount = (props) => {
       </div>
         )} */}
 
-      <div className='w-full flex flex-col-reverse xs:inline'>
+      <span className='w-full sm:w-64 flex flex-col-reverse sm:flex-row'>
         <TableCell
           label={t('wallet')}
           topContentJsx={<PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>}
@@ -391,7 +399,7 @@ const ManageStakedAmount = (props) => {
           }
         />
 
-        <div className='hidden xs:flex flex-col items-center w-4 lg:w-20'>
+        <div className='hidden sm:flex flex-col items-center sm:w-20'>
           <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
             &nbsp;
           </div>
@@ -405,7 +413,7 @@ const ManageStakedAmount = (props) => {
             <WithdrawTriggers openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
           }
         />
-      </div>
+      </span>
 
       <DepositModal
         chainId={chainId}
@@ -883,9 +891,9 @@ const StakingAPR = (props) => {
   const apr = calculateAPR(totalDailyValueScaled, totalValueScaled)
 
   return (
-    <div className='xs:w-20 mt-1 xs:mt-0 text-xl xs:text-lg'>
+    <div className='sm:w-20 mt-1 sm:mt-0 text-xl sm:text-lg'>
       <span className='font-bold'>{apr.split('.')?.[0]}</span>.{apr.split('.')?.[1]}%{' '}
-      <span className='xs:hidden text-xxs text-accent-1'>APY</span>
+      <span className='sm:hidden text-xxs text-accent-1'>APY</span>
     </div>
   )
 }
