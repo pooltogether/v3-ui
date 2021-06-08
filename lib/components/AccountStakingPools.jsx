@@ -125,7 +125,7 @@ const LPTokenCardHeader = (props) => {
           href={`${UNISWAP_V2_PAIR_URL}${dripToken.address}`}
           target='_blank'
           rel='noreferrer noopener'
-          className='text-xs font-bold my-auto ml-2 lg:ml-0 lg:mt-2 text-inverse hover:opacity-70 flex'
+          className='text-xs font-bold my-auto ml-2 text-inverse hover:opacity-70 flex'
         >
           {t('tokenPair', { tokens: tokenPair, interpolation: { escapeValue: false } })}
           <LinkIcon className='h-4 w-4' />
@@ -269,7 +269,7 @@ const ManageStakedAmount = (props) => {
         <span className='ml-2 text-xxs font-bold uppercase'>{underlyingToken.symbol}</span>
       </div>
 
-      <div className='flex items-center lg:flex-row-reverse'>
+      <div className='flex items-center'>
         <div className='flex flex-col'>
           <span className='text-xxxs font-bold uppercase'>{t('balance')}</span>
           <span className='text-xl font-bold leading-none mb-2'>
@@ -278,7 +278,7 @@ const ManageStakedAmount = (props) => {
         </div>
 
         {!allowance.isZero() && (
-          <div className='flex flex-col justify-start ml-8 lg:ml-0 lg:mr-12'>
+          <div className='flex flex-col justify-start ml-8 lg:ml-12'>
             <span className='text-xxxs font-bold uppercase'>{t('deposited')}</span>
             <span className='text-xl font-bold leading-none mb-2'>
               <PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>
@@ -355,7 +355,7 @@ const ManageDepositTriggers = (props) => {
   }
 
   return (
-    <div className='flex flex-row mr-auto lg:mr-0 lg:ml-auto lg:flex-row-reverse'>
+    <div className='flex flex-row mr-auto'>
       <button className='underline' onClick={openDepositModal}>
         {t('deposit')}
       </button>

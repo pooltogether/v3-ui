@@ -1,11 +1,11 @@
 import FeatherIcon from 'feather-icons-react'
 import React, { useEffect, useState } from 'react'
 import { useOnboard } from '@pooltogether/hooks'
+import { shorten } from '@pooltogether/utilities'
 
 import { Banner } from 'lib/components/Banner'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
-import { shorten } from 'lib/utils/shorten'
 import { useTranslation } from 'react-i18next'
 
 export const TxStatus = (props) => {

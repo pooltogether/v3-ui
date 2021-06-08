@@ -1,7 +1,7 @@
 import React from 'react'
 import { ethers } from 'ethers'
+import { useTranslation, Trans } from 'react-i18next'
 
-import { useTranslation, Trans } from 'next-i18next'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { calculateOdds } from 'lib/utils/calculateOdds'

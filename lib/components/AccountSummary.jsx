@@ -95,7 +95,7 @@ export const AccountSummary = () => {
                   >
                     {t('learnMoreAboutEthereumWallets')}{' '}
                     <FeatherIcon
-                      icon='external-link'
+                      icon='arrow-up-right'
                       className='w-3 h-3 sm:w-4 sm:h-4 inline-block ml-1'
                     />
                   </a>

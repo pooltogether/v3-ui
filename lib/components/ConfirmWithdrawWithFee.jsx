@@ -50,7 +50,7 @@ export function ConfirmWithdrawWithFee(props) {
         className='mt-6 underline text-xxs xs:text-xs sm:text-sm mx-auto leading-tight w-full sm:w-1/4'
       >
         {t('readMoreAboutTheFairnessFee')}{' '}
-        <FeatherIcon icon='external-link' className='is-etherscan-arrow inline-block' />
+        <FeatherIcon icon='arrow-up-right' className='is-etherscan-arrow inline-block' />
       </a>
     </>
   )

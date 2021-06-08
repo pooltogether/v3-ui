@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useUsersAddress } from '@pooltogether/hooks'
-
-import { shorten } from 'lib/utils/shorten'
+import { shorten } from '@pooltogether/utilities'
 
 const { getProfile } = require('3box/lib/api')
 
