@@ -52,13 +52,6 @@ export const AccountRewardsView = (props) => {
   const poolAddresses = map(pools, 'poolAddress')
   const playerRewards = extractPoolRewardsFromUserDrips({ poolAddresses, playerDrips })
 
-  let domain = ''
-  if (window && window.location) {
-    domain = `${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`
-  }
-  // const referralAddress = `https://${domain}/?referrer=${address ? address : ''}`
-  // const shortReferralAddress = `${domain}/?referrer=${address ? shorten(address) : ''}`
-
   const [activeTxDripIds, setActiveTxDripIds] = useState([])
 
   const txName = t(`claimRewards`)
@@ -291,19 +284,6 @@ export const AccountRewardsView = (props) => {
           </table>
         </div>
       </div>
-
-      {/* <div
-      className='flex flex-col sm:flex-row items-center justify-between bg-accent-grey-4 px-4 sm:px-10 py-4 text-inverse rounded-lg mt-4'
-    >
-      <div className='flex-grow sm:w-4/12 lg:w-1/2 sm:mr-3 text-xxs sm:text-xs pb-2 sm:pb-0'>
-        {t('inviteFriendsAndEarnReferralRewards')}
-      </div>
-
-      <PTCopyToClipboard
-        text={referralAddress}
-        textShort={shortReferralAddress}
-      />
-    </div> */}
     </>
   )
 }
