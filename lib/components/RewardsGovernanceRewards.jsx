@@ -284,23 +284,16 @@ const GovRewardsCard = (props) => {
 const ColumnOneImage = (props) => {
   const token = { symbol: 'POOL', address: '0x0cec1a9154ff802e7934fc916ed7ca50bde6844e' }
 
-  return <Erc20Image address={token.address} />
+  return <Erc20Image address={token.address} className='relative inline-block w-8 h-8 mx-1' />
 }
 
 const ColumnOneContents = (props) => {
-  const { t } = useTranslation()
-  // const { stakingPoolAddresses } = props
-  // const { underlyingToken, dripToken } = stakingPoolAddresses
-  // const { pair: tokenPair, dex } = underlyingToken
-
   return (
     <div
-      className='flex flex-col justify-center my-auto leading-none sm:leading-normal'
+      className='flex flex-col justify-center my-auto leading-none sm:leading-normal font-bold mt-2 sm:mt-0 sm:pl-4'
       style={{ minWidth: 'max-content' }}
     >
-      wtf
-      {/* <div className='text-sm font-bold mt-3 sm:mt-0'>{tokenPair}</div>
-      <div className='text-xs mt-1 sm:mt-0'>{dex}</div> */}
+      ptPOOL
     </div>
   )
 }

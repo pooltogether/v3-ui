@@ -429,7 +429,7 @@ const ClaimTokens = (props) => {
         topContentJsx={<PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>}
         centerContentJsx={
           <>
-            <TokenIcon token={dripToken} className='mr-2 rounded-full w-4 h-4' />
+            <TokenIcon token={dripToken} className='mr-2 rounded-full w-3 h-3' />
             <span className='text-xxs uppercase'>{token1.symbol}</span>
           </>
         }
