@@ -62,7 +62,7 @@
     "truffle-privatekey-provider": "^1.5.0"
   },
   "dependencies": {
-    "3box": "^1.21.0",
+    "3box": "^1.19.1",
     "@argent/smartwallet-utils": "^0.0.11",
     "@nfte/react": "^1.0.4",
     "@pooltogether/bnc-onboard": "^1.25.0-b",
