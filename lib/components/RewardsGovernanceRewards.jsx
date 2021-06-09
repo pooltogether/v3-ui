@@ -85,10 +85,19 @@ export const RewardsGovernanceRewards = () => {
         <ol className='list-decimal block mt-2 pl-4 sm:px-8 text-xs text-accent-1'>
           <li>{t('depositPoolTokenToThePoolPoolToGetPtPoolToken')}</li>
           <li>
-            {t(
-              'earnRewardsImmediately',
-              'Earn rewards immediately while eligible for gas-free votes on SnapShot'
-            )}
+            <Trans
+              i18nKey='earnRewardsImmediately'
+              defaults='Earn rewards immediately while eligible for gas-free votes on <linkSnapshot>SnapShot</linkSnapshot>'
+              components={{
+                linkSnapshot: (
+                  <a
+                    target='_blank'
+                    className='text-accent-1 underline text-inverse'
+                    href='https://snapshot.org/#/poolpool.pooltogether.eth'
+                  />
+                )
+              }}
+            />
           </li>
         </ol>
       </div>
