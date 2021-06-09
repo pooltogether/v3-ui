@@ -5,6 +5,7 @@ import { useAtom, atom } from 'jotai'
 
 import { useChecklyStatus } from 'lib/hooks/useChecklyStatus'
 import { useTranslation } from 'react-i18next'
+import { useAllPools } from 'lib/hooks/usePools'
 
 export const notificationBannerVisibleAtom = atom(false)
 
@@ -51,9 +52,10 @@ export const CloseBannerButton = (props) => (
 const ChecklyNotificationBanner = () => {
   const { t } = useTranslation()
 
-  const { data: checklyStatus, isFetched } = useChecklyStatus()
+  const { data: checklyStatus, isFetched: isChecklyFetched } = useChecklyStatus()
+  const { error } = useAllPools()
 
-  const isVisible = isFetched && checklyStatus?.hasErrors
+  const isVisible = (isChecklyFetched && checklyStatus?.hasErrors) || error
   const [, setNotificationBannerVisible] = useAtom(notificationBannerVisibleAtom)
   useEffect(() => {
     setNotificationBannerVisible(isVisible)
