@@ -2400,10 +2400,10 @@
     walletlink "^2.1.0"
     web3-provider-engine "^16.0.1"
 
-"@pooltogether/current-pool-data@3.4.11":
-  version "3.4.11"
-  resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.4.11.tgz#591bd84876e82e4db32dafe2f315ecc3ec85283d"
-  integrity sha512-551WyTFbMUpESYEvVVo6IMe0HovNxakNpVDXBDJ0kG/L1Wsb/hfay9AckWnW8tZNuU6JSIdQNYlDSYuOOK/mYA==
+"@pooltogether/current-pool-data@3.4.19":
+  version "3.4.19"
+  resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.4.19.tgz#e4689ef537da5306feb095f1ce6112e5715b949e"
+  integrity sha512-rxJXidV9t5MoBkhsEN68vKHW9iqck5SnlsDAAVye/thp0fEEyy+3KYg0Ujh1NgITx/sGzxg0V+KldbZ48WhmDg==
 
 "@pooltogether/current-pool-data@^3.4.3":
   version "3.4.18"
