@@ -87,6 +87,7 @@ export const AccountGovernanceClaims = (props) => {
         />
         {pools
           .filter((pool) => pool.chainId === NETWORK.mainnet)
+          .filter((pool) => Boolean(pool.tokens.tokenFaucetDripToken))
           .sort(sortByDripAmount)
           .map((pool) => {
             return (
