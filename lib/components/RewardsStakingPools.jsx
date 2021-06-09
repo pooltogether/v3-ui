@@ -73,14 +73,14 @@ export const RewardsStakingPools = () => {
                 linkUni: (
                   <a
                     target='_blank'
-                    className='text-accent-1 underline text-inverse'
+                    className='text-accent-1 underline'
                     href={`${UNISWAP_V2_PAIR_URL}${poolGovTokenAddress}`}
                   />
                 ),
                 linkSushi: (
                   <a
                     target='_blank'
-                    className='text-accent-1 underline text-inverse'
+                    className='text-accent-1 underline'
                     href={`${SUSHISWAP_V2_PAIR_URL}${poolGovTokenAddress}`}
                   />
                 )

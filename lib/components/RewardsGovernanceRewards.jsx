@@ -92,7 +92,7 @@ export const RewardsGovernanceRewards = () => {
                 linkSnapshot: (
                   <a
                     target='_blank'
-                    className='text-accent-1 underline text-inverse'
+                    className='text-accent-1 underline'
                     href='https://snapshot.org/#/poolpool.pooltogether.eth'
                   />
                 )
@@ -248,25 +248,21 @@ const GovRewardsCard = (props) => {
   const error = false
 
   let mainContent, stakingAprJsx
+  // don't do this ... ?
   if (!pool) {
     mainContent = <RewardsTableContentsLoading />
   } else if (error) {
     mainContent = <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
   } else {
-    stakingAprJsx = (
-      <>
-        <GovRewardsAPR pool={pool} />
-      </>
-    )
+    stakingAprJsx = <GovRewardsAPR pool={pool} />
 
     mainContent = (
-      <>Main content!</>
-      // <GovRewardsPoolCardMainContents
-      //   stakingPoolChainData={stakingPoolChainData}
-      //   stakingPoolAddresses={stakingPoolAddresses}
-      //   usersAddress={usersAddress}
-      //   refetch={refetch}
-      // />
+      <GovRewardsPoolCardMainContents
+      // stakingPoolChainData={stakingPoolChainData}
+      // stakingPoolAddresses={stakingPoolAddresses}
+      // usersAddress={usersAddress}
+      // refetch={refetch}
+      />
     )
   }
 
@@ -299,64 +295,87 @@ const ColumnOneContents = (props) => {
 }
 
 const GovRewardsPoolCardMainContents = (props) => {
-  const { stakingPoolAddresses, stakingPoolChainData, refetch } = props
+  // const { stakingPoolAddresses, stakingPoolChainData, refetch } = props
   const usersAddress = useUsersAddress()
   const { appEnv } = useAppEnv()
   const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
 
   return (
     <>
-      <ClaimTokens
-        chainId={chainId}
-        usersAddress={usersAddress}
-        stakingPoolAddresses={stakingPoolAddresses}
-        stakingPoolChainData={stakingPoolChainData}
-        refetch={refetch}
-      />
-      <ManageStakedAmount
-        chainId={chainId}
-        stakingPoolAddresses={stakingPoolAddresses}
-        stakingPoolChainData={stakingPoolChainData}
-        refetch={refetch}
+      <ClaimTokens {...props} chainId={chainId} usersAddress={usersAddress} />
+      <ManageStakedAmount {...props} chainId={chainId} />
+    </>
+  )
+}
+
+const ClaimTokens = (props) => {
+  const { t } = useTranslation()
+
+  const { address, pool, refetchAllPoolTokenData, chainId } = props
+
+  const usersAddress = useUsersAddress()
+
+  if (!isFetched) return null
+
+  console.log({ address, pool, refetchAllPoolTokenData, chainId })
+
+  const tokenFaucetAddress = pool.tokenListener.address
+  const { data: claimablePoolData, isFetched } = useClaimableTokenFromTokenFaucet(
+    pool.chainId,
+    tokenFaucetAddress,
+    address
+  )
+
+  // const { user, tokenFaucet: tokenFaucetData } = stakingPoolChainData
+  // const {
+  //   claimableBalance,
+  //   claimableBalanceUnformatted,
+  //   tickets,
+  //   dripTokensPerDay,
+  //   underlyingToken: underlyingTokenData
+  // } = user
+
+  // const { underlyingToken, tokenFaucet, dripToken } = stakingPoolAddresses
+  // const token1 = underlyingToken.token1
+
+  return (
+    <>
+      <RewardsTableCell
+        label={t('rewards')}
+        topContentJsx={<PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>}
+        centerContentJsx={
+          <>
+            <Erc20Image address='0x0cec1a9154ff802e7934fc916ed7ca50bde6844e' />
+            {/* <TokenIcon token={dripToken} className='mr-2 rounded-full w-4 h-4' /> */}
+            <span className='text-xxs uppercase'>{token1.symbol}</span>
+          </>
+        }
+        bottomContentJsx={
+          <TransactionButton
+            disabled={claimableBalanceUnformatted.isZero()}
+            chainId={chainId}
+            className='capitalize text-accent-1 hover:text-green'
+            name={t('claimPool')}
+            abi={TokenFaucetAbi}
+            contractAddress={tokenFaucet.address}
+            method={'claim'}
+            params={[usersAddress]}
+            refetch={refetchAllPoolTokenData}
+          >
+            {t('claim')}
+          </TransactionButton>
+        }
       />
     </>
   )
 }
 
-// const TokenIcon = (props) => {
-//   const { className, token } = props
-
-//   // if (token.symbol === 'POOL') {
-//   //   return (
-//   //     <img
-//   //       src={TOKEN_IMAGES_BY_SYMBOL.pool}
-//   //       className={classnames('rounded-full', className)}
-//   //       style={style}
-//   //     />
-//   //   )
-//   // }
-
-//   console.log(token?.address)
-//   console.log(Boolean(token?.address))
-//   return Boolean(token?.address) ? (
-
-//   ) : (
-//     <span>missing img</span>
-//   )
-// }
-
 const ManageStakedAmount = (props) => {
   const { t } = useTranslation()
-  const { stakingPoolChainData, refetch, chainId, stakingPoolAddresses } = props
-  const { user } = stakingPoolChainData
-  const { underlyingToken: underlyingTokenChainData, tickets } = user
-  const { balance: lpBalance, allowance } = underlyingTokenChainData
-  const { balance: ticketBalance } = tickets
+  const { refetch, chainId } = props
 
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
-
-  const { underlyingToken } = stakingPoolAddresses
 
   return (
     <>
@@ -369,7 +388,8 @@ const ManageStakedAmount = (props) => {
         )} */}
 
       <span className='w-full sm:w-64 flex flex-col-reverse sm:flex-row'>
-        <RewardsTableCell
+        stuff
+        {/* <RewardsTableCell
           label={t('wallet')}
           topContentJsx={<PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>}
           centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
@@ -398,10 +418,10 @@ const ManageStakedAmount = (props) => {
               refetch={refetch}
             />
           }
-        />
+        /> */}
       </span>
 
-      <DepositModal
+      {/* <DepositModal
         chainId={chainId}
         stakingPoolChainData={stakingPoolChainData}
         stakingPoolAddresses={stakingPoolAddresses}
@@ -416,7 +436,7 @@ const ManageStakedAmount = (props) => {
         isOpen={withdrawModalIsOpen}
         closeModal={() => setWithdrawModalIsOpen(false)}
         refetch={refetch}
-      />
+      /> */}
     </>
   )
 }
@@ -477,54 +497,6 @@ const WithdrawTriggers = (props) => {
     >
       {t('withdraw')}
     </button>
-  )
-}
-
-const ClaimTokens = (props) => {
-  const { t } = useTranslation()
-  const usersAddress = useUsersAddress()
-  const { stakingPoolChainData, refetch, chainId, stakingPoolAddresses } = props
-  const { user, tokenFaucet: tokenFaucetData } = stakingPoolChainData
-  const {
-    claimableBalance,
-    claimableBalanceUnformatted,
-    tickets,
-    dripTokensPerDay,
-    underlyingToken: underlyingTokenData
-  } = user
-
-  const { underlyingToken, tokenFaucet, dripToken } = stakingPoolAddresses
-  const token1 = underlyingToken.token1
-
-  return (
-    <>
-      <RewardsTableCell
-        label={t('rewards')}
-        topContentJsx={<PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>}
-        centerContentJsx={
-          <>
-            <Erc20Image address='0x0cec1a9154ff802e7934fc916ed7ca50bde6844e' />
-            {/* <TokenIcon token={dripToken} className='mr-2 rounded-full w-4 h-4' /> */}
-            <span className='text-xxs uppercase'>{token1.symbol}</span>
-          </>
-        }
-        bottomContentJsx={
-          <TransactionButton
-            disabled={claimableBalanceUnformatted.isZero()}
-            chainId={chainId}
-            className='capitalize text-accent-1 hover:text-green'
-            name={t('claimPool')}
-            abi={TokenFaucetAbi}
-            contractAddress={tokenFaucet.address}
-            method={'claim'}
-            params={[usersAddress]}
-            refetch={refetch}
-          >
-            {t('claim')}
-          </TransactionButton>
-        }
-      />
-    </>
   )
 }
 

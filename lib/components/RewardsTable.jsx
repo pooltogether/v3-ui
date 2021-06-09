@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 import { UI_LOADER_ANIM_DEFAULTS } from 'lib/constants'
 import { Card } from 'lib/components/Card'
+import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
 
 export const RewardsTable = (props) => {
@@ -20,7 +21,7 @@ export const RewardsTable = (props) => {
     <>
       <div className='hidden sm:flex bg-card justify-between rounded-lg px-4 sm:px-8 py-2 mt-5 text-xxs text-accent-1 capitalize'>
         <div className={widthClass}>{t('asset')}</div>
-        <div className='w-20'>{t('apr')}</div>
+        <div className='w-20'>APR</div>
         <div className='w-20'>{t('rewards')}</div>
 
         <div className='w-64 flex flex-row'>
@@ -54,8 +55,6 @@ export const RewardsTableRow = (props) => {
         <div className='flex flex-col items-center text-center rounded-lg w-full py-6'>
           <ColumnOne {...props} />
           <ColumnTwo {...props} />
-          {/* <LPAssetHeader stakingPoolAddresses={stakingPoolAddresses} /> */}
-          {/* {stakingAprJsx} */}
         </div>
         <RemainingColumns {...props} />
       </div>
@@ -71,9 +70,6 @@ export const RewardsTableRow = (props) => {
       <ColumnOne {...props} />
       <ColumnTwo {...props} />
       <RemainingColumns {...props} />
-      {/* <LPAssetHeader stakingPoolAddresses={stakingPoolAddresses} /> */}
-      {/* {stakingAprJsx} */}
-      {/* {mainContent} */}
     </Card>
   )
 }
@@ -104,49 +100,51 @@ const RemainingColumns = (props) => {
 }
 
 export const RewardsTableContentsLoading = () => {
-  if (typeof window === 'undefined') {
-    return null
-  }
+  // if (typeof window === 'undefined') {
+  //   return null
+  // }
 
-  const { theme } = useContext(ThemeContext)
+  return <ThemedClipSpinner size={16} />
 
-  const bgColor = theme === 'light' ? '#ffffff' : '#401C94'
-  const foreColor = theme === 'light' ? '#f5f5f5' : '#501C94'
+  // const { theme } = useContext(ThemeContext)
 
-  if (isMobile) {
-    return (
-      <div className='w-full p-4'>
-        <ContentLoader
-          {...UI_LOADER_ANIM_DEFAULTS}
-          viewBox='0 0 100% 20'
-          width='100%'
-          height={90}
-          backgroundColor={bgColor}
-          foregroundColor={foreColor}
-        >
-          <rect x='0' y='0' rx='2' ry='2' width='60%' height='40' />
-          <rect x='0' y='50' rx='2' ry='2' width='40%' height='30' />
-        </ContentLoader>
-      </div>
-    )
-  }
+  // const bgColor = theme === 'light' ? '#ffffff' : '#401C94'
+  // const foreColor = theme === 'light' ? '#f5f5f5' : '#501C94'
 
-  return (
-    <div className='w-full p-4'>
-      <ContentLoader
-        {...UI_LOADER_ANIM_DEFAULTS}
-        viewBox='0 0 100% 20'
-        width='100%'
-        height={90}
-        backgroundColor={bgColor}
-        foregroundColor={foreColor}
-      >
-        <rect x='0' y='0' rx='2' ry='2' width='90' height='45' />
-        <rect x='85%' y='0' rx='2' ry='2' width='80' height='30' />
-        <rect x='85%' y='45' rx='2' ry='2' width='80' height='30' />
-      </ContentLoader>
-    </div>
-  )
+  // if (isMobile) {
+  //   return (
+  //     <div className='w-full p-4'>
+  //       <ContentLoader
+  //         {...UI_LOADER_ANIM_DEFAULTS}
+  //         viewBox='0 0 100% 20'
+  //         width='100%'
+  //         height={90}
+  //         backgroundColor={bgColor}
+  //         foregroundColor={foreColor}
+  //       >
+  //         <rect x='0' y='0' rx='2' ry='2' width='60%' height='40' />
+  //         <rect x='0' y='50' rx='2' ry='2' width='40%' height='30' />
+  //       </ContentLoader>
+  //     </div>
+  //   )
+  // }
+
+  // return (
+  //   <div className='w-full p-4'>
+  //     <ContentLoader
+  //       {...UI_LOADER_ANIM_DEFAULTS}
+  //       viewBox='0 0 100% 20'
+  //       width='100%'
+  //       height={90}
+  //       backgroundColor={bgColor}
+  //       foregroundColor={foreColor}
+  //     >
+  //       <rect x='0' y='0' rx='2' ry='2' width='90' height='45' />
+  //       <rect x='85%' y='0' rx='2' ry='2' width='80' height='30' />
+  //       <rect x='85%' y='45' rx='2' ry='2' width='80' height='30' />
+  //     </ContentLoader>
+  //   </div>
+  // )
 }
 
 export const RewardsTableCell = (props) => {
