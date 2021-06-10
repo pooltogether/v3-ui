@@ -2,6 +2,8 @@ import PoolIcon from 'assets/images/pool-icon.svg'
 import EtherIcon from 'assets/images/ether-icon.png'
 
 export const TOKEN_IMAGES_BY_ADDRESS = {
+  '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2': '/tokens/sushi.png',
+  '0x8798249c2e607446efb7ad49ec89dd1865ff4272': '/tokens/xsushi.png',
   '0xc2132d05d31c914a87c6611c10748aeb04b58e8f': '/tokens/usdt-new-transparent.png',
   '0x056fd409e1d7a124bd7017459dfea2f387b6d5cd': '/tokens/gusd.png',
   '0x57ab1ec28d129707052df4df418d58a2d46d5f51': '/tokens/susd.png',
@@ -63,8 +65,6 @@ export const TOKEN_IMAGES_BY_ADDRESS = {
     'https://assets.coingecko.com/coins/images/12478/small/Bella.png?1602230054',
   '0x08d32b0da63e2c3bcf8019c9c5d849d7a9d791e6':
     'https://assets.coingecko.com/coins/images/850/small/dentacoin.png?1547034647',
-  '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2':
-    'https://assets.coingecko.com/coins/images/12271/small/sushi.jpg?1598623048',
   '0x0954906da0bf32d5479e25f46056d22f08464cab':
     '/tokens/0x0954906da0bf32d5479e25f46056d22f08464cab.png',
   '0xd291e7a03283640fdc51b121ac401383a46cc623':

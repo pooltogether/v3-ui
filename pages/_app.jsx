@@ -78,8 +78,12 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
   })
 }
 
-function MyApp({ Component, pageProps, router }) {
+const InitializeOnboard = (props) => {
   useInitializeOnboard()
+  return props.children
+}
+
+function MyApp({ Component, pageProps, router }) {
   const { i18n } = useTranslation()
 
   useEffect(() => {
@@ -155,23 +159,25 @@ function MyApp({ Component, pageProps, router }) {
     >
       <JotaiProvider>
         <QueryClientProvider client={queryClient}>
-          <BodyClasses />
+          <InitializeOnboard>
+            <BodyClasses />
 
-          <ToastContainer className='pool-toast' position='top-center' autoClose={7000} />
+            <ToastContainer className='pool-toast' position='top-center' autoClose={7000} />
 
-          <AllContextProviders>
-            <CustomErrorBoundary>
-              <TransactionStatusChecker />
+            <AllContextProviders>
+              <CustomErrorBoundary>
+                <TransactionStatusChecker />
 
-              <TxRefetchListener />
+                <TxRefetchListener />
 
-              <ManualWarningMessage />
+                <ManualWarningMessage />
 
-              <Layout pageProps={pageProps} Component={Component} router={router} />
+                <Layout pageProps={pageProps} Component={Component} router={router} />
 
-              <ReactQueryDevtools />
-            </CustomErrorBoundary>
-          </AllContextProviders>
+                <ReactQueryDevtools />
+              </CustomErrorBoundary>
+            </AllContextProviders>
+          </InitializeOnboard>
         </QueryClientProvider>
       </JotaiProvider>
     </HotKeys>

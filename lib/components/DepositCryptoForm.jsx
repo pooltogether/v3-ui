@@ -49,6 +49,7 @@ export function DepositCryptoForm(props) {
   if (decimals) {
     quantityBN = ethers.utils.parseUnits(quantity || '0', Number(decimals))
   }
+  console.log(quantityBN.toString())
 
   const { usersTokenBalanceBN, usersTokenBalance, usersTokenAllowance } = usersDataForPool(
     pool,
