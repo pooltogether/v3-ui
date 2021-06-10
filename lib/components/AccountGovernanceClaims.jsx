@@ -244,6 +244,8 @@ const ClaimablePoolTokenItem = (props) => {
     precision: getPrecision(totalDripPerDay)
   })
 
+  const hasClaimable = !claimablePoolData?.claimableAmountUnformatted?.isZero()
+
   let apr = pool.tokenListener?.apr
 
   if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
@@ -251,7 +253,7 @@ const ClaimablePoolTokenItem = (props) => {
   }
 
   return (
-    <div className='bg-body p-6 rounded-lg flex flex-col sm:flex-row sm:justify-between mt-4 sm:items-center'>
+    <div className='border-t-2 border-body px-2 sm:px-0 pt-6 pb-2 flex flex-col sm:flex-row sm:justify-between mt-4 sm:items-center'>
       <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start'>
         <Link href={`/pools/${pool.networkName}/${pool.symbol}`}>
           <a>
@@ -288,24 +290,24 @@ const ClaimablePoolTokenItem = (props) => {
         </div>
       </div>
 
-      <div className='sm:text-right mt-6 sm:mt-0'>
+      <div
+        className={classnames(`sm:text-right mt-6 sm:mt-0`, {
+          'opacity-40': !hasClaimable
+        })}
+      >
         <p className='text-inverse font-bold'>{t('availableToClaim')}</p>
-        <h4
-          className={classnames('flex items-center sm:justify-end', {
-            'opacity-80': claimablePoolData?.claimableAmountUnformatted?.isZero()
-          })}
-        >
+        <h4 className={classnames('flex items-center sm:justify-end')}>
           <Erc20Image address={dripToken.address} className='inline-block w-6 h-6 mr-2' />
           <ClaimableAmountCountUp amount={Number(claimablePoolData?.claimableAmount)} />
         </h4>
-        <div className='text-accent-1 text-xs flex items-center sm:justify-end mt-1 sm:mt-0 mb-2 opacity-80 trans hover:opacity-100'>
+        <div className='text-accent-1 text-xs flex items-center sm:justify-end mt-1 sm:mt-0 mb-2 sm:mb-0 opacity-80 trans hover:opacity-100'>
           {usersDripPerDayFormatted}{' '}
           <Erc20Image address={dripToken.address} className='inline-block w-4 h-4 mx-2' />
           {dripToken.symbol} /&nbsp;
           <span className='lowercase'>{t('day')}</span>
         </div>
         {isSelf && (
-          <div className='sm:w-40 sm:ml-auto'>
+          <div className='sm:ml-auto'>
             <ClaimButton
               {...props}
               refetch={() => {
@@ -315,7 +317,7 @@ const ClaimablePoolTokenItem = (props) => {
               name={name}
               dripToken={pool.tokens.tokenFaucetDripToken.symbol}
               tokenFaucetAddress={tokenFaucetAddress}
-              claimable={!claimablePoolData?.claimableAmountUnformatted?.isZero()}
+              claimable={hasClaimable}
             />
           </div>
         )}
@@ -359,6 +361,10 @@ const ClaimButton = (props) => {
   const handleClaim = async (e) => {
     e.preventDefault()
 
+    if (txPending) {
+      return
+    }
+
     const params = [address]
 
     const id = await sendTx(
@@ -384,12 +390,16 @@ const ClaimButton = (props) => {
   const walletOnWrongNetwork = walletChainId !== chainId
 
   const button = (
-    <Button
-      textSize='xxxs'
-      padding='px-4 py-1'
-      disabled={txPending || !claimable || walletOnWrongNetwork}
-      className='w-full'
+    <button
+      disabled={!claimable || walletOnWrongNetwork}
+      className={classnames('underline trans trans-fast', {
+        'text-flashy': txPending,
+        'text-accent-1 hover:text-green': !txPending
+      })}
       onClick={handleClaim}
+      style={{
+        opacity: 1
+      }}
     >
       {txPending && (
         <span className='mr-2'>
@@ -397,7 +407,7 @@ const ClaimButton = (props) => {
         </span>
       )}
       {text}
-    </Button>
+    </button>
   )
 
   return walletOnWrongNetwork ? (
