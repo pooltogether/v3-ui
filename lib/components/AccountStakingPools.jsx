@@ -837,32 +837,31 @@ const StakingAPR = (props) => {
     tokenPrices[currentBlock][token2.address.toLowerCase()]?.usd || '0',
     underlyingTokenData.totalSupply
   )
+  console.log({ lPTokenBalances })
+  console.log({ one: tokenPrices[currentBlock][token1.address.toLowerCase()]?.usd })
+  console.log({ two: tokenPrices[currentBlock][token2.address.toLowerCase()]?.usd })
+  console.log({ totalSup: underlyingTokenData.totalSupply })
   console.log({ lpTokenPrice })
+  // 19.55
+  // 2543.10
 
   const totalDailyValueUnformatted = amountMultByUsd(
     dripRatePerDayUnformatted,
     tokenPrices[currentBlock][dripToken.address.toLowerCase()]?.usd || '0'
   )
-  console.log({ totalDailyValueUnformatted: totalDailyValueUnformatted.toString() })
 
   const totalDailyValue = formatUnits(totalDailyValueUnformatted, underlyingTokenData.decimals)
   const totalDailyValueScaled = toScaledUsdBigNumber(totalDailyValue)
-  console.log({ totalDailyValue: totalDailyValue.toString() })
-  console.log({ totalDailyValueScaled: totalDailyValueScaled.toString() })
 
   const totalValueUnformatted = amountMultByUsd(
     tickets.totalSupplyUnformatted,
     lpTokenPrice.toNumber()
   )
-  console.log({ 'tickets.totalSupplyUnformatted': tickets.totalSupplyUnformatted.toString() })
 
   const totalValue = formatUnits(totalValueUnformatted, underlyingTokenData.decimals)
   const totalValueScaled = toScaledUsdBigNumber(totalValue)
-  console.log({ totalValue: totalValue.toString() })
-  console.log({ totalValueScaled: totalValueScaled.toString() })
 
   const apr = calculateAPR(totalDailyValueScaled, totalValueScaled)
-  console.log({ apr })
 
   return (
     <span className={classnames('flex', className)}>
