@@ -60,8 +60,10 @@ export function ExecuteCryptoDeposit(props) {
       }
 
       const quantityBN = ethers.utils.parseUnits(quantity, Number(decimals))
+      console.log(quantityBN.toString())
 
       const params = [usersAddress, quantityBN, controlledTicketTokenAddress, referrerAddress]
+      console.log(params)
 
       const id = await sendTx(txName, PrizePoolAbi, poolAddress, 'depositTo', params)
       setTxId(id)

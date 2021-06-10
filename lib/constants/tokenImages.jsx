@@ -3,6 +3,7 @@ import EtherIcon from 'assets/images/ether-icon.png'
 
 export const TOKEN_IMAGES_BY_ADDRESS = {
   '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2': '/tokens/sushi.png',
+  '0x8798249c2e607446efb7ad49ec89dd1865ff4272': '/tokens/xsushi.png',
   '0xc2132d05d31c914a87c6611c10748aeb04b58e8f': '/tokens/usdt-new-transparent.png',
   '0x056fd409e1d7a124bd7017459dfea2f387b6d5cd': '/tokens/gusd.png',
   '0x57ab1ec28d129707052df4df418d58a2d46d5f51': '/tokens/susd.png',
