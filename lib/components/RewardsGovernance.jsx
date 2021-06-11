@@ -44,7 +44,7 @@ import { useTokenBalances } from 'lib/hooks/useTokenBalances'
 import { useTokenPrices } from 'lib/hooks/useTokenPrices'
 import { toScaledUsdBigNumber } from 'lib/utils/poolDataUtils'
 
-export const RewardsGovernanceRewards = () => {
+export const RewardsGovernance = () => {
   const { t } = useTranslation()
 
   const { appEnv } = useAppEnv()
@@ -332,6 +332,7 @@ const ClaimTokens = (props) => {
   return (
     <>
       <RewardsTableCell
+        wide
         label={t('rewards')}
         topContentJsx={<PoolNumber>{numberWithCommas(claimable)}</PoolNumber>}
         centerContentJsx={
@@ -425,7 +426,6 @@ const ClaimButton = (props) => {
 
   return walletOnWrongNetwork ? (
     <Tooltip
-      className='ml-auto'
       tip={t('yourWalletIsOnTheWrongNetwork', {
         networkName: getNetworkNiceNameByChainId(chainId)
       })}
@@ -468,7 +468,7 @@ const ManageStakedAmount = (props) => {
       </div>
         )} */}
 
-      <span className='w-full sm:w-64 flex flex-col-reverse sm:flex-row'>
+      <span className='w-full sm:w-48 lg:w-64 flex flex-col-reverse sm:flex-row'>
         stuff
         {/* <RewardsTableCell
           label={t('wallet')}
@@ -883,4 +883,23 @@ const GovRewardsAPR = (props) => {
   apr = displayPercentage(apr)
 
   return <RewardsTableAprDisplay apr={apr} />
+}
+
+const ClaimableAmountCountUp = (props) => {
+  const { amount, ...countUpProps } = props
+  const prevAmount = usePreviousValue(amount)
+
+  return (
+    <CountUp
+      start={prevAmount}
+      end={amount}
+      decimals={getMinPrecision(amount, { additionalDigits: getPrecision(amount) || 2 })}
+      separator=','
+      {...countUpProps}
+    />
+  )
+}
+
+ClaimableAmountCountUp.defaultProps = {
+  amount: 0
 }

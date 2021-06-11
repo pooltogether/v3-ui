@@ -15,18 +15,18 @@ export const RewardsTable = (props) => {
 
   const { children } = props
 
-  const widthClass = props.columnOneWidthClass ?? 'sm:w-64'
+  const widthClass = props.columnOneWidthClass ?? 'sm:w-48 lg:w-64'
 
   return (
     <>
       <div className='hidden sm:flex bg-card justify-between rounded-lg px-4 sm:px-8 py-2 mt-5 text-xxs text-accent-1 capitalize'>
         <div className={widthClass}>{t('asset')}</div>
         <div className='w-20'>APR</div>
-        <div className='w-20'>{t('rewards')}</div>
+        <div className='w-32'>{t('rewards')}</div>
 
-        <div className='w-64 flex flex-row'>
+        <div className='sm:w-48 lg:w-64 flex flex-row'>
           <div className='w-20'>{t('yourStake')}</div>
-          <div className='w-20'></div>
+          <div className='w-10 lg:w-20'></div>
           <div className='w-20'>{t('wallet')}</div>
         </div>
       </div>
@@ -75,7 +75,7 @@ export const RewardsTableRow = (props) => {
 }
 
 const ColumnOne = (props) => {
-  const widthClass = props.columnOneWidthClass ?? 'sm:w-64'
+  const widthClass = props.columnOneWidthClass ?? 'sm:w-48 lg:w-64'
 
   return (
     <div className={`${widthClass} sm:pr-1 flex flex-col sm:flex-row items-center`}>
@@ -148,18 +148,21 @@ export const RewardsTableContentsLoading = () => {
 }
 
 export const RewardsTableCell = (props) => {
-  const { label, topContentJsx, centerContentJsx, bottomContentJsx } = props
+  const { wide, label, topContentJsx, centerContentJsx, bottomContentJsx } = props
 
   return (
     <>
-      <div className='w-full sm:w-20 flex flex-col items-start my-2'>
+      <div
+        className={classnames('w-full flex flex-col items-start my-2', {
+          'sm:w-32': wide,
+          'sm:w-20': !wide
+        })}
+      >
         {label && <h6 className='sm:hidden'>{label}</h6>}
-        <div className='w-full sm:w-20 sm:h-20 flex sm:flex-col justify-between items-start'>
+        <div className='w-full sm:h-20 flex sm:flex-col justify-between items-start'>
           <span className='flex sm:inline items-baseline'>
             <span className='text-lg font-bold'>{topContentJsx}</span>
-            <div className='flex items-center justify-center sm:h-6 ml-2 sm:ml-0'>
-              {centerContentJsx}
-            </div>
+            <div className='flex items-center sm:h-6 ml-2 sm:ml-0'>{centerContentJsx}</div>
           </span>
 
           {bottomContentJsx}

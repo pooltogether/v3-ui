@@ -42,7 +42,7 @@ import { toScaledUsdBigNumber } from 'lib/utils/poolDataUtils'
 const UNISWAP_V2_PAIR_URL = 'https://app.uniswap.org/#/add/v2/ETH/'
 const SUSHISWAP_V2_PAIR_URL = 'https://app.sushi.com/#/add/ETH/'
 
-export const RewardsStakingPools = () => {
+export const RewardsLPStaking = () => {
   const { t } = useTranslation()
 
   const stakingPoolsAddresses = useStakingPoolsAddresses()
@@ -271,6 +271,54 @@ LPTokensLogo.defaultProps = {
   small: false
 }
 
+const ClaimTokens = (props) => {
+  const { t } = useTranslation()
+  const usersAddress = useUsersAddress()
+  const { stakingPoolChainData, refetch, chainId, stakingPoolAddresses } = props
+  const { user, tokenFaucet: tokenFaucetData } = stakingPoolChainData
+  const {
+    claimableBalance,
+    claimableBalanceUnformatted,
+    tickets,
+    dripTokensPerDay,
+    underlyingToken: underlyingTokenData
+  } = user
+
+  const { underlyingToken, tokenFaucet, dripToken } = stakingPoolAddresses
+  const token1 = underlyingToken.token1
+
+  return (
+    <>
+      <RewardsTableCell
+        wide
+        label={t('rewards')}
+        topContentJsx={<PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>}
+        centerContentJsx={
+          <>
+            <TokenIcon token={dripToken} className='mr-2 rounded-full w-4 h-4' />
+            <span className='text-xxs uppercase'>{token1.symbol}</span>
+          </>
+        }
+        bottomContentJsx={
+          <TransactionButton
+            disabled={claimableBalanceUnformatted.isZero()}
+            chainId={chainId}
+            className='capitalize text-accent-1 hover:text-green'
+            name={t('claimPool')}
+            abi={TokenFaucetAbi}
+            contractAddress={tokenFaucet.address}
+            method={'claim'}
+            params={[usersAddress]}
+            refetch={refetch}
+          >
+            {t('claim')}
+          </TransactionButton>
+        }
+      />
+    </>
+  )
+}
+
 const ManageStakedAmount = (props) => {
   const { t } = useTranslation()
   const { stakingPoolChainData, refetch, chainId, stakingPoolAddresses } = props
@@ -294,7 +342,7 @@ const ManageStakedAmount = (props) => {
       </div>
         )} */}
 
-      <span className='w-full sm:w-64 flex flex-col-reverse sm:flex-row'>
+      <span className='w-full sm:w-48 lg:w-64 flex flex-col-reverse sm:flex-row'>
         <RewardsTableCell
           label={t('wallet')}
           topContentJsx={<PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>}
@@ -304,7 +352,7 @@ const ManageStakedAmount = (props) => {
           }
         />
 
-        <div className='hidden sm:flex flex-col items-center sm:w-20'>
+        <div className='hidden sm:flex flex-col items-center w-10 lg:w-20'>
           <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
             &nbsp;
           </div>
@@ -403,53 +451,6 @@ const WithdrawTriggers = (props) => {
     >
       {t('withdraw')}
     </button>
-  )
-}
-
-const ClaimTokens = (props) => {
-  const { t } = useTranslation()
-  const usersAddress = useUsersAddress()
-  const { stakingPoolChainData, refetch, chainId, stakingPoolAddresses } = props
-  const { user, tokenFaucet: tokenFaucetData } = stakingPoolChainData
-  const {
-    claimableBalance,
-    claimableBalanceUnformatted,
-    tickets,
-    dripTokensPerDay,
-    underlyingToken: underlyingTokenData
-  } = user
-
-  const { underlyingToken, tokenFaucet, dripToken } = stakingPoolAddresses
-  const token1 = underlyingToken.token1
-
-  return (
-    <>
-      <RewardsTableCell
-        label={t('rewards')}
-        topContentJsx={<PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>}
-        centerContentJsx={
-          <>
-            <TokenIcon token={dripToken} className='mr-2 rounded-full w-4 h-4' />
-            <span className='text-xxs uppercase'>{token1.symbol}</span>
-          </>
-        }
-        bottomContentJsx={
-          <TransactionButton
-            disabled={claimableBalanceUnformatted.isZero()}
-            chainId={chainId}
-            className='capitalize text-accent-1 hover:text-green'
-            name={t('claimPool')}
-            abi={TokenFaucetAbi}
-            contractAddress={tokenFaucet.address}
-            method={'claim'}
-            params={[usersAddress]}
-            refetch={refetch}
-          >
-            {t('claim')}
-          </TransactionButton>
-        }
-      />
-    </>
   )
 }
 

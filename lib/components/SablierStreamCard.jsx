@@ -86,7 +86,7 @@ const StreamBar = (props) => {
     <Tooltip effect='float' id='sablier-stream-percentage' tip={`${percentage}%`}>
       <div className={classnames('w-full h-2 flex flex-row rounded-full overflow-hidden mt-2')}>
         <div className='bg-secondary' style={{ width: `${percentage}%` }} />
-        <div className='bg-tertiary' style={{ width: `${100 - percentage}%` }} />
+        <div className='bg-accent-grey-2' style={{ width: `${100 - percentage}%` }} />
       </div>
     </Tooltip>
   )
