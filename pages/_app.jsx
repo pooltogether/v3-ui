@@ -9,7 +9,12 @@ import { ToastContainer } from 'react-toastify'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider as JotaiProvider } from 'jotai'
-import { useInitializeOnboard } from '@pooltogether/hooks'
+import {
+  useInitCookieOptions,
+  useInitializeOnboard,
+  useInitInfuraId,
+  useInitReducedMotion
+} from '@pooltogether/hooks'
 
 import {
   HOTKEYS_KEY_MAP,
@@ -76,11 +81,6 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
     release: process.env.NEXT_JS_RELEASE_VERSION,
     integrations: [new Integrations.BrowserTracing()]
   })
-}
-
-const InitializeOnboard = (props) => {
-  useInitializeOnboard()
-  return props.children
 }
 
 function MyApp({ Component, pageProps, router }) {
@@ -159,7 +159,7 @@ function MyApp({ Component, pageProps, router }) {
     >
       <JotaiProvider>
         <QueryClientProvider client={queryClient}>
-          <InitializeOnboard>
+          <InitPoolTogetherHooks>
             <BodyClasses />
 
             <ToastContainer className='pool-toast' position='top-center' autoClose={7000} />
@@ -177,11 +177,24 @@ function MyApp({ Component, pageProps, router }) {
                 <ReactQueryDevtools />
               </CustomErrorBoundary>
             </AllContextProviders>
-          </InitializeOnboard>
+          </InitPoolTogetherHooks>
         </QueryClientProvider>
       </JotaiProvider>
     </HotKeys>
   )
+}
+
+const InitPoolTogetherHooks = ({ children }) => {
+  useInitInfuraId(process.env.NEXT_JS_INFURA_ID)
+  useInitReducedMotion(Boolean(process.env.NEXT_JS_REDUCE_MOTION))
+  useInitCookieOptions(process.env.NEXT_JS_DOMAIN_NAME)
+  useInitializeOnboard({
+    infuraId: process.env.NEXT_JS_INFURA_ID,
+    fortmaticKey: process.env.NEXT_JS_FORTMATIC_API_KEY,
+    portisKey: process.env.NEXT_JS_PORTIS_API_KEY,
+    defaultNetworkName: process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
+  })
+  return children
 }
 
 export default MyApp
