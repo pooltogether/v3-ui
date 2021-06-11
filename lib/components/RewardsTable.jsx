@@ -92,7 +92,7 @@ const ColumnOne = (props) => {
 }
 
 const ColumnTwo = (props) => {
-  return <div className='sm:w-20 mt-1 sm:mt-0 text-xl sm:text-lg'>{props.columnTwoContents}</div>
+  return <div className='sm:w-20 text-xl sm:text-lg'>{props.columnTwoContents}</div>
 }
 
 const RemainingColumns = (props) => {

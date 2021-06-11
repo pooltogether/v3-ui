@@ -181,16 +181,16 @@ const ColumnOneContents = (props) => {
 
   return (
     <div
-      className='flex flex-col justify-center my-auto leading-none sm:leading-normal'
+      className='flex flex-col justify-center my-auto leading-none'
       style={{ minWidth: 'max-content' }}
     >
       <div className='text-sm font-bold mt-3 sm:mt-0'>{tokenPair}</div>
-      <div className='text-xs mt-1 sm:mt-0'>{dex}</div>
+      <div className='text-xs mt-1 mb-3'>{dex}</div>
       <a
         href={`${baseSwapUrl}${dripToken.address}`}
         target='_blank'
         rel='noreferrer noopener'
-        className='mx-auto sm:mx-0 mt-5 sm:mt-0 underline flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast opacity-60 hover:opacity-100'
+        className='mx-auto sm:mx-0 underline flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast opacity-60 hover:opacity-100'
       >
         {t('getDexLpToken', { dex })} <LinkIcon className='h-4 w-4' />
       </a>
@@ -429,7 +429,7 @@ const ClaimTokens = (props) => {
         topContentJsx={<PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>}
         centerContentJsx={
           <>
-            <TokenIcon token={dripToken} className='mr-2 rounded-full w-3 h-3' />
+            <TokenIcon token={dripToken} className='mr-2 rounded-full w-4 h-4' />
             <span className='text-xxs uppercase'>{token1.symbol}</span>
           </>
         }
@@ -752,16 +752,6 @@ const StakingAPR = (props) => {
   } = props
   const { token1, token2 } = underlyingToken
 
-  console.log({
-    chainId,
-    underlyingToken,
-    underlyingTokenData,
-    dripRatePerDayUnformatted,
-    dripToken,
-    className,
-    tickets
-  })
-
   const currentBlock = '-1'
 
   const { data: lPTokenBalances, isFetched: tokenBalancesIsFetched } = useTokenBalances(
@@ -794,13 +784,6 @@ const StakingAPR = (props) => {
     tokenPrices[currentBlock][token2.address.toLowerCase()]?.usd || '0',
     underlyingTokenData.totalSupply
   )
-  console.log({ lPTokenBalances })
-  console.log({ one: tokenPrices[currentBlock][token1.address.toLowerCase()]?.usd })
-  console.log({ two: tokenPrices[currentBlock][token2.address.toLowerCase()]?.usd })
-  console.log({ totalSup: underlyingTokenData.totalSupply })
-  console.log({ lpTokenPrice })
-  // 19.55
-  // 2543.10
 
   const totalDailyValueUnformatted = amountMultByUsd(
     dripRatePerDayUnformatted,

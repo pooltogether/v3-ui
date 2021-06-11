@@ -47,9 +47,6 @@ import { toScaledUsdBigNumber } from 'lib/utils/poolDataUtils'
 export const RewardsGovernanceRewards = () => {
   const { t } = useTranslation()
 
-  // const stakingPoolsAddresses = useStakingPoolsAddresses()
-  // const stakingPoolsAddresses = useStakingPoolsAddresses()
-
   const { appEnv } = useAppEnv()
   const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
 
@@ -106,15 +103,16 @@ export const RewardsGovernanceRewards = () => {
         <GovRewardsCard
           address={usersAddress}
           refetchAllPoolTokenData={refetchAllPoolTokenData}
-          key={pool?.prizePool.address}
+          key={`gov-rewards-card-${pool?.prizePool.address}`}
           pool={pool}
         />
 
-        {/* {stakingPoolsAddresses.map((stakingPoolAddresses) => (
+        {/* {faucets.map((faucet) => (
           <GovRewardsPoolCard
-            chainId={chainId}
-            key={`staking-pool-card-${stakingPoolAddresses.underlyingToken.dex}-${stakingPoolAddresses.underlyingToken.address}`}
-            stakingPoolAddresses={stakingPoolAddresses}
+            address={usersAddress}
+            refetchAllPoolTokenData={refetchAllPoolTokenData}
+            key={`gov-rewards-card-${faucet.pool?.prizePool.address}`}
+            pool={faucet.pool}
           />
         ))} */}
       </RewardsTable>
@@ -258,10 +256,11 @@ const GovRewardsCard = (props) => {
 
     mainContent = (
       <GovRewardsPoolCardMainContents
-      // stakingPoolChainData={stakingPoolChainData}
-      // stakingPoolAddresses={stakingPoolAddresses}
-      // usersAddress={usersAddress}
-      // refetch={refetch}
+        {...props}
+        // stakingPoolChainData={stakingPoolChainData}
+        // stakingPoolAddresses={stakingPoolAddresses}
+        // usersAddress={usersAddress}
+        // refetch={refetch}
       />
     )
   }
@@ -286,7 +285,7 @@ const ColumnOneImage = (props) => {
 const ColumnOneContents = (props) => {
   return (
     <div
-      className='flex flex-col justify-center my-auto leading-none sm:leading-normal font-bold mt-2 sm:mt-0 sm:pl-4'
+      className='flex flex-col justify-center my-auto leading-none sm:leading-normal font-bold mt-2 mb-4 sm:mt-0 sm:pl-4'
       style={{ minWidth: 'max-content' }}
     >
       ptPOOL
@@ -295,7 +294,7 @@ const ColumnOneContents = (props) => {
 }
 
 const GovRewardsPoolCardMainContents = (props) => {
-  // const { stakingPoolAddresses, stakingPoolChainData, refetch } = props
+  // const { refetch } = props
   const usersAddress = useUsersAddress()
   const { appEnv } = useAppEnv()
   const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
@@ -315,8 +314,6 @@ const ClaimTokens = (props) => {
 
   const usersAddress = useUsersAddress()
 
-  if (!isFetched) return null
-
   console.log({ address, pool, refetchAllPoolTokenData, chainId })
 
   const tokenFaucetAddress = pool.tokenListener.address
@@ -326,49 +323,133 @@ const ClaimTokens = (props) => {
     address
   )
 
-  // const { user, tokenFaucet: tokenFaucetData } = stakingPoolChainData
-  // const {
-  //   claimableBalance,
-  //   claimableBalanceUnformatted,
-  //   tickets,
-  //   dripTokensPerDay,
-  //   underlyingToken: underlyingTokenData
-  // } = user
+  if (!isFetched) return null
 
-  // const { underlyingToken, tokenFaucet, dripToken } = stakingPoolAddresses
-  // const token1 = underlyingToken.token1
+  const claimable = claimablePoolData?.claimableAmount
+  const claimableUnformatted = claimablePoolData?.claimableAmountUnformatted
+  const hasClaimable = !claimableUnformatted?.isZero()
 
   return (
     <>
       <RewardsTableCell
         label={t('rewards')}
-        topContentJsx={<PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>}
+        topContentJsx={<PoolNumber>{numberWithCommas(claimable)}</PoolNumber>}
         centerContentJsx={
           <>
-            <Erc20Image address='0x0cec1a9154ff802e7934fc916ed7ca50bde6844e' />
-            {/* <TokenIcon token={dripToken} className='mr-2 rounded-full w-4 h-4' /> */}
-            <span className='text-xxs uppercase'>{token1.symbol}</span>
+            <Erc20Image address={pool.tokens.tokenFaucetDripToken.address} sizeClasses='w-4 h-4' />
+            <span className='text-xxs uppercase'>{pool.tokens.tokenFaucetDripToken.symbol}</span>
           </>
         }
         bottomContentJsx={
-          <TransactionButton
-            disabled={claimableBalanceUnformatted.isZero()}
-            chainId={chainId}
-            className='capitalize text-accent-1 hover:text-green'
-            name={t('claimPool')}
-            abi={TokenFaucetAbi}
-            contractAddress={tokenFaucet.address}
-            method={'claim'}
-            params={[usersAddress]}
-            refetch={refetchAllPoolTokenData}
-          >
-            {t('claim')}
-          </TransactionButton>
+          <ClaimButton
+            {...props}
+            refetch={() => {
+              refetchAllPoolTokenData()
+            }}
+            chainId={pool.chainId}
+            name={name}
+            dripToken={pool.tokens.tokenFaucetDripToken.symbol}
+            tokenFaucetAddress={tokenFaucetAddress}
+            claimable={hasClaimable}
+          />
         }
       />
     </>
   )
 }
+
+const ClaimButton = (props) => {
+  const { address, dripToken, name, refetch, claimable, tokenFaucetAddress, chainId } = props
+
+  const { network: walletChainId } = useOnboard()
+
+  const { t } = useTranslation()
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
+
+  const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
+  const txCompleted = tx?.completed
+
+  const handleClaim = async (e) => {
+    e.preventDefault()
+
+    if (txPending) {
+      return
+    }
+
+    const params = [address]
+
+    const id = await sendTx(
+      t('claimTickerFromPool', { ticker: dripToken, poolName: name }),
+      TokenFaucetAbi,
+      tokenFaucetAddress,
+      'claim',
+      params,
+      refetch
+    )
+    setTxId(id)
+  }
+
+  let text = t('claim')
+  if (txPending && !txCompleted) {
+    if (tx.sent) {
+      text = t('confirming')
+    } else {
+      text = t('claiming')
+    }
+  }
+
+  const walletOnWrongNetwork = walletChainId !== chainId
+
+  const button = (
+    <button
+      disabled={!claimable || walletOnWrongNetwork}
+      className={classnames('underline trans trans-fast', {
+        'text-flashy': txPending,
+        'text-accent-1 hover:text-green': !txPending
+      })}
+      onClick={handleClaim}
+      style={{
+        opacity: 1
+      }}
+    >
+      {txPending && (
+        <span className='mr-2'>
+          <ThemedClipSpinner size={12} />
+        </span>
+      )}
+      {text}
+    </button>
+  )
+
+  return walletOnWrongNetwork ? (
+    <Tooltip
+      className='ml-auto'
+      tip={t('yourWalletIsOnTheWrongNetwork', {
+        networkName: getNetworkNiceNameByChainId(chainId)
+      })}
+    >
+      {button}
+    </Tooltip>
+  ) : (
+    button
+  )
+}
+
+// ;<TransactionButton
+//   disabled={claimableUnformatted.isZero()}
+//   chainId={chainId}
+//   className='capitalize text-accent-1 hover:text-green'
+//   name={t('claimPool')}
+//   abi={TokenFaucetAbi}
+//   contractAddress={tokenFaucet.address}
+//   method={'claim'}
+//   params={[usersAddress]}
+//   refetch={refetchAllPoolTokenData}
+// >
+//   {t('claim')}
+// </TransactionButton>
 
 const ManageStakedAmount = (props) => {
   const { t } = useTranslation()

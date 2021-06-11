@@ -57,7 +57,6 @@ export const PrizeShowLootBoxTable = (props) => {
   )
   const allErc721Awards = useAllErc721Awards(prize)
   const allErc1155Awards = useAllErc1155Awards(prize)
-  console.log(prize)
 
   return (
     <LootBoxTable
