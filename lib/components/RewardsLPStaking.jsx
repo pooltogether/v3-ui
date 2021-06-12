@@ -180,10 +180,7 @@ const ColumnOneContents = (props) => {
   const baseSwapUrl = dex === DEXES.UniSwap ? UNISWAP_V2_PAIR_URL : SUSHISWAP_V2_PAIR_URL
 
   return (
-    <div
-      className='flex flex-col justify-center my-auto leading-none'
-      style={{ minWidth: 'max-content' }}
-    >
+    <div className='flex flex-col justify-center leading-none'>
       <div className='text-sm font-bold mt-3 sm:mt-0'>{tokenPair}</div>
       <div className='text-xs mt-1 mb-3'>{dex}</div>
       <a
@@ -192,7 +189,7 @@ const ColumnOneContents = (props) => {
         rel='noreferrer noopener'
         className='mx-auto sm:mx-0 underline flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast opacity-60 hover:opacity-100'
       >
-        {t('getDexLpToken', { dex })} <LinkIcon className='h-4 w-4' />
+        {t('getLpToken')} <LinkIcon className='h-4 w-4' />
       </a>
     </div>
   )
@@ -264,7 +261,7 @@ const TokenIcon = (props) => {
       />
     )
   }
-  return <Erc20Image {...token} className={className} />
+  return <Erc20Image {...token} marginClasses='mr-0 sm:mr-3' className={className} />
 }
 
 LPTokensLogo.defaultProps = {
@@ -290,7 +287,6 @@ const ClaimTokens = (props) => {
   return (
     <>
       <RewardsTableCell
-        wide
         label={t('rewards')}
         topContentJsx={<PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>}
         centerContentJsx={
@@ -334,6 +330,37 @@ const ManageStakedAmount = (props) => {
 
   return (
     <>
+      <RewardsTableCell
+        label={t('wallet')}
+        topContentJsx={<PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>}
+        centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
+        bottomContentJsx={
+          <WithdrawTriggers openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
+        }
+      />
+
+      <div className='hidden sm:flex flex-col items-center w-10 lg:w-20'>
+        <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
+          &nbsp;
+        </div>
+      </div>
+
+      <RewardsTableCell
+        label={t('yourStake')}
+        topContentJsx={<PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>}
+        centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
+        bottomContentJsx={
+          <DepositTriggers
+            chainId={chainId}
+            stakingPoolChainData={stakingPoolChainData}
+            stakingPoolAddresses={stakingPoolAddresses}
+            openDepositModal={() => setDepositModalIsOpen(true)}
+            openWithdrawModal={() => setWithdrawModalIsOpen(true)}
+            refetch={refetch}
+          />
+        }
+      />
+
       {/* {!allowance.isZero() && (
       <div className='flex items-center lg:flex-row-reverse'>
           <div className='flex flex-col justify-start ml-8 lg:ml-0 lg:mr-12'>
@@ -341,39 +368,10 @@ const ManageStakedAmount = (props) => {
           </div>
       </div>
         )} */}
-
+      {/* 
       <span className='w-full sm:w-48 lg:w-64 flex flex-col-reverse sm:flex-row'>
-        <RewardsTableCell
-          label={t('wallet')}
-          topContentJsx={<PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>}
-          centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
-          bottomContentJsx={
-            <WithdrawTriggers openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
-          }
-        />
-
-        <div className='hidden sm:flex flex-col items-center w-10 lg:w-20'>
-          <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
-            &nbsp;
-          </div>
-        </div>
-
-        <RewardsTableCell
-          label={t('yourStake')}
-          topContentJsx={<PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>}
-          centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
-          bottomContentJsx={
-            <DepositTriggers
-              chainId={chainId}
-              stakingPoolChainData={stakingPoolChainData}
-              stakingPoolAddresses={stakingPoolAddresses}
-              openDepositModal={() => setDepositModalIsOpen(true)}
-              openWithdrawModal={() => setWithdrawModalIsOpen(true)}
-              refetch={refetch}
-            />
-          }
-        />
-      </span>
+        
+      </span> */}
 
       <DepositModal
         chainId={chainId}

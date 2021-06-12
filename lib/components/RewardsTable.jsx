@@ -21,14 +21,14 @@ export const RewardsTable = (props) => {
     <>
       <div className='hidden sm:flex bg-card justify-between rounded-lg px-4 sm:px-8 py-2 mt-5 text-xxs text-accent-1 capitalize'>
         <div className={widthClass}>{t('asset')}</div>
-        <div className='w-20'>APR</div>
-        <div className='w-32'>{t('rewards')}</div>
+        <div className='w-20 '>APR</div>
+        <div className='w-20 sm:mx-4'>{t('rewards')}</div>
 
-        <div className='sm:w-48 lg:w-64 flex flex-row'>
-          <div className='w-20'>{t('yourStake')}</div>
-          <div className='w-10 lg:w-20'></div>
-          <div className='w-20'>{t('wallet')}</div>
-        </div>
+        {/* <div className='sm:w-48 lg:w-64 flex flex-row'> */}
+        <div className='w-20 sm:mx-4'>{t('yourStake')}</div>
+        <div className='w-10 lg:w-20'></div>
+        <div className='w-20 sm:mx-4'>{t('wallet')}</div>
+        {/* </div> */}
       </div>
 
       {children}
@@ -78,13 +78,10 @@ const ColumnOne = (props) => {
   const widthClass = props.columnOneWidthClass ?? 'sm:w-48 lg:w-64'
 
   return (
-    <div className={`${widthClass} sm:pr-1 flex flex-col sm:flex-row items-center`}>
+    <div className={`${widthClass} sm:pr-1 flex flex-col min-w-max sm:flex-row items-center`}>
       {props.columnOneImage}
 
-      <div
-        className='flex flex-col justify-center my-auto leading-none sm:leading-normal'
-        style={{ minWidth: 'max-content' }}
-      >
+      <div className='flex flex-col justify-center my-auto leading-none sm:leading-normal'>
         {props.columnOneContents}
       </div>
     </div>
@@ -148,16 +145,11 @@ export const RewardsTableContentsLoading = () => {
 }
 
 export const RewardsTableCell = (props) => {
-  const { wide, label, topContentJsx, centerContentJsx, bottomContentJsx } = props
+  const { label, topContentJsx, centerContentJsx, bottomContentJsx } = props
 
   return (
     <>
-      <div
-        className={classnames('w-full flex flex-col items-start my-2', {
-          'sm:w-32': wide,
-          'sm:w-20': !wide
-        })}
-      >
+      <div className='w-full flex flex-col sm:w-20 items-start my-2 sm:mx-4'>
         {label && <h6 className='sm:hidden'>{label}</h6>}
         <div className='w-full sm:h-20 flex sm:flex-col justify-between items-start'>
           <span className='flex sm:inline items-baseline'>
@@ -178,7 +170,7 @@ export const RewardsTableAprDisplay = (props) => {
   return (
     <>
       <span className='font-bold'>{apr.split('.')?.[0]}</span>.{apr.split('.')?.[1]}%{' '}
-      <span className='sm:hidden text-xxs text-accent-1'>APR</span>
+      <span className='sm:hidden text-xxs text-accent-1 mt-1 sm:mt-2'>APR</span>
     </>
   )
 }

@@ -7,10 +7,9 @@ import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFauce
 import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'
-import { amountMultByUsd, calculateAPR, calculateLPTokenPrice } from '@pooltogether/utilities'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 
-import { formatUnits, parseUnits } from 'ethers/lib/utils'
+import { parseUnits } from 'ethers/lib/utils'
 
 import ERC20Abi from 'abis/ERC20Abi'
 import { Button } from 'lib/components/Button'
@@ -33,16 +32,12 @@ import { useGovernancePools } from 'lib/hooks/usePools'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
-// import {
-//   useStakingPoolChainData,
-//   useStakingPoolsAddresses
-// } from 'lib/hooks/useStakingPools'
+import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
+import { useUsersTokenBalanceAndAllowance } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { getNetworkNiceNameByChainId, NETWORK } from 'lib/utils/networks'
-import { useTokenBalances } from 'lib/hooks/useTokenBalances'
-import { useTokenPrices } from 'lib/hooks/useTokenPrices'
-import { toScaledUsdBigNumber } from 'lib/utils/poolDataUtils'
+import { usersDataForPool } from 'lib/utils/usersDataForPool'
 
 export const RewardsGovernance = () => {
   const { t } = useTranslation()
@@ -53,6 +48,8 @@ export const RewardsGovernance = () => {
   const { data: pools, isFetched: poolIsFetched } = useGovernancePools()
   const pool = pools?.find((pool) => pool.symbol === 'PT-stPOOL')
   const usersAddress = useUsersAddress()
+  const { data: playerTickets, isFetched: playerTicketsIsFetched } =
+    useUserTicketsFormattedByPool(usersAddress)
 
   const { refetch: refetchTotalClaimablePool } = useClaimableTokenFromTokenFaucets(
     NETWORK.mainnet,
@@ -101,7 +98,8 @@ export const RewardsGovernance = () => {
 
       <RewardsTable columnOneWidthClass='sm:w-32'>
         <GovRewardsCard
-          address={usersAddress}
+          playerTickets={playerTickets}
+          usersAddress={usersAddress}
           refetchAllPoolTokenData={refetchAllPoolTokenData}
           key={`gov-rewards-card-${pool?.prizePool.address}`}
           pool={pool}
@@ -109,7 +107,8 @@ export const RewardsGovernance = () => {
 
         {/* {faucets.map((faucet) => (
           <GovRewardsPoolCard
-            address={usersAddress}
+            playerTickets={playerTickets}
+            usersAddress={usersAddress}
             refetchAllPoolTokenData={refetchAllPoolTokenData}
             key={`gov-rewards-card-${faucet.pool?.prizePool.address}`}
             pool={faucet.pool}
@@ -121,15 +120,15 @@ export const RewardsGovernance = () => {
 }
 
 const GovRewardsItem = (props) => {
-  const { address, pool, refetchAllPoolTokenData } = props
+  const { usersAddress, pool, refetchAllPoolTokenData } = props
 
   const { t } = useTranslation()
-  const { data: playerTickets } = useUserTicketsFormattedByPool(address)
+  const { data: playerTickets } = useUserTicketsFormattedByPool(usersAddress)
   const tokenFaucetAddress = pool.tokenListener.address
   const { data: claimablePoolData, isFetched } = useClaimableTokenFromTokenFaucet(
     pool.chainId,
     tokenFaucetAddress,
-    address
+    usersAddress
   )
 
   if (!isFetched) return null
@@ -191,10 +190,7 @@ const GovRewardsItem = (props) => {
             {t('poolNamesDripRate', { poolName: name })}
             <br />
             {totalDripPerDayFormatted}{' '}
-            <Erc20Image
-              address={dripToken.address}
-              className='relative inline-block w-3 h-3 mx-1'
-            />
+            <Erc20Image address={dripToken.address} className='relative inline-block w-3 h-3' />
             {dripToken.symbol} / <span className='lowercase'>{t('day')}</span>
             <br />
             {displayPercentage(apr)}% APR
@@ -241,7 +237,20 @@ const GovRewardsItem = (props) => {
 const GovRewardsCard = (props) => {
   const { t } = useTranslation()
 
-  const { pool } = props
+  const { pool, usersAddress, playerTickets } = props
+
+  const { data: usersChainData } = useUsersTokenBalanceAndAllowance(
+    pool?.chainId,
+    usersAddress,
+    pool?.tokens.underlyingToken.address,
+    pool?.prizePool.address
+  )
+
+  const poolTicketData = playerTickets?.find((t) => t.poolAddress === pool?.prizePool.address)
+  const ticketData = poolTicketData?.ticket
+  const playerTicketBalance = ticketData?.amount || 0
+
+  const { usersTokenBalance: playerTokenBalance } = usersDataForPool(pool, usersChainData)
 
   const error = false
 
@@ -255,8 +264,10 @@ const GovRewardsCard = (props) => {
     stakingAprJsx = <GovRewardsAPR pool={pool} />
 
     mainContent = (
-      <GovRewardsPoolCardMainContents
+      <GovPoolRewardsMainContent
         {...props}
+        playerTicketBalance={playerTicketBalance}
+        playerTokenBalance={playerTokenBalance}
         // stakingPoolChainData={stakingPoolChainData}
         // stakingPoolAddresses={stakingPoolAddresses}
         // usersAddress={usersAddress}
@@ -269,7 +280,7 @@ const GovRewardsCard = (props) => {
     <RewardsTableRow
       columnOneWidthClass='sm:w-32'
       columnOneImage={<ColumnOneImage />}
-      columnOneContents={<ColumnOneContents />}
+      columnOneContents={<ColumnOneContents {...props} />}
       columnTwoContents={stakingAprJsx}
       remainingColumnsContents={mainContent}
     />
@@ -279,21 +290,27 @@ const GovRewardsCard = (props) => {
 const ColumnOneImage = (props) => {
   const token = { symbol: 'POOL', address: '0x0cec1a9154ff802e7934fc916ed7ca50bde6844e' }
 
-  return <Erc20Image address={token.address} className='relative inline-block w-8 h-8 mx-1' />
+  return (
+    <Erc20Image
+      address={token.address}
+      marginClasses='mr-0 sm:mr-3'
+      className='relative inline-block w-8 h-8'
+    />
+  )
 }
 
 const ColumnOneContents = (props) => {
+  const { pool } = props
+
   return (
-    <div
-      className='flex flex-col justify-center my-auto leading-none sm:leading-normal font-bold mt-2 mb-4 sm:mt-0 sm:pl-4'
-      style={{ minWidth: 'max-content' }}
-    >
-      ptPOOL
+    <div className='flex flex-col justify-center leading-none'>
+      <div className='text-sm font-bold mt-3 sm:mt-0'>{pool?.name}</div>
+      <div className='text-xs mt-1'>{pool?.symbol}</div>
     </div>
   )
 }
 
-const GovRewardsPoolCardMainContents = (props) => {
+const GovPoolRewardsMainContent = (props) => {
   // const { refetch } = props
   const usersAddress = useUsersAddress()
   const { appEnv } = useAppEnv()
@@ -310,20 +327,14 @@ const GovRewardsPoolCardMainContents = (props) => {
 const ClaimTokens = (props) => {
   const { t } = useTranslation()
 
-  const { address, pool, refetchAllPoolTokenData, chainId } = props
-
-  const usersAddress = useUsersAddress()
-
-  console.log({ address, pool, refetchAllPoolTokenData, chainId })
+  const { usersAddress, pool, refetchAllPoolTokenData, chainId } = props
 
   const tokenFaucetAddress = pool.tokenListener.address
   const { data: claimablePoolData, isFetched } = useClaimableTokenFromTokenFaucet(
     pool.chainId,
     tokenFaucetAddress,
-    address
+    usersAddress
   )
-
-  if (!isFetched) return null
 
   const claimable = claimablePoolData?.claimableAmount
   const claimableUnformatted = claimablePoolData?.claimableAmountUnformatted
@@ -332,15 +343,15 @@ const ClaimTokens = (props) => {
   return (
     <>
       <RewardsTableCell
-        wide
         label={t('rewards')}
-        topContentJsx={<PoolNumber>{numberWithCommas(claimable)}</PoolNumber>}
-        centerContentJsx={
-          <>
-            <Erc20Image address={pool.tokens.tokenFaucetDripToken.address} sizeClasses='w-4 h-4' />
-            <span className='text-xxs uppercase'>{pool.tokens.tokenFaucetDripToken.symbol}</span>
-          </>
+        topContentJsx={
+          isFetched ? (
+            <PoolNumber>{numberWithCommas(claimable)}</PoolNumber>
+          ) : (
+            <ThemedClipSpinner size={12} />
+          )
         }
+        centerContentJsx={<UnderlyingTokenDisplay pool={pool} />}
         bottomContentJsx={
           <ClaimButton
             {...props}
@@ -451,9 +462,21 @@ const ClaimButton = (props) => {
 //   {t('claim')}
 // </TransactionButton>
 
+const UnderlyingTokenDisplay = (props) => {
+  const { pool } = props
+  const underlyingToken = pool?.tokens.underlyingToken
+
+  return (
+    <>
+      <Erc20Image address={pool.tokens.tokenFaucetDripToken.address} sizeClasses='w-4 h-4' />
+      <span className='text-xxs uppercase'>{underlyingToken.symbol}</span>
+    </>
+  )
+}
+
 const ManageStakedAmount = (props) => {
   const { t } = useTranslation()
-  const { refetch, chainId } = props
+  const { pool, playerTicketBalance, playerTokenBalance, refetch, chainId } = props
 
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
@@ -468,39 +491,39 @@ const ManageStakedAmount = (props) => {
       </div>
         )} */}
 
-      <span className='w-full sm:w-48 lg:w-64 flex flex-col-reverse sm:flex-row'>
-        stuff
-        {/* <RewardsTableCell
-          label={t('wallet')}
-          topContentJsx={<PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>}
-          centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
-          bottomContentJsx={
-            <WithdrawTriggers openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
-          }
-        />
+      {/* <span className='w-full sm:w-48 lg:w-64 flex flex-col-reverse sm:flex-row'> */}
+      <RewardsTableCell
+        label={t('wallet')}
+        topContentJsx={<PoolNumber>{numberWithCommas(playerTokenBalance)}</PoolNumber>}
+        centerContentJsx={<UnderlyingTokenDisplay pool={pool} />}
+        // centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
+        bottomContentJsx={
+          <WithdrawTriggers openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
+        }
+      />
 
-        <div className='hidden sm:flex flex-col items-center sm:w-20'>
-          <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
-            &nbsp;
-          </div>
+      <div className='hidden sm:flex flex-col items-center sm:w-10 lg:w-20'>
+        <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
+          &nbsp;
         </div>
+      </div>
 
-        <RewardsTableCell
-          label={t('yourStake')}
-          topContentJsx={<PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>}
-          centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
-          bottomContentJsx={
-            <DepositTriggers
-              chainId={chainId}
-              stakingPoolChainData={stakingPoolChainData}
-              stakingPoolAddresses={stakingPoolAddresses}
-              openDepositModal={() => setDepositModalIsOpen(true)}
-              openWithdrawModal={() => setWithdrawModalIsOpen(true)}
-              refetch={refetch}
-            />
-          }
-        /> */}
-      </span>
+      <RewardsTableCell
+        label={t('yourStake')}
+        topContentJsx={<PoolNumber>{numberWithCommas(playerTicketBalance)}</PoolNumber>}
+        centerContentJsx={<UnderlyingTokenDisplay pool={pool} />}
+        bottomContentJsx={
+          <DepositTriggers
+            chainId={chainId}
+            // stakingPoolChainData={stakingPoolChainData}
+            // stakingPoolAddresses={stakingPoolAddresses}
+            openDepositModal={() => setDepositModalIsOpen(true)}
+            openWithdrawModal={() => setWithdrawModalIsOpen(true)}
+            refetch={refetch}
+          />
+        }
+      />
+      {/* </span> */}
 
       {/* <DepositModal
         chainId={chainId}
@@ -643,7 +666,7 @@ const TransactionButton = (props) => {
 
         {txPending && (
           <span className='ml-1'>
-            <ThemedClipSpinner size={12} color='#bbb2ce' />
+            <ThemedClipSpinner size={12} />
           </span>
         )}
       </div>
