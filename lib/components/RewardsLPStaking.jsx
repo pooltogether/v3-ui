@@ -21,7 +21,6 @@ import {
   RewardsTable,
   RewardsTableRow,
   RewardsTableCell,
-  RewardsTableContentsLoading,
   RewardsTableAprDisplay
 } from 'lib/components/RewardsTable'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
@@ -120,7 +119,7 @@ const StakingPoolCard = (props) => {
 
   let mainContent, stakingAprJsx
   if (!isFetched || !usersAddress || !stakingPoolChainData) {
-    mainContent = <RewardsTableContentsLoading />
+    mainContent = <ThemedClipSpinner size={16} />
   } else if (error) {
     mainContent = <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
   } else {
@@ -454,71 +453,52 @@ const WithdrawTriggers = (props) => {
 
 const TransactionButton = (props) => {
   const { t } = useTranslation()
-  const { disabled, name, abi, contractAddress, method, params, refetch, className, chainId } =
-    props
+  const { name, abi, contractAddress, method, params, refetch, className, chainId } = props
   const { network: walletChainId } = useOnboard()
 
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
-  const isOnProperNetwork = walletChainId === chainId
+  const walletOnWrongNetwork = walletChainId !== chainId
 
   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
-  const txCompleted = tx?.completed && !tx?.cancelled
+  // const txCompleted = tx?.completed && !tx?.cancelled
 
-  if (txCompleted) {
-    return (
-      <div className={classnames('flex flex-row', className)}>
-        <FeatherIcon icon='check-circle' className='w-4 h-4 text-green my-auto' />
-        <span className='ml-2'>{t('transactionSuccessful')}</span>
-      </div>
-    )
-  } else if (!isOnProperNetwork) {
-    return (
-      <Tooltip
-        id={method}
-        tip={t('yourWalletIsOnTheWrongNetwork', {
-          networkName: getNetworkNiceNameByChainId(chainId)
-        })}
-      >
-        <button
-          type='button'
-          onClick={async () => {
-            const id = await sendTx(name, abi, contractAddress, method, params, refetch)
-            setTxId(id)
-          }}
-          className={classnames('flex flex-row underline', className)}
-          disabled
-        >
-          {props.children}
-        </button>
-      </Tooltip>
-    )
-  }
+  const disabled = walletOnWrongNetwork || props.disabled
 
-  return (
-    <>
-      <div className='flex items-center'>
-        <button
-          type='button'
-          onClick={async () => {
-            const id = await sendTx(name, abi, contractAddress, method, params, refetch)
-            setTxId(id)
-          }}
-          className={classnames('underline', className)}
-          disabled={disabled}
-        >
-          {props.children}
-        </button>
+  const button = (
+    <button
+      type='button'
+      onClick={async () => {
+        const id = await sendTx(name, abi, contractAddress, method, params, refetch)
+        setTxId(id)
+      }}
+      className={classnames('underline', className, {
+        'text-flashy': txPending,
+        'text-accent-1 hover:text-green': !txPending
+      })}
+      disabled={disabled}
+    >
+      {props.children}{' '}
+      {txPending && (
+        <span className='ml-1'>
+          <ThemedClipSpinner size={12} color='#bbb2ce' />
+        </span>
+      )}
+    </button>
+  )
 
-        {txPending && (
-          <span className='ml-1'>
-            <ThemedClipSpinner size={12} color='#bbb2ce' />
-          </span>
-        )}
-      </div>
-    </>
+  return walletOnWrongNetwork ? (
+    <Tooltip
+      tip={t('yourWalletIsOnTheWrongNetwork', {
+        networkName: getNetworkNiceNameByChainId(chainId)
+      })}
+    >
+      {button}
+    </Tooltip>
+  ) : (
+    button
   )
 }
 

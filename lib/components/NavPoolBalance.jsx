@@ -69,7 +69,7 @@ const PoolBalanceModal = (props) => {
 
   return (
     <Dialog aria-label='POOL Token Details Modal' isOpen={isOpen} onDismiss={closeModal}>
-      <div className='text-inverse p-4 bg-card h-full sm:h-auto rounded-none sm:rounded-xl sm:max-w-sm mx-auto flex flex-col'>
+      <div className='text-inverse p-4 bg-card h-full sm:h-auto rounded-none sm:rounded-lg sm:max-w-sm mx-auto flex flex-col'>
         <div className='flex'>
           <button
             className='my-auto ml-auto close-button trans text-inverse hover:opacity-30'
@@ -87,7 +87,7 @@ const PoolBalanceModal = (props) => {
           </div>
         </div>
 
-        <div className='bg-body p-4 rounded-xl mt-8'>
+        <div className='bg-body p-4 rounded-lg mt-8'>
           <div className='flex justify-between'>
             <span className='text-accent-1'>{t('balance')}:</span>
             <span className='font-bold'>{formattedBalance}</span>

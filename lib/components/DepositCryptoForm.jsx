@@ -15,7 +15,7 @@ import { PaneTitle } from 'lib/components/PaneTitle'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { Tooltip } from 'lib/components/Tooltip'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { usersDataForPool } from 'lib/utils/usersDataForPool'
+import { getUsersTokenDataForPool } from 'lib/utils/getUsersTokenDataForPool'
 import { TxStatus } from 'lib/components/TxStatus'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { useCurrentPool } from 'lib/hooks/usePools'
@@ -50,10 +50,8 @@ export function DepositCryptoForm(props) {
     quantityBN = ethers.utils.parseUnits(quantity || '0', Number(decimals))
   }
 
-  const { usersTokenBalanceBN, usersTokenBalance, usersTokenAllowance } = usersDataForPool(
-    pool,
-    usersChainData
-  )
+  const { usersTokenBalanceUnformatted, usersTokenBalance, usersTokenAllowance } =
+    getUsersTokenDataForPool(pool, usersChainData)
 
   useEffect(() => {
     setCachedUsersBalance(usersTokenBalance)
@@ -70,7 +68,8 @@ export function DepositCryptoForm(props) {
   let overBalance = false
   if (decimals) {
     overBalance =
-      quantity && usersTokenBalanceBN.lt(ethers.utils.parseUnits(quantity, Number(decimals)))
+      quantity &&
+      usersTokenBalanceUnformatted.lt(ethers.utils.parseUnits(quantity, Number(decimals)))
   }
   const quantityIsZero = quantityBN.isZero()
 

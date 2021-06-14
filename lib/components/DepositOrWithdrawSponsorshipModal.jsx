@@ -13,7 +13,7 @@ import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { Modal } from 'lib/components/Modal'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { usersDataForPool } from 'lib/utils/usersDataForPool'
+import { getUsersTokenDataForPool } from 'lib/utils/getUsersTokenDataForPool'
 import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
 import { useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 
@@ -41,10 +41,8 @@ export function DepositOrWithdrawSponsorshipModal(props) {
 
   const onSubmit = () => {}
 
-  const { usersTokenBalanceBN, usersTokenBalance, usersTokenAllowance } = usersDataForPool(
-    pool,
-    usersChainData
-  )
+  const { usersTokenBalanceUnformatted, usersTokenBalance, usersTokenAllowance } =
+    getUsersTokenDataForPool(pool, usersChainData)
 
   const quantity = watch('quantity')
 
@@ -61,7 +59,7 @@ export function DepositOrWithdrawSponsorshipModal(props) {
     }
   }, [quantityBN, usersTokenAllowance])
 
-  let contextualBalanceBN = usersTokenBalanceBN
+  let contextualBalanceBN = usersTokenBalanceUnformatted
   let contextualBalance = usersTokenBalance
   let validate = null
   if (isWithdraw) {
@@ -76,7 +74,7 @@ export function DepositOrWithdrawSponsorshipModal(props) {
   } else {
     validate = {
       greaterThanBalance: (value) =>
-        ethers.utils.parseUnits(value, decimals).lte(usersTokenBalanceBN) ||
+        ethers.utils.parseUnits(value, decimals).lte(usersTokenBalanceUnformatted) ||
         t('enterAmountLowerThanTokenBalance')
     }
   }

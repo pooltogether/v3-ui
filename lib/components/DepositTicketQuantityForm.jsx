@@ -17,7 +17,7 @@ import { Odds } from 'lib/components/Odds'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { usersDataForPool } from 'lib/utils/usersDataForPool'
+import { getUsersTokenDataForPool } from 'lib/utils/getUsersTokenDataForPool'
 import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
 import { useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 
@@ -69,7 +69,7 @@ export function DepositTicketQuantityForm(props) {
 
   const watchQuantity = watch('quantity')
 
-  const { usersTokenBalance } = usersDataForPool(pool, usersChainData)
+  const { usersTokenBalance } = getUsersTokenDataForPool(pool, usersChainData)
 
   const onSubmit = (values) => {
     if (formState.isValid) {

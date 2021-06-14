@@ -1,13 +1,8 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
-import ContentLoader from 'react-content-loader'
-import { isMobile } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
 
-import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
-import { UI_LOADER_ANIM_DEFAULTS } from 'lib/constants'
 import { Card } from 'lib/components/Card'
-import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
 
 export const RewardsTable = (props) => {
@@ -21,14 +16,12 @@ export const RewardsTable = (props) => {
     <>
       <div className='hidden sm:flex bg-card justify-between rounded-lg px-4 sm:px-8 py-2 mt-5 text-xxs text-accent-1 capitalize'>
         <div className={widthClass}>{t('asset')}</div>
-        <div className='w-20 '>APR</div>
-        <div className='w-20 sm:mx-4'>{t('rewards')}</div>
+        <div className='w-20 lg:w-32'>APR</div>
+        <div className='w-20 lg:w-32 sm:mx-4'>{t('rewards')}</div>
 
-        {/* <div className='sm:w-48 lg:w-64 flex flex-row'> */}
-        <div className='w-20 sm:mx-4'>{t('yourStake')}</div>
+        <div className='w-20 lg:w-32 sm:mx-4'>{t('yourStake')}</div>
         <div className='w-10 lg:w-20'></div>
-        <div className='w-20 sm:mx-4'>{t('wallet')}</div>
-        {/* </div> */}
+        <div className='w-20 lg:w-32 sm:mx-4'>{t('wallet')}</div>
       </div>
 
       {children}
@@ -89,59 +82,11 @@ const ColumnOne = (props) => {
 }
 
 const ColumnTwo = (props) => {
-  return <div className='sm:w-20 text-xl sm:text-lg'>{props.columnTwoContents}</div>
+  return <div className='sm:w-20 lg:w-32 text-xl sm:text-lg'>{props.columnTwoContents}</div>
 }
 
 const RemainingColumns = (props) => {
   return props.remainingColumnsContents
-}
-
-export const RewardsTableContentsLoading = () => {
-  // if (typeof window === 'undefined') {
-  //   return null
-  // }
-
-  return <ThemedClipSpinner size={16} />
-
-  // const { theme } = useContext(ThemeContext)
-
-  // const bgColor = theme === 'light' ? '#ffffff' : '#401C94'
-  // const foreColor = theme === 'light' ? '#f5f5f5' : '#501C94'
-
-  // if (isMobile) {
-  //   return (
-  //     <div className='w-full p-4'>
-  //       <ContentLoader
-  //         {...UI_LOADER_ANIM_DEFAULTS}
-  //         viewBox='0 0 100% 20'
-  //         width='100%'
-  //         height={90}
-  //         backgroundColor={bgColor}
-  //         foregroundColor={foreColor}
-  //       >
-  //         <rect x='0' y='0' rx='2' ry='2' width='60%' height='40' />
-  //         <rect x='0' y='50' rx='2' ry='2' width='40%' height='30' />
-  //       </ContentLoader>
-  //     </div>
-  //   )
-  // }
-
-  // return (
-  //   <div className='w-full p-4'>
-  //     <ContentLoader
-  //       {...UI_LOADER_ANIM_DEFAULTS}
-  //       viewBox='0 0 100% 20'
-  //       width='100%'
-  //       height={90}
-  //       backgroundColor={bgColor}
-  //       foregroundColor={foreColor}
-  //     >
-  //       <rect x='0' y='0' rx='2' ry='2' width='90' height='45' />
-  //       <rect x='85%' y='0' rx='2' ry='2' width='80' height='30' />
-  //       <rect x='85%' y='45' rx='2' ry='2' width='80' height='30' />
-  //     </ContentLoader>
-  //   </div>
-  // )
 }
 
 export const RewardsTableCell = (props) => {
@@ -149,7 +94,7 @@ export const RewardsTableCell = (props) => {
 
   return (
     <>
-      <div className='w-full flex flex-col sm:w-20 items-start my-2 sm:mx-4'>
+      <div className='w-full flex flex-col sm:w-20 lg:w-32 items-start my-2 sm:mx-4'>
         {label && <h6 className='sm:hidden'>{label}</h6>}
         <div className='w-full sm:h-20 flex sm:flex-col justify-between items-start'>
           <span className='flex sm:inline items-baseline'>

@@ -5,7 +5,7 @@ import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/Contro
 
 import { useTranslation } from 'react-i18next'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { usersDataForPool } from 'lib/utils/usersDataForPool'
+import { getUsersTokenDataForPool } from 'lib/utils/getUsersTokenDataForPool'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 
@@ -19,7 +19,8 @@ export function RevokePoolAllowanceTxButton(props) {
   const tickerUpcased = ticker.toUpperCase()
 
   const { data: usersChainData, refetch } = useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool()
-  const { usersTokenAllowance } = usersDataForPool(pool, usersChainData)
+
+  const { usersTokenAllowance } = getUsersTokenDataForPool(pool, usersChainData)
 
   const [txId, setTxId] = useState(0)
 
