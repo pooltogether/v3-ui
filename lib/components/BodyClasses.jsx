@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { isMobile } from 'react-device-detect'
+import { useInterval } from 'beautiful-react-hooks'
 import { useRouter } from 'next/router'
 
 export function BodyClasses(props) {
@@ -27,6 +28,16 @@ export function BodyClasses(props) {
       body.classList.remove('overflow-y-hidden')
     }
   }, [checkoutFlowOpen])
+
+  // When next.js loads in production and encounters an error (such as the nefarious ChunkLoadError)
+  // it adds 'overflow-hidden' to the body to show an error msg (but then never shows the error)
+  // This reverses that dumb class modification
+  useInterval(() => {
+    const body = document.body
+    if (body.classList.contains('overflow-hidden')) {
+      body.classList.remove('overflow-hidden')
+    }
+  }, 1000)
 
   return null
 }
