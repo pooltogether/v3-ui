@@ -595,7 +595,7 @@ const ActionModal = (props) => {
   const tx = useTransaction(txId)
   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
 
-  const isOnProperNetwork = walletChainId === chainId
+  const walletOnWrongNetwork = walletChainId !== chainId
 
   const onSubmit = async (formData) => {
     const id = await sendTx(
@@ -632,7 +632,7 @@ const ActionModal = (props) => {
           </h5>
         </div>
 
-        <NetworkWarning isOnProperNetwork={isOnProperNetwork} chainId={chainId} />
+        <NetworkWarning walletOnWrongNetwork={walletOnWrongNetwork} chainId={chainId} />
 
         {txPending && (
           <div className='mx-auto text-center'>
@@ -691,7 +691,7 @@ const ActionModal = (props) => {
                 hoverBg='green'
                 className='ml-2'
                 width='w-full'
-                disabled={!isValid || !isOnProperNetwork}
+                disabled={!isValid || walletOnWrongNetwork}
               >
                 {t('confirm')}
               </Button>
@@ -705,9 +705,9 @@ const ActionModal = (props) => {
 
 const NetworkWarning = (props) => {
   const { t } = useTranslation()
-  const { chainId, isOnProperNetwork } = props
+  const { chainId, walletOnWrongNetwork } = props
 
-  if (isOnProperNetwork) return null
+  if (!walletOnWrongNetwork) return null
 
   return (
     <div className='flex flex-row'>

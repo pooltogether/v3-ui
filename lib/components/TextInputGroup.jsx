@@ -27,7 +27,6 @@ export const TextInputGroup = (props) => {
       message: 'invalid email address'
     }
   } else if (unsignedNumber) {
-    type = 'number'
     pattern = {
       value: /^\d*\.?\d*$/,
       message: 'please enter a positive number'
