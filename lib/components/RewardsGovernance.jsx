@@ -219,13 +219,7 @@ const ClaimTokens = (props) => {
     <>
       <RewardsTableCell
         label={t('rewards')}
-        topContentJsx={
-          isFetched ? (
-            <PoolNumber>{numberWithCommas(claimable)}</PoolNumber>
-          ) : (
-            <ThemedClipSpinner size={12} />
-          )
-        }
+        topContentJsx={<RewardsAmountClaimable {...props} isFetched={isFetched} />}
         centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={
           <ClaimButton
@@ -243,6 +237,20 @@ const ClaimTokens = (props) => {
       />
     </>
   )
+}
+
+const RewardsAmountClaimable = (props) => {
+  const { isFetched, usersAddress } = props
+
+  if (!usersAddress) {
+    return <PoolNumber>0.00</PoolNumber>
+  }
+
+  if (isFetched) {
+    return <PoolNumber>{numberWithCommas(claimable)}</PoolNumber>
+  }
+
+  return <ThemedClipSpinner size={12} />
 }
 
 const ClaimButton = (props) => {
