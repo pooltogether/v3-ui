@@ -421,13 +421,3 @@
 .scale-80 {
   transform: scale3d(0.8, 0.8, 0.8);
 }
-
-.mobile-h-screen-80 {
-  height: 80vh;
-}
-
-@screen sm {
-  .mobile-h-screen-80 {
-    height: auto;
-  }
-}

@@ -211,7 +211,7 @@ const ClaimTokens = (props) => {
 
   const claimable = claimablePoolData?.claimableAmount || '0.00'
   const claimableUnformatted = claimablePoolData?.claimableAmountUnformatted || bn(0)
-  const hasClaimable = !claimableUnformatted?.isZero()
+  const isClaimable = !claimableUnformatted?.isZero()
 
   const name = t('prizePoolTicker', { ticker: underlyingToken.symbol })
 
@@ -233,7 +233,7 @@ const ClaimTokens = (props) => {
             name={name}
             dripToken={pool.tokens.tokenFaucetDripToken.symbol}
             tokenFaucetAddress={tokenFaucetAddress}
-            claimable={hasClaimable}
+            isClaimable={isClaimable}
           />
         }
       />
@@ -256,7 +256,7 @@ const RewardsAmountClaimable = (props) => {
 }
 
 const ClaimButton = (props) => {
-  const { usersAddress, dripToken, name, refetch, claimable, tokenFaucetAddress, chainId } = props
+  const { usersAddress, dripToken, name, refetch, isClaimable, tokenFaucetAddress, chainId } = props
 
   const { network: walletChainId } = useOnboard()
 
@@ -301,7 +301,7 @@ const ClaimButton = (props) => {
 
   const button = (
     <button
-      disabled={!claimable || walletOnWrongNetwork}
+      disabled={!isClaimable || walletOnWrongNetwork}
       className={classnames('underline trans trans-fast', {
         'text-flashy': txPending && !txCompleted,
         'text-accent-1 hover:text-green': !txPending || txCompleted

@@ -90,7 +90,7 @@ export const RewardsActionModal = (props) => {
           </button>
         </div>
 
-        <div className='flex flex-col justify-center mobile-h-screen-80 sm:h-96 sm:pb-8'>
+        <div className='flex flex-col justify-center h-5/6 sm:h-96 sm:pb-8'>
           <div className='flex flex-col justify-center items-center mb-6 mt-10'>
             {props.tokenImage ?? null}
             <h5>

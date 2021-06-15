@@ -244,7 +244,7 @@ const ClaimablePoolTokenItem = (props) => {
     precision: getPrecision(totalDripPerDay)
   })
 
-  const hasClaimable = !claimablePoolData?.claimableAmountUnformatted?.isZero()
+  const isClaimable = !claimablePoolData?.claimableAmountUnformatted?.isZero()
 
   let apr = pool.tokenListener?.apr
 
@@ -292,7 +292,7 @@ const ClaimablePoolTokenItem = (props) => {
 
       <div
         className={classnames(`sm:text-right mt-6 sm:mt-0`, {
-          'opacity-40': !hasClaimable
+          'opacity-40': !isClaimable
         })}
       >
         <p className='text-inverse font-bold'>{t('availableToClaim')}</p>
@@ -317,7 +317,7 @@ const ClaimablePoolTokenItem = (props) => {
               name={name}
               dripToken={pool.tokens.tokenFaucetDripToken.symbol}
               tokenFaucetAddress={tokenFaucetAddress}
-              claimable={hasClaimable}
+              isClaimable={isClaimable}
             />
           </div>
         )}
@@ -346,7 +346,7 @@ ClaimableAmountCountUp.defaultProps = {
 }
 
 const ClaimButton = (props) => {
-  const { address, dripToken, name, refetch, claimable, tokenFaucetAddress, chainId } = props
+  const { address, dripToken, name, refetch, isClaimable, tokenFaucetAddress, chainId } = props
 
   const { network: walletChainId } = useOnboard()
 
@@ -391,7 +391,7 @@ const ClaimButton = (props) => {
 
   const button = (
     <button
-      disabled={!claimable || walletOnWrongNetwork}
+      disabled={!isClaimable || walletOnWrongNetwork}
       className={classnames('underline trans trans-fast', {
         'text-flashy': txPending,
         'text-accent-1 hover:text-green': !txPending
