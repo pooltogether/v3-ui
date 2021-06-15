@@ -1,7 +1,6 @@
+import { ThemeContext } from '@pooltogether/react-components'
 import React, { useContext } from 'react'
 import ContentLoader from 'react-content-loader'
-
-import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
 export const PoolsListUILoader = (props) => {
   if (typeof window === 'undefined') {

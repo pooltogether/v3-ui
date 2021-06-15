@@ -16,7 +16,6 @@ import { formatUnits, parseUnits } from 'ethers/lib/utils'
 
 import ERC20Abi from 'abis/ERC20Abi'
 import { Trans, useTranslation } from 'react-i18next'
-import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 import { TOKEN_IMAGES_BY_SYMBOL } from 'lib/constants/tokenImages'
 import { UI_LOADER_ANIM_DEFAULTS } from 'lib/constants'
 import { isSelfAtom } from 'lib/components/AccountUI'
@@ -37,6 +36,7 @@ import { getNetworkNiceNameByChainId, NETWORK } from 'lib/utils/networks'
 import { useTokenBalances } from 'lib/hooks/useTokenBalances'
 import { useTokenPrices } from 'lib/hooks/useTokenPrices'
 import { toScaledUsdBigNumber } from 'lib/utils/poolDataUtils'
+import { ThemeContext } from '@pooltogether/react-components'
 
 const UNISWAP_V2_PAIR_URL = 'https://app.uniswap.org/#/add/v2/ETH/'
 

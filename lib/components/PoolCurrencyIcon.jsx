@@ -2,9 +2,9 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { isUndefined } from 'lodash'
 import { motion } from 'framer-motion'
+import { ThemeContext } from '@pooltogether/react-components'
 
 import { TOKEN_IMAGES_BY_ADDRESS } from 'lib/constants/tokenImages'
-import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 import { useCoingeckoTokenInfoQuery } from 'lib/hooks/useCoingeckoTokenInfoQuery'
 
 import DaiSvg from 'assets/images/dai-new-transparent.png'

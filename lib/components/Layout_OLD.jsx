@@ -15,7 +15,7 @@ import { Header } from 'lib/components/PageHeader'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
 
-export function Layout({ pageProps, Component, router }) {
+export function Layout_OLD({ pageProps, Component, router }) {
   const deposit = /deposit/.test(router.asPath)
   const manage = /\/manage-tickets/.test(router.asPath)
 

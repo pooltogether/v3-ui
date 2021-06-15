@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import FeatherIcon from 'feather-icons-react'
-
-import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
+import { ThemeContext } from '@pooltogether/react-components'
 
 export function ThemeSwitcher(props) {
   const { toggleTheme } = useContext(ThemeContext)

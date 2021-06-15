@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import ContentLoader from 'react-content-loader'
 import { isMobile } from 'react-device-detect'
+import { ThemeContext } from '@pooltogether/react-components'
 
 import { UI_LOADER_ANIM_DEFAULTS } from 'lib/constants'
-import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
 export const PoolShowUILoader = (props) => {
   if (typeof window === 'undefined') {

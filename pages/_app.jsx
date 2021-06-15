@@ -25,43 +25,22 @@ import {
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
 import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
-import { Layout } from 'lib/components/Layout'
-import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
 import { ManualWarningMessage } from 'lib/components/ManualWarningMessage'
 
 import '@reach/dialog/styles.css'
 import '@reach/menu-button/styles.css'
-import 'react-toastify/dist/ReactToastify.css'
+import '@reach/tooltip/styles.css'
 
-import 'assets/styles/utils.css'
 import 'assets/styles/index.css'
-import 'assets/styles/toast-blur.css'
-import 'assets/styles/layout.css'
-import 'assets/styles/loader.css'
-import 'assets/styles/themes.css'
-
-import 'assets/styles/typography.css'
-import 'assets/styles/tables.css'
-import 'assets/styles/pool.css'
-import 'assets/styles/pool-toast.css'
-import 'assets/styles/animations.css'
-import 'assets/styles/transitions.css'
-
-import 'assets/styles/interactable-cards.css'
-import 'assets/styles/forms.css'
-import 'assets/styles/tabs.css'
-import 'assets/styles/tickets.css'
-
-import 'assets/styles/bnc-onboard--custom.css'
-import 'assets/styles/reach--custom.css'
-import 'assets/styles/vx--custom.css'
+import '@pooltogether/react-components/dist/index.css'
 
 // Imoport i18n config
 import '../i18n'
 import { useTranslation } from 'react-i18next'
 import { Trans } from 'react-i18next'
+import { LoadingScreen } from '@pooltogether/react-components'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -150,8 +129,6 @@ function MyApp({ Component, pageProps, router }) {
     }
   }, [])
 
-  if (!i18n.isInitialized) return <LoadingScreen initialized={false} />
-
   return (
     <HotKeys
       keyMap={HOTKEYS_KEY_MAP}
@@ -172,7 +149,9 @@ function MyApp({ Component, pageProps, router }) {
 
                 <ManualWarningMessage />
 
-                <Layout pageProps={pageProps} Component={Component} router={router} />
+                <LoadingScreen isInitialized={i18n.isInitialized}>
+                  <Component {...pageProps} />
+                </LoadingScreen>
 
                 <ReactQueryDevtools />
               </CustomErrorBoundary>
