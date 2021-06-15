@@ -64,31 +64,27 @@ export const TextInputGroup = (props) => {
             )}
 
             {centerLabel && (
-              <>
-                <label
-                  className={classnames('mt-0 trans w-1/3 text-center', {
-                    'font-bold text-primary cursor-not-allowed': disabled,
-                    'font-bold text-accent-3 hover:text-default': !disabled
-                  })}
-                >
-                  {centerLabel}
-                </label>
-              </>
+              <label
+                className={classnames('mt-0 trans w-1/3 text-center', {
+                  'font-bold text-primary cursor-not-allowed': disabled,
+                  'font-bold text-accent-3 hover:text-default': !disabled
+                })}
+              >
+                {centerLabel}
+              </label>
             )}
 
             {rightLabel && (
-              <>
-                <label
-                  className={classnames('mt-0 sm:pr-8 sm:pl-2 trans text-right', {
-                    'w-1/2': rightLabel && !centerLabel,
-                    'w-1/3': rightLabel && centerLabel,
-                    'font-bold text-primary cursor-not-allowed': disabled,
-                    'font-bold text-accent-3 hover:text-default': !disabled
-                  })}
-                >
-                  {rightLabel}
-                </label>
-              </>
+              <label
+                className={classnames('mt-0 sm:pr-8 sm:pl-2 trans text-right', {
+                  'w-1/2': rightLabel && !centerLabel,
+                  'w-1/3': rightLabel && centerLabel,
+                  'font-bold text-primary cursor-not-allowed': disabled,
+                  'font-bold text-accent-3 hover:text-default': !disabled
+                })}
+              >
+                {rightLabel}
+              </label>
             )}
           </div>
         )}
@@ -96,27 +92,23 @@ export const TextInputGroup = (props) => {
         <Input {...props} pattern={pattern} type={type || 'text'} />
 
         {bottomRightLabel && (
-          <>
-            <label
-              className={classnames(
-                'mt-0 sm:pr-8 sm:pl-2 trans w-full text-right font-bold text-accent-3 hover:text-default'
-              )}
-            >
-              {bottomRightLabel}
-            </label>
-          </>
+          <label
+            className={classnames(
+              'mt-0 sm:pr-8 sm:pl-2 trans w-full text-right font-bold text-accent-3 hover:text-default'
+            )}
+          >
+            {bottomRightLabel}
+          </label>
         )}
 
         {inlineButton && (
-          <>
-            <div
-              className={classnames(
-                'absolute flex items-center r-0 t-0 b-0 trans text-right font-bold pr-0'
-              )}
-            >
-              {inlineButton}
-            </div>
-          </>
+          <div
+            className={classnames(
+              'absolute flex items-center r-0 t-0 b-0 trans text-right font-bold pr-0'
+            )}
+          >
+            {inlineButton}
+          </div>
         )}
       </div>
     </>

@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 
+import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import {
   RewardsTable,
@@ -340,7 +343,7 @@ const ManageStakedAmount = (props) => {
   const playersTokenBalance = usersTokenDataForPool.usersTokenBalance || 0
 
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
-  const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
+  // const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
 
   return (
     <>
@@ -349,7 +352,8 @@ const ManageStakedAmount = (props) => {
         topContentJsx={<PoolNumber>{numberWithCommas(playersTokenBalance)}</PoolNumber>}
         centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={
-          <WithdrawTriggers openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
+          <WithdrawTriggers {...props} />
+          // <WithdrawTriggers {...props} openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
         }
       />
 
@@ -362,7 +366,7 @@ const ManageStakedAmount = (props) => {
       <RewardsTableCell
         label={t('yourStake')}
         topContentJsx={<PoolNumber>{numberWithCommas(playersTicketBalance)}</PoolNumber>}
-        centerContentJsx={<UnderlyingTokenDisplay pool={pool} />}
+        centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={
           <DepositTriggers
             {...props}
@@ -380,13 +384,13 @@ const ManageStakedAmount = (props) => {
         playersTokenBalance={playersTokenBalance}
       />
 
-      <WithdrawModal
+      {/* <WithdrawModal
         {...props}
         chainId={pool.chainId}
         isOpen={withdrawModalIsOpen}
         closeModal={() => setWithdrawModalIsOpen(false)}
         playersTicketBalance={playersTicketBalance}
-      />
+      /> */}
     </>
   )
 }
@@ -428,53 +432,79 @@ const DepositTriggers = (props) => {
 
 const WithdrawTriggers = (props) => {
   const { t } = useTranslation()
-  const { openWithdrawModal } = props
+
+  const { pool } = props
+  const router = useRouter()
+
+  const handleManageClick = (e) => {
+    e.preventDefault()
+
+    Cookies.set(WIZARD_REFERRER_HREF, '/rewards', COOKIE_OPTIONS)
+    Cookies.set(WIZARD_REFERRER_AS_PATH, `/rewards`, COOKIE_OPTIONS)
+
+    router.push(
+      `/account/pools/[networkName]/[symbol]/manage-tickets`,
+      `/account/pools/${pool.networkName}/${pool.symbol}/manage-tickets`,
+      {
+        shallow: true
+      }
+    )
+  }
 
   return (
     <button
       className='capitalize underline text-accent-1 hover:text-green'
-      onClick={openWithdrawModal}
+      onClick={handleManageClick}
     >
       {t('withdraw')}
     </button>
   )
 }
 
-const WithdrawModal = (props) => {
-  const { t } = useTranslation()
-  const { underlyingToken, playersTicketBalance, playersTicketData, usersAddress } = props
+// const WithdrawModal = (props) => {
+//   const { t } = useTranslation()
+//   const { underlyingToken, playersTicketBalance, playersTicketData, pool, usersAddress } = props
 
-  const maxAmount = playersTicketBalance
-  const maxAmountUnformatted = playersTicketData?.amountUnformatted || bn(0)
+//   const maxAmount = playersTicketBalance
+//   const maxAmountUnformatted = playersTicketData?.amountUnformatted || bn(0)
 
-  const decimals = underlyingToken?.decimals
+//   const decimals = underlyingToken?.decimals
 
-  // // there should be no exit fee when we do an instant no-fee withdrawal
-  // const maxExitFee = '0'
+//   // // there should be no exit fee when we do an instant no-fee withdrawal
+//   // const maxExitFee = '0'
 
-  // const params = [
-  //   usersAddress,
-  //   ethers.utils.parseUnits(quantity.toString(), Number(decimals)),
-  //   controlledTicketTokenAddress,
-  //   ethers.utils.parseEther(maxExitFee)
-  // ]
+//   // const params = [
+//   //   usersAddress,
+//   //   ethers.utils.parseUnits(quantity.toString(), Number(decimals)),
+//   //   controlledTicketTokenAddress,
+//   //   ethers.utils.parseEther(maxExitFee)
+//   // ]
 
-  return (
-    <RewardsActionModal
-      {...props}
-      action={t('withdraw')}
-      maxAmount={maxAmount}
-      maxAmountUnformatted={maxAmountUnformatted}
-      method='withdrawInstantlyFrom'
-      getParams={(quantity) => [
-        usersAddress,
-        ethers.utils.parseUnits(quantity, decimals),
-        playersTicketData.address,
-        ethers.constants.Zero
-      ]}
-    />
-  )
-}
+//   return (
+//     <RewardsActionModal
+//       {...props}
+//       action={t('withdraw')}
+//       maxAmount={maxAmount}
+//       maxAmountUnformatted={maxAmountUnformatted}
+//       prizePoolAddress={pool.prizePool.address}
+//       method='withdrawInstantlyFrom'
+//       overMaxErrorMsg={t('pleaseEnterAmountLowerThanTicketBalance')}
+//       tokenImage={
+//         <Erc20Image
+//           address={underlyingToken.address}
+//           marginClasses='mb-2'
+//           className='relative inline-block w-8 h-8'
+//         />
+//       }
+//       getParams={(quantity) => [
+//         usersAddress,
+//         ethers.utils.parseUnits(quantity, decimals),
+//         playersTicketData.address,
+//         ethers.constants.Zero
+//       ]}
+//     />
+//   )
+// }
 
 const DepositModal = (props) => {
   const { t } = useTranslation()
@@ -493,7 +523,16 @@ const DepositModal = (props) => {
       action={t('deposit')}
       maxAmount={maxAmount}
       maxAmountUnformatted={maxAmountUnformatted}
+      prizePoolAddress={pool.prizePool.address}
       method='depositTo'
+      overMaxErrorMsg={t('enterAmountLowerThanTokenBalance')}
+      tokenImage={
+        <Erc20Image
+          address={underlyingToken.address}
+          marginClasses='mb-2'
+          className='relative inline-block w-8 h-8'
+        />
+      }
       getParams={(quantity) => [
         usersAddress,
         ethers.utils.parseUnits(quantity, decimals),

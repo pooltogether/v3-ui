@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
 import { useOnboard } from '@pooltogether/hooks'
+
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { NetworkWarning } from 'lib/components/NetworkWarning'
@@ -18,8 +19,6 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import WalletIcon from 'assets/images/icon-wallet.svg'
-
-const bn = ethers.BigNumber.from
 
 export const RewardsActionModal = (props) => {
   const { t } = useTranslation()
@@ -35,7 +34,9 @@ export const RewardsActionModal = (props) => {
     refetch,
     chainId,
     pool,
+    overMaxErrorMsg,
     underlyingToken,
+    prizePoolAddress,
     usersAddress
   } = props
 
@@ -64,7 +65,7 @@ export const RewardsActionModal = (props) => {
     const id = await sendTx(
       txName,
       PrizePoolAbi,
-      pool.prizePool.address,
+      prizePoolAddress,
       method,
       getParams(amount),
       refetch
@@ -90,12 +91,8 @@ export const RewardsActionModal = (props) => {
         </div>
 
         <div className='flex flex-col justify-center mobile-h-screen-80 sm:h-96 sm:pb-8'>
-          <div className='flex flex-col justify-center items-center mb-4 mt-10'>
-            <Erc20Image
-              address={underlyingToken.address}
-              marginClasses='mb-2'
-              className='relative inline-block w-8 h-8'
-            />
+          <div className='flex flex-col justify-center items-center mb-6 mt-10'>
+            {props.tokenImage ?? null}
             <h5>
               {action} {underlyingToken.symbol}
             </h5>
@@ -123,12 +120,15 @@ export const RewardsActionModal = (props) => {
                 autoComplete='off'
                 validate={{
                   greaterThanBalance: (value) => {
-                    console.log(value)
-                    console.log(decimals)
-                    console.log(maxAmountUnformatted)
                     return (
                       ethers.utils.parseUnits(value, decimals).lte(maxAmountUnformatted) ||
-                      t('pleaseEnterAmountLowerThanTicketBalance')
+                      overMaxErrorMsg
+                    )
+                  },
+                  greaterThanZero: (value) => {
+                    return (
+                      Number(value) > 0 ||
+                      t('greaterThanZeroMessage', 'please enter a value higher than 0')
                     )
                   }
                 }}
@@ -151,7 +151,7 @@ export const RewardsActionModal = (props) => {
                 }
               />
 
-              <span className='h-6 w-full text-xxs text-orange'>
+              <span className='h-6 w-full text-xs text-orange text-center'>
                 {errors?.[action]?.message || null}
               </span>
 

@@ -99,17 +99,16 @@ export function Input(props) {
   ])
 
   return (
-    <>
-      <input
-        {...newProps}
-        autoFocus={autoFocus && isBrowser}
-        ref={register({
-          required,
-          pattern,
-          validate
-        })}
-        className={classnames(className, 'focus:outline-none')}
-      />
-    </>
+    <input
+      {...newProps}
+      autoFocus={autoFocus && isBrowser}
+      ref={register({
+        required,
+        pattern,
+        validate
+      })}
+      className={classnames(className, 'focus:outline-none')}
+      // className={classnames(className, 'custom-input focus:outline-none')}
+    />
   )
 }

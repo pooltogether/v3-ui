@@ -72,7 +72,7 @@ input[type='submit'][disabled] {
 }
 
 .fieldset label {
-  @apply text-accent-2 font-bold text-xxxs xs:text-xxs px-4 sm:px-8;
+  @apply text-accent-2 font-bold text-xs px-4 sm:px-8;
 }
 
 .check {
@@ -152,3 +152,15 @@ input[type='number'] {
     max-width: 370px;
   }
 }
+
+/* .custom-input {
+  transition: box-shadow 0.3s;
+}
+
+.custom-input:hover {
+  box-shadow: 0 0 0 1px rgba(var(--color-border-default), 0.5);
+}
+
+.custom-input:focus {
+  box-shadow: 0 0 0 2px rgba(var(--color-border-default), 0.5);
+} */
