@@ -209,8 +209,8 @@ const ClaimTokens = (props) => {
     usersAddress
   )
 
-  const claimable = claimablePoolData?.claimableAmount
-  const claimableUnformatted = claimablePoolData?.claimableAmountUnformatted
+  const claimable = claimablePoolData?.claimableAmount || '0.00'
+  const claimableUnformatted = claimablePoolData?.claimableAmountUnformatted || bn(0)
   const hasClaimable = !claimableUnformatted?.isZero()
 
   const name = t('prizePoolTicker', { ticker: underlyingToken.symbol })
@@ -219,7 +219,9 @@ const ClaimTokens = (props) => {
     <>
       <RewardsTableCell
         label={t('rewards')}
-        topContentJsx={<RewardsAmountClaimable {...props} isFetched={isFetched} />}
+        topContentJsx={
+          <RewardsAmountClaimable {...props} isFetched={isFetched} claimable={claimable} />
+        }
         centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={
           <ClaimButton
@@ -240,7 +242,7 @@ const ClaimTokens = (props) => {
 }
 
 const RewardsAmountClaimable = (props) => {
-  const { isFetched, usersAddress } = props
+  const { claimable, isFetched, usersAddress } = props
 
   if (!usersAddress) {
     return <PoolNumber>0.00</PoolNumber>

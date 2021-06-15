@@ -7,6 +7,10 @@ export const Tooltip = (props) => {
   const { children, tip, className, svgClassName, id, effect } = props
   const ref = useRef(null)
 
+  if (!id) {
+    console.warn('<Tooltip /> component requires an id!')
+  }
+
   return (
     <>
       <span

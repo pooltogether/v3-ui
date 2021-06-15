@@ -19,7 +19,7 @@ export const RewardsUI = () => {
 
       <PageTitleAndBreadcrumbs title={t('rewards')} breadcrumbs={[]} />
 
-      {!usersAddress && <p>Connect a wallet!</p>}
+      {!usersAddress && <p>{t('connectYourWalletToDeposit', 'Connect your wallet to deposit')}</p>}
 
       <RewardsLPStaking />
 
