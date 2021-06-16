@@ -49,10 +49,13 @@ export const RewardsLPStaking = () => {
   const { t } = useTranslation()
 
   const stakingPoolsAddresses = useStakingPoolsAddresses()
+  const { network: walletChainId } = useOnboard()
 
   const { appEnv } = useAppEnv()
   const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
   const poolGovTokenAddress = CONTRACT_ADDRESSES?.[chainId]?.GovernanceToken
+
+  const walletOnWrongNetwork = walletChainId !== chainId
 
   return (
     <>
@@ -96,11 +99,12 @@ export const RewardsLPStaking = () => {
       </div>
 
       <RewardsTable>
-        {stakingPoolsAddresses.map((stakingPoolAddresses) => (
+        {stakingPoolsAddresses.map((stakingPoolAddress) => (
           <StakingPoolRow
+            key={`staking-pool-card-${chainId}-${stakingPoolAddress.underlyingToken.address}`}
             chainId={chainId}
-            key={`staking-pool-card-${stakingPoolAddresses.underlyingToken.dex}-${stakingPoolAddresses.underlyingToken.address}`}
-            stakingPoolAddresses={stakingPoolAddresses}
+            walletOnWrongNetwork={walletOnWrongNetwork}
+            stakingPoolAddress={stakingPoolAddress}
           />
         ))}
       </RewardsTable>
@@ -111,7 +115,7 @@ export const RewardsLPStaking = () => {
 const StakingPoolRow = (props) => {
   const { t } = useTranslation()
 
-  const { stakingPoolAddresses, chainId } = props
+  const { stakingPoolAddress, chainId } = props
 
   const usersAddress = useUsersAddress()
   const {
@@ -119,13 +123,13 @@ const StakingPoolRow = (props) => {
     isFetched: stakingPoolChainDataIsFetched,
     refetch: stakingPoolChainDataRefetch,
     error: stakingPoolChainDataError
-  } = useStakingPoolChainData(stakingPoolAddresses)
+  } = useStakingPoolChainData(stakingPoolAddress)
   const {
     data: userLPChainData,
     isFetched: userLPChainDataIsFetched,
     refetch: userLPChainDataRefetch,
     error: userLPChainDataError
-  } = useUserLPChainData(stakingPoolAddresses, stakingPoolChainData, usersAddress)
+  } = useUserLPChainData(stakingPoolAddress, stakingPoolChainData, usersAddress)
 
   const refetch = () => {
     stakingPoolChainDataRefetch()
@@ -142,11 +146,11 @@ const StakingPoolRow = (props) => {
   } else if (stakingPoolChainDataIsFetched) {
     const { tokenFaucetData, underlyingTokenData, ticketsData } = stakingPoolChainData
     const { dripRatePerDayUnformatted } = tokenFaucetData
-    const { underlyingToken, dripToken } = stakingPoolAddresses
+    const { underlyingToken, dripToken } = stakingPoolAddress
 
     stakingAprJsx = (
       <StakingAPR
-        chainId={chainId}
+        {...props}
         underlyingToken={underlyingToken}
         underlyingTokenData={underlyingTokenData}
         dripToken={dripToken}
@@ -158,7 +162,7 @@ const StakingPoolRow = (props) => {
     remainingColumnsContents = (
       <StakingPoolRowMainContents
         {...props}
-        stakingPoolAddresses={stakingPoolAddresses}
+        stakingPoolAddress={stakingPoolAddress}
         stakingPoolChainData={stakingPoolChainData}
         userLPChainData={userLPChainData}
         userLPChainDataIsFetched={userLPChainDataIsFetched}
@@ -172,8 +176,8 @@ const StakingPoolRow = (props) => {
     <RewardsTableRow
       uniswap
       gradientBorder
-      columnOneImage={<ColumnOneImage stakingPoolAddresses={stakingPoolAddresses} />}
-      columnOneContents={<ColumnOneContents stakingPoolAddresses={stakingPoolAddresses} />}
+      columnOneImage={<ColumnOneImage stakingPoolAddress={stakingPoolAddress} />}
+      columnOneContents={<ColumnOneContents stakingPoolAddress={stakingPoolAddress} />}
       columnTwoContents={stakingAprJsx}
       remainingColumnsContents={remainingColumnsContents}
     />
@@ -181,8 +185,8 @@ const StakingPoolRow = (props) => {
 }
 
 const ColumnOneImage = (props) => {
-  const { stakingPoolAddresses } = props
-  const { underlyingToken } = stakingPoolAddresses
+  const { stakingPoolAddress } = props
+  const { underlyingToken } = stakingPoolAddress
   const { token1, token2 } = underlyingToken
 
   return <LPTokensLogo className='' token1={token1} token2={token2} />
@@ -190,8 +194,8 @@ const ColumnOneImage = (props) => {
 
 const ColumnOneContents = (props) => {
   const { t } = useTranslation()
-  const { stakingPoolAddresses } = props
-  const { underlyingToken, dripToken } = stakingPoolAddresses
+  const { stakingPoolAddress } = props
+  const { underlyingToken, dripToken } = stakingPoolAddress
   const { pair: tokenPair, dex } = underlyingToken
 
   const baseSwapUrl = dex === DEXES.UniSwap ? UNISWAP_V2_PAIR_URL : SUSHISWAP_V2_PAIR_URL
@@ -274,7 +278,7 @@ const ClaimTokens = (props) => {
     userLPChainDataIsFetched,
     refetch,
     chainId,
-    stakingPoolAddresses,
+    stakingPoolAddress,
     usersAddress
   } = props
   const { userData } = userLPChainData || {}
@@ -286,7 +290,7 @@ const ClaimTokens = (props) => {
     claimableBalanceUnformatted = userData.claimableBalanceUnformatted
   }
 
-  const { underlyingToken, tokenFaucet, dripToken } = stakingPoolAddresses
+  const { underlyingToken, tokenFaucet, dripToken } = stakingPoolAddress
   const token1 = underlyingToken.token1
 
   const rewardsTopContent =
@@ -309,6 +313,7 @@ const ClaimTokens = (props) => {
         }
         bottomContentJsx={
           <TransactionButton
+            {...props}
             disabled={claimableBalanceUnformatted.isZero()}
             chainId={chainId}
             className='capitalize text-accent-1 hover:text-green'
@@ -332,7 +337,7 @@ const ManageStakedAmount = (props) => {
   const {
     refetch,
     chainId,
-    stakingPoolAddresses,
+    stakingPoolAddress,
     stakingPoolChainData,
     userLPChainDataIsFetched,
     userLPChainData,
@@ -354,7 +359,7 @@ const ManageStakedAmount = (props) => {
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
 
-  const { underlyingToken } = stakingPoolAddresses
+  const { underlyingToken } = stakingPoolAddress
 
   const walletTopContent =
     usersAddress && !userLPChainDataIsFetched ? (
@@ -377,7 +382,7 @@ const ManageStakedAmount = (props) => {
         topContentJsx={walletTopContent}
         centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
         bottomContentJsx={
-          <WithdrawTriggers openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
+          <WithdrawTriggers {...props} openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
         }
       />
 
@@ -470,45 +475,72 @@ const DepositTriggers = (props) => {
   // }
 
   return (
-    <Tooltip
-      isEnabled={!usersAddress}
-      id='deposit-lp-connect-wallet-tooltip'
-      tip={t('connectAWalletToManageTicketsAndRewards')}
-    >
-      <button
-        className='new-btn w-full capitalize text-xs sm:px-2 py-2 sm:py-0 mt-2'
-        onClick={openDepositModal}
+    <span className='w-full block sm:inline'>
+      <Tooltip
+        isEnabled={!usersAddress}
+        id='deposit-lp-connect-wallet-tooltip'
+        tip={t('connectAWalletToManageTicketsAndRewards')}
       >
-        {t('deposit')}
-      </button>
-    </Tooltip>
+        <button
+          className='new-btn w-full capitalize text-xs sm:px-2 py-2 sm:py-0 mt-2'
+          onClick={openDepositModal}
+          disabled={!usersAddress}
+        >
+          {t('deposit')}
+        </button>
+      </Tooltip>
+    </span>
   )
 }
 
 const WithdrawTriggers = (props) => {
   const { t } = useTranslation()
-  const { openWithdrawModal } = props
+  const {
+    openWithdrawModal,
+    stakingPoolChainData,
+    stakingPoolAddress,
+    usersAddress,
+    walletOnWrongNetwork,
+    chainId
+  } = props
 
   return (
-    <button
-      className='capitalize underline text-accent-1 hover:text-green'
-      onClick={openWithdrawModal}
+    <Tooltip
+      isEnabled={walletOnWrongNetwork}
+      id={`lp-staking-withdraw-${stakingPoolAddress.underlyingToken.address}-wrong-network-tooltip`}
+      tip={t('yourWalletIsOnTheWrongNetwork', {
+        networkName: getNetworkNiceNameByChainId(chainId)
+      })}
     >
-      {t('withdraw')}
-    </button>
+      <button
+        className='capitalize underline text-accent-1 hover:text-green'
+        onClick={openWithdrawModal}
+        disabled={!usersAddress}
+      >
+        {t('withdraw')}
+      </button>
+    </Tooltip>
   )
 }
 
 const TransactionButton = (props) => {
   const { t } = useTranslation()
-  const { name, abi, contractAddress, method, params, refetch, className, chainId } = props
-  const { network: walletChainId } = useOnboard()
+  const {
+    name,
+    abi,
+    contractAddress,
+    method,
+    params,
+    refetch,
+    className,
+    chainId,
+    walletOnWrongNetwork,
+    stakingPoolAddress
+  } = props
 
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
-
-  const walletOnWrongNetwork = walletChainId !== chainId
 
   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
   // const txCompleted = tx?.completed && !tx?.cancelled
@@ -518,7 +550,7 @@ const TransactionButton = (props) => {
   return (
     <Tooltip
       isEnabled={walletOnWrongNetwork}
-      id={`lp-staking-${method}-wallet-on-wrong-network-tooltip`}
+      id={`lp-staking-${method}-${stakingPoolAddress.underlyingToken.address}-wrong-network-tooltip`}
       tip={t('yourWalletIsOnTheWrongNetwork', {
         networkName: getNetworkNiceNameByChainId(chainId)
       })}
@@ -549,10 +581,10 @@ const TransactionButton = (props) => {
 const WithdrawModal = (props) => {
   const { t } = useTranslation()
 
-  const { stakingPoolAddresses, stakingPoolChainData, userLPChainData, usersAddress } = props
+  const { stakingPoolAddress, stakingPoolChainData, userLPChainData, usersAddress } = props
   const { ticketsData } = stakingPoolChainData
   const { userData } = userLPChainData || {}
-  const { prizePool, ticket, underlyingToken } = stakingPoolAddresses
+  const { prizePool, ticket, underlyingToken } = stakingPoolAddress
   const { token1, token2 } = underlyingToken
 
   let userTickets
@@ -590,8 +622,8 @@ const WithdrawModal = (props) => {
 
 const DepositModal = (props) => {
   const { t } = useTranslation()
-  const { stakingPoolAddresses, userLPChainData, usersAddress } = props
-  const { prizePool, ticket, underlyingToken } = stakingPoolAddresses
+  const { stakingPoolAddress, userLPChainData, usersAddress } = props
+  const { prizePool, ticket, underlyingToken } = stakingPoolAddress
   const { token1, token2 } = underlyingToken
   const decimals = underlyingToken.decimals
 

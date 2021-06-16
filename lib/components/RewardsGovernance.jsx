@@ -37,6 +37,8 @@ const bn = ethers.BigNumber.from
 export const RewardsGovernance = () => {
   const { t } = useTranslation()
 
+  const { network: walletChainId } = useOnboard()
+
   const { data: pools } = useGovernancePools()
   const pool = pools?.find((pool) => pool.symbol === 'PT-stPOOL')
   const usersAddress = useUsersAddress()
@@ -54,6 +56,7 @@ export const RewardsGovernance = () => {
     refetchTotalClaimablePool()
     refetchPoolTokenData()
   }
+  const walletOnWrongNetwork = walletChainId !== pool?.chainId
 
   return (
     <>
@@ -91,6 +94,7 @@ export const RewardsGovernance = () => {
 
       <RewardsTable columnOneWidthClass='sm:w-32 lg:w-64'>
         <GovRewardsRow
+          walletOnWrongNetwork={walletOnWrongNetwork}
           playersTicketDataIsFetched={playersTicketDataIsFetched}
           playerTickets={playerTickets}
           usersAddress={usersAddress}
@@ -263,9 +267,16 @@ const RewardsAmountClaimable = (props) => {
 }
 
 const ClaimButton = (props) => {
-  const { usersAddress, dripToken, name, refetch, isClaimable, tokenFaucetAddress, chainId } = props
-
-  const { network: walletChainId } = useOnboard()
+  const {
+    usersAddress,
+    dripToken,
+    name,
+    refetch,
+    isClaimable,
+    tokenFaucetAddress,
+    chainId,
+    walletOnWrongNetwork
+  } = props
 
   const { t } = useTranslation()
   const [txId, setTxId] = useState(0)
@@ -303,8 +314,6 @@ const ClaimButton = (props) => {
   //     text = t('claiming')
   //   }
   // }
-
-  const walletOnWrongNetwork = walletChainId !== chainId
 
   return (
     <Tooltip
@@ -386,10 +395,7 @@ const ManageStakedAmount = (props) => {
         label={t('yourStake')}
         topContentJsx={yourStakeTopContent}
         centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
-        bottomContentJsx={
-          <WithdrawTriggers {...props} />
-          // <WithdrawTriggers {...props} openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
-        }
+        bottomContentJsx={<WithdrawTriggers {...props} />}
       />
 
       <div className='hidden sm:flex flex-col items-center sm:w-10 lg:w-20'>
@@ -457,16 +463,23 @@ const ManageStakedAmount = (props) => {
 
 const DepositTriggers = (props) => {
   const { t } = useTranslation()
-  const { openDepositModal } = props
+  const { openDepositModal, usersAddress } = props
 
   return (
     <span className='w-full block sm:inline'>
-      <button
-        className='new-btn w-full capitalize text-xs sm:px-2 py-2 sm:py-0 mt-2'
-        onClick={openDepositModal}
+      <Tooltip
+        isEnabled={!usersAddress}
+        id='deposit-rewards-gov-wallet-tooltip'
+        tip={t('connectAWalletToManageTicketsAndRewards')}
       >
-        {t('deposit')}
-      </button>
+        <button
+          className='new-btn w-full capitalize text-xs sm:px-2 py-2 sm:py-0 mt-2'
+          onClick={openDepositModal}
+          disabled={!usersAddress}
+        >
+          {t('deposit')}
+        </button>
+      </Tooltip>
     </span>
   )
 }
@@ -474,7 +487,7 @@ const DepositTriggers = (props) => {
 const WithdrawTriggers = (props) => {
   const { t } = useTranslation()
 
-  const { pool } = props
+  const { pool, walletOnWrongNetwork } = props
   const router = useRouter()
 
   const handleManageClick = (e) => {
@@ -493,12 +506,21 @@ const WithdrawTriggers = (props) => {
   }
 
   return (
-    <button
-      className='capitalize underline text-accent-1 hover:text-green'
-      onClick={handleManageClick}
+    <Tooltip
+      isEnabled={walletOnWrongNetwork}
+      id={`lp-staking-withdraw-${pool?.prizePool.address}-wrong-network-tooltip`}
+      tip={t('yourWalletIsOnTheWrongNetwork', {
+        networkName: getNetworkNiceNameByChainId(pool?.chainId)
+      })}
     >
-      {t('withdraw')}
-    </button>
+      <button
+        className='capitalize underline text-accent-1 hover:text-green'
+        onClick={handleManageClick}
+        disabled={walletOnWrongNetwork}
+      >
+        {t('withdraw')}
+      </button>
+    </Tooltip>
   )
 }
 

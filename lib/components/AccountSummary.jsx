@@ -35,7 +35,7 @@ export const AccountSummary = () => {
   return (
     <div
       className={classnames(
-        'rounded-lg pl-6 pr-10 xs:px-10 py-5 text-white my-4 sm:mt-8 sm:mb-12 mx-auto',
+        'rounded-lg pl-6 pr-10 xs:px-10 py-5 sm:py-8 text-white my-4 sm:mt-8 sm:mb-12 mx-auto',
         {
           'pool-gradient-1': isSelf,
           'pool-gradient-2': !isSelf
@@ -51,7 +51,7 @@ export const AccountSummary = () => {
             </h1>
           ) : !address ? (
             <>
-              <div className='text-xxxs sm:text-base font-bold mt-1'>
+              <div className='text-xxxs sm:text-sm font-bold mt-1'>
                 {t('connectAWalletToManageTicketsAndRewards')}
               </div>
 
