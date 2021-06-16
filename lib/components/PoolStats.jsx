@@ -69,7 +69,11 @@ const Stat = (props) => {
       <span className='text-accent-1 flex'>
         {title}:{' '}
         {tooltip && (
-          <Tooltip id={title} className='ml-1 sm:ml-2 my-auto text-accent-1' tip={tooltip} />
+          <Tooltip
+            id={`pool-stats-${title}-tooltip`}
+            className='ml-1 sm:ml-2 my-auto text-accent-1'
+            tip={tooltip}
+          />
         )}
       </span>
       {(sourceAddress || value) && (

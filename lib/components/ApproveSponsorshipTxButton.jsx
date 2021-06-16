@@ -40,38 +40,28 @@ export function ApproveSponsorshipTxButton(props) {
 
   const approveButtonClassName = !needsApproval ? 'w-full' : 'w-48-percent'
 
-  const approveButton = (
-    <Button
-      noAnim
-      type='button'
-      textSize='lg'
-      onClick={handleApproveClick}
-      disabled={disabled || !needsApproval || unlockTxInFlight}
-      className={approveButtonClassName}
-    >
-      Approve {tickerUpcased}
-    </Button>
-  )
-
   return (
-    <>
-      {!needsApproval ? (
-        <>
-          <Tooltip
-            title='Allowance'
-            tip={
-              <div>
-                You have provided enough allowance to this pool and don't need to approve anymore.
-              </div>
-            }
-            className='w-48-percent'
-          >
-            {approveButton}
-          </Tooltip>
-        </>
-      ) : (
-        approveButton
-      )}
-    </>
+    <Tooltip
+      isEnabled={!needsApproval}
+      id={`approve-sponsorship-tx-button-tooltip`}
+      title='Allowance'
+      tip={
+        <div>
+          You have provided enough allowance to this pool and don't need to approve anymore.
+        </div>
+      }
+      className='w-48-percent'
+    >
+      <Button
+        noAnim
+        type='button'
+        textSize='lg'
+        onClick={handleApproveClick}
+        disabled={disabled || !needsApproval || unlockTxInFlight}
+        className={approveButtonClassName}
+      >
+        Approve {tickerUpcased}
+      </Button>
+    </Tooltip>
   )
 }

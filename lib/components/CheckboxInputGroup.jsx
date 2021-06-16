@@ -50,7 +50,7 @@ export const CheckboxInputGroup = (props) => {
       <div className='text-left flex flex-col items-start justify-start leading-snug'>{label}</div>
 
       {hint && (
-        <Tooltip title={title ? title : null} tip={hint}>
+        <Tooltip id={`checkbox-input-group-${id}-tooltip`} title={title ? title : null} tip={hint}>
           <QuestionMarkCircle white />
         </Tooltip>
       )}

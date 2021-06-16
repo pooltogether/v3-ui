@@ -30,7 +30,7 @@ import { useUsersTokenBalanceAndAllowance } from 'lib/hooks/useUsersTokenBalance
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { getNetworkNiceNameByChainId, NETWORK } from 'lib/utils/networks'
-import { getUsersTokenDataForPool } from 'lib/utils/getUsersTokenDataForPool'
+import { formatUsersTokenDataForPool } from 'lib/utils/formatUsersTokenDataForPool'
 
 const bn = ethers.BigNumber.from
 
@@ -90,7 +90,7 @@ export const RewardsGovernance = () => {
       </div>
 
       <RewardsTable columnOneWidthClass='sm:w-32 lg:w-64'>
-        <GovRewardsCard
+        <GovRewardsRow
           playerTickets={playerTickets}
           usersAddress={usersAddress}
           refetchAllPoolTokenData={refetchAllPoolTokenData}
@@ -100,7 +100,7 @@ export const RewardsGovernance = () => {
 
         {/* eventually ... */}
         {/* {faucets.map((faucet) => (
-          <GovRewardsCard
+          <GovRewardsRow
             playerTickets={playerTickets}
             usersAddress={usersAddress}
             refetchAllPoolTokenData={refetchAllPoolTokenData}
@@ -113,7 +113,7 @@ export const RewardsGovernance = () => {
   )
 }
 
-const GovRewardsCard = (props) => {
+const GovRewardsRow = (props) => {
   const { t } = useTranslation()
 
   const { pool, usersAddress, playerTickets } = props
@@ -126,23 +126,23 @@ const GovRewardsCard = (props) => {
     underlyingToken?.address,
     pool?.prizePool.address
   )
-  const usersTokenDataForPool = getUsersTokenDataForPool(pool, usersChainData)
+  const usersTokenDataForPool = formatUsersTokenDataForPool(pool, usersChainData)
 
   const poolTicketData = playerTickets?.find((t) => t.poolAddress === pool?.prizePool.address)
   const playersTicketData = poolTicketData?.ticket
 
   const error = false
 
-  let mainContent, stakingAprJsx
+  let remainingColumnsContents, stakingAprJsx
   // don't do this ... ?
   if (!pool) {
-    mainContent = <ThemedClipSpinner size={16} />
+    remainingColumnsContents = <ThemedClipSpinner size={16} />
   } else if (error) {
-    mainContent = <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
+    remainingColumnsContents = <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
   } else {
     stakingAprJsx = <GovRewardsAPR pool={pool} />
 
-    mainContent = (
+    remainingColumnsContents = (
       <GovPoolRewardsMainContent
         {...props}
         playersTicketData={playersTicketData}
@@ -158,7 +158,7 @@ const GovRewardsCard = (props) => {
       columnOneImage={<ColumnOneImage />}
       columnOneContents={<ColumnOneContents {...props} />}
       columnTwoContents={stakingAprJsx}
-      remainingColumnsContents={mainContent}
+      remainingColumnsContents={remainingColumnsContents}
     />
   )
 }
@@ -299,37 +299,33 @@ const ClaimButton = (props) => {
 
   const walletOnWrongNetwork = walletChainId !== chainId
 
-  const button = (
-    <button
-      disabled={!isClaimable || walletOnWrongNetwork}
-      className={classnames('underline trans trans-fast', {
-        'text-flashy': txPending && !txCompleted,
-        'text-accent-1 hover:text-green': !txPending || txCompleted
-      })}
-      onClick={handleClaim}
-      style={{
-        opacity: 1
-      }}
-    >
-      {text}{' '}
-      {txPending && (
-        <span className='mr-2'>
-          <ThemedClipSpinner size={12} />
-        </span>
-      )}
-    </button>
-  )
-
-  return walletOnWrongNetwork ? (
+  return (
     <Tooltip
+      isEnabled={walletOnWrongNetwork}
+      id={`rewards-gov-claim-wallet-on-wrong-network-tooltip`}
       tip={t('yourWalletIsOnTheWrongNetwork', {
         networkName: getNetworkNiceNameByChainId(chainId)
       })}
     >
-      {button}
+      <button
+        disabled={!isClaimable || walletOnWrongNetwork}
+        className={classnames('underline trans trans-fast', {
+          'text-flashy': txPending && !txCompleted,
+          'text-accent-1 hover:text-green': !txPending || txCompleted
+        })}
+        onClick={handleClaim}
+        style={{
+          opacity: 1
+        }}
+      >
+        {text}{' '}
+        {txPending && (
+          <span className='mr-2'>
+            <ThemedClipSpinner size={12} />
+          </span>
+        )}
+      </button>
     </Tooltip>
-  ) : (
-    button
   )
 }
 
@@ -358,8 +354,8 @@ const ManageStakedAmount = (props) => {
   return (
     <>
       <RewardsTableCell
-        label={t('wallet')}
-        topContentJsx={<PoolNumber>{numberWithCommas(playersTokenBalance)}</PoolNumber>}
+        label={t('yourStake')}
+        topContentJsx={<PoolNumber>{numberWithCommas(playersTicketBalance)}</PoolNumber>}
         centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={
           <WithdrawTriggers {...props} />
@@ -374,8 +370,8 @@ const ManageStakedAmount = (props) => {
       </div>
 
       <RewardsTableCell
-        label={t('yourStake')}
-        topContentJsx={<PoolNumber>{numberWithCommas(playersTicketBalance)}</PoolNumber>}
+        label={t('wallet')}
+        topContentJsx={<PoolNumber>{numberWithCommas(playersTokenBalance)}</PoolNumber>}
         centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={
           <DepositTriggers

@@ -13,7 +13,7 @@ import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { Modal } from 'lib/components/Modal'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { getUsersTokenDataForPool } from 'lib/utils/getUsersTokenDataForPool'
+import { formatUsersTokenDataForPool } from 'lib/utils/formatUsersTokenDataForPool'
 import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
 import { useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 
@@ -42,7 +42,7 @@ export function DepositOrWithdrawSponsorshipModal(props) {
   const onSubmit = () => {}
 
   const { usersTokenBalanceUnformatted, usersTokenBalance, usersTokenAllowance } =
-    getUsersTokenDataForPool(pool, usersChainData)
+    formatUsersTokenDataForPool(pool, usersChainData)
 
   const quantity = watch('quantity')
 

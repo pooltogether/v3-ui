@@ -389,38 +389,34 @@ const ClaimButton = (props) => {
 
   const walletOnWrongNetwork = walletChainId !== chainId
 
-  const button = (
-    <button
-      disabled={!isClaimable || walletOnWrongNetwork}
-      className={classnames('underline trans trans-fast', {
-        'text-flashy': txPending,
-        'text-accent-1 hover:text-green': !txPending
-      })}
-      onClick={handleClaim}
-      style={{
-        opacity: 1
-      }}
-    >
-      {txPending && (
-        <span className='mr-2'>
-          <ThemedClipSpinner size={12} />
-        </span>
-      )}
-      {text}
-    </button>
-  )
-
-  return walletOnWrongNetwork ? (
+  return (
     <Tooltip
+      isEnabled={walletOnWrongNetwork}
+      id={`account-gov-claims-wrong-network-tooltip`}
       className='ml-auto'
       tip={t('yourWalletIsOnTheWrongNetwork', {
         networkName: getNetworkNiceNameByChainId(chainId)
       })}
     >
-      {button}
+      <button
+        disabled={!isClaimable || walletOnWrongNetwork}
+        className={classnames('underline trans trans-fast', {
+          'text-flashy': txPending,
+          'text-accent-1 hover:text-green': !txPending
+        })}
+        onClick={handleClaim}
+        style={{
+          opacity: 1
+        }}
+      >
+        {txPending && (
+          <span className='mr-2'>
+            <ThemedClipSpinner size={12} />
+          </span>
+        )}
+        {text}
+      </button>
     </Tooltip>
-  ) : (
-    button
   )
 }
 
@@ -487,40 +483,36 @@ const ClaimAllButton = (props) => {
 
   const walletOnWrongNetwork = walletChainId !== chainId
 
-  const button = (
-    <Button
-      type='button'
-      onClick={handleClaim}
-      className='mb-4'
-      disabled={!isClaimablePoolDataFetched || !claimable || txPending || walletOnWrongNetwork}
-      padding='px-8 py-1'
-      border='green'
-      text='primary'
-      bg='green'
-      hoverBorder='green'
-      hoverText='primary'
-      hoverBg='green'
-      textSize='xxs'
-    >
-      {txPending && (
-        <span className='mr-2'>
-          <ThemedClipSpinner />
-        </span>
-      )}
-      {text}
-    </Button>
-  )
-
-  return walletOnWrongNetwork ? (
+  return (
     <Tooltip
+      isEnabled={walletOnWrongNetwork}
+      id={`account-gov-claim-all-button-tooltip`}
       className='ml-auto'
       tip={t('yourWalletIsOnTheWrongNetwork', {
         networkName: getNetworkNiceNameByChainId(chainId)
       })}
     >
-      {button}
+      <Button
+        type='button'
+        onClick={handleClaim}
+        className='mb-4'
+        disabled={!isClaimablePoolDataFetched || !claimable || txPending || walletOnWrongNetwork}
+        padding='px-8 py-1'
+        border='green'
+        text='primary'
+        bg='green'
+        hoverBorder='green'
+        hoverText='primary'
+        hoverBg='green'
+        textSize='xxs'
+      >
+        {txPending && (
+          <span className='mr-2'>
+            <ThemedClipSpinner />
+          </span>
+        )}
+        {text}
+      </Button>
     </Tooltip>
-  ) : (
-    button
   )
 }

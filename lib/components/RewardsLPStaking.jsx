@@ -96,7 +96,7 @@ export const RewardsLPStaking = () => {
 
       <RewardsTable>
         {stakingPoolsAddresses.map((stakingPoolAddresses) => (
-          <StakingPoolCard
+          <StakingPoolRow
             chainId={chainId}
             key={`staking-pool-card-${stakingPoolAddresses.underlyingToken.dex}-${stakingPoolAddresses.underlyingToken.address}`}
             stakingPoolAddresses={stakingPoolAddresses}
@@ -107,7 +107,7 @@ export const RewardsLPStaking = () => {
   )
 }
 
-const StakingPoolCard = (props) => {
+const StakingPoolRow = (props) => {
   const { t } = useTranslation()
 
   const { stakingPoolAddresses, chainId } = props
@@ -119,7 +119,6 @@ const StakingPoolCard = (props) => {
     refetch: stakingPoolChainDataRefetch,
     error: stakingPoolChainDataError
   } = useStakingPoolChainData(stakingPoolAddresses)
-  console.log(stakingPoolChainData)
   const {
     data: userLPChainData,
     isFetched: userLPChainDataFetched,
@@ -132,13 +131,13 @@ const StakingPoolCard = (props) => {
     userLPChainDataRefetch()
   }
 
-  let mainContent, stakingAprJsx
+  let remainingColumnsContents, stakingAprJsx
   if (!stakingPoolChainDataIsFetched) {
-    mainContent = <ThemedClipSpinner size={16} />
+    remainingColumnsContents = <ThemedClipSpinner size={16} />
   } else if (stakingPoolChainDataError || userLPChainDataError) {
     console.error(stakingPoolChainDataError)
     console.error(userLPChainDataError)
-    mainContent = <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
+    remainingColumnsContents = <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
   } else if (stakingPoolChainDataIsFetched) {
     const { tokenFaucetData, underlyingTokenData, ticketsData } = stakingPoolChainData
     const { dripRatePerDayUnformatted } = tokenFaucetData
@@ -155,8 +154,8 @@ const StakingPoolCard = (props) => {
       />
     )
 
-    mainContent = (
-      <StakingPoolCardMainContents
+    remainingColumnsContents = (
+      <StakingPoolRowMainContents
         {...props}
         stakingPoolAddresses={stakingPoolAddresses}
         stakingPoolChainData={stakingPoolChainData}
@@ -174,7 +173,7 @@ const StakingPoolCard = (props) => {
       columnOneImage={<ColumnOneImage stakingPoolAddresses={stakingPoolAddresses} />}
       columnOneContents={<ColumnOneContents stakingPoolAddresses={stakingPoolAddresses} />}
       columnTwoContents={stakingAprJsx}
-      remainingColumnsContents={mainContent}
+      remainingColumnsContents={remainingColumnsContents}
     />
   )
 }
@@ -211,7 +210,7 @@ const ColumnOneContents = (props) => {
   )
 }
 
-const StakingPoolCardMainContents = (props) => {
+const StakingPoolRowMainContents = (props) => {
   const { appEnv } = useAppEnv()
   const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
 
@@ -270,8 +269,6 @@ const ClaimTokens = (props) => {
 
   const { userLPChainData, refetch, chainId, stakingPoolAddresses, usersAddress } = props
   const { userData } = userLPChainData || {}
-  console.log({ userLPChainData })
-  console.log({ userData })
 
   let claimableBalance = '0.00'
   let claimableBalanceUnformatted = bn(0)
@@ -432,21 +429,17 @@ const DepositTriggers = (props) => {
   //     </div>
   //   )
   // }
-  let button = (
-    <button className='capitalize underline hover:text-green' onClick={openDepositModal}>
-      {t('deposit')}
-    </button>
-  )
 
-  return !usersAddress ? (
+  return (
     <Tooltip
+      isEnabled={!usersAddress}
       id='deposit-lp-connect-wallet-tooltip'
       tip={t('connectAWalletToManageTicketsAndRewards')}
     >
-      {button}
+      <button className='capitalize underline hover:text-green' onClick={openDepositModal}>
+        {t('deposit')}
+      </button>
     </Tooltip>
-  ) : (
-    button
   )
 }
 
@@ -480,38 +473,34 @@ const TransactionButton = (props) => {
 
   const disabled = walletOnWrongNetwork || props.disabled
 
-  const button = (
-    <button
-      type='button'
-      onClick={async () => {
-        const id = await sendTx(name, abi, contractAddress, method, params, refetch)
-        setTxId(id)
-      }}
-      className={classnames('underline', className, {
-        'text-flashy': txPending,
-        'text-accent-1 hover:text-green': !txPending
-      })}
-      disabled={disabled}
-    >
-      {props.children}{' '}
-      {txPending && (
-        <span className='ml-1'>
-          <ThemedClipSpinner size={12} color='#bbb2ce' />
-        </span>
-      )}
-    </button>
-  )
-
-  return walletOnWrongNetwork ? (
+  return (
     <Tooltip
+      isEnabled={walletOnWrongNetwork}
+      id={`lp-staking-${method}-wallet-on-wrong-network-tooltip`}
       tip={t('yourWalletIsOnTheWrongNetwork', {
         networkName: getNetworkNiceNameByChainId(chainId)
       })}
     >
-      {button}
+      <button
+        type='button'
+        onClick={async () => {
+          const id = await sendTx(name, abi, contractAddress, method, params, refetch)
+          setTxId(id)
+        }}
+        className={classnames('underline', className, {
+          'text-flashy': txPending,
+          'text-accent-1 hover:text-green': !txPending
+        })}
+        disabled={disabled}
+      >
+        {props.children}{' '}
+        {txPending && (
+          <span className='ml-1'>
+            <ThemedClipSpinner size={12} color='#bbb2ce' />
+          </span>
+        )}
+      </button>
     </Tooltip>
-  ) : (
-    button
   )
 }
 

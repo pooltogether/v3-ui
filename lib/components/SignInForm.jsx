@@ -44,6 +44,7 @@ export function SignInForm(props) {
       <br />
       {!retroClaim && (
         <Tooltip
+          id='what-is-eth-tooltip'
           title='Ethereum'
           className='mt-4 mx-auto w-48'
           tip={

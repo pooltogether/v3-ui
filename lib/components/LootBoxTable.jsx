@@ -128,6 +128,7 @@ export const LootBoxTable = (props) => {
             </PoolNumber>
           </h3>
           <Tooltip
+            id={`lootbox-extra-info-tooltip`}
             className='ml-2 my-auto text-inverse hover:opacity-70'
             tip={t('lootboxValueExtraInfo')}
           />

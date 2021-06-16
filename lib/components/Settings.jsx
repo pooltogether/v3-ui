@@ -160,6 +160,7 @@ export function Settings(props) {
               {t('manage')}
             </label>{' '}
             <Tooltip
+              id='settings-show-pool-management-tooltip'
               svgClassName='text-white'
               title={t('managePools')}
               tip={t('showPoolManagementDescription')}

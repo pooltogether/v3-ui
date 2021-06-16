@@ -40,7 +40,7 @@ export const PlayerLabel = (props) => {
           {` (~${numHolders})`}
 
           <Tooltip
-            id={id}
+            id={`player-label-${id}-tooltip`}
             className='inline-block ml-1'
             tip={t('numHoldersInYearnVault', { numHolders })}
           />

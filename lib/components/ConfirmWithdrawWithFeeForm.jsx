@@ -161,7 +161,12 @@ export function ConfirmWithdrawWithFeeForm(props) {
                   icon: <img src={IconLightning} className='w-7 h-7 xs:w-auto xs:h-auto' />,
                   label: (
                     <>
-                      {t('instantly')} <Tooltip svgClassName='inline relative -t-1' tip={tipJsx} />
+                      {t('instantly')}{' '}
+                      <Tooltip
+                        id='confirm-withdraw-with-fee-tooltip'
+                        svgClassName='inline relative -t-1'
+                        tip={tipJsx}
+                      />
                     </>
                   ),
                   description: (
