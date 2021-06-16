@@ -8,6 +8,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
+import { Button } from 'lib/components/Button'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import {
   RewardsTable,
@@ -178,10 +179,17 @@ const ColumnOneImage = (props) => {
 const ColumnOneContents = (props) => {
   const { pool } = props
 
+  let symbol = pool?.symbol
+
+  if (symbol === 'PT-stPOOL') {
+    // override for POOL pool as our symbol shows staking pool, but the token ticker was requested instead
+    symbol = 'pPOOL'
+  }
+
   return (
     <div className='flex flex-col justify-center leading-none'>
       <div className='text-sm font-bold mt-3 sm:mt-0'>{pool?.name}</div>
-      <div className='text-xs mt-1'>{pool?.symbol}</div>
+      <div className='text-xs mt-1'>{symbol}</div>
     </div>
   )
 }
@@ -371,6 +379,7 @@ const ManageStakedAmount = (props) => {
 
       <RewardsTableCell
         label={t('wallet')}
+        divTwoClassName='w-full sm:h-20 flex flex-col justify-between items-start'
         topContentJsx={<PoolNumber>{numberWithCommas(playersTokenBalance)}</PoolNumber>}
         centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={
@@ -430,9 +439,14 @@ const DepositTriggers = (props) => {
   const { openDepositModal } = props
 
   return (
-    <button className='capitalize underline hover:text-green' onClick={openDepositModal}>
-      {t('deposit')}
-    </button>
+    <span className='w-full block sm:inline'>
+      <button
+        className='new-btn w-full capitalize text-xs sm:px-2 py-2 sm:py-0 mt-2 sm:mt-1'
+        onClick={openDepositModal}
+      >
+        {t('deposit')}
+      </button>
+    </span>
   )
 }
 

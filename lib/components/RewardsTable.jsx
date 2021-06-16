@@ -90,13 +90,19 @@ const RemainingColumns = (props) => {
 }
 
 export const RewardsTableCell = (props) => {
-  const { label, topContentJsx, centerContentJsx, bottomContentJsx } = props
+  const { label, topContentJsx, centerContentJsx, bottomContentJsx, divTwoClassName } = props
 
   return (
     <>
       <div className='w-full flex flex-col sm:w-20 lg:w-32 items-start my-2 sm:mx-4'>
         {label && <h6 className='sm:hidden'>{label}</h6>}
-        <div className='w-full sm:h-20 flex sm:flex-col justify-between items-start'>
+        <div
+          className={classnames(
+            divTwoClassName
+              ? divTwoClassName
+              : 'w-full sm:h-20 flex sm:flex-col justify-between items-start'
+          )}
+        >
           <span className='flex sm:inline items-baseline'>
             <span className='text-lg font-bold'>{topContentJsx}</span>
             <div className='flex items-center sm:h-6 ml-2 sm:ml-0'>{centerContentJsx}</div>

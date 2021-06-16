@@ -563,3 +563,20 @@ a:hover {
   border-radius: 100% 0 0 0;
   border-width: 1px 0 0 1px;
 }
+
+.new-btn {
+  @apply bg-green text-primary rounded-sm font-bold opacity-90;
+
+  transition: box-shadow 0.15s;
+}
+
+.new-btn:hover,
+.new-btn:focus {
+  @apply text-primary opacity-100;
+
+  box-shadow: 0 0 0 3px rgba(53, 240, 208, 0.5);
+}
+
+.new-btn:active {
+  box-shadow: 0 0 0 2px rgba(53, 240, 208, 0.3);
+}

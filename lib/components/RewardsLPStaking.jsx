@@ -12,6 +12,7 @@ import { formatUnits } from 'ethers/lib/utils'
 import ERC20Abi from 'abis/ERC20Abi'
 import { TOKEN_IMAGES_BY_SYMBOL } from 'lib/constants/tokenImages'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
+import { Button } from 'lib/components/Button'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import {
   RewardsTable,
@@ -351,6 +352,7 @@ const ManageStakedAmount = (props) => {
 
       <RewardsTableCell
         label={t('yourStake')}
+        divTwoClassName='w-full sm:h-20 flex flex-col justify-between items-start'
         topContentJsx={<PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>}
         centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
         bottomContentJsx={
@@ -436,7 +438,10 @@ const DepositTriggers = (props) => {
       id='deposit-lp-connect-wallet-tooltip'
       tip={t('connectAWalletToManageTicketsAndRewards')}
     >
-      <button className='capitalize underline hover:text-green' onClick={openDepositModal}>
+      <button
+        className='new-btn w-full capitalize text-xs sm:px-2 py-2 sm:py-0 mt-2 sm:mt-1'
+        onClick={openDepositModal}
+      >
         {t('deposit')}
       </button>
     </Tooltip>
