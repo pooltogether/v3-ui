@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import Dialog from '@reach/dialog'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
@@ -12,10 +13,13 @@ import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { NetworkWarning } from 'lib/components/NetworkWarning'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
+import { Tooltip } from 'lib/components/Tooltip'
 import { TxStatus } from 'lib/components/TxStatus'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+
+import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
 import WalletIcon from 'assets/images/icon-wallet.svg'
 
@@ -32,7 +36,7 @@ export const RewardsActionModal = (props) => {
     getParams,
     refetch,
     chainId,
-    pool,
+    allowance,
     overMaxErrorMsg,
     underlyingToken,
     prizePoolAddress,
@@ -44,6 +48,7 @@ export const RewardsActionModal = (props) => {
     reValidateMode: 'onChange'
   })
 
+  // console.log(underlyingToken)
   const decimals = underlyingToken.decimals
   const tickerUpcased = underlyingToken.symbol?.toUpperCase()
 
@@ -73,13 +78,43 @@ export const RewardsActionModal = (props) => {
     setTxId(id)
   }
 
+  const allowanceIsZero = allowance && allowance.isZero()
+
+  let approveTooltipTip
+  if (walletOnWrongNetwork) {
+    approveTooltipTip = t('yourWalletIsOnTheWrongNetwork', {
+      networkName: getNetworkNiceNameByChainId(chainId)
+    })
+  } else if (!allowanceIsZero) {
+    approveTooltipTip = t('youHaveProvidedEnoughAllowance', {
+      ticker: tickerUpcased
+    })
+  }
+
+  let confirmTooltipTip
+  if (walletOnWrongNetwork) {
+    confirmTooltipTip = t('yourWalletIsOnTheWrongNetwork', {
+      networkName: getNetworkNiceNameByChainId(chainId)
+    })
+  } else if (allowanceIsZero) {
+    confirmTooltipTip = t('needToApproveTicker', {
+      ticker: tickerUpcased
+    })
+  }
+
+  const approveTooltipEnabled = walletOnWrongNetwork || !allowanceIsZero
+  const approveButtonDisabled = approveTooltipEnabled
+
+  const confirmTooltipEnabled = walletOnWrongNetwork || allowanceIsZero
+  const confirmButtonDisabled = !isValid || confirmTooltipEnabled
+
   return (
     <Dialog
       aria-label={`${underlyingToken.symbol} Pool ${action} Modal`}
       isOpen={isOpen}
       onDismiss={closeModal}
     >
-      <div className='relative text-inverse p-4 bg-card h-full sm:h-auto rounded-none sm:rounded-sm sm:max-w-3xl mx-auto flex flex-col'>
+      <div className='relative text-inverse p-4 bg-modal h-full sm:h-auto rounded-none sm:rounded-sm sm:max-w-3xl mx-auto flex flex-col'>
         <div className='flex'>
           <button
             className='absolute r-4 t-4 close-button trans text-inverse opacity-40 hover:opacity-100'
@@ -89,7 +124,7 @@ export const RewardsActionModal = (props) => {
           </button>
         </div>
 
-        <div className='flex flex-col justify-center h-5/6 sm:h-96 sm:pb-8'>
+        <div className='flex flex-col justify-center h-5/6 sm:pb-8'>
           <div className='flex flex-col justify-center items-center mb-6 mt-10'>
             {props.tokenImage ?? null}
             <h5>
@@ -119,10 +154,13 @@ export const RewardsActionModal = (props) => {
                 autoComplete='off'
                 validate={{
                   greaterThanBalance: (value) => {
-                    return (
-                      ethers.utils.parseUnits(value, decimals).lte(maxAmountUnformatted) ||
-                      overMaxErrorMsg
-                    )
+                    let amountUnformatted
+                    try {
+                      amountUnformatted = ethers.utils.parseUnits(value, decimals)
+                    } catch (e) {
+                      console.warn(e)
+                    }
+                    return amountUnformatted?.lte(maxAmountUnformatted) || overMaxErrorMsg
                   },
                   greaterThanZero: (value) => {
                     return (
@@ -155,19 +193,64 @@ export const RewardsActionModal = (props) => {
               </span>
 
               <ButtonDrawer>
-                <Button
-                  type='submit'
-                  textSize='lg'
-                  className='w-48-percent mx-auto sm:mt-4'
-                  disabled={!isValid || walletOnWrongNetwork}
+                {allowance && (
+                  <Tooltip
+                    isEnabled={approveTooltipEnabled}
+                    id={`rewards-modal-approve-${action}-${prizePoolAddress}-tooltip`}
+                    tip={approveTooltipTip}
+                    className='w-48-percent'
+                  >
+                    <ApproveButton
+                      {...props}
+                      tooltipEnabled={approveTooltipEnabled}
+                      disabled={approveButtonDisabled}
+                    >
+                      {t('approveStepOne')}
+                    </ApproveButton>
+                  </Tooltip>
+                )}
+
+                <Tooltip
+                  isEnabled={confirmTooltipEnabled}
+                  id={`rewards-modal-confirm-${action}-${prizePoolAddress}-tooltip`}
+                  tip={confirmTooltipTip}
+                  className='w-48-percent'
                 >
-                  {t('next')}
-                </Button>
+                  <Button
+                    type='submit'
+                    textSize='sm'
+                    disabled={confirmButtonDisabled}
+                    className={classnames('sm:ml-4 sm:mt-4', {
+                      'w-48-percent': !confirmTooltipEnabled,
+                      'w-full': confirmTooltipEnabled
+                    })}
+                  >
+                    {t('confirmStepTwo')}
+                  </Button>
+                </Tooltip>
               </ButtonDrawer>
             </form>
           )}
         </div>
       </div>
     </Dialog>
+  )
+}
+
+const ApproveButton = (props) => {
+  const { children, tooltipEnabled, disabled } = props
+
+  return (
+    <Button
+      inverse
+      textSize='sm'
+      className={classnames('mx-auto sm:mt-4', {
+        'w-48-percent': !tooltipEnabled,
+        'w-full': tooltipEnabled
+      })}
+      disabled={disabled}
+    >
+      {children}
+    </Button>
   )
 }

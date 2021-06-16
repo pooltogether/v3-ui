@@ -52,7 +52,7 @@ export const RewardsTableRow = (props) => {
           <RemainingColumns {...props} />
         </div>
 
-        {gradientClasses && (
+        {Boolean(props.gradientBorder) && (
           <div className={classnames('rounded-b-lg h-2 w-full', gradientClasses)} />
         )}
       </div>
@@ -66,7 +66,7 @@ export const RewardsTableRow = (props) => {
         <ColumnTwo {...props} />
         <RemainingColumns {...props} />
       </div>
-      {gradientClasses && (
+      {Boolean(props.gradientBorder) && (
         <div className={classnames('rounded-b-lg h-2 w-full', gradientClasses)} />
       )}
     </Card>

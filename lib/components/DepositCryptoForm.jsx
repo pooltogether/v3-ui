@@ -203,11 +203,7 @@ export function DepositCryptoForm(props) {
                   isEnabled={!needsApproval}
                   id={`deposit-crypto-form-tooltip`}
                   title={t('allowance')}
-                  tip={
-                    <div className='my-2 text-xs sm:text-sm'>
-                      {t('youHaveProvidedEnoughAllowance')}
-                    </div>
-                  }
+                  tip={t('youHaveProvidedEnoughAllowance', { ticker: tickerUpcased })}
                   className='w-48-percent'
                 >
                   <Button

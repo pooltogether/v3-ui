@@ -351,6 +351,7 @@ const ManageStakedAmount = (props) => {
 
     lpBalance = userData.underlyingToken.balance
     allowance = userData.underlyingToken.allowance
+    console.log({ allowance })
   }
 
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
@@ -416,6 +417,7 @@ const ManageStakedAmount = (props) => {
         isOpen={depositModalIsOpen}
         closeModal={() => setDepositModalIsOpen(false)}
         refetch={refetch}
+        allowance={allowance}
       />
       <WithdrawModal
         {...props}

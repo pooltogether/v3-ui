@@ -55,6 +55,7 @@ module.exports = {
         input: 'var(--color-bg-input)',
         darkened: 'var(--color-bg-darkened)',
         inverse: 'var(--color-bg-inverse)',
+        modal: 'var(--color-bg-modal)',
         overlay: 'var(--color-bg-overlay)',
         'overlay-white': 'var(--color-bg-overlay-white)',
         black: 'var(--color-bg-black)',

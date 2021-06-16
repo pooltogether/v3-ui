@@ -45,11 +45,7 @@ export function ApproveSponsorshipTxButton(props) {
       isEnabled={!needsApproval}
       id={`approve-sponsorship-tx-button-tooltip`}
       title='Allowance'
-      tip={
-        <div>
-          You have provided enough allowance to this pool and don't need to approve anymore.
-        </div>
-      }
+      tip={t('youHaveProvidedEnoughAllowance', { ticker: tickerUpcased })}
       className='w-48-percent'
     >
       <Button
@@ -60,7 +56,9 @@ export function ApproveSponsorshipTxButton(props) {
         disabled={disabled || !needsApproval || unlockTxInFlight}
         className={approveButtonClassName}
       >
-        Approve {tickerUpcased}
+        {t('allowTicker', {
+          ticker: tickerUpcased
+        })}
       </Button>
     </Tooltip>
   )
