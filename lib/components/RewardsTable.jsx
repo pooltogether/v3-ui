@@ -45,10 +45,15 @@ export const RewardsTableRow = (props) => {
           gradientClasses
         )}
       >
-        <div className='flex flex-col items-center text-center rounded-lg w-full py-6'>
+        <div className='flex flex-col items-center text-center rounded-lg w-full pt-6 pb-4 sm:py-6'>
           <ColumnOne {...props} />
           <ColumnTwo {...props} />
         </div>
+        <div
+          className='w-full sm:hidden border-default opacity-20 mb-2'
+          style={{ borderTopWidth: 1 }}
+        />
+
         <RemainingColumns {...props} />
       </div>
     )
@@ -95,7 +100,7 @@ export const RewardsTableCell = (props) => {
   return (
     <>
       <div className='w-full flex flex-col sm:w-20 lg:w-32 items-start my-2 sm:mx-4'>
-        {label && <h6 className='sm:hidden'>{label}</h6>}
+        {label && <h6 className='sm:hidden font-normal text-accent-1'>{label}</h6>}
         <div
           className={classnames(
             divTwoClassName

@@ -62,7 +62,7 @@ export const RewardsGovernance = () => {
         {t('governanceRewards')}
       </h5>
 
-      <div className='bg-card rounded-lg border border-accent-3 px-4 sm:px-8 py-4 mt-4'>
+      <div className='bg-card rounded-lg border border-secondary px-4 sm:px-8 py-4 mt-4'>
         <div className='flex items-baseline sm:items-center flex-col sm:flex-row'>
           <div className='pool-gradient-1 px-2 mr-2 mb-2 sm:mb-0 rounded-lg inline-block capitalize text-xxs text-white'>
             {t('tips')}
