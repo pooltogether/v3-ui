@@ -565,14 +565,14 @@ a:hover {
 }
 
 .new-btn {
-  @apply bg-green text-primary rounded-sm font-bold opacity-90;
+  @apply bg-highlight-1 text-secondary rounded-sm font-bold leading-normal;
 
   transition: box-shadow 0.15s;
 }
 
 .new-btn:hover,
 .new-btn:focus {
-  @apply text-primary opacity-100;
+  @apply text-secondary bg-highlight-4;
 
   box-shadow: 0 0 0 3px rgba(53, 240, 208, 0.5);
 }

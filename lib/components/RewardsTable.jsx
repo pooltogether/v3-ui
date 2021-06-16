@@ -105,7 +105,7 @@ export const RewardsTableCell = (props) => {
           className={classnames(
             divTwoClassName
               ? divTwoClassName
-              : 'w-full sm:h-20 flex sm:flex-col justify-between items-start'
+              : 'w-full sm:h-20 flex sm:flex-col justify-between items-start leading-snug'
           )}
         >
           <span className='flex sm:inline items-baseline'>

@@ -8,7 +8,6 @@ import { Trans, useTranslation } from 'react-i18next'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
-import { Button } from 'lib/components/Button'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import {
   RewardsTable,
@@ -38,10 +37,10 @@ const bn = ethers.BigNumber.from
 export const RewardsGovernance = () => {
   const { t } = useTranslation()
 
-  const { data: pools, isFetched: poolIsFetched } = useGovernancePools()
+  const { data: pools } = useGovernancePools()
   const pool = pools?.find((pool) => pool.symbol === 'PT-stPOOL')
   const usersAddress = useUsersAddress()
-  const { data: playerTickets, isFetched: playerTicketsIsFetched } =
+  const { data: playerTickets, isFetched: playersTicketDataIsFetched } =
     useUserTicketsFormattedByPool(usersAddress)
 
   const { refetch: refetchTotalClaimablePool } = useClaimableTokenFromTokenFaucets(
@@ -92,6 +91,7 @@ export const RewardsGovernance = () => {
 
       <RewardsTable columnOneWidthClass='sm:w-32 lg:w-64'>
         <GovRewardsRow
+          playersTicketDataIsFetched={playersTicketDataIsFetched}
           playerTickets={playerTickets}
           usersAddress={usersAddress}
           refetchAllPoolTokenData={refetchAllPoolTokenData}
@@ -121,12 +121,13 @@ const GovRewardsRow = (props) => {
 
   const underlyingToken = pool?.tokens?.underlyingToken
 
-  const { data: usersChainData } = useUsersTokenBalanceAndAllowance(
-    pool?.chainId,
-    usersAddress,
-    underlyingToken?.address,
-    pool?.prizePool.address
-  )
+  const { data: usersChainData, isFetched: usersChainDataIsFetched } =
+    useUsersTokenBalanceAndAllowance(
+      pool?.chainId,
+      usersAddress,
+      underlyingToken?.address,
+      pool?.prizePool.address
+    )
   const usersTokenDataForPool = formatUsersTokenDataForPool(pool, usersChainData)
 
   const poolTicketData = playerTickets?.find((t) => t.poolAddress === pool?.prizePool.address)
@@ -135,10 +136,9 @@ const GovRewardsRow = (props) => {
   const error = false
 
   let remainingColumnsContents, stakingAprJsx
-  // don't do this ... ?
-  if (!pool) {
-    remainingColumnsContents = <ThemedClipSpinner size={16} />
-  } else if (error) {
+
+  if (error) {
+    console.error(error)
     remainingColumnsContents = <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
   } else {
     stakingAprJsx = <GovRewardsAPR pool={pool} />
@@ -148,6 +148,7 @@ const GovRewardsRow = (props) => {
         {...props}
         playersTicketData={playersTicketData}
         usersTokenDataForPool={usersTokenDataForPool}
+        usersChainDataIsFetched={usersChainDataIsFetched}
         underlyingToken={underlyingToken}
       />
     )
@@ -195,11 +196,9 @@ const ColumnOneContents = (props) => {
 }
 
 const GovPoolRewardsMainContent = (props) => {
-  const usersAddress = useUsersAddress()
-
   return (
     <>
-      <ClaimTokens {...props} usersAddress={usersAddress} />
+      <ClaimTokens {...props} />
       <ManageStakedAmount {...props} />
     </>
   )
@@ -210,9 +209,9 @@ const ClaimTokens = (props) => {
 
   const { usersAddress, pool, refetchAllPoolTokenData, underlyingToken } = props
 
-  const tokenFaucetAddress = pool.tokenListener.address
+  const tokenFaucetAddress = pool?.tokenListener.address
   const { data: claimablePoolData, isFetched } = useClaimableTokenFromTokenFaucet(
-    pool.chainId,
+    pool?.chainId,
     tokenFaucetAddress,
     usersAddress
   )
@@ -221,7 +220,7 @@ const ClaimTokens = (props) => {
   const claimableUnformatted = claimablePoolData?.claimableAmountUnformatted || bn(0)
   const isClaimable = !claimableUnformatted?.isZero()
 
-  const name = t('prizePoolTicker', { ticker: underlyingToken.symbol })
+  const name = t('prizePoolTicker', { ticker: underlyingToken?.symbol })
 
   return (
     <>
@@ -237,9 +236,9 @@ const ClaimTokens = (props) => {
             refetch={() => {
               refetchAllPoolTokenData()
             }}
-            chainId={pool.chainId}
+            chainId={pool?.chainId}
             name={name}
-            dripToken={pool.tokens.tokenFaucetDripToken.symbol}
+            dripToken={pool?.tokens.tokenFaucetDripToken.symbol}
             tokenFaucetAddress={tokenFaucetAddress}
             isClaimable={isClaimable}
           />
@@ -342,7 +341,9 @@ const UnderlyingTokenDisplay = (props) => {
 
   return (
     <>
-      <Erc20Image address={pool.tokens.tokenFaucetDripToken.address} sizeClasses='w-4 h-4' />
+      {pool && (
+        <Erc20Image address={pool.tokens.tokenFaucetDripToken.address} sizeClasses='w-4 h-4' />
+      )}
       <span className='text-xxs uppercase'>{underlyingToken?.symbol}</span>
     </>
   )
@@ -350,20 +351,40 @@ const UnderlyingTokenDisplay = (props) => {
 
 const ManageStakedAmount = (props) => {
   const { t } = useTranslation()
-  const { pool, playersTicketData, usersTokenDataForPool } = props
+  const {
+    pool,
+    playersTicketData,
+    playersTicketDataIsFetched,
+    usersTokenDataForPool,
+    usersChainDataIsFetched,
+    usersAddress
+  } = props
 
-  const playersTicketBalance = playersTicketData?.amount || 0
-
-  const playersTokenBalance = usersTokenDataForPool.usersTokenBalance || 0
+  const playersTicketBalance = playersTicketData?.amount || '0.00'
+  const playersTokenBalance = usersTokenDataForPool.usersTokenBalance || '0.00'
 
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
   // const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
+
+  const yourStakeTopContent =
+    usersAddress && !playersTicketDataIsFetched ? (
+      <ThemedClipSpinner size={12} />
+    ) : (
+      <PoolNumber>{numberWithCommas(playersTicketBalance)}</PoolNumber>
+    )
+
+  const walletTopContent =
+    usersAddress && !usersChainDataIsFetched ? (
+      <ThemedClipSpinner size={12} />
+    ) : (
+      <PoolNumber>{numberWithCommas(playersTokenBalance)}</PoolNumber>
+    )
 
   return (
     <>
       <RewardsTableCell
         label={t('yourStake')}
-        topContentJsx={<PoolNumber>{numberWithCommas(playersTicketBalance)}</PoolNumber>}
+        topContentJsx={yourStakeTopContent}
         centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={
           <WithdrawTriggers {...props} />
@@ -379,8 +400,8 @@ const ManageStakedAmount = (props) => {
 
       <RewardsTableCell
         label={t('wallet')}
-        divTwoClassName='w-full sm:h-20 flex flex-col justify-between items-start'
-        topContentJsx={<PoolNumber>{numberWithCommas(playersTokenBalance)}</PoolNumber>}
+        divTwoClassName='w-full sm:h-20 flex flex-col justify-between items-start leading-snug'
+        topContentJsx={walletTopContent}
         centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={
           <DepositTriggers
@@ -393,7 +414,7 @@ const ManageStakedAmount = (props) => {
 
       <DepositModal
         {...props}
-        chainId={pool.chainId}
+        chainId={pool?.chainId}
         isOpen={depositModalIsOpen}
         closeModal={() => setDepositModalIsOpen(false)}
         playersTokenBalance={playersTokenBalance}
@@ -401,7 +422,7 @@ const ManageStakedAmount = (props) => {
 
       {/* <WithdrawModal
         {...props}
-        chainId={pool.chainId}
+        chainId={pool?.chainId}
         isOpen={withdrawModalIsOpen}
         closeModal={() => setWithdrawModalIsOpen(false)}
         playersTicketBalance={playersTicketBalance}
@@ -441,7 +462,7 @@ const DepositTriggers = (props) => {
   return (
     <span className='w-full block sm:inline'>
       <button
-        className='new-btn w-full capitalize text-xs sm:px-2 py-2 sm:py-0 mt-2 sm:mt-1'
+        className='new-btn w-full capitalize text-xs sm:px-2 py-2 sm:py-0 mt-2'
         onClick={openDepositModal}
       >
         {t('deposit')}
@@ -530,10 +551,14 @@ const DepositModal = (props) => {
   const { t } = useTranslation()
   const { pool, playersTokenBalance, usersTokenDataForPool, usersAddress, underlyingToken } = props
 
+  if (!pool || !underlyingToken) {
+    return null
+  }
+
   const maxAmount = playersTokenBalance
   const maxAmountUnformatted = usersTokenDataForPool.usersTokenBalanceUnformatted
 
-  const decimals = underlyingToken.decimals
+  const decimals = underlyingToken?.decimals
 
   const ticket = pool?.tokens?.ticket
 

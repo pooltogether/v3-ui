@@ -122,7 +122,7 @@ const StakingPoolRow = (props) => {
   } = useStakingPoolChainData(stakingPoolAddresses)
   const {
     data: userLPChainData,
-    isFetched: userLPChainDataFetched,
+    isFetched: userLPChainDataIsFetched,
     refetch: userLPChainDataRefetch,
     error: userLPChainDataError
   } = useUserLPChainData(stakingPoolAddresses, stakingPoolChainData, usersAddress)
@@ -161,6 +161,7 @@ const StakingPoolRow = (props) => {
         stakingPoolAddresses={stakingPoolAddresses}
         stakingPoolChainData={stakingPoolChainData}
         userLPChainData={userLPChainData}
+        userLPChainDataIsFetched={userLPChainDataIsFetched}
         usersAddress={usersAddress}
         refetch={refetch}
       />
@@ -268,7 +269,14 @@ const TokenIcon = (props) => {
 const ClaimTokens = (props) => {
   const { t } = useTranslation()
 
-  const { userLPChainData, refetch, chainId, stakingPoolAddresses, usersAddress } = props
+  const {
+    userLPChainData,
+    userLPChainDataIsFetched,
+    refetch,
+    chainId,
+    stakingPoolAddresses,
+    usersAddress
+  } = props
   const { userData } = userLPChainData || {}
 
   let claimableBalance = '0.00'
@@ -281,11 +289,18 @@ const ClaimTokens = (props) => {
   const { underlyingToken, tokenFaucet, dripToken } = stakingPoolAddresses
   const token1 = underlyingToken.token1
 
+  const rewardsTopContent =
+    usersAddress && !userLPChainDataIsFetched ? (
+      <ThemedClipSpinner size={12} />
+    ) : (
+      <PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>
+    )
+
   return (
     <>
       <RewardsTableCell
         label={t('rewards')}
-        topContentJsx={<PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>}
+        topContentJsx={rewardsTopContent}
         centerContentJsx={
           <>
             <TokenIcon token={dripToken} className='mr-2 rounded-full w-4 h-4' />
@@ -314,7 +329,15 @@ const ClaimTokens = (props) => {
 
 const ManageStakedAmount = (props) => {
   const { t } = useTranslation()
-  const { refetch, chainId, stakingPoolAddresses, stakingPoolChainData, userLPChainData } = props
+  const {
+    refetch,
+    chainId,
+    stakingPoolAddresses,
+    stakingPoolChainData,
+    userLPChainDataIsFetched,
+    userLPChainData,
+    usersAddress
+  } = props
 
   const { userData } = userLPChainData || {}
 
@@ -333,11 +356,25 @@ const ManageStakedAmount = (props) => {
 
   const { underlyingToken } = stakingPoolAddresses
 
+  const walletTopContent =
+    usersAddress && !userLPChainDataIsFetched ? (
+      <ThemedClipSpinner size={12} />
+    ) : (
+      <PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>
+    )
+
+  const yourStakeTopContent =
+    usersAddress && !userLPChainDataIsFetched ? (
+      <ThemedClipSpinner size={12} />
+    ) : (
+      <PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>
+    )
+
   return (
     <>
       <RewardsTableCell
         label={t('wallet')}
-        topContentJsx={<PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>}
+        topContentJsx={walletTopContent}
         centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
         bottomContentJsx={
           <WithdrawTriggers openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
@@ -352,8 +389,8 @@ const ManageStakedAmount = (props) => {
 
       <RewardsTableCell
         label={t('yourStake')}
-        divTwoClassName='w-full sm:h-20 flex flex-col justify-between items-start'
-        topContentJsx={<PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>}
+        divTwoClassName='w-full sm:h-20 flex flex-col justify-between items-start leading-snug'
+        topContentJsx={yourStakeTopContent}
         centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
         bottomContentJsx={
           <DepositTriggers
@@ -439,7 +476,7 @@ const DepositTriggers = (props) => {
       tip={t('connectAWalletToManageTicketsAndRewards')}
     >
       <button
-        className='new-btn w-full capitalize text-xs sm:px-2 py-2 sm:py-0 mt-2 sm:mt-1'
+        className='new-btn w-full capitalize text-xs sm:px-2 py-2 sm:py-0 mt-2'
         onClick={openDepositModal}
       >
         {t('deposit')}
@@ -501,7 +538,7 @@ const TransactionButton = (props) => {
         {props.children}{' '}
         {txPending && (
           <span className='ml-1'>
-            <ThemedClipSpinner size={12} color='#bbb2ce' />
+            <ThemedClipSpinner size={12} />
           </span>
         )}
       </button>
