@@ -39,35 +39,36 @@ export const RewardsTableRow = (props) => {
 
   if (screenSize <= ScreenSize.sm) {
     return (
-      <div
-        className={classnames(
-          'bg-card flex flex-col justify-center items-center rounded-lg py-4 px-4 my-4',
-          gradientClasses
-        )}
-      >
-        <div className='flex flex-col items-center text-center rounded-lg w-full pt-6 pb-4 sm:py-6'>
-          <ColumnOne {...props} />
-          <ColumnTwo {...props} />
+      <div className='bg-card flex flex-col justify-center items-center rounded-lg my-4'>
+        <div className='w-full py-4 px-4'>
+          <div className='flex flex-col items-center text-center rounded-lg w-full pt-6 pb-4 sm:py-6'>
+            <ColumnOne {...props} />
+            <ColumnTwo {...props} />
+          </div>
+          <div
+            className='w-full sm:hidden border-default opacity-20 mb-2'
+            style={{ borderTopWidth: 1 }}
+          />
+          <RemainingColumns {...props} />
         </div>
-        <div
-          className='w-full sm:hidden border-default opacity-20 mb-2'
-          style={{ borderTopWidth: 1 }}
-        />
 
-        <RemainingColumns {...props} />
+        {gradientClasses && (
+          <div className={classnames('rounded-b-lg h-2 w-full', gradientClasses)} />
+        )}
       </div>
     )
   }
 
   return (
-    <Card
-      noMargin
-      noPad
-      className={classnames('flex justify-between items-center py-4 px-8 my-1', gradientClasses)}
-    >
-      <ColumnOne {...props} />
-      <ColumnTwo {...props} />
-      <RemainingColumns {...props} />
+    <Card noMargin noPad className='flex flex-col justify-between items-center my-1'>
+      <div className='w-full flex justify-between items-center py-4 px-8 my-1'>
+        <ColumnOne {...props} />
+        <ColumnTwo {...props} />
+        <RemainingColumns {...props} />
+      </div>
+      {gradientClasses && (
+        <div className={classnames('rounded-b-lg h-2 w-full', gradientClasses)} />
+      )}
     </Card>
   )
 }
