@@ -12,7 +12,7 @@ import { formatUnits } from 'ethers/lib/utils'
 import ERC20Abi from 'abis/ERC20Abi'
 import { TOKEN_IMAGES_BY_SYMBOL } from 'lib/constants/tokenImages'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
-import { Button } from 'lib/components/Button'
+import { ContentOrSpinner } from 'lib/components/ContentOrSpinner'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import {
   RewardsTable,
@@ -293,18 +293,15 @@ const ClaimTokens = (props) => {
   const { underlyingToken, tokenFaucet, dripToken } = stakingPoolAddress
   const token1 = underlyingToken.token1
 
-  const rewardsTopContent =
-    usersAddress && !userLPChainDataIsFetched ? (
-      <ThemedClipSpinner size={12} />
-    ) : (
-      <PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>
-    )
-
   return (
     <>
       <RewardsTableCell
         label={t('rewards')}
-        topContentJsx={rewardsTopContent}
+        topContentJsx={
+          <ContentOrSpinner isLoading={usersAddress && !userLPChainDataIsFetched}>
+            <PoolNumber>{numberWithCommas(claimableBalance)}</PoolNumber>
+          </ContentOrSpinner>
+        }
         centerContentJsx={
           <>
             <TokenIcon token={dripToken} className='mr-2 rounded-full w-4 h-4' />
@@ -361,25 +358,15 @@ const ManageStakedAmount = (props) => {
 
   const { underlyingToken } = stakingPoolAddress
 
-  const walletTopContent =
-    usersAddress && !userLPChainDataIsFetched ? (
-      <ThemedClipSpinner size={12} />
-    ) : (
-      <PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>
-    )
-
-  const yourStakeTopContent =
-    usersAddress && !userLPChainDataIsFetched ? (
-      <ThemedClipSpinner size={12} />
-    ) : (
-      <PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>
-    )
-
   return (
     <>
       <RewardsTableCell
         label={t('wallet')}
-        topContentJsx={walletTopContent}
+        topContentJsx={
+          <ContentOrSpinner isLoading={usersAddress && !userLPChainDataIsFetched}>
+            <PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>
+          </ContentOrSpinner>
+        }
         centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
         bottomContentJsx={
           <WithdrawTriggers {...props} openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
@@ -395,7 +382,11 @@ const ManageStakedAmount = (props) => {
       <RewardsTableCell
         label={t('yourStake')}
         divTwoClassName='w-full sm:h-20 flex flex-col justify-between items-start leading-snug'
-        topContentJsx={yourStakeTopContent}
+        topContentJsx={
+          <ContentOrSpinner isLoading={usersAddress && !userLPChainDataIsFetched}>
+            <PoolNumber>{numberWithCommas(lpBalance)}</PoolNumber>
+          </ContentOrSpinner>
+        }
         centerContentJsx={<span className='text-xxs uppercase'>{underlyingToken.symbol}</span>}
         bottomContentJsx={
           <DepositTriggers

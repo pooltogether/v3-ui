@@ -17,6 +17,7 @@ import {
 } from 'lib/components/RewardsTable'
 import { RewardsActionModal } from 'lib/components/RewardsActionModal'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
+import { ContentOrSpinner } from 'lib/components/ContentOrSpinner'
 import { Tooltip } from 'lib/components/Tooltip'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
@@ -231,7 +232,9 @@ const ClaimTokens = (props) => {
       <RewardsTableCell
         label={t('rewards')}
         topContentJsx={
-          <RewardsAmountClaimable {...props} isFetched={isFetched} claimable={claimable} />
+          <ContentOrSpinner isLoading={usersAddress && !isFetched}>
+            <PoolNumber>{numberWithCommas(claimable)}</PoolNumber>
+          </ContentOrSpinner>
         }
         centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={
@@ -250,20 +253,6 @@ const ClaimTokens = (props) => {
       />
     </>
   )
-}
-
-const RewardsAmountClaimable = (props) => {
-  const { claimable, isFetched, usersAddress } = props
-
-  if (!usersAddress) {
-    return <PoolNumber>0.00</PoolNumber>
-  }
-
-  if (isFetched) {
-    return <PoolNumber>{numberWithCommas(claimable)}</PoolNumber>
-  }
-
-  return <ThemedClipSpinner size={12} />
 }
 
 const ClaimButton = (props) => {
@@ -375,25 +364,15 @@ const ManageStakedAmount = (props) => {
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
   // const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
 
-  const yourStakeTopContent =
-    usersAddress && !playersTicketDataIsFetched ? (
-      <ThemedClipSpinner size={12} />
-    ) : (
-      <PoolNumber>{numberWithCommas(playersTicketBalance)}</PoolNumber>
-    )
-
-  const walletTopContent =
-    usersAddress && !usersChainDataIsFetched ? (
-      <ThemedClipSpinner size={12} />
-    ) : (
-      <PoolNumber>{numberWithCommas(playersTokenBalance)}</PoolNumber>
-    )
-
   return (
     <>
       <RewardsTableCell
         label={t('yourStake')}
-        topContentJsx={yourStakeTopContent}
+        topContentJsx={
+          <ContentOrSpinner isLoading={usersAddress && !playersTicketDataIsFetched}>
+            <PoolNumber>{numberWithCommas(playersTicketBalance)}</PoolNumber>
+          </ContentOrSpinner>
+        }
         centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={<WithdrawTriggers {...props} />}
       />
@@ -407,13 +386,17 @@ const ManageStakedAmount = (props) => {
       <RewardsTableCell
         label={t('wallet')}
         divTwoClassName='w-full sm:h-20 flex flex-col justify-between items-start leading-snug'
-        topContentJsx={walletTopContent}
+        topContentJsx={
+          <ContentOrSpinner isLoading={usersAddress && !usersChainDataIsFetched}>
+            <PoolNumber>{numberWithCommas(playersTokenBalance)}</PoolNumber>
+          </ContentOrSpinner>
+        }
         centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={
           <DepositTriggers
             {...props}
             openDepositModal={() => setDepositModalIsOpen(true)}
-            openWithdrawModal={() => setWithdrawModalIsOpen(true)}
+            // openWithdrawModal={() => setWithdrawModalIsOpen(true)}
           />
         }
       />
