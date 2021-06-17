@@ -2578,12 +2578,13 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-rng-contracts/-/pooltogether-rng-contracts-1.0.0.tgz#191d155dc960559cce06b7ec3b0f9ed2caed0f46"
   integrity sha512-jQub/+qPLQwTFtbBCvvyIEqxJDEBEV/hgLKnuocBg2/GySWtHLz67WCy17bNn1hZw8nWIt8Ih8h+7iT2UJhtmQ==
 
-"@pooltogether/react-components@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@pooltogether/react-components/-/react-components-0.0.9.tgz#91662f00f169baa2869890d5db43b0221122926a"
-  integrity sha512-Iv1esD/iHGqnq2a3imGDh3j6HC9xtw/KNsEySazv5tMfyBuw3o63g9IDVWWiNZ5qdsJuup5wc8wYmhelfK/RKQ==
+"@pooltogether/react-components@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@pooltogether/react-components/-/react-components-0.0.17.tgz#6499a85fcaba190fcda7c059d16934992842f621"
+  integrity sha512-6twL9heRwi6U2+Hnwb6CeAn4IvPaB9lzkebrBgzMHEDU2YBBjEB7afPFuzm+mXw5UR3w8GiiXqHUY+LdD6zfiQ==
   dependencies:
     "3box" "^1.19.1"
+    "@pooltogether/evm-chains-extended" "^0.4.3"
     "@reach/dialog" "^0.15.0"
     "@reach/menu-button" "^0.15.1"
     "@reach/popover" "^0.15.0"
