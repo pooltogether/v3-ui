@@ -23,7 +23,7 @@ export function Input(props) {
     validate
   } = props
 
-  const defaultTextClasses = 'text-xxs xs:text-sm sm:text-xl lg:text-2xl'
+  const defaultTextClasses = 'text-xs xs:text-sm sm:text-xl lg:text-2xl'
 
   if (roundedClasses === undefined) {
     roundedClasses = 'rounded-full'
@@ -93,7 +93,6 @@ export function Input(props) {
     'validate',
     'unsignedNumber',
     'unsignedWholeNumber',
-    'centerLabel',
     'rightLabel',
     'bottomRightLabel'
   ])

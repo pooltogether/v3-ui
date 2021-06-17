@@ -13,7 +13,6 @@ export const TextInputGroup = (props) => {
     unsignedNumber,
     unsignedWholeNumber,
     bottomRightLabel,
-    centerLabel,
     rightLabel
   } = props
 
@@ -47,14 +46,13 @@ export const TextInputGroup = (props) => {
           'mx-auto': !alignLeft
         })}
       >
-        {(label || rightLabel || centerLabel) && (
+        {(label || rightLabel) && (
           <div className={classnames('flex justify-between items-end')}>
             {label && (
               <label
                 htmlFor={id}
                 className={classnames('mt-0 sm:pr-2 trans', {
-                  'sm:pl-8 w-1/2': rightLabel && !centerLabel,
-                  'sm:pl-8 w-1/3': rightLabel && centerLabel,
+                  'sm:pl-8 w-2/3 xs:w-1/2': rightLabel,
                   'font-bold text-primary cursor-not-allowed': disabled,
                   'font-bold text-accent-3 hover:text-default': !disabled
                 })}
@@ -63,22 +61,10 @@ export const TextInputGroup = (props) => {
               </label>
             )}
 
-            {centerLabel && (
-              <label
-                className={classnames('mt-0 trans w-1/3 text-center', {
-                  'font-bold text-primary cursor-not-allowed': disabled,
-                  'font-bold text-accent-3 hover:text-default': !disabled
-                })}
-              >
-                {centerLabel}
-              </label>
-            )}
-
             {rightLabel && (
               <label
                 className={classnames('mt-0 sm:pr-8 sm:pl-2 trans text-right truncate', {
-                  'w-1/2': rightLabel && !centerLabel,
-                  'w-1/3': rightLabel && centerLabel,
+                  'w-1/3 xs:w-1/2': rightLabel,
                   'font-bold text-primary cursor-not-allowed': disabled,
                   'font-bold text-accent-3 hover:text-default': !disabled
                 })}

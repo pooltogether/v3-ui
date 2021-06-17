@@ -72,6 +72,7 @@ export function WithdrawTicketsForm(props) {
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextInputGroup
+          large
           unsignedNumber
           id='quantity'
           name='quantity'

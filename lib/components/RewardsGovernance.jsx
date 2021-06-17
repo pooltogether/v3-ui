@@ -99,7 +99,7 @@ export const RewardsGovernance = () => {
           playersTicketDataIsFetched={playersTicketDataIsFetched}
           playerTickets={playerTickets}
           usersAddress={usersAddress}
-          refetchAllPoolTokenData={refetchAllPoolTokenData}
+          refetch={refetchAllPoolTokenData}
           key={`gov-rewards-card-${pool?.prizePool.address}`}
           pool={pool}
         />
@@ -109,7 +109,7 @@ export const RewardsGovernance = () => {
           <GovRewardsRow
             playerTickets={playerTickets}
             usersAddress={usersAddress}
-            refetchAllPoolTokenData={refetchAllPoolTokenData}
+            refetch={refetchAllPoolTokenData}
             key={`gov-rewards-card-${faucet.pool?.prizePool.address}`}
             pool={faucet.pool}
           />
@@ -212,7 +212,7 @@ const GovPoolRewardsMainContent = (props) => {
 const ClaimTokens = (props) => {
   const { t } = useTranslation()
 
-  const { usersAddress, pool, refetchAllPoolTokenData, underlyingToken } = props
+  const { usersAddress, pool, refetch, underlyingToken } = props
 
   const tokenFaucetAddress = pool?.tokenListener.address
   const { data: claimablePoolData, isFetched } = useClaimableTokenFromTokenFaucet(
@@ -240,9 +240,7 @@ const ClaimTokens = (props) => {
         bottomContentJsx={
           <ClaimButton
             {...props}
-            refetch={() => {
-              refetchAllPoolTokenData()
-            }}
+            refetch={refetch}
             chainId={pool?.chainId}
             name={name}
             dripToken={pool?.tokens.tokenFaucetDripToken.symbol}
@@ -460,7 +458,8 @@ const DepositTriggers = (props) => {
 const WithdrawTriggers = (props) => {
   const { t } = useTranslation()
 
-  const { pool, walletOnWrongNetwork } = props
+  const { pool, walletOnWrongNetwork, playersTicketData } = props
+  console.log(playersTicketData)
   const router = useRouter()
 
   const handleManageClick = (e) => {
@@ -478,6 +477,8 @@ const WithdrawTriggers = (props) => {
     )
   }
 
+  const noBalance = !playersTicketData || playersTicketData?.amountUnformatted.isZero()
+
   return (
     <Tooltip
       isEnabled={walletOnWrongNetwork}
@@ -489,7 +490,7 @@ const WithdrawTriggers = (props) => {
       <button
         className='capitalize underline text-accent-1 hover:text-green'
         onClick={handleManageClick}
-        disabled={walletOnWrongNetwork}
+        disabled={walletOnWrongNetwork || noBalance}
       >
         {t('withdraw')}
       </button>
