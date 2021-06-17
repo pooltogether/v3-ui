@@ -117,7 +117,7 @@ export function DepositTicketQuantityForm(props) {
             id='quantity'
             name='quantity'
             register={register}
-            label={t('ticketAmount')}
+            label={t('amount')}
             required={t('ticketQuantityRequired')}
             autoComplete='off'
             // bottomRightLabel={

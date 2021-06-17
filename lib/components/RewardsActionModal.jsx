@@ -3,7 +3,6 @@ import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import Dialog from '@reach/dialog'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
-import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import ERC20Abi from 'abis/ERC20Abi'
 import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
@@ -152,7 +151,7 @@ export const RewardsActionModal = (props) => {
               id={`text-input-group-${action}`}
               name={action}
               register={register}
-              label={t(`${action.toLowerCase()}Amount`)}
+              label={t(`amount`)}
               required={t('amountRequired')}
               autoComplete='off'
               validate={{

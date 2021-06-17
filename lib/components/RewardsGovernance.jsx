@@ -459,7 +459,6 @@ const WithdrawTriggers = (props) => {
   const { t } = useTranslation()
 
   const { pool, walletOnWrongNetwork, playersTicketData } = props
-  console.log(playersTicketData)
   const router = useRouter()
 
   const handleManageClick = (e) => {

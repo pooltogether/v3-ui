@@ -52,7 +52,7 @@ export const TextInputGroup = (props) => {
               <label
                 htmlFor={id}
                 className={classnames('mt-0 sm:pr-2 trans', {
-                  'sm:pl-8 w-2/3 xs:w-1/2': rightLabel,
+                  'pl-6 sm:pl-8 pr-1 w-1/2': rightLabel,
                   'font-bold text-primary cursor-not-allowed': disabled,
                   'font-bold text-accent-3 hover:text-default': !disabled
                 })}
@@ -63,8 +63,8 @@ export const TextInputGroup = (props) => {
 
             {rightLabel && (
               <label
-                className={classnames('mt-0 sm:pr-8 sm:pl-2 trans text-right truncate', {
-                  'w-1/3 xs:w-1/2': rightLabel,
+                className={classnames('mt-0 pr-6 sm:pr-8 sm:pl-1 trans text-right', {
+                  'w-1/2': rightLabel,
                   'font-bold text-primary cursor-not-allowed': disabled,
                   'font-bold text-accent-3 hover:text-default': !disabled
                 })}
