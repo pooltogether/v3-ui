@@ -360,6 +360,7 @@ const ManageStakedAmount = (props) => {
 
   const playersTicketBalance = playersTicketData?.amount || '0.00'
   const playersTokenBalance = usersTokenDataForPool.usersTokenBalance || '0.00'
+  const allowance = usersTokenDataForPool?.usersTokenAllowance
 
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
   // const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
@@ -393,11 +394,7 @@ const ManageStakedAmount = (props) => {
         }
         centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={
-          <DepositTriggers
-            {...props}
-            openDepositModal={() => setDepositModalIsOpen(true)}
-            // openWithdrawModal={() => setWithdrawModalIsOpen(true)}
-          />
+          <DepositTriggers {...props} openDepositModal={() => setDepositModalIsOpen(true)} />
         }
       />
 
@@ -407,15 +404,8 @@ const ManageStakedAmount = (props) => {
         isOpen={depositModalIsOpen}
         closeModal={() => setDepositModalIsOpen(false)}
         playersTokenBalance={playersTokenBalance}
+        allowance={allowance}
       />
-
-      {/* <WithdrawModal
-        {...props}
-        chainId={pool?.chainId}
-        isOpen={withdrawModalIsOpen}
-        closeModal={() => setWithdrawModalIsOpen(false)}
-        playersTicketBalance={playersTicketBalance}
-      /> */}
     </>
   )
 }
@@ -507,51 +497,6 @@ const WithdrawTriggers = (props) => {
   )
 }
 
-// const WithdrawModal = (props) => {
-//   const { t } = useTranslation()
-//   const { underlyingToken, playersTicketBalance, playersTicketData, pool, usersAddress } = props
-
-//   const maxAmount = playersTicketBalance
-//   const maxAmountUnformatted = playersTicketData?.amountUnformatted || bn(0)
-
-//   const decimals = underlyingToken?.decimals
-
-//   // // there should be no exit fee when we do an instant no-fee withdrawal
-//   // const maxExitFee = '0'
-
-//   // const params = [
-//   //   usersAddress,
-//   //   ethers.utils.parseUnits(quantity.toString(), Number(decimals)),
-//   //   controlledTicketTokenAddress,
-//   //   ethers.utils.parseEther(maxExitFee)
-//   // ]
-
-//   return (
-//     <RewardsActionModal
-//       {...props}
-//       action={t('withdraw')}
-//       maxAmount={maxAmount}
-//       maxAmountUnformatted={maxAmountUnformatted}
-//       prizePoolAddress={pool.prizePool.address}
-//       method='withdrawInstantlyFrom'
-//       overMaxErrorMsg={t('pleaseEnterAmountLowerThanTicketBalance')}
-//       tokenImage={
-//         <Erc20Image
-//           address={underlyingToken.address}
-//           marginClasses='mb-2'
-//           className='relative inline-block w-8 h-8'
-//         />
-//       }
-//       getParams={(quantity) => [
-//         usersAddress,
-//         ethers.utils.parseUnits(quantity, decimals),
-//         playersTicketData.address,
-//         ethers.constants.Zero
-//       ]}
-//     />
-//   )
-// }
-
 const DepositModal = (props) => {
   const { t } = useTranslation()
   const { pool, playersTokenBalance, usersTokenDataForPool, usersAddress, underlyingToken } = props
@@ -570,7 +515,9 @@ const DepositModal = (props) => {
   return (
     <RewardsActionModal
       {...props}
+      underlyingToken={underlyingToken}
       action={t('deposit')}
+      decimals={decimals}
       maxAmount={maxAmount}
       maxAmountUnformatted={maxAmountUnformatted}
       prizePoolAddress={pool.prizePool.address}

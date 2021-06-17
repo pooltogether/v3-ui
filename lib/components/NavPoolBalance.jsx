@@ -36,7 +36,7 @@ export const NavPoolBalance = () => {
         className='relative text-highlight-4 hover:text-white font-bold cursor-pointer pool-gradient-1 rounded-full px-3 xs:px-4 p-2 leading-none trans ml-2'
         onClick={openModal}
       >
-        <span className='mr-1'>{numberWithCommas(usersBalance)}</span>
+        <span className='mr-1 hidden xs:block'>{numberWithCommas(usersBalance)}</span>
         POOL
       </div>
       <PoolBalanceModal isOpen={isOpen} closeModal={closeModal} tokenData={tokenData} />

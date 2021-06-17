@@ -76,7 +76,7 @@ export const TextInputGroup = (props) => {
 
             {rightLabel && (
               <label
-                className={classnames('mt-0 sm:pr-8 sm:pl-2 trans text-right', {
+                className={classnames('mt-0 sm:pr-8 sm:pl-2 trans text-right truncate', {
                   'w-1/2': rightLabel && !centerLabel,
                   'w-1/3': rightLabel && centerLabel,
                   'font-bold text-primary cursor-not-allowed': disabled,

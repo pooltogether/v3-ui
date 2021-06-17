@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+import classnames from 'classnames'
 import { useOnboard } from '@pooltogether/hooks'
+import { useAtom } from 'jotai'
 
 import { useTranslation } from 'react-i18next'
+import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
 import { NetworkText } from 'lib/components/NetworkText'
 import { NavPoolBalance } from 'lib/components/NavPoolBalance'
@@ -14,6 +17,9 @@ export const Header = () => {
   const { t } = useTranslation()
   const { address: usersAddress, connectWallet } = useOnboard()
   const [showTransactionsDialog, setShowTransactionsDialog] = useState(false)
+
+  const [transactions] = useAtom(transactionsAtom)
+  const pendingTransactionsCount = transactions.filter((t) => !t.completed && !t.cancelled).length
 
   const openTransactions = (e) => {
     e.preventDefault()
@@ -36,13 +42,19 @@ export const Header = () => {
           {usersAddress && <NetworkText openTransactions={openTransactions} />}
           <NavPoolBalance />
           <PendingTxButton openTransactions={openTransactions} />
-          {usersAddress && (
-            <NavAccount
-              openTransactions={openTransactions}
-              closeTransactions={closeTransactions}
-              showTransactionsDialog={showTransactionsDialog}
-            />
-          )}
+          <span
+            className={classnames({
+              'hidden xs:inline': pendingTransactionsCount > 0
+            })}
+          >
+            {usersAddress && (
+              <NavAccount
+                openTransactions={openTransactions}
+                closeTransactions={closeTransactions}
+                showTransactionsDialog={showTransactionsDialog}
+              />
+            )}
+          </span>
           {!usersAddress && (
             <button
               onClick={(e) => {

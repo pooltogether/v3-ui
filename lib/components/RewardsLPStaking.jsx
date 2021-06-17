@@ -9,7 +9,6 @@ import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 
 import { formatUnits } from 'ethers/lib/utils'
 
-import ERC20Abi from 'abis/ERC20Abi'
 import { TOKEN_IMAGES_BY_SYMBOL } from 'lib/constants/tokenImages'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { ContentOrSpinner } from 'lib/components/ContentOrSpinner'
@@ -351,7 +350,6 @@ const ManageStakedAmount = (props) => {
 
     lpBalance = userData.underlyingToken.balance
     allowance = userData.underlyingToken.allowance
-    console.log({ allowance })
   }
 
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
@@ -429,43 +427,9 @@ const ManageStakedAmount = (props) => {
   )
 }
 
-// const EnableDepositsButton = (props) => {
-//   const { t } = useTranslation()
-//   const { stakingPoolChainData, stakingPoolAddresses, refetch, chainId } = props
-
-//   const { prizePool, underlyingToken } = stakingPoolAddresses
-
-//   const decimals = stakingPoolChainData.user.underlyingToken.decimals
-
-//   return (
-//     <TransactionButton
-//       chainId={chainId}
-//       className='inline-block underline'
-//       name={t('enableDeposits')}
-//       abi={ERC20Abi}
-//       contractAddress={underlyingToken.address}
-//       method={'approve'}
-//       params={[prizePool.address, ethers.utils.parseUnits('9999999999', Number(decimals))]}
-//       refetch={refetch}
-//     >
-//       {props.children}
-//     </TransactionButton>
-//   )
-// }
-
 const DepositTriggers = (props) => {
   const { t } = useTranslation()
   const { openDepositModal, usersAddress } = props
-
-  // const allowance = stakingPoolChainData.user.underlyingToken.allowance
-
-  // if (allowance.isZero()) {
-  //   return (
-  //     <div className='flex items-center justify-end'>
-  //       <EnableDepositsButton {...props}>{t('enableDeposits')}</EnableDepositsButton>
-  //     </div>
-  //   )
-  // }
 
   return (
     <span className='w-full block sm:inline'>
@@ -589,10 +553,12 @@ const WithdrawModal = (props) => {
   const maxAmountUnformatted = userTickets?.balanceUnformatted || bn(0)
 
   const decimals = ticketsData.decimals
+  const tickerUpcased = ticketsData.symbol?.toUpperCase()
 
   return (
     <RewardsActionModal
       {...props}
+      tickerUpcased={tickerUpcased}
       underlyingToken={underlyingToken}
       action={t('withdraw')}
       maxAmount={maxAmount}
@@ -615,10 +581,10 @@ const WithdrawModal = (props) => {
 
 const DepositModal = (props) => {
   const { t } = useTranslation()
-  const { stakingPoolAddress, userLPChainData, usersAddress } = props
+  const { stakingPoolAddress, stakingPoolChainData, userLPChainData, usersAddress } = props
   const { prizePool, ticket, underlyingToken } = stakingPoolAddress
   const { token1, token2 } = underlyingToken
-  const decimals = underlyingToken.decimals
+  const decimals = stakingPoolChainData?.underlyingTokenData.decimals
 
   const { userData } = userLPChainData || {}
   let usersUnderlyingTokenChainData
@@ -634,6 +600,7 @@ const DepositModal = (props) => {
       {...props}
       underlyingToken={underlyingToken}
       action={t('deposit')}
+      decimals={decimals}
       maxAmount={maxAmount}
       maxAmountUnformatted={maxAmountUnformatted}
       prizePoolAddress={prizePool.address}
