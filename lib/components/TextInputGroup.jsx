@@ -13,7 +13,6 @@ export const TextInputGroup = (props) => {
     unsignedNumber,
     unsignedWholeNumber,
     bottomRightLabel,
-    centerLabel,
     rightLabel
   } = props
 
@@ -27,7 +26,6 @@ export const TextInputGroup = (props) => {
       message: 'invalid email address'
     }
   } else if (unsignedNumber) {
-    type = 'number'
     pattern = {
       value: /^\d*\.?\d*$/,
       message: 'please enter a positive number'
@@ -48,14 +46,13 @@ export const TextInputGroup = (props) => {
           'mx-auto': !alignLeft
         })}
       >
-        {(label || rightLabel || centerLabel) && (
+        {(label || rightLabel) && (
           <div className={classnames('flex justify-between items-end')}>
             {label && (
               <label
                 htmlFor={id}
                 className={classnames('mt-0 sm:pr-2 trans', {
-                  'sm:pl-8 w-1/2': rightLabel && !centerLabel,
-                  'sm:pl-8 w-1/3': rightLabel && centerLabel,
+                  'pl-6 sm:pl-8 pr-1 w-1/2': rightLabel,
                   'font-bold text-primary cursor-not-allowed': disabled,
                   'font-bold text-accent-3 hover:text-default': !disabled
                 })}
@@ -64,32 +61,16 @@ export const TextInputGroup = (props) => {
               </label>
             )}
 
-            {centerLabel && (
-              <>
-                <label
-                  className={classnames('mt-0 trans w-1/3 text-center', {
-                    'font-bold text-primary cursor-not-allowed': disabled,
-                    'font-bold text-accent-3 hover:text-default': !disabled
-                  })}
-                >
-                  {centerLabel}
-                </label>
-              </>
-            )}
-
             {rightLabel && (
-              <>
-                <label
-                  className={classnames('mt-0 sm:pr-8 sm:pl-2 trans text-right', {
-                    'w-1/2': rightLabel && !centerLabel,
-                    'w-1/3': rightLabel && centerLabel,
-                    'font-bold text-primary cursor-not-allowed': disabled,
-                    'font-bold text-accent-3 hover:text-default': !disabled
-                  })}
-                >
-                  {rightLabel}
-                </label>
-              </>
+              <label
+                className={classnames('mt-0 pr-6 sm:pr-8 sm:pl-1 trans text-right', {
+                  'w-1/2': rightLabel,
+                  'font-bold text-primary cursor-not-allowed': disabled,
+                  'font-bold text-accent-3 hover:text-default': !disabled
+                })}
+              >
+                {rightLabel}
+              </label>
             )}
           </div>
         )}
@@ -97,27 +78,23 @@ export const TextInputGroup = (props) => {
         <Input {...props} pattern={pattern} type={type || 'text'} />
 
         {bottomRightLabel && (
-          <>
-            <label
-              className={classnames(
-                'mt-0 sm:pr-8 sm:pl-2 trans w-full text-right font-bold text-accent-3 hover:text-default'
-              )}
-            >
-              {bottomRightLabel}
-            </label>
-          </>
+          <label
+            className={classnames(
+              'mt-0 sm:pr-8 sm:pl-2 trans w-full text-right font-bold text-accent-3 hover:text-default'
+            )}
+          >
+            {bottomRightLabel}
+          </label>
         )}
 
         {inlineButton && (
-          <>
-            <div
-              className={classnames(
-                'absolute flex items-center r-0 t-0 b-0 trans text-right font-bold pr-0'
-              )}
-            >
-              {inlineButton}
-            </div>
-          </>
+          <div
+            className={classnames(
+              'absolute flex items-center r-0 t-0 b-0 trans text-right font-bold pr-0'
+            )}
+          >
+            {inlineButton}
+          </div>
         )}
       </div>
     </>

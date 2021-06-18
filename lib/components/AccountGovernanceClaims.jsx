@@ -18,6 +18,7 @@ import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButto
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { Tooltip } from 'lib/components/Tooltip'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
@@ -86,6 +87,7 @@ export const AccountGovernanceClaims = (props) => {
         />
         {pools
           .filter((pool) => pool.chainId === NETWORK.mainnet)
+          .filter((pool) => Boolean(pool.tokens.tokenFaucetDripToken))
           .sort(sortByDripAmount)
           .map((pool) => {
             return (
@@ -242,6 +244,8 @@ const ClaimablePoolTokenItem = (props) => {
     precision: getPrecision(totalDripPerDay)
   })
 
+  const isClaimable = !claimablePoolData?.claimableAmountUnformatted?.isZero()
+
   let apr = pool.tokenListener?.apr
 
   if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
@@ -249,7 +253,7 @@ const ClaimablePoolTokenItem = (props) => {
   }
 
   return (
-    <div className='bg-body p-6 rounded-lg flex flex-col sm:flex-row sm:justify-between mt-4 sm:items-center'>
+    <div className='border-t-2 border-body px-2 sm:px-0 pt-6 pb-2 flex flex-col sm:flex-row sm:justify-between mt-4 sm:items-center'>
       <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start'>
         <Link href={`/pools/${pool.networkName}/${pool.symbol}`}>
           <a>
@@ -286,24 +290,24 @@ const ClaimablePoolTokenItem = (props) => {
         </div>
       </div>
 
-      <div className='sm:text-right mt-6 sm:mt-0'>
+      <div
+        className={classnames(`sm:text-right mt-6 sm:mt-0`, {
+          'opacity-40': !isClaimable
+        })}
+      >
         <p className='text-inverse font-bold'>{t('availableToClaim')}</p>
-        <h4
-          className={classnames('flex items-center sm:justify-end', {
-            'opacity-80': claimablePoolData?.claimableAmountUnformatted?.isZero()
-          })}
-        >
+        <h4 className={classnames('flex items-center sm:justify-end')}>
           <Erc20Image address={dripToken.address} className='inline-block w-6 h-6 mr-2' />
           <ClaimableAmountCountUp amount={Number(claimablePoolData?.claimableAmount)} />
         </h4>
-        <div className='text-accent-1 text-xs flex items-center sm:justify-end mt-1 sm:mt-0 mb-2 opacity-80 trans hover:opacity-100'>
+        <div className='text-accent-1 text-xs flex items-center sm:justify-end mt-1 sm:mt-0 mb-2 sm:mb-0 opacity-80 trans hover:opacity-100'>
           {usersDripPerDayFormatted}{' '}
           <Erc20Image address={dripToken.address} className='inline-block w-4 h-4 mx-2' />
           {dripToken.symbol} /&nbsp;
           <span className='lowercase'>{t('day')}</span>
         </div>
         {isSelf && (
-          <div className='sm:w-40 sm:ml-auto'>
+          <div className='sm:ml-auto'>
             <ClaimButton
               {...props}
               refetch={() => {
@@ -313,7 +317,7 @@ const ClaimablePoolTokenItem = (props) => {
               name={name}
               dripToken={pool.tokens.tokenFaucetDripToken.symbol}
               tokenFaucetAddress={tokenFaucetAddress}
-              claimable={!claimablePoolData?.claimableAmountUnformatted?.isZero()}
+              isClaimable={isClaimable}
             />
           </div>
         )}
@@ -342,7 +346,7 @@ ClaimableAmountCountUp.defaultProps = {
 }
 
 const ClaimButton = (props) => {
-  const { address, dripToken, name, refetch, claimable, tokenFaucetAddress, chainId } = props
+  const { address, dripToken, name, refetch, isClaimable, tokenFaucetAddress, chainId } = props
 
   const { network: walletChainId } = useOnboard()
 
@@ -356,6 +360,10 @@ const ClaimButton = (props) => {
 
   const handleClaim = async (e) => {
     e.preventDefault()
+
+    if (txPending) {
+      return
+    }
 
     const params = [address]
 
@@ -381,34 +389,34 @@ const ClaimButton = (props) => {
 
   const walletOnWrongNetwork = walletChainId !== chainId
 
-  const button = (
-    <Button
-      textSize='xxxs'
-      padding='px-4 py-1'
-      disabled={txPending || !claimable || walletOnWrongNetwork}
-      className='w-full'
-      onClick={handleClaim}
-    >
-      {txPending && (
-        <span className='mr-2'>
-          <ThemedClipSpinner size={12} />
-        </span>
-      )}
-      {text}
-    </Button>
-  )
-
-  return walletOnWrongNetwork ? (
+  return (
     <Tooltip
+      isEnabled={walletOnWrongNetwork}
+      id={`account-gov-claims-wrong-network-tooltip`}
       className='ml-auto'
       tip={t('yourWalletIsOnTheWrongNetwork', {
         networkName: getNetworkNiceNameByChainId(chainId)
       })}
     >
-      {button}
+      <button
+        disabled={!isClaimable || walletOnWrongNetwork}
+        className={classnames('underline trans trans-fast', {
+          'text-flashy': txPending,
+          'text-accent-1 hover:text-green': !txPending
+        })}
+        onClick={handleClaim}
+        style={{
+          opacity: 1
+        }}
+      >
+        {txPending && (
+          <span className='mr-2'>
+            <ThemedClipSpinner size={12} />
+          </span>
+        )}
+        {text}
+      </button>
     </Tooltip>
-  ) : (
-    button
   )
 }
 
@@ -475,40 +483,36 @@ const ClaimAllButton = (props) => {
 
   const walletOnWrongNetwork = walletChainId !== chainId
 
-  const button = (
-    <Button
-      type='button'
-      onClick={handleClaim}
-      className='mb-4'
-      disabled={!isClaimablePoolDataFetched || !claimable || txPending || walletOnWrongNetwork}
-      padding='px-8 py-1'
-      border='green'
-      text='primary'
-      bg='green'
-      hoverBorder='green'
-      hoverText='primary'
-      hoverBg='green'
-      textSize='xxs'
-    >
-      {txPending && (
-        <span className='mr-2'>
-          <ThemedClipSpinner />
-        </span>
-      )}
-      {text}
-    </Button>
-  )
-
-  return walletOnWrongNetwork ? (
+  return (
     <Tooltip
+      isEnabled={walletOnWrongNetwork}
+      id={`account-gov-claim-all-button-tooltip`}
       className='ml-auto'
       tip={t('yourWalletIsOnTheWrongNetwork', {
         networkName: getNetworkNiceNameByChainId(chainId)
       })}
     >
-      {button}
+      <Button
+        type='button'
+        onClick={handleClaim}
+        className='mb-4'
+        disabled={!isClaimablePoolDataFetched || !claimable || txPending || walletOnWrongNetwork}
+        padding='px-8 py-1'
+        border='green'
+        text='primary'
+        bg='green'
+        hoverBorder='green'
+        hoverText='primary'
+        hoverBg='green'
+        textSize='xxs'
+      >
+        {txPending && (
+          <span className='mr-2'>
+            <ThemedClipSpinner />
+          </span>
+        )}
+        {text}
+      </Button>
     </Tooltip>
-  ) : (
-    button
   )
 }

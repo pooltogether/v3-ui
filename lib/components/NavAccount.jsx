@@ -1,6 +1,6 @@
 import React from 'react'
-import VisuallyHidden from '@reach/visually-hidden'
 import FeatherIcon from 'feather-icons-react'
+import VisuallyHidden from '@reach/visually-hidden'
 import { motion } from 'framer-motion'
 import { Dialog } from '@reach/dialog'
 import { useUsersAddress } from '@pooltogether/hooks'
@@ -57,7 +57,6 @@ export function NavAccount(props) {
                 <div className='dialog-inner relative message bg-primary text-inverse flex flex-col w-full shadow-4xl'>
                   <div className='flex justify-between items-start px-8 sm:px-10 pt-8 pb-5 bg-default rounded-xl rounded-b-none'>
                     <WalletInfo closeTransactions={closeTransactions} />
-
                     <button
                       onClick={closeTransactions}
                       className='absolute r-0 t-0 pr-6 pt-6 pb-4 pl-4 close-button text-highlight-2 hover:text-highlight-1 trans outline-none focus:outline-none active:outline-none opacity-50 hover:opacity-100'

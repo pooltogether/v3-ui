@@ -15,6 +15,7 @@ export function getButtonClasses(props) {
     noAnim,
     padding,
     rounded,
+    inverse,
     basic,
     secondary,
     tertiary,
@@ -77,6 +78,16 @@ export function getButtonClasses(props) {
     defaultHoverBorder = 'hover:border-transparent'
     defaultHoverBg = 'hover:bg-transparent'
     defaultHoverText = 'hover:text-highlight-1'
+  }
+
+  if (inverse) {
+    defaultBorder = 'border-inverse'
+    defaultBg = 'bg-transparent'
+    defaultText = 'text-inverse'
+
+    defaultHoverBorder = 'hover:border-highlight-4'
+    defaultHoverBg = 'hover:bg-highlight-4'
+    defaultHoverText = 'hover:text-secondary'
   }
 
   bold = isUndefined(bold) ? 'font-bold' : ''

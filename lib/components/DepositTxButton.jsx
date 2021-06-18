@@ -15,38 +15,30 @@ export function DepositTxButton(props) {
 
   const buttonClassName = poolIsLocked ? 'w-full' : 'w-48-percent'
 
-  const button = (
-    <Button
-      id='_depositToken'
-      noAnim={disabled}
-      textSize='lg'
-      onClick={handleDepositClick}
-      disabled={disabled}
-      className={buttonClassName}
-    >
-      {t('deposit')}
-    </Button>
-  )
-
   return (
-    <>
-      {poolIsLocked ? (
-        <Tooltip
-          isButton={poolIsLocked}
-          title={t('poolIsLocked')}
-          tip={
-            <>
-              <div>{t('poolCurrentlyBeingAwarded')}</div>
-              <div>{t('youWontNeedToRefreshThePage')}</div>
-            </>
-          }
-          className='w-48-percent'
-        >
-          {button}
-        </Tooltip>
-      ) : (
-        button
-      )}
-    </>
+    <Tooltip
+      isEnabled={poolIsLocked}
+      isButton={poolIsLocked}
+      title={t('poolIsLocked')}
+      id={`deposit-tx-pool-is-locked-tooltip`}
+      tip={
+        <>
+          <div>{t('poolCurrentlyBeingAwarded')}</div>
+          <div>{t('youWontNeedToRefreshThePage')}</div>
+        </>
+      }
+      className='w-48-percent'
+    >
+      <Button
+        id='_depositToken'
+        noAnim={disabled}
+        textSize='lg'
+        onClick={handleDepositClick}
+        disabled={disabled}
+        className={buttonClassName}
+      >
+        {t('deposit')}
+      </Button>
+    </Tooltip>
   )
 }

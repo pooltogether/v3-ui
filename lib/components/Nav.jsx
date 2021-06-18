@@ -16,13 +16,14 @@ export function Nav(props) {
 
   const accountPage = router.pathname.match('account')
   const votePage = router.pathname.match('vote')
-  const poolPage = !accountPage && !votePage
+  const rewardsPage = router.pathname.match('rewards')
+  const poolPage = !accountPage && !votePage && !rewardsPage
 
   const navParentClasses =
-    'relative leading-none rounded-full hover:bg-accent-grey-1 w-full flex justify-start items-center text-xl py-3 px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none mb-3 font-bold ml-3 lg:ml-0 h-10'
+    'relative leading-none rounded-full hover:bg-accent-grey-1 w-full flex justify-start items-center text-base lg:text-xl py-3 px-4 lg:px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none mb-3 font-bold ml-3 sm:ml-2 lg:ml-0 h-10'
 
   return (
-    <nav className='flex-col items-start hidden sm:block pt-8 sm:pt-0 pl-2 sm:pr-12 lg:pr-16 text-center'>
+    <nav className='flex-col items-start hidden sm:block pt-8 sm:pt-0 px-2 lg:pr-16 text-center'>
       <Link href='/' as='/' shallow>
         <a
           id='_navPoolsButton'
@@ -48,6 +49,20 @@ export function Nav(props) {
           <AccountIcon />
 
           <span className='pl-3 capitalize'>{t('account')}</span>
+        </a>
+      </Link>
+
+      <Link href='/rewards' as='/rewards' shallow>
+        <a
+          id='_navRewardsButton'
+          className={classnames(navParentClasses, {
+            'text-accent-4 hover:text-highlight-2': !rewardsPage,
+            'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': rewardsPage
+          })}
+        >
+          <RewardsIcon />
+
+          <span className='pl-3 capitalize'>{t('rewards')}</span>
         </a>
       </Link>
 
@@ -115,6 +130,24 @@ const AccountIcon = () => (
       xmlns='http://www.w3.org/2000/svg'
     >
       <path d='M4 13.9844C5.46875 16.1406 7.46875 17.2188 10 17.2188C12.5312 17.2188 14.5312 16.1406 16 13.9844C15.9688 13.1094 15.2656 12.375 13.8906 11.7812C12.5156 11.1875 11.2188 10.8906 10 10.8906C8.78125 10.8906 7.48438 11.1875 6.10938 11.7812C4.73438 12.3438 4.03125 13.0781 4 13.9844ZM12.1094 3.90625C11.5156 3.3125 10.8125 3.01562 10 3.01562C9.1875 3.01562 8.48438 3.3125 7.89062 3.90625C7.29688 4.5 7 5.20312 7 6.01562C7 6.82812 7.29688 7.53125 7.89062 8.125C8.48438 8.71875 9.1875 9.01562 10 9.01562C10.8125 9.01562 11.5156 8.71875 12.1094 8.125C12.7031 7.53125 13 6.82812 13 6.01562C13 5.20312 12.7031 4.5 12.1094 3.90625ZM2.92188 2.96875C4.89062 1 7.25 0.015625 10 0.015625C12.75 0.015625 15.0938 1 17.0312 2.96875C19 4.90625 19.9844 7.25 19.9844 10C19.9844 12.75 19 15.1094 17.0312 17.0781C15.0938 19.0156 12.75 19.9844 10 19.9844C7.25 19.9844 4.89062 19.0156 2.92188 17.0781C0.984375 15.1094 0.015625 12.75 0.015625 10C0.015625 7.25 0.984375 4.90625 2.92188 2.96875Z' />
+    </svg>
+  </div>
+)
+
+const RewardsIcon = () => (
+  <div className='flex items-center justify-center'>
+    <svg
+      className='stroke-current fill-current mr-auto relative'
+      width='22'
+      height='17'
+      viewBox='0 0 22 17'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M11.2857 15.6798L21 4.44828L18.441 1.34483L18.4658 1.3202L18.3168 1.17241L18.1677 1H3.8323L1 4.44828L10.7143 15.6798L10.9876 16L11.2857 15.6798ZM7.75776 4.25123L11.0124 1.78818L14.2671 4.25123H7.75776ZM11.3354 1.44335H17.6957L14.913 4.17734L11.3354 1.44335ZM7.13665 4.15271L4.5528 1.44335H10.7143L7.13665 4.15271ZM6.59006 4.25123H1.77019L3.98137 1.54187L6.59006 4.25123ZM14.6149 4.69458L11.0124 15.0887L7.40994 4.69458H14.6149ZM15.087 4.69458H20.205L11.6832 14.5222L15.087 4.69458ZM20.2547 4.25123H15.4845L18.118 1.66502L20.2547 4.25123ZM1.81988 4.69458H6.93789L10.3416 14.5222L1.81988 4.69458Z'
+        strokeWidth='0.6'
+      />
     </svg>
   </div>
 )

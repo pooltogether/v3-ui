@@ -70,14 +70,16 @@ export function WithdrawTicketsForm(props) {
 
   return (
     <>
+      <h6>{t('withdraw')}</h6>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextInputGroup
+          large
           unsignedNumber
           id='quantity'
           name='quantity'
           register={register}
           validate={validate}
-          label={t('enterAmountToWithdraw')}
+          label={t('amount')}
           required={t('ticketQuantityRequired')}
           autoComplete='off'
           rightLabel={

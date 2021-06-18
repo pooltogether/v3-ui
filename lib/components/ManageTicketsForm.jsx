@@ -13,7 +13,7 @@ export function ManageTicketsForm(props) {
 
   const { t } = useTranslation()
   const usersAddress = useUsersAddress()
-  const [action, setAction] = useState(STRINGS.withdraw)
+  const [action] = useState(STRINGS.withdraw)
   const { data: pool } = useCurrentPool()
   const { data: playerTickets } = useUserTicketsFormattedByPool(usersAddress)
 

@@ -4,8 +4,16 @@ import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
 
 export const Tooltip = (props) => {
-  const { children, tip, className, svgClassName, id, effect } = props
+  const { children, tip, className, svgClassName, id, effect, isEnabled } = props
   const ref = useRef(null)
+
+  if (!isEnabled) {
+    return children
+  }
+
+  if (!id) {
+    console.warn('Component requires an id! <Tooltip /> with children: ', children)
+  }
 
   return (
     <>
@@ -53,6 +61,6 @@ export const Tooltip = (props) => {
 }
 
 Tooltip.defaultProps = {
-  id: 'pt',
-  effect: 'solid'
+  effect: 'solid',
+  isEnabled: true
 }

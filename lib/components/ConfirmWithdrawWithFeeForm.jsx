@@ -13,7 +13,6 @@ import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Tooltip } from 'lib/components/Tooltip'
-import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { RadioInputGroup } from 'lib/components/RadioInputGroup'
 import { TxStatus } from 'lib/components/TxStatus'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
@@ -21,12 +20,13 @@ import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPa
 import { useExitFees } from 'lib/hooks/useExitFees'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTransaction } from 'lib/hooks/useTransaction'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { poolToast } from 'lib/utils/poolToast'
 
 import IconLightning from 'assets/images/icon-lightning.svg'
-import { useTransaction } from 'lib/hooks/useTransaction'
 
 export function ConfirmWithdrawWithFeeForm(props) {
   const { t } = useTranslation()
@@ -119,7 +119,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
       ethers.BigNumber.from(exitFee)
     ]
 
-    const id = await sendTx(txName, PrizePoolAbi, poolAddress, method, params)
+    const id = await sendTx(txName, PrizePoolAbi, poolAddress, method, params /*, refetch*/)
 
     setTxId(id)
   }
@@ -161,7 +161,12 @@ export function ConfirmWithdrawWithFeeForm(props) {
                   icon: <img src={IconLightning} className='w-7 h-7 xs:w-auto xs:h-auto' />,
                   label: (
                     <>
-                      {t('instantly')} <Tooltip svgClassName='inline relative -t-1' tip={tipJsx} />
+                      {t('instantly')}{' '}
+                      <Tooltip
+                        id='confirm-withdraw-with-fee-tooltip'
+                        svgClassName='inline relative -t-1'
+                        tip={tipJsx}
+                      />
                     </>
                   ),
                   description: (

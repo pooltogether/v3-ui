@@ -35,7 +35,7 @@ export const AccountSummary = () => {
   return (
     <div
       className={classnames(
-        'rounded-lg pl-6 pr-10 xs:px-10 py-5 text-white my-4 sm:mt-8 sm:mb-12 mx-auto',
+        'rounded-lg pl-6 pr-10 xs:px-10 py-5 sm:py-8 text-white my-4 sm:mt-8 sm:mb-12 mx-auto',
         {
           'pool-gradient-1': isSelf,
           'pool-gradient-2': !isSelf
@@ -51,7 +51,7 @@ export const AccountSummary = () => {
             </h1>
           ) : !address ? (
             <>
-              <div className='text-xxxs sm:text-base font-bold mt-1'>
+              <div className='text-xxxs sm:text-sm font-bold mt-1'>
                 {t('connectAWalletToManageTicketsAndRewards')}
               </div>
 
@@ -69,7 +69,7 @@ export const AccountSummary = () => {
 
               <div className='flex flex-col sm:flex-row sm:items-center mt-8'>
                 <Tooltip
-                  id='whatIsEthereum'
+                  id='what-is-ethereum-tooltip'
                   tip={
                     <>
                       Ethereum Wallet?
@@ -95,7 +95,7 @@ export const AccountSummary = () => {
                   >
                     {t('learnMoreAboutEthereumWallets')}{' '}
                     <FeatherIcon
-                      icon='external-link'
+                      icon='arrow-up-right'
                       className='w-3 h-3 sm:w-4 sm:h-4 inline-block ml-1'
                     />
                   </a>

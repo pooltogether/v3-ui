@@ -57,7 +57,9 @@ export function TransactionsListItem(props) {
 
           {tx.reason && (
             <>
-              <Tooltip tip={tx.reason}>{errorIcon}</Tooltip>
+              <Tooltip id={`tx-list-item-${tx.hash}-tooltip`} tip={tx.reason}>
+                {errorIcon}
+              </Tooltip>
             </>
           )}
 

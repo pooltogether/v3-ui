@@ -9,7 +9,6 @@ import { Tooltip } from 'lib/components/Tooltip'
 import { getDateFromSeconds } from 'lib/utils/getDateFromSeconds'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { secondsSinceEpoch } from 'lib/utils/secondsSinceEpoch'
-import { shorten } from 'lib/utils/shorten'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
 export const SablierStreamCard = (props) => {
@@ -42,9 +41,8 @@ export const SablierStreamCard = (props) => {
           chainId={pool.chainId}
           className='text-accent-1 trans hover:text-inverse ml-4'
           address={address}
-        >
-          ({shorten(address)})
-        </BlockExplorerLink>
+          shorten
+        />
       </div>
 
       <div className='flex flex-col xs:flex-row justify-between mt-6'>
@@ -88,7 +86,7 @@ const StreamBar = (props) => {
     <Tooltip effect='float' id='sablier-stream-percentage' tip={`${percentage}%`}>
       <div className={classnames('w-full h-2 flex flex-row rounded-full overflow-hidden mt-2')}>
         <div className='bg-secondary' style={{ width: `${percentage}%` }} />
-        <div className='bg-tertiary' style={{ width: `${100 - percentage}%` }} />
+        <div className='bg-accent-grey-2' style={{ width: `${100 - percentage}%` }} />
       </div>
     </Tooltip>
   )

@@ -10,33 +10,23 @@ export function ButtonTx(props) {
 
   let newProps = omit(props, ['usersAddress'])
 
-  const button = (
-    <Button {...newProps} disabled={!usersAddress}>
-      {children}
-    </Button>
-  )
-
   return (
-    <>
-      {!usersAddress ? (
+    <Tooltip
+      isEnabled={!usersAddress}
+      id={`button-tx-connect-wallet-tooltip`}
+      title='Connect a wallet'
+      tip={
         <>
-          <Tooltip
-            title='Connect a wallet'
-            tip={
-              <>
-                <div className='my-2 text-xs sm:text-sm'>You do not have a wallet connected.</div>
-                <div className='my-2 text-xs sm:text-sm'>
-                  Please connect a wallet before submitting transactions.
-                </div>
-              </>
-            }
-          >
-            {button}
-          </Tooltip>
+          <div className='my-2 text-xs sm:text-sm'>You do not have a wallet connected.</div>
+          <div className='my-2 text-xs sm:text-sm'>
+            Please connect a wallet before submitting transactions.
+          </div>
         </>
-      ) : (
-        button
-      )}
-    </>
+      }
+    >
+      <Button {...newProps} disabled={!usersAddress}>
+        {children}
+      </Button>
+    </Tooltip>
   )
 }

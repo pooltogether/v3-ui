@@ -15,7 +15,7 @@ import { PaneTitle } from 'lib/components/PaneTitle'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { Tooltip } from 'lib/components/Tooltip'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { usersDataForPool } from 'lib/utils/usersDataForPool'
+import { formatUsersTokenDataForPool } from 'lib/utils/formatUsersTokenDataForPool'
 import { TxStatus } from 'lib/components/TxStatus'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { useCurrentPool } from 'lib/hooks/usePools'
@@ -50,10 +50,8 @@ export function DepositCryptoForm(props) {
     quantityBN = ethers.utils.parseUnits(quantity || '0', Number(decimals))
   }
 
-  const { usersTokenBalanceBN, usersTokenBalance, usersTokenAllowance } = usersDataForPool(
-    pool,
-    usersChainData
-  )
+  const { usersTokenBalanceUnformatted, usersTokenBalance, usersTokenAllowance } =
+    formatUsersTokenDataForPool(pool, usersChainData)
 
   useEffect(() => {
     setCachedUsersBalance(usersTokenBalance)
@@ -70,7 +68,8 @@ export function DepositCryptoForm(props) {
   let overBalance = false
   if (decimals) {
     overBalance =
-      quantity && usersTokenBalanceBN.lt(ethers.utils.parseUnits(quantity, Number(decimals)))
+      quantity &&
+      usersTokenBalanceUnformatted.lt(ethers.utils.parseUnits(quantity, Number(decimals)))
   }
   const quantityIsZero = quantityBN.isZero()
 
@@ -97,32 +96,6 @@ export function DepositCryptoForm(props) {
   }
 
   const approveButtonClassName = !needsApproval ? 'w-full' : 'w-48-percent'
-
-  const approveButton = (
-    <Button
-      id='_approveTokenAllowance'
-      textSize='lg'
-      onClick={handleUnlockClick}
-      disabled={!needsApproval || unlockTxInFlight}
-      className={approveButtonClassName}
-    >
-      {!needsApproval && (
-        <>
-          <FeatherIcon
-            strokeWidth='0.25rem'
-            icon='check'
-            className='inline-block relative w-5 h-5 ml-auto mr-1'
-            style={{
-              top: '-0.05rem'
-            }}
-          />
-        </>
-      )}{' '}
-      {t('allowTicker', {
-        ticker: tickerUpcased
-      })}
-    </Button>
-  )
 
   return (
     <>
@@ -226,23 +199,37 @@ export function DepositCryptoForm(props) {
               )}
 
               <ButtonDrawer>
-                {!needsApproval ? (
-                  <>
-                    <Tooltip
-                      title={t('allowance')}
-                      tip={
-                        <div className='my-2 text-xs sm:text-sm'>
-                          {t('youHaveProvidedEnoughAllowance')}
-                        </div>
-                      }
-                      className='w-48-percent'
-                    >
-                      {approveButton}
-                    </Tooltip>
-                  </>
-                ) : (
-                  approveButton
-                )}
+                <Tooltip
+                  isEnabled={!needsApproval}
+                  id={`deposit-crypto-form-tooltip`}
+                  title={t('allowance')}
+                  tip={t('youHaveProvidedEnoughAllowance', { ticker: tickerUpcased })}
+                  className='w-48-percent'
+                >
+                  <Button
+                    id='_approveTokenAllowance'
+                    textSize='lg'
+                    onClick={handleUnlockClick}
+                    disabled={!needsApproval || unlockTxInFlight}
+                    className={approveButtonClassName}
+                  >
+                    {!needsApproval && (
+                      <>
+                        <FeatherIcon
+                          strokeWidth='0.25rem'
+                          icon='check'
+                          className='inline-block relative w-5 h-5 ml-auto mr-1'
+                          style={{
+                            top: '-0.05rem'
+                          }}
+                        />
+                      </>
+                    )}{' '}
+                    {t('allowTicker', {
+                      ticker: tickerUpcased
+                    })}
+                  </Button>
+                </Tooltip>
 
                 <DepositTxButton
                   needsApproval={needsApproval}

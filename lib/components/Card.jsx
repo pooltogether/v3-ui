@@ -4,8 +4,9 @@ import classnames from 'classnames'
 export const Card = (props) => (
   <div
     className={classnames(
-      'non-interactable-card my-4 bg-card rounded-lg',
+      'non-interactable-card bg-card rounded-lg',
       {
+        'my-4': !props.noMargin,
         'py-4 xs:py-6 px-4 xs:px-6 sm:px-10': !props.noPad
       },
       props.className

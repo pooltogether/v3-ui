@@ -53,33 +53,23 @@ export function DepositSponsorshipTxButton(props) {
 
   const depositSponsorshipButtonClassName = needsApproval ? 'w-full' : 'w-48-percent'
 
-  const depositSponsorshipButton = (
-    <Button
-      noAnim
-      textSize='lg'
-      onClick={handleDepositSponsorshipClick}
-      disabled={!quantity || needsApproval || depositSponsorshipTxInFlight}
-      className={depositSponsorshipButtonClassName}
-    >
-      {t('depositSponsorship')}
-    </Button>
-  )
-
   return (
-    <>
-      {needsApproval ? (
-        <>
-          <Tooltip
-            title='Allowance'
-            tip={t('needToProvideEnoughAllowance')}
-            className='w-48-percent'
-          >
-            {depositSponsorshipButton}
-          </Tooltip>
-        </>
-      ) : (
-        depositSponsorshipButton
-      )}
-    </>
+    <Tooltip
+      isEnabled={needsApproval}
+      id={`deposit-sponsorship-tx-button-tooltip`}
+      title='Allowance'
+      tip={t('needToProvideEnoughAllowance')}
+      className='w-48-percent'
+    >
+      <Button
+        noAnim
+        textSize='lg'
+        onClick={handleDepositSponsorshipClick}
+        disabled={!quantity || needsApproval || depositSponsorshipTxInFlight}
+        className={depositSponsorshipButtonClassName}
+      >
+        {t('depositSponsorship')}
+      </Button>
+    </Tooltip>
   )
 }

@@ -33,11 +33,7 @@ export function StartAwardUI(props) {
   const handleStartAwardClick = async (e) => {
     e.preventDefault()
 
-    const params = [
-      // {
-      //   gasLimit: 325000
-      // }
-    ]
+    const params = []
 
     const id = await sendTx(
       txName,

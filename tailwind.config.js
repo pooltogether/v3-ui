@@ -3,11 +3,12 @@ const {
 } = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  mode: 'jit',
-  purge: [
-    './lib/**/*.{js,jsx,ts,tsx}',
-    './pages/**/*.{js,jsx,ts,tsx}'
-  ],
+  // mode: 'jit',
+  // purge: [
+  //   './lib/**/*.{js,jsx,ts,tsx}',
+  //   './pages/**/*.{js,jsx,ts,tsx}'
+  // ],
+  purge: false,
   experimental: 'all',
   corePlugins: {
     container: true
@@ -54,6 +55,7 @@ module.exports = {
         input: 'var(--color-bg-input)',
         darkened: 'var(--color-bg-darkened)',
         inverse: 'var(--color-bg-inverse)',
+        modal: 'var(--color-bg-modal)',
         overlay: 'var(--color-bg-overlay)',
         'overlay-white': 'var(--color-bg-overlay-white)',
         black: 'var(--color-bg-black)',

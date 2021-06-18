@@ -1,8 +1,8 @@
 import React from 'react'
+import { shorten } from '@pooltogether/utilities'
 
 import { useTranslation } from 'react-i18next'
 import { Tooltip } from 'lib/components/Tooltip'
-import { shorten } from 'lib/utils/shorten'
 
 const PLAYER_LABELS = {
   '0x57e848a6915455a7e77cf0d55a1474befd9c374d': 'yearn.finance DAI Users',
@@ -40,7 +40,7 @@ export const PlayerLabel = (props) => {
           {` (~${numHolders})`}
 
           <Tooltip
-            id={id}
+            id={`player-label-${id}-tooltip`}
             className='inline-block ml-1'
             tip={t('numHoldersInYearnVault', { numHolders })}
           />

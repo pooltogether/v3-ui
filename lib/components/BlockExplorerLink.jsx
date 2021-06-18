@@ -1,10 +1,10 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
+import { shorten as shortenHash } from '@pooltogether/utilities'
 
 import { CopyIcon } from 'lib/components/CopyIcon'
 import { formatBlockExplorerAddressUrl, formatBlockExplorerTxUrl } from 'lib/utils/networks'
-import { shorten as shortenHash } from 'lib/utils/shorten'
 
 export const BlockExplorerLink = (props) => {
   const {
@@ -68,7 +68,7 @@ BlockExplorerLink.defaultProps = {
 
 export const LinkIcon = (props) => (
   <FeatherIcon
-    icon='external-link'
-    className={classnames('ml-1 my-auto inline-block', props.className)}
+    icon='arrow-up-right'
+    className={classnames('w-4 h-4 ml-1 my-auto inline-block', props.className)}
   />
 )

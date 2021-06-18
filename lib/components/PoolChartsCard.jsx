@@ -39,7 +39,7 @@ const DepositsAndPrizesCharts = (props) => {
         <div className='flex'>
           <h5>{t('historicDeposits')}</h5>
           <Tooltip
-            id={'historic-deposits'}
+            id={'pool-charts-historic-deposits-tooltip'}
             className='ml-2 my-auto text-accent-1'
             tip={t('historicDepositsInfo')}
           />
