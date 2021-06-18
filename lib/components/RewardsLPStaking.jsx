@@ -98,10 +98,14 @@ export const RewardsLPStaking = () => {
       </div>
 
       <RewardsTable>
-        {stakingPools.map((stakingPool) => {
-          console.log(stakingPool)
-          return null
-        })}
+        {stakingPools.map((stakingPool) => (
+          <StakingPoolRow
+            key={`staking-pool-card-${chainId}-${stakingPool.tokens.underlyingToken.address}`}
+            chainId={chainId}
+            walletOnWrongNetwork={walletOnWrongNetwork}
+            stakingPool={stakingPool}
+          />
+        ))}
       </RewardsTable>
     </>
   )
@@ -532,7 +536,7 @@ const WithdrawModal = (props) => {
   const { stakingPool, stakingPoolChainData, userLPChainData, usersAddress } = props
   const { ticketsData } = stakingPoolChainData
   const { userData } = userLPChainData || {}
-  const { pool, tokens } = stakingPool
+  const { tokens } = stakingPool
   const { ticket, underlyingToken } = tokens
   const { token1, token2 } = underlyingToken
 
@@ -555,7 +559,7 @@ const WithdrawModal = (props) => {
       action={t('withdraw')}
       maxAmount={maxAmount}
       maxAmountUnformatted={maxAmountUnformatted}
-      pool={pool}
+      pool={stakingPool}
       method='withdrawInstantlyFrom'
       overMaxErrorMsg={t('pleaseEnterAmountLowerThanTicketBalance')}
       tokenImage={
@@ -574,7 +578,7 @@ const WithdrawModal = (props) => {
 const DepositModal = (props) => {
   const { t } = useTranslation()
   const { stakingPool, stakingPoolChainData, userLPChainData, usersAddress } = props
-  const { pool, tokens } = stakingPool
+  const { tokens } = stakingPool
   const { ticket, underlyingToken } = tokens
   const { token1, token2 } = underlyingToken
   const decimals = stakingPoolChainData?.underlyingTokenData.decimals
@@ -596,7 +600,7 @@ const DepositModal = (props) => {
       decimals={decimals}
       maxAmount={maxAmount}
       maxAmountUnformatted={maxAmountUnformatted}
-      pool={pool}
+      pool={stakingPool}
       method='depositTo'
       overMaxErrorMsg={t('enterAmountLowerThanTokenBalance')}
       tokenImage={

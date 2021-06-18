@@ -101,7 +101,7 @@ export const RewardsTableCell = (props) => {
   return (
     <>
       <div className='w-full flex flex-col sm:w-20 lg:w-32 items-start my-2 sm:mx-4'>
-        {label && <h6 className='sm:hidden font-normal text-accent-1'>{label}</h6>}
+        {label && <div className='sm:hidden font-normal text-accent-1'>{label}</div>}
         <div
           className={classnames(
             divTwoClassName

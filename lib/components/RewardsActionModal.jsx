@@ -47,7 +47,6 @@ export const RewardsActionModal = (props) => {
   } = props
 
   const prizePoolAddress = pool.prizePool.address
-  console.log({ prizePoolAddress })
 
   const { register, handleSubmit, setValue, errors, formState } = useForm({
     mode: 'onChange',
