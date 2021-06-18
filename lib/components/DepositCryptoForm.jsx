@@ -36,7 +36,7 @@ export function DepositCryptoForm(props) {
   const decimals = underlyingToken.decimals
   const tokenAddress = underlyingToken.address
   const ticker = underlyingToken.symbol
-  const poolAddress = pool.prizePool.address
+  const poolAddress = pool?.prizePool.address
 
   const tickerUpcased = ticker?.toUpperCase()
 
@@ -243,7 +243,7 @@ export function DepositCryptoForm(props) {
           </>
         )}
 
-        <DepositExpectationsWarning pool={pool} />
+        {isPrize && <DepositExpectationsWarning pool={pool} />}
       </div>
     </>
   )

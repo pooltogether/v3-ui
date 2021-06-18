@@ -30,7 +30,7 @@ import { LinkIcon } from 'lib/components/BlockExplorerLink'
 import {
   DEXES,
   useStakingPoolChainData,
-  useStakingPoolsAddresses,
+  useStakingPools,
   useUserLPChainData
 } from 'lib/hooks/useStakingPools'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -47,7 +47,7 @@ const bn = ethers.BigNumber.from
 export const RewardsLPStaking = () => {
   const { t } = useTranslation()
 
-  const stakingPoolsAddresses = useStakingPoolsAddresses()
+  const stakingPools = useStakingPools()
   const { network: walletChainId } = useOnboard()
 
   const { appEnv } = useAppEnv()
@@ -98,14 +98,10 @@ export const RewardsLPStaking = () => {
       </div>
 
       <RewardsTable>
-        {stakingPoolsAddresses.map((stakingPoolAddress) => (
-          <StakingPoolRow
-            key={`staking-pool-card-${chainId}-${stakingPoolAddress.underlyingToken.address}`}
-            chainId={chainId}
-            walletOnWrongNetwork={walletOnWrongNetwork}
-            stakingPoolAddress={stakingPoolAddress}
-          />
-        ))}
+        {stakingPools.map((stakingPool) => {
+          console.log(stakingPool)
+          return null
+        })}
       </RewardsTable>
     </>
   )
@@ -114,7 +110,7 @@ export const RewardsLPStaking = () => {
 const StakingPoolRow = (props) => {
   const { t } = useTranslation()
 
-  const { stakingPoolAddress, chainId } = props
+  const { stakingPool } = props
 
   const usersAddress = useUsersAddress()
   const {
@@ -122,13 +118,13 @@ const StakingPoolRow = (props) => {
     isFetched: stakingPoolChainDataIsFetched,
     refetch: stakingPoolChainDataRefetch,
     error: stakingPoolChainDataError
-  } = useStakingPoolChainData(stakingPoolAddress)
+  } = useStakingPoolChainData(stakingPool)
   const {
     data: userLPChainData,
     isFetched: userLPChainDataIsFetched,
     refetch: userLPChainDataRefetch,
     error: userLPChainDataError
-  } = useUserLPChainData(stakingPoolAddress, stakingPoolChainData, usersAddress)
+  } = useUserLPChainData(stakingPool, stakingPoolChainData, usersAddress)
 
   const refetch = () => {
     stakingPoolChainDataRefetch()
@@ -145,14 +141,15 @@ const StakingPoolRow = (props) => {
   } else if (stakingPoolChainDataIsFetched) {
     const { tokenFaucetData, underlyingTokenData, ticketsData } = stakingPoolChainData
     const { dripRatePerDayUnformatted } = tokenFaucetData
-    const { underlyingToken, dripToken } = stakingPoolAddress
+    const { tokens } = stakingPool
+    const { underlyingToken, tokenFaucetDripToken } = tokens
 
     stakingAprJsx = (
       <StakingAPR
         {...props}
         underlyingToken={underlyingToken}
         underlyingTokenData={underlyingTokenData}
-        dripToken={dripToken}
+        tokenFaucetDripToken={tokenFaucetDripToken}
         dripRatePerDayUnformatted={dripRatePerDayUnformatted}
         tickets={ticketsData}
       />
@@ -161,7 +158,7 @@ const StakingPoolRow = (props) => {
     remainingColumnsContents = (
       <StakingPoolRowMainContents
         {...props}
-        stakingPoolAddress={stakingPoolAddress}
+        stakingPool={stakingPool}
         stakingPoolChainData={stakingPoolChainData}
         userLPChainData={userLPChainData}
         userLPChainDataIsFetched={userLPChainDataIsFetched}
@@ -175,8 +172,8 @@ const StakingPoolRow = (props) => {
     <RewardsTableRow
       uniswap
       gradientBorder
-      columnOneImage={<ColumnOneImage stakingPoolAddress={stakingPoolAddress} />}
-      columnOneContents={<ColumnOneContents stakingPoolAddress={stakingPoolAddress} />}
+      columnOneImage={<ColumnOneImage stakingPool={stakingPool} />}
+      columnOneContents={<ColumnOneContents stakingPool={stakingPool} />}
       columnTwoContents={stakingAprJsx}
       remainingColumnsContents={remainingColumnsContents}
     />
@@ -184,8 +181,10 @@ const StakingPoolRow = (props) => {
 }
 
 const ColumnOneImage = (props) => {
-  const { stakingPoolAddress } = props
-  const { underlyingToken } = stakingPoolAddress
+  const { stakingPool } = props
+  const { tokens } = stakingPool
+  console.log(stakingPool)
+  const { underlyingToken } = tokens
   const { token1, token2 } = underlyingToken
 
   return <LPTokensLogo className='' token1={token1} token2={token2} />
@@ -193,8 +192,9 @@ const ColumnOneImage = (props) => {
 
 const ColumnOneContents = (props) => {
   const { t } = useTranslation()
-  const { stakingPoolAddress } = props
-  const { underlyingToken, dripToken } = stakingPoolAddress
+  const { stakingPool } = props
+  const { tokens } = stakingPool
+  const { underlyingToken, tokenFaucetDripToken } = tokens
   const { pair: tokenPair, dex } = underlyingToken
 
   const baseSwapUrl = dex === DEXES.UniSwap ? UNISWAP_V2_PAIR_URL : SUSHISWAP_V2_PAIR_URL
@@ -202,9 +202,9 @@ const ColumnOneContents = (props) => {
   return (
     <div className='flex flex-col justify-center leading-none'>
       <div className='text-sm font-bold mt-3 sm:mt-0'>{tokenPair}</div>
-      <div className='text-xs mt-1 mb-3'>{dex}</div>
+      <div className='text-xs mt-1 mb-2'>{dex}</div>
       <a
-        href={`${baseSwapUrl}${dripToken.address}`}
+        href={`${baseSwapUrl}${tokenFaucetDripToken.address}`}
         target='_blank'
         rel='noreferrer noopener'
         className='mx-auto sm:mx-0 underline flex items-center text-xxs font-normal text-accent-1 hover:text-accent-2 trans trans-fast opacity-60 hover:opacity-100'
@@ -272,14 +272,8 @@ const TokenIcon = (props) => {
 const ClaimTokens = (props) => {
   const { t } = useTranslation()
 
-  const {
-    userLPChainData,
-    userLPChainDataIsFetched,
-    refetch,
-    chainId,
-    stakingPoolAddress,
-    usersAddress
-  } = props
+  const { userLPChainData, userLPChainDataIsFetched, refetch, chainId, stakingPool, usersAddress } =
+    props
   const { userData } = userLPChainData || {}
 
   let claimableBalance = '0.00'
@@ -289,7 +283,8 @@ const ClaimTokens = (props) => {
     claimableBalanceUnformatted = userData.claimableBalanceUnformatted
   }
 
-  const { underlyingToken, tokenFaucet, dripToken } = stakingPoolAddress
+  const { tokens, tokenListener } = stakingPool
+  const { underlyingToken, tokenFaucetDripToken } = tokens
   const token1 = underlyingToken.token1
 
   return (
@@ -303,7 +298,7 @@ const ClaimTokens = (props) => {
         }
         centerContentJsx={
           <>
-            <TokenIcon token={dripToken} className='mr-2 rounded-full w-4 h-4' />
+            <TokenIcon token={tokenFaucetDripToken} className='mr-2 rounded-full w-4 h-4' />
             <span className='text-xxs uppercase'>{token1.symbol}</span>
           </>
         }
@@ -315,7 +310,7 @@ const ClaimTokens = (props) => {
             className='capitalize text-accent-1 hover:text-green'
             name={t('claimPool')}
             abi={TokenFaucetAbi}
-            contractAddress={tokenFaucet.address}
+            contractAddress={tokenListener.address}
             method={'claim'}
             params={[usersAddress]}
             refetch={refetch}
@@ -333,7 +328,7 @@ const ManageStakedAmount = (props) => {
   const {
     refetch,
     chainId,
-    stakingPoolAddress,
+    stakingPool,
     stakingPoolChainData,
     userLPChainDataIsFetched,
     userLPChainData,
@@ -355,7 +350,8 @@ const ManageStakedAmount = (props) => {
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
 
-  const { underlyingToken } = stakingPoolAddress
+  const { tokens } = stakingPool
+  const { underlyingToken } = tokens
 
   return (
     <>
@@ -452,19 +448,14 @@ const DepositTriggers = (props) => {
 
 const WithdrawTriggers = (props) => {
   const { t } = useTranslation()
-  const {
-    openWithdrawModal,
-    stakingPoolChainData,
-    stakingPoolAddress,
-    usersAddress,
-    walletOnWrongNetwork,
-    chainId
-  } = props
+  const { openWithdrawModal, stakingPool, usersAddress, walletOnWrongNetwork, chainId } = props
 
+  console.log(stakingPool)
+  console.log(stakingPool.tokens)
   return (
     <Tooltip
       isEnabled={walletOnWrongNetwork}
-      id={`lp-staking-withdraw-${stakingPoolAddress.underlyingToken.address}-wrong-network-tooltip`}
+      id={`lp-staking-withdraw-${stakingPool.tokens.underlyingToken.address}-wrong-network-tooltip`}
       tip={t('yourWalletIsOnTheWrongNetwork', {
         networkName: getNetworkNiceNameByChainId(chainId)
       })}
@@ -492,7 +483,7 @@ const TransactionButton = (props) => {
     className,
     chainId,
     walletOnWrongNetwork,
-    stakingPoolAddress
+    stakingPool
   } = props
 
   const [txId, setTxId] = useState(0)
@@ -507,7 +498,7 @@ const TransactionButton = (props) => {
   return (
     <Tooltip
       isEnabled={walletOnWrongNetwork}
-      id={`lp-staking-${method}-${stakingPoolAddress.underlyingToken.address}-wrong-network-tooltip`}
+      id={`lp-staking-${method}-${stakingPool.tokens.underlyingToken.address}-wrong-network-tooltip`}
       tip={t('yourWalletIsOnTheWrongNetwork', {
         networkName: getNetworkNiceNameByChainId(chainId)
       })}
@@ -538,10 +529,11 @@ const TransactionButton = (props) => {
 const WithdrawModal = (props) => {
   const { t } = useTranslation()
 
-  const { stakingPoolAddress, stakingPoolChainData, userLPChainData, usersAddress } = props
+  const { stakingPool, stakingPoolChainData, userLPChainData, usersAddress } = props
   const { ticketsData } = stakingPoolChainData
   const { userData } = userLPChainData || {}
-  const { prizePool, ticket, underlyingToken } = stakingPoolAddress
+  const { pool, tokens } = stakingPool
+  const { ticket, underlyingToken } = tokens
   const { token1, token2 } = underlyingToken
 
   let userTickets
@@ -563,7 +555,7 @@ const WithdrawModal = (props) => {
       action={t('withdraw')}
       maxAmount={maxAmount}
       maxAmountUnformatted={maxAmountUnformatted}
-      prizePoolAddress={prizePool.address}
+      pool={pool}
       method='withdrawInstantlyFrom'
       overMaxErrorMsg={t('pleaseEnterAmountLowerThanTicketBalance')}
       tokenImage={
@@ -581,8 +573,9 @@ const WithdrawModal = (props) => {
 
 const DepositModal = (props) => {
   const { t } = useTranslation()
-  const { stakingPoolAddress, stakingPoolChainData, userLPChainData, usersAddress } = props
-  const { prizePool, ticket, underlyingToken } = stakingPoolAddress
+  const { stakingPool, stakingPoolChainData, userLPChainData, usersAddress } = props
+  const { pool, tokens } = stakingPool
+  const { ticket, underlyingToken } = tokens
   const { token1, token2 } = underlyingToken
   const decimals = stakingPoolChainData?.underlyingTokenData.decimals
 
@@ -603,7 +596,7 @@ const DepositModal = (props) => {
       decimals={decimals}
       maxAmount={maxAmount}
       maxAmountUnformatted={maxAmountUnformatted}
-      prizePoolAddress={prizePool.address}
+      pool={pool}
       method='depositTo'
       overMaxErrorMsg={t('enterAmountLowerThanTokenBalance')}
       tokenImage={
@@ -633,7 +626,7 @@ const DepositModal = (props) => {
 //     getParams,
 //     refetch,
 //     chainId,
-//     stakingPoolAddresses
+//     stakingPool
 //   } = props
 
 //   const { register, handleSubmit, setValue, errors, formState } = useForm({
@@ -645,7 +638,7 @@ const DepositModal = (props) => {
 
 //   const { isValid } = formState
 
-//   const { prizePool, underlyingToken } = stakingPoolAddresses
+//   const { prizePool, underlyingToken } = stakingPool
 //   const { token1, token2 } = underlyingToken
 
 //   const { network: walletChainId } = useOnboard()
@@ -768,7 +761,7 @@ const StakingAPR = (props) => {
     underlyingToken,
     underlyingTokenData,
     dripRatePerDayUnformatted,
-    dripToken,
+    tokenFaucetDripToken,
     className,
     tickets
   } = props
@@ -782,7 +775,7 @@ const StakingAPR = (props) => {
     [token1.address, token2.address]
   )
   const { data: tokenPrices, isFetched: tokenPricesIsFetched } = useTokenPrices(chainId, {
-    [currentBlock]: [token1.address, token2.address, dripToken.address]
+    [currentBlock]: [token1.address, token2.address, tokenFaucetDripToken.address]
   })
 
   if (!tokenPricesIsFetched || !tokenBalancesIsFetched) {
@@ -809,7 +802,7 @@ const StakingAPR = (props) => {
 
   const totalDailyValueUnformatted = amountMultByUsd(
     dripRatePerDayUnformatted,
-    tokenPrices[currentBlock][dripToken.address.toLowerCase()]?.usd || '0'
+    tokenPrices[currentBlock][tokenFaucetDripToken.address.toLowerCase()]?.usd || '0'
   )
 
   const totalDailyValue = formatUnits(totalDailyValueUnformatted, underlyingTokenData.decimals)

@@ -11,6 +11,7 @@ import { useOnboard } from '@pooltogether/hooks'
 
 import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
+import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
 import { NetworkWarning } from 'lib/components/NetworkWarning'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
@@ -40,9 +41,13 @@ export const RewardsActionModal = (props) => {
     allowance,
     overMaxErrorMsg,
     underlyingToken,
-    prizePoolAddress,
-    usersAddress
+    pool,
+    usersAddress,
+    isPrize
   } = props
+
+  const prizePoolAddress = pool.prizePool.address
+  console.log({ prizePoolAddress })
 
   const { register, handleSubmit, setValue, errors, formState } = useForm({
     mode: 'onChange',
@@ -132,10 +137,12 @@ export const RewardsActionModal = (props) => {
             {props.tokenImage ?? null}
             <h5>
               {action} {underlyingToken.symbol}
+              {underlyingToken.pair && `, ${underlyingToken.pair} ${t('pair')}`}
             </h5>
           </div>
 
           <NetworkWarning walletOnWrongNetwork={walletOnWrongNetwork} chainId={chainId} />
+          {isPrize && <DepositExpectationsWarning pool={pool} />}
 
           {/* {txPending && (
             <div className='mx-auto text-center'>

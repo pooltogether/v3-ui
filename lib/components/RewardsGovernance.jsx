@@ -410,9 +410,9 @@ const ManageStakedAmount = (props) => {
 
 // const EnableDepositsButton = (props) => {
 //   const { t } = useTranslation()
-//   const { stakingPoolChainData, stakingPoolAddresses, refetch, chainId } = props
+//   const { stakingPoolChainData, stakingPool, refetch, chainId } = props
 
-//   const { prizePool, underlyingToken } = stakingPoolAddresses
+//   const { prizePool, underlyingToken } = stakingPool
 
 //   const decimals = stakingPoolChainData.user.underlyingToken.decimals
 
@@ -520,7 +520,7 @@ const DepositModal = (props) => {
       decimals={decimals}
       maxAmount={maxAmount}
       maxAmountUnformatted={maxAmountUnformatted}
-      prizePoolAddress={pool.prizePool.address}
+      pool={pool}
       method='depositTo'
       overMaxErrorMsg={t('enterAmountLowerThanTokenBalance')}
       tokenImage={
@@ -555,5 +555,5 @@ const GovRewardsAPR = (props) => {
 
   apr = displayPercentage(apr)
 
-  return <RewardsTableAprDisplay apr={apr} />
+  return <RewardsTableAprDisplay isPrize apr={apr} />
 }
