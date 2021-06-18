@@ -2,8 +2,8 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 import { Meta } from 'lib/components/Meta'
-import { HeaderLogo } from 'lib/components/HeaderLogo'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
+import { HeaderLogo } from '@pooltogether/react-components'
 
 export function ErrorPage() {
   const { t } = useTranslation()

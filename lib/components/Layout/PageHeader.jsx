@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   LanguagePickerDropdown,
@@ -8,7 +8,8 @@ import {
   ThemeSettingsItem,
   Account,
   NetworkSelector,
-  SettingsItem
+  SettingsItem,
+  CheckboxInputGroup
 } from '@pooltogether/react-components'
 import { useOnboard } from '@pooltogether/hooks'
 import Link from 'next/link'
@@ -16,6 +17,8 @@ import { useTranslation } from 'react-i18next'
 
 import { NavPoolBalance } from 'lib/components/Layout/NavPoolBalance'
 import { useSupportedNetworks } from 'lib/hooks/useSupportedNetworks'
+import Cookies from 'js-cookie'
+import { COOKIE_OPTIONS, SHOW_MANAGE_LINKS } from 'lib/constants'
 
 export const PageHeader = (props) => (
   <PageHeaderContainer Link={Link} as='/' href='/'>
@@ -28,6 +31,7 @@ const Settings = () => (
   <SettingsContainer className='ml-1 my-auto' title='Settings'>
     <LanguagePicker />
     <ThemeSettingsItem />
+    <ManagePoolsSettingsItem />
     <TestnetSettingsItem />
   </SettingsContainer>
 )
@@ -43,6 +47,41 @@ const LanguagePicker = () => {
           setCurrentLang(newLang)
           i18next.changeLanguage(newLang)
         }}
+      />
+    </SettingsItem>
+  )
+}
+
+const ManagePoolsSettingsItem = () => {
+  const { t } = useTranslation()
+
+  const [showManageLinks, setShowManageLinks] = useState(false)
+  useEffect(() => {
+    const cookieShowAward = Cookies.get(SHOW_MANAGE_LINKS)
+    setShowManageLinks(cookieShowAward)
+  }, [])
+
+  const handleShowManageLinksClick = (e) => {
+    e.preventDefault()
+
+    if (showManageLinks) {
+      Cookies.remove(SHOW_MANAGE_LINKS, COOKIE_OPTIONS)
+    } else {
+      Cookies.set(SHOW_MANAGE_LINKS, 1, COOKIE_OPTIONS)
+    }
+
+    setShowManageLinks(!showManageLinks)
+  }
+
+  return (
+    <SettingsItem label='Language'>
+      <CheckboxInputGroup
+        large
+        id='settings-show-award'
+        name='settings-show-award'
+        label={t('showPoolManagementPages')}
+        checked={showManageLinks}
+        handleClick={handleShowManageLinksClick}
       />
     </SettingsItem>
   )

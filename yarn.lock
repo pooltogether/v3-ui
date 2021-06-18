@@ -2526,15 +2526,15 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/fixed-point/-/fixed-point-1.0.0-beta.2.tgz#d76a1e77f21833e9b680296d65526b0ffd7415d7"
   integrity sha512-aUw4R0Z2oM0AK3W4LIXyBaojTOzRRbhLDHX0egeuvxfjy4gBb6X66v81gI7Wngg/7O0y9QL/B8jWkUnAFzhTig==
 
-"@pooltogether/hooks@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-0.1.0.tgz#1873a309e82b6fc646649129b8906cc761afe6aa"
-  integrity sha512-nvRLbLXIyrVrseIuwOczbWPX4ebhgJGpTgdCTYU9uu1u4GtlmGa4sZwrBk56mwrdcDln5V/oAQi/qSmcCzUDUA==
+"@pooltogether/hooks@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-0.1.6.tgz#359997b4de7fd0f3b2b19674fc25e586136537c0"
+  integrity sha512-wMWFurr9wS/RsrTb1GiTTjzuQtJMJP+MtoLMpOZYtCbE3nJwouOAL53rgKpUEgjj/9MmKgZSpY/P9JzvlXjSMA==
   dependencies:
     "@pooltogether/bnc-onboard" "^1.25.0-c"
     "@pooltogether/etherplex" "^1.1.1"
     "@pooltogether/evm-chains-extended" "^0.4.3"
-    "@pooltogether/utilities" "^0.0.21"
+    "@pooltogether/utilities" "^0.0.26"
     ethers "^5.3.0"
     framer-motion "^4.1.17"
     js-cookie "^2.2.1"
@@ -2616,14 +2616,15 @@
     ethers "^5.3.0"
     lodash.clonedeep "^4.5.0"
 
-"@pooltogether/utilities@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.21.tgz#9b7e7fa1851d65b17138373c57980323624ed30b"
-  integrity sha512-P8BlQ8jMD2SuCSKjW+oKYEgw9RlLPebP/TWSh8cgbKR761tRpLhUJJenbaqoy8K2F6wNIzzaICNvnAlrToRc6Q==
+"@pooltogether/utilities@^0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.26.tgz#f80636e60521421893ca22ffca182119cb7120a4"
+  integrity sha512-Fzx77yYGd3EM6/bk46Z81z/b5/GP5SZo7qHBiNB5wDLboWPOS5YHyp3LMNlnLvVWAzpugvHEbYoXQDoFWqjHCg==
   dependencies:
     "@pooltogether/current-pool-data" "^3.4.3"
-    ethers "^5.1.2"
+    ethers "^5.3.0"
     lodash.clonedeep "^4.5.0"
+    query-string "^7.0.0"
 
 "@pooltogether/yield-source-interface@^1.0.1":
   version "1.0.1"
@@ -8772,7 +8773,7 @@ ethers@4.0.47:
     uuid "2.0.1"
     xmlhttprequest "1.8.0"
 
-ethers@5.3.0, ethers@^5.0.31, ethers@^5.0.8, ethers@^5.1.2, ethers@^5.2.0, ethers@^5.3.0:
+ethers@5.3.0, ethers@^5.0.31, ethers@^5.0.8, ethers@^5.2.0, ethers@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.3.0.tgz#1ec14d09c461e8f2554b00cd080e94a3094e7e9d"
   integrity sha512-myN+338S4sFQZvQ9trii7xit8Hu/LnUtjA0ROFOHpUreQc3fgLZEMNVqF3vM1u2D78DIIeG1TbuozVCVlXQWvQ==
@@ -17334,6 +17335,16 @@ query-string@^6.13.1:
   version "6.14.1"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-6.14.1.tgz#7ac2dca46da7f309449ba0f86b1fd28255b0c86a"
   integrity sha512-XDxAeVmpfu1/6IjyT/gXHOl+S0vQ9owggJ30hhWKdHAsNPOcasn5o9BW0eejZqL2e4vMjhAxoW3jVHcD6mbcYw==
+  dependencies:
+    decode-uri-component "^0.2.0"
+    filter-obj "^1.1.0"
+    split-on-first "^1.0.0"
+    strict-uri-encode "^2.0.0"
+
+query-string@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-7.0.0.tgz#aaad2c8d5c6a6d0c6afada877fecbd56af79e609"
+  integrity sha512-Iy7moLybliR5ZgrK/1R3vjrXq03S13Vz4Rbm5Jg3EFq1LUmQppto0qtXz4vqZ386MSRjZgnTSZ9QC+NZOSd/XA==
   dependencies:
     decode-uri-component "^0.2.0"
     filter-obj "^1.1.0"

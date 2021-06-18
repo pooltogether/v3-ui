@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
-import { Modal, PoolIcon, ButtonLink } from '@pooltogether/react-components'
-import { useGovernanceChainId } from '@pooltogether/hooks'
+import {
+  Modal,
+  PoolIcon,
+  ButtonLink,
+  ExternalLink,
+  InternalLink
+} from '@pooltogether/react-components'
+import { useGovernanceChainId, useOnboard, useUsersAddress } from '@pooltogether/hooks'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 
@@ -20,6 +26,8 @@ export const NavPoolBalance = (props) => {
   const closeModal = () => setIsOpen(false)
 
   const { data: tokenData, isFetched } = usePoolTokenData()
+
+  console.log(isFetched, tokenData)
 
   if (!isFetched || !tokenData) {
     return null
@@ -54,7 +62,9 @@ const PoolBalanceModal = (props) => {
 
   const chainId = useGovernanceChainId()
 
-  const { total: totalClaimablePool } = useTotalClaimablePool()
+  const usersAddress = useUsersAddress()
+
+  const { total: totalClaimablePool } = useTotalClaimablePool(usersAddress)
 
   const totalClaimablePoolFormatted = numberWithCommas(totalClaimablePool)
   const formattedBalance = numberWithCommas(usersBalance)
@@ -110,8 +120,8 @@ const PoolBalanceModal = (props) => {
         Link={Link}
         textSize='xxxs'
         onClick={openClaimRewards}
-        href='https://app.pooltogether.com/account#governance-claims'
-        as='https://app.pooltogether.com/account#governance-claims'
+        href='/account#governance-claims'
+        as='/account#governance-claims'
         width='w-full'
         className='mt-4'
       >

@@ -50,7 +50,7 @@ export const RewardsGovernance = () => {
     NETWORK.mainnet,
     usersAddress
   )
-  const { refetch: refetchPoolTokenData } = usePoolTokenData(usersAddress)
+  const { refetch: refetchPoolTokenData } = usePoolTokenData()
 
   const refetchAllPoolTokenData = () => {
     console.log('running refresh!')
