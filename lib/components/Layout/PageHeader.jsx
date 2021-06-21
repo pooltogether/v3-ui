@@ -9,7 +9,8 @@ import {
   Account,
   NetworkSelector,
   SettingsItem,
-  CheckboxInputGroup
+  CheckboxInputGroup,
+  ButtonLink
 } from '@pooltogether/react-components'
 import { useOnboard } from '@pooltogether/hooks'
 import Link from 'next/link'
@@ -31,6 +32,7 @@ const Settings = () => (
   <SettingsContainer className='ml-1 my-auto' title='Settings'>
     <LanguagePicker />
     <ThemeSettingsItem />
+    <ClaimPoolTokens />
     <ManagePoolsSettingsItem />
     <TestnetSettingsItem />
   </SettingsContainer>
@@ -48,6 +50,27 @@ const LanguagePicker = () => {
           i18next.changeLanguage(newLang)
         }}
       />
+    </SettingsItem>
+  )
+}
+
+const ClaimPoolTokens = () => {
+  const { t } = useTranslation()
+  return (
+    <SettingsItem label='Claim POOL' description={t('claimTokensOnBehalfOf')}>
+      <ButtonLink
+        Link={Link}
+        secondary
+        textSize='xxxs'
+        padding='px-6 py-2'
+        shallow
+        as='?claim=1'
+        href='?claim=1'
+        border='transparent'
+        hoverBorder='transparent'
+      >
+        {t('openPoolClaim')}
+      </ButtonLink>
     </SettingsItem>
   )
 }

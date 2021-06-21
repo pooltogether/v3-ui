@@ -42,6 +42,11 @@ import '@pooltogether/react-components/dist/index.css'
 // Imoport i18n config
 import '../i18n'
 import { useTranslation } from 'react-i18next'
+import { AnimatePresence } from 'framer-motion'
+import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
+import { ManageTicketsWizardContainer } from 'lib/components/ManageTicketsWizardContainer'
+import { ClaimRetroactivePoolWizardContainer } from 'lib/components/ClaimRetroactivePoolWizard'
+import { WrongNetworkModal } from 'lib/components/WrongNetworkModal'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -65,6 +70,9 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 
 function MyApp({ Component, pageProps, router }) {
   const { i18n } = useTranslation()
+
+  const deposit = /deposit/.test(router.asPath)
+  const manage = /\/manage-tickets/.test(router.asPath)
 
   useEffect(() => {
     if (router?.query?.referrer) {
@@ -149,6 +157,14 @@ function MyApp({ Component, pageProps, router }) {
                 <TxRefetchListener />
 
                 <ManualWarningMessage />
+
+                <AnimatePresence>{deposit && <DepositWizardContainer />}</AnimatePresence>
+
+                <AnimatePresence>{manage && <ManageTicketsWizardContainer />}</AnimatePresence>
+
+                <ClaimRetroactivePoolWizardContainer />
+
+                <WrongNetworkModal />
 
                 <LoadingScreen isInitialized={i18n.isInitialized}>
                   <Component {...pageProps} />
