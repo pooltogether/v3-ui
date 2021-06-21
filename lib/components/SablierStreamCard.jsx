@@ -1,11 +1,11 @@
 import React from 'react'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
-
+import { Tooltip } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
+
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Erc20Image } from 'lib/components/Erc20Image'
-import { Tooltip } from 'lib/components/Tooltip'
 import { getDateFromSeconds } from 'lib/utils/getDateFromSeconds'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { secondsSinceEpoch } from 'lib/utils/secondsSinceEpoch'

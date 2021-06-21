@@ -5,6 +5,9 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { useInterval } from 'beautiful-react-hooks'
 import { useOnboard } from '@pooltogether/hooks'
+import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
+import { Button } from '@pooltogether/react-components'
+import { useTranslation } from 'react-i18next'
 
 import {
   COOKIE_OPTIONS,
@@ -13,9 +16,7 @@ import {
   WIZARD_REFERRER_AS_PATH,
   PRIZE_POOL_TYPES
 } from 'lib/constants'
-import { useTranslation } from 'react-i18next'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
-import { Button } from 'lib/components/Button'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 import { CommunityPoolDisclaimerModal } from 'lib/components/CommunityPoolDisclaimerModal'
 import { PoolShowLootBoxTable } from 'lib/components/LootBoxTable'
@@ -26,7 +27,6 @@ import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { PoolPrizeCard } from 'lib/components/PoolPrizeCard'
 import { PoolStats } from 'lib/components/PoolStats'
 import { PoolShowUILoader } from 'lib/components/loaders/PoolShowUILoader'
-import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { SablierStreamCard } from 'lib/components/SablierStreamCard'
 import { UpcomingPrizeBreakdownCard } from 'lib/components/UpcomingPrizeBreakdownCard'
 import { Meta } from 'lib/components/Meta'
@@ -116,6 +116,7 @@ export const PoolShow = (props) => {
         <div className='flex flex-col sm:flex-row justify-between sm:items-center mb-4 sm:mb-10'>
           <div className='flex justify-between items-center sm:w-9/12 lg:w-7/12'>
             <PageTitleAndBreadcrumbs
+              Link={Link}
               title={translatedPoolName(t, pool.name)}
               pool={pool}
               breadcrumbs={[

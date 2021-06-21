@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useAtom } from 'jotai'
 import { useTranslation } from 'react-i18next'
-import { Button } from 'lib/components/Button'
+import { Button, Tooltip } from '@pooltogether/react-components'
 import { usePreviousValue } from 'beautiful-react-hooks'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 
@@ -19,7 +19,6 @@ import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
-import { Tooltip } from 'lib/components/Tooltip'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
@@ -295,7 +294,7 @@ const ClaimablePoolTokenItem = (props) => {
           'opacity-40': !isClaimable
         })}
       >
-        <p className='text-inverse font-bold'>{t('availableToClaim')}</p>
+        <p className='text-inverse font-bold text-xs'>{t('availableToClaim')}</p>
         <h4 className={classnames('flex items-center sm:justify-end')}>
           <Erc20Image address={dripToken.address} className='inline-block w-6 h-6 mr-2' />
           <ClaimableAmountCountUp amount={Number(claimablePoolData?.claimableAmount)} />

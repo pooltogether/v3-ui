@@ -1,9 +1,7 @@
 import React from 'react'
 import { useOnboard } from '@pooltogether/hooks'
-
+import { Button, Tooltip } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
-import { Button } from 'lib/components/Button'
-import { Tooltip } from 'lib/components/Tooltip'
 
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
 import PoolTogetherPOOLToken from 'assets/images/pool-icon.svg'

@@ -1,7 +1,8 @@
 import React from 'react'
 import { ethers } from 'ethers'
-
 import { useTranslation } from 'react-i18next'
+import { Tooltip } from '@pooltogether/react-components'
+
 import { DEFAULT_TOKEN_PRECISION, PRIZE_POOL_TYPES } from 'lib/constants'
 import {
   CUSTOM_YIELD_SOURCE_NAMES,
@@ -10,7 +11,6 @@ import {
 import { BlockExplorerLink, LinkIcon } from 'lib/components/BlockExplorerLink'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolNumber } from 'lib/components/PoolNumber'
-import { Tooltip } from 'lib/components/Tooltip'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -66,7 +66,7 @@ const Stat = (props) => {
 
   return (
     <li className='flex items-center justify-between mb-2 last:mb-0'>
-      <span className='text-accent-1 flex'>
+      <span className='text-accent-1 flex mb-auto'>
         {title}:{' '}
         {tooltip && (
           <Tooltip

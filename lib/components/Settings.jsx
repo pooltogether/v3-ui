@@ -5,8 +5,9 @@ import FeatherIcon from 'feather-icons-react'
 import VisuallyHidden from '@reach/visually-hidden'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
-
+import { Button, Tooltip } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
+
 import {
   COOKIE_OPTIONS,
   SHOW_MANAGE_LINKS,
@@ -14,10 +15,8 @@ import {
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
-import { Button } from 'lib/components/Button'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
-import { Tooltip } from 'lib/components/Tooltip'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
