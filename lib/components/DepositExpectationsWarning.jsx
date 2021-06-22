@@ -31,12 +31,11 @@ export const DepositExpectationsWarning = (props) => {
   return (
     <Banner
       gradient={null}
-      className='bg-primary mt-4 sm:mt-8 mx-auto w-full text-accent-1 text-xxs'
-      style={{ maxWidth: 380 }}
+      className='flex items-center mx-auto w-full bg-primary text-accent-1 text-xxs xs:text-xs lg:text-sm mt-4 sm:mt-8 max-w-lg'
     >
-      <img className='mx-auto mb-3 h-8' src={Bell} />
+      <img className='mx-auto h-8 mr-4' src={Bell} />
 
-      <span className='sm:leading-tight sm:ml-2'>
+      <span className='sm:ml-2'>
         <Trans
           i18nKey='youCanWithdrawWithNoPenaltyDescription'
           defaults='You can withdraw with no penalty {{days}} days after depositing. Funds withdrawn earlier are subjected to up to a {{percent}}% early exit fee. <a>Learn more</a>'

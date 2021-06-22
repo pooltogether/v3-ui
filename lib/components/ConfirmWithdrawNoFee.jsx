@@ -95,17 +95,17 @@ export function ConfirmWithdrawNoFee(props) {
           />
 
           <div
-            className='text-center mx-auto rounded-lg text-orange bg-orange-darkened border-2 border-orange py-2 xs:py-4 px-4 xs:px-8'
+            className='w-full text-center mx-auto rounded-lg text-orange bg-orange-darkened border-2 border-orange py-2 xs:py-4 px-4 xs:px-8'
             style={{
               maxWidth: 600
             }}
           >
-            <p className='text-base xs:text-xl'>
-              <span className='font-bold'>{t('balance')}:</span> {numberWithCommas(prevBalance)} -{' '}
+            <p className='text-base xs:text-xl leading-tight mb-2'>
+              {numberWithCommas(prevBalance)} -{' '}
               {numberWithCommas(quantity)} ={' '}
-              <span className='font-bold'>
+              <div className='font-bold sm:inline'>
                 {numberWithCommas(Number(prevBalance) - Number(quantity))} {tickerUpcased}
-              </span>
+              </div>
             </p>
 
             <WithdrawOdds

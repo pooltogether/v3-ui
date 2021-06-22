@@ -14,6 +14,8 @@ export function WithdrawComplete(props) {
 
   const { quantity } = props
 
+  const tickerUpcased = pool?.tokens.underlyingToken.symbol.toUpperCase()
+
   return (
     <>
       <PaneTitle>
@@ -32,13 +34,14 @@ export function WithdrawComplete(props) {
         <h4 className='text-orange capitalize'>
           -
           <Trans
-            i18nKey='amountTickets'
-            defaults='<number>{{amount}}</number> tickets'
+            i18nKey='youReceivedAmountTicker'
+            defaults='<number>{{amount}}</number> {{ticker}}'
             components={{
               number: <PoolNumber />
             }}
             values={{
-              amount: quantity
+              amount: quantity,
+              ticker: tickerUpcased
             }}
           />
         </h4>

@@ -35,6 +35,8 @@ const BannerMotionDIV = (props) => {
 }
 
 export const IndexUI = (props) => {
+  const { t } = useTranslation()
+
   const router = useRouter()
   // Don't switch back to the default tab if we're navigating away from the homepage
   const defaultTab = router.pathname === '/' && POOL_LIST_TABS.pools
@@ -42,7 +44,7 @@ export const IndexUI = (props) => {
 
   return (
     <>
-      <Meta title='PoolTogether' />
+      <Meta title={t('pools')} />
 
       <RetroactivePoolClaimBanner />
 
@@ -63,35 +65,7 @@ export const IndexUI = (props) => {
         </div>
       </div>
 
-      {/* <NewPoolBanner /> */}
-
       <PoolLists />
     </>
-  )
-}
-
-const NewPoolBanner = (props) => {
-  const { t } = useTranslation()
-
-  return (
-    <Link href='/pools/[networkName]/[symbol]' as={`/pools/mainnet/PT-cCOMP`}>
-      <a className='block mt-2 mb-3 text-center p-3 rounded-lg border-2 border-secondary font-bold text-inverse text-xxs xs:text-xs sm:text-sm'>
-        <span role='img' aria-label='megaphone emoji' className='mx-2 text-xl'>
-          📣
-        </span>
-        <br />{' '}
-        <img
-          src={CompSvg}
-          alt='comp logo'
-          className='w-4 h-4 inline-block relative'
-          style={{
-            top: -2
-          }}
-        />{' '}
-        {t('tickerPoolIsNowOpen', {
-          ticker: 'COMP'
-        })}
-      </a>
-    </Link>
   )
 }

@@ -101,7 +101,7 @@ export const RewardsTableCell = (props) => {
   return (
     <>
       <div className='w-full flex flex-col sm:w-20 lg:w-32 items-start my-2 sm:mx-4'>
-        {label && <h6 className='sm:hidden font-normal text-accent-1'>{label}</h6>}
+        {label && <div className='sm:hidden font-normal text-accent-1'>{label}</div>}
         <div
           className={classnames(
             divTwoClassName
@@ -122,12 +122,15 @@ export const RewardsTableCell = (props) => {
 }
 
 export const RewardsTableAprDisplay = (props) => {
-  const { apr } = props
+  const { t } = useTranslation()
+    
+  const { apr, isPrize } = props
 
   return (
-    <>
+    <div className='mt-3 sm:mt-0 leading-snug'>
       <span className='font-bold'>{apr.split('.')?.[0]}</span>.{apr.split('.')?.[1]}%{' '}
       <span className='sm:hidden text-xxs text-accent-1 mt-1 sm:mt-2'>APR</span>
-    </>
+      {isPrize && <div className='lowercase text-xs'>+ {t('prize')}</div>}
+    </div>
   )
 }

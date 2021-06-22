@@ -214,23 +214,22 @@ export function DepositTicketQuantityForm(props) {
         <div className='odds-box'>
           <Banner
             gradient={null}
-            className='bg-primary mt-4 sm:mt-8 mx-auto w-full text-xxs'
+            // className='bg-primary mt-4 sm:mt-8 mx-auto w-full text-xxs'
+            className='flex items-center mx-auto w-full bg-primary text-accent-1 text-xxs xs:text-xs lg:text-sm mt-4 sm:mt-8 max-w-lg'
             style={{ maxWidth: 380 }}
           >
             <img className='mx-auto mb-3 h-16' src={IconTarget} />
 
-            <div className='mt-6'>
-              <Odds
-                sayEveryWeek={pool.prize.prizePeriodSeconds.toString() == SECONDS_PER_WEEK}
-                showLabel
-                splitLines
-                ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
-                decimals={pool.tokens.ticket.decimals}
-                numberOfWinners={pool.config.numberOfWinners}
-                usersBalance={amountUnformatted}
-                additionalAmount={watchQuantity}
-              />
-            </div>
+            <Odds
+              sayEveryWeek={pool.prize.prizePeriodSeconds.toString() == SECONDS_PER_WEEK}
+              showLabel
+              splitLines
+              ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
+              decimals={pool.tokens.ticket.decimals}
+              numberOfWinners={pool.config.numberOfWinners}
+              usersBalance={amountUnformatted}
+              additionalAmount={watchQuantity}
+            />
           </Banner>
         </div>
       )}

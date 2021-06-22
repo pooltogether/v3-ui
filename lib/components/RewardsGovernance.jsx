@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'
-import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
+import { APP_ENVIRONMENT, useAppEnv, useOnboard, useUsersAddress } from '@pooltogether/hooks'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -40,8 +40,13 @@ export const RewardsGovernance = () => {
 
   const { network: walletChainId } = useOnboard()
 
+  const { appEnv } = useAppEnv()
+  const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
+
   const { data: pools } = useGovernancePools()
-  const pool = pools?.find((pool) => pool.symbol === 'PT-stPOOL')
+  const symbol = chainId === 1 ? 'PT-stPOOL' : 'PT-cBAT'
+  const pool = pools?.find((pool) => pool.symbol === symbol)
+
   const usersAddress = useUsersAddress()
   const { data: playerTickets, isFetched: playersTicketDataIsFetched } =
     useUserTicketsFormattedByPool(usersAddress)
@@ -58,6 +63,10 @@ export const RewardsGovernance = () => {
     refetchPoolTokenData()
   }
   const walletOnWrongNetwork = walletChainId !== pool?.chainId
+
+  useEffect(() => {
+    setDepositModalIsOpen(false)
+  }, [usersAddress])
 
   return (
     <>
@@ -410,9 +419,9 @@ const ManageStakedAmount = (props) => {
 
 // const EnableDepositsButton = (props) => {
 //   const { t } = useTranslation()
-//   const { stakingPoolChainData, stakingPoolAddresses, refetch, chainId } = props
+//   const { stakingPoolChainData, stakingPools, refetch, chainId } = props
 
-//   const { prizePool, underlyingToken } = stakingPoolAddresses
+//   const { prizePool, underlyingToken } = stakingPools
 
 //   const decimals = stakingPoolChainData.user.underlyingToken.decimals
 
@@ -520,7 +529,7 @@ const DepositModal = (props) => {
       decimals={decimals}
       maxAmount={maxAmount}
       maxAmountUnformatted={maxAmountUnformatted}
-      prizePoolAddress={pool.prizePool.address}
+      pool={pool}
       method='depositTo'
       overMaxErrorMsg={t('enterAmountLowerThanTokenBalance')}
       tokenImage={
@@ -555,5 +564,5 @@ const GovRewardsAPR = (props) => {
 
   apr = displayPercentage(apr)
 
-  return <RewardsTableAprDisplay apr={apr} />
+  return <RewardsTableAprDisplay isPrize apr={apr} />
 }
