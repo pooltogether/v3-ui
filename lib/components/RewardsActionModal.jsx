@@ -204,7 +204,7 @@ export const RewardsActionModal = (props) => {
             )}
 
             <ButtonDrawer>
-              {txError && <>
+              {txCompleted && txError && <>
                 <Button
                   textSize='sm'
                   className='w-full'
@@ -218,7 +218,7 @@ export const RewardsActionModal = (props) => {
               </>}
 
 
-              {txCompleted ? <>
+              {txCompleted && !txError ? <>
                 <Button
                   textSize='sm'
                   className='w-full'
