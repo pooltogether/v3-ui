@@ -514,13 +514,7 @@ a:hover {
 
 .__react_component_tooltip.show.type-custom {
   opacity: 0.97;
-  padding: 8px 21px 20px;
-}
-
-@screen xs {
-  .__react_component_tooltip.show.type-custom {
-    padding: 8px 21px;
-  }
+  padding: 8px 21px;
 }
 
 .notched-box {
@@ -528,8 +522,6 @@ a:hover {
 }
 
 .notched-corner {
-  /* @apply bg-body; */
-
   position: absolute;
   height: 10px;
   width: 10px;
@@ -579,4 +571,20 @@ a:hover {
 
 .new-btn:active {
   box-shadow: 0 0 0 2px rgba(53, 240, 208, 0.3);
+}
+
+.banner--deposit {
+  @apply flex items-center mx-auto w-full bg-primary text-accent-1 text-xxs xs:text-xs lg:text-sm mt-4 sm:mt-8;
+
+  max-width: 550px;
+}
+
+.banner--tx-status {
+  min-height: 148px;
+}
+
+@screen sm {
+  .banner--tx-status {
+    min-height: 154px;
+  }
 }

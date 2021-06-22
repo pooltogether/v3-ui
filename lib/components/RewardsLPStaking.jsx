@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import isEmpty from 'lodash.isempty'
@@ -187,7 +187,6 @@ const StakingPoolRow = (props) => {
 const ColumnOneImage = (props) => {
   const { stakingPool } = props
   const { tokens } = stakingPool
-  console.log(stakingPool)
   const { underlyingToken } = tokens
   const { token1, token2 } = underlyingToken
 
@@ -329,15 +328,8 @@ const ClaimTokens = (props) => {
 
 const ManageStakedAmount = (props) => {
   const { t } = useTranslation()
-  const {
-    refetch,
-    chainId,
-    stakingPool,
-    stakingPoolChainData,
-    userLPChainDataIsFetched,
-    userLPChainData,
-    usersAddress
-  } = props
+  const { refetch, chainId, stakingPool, userLPChainDataIsFetched, userLPChainData, usersAddress } =
+    props
 
   const { userData } = userLPChainData || {}
 
@@ -353,6 +345,11 @@ const ManageStakedAmount = (props) => {
 
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
+
+  useEffect(() => {
+    setDepositModalIsOpen(false)
+    setWithdrawModalIsOpen(false)
+  }, [usersAddress])
 
   const { tokens } = stakingPool
   const { underlyingToken } = tokens
@@ -398,18 +395,6 @@ const ManageStakedAmount = (props) => {
         }
       />
 
-      {/* {!allowance.isZero() && (
-      <div className='flex items-center lg:flex-row-reverse'>
-          <div className='flex flex-col justify-start ml-8 lg:ml-0 lg:mr-12'>
-            // <span className='text-xxs font-bold uppercase'>{t('deposited')}</span> 
-          </div>
-      </div>
-        )} */}
-      {/* 
-      <span className='w-full sm:w-48 lg:w-64 flex flex-col-reverse sm:flex-row'>
-        
-      </span> */}
-
       <DepositModal
         {...props}
         isOpen={depositModalIsOpen}
@@ -454,8 +439,6 @@ const WithdrawTriggers = (props) => {
   const { t } = useTranslation()
   const { openWithdrawModal, stakingPool, usersAddress, walletOnWrongNetwork, chainId } = props
 
-  console.log(stakingPool)
-  console.log(stakingPool.tokens)
   return (
     <Tooltip
       isEnabled={walletOnWrongNetwork}
@@ -615,149 +598,6 @@ const DepositModal = (props) => {
     />
   )
 }
-
-// const ActionModal = (props) => {
-//   const { t } = useTranslation()
-
-//   const {
-//     isOpen,
-//     closeModal,
-//     action,
-//     maxAmount,
-//     maxAmountUnformatted,
-//     stakingPoolChainData,
-//     method,
-//     getParams,
-//     refetch,
-//     chainId,
-//     stakingPool
-//   } = props
-
-//   const { register, handleSubmit, setValue, errors, formState } = useForm({
-//     mode: 'onChange',
-//     reValidateMode: 'onChange'
-//   })
-
-//   const decimals = stakingPoolChainData.userData.underlyingToken.decimals
-
-//   const { isValid } = formState
-
-//   const { prizePool, underlyingToken } = stakingPool
-//   const { token1, token2 } = underlyingToken
-
-//   const { network: walletChainId } = useOnboard()
-//   const [txId, setTxId] = useState(0)
-//   const sendTx = useSendTransaction()
-//   const tx = useTransaction(txId)
-//   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
-
-//   const walletOnWrongNetwork = walletChainId !== chainId
-
-//   const onSubmit = async (formData) => {
-//     const id = await sendTx(
-//       `${action} ${underlyingToken.symbol}`,
-//       PrizePoolAbi,
-//       prizePool.address,
-//       method,
-//       getParams(formData[action]),
-//       refetch
-//     )
-//     setTxId(id)
-//   }
-
-//   return (
-//     <Dialog
-//       aria-label={`${underlyingToken.symbol} Pool ${action} Modal`}
-//       isOpen={isOpen}
-//       onDismiss={closeModal}
-//     >
-//       <div className='relative text-inverse p-4 bg-card h-full sm:h-auto rounded-none sm:rounded-xl sm:max-w-xl mx-auto flex flex-col'>
-//         <div className='flex'>
-//           <button
-//             className='absolute r-4 t-4 close-button trans text-inverse hover:opacity-30'
-//             onClick={closeModal}
-//           >
-//             <FeatherIcon icon='x' className='w-6 h-6' />
-//           </button>
-//         </div>
-
-//         <div className='flex flex-row mb-4 mt-10 sm:mt-0'>
-//           <LPTokensLogo small className='my-auto mr-2' token1={token1} token2={token2} />
-//           <h5>
-//             {action} {underlyingToken.symbol}
-//           </h5>
-//         </div>
-
-//         <NetworkWarning walletOnWrongNetwork={walletOnWrongNetwork} chainId={chainId} />
-
-//         {txPending && (
-//           <div className='mx-auto text-center'>
-//             <TxStatus gradient='basic' tx={tx} />
-//           </div>
-//         )}
-
-//         {!txPending && (
-//           <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>
-//             <div className='flex flex-row justify-between mt-4 mb-2'>
-//               <label className='my-0 capitalize' htmlFor={`_${action}`}>
-//                 {action}
-//               </label>
-//               <div>
-//                 <span className='mr-1'>{t('balance')}:</span>
-//                 <button
-//                   type='button'
-//                   onClick={() => setValue(action, maxAmount, { shouldValidate: true })}
-//                 >
-//                   {numberWithCommas(maxAmount)}
-//                 </button>
-//               </div>
-//             </div>
-//             <input
-//               name={action}
-//               className='bg-body p-2 w-full rounded-xl outline-none focus:outline-none active:outline-none'
-//               autoFocus
-//               ref={register({
-//                 required: true,
-//                 pattern: {
-//                   value: /^\d*\.?\d*$/,
-//                   message: t('pleaseEnterAPositiveNumber')
-//                 },
-//                 validate: {
-//                   greaterThanBalance: (value) =>
-//                     parseUnits(value, decimals).lte(maxAmountUnformatted) ||
-//                     t('pleaseEnterANumberLessThanYourBalance')
-//                 }
-//               })}
-//             />
-//             <span className='h-6 w-full text-xxs text-orange'>
-//               {errors?.[action]?.message || null}
-//             </span>
-
-//             <div className='flex flex-row w-full justify-between mt-6'>
-//               <Button type='button' className='mr-2' width='w-full' onClick={closeModal}>
-//                 {t('cancel')}
-//               </Button>
-//               <Button
-//                 type='submit'
-//                 border='green'
-//                 text='primary'
-//                 bg='green'
-//                 hoverBorder='green'
-//                 hoverText='primary'
-//                 hoverBg='green'
-//                 className='ml-2'
-//                 width='w-full'
-//                 disabled={!isValid || walletOnWrongNetwork}
-//               >
-//                 {t('confirm')}
-//               </Button>
-//             </div>
-//           </form>
-//         )}
-//       </div>
-//     </Dialog>
-//   )
-// }
 
 const StakingAPR = (props) => {
   const {

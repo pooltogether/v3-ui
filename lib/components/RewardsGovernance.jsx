@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import Cookies from 'js-cookie'
@@ -20,6 +20,7 @@ import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { ContentOrSpinner } from 'lib/components/ContentOrSpinner'
 import { Tooltip } from 'lib/components/Tooltip'
 import { Erc20Image } from 'lib/components/Erc20Image'
+import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
 import { useGovernancePools } from 'lib/hooks/usePools'
@@ -40,8 +41,13 @@ export const RewardsGovernance = () => {
 
   const { network: walletChainId } = useOnboard()
 
+  const { appEnv } = useAppEnv()
+  const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
+
   const { data: pools } = useGovernancePools()
-  const pool = pools?.find((pool) => pool.symbol === 'PT-stPOOL')
+
+  const symbol = chainId === 1 ? 'PT-stPOOL' : 'PT-cBAT'
+  const pool = pools?.find((pool) => pool.symbol === symbol)
   const usersAddress = useUsersAddress()
   const { data: playerTickets, isFetched: playersTicketDataIsFetched } =
     useUserTicketsFormattedByPool(usersAddress)
@@ -363,6 +369,10 @@ const ManageStakedAmount = (props) => {
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
   // const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
 
+  useEffect(() => {
+    setDepositModalIsOpen(false)
+  }, [usersAddress])
+
   return (
     <>
       <RewardsTableCell
@@ -515,6 +525,7 @@ const DepositModal = (props) => {
   return (
     <RewardsActionModal
       {...props}
+      isPrize
       underlyingToken={underlyingToken}
       action={t('deposit')}
       decimals={decimals}

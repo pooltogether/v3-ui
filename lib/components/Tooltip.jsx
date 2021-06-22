@@ -49,7 +49,11 @@ export const Tooltip = (props) => {
               current.tooltipRef = null
               ReactTooltip.hide()
             }}
-            className='ml-auto mb-2 block xs:hidden'
+            className='ml-auto mb-1 absolute block xs:hidden'
+            style={{
+              right: 17,
+              top: 7
+            }}
           >
             <FeatherIcon icon='x' className='w-4 h-4 text-white relative -r-3' />
           </button>

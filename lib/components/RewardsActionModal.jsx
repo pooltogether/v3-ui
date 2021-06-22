@@ -62,12 +62,19 @@ export const RewardsActionModal = (props) => {
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
-  const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
+  // const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
+  // const txSent = tx
+  // console.log(tx)
   const txSent = tx?.sent && !tx?.completed
+  const txNotCancelled = tx && !tx?.cancelled
 
   const walletOnWrongNetwork = walletChainId !== chainId
 
   const onSubmit = async (formData) => {
+    if (txNotCancelled) {
+      return
+    }
+
     const amount = formData[action]
     const txName = `${t(action.toLowerCase())}: ${amount} ${tickerUpcased}`
 
@@ -141,64 +148,63 @@ export const RewardsActionModal = (props) => {
           </div>
 
           <NetworkWarning walletOnWrongNetwork={walletOnWrongNetwork} chainId={chainId} />
-          {isPrize && <DepositExpectationsWarning pool={pool} />}
-
-          {/* {txPending && (
-            <div className='mx-auto text-center'>
-              <TxStatus gradient='basic' tx={tx} />
-            </div>
-          )} */}
 
           <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col sm:w-9/12 sm:mx-auto'>
-            <TextInputGroup
-              unsignedNumber
-              autoFocus
-              large
-              id={`text-input-group-${action}`}
-              name={action}
-              register={register}
-              label={t(`amount`)}
-              required={t('amountRequired')}
-              autoComplete='off'
-              validate={{
-                greaterThanBalance: (value) => {
-                  let amountUnformatted
-                  try {
-                    amountUnformatted = ethers.utils.parseUnits(value, decimals)
-                  } catch (e) {
-                    console.warn(e)
+            {txNotCancelled ? (
+              <TxStatus tx={tx} />
+            ) : (
+              <>
+                <TextInputGroup
+                  unsignedNumber
+                  autoFocus
+                  large
+                  id={`text-input-group-${action}`}
+                  name={action}
+                  register={register}
+                  label={t(`amount`)}
+                  required={t('amountRequired')}
+                  autoComplete='off'
+                  validate={{
+                    greaterThanBalance: (value) => {
+                      let amountUnformatted
+                      try {
+                        amountUnformatted = ethers.utils.parseUnits(value, decimals)
+                      } catch (e) {
+                        console.warn(e)
+                      }
+                      return amountUnformatted?.lte(maxAmountUnformatted) || overMaxErrorMsg
+                    },
+                    greaterThanZero: (value) => {
+                      return (
+                        Number(value) > 0 ||
+                        t('greaterThanZeroMessage', 'please enter a value higher than 0')
+                      )
+                    }
+                  }}
+                  rightLabel={
+                    usersAddress &&
+                    tickerUpcased && (
+                      <button
+                        id='_setMaxDepositAmount'
+                        type='button'
+                        className='font-bold inline-flex items-center'
+                        onClick={(e) => {
+                          e.preventDefault()
+                          setValue(action, maxAmount, { shouldValidate: true })
+                        }}
+                      >
+                        <img src={WalletIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
+                        {numberWithCommas(maxAmount)} {tickerUpcased}
+                      </button>
+                    )
                   }
-                  return amountUnformatted?.lte(maxAmountUnformatted) || overMaxErrorMsg
-                },
-                greaterThanZero: (value) => {
-                  return (
-                    Number(value) > 0 ||
-                    t('greaterThanZeroMessage', 'please enter a value higher than 0')
-                  )
-                }
-              }}
-              rightLabel={
-                usersAddress &&
-                tickerUpcased && (
-                  <button
-                    id='_setMaxDepositAmount'
-                    type='button'
-                    className='font-bold inline-flex items-center'
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setValue(action, maxAmount, { shouldValidate: true })
-                    }}
-                  >
-                    <img src={WalletIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
-                    {numberWithCommas(maxAmount)} {tickerUpcased}
-                  </button>
-                )
-              }
-            />
+                />
 
-            <span className='h-6 w-full text-xs text-orange text-center'>
-              {errors?.[action]?.message || null}
-            </span>
+                <span className='h-6 w-full text-xs text-orange text-center'>
+                  {errors?.[action]?.message || null}
+                </span>
+              </>
+            )}
 
             <ButtonDrawer>
               {allowance && (
@@ -210,6 +216,7 @@ export const RewardsActionModal = (props) => {
                 >
                   <ApproveButton
                     {...props}
+                    allowanceIsZero={allowanceIsZero}
                     tooltipEnabled={approveTooltipEnabled}
                     disabled={approveButtonDisabled}
                   />
@@ -235,10 +242,10 @@ export const RewardsActionModal = (props) => {
                     'w-2/3 mx-auto': !confirmTooltipEnabled && !allowance
                   })}
                 >
-                  {txSent && (
+                  {txNotCancelled && (
                     <span className='mr-2'>
                       {' '}
-                      <ThemedClipSpinner size={12} />
+                      <ThemedClipSpinner size={16} />
                     </span>
                   )}{' '}
                   {allowance ? t('confirmStepTwo') : t('confirmWithdrawal')}
@@ -246,6 +253,12 @@ export const RewardsActionModal = (props) => {
               </Tooltip>
             </ButtonDrawer>
           </form>
+
+          {isPrize && (
+            <div className='mt-6 sm:mt-0'>
+              <DepositExpectationsWarning pool={pool} />
+            </div>
+          )}
         </div>
       </div>
     </Dialog>
@@ -253,10 +266,10 @@ export const RewardsActionModal = (props) => {
 }
 
 const ApproveButton = (props) => {
-  const { tooltipEnabled, disabled } = props
+  const { tooltipEnabled, disabled, allowanceIsZero } = props
 
   const { t } = useTranslation()
-  const { decimals, refetch, prizePoolAddress, underlyingToken } = props
+  const { decimals, refetch, pool, underlyingToken } = props
 
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
@@ -268,9 +281,16 @@ const ApproveButton = (props) => {
   const abi = ERC20Abi
   const contractAddress = underlyingToken.address
   const method = 'approve'
+  const prizePoolAddress = pool.prizePool.address
   const params = [prizePoolAddress, ethers.utils.parseUnits('9999999999', Number(decimals))]
 
   const handleApproveClick = async (e) => {
+    e.preventDefault()
+
+    if (txSent) {
+      return
+    }
+
     const id = await sendTx(txName, abi, contractAddress, method, params, refetch)
     setTxId(id)
   }
@@ -281,15 +301,25 @@ const ApproveButton = (props) => {
       textSize='sm'
       onClick={handleApproveClick}
       className={classnames('sm:mt-4', {
+        'flex justify-center items-center': !allowanceIsZero,
         'w-48-percent': !tooltipEnabled,
         'w-full': tooltipEnabled
       })}
       disabled={disabled}
     >
+      {!allowanceIsZero && (
+        <div className='w-5 mr-2'>
+          <FeatherIcon
+            icon='check-circle'
+            className={'mx-auto stroke-1 w-5 h-5 stroke-current'}
+            strokeWidth='5rem'
+          />
+        </div>
+      )}
       {txSent && (
         <span className='mr-2'>
           {' '}
-          <ThemedClipSpinner size={12} />
+          <ThemedClipSpinner size={16} />
         </span>
       )}{' '}
       {t('approveStepOne')}
