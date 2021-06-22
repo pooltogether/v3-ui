@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import { Button, Tooltip } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
+import { APP_ENVIRONMENT, useAppEnv } from '@pooltogether/hooks'
 
 import {
   COOKIE_OPTIONS,
@@ -16,10 +17,8 @@ import {
 } from 'lib/constants'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
-import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
-import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
 
 export function Settings(props) {
   const { t } = useTranslation()

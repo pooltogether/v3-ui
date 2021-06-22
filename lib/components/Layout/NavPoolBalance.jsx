@@ -27,8 +27,6 @@ export const NavPoolBalance = (props) => {
 
   const { data: tokenData, isFetched } = usePoolTokenData()
 
-  console.log(isFetched, tokenData)
-
   if (!isFetched || !tokenData) {
     return null
   }

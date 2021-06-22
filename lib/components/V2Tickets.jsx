@@ -1,13 +1,12 @@
 import React from 'react'
 import { LinkTheme, ExternalLink } from '@pooltogether/react-components'
-import FeatherIcon from 'feather-icons-react'
 import { useTranslation } from 'react-i18next'
+import { NETWORK } from '@pooltogether/utilities'
 
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { useV2Balances } from 'lib/hooks/useV2Balances'
-import { NETWORK } from 'lib/utils/networks'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export const V2Tickets = (props) => {

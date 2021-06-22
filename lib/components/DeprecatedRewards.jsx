@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { isEmpty, map, find, defaultTo, sum } from 'lodash'
 import { useAtom } from 'jotai'
 import { useUsersAddress } from '@pooltogether/hooks'
-// import { shorten } from '@pooltogether/utilities'
+import { NETWORK } from '@pooltogether/utilities'
 
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
 
@@ -24,7 +24,6 @@ import { useAllPools, usePoolBySymbol } from 'lib/hooks/usePools'
 import { isSelfAtom } from 'lib/components/AccountUI'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
-import { NETWORK } from 'lib/utils/networks'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 
 // This has been removed from the app for most people, but if someone still has rewards/tickets to claim
