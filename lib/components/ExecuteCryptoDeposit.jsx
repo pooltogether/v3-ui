@@ -95,13 +95,11 @@ export function ExecuteCryptoDeposit(props) {
         tickerUpcased={tickerUpcased}
       />
 
-      <div style={{ minHeight: 103 }}>
-        <TxStatus
-          tx={tx}
-          inWalletMessage={t('confirmDepositInYourWallet')}
-          sentMessage={t('depositConfirming')}
-        />
-      </div>
+      <TxStatus
+        tx={tx}
+        inWalletMessage={t('confirmDepositInYourWallet')}
+        sentMessage={t('depositConfirming')}
+      />
 
       <Banner
         gradient={null}

@@ -7,6 +7,8 @@ import { shorten } from '@pooltogether/utilities'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 import { useTranslation } from 'react-i18next'
 
+import WalletIconWhite from 'assets/images/icon-wallet-white.svg'
+
 export const TxStatus = (props) => {
   const { tx } = props
   const { hideOnInWallet, hideOnSent, hideOnSuccess, hideOnError } = props
@@ -44,31 +46,37 @@ export const TxStatus = (props) => {
 
   return (
     <>
-      <div className='banner--tx-status flex flex-col justify-center items-center py-4 xs:py-6 lg:py-8 rounded-lg w-full text-center'>
-        <div className='flex items-center'>
-          <div>
+      <div className='banner--tx-status flex flex-col items-center my-2 rounded-lg w-full text-center'>
+        <div 
+          className={classnames(
+            'flex items-center justify-center w-full p-4 xs:p-6 sm:py-6 sm:px-8 lg:p-8 rounded-full text-lg xs:text-xl',
+            {
+              'text-white': tx && !txError,
+              'text-red': txCompleted && txError,
+              'bg-accent-grey-5': txCompleted && !txError,
+              'bg-functional-red': (txInWallet && !txError) || (txCompleted && txError),
+              'bg-green': txSent
+            }
+          )}
+        >
+          <div className='w-8 mr-2 text-right'>
             {txCompleted && !txError && (
               <FeatherIcon
                 icon='check-circle'
-                className={'mx-auto stroke-1 w-8 h-8 stroke-current'}
+                className={'ml-auto stroke-1 w-5 h-5 stroke-current'}
               />
             )}
 
+            {(txInWallet && !txError) && (
+              <img src={WalletIconWhite} className='ml-auto' />
+            )}
+
             {txCompleted && txError && (
-              <FeatherIcon icon='x-circle' className={'mx-auto stroke-1 w-8 h-8 stroke-current'} />
+              <FeatherIcon icon='x-circle' className={'ml-auto stroke-1 w-5 h-5 stroke-current'} />
             )}
           </div>
 
-          <div
-            className={classnames(
-              'text-lg text-white p-4 xs:p-6 sm:py-7 sm:px-8 lg:p-8 rounded-full w-full',
-              {
-                'bg-functional-red': txInWallet && !txError,
-                'bg-green': txSent,
-                'bg-red': txSent
-              }
-            )}
-          >
+          <div>
             {txInWallet &&
               !txError &&
               (inWalletMessage ? inWalletMessage : t('pleaseConfirmInYourWallet'))}
@@ -79,11 +87,11 @@ export const TxStatus = (props) => {
               !txError &&
               (successMessage ? successMessage : t('transactionSuccessful'))}
 
-            {txError && (errorMessage ? errorMessage : t('transactionFailed'))}
+            {txCompleted && txError && (errorMessage ? errorMessage : t('transactionFailed'))}
           </div>
         </div>
 
-        {tx.hash && (
+        {tx.hash && <>
           <div className='text-xxs sm:text-xs text-accent-1 opacity-60 mt-2'>
             {t('transactionHash')}
             <BlockExplorerLink
@@ -94,14 +102,16 @@ export const TxStatus = (props) => {
               {shorten(tx.hash)}
             </BlockExplorerLink>
           </div>
-        )}
+
+          {showExtraMessage && (
+            <div className='text-xxs sm:text-xs text-accent-4 text-center'>
+              {t('transactionsMayTakeAFewMinutes')}
+            </div>
+          )}
+        </>}
       </div>
 
-      {showExtraMessage && (
-        <div className='text-xxs sm:text-xs text-accent-4'>
-          {t('transactionsMayTakeAFewMinutes')}
-        </div>
-      )}
+      
     </>
   )
 }

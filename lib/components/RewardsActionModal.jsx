@@ -62,13 +62,18 @@ export const RewardsActionModal = (props) => {
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
+
   // const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
-  // const txSent = tx
-  // console.log(tx)
   const txSent = tx?.sent && !tx?.completed
+  const txCompleted = tx?.sent && tx?.completed && !tx?.error
   const txNotCancelled = tx && !tx?.cancelled
+  const txError = tx && tx.error
 
   const walletOnWrongNetwork = walletChainId !== chainId
+
+  const resetState = () => {
+    setTxId(0)
+  }
 
   const onSubmit = async (formData) => {
     if (txNotCancelled) {
@@ -207,6 +212,33 @@ export const RewardsActionModal = (props) => {
             )}
 
             <ButtonDrawer>
+              {txError && <>
+                <Button
+                  textSize='sm'
+                  className='w-full'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    resetState()
+                  }}
+                >
+                  {t('reset')}
+                </Button>
+              </>}
+
+
+              {txCompleted ? <>
+                <Button
+                  textSize='sm'
+                  className='w-full'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    resetState()
+                    closeModal()
+                  }}
+                >
+                  {t('closeThis')}
+                </Button>
+              </> : <>
               {allowance && (
                 <Tooltip
                   isEnabled={approveTooltipEnabled}
@@ -242,19 +274,22 @@ export const RewardsActionModal = (props) => {
                     'w-2/3 mx-auto': !confirmTooltipEnabled && !allowance
                   })}
                 >
-                  {txNotCancelled && (
+                  {txSent && (
                     <span className='mr-2'>
                       {' '}
-                      <ThemedClipSpinner size={16} />
+                      <ThemedClipSpinner size={14} />
                     </span>
                   )}{' '}
                   {allowance ? t('confirmStepTwo') : t('confirmWithdrawal')}
                 </Button>
               </Tooltip>
+</>}
+
+
             </ButtonDrawer>
           </form>
 
-          {isPrize && (
+          {isPrize && !txSent && !txCompleted && (
             <div className='mt-6 sm:mt-0'>
               <DepositExpectationsWarning pool={pool} />
             </div>
@@ -319,7 +354,7 @@ const ApproveButton = (props) => {
       {txSent && (
         <span className='mr-2'>
           {' '}
-          <ThemedClipSpinner size={16} />
+          <ThemedClipSpinner size={14} />
         </span>
       )}{' '}
       {t('approveStepOne')}

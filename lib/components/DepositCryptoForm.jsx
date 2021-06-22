@@ -243,7 +243,7 @@ export function DepositCryptoForm(props) {
           </>
         )}
 
-        {isPrize && <DepositExpectationsWarning pool={pool} />}
+        <DepositExpectationsWarning pool={pool} />
       </div>
     </>
   )

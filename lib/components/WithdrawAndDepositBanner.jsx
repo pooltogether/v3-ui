@@ -7,9 +7,11 @@ export function WithdrawAndDepositBanner(props) {
   const { label, quantity, tickerUpcased } = props
 
   return (
-    <div className='pool-gradient-2 text-white w-full text-center mx-auto my-8 px-3 py-3 xs:py-6 rounded-full text-sm xs:text-base sm:text-xl lg:text-2xl'>
-      <span className='mr-4'>{label}</span>
-      <PoolNumber>{numberWithCommas(quantity)}</PoolNumber> {tickerUpcased}
+    <div className='pool-gradient-2 text-white w-full justify-center mx-auto my-8 px-3 py-3 xs:py-6 rounded-full text-lg xs:text-xl flex flex-col sm:flex-row'>
+      <span className='sm:mr-4'>{label}</span>
+      <div>
+        <PoolNumber>{numberWithCommas(quantity)}</PoolNumber> {tickerUpcased}
+      </div> 
     </div>
   )
 }
