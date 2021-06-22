@@ -64,10 +64,6 @@ export const RewardsGovernance = () => {
   }
   const walletOnWrongNetwork = walletChainId !== pool?.chainId
 
-  useEffect(() => {
-    setDepositModalIsOpen(false)
-  }, [usersAddress])
-
   return (
     <>
       <h5 id='rewards-governance-claims' className='font-normal text-accent-2 mt-20'>
@@ -372,6 +368,10 @@ const ManageStakedAmount = (props) => {
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
   // const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
 
+  useEffect(() => {
+    setDepositModalIsOpen(false)
+  }, [usersAddress])
+
   return (
     <>
       <RewardsTableCell
@@ -524,6 +524,7 @@ const DepositModal = (props) => {
   return (
     <RewardsActionModal
       {...props}
+      isPrize
       underlyingToken={underlyingToken}
       action={t('deposit')}
       decimals={decimals}

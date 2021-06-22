@@ -31,11 +31,10 @@ export function WithdrawComplete(props) {
           maxWidth: 600
         }}
       >
-        <h4 className='text-orange capitalize'>
-          -
+        <h4 className='text-orange'>
           <Trans
             i18nKey='youReceivedAmountTicker'
-            defaults='<number>{{amount}}</number> {{ticker}}'
+            defaults='You received <number>{{amount}}</number> {{ticker}}'
             components={{
               number: <PoolNumber />
             }}

@@ -74,6 +74,7 @@
     "@pooltogether/hooks": "^0.1.0",
     "@pooltogether/loot-box": "1.1.0",
     "@pooltogether/pooltogether-contracts": "3.3.8",
+    "@pooltogether/react-components": "^0.0.23",
     "@pooltogether/utilities": "0.0.25",
     "@reach/dialog": "^0.15.0",
     "@reach/menu-button": "^0.15.1",

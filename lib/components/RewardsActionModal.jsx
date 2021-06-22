@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
 import { useOnboard } from '@pooltogether/hooks'
+import { Tooltip } from '@pooltogether/react-components'
 
 import { Button } from 'lib/components/Button'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
@@ -64,7 +65,7 @@ export const RewardsActionModal = (props) => {
 
   const txSent = tx?.sent && !tx?.completed
   const txNotCancelled = tx && !tx?.cancelled
-  const txCompleted = tx?.sent && tx?.completed && !tx?.error
+  const txSuccessful = tx?.sent && tx?.completed && !tx?.error
   const txError = tx && tx.error
 
   const walletOnWrongNetwork = walletChainId !== chainId
@@ -74,7 +75,7 @@ export const RewardsActionModal = (props) => {
   }
 
   const onSubmit = async (formData) => {
-    if (txNotCancelled) {
+    if (txSent) {
       return
     }
 
@@ -152,65 +153,66 @@ export const RewardsActionModal = (props) => {
 
           <NetworkWarning walletOnWrongNetwork={walletOnWrongNetwork} chainId={chainId} />
 
-          {txPending && (
-            <div className='mx-auto text-center'>
-              <TxStatus gradient='basic' tx={tx} />
-            </div>
-          )}
-
           <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col sm:w-9/12 sm:mx-auto'>
-            <TextInputGroup
-              unsignedNumber
-              autoFocus
-              large
-              id={`text-input-group-${action}`}
-              name={action}
-              register={register}
-              label={t(`amount`)}
-              required={t('amountRequired')}
-              autoComplete='off'
-              validate={{
-                greaterThanBalance: (value) => {
-                  let amountUnformatted
-                  try {
-                    amountUnformatted = ethers.utils.parseUnits(value, decimals)
-                  } catch (e) {
-                    console.warn(e)
+
+            {(txSent || txSuccessful) ? <>
+              <div className='mx-auto text-center'>
+                <TxStatus gradient='basic' tx={tx} />
+              </div>
+            </> : <>
+              <TextInputGroup
+                unsignedNumber
+                autoFocus
+                large
+                id={`text-input-group-${action}`}
+                name={action}
+                register={register}
+                label={t(`amount`)}
+                required={t('amountRequired')}
+                autoComplete='off'
+                validate={{
+                  greaterThanBalance: (value) => {
+                    let amountUnformatted
+                    try {
+                      amountUnformatted = ethers.utils.parseUnits(value, decimals)
+                    } catch (e) {
+                      console.warn(e)
+                    }
+                    return amountUnformatted?.lte(maxAmountUnformatted) || overMaxErrorMsg
+                  },
+                  greaterThanZero: (value) => {
+                    return (
+                      Number(value) > 0 ||
+                      t('greaterThanZeroMessage', 'please enter a value higher than 0')
+                    )
                   }
-                  return amountUnformatted?.lte(maxAmountUnformatted) || overMaxErrorMsg
-                },
-                greaterThanZero: (value) => {
-                  return (
-                    Number(value) > 0 ||
-                    t('greaterThanZeroMessage', 'please enter a value higher than 0')
+                }}
+                rightLabel={
+                  usersAddress &&
+                  tickerUpcased && (
+                    <button
+                      id='_setMaxDepositAmount'
+                      type='button'
+                      className='font-bold inline-flex items-center'
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setValue(action, maxAmount, { shouldValidate: true })
+                      }}
+                    >
+                      <img src={WalletIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
+                      {numberWithCommas(maxAmount)} {tickerUpcased}
+                    </button>
                   )
                 }
-              }}
-              rightLabel={
-                usersAddress &&
-                tickerUpcased && (
-                  <button
-                    id='_setMaxDepositAmount'
-                    type='button'
-                    className='font-bold inline-flex items-center'
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setValue(action, maxAmount, { shouldValidate: true })
-                    }}
-                  >
-                    <img src={WalletIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
-                    {numberWithCommas(maxAmount)} {tickerUpcased}
-                  </button>
-                )
-              }
-            />
+              />
 
-            <span className='h-6 w-full text-xs text-orange text-center'>
-              {errors?.[action]?.message || null}
-            </span>
+              <span className='h-6 w-full text-xs text-orange text-center'>
+                {errors?.[action]?.message || null}
+              </span>
+            </>}
 
             <ButtonDrawer>
-              {txCompleted && !txError ? <>
+              {txSuccessful && !txError ? <>
                 <Button
                   textSize='sm'
                   className='w-full'
@@ -273,7 +275,7 @@ export const RewardsActionModal = (props) => {
             </ButtonDrawer>
           </form>
 
-          {isPrize && !txSent && !txCompleted && (
+          {isPrize && !txSent && !txSuccessful && (
             <div className='mt-6 sm:mt-0'>
               <DepositExpectationsWarning pool={pool} />
             </div>

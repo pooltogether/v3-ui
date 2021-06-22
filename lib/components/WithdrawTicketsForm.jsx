@@ -39,8 +39,15 @@ export function WithdrawTicketsForm(props) {
 
   const validate = {
     greaterThanBalance: (value) => {
+      let valueUnformatted
+      try {
+        valueUnformatted = ethers.utils.parseUnits(value, decimals)
+      } catch (e) {
+        console.warn(e)
+      }
+    
       return (
-        ethers.utils.parseUnits(value, decimals).lte(amountUnformatted) ||
+        valueUnformatted?.lte(amountUnformatted) ||
         t('pleaseEnterAmountLowerThanTicketBalance')
       )
     }
