@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { atom, useAtom } from 'jotai'
 import { useUsersAddress } from '@pooltogether/hooks'
 import { Trans, useTranslation } from 'react-i18next'
+import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
 
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountTickets } from 'lib/components/AccountTickets'
@@ -11,9 +12,9 @@ import { AccountGovernanceClaims } from 'lib/components/AccountGovernanceClaims'
 import { AccountLootBoxes } from 'lib/components/AccountLootBoxes'
 import { Meta } from 'lib/components/Meta'
 import { PlayerLabel } from 'lib/components/PlayerLabel'
-import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 import { testAddress } from 'lib/utils/testAddress'
+import Link from 'next/link'
 
 export const isSelfAtom = atom(false)
 
@@ -62,6 +63,7 @@ export const AccountUI = () => {
       {isSelf && <RetroactivePoolClaimBanner />}
 
       <PageTitleAndBreadcrumbs
+        Link={Link}
         title={pageTitle}
         breadcrumbs={[
           {

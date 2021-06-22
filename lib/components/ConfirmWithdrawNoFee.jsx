@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useUsersAddress } from '@pooltogether/hooks'
-
+import { Button } from '@pooltogether/react-components'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { useTranslation } from 'react-i18next'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
-import { Button } from 'lib/components/Button'
 import { TxStatus } from 'lib/components/TxStatus'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'

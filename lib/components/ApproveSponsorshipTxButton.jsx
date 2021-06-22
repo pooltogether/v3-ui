@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
-
+import { Button, Tooltip } from '@pooltogether/react-components'
 import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/ControlledToken'
 
 import { useTranslation } from 'react-i18next'
-import { Button } from 'lib/components/Button'
-import { Tooltip } from 'lib/components/Tooltip'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { useCurrentPool } from 'lib/hooks/usePools'

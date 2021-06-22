@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+import { Button } from '@pooltogether/react-components'
 
-import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 

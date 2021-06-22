@@ -1,8 +1,8 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
+import { Tooltip } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from 'lib/components/Tooltip'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 

@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import Portal from '@reach/portal'
 import Cookies from 'js-cookie'
+import { Button } from '@pooltogether/react-components'
 
 import { COOKIE_OPTIONS } from 'lib/constants'
 import { useTranslation } from 'react-i18next'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
-import { Button } from 'lib/components/Button'
 import { useIsPoolYieldSourceKnown } from 'lib/hooks/useIsPoolYieldSourceKnown'
 
 const CheckboxContainer = (props) => (

@@ -1,8 +1,8 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
+import { Button } from '@pooltogether/react-components'
 
-import { Button } from 'lib/components/Button'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 

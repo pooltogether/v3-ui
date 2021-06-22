@@ -1,13 +1,14 @@
-import { Erc20Image } from 'lib/components/Erc20Image'
+import React from 'react'
+import { LinkTheme, ExternalLink } from '@pooltogether/react-components'
 import FeatherIcon from 'feather-icons-react'
+import { useTranslation } from 'react-i18next'
+
+import { Erc20Image } from 'lib/components/Erc20Image'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { useV2Balances } from 'lib/hooks/useV2Balances'
 import { NETWORK } from 'lib/utils/networks'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { useTranslation } from 'react-i18next'
-import React from 'react'
-import { useEffect } from 'react'
 
 export const V2Tickets = (props) => {
   const { usersAddress } = props
@@ -63,15 +64,14 @@ const V2Ticket = (props) => {
               />
             </div>
             <div>
-              <a
+              <ExternalLink
                 href='https://v2.pooltogether.com/en/account'
-                target='_blank'
-                rel='noreferrer noopener'
-                className='underline text-xxxs sm:text-xxs ml-2 sm:ml-0 inline-flex'
+                underline
+                className='text-xxxs sm:text-xxs ml-2 sm:ml-0'
+                theme={LinkTheme.accent}
               >
-                <span>{t('withdrawOnV2')}</span>
-                <FeatherIcon icon='arrow-up-right' className='w-4 h-4 my-auto ml-1' />
-              </a>
+                {t('withdrawOnV2')}
+              </ExternalLink>
             </div>
           </div>
         </div>

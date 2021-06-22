@@ -1,8 +1,7 @@
 import React from 'react'
+import { Button, Tooltip } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
-import { Button } from 'lib/components/Button'
-import { Tooltip } from 'lib/components/Tooltip'
 
 export function DepositTxButton(props) {
   const { t } = useTranslation()

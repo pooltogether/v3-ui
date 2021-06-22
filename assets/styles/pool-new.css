@@ -1,0 +1,57 @@
+.__react_component_tooltip.show.type-custom {
+  opacity: 0.97;
+  padding: 8px 21px;
+}
+
+.banner--deposit {
+  @apply flex items-center mx-auto w-full bg-primary text-accent-1 text-xxs xs:text-xs lg:text-sm mt-4 sm:mt-8;
+
+  max-width: 550px;
+}
+
+.banner--tx-status {
+  min-height: 88px;
+}
+
+@screen xs {
+  .banner--tx-status {
+    min-height: 124px;
+  }
+}
+
+@screen lg {
+  .banner--tx-status {
+    min-height: 144px;
+  }
+}
+
+.banner--tx-status.banner--tx-status-in-modal {
+  min-height: 148px;
+}
+
+@screen sm {
+  .banner--tx-status.banner--tx-status-in-modal {
+    min-height: 154px;
+  }
+}
+
+
+
+/* /() ... */
+.bg-flashy {
+  background: var(--flashyGradient);
+  background-size: 1000% auto;
+  animation: cycleBackgroundPos 15000ms infinite steps(220);
+}
+/* 
+themes.css:
+
+line 37:
+  --color-bg-functional-red: rgba(255, 80, 80, 0.2);
+
+
+line 122
+    --color-bg-accent-grey-5: rgba(69, 101, 255, 0.8);
+
+line 134
+  --color-bg-functional-red: rgba(231, 9, 157, 0.521); */

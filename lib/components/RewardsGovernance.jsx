@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
+import { ExternalLink, LinkTheme, Tooltip } from '@pooltogether/react-components'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -18,7 +19,6 @@ import {
 import { RewardsActionModal } from 'lib/components/RewardsActionModal'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { ContentOrSpinner } from 'lib/components/ContentOrSpinner'
-import { Tooltip } from 'lib/components/Tooltip'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { APP_ENVIRONMENT, useAppEnv } from 'lib/hooks/useAppEnv'
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
@@ -56,7 +56,7 @@ export const RewardsGovernance = () => {
     NETWORK.mainnet,
     usersAddress
   )
-  const { refetch: refetchPoolTokenData } = usePoolTokenData(usersAddress)
+  const { refetch: refetchPoolTokenData } = usePoolTokenData()
 
   const refetchAllPoolTokenData = () => {
     console.log('running refresh!')
@@ -87,9 +87,10 @@ export const RewardsGovernance = () => {
               defaults='Earn rewards immediately while eligible for gas-free votes on <linkSnapshot>SnapShot</linkSnapshot>'
               components={{
                 linkSnapshot: (
-                  <a
-                    target='_blank'
-                    className='text-accent-1 underline'
+                  <ExternalLink
+                    underline
+                    className='text-xs'
+                    theme={LinkTheme.light}
                     href='https://snapshot.org/#/poolpool.pooltogether.eth'
                   />
                 )

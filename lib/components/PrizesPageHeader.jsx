@@ -1,8 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
+import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
-import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
@@ -17,6 +17,7 @@ export const PrizesPageHeader = (props) => {
   return (
     <>
       <PageTitleAndBreadcrumbs
+        Link={Link}
         title={t('prizes')}
         pool={pool}
         breadcrumbs={[

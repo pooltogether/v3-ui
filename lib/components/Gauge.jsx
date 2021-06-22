@@ -1,9 +1,8 @@
 import React, { useContext } from 'react'
 import { arc } from 'd3-shape'
 import { scaleLinear } from 'd3-scale'
+import { ThemeContext } from '@pooltogether/react-components'
 // import { format } from 'd3-format'
-
-import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
 export function Gauge({ value = 50, min = 0, max = 100, label, units }) {
   const { theme } = useContext(ThemeContext)

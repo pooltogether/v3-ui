@@ -8,7 +8,7 @@ import { useTooltip, useTooltipInPortal } from '@visx/tooltip'
 import { scaleTime, scaleLinear } from '@visx/scale'
 import { LinearGradient } from '@visx/gradient'
 
-import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
+import { ThemeContext } from '@pooltogether/react-components'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -25,14 +25,8 @@ const margin = {
 }
 
 export function DateValueLineGraph(props) {
-  const {
-    tooltipOpen,
-    tooltipLeft,
-    tooltipTop,
-    tooltipData,
-    hideTooltip,
-    showTooltip
-  } = useTooltip()
+  const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } =
+    useTooltip()
 
   const { containerRef, TooltipInPortal } = useTooltipInPortal({
     detectBounds: true,

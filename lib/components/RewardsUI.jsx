@@ -1,12 +1,13 @@
 import React from 'react'
 import { useUsersAddress } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
+import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
 
 import { DeprecatedRewards } from 'lib/components/DeprecatedRewards'
 import { RewardsGovernance } from 'lib/components/RewardsGovernance'
 import { RewardsLPStaking } from 'lib/components/RewardsLPStaking'
 import { Meta } from 'lib/components/Meta'
-import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
+import Link from 'next/link'
 
 export const RewardsUI = () => {
   const { t } = useTranslation()
@@ -17,7 +18,7 @@ export const RewardsUI = () => {
     <>
       <Meta title={t('rewards')} />
 
-      <PageTitleAndBreadcrumbs title={t('rewards')} breadcrumbs={[]} />
+      <PageTitleAndBreadcrumbs Link={Link} title={t('rewards')} breadcrumbs={[]} />
 
       {!usersAddress && <p>{t('connectYourWalletToDeposit', 'Connect your wallet to deposit')}</p>}
 

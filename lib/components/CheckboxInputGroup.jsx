@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
+import { Tooltip } from '@pooltogether/react-components'
 
-import { Tooltip } from 'lib/components/Tooltip'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 
 export const CheckboxInputGroup = (props) => {

@@ -1,8 +1,9 @@
 import React from 'react'
 import { ethers } from 'ethers'
+import { ExternalLink, LinkTheme } from '@pooltogether/react-components'
+import { Trans } from 'react-i18next'
 
 import { SECONDS_PER_DAY } from 'lib/constants'
-import { Trans } from 'react-i18next'
 import { Banner } from 'lib/components/Banner'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 
@@ -38,10 +39,11 @@ export const DepositExpectationsWarning = (props) => {
           defaults='You can withdraw with no penalty {{days}} days after depositing. Funds withdrawn earlier are subjected to up to a {{percent}}% early exit fee. <a>Learn more</a>'
           components={{
             a: (
-              <a
-                className='underline'
+              <ExternalLink
+                theme={LinkTheme.accent}
+                underline
                 href='https://docs.pooltogether.com/protocol/prize-pool/fairness'
-                target='_blank'
+                className='text-xxs'
               />
             )
           }}

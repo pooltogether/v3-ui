@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
-
+import { Button } from '@pooltogether/react-components'
+import { useTranslation } from 'react-i18next'
 import LootBoxControllerAbi from '@pooltogether/loot-box/abis/LootBoxController'
 
-import { useTranslation } from 'react-i18next'
-import { Button } from 'lib/components/Button'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'

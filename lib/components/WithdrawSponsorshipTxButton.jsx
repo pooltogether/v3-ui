@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
 import { useUsersAddress } from '@pooltogether/hooks'
-
+import { Button } from '@pooltogether/react-components'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
-
 import { useTranslation } from 'react-i18next'
+
 import { useCurrentPool } from 'lib/hooks/usePools'
-import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
