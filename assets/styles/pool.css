@@ -580,11 +580,27 @@ a:hover {
 }
 
 .banner--tx-status {
+  min-height: 88px;
+}
+
+@screen xs {
+  .banner--tx-status {
+    min-height: 124px;
+  }
+}
+
+@screen lg {
+  .banner--tx-status {
+    min-height: 144px;
+  }
+}
+
+.banner--tx-status.banner--tx-status-in-modal {
   min-height: 148px;
 }
 
 @screen sm {
-  .banner--tx-status {
+  .banner--tx-status.banner--tx-status-in-modal {
     min-height: 154px;
   }
 }

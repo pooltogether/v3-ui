@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 import WalletIconWhite from 'assets/images/icon-wallet-white.svg'
 
 export const TxStatus = (props) => {
-  const { tx } = props
+  const { inModal, tx } = props
   const { hideOnInWallet, hideOnSent, hideOnSuccess, hideOnError } = props
   const { inWalletMessage, sentMessage, successMessage, errorMessage } = props
   const [showExtraMessage, setShowExtraMessage] = useState(false)
@@ -46,16 +46,18 @@ export const TxStatus = (props) => {
 
   return (
     <>
-      <div className='banner--tx-status flex flex-col items-center my-2 rounded-lg w-full text-center'>
+      <div className={classnames('banner--tx-status flex flex-col items-center my-2 rounded-lg w-full text-center', {
+        'banner--tx-status-in-modal': inModal
+      })}>
         <div 
           className={classnames(
-            'flex items-center justify-center w-full p-4 xs:p-6 sm:py-6 sm:px-8 lg:p-8 rounded-full text-lg xs:text-xl',
+            'flex items-center justify-center w-full p-4 xs:p-6 sm:py-6 sm:px-8 rounded-full text-lg xs:text-xl',
             {
               'text-white': tx && !txError,
               'text-red': txCompleted && txError,
               'bg-accent-grey-5': txCompleted && !txError,
               'bg-functional-red': (txInWallet && !txError) || (txCompleted && txError),
-              'bg-green': txSent
+              'bg-flashy': txSent
             }
           )}
         >

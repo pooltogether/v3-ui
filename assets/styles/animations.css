@@ -334,10 +334,6 @@
   animation: cycleBackgroundPos 2500ms infinite;
 }
 
-.bg-flashy {
-  background: var(--flashyGradient);
-}
-
 @keyframes gradientBG {
   0% {
     background-position: 0% 50%;
@@ -348,6 +344,12 @@
   100% {
     background-position: 0% 50%;
   }
+}
+
+.bg-flashy {
+  background: var(--flashyGradient);
+  background-size: 1000% auto;
+  animation: cycleBackgroundPos 15000ms infinite steps(220);
 }
 
 .text-flashy {

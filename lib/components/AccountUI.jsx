@@ -34,6 +34,7 @@ export const AccountUI = () => {
     setIsSelf(isSelf)
   }, [playerAddress, usersAddress])
 
+
   const pageTitle = isSelf ? (
     t('myAccount')
   ) : (
@@ -56,7 +57,7 @@ export const AccountUI = () => {
 
   return (
     <>
-      <Meta title={t('playerAddress', { address: playerAddress })} />
+      <Meta title={isSelf ? t('myAccount') : t('playerAddress', { address })} />
 
       {isSelf && <RetroactivePoolClaimBanner />}
 

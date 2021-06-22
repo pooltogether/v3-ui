@@ -167,34 +167,27 @@ export function DepositCryptoForm(props) {
             <div className='text-inverse text-lg w-full'>
               {needsApproval && (
                 <>
-                  <div
-                    className='text-sm px-6 sm:px-10'
-                    style={{
-                      minHeight: 97
-                    }}
-                  >
-                    {!unlockTxInFlight && (
-                      <div>
-                        <PaneTitle small>
-                          {needsApproval && t('yourApprovalIsNecessary')}
+                  {!unlockTxInFlight && (
+                    <div className='mb-4 text-sm'>
+                      <div className='font-bold'>
+                        {needsApproval && t('yourApprovalIsNecessary')}
 
-                          {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
-                          {tx?.inWallet && !tx?.cancelled && t('confirmApprovalInWallet')}
-                        </PaneTitle>
-                        <div className=''>
-                          {t('unlockToDepositTicker', {
-                            ticker: tickerUpcased
-                          })}
-                        </div>
+                        {/* could say in Coinbase Wallet or MetaMask or whatever here ... */}
+                        {tx?.inWallet && !tx?.cancelled && t('confirmApprovalInWallet')}
                       </div>
-                    )}
+                      <div className=''>
+                        {t('unlockToDepositTicker', {
+                          ticker: tickerUpcased
+                        })}
+                      </div>
+                    </div>
+                  )}
 
-                    <TxStatus
-                      tx={tx}
-                      inWalletMessage={t('confirmApprovalInWallet')}
-                      sentMessage={t('approvalConfirming')}
-                    />
-                  </div>
+                  <TxStatus
+                    tx={tx}
+                    inWalletMessage={t('confirmApprovalInWallet')}
+                    sentMessage={t('approvalConfirming')}
+                  />
                 </>
               )}
 

@@ -156,7 +156,7 @@ export const RewardsActionModal = (props) => {
 
           <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col sm:w-9/12 sm:mx-auto'>
             {txNotCancelled ? (
-              <TxStatus tx={tx} />
+              <TxStatus inModal tx={tx} />
             ) : (
               <>
                 <TextInputGroup

@@ -408,7 +408,7 @@ const ReceivingMessage = (props) => {
       <div className='mt-10'>
         {tx && (
           <>
-            <TxStatus gradient='basic' tx={tx} />
+            <TxStatus tx={tx} />
 
             {tx?.error && (
               <>
