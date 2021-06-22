@@ -12639,10 +12639,10 @@ joi@^17.3.0:
     "@sideway/formula" "^3.0.0"
     "@sideway/pinpoint" "^2.0.0"
 
-jotai@0.16.10:
-  version "0.16.10"
-  resolved "https://registry.yarnpkg.com/jotai/-/jotai-0.16.10.tgz#4993439e837a1d59e960a6136dd9af5915b168e4"
-  integrity sha512-qhdniEKKU2MyZjV85NAazpddphdoJsIx6gzsWavcDFkLlIGve3Cma0S6uMa7Q4x2PMQkmFALOE1Qq1hlqX8fWQ==
+jotai@^0.16.10:
+  version "0.16.11"
+  resolved "https://registry.yarnpkg.com/jotai/-/jotai-0.16.11.tgz#efeaf0311513cf41d5c82b7009f8381d518cbc41"
+  integrity sha512-EPBeDSBc4FwbFRArRjcI6IsHrVkba771mSOFTN3M4r5rU3ZcZMDFLElZScZVr6w1kgrEXvaMm59VAyEB3QUEbA==
 
 joycon@^2.2.5:
   version "2.2.5"
