@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { Button, Tooltip } from '@pooltogether/react-components'
 import { usePreviousValue } from 'beautiful-react-hooks'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
+import { NETWORK } from '@pooltogether/utilities'
 
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucetProxyFactory'
@@ -31,7 +32,6 @@ import { useGovernancePools } from 'lib/hooks/usePools'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
 import { Erc20Image } from 'lib/components/Erc20Image'
-import { NETWORK } from 'lib/utils/networks'
 
 export const hardcodedWMaticApr = (pool) => {
   const { dripRatePerSecond } = pool.tokenListener
