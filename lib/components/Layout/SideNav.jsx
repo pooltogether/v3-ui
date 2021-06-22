@@ -23,7 +23,6 @@ export const SideNav = (props) => {
   return (
     <SideNavContainer>
       <SideNavLink
-        shallow
         href='/'
         as='/'
         label={'Pools'}
@@ -34,7 +33,6 @@ export const SideNav = (props) => {
         <SidePoolsIcon />
       </SideNavLink>
       <SideNavLink
-        shallow
         href='/account'
         as='/account'
         label={t('account')}
@@ -45,7 +43,6 @@ export const SideNav = (props) => {
         <SideAccountIcon />
       </SideNavLink>
       <SideNavLink
-        shallow
         href='/rewards'
         as='/rewards'
         label={t('rewards')}

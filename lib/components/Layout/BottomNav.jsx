@@ -26,7 +26,7 @@ export const BottomNav = (props) => {
         label={'Pools'}
         Link={Link}
         useRouter={useRouter}
-        isCurentPage={isPoolView}
+        isCurrentPage={isPoolView}
       >
         <BottomPoolsIcon />
       </BottomNavLink>
