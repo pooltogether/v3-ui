@@ -8,13 +8,12 @@ import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
 import { useOnboard } from '@pooltogether/hooks'
+import { Button, Tooltip, Modal } from '@pooltogether/react-components'
 
-import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { NetworkWarning } from 'lib/components/NetworkWarning'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
-import { Tooltip } from 'lib/components/Tooltip'
 import { TxStatus } from 'lib/components/TxStatus'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
@@ -112,20 +111,13 @@ export const RewardsActionModal = (props) => {
   const confirmButtonDisabled = confirmTooltipEnabled
 
   return (
-    <Dialog
-      aria-label={`${underlyingToken.symbol} Pool ${action} Modal`}
+    <Modal
+      label={`${underlyingToken.symbol} Pool ${action} Modal`}
       isOpen={isOpen}
-      onDismiss={closeModal}
+      closeModal={closeModal}
+      noSize
     >
-      <div className='relative text-inverse p-4 bg-modal h-screen sm:h-auto rounded-none sm:rounded-sm sm:max-w-3xl mx-auto flex flex-col'>
-        <div className='flex'>
-          <button
-            className='absolute r-4 t-4 close-button trans text-inverse opacity-40 hover:opacity-100'
-            onClick={closeModal}
-          >
-            <FeatherIcon icon='x-circle' className='w-6 h-6 sm:w-8 sm:h-8' />
-          </button>
-        </div>
+      <div className='relative text-inverse p-4 h-screen sm:h-auto rounded-none sm:rounded-sm sm:max-w-3xl mx-auto flex flex-col'>
 
         <div className='flex flex-col justify-center h-5/6 sm:pb-8'>
           <div className='flex flex-col justify-center items-center mb-6 mt-10'>
@@ -224,8 +216,7 @@ export const RewardsActionModal = (props) => {
                   textSize='sm'
                   disabled={confirmButtonDisabled}
                   className={classnames('sm:mt-4', {
-                    'w-48-percent': allowance,
-                    'w-full': confirmTooltipEnabled,
+                    'w-full': confirmTooltipEnabled || allowance,
                     'w-2/3 mx-auto': !confirmTooltipEnabled && !allowance
                   })}
                 >
@@ -242,7 +233,7 @@ export const RewardsActionModal = (props) => {
           </form>
         </div>
       </div>
-    </Dialog>
+    </Modal>
   )
 }
 

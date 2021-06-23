@@ -3,7 +3,7 @@ import ContentLoader from 'react-content-loader'
 import { isMobile } from 'react-device-detect'
 
 import { UI_LOADER_ANIM_DEFAULTS } from 'lib/constants'
-import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
+import { ThemeContext } from '@pooltogether/react-components'
 
 export const IndexUILoader = (props) => {
   if (typeof window === 'undefined') {

@@ -9,6 +9,7 @@ import { PrizeShowUILoader } from 'lib/components/loaders/PrizeShowUILoader'
 import { usePastPrize } from 'lib/hooks/usePastPrizes'
 import { useHistoricPool } from 'lib/hooks/useHistoricPool'
 import { usePoolContractBySymbol } from 'lib/hooks/usePoolContracts'
+import Layout from 'lib/components/Layout'
 
 function PrizeShowPage(props) {
   const { t } = useTranslation()
@@ -27,35 +28,43 @@ function PrizeShowPage(props) {
   )
 
   if (!poolIsFetched || !prizeIsFetched || !historicPoolsIsFetched) {
-    return <PrizeShowUILoader />
+    return (
+      <Layout>
+        <PrizeShowUILoader />
+      </Layout>
+    )
   }
 
   if (prize === null) {
     return (
-      <div className='mt-10'>
-        {t('couldntFindPrize')}
-        <br />
-        <button
-          type='button'
-          onClick={(e) => {
-            e.preventDefault()
+      <Layout>
+        <div className='mt-10'>
+          {t('couldntFindPrize')}
+          <br />
+          <button
+            type='button'
+            onClick={(e) => {
+              e.preventDefault()
 
-            router.push(`/pools/${pool.networkName}/${querySymbol}`)
-          }}
-        >
-          {t('viewPool')}
-        </button>
-      </div>
+              router.push(`/pools/${pool.networkName}/${querySymbol}`)
+            }}
+          >
+            {t('viewPool')}
+          </button>
+        </div>
+      </Layout>
     )
   }
 
   return (
-    <PrizeShow
-      pool={pool}
-      preAwardPool={historicPools.preAward}
-      postAwardPool={historicPools.postAward}
-      prize={prize}
-    />
+    <Layout>
+      <PrizeShow
+        pool={pool}
+        preAwardPool={historicPools.preAward}
+        postAwardPool={historicPools.postAward}
+        prize={prize}
+      />
+    </Layout>
   )
 }
 

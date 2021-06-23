@@ -1,8 +1,9 @@
 import React from 'react'
 import { shorten } from '@pooltogether/utilities'
+import { Tooltip } from '@pooltogether/react-components'
+import FeatherIcon from 'feather-icons-react'
 
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from 'lib/components/Tooltip'
 
 const PLAYER_LABELS = {
   '0x57e848a6915455a7e77cf0d55a1474befd9c374d': 'yearn.finance DAI Users',
@@ -33,19 +34,21 @@ export const PlayerLabel = (props) => {
   const numHolders = YEARN_STRATEGIES_TO_NUM_HOLDERS[playerAddress]
 
   return (
-    <>
-      {label}{' '}
+    <span className='flex flex-wrap'>
+      <span className='xs:whitespace-nowrap'>{label}</span>
       {Boolean(numHolders) && (
         <>
-          {` (~${numHolders})`}
-
           <Tooltip
             id={`player-label-${id}-tooltip`}
             className='inline-block ml-1'
             tip={t('numHoldersInYearnVault', { numHolders })}
-          />
+          >
+            <span className='flex mr-2'>
+              {` (~${numHolders})`} <FeatherIcon icon='info' className='w-4 h-4 my-auto ml-1' />
+            </span>
+          </Tooltip>
         </>
       )}{' '}
-    </>
+    </span>
   )
 }

@@ -28,7 +28,7 @@ export const CommunityDisclaimerBanner = (props) => {
             a: (
               <a
                 target='_blank'
-                className='underline text-inverse'
+                className='underline text-inverse text-xs xs:text-sm sm:text-lg lg:text-xl'
                 href='https://medium.com/pooltogether/prize-pool-builder-9f9c95fad860'
               />
             )
