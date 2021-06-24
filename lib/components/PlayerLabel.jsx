@@ -9,7 +9,8 @@ const PLAYER_LABELS = {
   '0x57e848a6915455a7e77cf0d55a1474befd9c374d': 'yearn.finance DAI Users',
   '0x387fca8d7e2e09655b4f49548607b55c0580fc63': 'yearn.finance USDC Users',
   '0x2f994e2e4f3395649eee8a89092e63ca526da829': '🐳 PoolTogether DAI Pod Users',
-  '0x386eb78f2ee79adde8bdb0a0e27292755ebfea58': '🐳 PoolTogether USDC Pod Users'
+  '0x386eb78f2ee79adde8bdb0a0e27292755ebfea58': '🐳 PoolTogether USDC Pod Users',
+  '0x09accc89e3599137c83fb87acb9443a15c4bd268': '🐳 /r/ethfinance Pod Users'
 }
 
 // mapping of YEARN strategy contracts to their corresponding vaults
