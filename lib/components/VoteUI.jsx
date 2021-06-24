@@ -2,7 +2,6 @@ import React from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { ButtonLink } from 'lib/components/ButtonLink'
-import { Tagline } from 'lib/components/Tagline'
 
 import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
 

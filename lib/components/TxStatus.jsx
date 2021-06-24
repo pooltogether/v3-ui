@@ -27,10 +27,15 @@ export const TxStatus = (props) => {
     if (txSent) {
       key = setTimeout(() => setShowExtraMessage(true), 15000)
     }
+    if (txCompleted) {
+      setShowExtraMessage(false)
+      key && clearTimeout(key)
+    }
+
     return () => {
       key && clearTimeout(key)
     }
-  }, [txSent])
+  }, [txSent, txCompleted])
 
   if (!tx) return null
   if (txCancelled) return null

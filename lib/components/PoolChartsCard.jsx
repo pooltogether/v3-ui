@@ -1,10 +1,10 @@
 import React from 'react'
-
 import { useTranslation } from 'react-i18next'
+import { Tooltip } from '@pooltogether/react-components'
+
 import { Card } from 'lib/components/Card'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { TicketsSoldGraph } from 'lib/components/TicketsSoldGraph'
-import { Tooltip } from 'lib/components/Tooltip'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usePastPrizes } from 'lib/hooks/usePastPrizes'
 import { CHART_PRIZE_PAGE_SIZE } from 'lib/constants'

@@ -1,4 +1,5 @@
 import React from 'react'
+import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
 import { CardGrid } from 'lib/components/CardGrid'
@@ -6,13 +7,13 @@ import { PrizeShowLootBoxTable } from 'lib/components/LootBoxTable'
 import { HistoricPrizeBreakdown } from 'lib/components/HistoricPrizeBreakdown'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { Meta } from 'lib/components/Meta'
-import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { PrizePlayerListing } from 'lib/components/PrizePlayerListing'
 import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import TicketsIcon from 'assets/images/icon-ticket@2x.png'
+import Link from 'next/link'
 
 export function PrizeShow(props) {
   const { t } = useTranslation()
@@ -33,6 +34,7 @@ export function PrizeShow(props) {
       <Meta title={poolName && prizeNumber && `${t('prize')} #${prizeNumber} - ${poolName}`} />
 
       <PageTitleAndBreadcrumbs
+        Link={Link}
         title={t('prizes')}
         pool={pool}
         breadcrumbs={[

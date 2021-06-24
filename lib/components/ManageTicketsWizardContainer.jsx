@@ -75,7 +75,9 @@ export function ManageTicketsWizardContainer() {
             >
               {activeStepIndex > 1 && notEnoughCredit === null ? (
                 <div className='flex flex-col justify-center items-center'>
-                  <ThemedClipSpinner size={32} />
+                  <div className='mb-2'>
+                    <ThemedClipSpinner size={32} />
+                  </div>
                   <PaneTitle>{t('gettingAvailableCredit')}</PaneTitle>
                 </div>
               ) : (

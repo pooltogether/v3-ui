@@ -1,18 +1,25 @@
 import React from 'react'
 import Link from 'next/link'
-import { useTable, useBlockLayout } from 'react-table'
-
+import { useTable } from 'react-table'
 import { useTranslation } from 'react-i18next'
-import { BasicTable } from 'lib/components/BasicTable'
+import FeatherIcon from 'feather-icons-react'
+
 import { PlayerLabel } from 'lib/components/PlayerLabel'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
+import { BasicTable, InternalLink, LinkIcon } from '@pooltogether/react-components'
 
 const _playerLink = (t, player) => {
   return (
-    <Link href='/players/[playerAddress]' as={`/players/${player?.account?.id}`} shallow>
-      <a className='trans text-accent-1 underline'>{t('viewPlayerInfo')}</a>
-    </Link>
+    <InternalLink
+      Link={Link}
+      href='/players/[playerAddress]'
+      as={`/players/${player?.account?.id}`}
+      shallow
+    >
+      <span className='hidden xs:block'>{t('viewPlayerInfo')}</span>
+      <span className='block xs:hidden'>{t('view')}</span>
+    </InternalLink>
   )
 }
 
@@ -59,17 +66,17 @@ export const PlayersTable = (props) => {
       {
         Header: t('address'),
         accessor: 'address',
-        className: 'td-address'
+        className: 'td-address pb-2'
       },
       {
         Header: t('balance'),
         accessor: 'balance',
-        className: 'td-balance'
+        className: 'td-balance pb-2'
       },
       {
         Header: '',
         accessor: 'view',
-        className: 'td-view',
+        className: 'td-view pb-2',
         Cell: (row) => <div style={{ textAlign: 'right' }}>{row.value}</div>
       }
     ],
@@ -86,13 +93,10 @@ export const PlayersTable = (props) => {
     })
   }, [players, pool, pool.tokens.ticket.totalSupply])
 
-  const tableInstance = useTable(
-    {
-      columns,
-      data
-    },
-    useBlockLayout
-  )
+  const tableInstance = useTable({
+    columns,
+    data
+  })
 
   if (!players || players?.length === 0) {
     return null

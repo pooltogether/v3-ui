@@ -47,7 +47,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
 
       <p className='mx-auto text-accent-1 text-center'>{strategyDescriptionBasic}</p>
 
-      <div className='flex flex-col xs:flex-row'>
+      <div className='flex flex-row'>
         {externalAwardsGreaterThanZero && <div className='hidden sm:block sm:w-2/12'>&nbsp;</div>}
 
         {hasTicketPrize && (
@@ -62,14 +62,14 @@ export const UpcomingPrizeBreakdownCard = (props) => {
             <img src={PrizeIllustration} className='w-40 mx-auto' />
 
             <div>
-              <h3>{`$${totalInternalAwardsUsd}`}</h3>
+              <h4 className='text-xl xs:text-2xl sm:text-3xl lg:text-4xl'>{`$${totalInternalAwardsUsd}`}</h4>
             </div>
           </div>
         )}
 
         {externalAwardsGreaterThanZero && (
           <>
-            <div className='w-full xs:w-2/12 text-center -mt-2 xs:mt-24 mb-2 xs:mb-0 xs:pt-3 text-5xl font-bold leading-none'>
+            <div className='w-full xs:w-2/12 text-center my-auto text-5xl font-bold leading-none'>
               {` + `}
             </div>
 
@@ -81,7 +81,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
                   top: 3
                 }}
               >
-                <h3>{externalAwardsGreaterThanZero && `$${totalExternalAwardsValueUsd}`}</h3>
+                <h4 className='text-xl xs:text-2xl sm:text-3xl lg:text-4xl'>{`$${totalExternalAwardsValueUsd}`}</h4>
               </div>
             </div>
 

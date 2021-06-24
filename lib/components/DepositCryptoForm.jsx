@@ -3,17 +3,15 @@ import FeatherIcon from 'feather-icons-react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
-
+import { Button, Tooltip } from '@pooltogether/react-components'
 import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/ControlledToken'
 
-import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { DepositTxButton } from 'lib/components/DepositTxButton'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
-import { Tooltip } from 'lib/components/Tooltip'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { formatUsersTokenDataForPool } from 'lib/utils/formatUsersTokenDataForPool'
 import { TxStatus } from 'lib/components/TxStatus'
@@ -36,7 +34,7 @@ export function DepositCryptoForm(props) {
   const decimals = underlyingToken.decimals
   const tokenAddress = underlyingToken.address
   const ticker = underlyingToken.symbol
-  const poolAddress = pool.prizePool.address
+  const poolAddress = pool?.prizePool.address
 
   const tickerUpcased = ticker?.toUpperCase()
 

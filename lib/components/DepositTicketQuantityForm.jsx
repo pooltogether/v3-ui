@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
+import { Button } from '@pooltogether/react-components'
 import { useUsersAddress } from '@pooltogether/hooks'
 import { SECONDS_PER_WEEK } from '@pooltogether/current-pool-data'
 import { useTranslation } from 'react-i18next'
@@ -9,7 +10,6 @@ import { useTranslation } from 'react-i18next'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { Banner } from 'lib/components/Banner'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
-import { Button } from 'lib/components/Button'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { NoMoreTicketsPane } from 'lib/components/NoMoreTicketsPane'
@@ -214,23 +214,22 @@ export function DepositTicketQuantityForm(props) {
         <div className='odds-box'>
           <Banner
             gradient={null}
-            className='bg-primary mt-4 sm:mt-8 mx-auto w-full text-xxs'
+            // className='bg-primary mt-4 sm:mt-8 mx-auto w-full text-xxs'
+            className='flex items-center mx-auto w-full bg-primary text-accent-1 text-xxs xs:text-xs lg:text-sm mt-4 sm:mt-8 max-w-lg'
             style={{ maxWidth: 380 }}
           >
             <img className='mx-auto mb-3 h-16' src={IconTarget} />
 
-            <div className='mt-6'>
-              <Odds
-                sayEveryWeek={pool.prize.prizePeriodSeconds.toString() == SECONDS_PER_WEEK}
-                showLabel
-                splitLines
-                ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
-                decimals={pool.tokens.ticket.decimals}
-                numberOfWinners={pool.config.numberOfWinners}
-                usersBalance={amountUnformatted}
-                additionalAmount={watchQuantity}
-              />
-            </div>
+            <Odds
+              sayEveryWeek={pool.prize.prizePeriodSeconds.toString() == SECONDS_PER_WEEK}
+              showLabel
+              splitLines
+              ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
+              decimals={pool.tokens.ticket.decimals}
+              numberOfWinners={pool.config.numberOfWinners}
+              usersBalance={amountUnformatted}
+              additionalAmount={watchQuantity}
+            />
           </Banner>
         </div>
       )}

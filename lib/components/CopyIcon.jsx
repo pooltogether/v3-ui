@@ -4,7 +4,7 @@ import FeatherIcon from 'feather-icons-react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
 import { useTranslation } from 'react-i18next'
-import { poolToast } from 'lib/utils/poolToast'
+import { poolToast } from '@pooltogether/react-components'
 
 export const CopyIcon = (props) => {
   const { t } = useTranslation()

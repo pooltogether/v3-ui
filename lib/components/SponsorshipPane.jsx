@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
-
+import { Button } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
-import { Button } from 'lib/components/Button'
+
 import { DepositOrWithdrawSponsorshipModal } from 'lib/components/DepositOrWithdrawSponsorshipModal'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'

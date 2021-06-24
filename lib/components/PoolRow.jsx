@@ -2,7 +2,6 @@ import React from 'react'
 import Cookies from 'js-cookie'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
-
 import {
   SECONDS_PER_DAY,
   COOKIE_OPTIONS,
@@ -10,7 +9,8 @@ import {
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
 import { useTranslation } from 'react-i18next'
-import { Button } from 'lib/components/Button'
+import { Button } from '@pooltogether/react-components'
+
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'

@@ -1,9 +1,9 @@
 import React from 'react'
 import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PeriodicPrizeStrategy'
+import { Button } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
 import { useCurrentPool } from 'lib/hooks/usePools'
-import { Button } from 'lib/components/Button'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 export function CompleteAwardUI(props) {
