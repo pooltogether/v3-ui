@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import Link from 'next/link'
-import { useTable, useBlockLayout } from 'react-table'
+import { useTable } from 'react-table'
 
 import { useTranslation } from 'react-i18next'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
@@ -140,13 +140,10 @@ const PrizesTable = (props) => {
     return prizeRows
   }, [pool, prizes])
 
-  const tableInstance = useTable(
-    {
-      columns,
-      data
-    },
-    useBlockLayout
-  )
+  const tableInstance = useTable({
+    columns,
+    data
+  })
 
   return <BasicTable tableInstance={tableInstance} />
 }

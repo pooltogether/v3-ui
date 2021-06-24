@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-
+import { Button } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
+
 import { ETHEREUM_NETWORKS } from 'lib/constants'
 import { Banner } from 'lib/components/Banner'
-import { Button } from 'lib/components/Button'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'

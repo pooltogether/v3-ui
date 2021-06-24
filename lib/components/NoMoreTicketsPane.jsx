@@ -1,9 +1,9 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-
+import { Button } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
+
 import { useCurrentPool } from 'lib/hooks/usePools'
-import { Button } from 'lib/components/Button'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'

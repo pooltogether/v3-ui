@@ -119,9 +119,7 @@ export const AccountTicket = (props) => {
           <div
             className='h-24 bg-accent-grey-4 border-body border-dotted border-r-4'
             style={{ width: 1 }}
-          >
-            &nbsp;
-          </div>
+          />
           <div className='h-28 notched-box rounded-r-lg bg-accent-grey-4 flex flex-col justify-center sm:flex-row w-full'>
             <div className={classnames(`notched-corner notched-top-left`, cornerBgClassName)}></div>
             <div
@@ -189,7 +187,7 @@ export const AccountTicket = (props) => {
                     />
                     <button
                       onClick={handleManageClick}
-                      className='underline text-xxxs sm:text-xxs ml-2 sm:ml-0'
+                      className='underline text-highlight-1 hover:text-inverse trans text-xxxs sm:text-xxs ml-2 sm:ml-0'
                     >
                       {t('manage')}
                     </button>

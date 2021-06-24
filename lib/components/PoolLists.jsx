@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/router'
+import { ExternalLink, LinkTheme } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
 import { POOL_LIST_TABS } from 'lib/constants'
@@ -160,13 +161,14 @@ const CommunityPoolsList = (props) => {
     <>
       <PoolList pools={communityPools} isFetched={isFetched} chainIdFilter={props.chainIdFilter} />
       <div className='flex'>
-        <a
+        <ExternalLink
           href='https://community.pooltogether.com'
-          target='_blank'
-          className='mx-auto text-xxs xs:text-xs sm:text-sm text-center underline my-4'
+          underline
+          className='mx-auto text-xxs xs:text-xs sm:text-sm text-center my-4'
+          theme={LinkTheme.accent}
         >
           {t('allPoolsAreListedOnCommunityDotPTDotCom')}
-        </a>
+        </ExternalLink>
       </div>
     </>
   )

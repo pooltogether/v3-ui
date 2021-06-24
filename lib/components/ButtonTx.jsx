@@ -1,9 +1,6 @@
 import React from 'react'
 import { omit } from 'lodash'
-import { useRouter } from 'next/router'
-
-import { Button } from 'lib/components/Button'
-import { Tooltip } from 'lib/components/Tooltip'
+import { Button, Tooltip } from '@pooltogether/react-components'
 
 export function ButtonTx(props) {
   const { children, usersAddress } = props

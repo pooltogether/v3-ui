@@ -1,18 +1,16 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
-import Dialog from '@reach/dialog'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 import ERC20Abi from 'abis/ERC20Abi'
 import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
 import { useOnboard } from '@pooltogether/hooks'
-import { Tooltip } from '@pooltogether/react-components'
+import { Button, Tooltip, Modal } from '@pooltogether/react-components'
 
-import { Button } from 'lib/components/Button'
-import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
+import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
 import { NetworkWarning } from 'lib/components/NetworkWarning'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
@@ -127,21 +125,13 @@ export const RewardsActionModal = (props) => {
   const confirmButtonDisabled = confirmTooltipEnabled
 
   return (
-    <Dialog
-      aria-label={`${underlyingToken.symbol} Pool ${action} Modal`}
+    <Modal
+      label={`${underlyingToken.symbol} Pool ${action} Modal`}
       isOpen={isOpen}
-      onDismiss={closeModal}
+      closeModal={closeModal}
+      noSize
     >
-      <div className='relative text-inverse p-4 bg-modal h-screen sm:h-auto rounded-none sm:rounded-sm sm:max-w-3xl mx-auto flex flex-col'>
-        <div className='flex'>
-          <button
-            className='absolute r-4 t-4 close-button trans text-inverse opacity-40 hover:opacity-100'
-            onClick={closeModal}
-          >
-            <FeatherIcon icon='x-circle' className='w-6 h-6 sm:w-8 sm:h-8' />
-          </button>
-        </div>
-
+      <div className='relative text-inverse p-4 h-screen sm:h-auto rounded-none sm:rounded-sm sm:max-w-3xl mx-auto flex flex-col'>
         <div className='flex flex-col justify-center h-5/6 sm:pb-8'>
           <div className='flex flex-col justify-center items-center mb-6 mt-10'>
             {props.tokenImage ?? null}
@@ -154,124 +144,129 @@ export const RewardsActionModal = (props) => {
           <NetworkWarning walletOnWrongNetwork={walletOnWrongNetwork} chainId={chainId} />
 
           <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col sm:w-9/12 sm:mx-auto'>
-
-            {(txSent || txSuccessful) ? <>
-              <div className='mx-auto text-center'>
-                <TxStatus gradient='basic' tx={tx} />
-              </div>
-            </> : <>
-              <TextInputGroup
-                unsignedNumber
-                autoFocus
-                large
-                id={`text-input-group-${action}`}
-                name={action}
-                register={register}
-                label={t(`amount`)}
-                required={t('amountRequired')}
-                autoComplete='off'
-                validate={{
-                  greaterThanBalance: (value) => {
-                    let amountUnformatted
-                    try {
-                      amountUnformatted = ethers.utils.parseUnits(value, decimals)
-                    } catch (e) {
-                      console.warn(e)
+            {txSent || txSuccessful ? (
+              <>
+                <div className='mx-auto text-center'>
+                  <TxStatus gradient='basic' tx={tx} />
+                </div>
+              </>
+            ) : (
+              <>
+                <TextInputGroup
+                  unsignedNumber
+                  autoFocus
+                  large
+                  id={`text-input-group-${action}`}
+                  name={action}
+                  register={register}
+                  label={t(`amount`)}
+                  required={t('amountRequired')}
+                  autoComplete='off'
+                  validate={{
+                    greaterThanBalance: (value) => {
+                      let amountUnformatted
+                      try {
+                        amountUnformatted = ethers.utils.parseUnits(value, decimals)
+                      } catch (e) {
+                        console.warn(e)
+                      }
+                      return amountUnformatted?.lte(maxAmountUnformatted) || overMaxErrorMsg
+                    },
+                    greaterThanZero: (value) => {
+                      return (
+                        Number(value) > 0 ||
+                        t('greaterThanZeroMessage', 'please enter a value higher than 0')
+                      )
                     }
-                    return amountUnformatted?.lte(maxAmountUnformatted) || overMaxErrorMsg
-                  },
-                  greaterThanZero: (value) => {
-                    return (
-                      Number(value) > 0 ||
-                      t('greaterThanZeroMessage', 'please enter a value higher than 0')
+                  }}
+                  rightLabel={
+                    usersAddress &&
+                    tickerUpcased && (
+                      <button
+                        id='_setMaxDepositAmount'
+                        type='button'
+                        className='font-bold inline-flex items-center'
+                        onClick={(e) => {
+                          e.preventDefault()
+                          setValue(action, maxAmount, { shouldValidate: true })
+                        }}
+                      >
+                        <img src={WalletIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
+                        {numberWithCommas(maxAmount)} {tickerUpcased}
+                      </button>
                     )
                   }
-                }}
-                rightLabel={
-                  usersAddress &&
-                  tickerUpcased && (
-                    <button
-                      id='_setMaxDepositAmount'
-                      type='button'
-                      className='font-bold inline-flex items-center'
-                      onClick={(e) => {
-                        e.preventDefault()
-                        setValue(action, maxAmount, { shouldValidate: true })
-                      }}
-                    >
-                      <img src={WalletIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
-                      {numberWithCommas(maxAmount)} {tickerUpcased}
-                    </button>
-                  )
-                }
-              />
+                />
 
-              <span className='h-6 w-full text-xs text-orange text-center'>
-                {errors?.[action]?.message || null}
-              </span>
-            </>}
+                <span className='h-6 w-full text-xs text-orange text-center'>
+                  {errors?.[action]?.message || null}
+                </span>
+              </>
+            )}
 
             <ButtonDrawer>
-              {txSuccessful && !txError ? <>
-                <Button
-                  textSize='sm'
-                  className='w-full'
-                  onClick={(e) => {
-                    e.preventDefault()
-                    resetState()
-                    closeModal()
-                  }}
-                >
-                  {t('closeThis')}
-                </Button>
-              </> : <>
-
-                {allowance && (
-                  <Tooltip
-                    isEnabled={approveTooltipEnabled}
-                    id={`rewards-modal-approve-${action}-${prizePoolAddress}-tooltip`}
-                    tip={approveTooltipTip}
-                    className='w-48-percent'
-                  >
-                    <ApproveButton
-                      {...props}
-                      allowanceIsZero={allowanceIsZero}
-                      tooltipEnabled={approveTooltipEnabled}
-                      disabled={approveButtonDisabled}
-                    />
-                  </Tooltip>
-                )}
-
-                <Tooltip
-                  isEnabled={confirmTooltipEnabled}
-                  id={`rewards-modal-confirm-${action}-${prizePoolAddress}-tooltip`}
-                  tip={confirmTooltipTip}
-                  className={classnames({
-                    'w-48-percent': allowance,
-                    'w-2/3 mx-auto': !allowance
-                  })}
-                >
+              {txSuccessful && !txError ? (
+                <>
                   <Button
-                    type='submit'
                     textSize='sm'
-                    disabled={confirmButtonDisabled}
-                    className={classnames('sm:mt-4', {
+                    className='w-full'
+                    onClick={(e) => {
+                      e.preventDefault()
+                      resetState()
+                      closeModal()
+                    }}
+                  >
+                    {t('close')}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  {allowance && (
+                    <Tooltip
+                      isEnabled={approveTooltipEnabled}
+                      id={`rewards-modal-approve-${action}-${prizePoolAddress}-tooltip`}
+                      tip={approveTooltipTip}
+                      className='w-48-percent'
+                    >
+                      <ApproveButton
+                        {...props}
+                        allowanceIsZero={allowanceIsZero}
+                        tooltipEnabled={approveTooltipEnabled}
+                        disabled={approveButtonDisabled}
+                      />
+                    </Tooltip>
+                  )}
+
+                  <Tooltip
+                    isEnabled={confirmTooltipEnabled}
+                    id={`rewards-modal-confirm-${action}-${prizePoolAddress}-tooltip`}
+                    tip={confirmTooltipTip}
+                    className={classnames({
                       'w-48-percent': allowance,
-                      'w-full': confirmTooltipEnabled,
-                      'w-2/3 mx-auto': !confirmTooltipEnabled && !allowance
+                      'w-2/3 mx-auto': !allowance
                     })}
                   >
-                    {txSent && (
-                      <span className='mr-2'>
-                        {' '}
-                        <ThemedClipSpinner size={14} />
-                      </span>
-                    )}{' '}
-                    {allowance ? t('confirmStepTwo') : t('confirmWithdrawal')}
-                  </Button>
-                </Tooltip>
-              </>}
-
+                    <Button
+                      type='submit'
+                      textSize='sm'
+                      disabled={confirmButtonDisabled}
+                      className={classnames('sm:mt-4', {
+                        'w-48-percent': allowance,
+                        'w-full': confirmTooltipEnabled,
+                        'w-2/3 mx-auto': !confirmTooltipEnabled && !allowance
+                      })}
+                    >
+                      {txSent && (
+                        <span className='mr-2'>
+                          {' '}
+                          <ThemedClipSpinner size={14} />
+                        </span>
+                      )}{' '}
+                      {allowance ? t('confirmStepTwo') : t('confirmWithdrawal')}
+                    </Button>
+                  </Tooltip>
+                </>
+              )}
             </ButtonDrawer>
           </form>
 
@@ -282,7 +277,7 @@ export const RewardsActionModal = (props) => {
           )}
         </div>
       </div>
-    </Dialog>
+    </Modal>
   )
 }
 
@@ -338,7 +333,6 @@ const ApproveButton = (props) => {
           />
         </div>
       )}
-
       {txSent && (
         <span className='mr-2'>
           {' '}

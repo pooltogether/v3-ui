@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useUsersAddress } from '@pooltogether/hooks'
+import { ExternalLink, LinkTheme } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
 import { AccountTicket } from 'lib/components/AccountTicket'
@@ -63,13 +64,14 @@ export const AccountTickets = () => {
           {t('areSomeOfYourDepositsMissing')} {t('checkOnTheCompletePoolListingForYourBalances')}
         </span>
         <div>
-          <a
-            className='text-primary-soft'
+          <ExternalLink
+            underline
+            colorClassName='text-default-soft hover:text-inverse'
+            className='text-xxs'
             href='https://community.pooltogether.com'
-            target='_blank'
           >
             https://community.pooltogether.com
-          </a>
+          </ExternalLink>
         </div>
       </div>
     </div>
