@@ -39,10 +39,11 @@ const Settings = () => (
 )
 
 const LanguagePicker = () => {
-  const { i18n: i18next } = useTranslation()
+  const { i18n: i18next, t } = useTranslation()
   const [currentLang, setCurrentLang] = useState(i18next.language)
+
   return (
-    <SettingsItem label='Language'>
+    <SettingsItem label={t('language')}>
       <LanguagePickerDropdown
         currentLang={currentLang}
         changeLang={(newLang) => {
@@ -57,7 +58,7 @@ const LanguagePicker = () => {
 const ClaimPoolTokens = () => {
   const { t } = useTranslation()
   return (
-    <SettingsItem label='Claim POOL' description={t('claimTokensOnBehalfOf')}>
+    <SettingsItem label={t('claim')} description={t('claimTokensOnBehalfOf')}>
       <ButtonLink
         Link={Link}
         secondary
@@ -97,7 +98,7 @@ const ManagePoolsSettingsItem = () => {
   }
 
   return (
-    <SettingsItem label='Language'>
+    <SettingsItem label={t('manage')} tip={t('showPoolManagementDescription')}>
       <CheckboxInputGroup
         large
         id='settings-show-award'
@@ -113,6 +114,7 @@ const ManagePoolsSettingsItem = () => {
 const UsersAccount = () => {
   const { isWalletConnected, connectWallet, isOnboardReady } = useOnboard()
   const supportedNetworks = useSupportedNetworks()
+  const { t } = useTranslation()
 
   if (!isOnboardReady) return null
 
@@ -124,16 +126,16 @@ const UsersAccount = () => {
         textSize='xxxs'
         className='mx-1 my-auto'
       >
-        Connect wallet
+        {t('connectWallet')}
       </Button>
     )
   }
 
   return (
     <>
-      <NetworkSelector supportedNetworks={supportedNetworks} className='mx-1 my-auto' />
+      <NetworkSelector t={t} supportedNetworks={supportedNetworks} className='mx-1 my-auto' />
       <NavPoolBalance className='mx-1 my-auto' />
-      <Account className='mx-1 my-auto' />
+      <Account t={t} className='mx-1 my-auto' />
     </>
   )
 }
