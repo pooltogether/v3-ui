@@ -251,8 +251,8 @@ export const RewardsActionModal = (props) => {
                       textSize='sm'
                       disabled={confirmButtonDisabled}
                       className={classnames('sm:mt-4', {
-                        'w-48-percent': allowance,
-                        'w-full': confirmTooltipEnabled,
+                        'w-48-percent': !confirmTooltipEnabled && allowance,
+                        'w-full': confirmTooltipEnabled || allowance,
                         'w-2/3 mx-auto': !confirmTooltipEnabled && !allowance
                       })}
                     >

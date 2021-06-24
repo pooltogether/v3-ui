@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { isSafari } from 'react-device-detect'
+import { poolToast } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
 import { axiosInstance } from 'lib/axiosInstance'
 import { DropdownList } from 'lib/components/DropdownList'
-import { poolToast } from 'lib/utils/poolToast'
 
 // import GooglePay from 'assets/images/googlepay.svg'
 import ApplePay from 'assets/images/applepay.svg'

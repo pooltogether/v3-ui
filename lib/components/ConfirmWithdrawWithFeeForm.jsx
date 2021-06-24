@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import { useUsersAddress } from '@pooltogether/hooks'
-import { Button, Tooltip } from '@pooltogether/react-components'
+import { Button, Tooltip, poolToast } from '@pooltogether/react-components'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
 import { Trans, useTranslation } from 'react-i18next'
@@ -22,7 +22,6 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { poolToast } from 'lib/utils/poolToast'
 
 import IconLightning from 'assets/images/icon-lightning.svg'
 

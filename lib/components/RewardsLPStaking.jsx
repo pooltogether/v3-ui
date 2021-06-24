@@ -358,7 +358,7 @@ const ManageStakedAmount = (props) => {
   return (
     <>
       <RewardsTableCell
-        label={t('wallet')}
+        label={t('yourStake')}
         topContentJsx={
           <ContentOrSpinner isLoading={usersAddress && !userLPChainDataIsFetched}>
             <PoolNumber>{numberWithCommas(ticketBalance)}</PoolNumber>
@@ -377,7 +377,7 @@ const ManageStakedAmount = (props) => {
       </div>
 
       <RewardsTableCell
-        label={t('yourStake')}
+        label={t('wallet')}
         divTwoClassName='w-full sm:h-20 flex flex-col justify-between items-start leading-snug'
         topContentJsx={
           <ContentOrSpinner isLoading={usersAddress && !userLPChainDataIsFetched}>

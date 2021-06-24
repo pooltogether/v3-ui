@@ -36,6 +36,8 @@ import '@reach/dialog/styles.css'
 import '@reach/menu-button/styles.css'
 import '@reach/tooltip/styles.css'
 
+import 'react-toastify/dist/ReactToastify.css'
+
 import 'assets/styles/index.css'
 import '@pooltogether/react-components/dist/index.css'
 
@@ -137,7 +139,7 @@ function MyApp({ Component, pageProps, router }) {
       router.events.off('routeChangeComplete', handleExitComplete)
     }
   }, [])
-
+  const notify = () => toast('Wow so easy!')
   return (
     <HotKeys
       keyMap={HOTKEYS_KEY_MAP}
@@ -148,8 +150,9 @@ function MyApp({ Component, pageProps, router }) {
           <InitPoolTogetherHooks>
             <BodyClasses />
 
+            <div className='pool-toast' position='top-center' autoClose={7000}></div>
             <ToastContainer className='pool-toast' position='top-center' autoClose={7000} />
-
+            <button onClick={notify}>Notify!</button>
             <AllContextProviders>
               <CustomErrorBoundary>
                 <TransactionStatusChecker />
