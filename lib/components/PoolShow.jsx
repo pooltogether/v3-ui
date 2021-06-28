@@ -18,7 +18,6 @@ import {
 } from 'lib/constants'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
-import { CommunityPoolDisclaimerModal } from 'lib/components/CommunityPoolDisclaimerModal'
 import { PoolShowLootBoxTable } from 'lib/components/LootBoxTable'
 import { PoolChartsCard } from 'lib/components/PoolChartsCard'
 import { PastWinnersCard } from 'lib/components/PastWinnersCard'
@@ -81,8 +80,6 @@ export const PoolShow = (props) => {
   return (
     <>
       <Meta title={pool.name} />
-
-      <CommunityPoolDisclaimerModal pool={pool} poolSymbol={pool.symbol} />
 
       <motion.div
         initial='initial'
