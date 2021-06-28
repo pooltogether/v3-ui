@@ -2,12 +2,11 @@ import React from 'react'
 import Link from 'next/link'
 import { useTable } from 'react-table'
 import { useTranslation } from 'react-i18next'
-import FeatherIcon from 'feather-icons-react'
+import { BasicTable, InternalLink } from '@pooltogether/react-components'
 
 import { PlayerLabel } from 'lib/components/PlayerLabel'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
-import { BasicTable, InternalLink, LinkIcon } from '@pooltogether/react-components'
 
 const _playerLink = (t, player) => {
   return (
