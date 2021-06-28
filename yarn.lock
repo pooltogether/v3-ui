@@ -2494,10 +2494,10 @@
     walletlink "^2.1.0"
     web3-provider-engine "^16.0.1"
 
-"@pooltogether/current-pool-data@3.4.21":
-  version "3.4.21"
-  resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.4.21.tgz#17a51c4aea7af06909bf1423a60578785459bb27"
-  integrity sha512-4Ss5S9iykyI4tfy055pdESNMBqtOuelryMDsCzCI2bB7i0as4Ki1ljXR0AiMnvlp+e9kJO2AxNcnNghoZYUq1w==
+"@pooltogether/current-pool-data@3.4.24":
+  version "3.4.24"
+  resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.4.24.tgz#44b50af7e1c25647eae815f9e136d41533ccda75"
+  integrity sha512-i2k5+OlKlUVJnHl8410aw36TjybPHthPthBnmyhSXA+SKy+5dKDXm39pQ3qx0B6sEFonipRVVCOLHQoUue82mA==
 
 "@pooltogether/current-pool-data@^3.4.3":
   version "3.4.18"
@@ -2513,13 +2513,6 @@
     lodash "^4.17.15"
     lodash.merge "^4.6.2"
     zen-observable-ts "^0.8.20"
-
-"@pooltogether/evm-chains-extended@^0.4.3":
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/@pooltogether/evm-chains-extended/-/evm-chains-extended-0.4.3.tgz#01bf32b6a5fc93437b7e02f9380c53e976e7a2c1"
-  integrity sha512-yG2U+5IjwqAjBOmEcP7WmdLs2DSBxM1VPWqQ1Wjelo3/E24aUVe2/ftTEcRwoJXfE1sqYH4sAUoNGl+O3Tbijg==
-  dependencies:
-    evm-chains "^0.2.0"
 
 "@pooltogether/evm-chains-extended@^0.4.4":
   version "0.4.4"
