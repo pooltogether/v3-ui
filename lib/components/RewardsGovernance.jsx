@@ -58,7 +58,6 @@ export const RewardsGovernance = () => {
   const { refetch: refetchPoolTokenData } = usePoolTokenData()
 
   const refetchAllPoolTokenData = () => {
-    console.log('running refresh!')
     refetchTotalClaimablePool()
     refetchPoolTokenData()
   }
@@ -128,18 +127,26 @@ export const RewardsGovernance = () => {
 const GovRewardsRow = (props) => {
   const { t } = useTranslation()
 
-  const { pool, usersAddress, playerTickets } = props
+  const { pool, usersAddress, playerTickets, refetch } = props
 
   const underlyingToken = pool?.tokens?.underlyingToken
 
-  const { data: usersChainData, isFetched: usersChainDataIsFetched } =
-    useUsersTokenBalanceAndAllowance(
-      pool?.chainId,
-      usersAddress,
-      underlyingToken?.address,
-      pool?.prizePool.address
-    )
+  const {
+    data: usersChainData,
+    isFetched: usersChainDataIsFetched,
+    refetch: usersChainDataRefetch
+  } = useUsersTokenBalanceAndAllowance(
+    pool?.chainId,
+    usersAddress,
+    underlyingToken?.address,
+    pool?.prizePool.address
+  )
   const usersTokenDataForPool = formatUsersTokenDataForPool(pool, usersChainData)
+
+  const refetchWithAllowance = () => {
+    refetch()
+    usersChainDataRefetch()
+  }
 
   const poolTicketData = playerTickets?.find((t) => t.poolAddress === pool?.prizePool.address)
   const playersTicketData = poolTicketData?.ticket
@@ -157,6 +164,7 @@ const GovRewardsRow = (props) => {
     remainingColumnsContents = (
       <GovPoolRewardsMainContent
         {...props}
+        refetch={refetchWithAllowance}
         playersTicketData={playersTicketData}
         usersTokenDataForPool={usersTokenDataForPool}
         usersChainDataIsFetched={usersChainDataIsFetched}
