@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import Link from 'next/link'
 import { useTable } from 'react-table'
+import { BasicTable } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
@@ -9,7 +10,6 @@ import { TableRowUILoader } from 'lib/components/loaders/TableRowUILoader'
 import { DefaultPaginationButtons } from 'lib/components/PaginationUI'
 import { usePaginatedPastPrizes } from 'lib/hooks/usePastPrizes'
 import { formatDate } from 'lib/utils/formatDate'
-import { BasicTable } from 'lib/components/BasicTable'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 /**
@@ -85,22 +85,22 @@ const PrizesTable = (props) => {
       {
         Header: '#',
         accessor: 'prizeNumber',
-        className: 'td-prizeNumber'
+        className: 'text-left'
       },
       {
         Header: t('prize'),
         accessor: 'prizeAmount', // accessor is the "key" in the data
-        className: 'td-prizeAmount'
+        className: 'text-left'
       },
       {
         Header: t('awardedOn'),
         accessor: 'awardedAt',
-        className: 'td-date'
+        className: 'text-left'
       },
       {
         Header: '',
         accessor: 'view',
-        className: 'td-view',
+        className: 'text-right',
         Cell: (row) => <div style={{ textAlign: 'right' }}>{row.value}</div>
       }
     ],
