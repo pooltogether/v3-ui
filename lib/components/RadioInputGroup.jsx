@@ -35,7 +35,7 @@ export const RadioInputGroup = (props) => {
         >
           {radio.icon}
 
-          <h1 className='text-base xs:text-2xl sm:text-5xl my-2 sm:my-0 text-center'>
+          <h1 className='flex text-base xs:text-2xl sm:text-5xl my-2 sm:my-0 text-center'>
             {radio.label}
           </h1>
 
