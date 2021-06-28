@@ -1,17 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
-import { ExternalLink, LinkTheme } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
-import { POOL_LIST_TABS } from 'lib/constants'
 import { ANIM_LIST_VARIANTS } from 'lib/constants/framerAnimations'
 import { PoolRow } from 'lib/components/PoolRow'
-import { Tabs, Tab, ContentPane } from 'lib/components/Tabs'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { PoolsListRowLoader, PoolsListUILoader } from 'lib/components/loaders/PoolsListUILoader'
-import { useCommunityPools, useGovernancePools } from 'lib/hooks/usePools'
+import { useGovernancePools } from 'lib/hooks/usePools'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
 import { ALL_NETWORKS_ID, getNetworkNiceNameByChainId } from 'lib/utils/networks'
@@ -33,7 +30,6 @@ export const PoolLists = () => {
   const poolFilters = usePoolFilters()
   const envChainIds = useEnvChainIds()
   const [chainIdFilter, setChainIdFilter] = useState(ALL_NETWORKS_ID)
-  const [selectedTab, setSelectedTab] = useState()
 
   // TODO: Clean & generalize. This is ugly.
   // Need to have a fallback for the render switching from
@@ -44,27 +40,12 @@ export const PoolLists = () => {
     setChainFilter(ALL_NETWORKS_ID)
   })
 
-  const queryTab = router?.query?.tab
   const pathFilter = router?.query?.networkName
   const queryFilter = router?.query?.filter
-
-  // TODO: This is kind of messy. Fighting with animations triggering between
-  // /pools/polygon vs /pools vs pools?filter=polygon.
-  // Current solution ALWAYS adds ?tab=pools
-  // and will not change the route, just adds filters to query params.
-  useEffect(() => {
-    if (queryTab) {
-      setSelectedTab(queryTab)
-    } else if (!selectedTab && router.isReady) {
-      queryParamUpdater.add(router, { tab: POOL_LIST_TABS.pools })
-    }
-  }, [queryTab, router.isReady])
 
   const setChainFilter = (chainIdFilter) => {
     if (chainIdFilter !== ALL_NETWORKS_ID) {
       queryParamUpdater.add(router, { filter: chainIdToNetworkName(Number(chainIdFilter)) })
-    } else {
-      queryParamUpdater.remove(router, 'filter')
     }
   }
 
@@ -91,26 +72,7 @@ export const PoolLists = () => {
 
   return (
     <div className='mt-10'>
-      <div className='flex flex-col xs:flex-row justify-between items-center text-xs sm:text-lg lg:text-xl'>
-        <Tabs className=''>
-          <Tab
-            isSelected={selectedTab === POOL_LIST_TABS.pools}
-            onClick={() => {
-              queryParamUpdater.add(router, { tab: POOL_LIST_TABS.pools })
-            }}
-          >
-            {t('pools')}
-          </Tab>
-          <Tab
-            isSelected={selectedTab === POOL_LIST_TABS.community}
-            onClick={() => {
-              queryParamUpdater.add(router, { tab: POOL_LIST_TABS.community })
-            }}
-          >
-            {t('communityPools')}
-          </Tab>
-        </Tabs>
-
+      <div className='flex flex-col sm:flex-row justify-end items-center text-xs sm:text-lg lg:text-xl'>
         <SmallDropdownInputGroup
           id='pool-filter'
           formatValue={formatValue}
@@ -120,57 +82,8 @@ export const PoolLists = () => {
         />
       </div>
 
-      <ContentPane
-        key='pools-list'
-        isSelected={selectedTab === POOL_LIST_TABS.pools}
-        onlyRenderOnSelect
-      >
-        <AnimatePresence exitBeforeEnter>
-          <MotionUL
-            key='ul-pool-list'
-            animate={selectedTab === POOL_LIST_TABS.pools ? 'enter' : 'exit'}
-          >
-            <GovernancePoolsList chainIdFilter={chainIdFilter} />
-          </MotionUL>
-        </AnimatePresence>
-      </ContentPane>
-
-      <ContentPane
-        key='community-list'
-        isSelected={selectedTab === POOL_LIST_TABS.community}
-        onlyRenderOnSelect
-      >
-        <AnimatePresence exitBeforeEnter>
-          <MotionUL
-            key='ul-community-list'
-            animate={selectedTab === POOL_LIST_TABS.community ? 'enter' : 'exit'}
-          >
-            <CommunityPoolsList chainIdFilter={chainIdFilter} />
-          </MotionUL>
-        </AnimatePresence>
-      </ContentPane>
+      <GovernancePoolsList chainIdFilter={chainIdFilter} />
     </div>
-  )
-}
-
-const CommunityPoolsList = (props) => {
-  const { data: communityPools, isFetched } = useCommunityPools()
-  const { t } = useTranslation()
-
-  return (
-    <>
-      <PoolList pools={communityPools} isFetched={isFetched} chainIdFilter={props.chainIdFilter} />
-      <div className='flex'>
-        <ExternalLink
-          href='https://community.pooltogether.com'
-          underline
-          className='mx-auto text-xxs xs:text-xs sm:text-sm text-center my-4'
-          theme={LinkTheme.accent}
-        >
-          {t('allPoolsAreListedOnCommunityDotPTDotCom')}
-        </ExternalLink>
-      </div>
-    </>
   )
 }
 
@@ -203,11 +116,11 @@ const SmallDropdownInputGroup = (props) => {
   return (
     <DropdownInputGroup
       {...props}
-      backgroundClasses='bg-tertiary'
+      backgroundClasses='bg-card'
       textClasses='text-accent-2 text-xs xs:text-sm  trans'
       roundedClasses='rounded-lg'
       paddingClasses='py-2 px-4'
-      containerClassName='w-full xs:w-1/2 sm:w-96'
+      containerClassName='w-full sm:w-96'
       iconSizeClasses='w-6 h-6'
     />
   )

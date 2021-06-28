@@ -1,7 +1,3 @@
-// const PermitAndDepositDaiMainnet = require(`@pooltogether/pooltogether-contracts/deployments/mainnet/PermitAndDepositDai.json`)
-// const PermitAndDepositDaiRinkeby = require(`@pooltogether/pooltogether-contracts/deployments/rinkeby/PermitAndDepositDai.json`)
-// const PermitAndDepositDaiRopsten = require(`@pooltogether/pooltogether-contracts/deployments/ropsten/PermitAndDepositDai.json`)
-
 import TokenFaucetProxyFactoryMainnet from '@pooltogether/pooltogether-contracts/deployments/mainnet/TokenFaucetProxyFactory.json'
 import TokenFaucetProxyFactoryRinkeby from '@pooltogether/pooltogether-contracts/deployments/rinkeby/TokenFaucetProxyFactory.json'
 
@@ -208,11 +204,6 @@ export const V2_POOLS = [
 export const STRINGS = {
   transfer: 'transfer',
   withdraw: 'withdraw'
-}
-
-export const POOL_LIST_TABS = {
-  pools: 'pools',
-  community: 'community'
 }
 
 export const HOTKEYS_KEY_MAP = {
