@@ -75,9 +75,12 @@ export const AccountGovernanceClaims = (props) => {
 
   return (
     <>
-      <h5 id='governance-claims' className='font-normal text-accent-2 mt-16 mb-4'>
-        {t('rewards')}
-      </h5>
+      <div
+        id='governance-claims'
+        className='text-accent-2 mt-16 mb-4 opacity-90 font-inter uppercase xs:text-sm'
+      >
+        {t('depositRewards')}
+      </div>
       <div className='relative xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
         <ClaimHeader
           chainId={NETWORK.mainnet}
