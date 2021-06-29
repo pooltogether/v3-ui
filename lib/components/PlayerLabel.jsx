@@ -26,7 +26,9 @@ const YEARN_STRATEGIES_TO_NUM_HOLDERS = {
 
 export const PlayerLabel = (props) => {
   const { t } = useTranslation()
-  const { playerAddress, id } = props
+  const { id } = props
+
+  let playerAddress = props.playerAddress?.toLowerCase()
 
   let label = Boolean(PLAYER_LABELS[playerAddress])
     ? PLAYER_LABELS[playerAddress]
