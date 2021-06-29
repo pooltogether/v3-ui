@@ -67,7 +67,7 @@ export const RewardsGovernance = () => {
     <>
       <div
         id='rewards-governance-claims'
-        className='text-accent-2 mt-16 mb-4 opacity-90 font-inter uppercase xs:text-sm mt-20'
+        className='text-accent-2 mt-16 mb-4 opacity-90 font-headline uppercase xs:text-sm mt-20'
       >
         {t('governanceRewards')}
       </div>

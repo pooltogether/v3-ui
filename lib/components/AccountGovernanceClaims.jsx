@@ -77,7 +77,7 @@ export const AccountGovernanceClaims = (props) => {
     <>
       <div
         id='governance-claims'
-        className='text-accent-2 mt-16 mb-4 opacity-90 font-inter uppercase xs:text-sm'
+        className='text-accent-2 mt-16 mb-4 opacity-90 font-headline uppercase xs:text-sm'
       >
         {t('depositRewards')}
       </div>

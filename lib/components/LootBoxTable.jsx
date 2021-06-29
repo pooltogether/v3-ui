@@ -117,7 +117,9 @@ export const LootBoxTable = (props) => {
 
   return (
     <Card>
-      <div className='text-accent-2 opacity-90 font-inter uppercase xs:text-sm'>{t('lootBox')}</div>
+      <div className='text-accent-2 opacity-90 font-headline uppercase xs:text-sm'>
+        {t('lootBox')}
+      </div>
 
       <div className='flex flex-col sm:flex-row justify-between sm:items-center mb-4'>
         <div className='flex'>

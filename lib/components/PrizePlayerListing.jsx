@@ -30,7 +30,7 @@ export const PrizePlayerListing = (props) => {
       id='player-listings-table'
       className='non-interactable-card mt-2 sm:mt-4 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'
     >
-      <div className='text-accent-2 opacity-90 font-inter uppercase xs:text-sm'>
+      <div className='text-accent-2 opacity-90 font-headline uppercase xs:text-sm'>
         {t('depositors')}
       </div>
       <h3>{numberWithCommas(playerCount || 0, { precision: 0 })}</h3>

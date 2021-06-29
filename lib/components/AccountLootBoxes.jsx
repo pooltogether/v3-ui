@@ -30,7 +30,7 @@ const AccountLootBoxesView = (props) => {
 
   return (
     <>
-      <div className='text-accent-2 mt-16 mb-4 opacity-90 font-inter uppercase xs:text-lg'>
+      <div className='text-accent-2 mt-16 mb-4 opacity-90 font-headline uppercase xs:text-lg'>
         {t('myLootBoxes')}
       </div>
 

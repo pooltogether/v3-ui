@@ -59,7 +59,7 @@ export const RewardsLPStaking = () => {
     <>
       <div
         id='rewards-staking-pools'
-        className='text-accent-2 my-4 opacity-90 font-inter uppercase xs:text-sm'
+        className='text-accent-2 my-4 opacity-90 font-headline uppercase xs:text-sm'
       >
         {t('lpStakingRewards')}
       </div>
