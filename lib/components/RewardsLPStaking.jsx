@@ -57,9 +57,12 @@ export const RewardsLPStaking = () => {
 
   return (
     <>
-      <h5 id='rewards-staking-pools' className='font-normal text-accent-2 my-2 sm:my-4'>
+      <div
+        id='rewards-staking-pools'
+        className='text-accent-2 my-4 opacity-90 font-headline uppercase xs:text-sm'
+      >
         {t('lpStakingRewards')}
-      </h5>
+      </div>
       <div className='bg-card rounded-lg border border-secondary px-4 sm:px-8 py-4'>
         <div className='flex items-baseline sm:items-center flex-col sm:flex-row'>
           <div className='pool-gradient-1 px-2 mr-2 mb-2 sm:mb-0 rounded-lg inline-block capitalize text-xxs text-white'>

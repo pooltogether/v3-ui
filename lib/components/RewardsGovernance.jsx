@@ -65,9 +65,12 @@ export const RewardsGovernance = () => {
 
   return (
     <>
-      <h5 id='rewards-governance-claims' className='font-normal text-accent-2 mt-20'>
+      <div
+        id='rewards-governance-claims'
+        className='text-accent-2 mt-16 mb-4 opacity-90 font-headline uppercase xs:text-sm mt-20'
+      >
         {t('governanceRewards')}
-      </h5>
+      </div>
 
       <div className='bg-card rounded-lg border border-secondary px-4 sm:px-8 py-4 mt-4'>
         <div className='flex items-baseline sm:items-center flex-col sm:flex-row'>

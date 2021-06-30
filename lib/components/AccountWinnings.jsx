@@ -53,9 +53,9 @@ export const AccountWinnings = () => {
 
   return (
     <>
-      <h5 className='font-normal text-accent-2 mt-16 mb-4'>
+      <div className='text-accent-2 mt-16 mb-4 opacity-90 font-headline uppercase xs:text-sm'>
         {t(isSelf ? 'myWinnings' : 'winnings')}
-      </h5>
+      </div>
 
       <div className='xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-2 sm:px-6 py-3'>
         <div className='flex justify-between xs:py-4 pb-0 px-2 xs:px-4'>

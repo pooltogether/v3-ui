@@ -43,7 +43,7 @@ export const AccountSummary = () => {
     >
       <div className='flex justify-between items-center'>
         <div className='leading-tight'>
-          <h6 className='font-normal'>{t('assets')}</h6>
+          <div className='opacity-80 font-headline uppercase xs:text-sm'>{t('assets')}</div>
           {playerTicketsIsFetched ? (
             <h1>
               $<PoolNumber>{numberWithCommas(totalValueUsd, { precision: 2 })}</PoolNumber>
