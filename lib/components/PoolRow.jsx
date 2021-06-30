@@ -82,12 +82,17 @@ export const PoolRow = (props) => {
       id={`_view${symbol}Pool`}
       href='/pools/[networkName]/[symbol]'
       as={`/pools/${pool.networkName}/${symbol}`}
-      className='mt-1 sm:mt-2'
+      className='mt-1 sm:mt-2 relative'
     >
+      <NetworkBadge
+        className='absolute t-0 l-0 px-3 py-1 bg-accent-grey-2 rounded-tl-lg rounded-br-lg border-b border-r border-accent-4'
+        chainId={pool.chainId}
+      />
+
       <div className='flex flex-col sm:flex-row items-center justify-between sm:justify-evenly text-inverse'>
-        <div className='pool-row-left-col h-full flex bg-body py-2 p-4 sm:px-6 sm:pt-3 sm:pb-5 lg:px-8 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
+        <div className='pool-row-left-col h-full flex py-2 p-4 sm:px-6 sm:pt-3 sm:pb-5 lg:px-8 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
           <div className='pool-row-left-col--inner flex flex-col mx-auto'>
-            <div className='flex'>
+            <div className='flex justify-center'>
               <PoolCurrencyIcon
                 noMediaQueries
                 lg
@@ -99,16 +104,15 @@ export const PoolRow = (props) => {
               <PoolPrizeValue pool={pool} />
             </div>
 
-            <div className='flex items-center justify-between'>
+            <div className='flex items-center justify-center'>
               <div
                 className={classnames('text-xxxs text-center rounded-full px-2', {
                   'bg-accent-grey-1 text-highlight-3': !isDaily,
-                  'bg-accent-grey-4 text-highlight-6': isDaily
+                  'bg-accent-grey-2 text-highlight-6': isDaily
                 })}
               >
                 {isDaily ? t('dailyPrize') : t('prizeValue')}
               </div>
-              <NetworkBadge className='' chainId={pool.chainId} />
             </div>
           </div>
         </div>

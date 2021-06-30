@@ -60,7 +60,7 @@ const Stat = (props) => {
     tokenAmount,
     tokenSymbol,
     value,
-    percent,
+    content,
     tooltip
   } = props
 
@@ -98,7 +98,8 @@ const Stat = (props) => {
           )}
         </div>
       )}
-      {percent && <span>{displayPercentage(percent)}%</span>}
+
+      {content}
     </li>
   )
 }
@@ -230,7 +231,7 @@ const AprStats = (props) => {
     <>
       <hr />
       <DailyRewardsDistributionStat pool={pool} />
-      <EffectiveAprStat apr={apr} />
+      <EffectiveAprStat pool={pool} apr={apr} />
     </>
   )
 }
@@ -255,9 +256,27 @@ const DailyRewardsDistributionStat = (props) => {
 }
 
 const EffectiveAprStat = (props) => {
-  const { apr } = props
+  const { apr, pool } = props
 
   const { t } = useTranslation()
 
-  return <Stat title={t('effectiveApr')} percent={apr} tooltip={t('effectiveAprInfo')} />
+  const isSponsorship = pool.config.incentivizesSponsorship
+
+  return (
+    <Stat
+      title={t('effectiveApr')}
+      content={
+        <span>
+          {isSponsorship && <span className='opacity-30 mr-1'>{t('sponsorship')} </span>}{' '}
+          {displayPercentage(apr)}%
+        </span>
+      }
+      tooltip={
+        <>
+          {t('effectiveAprInfo')}
+          {isSponsorship && <>. {t('rewardsAreForSponsorshipOnly')}</>}
+        </>
+      }
+    />
+  )
 }

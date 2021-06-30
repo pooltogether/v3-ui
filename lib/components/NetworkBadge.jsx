@@ -11,7 +11,7 @@ export const NetworkBadge = (props) => {
 
   const defaultClasses = `mx-auto`
   textClasses = textClasses ?? 'text-xxs'
-  sizeClasses = sizeClasses ?? 'w-4 h-4'
+  sizeClasses = sizeClasses ?? 'w-3 h-3'
   className = className ?? defaultClasses
 
   return (
@@ -20,7 +20,7 @@ export const NetworkBadge = (props) => {
 
       <span
         className={classnames(
-          `capitalize ${textClasses} ${vertical ? 'my-1' : 'ml-1'}`,
+          `capitalize ${textClasses} ${vertical ? 'my-1' : 'ml-2'}`,
           `text-${networkTextColorClassname(chainId)}`
         )}
       >
