@@ -2578,10 +2578,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-rng-contracts/-/pooltogether-rng-contracts-1.0.0.tgz#191d155dc960559cce06b7ec3b0f9ed2caed0f46"
   integrity sha512-jQub/+qPLQwTFtbBCvvyIEqxJDEBEV/hgLKnuocBg2/GySWtHLz67WCy17bNn1hZw8nWIt8Ih8h+7iT2UJhtmQ==
 
-"@pooltogether/react-components@^0.0.26":
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/@pooltogether/react-components/-/react-components-0.0.26.tgz#ff1c7126d7cd0afc282cff41620ad16d6c47d87a"
-  integrity sha512-6URBTQkfrrffwOna536X2EJE+5TU6JPQrXnHJ5gXmUyvqvh/F0c09CwlaoRDyeOBkzdBMMaM/uvzj3KZB7WcpQ==
+"@pooltogether/react-components@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@pooltogether/react-components/-/react-components-0.1.1.tgz#c215ff5ccb31ebb342028148477ff1b7b783a890"
+  integrity sha512-lPFK7cJY1g4wzammrggZN6atrDrGYudA2X2jXF9KOJV2WMVfHAOayGjHYcjM2kHPdbb0RIX9J5HF83GSgsQCIg==
   dependencies:
     "3box" "^1.19.1"
     "@pooltogether/evm-chains-extended" "^0.4.4"
@@ -2590,7 +2590,6 @@
     "@reach/popover" "^0.15.0"
     "@reach/visually-hidden" "0.15.0"
     "@rollup/plugin-url" "^6.0.0"
-    autoprefixer "^10.2.3"
     classnames "^2.2.6"
     js-cookie "^2.2.1"
     react-copy-to-clipboard "^5.0.3"
@@ -4614,7 +4613,7 @@ authereum@^0.1.14:
     web3-provider-engine "15.0.4"
     web3-utils "1.2.1"
 
-autoprefixer@^10.2.3, autoprefixer@^10.2.6:
+autoprefixer@^10.2.6:
   version "10.2.6"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.2.6.tgz#aadd9ec34e1c98d403e01950038049f0eb252949"
   integrity sha512-8lChSmdU6dCNMCQopIf4Pe5kipkAGj/fvTMslCsih0uHpOrXOPUEVOmYMMqmw3cekQkSD7EhIeuYl5y0BLdKqg==

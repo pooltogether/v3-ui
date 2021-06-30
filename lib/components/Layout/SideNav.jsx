@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   SideNavContainer,
   SideNavLink,
@@ -6,6 +6,7 @@ import {
   SideVoteIcon,
   SideRewardsIcon,
   SidePoolsIcon,
+  SocialLinks,
   CountBadge
 } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
@@ -21,47 +22,53 @@ export const SideNav = (props) => {
   const isPoolView = !['/account', '/rewards'].includes(pathname)
 
   return (
-    <SideNavContainer>
-      <SideNavLink
-        href='/'
-        as='/'
-        label={'Pools'}
-        Link={Link}
-        useRouter={useRouter}
-        isCurrentPage={isPoolView}
-      >
-        <SidePoolsIcon />
-      </SideNavLink>
-      <SideNavLink
-        href='/account'
-        as='/account'
-        label={t('account')}
-        Link={Link}
-        useRouter={useRouter}
-        match='/account'
-      >
-        <SideAccountIcon />
-      </SideNavLink>
-      <SideNavLink
-        href='/rewards'
-        as='/rewards'
-        label={t('rewards')}
-        Link={Link}
-        useRouter={useRouter}
-        match='/rewards'
-      >
-        <SideRewardsIcon />
-      </SideNavLink>
-      <SideNavLink
-        href='https://vote.pooltogether.com'
-        as='https://vote.pooltogether.com'
-        label={t('vote')}
-        Link={Link}
-        useRouter={useRouter}
-      >
-        <VoteIcon />
-      </SideNavLink>
-    </SideNavContainer>
+    <div className='flex flex-col justify-between h-full'>
+      <SideNavContainer>
+        <SideNavLink
+          href='/'
+          as='/'
+          label={'Pools'}
+          Link={Link}
+          useRouter={useRouter}
+          isCurrentPage={isPoolView}
+        >
+          <SidePoolsIcon />
+        </SideNavLink>
+        <SideNavLink
+          href='/account'
+          as='/account'
+          label={t('account')}
+          Link={Link}
+          useRouter={useRouter}
+          match='/account'
+        >
+          <SideAccountIcon />
+        </SideNavLink>
+        <SideNavLink
+          href='/rewards'
+          as='/rewards'
+          label={t('rewards')}
+          Link={Link}
+          useRouter={useRouter}
+          match='/rewards'
+        >
+          <SideRewardsIcon />
+        </SideNavLink>
+        <SideNavLink
+          href='https://vote.pooltogether.com'
+          as='https://vote.pooltogether.com'
+          label={t('vote')}
+          Link={Link}
+          useRouter={useRouter}
+        >
+          <VoteIcon />
+        </SideNavLink>
+      </SideNavContainer>
+
+      <SideNavContainer className='mb-4'>
+        <SocialLinks />
+      </SideNavContainer>
+    </div>
   )
 }
 
