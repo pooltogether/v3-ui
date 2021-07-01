@@ -141,7 +141,7 @@ const RewardsPools = (props) => {
   const { isSponsorship, pool, tableId, tableHeader, tableSummary, tableDescriptionCard } = props
 
   const usersAddress = useUsersAddress()
-  const { data: playerTickets, isFetched: playersTicketDataIsFetched } =
+  const { data: playersDepositData, isFetched: playersDepositDataIsFetched } =
     useUserTicketsFormattedByPool(usersAddress)
 
   const { refetch: refetchTotalClaimablePool } = useClaimableTokenFromTokenFaucets(
@@ -173,8 +173,8 @@ const RewardsPools = (props) => {
       >
         <RewardsPoolRow
           {...props}
-          playersTicketDataIsFetched={playersTicketDataIsFetched}
-          playerTickets={playerTickets}
+          playersDepositDataIsFetched={playersDepositDataIsFetched}
+          playersDepositData={playersDepositData}
           usersAddress={usersAddress}
           refetch={refetchAllPoolTokenData}
           key={`gov-rewards-card-${pool?.prizePool.address}`}
@@ -187,7 +187,7 @@ const RewardsPools = (props) => {
 const RewardsPoolRow = (props) => {
   const { t } = useTranslation()
 
-  const { pool, usersAddress, playerTickets, refetch } = props
+  const { isSponsorship, pool, usersAddress, playersDepositData, refetch } = props
 
   const underlyingToken = pool?.tokens?.underlyingToken
 
@@ -211,8 +211,9 @@ const RewardsPoolRow = (props) => {
     usersChainDataRefetch()
   }
 
-  const poolTicketData = playerTickets?.find((t) => t.poolAddress === pool?.prizePool.address)
+  const poolTicketData = playersDepositData?.find((t) => t.poolAddress === pool?.prizePool.address)
   const playersTicketData = poolTicketData?.ticket
+  const playersSponsorshipData = poolTicketData?.sponsorship
 
   const error = false
 
@@ -222,14 +223,14 @@ const RewardsPoolRow = (props) => {
     console.error(error)
     remainingColumnsContents = <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
   } else {
-    stakingAprJsx = <GovRewardsAPR pool={pool} />
+    stakingAprJsx = <RewardsPoolAPR pool={pool} />
 
     remainingColumnsContents = (
-      <GovPoolRewardsMainContent
+      <RewardsPoolMainContent
         {...props}
         walletOnWrongNetwork={walletOnWrongNetwork}
         refetch={refetchWithAllowance}
-        playersTicketData={playersTicketData}
+        playersPoolDepositData={isSponsorship ? playersSponsorshipData : playersTicketData}
         usersTokenDataForPool={usersTokenDataForPool}
         usersChainDataIsFetched={usersChainDataIsFetched}
         underlyingToken={underlyingToken}
@@ -266,7 +267,7 @@ const ColumnOneContents = (props) => {
   )
 }
 
-const GovPoolRewardsMainContent = (props) => {
+const RewardsPoolMainContent = (props) => {
   return (
     <>
       <ClaimTokens {...props} />
@@ -455,15 +456,14 @@ const ManageStakedAmount = (props) => {
   const {
     pool,
     isSponsorship,
-    playersTicketData,
-    playersTicketDataIsFetched,
+    playersPoolDepositData,
+    playersDepositDataIsFetched,
     usersTokenDataForPool,
     usersChainDataIsFetched,
     usersAddress
   } = props
-  console.log({ isSponsorship })
 
-  const playersTicketBalance = playersTicketData?.amount || '0.00'
+  const playersDepositBalance = playersPoolDepositData?.amount || '0.00'
   const playersTokenBalance = usersTokenDataForPool.usersTokenBalance || '0.00'
   const allowance = usersTokenDataForPool?.usersTokenAllowance
 
@@ -479,8 +479,8 @@ const ManageStakedAmount = (props) => {
       <RewardsTableCell
         label={t(isSponsorship ? 'sponsoredAmount' : 'yourStake')}
         topContentJsx={
-          <ContentOrSpinner isLoading={usersAddress && !playersTicketDataIsFetched}>
-            <PoolNumber>{numberWithCommas(playersTicketBalance)}</PoolNumber>
+          <ContentOrSpinner isLoading={usersAddress && !playersDepositDataIsFetched}>
+            <PoolNumber>{numberWithCommas(playersDepositBalance)}</PoolNumber>
           </ContentOrSpinner>
         }
         centerContentJsx={<UnderlyingTokenDisplay {...props} sizeClasses='w-4 h-4' />}
@@ -569,7 +569,7 @@ const DepositTriggers = (props) => {
 const WithdrawTriggers = (props) => {
   const { t } = useTranslation()
 
-  const { pool, walletOnWrongNetwork, playersTicketData } = props
+  const { pool, walletOnWrongNetwork, playersPoolDepositData } = props
   const router = useRouter()
 
   const handleManageClick = (e) => {
@@ -587,7 +587,7 @@ const WithdrawTriggers = (props) => {
     )
   }
 
-  const noBalance = !playersTicketData || playersTicketData?.amountUnformatted.isZero()
+  const noBalance = !playersPoolDepositData || playersPoolDepositData?.amountUnformatted.isZero()
 
   return (
     <Tooltip
@@ -610,7 +610,14 @@ const WithdrawTriggers = (props) => {
 
 const DepositModal = (props) => {
   const { t } = useTranslation()
-  const { pool, playersTokenBalance, usersTokenDataForPool, usersAddress, underlyingToken } = props
+  const {
+    isSponsorship,
+    pool,
+    playersTokenBalance,
+    usersTokenDataForPool,
+    usersAddress,
+    underlyingToken
+  } = props
 
   if (!pool || !underlyingToken) {
     return null
@@ -622,6 +629,8 @@ const DepositModal = (props) => {
   const decimals = underlyingToken?.decimals
 
   const ticket = pool?.tokens?.ticket
+  const sponsorship = pool?.tokens?.sponsorship
+  const tokenAddress = isSponsorship ? sponsorship.address : ticket.address
 
   return (
     <RewardsActionModal
@@ -645,14 +654,14 @@ const DepositModal = (props) => {
       getParams={(quantity) => [
         usersAddress,
         ethers.utils.parseUnits(quantity, decimals),
-        ticket.address,
+        tokenAddress,
         ethers.constants.AddressZero
       ]}
     />
   )
 }
 
-const GovRewardsAPR = (props) => {
+const RewardsPoolAPR = (props) => {
   const { pool } = props
 
   let apr = pool?.tokenListener?.apr
