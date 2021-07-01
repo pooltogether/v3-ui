@@ -20,6 +20,8 @@ import { RewardsActionModal } from 'lib/components/RewardsActionModal'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { ContentOrSpinner } from 'lib/components/ContentOrSpinner'
 import { Erc20Image } from 'lib/components/Erc20Image'
+import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
 import { useGovernancePools } from 'lib/hooks/usePools'
@@ -120,6 +122,7 @@ export const RewardsSponsorship = () => {
 
   return (
     <RewardsPools
+      isSponsorship
       tableId='sponsorship'
       tableHeader={t('sponsorshipRewards')}
       tableDescriptionCard={tableDescriptionCard}
@@ -133,7 +136,9 @@ export const RewardsSponsorship = () => {
 }
 
 const RewardsPools = (props) => {
-  const { pool, tableId, tableHeader, tableSummary, tableDescriptionCard } = props
+  const { t } = useTranslation()
+
+  const { isSponsorship, pool, tableId, tableHeader, tableSummary, tableDescriptionCard } = props
 
   const usersAddress = useUsersAddress()
   const { data: playerTickets, isFetched: playersTicketDataIsFetched } =
@@ -162,14 +167,17 @@ const RewardsPools = (props) => {
 
       {tableDescriptionCard}
 
-      <RewardsTable columnOneWidthClass='sm:w-32 lg:w-64'>
+      <RewardsTable
+        depositColumnHeader={t(isSponsorship ? 'sponsoredAmount' : 'yourStake')}
+        columnOneWidthClass='sm:w-32 lg:w-64'
+      >
         <RewardsPoolRow
+          {...props}
           playersTicketDataIsFetched={playersTicketDataIsFetched}
           playerTickets={playerTickets}
           usersAddress={usersAddress}
           refetch={refetchAllPoolTokenData}
           key={`gov-rewards-card-${pool?.prizePool.address}`}
-          pool={pool}
         />
       </RewardsTable>
     </>
@@ -232,22 +240,10 @@ const RewardsPoolRow = (props) => {
   return (
     <RewardsTableRow
       columnOneWidthClass='sm:w-3 lg:w-64'
-      columnOneImage={<ColumnOneImage />}
+      columnOneImage={<UnderlyingTokenImage {...props} className='mr-0 sm:mr-3' />}
       columnOneContents={<ColumnOneContents {...props} />}
       columnTwoContents={stakingAprJsx}
       remainingColumnsContents={remainingColumnsContents}
-    />
-  )
-}
-
-const ColumnOneImage = (props) => {
-  const token = { symbol: 'POOL', address: '0x0cec1a9154ff802e7934fc916ed7ca50bde6844e' }
-
-  return (
-    <Erc20Image
-      address={token.address}
-      marginClasses='mr-0 sm:mr-3'
-      className='relative inline-block w-8 h-8'
     />
   )
 }
@@ -306,7 +302,7 @@ const ClaimTokens = (props) => {
             <PoolNumber>{numberWithCommas(claimable)}</PoolNumber>
           </ContentOrSpinner>
         }
-        centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
+        centerContentJsx={<DripTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={
           <ClaimButton
             {...props}
@@ -403,14 +399,53 @@ const ClaimButton = (props) => {
 }
 
 const UnderlyingTokenDisplay = (props) => {
-  const { pool, underlyingToken } = props
+  const { pool } = props
+
+  if (!pool) {
+    return null
+  }
 
   return (
     <>
-      {pool && (
-        <Erc20Image address={pool.tokens.tokenFaucetDripToken.address} sizeClasses='w-4 h-4' />
-      )}
-      <span className='text-xxs uppercase'>{underlyingToken?.symbol}</span>
+      <UnderlyingTokenImage {...props} />
+      <span className='text-xxs uppercase'>{pool.tokens.underlyingToken.symbol}</span>
+    </>
+  )
+}
+
+const UnderlyingTokenImage = (props) => {
+  const { className, pool } = props
+  const sizeClasses = props.sizeClasses ?? 'w-8 h-8'
+
+  if (!pool) {
+    return null
+  }
+
+  const token = pool.tokens.underlyingToken
+
+  return (
+    <PoolCurrencyIcon
+      symbol={token.symbol}
+      address={token.address}
+      className={classnames(className, sizeClasses, 'relative inline-block')}
+    />
+  )
+}
+
+const DripTokenDisplay = (props) => {
+  const { pool } = props
+  const sizeClasses = props.sizeClasses ?? 'w-4 h-4'
+
+  if (!pool) {
+    return null
+  }
+
+  const token = pool.tokens.tokenFaucetDripToken
+
+  return (
+    <>
+      <PoolCurrencyIcon symbol={token.symbol} address={token.address} className={sizeClasses} />
+      <span className='text-xxs uppercase'>{token?.symbol}</span>
     </>
   )
 }
@@ -419,12 +454,14 @@ const ManageStakedAmount = (props) => {
   const { t } = useTranslation()
   const {
     pool,
+    isSponsorship,
     playersTicketData,
     playersTicketDataIsFetched,
     usersTokenDataForPool,
     usersChainDataIsFetched,
     usersAddress
   } = props
+  console.log({ isSponsorship })
 
   const playersTicketBalance = playersTicketData?.amount || '0.00'
   const playersTokenBalance = usersTokenDataForPool.usersTokenBalance || '0.00'
@@ -440,13 +477,13 @@ const ManageStakedAmount = (props) => {
   return (
     <>
       <RewardsTableCell
-        label={t('yourStake')}
+        label={t(isSponsorship ? 'sponsoredAmount' : 'yourStake')}
         topContentJsx={
           <ContentOrSpinner isLoading={usersAddress && !playersTicketDataIsFetched}>
             <PoolNumber>{numberWithCommas(playersTicketBalance)}</PoolNumber>
           </ContentOrSpinner>
         }
-        centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
+        centerContentJsx={<UnderlyingTokenDisplay {...props} sizeClasses='w-4 h-4' />}
         bottomContentJsx={<WithdrawTriggers {...props} />}
       />
 
@@ -464,7 +501,7 @@ const ManageStakedAmount = (props) => {
             <PoolNumber>{numberWithCommas(playersTokenBalance)}</PoolNumber>
           </ContentOrSpinner>
         }
-        centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
+        centerContentJsx={<UnderlyingTokenDisplay {...props} sizeClasses='w-4 h-4' />}
         bottomContentJsx={
           <DepositTriggers {...props} openDepositModal={() => setDepositModalIsOpen(true)} />
         }
@@ -599,10 +636,10 @@ const DepositModal = (props) => {
       method='depositTo'
       overMaxErrorMsg={t('enterAmountLowerThanTokenBalance')}
       tokenImage={
-        <Erc20Image
+        <PoolCurrencyIcon
+          symbol={underlyingToken.symbol}
           address={underlyingToken.address}
-          marginClasses='mb-2'
-          className='relative inline-block w-8 h-8'
+          className='relative inline-block w-8 h-8 mb-2'
         />
       }
       getParams={(quantity) => [

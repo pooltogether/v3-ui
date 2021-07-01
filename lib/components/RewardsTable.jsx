@@ -8,18 +8,18 @@ import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
 export const RewardsTable = (props) => {
   const { t } = useTranslation()
 
-  const { children } = props
+  const { children, depositColumnHeader } = props
 
   const widthClass = props.columnOneWidthClass ?? 'sm:w-48 lg:w-64'
 
   return (
     <>
-      <div className='hidden sm:flex bg-card justify-between rounded-lg px-4 sm:px-8 py-2 mt-5 text-xxs text-accent-1 capitalize'>
+      <div className='hidden sm:flex bg-card justify-between rounded-lg px-4 sm:px-8 py-2 mt-5 text-xxs text-accent-1'>
         <div className={widthClass}>{t('asset')}</div>
         <div className='w-20 lg:w-32'>APR</div>
         <div className='w-20 lg:w-32 sm:mx-4'>{t('rewards')}</div>
 
-        <div className='w-20 lg:w-32 sm:mx-4'>{t('yourStake')}</div>
+        <div className='w-20 lg:w-32 sm:mx-4'>{depositColumnHeader}</div>
         <div className='w-10 lg:w-20'></div>
         <div className='w-20 lg:w-32 sm:mx-4'>{t('wallet')}</div>
       </div>
@@ -123,7 +123,7 @@ export const RewardsTableCell = (props) => {
 
 export const RewardsTableAprDisplay = (props) => {
   const { t } = useTranslation()
-    
+
   const { apr, isPrize } = props
 
   return (
