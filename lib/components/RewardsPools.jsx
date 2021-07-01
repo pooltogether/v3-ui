@@ -38,14 +38,102 @@ const bn = ethers.BigNumber.from
 export const RewardsGovernance = () => {
   const { t } = useTranslation()
 
-  const { network: walletChainId } = useOnboard()
-
   const { appEnv } = useAppEnv()
   const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
 
   const { data: pools } = useGovernancePools()
   const symbol = chainId === 1 ? 'PT-stPOOL' : 'PT-cBAT'
   const pool = pools?.find((pool) => pool.symbol === symbol)
+
+  const tableDescriptionCard = (
+    <div className='bg-card rounded-lg border border-secondary px-4 sm:px-8 py-4 mt-4'>
+      <div className='flex items-baseline sm:items-center flex-col sm:flex-row'>
+        <div className='pool-gradient-1 px-2 mr-2 mb-2 sm:mb-0 rounded-lg inline-block capitalize text-xxxs font-semibold text-white'>
+          {t('tips')}
+        </div>
+        <h6 className='inline-block'>{t('voteGasFreeWhileEarningRewards')}</h6>
+      </div>
+
+      <ol className='list-decimal block mt-2 pl-4 sm:px-8 text-xs text-accent-1'>
+        <li>{t('depositPoolTokenToThePoolPoolToGetPtPoolToken')}</li>
+        <li>
+          <Trans
+            i18nKey='earnRewardsImmediately'
+            defaults='Earn rewards immediately while eligible for gas-free votes on <linkSnapshot>SnapShot</linkSnapshot>'
+            components={{
+              linkSnapshot: (
+                <ExternalLink
+                  underline
+                  className='text-xs'
+                  theme={LinkTheme.light}
+                  href='https://snapshot.org/#/poolpool.pooltogether.eth'
+                />
+              )
+            }}
+          />
+        </li>
+      </ol>
+    </div>
+  )
+
+  return (
+    <RewardsPools
+      tableId='gov'
+      tableHeader={t('governanceRewards')}
+      tableDescriptionCard={tableDescriptionCard}
+      tableSummary={t(
+        'governanceRewardsSummary',
+        'Deposit your POOL tokens to earn POOL rewards and vote on proposals without paying transaction fees.'
+      )}
+      pool={pool}
+    />
+  )
+}
+
+export const RewardsSponsorship = () => {
+  const { t } = useTranslation()
+
+  const { appEnv } = useAppEnv()
+  const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
+
+  const { data: pools } = useGovernancePools()
+  const symbol = chainId === 1 ? 'USDT-0x887E17' : 'PT-cDAI'
+  const pool = pools?.find((pool) => pool.symbol === symbol)
+
+  const tableDescriptionCard = (
+    <div className='bg-card rounded-lg border border-secondary px-4 sm:px-8 py-4 mt-4'>
+      <div className='flex items-baseline sm:items-center flex-col sm:flex-row'>
+        <div className='pool-gradient-1 px-2 mr-2 mb-2 sm:mb-0 rounded-lg inline-block capitalize text-xxxs font-semibold text-white'>
+          {t('tips')}
+        </div>
+        <h6 className='inline-block'>{t('whatArePoolSponsors', 'What is pool sponsorship?')}</h6>
+      </div>
+
+      <p className='list-decimal block mt-2 text-xs text-accent-1'>
+        {t(
+          'poolSponsorshipIs',
+          'Pool sponsorship is deposits into a pool earning higher yield in rewards instead of chances to win prizes.'
+        )}
+      </p>
+    </div>
+  )
+
+  return (
+    <RewardsPools
+      tableId='sponsorship'
+      tableHeader={t('sponsorshipRewards')}
+      tableDescriptionCard={tableDescriptionCard}
+      tableSummary={t(
+        'sponsorshipRewardsSummary',
+        'Deposit into these pools to earn high-yield sponsorship rewards and help grow the prizes. Sponsors do not win prizes.'
+      )}
+      pool={pool}
+    />
+  )
+}
+
+const RewardsPools = (props) => {
+  const { pool, tableId, tableHeader, tableSummary, tableDescriptionCard } = props
 
   const usersAddress = useUsersAddress()
   const { data: playerTickets, isFetched: playersTicketDataIsFetched } =
@@ -61,49 +149,21 @@ export const RewardsGovernance = () => {
     refetchTotalClaimablePool()
     refetchPoolTokenData()
   }
-  const walletOnWrongNetwork = walletChainId !== pool?.chainId
 
   return (
     <>
       <div
-        id='gov'
-        className='text-accent-2 mt-16 mb-4 opacity-90 font-headline uppercase xs:text-sm mt-20'
+        id={tableId}
+        className='text-accent-2 mt-16 mb-1 opacity-90 font-headline uppercase xs:text-sm'
       >
-        {t('governanceRewards')}
+        {tableHeader}
       </div>
+      <p className='text-accent-1 text-xs mb-6'>{tableSummary}</p>
 
-      <div className='bg-card rounded-lg border border-secondary px-4 sm:px-8 py-4 mt-4'>
-        <div className='flex items-baseline sm:items-center flex-col sm:flex-row'>
-          <div className='pool-gradient-1 px-2 mr-2 mb-2 sm:mb-0 rounded-lg inline-block capitalize text-xxs text-white'>
-            {t('tips')}
-          </div>
-          <h6 className='inline-block'>{t('voteGasFreeWhileEarningRewards')}</h6>
-        </div>
-
-        <ol className='list-decimal block mt-2 pl-4 sm:px-8 text-xs text-accent-1'>
-          <li>{t('depositPoolTokenToThePoolPoolToGetPtPoolToken')}</li>
-          <li>
-            <Trans
-              i18nKey='earnRewardsImmediately'
-              defaults='Earn rewards immediately while eligible for gas-free votes on <linkSnapshot>SnapShot</linkSnapshot>'
-              components={{
-                linkSnapshot: (
-                  <ExternalLink
-                    underline
-                    className='text-xs'
-                    theme={LinkTheme.light}
-                    href='https://snapshot.org/#/poolpool.pooltogether.eth'
-                  />
-                )
-              }}
-            />
-          </li>
-        </ol>
-      </div>
+      {tableDescriptionCard}
 
       <RewardsTable columnOneWidthClass='sm:w-32 lg:w-64'>
-        <GovRewardsRow
-          walletOnWrongNetwork={walletOnWrongNetwork}
+        <RewardsPoolRow
           playersTicketDataIsFetched={playersTicketDataIsFetched}
           playerTickets={playerTickets}
           usersAddress={usersAddress}
@@ -111,28 +171,20 @@ export const RewardsGovernance = () => {
           key={`gov-rewards-card-${pool?.prizePool.address}`}
           pool={pool}
         />
-
-        {/* eventually ... */}
-        {/* {faucets.map((faucet) => (
-          <GovRewardsRow
-            playerTickets={playerTickets}
-            usersAddress={usersAddress}
-            refetch={refetchAllPoolTokenData}
-            key={`gov-rewards-card-${faucet.pool?.prizePool.address}`}
-            pool={faucet.pool}
-          />
-        ))} */}
       </RewardsTable>
     </>
   )
 }
 
-const GovRewardsRow = (props) => {
+const RewardsPoolRow = (props) => {
   const { t } = useTranslation()
 
   const { pool, usersAddress, playerTickets, refetch } = props
 
   const underlyingToken = pool?.tokens?.underlyingToken
+
+  const { network: walletChainId } = useOnboard()
+  const walletOnWrongNetwork = walletChainId !== pool?.chainId
 
   const {
     data: usersChainData,
@@ -167,6 +219,7 @@ const GovRewardsRow = (props) => {
     remainingColumnsContents = (
       <GovPoolRewardsMainContent
         {...props}
+        walletOnWrongNetwork={walletOnWrongNetwork}
         refetch={refetchWithAllowance}
         playersTicketData={playersTicketData}
         usersTokenDataForPool={usersTokenDataForPool}

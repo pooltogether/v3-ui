@@ -1,13 +1,13 @@
 import React from 'react'
+import Link from 'next/link'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
 import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
 
 import { DeprecatedRewards } from 'lib/components/DeprecatedRewards'
-import { RewardsGovernance } from 'lib/components/RewardsGovernance'
+import { RewardsSponsorship, RewardsGovernance } from 'lib/components/RewardsPools'
 import { RewardsLPStaking } from 'lib/components/RewardsLPStaking'
 import { Meta } from 'lib/components/Meta'
-import Link from 'next/link'
 
 export const RewardsUI = () => {
   const { t } = useTranslation()
@@ -36,6 +36,8 @@ export const RewardsUI = () => {
       <RewardsLPStaking />
 
       <RewardsGovernance />
+
+      <RewardsSponsorship />
 
       <DeprecatedRewards />
     </>
