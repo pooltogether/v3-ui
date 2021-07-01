@@ -57,10 +57,7 @@ export const RewardsLPStaking = () => {
 
   return (
     <>
-      <div
-        id='rewards-staking-pools'
-        className='text-accent-2 my-4 opacity-90 font-headline uppercase xs:text-sm'
-      >
+      <div id='lp' className='text-accent-2 my-4 opacity-90 font-headline uppercase xs:text-sm'>
         {t('lpStakingRewards')}
       </div>
       <div className='bg-card rounded-lg border border-secondary px-4 sm:px-8 py-4'>

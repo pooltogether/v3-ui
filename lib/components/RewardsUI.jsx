@@ -1,5 +1,5 @@
 import React from 'react'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
 import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
 
@@ -12,6 +12,7 @@ import Link from 'next/link'
 export const RewardsUI = () => {
   const { t } = useTranslation()
 
+  const { connectWallet } = useOnboard()
   const usersAddress = useUsersAddress()
 
   return (
@@ -20,7 +21,17 @@ export const RewardsUI = () => {
 
       <PageTitleAndBreadcrumbs Link={Link} title={t('rewards')} breadcrumbs={[]} />
 
-      {!usersAddress && <p>{t('connectYourWalletToDeposit', 'Connect your wallet to deposit')}</p>}
+      {!usersAddress && (
+        <button
+          className='text-green underline mb-8'
+          onClick={(e) => {
+            e.preventDefault()
+            connectWallet(() => {})
+          }}
+        >
+          {t('connectYourWalletToDeposit', 'Connect your wallet to deposit')}
+        </button>
+      )}
 
       <RewardsLPStaking />
 

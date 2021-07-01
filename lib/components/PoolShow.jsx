@@ -113,6 +113,7 @@ export const PoolShow = (props) => {
         <div className='flex flex-col sm:flex-row justify-between sm:items-center mb-4 sm:mb-10'>
           <div className='flex justify-between items-center sm:w-9/12 lg:w-7/12'>
             <PageTitleAndBreadcrumbs
+              showPrizeFrequencyChip
               Link={Link}
               title={translatedPoolName(t, pool.name)}
               pool={pool}

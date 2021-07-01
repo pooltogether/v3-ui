@@ -66,7 +66,7 @@ export const RewardsGovernance = () => {
   return (
     <>
       <div
-        id='rewards-governance-claims'
+        id='gov'
         className='text-accent-2 mt-16 mb-4 opacity-90 font-headline uppercase xs:text-sm mt-20'
       >
         {t('governanceRewards')}
