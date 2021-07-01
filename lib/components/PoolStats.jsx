@@ -125,6 +125,8 @@ const SponsorshipStat = (props) => {
   const { pool } = props
   const { t } = useTranslation()
 
+  const poolIncentivizesSponsorship = pool.config.incentivizesSponsorship
+
   return (
     <>
       <Stat
@@ -133,7 +135,12 @@ const SponsorshipStat = (props) => {
         tokenAddress={pool.tokens.underlyingToken.address}
         tokenSymbol={pool.tokens.underlyingToken.symbol}
         tokenAmount={pool.tokens.sponsorship.totalSupply}
-        tooltip={t('sponsorshipInfo')}
+        tooltip={
+          <>
+            {t('sponsorshipInfo')}{' '}
+            {poolIncentivizesSponsorship && <>. {t('rewardsAreForSponsorshipOnly')}</>}
+          </>
+        }
       />
     </>
   )
@@ -260,21 +267,23 @@ const EffectiveAprStat = (props) => {
 
   const { t } = useTranslation()
 
-  const isSponsorship = pool.config.incentivizesSponsorship
+  const poolIncentivizesSponsorship = pool.config.incentivizesSponsorship
 
   return (
     <Stat
       title={t('effectiveApr')}
       content={
         <span>
-          {isSponsorship && <span className='opacity-30 mr-1'>{t('sponsorship')} </span>}{' '}
+          {poolIncentivizesSponsorship && (
+            <span className='opacity-30 mr-1'>{t('sponsorship')} </span>
+          )}{' '}
           {displayPercentage(apr)}%
         </span>
       }
       tooltip={
         <>
           {t('effectiveAprInfo')}
-          {isSponsorship && <>. {t('rewardsAreForSponsorshipOnly')}</>}
+          {poolIncentivizesSponsorship && <>. {t('rewardsAreForSponsorshipOnly')}</>}
         </>
       }
     />
