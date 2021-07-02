@@ -27,11 +27,10 @@ export const AccountTicket = (props) => {
 
   const shouldReduceMotion = useReducedMotion()
 
-  const { isLink, playerPoolTicketData, cornerBgClassName } = props
+  const { isLink, depositData, pool, cornerBgClassName, isSponsorship } = props
   let { href, as } = props
 
-  const { ticket, pool } = playerPoolTicketData
-  const { amount, amountUnformatted } = ticket
+  const { amount, amountUnformatted } = depositData
   const decimals = pool.tokens.underlyingToken.decimals
 
   if (!href && !as) {
@@ -73,7 +72,7 @@ export const AccountTicket = (props) => {
   return (
     <>
       <motion.div
-        key={`account-pool-ticket-${pool.prizePool.address}`}
+        key={`account-pool-${isSponsorship ? 'sponsorship' : 'ticket'}-${pool.prizePool.address}`}
         className={classnames('relative text-xxxs sm:text-xs mb-3')}
         animate={{
           scale: 1,
@@ -131,49 +130,68 @@ export const AccountTicket = (props) => {
               </div>
 
               <div className='flex sm:flex-col items-baseline sm:items-start'>
-                <span className='relative inline-block leading-normal text-accent-1 mr-1 sm:mr-0'>
-                  {t('winningOdds')}:
-                </span>{' '}
-                {Number(amount) < 1 ? (
-                  <span className='font-bold text-accent-3'>{t('notAvailableAbbreviation')}</span>
-                ) : (
-                  <Odds
-                    asSpan
-                    fontSansRegular
-                    className='font-bold text-flashy'
-                    usersBalance={amountUnformatted.toString()}
-                    ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
-                    decimals={decimals}
-                    numberOfWinners={pool.config.numberOfWinners}
-                  />
+                {!isSponsorship && (
+                  <>
+                    <span className='relative inline-block leading-normal text-accent-1 mr-1 sm:mr-0'>
+                      {t('winningOdds')}:
+                    </span>{' '}
+                    {Number(amount) < 1 ? (
+                      <span className='font-bold text-accent-3'>
+                        {t('notAvailableAbbreviation')}
+                      </span>
+                    ) : (
+                      <Odds
+                        asSpan
+                        fontSansRegular
+                        className='font-bold text-flashy'
+                        usersBalance={amountUnformatted.toString()}
+                        ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
+                        decimals={decimals}
+                        numberOfWinners={pool.config.numberOfWinners}
+                      />
+                    )}
+                  </>
                 )}
               </div>
             </div>
-            <div className='sm:h-28 w-10/12 sm:w-7/12 mx-auto flex flex-col sm:items-end sm:justify-between sm:py-4 sm:pl-2 sm:pr-12'>
+            <div
+              className={classnames(
+                'sm:h-28 w-10/12 sm:w-7/12 mx-auto flex flex-col sm:items-end sm:py-4 sm:pl-2 sm:pr-12',
+                {
+                  'sm:justify-center': isSponsorship,
+                  'sm:justify-between': !isSponsorship
+                }
+              )}
+            >
               <div className='flex items-baseline text-xs sm:text-xl font-bold text-accent-1'>
-                <img
-                  src={PoolTogetherTrophyDetailed}
-                  className='relative w-3 sm:w-4 mr-1 sm:mr-2 opacity-70'
-                  style={{
-                    filter: 'brightness(5)',
-                    top: 2
-                  }}
-                />
-                {pool.prize.totalValueUsd && decimals && (
+                {!isSponsorship && (
                   <>
-                    $
-                    <PoolCountUp
-                      fontSansRegular
-                      decimals={0}
-                      duration={3}
-                      end={parseFloat(pool.prize.totalValueUsd)}
+                    <img
+                      src={PoolTogetherTrophyDetailed}
+                      className='relative w-3 sm:w-4 mr-1 sm:mr-2 opacity-70'
+                      style={{
+                        filter: 'brightness(5)',
+                        top: 2
+                      }}
                     />
+                    {pool.prize.totalValueUsd && decimals && (
+                      <>
+                        $
+                        <PoolCountUp
+                          fontSansRegular
+                          decimals={0}
+                          duration={3}
+                          end={parseFloat(pool.prize.totalValueUsd)}
+                        />
+                      </>
+                    )}
+                    <span className='text-xxxxs sm:text-xxs font-regular'>
+                      {!isSponsorship && (
+                        <NewPrizeCountdownInWords onTicket extraShort pool={pool} />
+                      )}
+                    </span>
                   </>
                 )}
-
-                <span className='text-xxxxs sm:text-xxs font-regular'>
-                  <NewPrizeCountdownInWords onTicket extraShort pool={pool} />
-                </span>
               </div>
 
               <div className='flex sm:flex-col items-center sm:items-end mt-1 sm:mt-0'>

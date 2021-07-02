@@ -16,13 +16,13 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
 
 export function WithdrawTicketsForm(props) {
-  const { nextStep, pool, playerPoolTicketData } = props
+  const { nextStep, pool, playerPoolDepositData } = props
 
   const { t } = useTranslation()
   const usersAddress = useUsersAddress()
   const router = useRouter()
 
-  const playerTicket = playerPoolTicketData?.ticket
+  const playerTicket = playerPoolDepositData?.ticket
   const amount = playerTicket?.amount
   const amountUnformatted = playerTicket?.amountUnformatted
 
@@ -45,10 +45,9 @@ export function WithdrawTicketsForm(props) {
       } catch (e) {
         console.warn(e)
       }
-    
+
       return (
-        valueUnformatted?.lte(amountUnformatted) ||
-        t('pleaseEnterAmountLowerThanTicketBalance')
+        valueUnformatted?.lte(amountUnformatted) || t('pleaseEnterAmountLowerThanTicketBalance')
       )
     }
   }

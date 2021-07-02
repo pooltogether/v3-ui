@@ -16,6 +16,8 @@ import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 export function ManageTicketsForm(props) {
   const { nextStep } = props
 
+  // const isSponsorship = matchPath
+
   const { t } = useTranslation()
   const usersAddress = useUsersAddress()
   const [action] = useState(STRINGS.withdraw)
@@ -24,8 +26,8 @@ export function ManageTicketsForm(props) {
 
   if (!pool) return null
 
-  const playerPoolTicketData = playerTickets?.find(
-    (playerPoolTicketData) => playerPoolTicketData.poolAddress === pool.prizePool.address
+  const playerPoolDepositData = playerTickets?.find(
+    (playerPoolDepositData) => playerPoolDepositData.poolAddress === pool.prizePool.address
   )
 
   const poolIncentivizesSponsorship = true
@@ -91,12 +93,15 @@ export function ManageTicketsForm(props) {
       </div>
 
       <div className='mx-auto mt-4 mb-8 xs:mb-12 w-full'>
-        {playerPoolTicketData && (
+        {playerPoolDepositData && (
           <AccountTicket
             noMargin
             cornerBgClassName='bg-darkened'
             key={`account-pool-row-${pool.prizePool.address}`}
-            playerPoolTicketData={playerPoolTicketData}
+            depositData={
+              isSponsorship ? playerPoolDepositData.sponsorship : playerPoolDepositData.ticket
+            }
+            pool={playerPoolDepositData.pool}
           />
         )}
       </div>
@@ -122,7 +127,7 @@ export function ManageTicketsForm(props) {
           <WithdrawTicketsForm
             nextStep={nextStep}
             pool={pool}
-            playerPoolTicketData={playerPoolTicketData}
+            playerPoolDepositData={playerPoolDepositData}
           />
         </>
       )}

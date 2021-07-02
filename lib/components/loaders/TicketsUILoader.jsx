@@ -35,7 +35,7 @@ export const TicketsUILoader = (props) => {
       backgroundColor={bgColor}
       foregroundColor={foreColor}
     >
-      <rect x='0' y='0' rx='3' ry='3' width='400' height='40' />{' '}
+      <rect x='0' y='0' rx='3' ry='3' width='400' height='50' />{' '}
     </ContentLoader>
   )
 }
