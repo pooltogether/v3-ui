@@ -94,7 +94,14 @@ export const AccountTicket = (props) => {
         }}
       >
         <div className='h-28 flex w-full items-center justify-between'>
-          <div className='h-28 w-40 lg:w-48 notched-box rounded-l-lg bg-accent-grey-4 flex flex-col items-center justify-center'>
+          <div
+            className={classnames(
+              'h-28 w-40 lg:w-48 rounded-l-lg bg-accent-grey-4 flex flex-col items-center justify-center',
+              {
+                'notched-box': !isSponsorship
+              }
+            )}
+          >
             <div
               className={classnames(`notched-corner notched-top-right`, cornerBgClassName)}
             ></div>
@@ -116,10 +123,20 @@ export const AccountTicket = (props) => {
             </button>
           </div>
           <div
-            className='h-24 bg-accent-grey-4 border-body border-dotted border-r-4'
+            className={classnames('h-24 bg-accent-grey-4 border-body', {
+              'border-0': isSponsorship,
+              'border-dotted border-r-4': !isSponsorship
+            })}
             style={{ width: 1 }}
           />
-          <div className='h-28 notched-box rounded-r-lg bg-accent-grey-4 flex flex-col justify-center sm:flex-row w-full'>
+          <div
+            className={classnames(
+              'h-28 rounded-r-lg bg-accent-grey-4 flex flex-col justify-center sm:flex-row w-full',
+              {
+                'notched-box': !isSponsorship
+              }
+            )}
+          >
             <div className={classnames(`notched-corner notched-top-left`, cornerBgClassName)}></div>
             <div
               className={classnames(`notched-corner notched-bottom-left`, cornerBgClassName)}

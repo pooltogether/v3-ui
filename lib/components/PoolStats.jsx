@@ -125,7 +125,7 @@ const SponsorshipStat = (props) => {
   const { pool } = props
   const { t } = useTranslation()
 
-  const poolIncentivizesSponsorship = pool.config.incentivizesSponsorship
+  const poolIncentivizesSponsorship = pool.incentivizesSponsorship
 
   return (
     <>
@@ -267,7 +267,7 @@ const EffectiveAprStat = (props) => {
 
   const { t } = useTranslation()
 
-  const poolIncentivizesSponsorship = pool.config.incentivizesSponsorship
+  const poolIncentivizesSponsorship = pool.incentivizesSponsorship
 
   return (
     <Stat

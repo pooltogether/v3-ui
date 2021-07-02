@@ -4,10 +4,5 @@ import { Tagline } from '@pooltogether/react-components'
 
 export const Footer = (props) => {
   const { t } = useTranslation()
-  return (
-    <div className='mb-96'>
-      {' '}
-      <Tagline>{t('theMoreYouPoolTagline')}</Tagline>
-    </div>
-  )
+  return <Tagline>{t('theMoreYouPoolTagline')}</Tagline>
 }

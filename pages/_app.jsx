@@ -115,7 +115,30 @@ function MyApp({ Component, pageProps, router }) {
     }
   }, [])
 
+  // scroll to any hash # links (ie. '/rewards#sponsorship)
+  const scrollToHashElement = () => {
+    setTimeout(() => {
+      const hashId = window.location.hash
+
+      if (hashId) {
+        // Use the hash to find the first element with that id
+        const element = document.querySelector(hashId)
+
+        if (element) {
+          // Smooth scroll to that elment
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest'
+          })
+        }
+      }
+    }, 1000)
+  }
+
   useEffect(() => {
+    scrollToHashElement()
+
     const handleExitComplete = () => {
       if (typeof window !== 'undefined') {
         // window.scrollTo({ top: 0 })
@@ -129,6 +152,8 @@ function MyApp({ Component, pageProps, router }) {
             elem.style.opacity = '1'
           }
         }, 1000)
+
+        scrollToHashElement()
       }
     }
 

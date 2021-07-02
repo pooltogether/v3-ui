@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
+import { motion } from 'framer-motion'
 import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'
 import { APP_ENVIRONMENT, useAppEnv, useOnboard, useUsersAddress } from '@pooltogether/hooks'
@@ -157,12 +158,13 @@ const RewardsPools = (props) => {
 
   return (
     <>
-      <div
+      <HashHighlightable
         id={tableId}
         className='text-accent-2 mt-16 mb-1 opacity-90 font-headline uppercase xs:text-sm'
       >
         {tableHeader}
-      </div>
+      </HashHighlightable>
+
       <p className='text-accent-1 text-xs mb-6'>{tableSummary}</p>
 
       {tableDescriptionCard}
@@ -181,6 +183,51 @@ const RewardsPools = (props) => {
         />
       </RewardsTable>
     </>
+  )
+}
+
+const HashHighlightable = (props) => {
+  const { children, className, id } = props
+  const [highlight, setHighlight] = useState()
+
+  useEffect(() => {
+    const hashId = window.location.hash
+
+    if (typeof window !== 'undefined') {
+      setTimeout(() => {
+        if (hashId === `#${id}`) {
+          setHighlight(true)
+        }
+      }, 1000)
+
+      setTimeout(() => {
+        setHighlight(false)
+      }, 5000)
+    }
+  }, [])
+
+  return (
+    <div className={classnames(className, 'relative')}>
+      <motion.div
+        id={id}
+        className={'absolute h-full w-full t-0 l-0 r-0 b-0 rounded-lg'}
+        animate={highlight ? 'enter' : 'exit'}
+        transition={{ repeat: 3, duration: 0.3, repeatType: 'reverse', ease: 'backInOut' }}
+        variants={{
+          enter: {
+            backgroundColor: 'rgba(255, 130, 255, 0.3)',
+            scaleX: 1.02,
+            scaleY: 1.05
+          },
+          exit: {
+            backgroundColor: 'rgba(255, 130, 255, 0)',
+            scaleX: 1,
+            scaleY: 1
+          }
+        }}
+      />
+      {children}
+    </div>
   )
 }
 

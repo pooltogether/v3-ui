@@ -30,8 +30,7 @@ export function ManageTicketsForm(props) {
     (playerPoolDepositData) => playerPoolDepositData.poolAddress === pool.prizePool.address
   )
 
-  const poolIncentivizesSponsorship = true
-  // const poolIncentivizesSponsorship = pool.config.incentivizesSponsorship
+  const poolIncentivizesSponsorship = pool.incentivizesSponsorship
   const tokenFaucetDripToken = pool.tokens.tokenFaucetDripToken
   const dripTokenAddress = tokenFaucetDripToken.address
   const dripTokenTicker = tokenFaucetDripToken.symbol
@@ -46,7 +45,7 @@ export function ManageTicketsForm(props) {
   return (
     <>
       {poolIncentivizesSponsorship && (
-        <Link href='/rewards#gov'>
+        <Link href='/rewards#sponsorship' as='/rewards#sponsorship'>
           <a className='h-20 py-3 absolute left-0 sm:left-auto r-0 b-0 mb-20 sm:m-10 z-10 bg-card hover:bg-card-selected sm:rounded-lg trans trans-faster w-full sm:w-1/2 lg:w-1/3'>
             <div className='flex items-center justify-center'>
               <div className='font-inter text-xxxs text-center bg-accent-grey-1 text-highlight-3 rounded-full px-2 uppercase mr-2 font-bold'>
@@ -99,7 +98,8 @@ export function ManageTicketsForm(props) {
             cornerBgClassName='bg-darkened'
             key={`account-pool-row-${pool.prizePool.address}`}
             depositData={
-              isSponsorship ? playerPoolDepositData.sponsorship : playerPoolDepositData.ticket
+              playerPoolDepositData.ticket
+              // isSponsorship ? playerPoolDepositData.sponsorship : playerPoolDepositData.ticket
             }
             pool={playerPoolDepositData.pool}
           />
