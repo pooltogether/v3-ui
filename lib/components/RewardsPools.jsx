@@ -426,9 +426,9 @@ const ClaimButton = (props) => {
     >
       <button
         disabled={!isClaimable || walletOnWrongNetwork}
-        className={classnames('underline trans trans-fast', {
+        className={classnames('trans trans-fast', {
           'text-flashy': txPending && !txCompleted,
-          'text-accent-1 hover:text-green': !txPending || txCompleted
+          'underline text-accent-1 hover:text-green': !txPending || txCompleted
         })}
         onClick={handleClaim}
         style={{
@@ -515,10 +515,11 @@ const ManageStakedAmount = (props) => {
   const allowance = usersTokenDataForPool?.usersTokenAllowance
 
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
-  // const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
+  const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
 
   useEffect(() => {
     setDepositModalIsOpen(false)
+    setWithdrawModalIsOpen(false)
   }, [usersAddress])
 
   return (
@@ -531,7 +532,9 @@ const ManageStakedAmount = (props) => {
           </ContentOrSpinner>
         }
         centerContentJsx={<UnderlyingTokenDisplay {...props} sizeClasses='w-4 h-4' />}
-        bottomContentJsx={<WithdrawTriggers {...props} />}
+        bottomContentJsx={
+          <WithdrawTriggers {...props} openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
+        }
       />
 
       <div className='hidden sm:flex flex-col items-center sm:w-2 w-4'>
@@ -561,6 +564,13 @@ const ManageStakedAmount = (props) => {
         closeModal={() => setDepositModalIsOpen(false)}
         playersTokenBalance={playersTokenBalance}
         allowance={allowance}
+      />
+      <WithdrawModal
+        {...props}
+        isOpen={withdrawModalIsOpen}
+        closeModal={() => setWithdrawModalIsOpen(false)}
+        // refetch={refetch}
+        // playersTokenBalance={playersTokenBalance}
       />
     </>
   )
@@ -616,12 +626,11 @@ const DepositTriggers = (props) => {
 const WithdrawTriggers = (props) => {
   const { t } = useTranslation()
 
-  const { pool, walletOnWrongNetwork, playersPoolDepositData } = props
+  const { isSponsorship, openWithdrawModal, pool, walletOnWrongNetwork, playersPoolDepositData } =
+    props
   const router = useRouter()
 
-  const handleManageClick = (e) => {
-    e.preventDefault()
-
+  const pushRouteToTicketManage = () => {
     Cookies.set(WIZARD_REFERRER_HREF, '/rewards', COOKIE_OPTIONS)
     Cookies.set(WIZARD_REFERRER_AS_PATH, `/rewards`, COOKIE_OPTIONS)
 
@@ -632,6 +641,11 @@ const WithdrawTriggers = (props) => {
         shallow: true
       }
     )
+  }
+
+  const handleManageClick = (e) => {
+    e.preventDefault()
+    isSponsorship ? openWithdrawModal() : pushRouteToTicketManage()
   }
 
   const noBalance = !playersPoolDepositData || playersPoolDepositData?.amountUnformatted.isZero()
@@ -652,6 +666,56 @@ const WithdrawTriggers = (props) => {
         {t('withdraw')}
       </button>
     </Tooltip>
+  )
+}
+
+// Withdraw in modal currently only supported for Sponsorship deposits
+// Ticket deposits flow through the same 'Withdraw' as Account -> Manage ticket, as they have
+// exit fees to consider
+const WithdrawModal = (props) => {
+  const { t } = useTranslation()
+
+  const { isSponsorship, pool, usersAddress, playersPoolDepositData } = props
+
+  if (!pool) {
+    return null
+  }
+
+  const { tokens } = pool
+  const { sponsorship, ticket, underlyingToken } = tokens
+
+  const maxAmount = playersPoolDepositData?.amount || 0
+  const maxAmountUnformatted = playersPoolDepositData?.amountUnformatted || bn(0)
+
+  const decimals = ticket.decimals
+  const tickerUpcased = ticket.symbol?.toUpperCase()
+
+  const tokenAddress = isSponsorship ? sponsorship.address : ticket.address
+  return (
+    <RewardsActionModal
+      {...props}
+      tickerUpcased={tickerUpcased}
+      underlyingToken={underlyingToken}
+      action={t('withdraw')}
+      maxAmount={maxAmount}
+      maxAmountUnformatted={maxAmountUnformatted}
+      pool={pool}
+      method='withdrawInstantlyFrom'
+      overMaxErrorMsg={t('pleaseEnterAmountLowerThanTicketBalance')}
+      tokenImage={
+        <PoolCurrencyIcon
+          symbol={underlyingToken.symbol}
+          address={underlyingToken.address}
+          className='relative inline-block w-8 h-8 mb-2'
+        />
+      }
+      getParams={(quantity) => [
+        usersAddress,
+        ethers.utils.parseUnits(quantity, decimals),
+        tokenAddress,
+        ethers.constants.Zero
+      ]}
+    />
   )
 }
 

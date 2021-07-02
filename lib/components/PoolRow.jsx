@@ -90,7 +90,7 @@ export const PoolRow = (props) => {
       />
 
       <div className='flex flex-col sm:flex-row items-center justify-between sm:justify-evenly text-inverse'>
-        <div className='pool-row-left-col h-full flex py-2 p-4 sm:px-6 sm:pt-3 sm:pb-5 lg:px-8 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
+        <div className='pool-row-left-col h-full flex py-2 p-4 sm:pl-4 lg:px-6 sm:pt-3 sm:pb-5 lg:px-8 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
           <div className='pool-row-left-col--inner flex flex-col mx-auto'>
             <div className='flex justify-center'>
               <PoolCurrencyIcon
@@ -107,13 +107,19 @@ export const PoolRow = (props) => {
             <div className='flex items-center justify-center'>
               <div
                 className={classnames('text-xxxs text-center rounded-full px-2', {
-                  'bg-accent-grey-1 text-highlight-3': !isDaily,
+                  'bg-accent-grey-1 text-green': !isDaily,
                   'bg-accent-grey-2 text-highlight-6': isDaily
                 })}
               >
                 {isDaily ? t('dailyPrize') : t('prizeValue')}
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className='hidden sm:flex flex-col items-start justify-center sm:w-10 lg:w-4'>
+          <div className='border-default h-20 opacity-30' style={{ borderLeftWidth: 1 }}>
+            &nbsp;
           </div>
         </div>
 

@@ -16,8 +16,6 @@ import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 export function ManageTicketsForm(props) {
   const { nextStep } = props
 
-  // const isSponsorship = matchPath
-
   const { t } = useTranslation()
   const usersAddress = useUsersAddress()
   const [action] = useState(STRINGS.withdraw)
@@ -92,15 +90,13 @@ export function ManageTicketsForm(props) {
       </div>
 
       <div className='mx-auto mt-4 mb-8 xs:mb-12 w-full'>
+        {console.log(playerPoolDepositData)}
         {playerPoolDepositData && (
           <AccountTicket
             noMargin
             cornerBgClassName='bg-darkened'
             key={`account-pool-row-${pool.prizePool.address}`}
-            depositData={
-              playerPoolDepositData.ticket
-              // isSponsorship ? playerPoolDepositData.sponsorship : playerPoolDepositData.ticket
-            }
+            depositData={playerPoolDepositData.ticket}
             pool={playerPoolDepositData.pool}
           />
         )}

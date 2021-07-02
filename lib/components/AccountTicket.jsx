@@ -1,6 +1,7 @@
 import React from 'react'
 import Cookies from 'js-cookie'
 import classnames from 'classnames'
+import Link from 'next/link'
 import { useAtom } from 'jotai'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
@@ -32,6 +33,9 @@ export const AccountTicket = (props) => {
 
   const { amount, amountUnformatted } = depositData
   const decimals = pool.tokens.underlyingToken.decimals
+
+  console.log({ amount, addy: depositData.address })
+  console.log({ pa: pool.prizePool.address })
 
   if (!href && !as) {
     href = '/account/pools/[networkName]/[symbol]'
@@ -220,12 +224,20 @@ export const AccountTicket = (props) => {
                       textClasses='text-xxxs sm:text-xxs'
                       chainId={pool.chainId}
                     />
-                    <button
-                      onClick={handleManageClick}
-                      className='underline text-highlight-1 hover:text-inverse trans text-xxxs sm:text-xxs ml-2 sm:ml-0'
-                    >
-                      {t('manage')}
-                    </button>
+                    {isSponsorship ? (
+                      <Link href='/rewards#sponsorship' as='/rewards#sponsorship'>
+                        <a className='underline text-highlight-1 hover:text-inverse trans text-xxxs sm:text-xxs ml-2 sm:ml-0'>
+                          {t('manage')}
+                        </a>
+                      </Link>
+                    ) : (
+                      <button
+                        onClick={handleManageClick}
+                        className='underline text-highlight-1 hover:text-inverse trans text-xxxs sm:text-xxs ml-2 sm:ml-0'
+                      >
+                        {t('manage')}
+                      </button>
+                    )}
                   </>
                 )}
               </div>
