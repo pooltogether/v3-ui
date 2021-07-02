@@ -107,7 +107,7 @@ export const RewardsLPStaking = () => {
         </ol>
       </div>
 
-      <RewardsTable>
+      <RewardsTable depositColumnHeader={t('yourStake')}>
         {stakingPools.map((stakingPool) => (
           <StakingPoolRow
             key={`staking-pool-card-${chainId}-${stakingPool.tokens.underlyingToken.address}`}
@@ -379,7 +379,7 @@ const ManageStakedAmount = (props) => {
         }
       />
 
-      <div className='hidden sm:flex flex-col items-center w-10 lg:w-20'>
+      <div className='hidden sm:flex flex-col items-center sm:w-2 lg:w-4'>
         <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
           &nbsp;
         </div>

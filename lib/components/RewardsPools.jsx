@@ -168,8 +168,8 @@ const RewardsPools = (props) => {
       {tableDescriptionCard}
 
       <RewardsTable
-        depositColumnHeader={t(isSponsorship ? 'sponsoredAmount' : 'yourStake')}
-        columnOneWidthClass='sm:w-32 lg:w-64'
+        depositColumnHeader={t(isSponsorship ? 'yourSponsorship' : 'yourStake')}
+        columnOneWidthClass='w-32 lg:w-64'
       >
         <RewardsPoolRow
           {...props}
@@ -240,7 +240,7 @@ const RewardsPoolRow = (props) => {
 
   return (
     <RewardsTableRow
-      columnOneWidthClass='sm:w-3 lg:w-64'
+      columnOneWidthClass='w-32 lg:w-64'
       columnOneImage={<UnderlyingTokenImage {...props} className='mr-0 sm:mr-3' />}
       columnOneContents={<ColumnOneContents {...props} />}
       columnTwoContents={stakingAprJsx}
@@ -477,7 +477,7 @@ const ManageStakedAmount = (props) => {
   return (
     <>
       <RewardsTableCell
-        label={t(isSponsorship ? 'sponsoredAmount' : 'yourStake')}
+        label={t(isSponsorship ? 'yourSponsorship' : 'yourStake')}
         topContentJsx={
           <ContentOrSpinner isLoading={usersAddress && !playersDepositDataIsFetched}>
             <PoolNumber>{numberWithCommas(playersDepositBalance)}</PoolNumber>
@@ -487,7 +487,7 @@ const ManageStakedAmount = (props) => {
         bottomContentJsx={<WithdrawTriggers {...props} />}
       />
 
-      <div className='hidden sm:flex flex-col items-center sm:w-10 lg:w-20'>
+      <div className='hidden sm:flex flex-col items-center sm:w-2 w-4'>
         <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
           &nbsp;
         </div>

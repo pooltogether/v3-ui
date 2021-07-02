@@ -314,7 +314,6 @@ const ApproveButton = (props) => {
 
   return (
     <Button
-      inverse
       textSize='sm'
       onClick={handleApproveClick}
       className={classnames('sm:mt-4', {

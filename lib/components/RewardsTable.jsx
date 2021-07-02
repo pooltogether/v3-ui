@@ -10,18 +10,18 @@ export const RewardsTable = (props) => {
 
   const { children, depositColumnHeader } = props
 
-  const widthClass = props.columnOneWidthClass ?? 'sm:w-48 lg:w-64'
+  const widthClass = props.columnOneWidthClass ?? 'w-48 lg:w-64'
 
   return (
     <>
       <div className='hidden sm:flex bg-card justify-between rounded-lg px-4 sm:px-8 py-2 mt-5 text-xxs text-accent-1'>
         <div className={widthClass}>{t('asset')}</div>
-        <div className='w-20 lg:w-32'>APR</div>
-        <div className='w-20 lg:w-32 sm:mx-4'>{t('rewards')}</div>
+        <div className='sm:w-20 lg:w-32'>APR</div>
+        <div className='sm:w-28 lg:w-32'>{t('rewards')}</div>
 
-        <div className='w-20 lg:w-32 sm:mx-4'>{depositColumnHeader}</div>
-        <div className='w-10 lg:w-20'></div>
-        <div className='w-20 lg:w-32 sm:mx-4'>{t('wallet')}</div>
+        <div className='sm:w-28 lg:w-32'>{depositColumnHeader}</div>
+        <div className='sm:w-2 lg:w-4'></div>
+        <div className='sm:w-28 lg:w-32'>{t('wallet')}</div>
       </div>
 
       {children}
@@ -74,10 +74,10 @@ export const RewardsTableRow = (props) => {
 }
 
 const ColumnOne = (props) => {
-  const widthClass = props.columnOneWidthClass ?? 'sm:w-48 lg:w-64'
+  const widthClass = props.columnOneWidthClass ?? 'w-48 lg:w-64'
 
   return (
-    <div className={`${widthClass} sm:pr-1 flex flex-col min-w-max sm:flex-row items-center`}>
+    <div className={`${widthClass} flex flex-col min-w-max sm:flex-row items-center`}>
       {props.columnOneImage}
 
       <div className='flex flex-col justify-center my-auto leading-none sm:leading-normal'>
@@ -100,7 +100,7 @@ export const RewardsTableCell = (props) => {
 
   return (
     <>
-      <div className='w-full flex flex-col sm:w-20 lg:w-32 items-start my-2 sm:mx-4'>
+      <div className='w-full flex flex-col sm:w-28 lg:w-32 items-start mb-1'>
         {label && <div className='sm:hidden font-normal text-accent-1'>{label}</div>}
         <div
           className={classnames(
