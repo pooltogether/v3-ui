@@ -2,9 +2,11 @@ import React, { useEffect } from 'react'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
 import { useRouter } from 'next/router'
 import { useOnboard } from '@pooltogether/hooks'
+import { useUsersAddress } from '@pooltogether/hooks'
 
 import { useTranslation } from 'react-i18next'
 import { ConfirmWithdrawWithFeeForm } from 'lib/components/ConfirmWithdrawWithFeeForm'
+import { GenericConnectWalletCTA } from 'lib/components/GenericConnectWalletCTA'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { Meta } from 'lib/components/Meta'
 import { ManageTicketsForm } from 'lib/components/ManageTicketsForm'
@@ -20,6 +22,9 @@ const NETWORK_SWITCH_STEP_INDEX = 1
 
 export function ManageTicketsWizardContainer() {
   const { t } = useTranslation()
+
+  const usersAddress = useUsersAddress()
+
   const router = useRouter()
   const quantity = router.query.quantity
 
@@ -73,6 +78,18 @@ export function ManageTicketsWizardContainer() {
               moveToStep={moveToStep}
               totalWizardSteps={4}
             >
+              {!usersAddress && (
+                <div
+                  className='fixed flex flex-col items-center justify-center left-0 right-0 top-20 w-full z-20'
+                  style={{
+                    backgroundColor: 'rgba(23, 11, 56, 0.97)',
+                    height: '80vh'
+                  }}
+                >
+                  <GenericConnectWalletCTA />
+                </div>
+              )}
+
               {activeStepIndex > 1 && notEnoughCredit === null ? (
                 <div className='flex flex-col justify-center items-center'>
                   <div className='mb-2'>
