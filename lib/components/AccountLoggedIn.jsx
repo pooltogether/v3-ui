@@ -23,8 +23,11 @@ export function AccountLoggedIn(props) {
     let redirectTimeoutHandler
 
     if (!selectedWallet) {
+      alert('no selected wallet')
       redirectTimeoutHandler = setTimeout(redirectToSignIn, MILLISECOND_BEFORE_FAST_REDIRECT)
     } else if (!usersAddress) {
+      alert('no usersAddress yet')
+
       // This state happens when we haven't yet calculated the usersAddress from the provider
       // yet we know they've connected a wallet previously
       redirectTimeoutHandler = setTimeout(redirectToSignIn, MILLISECONDS_BEFORE_REDIRECT)
