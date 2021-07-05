@@ -34,9 +34,6 @@ export const AccountTicket = (props) => {
   const { amount, amountUnformatted } = depositData
   const decimals = pool.tokens.underlyingToken.decimals
 
-  console.log({ amount, addy: depositData.address })
-  console.log({ pa: pool.prizePool.address })
-
   if (!href && !as) {
     href = '/account/pools/[networkName]/[symbol]'
     as = `/account/pools/${pool.networkName}/${pool.symbol}`

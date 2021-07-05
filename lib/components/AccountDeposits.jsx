@@ -1,17 +1,17 @@
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
 import { useUsersAddress } from '@pooltogether/hooks'
 import { ExternalLink } from '@pooltogether/react-components'
 
-import { useTranslation } from 'react-i18next'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { TicketsUILoader } from 'lib/components/loaders/TicketsUILoader'
-
-import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { V2Tickets } from 'lib/components/V2Tickets'
+
+import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 
 const AccountDepositsBlankState = () => {
   const { t } = useTranslation()

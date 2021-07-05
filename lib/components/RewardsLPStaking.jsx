@@ -63,12 +63,7 @@ export const RewardsLPStaking = () => {
       >
         {t('lpStakingRewards')}
       </div>
-      <p className='text-accent-1 text-xs mb-6'>
-        {t(
-          'lpStakingRewardsDescription',
-          'Add liquidity to the POOL/ETH pair on UniSwap and deposit LP tokens to earn extra POOL!'
-        )}
-      </p>
+      <p className='text-accent-1 text-xs mb-6'>{t('lpStakingRewardsDescription')}</p>
       <div className='bg-card rounded-lg border border-secondary px-4 sm:px-8 py-4'>
         <div className='flex items-baseline sm:items-center flex-col sm:flex-row'>
           <div className='pool-gradient-1 px-2 mr-2 mb-2 sm:mb-0 rounded-lg inline-block capitalize text-xxs text-white'>

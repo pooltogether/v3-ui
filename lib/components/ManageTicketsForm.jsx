@@ -90,7 +90,6 @@ export function ManageTicketsForm(props) {
       </div>
 
       <div className='mx-auto mt-4 mb-8 xs:mb-12 w-full'>
-        {console.log(playerPoolDepositData)}
         {playerPoolDepositData && (
           <AccountTicket
             noMargin
