@@ -124,13 +124,13 @@ export const RewardsTableCell = (props) => {
 export const RewardsTableAprDisplay = (props) => {
   const { t } = useTranslation()
 
-  const { apr, isPrize } = props
+  const { apr, isPrize, isSponsorship } = props
 
   return (
     <div className='mt-3 sm:mt-0 leading-snug'>
       <span className='font-bold'>{apr.split('.')?.[0]}</span>.{apr.split('.')?.[1]}%{' '}
       <span className='sm:hidden text-xxs text-accent-1 mt-1 sm:mt-2'>APR</span>
-      {isPrize && <div className='lowercase text-xs'>+ {t('prize')}</div>}
+      {isPrize && !isSponsorship && <div className='lowercase text-xs'>+ {t('prize')}</div>}
     </div>
   )
 }

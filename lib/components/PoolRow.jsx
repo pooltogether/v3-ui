@@ -85,20 +85,23 @@ export const PoolRow = (props) => {
       className='mt-1 sm:mt-2 relative'
     >
       <NetworkBadge
-        className='absolute t-0 l-0 px-3 py-1 bg-accent-grey-2 rounded-tl-lg rounded-br-lg border-b border-r border-accent-4'
+        className='absolute t-0 l-0 px-3 py-1 rounded-tl-lg rounded-br-lg border-b border-r border-accent-4'
         chainId={pool.chainId}
+        style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.03)'
+        }}
       />
 
       <div className='flex flex-col sm:flex-row items-center justify-between sm:justify-evenly text-inverse'>
         <div className='pool-row-left-col h-full flex py-2 p-4 sm:pl-4 lg:px-6 sm:pt-3 sm:pb-5 lg:px-8 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
           <div className='pool-row-left-col--inner flex flex-col mx-auto'>
-            <div className='flex justify-center'>
+            <div className='flex items-center justify-center'>
               <PoolCurrencyIcon
                 noMediaQueries
-                lg
+                md
                 symbol={pool.tokens.underlyingToken.symbol}
                 address={pool.tokens.underlyingToken.address}
-                className='my-auto'
+                className='mt-1'
               />
 
               <PoolPrizeValue pool={pool} />
@@ -167,12 +170,12 @@ const PoolPrizeValue = (props) => {
   const { pool } = props
 
   if (!pool || !pool.prize?.totalValueUsd) {
-    return <div className='text-3xl sm:text-5xl text-flashy font-bold'>$0</div>
+    return <div className='text-8xl sm:text-7xl lg:text-8xl text-flashy font-bold'>$0</div>
   }
 
   if (pool.prize.totalValueUsd) {
     return (
-      <div className='text-3xl sm:text-5xl text-flashy font-bold ml-2'>
+      <div className='text-8xl sm:text-7xl lg:text-8xl text-flashy font-bold ml-2'>
         $
         <PoolCountUp fontSansRegular decimals={0} duration={6}>
           {parseFloat(pool.prize.totalValueUsd)}

@@ -270,7 +270,7 @@ const RewardsPoolRow = (props) => {
     console.error(error)
     remainingColumnsContents = <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
   } else {
-    stakingAprJsx = <RewardsPoolAPR pool={pool} />
+    stakingAprJsx = <RewardsPoolAPR {...props} pool={pool} />
 
     remainingColumnsContents = (
       <RewardsPoolMainContent
@@ -304,12 +304,15 @@ const ColumnOneContents = (props) => {
   if (symbol === 'PT-stPOOL') {
     // override for POOL pool as our symbol shows staking pool, but the token ticker was requested instead
     symbol = 'pPOOL'
+  } else if (symbol === 'USDT-0x887E17') {
+    // override for USDT Polygon pool
+    symbol = 'Polygon Tether'
   }
 
   return (
     <div className='flex flex-col justify-center leading-none'>
       <div className='text-sm font-bold mt-3 sm:mt-0'>{pool?.name}</div>
-      <div className='text-xs mt-1'>{symbol}</div>
+      <div className='text-xs mt-1 opacity-80 text-accent-1'>{symbol}</div>
     </div>
   )
 }
@@ -787,5 +790,5 @@ const RewardsPoolAPR = (props) => {
 
   apr = displayPercentage(apr)
 
-  return <RewardsTableAprDisplay isPrize apr={apr} />
+  return <RewardsTableAprDisplay {...props} isPrize apr={apr} />
 }

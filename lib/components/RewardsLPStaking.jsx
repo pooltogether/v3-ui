@@ -215,7 +215,7 @@ const ColumnOneContents = (props) => {
   return (
     <div className='flex flex-col justify-center leading-none'>
       <div className='text-sm font-bold mt-3 sm:mt-0'>{tokenPair}</div>
-      <div className='text-xs mt-1 mb-2'>{dex}</div>
+      <div className='text-xs mt-1 mb-2 opacity-80 text-accent-1'>{dex}</div>
       <a
         href={`${baseSwapUrl}${tokenFaucetDripToken.address}`}
         target='_blank'
