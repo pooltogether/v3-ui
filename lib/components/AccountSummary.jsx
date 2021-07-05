@@ -62,7 +62,7 @@ export const AccountSummary = () => {
               '-mr-4': isSelf
             })}
             style={{
-              right: isSelf && -10,
+              right: isSelf && -28,
               top: isSelf ? 17 : 7
             }}
           />

@@ -186,6 +186,7 @@ const StakingPoolRow = (props) => {
     <RewardsTableRow
       uniswap
       gradientBorder
+      chainId={stakingPool?.prizePool?.chainId}
       columnOneImage={<ColumnOneImage stakingPool={stakingPool} />}
       columnOneContents={<ColumnOneContents stakingPool={stakingPool} />}
       columnTwoContents={stakingAprJsx}

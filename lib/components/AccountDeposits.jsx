@@ -93,35 +93,41 @@ export const AccountDeposits = () => {
         </div>
       </div>
 
-      <div className='mt-8'>
-        <div
-          id='account-sponsorships'
-          className='text-accent-2 mt-16 mb-4 opacity-90 font-headline uppercase xs:text-sm'
-        >
-          {t('sponsorships')}
-        </div>
-
-        {!playerTicketsIsFetched ? (
-          <TicketsUILoader />
-        ) : playerDepositData?.length === 0 ? (
-          <AccountDepositsBlankState />
-        ) : (
-          <div className='flex flex-col'>
-            {playerDepositData?.map((playerPoolDepositData) => {
-              return (
-                <AccountTicket
-                  isSponsorship
-                  isLink
-                  cornerBgClassName='bg-body'
-                  key={`account-pool-row-${playerPoolDepositData?.poolAddress}`}
-                  depositData={playerPoolDepositData.sponsorship}
-                  pool={playerPoolDepositData.pool}
-                />
-              )
-            })}
-          </div>
-        )}
-      </div>
+      {/* <SponsorshipDeposits /> */}
     </>
   )
 }
+
+// const SponsorshipDeposits = (props) => {
+//   return (
+//     <div className='mt-8'>
+//       <div
+//         id='account-sponsorships'
+//         className='text-accent-2 mt-16 mb-4 opacity-90 font-headline uppercase xs:text-sm'
+//       >
+//         {t('sponsorships')}
+//       </div>
+
+//       {!playerTicketsIsFetched ? (
+//         <TicketsUILoader />
+//       ) : playerDepositData?.length === 0 ? (
+//         <AccountDepositsBlankState />
+//       ) : (
+//         <div className='flex flex-col'>
+//           {playerDepositData?.map((playerPoolDepositData) => {
+//             return (
+//               <AccountTicket
+//                 isSponsorship
+//                 isLink
+//                 cornerBgClassName='bg-body'
+//                 key={`account-pool-row-${playerPoolDepositData?.poolAddress}`}
+//                 depositData={playerPoolDepositData.sponsorship}
+//                 pool={playerPoolDepositData.pool}
+//               />
+//             )
+//           })}
+//         </div>
+//       )}
+//     </div>
+//   )
+// }

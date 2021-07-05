@@ -20,7 +20,6 @@ import {
 import { RewardsActionModal } from 'lib/components/RewardsActionModal'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { ContentOrSpinner } from 'lib/components/ContentOrSpinner'
-import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
@@ -287,6 +286,7 @@ const RewardsPoolRow = (props) => {
 
   return (
     <RewardsTableRow
+      chainId={pool?.chainId}
       columnOneWidthClass='w-32 lg:w-64'
       columnOneImage={<UnderlyingTokenImage {...props} className='mr-0 sm:mr-3' />}
       columnOneContents={<ColumnOneContents {...props} />}

@@ -1,8 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import classnames from 'classnames'
 import { useTranslation } from 'react-i18next'
 
 import { Card } from 'lib/components/Card'
+import { NetworkBadge } from 'lib/components/NetworkBadge'
 import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
 
 export const RewardsTable = (props) => {
@@ -29,6 +30,22 @@ export const RewardsTable = (props) => {
   )
 }
 
+const RewardsTableNetworkBadge = (props) => {
+  if (!props.chainId) {
+    return null
+  }
+
+  return (
+    <NetworkBadge
+      className='absolute t-0 l-0 px-3 py-1 rounded-tl-lg rounded-br-lg border-b border-r border-accent-4'
+      chainId={props.chainId}
+      style={{
+        backgroundColor: 'rgba(255, 255, 255, 0.03)'
+      }}
+    />
+  )
+}
+
 export const RewardsTableRow = (props) => {
   const screenSize = useScreenSize()
 
@@ -39,7 +56,9 @@ export const RewardsTableRow = (props) => {
 
   if (screenSize <= ScreenSize.sm) {
     return (
-      <div className='bg-card flex flex-col justify-center items-center rounded-lg my-4'>
+      <div className='relative bg-card flex flex-col justify-center items-center rounded-lg my-4'>
+        <RewardsTableNetworkBadge {...props} />
+
         <div className='w-full py-4 px-4'>
           <div className='flex flex-col items-center text-center rounded-lg w-full pt-6 pb-4 sm:py-6'>
             <ColumnOne {...props} />
@@ -60,7 +79,9 @@ export const RewardsTableRow = (props) => {
   }
 
   return (
-    <Card noMargin noPad className='flex flex-col justify-between items-center my-1'>
+    <Card noMargin noPad className='relative flex flex-col justify-between items-center my-1'>
+      <RewardsTableNetworkBadge {...props} />
+
       <div className='w-full flex justify-between items-center py-4 px-8 my-1'>
         <ColumnOne {...props} />
         <ColumnTwo {...props} />
