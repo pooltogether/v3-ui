@@ -12,9 +12,9 @@ import { BlockExplorerLink, LinkIcon } from 'lib/components/BlockExplorerLink'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Card, CardDetailsList } from 'lib/components/Card'
+import { useWMaticApr } from 'lib/hooks/useWMaticApr'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { hardcodedWMaticApr } from 'lib/components/AccountGovernanceClaims'
 
 export const PoolStats = (props) => {
   const { t } = useTranslation()
@@ -221,7 +221,7 @@ const AprStats = (props) => {
   let apr = pool.tokenListener?.apr
 
   if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-    apr = hardcodedWMaticApr(pool)
+    apr = useWMaticApr(pool)
   }
 
   if (!apr) return null
