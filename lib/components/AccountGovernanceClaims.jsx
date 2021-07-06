@@ -31,15 +31,8 @@ import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useGovernancePools } from 'lib/hooks/usePools'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
+import { useWMaticApr } from 'lib/hooks/useWMaticApr'
 import { Erc20Image } from 'lib/components/Erc20Image'
-
-export const hardcodedWMaticApr = (pool) => {
-  const { dripRatePerSecond } = pool.tokenListener
-  const totalDripPerDay = Number(dripRatePerSecond) * SECONDS_PER_DAY
-  const totalDripDailyValue = totalDripPerDay * 1.8 // USD MATIC PRICE
-  const totalSupply = Number(pool.tokens.ticket.totalSupply)
-  return (totalDripDailyValue / totalSupply) * 365 * 100
-}
 
 export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
@@ -220,6 +213,12 @@ const ClaimablePoolTokenItem = (props) => {
     address
   )
 
+  let apr = pool.tokenListener?.apr
+
+  if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
+    apr = useWMaticApr(pool)
+  }
+
   if (!isFetched) return null
 
   const dripRatePerSecond = pool.tokenListener.dripRatePerSecond || 0
@@ -247,12 +246,6 @@ const ClaimablePoolTokenItem = (props) => {
   })
 
   const isClaimable = !claimablePoolData?.claimableAmountUnformatted?.isZero()
-
-  let apr = pool.tokenListener?.apr
-
-  if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-    apr = hardcodedWMaticApr(pool)
-  }
 
   return (
     <div className='border-t-2 border-body px-2 sm:px-0 pt-6 pb-2 flex flex-col sm:flex-row sm:justify-between mt-4 sm:items-center'>
