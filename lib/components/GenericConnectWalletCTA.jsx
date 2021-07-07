@@ -50,7 +50,7 @@ export const GenericConnectWalletCTA = () => {
           <a
             href='https://ethereum.org/en/wallets'
             target='_blank'
-            className='text-accent-1 text-xxxxs sm:text-xxs flex items-center'
+            className='text-accent-1 text-xxs flex items-center'
           >
             {t('learnMoreAboutEthereumWallets')}{' '}
             <FeatherIcon
