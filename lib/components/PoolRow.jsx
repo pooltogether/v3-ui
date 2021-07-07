@@ -17,8 +17,8 @@ import { InteractableCard } from 'lib/components/InteractableCard'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
+import { useWMaticApr } from 'lib/hooks/useWMaticApr'
 import { displayPercentage } from 'lib/utils/displayPercentage'
-import { hardcodedWMaticApr } from 'lib/components/AccountGovernanceClaims'
 
 export const PoolRow = (props) => {
   const { pool } = props
@@ -60,7 +60,7 @@ export const PoolRow = (props) => {
 
     let apr = pool.tokenListener?.apr
     if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-      apr = hardcodedWMaticApr(pool)
+      apr = useWMaticApr(pool)
     }
 
     if (!apr) {
