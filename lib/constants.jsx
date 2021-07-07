@@ -1,6 +1,9 @@
 import TokenFaucetProxyFactoryMainnet from '@pooltogether/pooltogether-contracts/deployments/mainnet/TokenFaucetProxyFactory.json'
 import TokenFaucetProxyFactoryRinkeby from '@pooltogether/pooltogether-contracts/deployments/rinkeby/TokenFaucetProxyFactory.json'
 
+// export const API_URI = 'https://pooltogether-api.com'
+export const API_URI = 'http://127.0.0.1:8787'
+
 export const ETHEREUM_NETWORKS = [1, 3, 4, 5, 42]
 export const SUPPORTED_NETWORKS = [1, 4, 137, 80001]
 
