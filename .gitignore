@@ -43,3 +43,7 @@ public/static/locales
 # cypress
 /cypress/screenshots/
 /cypress/videos/
+
+# yalc
+yalc.lock
+.yalc
