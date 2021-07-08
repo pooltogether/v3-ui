@@ -46,35 +46,6 @@ export const PoolRow = (props) => {
     )
   }
 
-  const ViewPoolDetailsButton = () => (
-    <button className='flex justify-between items-center text-highlight-3 bg-transparent text-xxxs rounded-full px-2 trans'>
-      {t('viewPool')}
-    </button>
-  )
-
-  const AprChip = (props) => {
-    const { pool } = props
-
-    const dripTokenAddress = pool.tokens.tokenFaucetDripToken?.address
-    const dripTokenSymbol = pool.tokens.tokenFaucetDripToken?.symbol
-
-    let apr = pool.tokenListener?.apr
-    if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-      apr = useWMaticApr(pool)
-    }
-
-    if (!apr) {
-      return null
-    }
-
-    return (
-      <div className='text-xxxs text-accent-1 flex items-center'>
-        <Erc20Image address={dripTokenAddress} className='mr-2' sizeClasses='w-4 h-4' />
-        {t('earnNumPercentApr', { ticker: dripTokenSymbol, percentApr: displayPercentage(apr) })}
-      </div>
-    )
-  }
-
   const isDaily = pool.prize.prizePeriodSeconds.toNumber() === SECONDS_PER_DAY
 
   return (
@@ -149,14 +120,33 @@ export const PoolRow = (props) => {
           </Button>
 
           <div className='flex items-center justify-between mt-2 w-full'>
-            <div className='hidden sm:flex'>{<AprChip pool={pool} />}</div>
+            {pool.tokenFaucets.length === 0 ? (
+              <div className='hidden sm:flex' />
+            ) : (
+              pool.tokenFaucets.map((tokenFaucet) => (
+                <div
+                  key={`pool-token-faucet-row-desktop-${tokenFaucet.address}`}
+                  className='hidden sm:flex'
+                >
+                  {<AprChip {...props} tokenFaucet={tokenFaucet} />}
+                </div>
+              ))
+            )}
 
             <span className='relative hidden sm:inline-block'>
               <ViewPoolDetailsButton />
             </span>
           </div>
 
-          <span className='mt-1 relative sm:hidden'>{<AprChip pool={pool} />}</span>
+          {pool.tokenFaucets.map((tokenFaucet) => (
+            <span
+              key={`pool-token-faucet-row-mobile-${tokenFaucet.address}`}
+              className='mt-1 relative sm:hidden'
+            >
+              {<AprChip tokenFaucet={tokenFaucet} pool={pool} />}
+            </span>
+          ))}
+
           <div className='sm:hidden mt-1'>
             <ViewPoolDetailsButton />
           </div>
@@ -201,4 +191,39 @@ const PoolPrizeValue = (props) => {
   }
 
   return <div className='text-3xl sm:text-5xl text-flashy font-bold ml-2'>$0</div>
+}
+
+const ViewPoolDetailsButton = () => {
+  const { t } = useTranslation()
+
+  return (
+    <button className='flex justify-between items-center text-highlight-3 bg-transparent text-xxxs rounded-full px-2 trans'>
+      {t('viewPool')}
+    </button>
+  )
+}
+
+const AprChip = (props) => {
+  const { t } = useTranslation()
+
+  const { tokenFaucet, pool } = props
+
+  const dripTokenAddress = tokenFaucet.dripToken.address
+  const dripTokenSymbol = tokenFaucet.dripToken.symbol
+
+  let apr = tokenFaucet.apr
+  if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
+    apr = useWMaticApr(pool)
+  }
+
+  if (!apr) {
+    return null
+  }
+
+  return (
+    <div className='text-xxxs text-accent-1 flex items-center'>
+      <Erc20Image address={dripTokenAddress} className='mr-2' sizeClasses='w-4 h-4' />
+      {t('earnNumPercentApr', { ticker: dripTokenSymbol, percentApr: displayPercentage(apr) })}
+    </div>
+  )
 }
