@@ -43,6 +43,7 @@ export const RewardsActionModal = (props) => {
     isPrize
   } = props
 
+  const chainId = pool.chainId || pool.prizePool.chainId
   const prizePoolAddress = pool.prizePool.address
 
   const { register, handleSubmit, setValue, errors, formState } = useForm({
@@ -55,7 +56,6 @@ export const RewardsActionModal = (props) => {
 
   const { isValid } = formState
 
-  const chainId = pool.chainId
   const { network: walletChainId } = useOnboard()
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
