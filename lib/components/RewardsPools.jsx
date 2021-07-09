@@ -331,7 +331,10 @@ const ClaimTokens = (props) => {
 
   const { usersAddress, pool, refetch, underlyingToken } = props
 
-  const tokenFaucetAddress = pool?.tokenListener.address
+  // TODO: Multi-faucet
+  const tokenFaucet = pool?.tokenFaucets?.[0]
+  const tokenFaucetAddress = tokenFaucet?.address
+
   const { data: claimablePoolData, isFetched } = useClaimableTokenFromTokenFaucet(
     pool?.chainId,
     tokenFaucetAddress,
@@ -360,7 +363,7 @@ const ClaimTokens = (props) => {
             refetch={refetch}
             chainId={pool?.chainId}
             name={name}
-            dripToken={pool?.tokens.tokenFaucetDripToken.symbol}
+            dripTokenSymbol={tokenFaucet?.dripToken.symbol}
             tokenFaucetAddress={tokenFaucetAddress}
             isClaimable={isClaimable}
           />
@@ -373,7 +376,7 @@ const ClaimTokens = (props) => {
 const ClaimButton = (props) => {
   const {
     usersAddress,
-    dripToken,
+    dripTokenSymbol,
     name,
     refetch,
     isClaimable,
@@ -400,7 +403,7 @@ const ClaimButton = (props) => {
     const params = [usersAddress]
 
     const id = await sendTx(
-      t('claimTickerFromPool', { ticker: dripToken, poolName: name }),
+      t('claimTickerFromPool', { ticker: dripTokenSymbol, poolName: name }),
       TokenFaucetAbi,
       tokenFaucetAddress,
       'claim',
@@ -491,12 +494,18 @@ const DripTokenDisplay = (props) => {
     return null
   }
 
-  const token = pool.tokens.tokenFaucetDripToken
+  // TODO: Multi-faucet
+  const faucetToken = pool.tokenFaucets?.[0]
+  const dripToken = faucetToken?.dripToken
 
   return (
     <>
-      <PoolCurrencyIcon symbol={token.symbol} address={token.address} className={sizeClasses} />
-      <span className='text-xxs uppercase'>{token?.symbol}</span>
+      <PoolCurrencyIcon
+        symbol={dripToken.symbol}
+        address={dripToken.address}
+        className={sizeClasses}
+      />
+      <span className='text-xxs uppercase'>{dripToken?.symbol}</span>
     </>
   )
 }
@@ -778,7 +787,9 @@ const DepositModal = (props) => {
 const RewardsPoolAPR = (props) => {
   const { pool } = props
 
-  let apr = pool?.tokenListener?.apr
+  // TODO: Multi-faucet
+  const tokenFaucet = pool?.tokenFaucets?.[0]
+  let apr = tokenFaucet?.apr
 
   if (!pool || !apr) {
     return (

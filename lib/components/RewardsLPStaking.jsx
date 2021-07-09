@@ -292,7 +292,7 @@ const ClaimTokens = (props) => {
     claimableBalanceUnformatted = userData.claimableBalanceUnformatted
   }
 
-  const { tokens, tokenListener } = stakingPool
+  const { tokens, tokenFaucet } = stakingPool
   const { underlyingToken, tokenFaucetDripToken } = tokens
   const token1 = underlyingToken.token1
 
@@ -319,7 +319,7 @@ const ClaimTokens = (props) => {
             className='capitalize text-accent-1 hover:text-green'
             name={t('claimPool')}
             abi={TokenFaucetAbi}
-            contractAddress={tokenListener.address}
+            contractAddress={tokenFaucet.address}
             method={'claim'}
             params={[usersAddress]}
             refetch={refetch}

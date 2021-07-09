@@ -226,7 +226,10 @@ const YieldSourceStat = (props) => {
 const AprStats = (props) => {
   const { pool } = props
 
-  let apr = pool.tokenListener?.apr
+  // TODO: Multi-faucet
+  const tokenFaucet = pool?.tokenFaucets?.[0]
+
+  let apr = tokenFaucet?.apr
 
   if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
     apr = useWMaticApr(pool)
@@ -247,16 +250,18 @@ const DailyRewardsDistributionStat = (props) => {
   const { t } = useTranslation()
   const { pool } = props
 
-  const dripRatePerDay = pool.tokenListener?.dripRatePerDay || ethers.constants.Zero
-  const dripTokenSymbol = pool.tokens.tokenFaucetDripToken?.symbol
-  const dripTokenAddress = pool.tokens.tokenFaucetDripToken?.address
+  // TODO: Multi-faucet
+  const tokenFaucet = pool?.tokenFaucets?.[0]
+  const dripToken = tokenFaucet?.dripToken
+
+  const dripRatePerDay = tokenFaucet?.dripRatePerDay || ethers.constants.Zero
 
   // TODO: Hardcoded to POOL but we might let people drip other tokens
   return (
     <Stat
       title={t('dailyPoolDistribution')}
-      tokenAddress={dripTokenAddress}
-      tokenSymbol={dripTokenSymbol}
+      tokenAddress={dripToken.address}
+      tokenSymbol={dripToken.symbol}
       tokenAmount={dripRatePerDay}
     />
   )

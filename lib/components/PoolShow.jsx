@@ -57,7 +57,6 @@ export const PoolShow = (props) => {
   if (!poolIsFetched) {
     return <PoolShowUILoader />
   }
-  console.log(pool)
 
   const handleGetTicketsClick = (e) => {
     e.preventDefault()

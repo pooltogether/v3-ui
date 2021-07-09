@@ -29,12 +29,14 @@ export function ManageTicketsForm(props) {
   )
 
   const poolIncentivizesSponsorship = pool.incentivizesSponsorship
-  const tokenFaucetDripToken = pool.tokens.tokenFaucetDripToken
-  const dripTokenAddress = tokenFaucetDripToken.address
-  const dripTokenTicker = tokenFaucetDripToken.symbol
-  const dripTokenTickerUpcased = dripTokenTicker?.toUpperCase()
 
-  let apr = pool.tokenListener?.apr
+  // TODO: Multi-faucet
+  const tokenFaucet = pool?.tokenFaucets?.[0]
+  const dripToken = tokenFaucet?.dripToken
+
+  const dripTokenTickerUpcased = dripToken?.symbol.toUpperCase()
+
+  let apr = tokenFaucet?.apr
 
   if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
     apr = hardcodedWMaticApr(pool)
@@ -70,8 +72,8 @@ export function ManageTicketsForm(props) {
                   tickerImage: (
                     <PoolCurrencyIcon
                       className='inline-block w-3 h-3 ml-1'
-                      symbol={dripTokenTicker}
-                      address={dripTokenAddress}
+                      symbol={dripToken.symbol}
+                      address={dripToken.address}
                     />
                   )
                 }}
