@@ -60,7 +60,7 @@ const Stat = (props) => {
     tokenAmount,
     tokenSymbol,
     value,
-    percent,
+    content,
     tooltip
   } = props
 
@@ -98,7 +98,8 @@ const Stat = (props) => {
           )}
         </div>
       )}
-      {percent && <span>{displayPercentage(percent)}%</span>}
+
+      {content}
     </li>
   )
 }
@@ -124,6 +125,8 @@ const SponsorshipStat = (props) => {
   const { pool } = props
   const { t } = useTranslation()
 
+  const poolIncentivizesSponsorship = pool.incentivizesSponsorship
+
   return (
     <>
       <Stat
@@ -132,7 +135,12 @@ const SponsorshipStat = (props) => {
         tokenAddress={pool.tokens.underlyingToken.address}
         tokenSymbol={pool.tokens.underlyingToken.symbol}
         tokenAmount={pool.tokens.sponsorship.totalSupply}
-        tooltip={t('sponsorshipInfo')}
+        tooltip={
+          <>
+            {t('sponsorshipInfo')}{' '}
+            {poolIncentivizesSponsorship && <>. {t('rewardsAreForSponsorshipOnly')}</>}
+          </>
+        }
       />
     </>
   )
@@ -218,7 +226,10 @@ const YieldSourceStat = (props) => {
 const AprStats = (props) => {
   const { pool } = props
 
-  let apr = pool.tokenListener?.apr
+  // TODO: Multi-faucet
+  const tokenFaucet = pool?.tokenFaucets?.[0]
+
+  let apr = tokenFaucet?.apr
 
   if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
     apr = useWMaticApr(pool)
@@ -230,7 +241,7 @@ const AprStats = (props) => {
     <>
       <hr />
       <DailyRewardsDistributionStat pool={pool} />
-      <EffectiveAprStat apr={apr} />
+      <EffectiveAprStat pool={pool} apr={apr} />
     </>
   )
 }
@@ -239,25 +250,47 @@ const DailyRewardsDistributionStat = (props) => {
   const { t } = useTranslation()
   const { pool } = props
 
-  const dripRatePerDay = pool.tokenListener?.dripRatePerDay || ethers.constants.Zero
-  const dripTokenSymbol = pool.tokens.tokenFaucetDripToken?.symbol
-  const dripTokenAddress = pool.tokens.tokenFaucetDripToken?.address
+  // TODO: Multi-faucet
+  const tokenFaucet = pool?.tokenFaucets?.[0]
+  const dripToken = tokenFaucet?.dripToken
+
+  const dripRatePerDay = tokenFaucet?.dripRatePerDay || ethers.constants.Zero
 
   // TODO: Hardcoded to POOL but we might let people drip other tokens
   return (
     <Stat
       title={t('dailyPoolDistribution')}
-      tokenAddress={dripTokenAddress}
-      tokenSymbol={dripTokenSymbol}
+      tokenAddress={dripToken?.address}
+      tokenSymbol={dripToken?.symbol}
       tokenAmount={dripRatePerDay}
     />
   )
 }
 
 const EffectiveAprStat = (props) => {
-  const { apr } = props
+  const { apr, pool } = props
 
   const { t } = useTranslation()
 
-  return <Stat title={t('effectiveApr')} percent={apr} tooltip={t('effectiveAprInfo')} />
+  const poolIncentivizesSponsorship = pool.incentivizesSponsorship
+
+  return (
+    <Stat
+      title={t('effectiveApr')}
+      content={
+        <span>
+          {poolIncentivizesSponsorship && (
+            <span className='opacity-30 mr-1'>{t('sponsorship')} </span>
+          )}{' '}
+          {displayPercentage(apr)}%
+        </span>
+      }
+      tooltip={
+        <>
+          {t('effectiveAprInfo')}
+          {poolIncentivizesSponsorship && <>. {t('rewardsAreForSponsorshipOnly')}</>}
+        </>
+      }
+    />
+  )
 }

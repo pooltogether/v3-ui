@@ -82,8 +82,7 @@ export const AccountGovernanceClaims = (props) => {
         />
         {pools
           .filter((pool) => pool.chainId === NETWORK.mainnet)
-          .filter((pool) => Boolean(pool.tokens.tokenFaucetDripToken))
-          .sort(sortByDripAmount)
+          .filter((pool) => pool.tokenFaucets?.length > 0)
           .map((pool) => {
             return (
               <ClaimablePoolTokenItem
@@ -114,7 +113,6 @@ export const AccountGovernanceClaims = (props) => {
         />
         {pools
           .filter((pool) => pool.chainId === NETWORK.polygon)
-          .sort(sortByDripAmount)
           .map((pool) => {
             return (
               <ClaimablePoolTokenItem
@@ -129,11 +127,6 @@ export const AccountGovernanceClaims = (props) => {
     </>
   )
 }
-
-const sortByDripAmount = (a, b) =>
-  b.tokens.tokenFaucetDripToken.amountUnformatted.sub(
-    a.tokens.tokenFaucetDripToken.amountUnformatted
-  )
 
 const ClaimHeader = (props) => {
   const { address, chainId } = props
@@ -157,7 +150,7 @@ const ClaimHeader = (props) => {
   return (
     <>
       <div className='flex justify-center mb-2'>
-        <NetworkBadge chainId={chainId} textClasses='text-base' sizeClasses='w-6 h-6' />
+        <NetworkBadge chainId={chainId} textClassName='text-base' sizeClassName='w-6 h-6' />
       </div>
 
       <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
@@ -206,23 +199,27 @@ const ClaimablePoolTokenItem = (props) => {
   const [isSelf] = useAtom(isSelfAtom)
   const { t } = useTranslation()
   const { data: playerTickets } = useUserTicketsFormattedByPool(address)
-  const tokenFaucetAddress = pool.tokenListener.address
+
+  // TODO: Multi-faucet
+  // const tokenFaucetAddress = pool.tokenListener.address
+  const tokenFaucet = pool?.tokenFaucets?.[0]
+  const tokenFaucetAddress = tokenFaucet?.address
   const { data: claimablePoolData, isFetched } = useClaimableTokenFromTokenFaucet(
     pool.chainId,
     tokenFaucetAddress,
     address
   )
 
-  let apr = pool.tokenListener?.apr
+  let apr = tokenFaucet?.apr
 
   if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
     apr = useWMaticApr(pool)
   }
 
-  if (!isFetched) return null
+  if (!isFetched || !tokenFaucet?.dripToken) return null
 
-  const dripRatePerSecond = pool.tokenListener.dripRatePerSecond || 0
-  const dripToken = pool.tokens.tokenFaucetDripToken
+  const dripRatePerSecond = tokenFaucet?.dripRatePerSecond || 0
+  const dripToken = tokenFaucet?.dripToken
 
   const underlyingToken = pool.tokens.underlyingToken
   const name = t('prizePoolTicker', { ticker: underlyingToken.symbol })
@@ -267,7 +264,7 @@ const ClaimablePoolTokenItem = (props) => {
                 <h5 className='leading-none text-inverse'>{name}</h5>
               </a>
             </Link>{' '}
-            <NetworkBadge className='ml-2' sizeClasses='h-4 w-4' chainId={pool.chainId} />
+            <NetworkBadge className='ml-2' sizeClassName='h-4 w-4' chainId={pool.chainId} />
           </div>
 
           <div className='text-accent-1 text-xs mb-1 mt-2 sm:mt-1'>
@@ -310,7 +307,7 @@ const ClaimablePoolTokenItem = (props) => {
               }}
               chainId={pool.chainId}
               name={name}
-              dripToken={pool.tokens.tokenFaucetDripToken.symbol}
+              dripToken={dripToken.symbol}
               tokenFaucetAddress={tokenFaucetAddress}
               isClaimable={isClaimable}
             />

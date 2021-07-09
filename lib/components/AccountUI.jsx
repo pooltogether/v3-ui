@@ -6,7 +6,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
 
 import { AccountSummary } from 'lib/components/AccountSummary'
-import { AccountTickets } from 'lib/components/AccountTickets'
+import { AccountDeposits } from 'lib/components/AccountDeposits'
 import { AccountWinnings } from 'lib/components/AccountWinnings'
 import { AccountGovernanceClaims } from 'lib/components/AccountGovernanceClaims'
 import { AccountLootBoxes } from 'lib/components/AccountLootBoxes'
@@ -81,7 +81,7 @@ export const AccountUI = () => {
         <>
           <AccountSummary />
 
-          <AccountTickets />
+          <AccountDeposits />
 
           <AccountGovernanceClaims />
 

@@ -35,7 +35,6 @@ export const RewardsActionModal = (props) => {
     method,
     getParams,
     refetch,
-    chainId,
     allowance,
     overMaxErrorMsg,
     underlyingToken,
@@ -56,6 +55,7 @@ export const RewardsActionModal = (props) => {
 
   const { isValid } = formState
 
+  const chainId = pool.chainId
   const { network: walletChainId } = useOnboard()
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
@@ -314,7 +314,6 @@ const ApproveButton = (props) => {
 
   return (
     <Button
-      inverse
       textSize='sm'
       onClick={handleApproveClick}
       className={classnames('sm:mt-4', {

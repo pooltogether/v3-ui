@@ -173,7 +173,7 @@ const usePoolFilters = () => {
         value: chainId,
         view: (
           <>
-            <NetworkIcon sizeClasses='my-auto h-6 w-6' chainId={chainId} />
+            <NetworkIcon sizeClassName='my-auto h-6 w-6' chainId={chainId} />
             <span className='capitalize ml-2'>{getNetworkNiceNameByChainId(chainId)}</span>
           </>
         )
