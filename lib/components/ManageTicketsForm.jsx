@@ -7,7 +7,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { STRINGS } from 'lib/constants'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { hardcodedWMaticApr } from 'lib/components/AccountGovernanceClaims'
+import { useWMaticApr } from 'lib/components/AccountGovernanceClaims'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { useCurrentPool } from 'lib/hooks/usePools'
@@ -39,12 +39,12 @@ export function ManageTicketsForm(props) {
   let apr = tokenFaucet?.apr
 
   if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-    apr = hardcodedWMaticApr(pool)
+    apr = useWMaticApr(pool)
   }
 
   return (
     <>
-      {true && (
+      {poolIncentivizesSponsorship && (
         <Link href='/rewards#sponsorship' as='/rewards#sponsorship'>
           <a className='h-20 py-3 absolute left-0 sm:left-auto r-0 b-0 mb-20 sm:m-10 z-10 bg-card hover:bg-card-selected sm:rounded-lg trans trans-faster w-full sm:w-1/2 lg:w-1/3'>
             <div className='flex items-center justify-center'>
