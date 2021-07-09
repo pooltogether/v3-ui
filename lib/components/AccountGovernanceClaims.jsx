@@ -201,7 +201,6 @@ const ClaimablePoolTokenItem = (props) => {
   const { data: playerTickets } = useUserTicketsFormattedByPool(address)
 
   // TODO: Multi-faucet
-  // const tokenFaucetAddress = pool.tokenListener.address
   const tokenFaucet = pool?.tokenFaucets?.[0]
   const tokenFaucetAddress = tokenFaucet?.address
   const { data: claimablePoolData, isFetched } = useClaimableTokenFromTokenFaucet(
