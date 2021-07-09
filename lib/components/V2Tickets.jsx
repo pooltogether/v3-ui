@@ -57,8 +57,8 @@ const V2Ticket = (props) => {
           <div className='flex flex-row sm:flex-col'>
             <div className='sm:ml-auto'>
               <NetworkBadge
-                sizeClasses='w-3 h-3'
-                textClasses='text-xxxs sm:text-xxs'
+                sizeClassName='w-3 h-3'
+                textClassName='text-xxxs sm:text-xxs'
                 chainId={NETWORK.mainnet}
               />
             </div>

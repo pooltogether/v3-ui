@@ -44,7 +44,7 @@ export function ManageTicketsForm(props) {
 
   return (
     <>
-      {poolIncentivizesSponsorship && (
+      {true && (
         <Link href='/rewards#sponsorship' as='/rewards#sponsorship'>
           <a className='h-20 py-3 absolute left-0 sm:left-auto r-0 b-0 mb-20 sm:m-10 z-10 bg-card hover:bg-card-selected sm:rounded-lg trans trans-faster w-full sm:w-1/2 lg:w-1/3'>
             <div className='flex items-center justify-center'>
@@ -72,8 +72,8 @@ export function ManageTicketsForm(props) {
                   tickerImage: (
                     <PoolCurrencyIcon
                       className='inline-block w-3 h-3 ml-1'
-                      symbol={dripToken.symbol}
-                      address={dripToken.address}
+                      symbol={dripToken?.symbol}
+                      address={dripToken?.address}
                     />
                   )
                 }}

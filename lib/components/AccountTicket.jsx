@@ -28,7 +28,7 @@ export const AccountTicket = (props) => {
 
   const shouldReduceMotion = useReducedMotion()
 
-  const { isLink, depositData, pool, cornerBgClassName, isSponsorship } = props
+  const { isLink, depositData, pool, cornerBgClassName } = props
   let { href, as } = props
 
   const { amount, amountUnformatted } = depositData
@@ -73,7 +73,7 @@ export const AccountTicket = (props) => {
   return (
     <>
       <motion.div
-        key={`account-pool-${isSponsorship ? 'sponsorship' : 'ticket'}-${pool.prizePool.address}`}
+        key={`account-pool-ticket-${pool.prizePool.address}`}
         className={classnames('relative text-xxxs sm:text-xs mb-3')}
         animate={{
           scale: 1,
@@ -95,14 +95,7 @@ export const AccountTicket = (props) => {
         }}
       >
         <div className='h-28 flex w-full items-center justify-between'>
-          <div
-            className={classnames(
-              'h-28 w-40 lg:w-48 rounded-l-lg bg-accent-grey-4 flex flex-col items-center justify-center',
-              {
-                'notched-box': !isSponsorship
-              }
-            )}
-          >
+          <div className='notched-box h-28 w-40 lg:w-48 rounded-l-lg bg-accent-grey-4 flex flex-col items-center justify-center'>
             <div
               className={classnames(`notched-corner notched-top-right`, cornerBgClassName)}
             ></div>
@@ -124,20 +117,10 @@ export const AccountTicket = (props) => {
             </button>
           </div>
           <div
-            className={classnames('h-24 bg-accent-grey-4 border-body', {
-              'border-0': isSponsorship,
-              'border-dotted border-r-4': !isSponsorship
-            })}
+            className='h-24 bg-accent-grey-4 border-body border-dotted border-r-4'
             style={{ width: 1 }}
           />
-          <div
-            className={classnames(
-              'h-28 rounded-r-lg bg-accent-grey-4 flex flex-col justify-center sm:flex-row w-full',
-              {
-                'notched-box': !isSponsorship
-              }
-            )}
-          >
+          <div className='notched-box h-28 rounded-r-lg bg-accent-grey-4 flex flex-col justify-center sm:flex-row w-full'>
             <div className={classnames(`notched-corner notched-top-left`, cornerBgClassName)}></div>
             <div
               className={classnames(`notched-corner notched-bottom-left`, cornerBgClassName)}
@@ -148,68 +131,48 @@ export const AccountTicket = (props) => {
               </div>
 
               <div className='flex sm:flex-col items-baseline sm:items-start'>
-                {!isSponsorship && (
-                  <>
-                    <span className='relative inline-block leading-normal text-accent-1 mr-1 sm:mr-0'>
-                      {t('winningOdds')}:
-                    </span>{' '}
-                    {Number(amount) < 1 ? (
-                      <span className='font-bold text-accent-3'>
-                        {t('notAvailableAbbreviation')}
-                      </span>
-                    ) : (
-                      <Odds
-                        asSpan
-                        fontSansRegular
-                        className='font-bold text-flashy'
-                        usersBalance={amountUnformatted.toString()}
-                        ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
-                        decimals={decimals}
-                        numberOfWinners={pool.config.numberOfWinners}
-                      />
-                    )}
-                  </>
+                <span className='relative inline-block leading-normal text-accent-1 mr-1 sm:mr-0'>
+                  {t('winningOdds')}:
+                </span>{' '}
+                {Number(amount) < 1 ? (
+                  <span className='font-bold text-accent-3'>{t('notAvailableAbbreviation')}</span>
+                ) : (
+                  <Odds
+                    asSpan
+                    fontSansRegular
+                    className='font-bold text-flashy'
+                    usersBalance={amountUnformatted.toString()}
+                    ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
+                    decimals={decimals}
+                    numberOfWinners={pool.config.numberOfWinners}
+                  />
                 )}
               </div>
             </div>
-            <div
-              className={classnames(
-                'sm:h-28 w-10/12 sm:w-7/12 mx-auto flex flex-col sm:items-end sm:py-4 sm:pl-2 sm:pr-12',
-                {
-                  'sm:justify-center': isSponsorship,
-                  'sm:justify-between': !isSponsorship
-                }
-              )}
-            >
+            <div className='sm:justify-between sm:h-28 w-10/12 sm:w-7/12 mx-auto flex flex-col sm:items-end sm:py-4 sm:pl-2 sm:pr-12'>
               <div className='flex items-baseline text-xs sm:text-xl font-bold text-accent-1'>
-                {!isSponsorship && (
+                <img
+                  src={PoolTogetherTrophyDetailed}
+                  className='relative w-3 sm:w-4 mr-1 sm:mr-2 opacity-70'
+                  style={{
+                    filter: 'brightness(5)',
+                    top: 2
+                  }}
+                />
+                {pool.prize.totalValueUsd && decimals && (
                   <>
-                    <img
-                      src={PoolTogetherTrophyDetailed}
-                      className='relative w-3 sm:w-4 mr-1 sm:mr-2 opacity-70'
-                      style={{
-                        filter: 'brightness(5)',
-                        top: 2
-                      }}
+                    $
+                    <PoolCountUp
+                      fontSansRegular
+                      decimals={0}
+                      duration={3}
+                      end={parseFloat(pool.prize.totalValueUsd)}
                     />
-                    {pool.prize.totalValueUsd && decimals && (
-                      <>
-                        $
-                        <PoolCountUp
-                          fontSansRegular
-                          decimals={0}
-                          duration={3}
-                          end={parseFloat(pool.prize.totalValueUsd)}
-                        />
-                      </>
-                    )}
-                    <span className='text-xxxxs sm:text-xxs font-regular'>
-                      {!isSponsorship && (
-                        <NewPrizeCountdownInWords onTicket extraShort pool={pool} />
-                      )}
-                    </span>
                   </>
                 )}
+                <span className='text-xxxxs sm:text-xxs font-regular'>
+                  <NewPrizeCountdownInWords onTicket extraShort pool={pool} />
+                </span>
               </div>
 
               <div className='flex sm:flex-col items-center sm:items-end mt-1 sm:mt-0'>
@@ -217,24 +180,16 @@ export const AccountTicket = (props) => {
                   <>
                     <NetworkBadge
                       className='sm:mx-auto'
-                      sizeClasses='w-3 h-3'
-                      textClasses='text-xxxs sm:text-xxs'
+                      sizeClassName='w-3 h-3'
+                      textClassName='text-xxxs sm:text-xxs'
                       chainId={pool.chainId}
                     />
-                    {isSponsorship ? (
-                      <Link href='/rewards#sponsorship' as='/rewards#sponsorship'>
-                        <a className='underline text-highlight-1 hover:text-inverse trans text-xxxs sm:text-xxs ml-2 sm:ml-0'>
-                          {t('manage')}
-                        </a>
-                      </Link>
-                    ) : (
-                      <button
-                        onClick={handleManageClick}
-                        className='underline text-highlight-1 hover:text-inverse trans text-xxxs sm:text-xxs ml-2 sm:ml-0'
-                      >
-                        {t('manage')}
-                      </button>
-                    )}
+                    <button
+                      onClick={handleManageClick}
+                      className='underline text-highlight-1 hover:text-inverse trans text-xxxs sm:text-xxs ml-2 sm:ml-0'
+                    >
+                      {t('manage')}
+                    </button>
                   </>
                 )}
               </div>

@@ -120,10 +120,10 @@ export const PoolRow = (props) => {
           </Button>
 
           <div className='flex items-center justify-between mt-2 w-full'>
-            {pool.tokenFaucets.length === 0 ? (
+            {pool.tokenFaucets?.length === 0 ? (
               <div className='hidden sm:flex' />
             ) : (
-              pool.tokenFaucets.map((tokenFaucet) => (
+              pool.tokenFaucets?.map((tokenFaucet) => (
                 <div
                   key={`pool-token-faucet-row-desktop-${tokenFaucet.address}`}
                   className='hidden sm:flex'
@@ -138,7 +138,7 @@ export const PoolRow = (props) => {
             </span>
           </div>
 
-          {pool.tokenFaucets.map((tokenFaucet) => (
+          {pool.tokenFaucets?.map((tokenFaucet) => (
             <span
               key={`pool-token-faucet-row-mobile-${tokenFaucet.address}`}
               className='mt-1 relative sm:hidden'

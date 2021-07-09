@@ -496,7 +496,12 @@ const DripTokenDisplay = (props) => {
 
   // TODO: Multi-faucet
   const faucetToken = pool.tokenFaucets?.[0]
-  const dripToken = faucetToken?.dripToken
+
+  if (!faucetToken?.dripToken) {
+    return null
+  }
+
+  const dripToken = faucetToken.dripToken
 
   return (
     <>
@@ -505,7 +510,7 @@ const DripTokenDisplay = (props) => {
         address={dripToken.address}
         className={sizeClasses}
       />
-      <span className='text-xxs uppercase'>{dripToken?.symbol}</span>
+      <span className='text-xxs uppercase'>{dripToken.symbol}</span>
     </>
   )
 }

@@ -82,7 +82,7 @@ export const AccountGovernanceClaims = (props) => {
         />
         {pools
           .filter((pool) => pool.chainId === NETWORK.mainnet)
-          .filter((pool) => pool.tokenFaucets.length > 0)
+          .filter((pool) => pool.tokenFaucets?.length > 0)
           .map((pool) => {
             return (
               <ClaimablePoolTokenItem
@@ -150,7 +150,7 @@ const ClaimHeader = (props) => {
   return (
     <>
       <div className='flex justify-center mb-2'>
-        <NetworkBadge chainId={chainId} textClasses='text-base' sizeClasses='w-6 h-6' />
+        <NetworkBadge chainId={chainId} textClassName='text-base' sizeClassName='w-6 h-6' />
       </div>
 
       <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
@@ -216,7 +216,7 @@ const ClaimablePoolTokenItem = (props) => {
     apr = useWMaticApr(pool)
   }
 
-  if (!isFetched) return null
+  if (!isFetched || !tokenFaucet?.dripToken) return null
 
   const dripRatePerSecond = tokenFaucet?.dripRatePerSecond || 0
   const dripToken = tokenFaucet?.dripToken
@@ -264,7 +264,7 @@ const ClaimablePoolTokenItem = (props) => {
                 <h5 className='leading-none text-inverse'>{name}</h5>
               </a>
             </Link>{' '}
-            <NetworkBadge className='ml-2' sizeClasses='h-4 w-4' chainId={pool.chainId} />
+            <NetworkBadge className='ml-2' sizeClassName='h-4 w-4' chainId={pool.chainId} />
           </div>
 
           <div className='text-accent-1 text-xs mb-1 mt-2 sm:mt-1'>

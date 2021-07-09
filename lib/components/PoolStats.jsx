@@ -260,8 +260,8 @@ const DailyRewardsDistributionStat = (props) => {
   return (
     <Stat
       title={t('dailyPoolDistribution')}
-      tokenAddress={dripToken.address}
-      tokenSymbol={dripToken.symbol}
+      tokenAddress={dripToken?.address}
+      tokenSymbol={dripToken?.symbol}
       tokenAmount={dripRatePerDay}
     />
   )
