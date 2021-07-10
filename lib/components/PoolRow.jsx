@@ -126,7 +126,7 @@ export const PoolRow = (props) => {
               pool.tokenFaucets?.map((tokenFaucet) => (
                 <div
                   key={`pool-token-faucet-row-desktop-${tokenFaucet.address}`}
-                  className='hidden sm:flex'
+                  className='hidden sm:flex ml-2'
                 >
                   {<AprChip {...props} tokenFaucet={tokenFaucet} />}
                 </div>
