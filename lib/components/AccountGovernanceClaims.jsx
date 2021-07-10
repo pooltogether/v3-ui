@@ -257,10 +257,6 @@ const ClaimablePool = (props) => {
 const ClaimablePoolTokenFaucetRow = (props) => {
   const { address, pool, refetchAllPoolTokenData, tokenFaucet } = props
 
-  if (tokenFaucet.address.toLowerCase() === '0xd186302304fd367488b5087af5b12cb9b7cf7540') {
-    console.log('ppoool')
-  }
-
   const [isSelf] = useAtom(isSelfAtom)
   const { t } = useTranslation()
   const { data: playerTickets } = useUserTicketsFormattedByPool(address)
@@ -279,7 +275,9 @@ const ClaimablePoolTokenFaucetRow = (props) => {
     apr = useWMaticApr(pool)
   }
 
-  if (!isFetched || !tokenFaucet?.dripToken) return null
+  if (!isFetched || !tokenFaucet?.dripToken) {
+    return null
+  }
 
   const dripRatePerSecond = tokenFaucet?.dripRatePerSecond || 0
   const dripToken = tokenFaucet?.dripToken
@@ -341,33 +339,39 @@ const ClaimablePoolTokenFaucetRow = (props) => {
         </div>
       </div>
       <div className='w-full sm:w-1/4 py-1 sm:py-0 sm:text-right'>
-        <div
-          className={classnames(`mt-6 sm:mt-0`, {
-            'opacity-40': !isClaimable
-          })}
-        >
-          <p className='font-inter text-inverse text-xxs uppercase'>{t('availableToClaim')}</p>
-          <h5 className={classnames('flex items-center sm:justify-end')}>
-            <Erc20Image address={dripToken.address} className='inline-block w-6 h-6 mr-2' />
-            <ClaimableAmountCountUp amount={Number(claimablePoolData?.claimableAmount)} />
-          </h5>
+        {!claimablePoolData ? (
+          <ThemedClipSpinner size={12} />
+        ) : (
+          <>
+            <div
+              className={classnames(`mt-6 sm:mt-0`, {
+                'opacity-40': !isClaimable
+              })}
+            >
+              <p className='font-inter text-inverse text-xxs uppercase'>{t('availableToClaim')}</p>
+              <h5 className={classnames('flex items-center sm:justify-end')}>
+                <Erc20Image address={dripToken.address} className='inline-block w-6 h-6 mr-2' />
+                <ClaimableAmountCountUp amount={Number(claimablePoolData?.claimableAmount)} />
+              </h5>
 
-          {isSelf && (
-            <div className='sm:ml-auto'>
-              <ClaimButton
-                {...props}
-                refetch={() => {
-                  refetchAllPoolTokenData()
-                }}
-                chainId={pool.chainId}
-                name={name}
-                dripToken={dripToken.symbol}
-                tokenFaucetAddress={tokenFaucetAddress}
-                isClaimable={isClaimable}
-              />
+              {isSelf && (
+                <div className='sm:ml-auto'>
+                  <ClaimButton
+                    {...props}
+                    refetch={() => {
+                      refetchAllPoolTokenData()
+                    }}
+                    chainId={pool.chainId}
+                    name={name}
+                    dripToken={dripToken.symbol}
+                    tokenFaucetAddress={tokenFaucetAddress}
+                    isClaimable={isClaimable}
+                  />
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
     </div>
   )
