@@ -153,7 +153,7 @@ const ClaimHeader = (props) => {
         chainId={chainId}
         textClassName='text-xs sm:text-base'
         sizeClassName='w-4 sm:w-6 h-4 sm:h-6'
-        className='m-2'
+        className='m-2 sm:m-0'
       />
 
       {chainId === NETWORK.mainnet && (
@@ -211,7 +211,7 @@ const ClaimablePool = (props) => {
           <Link href={`/pools/${pool.networkName}/${pool.symbol}`}>
             <a>
               <PoolCurrencyIcon
-                sm
+                md
                 symbol={underlyingToken.symbol}
                 address={underlyingToken.address}
                 className='sm:mr-4'
@@ -301,12 +301,6 @@ const ClaimablePoolTokenFaucetRow = (props) => {
   const usersDripPerDayFormatted = numberWithCommas(usersDripPerDay)
   const totalDripPerDayFormatted = numberWithCommas(Math.round(totalDripPerDay))
 
-  if (tokenFaucet.address.toLowerCase() === '0xd186302304fd367488b5087af5b12cb9b7cf7540') {
-    console.log('***********************************')
-    console.log({ claimable: claimablePoolData })
-    console.log(pool.chainId, tokenFaucetAddress, address)
-  }
-
   const isClaimable = !claimablePoolData?.claimableAmountUnformatted?.isZero()
 
   return (
@@ -333,7 +327,7 @@ const ClaimablePoolTokenFaucetRow = (props) => {
       <div className='w-full sm:w-1/4 pt-5 sm:py-0'>
         <div className='mt-3 sm:mt-0 leading-snug'>
           <span className='font-bold'>{apr.toString().split('.')?.[0]}</span>.
-          {apr.toString().split('.')?.[1].substr(0, 2)}%{' '}
+          {apr.toString().split('.')?.[1]?.substr(0, 2)}%{' '}
           <span className='sm:hidden text-xxs text-accent-1 mt-1 sm:mt-2'>APR</span>
         </div>
       </div>
