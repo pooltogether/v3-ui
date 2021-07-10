@@ -345,13 +345,11 @@ const ClaimablePoolTokenFaucetRow = (props) => {
         >
           <p className='font-inter text-inverse text-xxs uppercase'>{t('availableToClaim')}</p>
           <h5 className={classnames('flex items-center sm:justify-end mt-1')}>
-            {claimableData?.claimableAmount}
-            {/* <ClaimableAmountCountUp amount={Number(claimableData?.claimableAmount)} /> */}
-            {/* {!claimableData ? (
+            {!claimableData ? (
               <ThemedClipSpinner size={12} />
             ) : (
               <ClaimableAmountCountUp amount={Number(claimableData?.claimableAmount)} />
-            )} */}
+            )}
             <Erc20Image address={dripToken.address} className='inline-block w-6 h-6 ml-2' />
           </h5>
 
