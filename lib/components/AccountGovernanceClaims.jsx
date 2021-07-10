@@ -261,9 +261,8 @@ const ClaimablePoolTokenFaucetRow = (props) => {
   const { t } = useTranslation()
   const { data: playerTickets } = useUserTicketsFormattedByPool(address)
 
-  // TODO: Multi-faucet
   const tokenFaucetAddress = tokenFaucet?.address
-  const { data: claimablePoolData, isFetched } = useClaimableTokenFromTokenFaucet(
+  const { data: claimableData, isFetched } = useClaimableTokenFromTokenFaucet(
     pool.chainId,
     tokenFaucetAddress,
     address
@@ -299,7 +298,7 @@ const ClaimablePoolTokenFaucetRow = (props) => {
   const usersDripPerDayFormatted = numberWithCommas(usersDripPerDay)
   const totalDripPerDayFormatted = numberWithCommas(Math.round(totalDripPerDay))
 
-  const isClaimable = !claimablePoolData?.claimableAmountUnformatted?.isZero()
+  const isClaimable = !claimableData?.claimableAmountUnformatted?.isZero()
 
   return (
     <div
@@ -339,39 +338,39 @@ const ClaimablePoolTokenFaucetRow = (props) => {
         </div>
       </div>
       <div className='w-full sm:w-1/4 py-1 sm:py-0 sm:text-right'>
-        {!claimablePoolData ? (
-          <ThemedClipSpinner size={12} />
-        ) : (
-          <>
-            <div
-              className={classnames(`mt-6 sm:mt-0`, {
-                'opacity-40': !isClaimable
-              })}
-            >
-              <p className='font-inter text-inverse text-xxs uppercase'>{t('availableToClaim')}</p>
-              <h5 className={classnames('flex items-center sm:justify-end')}>
-                <Erc20Image address={dripToken.address} className='inline-block w-6 h-6 mr-2' />
-                <ClaimableAmountCountUp amount={Number(claimablePoolData?.claimableAmount)} />
-              </h5>
+        <div
+          className={classnames(`mt-6 sm:mt-0`, {
+            'opacity-40': !isClaimable
+          })}
+        >
+          <p className='font-inter text-inverse text-xxs uppercase'>{t('availableToClaim')}</p>
+          <h5 className={classnames('flex items-center sm:justify-end mt-1')}>
+            {claimableData?.claimableAmount}
+            {/* <ClaimableAmountCountUp amount={Number(claimableData?.claimableAmount)} /> */}
+            {/* {!claimableData ? (
+              <ThemedClipSpinner size={12} />
+            ) : (
+              <ClaimableAmountCountUp amount={Number(claimableData?.claimableAmount)} />
+            )} */}
+            <Erc20Image address={dripToken.address} className='inline-block w-6 h-6 ml-2' />
+          </h5>
 
-              {isSelf && (
-                <div className='sm:ml-auto'>
-                  <ClaimButton
-                    {...props}
-                    refetch={() => {
-                      refetchAllPoolTokenData()
-                    }}
-                    chainId={pool.chainId}
-                    name={name}
-                    dripToken={dripToken.symbol}
-                    tokenFaucetAddress={tokenFaucetAddress}
-                    isClaimable={isClaimable}
-                  />
-                </div>
-              )}
+          {isSelf && (
+            <div className='sm:ml-auto'>
+              <ClaimButton
+                {...props}
+                refetch={() => {
+                  refetchAllPoolTokenData()
+                }}
+                chainId={pool.chainId}
+                name={name}
+                dripToken={dripToken.symbol}
+                tokenFaucetAddress={tokenFaucetAddress}
+                isClaimable={isClaimable}
+              />
             </div>
-          </>
-        )}
+          )}
+        </div>
       </div>
     </div>
   )
