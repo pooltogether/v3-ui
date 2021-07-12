@@ -17,7 +17,7 @@ import { InteractableCard } from 'lib/components/InteractableCard'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
-import { useWMaticApr } from 'lib/hooks/useWMaticApr'
+import { useTokenFaucetApr } from 'lib/hooks/useTokenFaucetApr'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 
 export const PoolRow = (props) => {
@@ -216,10 +216,7 @@ const AprChip = (props) => {
   const dripTokenAddress = tokenFaucet.dripToken.address
   const dripTokenSymbol = tokenFaucet.dripToken.symbol
 
-  let apr = tokenFaucet.apr
-  if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-    apr = useWMaticApr(pool)
-  }
+  const apr = useTokenFaucetApr(pool, tokenFaucet)
 
   if (!apr) {
     return null

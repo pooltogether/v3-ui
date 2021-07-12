@@ -25,13 +25,12 @@ import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFro
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { displayPercentage } from 'lib/utils/displayPercentage'
+import { useTokenFaucetApr } from 'lib/hooks/useTokenFaucetApr'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useGovernancePools } from 'lib/hooks/usePools'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
-import { useWMaticApr } from 'lib/hooks/useWMaticApr'
 import { Erc20Image } from 'lib/components/Erc20Image'
 
 export const AccountGovernanceClaims = (props) => {
@@ -268,14 +267,7 @@ const ClaimablePoolTokenFaucetRow = (props) => {
     address
   )
 
-  let apr = tokenFaucet?.apr
-  if (tokenFaucet.address === '0xddcf915656471b7c44217fb8c51f9888701e759a') {
-    apr = 0
-  }
-
-  if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-    apr = useWMaticApr(pool)
-  }
+  const apr = useTokenFaucetApr(pool, tokenFaucet)
 
   if (!isFetched || !tokenFaucet?.dripToken) {
     return null
