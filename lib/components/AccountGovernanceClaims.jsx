@@ -269,6 +269,9 @@ const ClaimablePoolTokenFaucetRow = (props) => {
   )
 
   let apr = tokenFaucet?.apr
+  if (tokenFaucet.address === '0xddcf915656471b7c44217fb8c51f9888701e759a') {
+    apr = 0
+  }
 
   if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
     apr = useWMaticApr(pool)
@@ -293,7 +296,11 @@ const ClaimablePoolTokenFaucetRow = (props) => {
 
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
 
-  const totalDripPerDay = dripRatePerSecond * SECONDS_PER_DAY
+  let totalDripPerDay = dripRatePerSecond * SECONDS_PER_DAY
+  if (tokenFaucet.address === '0xddcf915656471b7c44217fb8c51f9888701e759a') {
+    totalDripPerDay = 0
+  }
+
   const usersDripPerDay = totalDripPerDay * ownershipPercentage
   const usersDripPerDayFormatted = numberWithCommas(usersDripPerDay)
   const totalDripPerDayFormatted = numberWithCommas(Math.round(totalDripPerDay))
@@ -323,8 +330,14 @@ const ClaimablePoolTokenFaucetRow = (props) => {
 
       <div className='w-full sm:w-1/4 pt-5 sm:py-0'>
         <div className='mt-3 sm:mt-0 leading-snug'>
-          <span className='font-bold'>{apr.toString().split('.')?.[0]}</span>.
-          {apr.toString().split('.')?.[1]?.substr(0, 2)}%{' '}
+          {apr === 0 ? (
+            <></>
+          ) : (
+            <>
+              <span className='font-bold'>{apr.toString().split('.')?.[0]}</span>.
+              {apr.toString().split('.')?.[1]?.substr(0, 2)}%{' '}
+            </>
+          )}
           <span className='sm:hidden text-xxs text-accent-1 mt-1 sm:mt-2'>APR</span>
         </div>
       </div>

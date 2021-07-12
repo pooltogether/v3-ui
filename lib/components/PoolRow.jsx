@@ -123,14 +123,19 @@ export const PoolRow = (props) => {
             {pool.tokenFaucets?.length === 0 ? (
               <div className='hidden sm:flex' />
             ) : (
-              pool.tokenFaucets?.map((tokenFaucet) => (
-                <div
-                  key={`pool-token-faucet-row-desktop-${tokenFaucet.address}`}
-                  className='hidden sm:flex ml-2'
-                >
-                  {<AprChip {...props} tokenFaucet={tokenFaucet} />}
-                </div>
-              ))
+              pool.tokenFaucets
+                ?.filter(
+                  (tokenFaucet) =>
+                    tokenFaucet.address !== '0xddcf915656471b7c44217fb8c51f9888701e759a'
+                )
+                .map((tokenFaucet) => (
+                  <div
+                    key={`pool-token-faucet-row-desktop-${tokenFaucet.address}`}
+                    className='hidden sm:flex ml-2'
+                  >
+                    {<AprChip {...props} tokenFaucet={tokenFaucet} />}
+                  </div>
+                ))
             )}
 
             <span className='relative hidden sm:inline-block'>
