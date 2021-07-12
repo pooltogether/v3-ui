@@ -96,9 +96,6 @@ export const RewardsGovernance = () => {
 export const RewardsSponsorship = () => {
   const { t } = useTranslation()
 
-  const { appEnv } = useAppEnv()
-  const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
-
   const { data: pools } = useGovernancePools()
 
   let sponsorshipIncentivizedPools = []
@@ -128,7 +125,7 @@ export const RewardsSponsorship = () => {
       tableHeader={t('sponsorshipRewards')}
       tableDescriptionCard={tableDescriptionCard}
       tableSummary={t('sponsorshipRewardsSummary')}
-      pools={pools}
+      pools={sponsorshipIncentivizedPools}
     />
   )
 }
@@ -152,9 +149,6 @@ const RewardsPools = (props) => {
     refetchTotalClaimablePool()
     refetchPoolTokenData()
   }
-
-  // const symbol = chainId === 1 ? 'USDT-0x887E17' : 'PT-cDAI'
-  // const pool = pools?.find((pool) => pool.symbol === symbol)
 
   return (
     <>
