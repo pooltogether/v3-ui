@@ -22,6 +22,7 @@ import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { ContentOrSpinner } from 'lib/components/ContentOrSpinner'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 
+import { findSponsorshipFaucet } from 'lib/hooks/useTokenFaucetApr'
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
 import { useGovernancePools } from 'lib/hooks/usePools'
@@ -87,7 +88,7 @@ export const RewardsGovernance = () => {
         'governanceRewardsSummary',
         'Deposit your POOL tokens to earn POOL rewards and vote on proposals without paying transaction fees.'
       )}
-      pool={pool}
+      pools={[pool]}
     />
   )
 }
@@ -95,12 +96,14 @@ export const RewardsGovernance = () => {
 export const RewardsSponsorship = () => {
   const { t } = useTranslation()
 
-  const { appEnv } = useAppEnv()
-  const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
-
   const { data: pools } = useGovernancePools()
-  const symbol = chainId === 1 ? 'USDT-0x887E17' : 'PT-cDAI'
-  const pool = pools?.find((pool) => pool.symbol === symbol)
+
+  let sponsorshipIncentivizedPools = []
+  pools?.forEach((pool) => {
+    if (Boolean(findSponsorshipFaucet(pool))) {
+      sponsorshipIncentivizedPools.push(pool)
+    }
+  })
 
   const tableDescriptionCard = (
     <div className='bg-card rounded-lg border border-secondary px-4 sm:px-8 py-4 mt-4'>
@@ -108,15 +111,10 @@ export const RewardsSponsorship = () => {
         <div className='pool-gradient-1 px-2 mr-2 mb-2 sm:mb-0 rounded-lg inline-block capitalize text-xxxs font-semibold text-white'>
           {t('tips')}
         </div>
-        <h6 className='inline-block'>{t('whatArePoolSponsors', 'What is pool sponsorship?')}</h6>
+        <h6 className='inline-block'>{t('whatArePoolSponsors')}</h6>
       </div>
 
-      <p className='list-decimal block mt-2 text-xs text-accent-1'>
-        {t(
-          'poolSponsorshipIs',
-          'Pool sponsorship is deposits into a pool earning higher yield in rewards instead of chances to win prizes.'
-        )}
-      </p>
+      <p className='list-decimal block mt-2 text-xs text-accent-1'>{t('poolSponsorshipIs')}</p>
     </div>
   )
 
@@ -126,11 +124,8 @@ export const RewardsSponsorship = () => {
       tableId='sponsorship'
       tableHeader={t('sponsorshipRewards')}
       tableDescriptionCard={tableDescriptionCard}
-      tableSummary={t(
-        'sponsorshipRewardsSummary',
-        'Deposit into these pools to earn high-yield sponsorship rewards and help grow the prizes. Sponsors do not win prizes.'
-      )}
-      pool={pool}
+      tableSummary={t('sponsorshipRewardsSummary')}
+      pools={sponsorshipIncentivizedPools}
     />
   )
 }
@@ -138,7 +133,7 @@ export const RewardsSponsorship = () => {
 const RewardsPools = (props) => {
   const { t } = useTranslation()
 
-  const { isSponsorship, pool, tableId, tableHeader, tableSummary, tableDescriptionCard } = props
+  const { isSponsorship, pools, tableId, tableHeader, tableSummary, tableDescriptionCard } = props
 
   const usersAddress = useUsersAddress()
   const { data: playersDepositData, isFetched: playersDepositDataIsFetched } =
@@ -172,14 +167,17 @@ const RewardsPools = (props) => {
         depositColumnHeader={t(isSponsorship ? 'yourSponsorship' : 'yourStake')}
         columnOneWidthClass='w-32 lg:w-64'
       >
-        <RewardsPoolRow
-          {...props}
-          playersDepositDataIsFetched={playersDepositDataIsFetched}
-          playersDepositData={playersDepositData}
-          usersAddress={usersAddress}
-          refetch={refetchAllPoolTokenData}
-          key={`gov-rewards-card-${pool?.prizePool.address}`}
-        />
+        {pools.map((pool) => (
+          <RewardsPoolRow
+            {...props}
+            key={`gov-rewards-card-${pool?.prizePool.address}`}
+            playersDepositDataIsFetched={playersDepositDataIsFetched}
+            playersDepositData={playersDepositData}
+            usersAddress={usersAddress}
+            refetch={refetchAllPoolTokenData}
+            pool={pool}
+          />
+        ))}
       </RewardsTable>
     </>
   )

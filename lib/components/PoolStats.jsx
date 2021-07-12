@@ -12,7 +12,7 @@ import { BlockExplorerLink, LinkIcon } from 'lib/components/BlockExplorerLink'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Card, CardDetailsList } from 'lib/components/Card'
-import { useWMaticApr } from 'lib/hooks/useWMaticApr'
+import { findSponsorshipFaucet, useTokenFaucetApr } from 'lib/hooks/useTokenFaucetApr'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -219,28 +219,29 @@ const YieldSourceStat = (props) => {
   )
 }
 
-// audited vs unaudited
-
-// APR Stats
-
 const AprStats = (props) => {
   const { pool } = props
 
-  // TODO: Multi-faucet
-  const tokenFaucet = pool?.tokenFaucets?.[0]
+  return pool?.tokenFaucets?.map((tokenFaucet) => (
+    <TokenFaucetAprRow
+      key={`token-faucet-apr-row-${tokenFaucet.address}`}
+      pool={pool}
+      tokenFaucet={tokenFaucet}
+    />
+  ))
+}
 
-  let apr = tokenFaucet?.apr
+const TokenFaucetAprRow = (props) => {
+  const { pool, tokenFaucet } = props
 
-  if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-    apr = useWMaticApr(pool)
-  }
+  const apr = useTokenFaucetApr(pool, tokenFaucet)
 
   if (!apr) return null
 
   return (
     <>
       <hr />
-      <DailyRewardsDistributionStat pool={pool} />
+      <DailyRewardsDistributionStat tokenFaucet={tokenFaucet} pool={pool} />
       <EffectiveAprStat pool={pool} apr={apr} />
     </>
   )
@@ -248,15 +249,12 @@ const AprStats = (props) => {
 
 const DailyRewardsDistributionStat = (props) => {
   const { t } = useTranslation()
-  const { pool } = props
+  const { tokenFaucet } = props
 
-  // TODO: Multi-faucet
-  const tokenFaucet = pool?.tokenFaucets?.[0]
   const dripToken = tokenFaucet?.dripToken
 
   const dripRatePerDay = tokenFaucet?.dripRatePerDay || ethers.constants.Zero
 
-  // TODO: Hardcoded to POOL but we might let people drip other tokens
   return (
     <Stat
       title={t('dailyPoolDistribution')}
@@ -272,7 +270,7 @@ const EffectiveAprStat = (props) => {
 
   const { t } = useTranslation()
 
-  const poolIncentivizesSponsorship = pool.incentivizesSponsorship
+  const poolIncentivizesSponsorship = Boolean(findSponsorshipFaucet(pool))
 
   return (
     <Stat
