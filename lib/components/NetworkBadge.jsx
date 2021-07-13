@@ -7,20 +7,18 @@ import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 
 export const NetworkBadge = (props) => {
   const { chainId, vertical } = props
-  let { className, sizeClasses, textClasses } = props
-
-  const defaultClasses = `mx-auto`
-  textClasses = textClasses ?? 'text-xxs'
-  sizeClasses = sizeClasses ?? 'w-4 h-4'
-  className = className ?? defaultClasses
+  let { style, className, sizeClassName, textClassName } = props
 
   return (
-    <div className={classnames(className, `flex items-center ${vertical ? 'mt-2 flex-col' : ''}`)}>
-      <NetworkIcon noMargin sizeClasses={sizeClasses} chainId={chainId} />
+    <div
+      className={classnames(className, `flex items-center ${vertical ? 'mt-2 flex-col' : ''}`)}
+      style={style}
+    >
+      <NetworkIcon noMargin sizeClassName={sizeClassName} chainId={chainId} />
 
       <span
         className={classnames(
-          `capitalize ${textClasses} ${vertical ? 'my-1' : 'ml-1'}`,
+          `capitalize ${textClassName} ${vertical ? 'my-1' : 'ml-2'}`,
           `text-${networkTextColorClassname(chainId)}`
         )}
       >
@@ -28,4 +26,10 @@ export const NetworkBadge = (props) => {
       </span>
     </div>
   )
+}
+
+NetworkBadge.defaultProps = {
+  className: 'mx-auto',
+  textClassName: 'text-xxxs',
+  sizeClassName: 'w-3 h-3'
 }

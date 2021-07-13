@@ -33,7 +33,7 @@ export function NetworkText(props) {
     >
       <NetworkIcon
         noMargin={screenSize === ScreenSize.xs}
-        sizeClasses='h-6 w-6 xs:h-4 xs:w-4'
+        sizeClassName='h-6 w-6 xs:h-4 xs:w-4'
         chainId={walletChainId}
       />
       <span className='capitalize hidden xs:block'>{networkName}</span>

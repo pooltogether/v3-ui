@@ -1,6 +1,7 @@
 import React from 'react'
 import Cookies from 'js-cookie'
 import classnames from 'classnames'
+import Link from 'next/link'
 import { useAtom } from 'jotai'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
@@ -27,11 +28,10 @@ export const AccountTicket = (props) => {
 
   const shouldReduceMotion = useReducedMotion()
 
-  const { isLink, playerPoolTicketData, cornerBgClassName } = props
+  const { isLink, depositData, pool, cornerBgClassName } = props
   let { href, as } = props
 
-  const { ticket, pool } = playerPoolTicketData
-  const { amount, amountUnformatted } = ticket
+  const { amount, amountUnformatted } = depositData
   const decimals = pool.tokens.underlyingToken.decimals
 
   if (!href && !as) {
@@ -95,7 +95,7 @@ export const AccountTicket = (props) => {
         }}
       >
         <div className='h-28 flex w-full items-center justify-between'>
-          <div className='h-28 w-40 lg:w-48 notched-box rounded-l-lg bg-accent-grey-4 flex flex-col items-center justify-center'>
+          <div className='notched-box h-28 w-40 lg:w-48 rounded-l-lg bg-accent-grey-4 flex flex-col items-center justify-center'>
             <div
               className={classnames(`notched-corner notched-top-right`, cornerBgClassName)}
             ></div>
@@ -120,7 +120,7 @@ export const AccountTicket = (props) => {
             className='h-24 bg-accent-grey-4 border-body border-dotted border-r-4'
             style={{ width: 1 }}
           />
-          <div className='h-28 notched-box rounded-r-lg bg-accent-grey-4 flex flex-col justify-center sm:flex-row w-full'>
+          <div className='notched-box h-28 rounded-r-lg bg-accent-grey-4 flex flex-col justify-center sm:flex-row w-full'>
             <div className={classnames(`notched-corner notched-top-left`, cornerBgClassName)}></div>
             <div
               className={classnames(`notched-corner notched-bottom-left`, cornerBgClassName)}
@@ -149,7 +149,7 @@ export const AccountTicket = (props) => {
                 )}
               </div>
             </div>
-            <div className='sm:h-28 w-10/12 sm:w-7/12 mx-auto flex flex-col sm:items-end sm:justify-between sm:py-4 sm:pl-2 sm:pr-12'>
+            <div className='sm:justify-between sm:h-28 w-10/12 sm:w-7/12 mx-auto flex flex-col sm:items-end sm:py-4 sm:pl-2 sm:pr-12'>
               <div className='flex items-baseline text-xs sm:text-xl font-bold text-accent-1'>
                 <img
                   src={PoolTogetherTrophyDetailed}
@@ -170,7 +170,6 @@ export const AccountTicket = (props) => {
                     />
                   </>
                 )}
-
                 <span className='text-xxxxs sm:text-xxs font-regular'>
                   <NewPrizeCountdownInWords onTicket extraShort pool={pool} />
                 </span>
@@ -181,8 +180,8 @@ export const AccountTicket = (props) => {
                   <>
                     <NetworkBadge
                       className='sm:mx-auto'
-                      sizeClasses='w-3 h-3'
-                      textClasses='text-xxxs sm:text-xxs'
+                      sizeClassName='w-3 h-3'
+                      textClassName='text-xxxs sm:text-xxs'
                       chainId={pool.chainId}
                     />
                     <button

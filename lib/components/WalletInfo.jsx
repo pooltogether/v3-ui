@@ -50,7 +50,7 @@ export function WalletInfo(props) {
               </div>
               <div className='flex justify-between items-center sm:text-xs lg:text-sm text-default mt-1 mb-2 sm:mb-4'>
                 <div className='flex items-center'>
-                  <NetworkIcon sizeClasses='h-5 w-5' chainId={chainId} />
+                  <NetworkIcon sizeClassName='h-5 w-5' chainId={chainId} />
                   <span className={`capitalize mx-1 text-${networkTextColorClassname(chainId)}`}>
                     {networkName}
                   </span>

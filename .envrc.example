@@ -1,6 +1,7 @@
 # When the application is loaded on a non-web3 browser this is the network that the browser will use.
 # Note: this is passed directly to ethers.js so you'll want to make sure ethers understand the name.
 export NEXT_JS_ENV=staging
+export NEXT_JS_API_URI=https://pooltogether-api.com
 
 export NEXT_JS_FORTMATIC_API_KEY=<YOUR_FORTMATIC_API_KEY>
 export NEXT_JS_FORTMATIC_PRODUCTION_API_KEY=<YOUR_FORTMATIC_PRODUCTION_API_KEY>

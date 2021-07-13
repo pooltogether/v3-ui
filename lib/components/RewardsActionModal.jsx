@@ -35,7 +35,6 @@ export const RewardsActionModal = (props) => {
     method,
     getParams,
     refetch,
-    chainId,
     allowance,
     overMaxErrorMsg,
     underlyingToken,
@@ -44,6 +43,7 @@ export const RewardsActionModal = (props) => {
     isPrize
   } = props
 
+  const chainId = pool.chainId || pool.prizePool.chainId
   const prizePoolAddress = pool.prizePool.address
 
   const { register, handleSubmit, setValue, errors, formState } = useForm({
@@ -314,7 +314,6 @@ const ApproveButton = (props) => {
 
   return (
     <Button
-      inverse
       textSize='sm'
       onClick={handleApproveClick}
       className={classnames('sm:mt-4', {

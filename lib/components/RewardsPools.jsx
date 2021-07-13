@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
+import { motion } from 'framer-motion'
 import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'
 import { APP_ENVIRONMENT, useAppEnv, useOnboard, useUsersAddress } from '@pooltogether/hooks'
@@ -19,7 +20,9 @@ import {
 import { RewardsActionModal } from 'lib/components/RewardsActionModal'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { ContentOrSpinner } from 'lib/components/ContentOrSpinner'
-import { Erc20Image } from 'lib/components/Erc20Image'
+import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+
+import { findSponsorshipFaucet } from 'lib/hooks/useTokenFaucetApr'
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
 import { useGovernancePools } from 'lib/hooks/usePools'
@@ -38,8 +41,6 @@ const bn = ethers.BigNumber.from
 export const RewardsGovernance = () => {
   const { t } = useTranslation()
 
-  const { network: walletChainId } = useOnboard()
-
   const { appEnv } = useAppEnv()
   const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
 
@@ -47,8 +48,95 @@ export const RewardsGovernance = () => {
   const symbol = chainId === 1 ? 'PT-stPOOL' : 'PT-cBAT'
   const pool = pools?.find((pool) => pool.symbol === symbol)
 
+  const tableDescriptionCard = (
+    <div className='bg-card rounded-lg border border-secondary px-4 sm:px-8 py-4 mt-4'>
+      <div className='flex items-baseline sm:items-center flex-col sm:flex-row'>
+        <div className='pool-gradient-1 px-2 mr-2 mb-2 sm:mb-0 rounded-lg inline-block capitalize text-xxxs font-semibold text-white'>
+          {t('tips')}
+        </div>
+        <h6 className='inline-block'>{t('voteGasFreeWhileEarningRewards')}</h6>
+      </div>
+
+      <ol className='list-decimal block mt-2 pl-4 sm:px-8 text-xs text-accent-1'>
+        <li>{t('depositPoolTokenToThePoolPoolToGetPtPoolToken')}</li>
+        <li>
+          <Trans
+            i18nKey='earnRewardsImmediately'
+            defaults='Earn rewards immediately while eligible for gas-free votes on <linkSnapshot>SnapShot</linkSnapshot>'
+            components={{
+              linkSnapshot: (
+                <ExternalLink
+                  underline
+                  className='text-xs'
+                  theme={LinkTheme.light}
+                  href='https://snapshot.org/#/poolpool.pooltogether.eth'
+                />
+              )
+            }}
+          />
+        </li>
+      </ol>
+    </div>
+  )
+
+  return (
+    <RewardsPools
+      tableId='gov'
+      tableHeader={t('governanceRewards')}
+      tableDescriptionCard={tableDescriptionCard}
+      tableSummary={t(
+        'governanceRewardsSummary',
+        'Deposit your POOL tokens to earn POOL rewards and vote on proposals without paying transaction fees.'
+      )}
+      pools={[pool]}
+    />
+  )
+}
+
+export const RewardsSponsorship = () => {
+  const { t } = useTranslation()
+
+  const { data: pools } = useGovernancePools()
+
+  let sponsorshipIncentivizedPools = []
+  pools?.forEach((pool) => {
+    if (Boolean(findSponsorshipFaucet(pool))) {
+      sponsorshipIncentivizedPools.push(pool)
+    }
+  })
+
+  const tableDescriptionCard = (
+    <div className='bg-card rounded-lg border border-secondary px-4 sm:px-8 py-4 mt-4'>
+      <div className='flex items-baseline sm:items-center flex-col sm:flex-row'>
+        <div className='pool-gradient-1 px-2 mr-2 mb-2 sm:mb-0 rounded-lg inline-block capitalize text-xxxs font-semibold text-white'>
+          {t('tips')}
+        </div>
+        <h6 className='inline-block'>{t('whatArePoolSponsors')}</h6>
+      </div>
+
+      <p className='list-decimal block mt-2 text-xs text-accent-1'>{t('poolSponsorshipIs')}</p>
+    </div>
+  )
+
+  return (
+    <RewardsPools
+      isSponsorship
+      tableId='sponsorship'
+      tableHeader={t('sponsorshipRewards')}
+      tableDescriptionCard={tableDescriptionCard}
+      tableSummary={t('sponsorshipRewardsSummary')}
+      pools={sponsorshipIncentivizedPools}
+    />
+  )
+}
+
+const RewardsPools = (props) => {
+  const { t } = useTranslation()
+
+  const { isSponsorship, pools, tableId, tableHeader, tableSummary, tableDescriptionCard } = props
+
   const usersAddress = useUsersAddress()
-  const { data: playerTickets, isFetched: playersTicketDataIsFetched } =
+  const { data: playersDepositData, isFetched: playersDepositDataIsFetched } =
     useUserTicketsFormattedByPool(usersAddress)
 
   const { refetch: refetchTotalClaimablePool } = useClaimableTokenFromTokenFaucets(
@@ -61,78 +149,94 @@ export const RewardsGovernance = () => {
     refetchTotalClaimablePool()
     refetchPoolTokenData()
   }
-  const walletOnWrongNetwork = walletChainId !== pool?.chainId
 
   return (
     <>
-      <div
-        id='rewards-governance-claims'
-        className='text-accent-2 mt-16 mb-4 opacity-90 font-headline uppercase xs:text-sm mt-20'
+      <HashHighlightable
+        id={tableId}
+        className='text-accent-2 mt-16 mb-1 opacity-90 font-headline uppercase xs:text-sm'
       >
-        {t('governanceRewards')}
-      </div>
+        {tableHeader}
+      </HashHighlightable>
 
-      <div className='bg-card rounded-lg border border-secondary px-4 sm:px-8 py-4 mt-4'>
-        <div className='flex items-baseline sm:items-center flex-col sm:flex-row'>
-          <div className='pool-gradient-1 px-2 mr-2 mb-2 sm:mb-0 rounded-lg inline-block capitalize text-xxs text-white'>
-            {t('tips')}
-          </div>
-          <h6 className='inline-block'>{t('voteGasFreeWhileEarningRewards')}</h6>
-        </div>
+      <p className='text-accent-1 text-xs mb-6'>{tableSummary}</p>
 
-        <ol className='list-decimal block mt-2 pl-4 sm:px-8 text-xs text-accent-1'>
-          <li>{t('depositPoolTokenToThePoolPoolToGetPtPoolToken')}</li>
-          <li>
-            <Trans
-              i18nKey='earnRewardsImmediately'
-              defaults='Earn rewards immediately while eligible for gas-free votes on <linkSnapshot>SnapShot</linkSnapshot>'
-              components={{
-                linkSnapshot: (
-                  <ExternalLink
-                    underline
-                    className='text-xs'
-                    theme={LinkTheme.light}
-                    href='https://snapshot.org/#/poolpool.pooltogether.eth'
-                  />
-                )
-              }}
-            />
-          </li>
-        </ol>
-      </div>
+      {tableDescriptionCard}
 
-      <RewardsTable columnOneWidthClass='sm:w-32 lg:w-64'>
-        <GovRewardsRow
-          walletOnWrongNetwork={walletOnWrongNetwork}
-          playersTicketDataIsFetched={playersTicketDataIsFetched}
-          playerTickets={playerTickets}
-          usersAddress={usersAddress}
-          refetch={refetchAllPoolTokenData}
-          key={`gov-rewards-card-${pool?.prizePool.address}`}
-          pool={pool}
-        />
-
-        {/* eventually ... */}
-        {/* {faucets.map((faucet) => (
-          <GovRewardsRow
-            playerTickets={playerTickets}
+      <RewardsTable
+        depositColumnHeader={t(isSponsorship ? 'yourSponsorship' : 'yourStake')}
+        columnOneWidthClass='w-32 lg:w-64'
+      >
+        {pools.map((pool) => (
+          <RewardsPoolRow
+            {...props}
+            key={`gov-rewards-card-${pool?.prizePool.address}`}
+            playersDepositDataIsFetched={playersDepositDataIsFetched}
+            playersDepositData={playersDepositData}
             usersAddress={usersAddress}
             refetch={refetchAllPoolTokenData}
-            key={`gov-rewards-card-${faucet.pool?.prizePool.address}`}
-            pool={faucet.pool}
+            pool={pool}
           />
-        ))} */}
+        ))}
       </RewardsTable>
     </>
   )
 }
 
-const GovRewardsRow = (props) => {
+const HashHighlightable = (props) => {
+  const { children, className, id } = props
+  const [highlight, setHighlight] = useState()
+
+  useEffect(() => {
+    const hashId = window.location.hash
+
+    if (typeof window !== 'undefined') {
+      setTimeout(() => {
+        if (hashId === `#${id}`) {
+          setHighlight(true)
+        }
+      }, 1000)
+
+      setTimeout(() => {
+        setHighlight(false)
+      }, 5000)
+    }
+  }, [])
+
+  return (
+    <div className={classnames(className, 'relative')}>
+      <motion.div
+        id={id}
+        className={'absolute h-full w-full t-0 l-0 r-0 b-0 rounded-lg'}
+        animate={highlight ? 'enter' : 'exit'}
+        transition={{ repeat: 3, duration: 0.3, repeatType: 'reverse', ease: 'backInOut' }}
+        variants={{
+          enter: {
+            backgroundColor: 'rgba(255, 130, 255, 0.3)',
+            scaleX: 1.02,
+            scaleY: 1.05
+          },
+          exit: {
+            backgroundColor: 'rgba(255, 130, 255, 0)',
+            scaleX: 1,
+            scaleY: 1
+          }
+        }}
+      />
+      {children}
+    </div>
+  )
+}
+
+const RewardsPoolRow = (props) => {
   const { t } = useTranslation()
 
-  const { pool, usersAddress, playerTickets, refetch } = props
+  const { isSponsorship, pool, usersAddress, playersDepositData, refetch } = props
 
   const underlyingToken = pool?.tokens?.underlyingToken
+
+  const { network: walletChainId } = useOnboard()
+  const walletOnWrongNetwork = walletChainId !== pool?.chainId
 
   const {
     data: usersChainData,
@@ -151,8 +255,9 @@ const GovRewardsRow = (props) => {
     usersChainDataRefetch()
   }
 
-  const poolTicketData = playerTickets?.find((t) => t.poolAddress === pool?.prizePool.address)
+  const poolTicketData = playersDepositData?.find((t) => t.poolAddress === pool?.prizePool.address)
   const playersTicketData = poolTicketData?.ticket
+  const playersSponsorshipData = poolTicketData?.sponsorship
 
   const error = false
 
@@ -162,13 +267,14 @@ const GovRewardsRow = (props) => {
     console.error(error)
     remainingColumnsContents = <p className='text-xxs'>{t('errorFetchingDataPleaseTryAgain')}</p>
   } else {
-    stakingAprJsx = <GovRewardsAPR pool={pool} />
+    stakingAprJsx = <RewardsPoolAPR {...props} pool={pool} />
 
     remainingColumnsContents = (
-      <GovPoolRewardsMainContent
+      <RewardsPoolMainContent
         {...props}
+        walletOnWrongNetwork={walletOnWrongNetwork}
         refetch={refetchWithAllowance}
-        playersTicketData={playersTicketData}
+        playersPoolDepositData={isSponsorship ? playersSponsorshipData : playersTicketData}
         usersTokenDataForPool={usersTokenDataForPool}
         usersChainDataIsFetched={usersChainDataIsFetched}
         underlyingToken={underlyingToken}
@@ -178,23 +284,12 @@ const GovRewardsRow = (props) => {
 
   return (
     <RewardsTableRow
-      columnOneWidthClass='sm:w-3 lg:w-64'
-      columnOneImage={<ColumnOneImage />}
+      chainId={pool?.chainId}
+      columnOneWidthClass='w-32 lg:w-64'
+      columnOneImage={<UnderlyingTokenImage {...props} className='mr-0 sm:mr-3' />}
       columnOneContents={<ColumnOneContents {...props} />}
       columnTwoContents={stakingAprJsx}
       remainingColumnsContents={remainingColumnsContents}
-    />
-  )
-}
-
-const ColumnOneImage = (props) => {
-  const token = { symbol: 'POOL', address: '0x0cec1a9154ff802e7934fc916ed7ca50bde6844e' }
-
-  return (
-    <Erc20Image
-      address={token.address}
-      marginClasses='mr-0 sm:mr-3'
-      className='relative inline-block w-8 h-8'
     />
   )
 }
@@ -207,17 +302,20 @@ const ColumnOneContents = (props) => {
   if (symbol === 'PT-stPOOL') {
     // override for POOL pool as our symbol shows staking pool, but the token ticker was requested instead
     symbol = 'pPOOL'
+  } else if (symbol === 'USDT-0x887E17') {
+    // override for USDT Polygon pool
+    symbol = 'Polygon Tether'
   }
 
   return (
     <div className='flex flex-col justify-center leading-none'>
       <div className='text-sm font-bold mt-3 sm:mt-0'>{pool?.name}</div>
-      <div className='text-xs mt-1'>{symbol}</div>
+      <div className='text-xs mt-1 opacity-80 text-accent-1'>{symbol}</div>
     </div>
   )
 }
 
-const GovPoolRewardsMainContent = (props) => {
+const RewardsPoolMainContent = (props) => {
   return (
     <>
       <ClaimTokens {...props} />
@@ -231,7 +329,10 @@ const ClaimTokens = (props) => {
 
   const { usersAddress, pool, refetch, underlyingToken } = props
 
-  const tokenFaucetAddress = pool?.tokenListener.address
+  // TODO: Multi-faucet
+  const tokenFaucet = pool?.tokenFaucets?.[0]
+  const tokenFaucetAddress = tokenFaucet?.address
+
   const { data: claimablePoolData, isFetched } = useClaimableTokenFromTokenFaucet(
     pool?.chainId,
     tokenFaucetAddress,
@@ -253,14 +354,14 @@ const ClaimTokens = (props) => {
             <PoolNumber>{numberWithCommas(claimable)}</PoolNumber>
           </ContentOrSpinner>
         }
-        centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
+        centerContentJsx={<DripTokenDisplay {...props} pool={pool} />}
         bottomContentJsx={
           <ClaimButton
             {...props}
             refetch={refetch}
             chainId={pool?.chainId}
             name={name}
-            dripToken={pool?.tokens.tokenFaucetDripToken.symbol}
+            dripTokenSymbol={tokenFaucet?.dripToken.symbol}
             tokenFaucetAddress={tokenFaucetAddress}
             isClaimable={isClaimable}
           />
@@ -273,7 +374,7 @@ const ClaimTokens = (props) => {
 const ClaimButton = (props) => {
   const {
     usersAddress,
-    dripToken,
+    dripTokenSymbol,
     name,
     refetch,
     isClaimable,
@@ -300,7 +401,7 @@ const ClaimButton = (props) => {
     const params = [usersAddress]
 
     const id = await sendTx(
-      t('claimTickerFromPool', { ticker: dripToken, poolName: name }),
+      t('claimTickerFromPool', { ticker: dripTokenSymbol, poolName: name }),
       TokenFaucetAbi,
       tokenFaucetAddress,
       'claim',
@@ -329,9 +430,9 @@ const ClaimButton = (props) => {
     >
       <button
         disabled={!isClaimable || walletOnWrongNetwork}
-        className={classnames('underline trans trans-fast', {
+        className={classnames('trans trans-fast', {
           'text-flashy': txPending && !txCompleted,
-          'text-accent-1 hover:text-green': !txPending || txCompleted
+          'underline text-accent-1 hover:text-green': !txPending || txCompleted
         })}
         onClick={handleClaim}
         style={{
@@ -350,14 +451,64 @@ const ClaimButton = (props) => {
 }
 
 const UnderlyingTokenDisplay = (props) => {
-  const { pool, underlyingToken } = props
+  const { pool } = props
+
+  if (!pool) {
+    return null
+  }
 
   return (
     <>
-      {pool && (
-        <Erc20Image address={pool.tokens.tokenFaucetDripToken.address} sizeClasses='w-4 h-4' />
-      )}
-      <span className='text-xxs uppercase'>{underlyingToken?.symbol}</span>
+      <UnderlyingTokenImage {...props} />
+      <span className='text-xxs uppercase'>{pool.tokens.underlyingToken.symbol}</span>
+    </>
+  )
+}
+
+const UnderlyingTokenImage = (props) => {
+  const { className, pool } = props
+  const sizeClasses = props.sizeClasses ?? 'w-8 h-8'
+
+  if (!pool) {
+    return null
+  }
+
+  const token = pool.tokens.underlyingToken
+
+  return (
+    <PoolCurrencyIcon
+      symbol={token.symbol}
+      address={token.address}
+      className={classnames(className, sizeClasses, 'relative inline-block')}
+    />
+  )
+}
+
+const DripTokenDisplay = (props) => {
+  const { pool } = props
+  const sizeClasses = props.sizeClasses ?? 'w-4 h-4'
+
+  if (!pool) {
+    return null
+  }
+
+  // TODO: Multi-faucet
+  const faucetToken = pool.tokenFaucets?.[0]
+
+  if (!faucetToken?.dripToken) {
+    return null
+  }
+
+  const dripToken = faucetToken.dripToken
+
+  return (
+    <>
+      <PoolCurrencyIcon
+        symbol={dripToken.symbol}
+        address={dripToken.address}
+        className={sizeClasses}
+      />
+      <span className='text-xxs uppercase'>{dripToken.symbol}</span>
     </>
   )
 }
@@ -366,38 +517,42 @@ const ManageStakedAmount = (props) => {
   const { t } = useTranslation()
   const {
     pool,
-    playersTicketData,
-    playersTicketDataIsFetched,
+    isSponsorship,
+    playersPoolDepositData,
+    playersDepositDataIsFetched,
     usersTokenDataForPool,
     usersChainDataIsFetched,
     usersAddress
   } = props
 
-  const playersTicketBalance = playersTicketData?.amount || '0.00'
+  const playersDepositBalance = playersPoolDepositData?.amount || '0.00'
   const playersTokenBalance = usersTokenDataForPool.usersTokenBalance || '0.00'
   const allowance = usersTokenDataForPool?.usersTokenAllowance
 
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false)
-  // const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
+  const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false)
 
   useEffect(() => {
     setDepositModalIsOpen(false)
+    setWithdrawModalIsOpen(false)
   }, [usersAddress])
 
   return (
     <>
       <RewardsTableCell
-        label={t('yourStake')}
+        label={t(isSponsorship ? 'yourSponsorship' : 'yourStake')}
         topContentJsx={
-          <ContentOrSpinner isLoading={usersAddress && !playersTicketDataIsFetched}>
-            <PoolNumber>{numberWithCommas(playersTicketBalance)}</PoolNumber>
+          <ContentOrSpinner isLoading={usersAddress && !playersDepositDataIsFetched}>
+            <PoolNumber>{numberWithCommas(playersDepositBalance)}</PoolNumber>
           </ContentOrSpinner>
         }
-        centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
-        bottomContentJsx={<WithdrawTriggers {...props} />}
+        centerContentJsx={<UnderlyingTokenDisplay {...props} sizeClasses='w-4 h-4' />}
+        bottomContentJsx={
+          <WithdrawTriggers {...props} openWithdrawModal={() => setWithdrawModalIsOpen(true)} />
+        }
       />
 
-      <div className='hidden sm:flex flex-col items-center sm:w-10 lg:w-20'>
+      <div className='hidden sm:flex flex-col items-center sm:w-2 w-4'>
         <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
           &nbsp;
         </div>
@@ -411,7 +566,7 @@ const ManageStakedAmount = (props) => {
             <PoolNumber>{numberWithCommas(playersTokenBalance)}</PoolNumber>
           </ContentOrSpinner>
         }
-        centerContentJsx={<UnderlyingTokenDisplay {...props} pool={pool} />}
+        centerContentJsx={<UnderlyingTokenDisplay {...props} sizeClasses='w-4 h-4' />}
         bottomContentJsx={
           <DepositTriggers {...props} openDepositModal={() => setDepositModalIsOpen(true)} />
         }
@@ -424,6 +579,13 @@ const ManageStakedAmount = (props) => {
         closeModal={() => setDepositModalIsOpen(false)}
         playersTokenBalance={playersTokenBalance}
         allowance={allowance}
+      />
+      <WithdrawModal
+        {...props}
+        isOpen={withdrawModalIsOpen}
+        closeModal={() => setWithdrawModalIsOpen(false)}
+        // refetch={refetch}
+        // playersTokenBalance={playersTokenBalance}
       />
     </>
   )
@@ -479,12 +641,11 @@ const DepositTriggers = (props) => {
 const WithdrawTriggers = (props) => {
   const { t } = useTranslation()
 
-  const { pool, walletOnWrongNetwork, playersTicketData } = props
+  const { isSponsorship, openWithdrawModal, pool, walletOnWrongNetwork, playersPoolDepositData } =
+    props
   const router = useRouter()
 
-  const handleManageClick = (e) => {
-    e.preventDefault()
-
+  const pushRouteToTicketManage = () => {
     Cookies.set(WIZARD_REFERRER_HREF, '/rewards', COOKIE_OPTIONS)
     Cookies.set(WIZARD_REFERRER_AS_PATH, `/rewards`, COOKIE_OPTIONS)
 
@@ -497,7 +658,12 @@ const WithdrawTriggers = (props) => {
     )
   }
 
-  const noBalance = !playersTicketData || playersTicketData?.amountUnformatted.isZero()
+  const handleManageClick = (e) => {
+    e.preventDefault()
+    isSponsorship ? openWithdrawModal() : pushRouteToTicketManage()
+  }
+
+  const noBalance = !playersPoolDepositData || playersPoolDepositData?.amountUnformatted.isZero()
 
   return (
     <Tooltip
@@ -518,9 +684,66 @@ const WithdrawTriggers = (props) => {
   )
 }
 
+// Withdraw in modal currently only supported for Sponsorship deposits
+// Ticket deposits flow through the same 'Withdraw' as Account -> Manage ticket, as they have
+// exit fees to consider
+const WithdrawModal = (props) => {
+  const { t } = useTranslation()
+
+  const { isSponsorship, pool, usersAddress, playersPoolDepositData } = props
+
+  if (!pool) {
+    return null
+  }
+
+  const { tokens } = pool
+  const { sponsorship, ticket, underlyingToken } = tokens
+
+  const maxAmount = playersPoolDepositData?.amount || 0
+  const maxAmountUnformatted = playersPoolDepositData?.amountUnformatted || bn(0)
+
+  const decimals = ticket.decimals
+  const tickerUpcased = ticket.symbol?.toUpperCase()
+
+  const tokenAddress = isSponsorship ? sponsorship.address : ticket.address
+  return (
+    <RewardsActionModal
+      {...props}
+      tickerUpcased={tickerUpcased}
+      underlyingToken={underlyingToken}
+      action={t('withdraw')}
+      maxAmount={maxAmount}
+      maxAmountUnformatted={maxAmountUnformatted}
+      pool={pool}
+      method='withdrawInstantlyFrom'
+      overMaxErrorMsg={t('pleaseEnterAmountLowerThanTicketBalance')}
+      tokenImage={
+        <PoolCurrencyIcon
+          symbol={underlyingToken.symbol}
+          address={underlyingToken.address}
+          className='relative inline-block w-8 h-8 mb-2'
+        />
+      }
+      getParams={(quantity) => [
+        usersAddress,
+        ethers.utils.parseUnits(quantity, decimals),
+        tokenAddress,
+        ethers.constants.Zero
+      ]}
+    />
+  )
+}
+
 const DepositModal = (props) => {
   const { t } = useTranslation()
-  const { pool, playersTokenBalance, usersTokenDataForPool, usersAddress, underlyingToken } = props
+  const {
+    isSponsorship,
+    pool,
+    playersTokenBalance,
+    usersTokenDataForPool,
+    usersAddress,
+    underlyingToken
+  } = props
 
   if (!pool || !underlyingToken) {
     return null
@@ -532,6 +755,8 @@ const DepositModal = (props) => {
   const decimals = underlyingToken?.decimals
 
   const ticket = pool?.tokens?.ticket
+  const sponsorship = pool?.tokens?.sponsorship
+  const tokenAddress = isSponsorship ? sponsorship.address : ticket.address
 
   return (
     <RewardsActionModal
@@ -546,26 +771,28 @@ const DepositModal = (props) => {
       method='depositTo'
       overMaxErrorMsg={t('enterAmountLowerThanTokenBalance')}
       tokenImage={
-        <Erc20Image
+        <PoolCurrencyIcon
+          symbol={underlyingToken.symbol}
           address={underlyingToken.address}
-          marginClasses='mb-2'
-          className='relative inline-block w-8 h-8'
+          className='relative inline-block w-8 h-8 mb-2'
         />
       }
       getParams={(quantity) => [
         usersAddress,
         ethers.utils.parseUnits(quantity, decimals),
-        ticket.address,
+        tokenAddress,
         ethers.constants.AddressZero
       ]}
     />
   )
 }
 
-const GovRewardsAPR = (props) => {
+const RewardsPoolAPR = (props) => {
   const { pool } = props
 
-  let apr = pool?.tokenListener?.apr
+  // TODO: Multi-faucet
+  const tokenFaucet = pool?.tokenFaucets?.[0]
+  let apr = tokenFaucet?.apr
 
   if (!pool || !apr) {
     return (
@@ -577,5 +804,5 @@ const GovRewardsAPR = (props) => {
 
   apr = displayPercentage(apr)
 
-  return <RewardsTableAprDisplay isPrize apr={apr} />
+  return <RewardsTableAprDisplay {...props} isPrize apr={apr} />
 }

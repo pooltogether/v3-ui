@@ -58,11 +58,12 @@ export const RewardsLPStaking = () => {
   return (
     <>
       <div
-        id='rewards-staking-pools'
-        className='text-accent-2 my-4 opacity-90 font-headline uppercase xs:text-sm'
+        id='lp'
+        className='text-accent-2 mt-4 mb-1 opacity-90 font-headline uppercase xs:text-sm'
       >
         {t('lpStakingRewards')}
       </div>
+      <p className='text-accent-1 text-xs mb-6'>{t('lpStakingRewardsDescription')}</p>
       <div className='bg-card rounded-lg border border-secondary px-4 sm:px-8 py-4'>
         <div className='flex items-baseline sm:items-center flex-col sm:flex-row'>
           <div className='pool-gradient-1 px-2 mr-2 mb-2 sm:mb-0 rounded-lg inline-block capitalize text-xxs text-white'>
@@ -101,7 +102,7 @@ export const RewardsLPStaking = () => {
         </ol>
       </div>
 
-      <RewardsTable>
+      <RewardsTable depositColumnHeader={t('yourStake')}>
         {stakingPools.map((stakingPool) => (
           <StakingPoolRow
             key={`staking-pool-card-${chainId}-${stakingPool.tokens.underlyingToken.address}`}
@@ -180,6 +181,7 @@ const StakingPoolRow = (props) => {
     <RewardsTableRow
       uniswap
       gradientBorder
+      chainId={stakingPool?.prizePool?.chainId}
       columnOneImage={<ColumnOneImage stakingPool={stakingPool} />}
       columnOneContents={<ColumnOneContents stakingPool={stakingPool} />}
       columnTwoContents={stakingAprJsx}
@@ -209,7 +211,7 @@ const ColumnOneContents = (props) => {
   return (
     <div className='flex flex-col justify-center leading-none'>
       <div className='text-sm font-bold mt-3 sm:mt-0'>{tokenPair}</div>
-      <div className='text-xs mt-1 mb-2'>{dex}</div>
+      <div className='text-xs mt-1 mb-2 opacity-80 text-accent-1'>{dex}</div>
       <a
         href={`${baseSwapUrl}${tokenFaucetDripToken.address}`}
         target='_blank'
@@ -290,7 +292,7 @@ const ClaimTokens = (props) => {
     claimableBalanceUnformatted = userData.claimableBalanceUnformatted
   }
 
-  const { tokens, tokenListener } = stakingPool
+  const { tokens, tokenFaucet } = stakingPool
   const { underlyingToken, tokenFaucetDripToken } = tokens
   const token1 = underlyingToken.token1
 
@@ -317,7 +319,7 @@ const ClaimTokens = (props) => {
             className='capitalize text-accent-1 hover:text-green'
             name={t('claimPool')}
             abi={TokenFaucetAbi}
-            contractAddress={tokenListener.address}
+            contractAddress={tokenFaucet.address}
             method={'claim'}
             params={[usersAddress]}
             refetch={refetch}
@@ -373,7 +375,7 @@ const ManageStakedAmount = (props) => {
         }
       />
 
-      <div className='hidden sm:flex flex-col items-center w-10 lg:w-20'>
+      <div className='hidden sm:flex flex-col items-center sm:w-2 lg:w-4'>
         <div className='border-default h-20 opacity-20' style={{ borderRightWidth: 1 }}>
           &nbsp;
         </div>

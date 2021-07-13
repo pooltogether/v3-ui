@@ -74,7 +74,7 @@ const PrizeValue = (props) => {
 }
 
 const PrizeValueHeader = (props) => (
-  <h1 className='text-5xl xs:text-4xl sm:text-5xl lg:text-6xl -mt-3 xs:mt-0 sm:-mt-3 flex'>
+  <h1 className='text-5xl xs:text-4xl sm:text-6xl lg:text-7xl -mt-3 xs:mt-0 sm:-mt-3 flex'>
     {props.children}
   </h1>
 )

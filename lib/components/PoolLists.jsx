@@ -136,6 +136,7 @@ const PoolList = (props) => {
       pools
         ?.sort((a, b) => Number(b.prize.totalValueUsd) - Number(a.prize.totalValueUsd))
         .filter((pool) => filterByChainId(pool, chainIdFilter))
+        .filter((pool) => pool.prizePool?.address !== '0xc2a7dfb76e93d12a1bb1fa151b9900158090395d')
         .map((pool) => <PoolRow key={`pool-row-${pool.prizePool.address}`} pool={pool} />) || [],
     [pools, chainIdFilter]
   )
@@ -173,7 +174,7 @@ const usePoolFilters = () => {
         value: chainId,
         view: (
           <>
-            <NetworkIcon sizeClasses='my-auto h-6 w-6' chainId={chainId} />
+            <NetworkIcon sizeClassName='my-auto h-6 w-6' chainId={chainId} />
             <span className='capitalize ml-2'>{getNetworkNiceNameByChainId(chainId)}</span>
           </>
         )

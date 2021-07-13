@@ -70,7 +70,7 @@ export function WrongNetworkModal(props) {
                 <span className='flex items-center capitalize font-bold'>
                   <NetworkIcon
                     className='inline-block mr-2'
-                    sizeClasses='w-4 h-4'
+                    sizeClassName='w-4 h-4'
                     chainId={chainId}
                   />{' '}
                   {getNetworkNiceNameByChainId(chainId)}

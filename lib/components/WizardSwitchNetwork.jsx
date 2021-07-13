@@ -81,7 +81,7 @@ export function WizardSwitchNetwork(props) {
         <ButtonDrawer>
           <Button onClick={() => addNetwork()} textSize='lg' className='w-full'>
             <span className='inline-flex items-center justify-center'>
-              <NetworkIcon className='mr-2' sizeClasses='w-6 h-6' chainId={poolChainId} />{' '}
+              <NetworkIcon className='mr-2' sizeClassName='w-6 h-6' chainId={poolChainId} />{' '}
               {t('switchToNetworkName', {
                 networkName: getNetworkNiceNameByChainId(poolChainId)
               })}
