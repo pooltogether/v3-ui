@@ -10,9 +10,8 @@ import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
-import { useTokenFaucetApr } from 'lib/hooks/useTokenFaucetApr'
+import { useTokenFaucetApr, findSponsorshipFaucet } from 'lib/hooks/useTokenFaucetApr'
 import { displayPercentage } from 'lib/utils/displayPercentage'
-import { findSponsorshipFaucet } from 'lib/hooks/useTokenFaucetApr'
 
 export function ManageTicketsForm(props) {
   const { nextStep } = props
