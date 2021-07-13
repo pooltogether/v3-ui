@@ -252,15 +252,14 @@ const DailyRewardsDistributionStat = (props) => {
   const { tokenFaucet } = props
 
   const dripToken = tokenFaucet?.dripToken
-
-  const dripRatePerDay = tokenFaucet?.dripRatePerDay || ethers.constants.Zero
+  const dripRatePerDay = tokenFaucet?.dripRatePerDay || 0
 
   return (
     <Stat
       title={t('dailyPoolDistribution')}
       tokenAddress={dripToken?.address}
       tokenSymbol={dripToken?.symbol}
-      tokenAmount={dripRatePerDay}
+      tokenAmount={Math.round(Number(dripRatePerDay))}
     />
   )
 }
