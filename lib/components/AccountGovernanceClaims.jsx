@@ -14,6 +14,11 @@ import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFauce
 import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucetProxyFactory'
 
 import { CUSTOM_CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
+import {
+  FIRST_SUSHI_FAUCET_ADDRESS,
+  FIRST_POLYGON_USDT_FAUCET_ADDRESS,
+  SECOND_POLYGON_USDT_FAUCET_ADDRESS
+} from 'lib/constants/tokenFaucets'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
@@ -288,12 +293,16 @@ const ClaimablePoolTokenFaucetRow = (props) => {
 
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
 
-  const isFirstSushiFaucet = tokenFaucet.address === '0xddcf915656471b7c44217fb8c51f9888701e759a'
-  const isFirstPolygonUsdtFaucet =
-    tokenFaucet.address === '0x90a8d8ee6fdb1875028c6537877e6704b2646c51'
+  const isFirstSushiFaucet = tokenFaucet.address === FIRST_SUSHI_FAUCET_ADDRESS
+  const isFirstPolygonUsdtFaucet = tokenFaucet.address === FIRST_POLYGON_USDT_FAUCET_ADDRESS
   let totalDripPerDay = dripRatePerSecond * SECONDS_PER_DAY
   if (isFirstSushiFaucet || isFirstPolygonUsdtFaucet) {
     totalDripPerDay = 0
+  }
+
+  const isSecondPolygonUsdtFaucet = tokenFaucet.address === SECOND_POLYGON_USDT_FAUCET_ADDRESS
+  if (isSecondPolygonUsdtFaucet) {
+    return null
   }
 
   const usersDripPerDay = totalDripPerDay * ownershipPercentage
