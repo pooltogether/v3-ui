@@ -167,17 +167,25 @@ const RewardsPools = (props) => {
         depositColumnHeader={t(isSponsorship ? 'yourSponsorship' : 'yourStake')}
         columnOneWidthClass='w-32 lg:w-64'
       >
-        {pools.map((pool) => (
-          <RewardsPoolRow
-            {...props}
-            key={`gov-rewards-card-${pool?.prizePool.address}`}
-            playersDepositDataIsFetched={playersDepositDataIsFetched}
-            playersDepositData={playersDepositData}
-            usersAddress={usersAddress}
-            refetch={refetchAllPoolTokenData}
-            pool={pool}
-          />
-        ))}
+        {pools.map((pool) => {
+          if (!pool) {
+            return
+          }
+          const tokenFaucet = isSponsorship ? findSponsorshipFaucet(pool) : pool.tokenFaucets?.[0]
+
+          return (
+            <RewardsPoolRow
+              {...props}
+              key={`gov-rewards-card-${pool?.prizePool.address}`}
+              playersDepositDataIsFetched={playersDepositDataIsFetched}
+              playersDepositData={playersDepositData}
+              refetch={refetchAllPoolTokenData}
+              usersAddress={usersAddress}
+              tokenFaucet={tokenFaucet}
+              pool={pool}
+            />
+          )
+        })}
       </RewardsTable>
     </>
   )
@@ -327,10 +335,8 @@ const RewardsPoolMainContent = (props) => {
 const ClaimTokens = (props) => {
   const { t } = useTranslation()
 
-  const { usersAddress, pool, refetch, underlyingToken } = props
+  const { usersAddress, pool, refetch, underlyingToken, tokenFaucet } = props
 
-  // TODO: Multi-faucet
-  const tokenFaucet = pool?.tokenFaucets?.[0]
   const tokenFaucetAddress = tokenFaucet?.address
 
   const { data: claimablePoolData, isFetched } = useClaimableTokenFromTokenFaucet(
@@ -485,21 +491,18 @@ const UnderlyingTokenImage = (props) => {
 }
 
 const DripTokenDisplay = (props) => {
-  const { pool } = props
+  const { pool, tokenFaucet } = props
   const sizeClasses = props.sizeClasses ?? 'w-4 h-4'
 
   if (!pool) {
     return null
   }
 
-  // TODO: Multi-faucet
-  const faucetToken = pool.tokenFaucets?.[0]
-
-  if (!faucetToken?.dripToken) {
+  if (!tokenFaucet?.dripToken) {
     return null
   }
 
-  const dripToken = faucetToken.dripToken
+  const dripToken = tokenFaucet.dripToken
 
   return (
     <>
@@ -788,10 +791,8 @@ const DepositModal = (props) => {
 }
 
 const RewardsPoolAPR = (props) => {
-  const { pool } = props
+  const { pool, tokenFaucet } = props
 
-  // TODO: Multi-faucet
-  const tokenFaucet = pool?.tokenFaucets?.[0]
   let apr = tokenFaucet?.apr
 
   if (!pool || !apr) {
