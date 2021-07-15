@@ -11,6 +11,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { Button } from '@pooltogether/react-components'
 
+import { SECOND_POLYGON_USDT_FAUCET_ADDRESS } from 'lib/constants/tokenFaucets'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
@@ -214,6 +215,11 @@ const AprChip = (props) => {
   const apr = useTokenFaucetApr(pool, tokenFaucet)
 
   if (!apr) {
+    return null
+  }
+
+  const isSecondPolygonUsdtFaucet = tokenFaucet.address === SECOND_POLYGON_USDT_FAUCET_ADDRESS
+  if (isSecondPolygonUsdtFaucet) {
     return null
   }
 
