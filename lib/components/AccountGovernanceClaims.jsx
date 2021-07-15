@@ -288,8 +288,11 @@ const ClaimablePoolTokenFaucetRow = (props) => {
 
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
 
+  const isFirstSushiFaucet = tokenFaucet.address === '0xddcf915656471b7c44217fb8c51f9888701e759a'
+  const isFirstPolygonUsdtFaucet =
+    tokenFaucet.address === '0x90a8d8ee6fdb1875028c6537877e6704b2646c51'
   let totalDripPerDay = dripRatePerSecond * SECONDS_PER_DAY
-  if (tokenFaucet.address === '0xddcf915656471b7c44217fb8c51f9888701e759a') {
+  if (isFirstSushiFaucet || isFirstPolygonUsdtFaucet) {
     totalDripPerDay = 0
   }
 

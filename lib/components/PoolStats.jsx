@@ -125,8 +125,6 @@ const SponsorshipStat = (props) => {
   const { pool } = props
   const { t } = useTranslation()
 
-  const poolIncentivizesSponsorship = pool.incentivizesSponsorship
-
   return (
     <>
       <Stat
@@ -135,12 +133,7 @@ const SponsorshipStat = (props) => {
         tokenAddress={pool.tokens.underlyingToken.address}
         tokenSymbol={pool.tokens.underlyingToken.symbol}
         tokenAmount={pool.tokens.sponsorship.totalSupply}
-        tooltip={
-          <>
-            {t('sponsorshipInfo')}{' '}
-            {poolIncentivizesSponsorship && <>. {t('rewardsAreForSponsorshipOnly')}</>}
-          </>
-        }
+        tooltip={t('sponsorshipInfo')}
       />
     </>
   )
@@ -242,7 +235,7 @@ const TokenFaucetAprRow = (props) => {
     <>
       <hr />
       <DailyRewardsDistributionStat tokenFaucet={tokenFaucet} pool={pool} />
-      <EffectiveAprStat pool={pool} apr={apr} />
+      <EffectiveAprStat tokenFaucet={tokenFaucet} pool={pool} apr={apr} />
     </>
   )
 }
@@ -265,18 +258,18 @@ const DailyRewardsDistributionStat = (props) => {
 }
 
 const EffectiveAprStat = (props) => {
-  const { apr, pool } = props
+  const { apr, pool, tokenFaucet } = props
 
   const { t } = useTranslation()
 
-  const poolIncentivizesSponsorship = Boolean(findSponsorshipFaucet(pool))
+  const faucetIncentivizesSponsorship = findSponsorshipFaucet(pool) === tokenFaucet
 
   return (
     <Stat
       title={t('effectiveApr')}
       content={
         <span>
-          {poolIncentivizesSponsorship && (
+          {faucetIncentivizesSponsorship && (
             <span className='opacity-30 mr-1'>{t('sponsorship')} </span>
           )}{' '}
           {displayPercentage(apr)}%
@@ -285,7 +278,7 @@ const EffectiveAprStat = (props) => {
       tooltip={
         <>
           {t('effectiveAprInfo')}
-          {poolIncentivizesSponsorship && <>. {t('rewardsAreForSponsorshipOnly')}</>}
+          {faucetIncentivizesSponsorship && <>. {t('rewardsAreForSponsorshipOnly')}</>}
         </>
       }
     />
