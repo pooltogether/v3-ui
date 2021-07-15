@@ -10,6 +10,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 const nextConfig = {
+  generateEtags: false,
   future: {
     webpack5: true,
     strictPostcssConfiguration: true
