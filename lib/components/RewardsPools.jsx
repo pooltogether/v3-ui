@@ -709,6 +709,7 @@ const WithdrawModal = (props) => {
   const tickerUpcased = ticket.symbol?.toUpperCase()
 
   const tokenAddress = isSponsorship ? sponsorship.address : ticket.address
+
   return (
     <RewardsActionModal
       {...props}
@@ -764,7 +765,7 @@ const DepositModal = (props) => {
   return (
     <RewardsActionModal
       {...props}
-      isPrize
+      isPrize={!isSponsorship}
       underlyingToken={underlyingToken}
       action={t('deposit')}
       decimals={decimals}
@@ -791,7 +792,7 @@ const DepositModal = (props) => {
 }
 
 const RewardsPoolAPR = (props) => {
-  const { pool, tokenFaucet } = props
+  const { pool, tokenFaucet, isSponsorship } = props
 
   let apr = tokenFaucet?.apr
 
@@ -805,5 +806,5 @@ const RewardsPoolAPR = (props) => {
 
   apr = displayPercentage(apr)
 
-  return <RewardsTableAprDisplay {...props} isPrize apr={apr} />
+  return <RewardsTableAprDisplay {...props} isPrize={!isSponsorship} apr={apr} />
 }
