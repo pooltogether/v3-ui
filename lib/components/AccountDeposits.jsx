@@ -60,17 +60,19 @@ export const AccountDeposits = () => {
           <AccountDepositsBlankState />
         ) : (
           <div className='flex flex-col'>
-            {playerDepositData?.map((playerPoolDepositData) => {
-              return (
-                <AccountTicket
-                  isLink
-                  cornerBgClassName='bg-body'
-                  key={`account-pool-row-${playerPoolDepositData?.poolAddress}`}
-                  depositData={playerPoolDepositData.ticket}
-                  pool={playerPoolDepositData.pool}
-                />
-              )
-            })}
+            {playerDepositData
+              ?.filter((deposit) => deposit.ticket.amount > 0)
+              .map((playerPoolDepositData) => {
+                return (
+                  <AccountTicket
+                    isLink
+                    cornerBgClassName='bg-body'
+                    key={`account-pool-row-${playerPoolDepositData?.poolAddress}`}
+                    depositData={playerPoolDepositData.ticket}
+                    pool={playerPoolDepositData.pool}
+                  />
+                )
+              })}
           </div>
         )}
 

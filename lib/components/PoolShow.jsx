@@ -165,12 +165,11 @@ export const PoolShow = (props) => {
         <PastWinnersCard pool={pool} />
 
         <PrizePlayersQuery pool={pool} blockNumber={-1}>
-          {({ data, isFetching, isFetched }) => {
+          {({ data, isFetched }) => {
             return (
               <PrizePlayerListing
                 baseAsPath={`/pools/${pool.networkName}/${pool.symbol}`}
                 baseHref='/pools/[networkName]/[symbol]'
-                isFetching={isFetching}
                 isFetched={isFetched}
                 balances={data}
                 pool={pool}

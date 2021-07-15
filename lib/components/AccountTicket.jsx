@@ -134,19 +134,15 @@ export const AccountTicket = (props) => {
                 <span className='relative inline-block leading-normal text-accent-1 mr-1 sm:mr-0'>
                   {t('winningOdds')}:
                 </span>{' '}
-                {Number(amount) < 1 ? (
-                  <span className='font-bold text-accent-3'>{t('notAvailableAbbreviation')}</span>
-                ) : (
-                  <Odds
-                    asSpan
-                    fontSansRegular
-                    className='font-bold text-flashy'
-                    usersBalance={amountUnformatted.toString()}
-                    ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
-                    decimals={decimals}
-                    numberOfWinners={pool.config.numberOfWinners}
-                  />
-                )}
+                <Odds
+                  asSpan
+                  fontSansRegular
+                  className='font-bold text-flashy'
+                  usersBalance={amountUnformatted.toString()}
+                  ticketSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
+                  decimals={decimals}
+                  numberOfWinners={pool.config.numberOfWinners}
+                />
               </div>
             </div>
             <div className='sm:justify-between sm:h-28 w-10/12 sm:w-7/12 mx-auto flex flex-col sm:items-end sm:py-4 sm:pl-2 sm:pr-12'>
