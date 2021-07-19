@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
 import { Tooltip } from '@pooltogether/react-components'
@@ -61,6 +62,7 @@ const Stat = (props) => {
     tokenSymbol,
     value,
     content,
+    percent,
     tooltip
   } = props
 
@@ -98,6 +100,8 @@ const Stat = (props) => {
           )}
         </div>
       )}
+
+      {percent && `${displayPercentage(percent)}%`}
 
       {content}
     </li>
@@ -167,6 +171,8 @@ const ReserveRateStat = (props) => {
     reserveRateUnformattedPercentage,
     DEFAULT_TOKEN_PRECISION
   )
+  console.log(reserveRateUnformattedPercentage)
+  console.log(reserveRatePercentage)
 
   return (
     <Stat title={t('reserveRate')} percent={reserveRatePercentage} tooltip={t('reserveRateInfo')} />
@@ -266,15 +272,19 @@ const EffectiveAprStat = (props) => {
 
   return (
     <Stat
-      title={t('effectiveApr')}
-      content={
-        <span>
+      title={
+        <>
+          {t('effectiveApr')}
           {faucetIncentivizesSponsorship && (
-            <span className='opacity-30 mr-1'>{t('sponsorship')} </span>
-          )}{' '}
-          {displayPercentage(apr)}%
-        </span>
+            <Link href='/rewards#sponsorship'>
+              <a className='opacity-50 hover:opacity-100 trans trans-fast hover:text-highlight-1 ml-1 underline'>
+                ({t('sponsorship')})
+              </a>
+            </Link>
+          )}
+        </>
       }
+      content={<span>{displayPercentage(apr)}%</span>}
       tooltip={
         <>
           {t('effectiveAprInfo')}
