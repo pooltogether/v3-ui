@@ -13,7 +13,7 @@ export const Index = (props) => {
         description='Increase your chances of winning by grouping you deposit with others and splitting the prize'
         breadcrumbs={[]}
       />
-      <PodsList />
+      <PodsList className='mt-10' />
     </>
   )
 }

@@ -229,7 +229,7 @@ const AprStats = (props) => {
   let apr = pool.tokenListener?.apr
 
   if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-    apr = useWMaticApr(pool)
+    apr = useWMaticApr(pool.tokenListener.dripRatePerSecond, pool.tokens.ticket.totalSupply)
   }
 
   if (!apr) return null

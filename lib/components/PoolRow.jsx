@@ -19,6 +19,8 @@ import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { useWMaticApr } from 'lib/hooks/useWMaticApr'
 import { displayPercentage } from 'lib/utils/displayPercentage'
+import { PoolPrizeValue } from 'lib/components/PoolPrizeValue'
+import { AprChip } from 'lib/components/AprChip'
 
 export const PoolRow = (props) => {
   const { pool } = props
@@ -51,29 +53,6 @@ export const PoolRow = (props) => {
       {t('viewPool')}
     </button>
   )
-
-  const AprChip = (props) => {
-    const { pool } = props
-
-    const dripTokenAddress = pool.tokens.tokenFaucetDripToken?.address
-    const dripTokenSymbol = pool.tokens.tokenFaucetDripToken?.symbol
-
-    let apr = pool.tokenListener?.apr
-    if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-      apr = useWMaticApr(pool)
-    }
-
-    if (!apr) {
-      return null
-    }
-
-    return (
-      <div className='text-xxxs text-accent-1 flex items-center'>
-        <Erc20Image address={dripTokenAddress} className='mr-2' sizeClasses='w-4 h-4' />
-        {t('earnNumPercentApr', { ticker: dripTokenSymbol, percentApr: displayPercentage(apr) })}
-      </div>
-    )
-  }
 
   const isDaily = pool.prize.prizePeriodSeconds.toNumber() === SECONDS_PER_DAY
 
@@ -127,7 +106,12 @@ export const PoolRow = (props) => {
         </div>
 
         <div className='pool-row-right-col flex flex-col items-center w-full sm:w-1/2 mt-4 sm:mt-0'>
-          <NewPrizeCountdown textSize='text-sm sm:text-lg' pool={pool} />
+          <NewPrizeCountdown
+            textSize='text-sm sm:text-lg'
+            prizePeriodSeconds={pool.prize.prizePeriodSeconds}
+            prizePeriodStartedAt={pool.prize.prizePeriodSeconds}
+            isRngRequested={pool.prize.isRngRequested}
+          />
 
           <Button
             border='green'
@@ -149,14 +133,34 @@ export const PoolRow = (props) => {
           </Button>
 
           <div className='flex items-center justify-between mt-2 w-full'>
-            <div className='hidden sm:flex'>{<AprChip pool={pool} />}</div>
+            <div className='hidden sm:flex'>
+              {
+                <AprChip
+                  chainId={pool.chainId}
+                  tokenFaucetDripToken={pool.tokens.tokenFaucetDripToken}
+                  tokenListener={pool.tokenListener}
+                  ticket={pool.tokens.ticket}
+                  prizePool={pool.prizePool}
+                />
+              }
+            </div>
 
             <span className='relative hidden sm:inline-block'>
               <ViewPoolDetailsButton />
             </span>
           </div>
 
-          <span className='mt-1 relative sm:hidden'>{<AprChip pool={pool} />}</span>
+          <span className='mt-1 relative sm:hidden'>
+            {
+              <AprChip
+                chainId={pool.chainId}
+                tokenFaucetDripToken={pool.tokens.tokenFaucetDripToken}
+                tokenListener={pool.tokenListener}
+                ticket={pool.tokens.ticket}
+                prizePool={pool.prizePool}
+              />
+            }
+          </span>
           <div className='sm:hidden mt-1'>
             <ViewPoolDetailsButton />
           </div>
@@ -164,41 +168,4 @@ export const PoolRow = (props) => {
       </div>
     </InteractableCard>
   )
-}
-
-const PoolPrizeValue = (props) => {
-  const { pool } = props
-
-  if (!pool || !pool.prize?.totalValueUsd) {
-    return <div className='text-8xl sm:text-7xl lg:text-8xl text-flashy font-bold'>$0</div>
-  }
-
-  if (pool.prize.totalValueUsd) {
-    return (
-      <div className='text-8xl sm:text-7xl lg:text-8xl text-flashy font-bold ml-2'>
-        $
-        <PoolCountUp fontSansRegular decimals={0} duration={6}>
-          {parseFloat(pool.prize.totalValueUsd)}
-        </PoolCountUp>
-      </div>
-    )
-  }
-
-  if (
-    pool.prize.sablierStream.id &&
-    !pool.prize.sablierStream?.amountThisPrizePeriodUnformatted?.isZero()
-  ) {
-    return (
-      <div className='text-3xl sm:text-5xl text-flashy font-bold ml-2'>
-        <PoolCountUp fontSansRegular decimals={0} duration={6}>
-          {parseFloat(pool.prize.sablierStream.amountThisPrizePeriod)}
-        </PoolCountUp>
-        <span className='text-base lg:text-lg text-inverse mb-4 ml-2 mt-auto'>
-          {pool.tokens.sablierStreamToken.tokenSymbol}
-        </span>
-      </div>
-    )
-  }
-
-  return <div className='text-3xl sm:text-5xl text-flashy font-bold ml-2'>$0</div>
 }

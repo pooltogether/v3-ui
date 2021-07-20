@@ -11,17 +11,18 @@ const EIGHT_HOURS_IN_SECONDS = 28800
 
 export const NewPrizeCountdown = (props) => {
   const { t } = useTranslation()
-  const { pool, center, textAlign, textSize } = props
+  const { center, textAlign, textSize, prizePeriodSeconds, prizePeriodStartedAt, isRngRequested } =
+    props
   let flashy = props.flashy === false ? false : true
 
-  const { secondsLeft } = usePrizePeriodTimeLeft(pool)
+  const { secondsLeft } = usePrizePeriodTimeLeft(prizePeriodSeconds, prizePeriodStartedAt)
 
   const currentDate = new Date(Date.now())
   const futureDate = addSeconds(currentDate, secondsLeft)
   const { days, hours, minutes, seconds } = subtractDates(futureDate, currentDate)
 
   let msg
-  if (pool.prize.isRngRequested) {
+  if (isRngRequested) {
     return (
       <>
         <p

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +12,8 @@ import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { V2Tickets } from 'lib/components/V2Tickets'
 
 import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
+import { PodTicket } from 'lib/components/Pods/PodTicket'
+import { useUsersPodTickets } from 'lib/hooks/useUsersPodTickets'
 
 const AccountDepositsBlankState = () => {
   const { t } = useTranslation()
@@ -41,9 +43,6 @@ export const AccountDeposits = () => {
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
 
-  const { data: playerDepositData, isFetched: playerTicketsIsFetched } =
-    useUserTicketsFormattedByPool(address)
-
   return (
     <>
       <div className='mt-8'>
@@ -54,27 +53,9 @@ export const AccountDeposits = () => {
           {t('deposits')}
         </div>
 
-        {!playerTicketsIsFetched ? (
-          <TicketsUILoader />
-        ) : playerDepositData?.length === 0 ? (
-          <AccountDepositsBlankState />
-        ) : (
-          <div className='flex flex-col'>
-            {playerDepositData?.map((playerPoolDepositData) => {
-              return (
-                <AccountTicket
-                  isLink
-                  cornerBgClassName='bg-body'
-                  key={`account-pool-row-${playerPoolDepositData?.poolAddress}`}
-                  depositData={playerPoolDepositData.ticket}
-                  pool={playerPoolDepositData.pool}
-                />
-              )
-            })}
-          </div>
-        )}
-
+        <PoolDeposits usersAddress={address} />
         <V2Tickets usersAddress={address} />
+        <PodDeposits usersAddress={address} />
 
         <div className='text-center flex flex-col text-default-soft mt-4 text-xxs'>
           <span>
@@ -92,42 +73,58 @@ export const AccountDeposits = () => {
           </div>
         </div>
       </div>
-
-      {/* <SponsorshipDeposits /> */}
     </>
   )
 }
 
-// const SponsorshipDeposits = (props) => {
-//   return (
-//     <div className='mt-8'>
-//       <div
-//         id='account-sponsorships'
-//         className='text-accent-2 mt-16 mb-4 opacity-90 font-headline uppercase xs:text-sm'
-//       >
-//         {t('sponsorships')}
-//       </div>
+const PoolDeposits = (props) => {
+  const { usersAddress } = props
+  const { t } = useTranslation()
 
-//       {!playerTicketsIsFetched ? (
-//         <TicketsUILoader />
-//       ) : playerDepositData?.length === 0 ? (
-//         <AccountDepositsBlankState />
-//       ) : (
-//         <div className='flex flex-col'>
-//           {playerDepositData?.map((playerPoolDepositData) => {
-//             return (
-//               <AccountTicket
-//                 isSponsorship
-//                 isLink
-//                 cornerBgClassName='bg-body'
-//                 key={`account-pool-row-${playerPoolDepositData?.poolAddress}`}
-//                 depositData={playerPoolDepositData.sponsorship}
-//                 pool={playerPoolDepositData.pool}
-//               />
-//             )
-//           })}
-//         </div>
-//       )}
-//     </div>
-//   )
-// }
+  const { data: playerDepositData, isFetched: playerTicketsIsFetched } =
+    useUserTicketsFormattedByPool(usersAddress)
+
+  if (!playerTicketsIsFetched) {
+    return <TicketsUILoader />
+  }
+
+  return (
+    <div className='flex flex-col'>
+      {playerDepositData?.map((playerPoolDepositData) => {
+        return (
+          <AccountTicket
+            isLink
+            cornerBgClassName='bg-body'
+            key={`account-pool-row-${playerPoolDepositData?.poolAddress}`}
+            depositData={playerPoolDepositData.ticket}
+            pool={playerPoolDepositData.pool}
+          />
+        )
+      })}
+    </div>
+  )
+}
+
+const PodDeposits = (props) => {
+  const { usersAddress } = props
+
+  const { data: podTickets, isFetched } = useUsersPodTickets(usersAddress)
+
+  useEffect(() => {
+    console.log('podTickets', podTickets)
+  }, [podTickets])
+
+  if (!isFetched) {
+    return <TicketsUILoader />
+  } else if (podTickets.length === 0) {
+    return null
+  }
+
+  return (
+    <>
+      {podTickets.map((podTicket) => (
+        <PodTicket podTicket={podTicket} />
+      ))}
+    </>
+  )
+}

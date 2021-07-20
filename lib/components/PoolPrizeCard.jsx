@@ -33,7 +33,13 @@ export const PoolPrizeCard = (props) => {
             {t('willBeAwardedIn')}
           </h6>
 
-          <NewPrizeCountdown textAlign='left' pool={pool} flashy={false} />
+          <NewPrizeCountdown
+            textAlign='left'
+            prizePeriodSeconds={pool.prize.prizePeriodSeconds}
+            prizePeriodStartedAt={pool.prize.prizePeriodSeconds}
+            isRngRequested={pool.prize.isRngRequested}
+            flashy={false}
+          />
         </div>
       </div>
     </div>

@@ -109,7 +109,11 @@ export function OrderComplete(props) {
             {t('theNextPrizeWillBeAwardedIn')}
             <br />
             <div className='font-bold text-flashy'>
-              <NewPrizeCountdownInWords pool={pool} />
+              <NewPrizeCountdownInWords
+                prizePeriodSeconds={pool.prize.prizePeriodSeconds}
+                prizePeriodStartedAt={pool.prize.prizePeriodSeconds}
+                isRngRequested={pool.prize.isRngRequested}
+              />
             </div>
           </div>
         </div>
