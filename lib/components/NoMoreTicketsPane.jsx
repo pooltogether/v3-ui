@@ -40,7 +40,7 @@ export function NoMoreTicketsPane(props) {
               center
               textSize='text-lg sm:text-3xl lg:text-5xl'
               prizePeriodSeconds={pool.prize.prizePeriodSeconds}
-              prizePeriodStartedAt={pool.prize.prizePeriodSeconds}
+              prizePeriodStartedAt={pool.prize.prizePeriodStartedAt}
               isRngRequested={pool.prize.isRngRequested}
             />
           </div>

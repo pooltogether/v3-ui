@@ -57,7 +57,6 @@ export function StartAwardUI(props) {
             hoverBorder='green'
             textSize='lg'
             onClick={handleStartAwardClick}
-            usersAddress={usersAddress}
           >
             {t('startAward')}
           </ButtonTx>

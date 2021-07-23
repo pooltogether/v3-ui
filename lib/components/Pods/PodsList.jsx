@@ -8,6 +8,8 @@ import {
   TokenIcon
 } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
 
 import { usePrizeSortedPods } from 'lib/hooks/usePrizeSortedPods'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
@@ -15,6 +17,8 @@ import { PrizeValue } from 'lib/components/PrizeValue'
 import { WinningOdds } from 'lib/components/WinningOdds'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { AprChip } from 'lib/components/AprChip'
+import { COOKIE_OPTIONS, WIZARD_REFERRER_AS_PATH, WIZARD_REFERRER_HREF } from 'lib/constants'
+import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 
 // TODO: Token color
 export const PodsList = (props) => {
@@ -22,7 +26,11 @@ export const PodsList = (props) => {
   const { data: pods, isFetched } = usePrizeSortedPods()
 
   if (!isFetched) {
-    return <LoadingDots className={classnames('mx-auto', className)} />
+    return (
+      <div className='flex flex-col justify-center w-full h-full'>
+        <LoadingDots className={classnames('mx-auto', className)} />
+      </div>
+    )
   }
 
   return (
@@ -95,18 +103,18 @@ const PodListItemRightHalf = (props) => {
       <NewPrizeCountdown
         center
         prizePeriodSeconds={pod.prize.prizePeriodSeconds}
-        prizePeriodStartedAt={pod.prize.prizePeriodSeconds}
+        prizePeriodStartedAt={pod.prize.prizePeriodStartedAt}
         isRngRequested={pod.prize.isRngRequested}
       />
       <DepositIntoPodTrigger pod={pod} />
-      <AprChip
-        className='mx-auto mt-2'
-        chainId={pod.metadata.chainId}
-        tokenFaucetDripToken={pod.tokens.tokenFaucetDripToken}
-        tokenListener={pod.tokenListener}
-        ticket={pod.tokens.ticket}
-        prizePool={pod.prizePool}
-      />
+      {pod.prizePool.tokenFaucets.map((tokenFaucet) => (
+        <AprChip
+          key={tokenFaucet.address}
+          className='mx-auto mt-2'
+          chainId={pod.metadata.chainId}
+          tokenFaucet={tokenFaucet}
+        />
+      ))}
     </div>
   )
 }
@@ -115,6 +123,20 @@ const DepositIntoPodTrigger = (props) => {
   const { pod } = props
 
   const { t } = useTranslation()
+  const router = useRouter()
+
+  const handleDepositClick = (e) => {
+    e.preventDefault()
+    Cookies.set(WIZARD_REFERRER_HREF, '/pods', COOKIE_OPTIONS)
+    Cookies.set(WIZARD_REFERRER_AS_PATH, `/pods`, COOKIE_OPTIONS)
+    router.push(
+      `/pods/[networkName]/[symbol]/deposit`,
+      `/pods/${chainIdToNetworkName(pod.metadata.chainId)}/${pod.pod.address}/deposit`,
+      {
+        shallow: true
+      }
+    )
+  }
 
   return (
     <Button
@@ -124,7 +146,7 @@ const DepositIntoPodTrigger = (props) => {
       hoverBorder='green'
       hoverText='primary'
       hoverBg='green'
-      // onClick={handleGetTicketsClick}
+      onClick={handleDepositClick}
       width='w-full'
       textSize='xxxs'
       className='my-4'

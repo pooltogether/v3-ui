@@ -68,7 +68,6 @@ const LootBoxWonTable = (props) => {
   const {
     data: erc20Balances,
     error: erc20Error,
-    isFetching: erc20IsFetching,
     isFetched: erc20IsFetched
   } = useEthereumErc20Query({
     chainId: pool.chainId,
@@ -80,7 +79,6 @@ const LootBoxWonTable = (props) => {
   const {
     data: erc721Tokens,
     error: erc721Error,
-    isFetching: erc721IsFetching,
     isFetched: erc721IsFetched
   } = useEthereumErc721Query({
     chainId: pool.chainId,
@@ -92,7 +90,6 @@ const LootBoxWonTable = (props) => {
   const {
     data: erc1155Balances,
     error: erc1155Error,
-    isFetching: erc1155IsFetching,
     isFetched: erc1155IsFetched
   } = useEthereumErc1155Query({
     chainId: pool.chainId,
@@ -111,7 +108,6 @@ const LootBoxWonTable = (props) => {
     console.warn(erc1155Error)
   }
 
-  const isFetching = erc20IsFetching || erc721IsFetching || erc1155IsFetching
   const isFetched = erc20IsFetched || erc721IsFetched || erc1155IsFetched
 
   if (lootBoxErc20s.length + lootBoxErc721s.length + lootBoxErc1155s.length === 0) return null
@@ -180,7 +176,7 @@ const LootBoxWonTable = (props) => {
       </span>
 
       <div className='xs:w-2/4 sm:w-5/12 lg:w-1/4 mt-3 mb-2'>
-        {isFetching && !isFetched ? (
+        {!isFetched ? (
           <ThemedClipSpinner size={10} />
         ) : (
           <PlunderLootBoxTxButton

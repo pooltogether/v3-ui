@@ -10,16 +10,11 @@ export function PrizePlayersQuery(props) {
   const page = router?.query?.page ? parseInt(router.query.page, 10) : 1
   const skip = (page - 1) * PLAYER_PAGE_SIZE
 
-  const { data, error, isFetched, isFetching } = useControlledTokenBalanceQuery(
-    pool,
-    page,
-    skip,
-    blockNumber
-  )
+  const { data, error, isFetched } = useControlledTokenBalanceQuery(pool, page, skip, blockNumber)
 
   if (error) {
     console.warn(error)
   }
 
-  return children({ error, data, isFetched, isFetching })
+  return children({ error, data, isFetched })
 }

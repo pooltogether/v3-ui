@@ -101,7 +101,8 @@ export function DepositCryptoForm(props) {
         label={t('depositTickerToWin', {
           ticker: tickerUpcased
         })}
-        pool={pool}
+        symbol={pool.tokens.underlyingToken.symbol}
+        address={pool.tokens.underlyingToken.address}
       />
 
       <WithdrawAndDepositBanner
@@ -241,7 +242,10 @@ export function DepositCryptoForm(props) {
           </>
         )}
 
-        <DepositExpectationsWarning pool={pool} />
+        <DepositExpectationsWarning
+          creditLimitMantissa={pool.config.tokenCreditRates[0].creditLimitMantissa}
+          creditRateMantissa={pool.config.tokenCreditRates[0].creditRateMantissa}
+        />
       </div>
     </>
   )

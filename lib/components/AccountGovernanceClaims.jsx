@@ -14,6 +14,11 @@ import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFauce
 import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucetProxyFactory'
 
 import { CUSTOM_CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
+import {
+  FIRST_SUSHI_FAUCET_ADDRESS,
+  FIRST_POLYGON_USDT_FAUCET_ADDRESS,
+  SECOND_POLYGON_USDT_FAUCET_ADDRESS
+} from 'lib/constants/tokenFaucets'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
@@ -25,13 +30,12 @@ import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFro
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { displayPercentage } from 'lib/utils/displayPercentage'
+import { useTokenFaucetApr } from 'lib/hooks/useTokenFaucetApr'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useGovernancePools } from 'lib/hooks/usePools'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
-import { useWMaticApr } from 'lib/hooks/useWMaticApr'
 import { Erc20Image } from 'lib/components/Erc20Image'
 
 export const AccountGovernanceClaims = (props) => {
@@ -82,11 +86,10 @@ export const AccountGovernanceClaims = (props) => {
         />
         {pools
           .filter((pool) => pool.chainId === NETWORK.mainnet)
-          .filter((pool) => Boolean(pool.tokens.tokenFaucetDripToken))
-          .sort(sortByDripAmount)
+          .filter((pool) => pool.tokenFaucets?.length > 0)
           .map((pool) => {
             return (
-              <ClaimablePoolTokenItem
+              <ClaimablePool
                 address={address}
                 refetchAllPoolTokenData={refetchAllPoolTokenData}
                 key={pool.prizePool.address}
@@ -114,10 +117,9 @@ export const AccountGovernanceClaims = (props) => {
         />
         {pools
           .filter((pool) => pool.chainId === NETWORK.polygon)
-          .sort(sortByDripAmount)
           .map((pool) => {
             return (
-              <ClaimablePoolTokenItem
+              <ClaimablePool
                 address={address}
                 refetchAllPoolTokenData={refetchAllPoolTokenData}
                 key={pool.prizePool.address}
@@ -129,11 +131,6 @@ export const AccountGovernanceClaims = (props) => {
     </>
   )
 }
-
-const sortByDripAmount = (a, b) =>
-  b.tokens.tokenFaucetDripToken.amountUnformatted.sub(
-    a.tokens.tokenFaucetDripToken.amountUnformatted
-  )
 
 const ClaimHeader = (props) => {
   const { address, chainId } = props
@@ -156,13 +153,16 @@ const ClaimHeader = (props) => {
 
   return (
     <>
-      <div className='flex justify-center mb-2'>
-        <NetworkBadge chainId={chainId} textClasses='text-base' sizeClasses='w-6 h-6' />
-      </div>
+      <NetworkBadge
+        chainId={chainId}
+        textClassName='text-xs sm:text-base'
+        sizeClassName='w-4 sm:w-6 h-4 sm:h-6'
+        className='m-2 sm:m-0'
+      />
 
-      <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
-        <div className='flex sm:flex-col justify-between sm:justify-start'>
-          {chainId === NETWORK.mainnet && (
+      {chainId === NETWORK.mainnet && (
+        <div className='flex justify-between flex-col sm:flex-row p-2 sm:p-0'>
+          <div className='flex sm:flex-col justify-between sm:justify-start mt-6'>
             <>
               <h6 className='flex items-center font-normal'>{t('claimablePool')}</h6>
               <h2
@@ -173,56 +173,113 @@ const ClaimHeader = (props) => {
                 <ClaimableAmountCountUp amount={totalClaimablePool} />
               </h2>
             </>
-          )}
+          </div>
+
+          <div className='flex flex-col-reverse sm:flex-col mt-7'>
+            {isSelf && chainId === NETWORK.mainnet && (
+              <ClaimAllButton
+                {...props}
+                chainId={NETWORK.mainnet}
+                refetchAllPoolTokenData={refetchAllPoolTokenData}
+                claimable={totalClaimablePool > 0}
+              />
+            )}
+
+            {chainId === NETWORK.mainnet && (
+              <a
+                href='https://medium.com/p/23b09f36db48'
+                className='sm:text-right text-accent-1 text-xxs mb-3 sm:mb-0'
+              >
+                {t('whatCanIDoWithPool')}
+              </a>
+            )}
+          </div>
         </div>
+      )}
+    </>
+  )
+}
 
-        <div className='flex flex-col-reverse sm:flex-col'>
-          {isSelf && chainId === NETWORK.mainnet && (
-            <ClaimAllButton
-              {...props}
-              chainId={NETWORK.mainnet}
-              refetchAllPoolTokenData={refetchAllPoolTokenData}
-              claimable={totalClaimablePool > 0}
-            />
-          )}
+const ClaimablePool = (props) => {
+  const { pool } = props
 
-          {chainId === NETWORK.mainnet && (
-            <a
-              href='https://medium.com/p/23b09f36db48'
-              className='sm:text-right text-accent-1 text-xxs mb-3 sm:mb-0'
-            >
-              {t('whatCanIDoWithPool')}
+  const { t } = useTranslation()
+
+  const underlyingToken = pool.tokens.underlyingToken
+  const name = t('prizePoolTicker', { ticker: underlyingToken.symbol })
+
+  return (
+    <>
+      <div className='px-2 sm:px-0 pt-4 flex flex-col sm:flex-row sm:justify-between mt-8 sm:items-center'>
+        <div className='flex items-center flex-row-reverse sm:flex-row justify-between sm:justify-start'>
+          <Link href={`/pools/${pool.networkName}/${pool.symbol}`}>
+            <a>
+              <PoolCurrencyIcon
+                md
+                symbol={underlyingToken.symbol}
+                address={underlyingToken.address}
+                className='sm:mr-4'
+              />
             </a>
-          )}
+          </Link>
+          <div className='xs:w-64 sm:w-96'>
+            <div className='flex items-baseline mb-1'>
+              <Link href={`/pools/${pool.networkName}/${pool.symbol}`}>
+                <a>
+                  <h6 className='leading-none text-inverse'>{name}</h6>
+                </a>
+              </Link>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <div className='hidden sm:flex bg-card-selected justify-between rounded-lg px-4 sm:px-8 py-2 mt-5 text-xxs text-accent-1'>
+        <div className={'w-1/4'}>
+          {t('asset')} &amp; {t('rate')}
+        </div>
+        <div className='w-1/4'>APR</div>
+        <div className='w-1/4'>{t('earning')}</div>
+        <div className='w-1/4 text-right'>{t('rewards')}</div>
+      </div>
+
+      <div className='flex flex-col'>
+        {pool?.tokenFaucets?.map((tokenFaucet) => {
+          return (
+            <ClaimablePoolTokenFaucetRow
+              key={`faucet-${pool.prizePool.address}-${tokenFaucet.address}`}
+              tokenFaucet={tokenFaucet}
+              {...props}
+            />
+          )
+        })}
       </div>
     </>
   )
 }
 
-const ClaimablePoolTokenItem = (props) => {
-  const { address, pool, refetchAllPoolTokenData } = props
+const ClaimablePoolTokenFaucetRow = (props) => {
+  const { address, pool, refetchAllPoolTokenData, tokenFaucet } = props
 
   const [isSelf] = useAtom(isSelfAtom)
   const { t } = useTranslation()
   const { data: playerTickets } = useUserTicketsFormattedByPool(address)
-  const tokenFaucetAddress = pool.tokenListener.address
-  const { data: claimablePoolData, isFetched } = useClaimableTokenFromTokenFaucet(
+
+  const tokenFaucetAddress = tokenFaucet?.address
+  const { data: claimableData, isFetched } = useClaimableTokenFromTokenFaucet(
     pool.chainId,
     tokenFaucetAddress,
     address
   )
 
-  let apr = pool.tokenListener?.apr
+  const apr = useTokenFaucetApr(tokenFaucet)
 
-  if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-    apr = useWMaticApr(pool.tokenListener.dripRatePerSecond, pool.tokens.ticket.totalSupply)
+  if (!isFetched || !tokenFaucet?.dripToken) {
+    return null
   }
 
-  if (!isFetched) return null
-
-  const dripRatePerSecond = pool.tokenListener.dripRatePerSecond || 0
-  const dripToken = pool.tokens.tokenFaucetDripToken
+  const dripRatePerSecond = tokenFaucet?.dripRatePerSecond || 0
+  const dripToken = tokenFaucet?.dripToken
 
   const underlyingToken = pool.tokens.underlyingToken
   const name = t('prizePoolTicker', { ticker: underlyingToken.symbol })
@@ -236,43 +293,34 @@ const ClaimablePoolTokenItem = (props) => {
 
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
 
-  const totalDripPerDay = dripRatePerSecond * SECONDS_PER_DAY
-  const usersDripPerDay = totalDripPerDay * ownershipPercentage
-  const usersDripPerDayFormatted = numberWithCommas(usersDripPerDay, {
-    precision: getPrecision(usersDripPerDay)
-  })
-  const totalDripPerDayFormatted = numberWithCommas(totalDripPerDay, {
-    precision: getPrecision(totalDripPerDay)
-  })
+  const isFirstSushiFaucet = tokenFaucet.address === FIRST_SUSHI_FAUCET_ADDRESS
+  const isFirstPolygonUsdtFaucet = tokenFaucet.address === FIRST_POLYGON_USDT_FAUCET_ADDRESS
+  let totalDripPerDay = dripRatePerSecond * SECONDS_PER_DAY
+  if (isFirstSushiFaucet || isFirstPolygonUsdtFaucet) {
+    totalDripPerDay = 0
+  }
 
-  const isClaimable = !claimablePoolData?.claimableAmountUnformatted?.isZero()
+  const isSecondPolygonUsdtFaucet = tokenFaucet.address === SECOND_POLYGON_USDT_FAUCET_ADDRESS
+  if (isSecondPolygonUsdtFaucet) {
+    return null
+  }
+
+  const usersDripPerDay = totalDripPerDay * ownershipPercentage
+  const usersDripPerDayFormatted = numberWithCommas(usersDripPerDay)
+  const totalDripPerDayFormatted = numberWithCommas(Math.round(totalDripPerDay))
+
+  const isClaimable = !claimableData?.claimableAmountUnformatted?.isZero()
 
   return (
-    <div className='border-t-2 border-body px-2 sm:px-0 pt-6 pb-2 flex flex-col sm:flex-row sm:justify-between mt-4 sm:items-center'>
-      <div className='flex flex-row-reverse sm:flex-row justify-between sm:justify-start'>
-        <Link href={`/pools/${pool.networkName}/${pool.symbol}`}>
-          <a>
-            <PoolCurrencyIcon
-              lg
-              symbol={underlyingToken.symbol}
-              address={underlyingToken.address}
-              className='sm:mr-4'
-            />
-          </a>
-        </Link>
-        <div className='xs:w-64 sm:w-96'>
-          <div className='flex items-baseline mb-1'>
-            <Link href={`/pools/${pool.networkName}/${pool.symbol}`}>
-              <a>
-                <h5 className='leading-none text-inverse'>{name}</h5>
-              </a>
-            </Link>{' '}
-            <NetworkBadge className='ml-2' sizeClasses='h-4 w-4' chainId={pool.chainId} />
-          </div>
-
-          <div className='text-accent-1 text-xs mb-1 mt-2 sm:mt-1'>
-            {t('poolNamesDripRate', { poolName: name })}
-            <br />
+    <div
+      className='border-2 rounded-lg px-5 sm:px-7 py-6 flex flex-col sm:flex-row sm:justify-between mt-1 sm:items-center'
+      style={{
+        borderColor: '#43286e'
+      }}
+    >
+      <div className={'w-full sm:w-1/4 py-1 sm:py-0'}>
+        <div className='flex  justify-between sm:justify-start'>
+          <div className='text-accent-1 text-xs mb-1 sm:mt-1'>
             {totalDripPerDayFormatted}{' '}
             <Erc20Image
               address={dripToken.address}
@@ -280,42 +328,64 @@ const ClaimablePoolTokenItem = (props) => {
             />
             {dripToken.symbol} / <span className='lowercase'>{t('day')}</span>
             <br />
-            {displayPercentage(apr)}% APR
           </div>
         </div>
       </div>
 
-      <div
-        className={classnames(`sm:text-right mt-6 sm:mt-0`, {
-          'opacity-40': !isClaimable
-        })}
-      >
-        <p className='text-inverse font-bold text-xs'>{t('availableToClaim')}</p>
-        <h4 className={classnames('flex items-center sm:justify-end')}>
-          <Erc20Image address={dripToken.address} className='inline-block w-6 h-6 mr-2' />
-          <ClaimableAmountCountUp amount={Number(claimablePoolData?.claimableAmount)} />
-        </h4>
-        <div className='text-accent-1 text-xs flex items-center sm:justify-end mt-1 sm:mt-0 mb-2 sm:mb-0 opacity-80 trans hover:opacity-100'>
+      <div className='w-full sm:w-1/4 pt-5 sm:py-0'>
+        <div className='mt-3 sm:mt-0 leading-snug'>
+          {apr === 0 ? (
+            <></>
+          ) : (
+            <>
+              <span className='font-bold'>{apr.toString().split('.')?.[0]}</span>.
+              {apr.toString().split('.')?.[1]?.substr(0, 2)}%{' '}
+            </>
+          )}
+          <span className='sm:hidden text-xxs text-accent-1 mt-1 sm:mt-2'>APR</span>
+        </div>
+      </div>
+
+      <div className='w-full sm:w-1/4 py-1 sm:py-0 text-right'>
+        <div className='text-accent-1 text-xs flex items-center mt-1 sm:mt-0 mb-2 sm:mb-0 opacity-80 trans hover:opacity-100'>
           {usersDripPerDayFormatted}{' '}
           <Erc20Image address={dripToken.address} className='inline-block w-4 h-4 mx-2' />
           {dripToken.symbol} /&nbsp;
           <span className='lowercase'>{t('day')}</span>
         </div>
-        {isSelf && (
-          <div className='sm:ml-auto'>
-            <ClaimButton
-              {...props}
-              refetch={() => {
-                refetchAllPoolTokenData()
-              }}
-              chainId={pool.chainId}
-              name={name}
-              dripToken={pool.tokens.tokenFaucetDripToken.symbol}
-              tokenFaucetAddress={tokenFaucetAddress}
-              isClaimable={isClaimable}
-            />
-          </div>
-        )}
+      </div>
+      <div className='w-full sm:w-1/4 py-1 sm:py-0 sm:text-right'>
+        <div
+          className={classnames(`mt-6 sm:mt-0`, {
+            'opacity-40': !isClaimable
+          })}
+        >
+          <p className='font-inter text-inverse text-xxs uppercase'>{t('availableToClaim')}</p>
+          <h5 className={classnames('flex items-center sm:justify-end mt-1')}>
+            {!claimableData ? (
+              <ThemedClipSpinner size={12} />
+            ) : (
+              <ClaimableAmountCountUp amount={Number(claimableData?.claimableAmount)} />
+            )}
+            <Erc20Image address={dripToken.address} className='inline-block w-6 h-6 ml-2' />
+          </h5>
+
+          {isSelf && (
+            <div className='sm:ml-auto'>
+              <ClaimButton
+                {...props}
+                refetch={() => {
+                  refetchAllPoolTokenData()
+                }}
+                chainId={pool.chainId}
+                name={name}
+                dripToken={dripToken.symbol}
+                tokenFaucetAddress={tokenFaucetAddress}
+                isClaimable={isClaimable}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

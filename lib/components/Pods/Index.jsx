@@ -10,7 +10,7 @@ export const Index = (props) => {
     <>
       <PageTitleAndBreadcrumbs
         title={t('pods')}
-        description='Increase your chances of winning by grouping you deposit with others and splitting the prize'
+        description='Increase your chances of winning by grouping your deposit with others and splitting the prize'
         breadcrumbs={[]}
       />
       <PodsList className='mt-10' />

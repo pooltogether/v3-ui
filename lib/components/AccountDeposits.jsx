@@ -34,6 +34,7 @@ const AccountDepositsBlankState = () => {
   )
 }
 
+// TODO: Empty states
 export const AccountDeposits = () => {
   const { t } = useTranslation()
 
@@ -109,10 +110,6 @@ const PodDeposits = (props) => {
   const { usersAddress } = props
 
   const { data: podTickets, isFetched } = useUsersPodTickets(usersAddress)
-
-  useEffect(() => {
-    console.log('podTickets', podTickets)
-  }, [podTickets])
 
   if (!isFetched) {
     return <TicketsUILoader />

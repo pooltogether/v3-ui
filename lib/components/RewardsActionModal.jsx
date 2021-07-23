@@ -43,6 +43,7 @@ export const RewardsActionModal = (props) => {
     isPrize
   } = props
 
+  const chainId = pool.chainId || pool.prizePool.chainId
   const prizePoolAddress = pool.prizePool.address
 
   const { register, handleSubmit, setValue, errors, formState } = useForm({
@@ -55,7 +56,6 @@ export const RewardsActionModal = (props) => {
 
   const { isValid } = formState
 
-  const chainId = pool.chainId
   const { network: walletChainId } = useOnboard()
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
@@ -272,7 +272,10 @@ export const RewardsActionModal = (props) => {
 
           {isPrize && !txSent && !txSuccessful && (
             <div className='mt-6 sm:mt-0'>
-              <DepositExpectationsWarning pool={pool} />
+              <DepositExpectationsWarning
+                creditLimitMantissa={pool.config.tokenCreditRates[0].creditLimitMantissa}
+                creditRateMantissa={pool.config.tokenCreditRates[0].creditRateMantissa}
+              />
             </div>
           )}
         </div>

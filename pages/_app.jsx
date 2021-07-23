@@ -68,6 +68,8 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
   })
 }
 
+let checkForElementIntervalId
+
 function MyApp({ Component, pageProps, router }) {
   const { i18n } = useTranslation()
 
@@ -117,7 +119,7 @@ function MyApp({ Component, pageProps, router }) {
 
   // scroll to any hash # links (ie. '/rewards#sponsorship)
   const scrollToHashElement = () => {
-    setTimeout(() => {
+    const checkForElement = () => {
       const hashId = window.location.hash
 
       if (hashId) {
@@ -131,9 +133,13 @@ function MyApp({ Component, pageProps, router }) {
             block: 'start',
             inline: 'nearest'
           })
+
+          clearInterval(checkForElementIntervalId)
         }
       }
-    }, 1000)
+    }
+
+    checkForElementIntervalId = setInterval(checkForElement, 600)
   }
 
   useEffect(() => {

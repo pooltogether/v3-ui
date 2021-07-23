@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
 import { Tooltip } from '@pooltogether/react-components'
@@ -12,7 +13,7 @@ import { BlockExplorerLink, LinkIcon } from 'lib/components/BlockExplorerLink'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Card, CardDetailsList } from 'lib/components/Card'
-import { useWMaticApr } from 'lib/hooks/useWMaticApr'
+import { findSponsorshipFaucet, useTokenFaucetApr } from 'lib/hooks/useTokenFaucetApr'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
@@ -61,6 +62,7 @@ const Stat = (props) => {
     tokenSymbol,
     value,
     content,
+    percent,
     tooltip
   } = props
 
@@ -99,6 +101,8 @@ const Stat = (props) => {
         </div>
       )}
 
+      {percent && `${displayPercentage(percent)}%`}
+
       {content}
     </li>
   )
@@ -125,8 +129,6 @@ const SponsorshipStat = (props) => {
   const { pool } = props
   const { t } = useTranslation()
 
-  const poolIncentivizesSponsorship = pool.incentivizesSponsorship
-
   return (
     <>
       <Stat
@@ -135,12 +137,7 @@ const SponsorshipStat = (props) => {
         tokenAddress={pool.tokens.underlyingToken.address}
         tokenSymbol={pool.tokens.underlyingToken.symbol}
         tokenAmount={pool.tokens.sponsorship.totalSupply}
-        tooltip={
-          <>
-            {t('sponsorshipInfo')}{' '}
-            {poolIncentivizesSponsorship && <>. {t('rewardsAreForSponsorshipOnly')}</>}
-          </>
-        }
+        tooltip={t('sponsorshipInfo')}
       />
     </>
   )
@@ -219,71 +216,77 @@ const YieldSourceStat = (props) => {
   )
 }
 
-// audited vs unaudited
-
-// APR Stats
-
 const AprStats = (props) => {
   const { pool } = props
 
-  let apr = pool.tokenListener?.apr
+  return pool?.tokenFaucets?.map((tokenFaucet) => (
+    <TokenFaucetAprRow
+      key={`token-faucet-apr-row-${tokenFaucet.address}`}
+      pool={pool}
+      tokenFaucet={tokenFaucet}
+    />
+  ))
+}
 
-  if (pool.prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-    apr = useWMaticApr(pool.tokenListener.dripRatePerSecond, pool.tokens.ticket.totalSupply)
-  }
+const TokenFaucetAprRow = (props) => {
+  const { pool, tokenFaucet } = props
+
+  const apr = useTokenFaucetApr(tokenFaucet)
 
   if (!apr) return null
 
   return (
     <>
       <hr />
-      <DailyRewardsDistributionStat pool={pool} />
-      <EffectiveAprStat pool={pool} apr={apr} />
+      <DailyRewardsDistributionStat tokenFaucet={tokenFaucet} pool={pool} />
+      <EffectiveAprStat tokenFaucet={tokenFaucet} pool={pool} apr={apr} />
     </>
   )
 }
 
 const DailyRewardsDistributionStat = (props) => {
   const { t } = useTranslation()
-  const { pool } = props
+  const { tokenFaucet } = props
 
-  const dripRatePerDay = pool.tokenListener?.dripRatePerDay || ethers.constants.Zero
-  const dripTokenSymbol = pool.tokens.tokenFaucetDripToken?.symbol
-  const dripTokenAddress = pool.tokens.tokenFaucetDripToken?.address
+  const dripToken = tokenFaucet?.dripToken
+  const dripRatePerDay = tokenFaucet?.dripRatePerDay || 0
 
-  // TODO: Hardcoded to POOL but we might let people drip other tokens
   return (
     <Stat
       title={t('dailyPoolDistribution')}
-      tokenAddress={dripTokenAddress}
-      tokenSymbol={dripTokenSymbol}
-      tokenAmount={dripRatePerDay}
+      tokenAddress={dripToken?.address}
+      tokenSymbol={dripToken?.symbol}
+      tokenAmount={Math.round(Number(dripRatePerDay))}
     />
   )
 }
 
 const EffectiveAprStat = (props) => {
-  const { apr, pool } = props
+  const { apr, pool, tokenFaucet } = props
 
   const { t } = useTranslation()
 
-  const poolIncentivizesSponsorship = pool.incentivizesSponsorship
+  const faucetIncentivizesSponsorship = findSponsorshipFaucet(pool) === tokenFaucet
 
   return (
     <Stat
-      title={t('effectiveApr')}
-      content={
-        <span>
-          {poolIncentivizesSponsorship && (
-            <span className='opacity-30 mr-1'>{t('sponsorship')} </span>
-          )}{' '}
-          {displayPercentage(apr)}%
-        </span>
+      title={
+        <>
+          {t('effectiveApr')}
+          {faucetIncentivizesSponsorship && (
+            <Link href='/rewards#sponsorship'>
+              <a className='opacity-50 hover:opacity-100 trans trans-fast hover:text-highlight-1 ml-1 underline'>
+                ({t('sponsorship')})
+              </a>
+            </Link>
+          )}
+        </>
       }
+      content={<span>{displayPercentage(apr)}%</span>}
       tooltip={
         <>
           {t('effectiveAprInfo')}
-          {poolIncentivizesSponsorship && <>. {t('rewardsAreForSponsorshipOnly')}</>}
+          {faucetIncentivizesSponsorship && <>. {t('rewardsAreForSponsorshipOnly')}</>}
         </>
       }
     />

@@ -178,7 +178,7 @@ export const ManageUI = (props) => {
               <h6 className='mb-2'>{t('prizePeriodRemaining')}</h6>
               <NewPrizeCountdown
                 prizePeriodSeconds={pool.prize.prizePeriodSeconds}
-                prizePeriodStartedAt={pool.prize.prizePeriodSeconds}
+                prizePeriodStartedAt={pool.prize.prizePeriodStartedAt}
                 isRngRequested={pool.prize.isRngRequested}
                 flashy={false}
               />

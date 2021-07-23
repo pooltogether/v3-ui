@@ -4,20 +4,17 @@ import { useTranslation } from 'react-i18next'
 import { TokenIcon } from '@pooltogether/react-components'
 import { displayPercentage } from '@pooltogether/utilities'
 
-import { useWMaticApr } from 'lib/hooks/useWMaticApr'
+import { useTokenFaucetApr } from 'lib/hooks/useTokenFaucetApr'
 
 export const AprChip = (props) => {
-  const { chainId, tokenFaucetDripToken, tokenListener, ticket, prizePool, className } = props
-
   const { t } = useTranslation()
 
-  const dripTokenAddress = tokenFaucetDripToken?.address
-  const dripTokenSymbol = tokenFaucetDripToken?.symbol
+  const { tokenFaucet, chainId, className } = props
 
-  let apr = tokenListener?.apr
-  if (prizePool.address === '0x887e17d791dcb44bfdda3023d26f7a04ca9c7ef4') {
-    apr = useWMaticApr(tokenListener.dripRatePerSecond, ticket.totalSupply)
-  }
+  const dripTokenAddress = tokenFaucet.dripToken.address
+  const dripTokenSymbol = tokenFaucet.dripToken.symbol
+
+  const apr = useTokenFaucetApr(tokenFaucet)
 
   if (!apr) {
     return null

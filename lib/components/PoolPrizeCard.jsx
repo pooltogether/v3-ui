@@ -36,7 +36,7 @@ export const PoolPrizeCard = (props) => {
           <NewPrizeCountdown
             textAlign='left'
             prizePeriodSeconds={pool.prize.prizePeriodSeconds}
-            prizePeriodStartedAt={pool.prize.prizePeriodSeconds}
+            prizePeriodStartedAt={pool.prize.prizePeriodStartedAt}
             isRngRequested={pool.prize.isRngRequested}
             flashy={false}
           />

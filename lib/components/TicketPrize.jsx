@@ -9,16 +9,16 @@ export const TicketPrize = (props) => {
   const { prize, hideCountdown, className } = props
 
   return (
-    <div className={classnames('flex flex-row', className)}>
+    <div className={classnames('flex flex-row text-accent-1', className)}>
       <img
         src={PoolTogetherTrophyDetailed}
-        className='relative w-3 sm:w-4 mr-1 sm:mr-2 opacity-70 mt-auto'
+        className='relative w-3 sm:w-4 mr-1 sm:mr-2 opacity-70 my-auto'
         style={{
           filter: 'brightness(5)',
           top: 2
         }}
       />
-      <span className='mt-auto'>
+      <span className='mt-auto flex text-xs sm:text-xl font-bold leading-none'>
         $
         <PoolCountUp
           fontSansRegular
@@ -27,13 +27,13 @@ export const TicketPrize = (props) => {
           end={parseFloat(prize.totalValueUsd)}
         />
       </span>
-      <span className='text-xxxxs sm:text-xxs font-regular mt-auto'>
+      <span className='text-xxxxs sm:text-xxs font-bold mt-auto'>
         {!hideCountdown && (
           <NewPrizeCountdownInWords
             onTicket
             extraShort
             prizePeriodSeconds={prize.prizePeriodSeconds}
-            prizePeriodStartedAt={prize.prizePeriodSeconds}
+            prizePeriodStartedAt={prize.prizePeriodStartedAt}
             isRngRequested={prize.isRngRequested}
           />
         )}

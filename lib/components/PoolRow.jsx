@@ -11,14 +11,10 @@ import {
 import { useTranslation } from 'react-i18next'
 import { Button } from '@pooltogether/react-components'
 
-import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
-import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
-import { useWMaticApr } from 'lib/hooks/useWMaticApr'
-import { displayPercentage } from 'lib/utils/displayPercentage'
 import { PoolPrizeValue } from 'lib/components/PoolPrizeValue'
 import { AprChip } from 'lib/components/AprChip'
 
@@ -109,7 +105,7 @@ export const PoolRow = (props) => {
           <NewPrizeCountdown
             textSize='text-sm sm:text-lg'
             prizePeriodSeconds={pool.prize.prizePeriodSeconds}
-            prizePeriodStartedAt={pool.prize.prizePeriodSeconds}
+            prizePeriodStartedAt={pool.prize.prizePeriodStartedAt}
             isRngRequested={pool.prize.isRngRequested}
           />
 
@@ -133,34 +129,33 @@ export const PoolRow = (props) => {
           </Button>
 
           <div className='flex items-center justify-between mt-2 w-full'>
-            <div className='hidden sm:flex'>
-              {
-                <AprChip
-                  chainId={pool.chainId}
-                  tokenFaucetDripToken={pool.tokens.tokenFaucetDripToken}
-                  tokenListener={pool.tokenListener}
-                  ticket={pool.tokens.ticket}
-                  prizePool={pool.prizePool}
-                />
-              }
-            </div>
+            {pool.tokenFaucets?.length === 0 ? (
+              <div className='hidden sm:flex' />
+            ) : (
+              pool.tokenFaucets.map((tokenFaucet) => (
+                <div
+                  key={`pool-token-faucet-row-desktop-${tokenFaucet.address}`}
+                  className='hidden sm:flex ml-2'
+                >
+                  {<AprChip chainId={pool.chainId} tokenFaucet={tokenFaucet} />}
+                </div>
+              ))
+            )}
 
             <span className='relative hidden sm:inline-block'>
               <ViewPoolDetailsButton />
             </span>
           </div>
 
-          <span className='mt-1 relative sm:hidden'>
-            {
-              <AprChip
-                chainId={pool.chainId}
-                tokenFaucetDripToken={pool.tokens.tokenFaucetDripToken}
-                tokenListener={pool.tokenListener}
-                ticket={pool.tokens.ticket}
-                prizePool={pool.prizePool}
-              />
-            }
-          </span>
+          {pool.tokenFaucets?.map((tokenFaucet) => (
+            <span
+              key={`pool-token-faucet-row-mobile-${tokenFaucet.address}`}
+              className='mt-1 relative sm:hidden'
+            >
+              {<AprChip chainId={pool.chainId} tokenFaucet={tokenFaucet} />}
+            </span>
+          ))}
+
           <div className='sm:hidden mt-1'>
             <ViewPoolDetailsButton />
           </div>

@@ -37,6 +37,7 @@ export const RewardsUI = () => {
 
       <RewardsGovernance />
 
+      {/* Commented out until we have the new Sponsorship incentivized token faucet live */}
       <RewardsSponsorship />
 
       <DeprecatedRewards />

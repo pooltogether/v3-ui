@@ -100,7 +100,7 @@ export function PrizeShow(props) {
       />
 
       <PrizePlayersQuery pool={preAwardPool} blockNumber={prize.awardedBlock - 1}>
-        {({ data, isFetched, isFetching }) => {
+        {({ data, isFetched }) => {
           if (!isFetched) {
             return (
               <div className='mt-10'>
@@ -114,7 +114,6 @@ export function PrizeShow(props) {
               baseAsPath={`/prizes/${poolNetworkName}/${poolSymbol}/${prizeNumber}`}
               baseHref='/prizes/[networkName]/[symbol]/[prizeNumber]'
               isFetched={isFetched}
-              isFetching={isFetching}
               balances={data}
               pool={preAwardPool}
               prize={prize}

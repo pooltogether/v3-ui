@@ -257,7 +257,8 @@ export function ConfirmWithdrawWithFeeForm(props) {
             label={t('withdrawTicker', {
               ticker: tickerUpcased
             })}
-            pool={pool}
+            symbol={pool.tokens.underlyingToken.symbol}
+            address={pool.tokens.underlyingToken.address}
           />
           <WithdrawAndDepositBanner
             label={t('youreWithdrawing')}
