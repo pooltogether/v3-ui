@@ -28,3 +28,8 @@ https://app.pooltogether.us/*   https://app.pooltogether.com         301!
 /prizes/:networkName/:symbol/:prizeNumber /prizes/[networkName]/[symbol]/[prizeNumber].html  200
 /prizes/:networkName/:symbol              /prizes/[networkName]/[symbol].html                200
 /prizes                                   /prizes/dai.html                     200
+
+/pods/:networkName/:symbol/deposit /pools/[networkName]/[symbol]/deposit.html         200
+/pods/:networkName/:symbol/withdraw  /pools/[networkName]/[symbol]/withdraw.html          200
+/pods/         /pods/[networkName]/[symbol].html                 200
+/pods/                 /pods/[networkName]                               200 
