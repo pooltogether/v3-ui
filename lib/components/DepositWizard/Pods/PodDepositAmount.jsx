@@ -171,7 +171,7 @@ const UsersPrize = (props) => {
 }
 
 const SmallCard = (props) => (
-  <div className={classnames('bg-card py-2 px-4 rounded flex flex-col', props.className)}>
+  <div className={classnames('w-1/2 bg-card py-2 px-4 rounded flex flex-col', props.className)}>
     {props.children}
   </div>
 )
