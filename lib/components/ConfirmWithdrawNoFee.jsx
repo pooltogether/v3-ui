@@ -84,7 +84,8 @@ export function ConfirmWithdrawNoFee(props) {
             label={t('withdrawTicker', {
               ticker: tickerUpcased
             })}
-            pool={pool}
+            symbol={pool.tokens.underlyingToken.symbol}
+            address={pool.tokens.underlyingToken.address}
           />
 
           <WithdrawAndDepositBanner
@@ -100,8 +101,7 @@ export function ConfirmWithdrawNoFee(props) {
             }}
           >
             <p className='text-base xs:text-xl leading-tight mb-2'>
-              {numberWithCommas(prevBalance)} -{' '}
-              {numberWithCommas(quantity)} ={' '}
+              {numberWithCommas(prevBalance)} - {numberWithCommas(quantity)} ={' '}
               <div className='font-bold sm:inline'>
                 {numberWithCommas(Number(prevBalance) - Number(quantity))} {tickerUpcased}
               </div>

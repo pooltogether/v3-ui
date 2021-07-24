@@ -272,7 +272,10 @@ export const RewardsActionModal = (props) => {
 
           {isPrize && !txSent && !txSuccessful && (
             <div className='mt-6 sm:mt-0'>
-              <DepositExpectationsWarning pool={pool} />
+              <DepositExpectationsWarning
+                creditLimitMantissa={pool.config.tokenCreditRates[0].creditLimitMantissa}
+                creditRateMantissa={pool.config.tokenCreditRates[0].creditRateMantissa}
+              />
             </div>
           )}
         </div>

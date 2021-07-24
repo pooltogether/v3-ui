@@ -272,7 +272,7 @@ const ClaimablePoolTokenFaucetRow = (props) => {
     address
   )
 
-  const apr = useTokenFaucetApr(pool, tokenFaucet)
+  const apr = useTokenFaucetApr(tokenFaucet)
 
   if (!isFetched || !tokenFaucet?.dripToken) {
     return null

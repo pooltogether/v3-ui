@@ -86,7 +86,8 @@ export function ExecuteCryptoDeposit(props) {
         label={t('depositTickerToWin', {
           ticker: tickerUpcased
         })}
-        pool={pool}
+        symbol={pool.tokens.underlyingToken.symbol}
+        address={pool.tokens.underlyingToken.address}
       />
 
       <WithdrawAndDepositBanner

@@ -36,7 +36,13 @@ export function NoMoreTicketsPane(props) {
         <PaneTitle>{t('theNextPoolWillBeLaunchedIn')}</PaneTitle>
         <PaneTitle small>
           <div className='mt-4'>
-            <NewPrizeCountdown center textSize='text-lg sm:text-3xl lg:text-5xl' pool={pool} />
+            <NewPrizeCountdown
+              center
+              textSize='text-lg sm:text-3xl lg:text-5xl'
+              prizePeriodSeconds={pool.prize.prizePeriodSeconds}
+              prizePeriodStartedAt={pool.prize.prizePeriodStartedAt}
+              isRngRequested={pool.prize.isRngRequested}
+            />
           </div>
         </PaneTitle>
 
