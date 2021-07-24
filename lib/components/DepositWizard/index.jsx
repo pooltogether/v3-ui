@@ -10,10 +10,8 @@ import { useRouter } from 'next/router'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
 // 1. Deposit amount
-// 2. Wallet connect / Network connect
-// 3. Approve
-// 4. Review
-// 5. Success
+// 2. Wallet connect > Network connect > Approval > Review & Submit
+// 3. Success
 
 export const DepositWizard = (props) => {
   const { contractAddress, tokenAddress, chainId, isFetched } = props
@@ -28,7 +26,7 @@ export const DepositWizard = (props) => {
   } = props
 
   const router = useRouter()
-  const { quantity, prevBalance } = router.query
+  const { quantity, prevTicketBalance, prevUnderlyingBalance } = router.query
 
   const { network: walletChainId, address: usersAddress } = useOnboard()
 
@@ -45,11 +43,6 @@ export const DepositWizard = (props) => {
   })
 
   useEffect(() => {
-    console.log('DepositWizard MOUNTED')
-  }, [])
-
-  useEffect(() => {
-    console.log(walletChainId === chainId, walletChainId, chainId)
     setIsUserOnCorrectNetwork(walletChainId === chainId)
   }, [walletChainId, chainId])
 
@@ -101,7 +94,8 @@ export const DepositWizard = (props) => {
             tokenAddress={tokenAddress}
             contractAddress={contractAddress}
             quantity={quantity}
-            prevBalance={prevBalance}
+            prevTicketBalance={prevTicketBalance}
+            prevUnderlyingBalance={prevUnderlyingBalance}
             chainId={chainId}
             form={form}
           />
@@ -116,8 +110,9 @@ export const DepositWizard = (props) => {
             chainId={chainId}
             isUserOnCorrectNetwork={isUserOnCorrectNetwork}
             quantity={quantity}
-            prevBalance={prevBalance}
-            approveTxId={approveTxId}
+            aprevTicketBalance={prevTicketBalance}
+            prevUnderlyingBalance={prevUnderlyingBalance}
+            pproveTxId={approveTxId}
             setApproveTxId={setApproveTxId}
             depositTxId={depositTxId}
             setDepositTxId={setDepositTxId}
@@ -131,7 +126,8 @@ export const DepositWizard = (props) => {
             tokenAddress={tokenAddress}
             contractAddress={contractAddress}
             quantity={quantity}
-            prevBalance={prevBalance}
+            prevTicketBalance={prevTicketBalance}
+            prevUnderlyingBalance={prevUnderlyingBalance}
             chainId={chainId}
             form={form}
           />

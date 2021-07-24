@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import classnames from 'classnames'
 import { useTokenBalance, useTokenBalances, useUsersAddress } from '@pooltogether/hooks'
 
@@ -34,14 +35,6 @@ export const PodWithdrawAmount = (props) => {
     poolTicketAddress
   )
 
-  useEffect(() => {
-    console.log('PodWithdrawAmount MOUNTED')
-  }, [])
-
-  useEffect(() => {
-    console.log('usersBalance', usersBalance)
-  }, [usersBalance])
-
   const isFetched = isUsersBalanceFetched && isPodBalanceFetched
 
   const { watch, formState } = form
@@ -54,7 +47,8 @@ export const PodWithdrawAmount = (props) => {
         chainId={chainId}
         usersAddress={usersAddress}
         form={form}
-        usersBalance={usersBalance?.[podTicketAddress].amount}
+        usersTicketBalance={usersBalance?.[podTicketAddress].amount}
+        usersUnderlyingBalance={usersBalance?.[tokenAddress].amount}
         label={`Withdraw from the ${tokenSymbol} Pod`}
         tokenSymbol={podTicketTokenSymbol}
         tokenAddress={podTicketAddress}
@@ -83,10 +77,12 @@ export const PodWithdrawAmount = (props) => {
 const PodWinningOdds = (props) => {
   const { isQuantityValid, isFetched, pod, quantity, podBalanceUnformatted } = props
 
+  const { t } = useTranslation()
+
   if (!isFetched || !isQuantityValid) {
     return (
       <SmallCard className='mr-2'>
-        <Title>Your winning odds:</Title>
+        <Title>{t('yourWinningOdds')}:</Title>
         <Details>--</Details>
       </SmallCard>
     )
@@ -106,7 +102,7 @@ const PodWinningOdds = (props) => {
 
   return (
     <SmallCard className='mr-2'>
-      <Title>Pod winning odds:</Title>
+      <Title>{t('podWinningOdds')}:</Title>
       {podsNewBalanceUnformatted.isZero() ? (
         <Details>--</Details>
       ) : (
@@ -123,6 +119,7 @@ const PodWinningOdds = (props) => {
 
 const UsersPrize = (props) => {
   const { isQuantityValid, isFetched, pod, quantity, usersBalanceUnformatted } = props
+  const { t } = useTranslation()
 
   const decimals = pod.tokens.underlyingToken.decimals
   const quantityUnformatted = ethers.utils.parseUnits(
@@ -134,7 +131,7 @@ const UsersPrize = (props) => {
   if (!isFetched || !isQuantityValid || !usersNewBalanceUnformatted) {
     return (
       <SmallCard className='ml-2'>
-        <Title>Your prize if the pod wins:</Title>
+        <Title>{t('yourPrizeIfThePodWins')}:</Title>
         <Details>--</Details>
       </SmallCard>
     )
@@ -156,19 +153,10 @@ const UsersPrize = (props) => {
   const usersOwnershipPercentage = usersBalanceFloat / totalSupplyFloat
   const usersPrize = (singlePrizeScaled * usersOwnershipPercentage) / 100
 
-  console.log(
-    totalSupplyUnformatted.toString(),
-    usersNewBalanceUnformatted.toString(),
-    usersBalanceFloat,
-    totalSupplyFloat,
-    usersOwnershipPercentage,
-    usersPrize
-  )
-
   if (usersPrize <= 0) {
     return (
       <SmallCard className='ml-2'>
-        <Title>Your prize if the pod wins:</Title>
+        <Title>{t('yourPrizeIfThePodWins')}:</Title>
         <Details>--</Details>
       </SmallCard>
     )
@@ -176,7 +164,7 @@ const UsersPrize = (props) => {
 
   return (
     <SmallCard className='ml-2'>
-      <Title>Your prize if the pod wins:</Title>
+      <Title>{t('yourPrizeIfThePodWins')}:</Title>
       <Details className='text-flashy'>
         $<Amount>{numberWithCommas(usersPrize, { decimals: 0, precision: 2 })}</Amount>
       </Details>

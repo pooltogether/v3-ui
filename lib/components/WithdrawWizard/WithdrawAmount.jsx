@@ -17,11 +17,12 @@ export const WithdrawAmount = (props) => {
     quantity: queryQuantity,
     decimals,
     usersAddress,
-    usersBalance,
     label,
     tokenSymbol,
     tokenAddress,
     nextStep,
+    usersUnderlyingBalance,
+    usersTicketBalance,
     form
   } = props
 
@@ -41,7 +42,8 @@ export const WithdrawAmount = (props) => {
     if (formState.isValid) {
       queryParamUpdater.add(router, {
         quantity: values.quantity,
-        prevBalance: usersBalance
+        prevUnderlyingBalance: usersUnderlyingBalance,
+        prevTicketBalance: usersTicketBalance
       })
       nextStep()
     }
@@ -51,9 +53,9 @@ export const WithdrawAmount = (props) => {
     isValid: (v) => {
       const isNotANumber = isNaN(v)
       if (isNotANumber) return false
-      if (!usersBalance) return false
+      if (!usersTicketBalance) return false
       if (getMaxPrecision(v) > decimals) return false
-      if (parseUnits(v, decimals).gt(parseUnits(usersBalance, decimals))) return false
+      if (parseUnits(v, decimals).gt(parseUnits(usersTicketBalance, decimals))) return false
       if (parseUnits(v, decimals).isZero()) return false
       return true
     }
@@ -78,7 +80,7 @@ export const WithdrawAmount = (props) => {
             autoComplete='off'
             rightLabel={
               usersAddress &&
-              usersBalance && (
+              usersUnderlyingBalance && (
                 <>
                   <button
                     id='_setMaxWithdrawAmount'
@@ -86,11 +88,11 @@ export const WithdrawAmount = (props) => {
                     className='font-bold inline-flex items-center'
                     onClick={(e) => {
                       e.preventDefault()
-                      setValue('quantity', usersBalance, { shouldValidate: true })
+                      setValue('quantity', usersTicketBalance, { shouldValidate: true })
                     }}
                   >
                     <img src={WalletIcon} className='mr-2' style={{ maxHeight: 12 }} />
-                    {numberWithCommas(usersBalance)} {tokenSymbol}
+                    {numberWithCommas(usersTicketBalance)} {tokenSymbol}
                   </button>
                 </>
               )

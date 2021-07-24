@@ -1,5 +1,6 @@
 import React from 'react'
 import { omit } from 'lodash'
+import { useTranslation } from 'react-i18next'
 import { Button, Tooltip } from '@pooltogether/react-components'
 import { useIsWalletOnNetwork, useUsersAddress } from '@pooltogether/hooks'
 import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
@@ -11,11 +12,13 @@ export function ButtonTx(props) {
   const isWalletOnProperNetwork = useIsWalletOnNetwork(chainId)
   const disableButton = !isWalletConnected || !isWalletOnProperNetwork
 
+  const { t } = useTranslation()
+
   return (
     <Tooltip
       isEnabled={disableButton}
       id={`button-tx-connect-wallet-tooltip`}
-      title='Connect a wallet'
+      title={t('connectAWallet')}
       tip={
         <Tip
           chainId={chainId}
@@ -33,13 +36,14 @@ export function ButtonTx(props) {
 
 const Tip = (props) => {
   const { chainId, isWalletOnProperNetwork } = props
+  const { t } = useTranslation()
 
   if (chainId && !isWalletOnProperNetwork) {
     return (
       <>
-        <div className='my-2 text-xs sm:text-sm'>You are not on the proper network.</div>
+        <div className='my-2 text-xs sm:text-sm'>{t('youreOnTheWrongNetwork')}</div>
         <div className='my-2 text-xs sm:text-sm'>
-          Please connect to {getNetworkNiceNameByChainId(chainId)}.
+          {t('pleaseConnectToNetwork', { network: getNetworkNiceNameByChainId(chainId) })}
         </div>
       </>
     )
@@ -47,9 +51,9 @@ const Tip = (props) => {
 
   return (
     <>
-      <div className='my-2 text-xs sm:text-sm'>You do not have a wallet connected.</div>
+      <div className='my-2 text-xs sm:text-sm'>{t('noWalletConnected')}</div>
       <div className='my-2 text-xs sm:text-sm'>
-        Please connect a wallet before submitting transactions.
+        {t('pleaseConnectAWalletBeforeSendingTransactions')}
       </div>
     </>
   )

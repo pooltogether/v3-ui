@@ -1,60 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import { useOnboard, useTokenAllowance, useUsersAddress } from '@pooltogether/hooks'
-import FeatherIcon from 'feather-icons-react'
-import { Button, Card, ExternalLink, Tooltip } from '@pooltogether/react-components'
+import React, { useEffect } from 'react'
+import { useOnboard } from '@pooltogether/hooks'
+import { Button, Tooltip } from '@pooltogether/react-components'
 import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
-import { ethers } from 'ethers'
 
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import IconNetwork from 'assets/images/icon-network@2x.png'
-import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { Banner } from 'lib/components/Banner'
 import { ButtonTx } from 'lib/components/ButtonTx'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import ERC20Abi from 'abis/ERC20Abi'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { TxStatus } from 'lib/components/TxStatus'
-import Bell from 'assets/images/bell-red@2x.png'
+import { ConnectToNetworkContent } from 'lib/components/DepositWizard/ReviewAndSubmitDeposit'
 
 export const ReviewAndSubmitWithdraw = (props) => {
-  const { chainId, tokenAddress, contractAddress, isUserOnCorrectNetwork } = props
+  const { isUserOnCorrectNetwork } = props
 
   const { network: walletChainId, address: usersAddress, connectWallet } = useOnboard()
 
-  const {
-    data,
-    isFetched,
-    refetch: refetchTokenAllowance
-  } = useTokenAllowance(chainId, usersAddress, contractAddress, tokenAddress)
-
-  const isValidAllowance = isFetched ? data.isAllowed : true
-
   if (!usersAddress) {
     return <ConnectWallet {...props} connectWallet={connectWallet} />
-  } else if (!isFetched) {
-    return <V3LoadingDots className='mx-auto' />
   } else if (!isUserOnCorrectNetwork) {
-    return (
-      <ConnectNetwork
-        {...props}
-        walletChainId={walletChainId}
-        isValidAllowance={isValidAllowance}
-      />
-    )
-  } else if (!data?.isAllowed) {
-    return (
-      <ApproveWithdraw
-        {...props}
-        {...data}
-        isValidAllowance={isValidAllowance}
-        refetchTokenAllowance={refetchTokenAllowance}
-      />
-    )
+    return <ConnectNetwork {...props} walletChainId={walletChainId} />
   } else {
-    return <SubmitWithdraw {...props} isValidAllowance={isValidAllowance} />
+    return <SubmitWithdraw {...props} />
   }
 }
 
@@ -85,9 +55,8 @@ const ConnectWallet = (props) => {
   )
 }
 
-// TODO: Show button to change network
 const ConnectNetwork = (props) => {
-  const { chainId, walletChainId } = props
+  const { chainId } = props
   const { t } = useTranslation()
 
   return (
@@ -103,74 +72,9 @@ const ConnectNetwork = (props) => {
       </Banner>
       <div className='flex flex-col h-full justify-center'>
         <ReviewAmountAndTitle {...props} />
+        <ConnectToNetworkContent chainId={chainId} />
       </div>
     </div>
-  )
-}
-
-const ApproveWithdraw = (props) => {
-  const {
-    chainId,
-    tokenSymbol,
-    refetchTokenAllowance,
-    tokenAddress,
-    decimals,
-    contractAddress,
-    approveTxId,
-    setApproveTxId
-  } = props
-  const { t } = useTranslation()
-
-  const txName = t(`allowTickerPool`, { ticker: tokenSymbol })
-  const method = 'approve'
-  const sendTx = useSendTransaction()
-  const tx = useTransaction(approveTxId)
-
-  console.log(tx)
-
-  const handleApproveClick = async (e) => {
-    e.preventDefault()
-
-    if (!decimals) {
-      return
-    }
-
-    const params = [contractAddress, ethers.utils.parseUnits('9999999999', Number(decimals))]
-    const id = await sendTx(txName, ERC20Abi, tokenAddress, method, params, refetchTokenAllowance)
-    setApproveTxId(id)
-  }
-
-  const txPending = (tx?.inWallet || tx?.sent) && !tx?.cancelled && !tx?.error
-
-  return (
-    <>
-      <ReviewAmountAndTitle {...props} />
-      <div className='mb-8 flex flex-col'>
-        <span className='font-bold'>Your approval is necessary before withdrawing.</span>
-        <Tooltip tip='Before you can withdraw funds into a prize pool, you must give it access to the token you want to withdraw. This is only required the first time you deposit into a new pool.'>
-          <span className='text-xxs text-highlight-1'>What is this?</span>
-        </Tooltip>
-      </div>
-      <TxStatus
-        tx={tx}
-        inWalletMessage={t('confirmApprovalInWallet')}
-        sentMessage={t('approvalConfirming')}
-      />
-      {!txPending && (
-        <ButtonDrawer>
-          <ButtonTx
-            chainId={chainId}
-            textSize='xl'
-            onClick={handleApproveClick}
-            className='mx-auto'
-          >
-            {t('allowTicker', {
-              ticker: tokenSymbol
-            })}
-          </ButtonTx>
-        </ButtonDrawer>
-      )}
-    </>
   )
 }
 
@@ -226,7 +130,9 @@ const SubmitWithdraw = (props) => {
             onClick={handleWithdrawClick}
             className='mx-auto'
           >
-            {hasExitFee ? `Withdraw ${tokenSymbol} & pay fee` : `Withdraw ${tokenSymbol}`}
+            {hasExitFee
+              ? t('withdrawTickerAndPay', { ticker: tokenSymbol })
+              : t('withdrawTicker', { ticker: tokenSymbol })}
           </ButtonTx>
         </ButtonDrawer>
       )}
@@ -235,17 +141,15 @@ const SubmitWithdraw = (props) => {
 }
 
 const ReviewAmountAndTitle = (props) => {
-  const { chainId, tokenAddress, tokenSymbol, label, quantity, isValidAllowance } = props
+  const { tokenAddress, tokenSymbol, label, quantity, isValidAllowance } = props
 
-  useEffect(() => {
-    console.log(tokenAddress, tokenSymbol, quantity)
-  }, [tokenAddress, tokenSymbol, label, quantity])
+  const { t } = useTranslation()
 
   return (
     <>
       <WithdrawAndDepositPaneTitle label={label} symbol={tokenSymbol} address={tokenAddress} />
       <WithdrawAndDepositBanner
-        label={`You're withdrawing:`}
+        label={t('youreWithdrawing')}
         quantity={quantity}
         tickerUpcased={tokenSymbol}
         disabled={!isValidAllowance}

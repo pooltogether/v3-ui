@@ -16,7 +16,6 @@ export const PodReviewAndSubmitDeposit = (props) => {
   const sendTx = useSendTransaction()
 
   const submitDepositTransaction = async () => {
-    // TODO: Double check quantity
     const decimals = pod.tokens.underlyingToken.decimals
     const quantityBN = ethers.utils.parseUnits(quantity, decimals)
 

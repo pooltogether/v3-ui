@@ -16,7 +16,8 @@ export const DepositAmount = (props) => {
   const {
     quantity: queryQuantity,
     usersAddress,
-    usersBalance,
+    usersUnderlyingBalance,
+    usersTicketBalance,
     decimals,
     label,
     tokenSymbol,
@@ -41,7 +42,8 @@ export const DepositAmount = (props) => {
     if (formState.isValid) {
       queryParamUpdater.add(router, {
         quantity: values.quantity,
-        prevBalance: usersBalance
+        prevUnderlyingBalance: usersUnderlyingBalance,
+        prevTicketBalance: usersTicketBalance
       })
       nextStep()
     }
@@ -51,15 +53,14 @@ export const DepositAmount = (props) => {
     isValid: (v) => {
       const isNotANumber = isNaN(v)
       if (isNotANumber) return false
-      if (!usersBalance) return false
+      if (!usersUnderlyingBalance) return false
+      if (!usersTicketBalance) return false
       if (getMaxPrecision(v) > decimals) return false
-      if (parseUnits(usersBalance, decimals).lt(parseUnits(v, decimals))) return false
+      if (parseUnits(usersUnderlyingBalance, decimals).lt(parseUnits(v, decimals))) return false
       if (parseUnits(v, decimals).isZero()) return false
       return true
     }
   }
-
-  // TODO: VALIDATE QUANTITY  query param AND disable continue button
 
   return (
     <>
@@ -80,7 +81,7 @@ export const DepositAmount = (props) => {
             autoComplete='off'
             rightLabel={
               usersAddress &&
-              usersBalance && (
+              usersUnderlyingBalance && (
                 <>
                   <button
                     id='_setMaxDepositAmount'
@@ -88,11 +89,11 @@ export const DepositAmount = (props) => {
                     className='font-bold inline-flex items-center'
                     onClick={(e) => {
                       e.preventDefault()
-                      setValue('quantity', usersBalance, { shouldValidate: true })
+                      setValue('quantity', usersUnderlyingBalance, { shouldValidate: true })
                     }}
                   >
                     <img src={WalletIcon} className='mr-2' style={{ maxHeight: 12 }} />
-                    {numberWithCommas(usersBalance)} {tokenSymbol}
+                    {numberWithCommas(usersUnderlyingBalance)} {tokenSymbol}
                   </button>
                 </>
               )

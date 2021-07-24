@@ -9,10 +9,9 @@ import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { useTransaction } from 'lib/hooks/useTransaction'
 
-// 1. Withdraw amount
-// 2. Network connect
-// 3. Review
-// 4. Success
+// 1. Deposit amount
+// 2. Wallet connect > Network connect > Review & Submit
+// 3. Success
 
 export const WithdrawWizard = (props) => {
   const { contractAddress, tokenAddress, chainId, isFetched } = props
@@ -27,7 +26,7 @@ export const WithdrawWizard = (props) => {
   } = props
 
   const router = useRouter()
-  const { quantity, prevBalance } = router.query
+  const { quantity, prevTicketBalance, prevUnderlyingBalance } = router.query
 
   const { network: walletChainId, address: usersAddress } = useOnboard()
 
@@ -97,7 +96,8 @@ export const WithdrawWizard = (props) => {
             chainId={chainId}
             form={form}
             quantity={quantity}
-            prevBalance={prevBalance}
+            prevTicketBalance={prevTicketBalance}
+            prevUnderlyingBalance={prevUnderlyingBalance}
           />
         )}
         {activeStepIndex === 1 && (
@@ -114,7 +114,8 @@ export const WithdrawWizard = (props) => {
             withdrawTxId={withdrawTxId}
             setWithdrawTxId={setWithdrawTxId}
             quantity={quantity}
-            prevBalance={prevBalance}
+            prevTicketBalance={prevTicketBalance}
+            prevUnderlyingBalance={prevUnderlyingBalance}
           />
         )}
         {activeStepIndex === 2 && (
@@ -127,7 +128,8 @@ export const WithdrawWizard = (props) => {
             chainId={chainId}
             form={form}
             quantity={quantity}
-            prevBalance={prevBalance}
+            prevTicketBalance={prevTicketBalance}
+            prevUnderlyingBalance={prevUnderlyingBalance}
           />
         )}
       </WizardLayout>

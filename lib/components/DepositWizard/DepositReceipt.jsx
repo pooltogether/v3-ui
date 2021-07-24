@@ -14,7 +14,8 @@ import { formatUnits, parseUnits } from 'ethers/lib/utils'
 export const DepositReceipt = (props) => {
   const {
     quantity,
-    prevBalance,
+    prevUnderlyingBalance,
+    prevTicketBalance,
     ticketAddress,
     ticketDecimals,
     ticketSymbol,
@@ -33,7 +34,7 @@ export const DepositReceipt = (props) => {
   )
 
   const balance = formatUnits(
-    parseUnits(quantity, ticketDecimals).add(parseUnits(prevBalance, ticketDecimals)),
+    parseUnits(quantity, ticketDecimals).add(parseUnits(prevTicketBalance, ticketDecimals)),
     ticketDecimals
   )
 

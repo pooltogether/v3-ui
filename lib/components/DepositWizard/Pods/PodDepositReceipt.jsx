@@ -2,7 +2,7 @@ import { DepositReceipt } from 'lib/components/DepositWizard/DepositReceipt'
 import React from 'react'
 
 export const PodDepositReceipt = (props) => {
-  const { quantity, prevBalance, pod } = props
+  const { quantity, prevTicketBalance, prevUnderlyingBalance, pod } = props
   const {
     address: ticketAddress,
     decimals: ticketDecimals,
@@ -15,7 +15,8 @@ export const PodDepositReceipt = (props) => {
     <DepositReceipt
       {...props}
       quantity={quantity}
-      prevBalance={prevBalance}
+      prevTicketBalance={prevTicketBalance}
+      prevUnderlyingBalance={prevUnderlyingBalance}
       ticketAddress={ticketAddress}
       ticketDecimals={ticketDecimals}
       ticketSymbol={ticketSymbol}

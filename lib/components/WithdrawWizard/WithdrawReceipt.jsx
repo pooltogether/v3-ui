@@ -9,7 +9,8 @@ import { useTranslation } from 'react-i18next'
 export const WithdrawReceipt = (props) => {
   const {
     quantity,
-    prevBalance,
+    prevUnderlyingBalance,
+    prevTicketBalance,
     underlyingTokenSymbol,
     ticketDecimals,
     prizePeriodSeconds,
@@ -18,7 +19,7 @@ export const WithdrawReceipt = (props) => {
   } = props
 
   const balance = formatUnits(
-    parseUnits(prevBalance, ticketDecimals).sub(parseUnits(quantity, ticketDecimals)),
+    parseUnits(prevTicketBalance, ticketDecimals).sub(parseUnits(quantity, ticketDecimals)),
     ticketDecimals
   )
 

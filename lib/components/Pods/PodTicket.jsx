@@ -53,12 +53,6 @@ const PodTicketRight = (props) => {
     pod.prizePool.tokens.ticket.address
   )
 
-  useEffect(() => {
-    console.log('POD TOKEN BALANCE', data, isFetched)
-    console.log('podTicket', podTicket)
-    console.log('pod', pod)
-  }, [data, isFetched])
-
   return (
     <div className='flex flex-col sm:flex-row justify-between'>
       <div className='flex flex-col'>

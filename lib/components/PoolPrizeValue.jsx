@@ -7,6 +7,7 @@ export const PoolPrizeValue = (props) => {
   const { pool } = props
 
   if (
+    !pool.prize?.totalValueUsd &&
     pool.prize.sablierStream.id &&
     !pool.prize.sablierStream?.amountThisPrizePeriodUnformatted?.isZero()
   ) {

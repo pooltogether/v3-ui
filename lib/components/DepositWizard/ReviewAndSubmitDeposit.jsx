@@ -90,7 +90,6 @@ const ConnectWallet = (props) => {
   )
 }
 
-// TODO: Show button to change network
 const ConnectNetwork = (props) => {
   const { chainId, walletChainId } = props
   const { t } = useTranslation()
@@ -114,12 +113,12 @@ const ConnectNetwork = (props) => {
   )
 }
 
-const ConnectToNetworkContent = (props) => {
+export const ConnectToNetworkContent = (props) => {
   const { chainId } = props
   const isWalletMetamask = useIsWalletMetamask()
   const addNetwork = useAddNetworkToMetamask(chainId)
-  const { t } = useTranslation()
   const networkName = getNetworkNiceNameByChainId(chainId)
+  const { t } = useTranslation()
 
   const isEthereumNetwork = ETHEREUM_NETWORKS.includes(chainId)
 
@@ -127,9 +126,7 @@ const ConnectToNetworkContent = (props) => {
     return (
       <div className='mt-8 text-xl flex mx-auto'>
         <FeatherIcon icon='alert-triangle' className='w-8 h-8 mr-2' />
-        <span>
-          Please switch to <b>{networkName}</b> in your wallet.
-        </span>
+        <span>{t('openYourWalletAndSelectNetworkToContinue', { networkName })}</span>
       </div>
     )
   }
@@ -137,7 +134,7 @@ const ConnectToNetworkContent = (props) => {
   return (
     <ButtonDrawer>
       <Button chainId={chainId} textSize='lg' onClick={addNetwork} className='mx-auto'>
-        Connect to <b>{networkName}</b>
+        {t('connectToNetwork', { networkName })}
       </Button>
     </ButtonDrawer>
   )
@@ -161,8 +158,6 @@ const ApproveDeposit = (props) => {
   const sendTx = useSendTransaction()
   const tx = useTransaction(approveTxId)
 
-  console.log(tx)
-
   const handleApproveClick = async (e) => {
     e.preventDefault()
 
@@ -181,9 +176,9 @@ const ApproveDeposit = (props) => {
     <>
       <ReviewAmountAndTitle {...props} />
       <div className='mb-8 flex flex-col'>
-        <span className='font-bold'>Your approval is necessary before depositing.</span>
-        <Tooltip tip='Before you can deposit funds into a prize pool, you must give it access to the token you want to deposit. This is only required the first time you deposit into a new pool.'>
-          <span className='text-xxs text-highlight-1'>What is this?</span>
+        <span className='font-bold'>{t('yourApprovalIsNecessaryBeforeDepositing')}</span>
+        <Tooltip tip={t('approvalExplainer')}>
+          <span className='text-xxs text-highlight-1'>{t('whatIsThis')}</span>
         </Tooltip>
       </div>
       <TxStatus
@@ -244,10 +239,7 @@ const SubmitDeposit = (props) => {
         sizeClassName='max-w-md'
       >
         <img className='mx-auto h-8 mb-4 text-xs sm:text-base' src={Bell} />
-        <p>
-          You can withdraw your funds at any time. Fees may apply when withdrawing depending on the
-          float available at that time.
-        </p>
+        <p>{t('withdrawAnyTimePod')}</p>
         {/* TODO: Link to FAQ/Knowledge base */}
         {/* <ExternalLink>Learn more</ExternalLink> */}
       </Card>
@@ -275,17 +267,15 @@ const SubmitDeposit = (props) => {
 }
 
 const ReviewAmountAndTitle = (props) => {
-  const { chainId, tokenAddress, tokenSymbol, label, quantity, isValidAllowance } = props
+  const { tokenAddress, tokenSymbol, label, quantity, isValidAllowance } = props
 
-  useEffect(() => {
-    console.log(tokenAddress, tokenSymbol, quantity)
-  }, [tokenAddress, tokenSymbol, label, quantity])
+  const { t } = useTranslation()
 
   return (
     <>
       <WithdrawAndDepositPaneTitle label={label} symbol={tokenSymbol} address={tokenAddress} />
       <WithdrawAndDepositBanner
-        label={'Your deposit:'}
+        label={t('yourDeposit')}
         quantity={quantity}
         tickerUpcased={tokenSymbol}
         disabled={!isValidAllowance}

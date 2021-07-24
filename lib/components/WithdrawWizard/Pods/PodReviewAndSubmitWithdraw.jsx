@@ -5,7 +5,7 @@ import { useTokenBalance, useUsersAddress } from '@pooltogether/hooks'
 import { Card } from '@pooltogether/react-components'
 import { ethers } from 'ethers'
 import { getMinPrecision, getPrecision, numberWithCommas } from '@pooltogether/utilities'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import PodAbi from 'abis/PodAbi'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { usePodExitFee } from 'lib/hooks/usePodExitFee'
@@ -44,7 +44,6 @@ export const PodReviewAndSubmitWithdraw = (props) => {
       return null
     }
 
-    // TODO: Double check quantity
     const params = [quantityUnformatted, podExitFee.fee]
     const txName = `${t('withdraw')} ${numberWithCommas(quantity)} ${tokenSymbol}`
 
@@ -103,6 +102,8 @@ const FinalBalance = (props) => {
   const decimals = pod.tokens.underlyingToken.decimals
   const quantityUnformatted = ethers.utils.parseUnits(quantity || '0', decimals)
 
+  const { t } = useTranslation()
+
   const { data: usersBalance, isFetched: isPodBalanceFetched } = useTokenBalance(
     chainId,
     usersAddress,
@@ -110,7 +111,7 @@ const FinalBalance = (props) => {
   )
 
   if (!isPodBalanceFetched) {
-    return <SummaryItem title='Final balance:' content={'--'} />
+    return <SummaryItem title={`${t('finalBalance')}:`} content={'--'} />
   }
 
   const finalBalanceUnformatted = usersBalance.amountUnformatted.sub(quantityUnformatted)
@@ -118,7 +119,7 @@ const FinalBalance = (props) => {
     ? 0
     : numberWithCommas(finalBalanceUnformatted, { decimals })
 
-  return <SummaryItem title='Final balance:' content={finalBalance} />
+  return <SummaryItem title={`${t('finalBalance')}:`} content={finalBalance} />
 }
 
 const Odds = (props) => {
@@ -129,6 +130,7 @@ const Odds = (props) => {
   const podAddress = pod.pod.address
   const decimals = pod.tokens.underlyingToken.decimals
   const numberOfWinners = pod.prizePool.config.numberOfWinners
+  const { t } = useTranslation()
 
   const quantityUnformatted = ethers.utils.parseUnits(quantity || '0', decimals)
 
@@ -151,13 +153,13 @@ const Odds = (props) => {
   )
 
   if (!isPodBalanceFetched || !isUsersBalanceFetched) {
-    return <SummaryItem title='Updated odds:' content={'--'} />
+    return <SummaryItem title={`${t('updatedOdds')}:`} content={'--'} />
   }
 
   const isBalanceZero = usersBalance.amountUnformatted.sub(quantityUnformatted).isZero()
 
   if (isBalanceZero) {
-    return <SummaryItem title='Updated odds:' content={0} />
+    return <SummaryItem title={`${t('updatedOdds')}:`} content={0} />
   }
 
   const odds = calculateOdds(
@@ -170,21 +172,22 @@ const Odds = (props) => {
     decimals: getMinPrecision(odds, { additionalDigits: getPrecision(odds) })
   })
 
-  return <SummaryItem title='Updated odds:' content={`1 in ${formattedOdds}`} />
+  return <SummaryItem title={`${t('updatedOdds')}:`} content={`1 in ${formattedOdds}`} />
 }
 
 const ExitFee = (props) => {
   const { pod, fee } = props
+  const { t } = useTranslation()
 
   if (!fee) {
-    return <SummaryItem title='Exit fee:' content={`--`} />
+    return <SummaryItem title={`${t('exitFee')}:`} content={`--`} />
   }
 
   const tokenSymbol = pod.tokens.underlyingToken.symbol
   const decimals = pod.tokens.underlyingToken.decimals
   const exitFee = ethers.utils.formatUnits(fee, decimals)
 
-  return <SummaryItem title='Exit fee:' content={`${exitFee} ${tokenSymbol}`} />
+  return <SummaryItem title={`${t('exitFee')}:`} content={`${exitFee} ${tokenSymbol}`} />
 }
 
 const SummaryItem = (props) => (
@@ -196,6 +199,8 @@ const SummaryItem = (props) => (
 
 const ExitFeeWarningCard = (props) => {
   const { isFetched, fee, float, pod } = props
+
+  const { t } = useTranslation()
 
   if (!isFetched || fee?.isZero()) return null
 
@@ -213,7 +218,7 @@ const ExitFeeWarningCard = (props) => {
         paddingClassName='p-4 xs:py-6 xs:px-8'
       >
         <img className='mx-auto h-8 mb-4 text-xs sm:text-base' src={Bell} />
-        <p>There are no funds in the float at the moment. Check back later for free withdrawals.</p>
+        <p>{t('noFundsInFloat')}</p>
       </Card>
     )
   }
@@ -227,8 +232,14 @@ const ExitFeeWarningCard = (props) => {
     >
       <img className='mx-auto h-8 mb-4 text-xs sm:text-base' src={Bell} />
       <p>
-        You can avoid paying <b>{`${formattedFee} ${tokenSymbol}`}</b> by only withdrawing{' '}
-        <b>{`${formattedFloat} ${tokenSymbol}`}</b> from the float.
+        <Trans
+          i18nKey='avoidPayingPodExitFee'
+          values={{
+            fee: `${formattedFee} ${tokenSymbol}`,
+            float: `${formattedFloat} ${tokenSymbol}`
+          }}
+          components={{ b: <b /> }}
+        />
       </p>
     </Card>
   )
