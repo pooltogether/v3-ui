@@ -171,8 +171,6 @@ const ReserveRateStat = (props) => {
     reserveRateUnformattedPercentage,
     DEFAULT_TOKEN_PRECISION
   )
-  console.log(reserveRateUnformattedPercentage)
-  console.log(reserveRatePercentage)
 
   return (
     <Stat title={t('reserveRate')} percent={reserveRatePercentage} tooltip={t('reserveRateInfo')} />
@@ -233,7 +231,7 @@ const AprStats = (props) => {
 const TokenFaucetAprRow = (props) => {
   const { pool, tokenFaucet } = props
 
-  const apr = useTokenFaucetApr(pool, tokenFaucet)
+  const apr = useTokenFaucetApr(tokenFaucet)
 
   if (!apr) return null
 

@@ -55,7 +55,7 @@ export function WizardLayout(props) {
     }
   }, [])
 
-  const disabled = currentWizardStep <= 1 || currentWizardStep >= totalWizardSteps
+  const disabled = currentWizardStep < 1 || currentWizardStep >= totalWizardSteps
 
   return (
     <>

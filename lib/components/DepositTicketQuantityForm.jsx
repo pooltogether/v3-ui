@@ -103,7 +103,8 @@ export function DepositTicketQuantityForm(props) {
         label={t('depositTickerToWin', {
           ticker: tickerUpcased
         })}
-        pool={pool}
+        symbol={pool.tokens.underlyingToken.symbol}
+        address={pool.tokens.underlyingToken.address}
       />
 
       {balanceJsx && <div className='sm:my-4 mb-12'>{balanceJsx}</div>}

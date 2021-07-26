@@ -6,6 +6,7 @@ import {
   SideVoteIcon,
   SideRewardsIcon,
   SidePoolsIcon,
+  SidePodsIcon,
   SocialLinks,
   CountBadge
 } from '@pooltogether/react-components'
@@ -19,7 +20,7 @@ export const SideNav = (props) => {
 
   const router = useRouter()
   const { pathname } = router
-  const isPoolView = !['/account', '/rewards'].includes(pathname)
+  const isPoolView = !['/account', '/rewards', '/pods'].includes(pathname)
 
   return (
     <div className='flex flex-col justify-between h-full'>
@@ -33,6 +34,16 @@ export const SideNav = (props) => {
           isCurrentPage={isPoolView}
         >
           <SidePoolsIcon />
+        </SideNavLink>
+        <SideNavLink
+          href='/pods'
+          as='/pods'
+          label={'Pods'}
+          Link={Link}
+          useRouter={useRouter}
+          match='/pods'
+        >
+          <SidePodsIcon />
         </SideNavLink>
         <SideNavLink
           href='/account'

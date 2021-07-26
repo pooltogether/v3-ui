@@ -60,7 +60,8 @@ export function WizardSwitchNetwork(props) {
         label={t(paneTitleLocizeKey, {
           ticker: tickerUpcased
         })}
-        pool={pool}
+        symbol={pool.tokens.underlyingToken.symbol}
+        address={pool.tokens.underlyingToken.address}
       />
       <WithdrawAndDepositBanner
         label={bannerLabel}
