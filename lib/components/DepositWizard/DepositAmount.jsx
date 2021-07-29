@@ -14,6 +14,7 @@ import { parseUnits } from 'ethers/lib/utils'
 
 export const DepositAmount = (props) => {
   const {
+    chainId,
     quantity: queryQuantity,
     usersAddress,
     usersUnderlyingBalance,
@@ -64,7 +65,12 @@ export const DepositAmount = (props) => {
 
   return (
     <>
-      <WithdrawAndDepositPaneTitle label={label} symbol={tokenSymbol} address={tokenAddress} />
+      <WithdrawAndDepositPaneTitle
+        chainId={chainId}
+        label={label}
+        symbol={tokenSymbol}
+        address={tokenAddress}
+      />
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='w-full mx-auto'>

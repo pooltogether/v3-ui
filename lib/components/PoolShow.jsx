@@ -13,8 +13,7 @@ import {
   COOKIE_OPTIONS,
   SHOW_MANAGE_LINKS,
   WIZARD_REFERRER_HREF,
-  WIZARD_REFERRER_AS_PATH,
-  PRIZE_POOL_TYPES
+  WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
@@ -39,6 +38,7 @@ import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useRouterChainId } from 'lib/hooks/chainId/useRouterChainId'
 
 import Bell from 'assets/images/bell-yellow@2x.png'
+import { PRIZE_POOL_TYPES } from '@pooltogether/current-pool-data'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -57,6 +57,8 @@ export const PoolShow = (props) => {
   if (!poolIsFetched) {
     return <PoolShowUILoader />
   }
+
+  console.log(pool)
 
   const handleGetTicketsClick = (e) => {
     e.preventDefault()

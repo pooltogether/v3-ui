@@ -9,7 +9,7 @@ import {
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
 import { useTranslation } from 'react-i18next'
-import { Button } from '@pooltogether/react-components'
+import { Button, TokenIcon } from '@pooltogether/react-components'
 
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
@@ -71,13 +71,20 @@ export const PoolRow = (props) => {
         <div className='pool-row-left-col h-full flex py-2 p-4 sm:pl-4 lg:px-6 sm:pt-3 sm:pb-5 lg:px-8 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
           <div className='pool-row-left-col--inner flex flex-col mx-auto'>
             <div className='flex items-center justify-center'>
-              <PoolCurrencyIcon
+              <TokenIcon
+                chainId={pool.chainId}
+                address={pool.tokens.underlyingToken.address}
+                sizeClassName='w-9 h-9'
+                className='mr-2 my-auto'
+              />
+
+              {/* <PoolCurrencyIcon
                 noMediaQueries
                 md
                 symbol={pool.tokens.underlyingToken.symbol}
                 address={pool.tokens.underlyingToken.address}
                 className='mt-1'
-              />
+              /> */}
 
               <PoolPrizeValue pool={pool} />
             </div>

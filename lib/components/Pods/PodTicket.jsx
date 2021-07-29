@@ -31,7 +31,7 @@ const PodTicketLeft = (props) => {
   return (
     <div className='flex flex-col justify-center h-full'>
       <TokenIcon
-        className='mx-auto'
+        className='w-6 h-6 mx-auto'
         address={pod.tokens.underlyingToken.address}
         chainId={pod.metadata.chainId}
       />

@@ -74,13 +74,6 @@ const NoTicketsState = (props) => {
   const { data: podTickets, isFetched: isPodTicketsFetched } = useUsersPodTickets(usersAddress)
   const { data: v2Tickets, isFetched: isV2BalancesFetched } = useV2Balances(usersAddress)
 
-  console.log(
-    isSelf,
-    isPlayerTicketsFetched,
-    isPodTicketsFetched,
-    appEnv === APP_ENVIRONMENT.mainnets && !isV2BalancesFetched
-  )
-
   const isV2Ready = appEnv === APP_ENVIRONMENT.mainnets ? isV2BalancesFetched : true
 
   if (!isSelf || !isPlayerTicketsFetched || !isPodTicketsFetched || !isV2Ready) {
@@ -119,6 +112,8 @@ const PoolDeposits = (props) => {
   if (!playerTicketsIsFetched) {
     return <TicketsUILoader />
   }
+
+  // console.log(playerDepositData)
 
   return (
     <div className='flex flex-col'>

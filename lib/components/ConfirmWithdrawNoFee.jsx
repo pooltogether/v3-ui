@@ -86,6 +86,7 @@ export function ConfirmWithdrawNoFee(props) {
             })}
             symbol={pool.tokens.underlyingToken.symbol}
             address={pool.tokens.underlyingToken.address}
+            chainId={pool.chainId}
           />
 
           <WithdrawAndDepositBanner

@@ -259,6 +259,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
             })}
             symbol={pool.tokens.underlyingToken.symbol}
             address={pool.tokens.underlyingToken.address}
+            chainId={pool.chainId}
           />
           <WithdrawAndDepositBanner
             label={t('youreWithdrawing')}

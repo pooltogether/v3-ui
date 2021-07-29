@@ -52,6 +52,7 @@ export function StartAwardUI(props) {
       {canStartAward && (
         <>
           <ButtonTx
+            chainId={pool.chainId}
             text='green'
             border='green'
             hoverBorder='green'

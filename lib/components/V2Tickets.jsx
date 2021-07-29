@@ -1,5 +1,5 @@
 import React from 'react'
-import { LinkTheme, ExternalLink, TicketRow } from '@pooltogether/react-components'
+import { LinkTheme, ExternalLink, TicketRow, TokenIcon } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
 import { NETWORK } from '@pooltogether/utilities'
 
@@ -8,6 +8,7 @@ import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { useV2Balances } from 'lib/hooks/useV2Balances'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { WinningOdds } from 'lib/components/WinningOdds'
 
 export const V2Tickets = (props) => {
   const { usersAddress } = props
@@ -18,7 +19,7 @@ export const V2Tickets = (props) => {
   }
 
   return (
-    <ul className='mt-4'>
+    <ul>
       {balances?.map((pool) => (
         <V2Ticket key={`v2Ticket-${pool.prizePool.address}`} {...pool} />
       ))}
@@ -37,7 +38,11 @@ const V2Ticket = (props) => {
       className='mb-4 last:mb-0'
       left={
         <div className='h-full flex flex-col justify-center'>
-          <Erc20Image address={underlyingToken.address} marginClasses='mx-auto' />
+          <TokenIcon
+            address={underlyingToken.address}
+            chainId={NETWORK.mainnet}
+            className='w-6 h-6 mx-auto'
+          />
           <span className='capitalize mx-auto mt-2 text-xs font-bold text-inverse-purple'>
             {underlyingToken.symbol}
           </span>
@@ -50,14 +55,15 @@ const V2Ticket = (props) => {
               <PoolNumber>{numberWithCommas(amount)}</PoolNumber>
             </div>
             <div className='flex flex-row sm:flex-col'>
-              <span className='relative inline-block leading-normal text-accent-1 mr-1 sm:mr-0'>
-                {t('winningOdds')}:
-              </span>
-              <span className='font-bold text-accent-3'>{t('notAvailableAbbreviation')}</span>
+              <WinningOdds
+                className='flex sm:flex-col text-xxxs mr-auto'
+                odds={0}
+                isLoading={false}
+              />
             </div>
           </div>
           <div className='sm:text-right flex flex-col my-auto'>
-            <span className='text-xxxs sm:text-xs text-accent-1 font-bold mb-1'>
+            <span className='text-xxxs sm:text-xxs text-accent-1 font-bold mb-1'>
               {t('thisPoolIsNoLongerSupported')}
             </span>
             <div className='flex flex-row sm:flex-col'>

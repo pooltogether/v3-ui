@@ -267,13 +267,18 @@ const SubmitDeposit = (props) => {
 }
 
 const ReviewAmountAndTitle = (props) => {
-  const { tokenAddress, tokenSymbol, label, quantity, isValidAllowance } = props
+  const { tokenAddress, tokenSymbol, label, quantity, isValidAllowance, chainId } = props
 
   const { t } = useTranslation()
 
   return (
     <>
-      <WithdrawAndDepositPaneTitle label={label} symbol={tokenSymbol} address={tokenAddress} />
+      <WithdrawAndDepositPaneTitle
+        chainId={chainId}
+        label={label}
+        symbol={tokenSymbol}
+        address={tokenAddress}
+      />
       <WithdrawAndDepositBanner
         label={t('yourDeposit')}
         quantity={quantity}

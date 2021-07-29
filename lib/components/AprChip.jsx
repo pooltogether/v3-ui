@@ -26,7 +26,7 @@ export const AprChip = (props) => {
         chainId={chainId}
         address={dripTokenAddress}
         className='mr-2'
-        sizeClasses='w-4 h-4'
+        sizeClasses='w-3 h-3'
       />
       {t('earnNumPercentApr', { ticker: dripTokenSymbol, percentApr: displayPercentage(apr) })}
     </div>

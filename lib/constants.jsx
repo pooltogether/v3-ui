@@ -103,12 +103,6 @@ export const PRIZE_STRATEGY_TYPES = {
   multipleWinners: 'multipleWinners'
 }
 
-export const PRIZE_POOL_TYPES = {
-  compound: 'compound',
-  genericYield: 'genericYield',
-  stake: 'stake'
-}
-
 export const CUSTOM_CONTRACT_ADDRESSES = {
   1: {
     Stablecoin: '0xdac17f958d2ee523a2206206994597c13d831ec7',
