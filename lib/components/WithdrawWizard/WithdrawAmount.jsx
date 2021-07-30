@@ -39,11 +39,13 @@ export const WithdrawAmount = (props) => {
 
   const onSubmit = (values) => {
     if (formState.isValid) {
-      queryParamUpdater.add(router, {
-        quantity: values.quantity,
-        prevUnderlyingBalance: usersUnderlyingBalance,
-        prevTicketBalance: usersTicketBalance
-      })
+      const { query, pathname } = router
+
+      query.quantity = values.quantity
+      query.prevUnderlyingBalance = usersUnderlyingBalance
+      query.prevTicketBalance = usersTicketBalance
+
+      router.replace({ pathname, query })
       nextStep()
     }
   }

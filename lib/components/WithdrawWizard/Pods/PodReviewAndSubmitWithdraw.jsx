@@ -168,7 +168,9 @@ const Odds = (props) => {
     decimals: getMinPrecision(odds, { additionalDigits: getPrecision(odds) })
   })
 
-  return <SummaryItem title={`${t('updatedOdds')}:`} content={`1 in ${formattedOdds}`} />
+  return (
+    <SummaryItem title={`${t('updatedOdds')}:`} content={t('oneInOdds', { odds: formattedOdds })} />
+  )
 }
 
 const ExitFee = (props) => {

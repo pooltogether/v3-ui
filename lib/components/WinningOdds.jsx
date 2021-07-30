@@ -28,7 +28,7 @@ const Odds = (props) => {
 
   return (
     <span className='font-bold text-flashy mr-auto'>
-      1 in {stringWithPrecision(odds.toString(), { precision: 2 })}
+      {t('oneInOdds', { odds: stringWithPrecision(odds.toString(), { precision: 2 }) })}
     </span>
   )
 }
