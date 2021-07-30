@@ -113,8 +113,6 @@ const PoolDeposits = (props) => {
     return <TicketsUILoader />
   }
 
-  // console.log(playerDepositData)
-
   return (
     <div className='flex flex-col'>
       {playerDepositData?.map((playerPoolDepositData) => {
