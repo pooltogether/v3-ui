@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Amount, ButtonLink, Card } from '@pooltogether/react-components'
 import { useIsWalletMetamask } from '@pooltogether/hooks'
 import { getTimeBreakdown, numberWithCommas } from '@pooltogether/utilities'
+import Link from 'next/link'
 
 import { useConfetti } from 'lib/hooks/useConfetti'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { getTimeSentence } from 'lib/utils/getTimeSentence'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
-import Link from 'next/link'
-import { formatUnits, parseUnits } from 'ethers/lib/utils'
 
 export const DepositReceipt = (props) => {
   const {
@@ -22,7 +21,8 @@ export const DepositReceipt = (props) => {
     underlyingTokenSymbol,
     prizePeriodSeconds,
     prizePeriodStartedAt,
-    isRngRequested
+    isRngRequested,
+    message
   } = props
 
   useConfetti()
@@ -31,11 +31,6 @@ export const DepositReceipt = (props) => {
 
   const { years, weeks, days, hours, minutes, seconds } = getTimeBreakdown(
     prizePeriodSeconds.toString()
-  )
-
-  const balance = formatUnits(
-    parseUnits(quantity, ticketDecimals).add(parseUnits(prevTicketBalance, ticketDecimals)),
-    ticketDecimals
   )
 
   return (
@@ -72,12 +67,8 @@ export const DepositReceipt = (props) => {
         )}
 
         <div className='mb-4 text-highlight-2 text-sm'>
-          <div className='mt-4'>
-            {t('youNowHaveAmountTicketsInTheTickerPod', {
-              amount: numberWithCommas(balance),
-              ticker: underlyingTokenSymbol
-            })}
-          </div>
+          {message && <div className='mt-4'>{message}</div>}
+
           <div className='mb-6'>
             {t('youWillBeEligibleToWinPrizeEveryFrequency', {
               frequency: getTimeSentence(t, years, weeks, days, hours, minutes, seconds)

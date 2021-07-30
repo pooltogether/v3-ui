@@ -258,7 +258,7 @@ const SubmitDeposit = (props) => {
             onClick={handleDepositClick}
             className='mx-auto'
           >
-            {`Deposit ${tokenSymbol}`}
+            {t('depositTicker', { ticker: tokenSymbol })}
           </ButtonTx>
         </ButtonDrawer>
       )}

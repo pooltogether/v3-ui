@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react'
-import { Button, TokenIcon } from '@pooltogether/react-components'
+import { Button } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
 import { getMaxPrecision, numberWithCommas, queryParamUpdater } from '@pooltogether/utilities'
 import { useRouter } from 'next/router'
-import { useForm } from 'react-hook-form'
+import { parseUnits } from '@ethersproject/units'
 
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import WalletIcon from 'assets/images/icon-wallet.svg'
-import { parseUnits } from 'ethers/lib/utils'
 
 export const DepositAmount = (props) => {
   const {

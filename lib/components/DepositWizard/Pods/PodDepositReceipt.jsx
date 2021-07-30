@@ -1,5 +1,8 @@
+import { numberWithCommas } from '@pooltogether/utilities'
 import { DepositReceipt } from 'lib/components/DepositWizard/DepositReceipt'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { formatUnits, parseUnits } from '@ethersproject/units'
 
 export const PodDepositReceipt = (props) => {
   const { quantity, prevTicketBalance, prevUnderlyingBalance, pod } = props
@@ -10,6 +13,13 @@ export const PodDepositReceipt = (props) => {
   } = pod.tokens.podStablecoin
   const { symbol: underlyingTokenSymbol } = pod.tokens.underlyingToken
   const { prizePeriodSeconds, prizePeriodStartedAt, isRngRequested } = pod.prize
+
+  const { t } = useTranslation()
+
+  const balance = formatUnits(
+    parseUnits(quantity, ticketDecimals).add(parseUnits(prevTicketBalance, ticketDecimals)),
+    ticketDecimals
+  )
 
   return (
     <DepositReceipt
@@ -24,6 +34,10 @@ export const PodDepositReceipt = (props) => {
       prizePeriodSeconds={prizePeriodSeconds}
       prizePeriodStartedAt={prizePeriodStartedAt}
       isRngRequested={isRngRequested}
+      message={t('youNowHaveAmountTicketsInTheTickerPod', {
+        amount: numberWithCommas(balance),
+        ticker: underlyingTokenSymbol
+      })}
     />
   )
 }
