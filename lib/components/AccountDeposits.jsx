@@ -1,22 +1,20 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 import { APP_ENVIRONMENT, useAppEnv, useUsersAddress } from '@pooltogether/hooks'
 import { Card, ExternalLink } from '@pooltogether/react-components'
+import { useAtom } from 'jotai'
 
 import { AccountTicket } from 'lib/components/AccountTicket'
-import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { TicketsUILoader } from 'lib/components/loaders/TicketsUILoader'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { V2Tickets } from 'lib/components/V2Tickets'
-
-import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 import { PodTicket } from 'lib/components/Pods/PodTicket'
 import { useUsersPodTickets } from 'lib/hooks/useUsersPodTickets'
-import { useAtom } from 'jotai'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { useV2Balances } from 'lib/hooks/useV2Balances'
+import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
 
 export const AccountDeposits = () => {
   const { t } = useTranslation()

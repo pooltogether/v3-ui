@@ -28,7 +28,7 @@ export const PodReviewAndSubmitDeposit = (props) => {
   return (
     <ReviewAndSubmitDeposit
       {...props}
-      label='Deposit into the DAI Pod'
+      label={t('depositIntoPod', { token: tokenSymbol })}
       tokenSymbol={tokenSymbol}
       submitDepositTransaction={submitDepositTransaction}
     />

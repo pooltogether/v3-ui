@@ -35,10 +35,6 @@ export const PodReviewAndSubmitWithdraw = (props) => {
     decimals
   )
 
-  useEffect(() => {
-    console.log(podExitFee)
-  }, [podExitFee])
-
   const submitWithdrawTransaction = useCallback(async () => {
     if (!isExitFeeFetched) {
       return null
@@ -70,7 +66,7 @@ export const PodReviewAndSubmitWithdraw = (props) => {
           isFetched={isExitFeeFetched}
         />
       ]}
-      label='Withdraw from the DAI Pod'
+      label={t('withdrawTokenFromPod', { token: tokenSymbol })}
       quantity={quantity}
       tokenSymbol={tokenSymbol}
       submitWithdrawTransaction={submitWithdrawTransaction}
