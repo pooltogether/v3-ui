@@ -58,8 +58,6 @@ export const PoolShow = (props) => {
     return <PoolShowUILoader />
   }
 
-  console.log(pool)
-
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
 

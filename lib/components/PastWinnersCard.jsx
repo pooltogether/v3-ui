@@ -16,7 +16,6 @@ export const PastWinnersCard = (props) => {
 
   const pageNum = 1
   const { data, error, isFetched, count } = usePastPrizes(pool, pageNum)
-  console.log(data, isFetched, count)
 
   if (error) {
     console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))

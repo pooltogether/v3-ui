@@ -77,15 +77,6 @@ export const PoolRow = (props) => {
                 sizeClassName='w-9 h-9'
                 className='mr-2 my-auto'
               />
-
-              {/* <PoolCurrencyIcon
-                noMediaQueries
-                md
-                symbol={pool.tokens.underlyingToken.symbol}
-                address={pool.tokens.underlyingToken.address}
-                className='mt-1'
-              /> */}
-
               <PoolPrizeValue pool={pool} />
             </div>
 

@@ -14,7 +14,7 @@ import { PodTicket } from 'lib/components/Pods/PodTicket'
 import { useUsersPodTickets } from 'lib/hooks/useUsersPodTickets'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { useV2Balances } from 'lib/hooks/useV2Balances'
-import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
+import TicketIcon from 'assets/images/pt-depositing-2-simplified.svg'
 
 export const AccountDeposits = () => {
   const { t } = useTranslation()
