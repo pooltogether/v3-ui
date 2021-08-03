@@ -23,6 +23,7 @@ export const PodWithdrawAmount = (props) => {
   const podTicketAddress = pod.tokens.podStablecoin.address
   const poolTicketAddress = pod.tokens.ticket.address
 
+  const { t } = useTranslation()
   const usersAddress = useUsersAddress()
   const { data: usersBalance, isFetched: isUsersBalanceFetched } = useTokenBalances(
     chainId,
@@ -49,7 +50,7 @@ export const PodWithdrawAmount = (props) => {
         form={form}
         usersTicketBalance={usersBalance?.[podTicketAddress].amount}
         usersUnderlyingBalance={usersBalance?.[tokenAddress].amount}
-        label={`Withdraw from the ${tokenSymbol} Pod`}
+        label={t('withdrawTokenFromPod', { token: tokenSymbol })}
         tokenSymbol={podTicketTokenSymbol}
         tokenAddress={podTicketAddress}
         nextStep={nextStep}

@@ -1,6 +1,5 @@
 import { Amount, ButtonLink, Card } from '@pooltogether/react-components'
 import { numberWithCommas } from '@pooltogether/utilities'
-import { formatUnits, parseUnits } from 'ethers/lib/utils'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
 import Link from 'next/link'
 import React from 'react'
@@ -15,13 +14,9 @@ export const WithdrawReceipt = (props) => {
     ticketDecimals,
     prizePeriodSeconds,
     prizePeriodStartedAt,
-    isRngRequested
+    isRngRequested,
+    message
   } = props
-
-  const balance = formatUnits(
-    parseUnits(prevTicketBalance, ticketDecimals).sub(parseUnits(quantity, ticketDecimals)),
-    ticketDecimals
-  )
 
   const { t } = useTranslation()
 
@@ -35,12 +30,7 @@ export const WithdrawReceipt = (props) => {
         </h1>
 
         <div className='mb-4 text-orange text-sm'>
-          <div className='mt-4'>
-            {t('youNowHaveAmountTicketsInTheTickerPod', {
-              amount: numberWithCommas(balance),
-              ticker: underlyingTokenSymbol
-            })}
-          </div>
+          {message && <div className='mt-4'>{message}</div>}
           <div className='mb-3 text-inverse'>
             {t('theNextPrizeWillBeAwardedIn')}
             <br />
