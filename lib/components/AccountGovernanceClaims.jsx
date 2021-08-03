@@ -10,8 +10,8 @@ import { usePreviousValue } from 'beautiful-react-hooks'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 import { NETWORK } from '@pooltogether/utilities'
 
-import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
-import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucetProxyFactory'
+import TokenFaucetAbi from '@pooltogether/pooltogether-contracts_3_3/abis/TokenFaucet'
+import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts_3_3/abis/TokenFaucetProxyFactory'
 
 import { CUSTOM_CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
 import {

@@ -1,5 +1,5 @@
-import TokenFaucetProxyFactoryMainnet from '@pooltogether/pooltogether-contracts/deployments/mainnet/TokenFaucetProxyFactory.json'
-import TokenFaucetProxyFactoryRinkeby from '@pooltogether/pooltogether-contracts/deployments/rinkeby/TokenFaucetProxyFactory.json'
+import TokenFaucetProxyFactoryMainnet from '@pooltogether/pooltogether-contracts_3_3/deployments/mainnet/TokenFaucetProxyFactory.json'
+import TokenFaucetProxyFactoryRinkeby from '@pooltogether/pooltogether-contracts_3_3/deployments/rinkeby/TokenFaucetProxyFactory.json'
 
 export const ETHEREUM_NETWORKS = [1, 3, 4, 5, 42]
 export const SUPPORTED_NETWORKS = [1, 4, 137, 80001]

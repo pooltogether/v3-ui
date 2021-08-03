@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PeriodicPrizeStrategy'
+import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PeriodicPrizeStrategy'
 import { useUsersAddress } from '@pooltogether/hooks'
 
 import { useTranslation } from 'react-i18next'

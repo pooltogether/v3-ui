@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { ethers } from 'ethers'
 import { useUsersAddress } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
-import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
+import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 import { Button, Tooltip } from '@pooltogether/react-components'
 
 import { useCurrentPool } from 'lib/hooks/usePools'

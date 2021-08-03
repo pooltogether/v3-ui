@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import { useUsersAddress } from '@pooltogether/hooks'
 import { Button, Tooltip, poolToast } from '@pooltogether/react-components'
-import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
+import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 
 import { Trans, useTranslation } from 'react-i18next'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'

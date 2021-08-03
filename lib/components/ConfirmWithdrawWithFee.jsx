@@ -12,8 +12,6 @@ export function ConfirmWithdrawWithFee(props) {
 
   const { pool, exitFees, nextStep } = props
 
-  const timelockDurationSeconds = exitFees.timelockDurationSeconds
-
   return (
     <>
       <div
@@ -35,7 +33,7 @@ export function ConfirmWithdrawWithFee(props) {
         />
       </PaneTitle>
 
-      <WithdrawalTimeRemainingChart pool={pool} timelockDurationSeconds={timelockDurationSeconds} />
+      <WithdrawalTimeRemainingChart pool={pool} exitFees={exitFees} />
 
       <ButtonDrawer>
         <Button onClick={nextStep} textSize='lg' className={'_withdrawBtn _confirmWithFee mx-auto'}>

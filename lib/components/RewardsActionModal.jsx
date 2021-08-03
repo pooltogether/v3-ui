@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
-import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
+import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 import ERC20Abi from 'abis/ERC20Abi'
 import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
