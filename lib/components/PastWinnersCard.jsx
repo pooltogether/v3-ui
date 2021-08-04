@@ -23,7 +23,6 @@ export const PastWinnersCard = (props) => {
   }
 
   const prizes = useMemo(() => {
-    // console.log(data)
     let prizes = data || []
     prizes = prizes ? prizes.slice(0, 5) : []
 

@@ -15,6 +15,7 @@ import { PlayerLabel } from 'lib/components/PlayerLabel'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 import { testAddress } from 'lib/utils/testAddress'
 import Link from 'next/link'
+import { AccountPodTokenDropClaims } from 'lib/components/AccountPodTokenDropClaims'
 
 export const isSelfAtom = atom(false)
 
@@ -84,6 +85,8 @@ export const AccountUI = () => {
           <AccountDeposits />
 
           <AccountGovernanceClaims />
+
+          <AccountPodTokenDropClaims />
 
           <AccountLootBoxes />
 
