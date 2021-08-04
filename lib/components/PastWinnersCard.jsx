@@ -17,14 +17,13 @@ export const PastWinnersCard = (props) => {
   const pageNum = 1
   const { data, error, isFetched, count } = usePastPrizes(pool, pageNum)
 
-  console.log(isFetched, error, data, pool)
-
   if (error) {
     console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))
     console.error(error.message)
   }
 
   const prizes = useMemo(() => {
+    // console.log(data)
     let prizes = data || []
     prizes = prizes ? prizes.slice(0, 5) : []
 

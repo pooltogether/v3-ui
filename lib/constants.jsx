@@ -121,6 +121,9 @@ export const CUSTOM_CONTRACT_ADDRESSES = {
     GovernanceToken: '0xc4E90a8Dc6CaAb329f08ED3C8abc6b197Cf0F40A',
     Sablier: '0xc04Ad234E01327b24a831e3718DBFcbE245904CC'
   },
+  56: {
+    Stablecoin: '0xe9e7cea3dedca5984780bafc599bd69add087d56'
+  },
   137: {
     GovernanceToken: '',
     // PoS-Dai
