@@ -179,7 +179,7 @@ export const PoolShow = (props) => {
         </PrizePlayersQuery>
 
         <div className='flex flex-col  items-center justify-center mt-10'>
-          {walletName === 'MetaMask' && (
+          {walletName === 'MetaMask' && pool?.tokens && (
             <div className='m-2'>
               <AddTokenToMetaMaskButton
                 noAnim
