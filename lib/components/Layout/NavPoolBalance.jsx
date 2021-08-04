@@ -1,13 +1,7 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
-import {
-  Modal,
-  PoolIcon,
-  ButtonLink,
-  ExternalLink,
-  InternalLink
-} from '@pooltogether/react-components'
-import { useGovernanceChainId, useOnboard, useUsersAddress } from '@pooltogether/hooks'
+import { Modal, PoolIcon, ButtonLink } from '@pooltogether/react-components'
+import { useGovernanceChainId, useUsersAddress } from '@pooltogether/hooks'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 
