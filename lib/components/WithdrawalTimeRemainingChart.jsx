@@ -4,6 +4,9 @@ import addSeconds from 'date-fns/addSeconds'
 import { useTranslation } from 'react-i18next'
 import { Gauge } from 'lib/components/Gauge'
 import { subtractDates } from 'lib/utils/subtractDates'
+import { useMaxTimelockDurationSeconds } from 'lib/hooks/useMaxTimelockDurationSeconds'
+import { useUsersAddress } from '@pooltogether/hooks'
+import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
 
 const _varName = ({ days, hours, minutes }) => {
   let varName
@@ -33,7 +36,9 @@ const _label = (t, timeRemainingObj) => {
 export function WithdrawalTimeRemainingChart(props) {
   const { t } = useTranslation()
 
-  const { pool, timelockDurationSeconds } = props
+  const { pool, exitFees } = props
+
+  const { timelockDurationSeconds } = exitFees
 
   const secondsRemaining = timelockDurationSeconds.toNumber()
 
@@ -41,8 +46,14 @@ export function WithdrawalTimeRemainingChart(props) {
   const futureDate = addSeconds(currentDate, secondsRemaining)
   const timeRemainingObj = subtractDates(futureDate, currentDate)
 
-  const percentTimeRemaining =
-    (secondsRemaining / parseInt(pool.config.maxTimelockDurationSeconds, 10)) * 100
+  const { data: maxTimelockDurationSeconds, isFetched } = useMaxTimelockDurationSeconds(
+    pool,
+    exitFees?.exitFee
+  )
+
+  if (!isFetched) return null
+
+  const percentTimeRemaining = (secondsRemaining / parseInt(maxTimelockDurationSeconds, 10)) * 100
 
   return (
     <>

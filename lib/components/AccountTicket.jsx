@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useAtom } from 'jotai'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
-import { TicketRow } from '@pooltogether/react-components'
+import { TicketRow, TokenIcon } from '@pooltogether/react-components'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { useTranslation } from 'react-i18next'
@@ -75,13 +75,10 @@ export const AccountTicket = (props) => {
       cornerBgClassName={cornerBgClassName}
       left={
         <button onClick={handlePoolClick} className='flex flex-col justify-center h-full w-full'>
-          <PoolCurrencyIcon
-            lg
-            noMargin
-            sizeClasses='w-6 h-6'
-            className='mx-auto'
-            symbol={ticker}
+          <TokenIcon
             address={pool.tokens.underlyingToken.address}
+            chainId={pool.chainId}
+            className='w-6 h-6 mx-auto'
           />
           <div className='capitalize mt-2 mx-auto text-xs font-bold text-inverse-purple'>
             {ticker?.toUpperCase()}

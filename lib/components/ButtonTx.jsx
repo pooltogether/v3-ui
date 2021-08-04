@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { omit } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { Button, Tooltip } from '@pooltogether/react-components'
@@ -11,6 +11,12 @@ export function ButtonTx(props) {
   const isWalletConnected = useUsersAddress()
   const isWalletOnProperNetwork = useIsWalletOnNetwork(chainId)
   const disableButton = !isWalletConnected || !isWalletOnProperNetwork
+
+  useEffect(() => {
+    if (!chainId) {
+      console.warn('ButtonTx requires a chainId')
+    }
+  }, [chainId])
 
   const { t } = useTranslation()
 

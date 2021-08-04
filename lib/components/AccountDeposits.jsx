@@ -14,7 +14,7 @@ import { PodTicket } from 'lib/components/Pods/PodTicket'
 import { useUsersPodTickets } from 'lib/hooks/useUsersPodTickets'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { useV2Balances } from 'lib/hooks/useV2Balances'
-import TicketIcon from 'assets/images/PT-Depositing-2-simplified.svg'
+import TicketIcon from 'assets/images/pt-depositing-2-simplified.svg'
 
 export const AccountDeposits = () => {
   const { t } = useTranslation()
@@ -71,13 +71,6 @@ const NoTicketsState = (props) => {
     useUserTicketsFormattedByPool(usersAddress)
   const { data: podTickets, isFetched: isPodTicketsFetched } = useUsersPodTickets(usersAddress)
   const { data: v2Tickets, isFetched: isV2BalancesFetched } = useV2Balances(usersAddress)
-
-  console.log(
-    isSelf,
-    isPlayerTicketsFetched,
-    isPodTicketsFetched,
-    appEnv === APP_ENVIRONMENT.mainnets && !isV2BalancesFetched
-  )
 
   const isV2Ready = appEnv === APP_ENVIRONMENT.mainnets ? isV2BalancesFetched : true
 

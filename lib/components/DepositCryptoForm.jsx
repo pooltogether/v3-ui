@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 import { Button, Tooltip } from '@pooltogether/react-components'
-import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/ControlledToken'
+import ControlledTokenAbi from '@pooltogether/pooltogether-contracts_3_3/abis/ControlledToken'
 
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
@@ -103,6 +103,7 @@ export function DepositCryptoForm(props) {
         })}
         symbol={pool.tokens.underlyingToken.symbol}
         address={pool.tokens.underlyingToken.address}
+        chainId={pool.chainId}
       />
 
       <WithdrawAndDepositBanner

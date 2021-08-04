@@ -17,9 +17,9 @@ import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 
 import { NavPoolBalance } from 'lib/components/Layout/NavPoolBalance'
-import { useSupportedNetworks } from 'lib/hooks/useSupportedNetworks'
 import Cookies from 'js-cookie'
 import { COOKIE_OPTIONS, SHOW_MANAGE_LINKS } from 'lib/constants'
+import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
 
 export const PageHeader = (props) => (
   <PageHeaderContainer Link={Link} as='/' href='/'>
@@ -113,7 +113,7 @@ const ManagePoolsSettingsItem = () => {
 
 const UsersAccount = () => {
   const { isWalletConnected, connectWallet, isOnboardReady } = useOnboard()
-  const supportedNetworks = useSupportedNetworks()
+  const supportedNetworks = useEnvChainIds()
   const { t } = useTranslation()
 
   if (!isOnboardReady) return null

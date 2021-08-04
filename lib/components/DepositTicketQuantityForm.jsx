@@ -105,6 +105,7 @@ export function DepositTicketQuantityForm(props) {
         })}
         symbol={pool.tokens.underlyingToken.symbol}
         address={pool.tokens.underlyingToken.address}
+        chainId={pool.chainId}
       />
 
       {balanceJsx && <div className='sm:my-4 mb-12'>{balanceJsx}</div>}

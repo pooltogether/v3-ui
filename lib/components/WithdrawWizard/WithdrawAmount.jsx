@@ -22,7 +22,8 @@ export const WithdrawAmount = (props) => {
     nextStep,
     usersUnderlyingBalance,
     usersTicketBalance,
-    form
+    form,
+    chainId
   } = props
 
   const { t } = useTranslation()
@@ -64,7 +65,12 @@ export const WithdrawAmount = (props) => {
 
   return (
     <>
-      <WithdrawAndDepositPaneTitle label={label} symbol={tokenSymbol} address={tokenAddress} />
+      <WithdrawAndDepositPaneTitle
+        chainId={chainId}
+        label={label}
+        symbol={tokenSymbol}
+        address={tokenAddress}
+      />
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='w-full mx-auto'>
