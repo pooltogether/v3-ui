@@ -10,8 +10,8 @@ import { usePreviousValue } from 'beautiful-react-hooks'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 import { NETWORK } from '@pooltogether/utilities'
 
-import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
-import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucetProxyFactory'
+import TokenFaucetAbi from '@pooltogether/pooltogether-contracts_3_3/abis/TokenFaucet'
+import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts_3_3/abis/TokenFaucetProxyFactory'
 
 import { CUSTOM_CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
 import {
@@ -70,6 +70,16 @@ export const AccountGovernanceClaims = (props) => {
     )
   }
 
+  const mainnetPools = pools
+    .filter((pool) => pool.chainId === NETWORK.mainnet)
+    .filter((pool) => pool.tokenFaucets?.length > 0)
+  const polygonPools = pools
+    .filter((pool) => pool.chainId === NETWORK.polygon)
+    .filter((pool) => pool.tokenFaucets?.length > 0)
+  const binancePools = pools
+    .filter((pool) => pool.chainId === NETWORK.bsc)
+    .filter((pool) => pool.tokenFaucets?.length > 0)
+
   return (
     <>
       <div
@@ -79,15 +89,13 @@ export const AccountGovernanceClaims = (props) => {
         {t('depositRewards')}
       </div>
       <div className='relative xs:mt-3 bg-accent-grey-4 rounded-lg xs:mx-0 px-3 py-3 sm:px-10 sm:py-10'>
-        <ClaimHeader
-          chainId={NETWORK.mainnet}
-          address={address}
-          refetchAllPoolTokenData={refetchAllPoolTokenData}
-        />
-        {pools
-          .filter((pool) => pool.chainId === NETWORK.mainnet)
-          .filter((pool) => pool.tokenFaucets?.length > 0)
-          .map((pool) => {
+        <div>
+          <ClaimHeader
+            chainId={NETWORK.mainnet}
+            address={address}
+            refetchAllPoolTokenData={refetchAllPoolTokenData}
+          />
+          {mainnetPools.map((pool) => {
             return (
               <ClaimablePool
                 address={address}
@@ -97,36 +105,59 @@ export const AccountGovernanceClaims = (props) => {
               />
             )
           })}
-        <div className='mt-4 mb-20 text-center'>
-          {walletChainId === poolTokenChainId && (
-            <AddTokenToMetaMaskButton
-              basic
-              showPoolIcon
-              textSize='xxs'
-              tokenAddress={CUSTOM_CONTRACT_ADDRESSES[poolTokenChainId]?.GovernanceToken}
-              tokenDecimals={DEFAULT_TOKEN_PRECISION}
-              tokenSymbol='POOL'
-            />
-          )}
         </div>
 
-        <ClaimHeader
-          chainId={NETWORK.polygon}
-          address={address}
-          refetchAllPoolTokenData={refetchAllPoolTokenData}
-        />
-        {pools
-          .filter((pool) => pool.chainId === NETWORK.polygon)
-          .map((pool) => {
-            return (
-              <ClaimablePool
-                address={address}
-                refetchAllPoolTokenData={refetchAllPoolTokenData}
-                key={pool.prizePool.address}
-                pool={pool}
-              />
-            )
-          })}
+        {polygonPools.length > 0 && (
+          <div className='mt-10'>
+            <ClaimHeader
+              chainId={NETWORK.polygon}
+              address={address}
+              refetchAllPoolTokenData={refetchAllPoolTokenData}
+            />
+            {polygonPools.map((pool) => {
+              return (
+                <ClaimablePool
+                  address={address}
+                  refetchAllPoolTokenData={refetchAllPoolTokenData}
+                  key={pool.prizePool.address}
+                  pool={pool}
+                />
+              )
+            })}
+          </div>
+        )}
+
+        {binancePools.length > 0 && (
+          <div className='mt-10'>
+            <ClaimHeader
+              chainId={NETWORK.bsc}
+              address={address}
+              refetchAllPoolTokenData={refetchAllPoolTokenData}
+            />
+            {binancePools.map((pool) => {
+              return (
+                <ClaimablePool
+                  address={address}
+                  refetchAllPoolTokenData={refetchAllPoolTokenData}
+                  key={pool.prizePool.address}
+                  pool={pool}
+                />
+              )
+            })}
+          </div>
+        )}
+      </div>
+      <div className='mt-4 text-center'>
+        {walletChainId === poolTokenChainId && (
+          <AddTokenToMetaMaskButton
+            basic
+            showPoolIcon
+            textSize='xxs'
+            tokenAddress={CUSTOM_CONTRACT_ADDRESSES[poolTokenChainId]?.GovernanceToken}
+            tokenDecimals={DEFAULT_TOKEN_PRECISION}
+            tokenSymbol='POOL'
+          />
+        )}
       </div>
     </>
   )
@@ -272,7 +303,7 @@ const ClaimablePoolTokenFaucetRow = (props) => {
     address
   )
 
-  const apr = useTokenFaucetApr(pool, tokenFaucet)
+  const apr = useTokenFaucetApr(tokenFaucet)
 
   if (!isFetched || !tokenFaucet?.dripToken) {
     return null
@@ -334,7 +365,7 @@ const ClaimablePoolTokenFaucetRow = (props) => {
 
       <div className='w-full sm:w-1/4 pt-5 sm:py-0'>
         <div className='mt-3 sm:mt-0 leading-snug'>
-          {apr === 0 ? (
+          {!apr || apr === 0 ? (
             <></>
           ) : (
             <>

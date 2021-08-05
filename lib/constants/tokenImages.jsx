@@ -2,6 +2,7 @@ import PoolIcon from 'assets/images/pool-icon.svg'
 import EtherIcon from 'assets/images/ether-icon.png'
 
 export const TOKEN_IMAGES_BY_ADDRESS = {
+  '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82': '/tokens/cake.png',
   '0x27d22a7648e955e510a40bdb058333e9190d12d4': '/tokens/ppool.png',
   '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2': '/tokens/sushi.png',
   '0x8798249c2e607446efb7ad49ec89dd1865ff4272': '/tokens/xsushi.png',

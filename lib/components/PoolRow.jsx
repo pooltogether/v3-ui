@@ -9,17 +9,14 @@ import {
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
 import { useTranslation } from 'react-i18next'
-import { Button } from '@pooltogether/react-components'
+import { Button, TokenIcon } from '@pooltogether/react-components'
 
-import { SECOND_POLYGON_USDT_FAUCET_ADDRESS } from 'lib/constants/tokenFaucets'
-import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
-import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
-import { useTokenFaucetApr } from 'lib/hooks/useTokenFaucetApr'
-import { displayPercentage } from 'lib/utils/displayPercentage'
+import { PoolPrizeValue } from 'lib/components/PoolPrizeValue'
+import { AprChip } from 'lib/components/AprChip'
 
 export const PoolRow = (props) => {
   const { pool } = props
@@ -47,6 +44,12 @@ export const PoolRow = (props) => {
     )
   }
 
+  const ViewPoolDetailsButton = () => (
+    <button className='flex justify-between items-center text-highlight-3 bg-transparent text-xxxs rounded-full px-2 trans'>
+      {t('viewPool')}
+    </button>
+  )
+
   const isDaily = pool.prize.prizePeriodSeconds.toNumber() === SECONDS_PER_DAY
 
   return (
@@ -68,14 +71,12 @@ export const PoolRow = (props) => {
         <div className='pool-row-left-col h-full flex py-2 p-4 sm:pl-4 lg:px-6 sm:pt-3 sm:pb-5 lg:px-8 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
           <div className='pool-row-left-col--inner flex flex-col mx-auto'>
             <div className='flex items-center justify-center'>
-              <PoolCurrencyIcon
-                noMediaQueries
-                md
-                symbol={pool.tokens.underlyingToken.symbol}
+              <TokenIcon
+                chainId={pool.chainId}
                 address={pool.tokens.underlyingToken.address}
-                className='mt-1'
+                sizeClassName='w-9 h-9'
+                className='mr-2 my-auto'
               />
-
               <PoolPrizeValue pool={pool} />
             </div>
 
@@ -99,7 +100,12 @@ export const PoolRow = (props) => {
         </div>
 
         <div className='pool-row-right-col flex flex-col items-center w-full sm:w-1/2 mt-4 sm:mt-0'>
-          <NewPrizeCountdown textSize='text-sm sm:text-lg' pool={pool} />
+          <NewPrizeCountdown
+            textSize='text-sm sm:text-lg'
+            prizePeriodSeconds={pool.prize.prizePeriodSeconds}
+            prizePeriodStartedAt={pool.prize.prizePeriodStartedAt}
+            isRngRequested={pool.prize.isRngRequested}
+          />
 
           <Button
             border='green'
@@ -129,7 +135,7 @@ export const PoolRow = (props) => {
                   key={`pool-token-faucet-row-desktop-${tokenFaucet.address}`}
                   className='hidden sm:flex ml-2'
                 >
-                  {<AprChip {...props} tokenFaucet={tokenFaucet} />}
+                  {<AprChip chainId={pool.chainId} tokenFaucet={tokenFaucet} />}
                 </div>
               ))
             )}
@@ -144,7 +150,7 @@ export const PoolRow = (props) => {
               key={`pool-token-faucet-row-mobile-${tokenFaucet.address}`}
               className='mt-1 relative sm:hidden'
             >
-              {<AprChip tokenFaucet={tokenFaucet} pool={pool} />}
+              {<AprChip chainId={pool.chainId} tokenFaucet={tokenFaucet} />}
             </span>
           ))}
 
@@ -154,79 +160,5 @@ export const PoolRow = (props) => {
         </div>
       </div>
     </InteractableCard>
-  )
-}
-
-const PoolPrizeValue = (props) => {
-  const { pool } = props
-
-  if (!pool || !pool.prize?.totalValueUsd) {
-    return <div className='text-8xl sm:text-7xl lg:text-8xl text-flashy font-bold'>$0</div>
-  }
-
-  if (pool.prize.totalValueUsd) {
-    return (
-      <div className='text-8xl sm:text-7xl lg:text-8xl text-flashy font-bold ml-2'>
-        $
-        <PoolCountUp fontSansRegular decimals={0} duration={6}>
-          {parseFloat(pool.prize.totalValueUsd)}
-        </PoolCountUp>
-      </div>
-    )
-  }
-
-  if (
-    pool.prize.sablierStream.id &&
-    !pool.prize.sablierStream?.amountThisPrizePeriodUnformatted?.isZero()
-  ) {
-    return (
-      <div className='text-3xl sm:text-5xl text-flashy font-bold ml-2'>
-        <PoolCountUp fontSansRegular decimals={0} duration={6}>
-          {parseFloat(pool.prize.sablierStream.amountThisPrizePeriod)}
-        </PoolCountUp>
-        <span className='text-base lg:text-lg text-inverse mb-4 ml-2 mt-auto'>
-          {pool.tokens.sablierStreamToken.tokenSymbol}
-        </span>
-      </div>
-    )
-  }
-
-  return <div className='text-3xl sm:text-5xl text-flashy font-bold ml-2'>$0</div>
-}
-
-const ViewPoolDetailsButton = () => {
-  const { t } = useTranslation()
-
-  return (
-    <button className='flex justify-between items-center text-highlight-3 bg-transparent text-xxxs rounded-full px-2 trans'>
-      {t('viewPool')}
-    </button>
-  )
-}
-
-const AprChip = (props) => {
-  const { t } = useTranslation()
-
-  const { tokenFaucet, pool } = props
-
-  const dripTokenAddress = tokenFaucet.dripToken.address
-  const dripTokenSymbol = tokenFaucet.dripToken.symbol
-
-  const apr = useTokenFaucetApr(pool, tokenFaucet)
-
-  if (!apr) {
-    return null
-  }
-
-  const isSecondPolygonUsdtFaucet = tokenFaucet.address === SECOND_POLYGON_USDT_FAUCET_ADDRESS
-  if (isSecondPolygonUsdtFaucet) {
-    return null
-  }
-
-  return (
-    <div className='text-xxxs text-accent-1 flex items-center'>
-      <Erc20Image address={dripTokenAddress} className='mr-2' sizeClasses='w-4 h-4' />
-      {t('earnNumPercentApr', { ticker: dripTokenSymbol, percentApr: displayPercentage(apr) })}
-    </div>
   )
 }

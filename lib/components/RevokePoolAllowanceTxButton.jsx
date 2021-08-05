@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
 
-import ControlledTokenAbi from '@pooltogether/pooltogether-contracts/abis/ControlledToken'
+import ControlledTokenAbi from '@pooltogether/pooltogether-contracts_3_3/abis/ControlledToken'
 
 import { useTranslation } from 'react-i18next'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'

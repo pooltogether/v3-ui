@@ -1,5 +1,5 @@
 import React from 'react'
-import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/PeriodicPrizeStrategy'
+import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PeriodicPrizeStrategy'
 import { Button } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'

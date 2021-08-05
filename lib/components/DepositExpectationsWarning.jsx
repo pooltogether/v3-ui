@@ -1,4 +1,5 @@
 import React from 'react'
+import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { ExternalLink, LinkTheme } from '@pooltogether/react-components'
 import { Trans } from 'react-i18next'
@@ -12,11 +13,10 @@ import Bell from 'assets/images/bell-red@2x.png'
 const bn = ethers.BigNumber.from
 
 export const DepositExpectationsWarning = (props) => {
-  const { pool } = props
+  const { creditLimitMantissa, creditRateMantissa, className } = props
 
   /// @return creditLimitMantissa The credit limit fraction
   //          This number is used to calculate both the credit limit and early exit fee.
-  const creditLimitMantissa = pool.config.tokenCreditRates[0].creditLimitMantissa
   if (!creditLimitMantissa) {
     return null
   }
@@ -25,14 +25,17 @@ export const DepositExpectationsWarning = (props) => {
   const percent = ethers.utils.formatEther(creditLimitMantissaBN.mul(100)) || '-'
 
   /// @return creditRateMantissa The credit rate. This is the amount of tokens that accrue per second
-  const creditRateMantissaBN = bn(pool.config.tokenCreditRates[0].creditRateMantissa)
+  const creditRateMantissaBN = bn(creditRateMantissa)
   const durationInSecondsBN = creditLimitMantissaBN.div(creditRateMantissaBN)
   const days = durationInSecondsBN.toNumber() / SECONDS_PER_DAY
 
   return (
     <Banner
       gradient={null}
-      className='flex items-center mx-auto w-full bg-primary text-accent-1 text-xxs xs:text-xs lg:text-sm mt-4 sm:mt-8 max-w-lg'
+      className={classnames(
+        'flex items-center mx-auto w-full bg-primary text-accent-1 text-xxs xs:text-xs lg:text-sm mt-4 sm:mt-8 max-w-lg',
+        className
+      )}
     >
       <img className='mx-auto h-8 mr-4' src={Bell} />
 

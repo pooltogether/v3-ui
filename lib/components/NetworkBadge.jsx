@@ -31,5 +31,5 @@ export const NetworkBadge = (props) => {
 NetworkBadge.defaultProps = {
   className: 'mx-auto',
   textClassName: 'text-xxxs',
-  sizeClassName: 'w-3 h-3'
+  sizeClassName: 'w-4 h-4'
 }

@@ -17,6 +17,7 @@ import { WizardSwitchNetwork } from 'lib/components/WizardSwitchNetwork'
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { useExitFees } from 'lib/hooks/useExitFees'
+import { useMaxTimelockDurationSeconds } from 'lib/hooks/useMaxTimelockDurationSeconds'
 
 const NETWORK_SWITCH_STEP_INDEX = 1
 
@@ -59,6 +60,7 @@ export function ManageTicketsWizardContainer() {
             pool.tokens.ticket.decimals,
             quantity
           )
+
           let notEnoughCredit = null
           if (exitFees && exitFees.exitFee) {
             notEnoughCredit = exitFees.exitFee.gt(0)

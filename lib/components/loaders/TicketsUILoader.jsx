@@ -22,6 +22,7 @@ export const TicketsUILoader = (props) => {
         viewBox='0 0 200 80'
         backgroundColor={bgColor}
         foregroundColor={foreColor}
+        className='my-4'
       >
         <rect x='0' y='0' rx='3' ry='3' width='200' height='70' />
       </ContentLoader>
@@ -34,6 +35,7 @@ export const TicketsUILoader = (props) => {
       viewBox='0 0 400 50'
       backgroundColor={bgColor}
       foregroundColor={foreColor}
+      className='my-4'
     >
       <rect x='0' y='0' rx='3' ry='3' width='400' height='50' />{' '}
     </ContentLoader>

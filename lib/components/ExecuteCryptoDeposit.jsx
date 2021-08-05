@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useUsersAddress } from '@pooltogether/hooks'
 
-import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
+import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { useTranslation } from 'react-i18next'
@@ -86,7 +86,9 @@ export function ExecuteCryptoDeposit(props) {
         label={t('depositTickerToWin', {
           ticker: tickerUpcased
         })}
-        pool={pool}
+        symbol={pool.tokens.underlyingToken.symbol}
+        address={pool.tokens.underlyingToken.address}
+        chainId={pool.chainId}
       />
 
       <WithdrawAndDepositBanner

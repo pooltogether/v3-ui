@@ -1,5 +1,5 @@
-import TokenFaucetProxyFactoryMainnet from '@pooltogether/pooltogether-contracts/deployments/mainnet/TokenFaucetProxyFactory.json'
-import TokenFaucetProxyFactoryRinkeby from '@pooltogether/pooltogether-contracts/deployments/rinkeby/TokenFaucetProxyFactory.json'
+import TokenFaucetProxyFactoryMainnet from '@pooltogether/pooltogether-contracts_3_3/deployments/mainnet/TokenFaucetProxyFactory.json'
+import TokenFaucetProxyFactoryRinkeby from '@pooltogether/pooltogether-contracts_3_3/deployments/rinkeby/TokenFaucetProxyFactory.json'
 
 export const ETHEREUM_NETWORKS = [1, 3, 4, 5, 42]
 export const SUPPORTED_NETWORKS = [1, 4, 137, 80001]
@@ -103,12 +103,6 @@ export const PRIZE_STRATEGY_TYPES = {
   multipleWinners: 'multipleWinners'
 }
 
-export const PRIZE_POOL_TYPES = {
-  compound: 'compound',
-  genericYield: 'genericYield',
-  stake: 'stake'
-}
-
 export const CUSTOM_CONTRACT_ADDRESSES = {
   1: {
     Stablecoin: '0xdac17f958d2ee523a2206206994597c13d831ec7',
@@ -126,6 +120,9 @@ export const CUSTOM_CONTRACT_ADDRESSES = {
     MerkleDistributor: '0x93a6540DcE05a4A5E5B906eB97bBCBb723768F2D',
     GovernanceToken: '0xc4E90a8Dc6CaAb329f08ED3C8abc6b197Cf0F40A',
     Sablier: '0xc04Ad234E01327b24a831e3718DBFcbE245904CC'
+  },
+  56: {
+    Stablecoin: '0xe9e7cea3dedca5984780bafc599bd69add087d56'
   },
   137: {
     GovernanceToken: '',
