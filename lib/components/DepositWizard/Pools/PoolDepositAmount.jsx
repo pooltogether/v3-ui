@@ -42,6 +42,7 @@ export const PoolDepositAmount = (props) => {
         quantity={queryQuantity}
       />
       <UsersWinningOdds
+        usersAddress={usersAddress}
         isQuantityValid={formState.isValid}
         isFetched={isUsersBalanceFetched}
         usersTicketBalanceUnformatted={usersBalance?.[poolTicketAddress].amountUnformatted}
@@ -56,19 +57,20 @@ export const PoolDepositAmount = (props) => {
 
 const UsersWinningOdds = (props) => {
   const {
+    usersAddress,
     isQuantityValid,
     isFetched,
     usersTicketBalanceUnformatted,
     quantity,
     underlyingToken,
     numberOfWinners,
-    ticketTotalSupplyUnformatted,
-    sponsorshipTotalSupplyUnformatted
+    ticketTotalSupplyUnformatted
   } = props
 
   const { t } = useTranslation()
 
-  if (!isFetched || !isQuantityValid) {
+  console.log(usersAddress, isFetched, isQuantityValid)
+  if ((usersAddress && !isFetched) || !isQuantityValid) {
     return (
       <SmallCard className='mx-auto mt-10 flex flex-row'>
         <img src={IconTarget} className='w-16 h-16 sm:w-24 sm:h-24 mr-4  my-4' />
@@ -83,7 +85,9 @@ const UsersWinningOdds = (props) => {
   const decimals = underlyingToken.decimals
   // New balance of user
   const quantityUnformatted = ethers.utils.parseUnits(quantity || '0', decimals)
-  const usersNewBalanceUnformatted = quantityUnformatted.add(usersTicketBalanceUnformatted)
+  const usersNewBalanceUnformatted = quantityUnformatted.add(
+    usersTicketBalanceUnformatted || ethers.constants.Zero
+  )
 
   return (
     <SmallCard className='mx-auto mt-10 flex flex-row'>

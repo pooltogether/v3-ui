@@ -78,7 +78,7 @@ const PodListItemLeftHalf = (props) => {
 
   return (
     <div className='flex flex-col w-full'>
-      <PrizeValue totalValueUsd={pod.prize.totalValueUsd} className='mx-auto mt-8' />
+      <PrizeValue totalValueUsd={pod.prize.totalValueUsd} className='mx-auto mt-8 sm:mt-0' />
       <WinningOdds odds={pod.pod.odds} className='mx-auto' />
       <div className='flex mx-auto my-4 sm:mb-0'>
         <div className='flex mr-4'>

@@ -67,9 +67,9 @@ export const PoolRow = (props) => {
         }}
       />
 
-      <div className='flex flex-col sm:flex-row items-center justify-between sm:justify-evenly text-inverse'>
-        <div className='pool-row-left-col h-full flex py-2 p-4 sm:pl-4 lg:px-6 sm:pt-3 sm:pb-5 lg:px-8 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
-          <div className='pool-row-left-col--inner flex flex-col mx-auto'>
+      <div className='flex flex-col sm:flex-row items-center text-inverse'>
+        <div className='h-full flex py-2 p-4 sm:pl-4 lg:px-6 sm:pt-3 sm:pb-5 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
+          <div className='flex flex-col mx-auto'>
             <div className='flex items-center justify-center'>
               <TokenIcon
                 chainId={pool.chainId}
@@ -99,63 +99,65 @@ export const PoolRow = (props) => {
           </div>
         </div>
 
-        <div className='pool-row-right-col flex flex-col items-center w-full sm:w-1/2 mt-4 sm:mt-0'>
-          <NewPrizeCountdown
-            textSize='text-sm sm:text-lg'
-            prizePeriodSeconds={pool.prize.prizePeriodSeconds}
-            prizePeriodStartedAt={pool.prize.prizePeriodStartedAt}
-            isRngRequested={pool.prize.isRngRequested}
-          />
+        <div className='w-full mt-4 sm:mt-0'>
+          <div className='max-w-xs flex flex-col items-center mx-auto'>
+            <NewPrizeCountdown
+              textSize='text-sm sm:text-lg'
+              prizePeriodSeconds={pool.prize.prizePeriodSeconds}
+              prizePeriodStartedAt={pool.prize.prizePeriodStartedAt}
+              isRngRequested={pool.prize.isRngRequested}
+            />
 
-          <Button
-            border='green'
-            text='primary'
-            bg='green'
-            hoverBorder='green'
-            hoverText='primary'
-            hoverBg='green'
-            onClick={handleGetTicketsClick}
-            width='w-full'
-            textSize='xxxs'
-            className='mt-3'
-            padding='py-1'
-            disabled={!Boolean(pool.symbol)}
-          >
-            {t('depositTicker', {
-              ticker: tickerUpcased
-            })}
-          </Button>
-
-          <div className='flex items-center justify-between mt-2 w-full'>
-            {pool.tokenFaucets?.length === 0 ? (
-              <div className='hidden sm:flex' />
-            ) : (
-              pool.tokenFaucets.map((tokenFaucet) => (
-                <div
-                  key={`pool-token-faucet-row-desktop-${tokenFaucet.address}`}
-                  className='hidden sm:flex ml-2'
-                >
-                  {<AprChip chainId={pool.chainId} tokenFaucet={tokenFaucet} />}
-                </div>
-              ))
-            )}
-
-            <span className='relative hidden sm:inline-block'>
-              <ViewPoolDetailsButton />
-            </span>
-          </div>
-
-          {pool.tokenFaucets?.map((tokenFaucet) => (
-            <span
-              key={`pool-token-faucet-row-mobile-${tokenFaucet.address}`}
-              className='mt-1 relative sm:hidden'
+            <Button
+              border='green'
+              text='primary'
+              bg='green'
+              hoverBorder='green'
+              hoverText='primary'
+              hoverBg='green'
+              onClick={handleGetTicketsClick}
+              width='w-full'
+              textSize='xxxs'
+              className='mt-3'
+              padding='py-1'
+              disabled={!Boolean(pool.symbol)}
             >
-              {<AprChip chainId={pool.chainId} tokenFaucet={tokenFaucet} />}
-            </span>
-          ))}
+              {t('depositTicker', {
+                ticker: tickerUpcased
+              })}
+            </Button>
 
-          <div className='sm:hidden mt-1'>
-            <ViewPoolDetailsButton />
+            <div className='flex items-center justify-between mt-2 w-full'>
+              {pool.tokenFaucets?.length === 0 ? (
+                <div className='hidden sm:flex' />
+              ) : (
+                pool.tokenFaucets.map((tokenFaucet) => (
+                  <div
+                    key={`pool-token-faucet-row-desktop-${tokenFaucet.address}`}
+                    className='hidden sm:flex ml-2'
+                  >
+                    {<AprChip chainId={pool.chainId} tokenFaucet={tokenFaucet} />}
+                  </div>
+                ))
+              )}
+
+              <span className='relative hidden sm:inline-block'>
+                <ViewPoolDetailsButton />
+              </span>
+            </div>
+
+            {pool.tokenFaucets?.map((tokenFaucet) => (
+              <span
+                key={`pool-token-faucet-row-mobile-${tokenFaucet.address}`}
+                className='mt-1 relative sm:hidden'
+              >
+                {<AprChip chainId={pool.chainId} tokenFaucet={tokenFaucet} />}
+              </span>
+            ))}
+
+            <div className='sm:hidden mt-1'>
+              <ViewPoolDetailsButton />
+            </div>
           </div>
         </div>
       </div>

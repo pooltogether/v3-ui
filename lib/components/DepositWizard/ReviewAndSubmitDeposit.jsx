@@ -4,12 +4,18 @@ import {
   useAddNetworkToMetamask,
   useIsWalletMetamask,
   useOnboard,
-  useTokenAllowance
+  useTokenAllowance,
+  useTokenBalances
 } from '@pooltogether/hooks'
-import { Button, Card, Tooltip } from '@pooltogether/react-components'
-import { ETHEREUM_NETWORKS, getNetworkNiceNameByChainId } from '@pooltogether/utilities'
+import { Amount, Button, Card, Tooltip } from '@pooltogether/react-components'
+import {
+  ETHEREUM_NETWORKS,
+  getNetworkNiceNameByChainId,
+  numberWithCommas
+} from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
 import { ethers } from 'ethers'
+import { parseUnits } from '@ethersproject/units'
 
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
@@ -24,7 +30,7 @@ import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { TxStatus } from 'lib/components/TxStatus'
 
 export const ReviewAndSubmitDeposit = (props) => {
-  const { chainId, tokenAddress, contractAddress, isUserOnCorrectNetwork } = props
+  const { chainId, tokenAddress, contractAddress, isUserOnCorrectNetwork, quantity } = props
 
   const { network: walletChainId, address: usersAddress, connectWallet } = useOnboard()
 
@@ -34,11 +40,24 @@ export const ReviewAndSubmitDeposit = (props) => {
     refetch: refetchTokenAllowance
   } = useTokenAllowance(chainId, usersAddress, contractAddress, tokenAddress)
 
+  const { data: usersBalance, isFetched: isUsersBalanceFetched } = useTokenBalances(
+    chainId,
+    usersAddress,
+    [tokenAddress]
+  )
+
+  const decimals = isUsersBalanceFetched ? usersBalance[tokenAddress].decimals : null
+  const usersBalanceUnformatted = usersBalance?.[tokenAddress].amountUnformatted
+  const quantityUnformatted = isUsersBalanceFetched ? parseUnits(quantity, decimals) : null
+
   const isValidAllowance = isFetched ? data.isAllowed : true
+  const isQuantityValid = isUsersBalanceFetched
+    ? usersBalanceUnformatted.gte(quantityUnformatted)
+    : false
 
   if (!usersAddress) {
     return <ConnectWallet {...props} connectWallet={connectWallet} />
-  } else if (!isFetched) {
+  } else if (!isFetched || !isUsersBalanceFetched) {
     return <V3LoadingDots className='mx-auto' />
   } else if (!isUserOnCorrectNetwork) {
     return (
@@ -48,6 +67,8 @@ export const ReviewAndSubmitDeposit = (props) => {
         isValidAllowance={isValidAllowance}
       />
     )
+  } else if (!isQuantityValid) {
+    return <InvalidQuantity {...props} usersBalance={usersBalance?.[tokenAddress].amount} />
   } else if (!data?.isAllowed) {
     return (
       <ApproveDeposit
@@ -90,7 +111,7 @@ const ConnectWallet = (props) => {
 }
 
 const ConnectNetwork = (props) => {
-  const { chainId, walletChainId } = props
+  const { chainId } = props
   const { t } = useTranslation()
 
   return (
@@ -136,6 +157,34 @@ export const ConnectToNetworkContent = (props) => {
         {t('connectToNetwork', { networkName })}
       </Button>
     </ButtonDrawer>
+  )
+}
+
+export const InvalidQuantity = (props) => {
+  const { previousStep, usersBalance, tokenSymbol } = props
+
+  const { t } = useTranslation()
+
+  return (
+    <>
+      <ReviewAmountAndTitle {...props} />
+      <Card className='flex flex-col mx-auto mb-8' backgroundClassName='bg-orange-darkened'>
+        <h6>{t('insufficientFunds')}</h6>
+        <p className='mt-4 mb-1'>{t('enterAmountLowerThanTokenBalance')}</p>
+        <span className='flex flex-row mx-auto'>
+          <p className=''>{t('yourBalance')}</p>
+          <p className='ml-2'>
+            <Amount>{numberWithCommas(usersBalance || 0)}</Amount>
+          </p>
+          <p className='ml-2'>{tokenSymbol}</p>
+        </span>
+      </Card>
+      <div>
+        <Button textSize='xl' onClick={() => previousStep()}>
+          {t('back')}
+        </Button>
+      </div>
+    </>
   )
 }
 
