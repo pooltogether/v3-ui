@@ -128,18 +128,20 @@ export const PoolRow = (props) => {
             </Button>
 
             <div className='flex items-center justify-between mt-2 w-full'>
-              {pool.tokenFaucets?.length === 0 ? (
-                <div className='hidden sm:flex' />
-              ) : (
-                pool.tokenFaucets.map((tokenFaucet) => (
-                  <div
-                    key={`pool-token-faucet-row-desktop-${tokenFaucet.address}`}
-                    className='hidden sm:flex ml-2'
-                  >
-                    {<AprChip chainId={pool.chainId} tokenFaucet={tokenFaucet} />}
-                  </div>
-                ))
-              )}
+              <div className='flex flex-col'>
+                {pool.tokenFaucets?.length === 0 ? (
+                  <div className='hidden sm:flex' />
+                ) : (
+                  pool.tokenFaucets.map((tokenFaucet) => (
+                    <div
+                      key={`pool-token-faucet-row-desktop-${tokenFaucet.address}`}
+                      className='hidden sm:flex ml-2'
+                    >
+                      {<AprChip chainId={pool.chainId} tokenFaucet={tokenFaucet} />}
+                    </div>
+                  ))
+                )}
+              </div>
 
               <span className='relative hidden sm:inline-block'>
                 <ViewPoolDetailsButton />

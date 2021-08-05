@@ -126,7 +126,7 @@ const SmallDropdownInputGroup = (props) => {
     />
   )
 }
-
+// // ?.sort((a, b) => Number(b.prize.totalValueUsd) - Number(a.prize.totalValueUsd))
 const PoolList = (props) => {
   const { t } = useTranslation()
 
@@ -135,7 +135,7 @@ const PoolList = (props) => {
   const poolsToRender = useMemo(
     () =>
       pools
-        ?.sort((a, b) => Number(b.prize.totalValueUsd) - Number(a.prize.totalValueUsd))
+        ?.sort((a, b) => b.prize.weeklyTotalValueUsdScaled.sub(a.prize.weeklyTotalValueUsdScaled))
         .filter((pool) => filterByChainId(pool, chainIdFilter))
         .filter((pool) => pool.prizePool?.address !== '0xc2a7dfb76e93d12a1bb1fa151b9900158090395d')
         .map((pool) => <PoolRow key={`pool-row-${pool.prizePool.address}`} pool={pool} />) || [],
