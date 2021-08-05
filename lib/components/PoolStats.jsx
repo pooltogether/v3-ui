@@ -2,9 +2,10 @@ import React from 'react'
 import Link from 'next/link'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from '@pooltogether/react-components'
+import { Tooltip, TokenIcon } from '@pooltogether/react-components'
+import { PRIZE_POOL_TYPES } from '@pooltogether/current-pool-data'
 
-import { DEFAULT_TOKEN_PRECISION, PRIZE_POOL_TYPES } from 'lib/constants'
+import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import {
   CUSTOM_YIELD_SOURCE_NAMES,
   CUSTOM_YIELD_SOURCE_TOKEN_ADDRESS
@@ -16,6 +17,7 @@ import { Card, CardDetailsList } from 'lib/components/Card'
 import { findSponsorshipFaucet, useTokenFaucetApr } from 'lib/hooks/useTokenFaucetApr'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { NETWORK } from '@pooltogether/utilities'
 
 export const PoolStats = (props) => {
   const { t } = useTranslation()
@@ -53,6 +55,7 @@ const StatsList = (props) => {
 
 const Stat = (props) => {
   const {
+    chainId,
     title,
     convertedValue,
     sourceName,
@@ -81,7 +84,9 @@ const Stat = (props) => {
       {(sourceAddress || value) && (
         <div className='flex items-center'>
           {sourceName && <span className='capitalize'>{sourceName}</span>}
-          {sourceAddress && <Erc20Image address={sourceAddress} marginClasses='ml-1' />}
+          {sourceAddress && (
+            <TokenIcon chainId={NETWORK.mainnet} address={sourceAddress} className='ml-1' />
+          )}
           {value && <span className='flex items-center'>{value}</span>}
         </div>
       )}
@@ -90,7 +95,9 @@ const Stat = (props) => {
         <div className='flex flex-col sm:flex-row flex-wrap justify-end items-end sm:items-center'>
           <div className='flex items-center'>
             <PoolNumber>{numberWithCommas(tokenAmount)}</PoolNumber>
-            {tokenAddress && <Erc20Image address={tokenAddress} marginClasses='mx-1' />}
+            {tokenAddress && (
+              <TokenIcon chainId={chainId} address={tokenAddress} className='mx-1' />
+            )}
             <span>{tokenSymbol}</span>
           </div>
           {Boolean(convertedValue) && (
@@ -116,6 +123,7 @@ const DepositsStat = (props) => {
 
   return (
     <Stat
+      chainId={pool.chainId}
       title={t('totalDeposits')}
       convertedValue={pool.tokens.ticket.totalValueUsd}
       tokenAddress={pool.tokens.underlyingToken.address}
@@ -132,6 +140,7 @@ const SponsorshipStat = (props) => {
   return (
     <>
       <Stat
+        chainId={pool.chainId}
         title={t('sponsorship')}
         convertedValue={pool.tokens.sponsorship.totalValueUsd}
         tokenAddress={pool.tokens.underlyingToken.address}
@@ -149,6 +158,7 @@ const ReserveStat = (props) => {
 
   return (
     <Stat
+      chainId={pool.chainId}
       title={t('reserve')}
       convertedValue={pool.reserve.totalValueUsd}
       tokenAddress={pool.tokens.underlyingToken.address}
@@ -171,8 +181,6 @@ const ReserveRateStat = (props) => {
     reserveRateUnformattedPercentage,
     DEFAULT_TOKEN_PRECISION
   )
-  console.log(reserveRateUnformattedPercentage)
-  console.log(reserveRatePercentage)
 
   return (
     <Stat title={t('reserveRate')} percent={reserveRatePercentage} tooltip={t('reserveRateInfo')} />
@@ -189,7 +197,11 @@ const YieldSourceStat = (props) => {
   if (yieldSource === PRIZE_POOL_TYPES.compound) {
     sourceName = 'Compound Finance'
     sourceAddress = ''
-    sourceAddress = CUSTOM_YIELD_SOURCE_TOKEN_ADDRESS['comp']
+    sourceAddress = CUSTOM_YIELD_SOURCE_TOKEN_ADDRESS.comp
+  } else if (yieldSource === PRIZE_POOL_TYPES.cream) {
+    sourceName = 'CREAM Finance'
+    sourceAddress = ''
+    sourceAddress = CUSTOM_YIELD_SOURCE_TOKEN_ADDRESS.cream
   } else if (yieldSource === PRIZE_POOL_TYPES.genericYield) {
     const yieldSourceAddress = pool.prizePool.yieldSource.address
     value = (
@@ -210,6 +222,7 @@ const YieldSourceStat = (props) => {
 
   return (
     <Stat
+      chainId={pool.chainId}
       title={t('yieldSource')}
       value={value}
       sourceName={sourceName}
@@ -233,7 +246,7 @@ const AprStats = (props) => {
 const TokenFaucetAprRow = (props) => {
   const { pool, tokenFaucet } = props
 
-  const apr = useTokenFaucetApr(pool, tokenFaucet)
+  const apr = useTokenFaucetApr(tokenFaucet)
 
   if (!apr) return null
 
@@ -248,13 +261,14 @@ const TokenFaucetAprRow = (props) => {
 
 const DailyRewardsDistributionStat = (props) => {
   const { t } = useTranslation()
-  const { tokenFaucet } = props
+  const { pool, tokenFaucet } = props
 
   const dripToken = tokenFaucet?.dripToken
   const dripRatePerDay = tokenFaucet?.dripRatePerDay || 0
 
   return (
     <Stat
+      chainId={pool.chainId}
       title={t('dailyPoolDistribution')}
       tokenAddress={dripToken?.address}
       tokenSymbol={dripToken?.symbol}

@@ -93,7 +93,7 @@ export function SponsorshipIncentiveMessage(props) {
   const dripToken = tokenFaucet?.dripToken
   const dripTokenTickerUpcased = dripToken?.symbol.toUpperCase()
 
-  const apr = useTokenFaucetApr(pool, tokenFaucet)
+  const apr = useTokenFaucetApr(tokenFaucet)
 
   return (
     Boolean(tokenFaucet) && (

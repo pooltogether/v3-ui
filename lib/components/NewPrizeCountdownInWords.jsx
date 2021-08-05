@@ -7,9 +7,9 @@ import { usePrizePeriodTimeLeft } from 'lib/hooks/usePrizePeriodTimeLeft'
 
 export const NewPrizeCountdownInWords = (props) => {
   const { t } = useTranslation()
-  const { pool, extraShort, onTicket } = props
+  const { prizePeriodSeconds, prizePeriodStartedAt, extraShort, onTicket, isRngRequested } = props
 
-  const { secondsLeft } = usePrizePeriodTimeLeft(pool)
+  const { secondsLeft } = usePrizePeriodTimeLeft(prizePeriodSeconds, prizePeriodStartedAt)
 
   const currentDate = new Date(Date.now())
   const futureDate = addSeconds(currentDate, secondsLeft)
@@ -26,7 +26,7 @@ export const NewPrizeCountdownInWords = (props) => {
   const secondsWords = secondsArray.length > 1 ? secondsArray.join('') : secondsArray[0]
 
   let content
-  if (pool.prize.isRngRequested) {
+  if (isRngRequested) {
     content = <>{t('prizeIsBeingAwarded')}</>
   } else if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
     content = <>{t('prizeAwardedSoon')}</>
@@ -41,7 +41,7 @@ export const NewPrizeCountdownInWords = (props) => {
     )
   }
 
-  if (extraShort && pool.prize.isRngRequested) {
+  if (extraShort && isRngRequested) {
     content = <>{t('beingAwarded')}</>
   } else if (extraShort && days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
     content = <span className='font-normal ml-2'>{t('awarding')}</span>

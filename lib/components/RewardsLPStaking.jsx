@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
-import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
+import TokenFaucetAbi from '@pooltogether/pooltogether-contracts_3_3/abis/TokenFaucet'
 import isEmpty from 'lodash.isempty'
 import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'

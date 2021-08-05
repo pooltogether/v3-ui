@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useAtom } from 'jotai'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
+import { TicketRow, TokenIcon } from '@pooltogether/react-components'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { useTranslation } from 'react-i18next'
@@ -14,19 +15,17 @@ import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWord
 import { Odds } from 'lib/components/Odds'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
-import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
+import { TicketPrize } from 'lib/components/TicketPrize'
 
 export const AccountTicket = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
 
   const [isSelf] = useAtom(isSelfAtom)
-
-  const shouldReduceMotion = useReducedMotion()
 
   const { isLink, depositData, pool, cornerBgClassName } = props
   let { href, as } = props
@@ -71,69 +70,35 @@ export const AccountTicket = (props) => {
   }
 
   return (
-    <>
-      <motion.div
-        key={`account-pool-ticket-${pool.prizePool.address}`}
-        className={classnames('relative text-xxxs sm:text-xs mb-3')}
-        animate={{
-          scale: 1,
-          opacity: 1,
-          transition: {
-            duration: shouldReduceMotion ? 0 : 0.2,
-            staggerChildren: shouldReduceMotion ? 0 : 0.5,
-            delayChildren: shouldReduceMotion ? 0 : 0.2
-          }
-        }}
-        exit={{
-          scale: 0,
-          opacity: 0,
-          transition: {
-            duration: shouldReduceMotion ? 0 : 0.2,
-            staggerChildren: shouldReduceMotion ? 0 : 0.05,
-            staggerDirection: -1
-          }
-        }}
-      >
-        <div className='h-28 flex w-full items-center justify-between'>
-          <div className='notched-box h-28 w-40 lg:w-48 rounded-l-lg bg-accent-grey-4 flex flex-col items-center justify-center'>
-            <div
-              className={classnames(`notched-corner notched-top-right`, cornerBgClassName)}
-            ></div>
-            <div
-              className={classnames(`notched-corner notched-bottom-right`, cornerBgClassName)}
-            ></div>
-
-            <button onClick={handlePoolClick}>
-              <PoolCurrencyIcon
-                lg
-                noMargin
-                sizeClasses='w-6 h-6'
-                symbol={ticker}
-                address={pool.tokens.underlyingToken.address}
-              />
-              <div className='capitalize mt-2 text-xs font-bold text-inverse-purple'>
-                {ticker?.toUpperCase()}
-              </div>
-            </button>
-          </div>
-          <div
-            className='h-24 bg-accent-grey-4 border-body border-dotted border-r-4'
-            style={{ width: 1 }}
+    <TicketRow
+      className='mb-4'
+      cornerBgClassName={cornerBgClassName}
+      left={
+        <button onClick={handlePoolClick} className='flex flex-col justify-center h-full w-full'>
+          <TokenIcon
+            address={pool.tokens.underlyingToken.address}
+            chainId={pool.chainId}
+            className='w-6 h-6 mx-auto'
           />
-          <div className='notched-box h-28 rounded-r-lg bg-accent-grey-4 flex flex-col justify-center sm:flex-row w-full'>
-            <div className={classnames(`notched-corner notched-top-left`, cornerBgClassName)}></div>
-            <div
-              className={classnames(`notched-corner notched-bottom-left`, cornerBgClassName)}
-            ></div>
-            <div className='w-10/12 sm:w-5/12 mx-auto flex flex-col items-start justify-start sm:justify-center leading-none sm:pl-8'>
-              <div className='text-lg sm:text-2xl font-bold text-inverse-purple mb-1'>
-                <PoolNumber>{numberWithCommas(amount)}</PoolNumber>
-              </div>
+          <div className='capitalize mt-2 mx-auto text-xs font-bold text-inverse-purple'>
+            {ticker?.toUpperCase()}
+          </div>
+        </button>
+      }
+      right={
+        <div className='flex flex-col sm:flex-row justify-between'>
+          <div className='flex flex-col justify-start sm:justify-between leading-none'>
+            <div className='text-lg sm:text-2xl font-bold text-inverse-purple mb-1'>
+              <PoolNumber>{numberWithCommas(amount)}</PoolNumber>
+            </div>
 
-              <div className='flex sm:flex-col items-baseline sm:items-start'>
-                <span className='relative inline-block leading-normal text-accent-1 mr-1 sm:mr-0'>
-                  {t('winningOdds')}:
-                </span>{' '}
+            <div className='flex sm:flex-col items-baseline sm:items-start text-xxxs'>
+              <span className='relative inline-block leading-normal text-accent-1 mr-1 sm:mr-0'>
+                {t('winningOdds')}:
+              </span>{' '}
+              {Number(amount) < 1 ? (
+                <span className='font-bold text-accent-3'>{t('notAvailableAbbreviation')}</span>
+              ) : (
                 <Odds
                   asSpan
                   fontSansRegular
@@ -143,56 +108,33 @@ export const AccountTicket = (props) => {
                   decimals={decimals}
                   numberOfWinners={pool.config.numberOfWinners}
                 />
-              </div>
+              )}
             </div>
-            <div className='sm:justify-between sm:h-28 w-10/12 sm:w-7/12 mx-auto flex flex-col sm:items-end sm:py-4 sm:pl-2 sm:pr-12'>
-              <div className='flex items-baseline text-xs sm:text-xl font-bold text-accent-1'>
-                <img
-                  src={PoolTogetherTrophyDetailed}
-                  className='relative w-3 sm:w-4 mr-1 sm:mr-2 opacity-70'
-                  style={{
-                    filter: 'brightness(5)',
-                    top: 2
-                  }}
-                />
-                {pool.prize.totalValueUsd && decimals && (
-                  <>
-                    $
-                    <PoolCountUp
-                      fontSansRegular
-                      decimals={0}
-                      duration={3}
-                      end={parseFloat(pool.prize.totalValueUsd)}
-                    />
-                  </>
-                )}
-                <span className='text-xxxxs sm:text-xxs font-regular'>
-                  <NewPrizeCountdownInWords onTicket extraShort pool={pool} />
-                </span>
-              </div>
+          </div>
+          <div className={classnames('flex flex-col sm:items-end sm:justify-between')}>
+            <TicketPrize prize={pool.prize} />
 
-              <div className='flex sm:flex-col items-center sm:items-end mt-1 sm:mt-0'>
-                {isSelf && isLink && (
-                  <>
-                    <NetworkBadge
-                      className='sm:mx-auto'
-                      sizeClassName='w-3 h-3'
-                      textClassName='text-xxxs sm:text-xxs'
-                      chainId={pool.chainId}
-                    />
-                    <button
-                      onClick={handleManageClick}
-                      className='underline text-highlight-1 hover:text-inverse trans text-xxxs sm:text-xxs ml-2 sm:ml-0'
-                    >
-                      {t('manage')}
-                    </button>
-                  </>
-                )}
-              </div>
+            <div className='flex sm:flex-col items-center sm:items-end mt-1 sm:mt-0'>
+              {isSelf && isLink && (
+                <>
+                  <NetworkBadge
+                    className='sm:mx-auto'
+                    sizeClasses='w-3 h-3'
+                    textClasses='text-xxxs sm:text-xxs'
+                    chainId={pool.chainId}
+                  />
+                  <button
+                    onClick={handleManageClick}
+                    className='underline text-highlight-1 hover:text-inverse trans text-xxxs sm:text-xxs ml-2 sm:ml-0'
+                  >
+                    {t('manage')}
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
-      </motion.div>
-    </>
+      }
+    />
   )
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
-import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
+import TokenFaucetAbi from '@pooltogether/pooltogether-contracts_3_3/abis/TokenFaucet'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'

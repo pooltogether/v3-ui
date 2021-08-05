@@ -6,7 +6,7 @@ import { useAtom } from 'jotai'
 import { useUsersAddress } from '@pooltogether/hooks'
 import { NETWORK } from '@pooltogether/utilities'
 
-import ComptrollerAbi from '@pooltogether/pooltogether-contracts/abis/Comptroller'
+import ComptrollerAbi from '@pooltogether/pooltogether-contracts_3_3/abis/Comptroller'
 
 import { useTranslation } from 'react-i18next'
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'

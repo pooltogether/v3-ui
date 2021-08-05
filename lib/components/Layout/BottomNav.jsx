@@ -3,6 +3,7 @@ import {
   BottomNavContainer,
   BottomNavLink,
   BottomPoolsIcon,
+  BottomPodsIcon,
   BottomVoteIcon,
   BottomRewardsIcon,
   CountBadge
@@ -15,7 +16,7 @@ import React from 'react'
 export const BottomNav = (props) => {
   const router = useRouter()
   const { pathname } = router
-  const isPoolView = !['/account', '/rewards'].includes(pathname)
+  const isPoolView = !['/account', '/rewards', '/pods'].includes(pathname)
 
   return (
     <BottomNavContainer>
@@ -29,6 +30,17 @@ export const BottomNav = (props) => {
         isCurrentPage={isPoolView}
       >
         <BottomPoolsIcon />
+      </BottomNavLink>
+      <BottomNavLink
+        shallow
+        href='/pods'
+        as='/pods'
+        label={'Pods'}
+        Link={Link}
+        useRouter={useRouter}
+        match='/pods'
+      >
+        <BottomPodsIcon />
       </BottomNavLink>
       <BottomNavLink
         shallow

@@ -176,7 +176,12 @@ export const ManageUI = (props) => {
           {openPhase ? (
             <>
               <h6 className='mb-2'>{t('prizePeriodRemaining')}</h6>
-              <NewPrizeCountdown pool={pool} flashy={false} />
+              <NewPrizeCountdown
+                prizePeriodSeconds={pool.prize.prizePeriodSeconds}
+                prizePeriodStartedAt={pool.prize.prizePeriodStartedAt}
+                isRngRequested={pool.prize.isRngRequested}
+                flashy={false}
+              />
             </>
           ) : (
             <PoolActionsUI contractAddresses={contractAddresses} usersAddress={usersAddress} />

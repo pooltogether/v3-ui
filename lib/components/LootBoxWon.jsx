@@ -16,9 +16,9 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { extractPrizeNumberFromPrize } from 'lib/utils/extractPrizeNumberFromPrize'
 import { usePastPrize } from 'lib/hooks/usePastPrizes'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
-import { useReadProvider } from 'lib/hooks/providers/useReadProvider'
 import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
+import { useReadProvider } from '@pooltogether/hooks'
 
 export const LootBoxWon = (props) => {
   const { lootBox } = props
@@ -63,7 +63,7 @@ const LootBoxWonTable = (props) => {
     tokenIds: [award.tokenId]
   }))
 
-  const { data: readProvider } = useReadProvider(pool.chainId)
+  const { readProvider } = useReadProvider(pool.chainId)
 
   const {
     data: erc20Balances,

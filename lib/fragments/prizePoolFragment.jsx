@@ -35,9 +35,6 @@ export const prizePoolFragment = gql`
     underlyingCollateralName
     underlyingCollateralSymbol
 
-    maxExitFeeMantissa
-    maxTimelockDuration
-    timelockTotalSupply
     liquidityCap
 
     reserveRegistry
