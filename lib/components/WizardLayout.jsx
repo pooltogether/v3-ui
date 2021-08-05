@@ -175,9 +175,10 @@ export function WizardLayout(props) {
         </nav>
 
         <div
-          className='h-full flex flex-col justify-start px-4 xs:px-12 sm:px-36 lg:px-48 pt-24 text-center mx-auto'
+          className='h-full flex flex-col justify-start px-4 xs:px-12 sm:px-36 lg:px-48 text-center mx-auto'
           style={{
-            maxWidth: 1160
+            maxWidth: 1160,
+            paddingTop: 'max(15vh, 6rem)'
           }}
         >
           {children}
