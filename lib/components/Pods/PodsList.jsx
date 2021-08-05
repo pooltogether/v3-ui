@@ -99,22 +99,24 @@ const PodListItemRightHalf = (props) => {
   const { pod } = props
 
   return (
-    <div className='flex flex-col w-full my-auto'>
-      <NewPrizeCountdown
-        center
-        prizePeriodSeconds={pod.prize.prizePeriodSeconds}
-        prizePeriodStartedAt={pod.prize.prizePeriodStartedAt}
-        isRngRequested={pod.prize.isRngRequested}
-      />
-      <DepositIntoPodTrigger pod={pod} />
-      {pod.prizePool.tokenFaucets.map((tokenFaucet) => (
-        <AprChip
-          key={tokenFaucet.address}
-          className='mx-auto mt-2'
-          chainId={pod.metadata.chainId}
-          tokenFaucet={tokenFaucet}
+    <div className='w-full flex'>
+      <div className='flex flex-col mx-auto my-auto'>
+        <NewPrizeCountdown
+          center
+          prizePeriodSeconds={pod.prize.prizePeriodSeconds}
+          prizePeriodStartedAt={pod.prize.prizePeriodStartedAt}
+          isRngRequested={pod.prize.isRngRequested}
         />
-      ))}
+        <DepositIntoPodTrigger pod={pod} />
+        {pod.prizePool.tokenFaucets.map((tokenFaucet) => (
+          <AprChip
+            key={tokenFaucet.address}
+            className='mx-auto mt-2'
+            chainId={pod.metadata.chainId}
+            tokenFaucet={tokenFaucet}
+          />
+        ))}
+      </div>
     </div>
   )
 }

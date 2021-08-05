@@ -224,7 +224,7 @@ const ApproveDeposit = (props) => {
     <>
       <ReviewAmountAndTitle {...props} />
       <div className='mb-8 flex flex-col'>
-        <span className='font-bold'>{t('yourApprovalIsNecessaryBeforeDepositing')}</span>
+        <span className='font-bold mb-2'>{t('yourApprovalIsNecessaryBeforeDepositing')}</span>
         <Tooltip tip={t('approvalExplainer')} id={`token-approval-tooltip`}>
           <span className='text-xxs text-highlight-1'>{t('whatIsThis')}</span>
         </Tooltip>

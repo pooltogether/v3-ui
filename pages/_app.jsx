@@ -44,7 +44,6 @@ import '@pooltogether/react-components/dist/index.css'
 import '../i18n'
 import { useTranslation } from 'react-i18next'
 import { AnimatePresence } from 'framer-motion'
-import { DepositWizardContainer } from 'lib/components/DepositWizardContainer'
 import { ManageTicketsWizardContainer } from 'lib/components/ManageTicketsWizardContainer'
 import { ClaimRetroactivePoolWizardContainer } from 'lib/components/ClaimRetroactivePoolWizard'
 import { WrongNetworkModal } from 'lib/components/WrongNetworkModal'
@@ -189,8 +188,6 @@ function MyApp({ Component, pageProps, router }) {
                 <TxRefetchListener />
 
                 <ManualWarningMessage />
-
-                {/* <AnimatePresence>{deposit && <DepositWizardContainer />}</AnimatePresence> */}
 
                 <AnimatePresence>{manage && <ManageTicketsWizardContainer />}</AnimatePresence>
 

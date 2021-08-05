@@ -126,7 +126,7 @@ const SmallDropdownInputGroup = (props) => {
     />
   )
 }
-// // ?.sort((a, b) => Number(b.prize.totalValueUsd) - Number(a.prize.totalValueUsd))
+
 const PoolList = (props) => {
   const { t } = useTranslation()
 

@@ -69,7 +69,6 @@ const UsersWinningOdds = (props) => {
 
   const { t } = useTranslation()
 
-  console.log(usersAddress, isFetched, isQuantityValid)
   if ((usersAddress && !isFetched) || !isQuantityValid) {
     return (
       <SmallCard className='mx-auto mt-10 flex flex-row'>
