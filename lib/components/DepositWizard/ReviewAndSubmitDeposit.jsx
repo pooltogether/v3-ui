@@ -22,7 +22,6 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 import ERC20Abi from 'abis/ERC20Abi'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { TxStatus } from 'lib/components/TxStatus'
-import Bell from 'assets/images/bell-red@2x.png'
 
 export const ReviewAndSubmitDeposit = (props) => {
   const { chainId, tokenAddress, contractAddress, isUserOnCorrectNetwork } = props
@@ -177,7 +176,7 @@ const ApproveDeposit = (props) => {
       <ReviewAmountAndTitle {...props} />
       <div className='mb-8 flex flex-col'>
         <span className='font-bold'>{t('yourApprovalIsNecessaryBeforeDepositing')}</span>
-        <Tooltip tip={t('approvalExplainer')}>
+        <Tooltip tip={t('approvalExplainer')} id={`token-approval-tooltip`}>
           <span className='text-xxs text-highlight-1'>{t('whatIsThis')}</span>
         </Tooltip>
       </div>
@@ -205,8 +204,15 @@ const ApproveDeposit = (props) => {
 }
 
 const SubmitDeposit = (props) => {
-  const { chainId, depositTxId, setDepositTxId, tokenSymbol, submitDepositTransaction, nextStep } =
-    props
+  const {
+    chainId,
+    depositTxId,
+    setDepositTxId,
+    tokenSymbol,
+    submitDepositTransaction,
+    nextStep,
+    cards
+  } = props
   const { t } = useTranslation()
 
   const tx = useTransaction(depositTxId)
@@ -233,16 +239,7 @@ const SubmitDeposit = (props) => {
         inWalletMessage={t('confirmDepositInYourWallet')}
         sentMessage={t('depositConfirming')}
       />
-      <Card
-        className='flex flex-col mx-auto my-8'
-        backgroundClassName='bg-functional-red'
-        sizeClassName='max-w-md'
-      >
-        <img className='mx-auto h-8 mb-4 text-xs sm:text-base' src={Bell} />
-        <p>{t('withdrawAnyTimePod')}</p>
-        {/* TODO: Link to FAQ/Knowledge base */}
-        {/* <ExternalLink>Learn more</ExternalLink> */}
-      </Card>
+      {cards}
 
       {!txPending && (
         <ButtonDrawer>

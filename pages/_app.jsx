@@ -190,7 +190,7 @@ function MyApp({ Component, pageProps, router }) {
 
                 <ManualWarningMessage />
 
-                <AnimatePresence>{deposit && <DepositWizardContainer />}</AnimatePresence>
+                {/* <AnimatePresence>{deposit && <DepositWizardContainer />}</AnimatePresence> */}
 
                 <AnimatePresence>{manage && <ManageTicketsWizardContainer />}</AnimatePresence>
 
