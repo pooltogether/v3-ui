@@ -88,7 +88,7 @@ export const AccountTicket = (props) => {
       right={
         <div className='flex flex-col sm:flex-row justify-between'>
           <div className='flex flex-col justify-start sm:justify-between leading-none'>
-            <div className='text-lg sm:text-2xl font-bold text-inverse-purple mb-1'>
+            <div className='text-lg sm:text-2xl font-bold text-inverse-purple mb-1 text-left'>
               <PoolNumber>{numberWithCommas(amount)}</PoolNumber>
             </div>
 

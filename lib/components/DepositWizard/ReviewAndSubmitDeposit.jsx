@@ -115,21 +115,19 @@ const ConnectNetwork = (props) => {
   const { t } = useTranslation()
 
   return (
-    <div className='flex flex-col h-full pt-16'>
+    <>
+      <ReviewAmountAndTitle {...props} />
       <Banner
         gradient={null}
-        className='w-full flex items-center justify-center mx-auto text-xs sm:text-lg text-highlight-2 bg-card text-center mb-8'
+        className='w-full flex items-center justify-center mx-auto text-xs sm:text-lg text-highlight-2 bg-card text-center my-8'
       >
         <img src={IconNetwork} className='inline-block mr-2 w-8' />
         {t('youreOnTheWrongNetworkSwitchToNetworkName', {
           networkName: getNetworkNiceNameByChainId(chainId)
         })}
       </Banner>
-      <div className='flex flex-col h-full justify-center'>
-        <ReviewAmountAndTitle {...props} />
-        <ConnectToNetworkContent chainId={chainId} />
-      </div>
-    </div>
+      <ConnectToNetworkContent chainId={chainId} />
+    </>
   )
 }
 
