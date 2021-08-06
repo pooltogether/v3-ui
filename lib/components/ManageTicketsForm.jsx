@@ -36,15 +36,13 @@ export function ManageTicketsForm(props) {
         <SponsorshipIncentiveMessage pool={pool} tokenFaucet={sponsorshipFaucet} />
       )}
 
-      <div className='pane-title'>
-        <div
-          className={`leading-tight font-bold text-lg xs:text-3xl lg:text-4xl text-inverse mb-4 xs:mb-8`}
-        >
+      <div className='pane-title -mt-6'>
+        <div className={`leading-tight font-bold text-lg xs:text-3xl text-inverse mb-2`}>
           {t('manageYourTickets')}
         </div>
       </div>
 
-      <div className='mx-auto mt-4 mb-8 xs:mb-12 w-full'>
+      <div className='mx-auto mt-4 mb-2 w-full'>
         {playerPoolDepositData && (
           <AccountTicket
             noMargin
