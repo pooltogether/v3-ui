@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
+import { useDisableScrollWhenMounted } from 'lib/hooks/useDisableScrollWhenMounted'
 
 function range1(i) {
   return i ? range1(i - 1).concat(i) : []
@@ -26,6 +27,8 @@ export function WizardLayout(props) {
     closeWizard,
     children
   } = props
+
+  useDisableScrollWhenMounted()
 
   const shouldReduceMotion = useReducedMotion()
 
@@ -61,7 +64,7 @@ export function WizardLayout(props) {
     <>
       <motion.div
         key={`${action}-scaled-bg`}
-        className='fixed w-full h-full z-40 bg-darkened'
+        className='fixed top-0 left-0 w-screen h-screen z-40 bg-darkened'
         transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
@@ -76,7 +79,7 @@ export function WizardLayout(props) {
 
       <motion.div
         key={`${action}-pane`}
-        className='fixed t-0 l-0 r-0 b-0 w-full h-full z-40 z-50 text-inverse'
+        className='fixed t-0 l-0 r-0 b-0 w-screen h-screen z-40 z-50 text-inverse'
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: shouldReduceMotion ? 0 : 0.25 }}
       >
@@ -172,9 +175,10 @@ export function WizardLayout(props) {
         </nav>
 
         <div
-          className='h-full flex flex-col justify-center px-4 xs:px-12 sm:px-36 lg:px-48 text-center mx-auto'
+          className='h-full flex flex-col justify-start px-4 xs:px-12 sm:px-36 lg:px-48 text-center mx-auto'
           style={{
-            maxWidth: 1160
+            maxWidth: 1160,
+            paddingTop: 'max(15vh, 6rem)'
           }}
         >
           {children}

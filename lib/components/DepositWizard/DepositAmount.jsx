@@ -55,10 +55,13 @@ export const DepositAmount = (props) => {
     isValid: (v) => {
       const isNotANumber = isNaN(v)
       if (isNotANumber) return false
-      if (!usersUnderlyingBalance) return false
-      if (!usersTicketBalance) return false
+      if (usersAddress) {
+        if (!usersUnderlyingBalance) return false
+        if (!usersTicketBalance) return false
+        if (parseUnits(usersUnderlyingBalance, decimals).lt(parseUnits(v, decimals)))
+          return t('insufficientFunds')
+      }
       if (getMaxPrecision(v) > decimals) return false
-      if (parseUnits(usersUnderlyingBalance, decimals).lt(parseUnits(v, decimals))) return false
       if (parseUnits(v, decimals).isZero()) return false
       return true
     }

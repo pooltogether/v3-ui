@@ -92,7 +92,7 @@ const PodWinningOdds = (props) => {
   if (!isFetched || !isQuantityValid) {
     return (
       <SmallCard className='mr-2'>
-        <Title>{t('yourWinningOdds')}:</Title>
+        <Title>{t('podWinningOdds')}:</Title>
         <Details>--</Details>
       </SmallCard>
     )
@@ -105,10 +105,6 @@ const PodWinningOdds = (props) => {
   const podsNewBalanceUnformatted = quantityUnformatted.add(podBalanceUnformatted)
   // Total supply of prize pool
   const ticketTotalSupplyUnformatted = pod.prizePool.tokens.ticket.totalSupplyUnformatted
-  const sponsorshipTotalSupplyUnformatted = pod.prizePool.tokens.sponsorship.totalSupplyUnformatted
-  const totalSupplyUnformatted = ticketTotalSupplyUnformatted
-    .add(sponsorshipTotalSupplyUnformatted)
-    .add(quantityUnformatted)
 
   return (
     <SmallCard className='mr-2'>
@@ -117,7 +113,7 @@ const PodWinningOdds = (props) => {
         <Details>--</Details>
       ) : (
         <Odds
-          ticketSupplyUnformatted={totalSupplyUnformatted}
+          ticketSupplyUnformatted={ticketTotalSupplyUnformatted}
           decimals={decimals}
           numberOfWinners={numberOfWinners}
           usersBalance={podsNewBalanceUnformatted}

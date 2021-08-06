@@ -16,6 +16,7 @@ import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
 import { useOnEnvChange } from 'lib/hooks/useOnEnvChange'
+import { NETWORK } from '@pooltogether/utilities'
 
 /**
  * Displays a list of Pools.
@@ -134,7 +135,7 @@ const PoolList = (props) => {
   const poolsToRender = useMemo(
     () =>
       pools
-        ?.sort((a, b) => Number(b.prize.totalValueUsd) - Number(a.prize.totalValueUsd))
+        ?.sort((a, b) => b.prize.weeklyTotalValueUsdScaled.sub(a.prize.weeklyTotalValueUsdScaled))
         .filter((pool) => filterByChainId(pool, chainIdFilter))
         .filter((pool) => pool.prizePool?.address !== '0xc2a7dfb76e93d12a1bb1fa151b9900158090395d')
         .map((pool) => <PoolRow key={`pool-row-${pool.prizePool.address}`} pool={pool} />) || [],
@@ -181,6 +182,20 @@ const usePoolFilters = () => {
       }
       return allFilters
     },
-    { [-1]: { view: t('allNetworks'), value: null } }
+    {
+      [-1]: {
+        view: (
+          <div className='flex'>
+            <div className='flex flex-row-reverse'>
+              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-4' chainId={NETWORK.bsc} />
+              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-4' chainId={NETWORK.mainnet} />
+              <NetworkIcon sizeClassName='my-auto h-6 w-6' chainId={NETWORK.polygon} />
+            </div>
+            <span className='capitalize ml-2'>{t('allNetworks')}</span>
+          </div>
+        ),
+        value: null
+      }
+    }
   )
 }

@@ -4,12 +4,18 @@ import {
   useAddNetworkToMetamask,
   useIsWalletMetamask,
   useOnboard,
-  useTokenAllowance
+  useTokenAllowance,
+  useTokenBalances
 } from '@pooltogether/hooks'
-import { Button, Card, Tooltip } from '@pooltogether/react-components'
-import { ETHEREUM_NETWORKS, getNetworkNiceNameByChainId } from '@pooltogether/utilities'
+import { Amount, Button, Card, Tooltip } from '@pooltogether/react-components'
+import {
+  ETHEREUM_NETWORKS,
+  getNetworkNiceNameByChainId,
+  numberWithCommas
+} from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
 import { ethers } from 'ethers'
+import { parseUnits } from '@ethersproject/units'
 
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
@@ -22,10 +28,9 @@ import { useTransaction } from 'lib/hooks/useTransaction'
 import ERC20Abi from 'abis/ERC20Abi'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { TxStatus } from 'lib/components/TxStatus'
-import Bell from 'assets/images/bell-red@2x.png'
 
 export const ReviewAndSubmitDeposit = (props) => {
-  const { chainId, tokenAddress, contractAddress, isUserOnCorrectNetwork } = props
+  const { chainId, tokenAddress, contractAddress, isUserOnCorrectNetwork, quantity } = props
 
   const { network: walletChainId, address: usersAddress, connectWallet } = useOnboard()
 
@@ -35,11 +40,24 @@ export const ReviewAndSubmitDeposit = (props) => {
     refetch: refetchTokenAllowance
   } = useTokenAllowance(chainId, usersAddress, contractAddress, tokenAddress)
 
+  const { data: usersBalance, isFetched: isUsersBalanceFetched } = useTokenBalances(
+    chainId,
+    usersAddress,
+    [tokenAddress]
+  )
+
+  const decimals = isUsersBalanceFetched ? usersBalance[tokenAddress].decimals : null
+  const usersBalanceUnformatted = usersBalance?.[tokenAddress].amountUnformatted
+  const quantityUnformatted = isUsersBalanceFetched ? parseUnits(quantity, decimals) : null
+
   const isValidAllowance = isFetched ? data.isAllowed : true
+  const isQuantityValid = isUsersBalanceFetched
+    ? usersBalanceUnformatted.gte(quantityUnformatted)
+    : false
 
   if (!usersAddress) {
     return <ConnectWallet {...props} connectWallet={connectWallet} />
-  } else if (!isFetched) {
+  } else if (!isFetched || !isUsersBalanceFetched) {
     return <V3LoadingDots className='mx-auto' />
   } else if (!isUserOnCorrectNetwork) {
     return (
@@ -49,6 +67,8 @@ export const ReviewAndSubmitDeposit = (props) => {
         isValidAllowance={isValidAllowance}
       />
     )
+  } else if (!isQuantityValid) {
+    return <InvalidQuantity {...props} usersBalance={usersBalance?.[tokenAddress].amount} />
   } else if (!data?.isAllowed) {
     return (
       <ApproveDeposit
@@ -91,25 +111,23 @@ const ConnectWallet = (props) => {
 }
 
 const ConnectNetwork = (props) => {
-  const { chainId, walletChainId } = props
+  const { chainId } = props
   const { t } = useTranslation()
 
   return (
-    <div className='flex flex-col h-full pt-16'>
+    <>
+      <ReviewAmountAndTitle {...props} />
       <Banner
         gradient={null}
-        className='w-full flex items-center justify-center mx-auto text-xs sm:text-lg text-highlight-2 bg-card text-center mb-8'
+        className='w-full flex items-center justify-center mx-auto text-xs sm:text-lg text-highlight-2 bg-card text-center my-8'
       >
         <img src={IconNetwork} className='inline-block mr-2 w-8' />
         {t('youreOnTheWrongNetworkSwitchToNetworkName', {
           networkName: getNetworkNiceNameByChainId(chainId)
         })}
       </Banner>
-      <div className='flex flex-col h-full justify-center'>
-        <ReviewAmountAndTitle {...props} />
-        <ConnectToNetworkContent chainId={chainId} />
-      </div>
-    </div>
+      <ConnectToNetworkContent chainId={chainId} />
+    </>
   )
 }
 
@@ -137,6 +155,34 @@ export const ConnectToNetworkContent = (props) => {
         {t('connectToNetwork', { networkName })}
       </Button>
     </ButtonDrawer>
+  )
+}
+
+export const InvalidQuantity = (props) => {
+  const { previousStep, usersBalance, tokenSymbol } = props
+
+  const { t } = useTranslation()
+
+  return (
+    <>
+      <ReviewAmountAndTitle {...props} />
+      <Card className='flex flex-col mx-auto mb-8' backgroundClassName='bg-orange-darkened'>
+        <h6>{t('insufficientFunds')}</h6>
+        <p className='mt-4 mb-1'>{t('enterAmountLowerThanTokenBalance')}</p>
+        <span className='flex flex-row mx-auto'>
+          <p className=''>{t('yourBalance')}</p>
+          <p className='ml-2'>
+            <Amount>{numberWithCommas(usersBalance || 0)}</Amount>
+          </p>
+          <p className='ml-2'>{tokenSymbol}</p>
+        </span>
+      </Card>
+      <div>
+        <Button textSize='xl' onClick={() => previousStep()}>
+          {t('back')}
+        </Button>
+      </div>
+    </>
   )
 }
 
@@ -176,8 +222,8 @@ const ApproveDeposit = (props) => {
     <>
       <ReviewAmountAndTitle {...props} />
       <div className='mb-8 flex flex-col'>
-        <span className='font-bold'>{t('yourApprovalIsNecessaryBeforeDepositing')}</span>
-        <Tooltip tip={t('approvalExplainer')}>
+        <span className='font-bold mb-2'>{t('yourApprovalIsNecessaryBeforeDepositing')}</span>
+        <Tooltip tip={t('approvalExplainer')} id={`token-approval-tooltip`}>
           <span className='text-xxs text-highlight-1'>{t('whatIsThis')}</span>
         </Tooltip>
       </div>
@@ -205,8 +251,15 @@ const ApproveDeposit = (props) => {
 }
 
 const SubmitDeposit = (props) => {
-  const { chainId, depositTxId, setDepositTxId, tokenSymbol, submitDepositTransaction, nextStep } =
-    props
+  const {
+    chainId,
+    depositTxId,
+    setDepositTxId,
+    tokenSymbol,
+    submitDepositTransaction,
+    nextStep,
+    cards
+  } = props
   const { t } = useTranslation()
 
   const tx = useTransaction(depositTxId)
@@ -233,16 +286,7 @@ const SubmitDeposit = (props) => {
         inWalletMessage={t('confirmDepositInYourWallet')}
         sentMessage={t('depositConfirming')}
       />
-      <Card
-        className='flex flex-col mx-auto my-8'
-        backgroundClassName='bg-functional-red'
-        sizeClassName='max-w-md'
-      >
-        <img className='mx-auto h-8 mb-4 text-xs sm:text-base' src={Bell} />
-        <p>{t('withdrawAnyTimePod')}</p>
-        {/* TODO: Link to FAQ/Knowledge base */}
-        {/* <ExternalLink>Learn more</ExternalLink> */}
-      </Card>
+      {cards}
 
       {!txPending && (
         <ButtonDrawer>

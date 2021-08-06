@@ -142,7 +142,7 @@ const PodDeposits = (props) => {
   return (
     <>
       {podTickets.map((podTicket) => (
-        <PodTicket podTicket={podTicket} />
+        <PodTicket key={podTicket.address} podTicket={podTicket} />
       ))}
     </>
   )

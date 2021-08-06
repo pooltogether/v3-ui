@@ -78,7 +78,7 @@ const PodListItemLeftHalf = (props) => {
 
   return (
     <div className='flex flex-col w-full'>
-      <PrizeValue totalValueUsd={pod.prize.totalValueUsd} className='mx-auto' />
+      <PrizeValue totalValueUsd={pod.prize.totalValueUsd} className='mx-auto mt-8 sm:mt-0' />
       <WinningOdds odds={pod.pod.odds} className='mx-auto' />
       <div className='flex mx-auto my-4 sm:mb-0'>
         <div className='flex mr-4'>
@@ -99,22 +99,24 @@ const PodListItemRightHalf = (props) => {
   const { pod } = props
 
   return (
-    <div className='flex flex-col w-full my-auto'>
-      <NewPrizeCountdown
-        center
-        prizePeriodSeconds={pod.prize.prizePeriodSeconds}
-        prizePeriodStartedAt={pod.prize.prizePeriodStartedAt}
-        isRngRequested={pod.prize.isRngRequested}
-      />
-      <DepositIntoPodTrigger pod={pod} />
-      {pod.prizePool.tokenFaucets.map((tokenFaucet) => (
-        <AprChip
-          key={tokenFaucet.address}
-          className='mx-auto mt-2'
-          chainId={pod.metadata.chainId}
-          tokenFaucet={tokenFaucet}
+    <div className='w-full flex'>
+      <div className='flex flex-col mx-auto my-auto'>
+        <NewPrizeCountdown
+          center
+          prizePeriodSeconds={pod.prize.prizePeriodSeconds}
+          prizePeriodStartedAt={pod.prize.prizePeriodStartedAt}
+          isRngRequested={pod.prize.isRngRequested}
         />
-      ))}
+        <DepositIntoPodTrigger pod={pod} />
+        {pod.prizePool.tokenFaucets.map((tokenFaucet) => (
+          <AprChip
+            key={tokenFaucet.address}
+            className='mx-auto mt-2'
+            chainId={pod.metadata.chainId}
+            tokenFaucet={tokenFaucet}
+          />
+        ))}
+      </div>
     </div>
   )
 }

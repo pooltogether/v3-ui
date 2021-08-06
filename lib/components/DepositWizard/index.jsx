@@ -104,6 +104,7 @@ export const DepositWizard = (props) => {
           <ReviewAndSubmitDeposit
             {...ReviewAndSubmitDepositProps}
             nextStep={nextStep}
+            previousStep={previousStep}
             key={1}
             tokenAddress={tokenAddress}
             contractAddress={contractAddress}

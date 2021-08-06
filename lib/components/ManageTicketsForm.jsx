@@ -98,7 +98,7 @@ export function SponsorshipIncentiveMessage(props) {
   return (
     Boolean(tokenFaucet) && (
       <Link href='/rewards#sponsorship' as='/rewards#sponsorship'>
-        <a className='h-20 py-3 absolute left-0 sm:left-auto r-0 b-0 mb-20 sm:m-10 z-10 bg-card hover:bg-card-selected sm:rounded-lg trans trans-faster w-full sm:w-1/2 lg:w-1/3'>
+        <a className='py-3 absolute left-0 sm:left-auto r-0 b-0 mb-24 sm:m-10 z-10 bg-card hover:bg-card-selected sm:rounded-lg trans trans-faster w-full sm:w-1/2 lg:w-1/3'>
           <div className='flex items-center justify-center'>
             <div className='font-inter text-xxxs text-center bg-accent-grey-1 text-highlight-3 rounded-full px-2 uppercase mr-2 font-bold'>
               {t('new')}
@@ -111,7 +111,7 @@ export function SponsorshipIncentiveMessage(props) {
               tip={t('sponsorsAreNotEligibleToWinPrizes')}
             />
           </div>
-          <p className='text-xxs flex items-center justify-center'>
+          <p className='text-xxs px-2 sm:px-0'>
             <Trans
               i18nKey='earnAmountAprInTickerByHelpingGrowThePrizePool'
               defaults='Earn <flashy>{{amount}}% APR</flashy> in <tickerImage /> {{ticker}} by helping grow the prize pool'
