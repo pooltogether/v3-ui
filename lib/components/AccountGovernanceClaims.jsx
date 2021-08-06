@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useAtom } from 'jotai'
 import { useTranslation } from 'react-i18next'
-import { Button, Tooltip } from '@pooltogether/react-components'
+import { Button, TokenIcon, Tooltip } from '@pooltogether/react-components'
 import { usePreviousValue } from 'beautiful-react-hooks'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 import { NETWORK } from '@pooltogether/utilities'
@@ -37,11 +37,13 @@ import { useGovernancePools } from 'lib/hooks/usePools'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
 import { Erc20Image } from 'lib/components/Erc20Image'
+import { useAllPods } from 'lib/hooks/useAllPods'
 
 export const AccountGovernanceClaims = (props) => {
   const { t } = useTranslation()
 
   const { data: pools, isFetched: poolIsFetched } = useGovernancePools()
+  const { data: pods, isFetched: podsIsFetched } = useAllPods()
   const usersAddress = useUsersAddress()
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
@@ -62,7 +64,7 @@ export const AccountGovernanceClaims = (props) => {
     refetchPoolTokenData()
   }
 
-  if (!address || !poolIsFetched) {
+  if (!address || !poolIsFetched || !podsIsFetched) {
     return (
       <div className='my-16'>
         <IndexUILoader />
@@ -109,10 +111,11 @@ export const AccountGovernanceClaims = (props) => {
 
         {polygonPools.length > 0 && (
           <div className='mt-10'>
-            <ClaimHeader
+            <NetworkBadge
               chainId={NETWORK.polygon}
-              address={address}
-              refetchAllPoolTokenData={refetchAllPoolTokenData}
+              textClassName='text-xs sm:text-base'
+              sizeClassName='w-4 sm:w-6 h-4 sm:h-6'
+              className='m-2 sm:m-0'
             />
             {polygonPools.map((pool) => {
               return (
@@ -129,10 +132,11 @@ export const AccountGovernanceClaims = (props) => {
 
         {binancePools.length > 0 && (
           <div className='mt-10'>
-            <ClaimHeader
+            <NetworkBadge
               chainId={NETWORK.bsc}
-              address={address}
-              refetchAllPoolTokenData={refetchAllPoolTokenData}
+              textClassName='text-xs sm:text-base'
+              sizeClassName='w-4 sm:w-6 h-4 sm:h-6'
+              className='m-2 sm:m-0'
             />
             {binancePools.map((pool) => {
               return (
@@ -265,14 +269,7 @@ const ClaimablePool = (props) => {
         </div>
       </div>
 
-      <div className='hidden sm:flex bg-card-selected justify-between rounded-lg px-4 sm:px-8 py-2 mt-5 text-xxs text-accent-1'>
-        <div className={'w-1/4'}>
-          {t('asset')} &amp; {t('rate')}
-        </div>
-        <div className='w-1/4'>APR</div>
-        <div className='w-1/4'>{t('earning')}</div>
-        <div className='w-1/4 text-right'>{t('rewards')}</div>
-      </div>
+      <ClaimablePoolTokenFaucetTableHeader />
 
       <div className='flex flex-col'>
         {pool?.tokenFaucets?.map((tokenFaucet) => {
@@ -286,6 +283,24 @@ const ClaimablePool = (props) => {
         })}
       </div>
     </>
+  )
+}
+
+export const ClaimablePoolTokenFaucetTableHeader = () => {
+  const { t } = useTranslation()
+
+  return (
+    <div className='hidden sm:flex bg-card-selected justify-between rounded-lg px-4 sm:px-8 py-2 mt-5 text-xxs text-accent-1'>
+      <div className={'w-full'}>
+        {t('asset')} &amp; {t('rate')}
+      </div>
+      <div className={'w-full'}>
+        {t('asset')} &amp; {t('rate')}
+      </div>
+      <div className='w-full'>APR</div>
+      <div className='w-full'>{t('earning')}</div>
+      <div className='w-full text-right'>{t('rewards')}</div>
+    </div>
   )
 }
 
@@ -349,7 +364,22 @@ const ClaimablePoolTokenFaucetRow = (props) => {
         borderColor: '#43286e'
       }}
     >
-      <div className={'w-full sm:w-1/4 py-1 sm:py-0'}>
+      <div className={'w-full py-1 sm:py-0'}>
+        <div className=''>
+          <TokenIcon
+            address={pool.tokens.underlyingToken.address}
+            chainId={pool.chainId}
+            className='w-6 h-6 mx-auto'
+          />
+          <Link href={`/pools/${pool.networkName}/${pool.symbol}`}>
+            <a className='capitalize ml-2 mt-2 mx-auto text-xs font-bold text-inverse-purple'>
+              {underlyingToken.symbol.toUpperCase()} POOL
+            </a>
+          </Link>
+        </div>
+      </div>
+
+      <div className={'w-full py-1 sm:py-0'}>
         <div className='flex  justify-between sm:justify-start'>
           <div className='text-accent-1 text-xs mb-1 sm:mt-1'>
             {totalDripPerDayFormatted}{' '}
@@ -363,7 +393,7 @@ const ClaimablePoolTokenFaucetRow = (props) => {
         </div>
       </div>
 
-      <div className='w-full sm:w-1/4 pt-5 sm:py-0'>
+      <div className='w-full pt-5 sm:py-0'>
         <div className='mt-3 sm:mt-0 leading-snug'>
           {!apr || apr === 0 ? (
             <></>
@@ -377,7 +407,7 @@ const ClaimablePoolTokenFaucetRow = (props) => {
         </div>
       </div>
 
-      <div className='w-full sm:w-1/4 py-1 sm:py-0 text-right'>
+      <div className='w-full py-1 sm:py-0 text-right'>
         <div className='text-accent-1 text-xs flex items-center mt-1 sm:mt-0 mb-2 sm:mb-0 opacity-80 trans hover:opacity-100'>
           {usersDripPerDayFormatted}{' '}
           <Erc20Image address={dripToken.address} className='inline-block w-4 h-4 mx-2' />
@@ -385,7 +415,7 @@ const ClaimablePoolTokenFaucetRow = (props) => {
           <span className='lowercase'>{t('day')}</span>
         </div>
       </div>
-      <div className='w-full sm:w-1/4 py-1 sm:py-0 sm:text-right'>
+      <div className='w-full py-1 sm:py-0 sm:text-right'>
         <div
           className={classnames(`mt-6 sm:mt-0`, {
             'opacity-40': !isClaimable
