@@ -10,7 +10,7 @@ import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
-import { useTokenFaucetApr, findSponsorshipFaucet } from 'lib/hooks/useTokenFaucetApr'
+import { findSponsorshipFaucet } from 'lib/utils/findSponsorshipFaucet'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 
 export function ManageTicketsForm(props) {
@@ -93,7 +93,7 @@ export function SponsorshipIncentiveMessage(props) {
   const dripToken = tokenFaucet?.dripToken
   const dripTokenTickerUpcased = dripToken?.symbol.toUpperCase()
 
-  const apr = useTokenFaucetApr(tokenFaucet)
+  const { apr } = tokenFaucet
 
   return (
     Boolean(tokenFaucet) && (
