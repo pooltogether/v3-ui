@@ -14,11 +14,7 @@ import TokenFaucetAbi from '@pooltogether/pooltogether-contracts_3_3/abis/TokenF
 import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts_3_3/abis/TokenFaucetProxyFactory'
 
 import { CUSTOM_CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION, SECONDS_PER_DAY } from 'lib/constants'
-import {
-  FIRST_SUSHI_FAUCET_ADDRESS,
-  FIRST_POLYGON_USDT_FAUCET_ADDRESS,
-  SECOND_POLYGON_USDT_FAUCET_ADDRESS
-} from 'lib/constants/tokenFaucets'
+import { SECOND_POLYGON_USDT_FAUCET_ADDRESS } from 'lib/constants/tokenFaucets'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
@@ -30,7 +26,6 @@ import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFro
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { useTokenFaucetApr } from 'lib/hooks/useTokenFaucetApr'
 import { getMinPrecision, getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useGovernancePools } from 'lib/hooks/usePools'
@@ -303,7 +298,7 @@ const ClaimablePoolTokenFaucetRow = (props) => {
     address
   )
 
-  const apr = useTokenFaucetApr(tokenFaucet)
+  const { apr } = tokenFaucet
 
   if (!isFetched || !tokenFaucet?.dripToken) {
     return null
@@ -324,12 +319,7 @@ const ClaimablePoolTokenFaucetRow = (props) => {
 
   const ownershipPercentage = usersBalance / totalSupplyOfTickets
 
-  const isFirstSushiFaucet = tokenFaucet.address === FIRST_SUSHI_FAUCET_ADDRESS
-  const isFirstPolygonUsdtFaucet = tokenFaucet.address === FIRST_POLYGON_USDT_FAUCET_ADDRESS
-  let totalDripPerDay = dripRatePerSecond * SECONDS_PER_DAY
-  if (isFirstSushiFaucet || isFirstPolygonUsdtFaucet) {
-    totalDripPerDay = 0
-  }
+  const totalDripPerDay = apr === 0 ? 0 : dripRatePerSecond * SECONDS_PER_DAY
 
   const isSecondPolygonUsdtFaucet = tokenFaucet.address === SECOND_POLYGON_USDT_FAUCET_ADDRESS
   if (isSecondPolygonUsdtFaucet) {

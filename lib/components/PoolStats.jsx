@@ -14,8 +14,8 @@ import { BlockExplorerLink, LinkIcon } from 'lib/components/BlockExplorerLink'
 import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Card, CardDetailsList } from 'lib/components/Card'
-import { findSponsorshipFaucet, useTokenFaucetApr } from 'lib/hooks/useTokenFaucetApr'
 import { displayPercentage } from 'lib/utils/displayPercentage'
+import { findSponsorshipFaucet } from 'lib/utils/findSponsorshipFaucet'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { NETWORK } from '@pooltogether/utilities'
 
@@ -246,7 +246,7 @@ const AprStats = (props) => {
 const TokenFaucetAprRow = (props) => {
   const { pool, tokenFaucet } = props
 
-  const apr = useTokenFaucetApr(tokenFaucet)
+  const { apr } = tokenFaucet
 
   if (!apr) return null
 
