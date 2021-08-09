@@ -84,6 +84,8 @@ const Divider = () => (
 const PodListItemLeftHalf = (props) => {
   const { pod } = props
 
+  const { t } = useTranslation()
+
   return (
     <div className='flex flex-col w-full'>
       <PrizeValue totalValueUsd={pod.prize.totalValueUsd} className='mx-auto mt-8 sm:mt-0' />
@@ -97,7 +99,7 @@ const PodListItemLeftHalf = (props) => {
           />
           <span className='ml-2 text-accent-1 text-xs'>{`${pod.tokens.underlyingToken.symbol} Pool`}</span>
         </div>
-        <PrizeFrequencyChip prizePeriodSeconds={pod.prize.prizePeriodSeconds} />
+        <PrizeFrequencyChip t={t} prizePeriodSeconds={pod.prize.prizePeriodSeconds} />
       </div>
     </div>
   )
