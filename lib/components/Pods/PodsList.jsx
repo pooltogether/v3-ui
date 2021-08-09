@@ -130,7 +130,7 @@ const PodListItemRightHalf = (props) => {
               tokenFaucet={tokenFaucet}
             />
           )) || <div />}
-          <span className='text-xxxs text-highlight-1 trans hover:text-inverse'>
+          <span className='text-xxxs text-highlight-1 trans hover:text-inverse ml-auto'>
             {t('viewPod')}
           </span>
         </div>

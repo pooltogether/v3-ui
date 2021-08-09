@@ -302,8 +302,6 @@ const PoolDailyTokenFaucetDripCell = (props) => {
 
   const { t } = useTranslation()
 
-  console.log(faucetDripPerDay, tokenFaucet)
-
   return (
     <Cell label={`${t('asset')} & ${t('dailyRate')}`} className='flex-wrap'>
       <TokenIcon chainId={chainId} address={dripToken.address} className='mr-2 my-auto' />

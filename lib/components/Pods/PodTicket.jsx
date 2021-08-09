@@ -5,6 +5,7 @@ import { calculateUsersOdds } from '@pooltogether/utilities'
 import { useTokenBalance } from '@pooltogether/hooks'
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
+import classnames from 'classnames'
 
 import { TicketPrize } from 'lib/components/TicketPrize'
 import { TicketAmount } from 'lib/components/TicketAmount'
@@ -15,6 +16,7 @@ import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { useAtom } from 'jotai'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import Link from 'next/link'
+import { NetworkBadge } from 'lib/components/NetworkBadge'
 
 export const PodTicket = (props) => (
   <TicketRow
@@ -72,7 +74,15 @@ const PodTicketRight = (props) => {
       </div>
       <div className='flex flex-col'>
         <TicketPrize prize={pod.prize} />
-        {!hideManage && <ManagePodTicketsTrigger pod={pod} />}
+        <div className='mt-1 sm:ml-auto flex sm:flex-col'>
+          <NetworkBadge
+            className=''
+            sizeClasses='w-3 h-3'
+            textClasses='text-xxxs sm:text-xxs'
+            chainId={chainId}
+          />
+          {!hideManage && <ManagePodTicketsTrigger className='ml-2 sm:ml-auto sm:mt-1' pod={pod} />}
+        </div>
       </div>
     </div>
   )
@@ -103,7 +113,7 @@ const PodWinningOdds = (props) => {
 }
 
 const ManagePodTicketsTrigger = (props) => {
-  const { pod } = props
+  const { pod, className } = props
 
   const [isSelf] = useAtom(isSelfAtom)
   const { t } = useTranslation()
@@ -129,7 +139,10 @@ const ManagePodTicketsTrigger = (props) => {
   return (
     <button
       onClick={handleDepositClick}
-      className='underline text-highlight-1 hover:text-inverse trans text-xxxs mt-1 sm:text-xxs mr-auto sm:mr-0 sm:ml-auto'
+      className={classnames(
+        'underline text-highlight-1 hover:text-inverse trans text-xxxs sm:text-xxs',
+        className
+      )}
     >
       {t('manage')}
     </button>
