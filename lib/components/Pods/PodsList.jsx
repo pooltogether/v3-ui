@@ -99,7 +99,9 @@ const PodListItemLeftHalf = (props) => {
           />
           <span className='ml-2 text-accent-1 text-xs'>{`${pod.tokens.underlyingToken.symbol} Pool`}</span>
         </div>
-        <PrizeFrequencyChip t={t} prizePeriodSeconds={pod.prize.prizePeriodSeconds} />
+        <div className='my-auto'>
+          <PrizeFrequencyChip t={t} prizePeriodSeconds={pod.prize.prizePeriodSeconds} />
+        </div>
       </div>
     </div>
   )
