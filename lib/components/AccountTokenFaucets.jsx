@@ -297,16 +297,18 @@ const PodDailyTokenFaucetDripCell = (props) => {
  */
 const PoolDailyTokenFaucetDripCell = (props) => {
   const { chainId, tokenFaucet } = props
-  const { faucetDripPerDay, tokens, isPod } = tokenFaucet
+  const { faucetDripPerDay, tokens } = tokenFaucet
   const { dripToken } = tokens
 
   const { t } = useTranslation()
+
+  console.log(faucetDripPerDay, tokenFaucet)
 
   return (
     <Cell label={`${t('asset')} & ${t('dailyRate')}`} className='flex-wrap'>
       <TokenIcon chainId={chainId} address={dripToken.address} className='mr-2 my-auto' />
       <span className='mr-2'>
-        <Amount>{numberWithCommas(faucetDripPerDay, { precision: 2 })}</Amount>
+        <Amount>{numberWithCommas(Math.round(faucetDripPerDay), { precision: 2 })}</Amount>
       </span>
       <span>{dripToken.symbol}</span>
     </Cell>

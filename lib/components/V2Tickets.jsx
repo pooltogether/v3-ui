@@ -66,7 +66,7 @@ const V2Ticket = (props) => {
             <span className='text-xxxs sm:text-xxs text-accent-1 font-bold mb-1'>
               {t('thisPoolIsNoLongerSupported')}
             </span>
-            <div className='flex flex-row sm:flex-col'>
+            <div className='flex flex-col'>
               <div className='sm:ml-auto'>
                 <NetworkBadge
                   sizeClasses='w-3 h-3'
@@ -78,7 +78,7 @@ const V2Ticket = (props) => {
                 <ExternalLink
                   href='https://v2.pooltogether.com/en/account'
                   underline
-                  className='text-xxxs sm:text-xxs ml-2 sm:ml-0'
+                  className='text-xxxs sm:text-xxs'
                   theme={LinkTheme.accent}
                 >
                   {t('withdrawOnV2')}
