@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
+import { NetworkIcon } from '@pooltogether/react-components'
 
-import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 
@@ -14,7 +14,7 @@ export const NetworkBadge = (props) => {
       className={classnames(className, `flex items-center ${vertical ? 'mt-2 flex-col' : ''}`)}
       style={style}
     >
-      <NetworkIcon noMargin sizeClassName={sizeClassName} chainId={chainId} />
+      <NetworkIcon sizeClassName={sizeClassName} chainId={chainId} />
 
       <span
         className={classnames(

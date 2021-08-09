@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
-
+import { NetworkIcon } from '@pooltogether/react-components'
+import { NETWORK } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
+
 import { ANIM_LIST_VARIANTS } from 'lib/constants/framerAnimations'
 import { PoolRow } from 'lib/components/PoolRow'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
@@ -12,11 +14,9 @@ import { useGovernancePools } from 'lib/hooks/usePools'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
 import { ALL_NETWORKS_ID, getNetworkNiceNameByChainId } from 'lib/utils/networks'
-import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
 import { useOnEnvChange } from 'lib/hooks/useOnEnvChange'
-import { NETWORK } from '@pooltogether/utilities'
 
 /**
  * Displays a list of Pools.

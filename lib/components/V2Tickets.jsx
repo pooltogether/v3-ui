@@ -35,7 +35,7 @@ const V2Ticket = (props) => {
 
   return (
     <TicketRow
-      className='mb-4 last:mb-0'
+      className='mb-4'
       left={
         <div className='h-full flex flex-col justify-center'>
           <TokenIcon

@@ -1,10 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
 import { useOnboard } from '@pooltogether/hooks'
+import { NetworkIcon } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
-import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 
