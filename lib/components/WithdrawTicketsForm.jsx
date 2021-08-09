@@ -76,7 +76,7 @@ export function WithdrawTicketsForm(props) {
 
   return (
     <>
-      <h6>{t('withdraw')}</h6>
+      <h6 className='-mb-4'>{t('withdraw')}</h6>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextInputGroup
           large

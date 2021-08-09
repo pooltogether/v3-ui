@@ -4,8 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { TokenIcon } from '@pooltogether/react-components'
 import { displayPercentage } from '@pooltogether/utilities'
 
-import { useTokenFaucetApr } from 'lib/hooks/useTokenFaucetApr'
-
 export const AprChip = (props) => {
   const { t } = useTranslation()
 
@@ -14,7 +12,7 @@ export const AprChip = (props) => {
   const dripTokenAddress = tokenFaucet.dripToken.address
   const dripTokenSymbol = tokenFaucet.dripToken.symbol
 
-  const apr = useTokenFaucetApr(tokenFaucet)
+  const { apr } = tokenFaucet
 
   if (!apr) {
     return null
