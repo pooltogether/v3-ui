@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Button, InternalLink, TicketRow, TokenIcon } from '@pooltogether/react-components'
+import React from 'react'
+import { TicketRow, TokenIcon } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
 import { calculateUsersOdds } from '@pooltogether/utilities'
 import { useTokenBalance } from '@pooltogether/hooks'
@@ -9,13 +9,11 @@ import classnames from 'classnames'
 
 import { TicketPrize } from 'lib/components/TicketPrize'
 import { TicketAmount } from 'lib/components/TicketAmount'
-import { Odds } from 'lib/components/Odds'
 import { WinningOdds } from 'lib/components/WinningOdds'
 import { COOKIE_OPTIONS, WIZARD_REFERRER_AS_PATH, WIZARD_REFERRER_HREF } from 'lib/constants'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { useAtom } from 'jotai'
 import { isSelfAtom } from 'lib/components/AccountUI'
-import Link from 'next/link'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
 
 export const PodTicket = (props) => (

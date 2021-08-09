@@ -46,7 +46,6 @@ import { useTokenDripClaimableAmounts } from 'lib/hooks/useTokenDripClaimableAmo
  * A full card to be displayed on the account page.
  * Contains a list of all token faucets & a claim all POOL tokens button.
  * @param {*} props
- * @returns
  */
 export const AccountTokenFaucets = (props) => {
   const { appEnv } = useAppEnv()
@@ -91,7 +90,6 @@ export const AccountTokenFaucets = (props) => {
 /**
  * Renders the list of token faucets
  * @param {*} props
- * @returns
  */
 const TokenFaucetList = (props) => {
   const { chainId, tokenFaucets, usersAddress } = props
@@ -134,7 +132,6 @@ const TokenFaucetList = (props) => {
 
 /**
  * A header for the token faucet list on large screens
- * @returns
  */
 const ClaimablePoolTokenFaucetTableHeader = () => {
   const { t } = useTranslation()
@@ -155,7 +152,6 @@ const ClaimablePoolTokenFaucetTableHeader = () => {
 /**
  * Standardized cell sizing
  * @param {*} props
- * @returns
  */
 const Cell = (props) => (
   <>
@@ -167,7 +163,6 @@ const Cell = (props) => (
 /**
  * List item of all stats & a claim button for token faucets
  * @param {*} props
- * @returns
  */
 const TokenFaucetItem = (props) => (
   <li
@@ -187,7 +182,6 @@ const TokenFaucetItem = (props) => (
 /**
  * A cell to label token faucets by their pool or pod
  * @param {*} props
- * @returns
  */
 const LabelCell = (props) => {
   const { chainId, tokenFaucet } = props
@@ -207,7 +201,6 @@ const LabelCell = (props) => {
 /**
  * Cell for displaying the APR of a token faucet
  * @param {*} props
- * @returns
  */
 const AprCell = (props) => {
   const { tokenFaucet } = props
@@ -234,7 +227,6 @@ const AprCell = (props) => {
 /**
  * Daily token faucet drip cell router
  * @param {*} props
- * @returns
  */
 const DailyTokenFaucetDripCell = (props) => {
   const { tokenFaucet } = props
@@ -250,7 +242,6 @@ const DailyTokenFaucetDripCell = (props) => {
 /**
  * A pods daily drip of tokens
  * @param {*} props
- * @returns
  */
 const PodDailyTokenFaucetDripCell = (props) => {
   const { chainId, tokenFaucet } = props
@@ -293,7 +284,6 @@ const PodDailyTokenFaucetDripCell = (props) => {
 /**
  * Token faucets daily drip for a pool cell
  * @param {*} props
- * @returns
  */
 const PoolDailyTokenFaucetDripCell = (props) => {
   const { chainId, tokenFaucet } = props
@@ -316,7 +306,6 @@ const PoolDailyTokenFaucetDripCell = (props) => {
 /**
  * Daily earnings cell router
  * @param {*} props
- * @returns
  */
 const DailyEarningCell = (props) => {
   const { tokenFaucet } = props
@@ -332,7 +321,6 @@ const DailyEarningCell = (props) => {
 /**
  * Users daily earnings cell for Pod token drops
  * @param {*} props
- * @returns
  */
 const PodDailyEarningCell = (props) => {
   const { usersAddress, chainId, tokenFaucet } = props
@@ -378,7 +366,6 @@ const PodDailyEarningCell = (props) => {
 /**
  * Users daily earnings cell for Pool token faucets
  * @param {*} props
- * @returns
  */
 const PoolDailyEarningCell = (props) => {
   const { usersAddress, chainId, tokenFaucet } = props
@@ -439,7 +426,6 @@ const UsersDripPerDay = (props) => {
 /**
  * Claim drip trigger cell
  * @param {*} props
- * @returns
  */
 const ClaimDripCell = (props) => {
   const { refetch, usersAddress, chainId, tokenFaucet, isClaimableAmountFetched, claimableAmount } =
@@ -490,7 +476,6 @@ const ClaimDripCell = (props) => {
 /**
  * Display of the claimable amount
  * @param {*} props
- * @returns
  */
 const ClaimableAmount = (props) => {
   const { isFetched, amountUnformatted, amount, isClaimable } = props
@@ -505,7 +490,6 @@ const ClaimableAmount = (props) => {
 /**
  * A claim button used for claiming the token drips for each token faucet
  * @param {*} props
- * @returns
  */
 const ClaimButton = (props) => {
   const { usersAddress, dripToken, label, refetch, isClaimable, addressToClaimFrom, chainId, abi } =
@@ -583,7 +567,6 @@ const ClaimButton = (props) => {
 
 /**
  * Styled title for the card
- * @returns
  */
 const DepositRewardsTitle = () => {
   const { t } = useTranslation()
@@ -601,7 +584,6 @@ const DepositRewardsTitle = () => {
 /**
  * Header in the card for claiming all POOL tokens on ethereum
  * @param {*} props
- * @returns
  */
 const ClaimAllPoolHeader = (props) => {
   const { address, chainId } = props
@@ -663,7 +645,6 @@ const ClaimAllPoolHeader = (props) => {
 /**
  * Claimable amount counter for cleanliness
  * @param {*} props
- * @returns
  */
 const ClaimableAmountCountUp = (props) => {
   const { amount, ...countUpProps } = props
@@ -687,7 +668,6 @@ ClaimableAmountCountUp.defaultProps = {
 /**
  * Claims from all POOL token faucets
  * @param {*} props
- * @returns
  */
 const ClaimAllButton = (props) => {
   const { t } = useTranslation()
