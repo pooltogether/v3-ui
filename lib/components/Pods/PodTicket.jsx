@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Button, TicketRow, TokenIcon } from '@pooltogether/react-components'
+import { Button, InternalLink, TicketRow, TokenIcon } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
 import { calculateUsersOdds } from '@pooltogether/utilities'
 import { useTokenBalance } from '@pooltogether/hooks'
@@ -14,6 +14,7 @@ import { COOKIE_OPTIONS, WIZARD_REFERRER_AS_PATH, WIZARD_REFERRER_HREF } from 'l
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { useAtom } from 'jotai'
 import { isSelfAtom } from 'lib/components/AccountUI'
+import Link from 'next/link'
 
 export const PodTicket = (props) => (
   <TicketRow
@@ -28,6 +29,8 @@ const PodTicketLeft = (props) => {
   const { podTicket } = props
   const { pod } = podTicket
 
+  const router = useRouter()
+
   return (
     <div className='flex flex-col justify-center h-full'>
       <TokenIcon
@@ -36,7 +39,9 @@ const PodTicketLeft = (props) => {
         address={pod.tokens.underlyingToken.address}
         chainId={pod.metadata.chainId}
       />
-      <span className='mt-2 mx-auto font-bold'>{pod.tokens.underlyingToken.symbol} Pod</span>
+      <button onClick={() => router.push('/pods/')} className='mt-2 mx-auto font-bold'>
+        <span className=''>{pod.tokens.underlyingToken.symbol} Pod</span>
+      </button>
     </div>
   )
 }

@@ -19,6 +19,7 @@ import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { AprChip } from 'lib/components/AprChip'
 import { COOKIE_OPTIONS, WIZARD_REFERRER_AS_PATH, WIZARD_REFERRER_HREF } from 'lib/constants'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
+import { InteractableCard } from 'lib/components/InteractableCard'
 
 // TODO: Token color
 export const PodsList = (props) => {
@@ -48,12 +49,19 @@ const PodListItem = (props) => {
 
   return (
     <li className='mb-8 last:mb-0'>
-      <Card className='relative flex flex-col sm:flex-row'>
+      <InteractableCard
+        className='relative flex flex-col sm:flex-row'
+        id={`_view${pod.pod.address}Pod`}
+        href='/players/[playerAddress]'
+        as={`/players/${pod.pod.address}`}
+      >
         <NetworkCornerBadge chainId={pod.metadata.chainId} />
-        <PodListItemLeftHalf pod={pod} />
-        <Divider />
-        <PodListItemRightHalf pod={pod} />
-      </Card>
+        <div className='relative flex flex-col sm:flex-row'>
+          <PodListItemLeftHalf pod={pod} />
+          <Divider />
+          <PodListItemRightHalf pod={pod} />
+        </div>
+      </InteractableCard>
     </li>
   )
 }
@@ -98,6 +106,8 @@ const PodListItemLeftHalf = (props) => {
 const PodListItemRightHalf = (props) => {
   const { pod } = props
 
+  const { t } = useTranslation()
+
   return (
     <div className='w-full flex'>
       <div className='flex flex-col mx-auto my-auto'>
@@ -108,14 +118,18 @@ const PodListItemRightHalf = (props) => {
           isRngRequested={pod.prize.isRngRequested}
         />
         <DepositIntoPodTrigger pod={pod} />
-        {pod.prizePool.tokenFaucets.map((tokenFaucet) => (
-          <AprChip
-            key={tokenFaucet.address}
-            className='mx-auto mt-2'
-            chainId={pod.metadata.chainId}
-            tokenFaucet={tokenFaucet}
-          />
-        ))}
+        <div className='flex flex-row justify-between'>
+          {pod.prizePool.tokenFaucets?.map((tokenFaucet) => (
+            <AprChip
+              key={tokenFaucet.address}
+              chainId={pod.metadata.chainId}
+              tokenFaucet={tokenFaucet}
+            />
+          )) || <div />}
+          <span className='text-xxxs text-highlight-1 trans hover:text-inverse'>
+            {t('viewPod')}
+          </span>
+        </div>
       </div>
     </div>
   )
