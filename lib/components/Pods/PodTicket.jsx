@@ -124,7 +124,7 @@ const ManagePodTicketsTrigger = (props) => {
     Cookies.set(WIZARD_REFERRER_HREF, '/account', COOKIE_OPTIONS)
     Cookies.set(WIZARD_REFERRER_AS_PATH, `/account`, COOKIE_OPTIONS)
     router.push(
-      `/pods/[networkName]/[symbol]/withdraw`,
+      `/pods/[networkName]/[podAddress]/withdraw`,
       `/pods/${chainIdToNetworkName(pod.metadata.chainId)}/${pod.pod.address}/withdraw`,
       {
         shallow: true

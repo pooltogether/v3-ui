@@ -147,10 +147,12 @@ const DepositIntoPodTrigger = (props) => {
 
   const handleDepositClick = (e) => {
     e.preventDefault()
+
     Cookies.set(WIZARD_REFERRER_HREF, '/pods', COOKIE_OPTIONS)
     Cookies.set(WIZARD_REFERRER_AS_PATH, `/pods`, COOKIE_OPTIONS)
+
     router.push(
-      `/pods/[networkName]/[symbol]/deposit`,
+      `/pods/[networkName]/[podAddress]/deposit`,
       `/pods/${chainIdToNetworkName(pod.metadata.chainId)}/${pod.pod.address}/deposit`,
       {
         shallow: true
