@@ -9,7 +9,7 @@ export const Index = (props) => {
   return (
     <>
       <PageTitleAndBreadcrumbs title={t('pods')} breadcrumbs={[]} />
-      <p className='text-accent-1'>{t('podsDescription')}</p>
+      <span>{t('podsDescription')}</span>
       <PodsList className='mt-10' />
     </>
   )

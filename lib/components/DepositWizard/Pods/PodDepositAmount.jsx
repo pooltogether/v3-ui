@@ -35,7 +35,7 @@ export const PodDepositAmount = (props) => {
   const usersAddress = useUsersAddress()
   const { data: usersBalance, isFetched: isUsersBalanceFetched } = useTokenBalances(
     chainId,
-    usersAddress,
+    usersAddress || ethers.constants.AddressZero,
     [tokenAddress, podTicketAddress]
   )
   const { data: podTicketBalance, isFetched: isPodBalanceFetched } = useTokenBalance(
@@ -64,7 +64,7 @@ export const PodDepositAmount = (props) => {
         nextStep={nextStep}
         quantity={queryQuantity}
       />
-      <div className='flex mx-auto mt-8'>
+      <div className='flex flex-col sm:flex-row mx-auto mt-8'>
         <PodWinningOdds
           isQuantityValid={formState.isValid}
           isFetched={isFetched}
@@ -78,6 +78,9 @@ export const PodDepositAmount = (props) => {
           pod={pod}
           quantity={quantity}
           usersBalanceUnformatted={usersBalance?.[podTicketAddress].amountUnformatted}
+          podStablecoinTotalSupplyUnformatted={
+            usersBalance?.[podTicketAddress].totalSupplyUnformatted
+          }
         />
       </div>
     </>
@@ -89,7 +92,7 @@ const PodWinningOdds = (props) => {
 
   const { t } = useTranslation()
 
-  if (!isFetched || !isQuantityValid) {
+  if (!isFetched) {
     return (
       <SmallCard className='mr-2'>
         <Title>{t('podWinningOdds')}:</Title>
@@ -101,8 +104,13 @@ const PodWinningOdds = (props) => {
   const decimals = pod.tokens.underlyingToken.decimals
   const numberOfWinners = pod.prizePool.config.numberOfWinners
   // Balance of pod
-  const quantityUnformatted = ethers.utils.parseUnits(quantity || '0', decimals)
-  const podsNewBalanceUnformatted = quantityUnformatted.add(podBalanceUnformatted)
+  const quantityUnformatted = ethers.utils.parseUnits(
+    isQuantityValid ? quantity || '0' : '0',
+    decimals
+  )
+  const podsNewBalanceUnformatted = isFetched
+    ? quantityUnformatted.add(podBalanceUnformatted)
+    : quantityUnformatted
   // Total supply of prize pool
   const ticketTotalSupplyUnformatted = pod.prizePool.tokens.ticket.totalSupplyUnformatted
 
@@ -124,13 +132,20 @@ const PodWinningOdds = (props) => {
 }
 
 const UsersPrize = (props) => {
-  const { isQuantityValid, isFetched, pod, quantity, usersBalanceUnformatted } = props
+  const {
+    isQuantityValid,
+    isFetched,
+    pod,
+    quantity,
+    usersBalanceUnformatted,
+    podStablecoinTotalSupplyUnformatted
+  } = props
 
   const { t } = useTranslation()
 
-  if (!isFetched || !isQuantityValid || (!quantity && usersBalanceUnformatted.isZero())) {
+  if (!isFetched) {
     return (
-      <SmallCard className='ml-2'>
+      <SmallCard className='mt-2 sm:mt-0 sm:ml-2'>
         <Title>{t('yourPrizeIfThePodWins')}:</Title>
         <Details>--</Details>
       </SmallCard>
@@ -138,14 +153,25 @@ const UsersPrize = (props) => {
   }
 
   const decimals = pod.tokens.underlyingToken.decimals
-  const quantityUnformatted = ethers.utils.parseUnits(quantity || '0', decimals)
+  const quantityUnformatted = ethers.utils.parseUnits(
+    isQuantityValid ? quantity || '0' : '0',
+    decimals
+  )
   const singlePrizeScaled = pod.prize.totalValuePerWinnerUsdScaled.toNumber()
-  const usersNewBalanceUnformatted = quantityUnformatted.add(usersBalanceUnformatted)
-  const ticketTotalSupplyUnformatted = pod.tokens.ticket.totalSupplyUnformatted
-  const sponsorshipTotalSupplyUnformatted = pod.tokens.sponsorship.totalSupplyUnformatted
-  const totalSupplyUnformatted = ticketTotalSupplyUnformatted
-    .add(sponsorshipTotalSupplyUnformatted)
-    .add(quantityUnformatted)
+  const usersNewBalanceUnformatted = isFetched
+    ? quantityUnformatted.add(usersBalanceUnformatted)
+    : quantityUnformatted
+
+  if (usersNewBalanceUnformatted.isZero()) {
+    return (
+      <SmallCard className='mt-2 sm:mt-0 sm:ml-2'>
+        <Title>{t('yourPrizeIfThePodWins')}:</Title>
+        <Details>--</Details>
+      </SmallCard>
+    )
+  }
+
+  const totalSupplyUnformatted = podStablecoinTotalSupplyUnformatted
 
   const usersBalanceFloat = Number(
     ethers.utils.formatUnits(usersNewBalanceUnformatted, Number(decimals))
@@ -157,17 +183,22 @@ const UsersPrize = (props) => {
   const usersPrize = (singlePrizeScaled * usersOwnershipPercentage) / 100
 
   return (
-    <SmallCard className='ml-2'>
+    <SmallCard className='mt-2 sm:mt-0 sm:ml-2'>
       <Title>{t('yourPrizeIfThePodWins')}:</Title>
       <Details className='text-flashy'>
-        $<Amount>{numberWithCommas(usersPrize, { decimals: 0, precision: 2 })}</Amount>
+        $<Amount>{numberWithCommas(usersPrize, { precision: 2 })}</Amount>
       </Details>
     </SmallCard>
   )
 }
 
 const SmallCard = (props) => (
-  <div className={classnames('w-1/2 bg-card py-2 px-4 rounded flex flex-col', props.className)}>
+  <div
+    className={classnames(
+      'w-full sm:w-1/2 bg-card py-2 px-4 rounded flex flex-col justify-center min-w-max',
+      props.className
+    )}
+  >
     {props.children}
   </div>
 )

@@ -9,7 +9,7 @@ import {
   WIZARD_REFERRER_AS_PATH
 } from 'lib/constants'
 import { useTranslation } from 'react-i18next'
-import { Button, TokenIcon } from '@pooltogether/react-components'
+import { Button, PrizeFrequencyChip, TokenIcon } from '@pooltogether/react-components'
 
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
@@ -55,8 +55,6 @@ export const PoolRow = (props) => {
     </button>
   )
 
-  const isDaily = pool.prize.prizePeriodSeconds.toNumber() === SECONDS_PER_DAY
-
   return (
     <InteractableCard
       id={`_view${symbol}Pool`}
@@ -65,7 +63,7 @@ export const PoolRow = (props) => {
       className='mt-1 sm:mt-2 relative'
     >
       <NetworkBadge
-        className='absolute t-0 l-0 px-3 py-1 rounded-tl-lg rounded-br-lg border-b border-r border-accent-4'
+        className='absolute t-0 l-0 px-3 py-1 rounded-tl-xl rounded-br-xl border-b border-r border-accent-4'
         chainId={pool.chainId}
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0.03)'
@@ -86,14 +84,7 @@ export const PoolRow = (props) => {
             </div>
 
             <div className='flex items-center justify-center'>
-              <div
-                className={classnames('text-xxxs text-center rounded-full px-2', {
-                  'bg-accent-grey-1 text-green': !isDaily,
-                  'bg-accent-grey-2 text-highlight-6': isDaily
-                })}
-              >
-                {isDaily ? t('dailyPrize') : t('prizeValue')}
-              </div>
+              <PrizeFrequencyChip t={t} prizePeriodSeconds={pool.prize.prizePeriodSeconds} />
             </div>
           </div>
         </div>

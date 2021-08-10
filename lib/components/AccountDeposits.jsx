@@ -37,8 +37,8 @@ export const AccountDeposits = () => {
 
         <NoTicketsState usersAddress={address} />
         <PoolDeposits usersAddress={address} />
-        <V2Tickets usersAddress={address} />
         <PodDeposits usersAddress={address} />
+        <V2Tickets usersAddress={address} />
 
         <div className='text-center flex flex-col text-default-soft mt-4 text-xxs'>
           <span>
@@ -142,7 +142,7 @@ const PodDeposits = (props) => {
   return (
     <>
       {podTickets.map((podTicket) => (
-        <PodTicket key={podTicket.address} podTicket={podTicket} />
+        <PodTicket className='mb-4' key={podTicket.address} podTicket={podTicket} />
       ))}
     </>
   )
