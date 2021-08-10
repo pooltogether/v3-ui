@@ -64,7 +64,7 @@ export const PodDepositAmount = (props) => {
         nextStep={nextStep}
         quantity={queryQuantity}
       />
-      <div className='flex flex-col sm:flex-row mx-auto mt-8'>
+      <div className='flex flex-col sm:flex-row mx-auto mt-8 w-10/12 sm:w-8/12'>
         <PodWinningOdds
           isQuantityValid={formState.isValid}
           isFetched={isFetched}
