@@ -1,8 +1,17 @@
 import React from 'react'
+
 import { PodDepositWizard } from 'lib/components/DepositWizard/Pods/PodDepositWizard'
+import Layout from 'lib/components/Layout'
 
 const DepositView = (props) => {
-  return <PodDepositWizard />
+  return (
+    <>
+      <Layout>
+        <div />
+      </Layout>
+      <PodDepositWizard />
+    </>
+  )
 }
 
 export default DepositView

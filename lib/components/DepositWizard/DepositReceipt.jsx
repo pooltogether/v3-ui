@@ -71,7 +71,7 @@ export const DepositReceipt = (props) => {
 
           <div className='mb-6'>
             {t('youWillBeEligibleToWinPrizeEveryFrequency', {
-              frequency: getTimeSentence(t, years, weeks, days, hours, minutes, seconds)
+              frequency: getTimeSentence(t, years, weeks, days, hours, minutes, seconds, true)
             })}
           </div>
           <div className='mb-3 text-inverse'>

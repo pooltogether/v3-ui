@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ETHEREUM_NETWORKS } from 'lib/constants'
 import { Modal } from 'lib/components/Modal'
-import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useAddNetworkToMetamask } from 'lib/hooks/useAddNetworkToMetamask'
@@ -14,6 +13,7 @@ import {
   useIsWalletOnSupportedNetwork,
   useOnboard
 } from '@pooltogether/hooks'
+import { NetworkIcon } from '@pooltogether/react-components'
 
 export function WrongNetworkModal(props) {
   const { t } = useTranslation()

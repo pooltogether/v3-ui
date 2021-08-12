@@ -4,17 +4,17 @@ import { atom, useAtom } from 'jotai'
 import { useUsersAddress } from '@pooltogether/hooks'
 import { Trans, useTranslation } from 'react-i18next'
 import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
+import Link from 'next/link'
 
 import { AccountSummary } from 'lib/components/AccountSummary'
 import { AccountDeposits } from 'lib/components/AccountDeposits'
 import { AccountWinnings } from 'lib/components/AccountWinnings'
-import { AccountGovernanceClaims } from 'lib/components/AccountGovernanceClaims'
 import { AccountLootBoxes } from 'lib/components/AccountLootBoxes'
 import { Meta } from 'lib/components/Meta'
 import { PlayerLabel } from 'lib/components/PlayerLabel'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 import { testAddress } from 'lib/utils/testAddress'
-import Link from 'next/link'
+import { AccountTokenFaucets } from 'lib/components/AccountTokenFaucets'
 
 export const isSelfAtom = atom(false)
 
@@ -83,7 +83,7 @@ export const AccountUI = () => {
 
           <AccountDeposits />
 
-          <AccountGovernanceClaims />
+          <AccountTokenFaucets />
 
           <AccountLootBoxes />
 

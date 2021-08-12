@@ -26,7 +26,7 @@ export const NewPrizeCountdown = (props) => {
     return (
       <>
         <p
-          className={classnames(textSize, 'font-bold', {
+          className={classnames(textSize, 'font-bold ml-2', {
             'text-flashy': flashy,
             'text-xs xs:text-sm sm:text-xl': !textSize,
             'text-right': !textAlign

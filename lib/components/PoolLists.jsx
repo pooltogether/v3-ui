@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
-
+import { NetworkIcon } from '@pooltogether/react-components'
+import { NETWORK } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
+
 import { ANIM_LIST_VARIANTS } from 'lib/constants/framerAnimations'
 import { PoolRow } from 'lib/components/PoolRow'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
@@ -12,7 +14,6 @@ import { useGovernancePools } from 'lib/hooks/usePools'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
 import { ALL_NETWORKS_ID, getNetworkNiceNameByChainId } from 'lib/utils/networks'
-import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
 import { useOnEnvChange } from 'lib/hooks/useOnEnvChange'
@@ -134,7 +135,7 @@ const PoolList = (props) => {
   const poolsToRender = useMemo(
     () =>
       pools
-        ?.sort((a, b) => Number(b.prize.totalValueUsd) - Number(a.prize.totalValueUsd))
+        ?.sort((a, b) => b.prize.weeklyTotalValueUsdScaled.sub(a.prize.weeklyTotalValueUsdScaled))
         .filter((pool) => filterByChainId(pool, chainIdFilter))
         .filter((pool) => pool.prizePool?.address !== '0xc2a7dfb76e93d12a1bb1fa151b9900158090395d')
         .map((pool) => <PoolRow key={`pool-row-${pool.prizePool.address}`} pool={pool} />) || [],
@@ -181,6 +182,20 @@ const usePoolFilters = () => {
       }
       return allFilters
     },
-    { [-1]: { view: t('allNetworks'), value: null } }
+    {
+      [-1]: {
+        view: (
+          <div className='flex'>
+            <div className='flex flex-row-reverse'>
+              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-4' chainId={NETWORK.bsc} />
+              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-4' chainId={NETWORK.mainnet} />
+              <NetworkIcon sizeClassName='my-auto h-6 w-6' chainId={NETWORK.polygon} />
+            </div>
+            <span className='capitalize ml-2'>{t('allNetworks')}</span>
+          </div>
+        ),
+        value: null
+      }
+    }
   )
 }

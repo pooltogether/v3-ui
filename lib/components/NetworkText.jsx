@@ -1,8 +1,8 @@
 import React from 'react'
 import classnames from 'classnames'
 import { useIsWalletOnSupportedNetwork, useOnboard } from '@pooltogether/hooks'
+import { NetworkIcon } from '@pooltogether/react-components'
 
-import { NetworkIcon } from 'lib/components/NetworkIcon'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
@@ -31,11 +31,7 @@ export function NetworkText(props) {
         'text-xxs sm:text-xs xs:px-4 rounded-full h-8 mb-1 sm:mb-0'
       )}
     >
-      <NetworkIcon
-        noMargin={screenSize === ScreenSize.xs}
-        sizeClassName='h-6 w-6 xs:h-4 xs:w-4'
-        chainId={walletChainId}
-      />
+      <NetworkIcon sizeClassName='h-6 w-6 xs:h-4 xs:w-4' chainId={walletChainId} />
       <span className='capitalize hidden xs:block'>{networkName}</span>
     </button>
   )
