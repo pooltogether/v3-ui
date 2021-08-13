@@ -9,11 +9,13 @@ import { isSelfAtom } from 'lib/components/AccountUI'
 import { GenericConnectWalletCTA } from 'lib/components/GenericConnectWalletCTA'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
-import { usePlayerTotalDepositValue } from 'lib/hooks/useUserTickets'
+import { usePlayerTotalPoolDepositValue } from 'lib/hooks/useUserTickets'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
 import WaterslideIllustration from 'assets/images/pt-waterslide-illustration@2x.png'
+import { useUsersTotalPodDepositsValue } from 'lib/hooks/useUsersTotalPodDepositsValue'
+import { toNonScaledUsdString } from '@pooltogether/utilities'
 
 export const AccountSummary = () => {
   const { t } = useTranslation()
@@ -27,8 +29,16 @@ export const AccountSummary = () => {
   const address = playerAddress || usersAddress
 
   const { data: totalTicketValues, isFetched: playerTicketsIsFetched } =
-    usePlayerTotalDepositValue(address)
-  const totalValueUsd = totalTicketValues?.totalValueUsd
+    usePlayerTotalPoolDepositValue(address)
+  const { data: totalPodTicketValues, isFetched: podTicketsIsFetched } =
+    useUsersTotalPodDepositsValue(address)
+
+  const isFetched = playerTicketsIsFetched && podTicketsIsFetched
+  const totalTicketValueUsd = isFetched
+    ? toNonScaledUsdString(
+        totalTicketValues.totalValueUsdScaled.add(totalPodTicketValues.totalValueUsdScaled)
+      )
+    : '0'
 
   return (
     <div
@@ -43,9 +53,9 @@ export const AccountSummary = () => {
       <div className='flex justify-between items-center'>
         <div className='leading-tight'>
           <div className='opacity-80 font-headline uppercase xs:text-sm'>{t('assets')}</div>
-          {playerTicketsIsFetched ? (
+          {isFetched ? (
             <h1>
-              $<PoolNumber>{numberWithCommas(totalValueUsd, { precision: 2 })}</PoolNumber>
+              $<PoolNumber>{numberWithCommas(totalTicketValueUsd, { precision: 2 })}</PoolNumber>
             </h1>
           ) : !address ? (
             <GenericConnectWalletCTA />
