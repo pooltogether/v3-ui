@@ -15,6 +15,7 @@ import { PlayerLabel } from 'lib/components/PlayerLabel'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 import { testAddress } from 'lib/utils/testAddress'
 import { AccountTokenFaucets } from 'lib/components/AccountTokenFaucets'
+import { useIsAddressAPod } from 'lib/hooks/useIsAddressAPod'
 
 export const isSelfAtom = atom(false)
 
@@ -55,6 +56,8 @@ export const AccountUI = () => {
 
   const addressError = testAddress(address)
 
+  const isAddressAPod = useIsAddressAPod(address)
+
   return (
     <>
       <Meta title={isSelf ? t('myAccount') : t('playerAddress', { address })} />
@@ -83,7 +86,7 @@ export const AccountUI = () => {
 
           <AccountDeposits />
 
-          <AccountTokenFaucets />
+          {!isAddressAPod && <AccountTokenFaucets />}
 
           <AccountLootBoxes />
 
