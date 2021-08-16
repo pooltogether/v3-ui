@@ -1,6 +1,7 @@
 // _document is only rendered on the server side and not on the client side
 // Event handlers like onClick can't be added to this file
 
+import React from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 import { Meta } from 'lib/components/Meta'
@@ -24,6 +25,10 @@ class MyDocument extends Document {
         <Head>
           <>
             <link rel='icon' href='/favicon.png' type='image/x-icon' />
+            <link rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png' />
+            <link rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png' />
+            <link rel='apple-touch-icon' sizes='180x180' href='/apple-touch-icon.png' />
+            <link rel='manifest' href='/site.webmanifest' />
 
             <meta httpEquiv='Pragma' content='no-cache' />
             <meta httpEquiv='cache-control' content='no-cache, no-store, must-revalidate' />
