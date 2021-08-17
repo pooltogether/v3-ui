@@ -17,7 +17,7 @@ import { Card, CardDetailsList } from 'lib/components/Card'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { findSponsorshipFaucet } from 'lib/utils/findSponsorshipFaucet'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { NETWORK } from '@pooltogether/utilities'
+import { NETWORK, toNonScaledUsdString } from '@pooltogether/utilities'
 
 export const PoolStats = (props) => {
   const { t } = useTranslation()
@@ -41,9 +41,10 @@ const StatsList = (props) => {
 
   return (
     <>
-      <DepositsStat pool={pool} />
+      <TicketDepositsStat pool={pool} />
       <SponsorshipStat pool={pool} />
       <ReserveStat pool={pool} />
+      <TotalDepositsStat pool={pool} />
       <ReserveRateStat pool={pool} />
       <YieldSourceStat pool={pool} />
       <AprStats pool={pool} />
@@ -117,14 +118,14 @@ const Stat = (props) => {
 
 // Stat components
 
-const DepositsStat = (props) => {
+const TicketDepositsStat = (props) => {
   const { pool } = props
   const { t } = useTranslation()
 
   return (
     <Stat
       chainId={pool.chainId}
-      title={t('totalDeposits')}
+      title={t('prizeEligibleDeposits')}
       convertedValue={pool.tokens.ticket.totalValueUsd}
       tokenAddress={pool.tokens.underlyingToken.address}
       tokenSymbol={pool.tokens.underlyingToken.symbol}
@@ -184,6 +185,37 @@ const ReserveRateStat = (props) => {
 
   return (
     <Stat title={t('reserveRate')} percent={reserveRatePercentage} tooltip={t('reserveRateInfo')} />
+  )
+}
+
+const TotalDepositsStat = (props) => {
+  const { pool } = props
+  const { t } = useTranslation()
+  const { underlyingToken } = pool.tokens
+
+  const depositedTokensTotalValueUsdScaled = pool.tokens.sponsorship.totalValueUsdScaled.add(
+    pool.tokens.ticket.totalValueUsdScaled
+  )
+  const depositedTokensTotalValueUsd = toNonScaledUsdString(depositedTokensTotalValueUsdScaled)
+  const depositedTokensTotalSupplyUnformatted = pool.tokens.sponsorship.totalSupplyUnformatted.add(
+    pool.tokens.ticket.totalSupplyUnformatted
+  )
+  const depositedTokensTotalSupply = ethers.utils.formatUnits(
+    depositedTokensTotalSupplyUnformatted,
+    underlyingToken.decimals
+  )
+
+  return (
+    <>
+      <Stat
+        chainId={pool.chainId}
+        title={t('totalDeposits')}
+        convertedValue={depositedTokensTotalValueUsd}
+        tokenAddress={underlyingToken.address}
+        tokenSymbol={underlyingToken.symbol}
+        tokenAmount={depositedTokensTotalSupply}
+      />
+    </>
   )
 }
 
