@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { Gauge } from 'lib/components/Gauge'
 import { subtractDates } from 'lib/utils/subtractDates'
 import { useMaxTimelockDurationSeconds } from 'lib/hooks/useMaxTimelockDurationSeconds'
-import { useUsersAddress } from '@pooltogether/hooks'
-import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
 
 const _varName = ({ days, hours, minutes }) => {
   let varName

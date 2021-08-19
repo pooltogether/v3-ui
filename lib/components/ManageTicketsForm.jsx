@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useRouter } from 'next/router'
+import { useCurrentPool, useUsersAddress, useUserTicketsFormattedByPool } from '@pooltogether/hooks'
 import { Tooltip } from '@pooltogether/react-components'
 import { Trans, useTranslation } from 'react-i18next'
 
@@ -8,8 +9,6 @@ import { STRINGS } from 'lib/constants'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
-import { useCurrentPool } from 'lib/hooks/usePools'
-import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { findSponsorshipFaucet } from 'lib/utils/findSponsorshipFaucet'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 
@@ -19,7 +18,9 @@ export function ManageTicketsForm(props) {
   const { t } = useTranslation()
   const usersAddress = useUsersAddress()
   const [action] = useState(STRINGS.withdraw)
-  const { data: pool } = useCurrentPool()
+
+  const router = useRouter()
+  const { data: pool } = useCurrentPool(router)
   const { data: playerTickets } = useUserTicketsFormattedByPool(usersAddress)
 
   if (!pool) return null

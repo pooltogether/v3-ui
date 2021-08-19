@@ -3,9 +3,9 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { Button } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
+import { useCurrentPool } from '@pooltogether/hooks'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
-import { useCurrentPool } from 'lib/hooks/usePools'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { Meta } from 'lib/components/Meta'
 import { PoolPrizesTable } from 'lib/components/PoolPrizesTable'
@@ -13,9 +13,9 @@ import { PrizesPageHeader } from 'lib/components/PrizesPageHeader'
 
 export const PoolPrizesShow = (props) => {
   const { t } = useTranslation()
-  const router = useRouter()
 
-  const { data: pool, isFetched } = useCurrentPool()
+  const router = useRouter()
+  const { data: pool, isFetched } = useCurrentPool(router)
 
   if (!isFetched) {
     return null

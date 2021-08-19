@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useCurrentPool, useUsersAddress } from '@pooltogether/hooks'
 import { Button } from '@pooltogether/react-components'
-import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 import { useTranslation } from 'react-i18next'
+import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 
-import { useCurrentPool } from 'lib/hooks/usePools'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -16,7 +16,9 @@ export function WithdrawSponsorshipTxButton(props) {
   const { quantityBN, quantity, needsApproval, tickerUpcased } = props
 
   const usersAddress = useUsersAddress()
-  const { data: pool } = useCurrentPool()
+
+  const router = useRouter()
+  const { data: pool } = useCurrentPool(router)
 
   const poolAddress = pool.prizePool.address
   const sponsorshipAddress = pool.tokens.sponsorship.address

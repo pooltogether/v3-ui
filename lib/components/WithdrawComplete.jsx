@@ -1,7 +1,8 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import { useTranslation, Trans } from 'react-i18next'
+import { useCurrentPool } from '@pooltogether/hooks'
 
-import { useCurrentPool } from 'lib/hooks/usePools'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -10,7 +11,8 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 export function WithdrawComplete(props) {
   const { t } = useTranslation()
 
-  const { data: pool } = useCurrentPool()
+  const router = useRouter()
+  const { data: pool } = useCurrentPool(router)
 
   const { quantity } = props
 

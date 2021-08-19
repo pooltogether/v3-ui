@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PeriodicPrizeStrategy'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useRouter } from 'next/router'
+import { useCurrentPool, useUsersAddress } from '@pooltogether/hooks'
 
 import { useTranslation } from 'react-i18next'
-import { useCurrentPool } from 'lib/hooks/usePools'
 import { ButtonTx } from 'lib/components/ButtonTx'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
@@ -12,7 +12,9 @@ export function StartAwardUI(props) {
   const { t } = useTranslation()
 
   const usersAddress = useUsersAddress()
-  const { data: pool, refetch: refetchPoolData } = useCurrentPool()
+
+  const router = useRouter()
+  const { data: pool, refetch: refetchPoolData } = useCurrentPool(router)
 
   const canStartAward = pool.prize.canStartAward
   const prizeStrategyAddress = pool.prizeStrategy.address
@@ -23,7 +25,6 @@ export function StartAwardUI(props) {
   const method = 'startAward'
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
-  const tx = useTransaction(txId)
 
   // const ongoingStartAwardTransactions = transactions?.
   //   filter(t => t.method === method && !t.cancelled && !t.completed)

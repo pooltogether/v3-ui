@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useUsersAddress, useUserTicketsByPool } from '@pooltogether/hooks'
 import { Button } from '@pooltogether/react-components'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 
@@ -14,7 +14,6 @@ import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { useUserTicketsByPool } from 'lib/hooks/useUserTickets'
 
 export function ConfirmWithdrawNoFee(props) {
   const { t } = useTranslation()

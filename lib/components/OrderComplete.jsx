@@ -2,10 +2,10 @@ import React, { useContext, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { getTimeBreakdown } from '@pooltogether/utilities'
+import { useCurrentPool } from '@pooltogether/hooks'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { Trans, useTranslation } from 'react-i18next'
-import { useCurrentPool } from 'lib/hooks/usePools'
 import { ConfettiContext } from 'lib/components/contextProviders/ConfettiContextProvider'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
 import { ButtonLink } from 'lib/components/ButtonLink'
@@ -28,7 +28,7 @@ export function OrderComplete(props) {
 
   const { confetti } = useContext(ConfettiContext)
 
-  const { data: pool } = useCurrentPool()
+  const { data: pool } = useCurrentPool(router)
 
   const { years, weeks, days, hours, minutes, seconds } = getTimeBreakdown(
     pool.prize.prizePeriodSeconds.toString()

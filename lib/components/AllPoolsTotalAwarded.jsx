@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { ethers } from 'ethers'
+import { useAllPools } from '@pooltogether/hooks'
 
 import { useTranslation } from 'react-i18next'
 
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { normalizeTo18Decimals } from 'lib/utils/normalizeTo18Decimals'
-import { useAllPools } from 'lib/hooks/usePools'
 
 export const AllPoolsTotalAwarded = (props) => {
   const { t } = useTranslation()

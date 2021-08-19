@@ -3,6 +3,7 @@ import FeatherIcon from 'feather-icons-react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { NFTE } from '@nfte/react'
+import { useCurrentPool } from '@pooltogether/hooks'
 import { shorten } from '@pooltogether/utilities'
 import { Tooltip } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
@@ -18,7 +19,6 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { useAllErc20Awards } from 'lib/hooks/useAllErc20Awards'
 import { useAllErc721Awards } from 'lib/hooks/useAllErc721Awards'
 import { useAllErc1155Awards } from 'lib/hooks/useAllErc1155Awards'
-import { useCurrentPool } from 'lib/hooks/usePools'
 
 /**
  * Table use in PoolShow
@@ -216,7 +216,8 @@ export const LootBoxTable = (props) => {
 const AwardRowErc20 = (props) => {
   const { award } = props
 
-  const { data: pool } = useCurrentPool()
+  const router = useRouter()
+  const { data: pool } = useCurrentPool(router)
 
   const name = award.name
 
@@ -307,13 +308,11 @@ const AwardRowErc721 = (props) => {
 const AwardRowErc1155 = (props) => {
   const { award } = props
 
-  const { t } = useTranslation()
-
-  const { data: pool } = useCurrentPool()
+  const router = useRouter()
+  const { data: pool } = useCurrentPool(router)
 
   const name = award.erc1155Entity?.name
   const address = award.erc1155Entity?.id
-  // const tokenId = award.tokenId
 
   return (
     <li className='w-full flex text-xxs sm:text-base mb-2 last:mb-0'>
