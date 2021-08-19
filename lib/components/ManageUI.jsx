@@ -1,16 +1,16 @@
 import React from 'react'
+
 import FeatherIcon from 'feather-icons-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
-import { useCurrentPool, useAllPools, useUsersAddress } from '@pooltogether/hooks'
-import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
+import { usePrizePeriod, useCurrentPool, useUsersAddress } from '@pooltogether/hooks'
+import { PageTitleAndBreadcrumbs, PrizeCountdown } from '@pooltogether/react-components'
 
 import { CardGrid } from 'lib/components/CardGrid'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
-import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Meta } from 'lib/components/Meta'
 import { SponsorshipPane } from 'lib/components/SponsorshipPane'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
@@ -21,11 +21,17 @@ export const ManageUI = (props) => {
   const { t } = useTranslation()
 
   const usersAddress = useUsersAddress()
-  const { isFetched } = useAllPools()
 
   const router = useRouter()
-  const { data: pool } = useCurrentPool(router)
+  const { data: pool, refetch: refetchPool } = useCurrentPool(router)
+  
   const { contractAddresses } = useContractAddresses(pool?.chainId)
+
+  const {
+    data: prize,
+    isFetched,
+    refetch
+  } = usePrizePeriod(pool?.chainId, pool?.prizeStrategy.address)
 
   if (!pool || !isFetched) {
     return (
@@ -57,10 +63,11 @@ export const ManageUI = (props) => {
   const decimals = underlyingToken.decimals
   const tickerUpcased = underlyingToken.symbol
 
-  const prize = pool.prize
   const isRngRequested = prize.isRngRequested
   const canStartAward = prize.canStartAward
   const canCompleteAward = prize.canCompleteAward
+  const prizePeriodSeconds = prize.prizePeriodSeconds
+  const prizePeriodStartedAt = prize.prizePeriodStartedAt
 
   const poolLocked = canCompleteAward || (isRngRequested && !canCompleteAward)
   const openPhase = !canStartAward && !canCompleteAward && !isRngRequested
@@ -177,15 +184,21 @@ export const ManageUI = (props) => {
           {openPhase ? (
             <>
               <h6 className='mb-2'>{t('prizePeriodRemaining')}</h6>
-              <NewPrizeCountdown
-                prizePeriodSeconds={pool.prize.prizePeriodSeconds}
-                prizePeriodStartedAt={pool.prize.prizePeriodStartedAt}
-                isRngRequested={pool.prize.isRngRequested}
-                flashy={false}
-              />
+              <PrizeCountdown {...prize} flashy={false} />
             </>
           ) : (
-            <PoolActionsUI contractAddresses={contractAddresses} usersAddress={usersAddress} />
+            <PoolActionsUI
+              pool={pool}
+              contractAddresses={contractAddresses}
+              usersAddress={usersAddress}
+              refetch={() => {
+                refetch()
+                refetchPool()
+              }}
+              isRngRequested={isRngRequested}
+              canStartAward={canStartAward}
+              canCompleteAward={canCompleteAward}
+            />
           )}
         </div>
       </div>

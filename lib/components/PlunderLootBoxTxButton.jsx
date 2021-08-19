@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
-import { Button } from '@pooltogether/react-components'
+import { Button, poolToast } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
 import LootBoxControllerAbi from '@pooltogether/loot-box/abis/LootBoxController'
+import { useSendTransaction, useTransaction } from '@pooltogether/hooks'
 
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useTransaction } from 'lib/hooks/useTransaction'
 
 export function PlunderLootBoxTxButton(props) {
   const { t } = useTranslation()
@@ -25,7 +24,7 @@ export function PlunderLootBoxTxButton(props) {
   })
   const method = 'plunder'
 
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
 
   const tx = useTransaction(txId)
 
@@ -50,7 +49,13 @@ export function PlunderLootBoxTxButton(props) {
       }))
     ]
 
-    const id = await sendTx(txName, LootBoxControllerAbi, lootBoxControllerAddress, method, params)
+    const id = await sendTx({
+      name: txName,
+      contractAbi: LootBoxControllerAbi,
+      contractAddress: lootBoxControllerAddress,
+      method,
+      params
+    })
     setTxId(id)
   }
 

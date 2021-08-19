@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { useUsersAddress, useUserTicketsByPool } from '@pooltogether/hooks'
-import { Button } from '@pooltogether/react-components'
+import {
+  useUsersAddress,
+  useUserTicketsByPool,
+  useSendTransaction,
+  useTransaction
+} from '@pooltogether/hooks'
+import { Button, poolToast } from '@pooltogether/react-components'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
-
 import { useTranslation } from 'react-i18next'
+
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { TxStatus } from 'lib/components/TxStatus'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { WithdrawOdds } from 'lib/components/WithdrawOdds'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export function ConfirmWithdrawNoFee(props) {
@@ -46,7 +49,7 @@ export function ConfirmWithdrawNoFee(props) {
   const [txId, setTxId] = useState(0)
   const txName = `${t('withdraw')}: ${quantityFormatted} ${tickerUpcased}`
   const method = 'withdrawInstantlyFrom'
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
   const tx = useTransaction(txId)
 
   const runTx = async () => {
@@ -62,7 +65,13 @@ export function ConfirmWithdrawNoFee(props) {
       ethers.utils.parseEther(maxExitFee)
     ]
 
-    const id = await sendTx(txName, PrizePoolAbi, poolAddress, method, params)
+    const id = await sendTx({
+      name: txName,
+      contractAbi: PrizePoolAbi,
+      contractAddress: poolAddress,
+      method,
+      params
+    })
 
     setTxId(id)
   }

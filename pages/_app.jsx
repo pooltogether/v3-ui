@@ -19,7 +19,8 @@ import {
 import {
   ToastContainer,
   LoadingScreen,
-  TransactionStatusChecker
+  TransactionStatusChecker,
+  TxRefetchListener
 } from '@pooltogether/react-components'
 
 import {
@@ -31,7 +32,6 @@ import {
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
 import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
-import { TxRefetchListener } from 'lib/components/TxRefetchListener'
 import { ManualWarningMessage } from 'lib/components/ManualWarningMessage'
 
 import '@reach/dialog/styles.css'

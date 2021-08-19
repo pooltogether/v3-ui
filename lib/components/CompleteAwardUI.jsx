@@ -1,40 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PeriodicPrizeStrategy'
-import { useRouter } from 'next/router'
-import { Button } from '@pooltogether/react-components'
-import { useCurrentPool } from '@pooltogether/hooks'
-
+import { poolToast } from '@pooltogether/react-components'
+import { useSendTransaction, useTransaction } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+
+import { ButtonTx } from 'lib/components/ButtonTx'
 
 export function CompleteAwardUI(props) {
+  const { pool, canCompleteAward, refetch } = props
+
   const { t } = useTranslation()
-
-  const router = useRouter()
-  const { data: pool, refetch: refetchPoolChainData } = useCurrentPool(router)
-
-  const sendTx = useSendTransaction()
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction(t, poolToast)
+  const tx = useTransaction(txId)
 
   const handleCompleteAwardClick = async (e) => {
     e.preventDefault()
 
     const params = []
 
-    sendTx(
-      t(`completeAwardPoolName`, { poolName: pool.name }),
-      PrizeStrategyAbi,
-      pool.prizeStrategy.address,
-      'completeAward',
+    const id = await sendTx({
+      name: t(`completeAwardPoolName`, { poolName: pool.name }),
+      contractAbi: PrizeStrategyAbi,
+      contractAddress: pool.prizeStrategy.address,
+      method: 'completeAward',
       params,
-      refetchPoolChainData
-    )
+      callbacks: { refetch }
+    })
+    setTxId(id)
   }
 
   return (
     <>
-      {pool.prize.canCompleteAward && (
+      {canCompleteAward && (
         <>
-          <Button
+          <ButtonTx
+            disabled={tx?.inWallet || tx?.sent}
+            chainId={pool.chainId}
             text='green'
             border='green'
             hoverBorder='green'
@@ -42,7 +44,7 @@ export function CompleteAwardUI(props) {
             onClick={handleCompleteAwardClick}
           >
             Complete Award
-          </Button>
+          </ButtonTx>
         </>
       )}
     </>

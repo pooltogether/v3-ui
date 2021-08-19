@@ -24,19 +24,7 @@
     "cypress": "NEXT_JS_REDUCE_MOTION=true start-server-and-test dev http://localhost:3000 cypress:run",
     "cypress:open-local": "NEXT_JS_REDUCE_MOTION=true start-server-and-test dev http://localhost:3000 cypress:open",
     "cypress:open": "npx cypress open --env infura_id=$NEXT_JS_INFURA_ID",
-    "cypress:run": "npx cypress run --record --key $CYPRESS_RECORD_KEY --env infura_id=$NEXT_JS_INFURA_ID",
-    "link-hooks": "./scripts/link-hooks.sh",
-    "unlink-hooks": "./scripts/unlink-hooks.sh",
-    "link-components": "./scripts/link-components.sh",
-    "unlink-components": "./scripts/unlink-components.sh",
-    "link-components-and-hooks": "./scripts/link-components-and-hooks.sh",
-    "unlink-components-and-hooks": "./scripts/unlink-components-and-hooks.sh",
-    "link-h": "./scripts/link-hooks.sh",
-    "unlink-h": "./scripts/unlink-hooks.sh",
-    "link-c": "./scripts/link-components.sh",
-    "unlink-c": "./scripts/unlink-components.sh",
-    "link-ch": "./scripts/link-components-and-hooks.sh",
-    "unlink-ch": "./scripts/unlink-components-and-hooks.sh"
+    "cypress:run": "npx cypress run --record --key $CYPRESS_RECORD_KEY --env infura_id=$NEXT_JS_INFURA_ID"
   },
   "jest": {
     "collectCoverageFrom": [
