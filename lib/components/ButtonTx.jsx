@@ -6,14 +6,15 @@ import { useIsWalletOnNetwork, useUsersAddress } from '@pooltogether/hooks'
 import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
 
 export function ButtonTx(props) {
-  const { children, chainId, tx } = props
+  const { children, chainId, tx, disabled } = props
 
   const { t } = useTranslation()
 
   const newProps = omit(props, ['usersAddress', 'chainId', 'tx'])
+
   const isWalletConnected = useUsersAddress()
   const isWalletOnProperNetwork = useIsWalletOnNetwork(chainId)
-  const disableButton = !isWalletConnected || !isWalletOnProperNetwork
+  const disableButton = !isWalletConnected || !isWalletOnProperNetwork || disabled
 
   useEffect(() => {
     if (!chainId) {
