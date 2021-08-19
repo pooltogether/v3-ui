@@ -1,20 +1,18 @@
 import React, { useState } from 'react'
 import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PeriodicPrizeStrategy'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useSendTransaction, useTransaction, useUsersAddress } from '@pooltogether/hooks'
 
 import { useTranslation } from 'react-i18next'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { ButtonTx } from 'lib/components/ButtonTx'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useTransaction } from 'lib/hooks/useTransaction'
+import { poolToast } from '@pooltogether/react-components'
 
 export function StartAwardUI(props) {
+  const { pool, isRngRequested, canStartAward, canCompleteAward, refetch } = props
   const { t } = useTranslation()
 
   const usersAddress = useUsersAddress()
-  const { data: pool, refetch: refetchPoolData } = useCurrentPool()
 
-  const canStartAward = pool.prize.canStartAward
   const prizeStrategyAddress = pool.prizeStrategy.address
 
   const txName = t(`startAwardPoolName`, {
@@ -22,27 +20,22 @@ export function StartAwardUI(props) {
   })
   const method = 'startAward'
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
   const tx = useTransaction(txId)
-
-  // const ongoingStartAwardTransactions = transactions?.
-  //   filter(t => t.method === method && !t.cancelled && !t.completed)
-  // const disabled = ongoingStartAwardTransactions.length > 0
-  const disabled = !usersAddress
 
   const handleStartAwardClick = async (e) => {
     e.preventDefault()
 
     const params = []
 
-    const id = await sendTx(
-      txName,
-      PrizeStrategyAbi,
-      prizeStrategyAddress,
+    const id = await sendTx({
+      name: txName,
+      contractAbi: PrizeStrategyAbi,
+      contractAddress: prizeStrategyAddress,
       method,
       params,
-      refetchPoolData
-    )
+      callbacks: { refetch }
+    })
 
     setTxId(id)
   }
@@ -52,6 +45,7 @@ export function StartAwardUI(props) {
       {canStartAward && (
         <>
           <ButtonTx
+            disabled={tx?.inWallet || tx?.sent}
             chainId={pool.chainId}
             text='green'
             border='green'

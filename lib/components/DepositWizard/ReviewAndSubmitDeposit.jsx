@@ -5,7 +5,9 @@ import {
   useIsWalletMetamask,
   useOnboard,
   useTokenAllowance,
-  useTokenBalances
+  useTokenBalances,
+  useSendTransaction,
+  useTransaction
 } from '@pooltogether/hooks'
 import { Amount, Button, Card, Tooltip } from '@pooltogether/react-components'
 import {
@@ -23,8 +25,6 @@ import IconNetwork from 'assets/images/icon-network@2x.png'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { Banner } from 'lib/components/Banner'
 import { ButtonTx } from 'lib/components/ButtonTx'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useTransaction } from 'lib/hooks/useTransaction'
 import ERC20Abi from 'abis/ERC20Abi'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { TxStatus } from 'lib/components/TxStatus'
@@ -201,7 +201,7 @@ const ApproveDeposit = (props) => {
 
   const txName = t(`allowTickerPool`, { ticker: tokenSymbol })
   const method = 'approve'
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
   const tx = useTransaction(approveTxId)
 
   const handleApproveClick = async (e) => {
@@ -212,7 +212,14 @@ const ApproveDeposit = (props) => {
     }
 
     const params = [contractAddress, ethers.utils.parseUnits('9999999999', Number(decimals))]
-    const id = await sendTx(txName, ERC20Abi, tokenAddress, method, params, refetchTokenAllowance)
+    const id = await sendTx({
+      name: txName,
+      contractAbi: ERC20Abi,
+      contractAddress: tokenAddress,
+      method,
+      params,
+      callbacks: { refetch: refetchTokenAllowance }
+    })
     setApproveTxId(id)
   }
 

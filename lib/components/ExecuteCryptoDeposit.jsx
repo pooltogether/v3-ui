@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useUsersAddress, useTransaction } from '@pooltogether/hooks'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
@@ -11,11 +11,11 @@ import { useTranslation } from 'react-i18next'
 import { Banner } from 'lib/components/Banner'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useSendTransaction } from '@pooltogether/hooks'
 import { useCurrentPool } from 'lib/hooks/usePools'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { TxStatus } from 'lib/components/TxStatus'
-import { useTransaction } from 'lib/hooks/useTransaction'
+import { poolToast } from '@pooltogether/react-components'
 
 import IconStar from 'assets/images/icon-star@2x.png'
 
@@ -44,7 +44,7 @@ export function ExecuteCryptoDeposit(props) {
 
   const txName = `${t('deposit')} ${quantityFormatted} ${tickerUpcased}`
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
   const tx = useTransaction(txId)
 
   useEffect(() => {
@@ -63,7 +63,13 @@ export function ExecuteCryptoDeposit(props) {
 
       const params = [usersAddress, quantityBN, controlledTicketTokenAddress, referrerAddress]
 
-      const id = await sendTx(txName, PrizePoolAbi, poolAddress, 'depositTo', params)
+      const id = await sendTx({
+        name: txName,
+        contractAbi: PrizePoolAbi,
+        contractAddress: poolAddress,
+        method: 'depositTo',
+        params
+      })
       setTxId(id)
     }
 
