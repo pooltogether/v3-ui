@@ -10,14 +10,14 @@ import {
   NetworkSelector,
   SettingsItem,
   CheckboxInputGroup,
-  ButtonLink
+  ButtonLink,
+  NavPoolBalance
 } from '@pooltogether/react-components'
-import { useOnboard } from '@pooltogether/hooks'
+import Cookies from 'js-cookie'
 import Link from 'next/link'
+import { useOnboard } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
 
-import { NavPoolBalance } from 'lib/components/Layout/NavPoolBalance'
-import Cookies from 'js-cookie'
 import { COOKIE_OPTIONS, SHOW_MANAGE_LINKS } from 'lib/constants'
 import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
 

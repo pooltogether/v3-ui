@@ -2,11 +2,11 @@ import React from 'react'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { Button } from '@pooltogether/react-components'
+import { useRetroactivePoolClaimData } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { Banner } from 'lib/components/Banner'
-import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { useUsersAddress } from '@pooltogether/hooks'
 

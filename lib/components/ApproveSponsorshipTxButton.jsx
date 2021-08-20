@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
+import { useRouter } from 'next/router'
 import { Button, Tooltip } from '@pooltogether/react-components'
+import { useCurrentPool } from '@pooltogether/hooks'
 import ControlledTokenAbi from '@pooltogether/pooltogether-contracts_3_3/abis/ControlledToken'
 
 import { useTranslation } from 'react-i18next'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { useCurrentPool } from 'lib/hooks/usePools'
 
 export function ApproveSponsorshipTxButton(props) {
   const { t } = useTranslation()
 
   const { decimals, disabled, needsApproval, tickerUpcased, refetch } = props
 
-  const { data: pool } = useCurrentPool()
+  const router = useRouter()
+  const { data: pool } = useCurrentPool(router)
 
   const poolAddress = pool.prizePool.address
   const tokenAddress = pool.tokens.underlyingToken.address

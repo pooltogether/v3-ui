@@ -1,9 +1,7 @@
 import React from 'react'
 import Cookies from 'js-cookie'
 import classnames from 'classnames'
-import Link from 'next/link'
 import { useAtom } from 'jotai'
-import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { TicketRow, TokenIcon } from '@pooltogether/react-components'
 
@@ -11,14 +9,10 @@ import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'l
 import { useTranslation } from 'react-i18next'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
-import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
 import { Odds } from 'lib/components/Odds'
-import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
-import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
 import { TicketPrize } from 'lib/components/TicketPrize'
 
 export const AccountTicket = (props) => {

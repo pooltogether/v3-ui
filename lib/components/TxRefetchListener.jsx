@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { useAtom } from 'jotai'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useUserTickets, useUsersAddress } from '@pooltogether/hooks'
 
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
-import { useUserTickets } from 'lib/hooks/useUserTickets'
 
 const PLAYER_BALANCE_METHODS = [
   'depositTo',

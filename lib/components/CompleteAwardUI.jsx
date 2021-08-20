@@ -1,14 +1,18 @@
 import React from 'react'
 import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PeriodicPrizeStrategy'
+import { useRouter } from 'next/router'
 import { Button } from '@pooltogether/react-components'
+import { useCurrentPool } from '@pooltogether/hooks'
 
 import { useTranslation } from 'react-i18next'
-import { useCurrentPool } from 'lib/hooks/usePools'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 export function CompleteAwardUI(props) {
   const { t } = useTranslation()
-  const { data: pool, refetch: refetchPoolChainData } = useCurrentPool()
+
+  const router = useRouter()
+  const { data: pool, refetch: refetchPoolChainData } = useCurrentPool(router)
+
   const sendTx = useSendTransaction()
 
   const handleCompleteAwardClick = async (e) => {
