@@ -30,8 +30,6 @@ export function CompleteAwardUI(props) {
     setTxId(id)
   }
 
-  console.log(tx, tx?.inWallet || tx?.sent)
-
   return (
     <>
       {canCompleteAward && (

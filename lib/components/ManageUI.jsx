@@ -20,7 +20,6 @@ export const ManageUI = (props) => {
   const { t } = useTranslation()
 
   const usersAddress = useUsersAddress()
-  // const { isFetched } = useAllPools()
 
   const { data: pool, refetch: refetchPool } = useCurrentPool()
   const { contractAddresses } = useContractAddresses(pool?.chainId)
