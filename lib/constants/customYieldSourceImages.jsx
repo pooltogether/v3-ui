@@ -9,7 +9,8 @@ export const CUSTOM_YIELD_SOURCE_NAMES = Object.freeze({
   },
   4: {},
   137: {
-    '0x3c7cdfb942eb98cce7e4d004e2927788cd9e54fe': 'aave'
+    '0x3c7cdfb942eb98cce7e4d004e2927788cd9e54fe': 'aave',
+    '0xabcea7b7f5ea7929b1df9e3e7241547fe7b7af14': 'aave'
   },
   80001: {}
 })
