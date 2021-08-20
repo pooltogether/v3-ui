@@ -33,8 +33,6 @@ export const AccountSummary = () => {
     useUsersTotalPodDepositsValue(address)
 
   const isFetched = playerTicketsIsFetched && podTicketsIsFetched
-  console.log({ playerTicketsIsFetched })
-  console.log({ podTicketsIsFetched })
   const totalTicketValueUsd = isFetched
     ? toNonScaledUsdString(
         totalTicketValues.totalValueUsdScaled.add(totalPodTicketValues.totalValueUsdScaled)

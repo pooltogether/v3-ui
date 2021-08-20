@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { ethers } from 'ethers'
-import { usePoolByAddress } from '@pooltogether/hooks'
+import { useReadProvider, usePoolByAddress } from '@pooltogether/hooks'
 
 import { useTranslation } from 'react-i18next'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -18,7 +18,6 @@ import { usePastPrize } from 'lib/hooks/usePastPrizes'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
-import { useReadProvider } from '@pooltogether/hooks'
 
 export const LootBoxWon = (props) => {
   const { lootBox } = props
