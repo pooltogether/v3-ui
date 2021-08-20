@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
-import { useUsersAddress, useSendTransaction, useTransaction } from '@pooltogether/hooks'
-import { Button, poolToast } from '@pooltogether/react-components'
+import { useUsersAddress } from '@pooltogether/hooks'
+import { Button } from '@pooltogether/react-components'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 import { useTranslation } from 'react-i18next'
 
 import { useCurrentPool } from 'lib/hooks/usePools'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export function WithdrawSponsorshipTxButton(props) {
@@ -28,7 +30,7 @@ export function WithdrawSponsorshipTxButton(props) {
     ticker: tickerUpcased
   })
   const method = 'withdrawInstantlyFrom'
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
   const withdrawSponsorshipTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)
@@ -46,13 +48,7 @@ export function WithdrawSponsorshipTxButton(props) {
       ethers.utils.parseEther(maxExitFee)
     ]
 
-    const id = await sendTx({
-      name: txName,
-      contractAbi: PrizePoolAbi,
-      contractAddress: poolAddress,
-      method,
-      params
-    })
+    const id = await sendTx(txName, PrizePoolAbi, poolAddress, method, params)
     setTxId(id)
   }
 

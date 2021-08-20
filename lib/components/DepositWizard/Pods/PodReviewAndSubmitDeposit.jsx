@@ -1,13 +1,14 @@
 import React from 'react'
-import { Card, poolToast } from '@pooltogether/react-components'
+import { Card } from '@pooltogether/react-components'
 import { useRouter } from 'next/router'
-import { useUsersAddress, useSendTransaction } from '@pooltogether/hooks'
+import { useUsersAddress } from '@pooltogether/hooks'
 import { ethers } from 'ethers'
 import { numberWithCommas } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
 
 import { ReviewAndSubmitDeposit } from 'lib/components/DepositWizard/ReviewAndSubmitDeposit'
 import PodAbi from 'abis/PodAbi'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import Bell from 'assets/images/bell-red@2x.png'
 
 export const PodReviewAndSubmitDeposit = (props) => {
@@ -15,7 +16,7 @@ export const PodReviewAndSubmitDeposit = (props) => {
   const tokenSymbol = pod.tokens.underlyingToken.symbol
   const usersAddress = useUsersAddress()
   const { t } = useTranslation()
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransaction()
 
   const submitDepositTransaction = async () => {
     const decimals = pod.tokens.underlyingToken.decimals
@@ -24,13 +25,7 @@ export const PodReviewAndSubmitDeposit = (props) => {
     const params = [usersAddress, quantityBN]
     const txName = `${t('deposit')} ${numberWithCommas(quantity)} ${tokenSymbol}`
 
-    return await sendTx({
-      name: txName,
-      contractAbi: PodAbi,
-      contractAddress,
-      method: 'depositTo',
-      params
-    })
+    return await sendTx(txName, PodAbi, contractAddress, 'depositTo', params)
   }
 
   return (

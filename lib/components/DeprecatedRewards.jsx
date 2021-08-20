@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { isEmpty, map, find, defaultTo, sum } from 'lodash'
 import { useAtom } from 'jotai'
-import { useUsersAddress, useSendTransaction, useTransaction } from '@pooltogether/hooks'
+import { useUsersAddress } from '@pooltogether/hooks'
 import { NETWORK } from '@pooltogether/utilities'
 
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts_3_3/abis/Comptroller'
@@ -16,14 +16,15 @@ import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { usePlayerDrips } from 'lib/hooks/usePlayerDrips'
 import { useUsersDripData } from 'lib/hooks/useUsersDripData'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { useTransaction } from 'lib/hooks/useTransaction'
 import { useAllPools, usePoolBySymbol } from 'lib/hooks/usePools'
 import { isSelfAtom } from 'lib/components/AccountUI'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
 import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
-import { poolToast } from '@pooltogether/react-components'
 
 // This has been removed from the app for most people, but if someone still has rewards/tickets to claim
 // it will show up for them
@@ -57,7 +58,7 @@ export const AccountRewardsView = (props) => {
   const txName = t(`claimRewards`)
   const method = 'updateAndClaimDrips'
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
   const handleClaim = async (drip) => {
@@ -72,13 +73,7 @@ export const AccountRewardsView = (props) => {
     }
     const params = [[...updatePairs, oldDaiContractPair], usersAddress, dripTokens]
 
-    const id = await sendTx({
-      name: txName,
-      contractAbi: ComptrollerAbi,
-      contractAddress: comptroller,
-      method,
-      params
-    })
+    const id = await sendTx(txName, ComptrollerAbi, comptroller, method, params)
     setTxId(id)
   }
 
