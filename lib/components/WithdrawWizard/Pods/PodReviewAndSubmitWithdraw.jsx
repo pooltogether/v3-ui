@@ -1,13 +1,13 @@
 import { ReviewAndSubmitWithdraw } from 'lib/components/WithdrawWizard/ReviewAndSubmitWithdraw'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect } from 'react'
-import { useTokenBalance, useUsersAddress, useSendTransaction } from '@pooltogether/hooks'
-import { Card, poolToast } from '@pooltogether/react-components'
+import { useTokenBalance, useUsersAddress } from '@pooltogether/hooks'
+import { Card } from '@pooltogether/react-components'
 import { ethers } from 'ethers'
 import { getMinPrecision, getPrecision, numberWithCommas } from '@pooltogether/utilities'
 import { Trans, useTranslation } from 'react-i18next'
-
 import PodAbi from 'abis/PodAbi'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { usePodExitFee } from 'lib/hooks/usePodExitFee'
 import { calculateOdds } from 'lib/utils/calculateOdds'
 import Bell from 'assets/images/bell-red@2x.png'
@@ -24,7 +24,7 @@ export const PodReviewAndSubmitWithdraw = (props) => {
 
   const router = useRouter()
   const { t } = useTranslation()
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransaction()
   const quantityUnformatted = ethers.utils.parseUnits(quantity || '0', decimals)
 
   const { data: podExitFee, isFetched: isExitFeeFetched } = usePodExitFee(
@@ -43,13 +43,7 @@ export const PodReviewAndSubmitWithdraw = (props) => {
     const params = [quantityUnformatted, podExitFee.fee]
     const txName = `${t('withdraw')} ${numberWithCommas(quantity)} ${tokenSymbol}`
 
-    return await sendTx({
-      name: txName,
-      contractAbi: PodAbi,
-      contractAddress,
-      method: 'withdraw',
-      params
-    })
+    return await sendTx(txName, PodAbi, contractAddress, 'withdraw', params)
   }, [isExitFeeFetched, podExitFee, quantityUnformatted, contractAddress])
 
   return (

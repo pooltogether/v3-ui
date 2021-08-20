@@ -6,8 +6,8 @@ import ERC20Abi from 'abis/ERC20Abi'
 import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
-import { useOnboard, useSendTransaction, useTransaction } from '@pooltogether/hooks'
-import { Button, Tooltip, Modal, poolToast } from '@pooltogether/react-components'
+import { useOnboard } from '@pooltogether/hooks'
+import { Button, Tooltip, Modal } from '@pooltogether/react-components'
 
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
@@ -15,7 +15,10 @@ import { NetworkWarning } from 'lib/components/NetworkWarning'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { TxStatus } from 'lib/components/TxStatus'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
 import WalletIcon from 'assets/images/icon-wallet.svg'
@@ -55,7 +58,7 @@ export const RewardsActionModal = (props) => {
 
   const { network: walletChainId } = useOnboard()
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
   const txSent = tx?.sent && !tx?.completed
@@ -77,14 +80,14 @@ export const RewardsActionModal = (props) => {
     const amount = formData[action]
     const txName = `${t(action.toLowerCase())}: ${amount} ${tickerUpcased}`
 
-    const id = await sendTx({
-      name: txName,
-      contractAbi: PrizePoolAbi,
-      contractAddress: prizePoolAddress,
+    const id = await sendTx(
+      txName,
+      PrizePoolAbi,
+      prizePoolAddress,
       method,
-      params: getParams(amount),
-      callbacks: { refetch }
-    })
+      getParams(amount),
+      refetch
+    )
 
     setTxId(id)
   }
@@ -288,7 +291,7 @@ const ApproveButton = (props) => {
   const { decimals, refetch, pool, underlyingToken } = props
 
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
   const txSent = tx?.sent && !tx?.completed
@@ -307,14 +310,7 @@ const ApproveButton = (props) => {
       return
     }
 
-    const id = await sendTx({
-      name: txName,
-      contractAbi: abi,
-      contractAddress,
-      method,
-      params,
-      callbacks: { refetch }
-    })
+    const id = await sendTx(txName, abi, contractAddress, method, params, refetch)
 
     setTxId(id)
   }

@@ -1,42 +1,36 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PeriodicPrizeStrategy'
-import { Button, poolToast } from '@pooltogether/react-components'
-import { useSendTransaction, useTransaction } from '@pooltogether/hooks'
-import { useTranslation } from 'react-i18next'
+import { Button } from '@pooltogether/react-components'
 
-import { ButtonTx } from 'lib/components/ButtonTx'
+import { useTranslation } from 'react-i18next'
+import { useCurrentPool } from 'lib/hooks/usePools'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 
 export function CompleteAwardUI(props) {
-  const { pool, isRngRequested, canStartAward, canCompleteAward, refetch } = props
-
   const { t } = useTranslation()
-  const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
-  const tx = useTransaction(txId)
+  const { data: pool, refetch: refetchPoolChainData } = useCurrentPool()
+  const sendTx = useSendTransaction()
 
   const handleCompleteAwardClick = async (e) => {
     e.preventDefault()
 
     const params = []
 
-    const id = await sendTx({
-      name: t(`completeAwardPoolName`, { poolName: pool.name }),
-      contractAbi: PrizeStrategyAbi,
-      contractAddress: pool.prizeStrategy.address,
-      method: 'completeAward',
+    sendTx(
+      t(`completeAwardPoolName`, { poolName: pool.name }),
+      PrizeStrategyAbi,
+      pool.prizeStrategy.address,
+      'completeAward',
       params,
-      callbacks: { refetch }
-    })
-    setTxId(id)
+      refetchPoolChainData
+    )
   }
 
   return (
     <>
-      {canCompleteAward && (
+      {pool.prize.canCompleteAward && (
         <>
-          <ButtonTx
-            disabled={tx?.inWallet || tx?.sent}
-            chainId={pool.chainId}
+          <Button
             text='green'
             border='green'
             hoverBorder='green'
@@ -44,7 +38,7 @@ export function CompleteAwardUI(props) {
             onClick={handleCompleteAwardClick}
           >
             Complete Award
-          </ButtonTx>
+          </Button>
         </>
       )}
     </>

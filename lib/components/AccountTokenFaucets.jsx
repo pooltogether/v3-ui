@@ -4,16 +4,13 @@ import {
   useAppEnv,
   useOnboard,
   useTokenBalance,
-  useUsersAddress,
-  useSendTransaction,
-  useTransaction
+  useUsersAddress
 } from '@pooltogether/hooks'
 import {
   Amount,
   Button,
   Card,
   InternalLink,
-  poolToast,
   ThemedClipSpinner,
   TokenIcon,
   Tooltip
@@ -34,6 +31,7 @@ import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts_3_3
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
@@ -41,6 +39,7 @@ import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
 import { useAllTokenFaucetsByChainId } from 'lib/hooks/useAllTokenFaucetsByChainId'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
+import { useTransaction } from 'lib/hooks/useTransaction'
 import { useTokenDripClaimableAmounts } from 'lib/hooks/useTokenDripClaimableAmounts'
 
 /**
@@ -500,7 +499,7 @@ const ClaimButton = (props) => {
 
   const { t } = useTranslation()
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
@@ -515,16 +514,14 @@ const ClaimButton = (props) => {
 
     const params = [usersAddress]
 
-    const id = await sendTx({
-      name: t('claimTickerFromPool', { ticker: dripToken.symbol, poolName: label }),
-      contractAbi: abi,
-      contractAddress: addressToClaimFrom,
-      method: 'claim',
+    const id = await sendTx(
+      t('claimTickerFromPool', { ticker: dripToken.symbol, poolName: label }),
+      abi,
+      addressToClaimFrom,
+      'claim',
       params,
-      callbacks: {
-        refetch
-      }
-    })
+      refetch
+    )
     setTxId(id)
   }
 
@@ -699,7 +696,7 @@ const ClaimAllButton = (props) => {
   }, [claimablePoolFromTokenFaucets])
 
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
@@ -709,14 +706,14 @@ const ClaimAllButton = (props) => {
 
     const params = [address, tokenFaucetAddresses]
 
-    const id = await sendTx({
-      name: t('claimAll'),
-      contractAbi: TokenFaucetProxyFactoryAbi,
-      contractAddress: CUSTOM_CONTRACT_ADDRESSES[chainId].TokenFaucetProxyFactory,
-      method: 'claimAll',
+    const id = await sendTx(
+      t('claimAll'),
+      TokenFaucetProxyFactoryAbi,
+      CUSTOM_CONTRACT_ADDRESSES[chainId].TokenFaucetProxyFactory,
+      'claimAll',
       params,
-      callbacks: { refetch: refetchAllPoolTokenData }
-    })
+      refetchAllPoolTokenData
+    )
     setTxId(id)
   }
   let text = t('claimAll')

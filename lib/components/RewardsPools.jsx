@@ -6,15 +6,8 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'
-import {
-  APP_ENVIRONMENT,
-  useAppEnv,
-  useOnboard,
-  useUsersAddress,
-  useSendTransaction,
-  useTransaction
-} from '@pooltogether/hooks'
-import { ExternalLink, LinkTheme, poolToast, Tooltip } from '@pooltogether/react-components'
+import { APP_ENVIRONMENT, useAppEnv, useOnboard, useUsersAddress } from '@pooltogether/hooks'
+import { ExternalLink, LinkTheme, Tooltip } from '@pooltogether/react-components'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -28,10 +21,13 @@ import { RewardsActionModal } from 'lib/components/RewardsActionModal'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { ContentOrSpinner } from 'lib/components/ContentOrSpinner'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
 import { useGovernancePools } from 'lib/hooks/usePools'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTransaction } from 'lib/hooks/useTransaction'
 import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { useUsersTokenBalanceAndAllowance } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 import { displayPercentage } from 'lib/utils/displayPercentage'
@@ -395,7 +391,7 @@ const ClaimButton = (props) => {
 
   const { t } = useTranslation()
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
@@ -410,14 +406,14 @@ const ClaimButton = (props) => {
 
     const params = [usersAddress]
 
-    const id = await sendTx({
-      name: t('claimTickerFromPool', { ticker: dripTokenSymbol, poolName: name }),
-      contractAbi: TokenFaucetAbi,
-      contractAddress: tokenFaucetAddress,
-      method: 'claim',
+    const id = await sendTx(
+      t('claimTickerFromPool', { ticker: dripTokenSymbol, poolName: name }),
+      TokenFaucetAbi,
+      tokenFaucetAddress,
+      'claim',
       params,
-      callbacks: { refetch }
-    })
+      refetch
+    )
     setTxId(id)
   }
 

@@ -5,15 +5,8 @@ import isEmpty from 'lodash.isempty'
 import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'
 import { amountMultByUsd, calculateAPR, calculateLPTokenPrice } from '@pooltogether/utilities'
-import {
-  APP_ENVIRONMENT,
-  useAppEnv,
-  useOnboard,
-  useUsersAddress,
-  useSendTransaction,
-  useTransaction
-} from '@pooltogether/hooks'
-import { ExternalLink, LinkTheme, poolToast, Tooltip } from '@pooltogether/react-components'
+import { APP_ENVIRONMENT, useAppEnv, useOnboard, useUsersAddress } from '@pooltogether/hooks'
+import { ExternalLink, LinkTheme, Tooltip } from '@pooltogether/react-components'
 
 import { formatUnits } from 'ethers/lib/utils'
 
@@ -30,6 +23,8 @@ import {
 import { RewardsActionModal } from 'lib/components/RewardsActionModal'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { Erc20Image } from 'lib/components/Erc20Image'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTransaction } from 'lib/hooks/useTransaction'
 import { LinkIcon } from 'lib/components/BlockExplorerLink'
 import {
   DEXES,
@@ -485,7 +480,7 @@ const TransactionButton = (props) => {
   } = props
 
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
 
   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
@@ -504,14 +499,7 @@ const TransactionButton = (props) => {
       <button
         type='button'
         onClick={async () => {
-          const id = await sendTx({
-            name,
-            contractAbi: abi,
-            contractAddress,
-            method,
-            params,
-            callbacks: { refetch }
-          })
+          const id = await sendTx(name, abi, contractAddress, method, params, refetch)
           setTxId(id)
         }}
         className={classnames('underline', className, {
