@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
-
+import { poolToast } from '@pooltogether/react-components'
 import ControlledTokenAbi from '@pooltogether/pooltogether-contracts_3_3/abis/ControlledToken'
-
 import { useTranslation } from 'react-i18next'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useSendTransaction, useTransaction } from '@pooltogether/hooks'
+
 import { formatUsersTokenDataForPool } from 'lib/utils/formatUsersTokenDataForPool'
-import { useTransaction } from 'lib/hooks/useTransaction'
 import { useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 
 export function RevokePoolAllowanceTxButton(props) {
@@ -27,7 +26,7 @@ export function RevokePoolAllowanceTxButton(props) {
   const txName = t(`revokePoolAllowance`, { ticker: tickerUpcased })
   const method = 'approve'
 
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
   const tx = useTransaction(txId)
 
   if (usersTokenAllowance.eq(0)) {
@@ -39,7 +38,14 @@ export function RevokePoolAllowanceTxButton(props) {
 
     const params = [poolAddress, ethers.utils.parseEther('0')]
 
-    const id = await sendTx(txName, ControlledTokenAbi, tokenAddress, method, params, refetch)
+    const id = await sendTx({
+      name: txName,
+      contractAbi: ControlledTokenAbi,
+      contractAddress: tokenAddress,
+      method,
+      params,
+      callbacks: { refetch }
+    })
 
     setTxId(id)
   }
