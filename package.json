@@ -86,7 +86,7 @@
     "@pooltogether/loot-box": "1.1.0",
     "@pooltogether/pooltogether-contracts_3_3": "npm:@pooltogether/pooltogether-contracts@3.3.12",
     "@pooltogether/pooltogether-contracts_3_4": "npm:@pooltogether/pooltogether-contracts@3.4.4",
-    "@pooltogether/react-components": "0.2.11",
+    "@pooltogether/react-components": "0.2.12",
     "@pooltogether/utilities": "0.0.39",
     "@reach/dialog": "^0.15.0",
     "@reach/menu-button": "^0.15.1",
