@@ -3060,10 +3060,10 @@
     enc-utils "^3.0.0"
     randombytes "^2.1.0"
 
-"@pooltogether/bnc-onboard@1.33.0-b":
-  version "1.33.0-b"
-  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.33.0-b.tgz#2b47287f57082e099d701741c108a6ea228245ff"
-  integrity sha512-vRl08udHYm4quvejCvY2/8nLHh8RQFbyd2tkbF1KCr2MjAs8B2L/gn+p/haIFgFzYWo0A3DONhCob3LObh86ow==
+"@pooltogether/bnc-onboard@1.33.0-c":
+  version "1.33.0-c"
+  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.33.0-c.tgz#99fa60599cb2dcb5e95f33f4c932f5e801eec80a"
+  integrity sha512-uVM2f8rZW0WLQGIJaD0rNWL+T9I+IFC8ZFNEmPDEbhNaw4n5nxYOmsujppSjixxXRIqNCWg8fjAOsksVWxeXiA==
   dependencies:
     "@cvbb/eth-keyring" "^1.1.0"
     "@ensdomains/ensjs" "^2.0.1"
