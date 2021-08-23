@@ -40,22 +40,12 @@ export const ReviewAndSubmitDeposit = (props) => {
     refetch: refetchTokenAllowance
   } = useTokenAllowance(chainId, usersAddress, contractAddress, tokenAddress)
 
-  const { data: usersBalance, isFetched: isUsersBalanceFetched } = useTokenBalances(
-    chainId,
-    usersAddress,
-    [tokenAddress]
-  )
-
-  const decimals = isUsersBalanceFetched ? usersBalance[tokenAddress].decimals : null
-  const usersBalanceUnformatted = usersBalance?.[tokenAddress].amountUnformatted
-  const quantityUnformatted = isUsersBalanceFetched ? parseUnits(quantity, decimals) : null
+  const { isFetched: isUsersBalanceFetched } = useTokenBalances(chainId, usersAddress, [
+    tokenAddress
+  ])
 
   const isValidAllowance = isFetched ? tokenAllowanceData.isAllowed : true
-  const isQuantityValid = isUsersBalanceFetched
-    ? usersBalanceUnformatted.gte(quantityUnformatted)
-    : false
 
-  console.log({ isQuantityValid })
   if (!usersAddress) {
     return <ConnectWallet {...props} connectWallet={connectWallet} />
   } else if (!isFetched || !isUsersBalanceFetched) {
@@ -68,8 +58,6 @@ export const ReviewAndSubmitDeposit = (props) => {
         isValidAllowance={isValidAllowance}
       />
     )
-  } else if (!isQuantityValid) {
-    return <InvalidQuantity {...props} usersBalance={usersBalance?.[tokenAddress].amount} />
   } else if (!tokenAllowanceData?.isAllowed) {
     return (
       <ApproveDeposit
@@ -156,34 +144,6 @@ export const ConnectToNetworkContent = (props) => {
         {t('connectToNetwork', { networkName })}
       </Button>
     </ButtonDrawer>
-  )
-}
-
-export const InvalidQuantity = (props) => {
-  const { previousStep, usersBalance, tokenSymbol } = props
-
-  const { t } = useTranslation()
-
-  return (
-    <>
-      <ReviewAmountAndTitle {...props} />
-      <Card className='flex flex-col mx-auto mb-8' backgroundClassName='bg-orange-darkened'>
-        <h6>{t('insufficientFunds')}</h6>
-        <p className='mt-4 mb-1'>{t('enterAmountLowerThanTokenBalance')}</p>
-        <span className='flex flex-row mx-auto'>
-          <p className=''>{t('yourBalance')}</p>
-          <p className='ml-2'>
-            <Amount>{numberWithCommas(usersBalance || 0)}</Amount>
-          </p>
-          <p className='ml-2'>{tokenSymbol}</p>
-        </span>
-      </Card>
-      <div>
-        <Button textSize='lg' onClick={() => previousStep()}>
-          {t('back')}
-        </Button>
-      </div>
-    </>
   )
 }
 
