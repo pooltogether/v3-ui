@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next'
 import { ethers } from 'ethers'
 import { parseUnits } from '@ethersproject/units'
 
+import ERC20Abi from 'abis/ERC20Abi'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import IconNetwork from 'assets/images/icon-network@2x.png'
@@ -25,7 +26,6 @@ import { Banner } from 'lib/components/Banner'
 import { ButtonTx } from 'lib/components/ButtonTx'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import ERC20Abi from 'abis/ERC20Abi'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { TxStatus } from 'lib/components/TxStatus'
 
@@ -54,7 +54,6 @@ export const ReviewAndSubmitDeposit = (props) => {
   const isQuantityValid = isUsersBalanceFetched
     ? usersBalanceUnformatted.gte(quantityUnformatted)
     : false
-  console.log({ isQuantityValid })
 
   if (!usersAddress) {
     return <ConnectWallet {...props} connectWallet={connectWallet} />
