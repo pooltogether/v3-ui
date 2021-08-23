@@ -74,14 +74,14 @@ const UsersWinningOdds = (props) => {
   const [isQuantityValid, setIsQuantityValid] = useState(false)
   const [isUsersBalanceEnough, setIsUsersBalanceEnough] = useState(true)
 
+  const isNotANumber = isNaN(quantity)
   const quantityDecimalPrecisionOverflow = getMaxPrecision(quantity) > decimals
-  const quantityIsZero = ethers.utils.parseUnits(quantity, decimals).isZero()
+  const quantityIsZero =
+    quantity && !isNotANumber && ethers.utils.parseUnits(quantity, decimals).isZero()
 
   // Validate quantity input before calculating odds
   useEffect(() => {
-    const isNotANumber = isNaN(quantity)
     if (!quantity || isNotANumber || quantityDecimalPrecisionOverflow || quantityIsZero) {
-      console.log('set false')
       setIsQuantityValid(false)
     } else if (!isQuantityValid) {
       setIsQuantityValid(true)
