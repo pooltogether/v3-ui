@@ -72,7 +72,7 @@ const UsersWinningOdds = (props) => {
   if ((usersAddress && !isFetched) || !isQuantityValid) {
     return (
       <SmallCard className='mx-auto mt-10 flex flex-row'>
-        <img src={IconTarget} className='w-16 h-16 sm:w-24 sm:h-24 mr-4  my-4' />
+        <img src={IconTarget} className='w-16 h-16 sm:w-20 sm:h-20 ml-2 mr-4 my-4' />
         <div className='flex flex-col w-full justify-center'>
           <Title>{t('yourWinningOdds')}:</Title>
           <Details>--</Details>

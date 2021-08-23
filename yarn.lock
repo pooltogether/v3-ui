@@ -3148,10 +3148,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/fixed-point/-/fixed-point-1.0.0-beta.2.tgz#d76a1e77f21833e9b680296d65526b0ffd7415d7"
   integrity sha512-aUw4R0Z2oM0AK3W4LIXyBaojTOzRRbhLDHX0egeuvxfjy4gBb6X66v81gI7Wngg/7O0y9QL/B8jWkUnAFzhTig==
 
-"@pooltogether/hooks@0.1.20":
-  version "0.1.20"
-  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-0.1.20.tgz#64365de6463ac3c075dc7cf685aceda4a92739c4"
-  integrity sha512-PHaOC8eoudvMLhWQq4PVXdOMin4R4zFHBGLAgMaIlJZyjSajuH8PmuyppDOk6uAPvwFT9upe37mz+Rcot0N/2Q==
+"@pooltogether/hooks@0.1.21":
+  version "0.1.21"
+  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-0.1.21.tgz#ec9d3c7318b63e1fa1c313f8c7164d934f318d07"
+  integrity sha512-+RW3WIVFE5hz9jzJGoYQanRhq8YzvdDqIf9mWS7JpX88EmvikDCmh8JBlKKr3ofA2RT1U3Y90BgSst/nDfXrYg==
 
 "@pooltogether/loot-box@1.1.0":
   version "1.1.0"
@@ -3205,10 +3205,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-rng-contracts/-/pooltogether-rng-contracts-1.0.0.tgz#191d155dc960559cce06b7ec3b0f9ed2caed0f46"
   integrity sha512-jQub/+qPLQwTFtbBCvvyIEqxJDEBEV/hgLKnuocBg2/GySWtHLz67WCy17bNn1hZw8nWIt8Ih8h+7iT2UJhtmQ==
 
-"@pooltogether/react-components@0.2.12":
-  version "0.2.12"
-  resolved "https://registry.yarnpkg.com/@pooltogether/react-components/-/react-components-0.2.12.tgz#b21cc75a8c7d8359490bb76053be6016b91d83ce"
-  integrity sha512-6eZb+6Fr5dLOiIyRh4FXf79FzXyx/EmZoSOTh33odTM1MIKiZn+VfpjdRinfM/FZCQmvtj0G4tRCN9Bg4vMfUw==
+"@pooltogether/react-components@0.2.15":
+  version "0.2.15"
+  resolved "https://registry.yarnpkg.com/@pooltogether/react-components/-/react-components-0.2.15.tgz#5d1198bd514bb6dd1ee6cb88901f047e467f9bac"
+  integrity sha512-7zV487erhi2G51c8+FcYm3j3cOTt3sJlwatnEpbl2QkWdvKAeQIFrI2DuYkwkbB16UwS/PW+Xm9ImAcNLeJdgw==
   dependencies:
     "@download/blockies" "^1.0.3"
     "@pooltogether/evm-chains-extended" "^0.4.4"
