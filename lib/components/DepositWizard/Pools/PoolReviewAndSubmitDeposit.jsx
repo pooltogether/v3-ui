@@ -19,7 +19,7 @@ export const PoolReviewAndSubmitDeposit = (props) => {
   const { t } = useTranslation()
   const sendTx = useSendTransaction(t, poolToast)
 
-  const submitDepositTransaction = async () => {
+  const submitDepositTransaction = async (nextStep) => {
     const decimals = pool.tokens.underlyingToken.decimals
     const quantityBN = ethers.utils.parseUnits(quantity, decimals)
 
@@ -39,7 +39,12 @@ export const PoolReviewAndSubmitDeposit = (props) => {
       contractAbi: PrizePoolAbi,
       contractAddress,
       method: 'depositTo',
-      params
+      params,
+      callbacks: {
+        onSuccess: () => {
+          nextStep()
+        }
+      }
     })
   }
 

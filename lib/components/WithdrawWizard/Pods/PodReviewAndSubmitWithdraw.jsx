@@ -1,13 +1,12 @@
-import { ReviewAndSubmitWithdraw } from 'lib/components/WithdrawWizard/ReviewAndSubmitWithdraw'
-import { useRouter } from 'next/router'
 import React, { useCallback, useEffect } from 'react'
+import { ethers } from 'ethers'
 import { useTokenBalance, useUsersAddress, useSendTransaction } from '@pooltogether/hooks'
 import { Card, poolToast } from '@pooltogether/react-components'
-import { ethers } from 'ethers'
 import { getMinPrecision, getPrecision, numberWithCommas } from '@pooltogether/utilities'
 import { Trans, useTranslation } from 'react-i18next'
 
 import PodAbi from 'abis/PodAbi'
+import { ReviewAndSubmitWithdraw } from 'lib/components/WithdrawWizard/ReviewAndSubmitWithdraw'
 import { usePodExitFee } from 'lib/hooks/usePodExitFee'
 import { calculateOdds } from 'lib/utils/calculateOdds'
 import Bell from 'assets/images/bell-red@2x.png'
@@ -22,7 +21,6 @@ export const PodReviewAndSubmitWithdraw = (props) => {
     decimals
   } = pod.tokens.underlyingToken
 
-  const router = useRouter()
   const { t } = useTranslation()
   const sendTx = useSendTransaction(t, poolToast)
   const quantityUnformatted = ethers.utils.parseUnits(quantity || '0', decimals)
@@ -35,22 +33,30 @@ export const PodReviewAndSubmitWithdraw = (props) => {
     decimals
   )
 
-  const submitWithdrawTransaction = useCallback(async () => {
-    if (!isExitFeeFetched) {
-      return null
-    }
+  const submitWithdrawTransaction = useCallback(
+    async (nextStep) => {
+      if (!isExitFeeFetched) {
+        return null
+      }
 
-    const params = [quantityUnformatted, podExitFee.fee]
-    const txName = `${t('withdraw')} ${numberWithCommas(quantity)} ${tokenSymbol}`
+      const params = [quantityUnformatted, podExitFee.fee]
+      const txName = `${t('withdraw')} ${numberWithCommas(quantity)} ${tokenSymbol}`
 
-    return await sendTx({
-      name: txName,
-      contractAbi: PodAbi,
-      contractAddress,
-      method: 'withdraw',
-      params
-    })
-  }, [isExitFeeFetched, podExitFee, quantityUnformatted, contractAddress])
+      return await sendTx({
+        name: txName,
+        contractAbi: PodAbi,
+        contractAddress,
+        method: 'withdraw',
+        params,
+        callbacks: {
+          onSuccess: () => {
+            nextStep()
+          }
+        }
+      })
+    },
+    [isExitFeeFetched, podExitFee, quantityUnformatted, contractAddress]
+  )
 
   return (
     <ReviewAndSubmitWithdraw

@@ -96,15 +96,9 @@ const SubmitWithdraw = (props) => {
 
   const handleWithdrawClick = async (e) => {
     e.preventDefault()
-    const id = await submitWithdrawTransaction()
+    const id = await submitWithdrawTransaction(nextStep)
     setWithdrawTxId(id)
   }
-
-  useEffect(() => {
-    if (tx?.completed && !tx?.cancelled && !tx?.error) {
-      nextStep()
-    }
-  }, [tx?.completed])
 
   return (
     <>
@@ -118,6 +112,7 @@ const SubmitWithdraw = (props) => {
       <ButtonDrawer>
         {!txPending && (
           <ButtonTx
+            isCentered
             border='orange'
             text='orange'
             bg='transparent'

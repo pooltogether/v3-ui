@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import {
@@ -70,19 +70,22 @@ export function ConfirmWithdrawNoFee(props) {
       contractAbi: PrizePoolAbi,
       contractAddress: poolAddress,
       method,
-      params
+      params,
+      callbacks: {
+        onCancelled: () => {
+          previousStep()
+        },
+        onError: () => {
+          previousStep()
+        },
+        onSuccess: () => {
+          nextStep()
+        }
+      }
     })
 
     setTxId(id)
   }
-
-  useEffect(() => {
-    if (tx?.cancelled || tx?.error) {
-      previousStep()
-    } else if (tx?.completed) {
-      nextStep()
-    }
-  }, [tx])
 
   return (
     <>

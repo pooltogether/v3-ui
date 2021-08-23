@@ -119,19 +119,22 @@ export function ConfirmWithdrawWithFeeForm(props) {
       contractAbi: PrizePoolAbi,
       contractAddress: poolAddress,
       method,
-      params
+      params,
+      callbacks: {
+        onCancelled: () => {
+          previousStep()
+        },
+        onError: () => {
+          previousStep()
+        },
+        onSuccess: () => {
+          nextStep()
+        }
+      }
     })
 
     setTxId(id)
   }
-
-  useEffect(() => {
-    if (tx?.cancelled || tx?.error) {
-      previousStep()
-    } else if (tx?.completed) {
-      nextStep()
-    }
-  }, [tx])
 
   return (
     <>

@@ -17,7 +17,7 @@ export const PodReviewAndSubmitDeposit = (props) => {
   const { t } = useTranslation()
   const sendTx = useSendTransaction(t, poolToast)
 
-  const submitDepositTransaction = async () => {
+  const submitDepositTransaction = async (nextStep) => {
     const decimals = pod.tokens.underlyingToken.decimals
     const quantityBN = ethers.utils.parseUnits(quantity, decimals)
 
@@ -29,7 +29,12 @@ export const PodReviewAndSubmitDeposit = (props) => {
       contractAbi: PodAbi,
       contractAddress,
       method: 'depositTo',
-      params
+      params,
+      callbacks: {
+        onSuccess: () => {
+          nextStep()
+        }
+      }
     })
   }
 

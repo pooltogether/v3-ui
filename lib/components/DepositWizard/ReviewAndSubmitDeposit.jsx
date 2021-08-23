@@ -232,6 +232,7 @@ const ApproveDeposit = (props) => {
       <ButtonDrawer>
         {!txPending && (
           <ButtonTx
+            isCentered
             tx={tx}
             chainId={chainId}
             textSize='lg'
@@ -271,15 +272,10 @@ const SubmitDeposit = (props) => {
 
   const handleDepositClick = async (e) => {
     e.preventDefault()
-    const id = await submitDepositTransaction()
+    console.log(nextStep)
+    const id = await submitDepositTransaction(nextStep)
     setDepositTxId(id)
   }
-
-  useEffect(() => {
-    if (tx?.completed && !tx?.cancelled && !tx?.error) {
-      nextStep()
-    }
-  }, [tx?.completed])
 
   return (
     <>
@@ -296,6 +292,7 @@ const SubmitDeposit = (props) => {
       <ButtonDrawer>
         {!txPending && (
           <ButtonTx
+            isCentered
             border='green'
             text='primary'
             bg='green'

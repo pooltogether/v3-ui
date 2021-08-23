@@ -1,23 +1,16 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-<<<<<<< HEAD
-import { useCurrentPool, useUsersAddress } from '@pooltogether/hooks'
-import { Button } from '@pooltogether/react-components'
-=======
-import { useUsersAddress, useSendTransaction, useTransaction } from '@pooltogether/hooks'
+import {
+  useCurrentPool,
+  useSendTransaction,
+  useTransaction,
+  useUsersAddress
+} from '@pooltogether/hooks'
 import { Button, poolToast } from '@pooltogether/react-components'
-import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
->>>>>>> 0213bde7 (migrate to new hooks and components package)
 import { useTranslation } from 'react-i18next'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 
-<<<<<<< HEAD
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useTransaction } from 'lib/hooks/useTransaction'
-=======
-import { useCurrentPool } from 'lib/hooks/usePools'
->>>>>>> 0213bde7 (migrate to new hooks and components package)
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export function WithdrawSponsorshipTxButton(props) {

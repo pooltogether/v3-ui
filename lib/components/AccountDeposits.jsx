@@ -95,7 +95,7 @@ const NoTicketsState = (props) => {
           {t('depositInAPoolNow')}
         </div>
         <Link href='/' as='/'>
-          <a>{t('viewPools')}</a>
+          <a className='new-btn px-3 py-1 my-3 inline-block'>{t('viewPools')}</a>
         </Link>
       </Card>
     )
