@@ -96,12 +96,8 @@ const UsersWinningOdds = (props) => {
       }
     } else if (!isQuantityValid) {
       setIsQuantityValid(true)
-    }
-  }, [quantity])
 
-  useEffect(() => {
-    const isNotANumber = isNaN(quantity)
-    if (isQuantityValid) {
+      // Check if balance is enough
       const quantityUnformatted = ethers.utils.parseUnits(quantity, decimals)
       if (isUsersBalanceEnough && quantityUnformatted.gt(usersUnderlyingBalanceUnformatted)) {
         setIsUsersBalanceEnough(false)
@@ -112,7 +108,7 @@ const UsersWinningOdds = (props) => {
         setIsUsersBalanceEnough(true)
       }
     }
-  }, [isQuantityValid, quantity])
+  }, [quantity])
 
   if ((usersAddress && !isFetched) || !isQuantityValid) {
     return (
@@ -127,7 +123,10 @@ const UsersWinningOdds = (props) => {
   }
 
   // New balance of user
-  const quantityUnformatted = ethers.utils.parseUnits(quantity || '0', decimals)
+  const quantityUnformatted =
+    isNaN(quantity) || getMaxPrecision(quantity) > decimals
+      ? ethers.utils.parseUnits('0', decimals)
+      : ethers.utils.parseUnits(quantity || '0', decimals)
   const usersNewBalanceUnformatted = quantityUnformatted.add(
     usersTicketBalanceUnformatted || ethers.constants.Zero
   )
