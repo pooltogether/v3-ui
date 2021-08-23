@@ -3148,10 +3148,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/fixed-point/-/fixed-point-1.0.0-beta.2.tgz#d76a1e77f21833e9b680296d65526b0ffd7415d7"
   integrity sha512-aUw4R0Z2oM0AK3W4LIXyBaojTOzRRbhLDHX0egeuvxfjy4gBb6X66v81gI7Wngg/7O0y9QL/B8jWkUnAFzhTig==
 
-"@pooltogether/hooks@0.1.21":
-  version "0.1.21"
-  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-0.1.21.tgz#ec9d3c7318b63e1fa1c313f8c7164d934f318d07"
-  integrity sha512-+RW3WIVFE5hz9jzJGoYQanRhq8YzvdDqIf9mWS7JpX88EmvikDCmh8JBlKKr3ofA2RT1U3Y90BgSst/nDfXrYg==
+"@pooltogether/hooks@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-0.2.0.tgz#14f7ca778d316b45d28757344e593de247e3cbd4"
+  integrity sha512-kmu1sHXXuyKRYHD6bP4OpX/Yjaow8h7GsksmW0esbvEBK03P5xmFs5cfYyzrbwLjR+QiH+B81P0biShnzRn5Xw==
 
 "@pooltogether/loot-box@1.1.0":
   version "1.1.0"

@@ -13,7 +13,8 @@ import {
   useInitializeOnboard,
   useInitInfuraId,
   useInitQuickNodeId,
-  useInitReducedMotion
+  useInitReducedMotion,
+  useInitTheGraphApiKey
 } from '@pooltogether/hooks'
 import {
   ToastContainer,
@@ -211,6 +212,7 @@ function MyApp({ Component, pageProps, router }) {
 
 const InitPoolTogetherHooks = ({ children }) => {
   useInitInfuraId(process.env.NEXT_JS_INFURA_ID)
+  useInitTheGraphApiKey(process.env.NEXT_JS_THE_GRAPH_API_KEY)
   useInitQuickNodeId(process.env.NEXT_JS_QUICKNODE_ID)
   useInitReducedMotion(Boolean(process.env.NEXT_JS_REDUCE_MOTION))
   useInitCookieOptions(process.env.NEXT_JS_DOMAIN_NAME)
