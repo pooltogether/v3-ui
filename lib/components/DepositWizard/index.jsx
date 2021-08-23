@@ -28,7 +28,7 @@ export const DepositWizard = (props) => {
   const router = useRouter()
   const { quantity, prevTicketBalance, prevUnderlyingBalance } = router.query
 
-  const { network: walletChainId, address: usersAddress } = useOnboard()
+  const { network: walletChainId } = useOnboard()
 
   const [isUserOnCorrectNetwork, setIsUserOnCorrectNetwork] = useState(walletChainId === chainId)
 
@@ -122,7 +122,6 @@ export const DepositWizard = (props) => {
         {activeStepIndex === 2 && (
           <DepositReceipt
             {...DepositReceiptProps}
-            nextStep={nextStep}
             key={2}
             tokenAddress={tokenAddress}
             contractAddress={contractAddress}

@@ -35,7 +35,7 @@ const ConnectWallet = (props) => {
     <>
       <ReviewAmountAndTitle {...props} />
       <div>
-        <Button textSize='xl' onClick={() => connectWallet()}>
+        <Button textSize='lg' onClick={() => connectWallet()}>
           {t('connectWallet')}
         </Button>
       </div>
@@ -116,8 +116,8 @@ const SubmitWithdraw = (props) => {
         inWalletMessage={t('confirmWithdrawInYourWallet')}
         sentMessage={t('withdrawConfirming')}
       />
-      {!txPending && (
-        <ButtonDrawer>
+      <ButtonDrawer>
+        {!txPending && (
           <ButtonTx
             border='orange'
             text='orange'
@@ -134,8 +134,8 @@ const SubmitWithdraw = (props) => {
               ? t('withdrawTickerAndPay', { ticker: tokenSymbol })
               : t('withdrawTicker', { ticker: tokenSymbol })}
           </ButtonTx>
-        </ButtonDrawer>
-      )}
+        )}
+      </ButtonDrawer>
     </>
   )
 }

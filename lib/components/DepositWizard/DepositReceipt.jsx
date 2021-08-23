@@ -1,9 +1,9 @@
 import React from 'react'
+import Link from 'next/link'
 import { Trans, useTranslation } from 'react-i18next'
 import { Amount, ButtonLink, Card } from '@pooltogether/react-components'
 import { useIsWalletMetamask } from '@pooltogether/hooks'
 import { getTimeBreakdown, numberWithCommas } from '@pooltogether/utilities'
-import Link from 'next/link'
 
 import { useConfetti } from 'lib/hooks/useConfetti'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
@@ -13,12 +13,9 @@ import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWord
 export const DepositReceipt = (props) => {
   const {
     quantity,
-    prevUnderlyingBalance,
-    prevTicketBalance,
     ticketAddress,
     ticketDecimals,
     ticketSymbol,
-    underlyingTokenSymbol,
     prizePeriodSeconds,
     prizePeriodStartedAt,
     isRngRequested,

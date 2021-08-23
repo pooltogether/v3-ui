@@ -17,7 +17,7 @@ export function PaneTitle(props) {
 
   return (
     <div
-      className={`leading-snug xs:leading-relaxed ${fontClasses} ${spacingClasses} mx-auto`}
+      className={`leading-snug xs:leading-relaxed ${fontClasses} ${spacingClasses} mx-auto mt-2`}
       style={{
         maxWidth: 550
       }}
