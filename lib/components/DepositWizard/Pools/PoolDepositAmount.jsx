@@ -65,7 +65,6 @@ const UsersWinningOdds = (props) => {
     usersTicketBalanceUnformatted,
     usersUnderlyingBalanceUnformatted,
     quantity,
-    underlyingToken,
     numberOfWinners,
     ticketTotalSupplyUnformatted
   } = props
@@ -75,29 +74,29 @@ const UsersWinningOdds = (props) => {
   const [isQuantityValid, setIsQuantityValid] = useState(false)
   const [isUsersBalanceEnough, setIsUsersBalanceEnough] = useState(true)
 
+  const quantityDecimalPrecisionOverflow = getMaxPrecision(quantity) > decimals
+  const quantityIsZero = ethers.utils.parseUnits(quantity, decimals).isZero()
+
   // Validate quantity input before calculating odds
   useEffect(() => {
     const isNotANumber = isNaN(quantity)
-    if (!quantity) {
-      setIsQuantityValid(false)
-    } else if (isNotANumber) {
-      setIsQuantityValid(false)
-    } else if (getMaxPrecision(quantity) > decimals) {
-      setIsQuantityValid(false)
-    } else if (ethers.utils.parseUnits(quantity, decimals).isZero()) {
+    if (!quantity || isNotANumber || quantityDecimalPrecisionOverflow || quantityIsZero) {
+      console.log('set false')
       setIsQuantityValid(false)
     } else if (!isQuantityValid) {
       setIsQuantityValid(true)
 
       // Check if balance is enough
-      const quantityUnformatted = ethers.utils.parseUnits(quantity, decimals)
-      if (isUsersBalanceEnough && quantityUnformatted.gt(usersUnderlyingBalanceUnformatted)) {
-        setIsUsersBalanceEnough(false)
-      } else if (
-        !isUsersBalanceEnough &&
-        usersUnderlyingBalanceUnformatted.gte(quantityUnformatted)
-      ) {
-        setIsUsersBalanceEnough(true)
+      if (usersUnderlyingBalanceUnformatted) {
+        const quantityUnformatted = ethers.utils.parseUnits(quantity, decimals)
+        if (isUsersBalanceEnough && quantityUnformatted?.gt(usersUnderlyingBalanceUnformatted)) {
+          setIsUsersBalanceEnough(false)
+        } else if (
+          !isUsersBalanceEnough &&
+          usersUnderlyingBalanceUnformatted.gte(quantityUnformatted)
+        ) {
+          setIsUsersBalanceEnough(true)
+        }
       }
     }
   }, [quantity])
