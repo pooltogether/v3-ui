@@ -75,25 +75,17 @@ const UsersWinningOdds = (props) => {
   const [isQuantityValid, setIsQuantityValid] = useState(false)
   const [isUsersBalanceEnough, setIsUsersBalanceEnough] = useState(true)
 
-  // Validate for calculating odds
+  // Validate quantity input before calculating odds
   useEffect(() => {
     const isNotANumber = isNaN(quantity)
     if (!quantity) {
-      if (isQuantityValid) {
-        setIsQuantityValid(false)
-      }
+      setIsQuantityValid(false)
     } else if (isNotANumber) {
-      if (isQuantityValid) {
-        setIsQuantityValid(false)
-      }
+      setIsQuantityValid(false)
     } else if (getMaxPrecision(quantity) > decimals) {
-      if (isQuantityValid) {
-        setIsQuantityValid(false)
-      }
+      setIsQuantityValid(false)
     } else if (ethers.utils.parseUnits(quantity, decimals).isZero()) {
-      if (isQuantityValid) {
-        setIsQuantityValid(false)
-      }
+      setIsQuantityValid(false)
     } else if (!isQuantityValid) {
       setIsQuantityValid(true)
 
