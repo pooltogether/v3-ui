@@ -6,7 +6,16 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'
-import { APP_ENVIRONMENT, useAppEnv, useOnboard, useUsersAddress } from '@pooltogether/hooks'
+import {
+  APP_ENVIRONMENT,
+  useAppEnv,
+  useOnboard,
+  useUsersAddress,
+  useUserTicketsFormattedByPool,
+  useGovernancePools,
+  usePoolTokenData
+} from '@pooltogether/hooks'
+
 import { ExternalLink, LinkTheme, Tooltip } from '@pooltogether/react-components'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
@@ -24,11 +33,8 @@ import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
-import { useGovernancePools } from 'lib/hooks/usePools'
-import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { useUsersTokenBalanceAndAllowance } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 import { findSponsorshipFaucet } from 'lib/utils/findSponsorshipFaucet'

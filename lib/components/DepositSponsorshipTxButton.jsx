@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useRouter } from 'next/router'
+import { useUsersAddress, useCurrentPool } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
-import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 import { Button, Tooltip } from '@pooltogether/react-components'
+import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 
-import { useCurrentPool } from 'lib/hooks/usePools'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -17,6 +17,7 @@ export function DepositSponsorshipTxButton(props) {
 
   const usersAddress = useUsersAddress()
 
+  const router = useRouter()
   const { data: pool } = useCurrentPool()
 
   const poolAddress = pool.prizePool.address

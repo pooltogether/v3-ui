@@ -1,9 +1,11 @@
 import React from 'react'
-import { useUsersAddress } from '@pooltogether/hooks'
 import FeatherIcon from 'feather-icons-react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
+import { useCurrentPool, useAllPools, useUsersAddress } from '@pooltogether/hooks'
 import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
 
-import { useTranslation } from 'react-i18next'
 import { CardGrid } from 'lib/components/CardGrid'
 import { PoolActionsUI } from 'lib/components/PoolActionsUI'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
@@ -12,10 +14,8 @@ import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { Meta } from 'lib/components/Meta'
 import { SponsorshipPane } from 'lib/components/SponsorshipPane'
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
-import { useCurrentPool, useAllPools } from 'lib/hooks/usePools'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import Link from 'next/link'
 
 export const ManageUI = (props) => {
   const { t } = useTranslation()
@@ -23,7 +23,8 @@ export const ManageUI = (props) => {
   const usersAddress = useUsersAddress()
   const { isFetched } = useAllPools()
 
-  const { data: pool } = useCurrentPool()
+  const router = useRouter()
+  const { data: pool } = useCurrentPool(router)
   const { contractAddresses } = useContractAddresses(pool?.chainId)
 
   if (!pool || !isFetched) {

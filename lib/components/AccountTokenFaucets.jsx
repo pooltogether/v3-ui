@@ -1,4 +1,7 @@
 import React, { useMemo, useState } from 'react'
+import Link from 'next/link'
+import classnames from 'classnames'
+import CountUp from 'react-countup'
 import {
   APP_ENVIRONMENT,
   useAppEnv,
@@ -23,13 +26,10 @@ import {
   numberWithCommas
 } from '@pooltogether/utilities'
 import { usePreviousValue } from 'beautiful-react-hooks'
-import classnames from 'classnames'
 import { useAtom } from 'jotai'
-import CountUp from 'react-countup'
 import { useTranslation } from 'react-i18next'
-import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts_3_3/abis/TokenFaucetProxyFactory'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
+import TokenFaucetProxyFactoryAbi from '@pooltogether/pooltogether-contracts_3_3/abis/TokenFaucetProxyFactory'
 
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { isSelfAtom } from 'lib/components/AccountUI'

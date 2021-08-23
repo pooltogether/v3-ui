@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useCurrentPool, useUsersAddress } from '@pooltogether/hooks'
 
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 
@@ -12,7 +12,6 @@ import { Banner } from 'lib/components/Banner'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useCurrentPool } from 'lib/hooks/usePools'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { TxStatus } from 'lib/components/TxStatus'
 import { useTransaction } from 'lib/hooks/useTransaction'
@@ -28,6 +27,7 @@ export function ExecuteCryptoDeposit(props) {
   const quantity = router.query.quantity
 
   const usersAddress = useUsersAddress()
+
   const { data: pool } = useCurrentPool()
 
   const underlyingToken = pool.tokens.underlyingToken

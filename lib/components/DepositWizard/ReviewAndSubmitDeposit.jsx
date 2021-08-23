@@ -54,6 +54,7 @@ export const ReviewAndSubmitDeposit = (props) => {
   const isQuantityValid = isUsersBalanceFetched
     ? usersBalanceUnformatted.gte(quantityUnformatted)
     : false
+  console.log({ isQuantityValid })
 
   if (!usersAddress) {
     return <ConnectWallet {...props} connectWallet={connectWallet} />
