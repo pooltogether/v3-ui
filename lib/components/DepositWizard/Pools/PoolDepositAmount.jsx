@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import classnames from 'classnames'
 import { useTokenBalances, useUsersAddress } from '@pooltogether/hooks'
+import { getMaxPrecision } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
 
 import { DepositAmount } from 'lib/components/DepositWizard/DepositAmount'
@@ -43,9 +44,10 @@ export const PoolDepositAmount = (props) => {
       />
       <UsersWinningOdds
         usersAddress={usersAddress}
-        isQuantityValid={formState.isValid}
+        decimals={decimals}
         isFetched={isUsersBalanceFetched}
         usersTicketBalanceUnformatted={usersBalance?.[poolTicketAddress].amountUnformatted}
+        usersUnderlyingBalanceUnformatted={usersBalance?.[tokenAddress].amountUnformatted}
         quantity={quantity}
         underlyingToken={pool.tokens.underlyingToken}
         numberOfWinners={pool.config.numberOfWinners}
@@ -58,9 +60,10 @@ export const PoolDepositAmount = (props) => {
 const UsersWinningOdds = (props) => {
   const {
     usersAddress,
-    isQuantityValid,
+    decimals,
     isFetched,
     usersTicketBalanceUnformatted,
+    usersUnderlyingBalanceUnformatted,
     quantity,
     underlyingToken,
     numberOfWinners,
@@ -68,6 +71,36 @@ const UsersWinningOdds = (props) => {
   } = props
 
   const { t } = useTranslation()
+
+  const [isQuantityValid, setIsQuantityValid] = useState(false)
+  const [isUsersBalanceEnough, setIsUsersBalanceEnough] = useState(true)
+
+  // Validate quantity input before calculating odds
+  useEffect(() => {
+    const isNotANumber = isNaN(quantity)
+    if (!quantity) {
+      setIsQuantityValid(false)
+    } else if (isNotANumber) {
+      setIsQuantityValid(false)
+    } else if (getMaxPrecision(quantity) > decimals) {
+      setIsQuantityValid(false)
+    } else if (ethers.utils.parseUnits(quantity, decimals).isZero()) {
+      setIsQuantityValid(false)
+    } else if (!isQuantityValid) {
+      setIsQuantityValid(true)
+
+      // Check if balance is enough
+      const quantityUnformatted = ethers.utils.parseUnits(quantity, decimals)
+      if (isUsersBalanceEnough && quantityUnformatted.gt(usersUnderlyingBalanceUnformatted)) {
+        setIsUsersBalanceEnough(false)
+      } else if (
+        !isUsersBalanceEnough &&
+        usersUnderlyingBalanceUnformatted.gte(quantityUnformatted)
+      ) {
+        setIsUsersBalanceEnough(true)
+      }
+    }
+  }, [quantity])
 
   if ((usersAddress && !isFetched) || !isQuantityValid) {
     return (
@@ -81,9 +114,11 @@ const UsersWinningOdds = (props) => {
     )
   }
 
-  const decimals = underlyingToken.decimals
   // New balance of user
-  const quantityUnformatted = ethers.utils.parseUnits(quantity || '0', decimals)
+  const quantityUnformatted =
+    isNaN(quantity) || getMaxPrecision(quantity) > decimals
+      ? ethers.utils.parseUnits('0', decimals)
+      : ethers.utils.parseUnits(quantity || '0', decimals)
   const usersNewBalanceUnformatted = quantityUnformatted.add(
     usersTicketBalanceUnformatted || ethers.constants.Zero
   )
@@ -101,6 +136,7 @@ const UsersWinningOdds = (props) => {
             decimals={decimals}
             numberOfWinners={numberOfWinners}
             usersBalance={usersNewBalanceUnformatted}
+            textFlashy={isUsersBalanceEnough}
           />
         )}
       </div>
