@@ -12,7 +12,7 @@ import { calculateOdds } from 'lib/utils/calculateOdds'
 import Bell from 'assets/images/bell-red@2x.png'
 
 export const PodReviewAndSubmitWithdraw = (props) => {
-  const { pod, contractAddress, quantity } = props
+  const { pod, contractAddress, quantity, nextStep } = props
   const chainId = pod.metadata.chainId
   const podAddress = pod.pod.address
   const {
@@ -33,30 +33,27 @@ export const PodReviewAndSubmitWithdraw = (props) => {
     decimals
   )
 
-  const submitWithdrawTransaction = useCallback(
-    async (nextStep) => {
-      if (!isExitFeeFetched) {
-        return null
-      }
+  const submitWithdrawTransaction = useCallback(async () => {
+    if (!isExitFeeFetched) {
+      return null
+    }
 
-      const params = [quantityUnformatted, podExitFee.fee]
-      const txName = `${t('withdraw')} ${numberWithCommas(quantity)} ${tokenSymbol}`
+    const params = [quantityUnformatted, podExitFee.fee]
+    const txName = `${t('withdraw')} ${numberWithCommas(quantity)} ${tokenSymbol}`
 
-      return await sendTx({
-        name: txName,
-        contractAbi: PodAbi,
-        contractAddress,
-        method: 'withdraw',
-        params,
-        callbacks: {
-          onSuccess: () => {
-            nextStep()
-          }
+    return await sendTx({
+      name: txName,
+      contractAbi: PodAbi,
+      contractAddress,
+      method: 'withdraw',
+      params,
+      callbacks: {
+        onSuccess: () => {
+          nextStep()
         }
-      })
-    },
-    [isExitFeeFetched, podExitFee, quantityUnformatted, contractAddress]
-  )
+      }
+    })
+  }, [isExitFeeFetched, podExitFee, quantityUnformatted, contractAddress])
 
   return (
     <ReviewAndSubmitWithdraw

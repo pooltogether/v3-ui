@@ -85,9 +85,9 @@ const SubmitWithdraw = (props) => {
     setWithdrawTxId,
     tokenSymbol,
     submitWithdrawTransaction,
-    nextStep,
     hasExitFee
   } = props
+
   const { t } = useTranslation()
 
   const tx = useTransaction(withdrawTxId)
@@ -96,7 +96,7 @@ const SubmitWithdraw = (props) => {
 
   const handleWithdrawClick = async (e) => {
     e.preventDefault()
-    const id = await submitWithdrawTransaction(nextStep)
+    const id = await submitWithdrawTransaction()
     setWithdrawTxId(id)
   }
 

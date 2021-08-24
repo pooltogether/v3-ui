@@ -12,14 +12,14 @@ import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
 
 export const PoolReviewAndSubmitDeposit = (props) => {
-  const { pool, contractAddress, quantity } = props
+  const { pool, contractAddress, quantity, nextStep } = props
   const tokenSymbol = pool.tokens.underlyingToken.symbol
   const controlledTicketTokenAddress = pool.tokens.ticket.address
   const usersAddress = useUsersAddress()
   const { t } = useTranslation()
   const sendTx = useSendTransaction(t, poolToast)
 
-  const submitDepositTransaction = async (nextStep) => {
+  const submitDepositTransaction = async () => {
     const decimals = pool.tokens.underlyingToken.decimals
     const quantityBN = ethers.utils.parseUnits(quantity, decimals)
 

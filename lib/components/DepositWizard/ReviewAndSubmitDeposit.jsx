@@ -255,15 +255,8 @@ const ApproveDeposit = (props) => {
 }
 
 const SubmitDeposit = (props) => {
-  const {
-    chainId,
-    depositTxId,
-    setDepositTxId,
-    tokenSymbol,
-    submitDepositTransaction,
-    nextStep,
-    cards
-  } = props
+  const { chainId, depositTxId, setDepositTxId, tokenSymbol, submitDepositTransaction, cards } =
+    props
   const { t } = useTranslation()
 
   const tx = useTransaction(depositTxId)
@@ -272,8 +265,7 @@ const SubmitDeposit = (props) => {
 
   const handleDepositClick = async (e) => {
     e.preventDefault()
-    console.log(nextStep)
-    const id = await submitDepositTransaction(nextStep)
+    const id = await submitDepositTransaction()
     setDepositTxId(id)
   }
 
