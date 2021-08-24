@@ -10,13 +10,13 @@ import PodAbi from 'abis/PodAbi'
 import Bell from 'assets/images/bell-red@2x.png'
 
 export const PodReviewAndSubmitDeposit = (props) => {
-  const { pod, contractAddress, quantity } = props
+  const { pod, contractAddress, quantity, nextStep } = props
   const tokenSymbol = pod.tokens.underlyingToken.symbol
   const usersAddress = useUsersAddress()
   const { t } = useTranslation()
   const sendTx = useSendTransaction(t, poolToast)
 
-  const submitDepositTransaction = async (nextStep) => {
+  const submitDepositTransaction = async () => {
     const decimals = pod.tokens.underlyingToken.decimals
     const quantityBN = ethers.utils.parseUnits(quantity, decimals)
 

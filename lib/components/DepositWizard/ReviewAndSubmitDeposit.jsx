@@ -30,7 +30,8 @@ import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { TxStatus } from 'lib/components/TxStatus'
 
 export const ReviewAndSubmitDeposit = (props) => {
-  const { chainId, tokenAddress, contractAddress, isUserOnCorrectNetwork, quantity } = props
+  const { chainId, tokenAddress, contractAddress, isUserOnCorrectNetwork, quantity, depositTxId } =
+    props
 
   const { network: walletChainId, address: usersAddress, connectWallet } = useOnboard()
 
@@ -55,6 +56,9 @@ export const ReviewAndSubmitDeposit = (props) => {
     ? usersBalanceUnformatted.gte(quantityUnformatted)
     : false
 
+  const tx = useTransaction(depositTxId)
+  const txPending = (tx?.inWallet || tx?.sent) && !tx?.cancelled && !tx?.error
+
   if (!usersAddress) {
     return <ConnectWallet {...props} connectWallet={connectWallet} />
   } else if (!isFetched || !isUsersBalanceFetched) {
@@ -67,7 +71,7 @@ export const ReviewAndSubmitDeposit = (props) => {
         isValidAllowance={isValidAllowance}
       />
     )
-  } else if (!isQuantityValid) {
+  } else if (!isQuantityValid && !txPending) {
     return <InvalidQuantity {...props} usersBalance={usersBalance?.[tokenAddress].amount} />
   } else if (!tokenAllowanceData?.isAllowed) {
     return (
@@ -255,15 +259,8 @@ const ApproveDeposit = (props) => {
 }
 
 const SubmitDeposit = (props) => {
-  const {
-    chainId,
-    depositTxId,
-    setDepositTxId,
-    tokenSymbol,
-    submitDepositTransaction,
-    nextStep,
-    cards
-  } = props
+  const { chainId, depositTxId, setDepositTxId, tokenSymbol, submitDepositTransaction, cards } =
+    props
   const { t } = useTranslation()
 
   const tx = useTransaction(depositTxId)
@@ -272,8 +269,7 @@ const SubmitDeposit = (props) => {
 
   const handleDepositClick = async (e) => {
     e.preventDefault()
-    console.log(nextStep)
-    const id = await submitDepositTransaction(nextStep)
+    const id = await submitDepositTransaction()
     setDepositTxId(id)
   }
 
