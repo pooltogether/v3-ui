@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
-import { Button, NetworkIcon } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
+import { Button, NetworkIcon } from '@pooltogether/react-components'
+import { useIsWalletMetamask } from '@pooltogether/hooks'
 
 import { ETHEREUM_NETWORKS } from 'lib/constants'
 import { Banner } from 'lib/components/Banner'
@@ -11,7 +12,6 @@ import { useAddNetworkToMetamask } from 'lib/hooks/useAddNetworkToMetamask'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
 import IconNetwork from 'assets/images/icon-network@2x.png'
-import { useIsWalletMetamask, useOnboard } from '@pooltogether/hooks'
 
 export function WizardSwitchNetwork(props) {
   const { t } = useTranslation()

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { NetworkIcon } from '@pooltogether/react-components'
+import { useGovernancePools } from '@pooltogether/hooks'
 import { NETWORK } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
 
@@ -10,7 +11,6 @@ import { PoolRow } from 'lib/components/PoolRow'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { PoolsListRowLoader, PoolsListUILoader } from 'lib/components/loaders/PoolsListUILoader'
-import { useGovernancePools } from 'lib/hooks/usePools'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
 import { ALL_NETWORKS_ID, getNetworkNiceNameByChainId } from 'lib/utils/networks'
@@ -187,8 +187,8 @@ const usePoolFilters = () => {
         view: (
           <div className='flex'>
             <div className='flex flex-row-reverse'>
-              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-4' chainId={NETWORK.bsc} />
-              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-4' chainId={NETWORK.mainnet} />
+              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-3' chainId={NETWORK.bsc} />
+              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-3' chainId={NETWORK.mainnet} />
               <NetworkIcon sizeClassName='my-auto h-6 w-6' chainId={NETWORK.polygon} />
             </div>
             <span className='capitalize ml-2'>{t('allNetworks')}</span>

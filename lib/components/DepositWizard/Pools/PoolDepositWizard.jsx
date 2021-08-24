@@ -1,12 +1,12 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+import { usePoolBySymbol } from '@pooltogether/hooks'
 
 import { DepositWizard } from 'lib/components/DepositWizard'
 import { PoolDepositAmount } from 'lib/components/DepositWizard/Pools/PoolDepositAmount'
 import { PoolReviewAndSubmitDeposit } from 'lib/components/DepositWizard/Pools/PoolReviewAndSubmitDeposit'
 import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
 import { PoolDepositReceipt } from 'lib/components/DepositWizard/Pools/PoolDepositReceipt'
-import { usePoolBySymbol } from 'lib/hooks/usePools'
 
 export const PoolDepositWizard = (props) => {
   const router = useRouter()

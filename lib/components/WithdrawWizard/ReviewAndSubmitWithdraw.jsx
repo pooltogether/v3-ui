@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useOnboard } from '@pooltogether/hooks'
+import { useOnboard, useTransaction } from '@pooltogether/hooks'
 import { Button, Tooltip } from '@pooltogether/react-components'
 import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
@@ -9,7 +9,6 @@ import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPa
 import IconNetwork from 'assets/images/icon-network@2x.png'
 import { Banner } from 'lib/components/Banner'
 import { ButtonTx } from 'lib/components/ButtonTx'
-import { useTransaction } from 'lib/hooks/useTransaction'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { TxStatus } from 'lib/components/TxStatus'
 import { ConnectToNetworkContent } from 'lib/components/DepositWizard/ReviewAndSubmitDeposit'
@@ -35,7 +34,7 @@ const ConnectWallet = (props) => {
     <>
       <ReviewAmountAndTitle {...props} />
       <div>
-        <Button textSize='xl' onClick={() => connectWallet()}>
+        <Button textSize='lg' onClick={() => connectWallet()}>
           {t('connectWallet')}
         </Button>
       </div>
@@ -86,9 +85,9 @@ const SubmitWithdraw = (props) => {
     setWithdrawTxId,
     tokenSymbol,
     submitWithdrawTransaction,
-    nextStep,
     hasExitFee
   } = props
+
   const { t } = useTranslation()
 
   const tx = useTransaction(withdrawTxId)
@@ -101,12 +100,6 @@ const SubmitWithdraw = (props) => {
     setWithdrawTxId(id)
   }
 
-  useEffect(() => {
-    if (tx?.completed && !tx?.cancelled && !tx?.error) {
-      nextStep()
-    }
-  }, [tx?.completed])
-
   return (
     <>
       <ReviewAmountAndTitle {...props} />
@@ -116,9 +109,10 @@ const SubmitWithdraw = (props) => {
         inWalletMessage={t('confirmWithdrawInYourWallet')}
         sentMessage={t('withdrawConfirming')}
       />
-      {!txPending && (
-        <ButtonDrawer>
+      <ButtonDrawer>
+        {!txPending && (
           <ButtonTx
+            isCentered
             border='orange'
             text='orange'
             bg='transparent'
@@ -134,8 +128,8 @@ const SubmitWithdraw = (props) => {
               ? t('withdrawTickerAndPay', { ticker: tokenSymbol })
               : t('withdrawTicker', { ticker: tokenSymbol })}
           </ButtonTx>
-        </ButtonDrawer>
-      )}
+        )}
+      </ButtonDrawer>
     </>
   )
 }

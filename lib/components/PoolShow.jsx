@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { useInterval } from 'beautiful-react-hooks'
-import { useOnboard } from '@pooltogether/hooks'
+import { useOnboard, usePoolBySymbol, useRouterChainId } from '@pooltogether/hooks'
 import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
 import { Button } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
@@ -31,11 +31,8 @@ import { Meta } from 'lib/components/Meta'
 import { RevokePoolAllowanceTxButton } from 'lib/components/RevokePoolAllowanceTxButton'
 import { useIsPoolYieldSourceKnown } from 'lib/hooks/useIsPoolYieldSourceKnown'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
-import { usePoolBySymbol } from 'lib/hooks/usePools'
 import { translatedPoolName } from 'lib/utils/translatedPoolName'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
-
-import { useRouterChainId } from 'lib/hooks/chainId/useRouterChainId'
 
 import Bell from 'assets/images/bell-yellow@2x.png'
 import { PRIZE_POOL_TYPES } from '@pooltogether/current-pool-data'
@@ -44,7 +41,7 @@ export const PoolShow = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
   const shouldReduceMotion = useReducedMotion()
-  const chainId = useRouterChainId()
+  const chainId = useRouterChainId(router)
 
   const { data: pool, isFetched: poolIsFetched } = usePoolBySymbol(chainId, router?.query?.symbol)
   const { address: usersAddress, walletName } = useOnboard()

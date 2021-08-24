@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Wizard, { useWizard } from 'react-wizard-primitive'
-import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
+import { useOnboard, useTransaction } from '@pooltogether/hooks'
 
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { DepositReceipt } from 'lib/components/DepositWizard/DepositReceipt'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
-import { useTransaction } from 'lib/hooks/useTransaction'
 
 // 1. Deposit amount
 // 2. Wallet connect > Network connect > Approval > Review & Submit
@@ -28,7 +27,7 @@ export const DepositWizard = (props) => {
   const router = useRouter()
   const { quantity, prevTicketBalance, prevUnderlyingBalance } = router.query
 
-  const { network: walletChainId, address: usersAddress } = useOnboard()
+  const { network: walletChainId } = useOnboard()
 
   const [isUserOnCorrectNetwork, setIsUserOnCorrectNetwork] = useState(walletChainId === chainId)
 
@@ -122,7 +121,6 @@ export const DepositWizard = (props) => {
         {activeStepIndex === 2 && (
           <DepositReceipt
             {...DepositReceiptProps}
-            nextStep={nextStep}
             key={2}
             tokenAddress={tokenAddress}
             contractAddress={contractAddress}

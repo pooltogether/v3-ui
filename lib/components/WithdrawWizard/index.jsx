@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Wizard, { useWizard } from 'react-wizard-primitive'
-import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
+import { useOnboard, useTransaction } from '@pooltogether/hooks'
 
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { WithdrawReceipt } from 'lib/components/WithdrawWizard/WithdrawReceipt'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
-import { useTransaction } from 'lib/hooks/useTransaction'
 
 // 1. Deposit amount
 // 2. Wallet connect > Network connect > Review & Submit

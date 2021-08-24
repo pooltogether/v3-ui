@@ -1,23 +1,23 @@
 import React from 'react'
 import Cookies from 'js-cookie'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useUsersAddress, useSendTransaction } from '@pooltogether/hooks'
 import { ethers } from 'ethers'
 import { numberWithCommas } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
+import { poolToast } from '@pooltogether/react-components'
 
 import { ReviewAndSubmitDeposit } from 'lib/components/DepositWizard/ReviewAndSubmitDeposit'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
 
 export const PoolReviewAndSubmitDeposit = (props) => {
-  const { pool, contractAddress, quantity } = props
+  const { pool, contractAddress, quantity, nextStep } = props
   const tokenSymbol = pool.tokens.underlyingToken.symbol
   const controlledTicketTokenAddress = pool.tokens.ticket.address
   const usersAddress = useUsersAddress()
   const { t } = useTranslation()
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
 
   const submitDepositTransaction = async () => {
     const decimals = pool.tokens.underlyingToken.decimals
@@ -34,7 +34,18 @@ export const PoolReviewAndSubmitDeposit = (props) => {
     const params = [usersAddress, quantityBN, controlledTicketTokenAddress, referrerAddress]
     const txName = `${t('deposit')} ${numberWithCommas(quantity)} ${tokenSymbol}`
 
-    return await sendTx(txName, PrizePoolAbi, contractAddress, 'depositTo', params)
+    return await sendTx({
+      name: txName,
+      contractAbi: PrizePoolAbi,
+      contractAddress,
+      method: 'depositTo',
+      params,
+      callbacks: {
+        onSuccess: () => {
+          nextStep()
+        }
+      }
+    })
   }
 
   return (

@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useUsersAddress, useSendTransaction, useTransaction } from '@pooltogether/hooks'
 import { Button, Tooltip, poolToast } from '@pooltogether/react-components'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 
@@ -17,8 +17,6 @@ import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanne
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { useExitFees } from 'lib/hooks/useExitFees'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useTransaction } from 'lib/hooks/useTransaction'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -105,7 +103,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
     tickerUpcased,
     feeFormatted
   })
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
   const tx = useTransaction(txId)
 
   const runTx = async () => {
@@ -116,18 +114,27 @@ export function ConfirmWithdrawWithFeeForm(props) {
       ethers.BigNumber.from(exitFee)
     ]
 
-    const id = await sendTx(txName, PrizePoolAbi, poolAddress, method, params /*, refetch*/)
+    const id = await sendTx({
+      name: txName,
+      contractAbi: PrizePoolAbi,
+      contractAddress: poolAddress,
+      method,
+      params,
+      callbacks: {
+        onCancelled: () => {
+          previousStep()
+        },
+        onError: () => {
+          previousStep()
+        },
+        onSuccess: () => {
+          nextStep()
+        }
+      }
+    })
 
     setTxId(id)
   }
-
-  useEffect(() => {
-    if (tx?.cancelled || tx?.error) {
-      previousStep()
-    } else if (tx?.completed) {
-      nextStep()
-    }
-  }, [tx])
 
   return (
     <>

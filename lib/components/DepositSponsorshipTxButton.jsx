@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
-import { useUsersAddress } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
+import { useRouter } from 'next/router'
+import {
+  useUsersAddress,
+  useCurrentPool,
+  useSendTransaction,
+  useTransaction
+} from '@pooltogether/hooks'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
-import { Button, Tooltip } from '@pooltogether/react-components'
+import { Button, poolToast, Tooltip } from '@pooltogether/react-components'
 
-import { useCurrentPool } from 'lib/hooks/usePools'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useTransaction } from 'lib/hooks/useTransaction'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 export function DepositSponsorshipTxButton(props) {
@@ -17,7 +20,8 @@ export function DepositSponsorshipTxButton(props) {
 
   const usersAddress = useUsersAddress()
 
-  const { data: pool } = useCurrentPool()
+  const router = useRouter()
+  const { data: pool } = useCurrentPool(router)
 
   const poolAddress = pool.prizePool.address
 
@@ -30,7 +34,7 @@ export function DepositSponsorshipTxButton(props) {
   })
   const method = 'depositTo'
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
   const tx = useTransaction(txId)
 
   const depositSponsorshipTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)
@@ -45,7 +49,13 @@ export function DepositSponsorshipTxButton(props) {
       ethers.constants.AddressZero
     ]
 
-    const id = await sendTx(txName, PrizePoolAbi, poolAddress, method, params)
+    const id = await sendTx({
+      name: txName,
+      contractAbi: PrizePoolAbi,
+      contractAddress: poolAddress,
+      method,
+      params
+    })
     setTxId(id)
   }
 

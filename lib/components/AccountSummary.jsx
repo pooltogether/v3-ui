@@ -2,20 +2,19 @@ import React from 'react'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import { useAtom } from 'jotai'
-import { useOnboard } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
+import { useOnboard, usePlayerTotalPoolDepositValue } from '@pooltogether/hooks'
+import { toNonScaledUsdString } from '@pooltogether/utilities'
 
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { GenericConnectWalletCTA } from 'lib/components/GenericConnectWalletCTA'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
-import { usePlayerTotalPoolDepositValue } from 'lib/hooks/useUserTickets'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
 import WaterslideIllustration from 'assets/images/pt-waterslide-illustration@2x.png'
 import { useUsersTotalPodDepositsValue } from 'lib/hooks/useUsersTotalPodDepositsValue'
-import { toNonScaledUsdString } from '@pooltogether/utilities'
 
 export const AccountSummary = () => {
   const { t } = useTranslation()

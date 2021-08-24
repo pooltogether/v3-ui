@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
+import { useAllPools } from '@pooltogether/hooks'
 import { useAtom, atom } from 'jotai'
 
 import { useChecklyStatus } from 'lib/hooks/useChecklyStatus'
 import { useTranslation } from 'react-i18next'
-import { useAllPools } from 'lib/hooks/usePools'
 
 export const notificationBannerVisibleAtom = atom(false)
 

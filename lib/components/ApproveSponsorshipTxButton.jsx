@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
-import { ethers } from 'ethers'
-import { Button, Tooltip } from '@pooltogether/react-components'
 import ControlledTokenAbi from '@pooltogether/pooltogether-contracts_3_3/abis/ControlledToken'
-
+import { ethers } from 'ethers'
+import { useRouter } from 'next/router'
+import { Button, poolToast, Tooltip } from '@pooltogether/react-components'
+import { useCurrentPool } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useTransaction } from 'lib/hooks/useTransaction'
-import { useCurrentPool } from 'lib/hooks/usePools'
+import { useSendTransaction, useTransaction } from '@pooltogether/hooks'
 
 export function ApproveSponsorshipTxButton(props) {
   const { t } = useTranslation()
 
   const { decimals, disabled, needsApproval, tickerUpcased, refetch } = props
 
-  const { data: pool } = useCurrentPool()
+  const router = useRouter()
+  const { data: pool } = useCurrentPool(router)
 
   const poolAddress = pool.prizePool.address
   const tokenAddress = pool.tokens.underlyingToken.address
@@ -21,7 +21,7 @@ export function ApproveSponsorshipTxButton(props) {
   const [txId, setTxId] = useState(0)
   const txName = t(`allowTickerPoolSponsorship`, { ticker: tickerUpcased })
   const method = 'approve'
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
   const tx = useTransaction(txId)
 
   const unlockTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)
@@ -31,7 +31,14 @@ export function ApproveSponsorshipTxButton(props) {
 
     const params = [poolAddress, ethers.utils.parseUnits('9999999999', Number(decimals))]
 
-    const id = await sendTx(txName, ControlledTokenAbi, tokenAddress, method, params, refetch)
+    const id = await sendTx({
+      name: txName,
+      contractAbi: ControlledTokenAbi,
+      contractAddress: tokenAddress,
+      method,
+      params,
+      callbacks: { refetch }
+    })
 
     setTxId(id)
   }

@@ -2,13 +2,17 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
-import { APP_ENVIRONMENT, useAppEnv, useUsersAddress } from '@pooltogether/hooks'
+import {
+  APP_ENVIRONMENT,
+  useAppEnv,
+  useUsersAddress,
+  useUserTicketsFormattedByPool
+} from '@pooltogether/hooks'
 import { Card, ExternalLink } from '@pooltogether/react-components'
 import { useAtom } from 'jotai'
 
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { TicketsUILoader } from 'lib/components/loaders/TicketsUILoader'
-import { useUserTicketsFormattedByPool } from 'lib/hooks/useUserTickets'
 import { V2Tickets } from 'lib/components/V2Tickets'
 import { PodTicket } from 'lib/components/Pods/PodTicket'
 import { useUsersPodTickets } from 'lib/hooks/useUsersPodTickets'
@@ -91,7 +95,7 @@ const NoTicketsState = (props) => {
           {t('depositInAPoolNow')}
         </div>
         <Link href='/' as='/'>
-          <a>{t('viewPools')}</a>
+          <a className='new-btn px-3 py-1 my-3 inline-block'>{t('viewPools')}</a>
         </Link>
       </Card>
     )
@@ -102,7 +106,6 @@ const NoTicketsState = (props) => {
 
 const PoolDeposits = (props) => {
   const { usersAddress } = props
-  const { t } = useTranslation()
 
   const { data: playerDepositData, isFetched: playerTicketsIsFetched } =
     useUserTicketsFormattedByPool(usersAddress)

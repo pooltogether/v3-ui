@@ -140,15 +140,15 @@ export function WizardLayout(props) {
                         onClick={(e) => {
                           e.preventDefault()
 
-                          if (currentWizardStep < index + 1) {
+                          if (currentWizardStep < index) {
                             return
                           }
 
                           moveToStep(index)
                         }}
                         className={classnames('w-10 rounded-sm mx-1', {
-                          'cursor-pointer bg-inverse': currentWizardStep >= index + 1,
-                          'bg-secondary': currentWizardStep < index + 1
+                          'cursor-pointer bg-inverse': currentWizardStep >= index,
+                          'bg-secondary': currentWizardStep < index
                         })}
                         style={{
                           height: 6

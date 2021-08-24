@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import {
   useAddNetworkToMetamask,
   useIsWalletMetamask,
   useOnboard,
   useTokenAllowance,
-  useTokenBalances
+  useTokenBalances,
+  useSendTransaction,
+  useTransaction
 } from '@pooltogether/hooks'
-import { Amount, Button, Card, Tooltip } from '@pooltogether/react-components'
+import { Amount, Button, Card, Tooltip, poolToast } from '@pooltogether/react-components'
 import {
   ETHEREUM_NETWORKS,
   getNetworkNiceNameByChainId,
@@ -17,25 +19,24 @@ import { useTranslation } from 'react-i18next'
 import { ethers } from 'ethers'
 import { parseUnits } from '@ethersproject/units'
 
+import ERC20Abi from 'abis/ERC20Abi'
+import IconNetwork from 'assets/images/icon-network@2x.png'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
-import IconNetwork from 'assets/images/icon-network@2x.png'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { Banner } from 'lib/components/Banner'
 import { ButtonTx } from 'lib/components/ButtonTx'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useTransaction } from 'lib/hooks/useTransaction'
-import ERC20Abi from 'abis/ERC20Abi'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { TxStatus } from 'lib/components/TxStatus'
 
 export const ReviewAndSubmitDeposit = (props) => {
-  const { chainId, tokenAddress, contractAddress, isUserOnCorrectNetwork, quantity } = props
+  const { chainId, tokenAddress, contractAddress, isUserOnCorrectNetwork, quantity, depositTxId } =
+    props
 
   const { network: walletChainId, address: usersAddress, connectWallet } = useOnboard()
 
   const {
-    data,
+    data: tokenAllowanceData,
     isFetched,
     refetch: refetchTokenAllowance
   } = useTokenAllowance(chainId, usersAddress, contractAddress, tokenAddress)
@@ -50,10 +51,13 @@ export const ReviewAndSubmitDeposit = (props) => {
   const usersBalanceUnformatted = usersBalance?.[tokenAddress].amountUnformatted
   const quantityUnformatted = isUsersBalanceFetched ? parseUnits(quantity, decimals) : null
 
-  const isValidAllowance = isFetched ? data.isAllowed : true
+  const isValidAllowance = isFetched ? tokenAllowanceData.isAllowed : true
   const isQuantityValid = isUsersBalanceFetched
     ? usersBalanceUnformatted.gte(quantityUnformatted)
     : false
+
+  const tx = useTransaction(depositTxId)
+  const txPending = (tx?.inWallet || tx?.sent) && !tx?.cancelled && !tx?.error
 
   if (!usersAddress) {
     return <ConnectWallet {...props} connectWallet={connectWallet} />
@@ -67,13 +71,13 @@ export const ReviewAndSubmitDeposit = (props) => {
         isValidAllowance={isValidAllowance}
       />
     )
-  } else if (!isQuantityValid) {
+  } else if (!isQuantityValid && !txPending) {
     return <InvalidQuantity {...props} usersBalance={usersBalance?.[tokenAddress].amount} />
-  } else if (!data?.isAllowed) {
+  } else if (!tokenAllowanceData?.isAllowed) {
     return (
       <ApproveDeposit
         {...props}
-        {...data}
+        {...tokenAllowanceData}
         isValidAllowance={isValidAllowance}
         refetchTokenAllowance={refetchTokenAllowance}
       />
@@ -90,7 +94,7 @@ const ConnectWallet = (props) => {
     <>
       <ReviewAmountAndTitle {...props} />
       <div>
-        <Button textSize='xl' onClick={() => connectWallet()}>
+        <Button textSize='lg' onClick={() => connectWallet()}>
           {t('connectWallet')}
         </Button>
       </div>
@@ -178,7 +182,7 @@ export const InvalidQuantity = (props) => {
         </span>
       </Card>
       <div>
-        <Button textSize='xl' onClick={() => previousStep()}>
+        <Button textSize='lg' onClick={() => previousStep()}>
           {t('back')}
         </Button>
       </div>
@@ -187,22 +191,15 @@ export const InvalidQuantity = (props) => {
 }
 
 const ApproveDeposit = (props) => {
-  const {
-    chainId,
-    tokenSymbol,
-    refetchTokenAllowance,
-    tokenAddress,
-    decimals,
-    contractAddress,
-    approveTxId,
-    setApproveTxId
-  } = props
+  const { chainId, tokenSymbol, refetchTokenAllowance, tokenAddress, decimals, contractAddress } =
+    props
   const { t } = useTranslation()
 
+  const [txId, setTxId] = useState(0)
   const txName = t(`allowTickerPool`, { ticker: tokenSymbol })
   const method = 'approve'
-  const sendTx = useSendTransaction()
-  const tx = useTransaction(approveTxId)
+  const sendTx = useSendTransaction(t, poolToast)
+  const tx = useTransaction(txId)
 
   const handleApproveClick = async (e) => {
     e.preventDefault()
@@ -212,8 +209,15 @@ const ApproveDeposit = (props) => {
     }
 
     const params = [contractAddress, ethers.utils.parseUnits('9999999999', Number(decimals))]
-    const id = await sendTx(txName, ERC20Abi, tokenAddress, method, params, refetchTokenAllowance)
-    setApproveTxId(id)
+    const id = await sendTx({
+      name: txName,
+      contractAbi: ERC20Abi,
+      contractAddress: tokenAddress,
+      method,
+      params,
+      callbacks: { refetch: refetchTokenAllowance }
+    })
+    setTxId(id)
   }
 
   const txPending = (tx?.inWallet || tx?.sent) && !tx?.cancelled && !tx?.error
@@ -222,21 +226,20 @@ const ApproveDeposit = (props) => {
     <>
       <ReviewAmountAndTitle {...props} />
       <div className='mb-8 flex flex-col'>
-        <span className='font-bold mb-2'>{t('yourApprovalIsNecessaryBeforeDepositing')}</span>
+        <span className='text-xs sm:text-sm font-bold mb-2'>
+          {t('yourApprovalIsNecessaryBeforeDepositing')}
+        </span>
         <Tooltip tip={t('approvalExplainer')} id={`token-approval-tooltip`}>
-          <span className='text-xxs text-highlight-1'>{t('whatIsThis')}</span>
+          <span className='text-xs sm:text-sm text-highlight-1'>{t('whatIsThis')}</span>
         </Tooltip>
       </div>
-      <TxStatus
-        tx={tx}
-        inWalletMessage={t('confirmApprovalInWallet')}
-        sentMessage={t('approvalConfirming')}
-      />
-      {!txPending && (
-        <ButtonDrawer>
+      <ButtonDrawer>
+        {!txPending && (
           <ButtonTx
+            isCentered
+            tx={tx}
             chainId={chainId}
-            textSize='xl'
+            textSize='lg'
             onClick={handleApproveClick}
             className='mx-auto'
           >
@@ -244,22 +247,20 @@ const ApproveDeposit = (props) => {
               ticker: tokenSymbol
             })}
           </ButtonTx>
-        </ButtonDrawer>
-      )}
+        )}
+      </ButtonDrawer>
+      <TxStatus
+        tx={tx}
+        inWalletMessage={t('confirmApprovalInWallet')}
+        sentMessage={t('approvalConfirming')}
+      />
     </>
   )
 }
 
 const SubmitDeposit = (props) => {
-  const {
-    chainId,
-    depositTxId,
-    setDepositTxId,
-    tokenSymbol,
-    submitDepositTransaction,
-    nextStep,
-    cards
-  } = props
+  const { chainId, depositTxId, setDepositTxId, tokenSymbol, submitDepositTransaction, cards } =
+    props
   const { t } = useTranslation()
 
   const tx = useTransaction(depositTxId)
@@ -272,25 +273,22 @@ const SubmitDeposit = (props) => {
     setDepositTxId(id)
   }
 
-  useEffect(() => {
-    if (tx?.completed && !tx?.cancelled && !tx?.error) {
-      nextStep()
-    }
-  }, [tx?.completed])
-
   return (
     <>
       <ReviewAmountAndTitle {...props} />
+
+      {cards}
+
       <TxStatus
         tx={tx}
         inWalletMessage={t('confirmDepositInYourWallet')}
         sentMessage={t('depositConfirming')}
       />
-      {cards}
 
-      {!txPending && (
-        <ButtonDrawer>
+      <ButtonDrawer>
+        {!txPending && (
           <ButtonTx
+            isCentered
             border='green'
             text='primary'
             bg='green'
@@ -304,8 +302,8 @@ const SubmitDeposit = (props) => {
           >
             {t('depositTicker', { ticker: tokenSymbol })}
           </ButtonTx>
-        </ButtonDrawer>
-      )}
+        )}
+      </ButtonDrawer>
     </>
   )
 }

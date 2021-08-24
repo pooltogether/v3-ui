@@ -3,10 +3,16 @@ import { Wizard, useWizard } from 'react-wizard-primitive'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { AnimatePresence } from 'framer-motion'
-import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
-import { shorten } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
-import { Button } from '@pooltogether/react-components'
+import { shorten } from '@pooltogether/utilities'
+import { Button, poolToast } from '@pooltogether/react-components'
+import {
+  useRetroactivePoolClaimData,
+  useOnboard,
+  useUsersAddress,
+  useSendTransaction,
+  useTransaction
+} from '@pooltogether/hooks'
 
 import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
 import MerkleDistributorAbi from 'abis/MerkleDistributor'
@@ -19,9 +25,6 @@ import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { TxStatus } from 'lib/components/TxStatus'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { WizardLayout } from 'lib/components/WizardLayout'
-import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
-import { useTransaction } from 'lib/hooks/useTransaction'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
@@ -314,7 +317,7 @@ const ClaimableBalanceCheck = (props) => {
   const { amount, isClaimed, formattedAmount, index, proof } = claimData || {}
 
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
   const tx = useTransaction(txId)
 
   useEffect(() => {
@@ -350,14 +353,14 @@ const ClaimableBalanceCheck = (props) => {
       address: shorten(address)
     })
 
-    const id = await sendTx(
-      txName,
-      MerkleDistributorAbi,
-      CUSTOM_CONTRACT_ADDRESSES[chainId].MerkleDistributor,
-      'claim',
+    // TODO: Add refetch
+    const id = await sendTx({
+      name: txName,
+      contractAbi: MerkleDistributorAbi,
+      contractAddress: CUSTOM_CONTRACT_ADDRESSES[chainId].MerkleDistributor,
+      method: 'claim',
       params
-      // TODO: Add refetch
-    )
+    })
     setTxId(id)
   }
 

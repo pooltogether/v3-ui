@@ -1,9 +1,9 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { Button } from '@pooltogether/react-components'
+import { useCurrentPool } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
 
-import { useCurrentPool } from 'lib/hooks/usePools'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PaneTitle } from 'lib/components/PaneTitle'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
@@ -19,7 +19,7 @@ export function NoMoreTicketsPane(props) {
     handleCloseWizard(router)
   }
 
-  const { data: pool } = useCurrentPool()
+  const { data: pool } = useCurrentPool(router)
 
   return (
     <div className='text-xl xs:text-3xl sm:text-5xl'>

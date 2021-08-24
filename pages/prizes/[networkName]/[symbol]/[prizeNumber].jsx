@@ -1,9 +1,8 @@
 import React from 'react'
+import { useCurrentPool } from '@pooltogether/hooks'
 import { useRouter } from 'next/router'
 
 import { useTranslation } from 'react-i18next'
-import { useCurrentPool } from 'lib/hooks/usePools'
-import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { PrizeShow } from 'lib/components/PrizeShow'
 import { PrizeShowUILoader } from 'lib/components/loaders/PrizeShowUILoader'
 import { usePastPrize } from 'lib/hooks/usePastPrizes'
@@ -19,7 +18,7 @@ function PrizeShowPage(props) {
   const prizeNumber = router.query?.prizeNumber
 
   const poolContract = usePoolContractBySymbol(querySymbol)
-  const { data: pool, isFetched: poolIsFetched } = useCurrentPool()
+  const { data: pool, isFetched: poolIsFetched } = useCurrentPool(router)
   const { data: prize, isFetched: prizeIsFetched } = usePastPrize(pool, prizeNumber)
   const { data: historicPools, isFetched: historicPoolsIsFetched } = useHistoricPool(
     pool?.chainId,

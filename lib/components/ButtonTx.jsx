@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import classnames from 'classnames'
 import { omit } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { Button, Tooltip } from '@pooltogether/react-components'
@@ -6,11 +7,18 @@ import { useIsWalletOnNetwork, useUsersAddress } from '@pooltogether/hooks'
 import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
 
 export function ButtonTx(props) {
-  const { children, chainId } = props
-  const newProps = omit(props, ['usersAddress', 'chainId'])
+  const { children, chainId, tx, disabled, isCentered } = props
+
+  const { t } = useTranslation()
+
+  const newProps = omit(props, ['usersAddress', 'chainId', 'tx', 'isCentered'])
+
   const isWalletConnected = useUsersAddress()
   const isWalletOnProperNetwork = useIsWalletOnNetwork(chainId)
-  const disableButton = !isWalletConnected || !isWalletOnProperNetwork
+
+  const txInFlight = !tx?.cancelled && (tx?.sent || tx?.completed)
+  const disabledDueToNetwork = Boolean(!isWalletConnected || !isWalletOnProperNetwork)
+  const disableButton = Boolean(disabledDueToNetwork || disabled || txInFlight)
 
   useEffect(() => {
     if (!chainId) {
@@ -18,13 +26,14 @@ export function ButtonTx(props) {
     }
   }, [chainId])
 
-  const { t } = useTranslation()
-
   return (
     <Tooltip
-      isEnabled={disableButton}
+      isEnabled={disabledDueToNetwork}
       id={`button-tx-connect-wallet-tooltip`}
       title={t('connectAWallet')}
+      className={classnames({
+        'mx-auto': isCentered
+      })}
       tip={
         <Tip
           chainId={chainId}
