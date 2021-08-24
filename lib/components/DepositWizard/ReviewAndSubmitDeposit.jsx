@@ -9,7 +9,7 @@ import {
   useSendTransaction,
   useTransaction
 } from '@pooltogether/hooks'
-import { Amount, Button, Card, Tooltip } from '@pooltogether/react-components'
+import { Amount, Button, Card, Tooltip, poolToast } from '@pooltogether/react-components'
 import {
   ETHEREUM_NETWORKS,
   getNetworkNiceNameByChainId,

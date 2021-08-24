@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PeriodicPrizeStrategy'
-import { useSendTransaction, useTransaction } from '@pooltogether/hooks'
-
 import { useTranslation } from 'react-i18next'
-import { ButtonTx } from 'lib/components/ButtonTx'
 import { poolToast } from '@pooltogether/react-components'
+import { useSendTransaction, useTransaction } from '@pooltogether/hooks'
+import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PeriodicPrizeStrategy'
+
+import { ButtonTx } from 'lib/components/ButtonTx'
 
 export function StartAwardUI(props) {
   const { pool, canStartAward, refetch } = props

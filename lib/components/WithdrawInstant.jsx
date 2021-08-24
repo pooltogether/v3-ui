@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { poolToast } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
 import { ConfirmWithdrawNoFee } from 'lib/components/ConfirmWithdrawNoFee'

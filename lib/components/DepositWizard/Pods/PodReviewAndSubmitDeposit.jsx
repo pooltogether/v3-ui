@@ -1,6 +1,5 @@
 import React from 'react'
 import { Card, poolToast } from '@pooltogether/react-components'
-import { useRouter } from 'next/router'
 import { useUsersAddress, useSendTransaction } from '@pooltogether/hooks'
 import { ethers } from 'ethers'
 import { numberWithCommas } from '@pooltogether/utilities'
