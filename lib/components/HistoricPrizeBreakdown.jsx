@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Link from 'next/link'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
@@ -36,7 +36,9 @@ export const HistoricPrizeBreakdown = (props) => {
   )
   const grandPrizeWinnersAddress = lootBoxWon?.winner
 
-  let awardedControlledTokens = [...prize?.awardedControlledTokens]
+  let awardedControlledTokens = prize?.awardedControlledTokens
+    ? [...prize.awardedControlledTokens]
+    : []
   if (grandPrizeWinnersAddress) {
     const grandPrizeWinner = awardedControlledTokens.find(
       (awardedControlledToken) => awardedControlledToken.winner === grandPrizeWinnersAddress
@@ -45,7 +47,9 @@ export const HistoricPrizeBreakdown = (props) => {
     if (indexToRemove > -1) {
       awardedControlledTokens.splice(indexToRemove, 1)
     }
-    awardedControlledTokens.unshift(grandPrizeWinner)
+    if (grandPrizeWinner) {
+      awardedControlledTokens.unshift(grandPrizeWinner)
+    }
   }
 
   // TODO: Make this better when refactoring usePool & usePools
