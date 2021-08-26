@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
-import { ETHEREUM_NETWORKS } from 'lib/constants'
 import { Modal } from 'lib/components/Modal'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
@@ -60,8 +59,6 @@ export function WrongNetworkModal(props) {
         {t('yourEthereumNetworkIsUnsupported')}{' '}
         <div className='flex flex-col items-start justify-start text-center mt-2'>
           {chainIds.map((chainId) => {
-            const changingToEthereum = ETHEREUM_NETWORKS.includes(chainId)
-
             return (
               <div
                 key={`network-${getNetworkNiceNameByChainId(chainId)}`}
@@ -76,7 +73,7 @@ export function WrongNetworkModal(props) {
                   {getNetworkNiceNameByChainId(chainId)}
                 </span>
                 <span className='opacity-20 text-inverse mx-2'> (chainId: {chainId})</span>
-                {isMetaMask && !changingToEthereum && (
+                {isMetaMask && (
                   <span>
                     <button
                       onClick={(e) => {
