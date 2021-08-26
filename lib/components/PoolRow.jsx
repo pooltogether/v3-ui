@@ -24,6 +24,7 @@ export const PoolRow = (props) => {
 
   const ticker = pool.tokens.underlyingToken.symbol
   const tickerUpcased = ticker?.toUpperCase()
+  const networkNiceName = chainIdToNetworkName(Number(pool.chainId)).toLowerCase()
 
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
@@ -50,8 +51,6 @@ export const PoolRow = (props) => {
       {t('viewPool')}
     </button>
   )
-
-  const networkNiceName = chainIdToNetworkName(Number(pool.chainId)).toLowerCase()
 
   return (
     <InteractableCard
