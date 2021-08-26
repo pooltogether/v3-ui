@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
+import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import { NetworkIcon } from '@pooltogether/react-components'
 import { useGovernancePools } from '@pooltogether/hooks'
@@ -69,7 +71,18 @@ export const PoolLists = () => {
 
   return (
     <div className='mt-10'>
-      <div className='flex flex-col sm:flex-row justify-end items-center text-xs sm:text-lg lg:text-xl'>
+      <div
+        className={classnames(
+          'flex flex-col sm:flex-row items-center text-xs sm:text-lg lg:text-xl',
+          {
+            'justify-between': chainIdFilter !== ALL_NETWORKS_ID,
+            'justify-end': chainIdFilter === ALL_NETWORKS_ID
+          }
+        )}
+      >
+        {chainIdFilter !== ALL_NETWORKS_ID && (
+          <Breadcrumbs networkNiceName={getNetworkNiceNameByChainId(chainIdFilter)} />
+        )}
         <SmallDropdownInputGroup
           id='pool-filter'
           formatValue={formatValue}
@@ -79,8 +92,29 @@ export const PoolLists = () => {
           className='filters-width-hover'
         />
       </div>
-
       <GovernancePoolsList chainIdFilter={chainIdFilter} />
+    </div>
+  )
+}
+
+const Breadcrumbs = (props) => {
+  const { networkNiceName } = props
+  const { t } = useTranslation()
+
+  return (
+    <div className='hidden sm:inline-block text-accent-2 font-inter uppercase font-normal opacity-80 hover:opacity-100 trans -mt-2'>
+      <span className='text-xxxs sm:text-xxs'>
+        <Link href='/' as='/'>
+          <a className='text-xxxs sm:text-xxs border-b border-secondary hover:text-accent-3'>
+            {t('pools')}
+          </a>
+        </Link>
+        <>
+          {' '}
+          <span className='text-accent-4 opacity-70 mx-1 font-bold'>&gt;</span>{' '}
+        </>
+        <>{networkNiceName}</>
+      </span>
     </div>
   )
 }
