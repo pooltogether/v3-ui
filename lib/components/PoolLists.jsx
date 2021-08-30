@@ -198,10 +198,10 @@ const usePoolFilters = () => {
         view: (
           <div className='flex'>
             <div className='flex flex-row-reverse justify-between filter-icons'>
-              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-3' chainId={NETWORK.bsc} />
-              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-3' chainId={NETWORK.celo} />
-              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-3' chainId={NETWORK.mainnet} />
-              <NetworkIcon sizeClassName='my-auto h-6 w-6' chainId={NETWORK.polygon} />
+              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-1' chainId={NETWORK.bsc} />
+              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-1' chainId={NETWORK.celo} />
+              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-1' chainId={NETWORK.polygon} />
+              <NetworkIcon sizeClassName='my-auto h-6 w-6' chainId={NETWORK.mainnet} />
             </div>
             <span className='capitalize ml-2'>{t('allNetworks')}</span>
           </div>
