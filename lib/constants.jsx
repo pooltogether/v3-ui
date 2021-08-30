@@ -1,8 +1,7 @@
 import TokenFaucetProxyFactoryMainnet from '@pooltogether/pooltogether-contracts_3_3/deployments/mainnet/TokenFaucetProxyFactory.json'
 import TokenFaucetProxyFactoryRinkeby from '@pooltogether/pooltogether-contracts_3_3/deployments/rinkeby/TokenFaucetProxyFactory.json'
 
-export const ETHEREUM_NETWORKS = [1, 3, 4, 5, 42]
-export const SUPPORTED_NETWORKS = [1, 4, 137, 80001]
+export const SUPPORTED_NETWORKS = [1, 4, 137, 42220, 80001]
 
 export const SECONDS_PER_BLOCK = 14
 
@@ -126,10 +125,11 @@ export const CUSTOM_CONTRACT_ADDRESSES = {
   },
   137: {
     GovernanceToken: '',
-    // PoS-Dai
     Stablecoin: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063'
-    // PoS-Stablecoin
-    // Stablecoin: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F'
+  },
+  42220: {
+    GovernanceToken: '',
+    Stablecoin: '0x765DE816845861e75A25fCA122bb6898B8B1282a'
   },
   80001: {
     GovernanceToken: '',

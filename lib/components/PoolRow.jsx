@@ -1,22 +1,18 @@
 import React from 'react'
 import Cookies from 'js-cookie'
 import classnames from 'classnames'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import {
-  SECONDS_PER_DAY,
-  COOKIE_OPTIONS,
-  WIZARD_REFERRER_HREF,
-  WIZARD_REFERRER_AS_PATH
-} from 'lib/constants'
+import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { useTranslation } from 'react-i18next'
 import { Button, PrizeFrequencyChip, TokenIcon } from '@pooltogether/react-components'
 
-import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { PoolPrizeValue } from 'lib/components/PoolPrizeValue'
 import { AprChip } from 'lib/components/AprChip'
+import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 
 export const PoolRow = (props) => {
   const { pool } = props
@@ -28,6 +24,7 @@ export const PoolRow = (props) => {
 
   const ticker = pool.tokens.underlyingToken.symbol
   const tickerUpcased = ticker?.toUpperCase()
+  const networkNiceName = chainIdToNetworkName(Number(pool.chainId)).toLowerCase()
 
   const handleGetTicketsClick = (e) => {
     e.preventDefault()
@@ -62,13 +59,18 @@ export const PoolRow = (props) => {
       as={`/pools/${pool.networkName}/${symbol}`}
       className='mt-1 sm:mt-2 relative'
     >
-      <NetworkBadge
-        className='absolute t-0 l-0 px-3 py-1 rounded-tl-xl rounded-br-xl border-b border-r border-accent-4'
-        chainId={pool.chainId}
-        style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.03)'
-        }}
-      />
+      <Link href={`/?filter=${networkNiceName}`} as={`/?filter=${networkNiceName}`}>
+        <a>
+          <NetworkBadge
+            className='absolute t-0 l-0 px-3 py-1 rounded-tl-xl rounded-br-xl border-b border-r border-accent-4'
+            textClassName='text-xs xs:text-sm'
+            chainId={pool.chainId}
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.03)'
+            }}
+          />
+        </a>
+      </Link>
 
       <div className='flex flex-col sm:flex-row items-center text-inverse'>
         <div className='h-full flex py-2 p-4 sm:pl-4 lg:px-6 sm:pt-3 sm:pb-5 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>

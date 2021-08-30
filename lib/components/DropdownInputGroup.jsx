@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { Menu, MenuButton, MenuItem, MenuItems, MenuPopover } from '@reach/menu-button'
-import { positionMatchWidth } from '@reach/popover'
+import React from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
+import { Menu, MenuButton, MenuItem, MenuItems, MenuPopover } from '@reach/menu-button'
+import { positionMatchWidth } from '@reach/popover'
 
 export const DropdownInputGroup = (props) => {
   // Dropdown Logic
@@ -51,6 +51,7 @@ export const DropdownInputGroup = (props) => {
     labelClassName,
     unitsClassName,
     containerClassName,
+    className,
     isError,
     isSuccess
   } = props
@@ -101,8 +102,9 @@ export const DropdownInputGroup = (props) => {
       'font-white': !disabled
     })
 
-  const className = classnames(
+  className = classnames(
     'trans',
+    className,
     containerClassName,
     textClasses,
     roundedClasses,

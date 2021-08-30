@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { Button, NetworkIcon } from '@pooltogether/react-components'
 import { useIsWalletMetamask } from '@pooltogether/hooks'
 
-import { ETHEREUM_NETWORKS } from 'lib/constants'
 import { Banner } from 'lib/components/Banner'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
@@ -23,12 +22,6 @@ export function WizardSwitchNetwork(props) {
   const poolChainId = pool.chainId
   const tickerUpcased = pool.tokens?.underlyingToken.symbol
   const addNetwork = useAddNetworkToMetamask(poolChainId)
-
-  const changingToEthereum = ETHEREUM_NETWORKS.includes(poolChainId)
-
-  const pleaseChangeWalletTranslationKey = isMetaMask
-    ? 'openMetaMaskAndSelectEthereumToContinue'
-    : 'openYourWalletAndSelectNetworkToContinue'
 
   useEffect(() => {
     if (!networkMismatch) {
@@ -70,15 +63,7 @@ export function WizardSwitchNetwork(props) {
       />
       <div className='my-4'></div>
 
-      {changingToEthereum && (
-        <div className='text-green font-bold text-xl w-96 mx-auto'>
-          {t(pleaseChangeWalletTranslationKey, {
-            networkName: getNetworkNiceNameByChainId(poolChainId)
-          })}
-        </div>
-      )}
-
-      {isMetaMask && !changingToEthereum && (
+      {isMetaMask && (
         <ButtonDrawer>
           <Button onClick={() => addNetwork()} textSize='lg' className='w-full'>
             <span className='inline-flex items-center justify-center'>

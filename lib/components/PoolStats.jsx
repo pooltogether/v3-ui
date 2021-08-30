@@ -265,7 +265,6 @@ const YieldSourceStat = (props) => {
 
 const AprStats = (props) => {
   const { pool } = props
-
   return pool?.tokenFaucets?.map((tokenFaucet) => (
     <TokenFaucetAprRow
       key={`token-faucet-apr-row-${tokenFaucet.address}`}

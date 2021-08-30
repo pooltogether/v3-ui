@@ -10,11 +10,7 @@ import {
   useTransaction
 } from '@pooltogether/hooks'
 import { Amount, Button, Card, Tooltip, poolToast } from '@pooltogether/react-components'
-import {
-  ETHEREUM_NETWORKS,
-  getNetworkNiceNameByChainId,
-  numberWithCommas
-} from '@pooltogether/utilities'
+import { getNetworkNiceNameByChainId, numberWithCommas } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
 import { ethers } from 'ethers'
 import { parseUnits } from '@ethersproject/units'
@@ -137,14 +133,14 @@ const ConnectNetwork = (props) => {
 
 export const ConnectToNetworkContent = (props) => {
   const { chainId } = props
+
+  const { t } = useTranslation()
+
   const isWalletMetamask = useIsWalletMetamask()
   const addNetwork = useAddNetworkToMetamask(chainId)
   const networkName = getNetworkNiceNameByChainId(chainId)
-  const { t } = useTranslation()
 
-  const isEthereumNetwork = ETHEREUM_NETWORKS.includes(chainId)
-
-  if (!isWalletMetamask || isEthereumNetwork) {
+  if (!isWalletMetamask) {
     return (
       <div className='mt-8 text-xl flex mx-auto'>
         <FeatherIcon icon='alert-triangle' className='w-8 h-8 mr-2' />

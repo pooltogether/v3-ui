@@ -1,14 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { motion } from 'framer-motion'
+import Link from 'next/link'
+import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import { NetworkIcon } from '@pooltogether/react-components'
 import { useGovernancePools } from '@pooltogether/hooks'
 import { NETWORK } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
 
-import { ANIM_LIST_VARIANTS } from 'lib/constants/framerAnimations'
 import { PoolRow } from 'lib/components/PoolRow'
-import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { PoolsListRowLoader, PoolsListUILoader } from 'lib/components/loaders/PoolsListUILoader'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
@@ -26,7 +25,6 @@ import { useOnEnvChange } from 'lib/hooks/useOnEnvChange'
  * @returns
  */
 export const PoolLists = () => {
-  const { t } = useTranslation()
   const router = useRouter()
   const poolFilters = usePoolFilters()
   const envChainIds = useEnvChainIds()
@@ -73,17 +71,50 @@ export const PoolLists = () => {
 
   return (
     <div className='mt-10'>
-      <div className='flex flex-col sm:flex-row justify-end items-center text-xs sm:text-lg lg:text-xl'>
+      <div
+        className={classnames(
+          'flex flex-col sm:flex-row items-center text-xs sm:text-lg lg:text-xl',
+          {
+            'justify-between': chainIdFilter !== ALL_NETWORKS_ID,
+            'justify-end': chainIdFilter === ALL_NETWORKS_ID
+          }
+        )}
+      >
+        {chainIdFilter !== ALL_NETWORKS_ID && (
+          <Breadcrumbs networkNiceName={getNetworkNiceNameByChainId(chainIdFilter)} />
+        )}
         <SmallDropdownInputGroup
           id='pool-filter'
           formatValue={formatValue}
           onValueSet={setChainFilter}
           currentValue={chainIdFilter}
           values={poolFilters}
+          className='filters-width-hover'
         />
       </div>
-
       <GovernancePoolsList chainIdFilter={chainIdFilter} />
+    </div>
+  )
+}
+
+const Breadcrumbs = (props) => {
+  const { networkNiceName } = props
+  const { t } = useTranslation()
+
+  return (
+    <div className='hidden sm:inline-block text-accent-2 font-inter uppercase font-normal opacity-80 hover:opacity-100 trans -mt-2'>
+      <span className='text-xxxs sm:text-xxs'>
+        <Link href='/' as='/'>
+          <a className='text-xxxs sm:text-xxs border-b border-secondary hover:text-accent-3'>
+            {t('pools')}
+          </a>
+        </Link>
+        <>
+          {' '}
+          <span className='text-accent-4 opacity-70 mx-1 font-bold'>&gt;</span>{' '}
+        </>
+        <>{networkNiceName}</>
+      </span>
     </div>
   )
 }
@@ -93,32 +124,12 @@ const GovernancePoolsList = (props) => {
   return <PoolList pools={pools} isFetched={isFetched} chainIdFilter={props.chainIdFilter} />
 }
 
-const MotionUL = (props) => {
-  const shouldReduceMotion = useReducedMotion()
-
-  const sharedListProps = {
-    className: 'flex flex-col text-xs sm:text-lg lg:text-xl',
-    initial: {
-      scale: 0,
-      y: -100,
-      opacity: 0
-    },
-    variants: ANIM_LIST_VARIANTS(shouldReduceMotion)
-  }
-
-  return (
-    <motion.ul {...props} {...sharedListProps}>
-      {props.children}
-    </motion.ul>
-  )
-}
-
 const SmallDropdownInputGroup = (props) => {
   return (
     <DropdownInputGroup
       {...props}
       backgroundClasses='bg-card'
-      textClasses='text-accent-2 text-xs xs:text-sm  trans'
+      textClasses='text-accent-2 text-xs xs:text-sm trans'
       roundedClasses='rounded-lg'
       paddingClasses='py-2 px-4'
       containerClassName='w-full sm:w-96'
@@ -186,8 +197,9 @@ const usePoolFilters = () => {
       [-1]: {
         view: (
           <div className='flex'>
-            <div className='flex flex-row-reverse'>
+            <div className='flex flex-row-reverse justify-between filter-icons'>
               <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-3' chainId={NETWORK.bsc} />
+              <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-3' chainId={NETWORK.celo} />
               <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-3' chainId={NETWORK.mainnet} />
               <NetworkIcon sizeClassName='my-auto h-6 w-6' chainId={NETWORK.polygon} />
             </div>

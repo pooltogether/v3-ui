@@ -69,7 +69,8 @@ const PodListItem = (props) => {
 const NetworkCornerBadge = (props) => (
   <NetworkBadge
     chainId={props.chainId}
-    className='absolute left-0 top-0 py-2 px-3 bg-light-purple-10 rounded-tl-xl rounded-br-xl'
+    className='absolute left-0 top-0 px-3 py-1 bg-light-purple-10 rounded-tl-xl rounded-br-xl border-b border-r border-accent-4'
+    textClassName='text-xs xs:text-sm'
   />
 )
 
