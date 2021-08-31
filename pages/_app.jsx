@@ -99,6 +99,7 @@ function MyApp({ Component, pageProps, router }) {
         url: 'https://goose.pooltogether.com/script.js',
         includedDomains: [
           'app-v3.pooltogether.com',
+          'app-staging.pooltogether.com',
           'app.pooltogether.com',
           'staging-v3.pooltogether.com'
         ]
