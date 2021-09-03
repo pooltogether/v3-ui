@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import classnames from 'classnames'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts_3_3/abis/TokenFaucet'
 import Cookies from 'js-cookie'
@@ -35,7 +35,7 @@ import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFro
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
 import { useUsersTokenBalanceAndAllowance } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 import { displayPercentage } from 'lib/utils/displayPercentage'
-import { findSponsorshipFaucet } from 'lib/utils/findSponsorshipFaucet'
+import { findSponsorshipFaucet, findSponsorshipFaucets } from 'lib/utils/findSponsorshipFaucet'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { getNetworkNiceNameByChainId, NETWORK } from 'lib/utils/networks'
 import { formatUsersTokenDataForPool } from 'lib/utils/formatUsersTokenDataForPool'
@@ -154,6 +154,34 @@ const RewardsPools = (props) => {
     refetchPoolTokenData()
   }
 
+  const tokenFaucets = useMemo(() => {
+    const tokenFaucets = []
+    pools.forEach((pool) => {
+      if (!pool) {
+        return
+      }
+
+      const sponsorshipFaucets = findSponsorshipFaucets(pool)
+
+      sponsorshipFaucets.forEach((tokenFaucet) => {
+        tokenFaucets.push(
+          <RewardsPoolRow
+            {...props}
+            key={`gov-rewards-card-${pool?.prizePool.address}`}
+            playersDepositDataIsFetched={playersDepositDataIsFetched}
+            playersDepositData={playersDepositData}
+            refetch={refetchAllPoolTokenData}
+            usersAddress={usersAddress}
+            tokenFaucet={tokenFaucet}
+            pool={pool}
+          />
+        )
+      })
+    })
+
+    return tokenFaucets
+  }, [pools])
+
   return (
     <>
       <HashHighlightable
@@ -171,25 +199,7 @@ const RewardsPools = (props) => {
         depositColumnHeader={t(isSponsorship ? 'yourSponsorship' : 'yourStake')}
         columnOneWidthClass='w-32 lg:w-64'
       >
-        {pools.map((pool) => {
-          if (!pool) {
-            return
-          }
-          const tokenFaucet = isSponsorship ? findSponsorshipFaucet(pool) : pool.tokenFaucets?.[0]
-
-          return (
-            <RewardsPoolRow
-              {...props}
-              key={`gov-rewards-card-${pool?.prizePool.address}`}
-              playersDepositDataIsFetched={playersDepositDataIsFetched}
-              playersDepositData={playersDepositData}
-              refetch={refetchAllPoolTokenData}
-              usersAddress={usersAddress}
-              tokenFaucet={tokenFaucet}
-              pool={pool}
-            />
-          )
-        })}
+        {tokenFaucets}
       </RewardsTable>
     </>
   )
