@@ -20,7 +20,8 @@ const nextConfig = {
   exportTrailingSlash: true,
   exportPathMap: function () {
     return {
-      '/': { page: '/' }
+      '/': { page: '/' },
+      '/account': { page: '/account' },
     }
   }
 }
