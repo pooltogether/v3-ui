@@ -18,12 +18,7 @@ const nextConfig = {
   compress: false,
   inlineImageLimit: 48, // make it tiny so that it doesn't inline,
   exportTrailingSlash: true,
-  exportPathMap: function () {
-    return {
-      '/': { page: '/' },
-      '/account': { page: '/account' },
-    }
-  }
+  
 }
 
 const allConfig = withBundleAnalyzer(
