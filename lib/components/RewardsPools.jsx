@@ -35,7 +35,7 @@ import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFro
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
 import { useUsersTokenBalanceAndAllowance } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 import { displayPercentage } from 'lib/utils/displayPercentage'
-import { findSponsorshipFaucet, findSponsorshipFaucets } from 'lib/utils/findSponsorshipFaucet'
+import { hasSponsorshipFaucets, findSponsorshipFaucets } from 'lib/utils/findSponsorshipFaucet'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { getNetworkNiceNameByChainId, NETWORK } from 'lib/utils/networks'
 import { formatUsersTokenDataForPool } from 'lib/utils/formatUsersTokenDataForPool'
@@ -104,7 +104,7 @@ export const RewardsSponsorship = () => {
 
   let sponsorshipIncentivizedPools = []
   pools?.forEach((pool) => {
-    if (Boolean(findSponsorshipFaucet(pool))) {
+    if (hasSponsorshipFaucets(pool)) {
       sponsorshipIncentivizedPools.push(pool)
     }
   })
@@ -157,26 +157,42 @@ const RewardsPools = (props) => {
   const tokenFaucets = useMemo(() => {
     const tokenFaucets = []
     pools.forEach((pool) => {
-      if (!pool) {
+      if (!pool || !pool.tokenFaucets) {
         return
       }
 
-      const sponsorshipFaucets = findSponsorshipFaucets(pool)
-
-      sponsorshipFaucets.forEach((tokenFaucet) => {
-        tokenFaucets.push(
-          <RewardsPoolRow
-            {...props}
-            key={`gov-rewards-card-${pool?.prizePool.address}`}
-            playersDepositDataIsFetched={playersDepositDataIsFetched}
-            playersDepositData={playersDepositData}
-            refetch={refetchAllPoolTokenData}
-            usersAddress={usersAddress}
-            tokenFaucet={tokenFaucet}
-            pool={pool}
-          />
-        )
-      })
+      if (isSponsorship) {
+        const sponsorshipFaucets = findSponsorshipFaucets(pool)
+        sponsorshipFaucets.forEach((tokenFaucet, i) => {
+          tokenFaucets.push(
+            <RewardsPoolRow
+              {...props}
+              key={`gov-rewards-card-${pool?.prizePool.address}-${i}`}
+              playersDepositDataIsFetched={playersDepositDataIsFetched}
+              playersDepositData={playersDepositData}
+              refetch={refetchAllPoolTokenData}
+              usersAddress={usersAddress}
+              tokenFaucet={tokenFaucet}
+              pool={pool}
+            />
+          )
+        })
+      } else {
+        pool.tokenFaucets.forEach((tokenFaucet, i) => {
+          tokenFaucets.push(
+            <RewardsPoolRow
+              {...props}
+              key={`gov-rewards-card-${pool?.prizePool.address}-${i}`}
+              playersDepositDataIsFetched={playersDepositDataIsFetched}
+              playersDepositData={playersDepositData}
+              refetch={refetchAllPoolTokenData}
+              usersAddress={usersAddress}
+              tokenFaucet={tokenFaucet}
+              pool={pool}
+            />
+          )
+        })
+      }
     })
 
     return tokenFaucets
@@ -812,7 +828,8 @@ const RewardsPoolAPR = (props) => {
   if (!pool || !apr) {
     return (
       <span className={classnames('flex')}>
-        <ThemedClipSpinner size={12} />
+        {/* <ThemedClipSpinner size={12} /> */}
+        --
       </span>
     )
   }
