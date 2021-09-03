@@ -9,7 +9,7 @@ import { STRINGS } from 'lib/constants'
 import { AccountTicket } from 'lib/components/AccountTicket'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
-import { findSponsorshipFaucet } from 'lib/utils/findSponsorshipFaucet'
+import { findActiveSponsorshipFaucet } from 'lib/utils/findSponsorshipFaucet'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 
 export function ManageTicketsForm(props) {
@@ -29,7 +29,7 @@ export function ManageTicketsForm(props) {
     (playerPoolDepositData) => playerPoolDepositData.poolAddress === pool.prizePool.address
   )
 
-  const sponsorshipFaucet = findSponsorshipFaucet(pool)
+  const sponsorshipFaucet = findActiveSponsorshipFaucet(pool)
 
   return (
     <>

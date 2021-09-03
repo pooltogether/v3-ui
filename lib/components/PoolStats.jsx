@@ -15,7 +15,7 @@ import { Erc20Image } from 'lib/components/Erc20Image'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { displayPercentage } from 'lib/utils/displayPercentage'
-import { findSponsorshipFaucet } from 'lib/utils/findSponsorshipFaucet'
+import { findActiveSponsorshipFaucet } from 'lib/utils/findSponsorshipFaucet'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { NETWORK, toNonScaledUsdString } from '@pooltogether/utilities'
 
@@ -313,7 +313,7 @@ const EffectiveAprStat = (props) => {
 
   const { t } = useTranslation()
 
-  const faucetIncentivizesSponsorship = findSponsorshipFaucet(pool) === tokenFaucet
+  const faucetIncentivizesSponsorship = findActiveSponsorshipFaucet(pool) === tokenFaucet
 
   return (
     <Stat
