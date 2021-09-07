@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import classnames from 'classnames'
-import { useTokenBalance, useTokenBalances, useUsersAddress } from '@pooltogether/hooks'
+import {
+  usePodShareBalance,
+  useTokenBalance,
+  useTokenBalances,
+  useUsersAddress
+} from '@pooltogether/hooks'
 
 import { WithdrawAmount } from 'lib/components/WithdrawWizard/WithdrawAmount'
 import { useForm } from 'react-hook-form'
@@ -25,18 +30,20 @@ export const PodWithdrawAmount = (props) => {
 
   const { t } = useTranslation()
   const usersAddress = useUsersAddress()
-  const { data: usersBalance, isFetched: isUsersBalanceFetched } = useTokenBalances(
-    chainId,
-    usersAddress,
-    [tokenAddress, podTicketAddress]
-  )
+  const { data: usersUnderlyingTicketBalance, isFetched: isUsersUnderlyingBalanceFetched } =
+    useTokenBalances(chainId, usersAddress, [tokenAddress])
+  const { data: usersPodShareBalance, isFetched: isUsersPodShareBalanceFetched } =
+    usePodShareBalance(chainId, usersAddress || ethers.constants.AddressZero, podTicketAddress)
   const { data: podTicketBalance, isFetched: isPodBalanceFetched } = useTokenBalance(
     chainId,
     contractAddress,
     poolTicketAddress
   )
 
-  const isFetched = isUsersBalanceFetched && isPodBalanceFetched
+  console.log(usersPodShareBalance)
+
+  const isFetched =
+    isUsersUnderlyingBalanceFetched && isUsersPodShareBalanceFetched && isPodBalanceFetched
 
   const { watch, formState } = form
   const quantity = watch('quantity', false)
@@ -48,8 +55,8 @@ export const PodWithdrawAmount = (props) => {
         chainId={chainId}
         usersAddress={usersAddress}
         form={form}
-        usersTicketBalance={usersBalance?.[podTicketAddress].amount}
-        usersUnderlyingBalance={usersBalance?.[tokenAddress].amount}
+        usersTicketBalance={usersPodShareBalance?.underlyingAmount.amount}
+        usersUnderlyingBalance={usersUnderlyingTicketBalance?.[tokenAddress].amount}
         label={t('withdrawTokenFromPod', { token: tokenSymbol })}
         tokenSymbol={podTicketTokenSymbol}
         tokenAddress={podTicketAddress}
@@ -68,7 +75,7 @@ export const PodWithdrawAmount = (props) => {
           isFetched={isFetched}
           pod={pod}
           quantity={quantity}
-          usersBalanceUnformatted={usersBalance?.[podTicketAddress].amountUnformatted}
+          usersBalanceUnformatted={usersPodShareBalance?.underlyingAmount.amountUnformatted}
         />
       </div>
     </>

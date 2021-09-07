@@ -1,8 +1,18 @@
 import React, { useCallback, useEffect } from 'react'
 import { ethers } from 'ethers'
-import { useTokenBalance, useUsersAddress, useSendTransaction } from '@pooltogether/hooks'
+import {
+  useTokenBalance,
+  useUsersAddress,
+  useSendTransaction,
+  usePodShareBalance
+} from '@pooltogether/hooks'
 import { Card, poolToast } from '@pooltogether/react-components'
-import { getMinPrecision, getPrecision, numberWithCommas } from '@pooltogether/utilities'
+import {
+  getMinPrecision,
+  getPrecision,
+  numberWithCommas,
+  underlyingAmountToSharesAmount
+} from '@pooltogether/utilities'
 import { Trans, useTranslation } from 'react-i18next'
 
 import PodAbi from 'abis/PodAbi'
@@ -10,9 +20,10 @@ import { ReviewAndSubmitWithdraw } from 'lib/components/WithdrawWizard/ReviewAnd
 import { usePodExitFee } from 'lib/hooks/usePodExitFee'
 import { calculateOdds } from 'lib/utils/calculateOdds'
 import Bell from 'assets/images/bell-red@2x.png'
+import { useAllUsersPodTickets } from 'lib/hooks/useAllUsersPodTickets'
 
 export const PodReviewAndSubmitWithdraw = (props) => {
-  const { pod, contractAddress, quantity, nextStep } = props
+  const { pod, contractAddress, quantity, prevTicketBalance, nextStep } = props
   const chainId = pod.metadata.chainId
   const podAddress = pod.pod.address
   const {
@@ -25,6 +36,10 @@ export const PodReviewAndSubmitWithdraw = (props) => {
   const sendTx = useSendTransaction(t, poolToast)
   const quantityUnformatted = ethers.utils.parseUnits(quantity || '0', decimals)
 
+  const usersAddress = useUsersAddress()
+  const { refetch: refetchAllPodTickets } = useAllUsersPodTickets(usersAddress)
+  const { refetch: refetchPodShareBalance } = usePodShareBalance(chainId, usersAddress, podAddress)
+
   const { data: podExitFee, isFetched: isExitFeeFetched } = usePodExitFee(
     chainId,
     podAddress,
@@ -33,12 +48,26 @@ export const PodReviewAndSubmitWithdraw = (props) => {
     decimals
   )
 
+  const { data: usersPodShareBalance, isFetched: isPodShareBalanceFetched } = usePodShareBalance(
+    chainId,
+    usersAddress,
+    podAddress
+  )
+
   const submitWithdrawTransaction = useCallback(async () => {
-    if (!isExitFeeFetched) {
+    if (!isExitFeeFetched || !isPodShareBalanceFetched) {
       return null
     }
 
-    const params = [quantityUnformatted, podExitFee.fee]
+    const quantityInShares = underlyingAmountToSharesAmount(
+      quantityUnformatted,
+      usersPodShareBalance.shares.totalSupplyUnformatted,
+      usersPodShareBalance.podUnderlyingTokenBalance.amountUnformatted.add(
+        usersPodShareBalance.podUnderlyingTicketBalance.amountUnformatted
+      )
+    )
+
+    const params = [quantityInShares, podExitFee.fee]
     const txName = `${t('withdraw')} ${numberWithCommas(quantity)} ${tokenSymbol}`
 
     return await sendTx({
@@ -50,10 +79,21 @@ export const PodReviewAndSubmitWithdraw = (props) => {
       callbacks: {
         onSuccess: () => {
           nextStep()
+        },
+        refetch: () => {
+          refetchAllPodTickets()
+          refetchPodShareBalance()
         }
       }
     })
-  }, [isExitFeeFetched, podExitFee, quantityUnformatted, contractAddress])
+  }, [
+    isExitFeeFetched,
+    podExitFee,
+    quantityUnformatted,
+    contractAddress,
+    isPodShareBalanceFetched,
+    usersPodShareBalance?.pricePerShare
+  ])
 
   return (
     <ReviewAndSubmitWithdraw
@@ -62,6 +102,7 @@ export const PodReviewAndSubmitWithdraw = (props) => {
       cards={[
         <PodWithdrawCard
           quantity={quantity}
+          prevTicketBalance={prevTicketBalance}
           pod={pod}
           fee={podExitFee?.fee}
           float={podExitFee?.float}
@@ -93,36 +134,28 @@ const PodWithdrawCard = (props) => {
     >
       <FinalBalance {...props} />
       <Odds {...props} />
+      <PricePerShare {...props} />
       <ExitFee {...props} />
     </Card>
   )
 }
 
 const FinalBalance = (props) => {
-  const { pod, quantity } = props
+  const { pod, quantity, prevTicketBalance } = props
 
-  const usersAddress = useUsersAddress()
-  const chainId = pod.metadata.chainId
-  const podAddress = pod.pod.address
   const decimals = pod.tokens.underlyingToken.decimals
   const quantityUnformatted = ethers.utils.parseUnits(quantity || '0', decimals)
+  const prevTicketBalanceUnformatted = ethers.utils.parseUnits(prevTicketBalance, decimals)
 
   const { t } = useTranslation()
 
-  const { data: usersBalance, isFetched: isPodBalanceFetched } = useTokenBalance(
-    chainId,
-    usersAddress,
-    podAddress
-  )
-
-  if (!isPodBalanceFetched) {
-    return <SummaryItem title={`${t('finalBalance')}:`} content={'--'} />
-  }
-
-  const finalBalanceUnformatted = usersBalance.amountUnformatted.sub(quantityUnformatted)
+  const finalBalanceUnformatted = prevTicketBalanceUnformatted.sub(quantityUnformatted)
   const finalBalance = finalBalanceUnformatted.isZero()
     ? 0
-    : numberWithCommas(finalBalanceUnformatted, { decimals })
+    : numberWithCommas(finalBalanceUnformatted, {
+        decimals,
+        precision: getMinPrecision(ethers.utils.formatUnits(finalBalanceUnformatted, decimals))
+      })
 
   return <SummaryItem title={`${t('finalBalance')}:`} content={finalBalance} />
 }
@@ -182,6 +215,40 @@ const Odds = (props) => {
   )
 }
 
+const PricePerShare = (props) => {
+  const { pod } = props
+
+  const usersAddress = useUsersAddress()
+  const chainId = pod.metadata.chainId
+  const podAddress = pod.pod.address
+  const decimals = pod.tokens.underlyingToken.decimals
+
+  const { t } = useTranslation()
+
+  const { data: usersPodShareBalance, isFetched: isPodShareBalanceFetched } = usePodShareBalance(
+    chainId,
+    usersAddress,
+    podAddress
+  )
+
+  if (!isPodShareBalanceFetched) {
+    return <SummaryItem title={`${t('pricePerShare', 'Price per share')}:`} content={'--'} />
+  }
+
+  const pricePerShare = usersPodShareBalance.pricePerShare
+  const pricePerSharePretty = numberWithCommas(pricePerShare, {
+    decimals,
+    precision: getMinPrecision(ethers.utils.formatUnits(pricePerShare, decimals))
+  })
+
+  return (
+    <SummaryItem
+      title={`${t('pricePerShare', 'Price per share')}:`}
+      content={pricePerSharePretty}
+    />
+  )
+}
+
 const ExitFee = (props) => {
   const { pod, fee } = props
   const { t } = useTranslation()
@@ -199,7 +266,7 @@ const ExitFee = (props) => {
 
 const SummaryItem = (props) => (
   <div className='flex flex-row justify-between'>
-    <span className='opacity-70'>{props.title}</span>
+    <span className='opacity-70 text-left'>{props.title}</span>
     <span className='font-bold'>{props.content}</span>
   </div>
 )
