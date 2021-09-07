@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react'
 import classnames from 'classnames'
-import { useTokenBalance, useTokenBalances, useUsersAddress } from '@pooltogether/hooks'
+import {
+  useTokenBalance,
+  useTokenBalances,
+  useUsersAddress,
+  usePodShareBalance
+} from '@pooltogether/hooks'
 
 import { DepositAmount } from 'lib/components/DepositWizard/DepositAmount'
 import { useForm } from 'react-hook-form'
@@ -33,18 +38,18 @@ export const PodDepositAmount = (props) => {
   const { t } = useTranslation()
 
   const usersAddress = useUsersAddress()
-  const { data: usersBalance, isFetched: isUsersBalanceFetched } = useTokenBalances(
-    chainId,
-    usersAddress || ethers.constants.AddressZero,
-    [tokenAddress, podTicketAddress]
-  )
-  const { data: podTicketBalance, isFetched: isPodBalanceFetched } = useTokenBalance(
+  const { data: usersUnderlyingTokenBalance, isFetched: isUsersUnderlyingBalanceFetched } =
+    useTokenBalances(chainId, usersAddress || ethers.constants.AddressZero, [tokenAddress])
+  const { data: usersPodShareBalance, isFetched: isUsersPodShareBalanceFetched } =
+    usePodShareBalance(chainId, usersAddress || ethers.constants.AddressZero, podTicketAddress)
+  const { data: podPoolTicketBalance, isFetched: isPodBalanceFetched } = useTokenBalance(
     chainId,
     contractAddress,
     poolTicketAddress
   )
 
-  const isFetched = isUsersBalanceFetched && isPodBalanceFetched
+  const isFetched =
+    isUsersPodShareBalanceFetched && isUsersUnderlyingBalanceFetched && isPodBalanceFetched
 
   const { watch, formState } = form
   const quantity = watch('quantity', false)
@@ -55,8 +60,8 @@ export const PodDepositAmount = (props) => {
         chainId={chainId}
         usersAddress={usersAddress}
         form={form}
-        usersTicketBalance={usersBalance?.[podTicketAddress].amount}
-        usersUnderlyingBalance={usersBalance?.[tokenAddress].amount}
+        usersTicketBalance={usersPodShareBalance?.underlyingAmount.amount}
+        usersUnderlyingBalance={usersUnderlyingTokenBalance?.[tokenAddress].amount}
         label={t('depositIntoPod', { token: tokenSymbol })}
         tokenSymbol={tokenSymbol}
         tokenAddress={tokenAddress}
@@ -70,17 +75,15 @@ export const PodDepositAmount = (props) => {
           isFetched={isFetched}
           pod={pod}
           quantity={quantity}
-          podBalanceUnformatted={podTicketBalance?.amountUnformatted}
+          podBalanceUnformatted={podPoolTicketBalance?.amountUnformatted}
         />
         <UsersPrize
           isQuantityValid={formState.isValid}
           isFetched={isFetched}
           pod={pod}
           quantity={quantity}
-          usersBalanceUnformatted={usersBalance?.[podTicketAddress].amountUnformatted}
-          podStablecoinTotalSupplyUnformatted={
-            usersBalance?.[podTicketAddress].totalSupplyUnformatted
-          }
+          usersBalanceUnformatted={usersPodShareBalance?.underlyingAmount.amountUnformatted}
+          podStablecoinTotalSupplyUnformatted={usersPodShareBalance?.shares.totalSupplyUnformatted}
         />
       </div>
     </>

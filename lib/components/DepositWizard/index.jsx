@@ -110,7 +110,7 @@ export const DepositWizard = (props) => {
             chainId={chainId}
             isUserOnCorrectNetwork={isUserOnCorrectNetwork}
             quantity={quantity}
-            aprevTicketBalance={prevTicketBalance}
+            prevTicketBalance={prevTicketBalance}
             prevUnderlyingBalance={prevUnderlyingBalance}
             pproveTxId={approveTxId}
             setApproveTxId={setApproveTxId}
