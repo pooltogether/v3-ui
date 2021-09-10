@@ -135,13 +135,22 @@ export const PoolRow = (props) => {
             {pool.tokenFaucets?.length > 0 && (
               <div className='flex flex-col sm:flex-row w-full justify-between pt-2'>
                 <div className='mx-auto sm:mx-0'>
-                  {pool.tokenFaucets.map((tokenFaucet) => (
-                    <AprChip
-                      key={tokenFaucet.address}
-                      chainId={pool.chainId}
-                      tokenFaucet={tokenFaucet}
-                    />
-                  ))}
+                  {pool.tokenFaucets.map((tokenFaucet) => {
+                    if (
+                      tokenFaucet.measure.toLowerCase() ===
+                      pool.tokens.sponsorship.address.toLowerCase()
+                    ) {
+                      return null
+                    }
+
+                    return (
+                      <AprChip
+                        key={tokenFaucet.address}
+                        chainId={pool.chainId}
+                        tokenFaucet={tokenFaucet}
+                      />
+                    )
+                  })}
                 </div>
                 <ViewPoolDetailsButton className='mx-auto sm:mx-0 mt-1 sm:mt-0' />
               </div>
