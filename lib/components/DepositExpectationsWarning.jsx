@@ -26,7 +26,9 @@ export const DepositExpectationsWarning = (props) => {
 
   /// @return creditRateMantissa The credit rate. This is the amount of tokens that accrue per second
   const creditRateMantissaBN = bn(creditRateMantissa)
-  const durationInSecondsBN = creditLimitMantissaBN.div(creditRateMantissaBN)
+  const durationInSecondsBN = !creditRateMantissaBN.isZero()
+    ? creditLimitMantissaBN.div(creditRateMantissaBN)
+    : ethers.constants.Zero
   const days = durationInSecondsBN.toNumber() / SECONDS_PER_DAY
 
   return (
