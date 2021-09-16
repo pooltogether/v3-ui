@@ -34,15 +34,10 @@ const DepositsAndPrizesCharts = (props) => {
   const tokenSymbol = pool.tokens.underlyingToken.symbol
 
   return (
-    <div className='text-inverse p-4 bg-card h-full sm:h-auto rounded-none sm:rounded-xl mx-auto flex flex-col sm:flex-row'>
+    <div className='text-inverse bg-card h-full sm:h-auto rounded-none sm:rounded-xl mx-auto flex flex-col sm:flex-row'>
       <div className='w-full'>
         <div className='flex'>
-          <h5>{t('historicDeposits')}</h5>
-          <Tooltip
-            id={'pool-charts-historic-deposits-tooltip'}
-            className='ml-2 my-auto text-accent-1'
-            tip={t('historicDepositsInfo')}
-          />
+          <h3 className='mb-4'>{t('historicDeposits')}</h3>
         </div>
         <span>{t('currentDeposits')}:</span>
         <span className='ml-4'>

@@ -14,9 +14,11 @@ export const PodsCTA = (props) => {
   }
 
   return (
-    <p className='text-center mt-2 mb-6 text-xxs xs:text-sm'>
+    <p className='bg-body rounded-lg text-center mt-2 mb-10 py-2 text-xxs xs:text-sm'>
       {t('wantAHigherChanceToWin', 'Want a higher chance to win?')} 🐳{' '}
-      <a href='https://pods.pooltogether.com'>{t('joinThePod', 'Join the Pod')}</a>
+      <a className='text-green hover:text-inverse trans' href='https://pods.pooltogether.com'>
+        {t('joinThePod', 'Join the Pod')}
+      </a>
     </p>
   )
 }

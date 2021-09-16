@@ -126,8 +126,8 @@ export const HistoricPrizeBreakdown = (props) => {
 
         <PodsCTA pool={pool} />
 
-        <div className='mt-1 xs:mt-0 xs:bg-primary xs:px-10 py-2 xs:py-5 rounded-lg'>
-          <table className='theme-light--no-gutter w-full text-xxxs xs:text-xxs sm:text-sm align-top'>
+        <div className='mt-1 xs:mt-0 py-2 rounded-lg'>
+          <table className='w-full text-xxxs xs:text-xxs sm:text-sm align-top'>
             <thead>
               <tr style={{ background: 'none' }}>
                 {hasLootBox && <th>{t('prize')}</th>}

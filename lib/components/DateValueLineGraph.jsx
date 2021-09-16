@@ -42,7 +42,7 @@ export function DateValueLineGraph(props) {
   const allData = series.reduce((rec, d) => rec.concat(d), [])
 
   return (
-    <div className='h-36'>
+    <div className='h-36 mt-6'>
       <ParentSize className='max-chart-width mx-auto'>
         {({ height, width }) => {
           const maxWidth = 1100
