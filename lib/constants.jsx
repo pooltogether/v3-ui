@@ -129,7 +129,7 @@ export const CUSTOM_CONTRACT_ADDRESSES = {
   },
   42220: {
     GovernanceToken: '',
-    Stablecoin: '0x765DE816845861e75A25fCA122bb6898B8B1282a'
+    Stablecoin: '0x765de816845861e75a25fca122bb6898b8b1282a'
   },
   80001: {
     GovernanceToken: '',
