@@ -40,8 +40,6 @@ export const PodWithdrawAmount = (props) => {
     poolTicketAddress
   )
 
-  console.log(usersPodShareBalance)
-
   const isFetched =
     isUsersUnderlyingBalanceFetched && isUsersPodShareBalanceFetched && isPodBalanceFetched
 
