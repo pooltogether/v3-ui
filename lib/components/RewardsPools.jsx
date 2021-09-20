@@ -140,8 +140,10 @@ const RewardsPools = (props) => {
   const { isSponsorship, pools, tableId, tableHeader, tableSummary, tableDescriptionCard } = props
 
   const usersAddress = useUsersAddress()
-  const { data: playersDepositData, isFetched: playersDepositDataIsFetched } =
-    useUserTicketsFormattedByPool(usersAddress)
+  const {
+    data: playersDepositData,
+    isFetched: playersDepositDataIsFetched
+  } = useUserTicketsFormattedByPool(usersAddress)
 
   const { refetch: refetchTotalClaimablePool } = useClaimableTokenFromTokenFaucets(
     NETWORK.mainnet,
@@ -416,7 +418,8 @@ const ClaimButton = (props) => {
     isClaimable,
     tokenFaucetAddress,
     chainId,
-    walletOnWrongNetwork
+    walletOnWrongNetwork,
+    pool
   } = props
 
   const { t } = useTranslation()
@@ -459,7 +462,7 @@ const ClaimButton = (props) => {
   return (
     <Tooltip
       isEnabled={walletOnWrongNetwork}
-      id={`rewards-gov-claim-wallet-on-wrong-network-tooltip`}
+      id={`rewards-gov-claim-wallet-on-wrong-network-tooltip-${pool?.prizePool.address}`}
       tip={t('yourWalletIsOnTheWrongNetwork', {
         networkName: getNetworkNiceNameByChainId(chainId)
       })}
@@ -674,8 +677,13 @@ const DepositTriggers = (props) => {
 const WithdrawTriggers = (props) => {
   const { t } = useTranslation()
 
-  const { isSponsorship, openWithdrawModal, pool, walletOnWrongNetwork, playersPoolDepositData } =
-    props
+  const {
+    isSponsorship,
+    openWithdrawModal,
+    pool,
+    walletOnWrongNetwork,
+    playersPoolDepositData
+  } = props
   const router = useRouter()
 
   const pushRouteToTicketManage = () => {
