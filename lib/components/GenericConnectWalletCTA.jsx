@@ -1,6 +1,6 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
-import { useOnboard } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Button, Tooltip } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
 

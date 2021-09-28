@@ -1,5 +1,5 @@
 import React from 'react'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { useAtom } from 'jotai'
 import { useTranslation } from 'react-i18next'
 
@@ -21,7 +21,8 @@ export const AccountLootBoxes = (props) => {
 
 const AccountLootBoxesView = (props) => {
   const { t } = useTranslation()
-  const usersAddress = useUsersAddress()
+
+  const { address: usersAddress } = useOnboard()
   const { data: lootBoxesWon, isFetched: lootBoxesIsFetched } = useLootBoxesWon(usersAddress)
 
   if (!lootBoxesIsFetched || lootBoxesWon.length === 0) {

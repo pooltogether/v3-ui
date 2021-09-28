@@ -4,7 +4,8 @@ import FeatherIcon from 'feather-icons-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
-import { usePrizePeriod, useCurrentPool, useUsersAddress } from '@pooltogether/hooks'
+import { usePrizePeriod, useCurrentPool } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { PageTitleAndBreadcrumbs, PrizeCountdown } from '@pooltogether/react-components'
 
 import { CardGrid } from 'lib/components/CardGrid'
@@ -20,18 +21,17 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 export const ManageUI = (props) => {
   const { t } = useTranslation()
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
 
   const router = useRouter()
   const { data: pool, refetch: refetchPool } = useCurrentPool(router)
-  
+
   const { contractAddresses } = useContractAddresses(pool?.chainId)
 
-  const {
-    data: prize,
-    isFetched,
-    refetch
-  } = usePrizePeriod(pool?.chainId, pool?.prizeStrategy.address)
+  const { data: prize, isFetched, refetch } = usePrizePeriod(
+    pool?.chainId,
+    pool?.prizeStrategy.address
+  )
 
   if (!pool || !isFetched) {
     return (

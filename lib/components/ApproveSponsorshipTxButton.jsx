@@ -5,9 +5,10 @@ import { useRouter } from 'next/router'
 import { Button, poolToast, Tooltip } from '@pooltogether/react-components'
 import { useCurrentPool } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
-import { useSendTransaction, useTransaction } from '@pooltogether/hooks'
+import { useTransaction } from '@pooltogether/hooks'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 
-export function ApproveSponsorshipTxButton(props) {
+export function ApproveSponsorshipTxButton (props) {
   const { t } = useTranslation()
 
   const { decimals, disabled, needsApproval, tickerUpcased, refetch } = props
@@ -21,7 +22,7 @@ export function ApproveSponsorshipTxButton(props) {
   const [txId, setTxId] = useState(0)
   const txName = t(`allowTickerPoolSponsorship`, { ticker: tickerUpcased })
   const method = 'approve'
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const tx = useTransaction(txId)
 
   const unlockTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)

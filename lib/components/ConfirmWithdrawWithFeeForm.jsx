@@ -3,7 +3,8 @@ import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
-import { useUsersAddress, useSendTransaction, useTransaction } from '@pooltogether/hooks'
+import { useTransaction } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Button, Tooltip, poolToast } from '@pooltogether/react-components'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 
@@ -17,13 +18,14 @@ import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanne
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { useExitFees } from 'lib/hooks/useExitFees'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import IconLightning from 'assets/images/icon-lightning.svg'
 
-export function ConfirmWithdrawWithFeeForm(props) {
+export function ConfirmWithdrawWithFeeForm (props) {
   const { t } = useTranslation()
   const router = useRouter()
 
@@ -31,7 +33,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
 
   const { nextStep, previousStep, pool, quantity } = props
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
 
   const underlyingToken = pool.tokens.underlyingToken
   const ticker = underlyingToken.symbol
@@ -103,7 +105,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
     tickerUpcased,
     feeFormatted
   })
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const tx = useTransaction(txId)
 
   const runTx = async () => {

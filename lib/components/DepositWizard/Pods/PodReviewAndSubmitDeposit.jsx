@@ -1,14 +1,16 @@
 import React, { useCallback } from 'react'
-import { Card, poolToast } from '@pooltogether/react-components'
-import { useUsersAddress, useSendTransaction, usePodShareBalance } from '@pooltogether/hooks'
+import { Card } from '@pooltogether/react-components'
+import { usePodShareBalance } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { ethers } from 'ethers'
-import { numberWithCommas, underlyingAmountToSharesAmount } from '@pooltogether/utilities'
+import { numberWithCommas } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
 
-import { ReviewAndSubmitDeposit } from 'lib/components/DepositWizard/ReviewAndSubmitDeposit'
 import PodAbi from 'abis/PodAbi'
 import Bell from 'assets/images/bell-red@2x.png'
+import { ReviewAndSubmitDeposit } from 'lib/components/DepositWizard/ReviewAndSubmitDeposit'
 import { useAllUsersPodTickets } from 'lib/hooks/useAllUsersPodTickets'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 
 export const PodReviewAndSubmitDeposit = (props) => {
   const { pod, contractAddress, quantity, nextStep } = props
@@ -16,9 +18,9 @@ export const PodReviewAndSubmitDeposit = (props) => {
   const tokenSymbol = pod.tokens.underlyingToken.symbol
   const decimals = pod.tokens.underlyingToken.decimals
   const podAddress = pod.pod.address
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
   const { t } = useTranslation()
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
 
   const { refetch: refetchPodShareBalance } = usePodShareBalance(chainId, usersAddress, podAddress)
   const { refetch: refetchAllPodTickets } = useAllUsersPodTickets(usersAddress)

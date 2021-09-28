@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useCurrentPool, useUsersAddress, useUserTicketsFormattedByPool } from '@pooltogether/hooks'
+import { useCurrentPool, useUserTicketsFormattedByPool } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Tooltip } from '@pooltogether/react-components'
 import { Trans, useTranslation } from 'react-i18next'
 
@@ -12,11 +13,13 @@ import { WithdrawTicketsForm } from 'lib/components/WithdrawTicketsForm'
 import { findActiveSponsorshipFaucet } from 'lib/utils/findSponsorshipFaucet'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 
-export function ManageTicketsForm(props) {
+export function ManageTicketsForm (props) {
   const { nextStep } = props
 
   const { t } = useTranslation()
-  const usersAddress = useUsersAddress()
+
+  const { address: usersAddress } = useOnboard()
+
   const [action] = useState(STRINGS.withdraw)
 
   const router = useRouter()
@@ -84,7 +87,7 @@ export function ManageTicketsForm(props) {
   )
 }
 
-export function SponsorshipIncentiveMessage(props) {
+export function SponsorshipIncentiveMessage (props) {
   const { t } = useTranslation()
 
   const { tokenFaucet, pool } = props

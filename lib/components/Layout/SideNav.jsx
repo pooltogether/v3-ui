@@ -77,7 +77,7 @@ export const SideNav = (props) => {
       </SideNavContainer>
 
       <SideNavContainer className='mb-4'>
-        <SocialLinks />
+        <SocialLinks t={t} />
       </SideNavContainer>
     </div>
   )

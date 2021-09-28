@@ -4,17 +4,17 @@ import { useRouter } from 'next/router'
 import { Button } from '@pooltogether/react-components'
 import { useRetroactivePoolClaimData } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { Banner } from 'lib/components/Banner'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
-import { useUsersAddress } from '@pooltogether/hooks'
 
 export const RetroactivePoolClaimBanner = (props) => {
   const { t } = useTranslation()
 
   const router = useRouter()
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
   const { data, loading } = useRetroactivePoolClaimData()
 
   if (loading || data?.isMissing || data?.isClaimed) {

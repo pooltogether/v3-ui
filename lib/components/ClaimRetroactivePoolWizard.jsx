@@ -5,17 +5,13 @@ import { useForm } from 'react-hook-form'
 import { AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { shorten } from '@pooltogether/utilities'
-import { Button, poolToast } from '@pooltogether/react-components'
-import {
-  useRetroactivePoolClaimData,
-  useOnboard,
-  useUsersAddress,
-  useSendTransaction,
-  useTransaction
-} from '@pooltogether/hooks'
+import { Button } from '@pooltogether/react-components'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
+import { useRetroactivePoolClaimData, useTransaction } from '@pooltogether/hooks'
 
 import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
 import MerkleDistributorAbi from 'abis/MerkleDistributor'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 import { Banner } from 'lib/components/Banner'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
@@ -61,7 +57,7 @@ const ClaimRetroactivePoolWizard = (props) => {
 const ClaimRetroactivePoolWizardStepManager = (props) => {
   const { closeWizard } = props
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
   const { activeStepIndex, previousStep, moveToStep, nextStep } = useWizard({
     initialStepIndex: usersAddress ? 1 : 0
   })
@@ -317,7 +313,7 @@ const ClaimableBalanceCheck = (props) => {
   const { amount, isClaimed, formattedAmount, index, proof } = claimData || {}
 
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const tx = useTransaction(txId)
 
   useEffect(() => {
@@ -429,7 +425,7 @@ const ReceivingMessage = (props) => {
   )
 }
 
-export function ClaimRetroactiveSignInStep(props) {
+export function ClaimRetroactiveSignInStep (props) {
   const { nextStep, isActive } = props
 
   const { t } = useTranslation()

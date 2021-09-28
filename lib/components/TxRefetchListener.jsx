@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAtom } from 'jotai'
-import { useUserTickets, useUsersAddress } from '@pooltogether/hooks'
+import { useUserTickets } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
 
@@ -15,12 +16,12 @@ const isPlayerBalanceTransaction = (tx) => {
   return PLAYER_BALANCE_METHODS.includes(tx.method)
 }
 
-export function TxRefetchListener(props) {
+export function TxRefetchListener (props) {
   const [transactions] = useAtom(transactionsAtom)
 
   const [storedPendingTransactions, setStoredPendingTransactions] = useState([])
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
 
   const { refetch: refetchTicketData } = useUserTickets(usersAddress)
 

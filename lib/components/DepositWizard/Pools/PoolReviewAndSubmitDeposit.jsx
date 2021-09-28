@@ -1,23 +1,26 @@
 import React from 'react'
 import Cookies from 'js-cookie'
-import { useUsersAddress, useSendTransaction } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { ethers } from 'ethers'
 import { numberWithCommas } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
-import { poolToast } from '@pooltogether/react-components'
 
-import { ReviewAndSubmitDeposit } from 'lib/components/DepositWizard/ReviewAndSubmitDeposit'
 import { REFERRER_ADDRESS_KEY } from 'lib/constants'
+import { ReviewAndSubmitDeposit } from 'lib/components/DepositWizard/ReviewAndSubmitDeposit'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 
 export const PoolReviewAndSubmitDeposit = (props) => {
   const { pool, contractAddress, quantity, nextStep } = props
+
   const tokenSymbol = pool.tokens.underlyingToken.symbol
   const controlledTicketTokenAddress = pool.tokens.ticket.address
-  const usersAddress = useUsersAddress()
+
+  const { address: usersAddress } = useOnboard()
+
   const { t } = useTranslation()
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
 
   const submitDepositTransaction = async () => {
     const decimals = pool.tokens.underlyingToken.decimals

@@ -6,15 +6,11 @@ import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useAddNetworkToMetamask } from 'lib/hooks/useAddNetworkToMetamask'
 import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
-import {
-  APP_ENVIRONMENT,
-  useAppEnv,
-  useIsWalletOnSupportedNetwork,
-  useOnboard
-} from '@pooltogether/hooks'
+import { APP_ENVIRONMENT, useAppEnv, useIsWalletOnSupportedNetwork } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { NetworkIcon } from '@pooltogether/react-components'
 
-export function WrongNetworkModal(props) {
+export function WrongNetworkModal (props) {
   const { t } = useTranslation()
 
   const [bypassed, setBypassed] = useState(false)
@@ -30,7 +26,7 @@ export function WrongNetworkModal(props) {
     setBypassed(true)
   }
 
-  const supportedNetwork = useIsWalletOnSupportedNetwork(chainIds)
+  const supportedNetwork = useIsWalletOnSupportedNetwork(walletChainId, chainIds)
 
   if (!walletChainId || !supportedNetwork) {
     return null

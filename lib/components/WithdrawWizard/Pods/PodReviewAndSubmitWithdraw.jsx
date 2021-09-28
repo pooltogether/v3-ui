@@ -1,25 +1,22 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { ethers } from 'ethers'
-import {
-  useTokenBalance,
-  useUsersAddress,
-  useSendTransaction,
-  usePodShareBalance
-} from '@pooltogether/hooks'
-import { Card, poolToast } from '@pooltogether/react-components'
+import { useTokenBalance, usePodShareBalance } from '@pooltogether/hooks'
+import { Card } from '@pooltogether/react-components'
 import {
   getMinPrecision,
   getPrecision,
   numberWithCommas,
   underlyingAmountToSharesAmount
 } from '@pooltogether/utilities'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Trans, useTranslation } from 'react-i18next'
 
 import PodAbi from 'abis/PodAbi'
+import Bell from 'assets/images/bell-red@2x.png'
 import { ReviewAndSubmitWithdraw } from 'lib/components/WithdrawWizard/ReviewAndSubmitWithdraw'
 import { usePodExitFee } from 'lib/hooks/usePodExitFee'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 import { calculateOdds } from 'lib/utils/calculateOdds'
-import Bell from 'assets/images/bell-red@2x.png'
 import { useAllUsersPodTickets } from 'lib/hooks/useAllUsersPodTickets'
 
 export const PodReviewAndSubmitWithdraw = (props) => {
@@ -33,10 +30,11 @@ export const PodReviewAndSubmitWithdraw = (props) => {
   } = pod.tokens.underlyingToken
 
   const { t } = useTranslation()
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const quantityUnformatted = ethers.utils.parseUnits(quantity || '0', decimals)
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
+
   const { refetch: refetchAllPodTickets } = useAllUsersPodTickets(usersAddress)
   const { refetch: refetchPodShareBalance } = usePodShareBalance(chainId, usersAddress, podAddress)
 
@@ -163,7 +161,8 @@ const FinalBalance = (props) => {
 const Odds = (props) => {
   const { pod, quantity } = props
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
+
   const chainId = pod.metadata.chainId
   const podAddress = pod.pod.address
   const decimals = pod.tokens.underlyingToken.decimals
@@ -218,7 +217,8 @@ const Odds = (props) => {
 const PricePerShare = (props) => {
   const { pod } = props
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
+
   const chainId = pod.metadata.chainId
   const podAddress = pod.pod.address
   const decimals = pod.tokens.underlyingToken.decimals

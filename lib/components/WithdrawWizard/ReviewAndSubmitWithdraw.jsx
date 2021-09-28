@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
-import { useOnboard, useTransaction } from '@pooltogether/hooks'
+import React from 'react'
+import { useTransaction } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Button, Tooltip } from '@pooltogether/react-components'
 import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { Wizard, WizardStep } from 'react-wizard-primitive'
 import { useRouter } from 'next/router'
-import { useCurrentPool, useOnboard } from '@pooltogether/hooks'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useCurrentPool } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 
 import { useTranslation } from 'react-i18next'
 import { ConfirmWithdrawWithFeeForm } from 'lib/components/ConfirmWithdrawWithFeeForm'
@@ -19,10 +19,10 @@ import { useExitFees } from 'lib/hooks/useExitFees'
 
 const NETWORK_SWITCH_STEP_INDEX = 1
 
-export function ManageTicketsWizardContainer() {
+export function ManageTicketsWizardContainer () {
   const { t } = useTranslation()
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
 
   const router = useRouter()
   const quantity = router.query.quantity

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Wizard, { useWizard } from 'react-wizard-primitive'
-import { useOnboard, useTransaction } from '@pooltogether/hooks'
+import { useTransaction } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 
 import { WizardLayout } from 'lib/components/WizardLayout'
 import { WithdrawReceipt } from 'lib/components/WithdrawWizard/WithdrawReceipt'

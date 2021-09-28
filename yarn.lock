@@ -3084,6 +3084,11 @@
     enc-utils "^3.0.0"
     randombytes "^2.1.0"
 
+"@pooltogether/bnc-onboard-hooks@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard-hooks/-/bnc-onboard-hooks-1.0.0.tgz#fd4de6a6b6f9741e401a538192fce72f1a0d2595"
+  integrity sha512-HATYgJDwSZM6EZXswpuQ9/HnWMm7wWTqvUy6I9zuWc2DMmdXzEOJ7/NS6nq2yX6coef6Osu05P0bQSS8xCH38A==
+
 "@pooltogether/bnc-onboard@1.34.1-e":
   version "1.34.1-e"
   resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.34.1-e.tgz#9ebf4f40037d3eb0e87c57c5c551cee1b9c5c487"
@@ -3148,10 +3153,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/fixed-point/-/fixed-point-1.0.0-beta.2.tgz#d76a1e77f21833e9b680296d65526b0ffd7415d7"
   integrity sha512-aUw4R0Z2oM0AK3W4LIXyBaojTOzRRbhLDHX0egeuvxfjy4gBb6X66v81gI7Wngg/7O0y9QL/B8jWkUnAFzhTig==
 
-"@pooltogether/hooks@0.2.11":
-  version "0.2.11"
-  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-0.2.11.tgz#a21d56fa4a83003aa053ca98d76398e86d8782d3"
-  integrity sha512-SRVDumXNI1ojmO1j+zGb38hE3KaCaPdjxI11aR2GIigBA/9ihw6s9Us5rTHNscqljQ38MnURrMlLATTy/kW7yg==
+"@pooltogether/hooks@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-1.0.0.tgz#fdca1415d09e9ee67f1912ca8bc9f59a943db084"
+  integrity sha512-JSslcloACndkLd3YGjWtrKPKLKOjfKtHJctKEln+8QxlPc/873IqSN9WRB7MRbmUbJjV20BD0KoG6GxMoWvHfQ==
 
 "@pooltogether/loot-box@1.1.0":
   version "1.1.0"

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import classnames from 'classnames'
-import { useTokenBalances, useUsersAddress } from '@pooltogether/hooks'
+import { useTokenBalances } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { getMaxPrecision } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
 
@@ -17,7 +18,7 @@ export const PoolDepositAmount = (props) => {
 
   const { t } = useTranslation()
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
   const { data: usersBalance, isFetched: isUsersBalanceFetched } = useTokenBalances(
     chainId,
     usersAddress,

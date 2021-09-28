@@ -6,8 +6,9 @@ import ERC20Abi from 'abis/ERC20Abi'
 import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
-import { useOnboard, useSendTransaction, useTransaction } from '@pooltogether/hooks'
-import { Button, Tooltip, Modal, poolToast } from '@pooltogether/react-components'
+import { useTransaction } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
+import { Button, Tooltip, Modal } from '@pooltogether/react-components'
 
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
@@ -15,6 +16,7 @@ import { NetworkWarning } from 'lib/components/NetworkWarning'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { TxStatus } from 'lib/components/TxStatus'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
@@ -55,7 +57,7 @@ export const RewardsActionModal = (props) => {
 
   const { network: walletChainId } = useOnboard()
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const tx = useTransaction(txId)
 
   const txSent = tx?.sent && !tx?.completed
@@ -288,7 +290,7 @@ const ApproveButton = (props) => {
   const { decimals, refetch, pool, underlyingToken } = props
 
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const tx = useTransaction(txId)
 
   const txSent = tx?.sent && !tx?.completed

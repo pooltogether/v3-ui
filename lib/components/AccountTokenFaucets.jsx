@@ -2,21 +2,13 @@ import React, { useMemo, useState } from 'react'
 import Link from 'next/link'
 import classnames from 'classnames'
 import CountUp from 'react-countup'
-import {
-  APP_ENVIRONMENT,
-  useAppEnv,
-  useOnboard,
-  useTokenBalance,
-  useUsersAddress,
-  useSendTransaction,
-  useTransaction
-} from '@pooltogether/hooks'
+import { APP_ENVIRONMENT, useAppEnv, useTokenBalance, useTransaction } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import {
   Amount,
   Button,
   Card,
   InternalLink,
-  poolToast,
   ThemedClipSpinner,
   TokenIcon,
   Tooltip
@@ -38,8 +30,9 @@ import { isSelfAtom } from 'lib/components/AccountUI'
 import { IndexUILoader } from 'lib/components/loaders/IndexUILoader'
 import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
 import { usePoolTokenChainId } from 'lib/hooks/chainId/usePoolTokenChainId'
-import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
 import { useAllTokenFaucetsByChainId } from 'lib/hooks/useAllTokenFaucetsByChainId'
+import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 import { NetworkBadge } from 'lib/components/NetworkBadge'
 import { useTokenDripClaimableAmounts } from 'lib/hooks/useTokenDripClaimableAmounts'
 
@@ -52,7 +45,7 @@ export const AccountTokenFaucets = (props) => {
   const { appEnv } = useAppEnv()
   const ethereumChainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
@@ -429,8 +422,14 @@ const UsersDripPerDay = (props) => {
  * @param {*} props
  */
 const ClaimDripCell = (props) => {
-  const { refetch, usersAddress, chainId, tokenFaucet, isClaimableAmountFetched, claimableAmount } =
-    props
+  const {
+    refetch,
+    usersAddress,
+    chainId,
+    tokenFaucet,
+    isClaimableAmountFetched,
+    claimableAmount
+  } = props
   const { label, tokens, addressToClaimFrom, abi } = tokenFaucet
   const { dripToken } = tokens
 
@@ -493,14 +492,23 @@ const ClaimableAmount = (props) => {
  * @param {*} props
  */
 const ClaimButton = (props) => {
-  const { usersAddress, dripToken, label, refetch, isClaimable, addressToClaimFrom, chainId, abi } =
-    props
+  const {
+    usersAddress,
+    dripToken,
+    label,
+    refetch,
+    isClaimable,
+    addressToClaimFrom,
+    chainId,
+    abi
+  } = props
 
   const { network: walletChainId } = useOnboard()
 
   const { t } = useTranslation()
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
+
   const tx = useTransaction(txId)
 
   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed
@@ -678,8 +686,10 @@ const ClaimAllButton = (props) => {
 
   const { network: walletChainId } = useOnboard()
 
-  const { isFetched: isClaimablePoolDataFetched, data: claimablePoolFromTokenFaucets } =
-    useClaimableTokenFromTokenFaucets(chainId, address)
+  const {
+    isFetched: isClaimablePoolDataFetched,
+    data: claimablePoolFromTokenFaucets
+  } = useClaimableTokenFromTokenFaucets(chainId, address)
 
   const tokenFaucetAddresses = useMemo(() => {
     if (claimablePoolFromTokenFaucets) {
@@ -699,7 +709,7 @@ const ClaimAllButton = (props) => {
   }, [claimablePoolFromTokenFaucets])
 
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const tx = useTransaction(txId)
 
   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed

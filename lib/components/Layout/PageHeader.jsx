@@ -15,7 +15,7 @@ import {
 } from '@pooltogether/react-components'
 import Cookies from 'js-cookie'
 import Link from 'next/link'
-import { useOnboard } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { useTranslation } from 'react-i18next'
 
 import { COOKIE_OPTIONS, SHOW_MANAGE_LINKS } from 'lib/constants'
@@ -112,7 +112,16 @@ const ManagePoolsSettingsItem = () => {
 }
 
 const UsersAccount = () => {
-  const { isWalletConnected, connectWallet, isOnboardReady } = useOnboard()
+  const {
+    isWalletConnected,
+    provider,
+    connectWallet,
+    disconnectWallet,
+    walletName,
+    isOnboardReady,
+    address: usersAddress,
+    network: chainId
+  } = useOnboard()
   const supportedNetworks = useEnvChainIds()
   const { t } = useTranslation()
 
@@ -133,9 +142,25 @@ const UsersAccount = () => {
 
   return (
     <>
-      <NetworkSelector t={t} supportedNetworks={supportedNetworks} className='mx-1 my-auto' />
-      <NavPoolBalance className='mx-1 my-auto' />
-      <Account t={t} className='mx-1 my-auto' />
+      <NetworkSelector
+        t={t}
+        chainId={chainId}
+        isWalletConnected={isWalletConnected}
+        supportedNetworks={supportedNetworks}
+        className='mx-1 my-auto'
+      />
+      <NavPoolBalance usersAddress={usersAddress} className='mx-1 my-auto' />
+      <Account
+        t={t}
+        className='mx-1 my-auto'
+        connectWallet={connectWallet}
+        disconnectWallet={disconnectWallet}
+        isWalletConnected={isWalletConnected}
+        provider={provider}
+        chainId={chainId}
+        usersAddress={usersAddress}
+        walletName={walletName}
+      />
     </>
   )
 }

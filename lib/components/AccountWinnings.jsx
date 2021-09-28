@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
 import { isEmpty } from 'lodash'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 
 import { useTranslation } from 'react-i18next'
 import { isSelfAtom } from 'lib/components/AccountUI'
@@ -18,7 +18,7 @@ export const AccountWinnings = () => {
 
   const [isSelf] = useAtom(isSelfAtom)
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
 
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress

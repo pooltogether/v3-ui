@@ -2,12 +2,8 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
-import {
-  APP_ENVIRONMENT,
-  useAppEnv,
-  useUsersAddress,
-  useUserTicketsFormattedByPool
-} from '@pooltogether/hooks'
+import { APP_ENVIRONMENT, useAppEnv, useUserTicketsFormattedByPool } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Card, ExternalLink } from '@pooltogether/react-components'
 import { useAtom } from 'jotai'
 
@@ -23,7 +19,7 @@ import TicketIcon from 'assets/images/pt-depositing-2-simplified.svg'
 export const AccountDeposits = () => {
   const { t } = useTranslation()
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
 
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress
@@ -71,8 +67,9 @@ const NoTicketsState = (props) => {
   const [isSelf] = useAtom(isSelfAtom)
   const { appEnv } = useAppEnv()
 
-  const { data: poolTickets, isFetched: isPlayerTicketsFetched } =
-    useUserTicketsFormattedByPool(usersAddress)
+  const { data: poolTickets, isFetched: isPlayerTicketsFetched } = useUserTicketsFormattedByPool(
+    usersAddress
+  )
   const { data: podTickets, isFetched: isPodTicketsFetched } = useUsersPodTickets(usersAddress)
   const { data: v2Tickets, isFetched: isV2BalancesFetched } = useV2Balances(usersAddress)
 
@@ -107,8 +104,10 @@ const NoTicketsState = (props) => {
 const PoolDeposits = (props) => {
   const { usersAddress } = props
 
-  const { data: playerDepositData, isFetched: playerTicketsIsFetched } =
-    useUserTicketsFormattedByPool(usersAddress)
+  const {
+    data: playerDepositData,
+    isFetched: playerTicketsIsFetched
+  } = useUserTicketsFormattedByPool(usersAddress)
 
   if (!playerTicketsIsFetched) {
     return <TicketsUILoader />

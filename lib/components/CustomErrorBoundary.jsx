@@ -1,20 +1,20 @@
 import React from 'react'
 import * as Sentry from '@sentry/react'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 
 import { ErrorPage } from 'lib/components/ErrorPage'
-import { useOnboard } from '@pooltogether/hooks'
 
 class ErrorBoundary extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { hasError: false }
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError (error) {
     return { hasError: true }
   }
 
-  render() {
+  render () {
     if (this.state.hasError) {
       return <ErrorPage />
     }
@@ -23,7 +23,7 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-export function CustomErrorBoundary(props) {
+export function CustomErrorBoundary (props) {
   const { children } = props
   const { walletName } = useOnboard()
 

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { poolToast } from '@pooltogether/react-components'
-import { useSendTransaction, useTransaction } from '@pooltogether/hooks'
+import { useTransaction } from '@pooltogether/hooks'
 import PrizeStrategyAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PeriodicPrizeStrategy'
 
 import { ButtonTx } from 'lib/components/ButtonTx'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 
-export function StartAwardUI(props) {
+export function StartAwardUI (props) {
   const { pool, canStartAward, refetch } = props
   const { t } = useTranslation()
 
@@ -17,7 +17,7 @@ export function StartAwardUI(props) {
   })
   const method = 'startAward'
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const tx = useTransaction(txId)
 
   const handleStartAwardClick = async (e) => {

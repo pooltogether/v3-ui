@@ -10,12 +10,12 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider as JotaiProvider } from 'jotai'
 import {
   useInitCookieOptions,
-  useInitializeOnboard,
   useInitInfuraId,
   useInitQuickNodeId,
   useInitReducedMotion,
   useInitTheGraphApiKey
 } from '@pooltogether/hooks'
+import { useOnboard, useInitializeOnboard } from '@pooltogether/bnc-onboard-hooks'
 import {
   ToastContainer,
   LoadingScreen,
@@ -71,7 +71,7 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 
 let checkForElementIntervalId
 
-function MyApp({ Component, pageProps, router }) {
+function MyApp ({ Component, pageProps, router }) {
   const { i18n } = useTranslation()
 
   const deposit = /deposit/.test(router.asPath)
@@ -105,7 +105,7 @@ function MyApp({ Component, pageProps, router }) {
         ]
       })
 
-      function onRouteChangeComplete(url) {
+      function onRouteChangeComplete (url) {
         if (window['fathom']) {
           window['fathom'].trackPageview()
         }
@@ -171,6 +171,8 @@ function MyApp({ Component, pageProps, router }) {
     }
   }, [])
 
+  const { network, address, provider } = useOnboard()
+
   return (
     <HotKeys
       keyMap={HOTKEYS_KEY_MAP}
@@ -185,7 +187,7 @@ function MyApp({ Component, pageProps, router }) {
 
             <AllContextProviders>
               <CustomErrorBoundary>
-                <TransactionStatusChecker />
+                <TransactionStatusChecker network={network} address={address} provider={provider} />
 
                 <TxRefetchListener />
 

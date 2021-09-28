@@ -1,13 +1,12 @@
 import React from 'react'
 import classnames from 'classnames'
-
-import { useOnboard } from '@pooltogether/hooks'
-import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
-
-import IconNetwork from 'assets/images/icon-network.svg'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
 
-export function NetworkText(props) {
+import IconNetwork from 'assets/images/icon-network.svg'
+import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
+
+export function NetworkText (props) {
   const { network: chainId, address: usersAddress } = useOnboard()
 
   let networkName = null

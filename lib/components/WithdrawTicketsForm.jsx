@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Button } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
 
@@ -15,11 +15,11 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
 
-export function WithdrawTicketsForm(props) {
+export function WithdrawTicketsForm (props) {
   const { nextStep, pool, playerPoolDepositData } = props
 
   const { t } = useTranslation()
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
   const router = useRouter()
 
   const playerTicket = playerPoolDepositData?.ticket

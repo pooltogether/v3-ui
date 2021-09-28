@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import {
   useAddNetworkToMetamask,
   useIsWalletMetamask,
-  useOnboard,
   useTokenAllowance,
   useTokenBalances,
-  useSendTransaction,
   useTransaction
 } from '@pooltogether/hooks'
-import { Amount, Button, Card, Tooltip, poolToast } from '@pooltogether/react-components'
+import { Amount, Button, Card, Tooltip } from '@pooltogether/react-components'
 import { getNetworkNiceNameByChainId, numberWithCommas } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
 import { ethers } from 'ethers'
@@ -24,18 +23,26 @@ import { Banner } from 'lib/components/Banner'
 import { ButtonTx } from 'lib/components/ButtonTx'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { TxStatus } from 'lib/components/TxStatus'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 
 export const ReviewAndSubmitDeposit = (props) => {
-  const { chainId, tokenAddress, contractAddress, isUserOnCorrectNetwork, quantity, depositTxId } =
-    props
+  const {
+    chainId,
+    tokenAddress,
+    contractAddress,
+    isUserOnCorrectNetwork,
+    quantity,
+    depositTxId
+  } = props
 
   const { network: walletChainId, address: usersAddress, connectWallet } = useOnboard()
 
-  const {
-    data: tokenAllowanceData,
-    isFetched,
-    refetch: refetchTokenAllowance
-  } = useTokenAllowance(chainId, usersAddress, contractAddress, tokenAddress)
+  const { data: tokenAllowanceData, isFetched, refetch: refetchTokenAllowance } = useTokenAllowance(
+    chainId,
+    usersAddress,
+    contractAddress,
+    tokenAddress
+  )
 
   const { data: usersBalance, isFetched: isUsersBalanceFetched } = useTokenBalances(
     chainId,
@@ -187,14 +194,20 @@ export const InvalidQuantity = (props) => {
 }
 
 const ApproveDeposit = (props) => {
-  const { chainId, tokenSymbol, refetchTokenAllowance, tokenAddress, decimals, contractAddress } =
-    props
+  const {
+    chainId,
+    tokenSymbol,
+    refetchTokenAllowance,
+    tokenAddress,
+    decimals,
+    contractAddress
+  } = props
   const { t } = useTranslation()
 
   const [txId, setTxId] = useState(0)
   const txName = t(`allowTickerPool`, { ticker: tokenSymbol })
   const method = 'approve'
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const tx = useTransaction(txId)
 
   const handleApproveClick = async (e) => {
@@ -255,8 +268,14 @@ const ApproveDeposit = (props) => {
 }
 
 const SubmitDeposit = (props) => {
-  const { chainId, depositTxId, setDepositTxId, tokenSymbol, submitDepositTransaction, cards } =
-    props
+  const {
+    chainId,
+    depositTxId,
+    setDepositTxId,
+    tokenSymbol,
+    submitDepositTransaction,
+    cards
+  } = props
   const { t } = useTranslation()
 
   const tx = useTransaction(depositTxId)

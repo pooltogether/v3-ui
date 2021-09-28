@@ -1,6 +1,6 @@
 import FeatherIcon from 'feather-icons-react'
 import React, { useEffect, useState } from 'react'
-import { useOnboard } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { shorten } from '@pooltogether/utilities'
 
 import { Banner } from 'lib/components/Banner'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useOnboard } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 
 import PoolIcon from 'assets/images/pool-icon.svg'
 

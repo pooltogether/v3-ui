@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { ethers } from 'ethers'
-import { poolToast } from '@pooltogether/react-components'
 import ControlledTokenAbi from '@pooltogether/pooltogether-contracts_3_3/abis/ControlledToken'
+import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
-import { useSendTransaction, useTransaction } from '@pooltogether/hooks'
+import { useTransaction } from '@pooltogether/hooks'
 
-import { formatUsersTokenDataForPool } from 'lib/utils/formatUsersTokenDataForPool'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 import { useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
+import { formatUsersTokenDataForPool } from 'lib/utils/formatUsersTokenDataForPool'
 
-export function RevokePoolAllowanceTxButton(props) {
+export function RevokePoolAllowanceTxButton (props) {
   const { t } = useTranslation()
 
   const { pool } = props
@@ -26,7 +26,7 @@ export function RevokePoolAllowanceTxButton(props) {
   const txName = t(`revokePoolAllowance`, { ticker: tickerUpcased })
   const method = 'approve'
 
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const tx = useTransaction(txId)
 
   if (usersTokenAllowance.eq(0)) {

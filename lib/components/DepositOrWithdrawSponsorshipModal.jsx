@@ -3,7 +3,8 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useCurrentPool, useUsersAddress, useUserTicketsByPool } from '@pooltogether/hooks'
+import { useCurrentPool, useUserTicketsByPool } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 
 import { ApproveSponsorshipTxButton } from 'lib/components/ApproveSponsorshipTxButton'
 import { DepositSponsorshipTxButton } from 'lib/components/DepositSponsorshipTxButton'
@@ -16,13 +17,13 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { formatUsersTokenDataForPool } from 'lib/utils/formatUsersTokenDataForPool'
 import { useCurrentUsersTokenBalanceAndAllowanceOfCurrentPool } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
 
-export function DepositOrWithdrawSponsorshipModal(props) {
+export function DepositOrWithdrawSponsorshipModal (props) {
   const { t } = useTranslation()
   const { decimals, handleClose, isWithdraw, tickerUpcased, visible } = props
 
   const [needsApproval, setNeedsApproval] = useState(null)
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
 
   const router = useRouter()
   const { data: pool } = useCurrentPool(router)
@@ -41,8 +42,11 @@ export function DepositOrWithdrawSponsorshipModal(props) {
 
   const onSubmit = () => {}
 
-  const { usersTokenBalanceUnformatted, usersTokenBalance, usersTokenAllowance } =
-    formatUsersTokenDataForPool(pool, usersChainData)
+  const {
+    usersTokenBalanceUnformatted,
+    usersTokenBalance,
+    usersTokenAllowance
+  } = formatUsersTokenDataForPool(pool, usersChainData)
 
   const quantity = watch('quantity')
 

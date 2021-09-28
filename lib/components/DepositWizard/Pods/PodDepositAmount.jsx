@@ -1,21 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import classnames from 'classnames'
-import {
-  useTokenBalance,
-  useTokenBalances,
-  useUsersAddress,
-  usePodShareBalance
-} from '@pooltogether/hooks'
+import { useTokenBalance, useTokenBalances, usePodShareBalance } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 
 import { DepositAmount } from 'lib/components/DepositWizard/DepositAmount'
-import { useForm } from 'react-hook-form'
 import { ethers } from 'ethers'
-import {
-  calculateUsersOdds,
-  getMinPrecision,
-  numberWithCommas,
-  toNonScaledUsdString
-} from '@pooltogether/utilities'
+import { numberWithCommas } from '@pooltogether/utilities'
 import { Odds } from 'lib/components/Odds'
 import { Amount } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
@@ -37,11 +27,16 @@ export const PodDepositAmount = (props) => {
 
   const { t } = useTranslation()
 
-  const usersAddress = useUsersAddress()
-  const { data: usersUnderlyingTokenBalance, isFetched: isUsersUnderlyingBalanceFetched } =
-    useTokenBalances(chainId, usersAddress || ethers.constants.AddressZero, [tokenAddress])
-  const { data: usersPodShareBalance, isFetched: isUsersPodShareBalanceFetched } =
-    usePodShareBalance(chainId, usersAddress || ethers.constants.AddressZero, podTicketAddress)
+  const { address: usersAddress } = useOnboard()
+
+  const {
+    data: usersUnderlyingTokenBalance,
+    isFetched: isUsersUnderlyingBalanceFetched
+  } = useTokenBalances(chainId, usersAddress || ethers.constants.AddressZero, [tokenAddress])
+  const {
+    data: usersPodShareBalance,
+    isFetched: isUsersPodShareBalanceFetched
+  } = usePodShareBalance(chainId, usersAddress || ethers.constants.AddressZero, podTicketAddress)
   const { data: podPoolTicketBalance, isFetched: isPodBalanceFetched } = useTokenBalance(
     chainId,
     contractAddress,

@@ -3,7 +3,8 @@ import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import { useAtom } from 'jotai'
 import { useTranslation } from 'react-i18next'
-import { useOnboard, usePlayerTotalPoolDepositValue } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
+import { usePlayerTotalPoolDepositValue } from '@pooltogether/hooks'
 import { toNonScaledUsdString } from '@pooltogether/utilities'
 
 import { isSelfAtom } from 'lib/components/AccountUI'
@@ -27,10 +28,14 @@ export const AccountSummary = () => {
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
 
-  const { data: totalTicketValues, isFetched: playerTicketsIsFetched } =
-    usePlayerTotalPoolDepositValue(address)
-  const { data: totalPodTicketValues, isFetched: podTicketsIsFetched } =
-    useUsersTotalPodDepositsValue(address)
+  const {
+    data: totalTicketValues,
+    isFetched: playerTicketsIsFetched
+  } = usePlayerTotalPoolDepositValue(address)
+  const {
+    data: totalPodTicketValues,
+    isFetched: podTicketsIsFetched
+  } = useUsersTotalPodDepositsValue(address)
 
   const isFetched = playerTicketsIsFetched && podTicketsIsFetched
   const totalTicketValueUsd = isFetched

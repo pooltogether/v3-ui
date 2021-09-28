@@ -1,14 +1,10 @@
 import React, { useState } from 'react'
+import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import {
-  useUsersAddress,
-  useUserTicketsByPool,
-  useSendTransaction,
-  useTransaction
-} from '@pooltogether/hooks'
-import { Button, poolToast } from '@pooltogether/react-components'
-import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
+import { useUserTicketsByPool, useTransaction } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
+import { Button } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
 
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
@@ -16,9 +12,10 @@ import { TxStatus } from 'lib/components/TxStatus'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { WithdrawOdds } from 'lib/components/WithdrawOdds'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-export function ConfirmWithdrawNoFee(props) {
+export function ConfirmWithdrawNoFee (props) {
   const { t } = useTranslation()
 
   const router = useRouter()
@@ -27,7 +24,7 @@ export function ConfirmWithdrawNoFee(props) {
 
   const { nextStep, previousStep, pool } = props
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
 
   // fill this in with a watched address or an address from router params
   const playerAddress = ''
@@ -49,7 +46,7 @@ export function ConfirmWithdrawNoFee(props) {
   const [txId, setTxId] = useState(0)
   const txName = `${t('withdraw')}: ${quantityFormatted} ${tickerUpcased}`
   const method = 'withdrawInstantlyFrom'
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const tx = useTransaction(txId)
 
   const runTx = async () => {

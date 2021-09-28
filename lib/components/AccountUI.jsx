@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { atom, useAtom } from 'jotai'
-import { useUsersAddress } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Trans, useTranslation } from 'react-i18next'
 import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
 import Link from 'next/link'
@@ -22,7 +22,7 @@ export const isSelfAtom = atom(false)
 export const AccountUI = () => {
   const { t } = useTranslation()
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
 
   const router = useRouter()
   const playerAddress = router?.query?.playerAddress

@@ -1,24 +1,21 @@
 import React, { useState } from 'react'
+import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
-import {
-  useCurrentPool,
-  useSendTransaction,
-  useTransaction,
-  useUsersAddress
-} from '@pooltogether/hooks'
-import { Button, poolToast } from '@pooltogether/react-components'
+import { useCurrentPool, useTransaction } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
+import { Button } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
-import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-export function WithdrawSponsorshipTxButton(props) {
+export function WithdrawSponsorshipTxButton (props) {
   const { t } = useTranslation()
 
   const { quantityBN, quantity, needsApproval, tickerUpcased } = props
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
 
   const router = useRouter()
   const { data: pool } = useCurrentPool(router)
@@ -35,7 +32,7 @@ export function WithdrawSponsorshipTxButton(props) {
     ticker: tickerUpcased
   })
   const method = 'withdrawInstantlyFrom'
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const tx = useTransaction(txId)
 
   const withdrawSponsorshipTxInFlight = !tx?.cancelled && (tx?.inWallet || tx?.sent)

@@ -5,15 +5,9 @@ import isEmpty from 'lodash.isempty'
 import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'
 import { amountMultByUsd, calculateAPR, calculateLPTokenPrice } from '@pooltogether/utilities'
-import {
-  APP_ENVIRONMENT,
-  useAppEnv,
-  useOnboard,
-  useUsersAddress,
-  useSendTransaction,
-  useTransaction
-} from '@pooltogether/hooks'
-import { ExternalLink, LinkTheme, poolToast, Tooltip } from '@pooltogether/react-components'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
+import { APP_ENVIRONMENT, useAppEnv, useTransaction } from '@pooltogether/hooks'
+import { ExternalLink, LinkTheme, Tooltip } from '@pooltogether/react-components'
 
 import { formatUnits } from 'ethers/lib/utils'
 
@@ -37,6 +31,7 @@ import {
   useStakingPools,
   useUserLPChainData
 } from 'lib/hooks/useStakingPools'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { getNetworkNiceNameByChainId, NETWORK } from 'lib/utils/networks'
 import { useTokenBalances } from 'lib/hooks/useTokenBalances'
@@ -126,7 +121,7 @@ const StakingPoolRow = (props) => {
 
   const { stakingPool } = props
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
   const {
     data: stakingPoolChainData,
     isFetched: stakingPoolChainDataIsFetched,
@@ -286,8 +281,14 @@ const TokenIcon = (props) => {
 const ClaimTokens = (props) => {
   const { t } = useTranslation()
 
-  const { userLPChainData, userLPChainDataIsFetched, refetch, chainId, stakingPool, usersAddress } =
-    props
+  const {
+    userLPChainData,
+    userLPChainDataIsFetched,
+    refetch,
+    chainId,
+    stakingPool,
+    usersAddress
+  } = props
   const { userData } = userLPChainData || {}
 
   let claimableBalance = '0.00'
@@ -339,8 +340,14 @@ const ClaimTokens = (props) => {
 
 const ManageStakedAmount = (props) => {
   const { t } = useTranslation()
-  const { refetch, chainId, stakingPool, userLPChainDataIsFetched, userLPChainData, usersAddress } =
-    props
+  const {
+    refetch,
+    chainId,
+    stakingPool,
+    userLPChainDataIsFetched,
+    userLPChainData,
+    usersAddress
+  } = props
 
   const { userData } = userLPChainData || {}
 
@@ -485,7 +492,7 @@ const TransactionButton = (props) => {
   } = props
 
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const tx = useTransaction(txId)
 
   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed

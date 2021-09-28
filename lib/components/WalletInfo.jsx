@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { useOnboard } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { NetworkIcon } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
@@ -8,7 +8,7 @@ import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 
-export function WalletInfo(props) {
+export function WalletInfo (props) {
   const { t } = useTranslation()
   const { closeTransactions } = props
 

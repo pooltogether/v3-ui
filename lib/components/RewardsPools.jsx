@@ -9,15 +9,13 @@ import { Trans, useTranslation } from 'react-i18next'
 import {
   APP_ENVIRONMENT,
   useAppEnv,
-  useOnboard,
-  useUsersAddress,
   useUserTicketsFormattedByPool,
   useGovernancePools,
   usePoolTokenData,
-  useSendTransaction,
   useTransaction
 } from '@pooltogether/hooks'
-import { ExternalLink, LinkTheme, Tooltip, poolToast } from '@pooltogether/react-components'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
+import { ExternalLink, LinkTheme, Tooltip } from '@pooltogether/react-components'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -31,6 +29,7 @@ import { RewardsActionModal } from 'lib/components/RewardsActionModal'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { ContentOrSpinner } from 'lib/components/ContentOrSpinner'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 import { useClaimableTokenFromTokenFaucet } from 'lib/hooks/useClaimableTokenFromTokenFaucet'
 import { useClaimableTokenFromTokenFaucets } from 'lib/hooks/useClaimableTokenFromTokenFaucets'
 import { useUsersTokenBalanceAndAllowance } from 'lib/hooks/useUsersTokenBalanceAndAllowance'
@@ -139,7 +138,7 @@ const RewardsPools = (props) => {
 
   const { isSponsorship, pools, tableId, tableHeader, tableSummary, tableDescriptionCard } = props
 
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress } = useOnboard()
   const {
     data: playersDepositData,
     isFetched: playersDepositDataIsFetched
@@ -424,7 +423,7 @@ const ClaimButton = (props) => {
 
   const { t } = useTranslation()
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const tx = useTransaction(txId)
 
   const txPending = (tx?.sent || tx?.inWallet) && !tx?.completed

@@ -3,31 +3,25 @@ import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { isEmpty, map, find, defaultTo, sum } from 'lodash'
 import { useAtom } from 'jotai'
-import {
-  useUsersAddress,
-  useAllPools,
-  usePoolBySymbol,
-  useSendTransaction,
-  useTransaction
-} from '@pooltogether/hooks'
-import { NETWORK } from '@pooltogether/utilities'
+import { useAllPools, useTransaction } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts_3_3/abis/Comptroller'
 
 import { useTranslation } from 'react-i18next'
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
+import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { usePlayerDrips } from 'lib/hooks/usePlayerDrips'
+import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 import { useUsersDripData } from 'lib/hooks/useUsersDripData'
 import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFromUserDrips'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { isSelfAtom } from 'lib/components/AccountUI'
 
 import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
-import { BlockExplorerLink } from 'lib/components/BlockExplorerLink'
-import { poolToast } from '@pooltogether/react-components'
 
 // This has been removed from the app for most people, but if someone still has rewards/tickets to claim
 // it will show up for them
@@ -43,7 +37,8 @@ export const DeprecatedRewards = () => {
 
 export const AccountRewardsView = (props) => {
   const { t } = useTranslation()
-  const address = useUsersAddress()
+
+  const { address } = useOnboard()
 
   const { data: pools } = useAllPools()
 
@@ -58,7 +53,7 @@ export const AccountRewardsView = (props) => {
   const txName = t(`claimRewards`)
   const method = 'updateAndClaimDrips'
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransactionWrapper()
   const tx = useTransaction(txId)
 
   const handleClaim = async (drip) => {

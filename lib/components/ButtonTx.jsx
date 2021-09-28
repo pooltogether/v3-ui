@@ -3,18 +3,19 @@ import classnames from 'classnames'
 import { omit } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { Button, Tooltip } from '@pooltogether/react-components'
-import { useIsWalletOnNetwork, useUsersAddress } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
+import { useIsWalletOnNetwork } from '@pooltogether/hooks'
 import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
 
-export function ButtonTx(props) {
+export function ButtonTx (props) {
   const { children, chainId, tx, disabled, isCentered } = props
 
   const { t } = useTranslation()
 
   const newProps = omit(props, ['usersAddress', 'chainId', 'tx', 'isCentered'])
 
-  const isWalletConnected = useUsersAddress()
-  const isWalletOnProperNetwork = useIsWalletOnNetwork(chainId)
+  const { network, address: isWalletConnected } = useOnboard()
+  const isWalletOnProperNetwork = useIsWalletOnNetwork(network, chainId)
 
   const txInFlight = !tx?.cancelled && (tx?.sent || tx?.completed)
   const disabledDueToNetwork = Boolean(!isWalletConnected || !isWalletOnProperNetwork)

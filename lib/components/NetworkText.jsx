@@ -1,19 +1,20 @@
 import React from 'react'
 import classnames from 'classnames'
-import { useIsWalletOnSupportedNetwork, useOnboard } from '@pooltogether/hooks'
+import { useIsWalletOnSupportedNetwork } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { NetworkIcon } from '@pooltogether/react-components'
 
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
-import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
 import { SUPPORTED_NETWORKS } from 'lib/constants'
 
-export function NetworkText(props) {
+export function NetworkText (props) {
   const { openTransactions } = props
 
-  const supportedNetwork = useIsWalletOnSupportedNetwork(SUPPORTED_NETWORKS)
   const { network: walletChainId } = useOnboard()
-  const screenSize = useScreenSize()
+  console.log({ walletChainId })
+  console.log({ SUPPORTED_NETWORKS })
+  const supportedNetwork = useIsWalletOnSupportedNetwork(walletChainId, SUPPORTED_NETWORKS)
 
   let networkName = null
   if (walletChainId && supportedNetwork) {

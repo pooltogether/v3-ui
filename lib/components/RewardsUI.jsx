@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { useTranslation } from 'react-i18next'
 import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
 
@@ -12,8 +12,7 @@ import { Meta } from 'lib/components/Meta'
 export const RewardsUI = () => {
   const { t } = useTranslation()
 
-  const { connectWallet } = useOnboard()
-  const usersAddress = useUsersAddress()
+  const { address: usersAddress, connectWallet } = useOnboard()
 
   return (
     <>
