@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button, NetworkIcon } from '@pooltogether/react-components'
 import { useIsWalletMetamask } from '@pooltogether/hooks'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 
 import { Banner } from 'lib/components/Banner'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
@@ -12,12 +13,13 @@ import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
 import IconNetwork from 'assets/images/icon-network@2x.png'
 
-export function WizardSwitchNetwork(props) {
+export function WizardSwitchNetwork (props) {
   const { t } = useTranslation()
 
   const { bannerLabel, paneTitleLocizeKey, quantity, nextStep, networkMismatch, pool } = props
 
-  const isMetaMask = useIsWalletMetamask()
+  const { wallet } = useOnboard()
+  const isMetaMask = useIsWalletMetamask(wallet)
 
   const poolChainId = pool.chainId
   const tickerUpcased = pool.tokens?.underlyingToken.symbol

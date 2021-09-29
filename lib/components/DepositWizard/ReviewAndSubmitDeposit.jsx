@@ -143,7 +143,8 @@ export const ConnectToNetworkContent = (props) => {
 
   const { t } = useTranslation()
 
-  const isWalletMetamask = useIsWalletMetamask()
+  const { wallet } = useOnboard()
+  const isWalletMetamask = useIsWalletMetamask(wallet)
   const addNetwork = useAddNetworkToMetamask(chainId)
   const networkName = getNetworkNiceNameByChainId(chainId)
 

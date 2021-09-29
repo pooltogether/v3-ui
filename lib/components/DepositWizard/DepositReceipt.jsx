@@ -4,6 +4,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Amount, ButtonLink, Card } from '@pooltogether/react-components'
 import { useIsWalletMetamask } from '@pooltogether/hooks'
 import { getTimeBreakdown, numberWithCommas } from '@pooltogether/utilities'
+import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 
 import { useConfetti } from 'lib/hooks/useConfetti'
 import { AddTokenToMetaMaskButton } from 'lib/components/AddTokenToMetaMaskButton'
@@ -21,10 +22,12 @@ export const DepositReceipt = (props) => {
     isRngRequested,
     message
   } = props
+  const { t } = useTranslation()
+
+  const { wallet } = useOnboard()
+  const isWalletMetamask = useIsWalletMetamask(wallet)
 
   useConfetti()
-  const isWalletMetamask = useIsWalletMetamask()
-  const { t } = useTranslation()
 
   const { years, weeks, days, hours, minutes, seconds } = getTimeBreakdown(
     prizePeriodSeconds.toString()

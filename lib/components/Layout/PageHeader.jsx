@@ -120,7 +120,8 @@ const UsersAccount = () => {
     walletName,
     isOnboardReady,
     address: usersAddress,
-    network: chainId
+    network: chainId,
+    wallet
   } = useOnboard()
   const supportedNetworks = useEnvChainIds()
   const { t } = useTranslation()
@@ -144,6 +145,7 @@ const UsersAccount = () => {
     <>
       <NetworkSelector
         t={t}
+        wallet={wallet}
         chainId={chainId}
         isWalletConnected={isWalletConnected}
         supportedNetworks={supportedNetworks}
