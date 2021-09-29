@@ -28,15 +28,19 @@ export const PageHeader = (props) => (
   </PageHeaderContainer>
 )
 
-const Settings = () => (
-  <SettingsContainer className='ml-1 my-auto' title='Settings'>
-    <LanguagePicker />
-    <ThemeSettingsItem />
-    <ClaimPoolTokens />
-    <ManagePoolsSettingsItem />
-    <TestnetSettingsItem />
-  </SettingsContainer>
-)
+const Settings = (props) => {
+  const { t } = useTranslation()
+
+  return (
+    <SettingsContainer t={t} className='ml-1 my-auto'>
+      <LanguagePicker t={t} />
+      <ThemeSettingsItem t={t} />
+      <ClaimPoolTokens t={t} />
+      <ManagePoolsSettingsItem t={t} />
+      <TestnetSettingsItem t={t} />
+    </SettingsContainer>
+  )
+}
 
 const LanguagePicker = () => {
   const { i18n: i18next, t } = useTranslation()

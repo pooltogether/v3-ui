@@ -5,7 +5,7 @@ import { Meta } from 'lib/components/Meta'
 import { HeaderLogo, PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
 import Link from 'next/link'
 
-export function ErrorPage() {
+export function ErrorPage () {
   const { t } = useTranslation()
 
   return (
