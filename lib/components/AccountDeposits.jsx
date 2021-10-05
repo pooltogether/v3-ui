@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
-import { APP_ENVIRONMENT, useAppEnv, useUserTicketsFormattedByPool } from '@pooltogether/hooks'
+import { useIsTestnets, useUserTicketsFormattedByPool } from '@pooltogether/hooks'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Card, ExternalLink } from '@pooltogether/react-components'
 import { useAtom } from 'jotai'
@@ -65,7 +65,8 @@ const NoTicketsState = (props) => {
 
   const { t } = useTranslation()
   const [isSelf] = useAtom(isSelfAtom)
-  const { appEnv } = useAppEnv()
+
+  const { isTestnets } = useIsTestnets()
 
   const { data: poolTickets, isFetched: isPlayerTicketsFetched } = useUserTicketsFormattedByPool(
     usersAddress
@@ -73,13 +74,13 @@ const NoTicketsState = (props) => {
   const { data: podTickets, isFetched: isPodTicketsFetched } = useUsersPodTickets(usersAddress)
   const { data: v2Tickets, isFetched: isV2BalancesFetched } = useV2Balances(usersAddress)
 
-  const isV2Ready = appEnv === APP_ENVIRONMENT.mainnets ? isV2BalancesFetched : true
+  const isV2Ready = isTestnets ? true : isV2BalancesFetched
 
   if (!isSelf || !isPlayerTicketsFetched || !isPodTicketsFetched || !isV2Ready) {
     return null
   }
 
-  const noV2Tickets = appEnv === APP_ENVIRONMENT.mainnets ? v2Tickets.length === 0 : true
+  const noV2Tickets = isTestnets ? true : v2Tickets.length === 0
 
   if (poolTickets.length === 0 && podTickets.length === 0 && noV2Tickets) {
     return (

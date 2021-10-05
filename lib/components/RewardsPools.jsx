@@ -7,8 +7,8 @@ import { motion } from 'framer-motion'
 import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'
 import {
-  APP_ENVIRONMENT,
-  useAppEnv,
+  APP_ENVIRONMENTS,
+  useIsTestnets,
   useUserTicketsFormattedByPool,
   useGovernancePools,
   usePoolTokenData,
@@ -44,8 +44,8 @@ const bn = ethers.BigNumber.from
 export const RewardsGovernance = () => {
   const { t } = useTranslation()
 
-  const { appEnv } = useAppEnv()
-  const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
+  const { isTestnets } = useIsTestnets()
+  const chainId = isTestnets ? NETWORK.rinkeby : NETWORK.mainnet
 
   const { data: pools } = useGovernancePools()
   const symbol = chainId === 1 ? 'PT-stPOOL' : 'PT-cBAT'

@@ -6,7 +6,7 @@ import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'
 import { amountMultByUsd, calculateAPR, calculateLPTokenPrice } from '@pooltogether/utilities'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
-import { APP_ENVIRONMENT, useAppEnv, useTransaction } from '@pooltogether/hooks'
+import { APP_ENVIRONMENTS, useIsTestnets, useTransaction } from '@pooltogether/hooks'
 import { ExternalLink, LinkTheme, Tooltip } from '@pooltogether/react-components'
 
 import { formatUnits } from 'ethers/lib/utils'
@@ -49,8 +49,8 @@ export const RewardsLPStaking = () => {
   const stakingPools = useStakingPools()
   const { network: walletChainId } = useOnboard()
 
-  const { appEnv } = useAppEnv()
-  const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
+  const { isTestnets } = useIsTestnets()
+  const chainId = isTestnets ? NETWORK.rinkeby : NETWORK.mainnet
   const poolGovTokenAddress = CONTRACT_ADDRESSES?.[chainId]?.GovernanceToken
 
   const walletOnWrongNetwork = walletChainId !== chainId
@@ -225,8 +225,8 @@ const ColumnOneContents = (props) => {
 }
 
 const StakingPoolRowMainContents = (props) => {
-  const { appEnv } = useAppEnv()
-  const chainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
+  const { isTestnets } = useIsTestnets()
+  const chainId = isTestnets ? NETWORK.rinkeby : NETWORK.mainnet
 
   return (
     <>
