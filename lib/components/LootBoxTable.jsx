@@ -322,7 +322,7 @@ const AwardRowErc1155 = (props) => {
           address={address}
           className='text-accent-1 flex items-center'
         >
-          {name ? name : shorten(address)}{' '}
+          {name ? name : shorten({ hash: address })}{' '}
           <FeatherIcon icon='arrow-up-right' className='mr-1 w-5 h-5' />{' '}
         </BlockExplorerLink>
       </span>

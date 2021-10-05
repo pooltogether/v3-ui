@@ -51,7 +51,6 @@ export const PoolRow = (props) => {
       {t('viewPool')}
     </button>
   )
-  if (pool.name === 'sOHM Pool') console.log(pool.tokens.underlyingToken.address)
 
   return (
     <InteractableCard

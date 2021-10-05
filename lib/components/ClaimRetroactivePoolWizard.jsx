@@ -281,7 +281,9 @@ const StepThree = (props) => {
           <h5>{t('claimingFor')}</h5>
 
           <Banner className='my-4 mx-auto text-white' style={{ maxWidth: 550 }}>
-            <div className='xs:hidden text-xxs'>{shorten(address)}</div>
+            <div className='xs:hidden text-xxs'>
+              {shorten({ hash: address.toString(), short: true })}
+            </div>
             <div className='hidden sm:block text-sm'>{address}</div>
             <button
               onClick={showForm}
@@ -346,7 +348,7 @@ const ClaimableBalanceCheck = (props) => {
     const params = [index, address, amount, proof]
 
     const txName = t('claimPoolForAddress', {
-      address: shorten(address)
+      address: shorten({ hash: address, short: true })
     })
 
     // TODO: Add refetch

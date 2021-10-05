@@ -104,7 +104,7 @@ export const TxStatus = (props) => {
                 txHash={tx.hash}
                 className='underline text-accent-1'
               >
-                {shorten(tx.hash)}
+                {shorten({ hash: tx.hash })}
               </BlockExplorerLink>
             </div>
           )}
