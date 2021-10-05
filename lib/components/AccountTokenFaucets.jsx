@@ -2,7 +2,12 @@ import React, { useMemo, useState } from 'react'
 import Link from 'next/link'
 import classnames from 'classnames'
 import CountUp from 'react-countup'
-import { APP_ENVIRONMENT, useAppEnv, useTokenBalance, useTransaction } from '@pooltogether/hooks'
+import {
+  APP_ENVIRONMENTS,
+  useIsTestnets,
+  useTokenBalance,
+  useTransaction
+} from '@pooltogether/hooks'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import {
   Amount,
@@ -42,8 +47,8 @@ import { useTokenDripClaimableAmounts } from 'lib/hooks/useTokenDripClaimableAmo
  * @param {*} props
  */
 export const AccountTokenFaucets = (props) => {
-  const { appEnv } = useAppEnv()
-  const ethereumChainId = appEnv === APP_ENVIRONMENT.mainnets ? NETWORK.mainnet : NETWORK.rinkeby
+  const { isTestnets } = useIsTestnets()
+  const ethereumChainId = isTestnets ? NETWORK.rinkeby : NETWORK.mainnet
 
   const { address: usersAddress } = useOnboard()
   const router = useRouter()

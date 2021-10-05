@@ -6,7 +6,7 @@ import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { useAddNetworkToMetamask } from 'lib/hooks/useAddNetworkToMetamask'
 import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
-import { APP_ENVIRONMENT, useAppEnv, useIsWalletOnSupportedNetwork } from '@pooltogether/hooks'
+import { APP_ENVIRONMENTS, useIsTestnets, useIsWalletOnSupportedNetwork } from '@pooltogether/hooks'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { NetworkIcon } from '@pooltogether/react-components'
 
@@ -15,7 +15,9 @@ export function WrongNetworkModal (props) {
 
   const [bypassed, setBypassed] = useState(false)
 
-  const { appEnv, setAppEnv } = useAppEnv()
+  const { isTestnets, disableTestnets } = useIsTestnets()
+  const appEnv = isTestnets ? APP_ENVIRONMENTS.testnets : APP_ENVIRONMENTS.mainnets
+
   const chainIds = useEnvChainIds()
   const { network: walletChainId, walletName, networkName } = useOnboard()
   const isMetaMask = walletName === 'MetaMask'
@@ -86,13 +88,13 @@ export function WrongNetworkModal (props) {
             )
           })}
         </div>
-        {appEnv === APP_ENVIRONMENT.testnets && (
+        {appEnv === APP_ENVIRONMENTS.testnets && (
           <div className='mt-20'>
             The app settings are set to testnets.{' '}
             <button
               onClick={(e) => {
                 e.preventDefault()
-                setAppEnv(APP_ENVIRONMENT.mainnets)
+                disableTestnets()
               }}
             >
               Switch to mainnets

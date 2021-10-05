@@ -32,7 +32,7 @@ export const PlayerLabel = (props) => {
 
   let label = Boolean(PLAYER_LABELS[playerAddress])
     ? PLAYER_LABELS[playerAddress]
-    : shorten(playerAddress)
+    : shorten({ hash: playerAddress })
 
   const numHolders = YEARN_STRATEGIES_TO_NUM_HOLDERS[playerAddress]
 
