@@ -17,6 +17,11 @@ import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
 import { useOnEnvChange } from 'lib/hooks/useOnEnvChange'
 
+// Hide these pools from the pool listing/index so they're still usable (if you have the URL or on the Account page)
+// but don't show up on the listing
+const BADGER_PRIZE_POOL_ADDRESS = '0xc2a7dfb76e93d12a1bb1fa151b9900158090395d'
+const SOHM_PRIZE_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'
+
 /**
  * Displays a list of Pools.
  * Filters based on query parameter `filter=[networkName]` OR a the path `/pools/[networkName]`
@@ -143,12 +148,14 @@ const PoolList = (props) => {
 
   const { pools, isFetched, chainIdFilter } = props
 
+  console.log(pools)
   const poolsToRender = useMemo(
     () =>
       pools
         ?.sort((a, b) => b.prize.weeklyTotalValueUsdScaled.sub(a.prize.weeklyTotalValueUsdScaled))
         .filter((pool) => filterByChainId(pool, chainIdFilter))
-        .filter((pool) => pool.prizePool?.address !== '0xc2a7dfb76e93d12a1bb1fa151b9900158090395d')
+        .filter((pool) => pool.prizePool?.address !== BADGER_PRIZE_POOL_ADDRESS)
+        .filter((pool) => pool.prizePool?.address !== SOHM_PRIZE_POOL_ADDRESS)
         .map((pool) => <PoolRow key={`pool-row-${pool.prizePool.address}`} pool={pool} />) || [],
     [pools, chainIdFilter]
   )
