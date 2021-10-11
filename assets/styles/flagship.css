@@ -1,0 +1,23 @@
+.gradient-new-full {
+  background-image: linear-gradient(90deg, #1bdffd 20%, #ff77e1 70%, #fff177 100%);
+}
+
+.v4-tsunami-width {
+  width: 114px;
+}
+
+@screen xs {
+  .v4-tsunami-width {
+    width: 216px;
+  }
+}
+
+.v4-banner-height {
+  height: 114px;
+}
+
+@screen xs {
+  .v4-banner-height {
+    height: 144px;
+  }
+}
