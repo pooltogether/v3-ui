@@ -1,4 +1,6 @@
 import React from 'react'
+import { NetworkIcon } from '@pooltogether/react-components'
+import { NETWORK } from '@pooltogether/utilities'
 
 import { useTranslation } from 'react-i18next'
 
@@ -6,21 +8,36 @@ export const V4Banner = (props) => {
   const { t } = useTranslation()
 
   return (
-    <div className='v4-banner-height overflow-hidden font-semibold w-full shadow-md mt-1 mb-8 flex items-center gradient-new-full rounded-lg'>
-      <div className='v4-banner-height v4-tsunami-width'>
+    <div className='v4-banner-height overflow-hidden font-semibold w-full shadow-md mt-1 mb-8 flex flex-col xs:flex-row items-center gradient-new-full rounded-lg'>
+      <div className='v4-banner-height v4-tsunami-width order-3 xs:order-none'>
         <TsunamiSvg />
       </div>
 
-      <div className='flex flex-col sm:mx-10 sm:w-2/3'>
-        <div className='text-white leading-tight text-xl xs:text-3xl'>The Tsunami is here!</div>
-        <div className='text-white leading-tight text-xs xs:text-xl'>
-          V4 of PoolTogether is a wave of 3,000 prizes totaling $50,000 every week!
+      <div className='flex flex-col mx-4 sm:mx-6 lg:mx-10 order-1 xs:order-none text-center xs:text-left pt-4 xs:pt-0'>
+        <div className='text-white leading-tight text-xl xs:text-sm sm:text-xl lg:text-3xl'>
+          The Tsunami is here!
+        </div>
+        <div className='text-white leading-tight text-xs xs:text-xxs sm:text-xs lg:text-xl'>
+          V4 of PoolTogether is a wave of 3,000~ prizes totaling $10,000 every day!
         </div>
       </div>
 
-      <div className='flex flex-col sm:pr-10'>
-        <div className='text-white leading-tight text-xl xs:text-3xl'>icons</div>
-        <div className='text-white leading-tight text-xs xs:text-xl'>button</div>
+      <div className='flex flex-col pr-4 sm:pr-8 xs:w-8/12 sm:w-7/12 lg:w-4/12 order-2 xs:order-none'>
+        <div className='flex justify-center xs:justify-end text-white leading-tight text-xl xs:text-3xl order-2 xs:order-none mt-2 xs:mt-0'>
+          <div className='flex flex-row-reverse'>
+            <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-2' chainId={NETWORK.mainnet} />
+            <NetworkIcon sizeClassName='my-auto h-6 w-6' chainId={NETWORK.polygon} />
+          </div>
+        </div>
+
+        <div className='text-white leading-tight text-xs xs:text-xl'>
+          <a
+            href={'https://tsunami-staging.pooltogether.com'}
+            className='v4-deposit-now-btn uppercase bg-white rounded-lg font-inter tracking-tight font-semibold text-purple text-sm xs:text-xxs sm:text-sm transition py-2 sm:py-3 px-3 xs:px-1 mt-4 xs:mt-2 block text-center leading-none'
+          >
+            {t('depositNow', 'Deposit now')}
+          </a>
+        </div>
       </div>
     </div>
   )
