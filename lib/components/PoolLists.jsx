@@ -149,16 +149,22 @@ const PoolList = (props) => {
   const { pools, isFetched, chainIdFilter } = props
 
   console.log(pools)
-  const poolsToRender = useMemo(
-    () =>
+  const poolsToRender = useMemo(() => {
+    let sortedAndFilteredPools =
       pools
         ?.sort((a, b) => b.prize.weeklyTotalValueUsdScaled.sub(a.prize.weeklyTotalValueUsdScaled))
         .filter((pool) => filterByChainId(pool, chainIdFilter))
         .filter((pool) => pool.prizePool?.address !== BADGER_PRIZE_POOL_ADDRESS)
         .filter((pool) => pool.prizePool?.address !== SOHM_PRIZE_POOL_ADDRESS)
-        .map((pool) => <PoolRow key={`pool-row-${pool.prizePool.address}`} pool={pool} />) || [],
-    [pools, chainIdFilter]
-  )
+        .map((pool) => <PoolRow key={`pool-row-${pool.prizePool.address}`} pool={pool} />) || []
+
+    console.log({ sortedAndFilteredPools })
+    const sohmPool = pools?.find((pool) => pool.prizePool?.address === SOHM_PRIZE_POOL_ADDRESS)
+    const sohmIndex = sortedAndFilteredPools?.indexOf(sohmPool)
+    console.log({ sohmIndex })
+
+    return sortedAndFilteredPools
+  }, [pools, chainIdFilter])
 
   if (!isFetched && poolsToRender.length === 0) return <PoolsListUILoader />
 
