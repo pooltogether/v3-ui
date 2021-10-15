@@ -35,7 +35,7 @@ export const V4Banner = (props) => {
 
         <div className='text-white leading-tight text-xs xs:text-xl'>
           <a
-            href={'https://tsunami-staging.pooltogether.com'}
+            href={'https://v4.pooltogether.com'}
             className='v4-deposit-now-btn uppercase bg-white rounded-lg font-inter tracking-tight font-semibold text-purple text-sm xs:text-xxs sm:text-sm transition py-2 sm:py-3 px-3 xs:px-1 mt-4 xs:mt-2 block text-center leading-none'
           >
             {t('depositNow', 'Deposit now')}
