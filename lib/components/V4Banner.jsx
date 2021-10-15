@@ -15,10 +15,13 @@ export const V4Banner = (props) => {
 
       <div className='flex flex-col mx-4 sm:mx-6 lg:mx-10 order-1 xs:order-none text-center xs:text-left pt-4 xs:pt-0'>
         <div className='text-white leading-tight text-xl xs:text-sm sm:text-xl lg:text-3xl'>
-          The Tsunami is here!
+          {t('theTsunamiIsHere', 'The Tsunami is here!')}
         </div>
         <div className='text-white leading-tight text-xs xs:text-xxs sm:text-xs lg:text-xl'>
-          V4 of PoolTogether is a wave of 3,000~ prizes totaling $10,000 every day!
+          {t(
+            'v4PoolTogetherDescription',
+            'V4 of PoolTogether is a wave of 3,000~ prizes totaling $10,000 every day!'
+          )}
         </div>
       </div>
 
