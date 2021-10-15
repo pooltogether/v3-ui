@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { PoolLists } from 'lib/components/PoolLists'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
-import { TVLAndWeeklyPrizesBanner } from 'lib/components/TVLAndWeeklyPrizesBanner'
+import { V4Banner } from 'lib/components/V4Banner'
 
 const BannerMotionDIV = (props) => {
   const shouldReduceMotion = useReducedMotion()
@@ -39,8 +39,8 @@ export const IndexUI = (props) => {
 
       <div className='relative h-40'>
         <div className='absolute t-0 l-0 r-0'>
-          <BannerMotionDIV key='tvl-banner' animate={'enter'}>
-            <TVLAndWeeklyPrizesBanner />
+          <BannerMotionDIV key='v4-banner' animate={'enter'}>
+            <V4Banner />
           </BannerMotionDIV>
         </div>
       </div>

@@ -1,0 +1,70 @@
+.gradient-new-full {
+  background-image: linear-gradient(90deg, #1bdffd 20%, #ff77e1 70%, #fff177 100%);
+}
+
+.v4-tsunami-width,
+.v4-tsunami-width svg {
+  width: 114px;
+}
+
+@screen xs {
+  .v4-tsunami-width,
+  .v4-tsunami-width svg {
+    width: 136px;
+  }
+}
+
+@screen sm {
+  .v4-tsunami-width,
+  .v4-tsunami-width svg {
+    width: 164px;
+  }
+}
+
+@screen lg {
+  .v4-tsunami-width,
+  .v4-tsunami-width svg {
+    width: 216px;
+  }
+}
+
+.v4-banner-height {
+  height: 184px;
+}
+
+@screen xs {
+  .v4-banner-height {
+    height: 114px;
+  }
+}
+
+@screen sm {
+  .v4-banner-height {
+    height: 124px;
+  }
+}
+
+@screen lg {
+  .v4-banner-height {
+    height: 144px;
+  }
+}
+
+.v4-deposit-now-btn:not([disabled]),
+.v4-deposit-now-btn:not([disabled]) {
+  border: 2px solid transparent;
+  box-shadow: 2px 2px 3px #ff00e523;
+}
+
+.v4-deposit-now-btn:not([disabled]):hover,
+.v4-deposit-now-btn:not([disabled]):focus {
+  @apply text-black;
+
+  border: 2px solid rgb(56, 219, 248);
+  box-shadow: 5px 5px 1px #ff00e523;
+}
+
+.v4-deposit-now-btn:not([disabled]):active {
+  box-shadow: 0 0 0 2px rgba(53, 240, 208, 0.3);
+  border: 2px solid transparent;
+}
