@@ -9,7 +9,7 @@ export const V4Banner = (props) => {
 
   return (
     <div className='v4-banner-height overflow-hidden font-semibold w-full shadow-md mt-1 mb-8 flex flex-col xs:flex-row items-center gradient-new-full rounded-lg'>
-      <div className='v4-banner-height v4-tsunami-width order-3 xs:order-none'>
+      <div className='hidden xs:block v4-banner-height v4-tsunami-width order-3 xs:order-none'>
         <TsunamiSvg />
       </div>
 
