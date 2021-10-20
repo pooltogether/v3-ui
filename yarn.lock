@@ -3084,15 +3084,15 @@
     enc-utils "^3.0.0"
     randombytes "^2.1.0"
 
-"@pooltogether/bnc-onboard-hooks@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard-hooks/-/bnc-onboard-hooks-1.0.1.tgz#457cb47f4b5e1018e883fe2b83d150d041ca0298"
-  integrity sha512-DXDHmXCphRHvuc34NqAhvaNwMS2P683oVM1wlhPyWp5f3WehpR0zBrKBEdSMTcB07XqdqdC7Y0S8IFH9HEpbiQ==
+"@pooltogether/bnc-onboard-hooks@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard-hooks/-/bnc-onboard-hooks-1.0.2.tgz#7fecd3ad7867faf82f6ea0bee9333888e833dfb0"
+  integrity sha512-syuMd/F6hECLQGqgoB073RSVjiNVSJ6yLPv3w6P1qF+LWjZ9cqCA+pMCHxzTVuH6X6jvGQFJSVwLg2JU+vvKiw==
 
-"@pooltogether/bnc-onboard@1.34.1-f":
-  version "1.34.1-f"
-  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.34.1-f.tgz#8767be19e952d52fa58a5b21a9c519749598dcac"
-  integrity sha512-t0PDW2ghSUZ2jyVxBsrbCu7OFnZEUyVmTHaSL45TybN/zmcqFSxxNVyBxKoa9TPWIgqv9dWQUAgbTQZmKijEag==
+"@pooltogether/bnc-onboard@1.34.1-i":
+  version "1.34.1-i"
+  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.34.1-i.tgz#a0bf0b28906413fae8673e880bc4d049b16063ed"
+  integrity sha512-O5DvMTHFjSwUmIuvi3h3cerb4MIZ2IUlEYNzXv0cZgnrjJb8KKgYqj/XpQ6S8+P6F2qlIkKlKd+dmky8Dqwg/Q==
   dependencies:
     "@cvbb/eth-keyring" "^1.1.0"
     "@ensdomains/ensjs" "^2.0.1"
@@ -3153,10 +3153,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/fixed-point/-/fixed-point-1.0.0-beta.2.tgz#d76a1e77f21833e9b680296d65526b0ffd7415d7"
   integrity sha512-aUw4R0Z2oM0AK3W4LIXyBaojTOzRRbhLDHX0egeuvxfjy4gBb6X66v81gI7Wngg/7O0y9QL/B8jWkUnAFzhTig==
 
-"@pooltogether/hooks@1.1.7":
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-1.1.7.tgz#c779e34dc1689fbc8872d6959cb010939338a2b5"
-  integrity sha512-z6wKMUy8vTEpnQGolQNtVW2OeFWjZO8KYsyYFXihIqz83z0tRshJ3bUlWDUxzlO6PfdXX7aaxTz4/qoqzkQZbw==
+"@pooltogether/hooks@1.1.11":
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-1.1.11.tgz#83d33b7d2e5601a18d448e61b0ab2ab52e4fff6f"
+  integrity sha512-IqHHmF8cGk/a8jcPMmapPdUJVgENKib57hpMkLBLemZ+7kHa96zgX7+T3UuTD+BbO+BAwC+Zr1CQlb0tNWQqrQ==
 
 "@pooltogether/loot-box@1.1.0":
   version "1.1.0"
@@ -3210,10 +3210,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-rng-contracts/-/pooltogether-rng-contracts-1.0.0.tgz#191d155dc960559cce06b7ec3b0f9ed2caed0f46"
   integrity sha512-jQub/+qPLQwTFtbBCvvyIEqxJDEBEV/hgLKnuocBg2/GySWtHLz67WCy17bNn1hZw8nWIt8Ih8h+7iT2UJhtmQ==
 
-"@pooltogether/react-components@1.1.12":
-  version "1.1.12"
-  resolved "https://registry.yarnpkg.com/@pooltogether/react-components/-/react-components-1.1.12.tgz#04517d75927e38d35980031158f3596c61988ba8"
-  integrity sha512-A1I8RaGStG6rQz2sltkbGa4q0vZPoGZ5YFHTdBRzF4o3q3eJTMCIhARckphgNS/AocvgWh/fiAZmIzON7KUyRg==
+"@pooltogether/react-components@1.2.8":
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/@pooltogether/react-components/-/react-components-1.2.8.tgz#151996b86cdd6a9fadf6e64d8462a7f2e3e9fb6c"
+  integrity sha512-ZW3kKIbUc7j14SMAi0IvbK5rRVrdR2AP2ms13ecAAkVtrbWJwixLQc3NLyn+TGLYQAqCYJ0o+++/dsKBKTjzug==
   dependencies:
     "@download/blockies" "^1.0.3"
     "@pooltogether/evm-chains-extended" "^0.5.3"
@@ -3239,10 +3239,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/uniform-random-number/-/uniform-random-number-1.0.0-beta.1.tgz#72257401fe8536e95f9f812f1d249262659084a7"
   integrity sha512-V4iqLOpNFNhnUqfKRlvqUeRwvKaODdz+qn4Qi65C3iMOnDb0J31tBvyhwKbhP4wauNuUN64WfepqkkxET9U7EQ==
 
-"@pooltogether/utilities@0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.1.5.tgz#762209e46fe718baaa7f047c2dcb26187d286532"
-  integrity sha512-hxjvceBDYK0WwWYpVaRDFES17JdmgNRwZSmVEt7FFU0mI98mbxEImJk+ehRaIudm6DQfbGXWKz4RP0L8Fyf2jw==
+"@pooltogether/utilities@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.2.1.tgz#5bdf3c1bf5f7db9dbffbd30b444888607bb4042d"
+  integrity sha512-HG8EcbvT5ZXOCxDDdtbu0SiUmJ4GbD+RZjH5kO2lvnk+b7O1mX3kb5evAv8vi6crS603pV5Pu3ZNEEagignEwA==
 
 "@pooltogether/yield-source-interface@^1.0.1":
   version "1.0.1"
