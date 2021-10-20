@@ -228,8 +228,8 @@ const PrizeWinner = (props) => {
         </Link>
       </td>
       <td>
-        <PoolNumber>{numberWithCommas(usersTicketBalance, { precision: 0 })}</PoolNumber>{' '}
-        {underlyingToken.symbol}
+        {numberWithCommas(usersTicketBalance, { precision: 0 })}{' '}
+        <span className='text-accent-1 opacity-60'>{underlyingToken.symbol}</span>
       </td>
     </tr>
   )
@@ -246,7 +246,15 @@ const DisplayYieldPrizeUsd = (props) => {
 
   return (
     <div>
-      <h3>{isSohm ? `${numberWithCommas(amount)} sOHM` : `$${numberWithCommas(yieldPrizeUsd)}`}</h3>
+      <h3>
+        {isSohm ? (
+          <>
+            {numberWithCommas(amount)} <span className='text-accent-1 opacity-60'>sOHM</span>
+          </>
+        ) : (
+          `$${numberWithCommas(yieldPrizeUsd)}`
+        )}
+      </h3>
     </div>
   )
 }

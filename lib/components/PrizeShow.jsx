@@ -15,7 +15,9 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import TicketsIcon from 'assets/images/icon-ticket@2x.png'
 import Link from 'next/link'
 
-export function PrizeShow(props) {
+const ETHEREUM_MAINNET_SOHM_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'
+
+export function PrizeShow (props) {
   const { t } = useTranslation()
 
   const { pool, preAwardPool, prize } = props
@@ -28,6 +30,9 @@ export function PrizeShow(props) {
   const decimals = pool.tokens.underlyingToken.decimals
   const preAwardTicketSupply = preAwardPool.tokens.ticket.totalSupply
   const prizeValueUsd = prize.totalValueUsd
+
+  const isSohm =
+    pool.prizePool.address.toLowerCase() === ETHEREUM_MAINNET_SOHM_POOL_ADDRESS.toLowerCase()
 
   return (
     <>
@@ -65,7 +70,16 @@ export function PrizeShow(props) {
       />
 
       <div className='rounded-lg px-4 xs:px-6 sm:px-10 py-4 text-inverse my-4 sm:mt-8 sm:mb-4 mx-auto border-flashy purple-pink-gradient-animation'>
-        <h1>{`$${numberWithCommas(prizeValueUsd)}`}</h1>
+        <h1>
+          {isSohm ? (
+            <>
+              {numberWithCommas(prize.yield.amount)}{' '}
+              <span className='text-accent-1 opacity-60'>sOHM</span>
+            </>
+          ) : (
+            `$${numberWithCommas(prizeValueUsd)}`
+          )}
+        </h1>
       </div>
 
       <HistoricPrizeBreakdown
@@ -92,7 +106,8 @@ export function PrizeShow(props) {
             title: t('depositedAmount'),
             content: (
               <h3>
-                {numberWithCommas(preAwardTicketSupply, { decimals })} {ticker}
+                {numberWithCommas(preAwardTicketSupply, { decimals })}{' '}
+                <span className='text-accent-1 opacity-60'>{ticker}</span>
               </h3>
             )
           }
