@@ -93,14 +93,22 @@ export const AccountTokenFaucets = (props) => {
 const TokenFaucetList = (props) => {
   const { chainId, tokenFaucets, usersAddress } = props
 
+  const { t } = useTranslation()
+
   const {
     data: claimableAmounts,
     isFetched: isClaimableAmountsFetched,
-    refetch
+    refetch,
+    error
   } = useTokenDripClaimableAmounts(chainId, tokenFaucets, usersAddress)
 
   if (tokenFaucets.length === 0) {
     return null
+  }
+
+  if (error) {
+    console.error(error)
+    return t('thereWasAnErrorLoadingData', 'There was an error loading data')
   }
 
   return (
@@ -367,11 +375,12 @@ const PodDailyEarningCell = (props) => {
  * @param {*} props
  */
 const PoolDailyEarningCell = (props) => {
+  const { t } = useTranslation()
   const { usersAddress, chainId, tokenFaucet } = props
   const { faucetDripPerDay, tokens } = tokenFaucet
   const { ticket, dripToken } = tokens
 
-  const { data, isFetched } = useTokenBalance(chainId, usersAddress, ticket.address)
+  const { data, isFetched, error } = useTokenBalance(chainId, usersAddress, ticket.address)
 
   if (!isFetched) {
     return (
@@ -379,6 +388,11 @@ const PoolDailyEarningCell = (props) => {
         <ThemedClipSpinner />
       </Cell>
     )
+  }
+
+  if (error) {
+    console.error(error)
+    return <Cell>{t('thereWasAnErrorLoadingData', 'There was an error loading data')}</Cell>
   }
 
   const { amount, totalSupply } = data
