@@ -12,6 +12,8 @@ import { usePaginatedPastPrizes } from 'lib/hooks/usePastPrizes'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
+const ETHEREUM_MAINNET_SOHM_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'
+
 /**
  * A full table component displaying the past prizes of a pool
  * with pagination & empty states
@@ -108,7 +110,13 @@ const PrizesTable = (props) => {
   )
 
   const data = useMemo(() => {
-    const prizeRows = prizes.map((prize) => formatPrizeObject(t, pool, prize, querySymbol))
+    const isSohm =
+      pool.prizePool.address.toLowerCase() === ETHEREUM_MAINNET_SOHM_POOL_ADDRESS.toLowerCase()
+
+    const prizeRows = prizes.map((prize) => {
+      console.log(prize)
+      return formatPrizeObject(t, pool, prize, querySymbol, isSohm)
+    })
 
     const lastPrize = prizes[0]
 
@@ -119,7 +127,11 @@ const PrizesTable = (props) => {
       currentPrize = {
         prizeAmount: (
           <span className='text-flashy'>
-            ${numberWithCommas(pool.prize.totalValueUsd, { precision: 2 })}
+            {isSohm ? (
+              <>{numberWithCommas(pool.prize.amount)} sOHM</>
+            ) : (
+              <>${numberWithCommas(pool.prize.totalValueUsd, { precision: 2 })}</>
+            )}
           </span>
         ),
         awardedAt: <span className='text-flashy'>{t('current')}</span>,
@@ -174,10 +186,16 @@ const PrizeLink = (props) => {
  * @param {*} querySymbol
  * @returns
  */
-const formatPrizeObject = (t, pool, prize, querySymbol) => ({
+const formatPrizeObject = (t, pool, prize, querySymbol, isSohm) => ({
   prizeNumber: prize.id,
   startedAt: formatDate(prize.prizePeriodStartedTimestamp),
   awardedAt: <span className='block'>{formatDate(prize.awardedTimestamp)}</span>,
-  prizeAmount: <span>{`$${numberWithCommas(prize.totalValueUsd, { precision: 2 })}`}</span>,
+  prizeAmount: isSohm ? (
+    <span>
+      {numberWithCommas(prize.yield.amount)} <span className='text-accent-1 opacity-60'>sOHM</span>
+    </span>
+  ) : (
+    <span>{`$${numberWithCommas(prize.totalValueUsd, { precision: 2 })}`}</span>
+  ),
   view: <PrizeLink t={t} pool={pool} prize={prize} />
 })

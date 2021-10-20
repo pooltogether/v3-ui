@@ -148,22 +148,28 @@ const PoolList = (props) => {
 
   const { pools, isFetched, chainIdFilter } = props
 
-  console.log(pools)
+  const reorderSohmPool = (filteredPools) => {
+    const sohmPool = pools?.find((pool) => pool.prizePool?.address === SOHM_PRIZE_POOL_ADDRESS)
+    const sohmIndex = filteredPools?.indexOf(sohmPool)
+
+    const indexToMoveTo = 3
+    if (sohmIndex !== -1) {
+      filteredPools.splice(indexToMoveTo, 0, filteredPools.splice(sohmIndex, 1)[0])
+    }
+
+    return filteredPools
+  }
+
   const poolsToRender = useMemo(() => {
-    let sortedAndFilteredPools =
+    let filteredPools =
       pools
         ?.sort((a, b) => b.prize.weeklyTotalValueUsdScaled.sub(a.prize.weeklyTotalValueUsdScaled))
         .filter((pool) => filterByChainId(pool, chainIdFilter))
-        .filter((pool) => pool.prizePool?.address !== BADGER_PRIZE_POOL_ADDRESS)
-        .filter((pool) => pool.prizePool?.address !== SOHM_PRIZE_POOL_ADDRESS)
-        .map((pool) => <PoolRow key={`pool-row-${pool.prizePool.address}`} pool={pool} />) || []
+        .filter((pool) => pool.prizePool?.address !== BADGER_PRIZE_POOL_ADDRESS) || []
 
-    console.log({ sortedAndFilteredPools })
-    const sohmPool = pools?.find((pool) => pool.prizePool?.address === SOHM_PRIZE_POOL_ADDRESS)
-    const sohmIndex = sortedAndFilteredPools?.indexOf(sohmPool)
-    console.log({ sohmIndex })
+    reorderSohmPool(filteredPools)
 
-    return sortedAndFilteredPools
+    return filteredPools
   }, [pools, chainIdFilter])
 
   if (!isFetched && poolsToRender.length === 0) return <PoolsListUILoader />
@@ -171,7 +177,9 @@ const PoolList = (props) => {
   return (
     <div>
       <ul>
-        {poolsToRender}
+        {poolsToRender.map((pool) => (
+          <PoolRow key={`pool-row-${pool.prizePool.address}`} pool={pool} />
+        ))}
         {poolsToRender.length === 0 && (
           <div className='flex flex-col'>
             <span className='mt-10 mx-auto text-accent-1'>

@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
-
 import { useTranslation } from 'react-i18next'
+
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 import { PlayerLabel } from 'lib/components/PlayerLabel'
@@ -17,6 +17,8 @@ import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
 import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 import GiftIcon from 'assets/images/icon-gift@2x.png'
 
+const ETHEREUM_MAINNET_SOHM_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'
+
 export const HistoricPrizeBreakdown = (props) => {
   const { prize, prizeNumber, preAwardPool, pool } = props
 
@@ -27,7 +29,6 @@ export const HistoricPrizeBreakdown = (props) => {
     return null
   }
 
-  const yieldPrizeUsd = prize.yield.totalValueUsd
   const externalPrizeUsd = prize.external.totalValueUsd
   const hasLootBox = Boolean(externalPrizeUsd) && Number(externalPrizeUsd) > 0
 
@@ -95,9 +96,7 @@ export const HistoricPrizeBreakdown = (props) => {
             )}
           >
             <img src={PrizeIllustration} className='w-40 mx-auto' />
-            <div>
-              <h3>{`$${numberWithCommas(yieldPrizeUsd)}`}</h3>
-            </div>
+            <DisplayYieldPrizeUsd pool={pool} prize={prize} />
           </div>
 
           {hasLootBox && (
@@ -129,7 +128,7 @@ export const HistoricPrizeBreakdown = (props) => {
         <div className='mt-1 xs:mt-0 py-2 rounded-lg'>
           <table className='w-full text-xxxs xs:text-xxs sm:text-sm align-top'>
             <thead>
-              <tr style={{ background: 'none' }}>
+              <tr style={{ background: 'none' }} className='text-left'>
                 {hasLootBox && <th>{t('prize')}</th>}
                 <th>{t('player')}</th>
                 <th>{t('deposit')}</th>
@@ -142,6 +141,7 @@ export const HistoricPrizeBreakdown = (props) => {
                     return (
                       <PrizeWinner
                         key={`prize-winner-row-${awardedControlledToken.id}`}
+                        awardedControlledToken={awardedControlledToken}
                         hasLootBox={hasLootBox}
                         isGrandPrizeWinner={index === 0}
                         prize={prize}
@@ -178,6 +178,7 @@ const PrizeWinner = (props) => {
   const { t } = useTranslation()
 
   const {
+    awardedControlledToken,
     isGrandPrizeWinner,
     hasLootBox,
     prize,
@@ -186,6 +187,7 @@ const PrizeWinner = (props) => {
     poolContract,
     chainId
   } = props
+
   const underlyingToken = preAwardPool.tokens.underlyingToken
   const ticketToken = preAwardPool.tokens.ticket
   const ticketAddress = ticketToken.address
@@ -207,13 +209,7 @@ const PrizeWinner = (props) => {
     : ''
 
   if (!ctBalance) {
-    return (
-      <tr>
-        <td>
-          <ThemedClipSpinner size={10} />
-        </td>
-      </tr>
-    )
+    return null
   }
 
   return (
@@ -236,5 +232,21 @@ const PrizeWinner = (props) => {
         {underlyingToken.symbol}
       </td>
     </tr>
+  )
+}
+
+const DisplayYieldPrizeUsd = (props) => {
+  const { prize, pool } = props
+
+  const yieldPrizeUsd = prize.yield.totalValueUsd
+  const amount = prize.yield.amount
+
+  const isSohm =
+    pool.prizePool.address.toLowerCase() === ETHEREUM_MAINNET_SOHM_POOL_ADDRESS.toLowerCase()
+
+  return (
+    <div>
+      <h3>{isSohm ? `${numberWithCommas(amount)} sOHM` : `$${numberWithCommas(yieldPrizeUsd)}`}</h3>
+    </div>
   )
 }

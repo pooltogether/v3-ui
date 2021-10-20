@@ -10,7 +10,7 @@ import { useHistoricPool } from 'lib/hooks/useHistoricPool'
 import { usePoolContractBySymbol } from 'lib/hooks/usePoolContracts'
 import Layout from 'lib/components/Layout'
 
-function PrizeShowPage(props) {
+function PrizeShowPage (props) {
   const { t } = useTranslation()
   const router = useRouter()
 
@@ -59,8 +59,8 @@ function PrizeShowPage(props) {
     <Layout>
       <PrizeShow
         pool={pool}
-        preAwardPool={historicPools.preAward}
-        postAwardPool={historicPools.postAward}
+        preAwardPool={historicPools?.preAward}
+        postAwardPool={historicPools?.postAward}
         prize={prize}
       />
     </Layout>

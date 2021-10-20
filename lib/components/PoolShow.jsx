@@ -38,6 +38,8 @@ import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import Bell from 'assets/images/bell-yellow@2x.png'
 import { PRIZE_POOL_TYPES } from '@pooltogether/current-pool-data'
 
+const SOHM_PRIZE_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'
+
 export const PoolShow = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
@@ -111,6 +113,7 @@ export const PoolShow = (props) => {
         <div className='flex flex-col sm:flex-row justify-between sm:items-center mb-4 sm:mb-10'>
           <div className='flex justify-between items-center sm:w-9/12 lg:w-7/12'>
             <PageTitleAndBreadcrumbs
+              t={t}
               showPrizeFrequencyChip
               Link={Link}
               title={translatedPoolName(t, pool.name)}
@@ -146,7 +149,7 @@ export const PoolShow = (props) => {
           </div>
         </div>
 
-        <UnauditedWarning pool={pool} />
+        <RebasingWarning pool={pool} />
 
         <PoolPrizeCard pool={pool} />
 
@@ -225,25 +228,32 @@ export const PoolShow = (props) => {
   )
 }
 
-const UnauditedWarning = (props) => {
+const RebasingWarning = (props) => {
   const { t } = useTranslation()
   const { pool } = props
 
-  const isYieldSourceKnown = useIsPoolYieldSourceKnown(pool)
-
-  const isNotCustomYieldSource = pool.prizePool.type !== PRIZE_POOL_TYPES.genericYield
-  if (isNotCustomYieldSource) {
+  const rebasing = pool.prizePool?.address === SOHM_PRIZE_POOL_ADDRESS
+  if (!rebasing) {
     return null
   }
 
-  if (isYieldSourceKnown) return null
-
   return (
-    <div className='flex flex-col xs:flex-row text-center items-center justify-center bg-default rounded-lg mt-4 pt-4 pb-2 xs:py-4 px-4 text-orange'>
-      <div className='mb-2 xs:mb-0 xs:mr-4'>
-        <img className='shake' src={Bell} style={{ maxWidth: 20 }} />
+    <div className='text-center bg-default rounded-lg mt-4 pt-4 pb-2 xs:py-4 px-4 text-orange'>
+      <div className='flex flex-col xs:flex-row items-center justify-center'>
+        <div className='mb-2 xs:mb-0 xs:mr-4'>
+          <img className='shake' src={Bell} style={{ maxWidth: 20 }} />
+        </div>
+        {t('rebasingPoolWarning', 'This prize pool uses a rebasing token to generate the prize.')}
       </div>
-      {t('unauditedYieldSource')}
+
+      <a
+        target='_blank'
+        rel='noreferrer noopener'
+        href='https://academy.binance.com/en/articles/elastic-supply-tokens-explained'
+        className='underline text-xs'
+      >
+        {t('learnMore', 'Learn more')}
+      </a>
     </div>
   )
 }

@@ -10,12 +10,17 @@ import { usePastPrizes } from 'lib/hooks/usePastPrizes'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
+const ETHEREUM_MAINNET_SOHM_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'
+
 export const PastWinnersCard = (props) => {
   const { t } = useTranslation()
   const { pool } = props
 
   const pageNum = 1
   const { data, error, isFetched, count } = usePastPrizes(pool, pageNum)
+
+  const isSohm =
+    pool.prizePool.address.toLowerCase() === ETHEREUM_MAINNET_SOHM_POOL_ADDRESS.toLowerCase()
 
   if (error) {
     console.error(t('thereWasAnErrorLoadingTheLastFiveWinners'))
@@ -84,7 +89,11 @@ export const PastWinnersCard = (props) => {
         <div className='w-full flex mb-6'>
           <span className='w-1/3'>{t('currentPrize')}</span>
           <span className='w-1/3 text-right text-flashy'>
-            ${numberWithCommas(pool.prize.totalValueUsd, { precision: 2 })}
+            {isSohm ? (
+              <span>{numberWithCommas(pool.prize.amount)} sOHM</span>
+            ) : (
+              <>${numberWithCommas(pool.prize.totalValueUsd, { precision: 2 })}</>
+            )}
           </span>
         </div>
 
@@ -117,11 +126,21 @@ const PrizeRow = (props) => {
 
   const { t } = useTranslation()
 
+  const isSohm =
+    pool.prizePool.address.toLowerCase() === ETHEREUM_MAINNET_SOHM_POOL_ADDRESS.toLowerCase()
+
   return (
     <li className='w-full flex mb-2 last:mb-0'>
       <span className='w-1/3'>{date}</span>
       <span className='w-1/3 text-right'>
-        $<PoolNumber>{numberWithCommas(prize.totalValueUsd, { precision: 2 })}</PoolNumber>
+        {isSohm ? (
+          <>
+            {numberWithCommas(prize.yield.amount)}{' '}
+            <span className='text-accent-1 opacity-60'>sOHM</span>
+          </>
+        ) : (
+          <>${numberWithCommas(prize.totalValueUsd, { precision: 2 })}</>
+        )}
       </span>
       <span className='w-1/3 text-right'>
         <Link
