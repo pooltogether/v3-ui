@@ -3084,15 +3084,15 @@
     enc-utils "^3.0.0"
     randombytes "^2.1.0"
 
-"@pooltogether/bnc-onboard-hooks@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard-hooks/-/bnc-onboard-hooks-1.0.2.tgz#7fecd3ad7867faf82f6ea0bee9333888e833dfb0"
-  integrity sha512-syuMd/F6hECLQGqgoB073RSVjiNVSJ6yLPv3w6P1qF+LWjZ9cqCA+pMCHxzTVuH6X6jvGQFJSVwLg2JU+vvKiw==
+"@pooltogether/bnc-onboard-hooks@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard-hooks/-/bnc-onboard-hooks-1.0.1.tgz#457cb47f4b5e1018e883fe2b83d150d041ca0298"
+  integrity sha512-DXDHmXCphRHvuc34NqAhvaNwMS2P683oVM1wlhPyWp5f3WehpR0zBrKBEdSMTcB07XqdqdC7Y0S8IFH9HEpbiQ==
 
-"@pooltogether/bnc-onboard@1.34.1-i":
-  version "1.34.1-i"
-  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.34.1-i.tgz#a0bf0b28906413fae8673e880bc4d049b16063ed"
-  integrity sha512-O5DvMTHFjSwUmIuvi3h3cerb4MIZ2IUlEYNzXv0cZgnrjJb8KKgYqj/XpQ6S8+P6F2qlIkKlKd+dmky8Dqwg/Q==
+"@pooltogether/bnc-onboard@1.34.1-f":
+  version "1.34.1-f"
+  resolved "https://registry.yarnpkg.com/@pooltogether/bnc-onboard/-/bnc-onboard-1.34.1-f.tgz#8767be19e952d52fa58a5b21a9c519749598dcac"
+  integrity sha512-t0PDW2ghSUZ2jyVxBsrbCu7OFnZEUyVmTHaSL45TybN/zmcqFSxxNVyBxKoa9TPWIgqv9dWQUAgbTQZmKijEag==
   dependencies:
     "@cvbb/eth-keyring" "^1.1.0"
     "@ensdomains/ensjs" "^2.0.1"
