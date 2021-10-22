@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { NFTE } from '@nfte/react'
 import { useCurrentPool } from '@pooltogether/hooks'
 import { shorten } from '@pooltogether/utilities'
-import { Tooltip } from '@pooltogether/react-components'
+import { TokenIcon, Tooltip } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
 
 import { ContributeToLootBoxDropdown } from 'lib/components/ContributeToLootBoxDropdown'
@@ -233,7 +233,8 @@ const AwardRowErc20 = (props) => {
           address={award.address}
           className='truncate text-accent-1 flex items-center'
         >
-          <Erc20Image address={award.address} /> {name} <LinkIcon className={'w-4 h-4'} />
+          <TokenIcon className='mr-2' chainId={pool.chainId} address={award.address} /> {name}{' '}
+          <LinkIcon className={'w-4 h-4'} />
         </BlockExplorerLink>
       </span>
       <span className='w-1/3 sm:pl-6 text-right text-accent-1 truncate'>
