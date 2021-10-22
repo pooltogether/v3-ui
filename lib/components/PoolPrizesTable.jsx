@@ -114,7 +114,6 @@ const PrizesTable = (props) => {
       pool.prizePool.address.toLowerCase() === ETHEREUM_MAINNET_SOHM_POOL_ADDRESS.toLowerCase()
 
     const prizeRows = prizes.map((prize) => {
-      console.log(prize)
       return formatPrizeObject(t, pool, prize, querySymbol, isSohm)
     })
 

@@ -12,8 +12,6 @@ export function NetworkText (props) {
   const { openTransactions } = props
 
   const { network: walletChainId } = useOnboard()
-  console.log({ walletChainId })
-  console.log({ SUPPORTED_NETWORKS })
   const supportedNetwork = useIsWalletOnSupportedNetwork(walletChainId, SUPPORTED_NETWORKS)
 
   let networkName = null
