@@ -72,7 +72,7 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 
 let checkForElementIntervalId
 
-function MyApp ({ Component, pageProps, router }) {
+function MyApp({ Component, pageProps, router }) {
   const { i18n } = useTranslation()
 
   const deposit = /deposit/.test(router.asPath)
@@ -106,7 +106,7 @@ function MyApp ({ Component, pageProps, router }) {
         ]
       })
 
-      function onRouteChangeComplete (url) {
+      function onRouteChangeComplete(url) {
         if (window['fathom']) {
           window['fathom'].trackPageview()
         }

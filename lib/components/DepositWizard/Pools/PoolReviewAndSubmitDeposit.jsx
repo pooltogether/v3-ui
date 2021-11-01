@@ -10,6 +10,7 @@ import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { ReviewAndSubmitDeposit } from 'lib/components/DepositWizard/ReviewAndSubmitDeposit'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
 import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
+import { V4DepositFlowBanner } from 'lib/components/DepositWizard/v4DepositFlowBanner'
 
 export const PoolReviewAndSubmitDeposit = (props) => {
   const { pool, contractAddress, quantity, nextStep } = props
@@ -61,8 +62,8 @@ export const PoolReviewAndSubmitDeposit = (props) => {
         <DepositExpectationsWarning
           creditLimitMantissa={pool.config.tokenCreditRates[0].creditLimitMantissa}
           creditRateMantissa={pool.config.tokenCreditRates[0].creditRateMantissa}
-          className='my-8'
-        />
+        />,
+        <V4DepositFlowBanner pool={pool} />
       ]}
     />
   )

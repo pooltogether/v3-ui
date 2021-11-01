@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { DepositAmount } from 'lib/components/DepositWizard/DepositAmount'
 import { Odds } from 'lib/components/Odds'
 import IconTarget from 'assets/images/icon-target@2x.png'
+import { V4DepositFlowBanner } from 'lib/components/DepositWizard/v4DepositFlowBanner'
 
 export const PoolDepositAmount = (props) => {
   const { quantity: queryQuantity, pool, chainId, tokenAddress, nextStep, form } = props
@@ -43,17 +44,20 @@ export const PoolDepositAmount = (props) => {
         nextStep={nextStep}
         quantity={queryQuantity}
       />
-      <UsersWinningOdds
-        usersAddress={usersAddress}
-        decimals={decimals}
-        isFetched={isUsersBalanceFetched}
-        usersTicketBalanceUnformatted={usersBalance?.[poolTicketAddress].amountUnformatted}
-        usersUnderlyingBalanceUnformatted={usersBalance?.[tokenAddress].amountUnformatted}
-        quantity={quantity}
-        underlyingToken={pool.tokens.underlyingToken}
-        numberOfWinners={pool.config.numberOfWinners}
-        ticketTotalSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
-      />
+      <div className='mt-10 space-y-4'>
+        <UsersWinningOdds
+          usersAddress={usersAddress}
+          decimals={decimals}
+          isFetched={isUsersBalanceFetched}
+          usersTicketBalanceUnformatted={usersBalance?.[poolTicketAddress].amountUnformatted}
+          usersUnderlyingBalanceUnformatted={usersBalance?.[tokenAddress].amountUnformatted}
+          quantity={quantity}
+          underlyingToken={pool.tokens.underlyingToken}
+          numberOfWinners={pool.config.numberOfWinners}
+          ticketTotalSupplyUnformatted={pool.tokens.ticket.totalSupplyUnformatted}
+        />
+        <V4DepositFlowBanner pool={pool} />
+      </div>
     </>
   )
 }
@@ -104,7 +108,7 @@ const UsersWinningOdds = (props) => {
 
   if ((usersAddress && !isFetched) || !isQuantityValid) {
     return (
-      <SmallCard className='mx-auto mt-10 flex flex-row'>
+      <SmallCard className='mx-auto flex flex-row'>
         <img src={IconTarget} className='w-16 h-16 sm:w-20 sm:h-20 ml-2 mr-4 my-4' />
         <div className='flex flex-col w-full justify-center'>
           <Title>{t('yourWinningOdds')}:</Title>
@@ -124,7 +128,7 @@ const UsersWinningOdds = (props) => {
   )
 
   return (
-    <SmallCard className='mx-auto mt-10 flex flex-row'>
+    <SmallCard className='mx-auto flex flex-row'>
       <img src={IconTarget} className='w-24 h-24 mr-4 my-4' />
       <div className='flex flex-col w-full  justify-center'>
         <Title>{t('yourWinningOdds')}:</Title>

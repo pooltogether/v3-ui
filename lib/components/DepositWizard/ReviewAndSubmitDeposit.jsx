@@ -26,23 +26,16 @@ import { TxStatus } from 'lib/components/TxStatus'
 import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 
 export const ReviewAndSubmitDeposit = (props) => {
-  const {
-    chainId,
-    tokenAddress,
-    contractAddress,
-    isUserOnCorrectNetwork,
-    quantity,
-    depositTxId
-  } = props
+  const { chainId, tokenAddress, contractAddress, isUserOnCorrectNetwork, quantity, depositTxId } =
+    props
 
   const { network: walletChainId, address: usersAddress, connectWallet } = useOnboard()
 
-  const { data: tokenAllowanceData, isFetched, refetch: refetchTokenAllowance } = useTokenAllowance(
-    chainId,
-    usersAddress,
-    contractAddress,
-    tokenAddress
-  )
+  const {
+    data: tokenAllowanceData,
+    isFetched,
+    refetch: refetchTokenAllowance
+  } = useTokenAllowance(chainId, usersAddress, contractAddress, tokenAddress)
 
   const { data: usersBalance, isFetched: isUsersBalanceFetched } = useTokenBalances(
     chainId,
@@ -195,14 +188,8 @@ export const InvalidQuantity = (props) => {
 }
 
 const ApproveDeposit = (props) => {
-  const {
-    chainId,
-    tokenSymbol,
-    refetchTokenAllowance,
-    tokenAddress,
-    decimals,
-    contractAddress
-  } = props
+  const { chainId, tokenSymbol, refetchTokenAllowance, tokenAddress, decimals, contractAddress } =
+    props
   const { t } = useTranslation()
 
   const [txId, setTxId] = useState(0)
@@ -269,14 +256,8 @@ const ApproveDeposit = (props) => {
 }
 
 const SubmitDeposit = (props) => {
-  const {
-    chainId,
-    depositTxId,
-    setDepositTxId,
-    tokenSymbol,
-    submitDepositTransaction,
-    cards
-  } = props
+  const { chainId, depositTxId, setDepositTxId, tokenSymbol, submitDepositTransaction, cards } =
+    props
   const { t } = useTranslation()
 
   const tx = useTransaction(depositTxId)
@@ -293,7 +274,7 @@ const SubmitDeposit = (props) => {
     <>
       <ReviewAmountAndTitle {...props} />
 
-      {cards}
+      <div className='my-8 space-y-4'>{cards}</div>
 
       <TxStatus
         tx={tx}

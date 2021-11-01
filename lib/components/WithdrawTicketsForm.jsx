@@ -14,8 +14,9 @@ import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
+import { V4WithdrawFlowBanner } from 'lib/components/WithdrawWizard/V4WithdrawFlowBanner'
 
-export function WithdrawTicketsForm (props) {
+export function WithdrawTicketsForm(props) {
   const { nextStep, pool, playerPoolDepositData } = props
 
   const { t } = useTranslation()
@@ -136,6 +137,8 @@ export function WithdrawTicketsForm (props) {
             </>
           )}
         </div>
+
+        <V4WithdrawFlowBanner className='mt-4 mb-8' pool={pool} />
 
         <ButtonDrawer>{continueButton}</ButtonDrawer>
       </form>

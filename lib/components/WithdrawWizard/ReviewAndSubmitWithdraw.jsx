@@ -104,7 +104,7 @@ const SubmitWithdraw = (props) => {
   return (
     <>
       <ReviewAmountAndTitle {...props} />
-      {cards}
+      <div className='my-8 space-y-4'>{cards}</div>
       <TxStatus
         tx={tx}
         inWalletMessage={t('confirmWithdrawInYourWallet')}
