@@ -10,7 +10,7 @@ import { REFERRER_ADDRESS_KEY } from 'lib/constants'
 import { ReviewAndSubmitDeposit } from 'lib/components/DepositWizard/ReviewAndSubmitDeposit'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
 import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
-import { V4DepositFlowBanner } from 'lib/components/DepositWizard/v4DepositFlowBanner'
+import { V4DepositFlowBanner } from 'lib/components/DepositWizard/V4DepositFlowBanner'
 
 export const PoolReviewAndSubmitDeposit = (props) => {
   const { pool, contractAddress, quantity, nextStep } = props
