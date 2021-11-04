@@ -38,7 +38,7 @@ export const V4PoolCard = (props) => {
   const { data: prize } = useV4Prize()
   const { t } = useTranslation()
 
-  if (filter && !CHAINS_TO_SHOW.includes(filter)) {
+  if (filter !== -1 && !CHAINS_TO_SHOW.includes(filter)) {
     return null
   }
 
@@ -117,13 +117,10 @@ const getV4Prize = async (readProvider) => {
   const prizeTierHistory = contract(PRIZE_TIER_HISTORY, PrizeTierHistoryAbi, PRIZE_TIER_HISTORY)
   let response = await batch(readProvider, prizeTierHistory.getNewestDrawId())
   const drawId = response[PRIZE_TIER_HISTORY].getNewestDrawId[0]
-  console.log({ drawId })
   response = await batch(readProvider, prizeTierHistory.getPrizeTier(drawId))
   const prizeTier = response[PRIZE_TIER_HISTORY].getPrizeTier[0]
-  console.log({ prizeTier })
   const prizeAmountUnformatted = prizeTier.prize
   const weeklyPrizeAmountUnformatted = prizeAmountUnformatted.mul(7)
-  console.log(formatUnits(weeklyPrizeAmountUnformatted, PRIZE_DECIMALS))
   return formatUnits(weeklyPrizeAmountUnformatted, PRIZE_DECIMALS)
 }
 
@@ -182,7 +179,6 @@ const getDrawBeaconPeriodEndTime = async (readProvider) => {
   const startedAtSeconds = response[DRAW_BEACON].getBeaconPeriodStartedAt[0]
   const periodSeconds = BigNumber.from(response[DRAW_BEACON].getBeaconPeriodSeconds[0])
   const endsAtSeconds = response[DRAW_BEACON].beaconPeriodEndAt[0]
-  console.log({ startedAtSeconds, periodSeconds, endsAtSeconds })
   return { startedAtSeconds, periodSeconds, endsAtSeconds }
 }
 
