@@ -16,6 +16,7 @@ import { ALL_NETWORKS_ID, getNetworkNiceNameByChainId } from 'lib/utils/networks
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
 import { useOnEnvChange } from 'lib/hooks/useOnEnvChange'
+import { V4PoolCard } from 'lib/components/V4PoolCard'
 
 // Hide these pools from the pool listing/index so they're still usable (if you have the URL or on the Account page)
 // but don't show up on the listing
@@ -177,6 +178,7 @@ const PoolList = (props) => {
   return (
     <div>
       <ul>
+        <V4PoolCard filter={chainIdFilter} />
         {poolsToRender.map((pool) => (
           <PoolRow key={`pool-row-${pool.prizePool.address}`} pool={pool} />
         ))}

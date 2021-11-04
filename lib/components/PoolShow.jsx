@@ -8,7 +8,7 @@ import { usePoolBySymbol, useRouterChainId } from '@pooltogether/hooks'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
 import { Button } from '@pooltogether/react-components'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 
 import {
   COOKIE_OPTIONS,
@@ -39,6 +39,8 @@ import Bell from 'assets/images/bell-yellow@2x.png'
 import { PRIZE_POOL_TYPES } from '@pooltogether/current-pool-data'
 
 const SOHM_PRIZE_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'
+const ETH_POOL_PRIZE_POOL_ADDRESS = '0x396b4489da692788e327e2e4b2b0459a5ef26791'
+const POLYGON_POOL_PRIZE_POOL_ADDRESS = '0x2ac049f07d56ed04f84ff80022a71a1a2d8ce19b'
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -151,6 +153,8 @@ export const PoolShow = (props) => {
 
         <RebasingWarning pool={pool} />
 
+        <V3Warning pool={pool} />
+
         <PoolPrizeCard pool={pool} />
 
         <UpcomingPrizeBreakdownCard pool={pool} />
@@ -254,6 +258,46 @@ const RebasingWarning = (props) => {
       >
         {t('learnMore', 'Learn more')}
       </a>
+    </div>
+  )
+}
+
+const V3Warning = (props) => {
+  const { pool } = props
+
+  const poolsToHideBanner = [
+    SOHM_PRIZE_POOL_ADDRESS,
+    ETH_POOL_PRIZE_POOL_ADDRESS,
+    POLYGON_POOL_PRIZE_POOL_ADDRESS
+  ]
+
+  if (poolsToHideBanner.includes(pool.prizePool?.address)) {
+    return null
+  }
+
+  return (
+    <div className='text-center bg-default rounded-lg mt-4 pt-4 pb-2 xs:py-4 px-4 text-orange'>
+      <div className='flex flex-col xs:flex-row items-center justify-center'>
+        <div className='mb-2 xs:mb-0 xs:mr-4'>
+          <img className='shake' src={Bell} style={{ maxWidth: 20 }} />
+        </div>
+
+        <span>
+          <Trans
+            i18nKey='v3BannerWarning'
+            components={{
+              a: (
+                <a
+                  href='http://v4.pooltogether.com'
+                  className='underline text-xs'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                />
+              )
+            }}
+          />
+        </span>
+      </div>
     </div>
   )
 }

@@ -17,7 +17,7 @@ import Link from 'next/link'
 
 const ETHEREUM_MAINNET_SOHM_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'
 
-export function PrizeShow (props) {
+export function PrizeShow(props) {
   const { t } = useTranslation()
 
   const { pool, preAwardPool, prize } = props
@@ -33,6 +33,7 @@ export function PrizeShow (props) {
 
   const isSohm =
     pool.prizePool.address.toLowerCase() === ETHEREUM_MAINNET_SOHM_POOL_ADDRESS.toLowerCase()
+  console.log({ isSohm })
 
   return (
     <>

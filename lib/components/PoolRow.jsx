@@ -72,8 +72,8 @@ export const PoolRow = (props) => {
         </a>
       </Link>
 
-      <div className='flex flex-col sm:flex-row items-center text-inverse'>
-        <div className='h-full flex py-2 p-4 sm:pl-4 lg:px-6 sm:pt-3 sm:pb-5 rounded-lg items-start justify-center sm:justify-start w-full sm:mr-6'>
+      <PoolRowContents>
+        <PoolRowContentSide className='py-2 p-4 lg:px-6 sm:pt-3 sm:pb-5 justify-center sm:justify-start'>
           <div className='flex flex-col mx-auto'>
             <div className='flex items-center justify-center'>
               <TokenIcon
@@ -89,15 +89,11 @@ export const PoolRow = (props) => {
               <PrizeFrequencyChip t={t} prizePeriodSeconds={pool.prize.prizePeriodSeconds} />
             </div>
           </div>
-        </div>
+        </PoolRowContentSide>
 
-        <div className='hidden sm:flex flex-col items-start justify-center'>
-          <div className='border-default h-20 opacity-30' style={{ borderLeftWidth: 1 }}>
-            &nbsp;
-          </div>
-        </div>
+        <Divider />
 
-        <div className='mt-4 sm:mt-0 w-full flex'>
+        <PoolRowContentSide className='mt-4 sm:mt-0'>
           <div className='flex flex-col mx-auto'>
             <NewPrizeCountdown
               center
@@ -156,8 +152,23 @@ export const PoolRow = (props) => {
               </div>
             )}
           </div>
-        </div>
-      </div>
+        </PoolRowContentSide>
+      </PoolRowContents>
     </InteractableCard>
   )
 }
+
+export const Divider = () => (
+  <div className='hidden sm:flex flex-col items-start justify-center'>
+    <div className='border-default h-20 opacity-30' style={{ borderLeftWidth: 1 }}>
+      &nbsp;
+    </div>
+  </div>
+)
+
+export const PoolRowContents = (props) => (
+  <div {...props} className='flex flex-col sm:flex-row items-center text-inverse justify-evenly' />
+)
+export const PoolRowContentSide = (props) => (
+  <div {...props} className={classnames(props.className, 'flex w-full')} />
+)
