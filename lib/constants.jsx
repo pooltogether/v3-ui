@@ -32,7 +32,6 @@ export const WIZARD_REFERRER_AS_PATH = 'wizardReferrerAsPath'
 export const TRANSACTIONS_KEY = 'txs'
 export const SHOW_MANAGE_LINKS = 'showManageLinks'
 export const MAGIC_EMAIL = 'magicEmail'
-export const SELECTED_WALLET_COOKIE_KEY = 'selectedWallet'
 
 // strings
 export const CONFETTI_DURATION_MS = 12000
