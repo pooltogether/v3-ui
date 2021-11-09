@@ -128,7 +128,9 @@ const PodListItemRightHalf = (props) => {
             <AprChip
               key={tokenFaucet.address}
               chainId={pod.metadata.chainId}
-              tokenFaucet={tokenFaucet}
+              tokenAddress={tokenFaucet?.dripToken.address}
+              tokenSymbol={tokenFaucet?.dripToken.symbol}
+              apr={tokenFaucet?.apr}
             />
           )) || <div />}
           <span className='text-xxxs text-highlight-1 trans hover:text-inverse ml-auto'>

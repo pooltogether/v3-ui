@@ -143,7 +143,9 @@ export const PoolRow = (props) => {
                       <AprChip
                         key={tokenFaucet.address}
                         chainId={pool.chainId}
-                        tokenFaucet={tokenFaucet}
+                        tokenAddress={tokenFaucet?.dripToken.address}
+                        tokenSymbol={tokenFaucet?.dripToken.symbol}
+                        apr={tokenFaucet?.apr}
                       />
                     )
                   })}

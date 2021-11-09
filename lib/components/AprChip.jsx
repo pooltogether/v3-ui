@@ -7,12 +7,7 @@ import { displayPercentage } from '@pooltogether/utilities'
 export const AprChip = (props) => {
   const { t } = useTranslation()
 
-  const { tokenFaucet, chainId, className } = props
-
-  const dripTokenAddress = tokenFaucet.dripToken.address
-  const dripTokenSymbol = tokenFaucet.dripToken.symbol
-
-  const { apr } = tokenFaucet
+  const { chainId, className, tokenAddress, tokenSymbol, apr } = props
 
   if (!apr) {
     return null
@@ -20,13 +15,8 @@ export const AprChip = (props) => {
 
   return (
     <div className={classnames('text-xxxs text-accent-1 flex items-center', className)}>
-      <TokenIcon
-        chainId={chainId}
-        address={dripTokenAddress}
-        className='mr-2'
-        sizeClasses='w-3 h-3'
-      />
-      {t('earnNumPercentApr', { ticker: dripTokenSymbol, percentApr: displayPercentage(apr) })}
+      <TokenIcon chainId={chainId} address={tokenAddress} className='mr-2' sizeClasses='w-3 h-3' />
+      {t('earnNumPercentApr', { ticker: tokenSymbol, percentApr: displayPercentage(apr) })}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { batch, contract } from '@pooltogether/etherplex'
-import { useReadProvider } from '@pooltogether/hooks'
+import { useReadProvider, useReadProviders } from '@pooltogether/hooks'
 import { NO_REFETCH_QUERY_OPTIONS } from '@pooltogether/hooks/dist/constants'
 import {
   Chip,
@@ -15,18 +15,20 @@ import PrizeTierHistoryAbi from 'abis/PrizeTierHistoryAbi'
 import DrawBeaconAbi from 'abis/DrawBeaconAbi'
 import classnames from 'classnames'
 import { BigNumber } from 'ethers'
-import { formatUnits, parseUnits } from 'ethers/lib/utils'
-import { Card } from 'lib/components/Card'
+import { formatUnits } from 'ethers/lib/utils'
 import { InteractableCard } from 'lib/components/InteractableCard'
-import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { Divider, PoolRowContents, PoolRowContentSide } from 'lib/components/PoolRow'
 import { PrizeValue } from 'lib/components/PrizeValue'
-import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { useTranslation } from 'react-i18next'
+import ERC20Abi from 'abis/ERC20Abi'
+import { AprChip } from 'lib/components/AprChip'
+import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 
+const ETHEREUM_TICKET = '0xdd4d117723C257CEe402285D3aCF218E9A8236E1'
+const POLYGON_TICKET = '0x6a304dFdb9f808741244b6bfEe65ca7B3b3A6076'
 const USDC = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
 const PRIZE_TIER_HISTORY = '0xdD1cba915Be9c7a1e60c4B99DADE1FC49F67f80D'
 const DRAW_BEACON = '0x0D33612870cd9A475bBBbB7CC38fC66680dEcAC5'
@@ -59,7 +61,7 @@ export const V4PoolCard = (props) => {
                 sizeClassName='w-9 h-9'
                 className='mr-2 my-auto'
               />
-              <PrizeValue totalValueUsd={prize || 0} />
+              <PrizeValue totalValueUsd={prize?.weeklyPrizeAmount || 0} />
             </div>
 
             <div className='flex items-center justify-center'>
@@ -68,13 +70,16 @@ export const V4PoolCard = (props) => {
           </div>
         </PoolRowContentSide>
         <Divider />
-        <PoolRowContentSide>
+        <PoolRowContentSide className='mt-4 sm:mt-0'>
           <div className='flex flex-col mx-auto'>
             <PrizeCountdown />
             <DepositLink />
-            <span className='text-inverse text-xxxs mt-2 mx-auto sm:mr-0 sm:ml-auto'>
-              {t('viewApp', 'View app')}
-            </span>
+            <div className='flex flex-col sm:flex-row w-full justify-between pt-2'>
+              <PrizeApr />
+              <span className='text-inverse text-xxxs mt-1 sm:mt-0 mx-auto sm:mr-0 sm:ml-auto'>
+                {t('viewApp', 'View app')}
+              </span>
+            </div>
           </div>
         </PoolRowContentSide>
       </PoolRowContents>
@@ -121,7 +126,12 @@ const getV4Prize = async (readProvider) => {
   const prizeTier = response[PRIZE_TIER_HISTORY].getPrizeTier[0]
   const prizeAmountUnformatted = prizeTier.prize
   const weeklyPrizeAmountUnformatted = prizeAmountUnformatted.mul(7)
-  return formatUnits(weeklyPrizeAmountUnformatted, PRIZE_DECIMALS)
+  return {
+    dailyPrizeAmountUnformatted: prizeAmountUnformatted,
+    dailyPrizeAmount: formatUnits(prizeAmountUnformatted, PRIZE_DECIMALS),
+    weeklyPrizeAmountUnformatted,
+    weeklyPrizeAmount: formatUnits(weeklyPrizeAmountUnformatted, PRIZE_DECIMALS)
+  }
 }
 
 const PrizeCountdown = () => {
@@ -193,4 +203,58 @@ const DepositLink = () => {
       {t('depositTicker', { ticker: 'USDC' })}
     </SquareButton>
   )
+}
+
+const PrizeApr = () => {
+  const { data: apr, isFetched } = useV4Apr()
+  const { t } = useTranslation()
+  return (
+    <div
+      className={classnames(
+        'text-xxxs text-accent-1 flex items-center',
+        'mx-auto sm:mr-auto sm:ml-0'
+      )}
+    >
+      <TokenIcon
+        chainId={NETWORK.mainnet}
+        address={ETHEREUM_TICKET}
+        className='mr-2'
+        sizeClasses='w-3 h-3'
+      />
+      {isFetched ? <span>{t('prizeApr', { amount: apr })}</span> : <ThemedClipSpinner size={12} />}
+    </div>
+  )
+}
+
+export const useV4Apr = () => {
+  const { data: prize, isFetched } = useV4Prize()
+  const { readProviders, isReadProvidersReady } = useReadProviders([
+    NETWORK.mainnet,
+    NETWORK.polygon
+  ])
+  const enabled = isReadProvidersReady && isFetched
+  return useQuery([], () => getV4Apr(readProviders, prize?.dailyPrizeAmountUnformatted), {
+    enabled
+  })
+}
+
+const getV4Apr = async (readProviders, dailyPrizeAmountUnformatted) => {
+  const totalYearlyPrizesUnformatted = dailyPrizeAmountUnformatted.mul(365)
+  const ethereumTicket = contract(ETHEREUM_TICKET, ERC20Abi, ETHEREUM_TICKET)
+  const polygonTicket = contract(POLYGON_TICKET, ERC20Abi, POLYGON_TICKET)
+
+  const ethereumResponse = await batch(readProviders[NETWORK.mainnet], ethereumTicket.totalSupply())
+  const polygonResponse = await batch(readProviders[NETWORK.polygon], polygonTicket.totalSupply())
+
+  const ethereumTotalSupplyUnformatted = ethereumResponse[ETHEREUM_TICKET].totalSupply[0]
+  const polygonTotalSupplyUnformatted = polygonResponse[POLYGON_TICKET].totalSupply[0]
+
+  const totalTotalSupplyUnformatted = ethereumTotalSupplyUnformatted.add(
+    polygonTotalSupplyUnformatted
+  )
+
+  const totalTotalSupply = totalTotalSupplyUnformatted.div(1e6).toNumber()
+  const totalYearlyPrizes = totalYearlyPrizesUnformatted.div(1e6).toNumber()
+
+  return ((totalYearlyPrizes / totalTotalSupply) * 100).toFixed(2)
 }
