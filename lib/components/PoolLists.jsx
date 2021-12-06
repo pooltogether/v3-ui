@@ -18,7 +18,7 @@ import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
 import { useOnEnvChange } from 'lib/hooks/useOnEnvChange'
 import { V4PoolCard } from 'lib/components/V4PoolCard'
 
-// Hide these pools from the pool listing/index so they're still usable (if you have the URL or on the Account page)
+// Hide or reorder these pools on listing/index so they're still usable (if you have the URL or on the Account page)
 // but don't show up on the listing
 const BADGER_PRIZE_POOL_ADDRESS = '0xc2a7dfb76e93d12a1bb1fa151b9900158090395d'
 const SOHM_PRIZE_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'
@@ -149,26 +149,29 @@ const PoolList = (props) => {
 
   const { pools, isFetched, chainIdFilter } = props
 
-  const reorderSohmPool = (filteredPools) => {
-    const sohmPool = pools?.find((pool) => pool.prizePool?.address === SOHM_PRIZE_POOL_ADDRESS)
-    const sohmIndex = filteredPools?.indexOf(sohmPool)
+  // const reorderSohmPool = (filteredPools) => {
+  //   const sohmPool = pools?.find((pool) => pool.prizePool?.address === SOHM_PRIZE_POOL_ADDRESS)
+  //   const sohmIndex = filteredPools?.indexOf(sohmPool)
 
-    const indexToMoveTo = 3
-    if (sohmIndex !== -1) {
-      filteredPools.splice(indexToMoveTo, 0, filteredPools.splice(sohmIndex, 1)[0])
-    }
+  //   const indexToMoveTo = 3
+  //   if (sohmIndex !== -1) {
+  //     filteredPools.splice(indexToMoveTo, 0, filteredPools.splice(sohmIndex, 1)[0])
+  //   }
 
-    return filteredPools
-  }
+  //   return filteredPools
+  // }
 
   const poolsToRender = useMemo(() => {
     let filteredPools =
       pools
         ?.sort((a, b) => b.prize.weeklyTotalValueUsdScaled.sub(a.prize.weeklyTotalValueUsdScaled))
         .filter((pool) => filterByChainId(pool, chainIdFilter))
-        .filter((pool) => pool.prizePool?.address !== BADGER_PRIZE_POOL_ADDRESS) || []
+        .filter(
+          (pool) =>
+            ![BADGER_PRIZE_POOL_ADDRESS, SOHM_PRIZE_POOL_ADDRESS].includes(pool.prizePool?.address)
+        ) || []
 
-    reorderSohmPool(filteredPools)
+    // reorderSohmPool(filteredPools)
 
     return filteredPools
   }, [pools, chainIdFilter])
