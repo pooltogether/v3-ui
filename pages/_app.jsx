@@ -72,7 +72,7 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 
 let checkForElementIntervalId
 
-function MyApp({ Component, pageProps, router }) {
+function MyApp ({ Component, pageProps, router }) {
   const { i18n } = useTranslation()
 
   const deposit = /deposit/.test(router.asPath)
@@ -98,15 +98,10 @@ function MyApp({ Component, pageProps, router }) {
     if (fathomSiteId) {
       Fathom.load(process.env.NEXT_JS_FATHOM_SITE_ID, {
         url: 'https://goose.pooltogether.com/script.js',
-        includedDomains: [
-          'app-v3.pooltogether.com',
-          'app-staging.pooltogether.com',
-          'app.pooltogether.com',
-          'staging-v3.pooltogether.com'
-        ]
+        includedDomains: ['v3.pooltogether.com', 'app-v3.pooltogether.com']
       })
 
-      function onRouteChangeComplete(url) {
+      function onRouteChangeComplete (url) {
         if (window['fathom']) {
           window['fathom'].trackPageview()
         }
