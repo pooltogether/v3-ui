@@ -23,8 +23,10 @@ import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
 
 export const PageHeader = (props) => (
   <PageHeaderContainer Link={Link} as='/' href='/'>
-    <UsersAccount />
-    <Settings />
+    <div className='flex space-x-2'>
+      <UsersAccount />
+      <Settings />
+    </div>
   </PageHeaderContainer>
 )
 
@@ -146,7 +148,7 @@ const UsersAccount = () => {
   }
 
   return (
-    <>
+    <div className='flex space-x-2'>
       <NetworkSelector
         t={t}
         wallet={wallet}
@@ -155,7 +157,7 @@ const UsersAccount = () => {
         supportedNetworks={supportedNetworks}
         className='mx-1 my-auto'
       />
-      <NavPoolBalance usersAddress={usersAddress} className='mx-1 my-auto' />
+      {/* <NavPoolBalance usersAddress={usersAddress} t={t} className='mx-1 my-auto' /> */}
       <Account
         t={t}
         className='mx-1 my-auto'
@@ -167,6 +169,6 @@ const UsersAccount = () => {
         usersAddress={usersAddress}
         walletName={walletName}
       />
-    </>
+    </div>
   )
 }

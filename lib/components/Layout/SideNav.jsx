@@ -76,9 +76,9 @@ export const SideNav = (props) => {
         </SideNavLink>
       </SideNavContainer>
 
-      <SideNavContainer className='mb-4'>
+      <div className='flex-col items-start hidden sm:block text-center mb-4 text-accent-4 pl-12'>
         <SocialLinks t={t} />
-      </SideNavContainer>
+      </div>
     </div>
   )
 }

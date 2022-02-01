@@ -40,7 +40,6 @@ import '@reach/tooltip/styles.css'
 
 import 'assets/styles/index.css'
 import 'assets/styles/flagship.css'
-import '@pooltogether/react-components/dist/index.css'
 
 // Imoport i18n config
 import '../i18n'
@@ -72,7 +71,7 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 
 let checkForElementIntervalId
 
-function MyApp ({ Component, pageProps, router }) {
+function MyApp({ Component, pageProps, router }) {
   const { i18n } = useTranslation()
 
   const deposit = /deposit/.test(router.asPath)
@@ -101,7 +100,7 @@ function MyApp ({ Component, pageProps, router }) {
         includedDomains: ['v3.pooltogether.com', 'app-v3.pooltogether.com']
       })
 
-      function onRouteChangeComplete (url) {
+      function onRouteChangeComplete(url) {
         if (window['fathom']) {
           window['fathom'].trackPageview()
         }
