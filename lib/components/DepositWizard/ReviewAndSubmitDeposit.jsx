@@ -32,7 +32,7 @@ export const ReviewAndSubmitDeposit = (props) => {
   const { network: walletChainId, address: usersAddress, connectWallet } = useOnboard()
 
   const {
-    data: tokenAllowanceData,
+    data: tokenAllowanceUnformatted,
     isFetched,
     refetch: refetchTokenAllowance
   } = useTokenAllowance(chainId, usersAddress, contractAddress, tokenAddress)
@@ -47,7 +47,7 @@ export const ReviewAndSubmitDeposit = (props) => {
   const usersBalanceUnformatted = usersBalance?.[tokenAddress].amountUnformatted
   const quantityUnformatted = isUsersBalanceFetched ? parseUnits(quantity, decimals) : null
 
-  const isValidAllowance = isFetched ? tokenAllowanceData.isAllowed : true
+  const isValidAllowance = isFetched ? !tokenAllowanceUnformatted.isZero() : true
   const isQuantityValid = isUsersBalanceFetched
     ? usersBalanceUnformatted.gte(quantityUnformatted)
     : false
@@ -69,11 +69,11 @@ export const ReviewAndSubmitDeposit = (props) => {
     )
   } else if (!isQuantityValid && !txPending) {
     return <InvalidQuantity {...props} usersBalance={usersBalance?.[tokenAddress].amount} />
-  } else if (!tokenAllowanceData?.isAllowed) {
+  } else if (tokenAllowanceUnformatted?.isZero()) {
     return (
       <ApproveDeposit
         {...props}
-        {...tokenAllowanceData}
+        tokenAllowanceUnformatted={tokenAllowanceUnformatted}
         isValidAllowance={isValidAllowance}
         refetchTokenAllowance={refetchTokenAllowance}
       />
@@ -152,7 +152,7 @@ export const ConnectToNetworkContent = (props) => {
 
   return (
     <ButtonDrawer>
-      <Button chainId={chainId} textSize='lg' onClick={addNetwork} className='mx-auto'>
+      <Button textSize='lg' onClick={addNetwork} className='mx-auto'>
         {t('connectToNetwork', { networkName })}
       </Button>
     </ButtonDrawer>

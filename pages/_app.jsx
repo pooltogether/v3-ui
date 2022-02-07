@@ -9,9 +9,8 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider as JotaiProvider } from 'jotai'
 import {
+  initProviderApiKeys,
   useInitCookieOptions,
-  useInitInfuraId,
-  useInitQuickNodeId,
   useInitReducedMotion,
   useInitTheGraphApiKey
 } from '@pooltogether/hooks'
@@ -27,7 +26,8 @@ import {
   HOTKEYS_KEY_MAP,
   COOKIE_OPTIONS,
   REFERRER_ADDRESS_KEY,
-  DEFAULT_QUERY_OPTIONS
+  DEFAULT_QUERY_OPTIONS,
+  CUSTOM_WALLET_CONFIG
 } from 'lib/constants'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
@@ -55,6 +55,13 @@ export const queryClient = new QueryClient({
       ...DEFAULT_QUERY_OPTIONS
     }
   }
+})
+
+// Initialize read provider API keys
+initProviderApiKeys({
+  alchemy: process.env.NEXT_JS_ALCHEMY_API_KEY,
+  etherscan: process.env.NEXT_JS_ETHERSCAN_API_KEY,
+  infura: process.env.NEXT_JS_INFURA_ID
 })
 
 if (typeof window !== 'undefined') {
@@ -209,17 +216,17 @@ function MyApp({ Component, pageProps, router }) {
 }
 
 const InitPoolTogetherHooks = ({ children }) => {
-  useInitInfuraId(process.env.NEXT_JS_INFURA_ID)
   useInitTheGraphApiKey(process.env.NEXT_JS_THE_GRAPH_API_KEY)
-  useInitQuickNodeId(process.env.NEXT_JS_QUICKNODE_ID)
   useInitReducedMotion(Boolean(process.env.NEXT_JS_REDUCE_MOTION))
   useInitCookieOptions(process.env.NEXT_JS_DOMAIN_NAME)
   useInitializeOnboard({
     infuraId: process.env.NEXT_JS_INFURA_ID,
     fortmaticKey: process.env.NEXT_JS_FORTMATIC_API_KEY,
     portisKey: process.env.NEXT_JS_PORTIS_API_KEY,
-    defaultNetworkName: process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
+    defaultNetworkName: 'homestead',
+    customWalletsConfig: CUSTOM_WALLET_CONFIG
   })
+
   return children
 }
 
