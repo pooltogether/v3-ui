@@ -37,14 +37,8 @@ const CHAINS_TO_SHOW = [NETWORK.mainnet, NETWORK.polygon]
 
 export const V4PoolCard = (props) => {
   const { filter } = props
-  // const { data: prize } = useV4Prize()
+  const { data: prize } = useV4Prize()
   const { t } = useTranslation()
-
-  // const TEST = useReadProvider(NETWORK.polygon)
-  // const TEST2 = useReadProviders([NETWORK.polygon])
-  // console.log('TEST', { TEST, TEST2 })
-
-  return null
 
   if (filter !== -1 && !CHAINS_TO_SHOW.includes(filter)) {
     return null
@@ -181,23 +175,15 @@ export const useDrawBeaconPeriodEndTime = () => {
 }
 
 const getDrawBeaconPeriodEndTime = async (readProvider) => {
-  try {
-    console.log('getDrawBeaconPeriodEndTime', { readProvider, DRAW_BEACON, DrawBeaconAbi })
-    const drawBeacon = contract(DRAW_BEACON, DrawBeaconAbi, DRAW_BEACON)
-    let response = await batch(
-      readProvider,
-      drawBeacon.beaconPeriodEndAt().getBeaconPeriodStartedAt().getBeaconPeriodSeconds()
-    )
-    const startedAtSeconds = response[DRAW_BEACON].getBeaconPeriodStartedAt[0]
-    const periodSeconds = BigNumber.from(response[DRAW_BEACON].getBeaconPeriodSeconds[0])
-    const endsAtSeconds = response[DRAW_BEACON].beaconPeriodEndAt[0]
-    console.log('getDrawBeaconPeriodEndTime', { startedAtSeconds, periodSeconds, endsAtSeconds })
-    return { startedAtSeconds, periodSeconds, endsAtSeconds }
-  } catch (error) {
-    console.error(error)
-    debugger
-    return null
-  }
+  const drawBeacon = contract(DRAW_BEACON, DrawBeaconAbi, DRAW_BEACON)
+  let response = await batch(
+    readProvider,
+    drawBeacon.beaconPeriodEndAt().getBeaconPeriodStartedAt().getBeaconPeriodSeconds()
+  )
+  const startedAtSeconds = response[DRAW_BEACON].getBeaconPeriodStartedAt[0]
+  const periodSeconds = BigNumber.from(response[DRAW_BEACON].getBeaconPeriodSeconds[0])
+  const endsAtSeconds = response[DRAW_BEACON].beaconPeriodEndAt[0]
+  return { startedAtSeconds, periodSeconds, endsAtSeconds }
 }
 
 const DepositLink = () => {
@@ -237,10 +223,6 @@ const PrizeApr = () => {
 export const useV4Apr = () => {
   const { data: prize, isFetched } = useV4Prize()
   const readProviders = useReadProviders([NETWORK.mainnet, NETWORK.polygon, NETWORK.avalanche])
-  console.log('useV4Apr', {
-    readProviders,
-    chains: [NETWORK.mainnet, NETWORK.polygon, NETWORK.avalanche, NETWORK]
-  })
   const enabled = !!readProviders && isFetched
   return useQuery([], () => getV4Apr(readProviders, prize?.dailyPrizeAmountUnformatted), {
     enabled
