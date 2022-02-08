@@ -260,3 +260,122 @@ export const PROPOSAL_STATES = [
   PROPOSAL_STATUS.expired,
   PROPOSAL_STATUS.executed
 ]
+
+const defaultNetworkName = 'mainnet'
+
+const APP_NAME = 'PoolTogether'
+
+const INFURA_ID = process.env.NEXT_JS_INFURA_ID
+const FORTMATIC_KEY = process.env.NEXT_JS_FORTMATIC_API_KEY
+const PORTIS_KEY = process.env.NEXT_JS_PORTIS_API_KEY
+
+const RPC_URL =
+  defaultNetworkName && INFURA_ID
+    ? `https://${defaultNetworkName}.infura.io/v3/${INFURA_ID}`
+    : 'http://localhost:8545'
+
+const walletConnectOptions = {
+  infuraKey: INFURA_ID,
+  preferred: true,
+  rpc: {
+    43113: 'https://api.avax-test.network/ext/bc/C/rpc',
+    43114: 'https://api.avax.network/ext/bc/C/rpc',
+    42220: 'https://forno.celo.org',
+    44787: 'https://alfajores-forno.celo-testnet.org',
+    62320: 'https://baklava-forno.celo-testnet.org',
+    1: RPC_URL,
+    137: 'https://polygon-rpc.com'
+  },
+  bridge: 'https://pooltogether.bridge.walletconnect.org/'
+}
+
+export const CUSTOM_WALLET_CONFIG = [
+  { walletName: 'metamask', preferred: true },
+  {
+    walletName: 'walletConnect',
+    ...walletConnectOptions
+  },
+  { walletName: 'rainbow', preferred: true, ...walletConnectOptions },
+  { walletName: 'argent', preferred: true, ...walletConnectOptions },
+  { walletName: 'trustWallet', preferred: true, ...walletConnectOptions },
+  { walletName: 'gnosisSafe', preferred: true, ...walletConnectOptions },
+  { walletName: 'trust', preferred: true, rpcUrl: RPC_URL },
+  { walletName: 'coinbase', preferred: true },
+  {
+    walletName: 'walletLink',
+    preferred: true,
+    rpcUrl: RPC_URL
+  },
+  {
+    walletName: 'trezor',
+    preferred: true,
+    appUrl: 'https://app.pooltogether.com',
+    email: 'hello@pooltogether.com',
+    rpcUrl: RPC_URL
+  },
+  {
+    walletName: 'ledger',
+    preferred: true,
+    rpcUrl: RPC_URL
+  },
+  {
+    walletName: 'fortmatic',
+    preferred: true,
+    apiKey: FORTMATIC_KEY
+  },
+  {
+    walletName: 'imToken',
+    preferred: true,
+    rpcUrl: RPC_URL
+  },
+  { walletName: 'valora', preferred: true, ...walletConnectOptions },
+  {
+    walletName: 'dcent',
+    preferred: true
+  },
+  {
+    walletName: 'huobiwallet',
+    preferred: true,
+    rpcUrl: RPC_URL
+  },
+  {
+    walletName: 'portis',
+    preferred: true,
+    apiKey: PORTIS_KEY
+  },
+  {
+    walletName: 'authereum',
+    preferred: true
+  },
+  {
+    walletName: 'status',
+    preferred: true
+  },
+  {
+    walletName: 'torus',
+    preferred: true
+  },
+  {
+    walletName: 'lattice',
+    preferred: true,
+    rpcUrl: RPC_URL,
+    appName: APP_NAME
+  },
+  {
+    walletName: 'mykey',
+    preferred: true,
+    rpcUrl: RPC_URL
+  },
+  {
+    walletName: 'opera',
+    preferred: true
+  },
+  {
+    walletName: 'operaTouch',
+    preferred: true
+  },
+  {
+    walletName: 'web3Wallet',
+    preferred: true
+  }
+]

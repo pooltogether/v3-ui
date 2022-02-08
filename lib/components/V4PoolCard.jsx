@@ -1,6 +1,5 @@
 import { batch, contract } from '@pooltogether/etherplex'
 import { useReadProvider, useReadProviders } from '@pooltogether/hooks'
-import { NO_REFETCH_QUERY_OPTIONS } from '@pooltogether/hooks/dist/constants'
 import {
   Chip,
   LoadingDots,
@@ -11,24 +10,25 @@ import {
   TokenIcon
 } from '@pooltogether/react-components'
 import { NETWORK, sToMs } from '@pooltogether/utilities'
-import PrizeTierHistoryAbi from 'abis/PrizeTierHistoryAbi'
-import DrawBeaconAbi from 'abis/DrawBeaconAbi'
 import classnames from 'classnames'
 import { BigNumber } from 'ethers'
 import { formatUnits } from 'ethers/lib/utils'
+import React, { useState } from 'react'
+import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next'
+
 import { InteractableCard } from 'lib/components/InteractableCard'
 import { Divider, PoolRowContents, PoolRowContentSide } from 'lib/components/PoolRow'
 import { PrizeValue } from 'lib/components/PrizeValue'
-import React, { useState } from 'react'
-import { useQuery } from 'react-query'
 import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
-import { useTranslation } from 'react-i18next'
-import ERC20Abi from 'abis/ERC20Abi'
-import { AprChip } from 'lib/components/AprChip'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
+import PrizeTierHistoryAbi from 'abis/PrizeTierHistoryAbi'
+import DrawBeaconAbi from 'abis/DrawBeaconAbi'
+import ERC20Abi from 'abis/ERC20Abi'
 
 const ETHEREUM_TICKET = '0xdd4d117723C257CEe402285D3aCF218E9A8236E1'
 const POLYGON_TICKET = '0x6a304dFdb9f808741244b6bfEe65ca7B3b3A6076'
+const AVALANCHE_TICKET = '0xB27f379C050f6eD0973A01667458af6eCeBc1d90'
 const USDC = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
 const PRIZE_TIER_HISTORY = '0xdD1cba915Be9c7a1e60c4B99DADE1FC49F67f80D'
 const DRAW_BEACON = '0x0D33612870cd9A475bBBbB7CC38fC66680dEcAC5'
@@ -110,12 +110,8 @@ const CustomNetworkBadge = (props) => {
 const PrizeFrequency = () => <Chip textClasses='text-inverse' text='In weekly prizes' />
 
 const useV4Prize = () => {
-  const { readProvider, isReadProviderReady } = useReadProvider(NETWORK.mainnet)
-  const enabled = isReadProviderReady
-  return useQuery(['useV4Prize'], () => getV4Prize(readProvider), {
-    enabled,
-    ...NO_REFETCH_QUERY_OPTIONS
-  })
+  const readProvider = useReadProvider(NETWORK.mainnet)
+  return useQuery(['useV4Prize'], () => getV4Prize(readProvider))
 }
 
 const getV4Prize = async (readProvider) => {
@@ -157,9 +153,8 @@ const PrizeCountdown = () => {
 }
 
 export const useDrawBeaconPeriodEndTime = () => {
-  const { readProvider, isReadProviderReady } = useReadProvider(NETWORK.mainnet)
+  const readProvider = useReadProvider(NETWORK.mainnet)
   const [refetchIntervalMs, setRefetchIntervalMs] = useState(sToMs(60 * 2.5))
-  const enabled = isReadProviderReady
 
   const onSuccess = (drawBeaconData) => {
     const { endsAtSeconds } = drawBeaconData
@@ -174,7 +169,6 @@ export const useDrawBeaconPeriodEndTime = () => {
   }
 
   return useQuery(['useDrawBeaconPeriod'], () => getDrawBeaconPeriodEndTime(readProvider), {
-    enabled,
     refetchInterval: refetchIntervalMs,
     onSuccess
   })
@@ -219,7 +213,7 @@ const PrizeApr = () => {
         chainId={NETWORK.mainnet}
         address={ETHEREUM_TICKET}
         className='mr-2'
-        sizeClasses='w-3 h-3'
+        sizeClassName='w-3 h-3'
       />
       {isFetched ? <span>{t('prizeApr', { amount: apr })}</span> : <ThemedClipSpinner size={12} />}
     </div>
@@ -228,11 +222,8 @@ const PrizeApr = () => {
 
 export const useV4Apr = () => {
   const { data: prize, isFetched } = useV4Prize()
-  const { readProviders, isReadProvidersReady } = useReadProviders([
-    NETWORK.mainnet,
-    NETWORK.polygon
-  ])
-  const enabled = isReadProvidersReady && isFetched
+  const readProviders = useReadProviders([NETWORK.mainnet, NETWORK.polygon, NETWORK.avalanche])
+  const enabled = !!readProviders && isFetched
   return useQuery([], () => getV4Apr(readProviders, prize?.dailyPrizeAmountUnformatted), {
     enabled
   })
@@ -242,16 +233,22 @@ const getV4Apr = async (readProviders, dailyPrizeAmountUnformatted) => {
   const totalYearlyPrizesUnformatted = dailyPrizeAmountUnformatted.mul(365)
   const ethereumTicket = contract(ETHEREUM_TICKET, ERC20Abi, ETHEREUM_TICKET)
   const polygonTicket = contract(POLYGON_TICKET, ERC20Abi, POLYGON_TICKET)
+  const avalancheTicket = contract(AVALANCHE_TICKET, ERC20Abi, AVALANCHE_TICKET)
 
   const ethereumResponse = await batch(readProviders[NETWORK.mainnet], ethereumTicket.totalSupply())
   const polygonResponse = await batch(readProviders[NETWORK.polygon], polygonTicket.totalSupply())
+  const avalancheResponse = await batch(
+    readProviders[NETWORK.avalanche],
+    avalancheTicket.totalSupply()
+  )
 
   const ethereumTotalSupplyUnformatted = ethereumResponse[ETHEREUM_TICKET].totalSupply[0]
   const polygonTotalSupplyUnformatted = polygonResponse[POLYGON_TICKET].totalSupply[0]
+  const avalancheTotalSupplyUnformatted = avalancheResponse[AVALANCHE_TICKET].totalSupply[0]
 
-  const totalTotalSupplyUnformatted = ethereumTotalSupplyUnformatted.add(
-    polygonTotalSupplyUnformatted
-  )
+  const totalTotalSupplyUnformatted = ethereumTotalSupplyUnformatted
+    .add(polygonTotalSupplyUnformatted)
+    .add(avalancheTotalSupplyUnformatted)
 
   const totalTotalSupply = totalTotalSupplyUnformatted.div(1e6).toNumber()
   const totalYearlyPrizes = totalYearlyPrizesUnformatted.div(1e6).toNumber()
