@@ -10,7 +10,7 @@
     "start:app": "PORT=3000 node --max-old-space-size=8192 server.js",
     "start:server": "netlify-lambda serve functions",
     "postinstall": "netlify-lambda install",
-    "build": "NODE_ENV=production && next build && next export && yarn postexport",
+    "build": "NODE_ENV=production && NODE_OPTIONS=\"--max_old_space_size=16384\"&& next build && next export && yarn postexport",
     "dist": "yarn build && netlify-lambda build functions",
     "export": "next export",
     "postexport": "node post-export.js",
