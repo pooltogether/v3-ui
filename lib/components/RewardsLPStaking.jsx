@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts_3_3/abis/TokenFaucet'
-import isEmpty from 'lodash.isempty'
 import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'
 import { amountMultByUsd, calculateAPR, calculateLPTokenPrice } from '@pooltogether/utilities'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
-import { APP_ENVIRONMENTS, useIsTestnets, useTransaction } from '@pooltogether/hooks'
+import { useIsTestnets, useTransaction } from '@pooltogether/hooks'
 import { ExternalLink, LinkTheme, Tooltip } from '@pooltogether/react-components'
 
 import { formatUnits } from 'ethers/lib/utils'
@@ -281,19 +280,14 @@ const TokenIcon = (props) => {
 const ClaimTokens = (props) => {
   const { t } = useTranslation()
 
-  const {
-    userLPChainData,
-    userLPChainDataIsFetched,
-    refetch,
-    chainId,
-    stakingPool,
-    usersAddress
-  } = props
+  const { userLPChainData, userLPChainDataIsFetched, refetch, chainId, stakingPool, usersAddress } =
+    props
   const { userData } = userLPChainData || {}
 
   let claimableBalance = '0.00'
   let claimableBalanceUnformatted = bn(0)
-  if (!isEmpty(userData)) {
+  const isEmpty = !userData || Object.keys(userData).length === 0
+  if (!isEmpty) {
     claimableBalance = userData.claimableBalance
     claimableBalanceUnformatted = userData.claimableBalanceUnformatted
   }
@@ -340,21 +334,16 @@ const ClaimTokens = (props) => {
 
 const ManageStakedAmount = (props) => {
   const { t } = useTranslation()
-  const {
-    refetch,
-    chainId,
-    stakingPool,
-    userLPChainDataIsFetched,
-    userLPChainData,
-    usersAddress
-  } = props
+  const { refetch, chainId, stakingPool, userLPChainDataIsFetched, userLPChainData, usersAddress } =
+    props
 
   const { userData } = userLPChainData || {}
 
   let allowance
   let lpBalance = '0.00'
   let ticketBalance = '0.00'
-  if (!isEmpty(userData)) {
+  const isEmpty = !userData || Object.keys(userData).length === 0
+  if (!isEmpty) {
     ticketBalance = userData.tickets.balance
 
     lpBalance = userData.underlyingToken.balance
