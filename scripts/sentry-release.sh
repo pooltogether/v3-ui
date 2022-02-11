@@ -15,7 +15,7 @@ sentry-cli releases new $NEXT_PUBLIC_RELEASE_VERSION
 sentry-cli releases files $NEXT_PUBLIC_RELEASE_VERSION upload-sourcemaps out
 
 # Associate commits with the release
-sentry-cli releases set-commits $NEXT_PUBLIC_RELEASE_VERSION --commit "$SENTRY_REPO_NAME@$COMMIT_REF"
+sentry-cli releases set-commits $NEXT_PUBLIC_RELEASE_VERSION --commit "$COMMIT_REF"
 
 # Finalize the release
 sentry-cli releases finalize $NEXT_PUBLIC_RELEASE_VERSION

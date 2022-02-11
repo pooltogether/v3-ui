@@ -70,6 +70,7 @@ if (typeof window !== 'undefined') {
 
 if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
   Sentry.init({
+    environment: process.env.NEXT_PUBLIC_SENTRY_ENV || 'staging',
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
     release: process.env.NEXT_PUBLIC_RELEASE_VERSION,
     integrations: [new Integrations.BrowserTracing()]
