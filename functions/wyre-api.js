@@ -10,7 +10,7 @@ async function reserveOrder(event, callback) {
   const url = `${wyreApiUrl()}${path}`
 
   const referrerAccountId =
-    process.env.NEXT_JS_SENDWYRE_ACCOUNT_ID || process.env.NEXT_JS_TESTWYRE_ACCOUNT_ID
+    process.env.NEXT_PUBLIC_SENDWYRE_ACCOUNT_ID || process.env.NEXT_PUBLIC_TESTWYRE_ACCOUNT_ID
   const params = {
     dest,
     destCurrency,

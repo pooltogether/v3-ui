@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 
-const WARNING_MESSAGE = process.env.NEXT_JS_WARNING_MESSAGE
+const WARNING_MESSAGE = process.env.NEXT_PUBLIC_WARNING_MESSAGE
 
 export const ManualWarningMessage = (props) => {
   const [showPopup, setShowPopup] = useState(Boolean(WARNING_MESSAGE))

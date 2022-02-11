@@ -15,9 +15,9 @@ export const ONE_MINUTE_IN_MILLISECONDS = 60000
 export const DEFAULT_TOKEN_PRECISION = 18
 
 export const COINGECKO_POLLING_INTERVAL = 120 * 1000
-export const UNISWAP_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? 120 * 1000 : 60 * 1000
+export const UNISWAP_POLLING_INTERVAL = process.env.NEXT_PUBLIC_DOMAIN_NAME ? 120 * 1000 : 60 * 1000
 export const ERC_721_POLLING_INTERVAL = 120 * 1000
-export const MAINNET_POLLING_INTERVAL = process.env.NEXT_JS_DOMAIN_NAME ? 22 * 1000 : 16 * 1000
+export const MAINNET_POLLING_INTERVAL = process.env.NEXT_PUBLIC_DOMAIN_NAME ? 22 * 1000 : 16 * 1000
 
 export const PLAYER_PAGE_SIZE = 10
 export const PRIZE_PAGE_SIZE = 10
@@ -38,10 +38,10 @@ export const CONFETTI_DURATION_MS = 12000
 
 export const DEFAULT_INPUT_CLASSES = 'w-full text-inverse inline-flex items-center justify-between'
 
-const domain = process.env.NEXT_JS_DOMAIN_NAME && `.${process.env.NEXT_JS_DOMAIN_NAME}`
+const domain = process.env.NEXT_PUBLIC_DOMAIN_NAME && `.${process.env.NEXT_PUBLIC_DOMAIN_NAME}`
 export const COOKIE_OPTIONS = Object.freeze({
   sameSite: 'strict',
-  secure: process.env.NEXT_JS_DOMAIN_NAME === 'pooltogether.com',
+  secure: process.env.NEXT_PUBLIC_DOMAIN_NAME === 'pooltogether.com',
   domain
 })
 
@@ -265,9 +265,9 @@ const defaultNetworkName = 'mainnet'
 
 const APP_NAME = 'PoolTogether'
 
-const INFURA_ID = process.env.NEXT_JS_INFURA_ID
-const FORTMATIC_KEY = process.env.NEXT_JS_FORTMATIC_API_KEY
-const PORTIS_KEY = process.env.NEXT_JS_PORTIS_API_KEY
+const INFURA_ID = process.env.NEXT_PUBLIC_INFURA_ID
+const FORTMATIC_KEY = process.env.NEXT_PUBLIC_FORTMATIC_API_KEY
+const PORTIS_KEY = process.env.NEXT_PUBLIC_PORTIS_API_KEY
 
 const RPC_URL =
   defaultNetworkName && INFURA_ID

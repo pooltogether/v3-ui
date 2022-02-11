@@ -59,19 +59,19 @@ export const queryClient = new QueryClient({
 
 // Initialize read provider API keys
 initProviderApiKeys({
-  alchemy: process.env.NEXT_JS_ALCHEMY_API_KEY,
-  etherscan: process.env.NEXT_JS_ETHERSCAN_API_KEY,
-  infura: process.env.NEXT_JS_INFURA_ID
+  alchemy: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
+  etherscan: process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY,
+  infura: process.env.NEXT_PUBLIC_INFURA_ID
 })
 
 if (typeof window !== 'undefined') {
   window.ethers = ethers
 }
 
-if (process.env.NEXT_JS_SENTRY_DSN) {
+if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
   Sentry.init({
-    dsn: process.env.NEXT_JS_SENTRY_DSN,
-    release: process.env.NEXT_JS_RELEASE_VERSION,
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+    release: process.env.NEXT_PUBLIC_RELEASE_VERSION,
     integrations: [new Integrations.BrowserTracing()]
   })
 }
@@ -99,15 +99,15 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   useEffect(() => {
-    const fathomSiteId = process.env.NEXT_JS_FATHOM_SITE_ID
+    const fathomSiteId = process.env.NEXT_PUBLIC_FATHOM_SITE_ID
 
     if (fathomSiteId) {
-      Fathom.load(process.env.NEXT_JS_FATHOM_SITE_ID, {
+      Fathom.load(process.env.NEXT_PUBLIC_FATHOM_SITE_ID, {
         url: 'https://goose.pooltogether.com/script.js',
         includedDomains: ['v3.pooltogether.com', 'app-v3.pooltogether.com']
       })
 
-      function onRouteChangeComplete(url) {
+      const onRouteChangeComplete = (url) => {
         if (window['fathom']) {
           window['fathom'].trackPageview()
         }
@@ -216,15 +216,16 @@ function MyApp({ Component, pageProps, router }) {
 }
 
 const InitPoolTogetherHooks = ({ children }) => {
-  useInitTheGraphApiKey(process.env.NEXT_JS_THE_GRAPH_API_KEY)
-  useInitReducedMotion(Boolean(process.env.NEXT_JS_REDUCE_MOTION))
-  useInitCookieOptions(process.env.NEXT_JS_DOMAIN_NAME)
+  useInitTheGraphApiKey(process.env.NEXT_PUBLIC_THE_GRAPH_API_KEY)
+  useInitReducedMotion(Boolean(process.env.NEXT_PUBLIC_REDUCE_MOTION))
+  useInitCookieOptions(process.env.NEXT_PUBLIC_DOMAIN_NAME)
   useInitializeOnboard({
-    infuraId: process.env.NEXT_JS_INFURA_ID,
-    fortmaticKey: process.env.NEXT_JS_FORTMATIC_API_KEY,
-    portisKey: process.env.NEXT_JS_PORTIS_API_KEY,
+    infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
+    fortmaticKey: process.env.NEXT_PUBLIC_FORTMATIC_API_KEY,
+    portisKey: process.env.NEXT_PUBLIC_PORTIS_API_KEY,
     defaultNetworkName: 'homestead',
-    customWalletsConfig: CUSTOM_WALLET_CONFIG
+    customWalletsConfig: CUSTOM_WALLET_CONFIG,
+    sentryLog: (a, b) => console.log(a, b)
   })
 
   return children
