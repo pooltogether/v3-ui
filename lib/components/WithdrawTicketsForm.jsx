@@ -5,6 +5,7 @@ import { ethers } from 'ethers'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Button } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
+import Image from 'next/image'
 
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
@@ -12,9 +13,9 @@ import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-
-import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
 import { V4WithdrawFlowBanner } from 'lib/components/WithdrawWizard/V4WithdrawFlowBanner'
+
+import TicketIcon from 'images/icon-ticket-green@2x.png'
 
 export function WithdrawTicketsForm(props) {
   const { nextStep, pool, playerPoolDepositData } = props
@@ -102,7 +103,7 @@ export function WithdrawTicketsForm(props) {
                     setValue('quantity', amount, { shouldValidate: true })
                   }}
                 >
-                  <img src={TicketIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
+                  <Image src={TicketIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
                   {numberWithCommas(amount)} {ticker}
                 </button>
               </>

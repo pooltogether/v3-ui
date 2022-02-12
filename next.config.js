@@ -9,38 +9,29 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const nextConfig = {
   generateEtags: false,
-  future: {
-    strictPostcssConfiguration: true
-  },
-  compress: false,
   inlineImageLimit: 48, // make it tiny so that it doesn't inline,
-  // exportTrailingSlash: true,
+  async redirects() {
+    return [
+      {
+        source: '/prizes',
+        destination: '/prizes/mainnet/PT-cDAI',
+        permanent: true,
+      }
+    ]
+  },
+  publicRuntimeConfig: {
+    locizeProjectId: process.env.NEXT_PUBLIC_LOCIZE_PROJECT_ID,
+    locizeApiKey: process.env.NEXT_PUBLIC_LOCIZE_DEV_API_KEY,
+    locizeVersion: process.env.NEXT_PUBLIC_LOCIZE_VERSION
+  },
 }
 
 
-const allConfig =
-  withBundleAnalyzer(
-    {
-      ...nextConfig,
-      async redirects() {
-        return [
-          {
-            source: '/prizes',
-            destination: '/prizes/mainnet/PT-cDAI',
-            permanent: true,
-          }
-        ]
-      },
-      publicRuntimeConfig: {
-        locizeProjectId: process.env.NEXT_PUBLIC_LOCIZE_PROJECT_ID,
-        locizeApiKey: process.env.NEXT_PUBLIC_LOCIZE_DEV_API_KEY,
-        locizeVersion: process.env.NEXT_PUBLIC_LOCIZE_VERSION
-      },
-    })
+// const finalConfig = withBundleAnalyzer(nextConfig)
 
 console.log('')
 console.log(chalk.green('Using next.js config options:'))
-console.log(allConfig)
+console.log(nextConfig)
 console.log('')
 
-module.exports = allConfig
+module.exports = nextConfig

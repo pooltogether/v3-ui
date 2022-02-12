@@ -4,10 +4,11 @@ import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Button, Tooltip } from '@pooltogether/react-components'
 import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
+import Image from 'next/image'
 
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
-import IconNetwork from 'assets/images/icon-network@2x.png'
+import IconNetwork from 'images/icon-network@2x.png'
 import { Banner } from 'lib/components/Banner'
 import { ButtonTx } from 'lib/components/ButtonTx'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
@@ -65,7 +66,7 @@ const ConnectNetwork = (props) => {
         gradient={null}
         className='w-full flex items-center justify-center mx-auto text-xs sm:text-lg text-highlight-2 bg-card text-center mb-8'
       >
-        <img src={IconNetwork} className='inline-block mr-2 w-8' />
+        <Image src={IconNetwork} className='inline-block mr-2 w-8' />
         {t('youreOnTheWrongNetworkSwitchToNetworkName', {
           networkName: getNetworkNiceNameByChainId(chainId)
         })}

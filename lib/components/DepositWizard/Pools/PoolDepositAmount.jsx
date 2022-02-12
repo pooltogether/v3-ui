@@ -5,11 +5,13 @@ import { useTokenBalances } from '@pooltogether/hooks'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { getMaxPrecision } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
+import Image from 'next/image'
 
 import { DepositAmount } from 'lib/components/DepositWizard/DepositAmount'
 import { Odds } from 'lib/components/Odds'
-import IconTarget from 'assets/images/icon-target@2x.png'
 import { V4DepositFlowBanner } from 'lib/components/DepositWizard/V4DepositFlowBanner'
+
+import IconTarget from 'images/icon-target@2x.png'
 
 export const PoolDepositAmount = (props) => {
   const { quantity: queryQuantity, pool, chainId, tokenAddress, nextStep, form } = props
@@ -109,7 +111,7 @@ const UsersWinningOdds = (props) => {
   if ((usersAddress && !isFetched) || !isQuantityValid) {
     return (
       <SmallCard className='mx-auto flex flex-row'>
-        <img src={IconTarget} className='w-16 h-16 sm:w-20 sm:h-20 ml-2 mr-4 my-4' />
+        <Image src={IconTarget} className='w-16 h-16 sm:w-20 sm:h-20 ml-2 mr-4 my-4' />
         <div className='flex flex-col w-full justify-center'>
           <Title>{t('yourWinningOdds')}:</Title>
           <Details>--</Details>
@@ -129,7 +131,7 @@ const UsersWinningOdds = (props) => {
 
   return (
     <SmallCard className='mx-auto flex flex-row'>
-      <img src={IconTarget} className='w-24 h-24 mr-4 my-4' />
+      <Image src={IconTarget} className='w-24 h-24 mr-4 my-4' />
       <div className='flex flex-col w-full  justify-center'>
         <Title>{t('yourWinningOdds')}:</Title>
         {usersNewBalanceUnformatted.isZero() ? (

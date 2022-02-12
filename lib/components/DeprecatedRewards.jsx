@@ -6,6 +6,7 @@ import { useAtom } from 'jotai'
 import { useAllPools, useTransaction } from '@pooltogether/hooks'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import ComptrollerAbi from '@pooltogether/pooltogether-contracts_3_3/abis/Comptroller'
+import Image from 'next/image'
 
 import { useTranslation } from 'react-i18next'
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
@@ -21,7 +22,7 @@ import { extractPoolRewardsFromUserDrips } from 'lib/utils/extractPoolRewardsFro
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { isSelfAtom } from 'lib/components/AccountUI'
 
-import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
+import PrizeIllustration from 'images/prize-illustration-new@2x.png'
 
 // This has been removed from the app for most people, but if someone still has rewards/tickets to claim
 // it will show up for them
@@ -276,7 +277,7 @@ export const AccountRewardsView = (props) => {
           </div>
 
           <div className='order-1 xs:order-2 ml-auto'>
-            <img src={PrizeIllustration} className='w-32 mx-auto' />
+            <Image src={PrizeIllustration} className='w-32 mx-auto' />
           </div>
         </div>
 

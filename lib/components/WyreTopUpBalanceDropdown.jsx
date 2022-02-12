@@ -1,13 +1,14 @@
 import React from 'react'
 import { isSafari } from 'react-device-detect'
 import { poolToast } from '@pooltogether/react-components'
+import Image from 'next/image'
 
 import { useTranslation } from 'react-i18next'
 import { axiosInstance } from 'lib/axiosInstance'
 import { DropdownList } from 'lib/components/DropdownList'
 
-// import GooglePay from 'assets/images/googlepay.svg'
-import ApplePay from 'assets/images/applepay.svg'
+// import GooglePay from 'images/googlepay.svg'
+import ApplePay from 'images/applepay.svg'
 
 const WYRE_LAMBDA_PATH = `/.netlify/functions/wyre-api`
 
@@ -24,7 +25,7 @@ export function WyreTopUpBalanceDropdown(props) {
     <>
       {isSafari && (
         <>
-          , <img src={ApplePay} className='inline-block relative h-6 w-12' style={{ top: 0 }} />
+          , <Image src={ApplePay} className='inline-block relative h-6 w-12' style={{ top: 0 }} />
         </>
       )}
     </>

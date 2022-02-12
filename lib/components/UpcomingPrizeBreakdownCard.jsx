@@ -1,13 +1,14 @@
 import React from 'react'
 import classnames from 'classnames'
-
+import Image from 'next/image'
 import { useTranslation } from 'react-i18next'
+
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
-import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
+import PrizeIllustration from 'images/prize-illustration-new@2x.png'
+import LootBoxIllustration from 'images/lootbox-closed-halo@2x.png'
 
 export const UpcomingPrizeBreakdownCard = (props) => {
   const { t } = useTranslation()
@@ -59,7 +60,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
               }
             )}
           >
-            <img src={PrizeIllustration} className='w-40 mx-auto' />
+            <Image src={PrizeIllustration} className='w-40 mx-auto' />
 
             <div>
               <h4 className='text-xl xs:text-2xl sm:text-3xl lg:text-4xl'>{`$${totalInternalAwardsUsd}`}</h4>
@@ -74,7 +75,7 @@ export const UpcomingPrizeBreakdownCard = (props) => {
             </div>
 
             <div className='flex flex-col items-center justify-center text-center w-full xs:w-5/12 h-56 xs:h-64'>
-              <img src={LootBoxIllustration} className='w-40 mx-auto -mt-8' />
+              <Image src={LootBoxIllustration} className='w-40 mx-auto -mt-8' />
               <div
                 className='relative'
                 style={{

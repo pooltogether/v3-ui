@@ -13,9 +13,10 @@ import { getNetworkNiceNameByChainId, numberWithCommas } from '@pooltogether/uti
 import { useTranslation } from 'react-i18next'
 import { ethers } from 'ethers'
 import { parseUnits } from '@ethersproject/units'
+import Image from 'next/image'
 
 import ERC20Abi from 'abis/ERC20Abi'
-import IconNetwork from 'assets/images/icon-network@2x.png'
+import IconNetwork from 'images/icon-network@2x.png'
 import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanner'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 import { V3LoadingDots } from 'lib/components/V3LoadingDots'
@@ -121,7 +122,7 @@ const ConnectNetwork = (props) => {
         gradient={null}
         className='w-full flex items-center justify-center mx-auto text-xs sm:text-lg text-highlight-2 bg-card text-center my-8'
       >
-        <img src={IconNetwork} className='inline-block mr-2 w-8' />
+        <Image src={IconNetwork} className='inline-block mr-2 w-8' />
         {t('youreOnTheWrongNetworkSwitchToNetworkName', {
           networkName: getNetworkNiceNameByChainId(chainId)
         })}

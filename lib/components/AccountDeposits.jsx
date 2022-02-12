@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 import { useTranslation } from 'react-i18next'
 import { useIsTestnets, useUserTicketsFormattedByPool } from '@pooltogether/hooks'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
@@ -14,7 +15,8 @@ import { PodTicket } from 'lib/components/Pods/PodTicket'
 import { useUsersPodTickets } from 'lib/hooks/useUsersPodTickets'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { useV2Balances } from 'lib/hooks/useV2Balances'
-import TicketIcon from 'assets/images/pt-depositing-2-simplified.svg'
+
+import TicketIcon from 'images/pt-depositing-2-simplified.svg'
 
 export const AccountDeposits = () => {
   const { t } = useTranslation()
@@ -68,9 +70,8 @@ const NoTicketsState = (props) => {
 
   const { isTestnets } = useIsTestnets()
 
-  const { data: poolTickets, isFetched: isPlayerTicketsFetched } = useUserTicketsFormattedByPool(
-    usersAddress
-  )
+  const { data: poolTickets, isFetched: isPlayerTicketsFetched } =
+    useUserTicketsFormattedByPool(usersAddress)
   const { data: podTickets, isFetched: isPodTicketsFetched } = useUsersPodTickets(usersAddress)
   const { data: v2Tickets, isFetched: isV2BalancesFetched } = useV2Balances(usersAddress)
 
@@ -86,7 +87,7 @@ const NoTicketsState = (props) => {
     return (
       <Card className='text-center'>
         <div className='mb-2 font-bold'>
-          <img src={TicketIcon} className='mx-auto w-16 mb-8' />
+          <Image src={TicketIcon} className='mx-auto w-16 mb-8' />
 
           <span id='_ticketsBlankState'>{t('youCurrentlyHaveNoTickets')}</span>
           <br />
@@ -105,10 +106,8 @@ const NoTicketsState = (props) => {
 const PoolDeposits = (props) => {
   const { usersAddress } = props
 
-  const {
-    data: playerDepositData,
-    isFetched: playerTicketsIsFetched
-  } = useUserTicketsFormattedByPool(usersAddress)
+  const { data: playerDepositData, isFetched: playerTicketsIsFetched } =
+    useUserTicketsFormattedByPool(usersAddress)
 
   if (!playerTicketsIsFetched) {
     return <TicketsUILoader />

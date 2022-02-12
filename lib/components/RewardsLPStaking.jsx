@@ -7,6 +7,7 @@ import { amountMultByUsd, calculateAPR, calculateLPTokenPrice } from '@pooltoget
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { useIsTestnets, useTransaction } from '@pooltogether/hooks'
 import { ExternalLink, LinkTheme, Tooltip } from '@pooltogether/react-components'
+import Image from 'next/image'
 
 import { formatUnits } from 'ethers/lib/utils'
 
@@ -259,7 +260,7 @@ const TokenIcon = (props) => {
 
   if (token.symbol === 'POOL') {
     return (
-      <img
+      <Image
         src={TOKEN_IMAGES_BY_SYMBOL.pool}
         className={classnames('rounded-full', className)}
         style={style}
@@ -267,7 +268,7 @@ const TokenIcon = (props) => {
     )
   } else if (token.symbol === 'ETH') {
     return (
-      <img
+      <Image
         src={TOKEN_IMAGES_BY_SYMBOL.eth}
         className={classnames('rounded-full', className)}
         style={style}

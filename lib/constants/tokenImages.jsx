@@ -1,5 +1,5 @@
-import PoolIcon from 'assets/images/pool-icon.svg'
-import EtherIcon from 'assets/images/ether-icon.png'
+import PoolIcon from 'images/pool-icon.svg'
+import EtherIcon from 'images/ether-icon.png'
 
 export const TOKEN_IMAGES_BY_ADDRESS = {
   '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82': '/tokens/cake.png',

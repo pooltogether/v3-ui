@@ -2,20 +2,21 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { isUndefined } from 'lodash'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 import { TOKEN_IMAGES_BY_ADDRESS } from 'lib/constants/tokenImages'
 import { ThemeContext } from '@pooltogether/react-components'
 import { useCoingeckoTokenInfoQuery } from 'lib/hooks/useCoingeckoTokenInfoQuery'
 
-import DaiSvg from 'assets/images/dai-new-transparent.png'
-import UsdcSvg from 'assets/images/usdc-new-transparent.png'
-import UsdtSvg from 'assets/images/usdt-new-transparent.png'
-import PoolSvg from 'assets/images/pool-icon.svg'
-import BatSvg from 'assets/images/bat-new-transparent.png'
-import CompSvg from 'assets/images/comp.svg'
-import UniSvg from 'assets/images/token-uni.png'
-import UniThemeLightSvg from 'assets/images/uniwap-theme-light-logo.svg'
-import ZrxSvg from 'assets/images/zrx-new-transparent.png'
+import DaiSvg from 'images/dai-new-transparent.png'
+import UsdcSvg from 'images/usdc-new-transparent.png'
+import UsdtSvg from 'images/usdt-new-transparent.png'
+import PoolSvg from 'images/pool-icon.svg'
+import BatSvg from 'images/bat-new-transparent.png'
+import CompSvg from 'images/comp.svg'
+import UniSvg from 'images/token-uni.png'
+import UniThemeLightSvg from 'images/uniwap-theme-light-logo.svg'
+import ZrxSvg from 'images/zrx-new-transparent.png'
 
 // This was separated into it's own component to comply with the rules of hooks
 const CoingeckoOrPlaceholder = (props) => {
@@ -51,6 +52,8 @@ export const PoolCurrencyIcon = (props) => {
   const { theme } = useContext(ThemeContext)
 
   const noMargin = props.noMargin || false
+
+  return null
 
   let src
   if (symbol === 'dai') {
@@ -109,6 +112,6 @@ export const PoolCurrencyIcon = (props) => {
   return !src ? (
     <CoingeckoOrPlaceholder address={address} className={classes} />
   ) : (
-    <img src={src} className={classes} />
+    <Image src={src} className={classes} />
   )
 }

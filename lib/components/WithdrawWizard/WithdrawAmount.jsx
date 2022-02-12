@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react'
 import { Button } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
-import { getMaxPrecision, numberWithCommas, queryParamUpdater } from '@pooltogether/utilities'
+import { getMaxPrecision, numberWithCommas } from '@pooltogether/utilities'
 import { useRouter } from 'next/router'
 import { parseUnits } from '@ethersproject/units'
+import Image from 'next/image'
 
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
-import WalletIcon from 'assets/images/icon-wallet.svg'
+
+import WalletIcon from 'images/icon-wallet.svg'
 
 export const WithdrawAmount = (props) => {
   const {
@@ -98,7 +100,7 @@ export const WithdrawAmount = (props) => {
                       setValue('quantity', usersTicketBalance, { shouldValidate: true })
                     }}
                   >
-                    <img src={WalletIcon} className='mr-2' style={{ maxHeight: 12 }} />
+                    <Image src={WalletIcon} className='mr-2' style={{ maxHeight: 12 }} />
                     {numberWithCommas(usersTicketBalance)} {tokenSymbol}
                   </button>
                 </>

@@ -1,17 +1,14 @@
 import React from 'react'
 import classnames from 'classnames'
+import Image from 'next/image'
 
-import IconInfo from 'assets/images/icon-info.svg'
+import IconInfo from 'images/icon-info.svg'
 
 export function QuestionMarkCircle(props) {
   const { white } = props
 
   if (!white) {
-    return (
-      <>
-        <img src={IconInfo} />
-      </>
-    )
+    return <Image src={IconInfo} />
   }
 
   let defaultClasses = 'bg-overlay-white text-primary'

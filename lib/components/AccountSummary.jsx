@@ -1,6 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 import { useAtom } from 'jotai'
 import { useTranslation } from 'react-i18next'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
@@ -13,8 +14,8 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
-import WaterslideIllustration from 'assets/images/pt-waterslide-illustration@2x.png'
+import ChillWalletIllustration from 'images/pt-illustration-chill@2x.png'
+import WaterslideIllustration from 'images/pt-waterslide-illustration@2x.png'
 import { useUsersTotalPodDepositsValue } from 'lib/hooks/useUsersTotalPodDepositsValue'
 
 export const AccountSummary = () => {
@@ -28,14 +29,10 @@ export const AccountSummary = () => {
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
 
-  const {
-    data: totalTicketValues,
-    isFetched: playerTicketsIsFetched
-  } = usePlayerTotalPoolDepositValue(address)
-  const {
-    data: totalPodTicketValues,
-    isFetched: podTicketsIsFetched
-  } = useUsersTotalPodDepositsValue(address)
+  const { data: totalTicketValues, isFetched: playerTicketsIsFetched } =
+    usePlayerTotalPoolDepositValue(address)
+  const { data: totalPodTicketValues, isFetched: podTicketsIsFetched } =
+    useUsersTotalPodDepositsValue(address)
 
   const isFetched = playerTicketsIsFetched && podTicketsIsFetched
   const totalTicketValueUsd = isFetched
@@ -68,17 +65,10 @@ export const AccountSummary = () => {
           )}
         </div>
 
-        <div>
-          <img
+        <div className={classnames('w-32 xs:w-40 ml-auto -mr-8')}>
+          <Image
             src={isSelf ? ChillWalletIllustration : WaterslideIllustration}
             alt={`chillin' wallet illustration`}
-            className={classnames('w-32 xs:w-40 mx-auto relative mb-4', {
-              '-mr-4': isSelf
-            })}
-            style={{
-              right: isSelf && -28,
-              top: isSelf ? 17 : 7
-            }}
           />
         </div>
       </div>

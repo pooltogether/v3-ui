@@ -138,7 +138,10 @@ const UsersAccount = () => {
     return (
       <Button
         padding='px-4 sm:px-6 py-1'
-        onClick={() => connectWallet()}
+        onClick={() => {
+          console.log('HET')
+          connectWallet()
+        }}
         textSize='xxxs'
         className='mx-1 my-auto'
       >

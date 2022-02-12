@@ -5,6 +5,7 @@ import { Button } from '@pooltogether/react-components'
 import { useRetroactivePoolClaimData } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
+import Image from 'next/image'
 
 import { COOKIE_OPTIONS, WIZARD_REFERRER_HREF, WIZARD_REFERRER_AS_PATH } from 'lib/constants'
 import { Banner } from 'lib/components/Banner'
@@ -33,9 +34,9 @@ export const RetroactivePoolClaimBanner = (props) => {
   return (
     <Banner gradient={'rainbow'} className='mb-12'>
       <div className='flex sm:flex-row flex-col'>
-        {/* <div className='mb-3 sm:mb-2 ml-0 mr-auto sm:mb-auto sm:mr-4 sm:mt-1'>
-          <img className='shake' src={Bell} style={{ maxWidth: 30 }} />
-        </div> */}
+        <div className='mb-3 sm:mb-2 ml-0 mr-auto sm:mb-auto sm:mr-4 sm:mt-1'>
+          <Image className='shake' src={Bell} style={{ maxWidth: 30 }} />
+        </div>
         <div className='sm:px-2'>
           <h6>{t('youCanClaimPool')}</h6>
           <p className='mt-1 mb-5 text-xs sm:text-sm w-full xs:w-10/12 sm:w-9/12'>

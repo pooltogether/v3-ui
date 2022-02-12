@@ -47,7 +47,7 @@ export const V4PoolCard = (props) => {
   return (
     <InteractableCard
       id={`_viewv4Pool`}
-      href='https://v4.pooltogether.com'
+      href='https://app.pooltogether.com'
       className='mt-1 sm:mt-2 relative'
     >
       <CustomNetworkBadge />

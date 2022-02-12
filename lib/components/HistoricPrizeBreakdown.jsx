@@ -3,19 +3,18 @@ import Link from 'next/link'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
+import Image from 'next/image'
 
 import { useContractAddresses } from 'lib/hooks/useContractAddresses'
 import { useAccountQuery } from 'lib/hooks/useAccountQuery'
 import { PlayerLabel } from 'lib/components/PlayerLabel'
-import { PoolNumber } from 'lib/components/PoolNumber'
 import { PodsCTA } from 'lib/components/PodsCTA'
-import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { formatDate } from 'lib/utils/formatDate'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-import PrizeIllustration from 'assets/images/prize-illustration-new@2x.png'
-import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
-import GiftIcon from 'assets/images/icon-gift@2x.png'
+import PrizeIllustration from 'images/prize-illustration-new@2x.png'
+import LootBoxIllustration from 'images/lootbox-closed-halo@2x.png'
+import GiftIcon from 'images/icon-gift@2x.png'
 
 const ETHEREUM_MAINNET_SOHM_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'
 
@@ -70,7 +69,7 @@ export const HistoricPrizeBreakdown = (props) => {
     <>
       <div className='non-interactable-card mt-4 mb-6 py-4 sm:py-6 px-4 xs:px-4 sm:px-10 bg-card rounded-lg card-min-height-desktop'>
         <div className='text-caption uppercase'>
-          <img src={GiftIcon} className='inline-block mr-2 card-icon' /> {t('prizeAndWinners')}
+          <Image src={GiftIcon} className='inline-block mr-2 card-icon' /> {t('prizeAndWinners')}
         </div>
 
         <h4>
@@ -95,7 +94,7 @@ export const HistoricPrizeBreakdown = (props) => {
               }
             )}
           >
-            <img src={PrizeIllustration} className='w-40 mx-auto' />
+            <Image src={PrizeIllustration} className='w-40 mx-auto' />
             <DisplayYieldPrizeUsd pool={pool} prize={prize} />
           </div>
 
@@ -106,7 +105,7 @@ export const HistoricPrizeBreakdown = (props) => {
               </div>
 
               <div className='flex flex-col items-center justify-center text-center w-full xs:w-5/12 h-56 xs:h-64'>
-                <img src={LootBoxIllustration} className='w-40 mx-auto -mt-8' />
+                <Image src={LootBoxIllustration} className='w-40 mx-auto -mt-8' />
                 <div
                   className='relative'
                   style={{

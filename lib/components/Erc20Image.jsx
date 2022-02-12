@@ -1,5 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
+import Image from 'next/image'
 
 import { TOKEN_IMAGES_BY_ADDRESS } from 'lib/constants/tokenImages'
 import { useCoingeckoTokenInfoQuery } from 'lib/hooks/useCoingeckoTokenInfoQuery'
@@ -16,7 +17,7 @@ export const Erc20Image = (props) => {
   }
 
   return src ? (
-    <img
+    <Image
       src={src}
       className={classnames(
         'inline-block rounded-full',
