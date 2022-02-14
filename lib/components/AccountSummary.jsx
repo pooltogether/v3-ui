@@ -1,7 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 import { useAtom } from 'jotai'
 import { useTranslation } from 'react-i18next'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
@@ -14,8 +13,8 @@ import { PoolNumber } from 'lib/components/PoolNumber'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-import ChillWalletIllustration from 'images/pt-illustration-chill@2x.png'
-import WaterslideIllustration from 'images/pt-waterslide-illustration@2x.png'
+import ChillWalletIllustration from 'assets/images/pt-illustration-chill@2x.png'
+import WaterslideIllustration from 'assets/images/pt-waterslide-illustration@2x.png'
 import { useUsersTotalPodDepositsValue } from 'lib/hooks/useUsersTotalPodDepositsValue'
 
 export const AccountSummary = () => {
@@ -66,7 +65,7 @@ export const AccountSummary = () => {
         </div>
 
         <div className={classnames('w-32 xs:w-40 ml-auto -mr-8')}>
-          <Image
+          <img
             src={isSelf ? ChillWalletIllustration : WaterslideIllustration}
             alt={`chillin' wallet illustration`}
           />

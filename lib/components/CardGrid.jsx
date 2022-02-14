@@ -1,6 +1,5 @@
 import React from 'react'
 import classnames from 'classnames'
-import Image from 'next/image'
 
 export function Card(props) {
   const { card, className } = props
@@ -17,7 +16,7 @@ export function Card(props) {
         )}
       >
         <div className='text-caption uppercase'>
-          {icon && <Image src={icon} className='inline-block mr-2 card-icon' />} {title}
+          {icon && <img src={icon} className='inline-block mr-2 card-icon' />} {title}
         </div>
         <div className='mt-1'>{content}</div>
       </div>

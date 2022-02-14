@@ -12,7 +12,7 @@ import { PrizePlayersQuery } from 'lib/components/PrizePlayersQuery'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-import TicketsIcon from 'images/icon-ticket@2x.png'
+import TicketsIcon from 'assets/images/icon-ticket@2x.png'
 import Link from 'next/link'
 
 const ETHEREUM_MAINNET_SOHM_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'

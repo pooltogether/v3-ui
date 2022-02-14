@@ -2,13 +2,12 @@ import React from 'react'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { useAtom } from 'jotai'
 import { useTranslation } from 'react-i18next'
-import Image from 'next/image'
 
 import { LootBoxWon } from 'lib/components/LootBoxWon'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { useLootBoxesWon } from 'lib/hooks/useLootBoxesWon'
 
-import LootBoxIllustration from 'images/lootbox-closed-halo@2x.png'
+import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 
 // This component should only show up for the currentUser viewing their own account
 export const AccountLootBoxes = (props) => {
@@ -49,7 +48,7 @@ const AccountLootBoxesView = (props) => {
           </div>
 
           <div className='order-1 xs:order-2 ml-auto'>
-            <Image src={LootBoxIllustration} className='w-32 h-32 mx-auto' />
+            <img src={LootBoxIllustration} className='w-32 h-32 mx-auto' />
           </div>
         </div>
       </div>

@@ -10,7 +10,6 @@ import {
 } from '@pooltogether/utilities'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Trans, useTranslation } from 'react-i18next'
-import Image from 'next/image'
 
 import PodAbi from 'abis/PodAbi'
 import { ReviewAndSubmitWithdraw } from 'lib/components/WithdrawWizard/ReviewAndSubmitWithdraw'
@@ -19,7 +18,7 @@ import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 import { calculateOdds } from 'lib/utils/calculateOdds'
 import { useAllUsersPodTickets } from 'lib/hooks/useAllUsersPodTickets'
 
-import Bell from 'images/bell-red@2x.png'
+import Bell from 'assets/images/bell-red@2x.png'
 
 export const PodReviewAndSubmitWithdraw = (props) => {
   const { pod, contractAddress, quantity, prevTicketBalance, nextStep } = props
@@ -293,7 +292,7 @@ const ExitFeeWarningCard = (props) => {
         sizeClassName='w-full xs:w-96'
         paddingClassName='p-4 xs:py-6 xs:px-8'
       >
-        <Image className='mx-auto h-8 mb-4 text-xs sm:text-base' src={Bell} />
+        <img className='mx-auto h-8 mb-4 text-xs sm:text-base' src={Bell} />
         <p>{t('noFundsInFloat')}</p>
       </Card>
     )
@@ -306,7 +305,7 @@ const ExitFeeWarningCard = (props) => {
       sizeClassName='w-full xs:w-96'
       paddingClassName='p-4 xs:py-6 xs:px-8'
     >
-      <Image className='mx-auto h-8 mb-4 text-xs sm:text-base' src={Bell} />
+      <img className='mx-auto h-8 mb-4 text-xs sm:text-base' src={Bell} />
       <p>
         <Trans
           i18nKey='avoidPayingPodExitFee'

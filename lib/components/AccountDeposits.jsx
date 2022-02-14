@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 import { useTranslation } from 'react-i18next'
 import { useIsTestnets, useUserTicketsFormattedByPool } from '@pooltogether/hooks'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
@@ -16,7 +15,7 @@ import { useUsersPodTickets } from 'lib/hooks/useUsersPodTickets'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { useV2Balances } from 'lib/hooks/useV2Balances'
 
-import TicketIcon from 'images/pt-depositing-2-simplified.svg'
+import TicketIcon from 'assets/images/pt-depositing-2-simplified.svg'
 
 export const AccountDeposits = () => {
   const { t } = useTranslation()
@@ -87,7 +86,7 @@ const NoTicketsState = (props) => {
     return (
       <Card className='text-center'>
         <div className='mb-2 font-bold'>
-          <Image src={TicketIcon} className='mx-auto w-16 mb-8' />
+          <img src={TicketIcon} className='mx-auto w-16 mb-8' />
 
           <span id='_ticketsBlankState'>{t('youCurrentlyHaveNoTickets')}</span>
           <br />

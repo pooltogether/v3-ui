@@ -1,11 +1,10 @@
 import React from 'react'
 import classnames from 'classnames'
-import Image from 'next/image'
 
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
 
-import PoolTogetherTrophyDetailed from 'images/pooltogether-trophy--detailed.svg'
+import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
 
 export const TicketPrize = (props) => {
   const { prize, hideCountdown, className } = props
@@ -13,7 +12,7 @@ export const TicketPrize = (props) => {
   return (
     <div className={classnames('flex flex-row text-accent-1 items-center', className)}>
       <div className='w-3 sm:w-4 mr-1 sm:mr-2 flex filter grayscale'>
-        <Image src={PoolTogetherTrophyDetailed} />
+        <img src={PoolTogetherTrophyDetailed} />
       </div>
       <span className='mt-auto flex text-xs sm:text-xl font-bold leading-none'>
         $

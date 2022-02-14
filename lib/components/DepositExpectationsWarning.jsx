@@ -3,13 +3,12 @@ import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { ExternalLink, LinkTheme } from '@pooltogether/react-components'
 import { Trans } from 'react-i18next'
-import Image from 'next/image'
 
 import { SECONDS_PER_DAY } from 'lib/constants'
 import { Banner } from 'lib/components/Banner'
 import { displayPercentage } from 'lib/utils/displayPercentage'
 
-import Bell from 'images/bell-red@2x.png'
+import Bell from 'assets/images/bell-red@2x.png'
 
 const bn = ethers.BigNumber.from
 
@@ -40,7 +39,7 @@ export const DepositExpectationsWarning = (props) => {
         className
       )}
     >
-      <Image className='mx-auto h-8 mr-4' src={Bell} />
+      <img className='mx-auto h-8 mr-4' src={Bell} />
 
       <span className='sm:ml-2'>
         <Trans

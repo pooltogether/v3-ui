@@ -4,14 +4,13 @@ import { useTranslation } from 'react-i18next'
 import { getMaxPrecision, numberWithCommas } from '@pooltogether/utilities'
 import { useRouter } from 'next/router'
 import { parseUnits } from '@ethersproject/units'
-import Image from 'next/image'
 
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
 
-import WalletIcon from 'images/icon-wallet.svg'
+import WalletIcon from 'assets/images/icon-wallet.svg'
 
 export const DepositAmount = (props) => {
   const {
@@ -104,7 +103,7 @@ export const DepositAmount = (props) => {
                       setValue('quantity', usersUnderlyingBalance, { shouldValidate: true })
                     }}
                   >
-                    <Image src={WalletIcon} className='mr-2' style={{ maxHeight: 12 }} />
+                    <img src={WalletIcon} className='mr-2' style={{ maxHeight: 12 }} />
                     {numberWithCommas(usersUnderlyingBalance)} {tokenSymbol}
                   </button>
                 </>

@@ -7,7 +7,6 @@ import { amountMultByUsd, calculateAPR, calculateLPTokenPrice } from '@pooltoget
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { useIsTestnets, useTransaction } from '@pooltogether/hooks'
 import { ExternalLink, LinkTheme, TokenIcon, Tooltip } from '@pooltogether/react-components'
-import Image from 'next/image'
 
 import { formatUnits } from 'ethers/lib/utils'
 
@@ -36,8 +35,8 @@ import { useTokenBalances } from 'lib/hooks/useTokenBalances'
 import { useTokenPrices } from 'lib/hooks/useTokenPrices'
 import { toScaledUsdBigNumber } from 'lib/utils/poolDataUtils'
 
-import PoolIcon from 'images/pool-icon.svg'
-import EtherIcon from 'images/ether-icon.png'
+import PoolIcon from 'assets/images/pool-icon.svg'
+import EtherIcon from 'assets/images/ether-icon.png'
 
 const UNISWAP_V2_PAIR_URL = 'https://app.uniswap.org/#/add/v2/ETH/'
 const SUSHISWAP_V2_PAIR_URL = 'https://app.sushi.com/#/add/ETH/'
@@ -252,13 +251,13 @@ const TokenIconOverride = (props) => {
   if (token.symbol === 'POOL') {
     return (
       <div className={classnames('rounded-full', className)}>
-        <Image src={PoolIcon} />
+        <img src={PoolIcon} />
       </div>
     )
   } else if (token.symbol === 'ETH') {
     return (
       <div className={classnames('rounded-full', className)}>
-        <Image src={EtherIcon} />
+        <img src={EtherIcon} />
       </div>
     )
   }

@@ -1,6 +1,5 @@
 import React from 'react'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
-import Image from 'next/image'
 
 import PoolIcon from 'lib/../images/pool-icon.svg'
 
@@ -27,7 +26,7 @@ export const AddTokenToMetaMaskButton = (props) => {
       onClick={handleAddTokenToMetaMask}
       className={`trans hover:opacity-70 inline-flex cursor-pointer items-center`}
     >
-      {showPoolIcon && <Image src={PoolIcon} className='relative inline-block w-4 h-4 mx-2' />}
+      {showPoolIcon && <img src={PoolIcon} className='relative inline-block w-4 h-4 mx-2' />}
       {t('addTicketTokenToMetamask', {
         token: tokenSymbol
       })}

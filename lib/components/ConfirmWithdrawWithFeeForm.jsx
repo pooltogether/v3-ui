@@ -8,7 +8,6 @@ import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Button, Tooltip, poolToast } from '@pooltogether/react-components'
 import PrizePoolAbi from '@pooltogether/pooltogether-contracts_3_3/abis/PrizePool'
 import { Trans, useTranslation } from 'react-i18next'
-import Image from 'next/image'
 
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { PaneTitle } from 'lib/components/PaneTitle'
@@ -24,7 +23,7 @@ import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-import IconLightning from 'images/icon-lightning.svg'
+import IconLightning from 'assets/images/icon-lightning.svg'
 
 export function ConfirmWithdrawWithFeeForm(props) {
   const { t } = useTranslation()
@@ -165,7 +164,7 @@ export function ConfirmWithdrawWithFeeForm(props) {
               radios={[
                 {
                   value: 'instant',
-                  icon: <Image src={IconLightning} className='w-7 h-7 xs:w-auto xs:h-auto' />,
+                  icon: <img src={IconLightning} className='w-7 h-7 xs:w-auto xs:h-auto' />,
                   label: (
                     <>
                       {t('instantly')}{' '}

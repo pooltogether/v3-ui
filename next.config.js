@@ -5,7 +5,9 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 const nextConfig = {
   generateEtags: false,
-  inlineImageLimit: 48, // make it tiny so that it doesn't inline,
+  images: {
+    disableStaticImages: true, // disable next/image so images are imported properly for `next export`
+  },
   async redirects() {
     return [
       {
@@ -25,6 +27,25 @@ const nextConfig = {
     locizeApiKey: process.env.NEXT_PUBLIC_LOCIZE_DEV_API_KEY,
     locizeVersion: process.env.NEXT_PUBLIC_LOCIZE_VERSION
   },
+  webpack(config, options) {
+    return {
+      ...config,
+      module: {
+        ...config.module,
+        rules: [
+          ...config.module.rules,
+          {
+            test: /\.png/,
+            type: 'asset/resource'
+          },
+          {
+            test: /\.svg/,
+            type: 'asset/resource'
+          }
+        ]
+      }
+    }
+  }
 }
 
 console.log('')

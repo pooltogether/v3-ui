@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { Button, NetworkIcon } from '@pooltogether/react-components'
 import { useIsWalletMetamask } from '@pooltogether/hooks'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
-import Image from 'next/image'
 
 import { Banner } from 'lib/components/Banner'
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
@@ -12,7 +11,7 @@ import { WithdrawAndDepositBanner } from 'lib/components/WithdrawAndDepositBanne
 import { useAddNetworkToMetamask } from 'lib/hooks/useAddNetworkToMetamask'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
-import IconNetwork from 'images/icon-network@2x.png'
+import IconNetwork from 'assets/images/icon-network@2x.png'
 
 export function WizardSwitchNetwork(props) {
   const { t } = useTranslation()
@@ -45,7 +44,7 @@ export function WizardSwitchNetwork(props) {
           gradient={null}
           className='w-full flex items-center justify-center mx-auto text-xs sm:text-lg text-highlight-2 bg-card mx-auto text-center'
         >
-          <Image src={IconNetwork} className='inline-block mr-2 w-8' />{' '}
+          <img src={IconNetwork} className='inline-block mr-2 w-8' />{' '}
           {t('youreOnTheWrongNetworkSwitchToNetworkName', {
             networkName: getNetworkNiceNameByChainId(poolChainId)
           })}

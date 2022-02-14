@@ -2,9 +2,8 @@ import React from 'react'
 import classnames from 'classnames'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
-import Image from 'next/image'
 
-import IconNetwork from 'images/icon-network.svg'
+import IconNetwork from 'assets/images/icon-network.svg'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 
 export function NetworkText(props) {
@@ -29,7 +28,7 @@ export function NetworkText(props) {
         'text-xxs sm:text-xs px-2 xs:px-4 rounded-full mr-2 h-8'
       )}
     >
-      <Image src={IconNetwork} className='w-4 mr-1 xs:mr-2' />
+      <img src={IconNetwork} className='w-4 mr-1 xs:mr-2' />
       <span className='capitalize'>
         {networkName.charAt(0)}
         <span className='hidden sm:inline-block lowercase'>

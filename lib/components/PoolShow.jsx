@@ -3,7 +3,6 @@ import Cookies from 'js-cookie'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 import { useInterval } from 'beautiful-react-hooks'
 import { usePoolBySymbol, useRouterChainId } from '@pooltogether/hooks'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
@@ -36,7 +35,7 @@ import { useReducedMotion } from 'lib/hooks/useReducedMotion'
 import { translatedPoolName } from 'lib/utils/translatedPoolName'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
-import Bell from 'images/bell-yellow@2x.png'
+import Bell from 'assets/images/bell-yellow@2x.png'
 import { PRIZE_POOL_TYPES } from '@pooltogether/current-pool-data'
 
 const SOHM_PRIZE_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'
@@ -246,7 +245,7 @@ const RebasingWarning = (props) => {
     <div className='text-center bg-default rounded-lg mt-4 pt-4 pb-2 xs:py-4 px-4 text-orange'>
       <div className='flex flex-col xs:flex-row items-center justify-center'>
         <div className='mb-2 xs:mb-0 xs:mr-4'>
-          <Image className='shake' src={Bell} width='20' height='20' />
+          <img className='shake' src={Bell} width='20' height='20' />
         </div>
         {t('rebasingPoolWarning', 'This prize pool uses a rebasing token to generate the prize.')}
       </div>
@@ -280,7 +279,7 @@ const V3Warning = (props) => {
     <div className='text-center bg-default rounded-lg mt-4 pt-4 pb-2 xs:py-4 px-4 text-orange'>
       <div className='flex flex-col xs:flex-row items-center justify-center'>
         <div className='mb-2 xs:mb-0 xs:mr-4'>
-          <Image className='shake' src={Bell} width='20' height='20' />
+          <img className='shake' src={Bell} width='20' height='20' />
         </div>
 
         <span>

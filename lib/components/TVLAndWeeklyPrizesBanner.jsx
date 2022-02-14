@@ -3,9 +3,8 @@ import { Banner } from 'lib/components/Banner'
 import { BannerUILoader } from 'lib/components/loaders/BannerUILoader'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { useTranslation } from 'react-i18next'
-import Image from 'next/image'
 
-import Rocket from 'images/rocketship@2x.png'
+import Rocket from 'assets/images/rocketship@2x.png'
 import { usePooltogetherTotalPrizes, usePooltogetherTvl } from 'lib/hooks/usePooltogetherTvl'
 
 export const TVLAndWeeklyPrizesBanner = (props) => {
@@ -38,7 +37,7 @@ export const TVLAndWeeklyPrizesBanner = (props) => {
       className='absolute t-0 l-0 r-0 shadow-md mt-1 mb-8 flex flex-row items-center'
       style={{ minHeight: 150 }}
     >
-      <Image
+      <img
         src={Rocket}
         className='mr-4 xs:mr-4 xs:ml-4 my-auto w-12 h-12 xs:w-20 xs:h-20 sm:ml-auto'
       />

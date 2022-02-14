@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next'
 import { useTransaction } from '@pooltogether/hooks'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Button, Tooltip, Modal } from '@pooltogether/react-components'
-import Image from 'next/image'
 
 import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { DepositExpectationsWarning } from 'lib/components/DepositExpectationsWarning'
@@ -21,7 +20,7 @@ import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
-import WalletIcon from 'images/icon-wallet.svg'
+import WalletIcon from 'assets/images/icon-wallet.svg'
 
 export const RewardsActionModal = (props) => {
   const { t } = useTranslation()
@@ -191,7 +190,7 @@ export const RewardsActionModal = (props) => {
                           setValue(action, maxAmount, { shouldValidate: true })
                         }}
                       >
-                        <Image src={WalletIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
+                        <img src={WalletIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
                         {numberWithCommas(maxAmount)} {tickerUpcased}
                       </button>
                     )

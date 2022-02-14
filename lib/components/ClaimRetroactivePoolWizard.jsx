@@ -8,7 +8,6 @@ import { shorten } from '@pooltogether/utilities'
 import { Button } from '@pooltogether/react-components'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { useRetroactivePoolClaimData, useTransaction } from '@pooltogether/hooks'
-import Image from 'next/image'
 
 import { CUSTOM_CONTRACT_ADDRESSES } from 'lib/constants'
 import MerkleDistributorAbi from 'abis/MerkleDistributor'
@@ -26,7 +25,7 @@ import { handleCloseWizard } from 'lib/utils/handleCloseWizard'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 
-import DelegateIllustration from 'images/delegate-illustration@2x.png'
+import DelegateIllustration from 'assets/images/delegate-illustration@2x.png'
 
 export const ClaimRetroactivePoolWizardContainer = () => {
   const router = useRouter()
@@ -558,7 +557,7 @@ const DelegateNow = (props) => {
       <p className='text-white -mt-2 mb-4 text-base sm:text-lg mx-auto' style={{ maxWidth: 400 }}>
         {t('activateYourVotesNow')}
       </p>
-      {/* <Image src={DelegateIllustration} className='mx-auto my-4' width='137' height='120' /> */}
+      {/* <img src={DelegateIllustration} className='mx-auto my-4' width='137' height='120' /> */}
       <a
         href='https://sybil.org/#/delegates/pool'
         onClick={showOtherButtons}

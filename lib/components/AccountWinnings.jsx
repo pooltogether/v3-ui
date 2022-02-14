@@ -4,14 +4,13 @@ import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
 import { isEmpty } from 'lodash'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
-import Image from 'next/image'
 import { useTranslation } from 'react-i18next'
 
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
-import IconTarget from 'images/icon-target@2x.png'
+import IconTarget from 'assets/images/icon-target@2x.png'
 import { useAllUsersPrizes } from 'lib/hooks/useAllUsersPrizes'
 
 export const AccountWinnings = () => {
@@ -96,7 +95,7 @@ export const AccountWinnings = () => {
           </div>
 
           <div className='ml-auto'>
-            <Image src={IconTarget} className='w-24 h-24 mx-auto' />
+            <img src={IconTarget} className='w-24 h-24 mx-auto' />
           </div>
         </div>
       </div>

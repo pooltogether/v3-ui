@@ -2,10 +2,9 @@ import React from 'react'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { Button, Tooltip } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
-import Image from 'next/image'
 
-import PoolTogetherTrophyDetailed from 'images/pooltogether-trophy--detailed.svg'
-import PoolTogetherPOOLToken from 'images/pool-icon.svg'
+import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
+import PoolTogetherPOOLToken from 'assets/images/pool-icon.svg'
 
 export function SignInForm(props) {
   const { descriptionClassName, hideImg, retroClaim, postSignInCallback } = props
@@ -17,7 +16,7 @@ export function SignInForm(props) {
   return (
     <div className='text-inverse'>
       {!hideImg && (
-        <Image
+        <img
           src={retroClaim ? PoolTogetherPOOLToken : PoolTogetherTrophyDetailed}
           className='mx-auto mb-6 w-16 xs:w-1/12'
         />

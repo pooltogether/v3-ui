@@ -38,8 +38,8 @@ import '@reach/dialog/styles.css'
 import '@reach/menu-button/styles.css'
 import '@reach/tooltip/styles.css'
 
-import 'styles/index.css'
-import 'styles/flagship.css'
+import 'assets/styles/index.css'
+import 'assets/styles/flagship.css'
 
 // Imoport i18n config
 import '../i18n'
