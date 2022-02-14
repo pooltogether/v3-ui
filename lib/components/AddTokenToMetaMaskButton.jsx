@@ -1,7 +1,7 @@
 import React from 'react'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 
-import PoolIcon from 'lib/../images/pool-icon.svg'
+import PoolIcon from 'assets/images/pool-icon.svg'
 
 import { useTranslation } from 'react-i18next'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
