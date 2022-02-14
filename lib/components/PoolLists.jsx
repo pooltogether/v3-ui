@@ -110,7 +110,7 @@ const Breadcrumbs = (props) => {
   return (
     <div className='hidden sm:inline-block text-accent-2 font-inter uppercase font-normal opacity-80 hover:opacity-100 trans -mt-2'>
       <span className='text-xxxs sm:text-xxs'>
-        <Link href='/' as='/'>
+        <Link href='/pools' as='/pools'>
           <a className='text-xxxs sm:text-xxs border-b border-secondary hover:text-accent-3'>
             {t('pools')}
           </a>

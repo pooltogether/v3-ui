@@ -11,15 +11,10 @@ export const TicketPrize = (props) => {
   const { prize, hideCountdown, className } = props
 
   return (
-    <div className={classnames('flex flex-row text-accent-1', className)}>
-      <Image
-        src={PoolTogetherTrophyDetailed}
-        className='relative w-3 sm:w-4 mr-1 sm:mr-2 opacity-70 my-auto'
-        style={{
-          filter: 'brightness(5)',
-          top: 2
-        }}
-      />
+    <div className={classnames('flex flex-row text-accent-1 items-center', className)}>
+      <div className='w-3 sm:w-4 mr-1 sm:mr-2 flex filter grayscale'>
+        <Image src={PoolTogetherTrophyDetailed} />
+      </div>
       <span className='mt-auto flex text-xs sm:text-xl font-bold leading-none'>
         $
         <PoolCountUp

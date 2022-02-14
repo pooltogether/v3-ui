@@ -139,10 +139,8 @@ const RewardsPools = (props) => {
   const { isSponsorship, pools, tableId, tableHeader, tableSummary, tableDescriptionCard } = props
 
   const { address: usersAddress } = useOnboard()
-  const {
-    data: playersDepositData,
-    isFetched: playersDepositDataIsFetched
-  } = useUserTicketsFormattedByPool(usersAddress)
+  const { data: playersDepositData, isFetched: playersDepositDataIsFetched } =
+    useUserTicketsFormattedByPool(usersAddress)
 
   const { refetch: refetchTotalClaimablePool } = useClaimableTokenFromTokenFaucets(
     NETWORK.mainnet,
@@ -676,13 +674,8 @@ const DepositTriggers = (props) => {
 const WithdrawTriggers = (props) => {
   const { t } = useTranslation()
 
-  const {
-    isSponsorship,
-    openWithdrawModal,
-    pool,
-    walletOnWrongNetwork,
-    playersPoolDepositData
-  } = props
+  const { isSponsorship, openWithdrawModal, pool, walletOnWrongNetwork, playersPoolDepositData } =
+    props
   const router = useRouter()
 
   const pushRouteToTicketManage = () => {

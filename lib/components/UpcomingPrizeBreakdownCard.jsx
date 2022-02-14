@@ -60,7 +60,9 @@ export const UpcomingPrizeBreakdownCard = (props) => {
               }
             )}
           >
-            <Image src={PrizeIllustration} className='w-40 mx-auto' />
+            <div className='w-40 mx-auto'>
+              <Image src={PrizeIllustration} />
+            </div>
 
             <div>
               <h4 className='text-xl xs:text-2xl sm:text-3xl lg:text-4xl'>{`$${totalInternalAwardsUsd}`}</h4>
@@ -75,7 +77,9 @@ export const UpcomingPrizeBreakdownCard = (props) => {
             </div>
 
             <div className='flex flex-col items-center justify-center text-center w-full xs:w-5/12 h-56 xs:h-64'>
-              <Image src={LootBoxIllustration} className='w-40 mx-auto -mt-8' />
+              <div className='w-40 mx-auto'>
+                <Image src={LootBoxIllustration} />
+              </div>
               <div
                 className='relative'
                 style={{

@@ -33,7 +33,6 @@ export function PrizeShow(props) {
 
   const isSohm =
     pool.prizePool.address.toLowerCase() === ETHEREUM_MAINNET_SOHM_POOL_ADDRESS.toLowerCase()
-  console.log({ isSohm })
 
   return (
     <>
@@ -45,8 +44,8 @@ export function PrizeShow(props) {
         pool={pool}
         breadcrumbs={[
           {
-            href: '/',
-            as: '/',
+            href: '/pools',
+            as: '/pools',
             name: t('pools')
           },
           {

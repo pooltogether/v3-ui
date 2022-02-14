@@ -26,8 +26,8 @@ export const SideNav = (props) => {
     <div className='flex flex-col justify-between h-full'>
       <SideNavContainer className='top-side-nav'>
         <SideNavLink
-          href='/'
-          as='/'
+          href='/pools'
+          as='/pools'
           label={'Pools'}
           Link={Link}
           useRouter={useRouter}

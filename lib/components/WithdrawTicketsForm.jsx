@@ -103,7 +103,9 @@ export function WithdrawTicketsForm(props) {
                     setValue('quantity', amount, { shouldValidate: true })
                   }}
                 >
-                  <Image src={TicketIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
+                  <div className='mr-2 flex h-4 w-6'>
+                    <Image src={TicketIcon} />
+                  </div>
                   {numberWithCommas(amount)} {ticker}
                 </button>
               </>

@@ -16,6 +16,11 @@ const nextConfig = {
         source: '/prizes',
         destination: '/prizes/mainnet/PT-cDAI',
         permanent: true,
+      },
+      {
+        source: '/',
+        destination: '/pools',
+        permanent: false,
       }
     ]
   },
