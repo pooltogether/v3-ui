@@ -3,10 +3,6 @@ const _ = require('lodash')
 
 const isProduction = process.env.NODE_ENV === 'production'
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-})
-
 const nextConfig = {
   generateEtags: false,
   inlineImageLimit: 48, // make it tiny so that it doesn't inline,
@@ -30,9 +26,6 @@ const nextConfig = {
     locizeVersion: process.env.NEXT_PUBLIC_LOCIZE_VERSION
   },
 }
-
-
-// const finalConfig = withBundleAnalyzer(nextConfig)
 
 console.log('')
 console.log(chalk.green('Using next.js config options:'))
