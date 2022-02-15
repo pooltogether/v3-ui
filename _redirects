@@ -1,6 +1,7 @@
 https://app.pooltogether.us     https://app.pooltogether.com         301!
 https://app.pooltogether.us/*   https://app.pooltogether.com         301!
 
+/                               /pools                               301!
 /pools/PT-cDAI                  /pools/mainnet/PT-cDAI               301!
 /pools/PT-cUNI                  /pools/mainnet/PT-cUNI               301! 
 /pools/PT-cUSDC                 /pools/mainnet/PT-cUSDC              301! 
