@@ -7,11 +7,7 @@ export function QuestionMarkCircle(props) {
   const { white } = props
 
   if (!white) {
-    return (
-      <>
-        <img src={IconInfo} />
-      </>
-    )
+    return <img src={IconInfo} />
   }
 
   let defaultClasses = 'bg-overlay-white text-primary'

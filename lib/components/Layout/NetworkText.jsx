@@ -6,7 +6,7 @@ import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
 import IconNetwork from 'assets/images/icon-network.svg'
 import { networkTextColorClassname } from 'lib/utils/networkColorClassnames'
 
-export function NetworkText (props) {
+export function NetworkText(props) {
   const { network: chainId, address: usersAddress } = useOnboard()
 
   let networkName = null

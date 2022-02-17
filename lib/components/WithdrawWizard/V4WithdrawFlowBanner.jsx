@@ -30,7 +30,7 @@ export const V4WithdrawFlowBanner = (props) => {
         <div className='my-auto'>
           <span>🌊🏆</span>
           <a
-            href='https://v4.pooltogether.com/'
+            href='https://app.pooltogether.com/'
             className='text-xs font-bold underline flex'
             target='_blank'
             rel='noopener noreferrer'

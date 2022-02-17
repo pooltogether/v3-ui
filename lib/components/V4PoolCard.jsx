@@ -33,7 +33,7 @@ const USDC = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
 const PRIZE_TIER_HISTORY = '0xdD1cba915Be9c7a1e60c4B99DADE1FC49F67f80D'
 const DRAW_BEACON = '0x0D33612870cd9A475bBBbB7CC38fC66680dEcAC5'
 const PRIZE_DECIMALS = 6
-const CHAINS_TO_SHOW = [NETWORK.mainnet, NETWORK.polygon]
+export const CHAINS_TO_SHOW = [NETWORK.avalanche, NETWORK.mainnet, NETWORK.polygon]
 
 export const V4PoolCard = (props) => {
   const { filter } = props
@@ -47,7 +47,7 @@ export const V4PoolCard = (props) => {
   return (
     <InteractableCard
       id={`_viewv4Pool`}
-      href='https://v4.pooltogether.com'
+      href='https://app.pooltogether.com'
       className='mt-1 sm:mt-2 relative'
     >
       <CustomNetworkBadge />
@@ -100,8 +100,9 @@ const CustomNetworkBadge = (props) => {
       }}
     >
       <div className='flex flex-row-reverse'>
-        <NetworkIcon chainId={NETWORK.mainnet} className='-ml-2' />
-        <NetworkIcon chainId={NETWORK.polygon} />
+        {CHAINS_TO_SHOW.map((chainId) => (
+          <NetworkIcon chainId={chainId} key={chainId} className='-ml-2 last:ml-0' />
+        ))}
       </div>
       <span className={`text-flashy ml-2`}>Multi-chain</span>
     </div>

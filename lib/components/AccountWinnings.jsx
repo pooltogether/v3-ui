@@ -4,8 +4,8 @@ import { useAtom } from 'jotai'
 import { ethers } from 'ethers'
 import { isEmpty } from 'lodash'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
-
 import { useTranslation } from 'react-i18next'
+
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { PoolCurrencyIcon } from 'lib/components/PoolCurrencyIcon'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'

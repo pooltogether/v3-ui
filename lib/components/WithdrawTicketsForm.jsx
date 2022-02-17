@@ -12,9 +12,9 @@ import { WithdrawOdds } from 'lib/components/WithdrawOdds'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { queryParamUpdater } from 'lib/utils/queryParamUpdater'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
+import { V4WithdrawFlowBanner } from 'lib/components/WithdrawWizard/V4WithdrawFlowBanner'
 
 import TicketIcon from 'assets/images/icon-ticket-green@2x.png'
-import { V4WithdrawFlowBanner } from 'lib/components/WithdrawWizard/V4WithdrawFlowBanner'
 
 export function WithdrawTicketsForm(props) {
   const { nextStep, pool, playerPoolDepositData } = props
@@ -102,7 +102,9 @@ export function WithdrawTicketsForm(props) {
                     setValue('quantity', amount, { shouldValidate: true })
                   }}
                 >
-                  <img src={TicketIcon} className='mr-2' style={{ maxHeight: 12 }} />{' '}
+                  <div className='mr-2 flex h-4 w-6'>
+                    <img src={TicketIcon} />
+                  </div>
                   {numberWithCommas(amount)} {ticker}
                 </button>
               </>

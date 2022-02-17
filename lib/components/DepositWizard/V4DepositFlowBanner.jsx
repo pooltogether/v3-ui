@@ -50,7 +50,7 @@ export const V4DepositFlowBanner = (props) => {
         <div className='flex'>
           <span className='mr-1'>🌊🏆</span>
           <a
-            href='https://v4.pooltogether.com/'
+            href='https://app.pooltogether.com/'
             className='text-xs font-bold underline flex'
             target='_blank'
             rel='noopener noreferrer'

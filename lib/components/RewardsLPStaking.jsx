@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts_3_3/abis/TokenFaucet'
-import isEmpty from 'lodash.isempty'
 import { ethers } from 'ethers'
 import { Trans, useTranslation } from 'react-i18next'
 import { amountMultByUsd, calculateAPR, calculateLPTokenPrice } from '@pooltogether/utilities'
 import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
-import { APP_ENVIRONMENTS, useIsTestnets, useTransaction } from '@pooltogether/hooks'
-import { ExternalLink, LinkTheme, Tooltip } from '@pooltogether/react-components'
+import { useIsTestnets, useTransaction } from '@pooltogether/hooks'
+import { ExternalLink, LinkTheme, TokenIcon, Tooltip } from '@pooltogether/react-components'
 
 import { formatUnits } from 'ethers/lib/utils'
 
-import { TOKEN_IMAGES_BY_SYMBOL } from 'lib/constants/tokenImages'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { ContentOrSpinner } from 'lib/components/ContentOrSpinner'
 import { PoolNumber } from 'lib/components/PoolNumber'
@@ -23,7 +21,6 @@ import {
 } from 'lib/components/RewardsTable'
 import { RewardsActionModal } from 'lib/components/RewardsActionModal'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
-import { Erc20Image } from 'lib/components/Erc20Image'
 import { LinkIcon } from 'lib/components/BlockExplorerLink'
 import {
   DEXES,
@@ -37,6 +34,9 @@ import { getNetworkNiceNameByChainId, NETWORK } from 'lib/utils/networks'
 import { useTokenBalances } from 'lib/hooks/useTokenBalances'
 import { useTokenPrices } from 'lib/hooks/useTokenPrices'
 import { toScaledUsdBigNumber } from 'lib/utils/poolDataUtils'
+
+import PoolIcon from 'assets/images/pool-icon.svg'
+import EtherIcon from 'assets/images/ether-icon.png'
 
 const UNISWAP_V2_PAIR_URL = 'https://app.uniswap.org/#/add/v2/ETH/'
 const SUSHISWAP_V2_PAIR_URL = 'https://app.sushi.com/#/add/ETH/'
@@ -237,63 +237,44 @@ const StakingPoolRowMainContents = (props) => {
 }
 
 const LPTokensLogo = (props) => {
-  const widthClass = props.widthClass ?? 'w-16'
-
   return (
-    <div className={classnames('h-8 relative', widthClass, props.className)}>
-      <TokenIcon
-        token={props.token1}
-        className={classnames('absolute w-8 h-8')}
-        style={{ zIndex: 2 }}
-      />
-      <TokenIcon
-        token={props.token2}
-        className={classnames('absolute w-8 h-8')}
-        style={{ left: 20, top: 0 }}
-      />
+    <div className={classnames('flex mr-2', props.className)}>
+      <TokenIconOverride token={props.token1} className={classnames('w-8 h-8')} />
+      <TokenIconOverride token={props.token2} className={classnames('-ml-2 w-8 h-8')} />
     </div>
   )
 }
 
-const TokenIcon = (props) => {
-  const { style, className, token } = props
+const TokenIconOverride = (props) => {
+  const { className, token } = props
 
   if (token.symbol === 'POOL') {
     return (
-      <img
-        src={TOKEN_IMAGES_BY_SYMBOL.pool}
-        className={classnames('rounded-full', className)}
-        style={style}
-      />
+      <div className={classnames('rounded-full', className)}>
+        <img src={PoolIcon} />
+      </div>
     )
   } else if (token.symbol === 'ETH') {
     return (
-      <img
-        src={TOKEN_IMAGES_BY_SYMBOL.eth}
-        className={classnames('rounded-full', className)}
-        style={style}
-      />
+      <div className={classnames('rounded-full', className)}>
+        <img src={EtherIcon} />
+      </div>
     )
   }
-  return <Erc20Image {...token} marginClasses='mr-0 sm:mr-3' className={className} />
+  return <TokenIcon {...token} marginClasses='mr-0 sm:mr-3' className={className} />
 }
 
 const ClaimTokens = (props) => {
   const { t } = useTranslation()
 
-  const {
-    userLPChainData,
-    userLPChainDataIsFetched,
-    refetch,
-    chainId,
-    stakingPool,
-    usersAddress
-  } = props
+  const { userLPChainData, userLPChainDataIsFetched, refetch, chainId, stakingPool, usersAddress } =
+    props
   const { userData } = userLPChainData || {}
 
   let claimableBalance = '0.00'
   let claimableBalanceUnformatted = bn(0)
-  if (!isEmpty(userData)) {
+  const isEmpty = !userData || Object.keys(userData).length === 0
+  if (!isEmpty) {
     claimableBalance = userData.claimableBalance
     claimableBalanceUnformatted = userData.claimableBalanceUnformatted
   }
@@ -313,7 +294,7 @@ const ClaimTokens = (props) => {
         }
         centerContentJsx={
           <>
-            <TokenIcon token={tokenFaucetDripToken} className='mr-2 rounded-full w-4 h-4' />
+            <TokenIconOverride token={tokenFaucetDripToken} className='mr-2 rounded-full w-4 h-4' />
             <span className='text-xxs uppercase'>{token1.symbol}</span>
           </>
         }
@@ -340,21 +321,16 @@ const ClaimTokens = (props) => {
 
 const ManageStakedAmount = (props) => {
   const { t } = useTranslation()
-  const {
-    refetch,
-    chainId,
-    stakingPool,
-    userLPChainDataIsFetched,
-    userLPChainData,
-    usersAddress
-  } = props
+  const { refetch, chainId, stakingPool, userLPChainDataIsFetched, userLPChainData, usersAddress } =
+    props
 
   const { userData } = userLPChainData || {}
 
   let allowance
   let lpBalance = '0.00'
   let ticketBalance = '0.00'
-  if (!isEmpty(userData)) {
+  const isEmpty = !userData || Object.keys(userData).length === 0
+  if (!isEmpty) {
     ticketBalance = userData.tickets.balance
 
     lpBalance = userData.underlyingToken.balance
@@ -570,9 +546,7 @@ const WithdrawModal = (props) => {
       pool={stakingPool}
       method='withdrawInstantlyFrom'
       overMaxErrorMsg={t('pleaseEnterAmountLowerThanTicketBalance')}
-      tokenImage={
-        <LPTokensLogo widthClass='w-12' className='mb-2' token1={token1} token2={token2} />
-      }
+      tokenImage={<LPTokensLogo className='mb-2' token1={token1} token2={token2} />}
       getParams={(quantity) => [
         usersAddress,
         ethers.utils.parseUnits(quantity, decimals),
@@ -611,9 +585,7 @@ const DepositModal = (props) => {
       pool={stakingPool}
       method='depositTo'
       overMaxErrorMsg={t('enterAmountLowerThanTokenBalance')}
-      tokenImage={
-        <LPTokensLogo widthClass='w-12' className='mb-2' token1={token1} token2={token2} />
-      }
+      tokenImage={<LPTokensLogo className='mb-2' token1={token1} token2={token2} />}
       getParams={(quantity) => [
         usersAddress,
         ethers.utils.parseUnits(quantity, decimals),

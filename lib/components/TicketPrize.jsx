@@ -1,23 +1,19 @@
 import React from 'react'
 import classnames from 'classnames'
 
-import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
 import { PoolCountUp } from 'lib/components/PoolCountUp'
 import { NewPrizeCountdownInWords } from 'lib/components/NewPrizeCountdownInWords'
+
+import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
 
 export const TicketPrize = (props) => {
   const { prize, hideCountdown, className } = props
 
   return (
-    <div className={classnames('flex flex-row text-accent-1', className)}>
-      <img
-        src={PoolTogetherTrophyDetailed}
-        className='relative w-3 sm:w-4 mr-1 sm:mr-2 opacity-70 my-auto'
-        style={{
-          filter: 'brightness(5)',
-          top: 2
-        }}
-      />
+    <div className={classnames('flex flex-row text-accent-1 items-center', className)}>
+      <div className='w-3 sm:w-4 mr-1 sm:mr-2 flex filter grayscale'>
+        <img src={PoolTogetherTrophyDetailed} />
+      </div>
       <span className='mt-auto flex text-xs sm:text-xl font-bold leading-none'>
         $
         <PoolCountUp

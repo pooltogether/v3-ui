@@ -28,10 +28,11 @@ export const ManageUI = (props) => {
 
   const { contractAddresses } = useContractAddresses(pool?.chainId)
 
-  const { data: prize, isFetched, refetch } = usePrizePeriod(
-    pool?.chainId,
-    pool?.prizeStrategy.address
-  )
+  const {
+    data: prize,
+    isFetched,
+    refetch
+  } = usePrizePeriod(pool?.chainId, pool?.prizeStrategy.address)
 
   if (!pool || !isFetched) {
     return (
@@ -41,8 +42,8 @@ export const ManageUI = (props) => {
           title={`Pool Management`}
           breadcrumbs={[
             {
-              href: '/',
-              as: '/',
+              href: '/pools',
+              as: '/pools',
               name: t('pools')
             },
             {
@@ -82,8 +83,8 @@ export const ManageUI = (props) => {
         pool={pool}
         breadcrumbs={[
           {
-            href: '/',
-            as: '/',
+            href: '/pools',
+            as: '/pools',
             name: t('pools')
           },
           {

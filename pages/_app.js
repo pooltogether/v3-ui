@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Cookies from 'js-cookie'
 import * as Fathom from 'fathom-client'
 import * as Sentry from '@sentry/react'
@@ -59,26 +59,27 @@ export const queryClient = new QueryClient({
 
 // Initialize read provider API keys
 initProviderApiKeys({
-  alchemy: process.env.NEXT_JS_ALCHEMY_API_KEY,
-  etherscan: process.env.NEXT_JS_ETHERSCAN_API_KEY,
-  infura: process.env.NEXT_JS_INFURA_ID
+  alchemy: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
+  etherscan: process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY,
+  infura: process.env.NEXT_PUBLIC_INFURA_ID
 })
 
 if (typeof window !== 'undefined') {
   window.ethers = ethers
 }
 
-if (process.env.NEXT_JS_SENTRY_DSN) {
+if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
   Sentry.init({
-    dsn: process.env.NEXT_JS_SENTRY_DSN,
-    release: process.env.NEXT_JS_RELEASE_VERSION,
+    environment: process.env.NEXT_PUBLIC_SENTRY_ENV || 'staging',
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+    release: process.env.NEXT_PUBLIC_RELEASE_VERSION,
     integrations: [new Integrations.BrowserTracing()]
   })
 }
 
 let checkForElementIntervalId
 
-function MyApp({ Component, pageProps, router }) {
+function App({ Component, pageProps, router }) {
   const { i18n } = useTranslation()
 
   const deposit = /deposit/.test(router.asPath)
@@ -99,15 +100,15 @@ function MyApp({ Component, pageProps, router }) {
   }, [])
 
   useEffect(() => {
-    const fathomSiteId = process.env.NEXT_JS_FATHOM_SITE_ID
+    const fathomSiteId = process.env.NEXT_PUBLIC_FATHOM_SITE_ID
 
     if (fathomSiteId) {
-      Fathom.load(process.env.NEXT_JS_FATHOM_SITE_ID, {
+      Fathom.load(process.env.NEXT_PUBLIC_FATHOM_SITE_ID, {
         url: 'https://goose.pooltogether.com/script.js',
         includedDomains: ['v3.pooltogether.com', 'app-v3.pooltogether.com']
       })
 
-      function onRouteChangeComplete(url) {
+      const onRouteChangeComplete = (url) => {
         if (window['fathom']) {
           window['fathom'].trackPageview()
         }
@@ -175,6 +176,10 @@ function MyApp({ Component, pageProps, router }) {
 
   const { network, address, provider } = useOnboard()
 
+  if (!i18n.isInitialized) {
+    return <LoadingScreen />
+  }
+
   return (
     <HotKeys
       keyMap={HOTKEYS_KEY_MAP}
@@ -201,9 +206,7 @@ function MyApp({ Component, pageProps, router }) {
 
                 <WrongNetworkModal />
 
-                <LoadingScreen isInitialized={i18n.isInitialized}>
-                  <Component {...pageProps} />
-                </LoadingScreen>
+                <Component {...pageProps} />
 
                 <ReactQueryDevtools />
               </CustomErrorBoundary>
@@ -216,18 +219,19 @@ function MyApp({ Component, pageProps, router }) {
 }
 
 const InitPoolTogetherHooks = ({ children }) => {
-  useInitTheGraphApiKey(process.env.NEXT_JS_THE_GRAPH_API_KEY)
-  useInitReducedMotion(Boolean(process.env.NEXT_JS_REDUCE_MOTION))
-  useInitCookieOptions(process.env.NEXT_JS_DOMAIN_NAME)
+  useInitTheGraphApiKey(process.env.NEXT_PUBLIC_THE_GRAPH_API_KEY)
+  useInitReducedMotion(Boolean(process.env.NEXT_PUBLIC_REDUCE_MOTION))
+  useInitCookieOptions(process.env.NEXT_PUBLIC_DOMAIN_NAME)
   useInitializeOnboard({
-    infuraId: process.env.NEXT_JS_INFURA_ID,
-    fortmaticKey: process.env.NEXT_JS_FORTMATIC_API_KEY,
-    portisKey: process.env.NEXT_JS_PORTIS_API_KEY,
+    infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
+    fortmaticKey: process.env.NEXT_PUBLIC_FORTMATIC_API_KEY,
+    portisKey: process.env.NEXT_PUBLIC_PORTIS_API_KEY,
     defaultNetworkName: 'homestead',
-    customWalletsConfig: CUSTOM_WALLET_CONFIG
+    customWalletsConfig: CUSTOM_WALLET_CONFIG,
+    sentryLog: (a, b) => console.log(a, b)
   })
 
   return children
 }
 
-export default MyApp
+export default App

@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { Banner } from 'lib/components/Banner'
 import { BannerUILoader } from 'lib/components/loaders/BannerUILoader'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'

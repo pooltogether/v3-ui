@@ -1,6 +1,3 @@
-import PoolIcon from 'assets/images/pool-icon.svg'
-import EtherIcon from 'assets/images/ether-icon.png'
-
 export const TOKEN_IMAGES_BY_ADDRESS = {
   '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82': '/tokens/cake.png',
   '0x27d22a7648e955e510a40bdb058333e9190d12d4': '/tokens/ppool.png',
@@ -72,9 +69,4 @@ export const TOKEN_IMAGES_BY_ADDRESS = {
   '0xd291e7a03283640fdc51b121ac401383a46cc623':
     'https://assets.coingecko.com/coins/images/12900/small/rgt_logo.png?1603340632',
   '0x334cbb5858417aee161b53ee0d5349ccf54514cf': '/favicon.png'
-}
-
-export const TOKEN_IMAGES_BY_SYMBOL = {
-  pool: PoolIcon,
-  eth: EtherIcon
 }

@@ -22,8 +22,8 @@ export const PrizesPageHeader = (props) => {
         pool={pool}
         breadcrumbs={[
           {
-            href: '/',
-            as: '/',
+            href: '/pools',
+            as: '/pools',
             name: t('pools')
           },
           {

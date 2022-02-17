@@ -5,16 +5,16 @@ import { useOnboard } from '@pooltogether/bnc-onboard-hooks'
 import { ErrorPage } from 'lib/components/ErrorPage'
 
 class ErrorBoundary extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { hasError: false }
   }
 
-  static getDerivedStateFromError (error) {
+  static getDerivedStateFromError(error) {
     return { hasError: true }
   }
 
-  render () {
+  render() {
     if (this.state.hasError) {
       return <ErrorPage />
     }
@@ -23,11 +23,11 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-export function CustomErrorBoundary (props) {
+export function CustomErrorBoundary(props) {
   const { children } = props
   const { walletName } = useOnboard()
 
-  if (!process.env.NEXT_JS_SENTRY_DSN) {
+  if (!process.env.NEXT_PUBLIC_SENTRY_DSN) {
     return <ErrorBoundary>{children}</ErrorBoundary>
   } else {
     return (

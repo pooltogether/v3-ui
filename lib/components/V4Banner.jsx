@@ -3,6 +3,7 @@ import { NetworkIcon } from '@pooltogether/react-components'
 import { NETWORK } from '@pooltogether/utilities'
 
 import { useTranslation } from 'react-i18next'
+import { CHAINS_TO_SHOW } from 'lib/components/V4PoolCard'
 
 export const V4Banner = (props) => {
   const { t } = useTranslation()
@@ -27,15 +28,21 @@ export const V4Banner = (props) => {
 
       <div className='flex flex-col pr-4 sm:pr-8 xs:w-8/12 sm:w-7/12 lg:w-4/12 order-2 xs:order-none'>
         <div className='flex justify-center xs:justify-end text-white leading-tight text-xl xs:text-3xl order-2 xs:order-none mt-2 xs:mt-0'>
-          <div className='flex flex-row-reverse'>
-            <NetworkIcon sizeClassName='my-auto h-6 w-6 -ml-2' chainId={NETWORK.mainnet} />
-            <NetworkIcon sizeClassName='my-auto h-6 w-6' chainId={NETWORK.polygon} />
+          <div className='flex flex-row-reverse items-center'>
+            {CHAINS_TO_SHOW.map((chainId) => (
+              <NetworkIcon
+                key={chainId}
+                chainId={chainId}
+                sizeClassName='h-6 w-6'
+                className='-ml-2 last:ml-0'
+              />
+            ))}
           </div>
         </div>
 
         <div className='text-white leading-tight text-xs xs:text-xl'>
           <a
-            href={'https://v4.pooltogether.com'}
+            href={'https://app.pooltogether.com'}
             className='v4-deposit-now-btn uppercase bg-white rounded-lg font-inter tracking-tight font-semibold text-purple text-sm xs:text-xxs sm:text-sm transition py-2 sm:py-3 px-3 xs:px-1 mt-4 xs:mt-2 block text-center leading-none'
           >
             {t('depositNow', 'Deposit now')}

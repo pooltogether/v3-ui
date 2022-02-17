@@ -22,8 +22,8 @@ export const BottomNav = (props) => {
     <BottomNavContainer>
       <BottomNavLink
         shallow
-        href='/'
-        as='/'
+        href='/pools'
+        as='/pools'
         label={'Pools'}
         Link={Link}
         useRouter={useRouter}
