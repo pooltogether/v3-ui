@@ -13,7 +13,7 @@ import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
 import IconNetwork from 'assets/images/icon-network@2x.png'
 
-export function WizardSwitchNetwork (props) {
+export function WizardSwitchNetwork(props) {
   const { t } = useTranslation()
 
   const { bannerLabel, paneTitleLocizeKey, quantity, nextStep, networkMismatch, pool } = props

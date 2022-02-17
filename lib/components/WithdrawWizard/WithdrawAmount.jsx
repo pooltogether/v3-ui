@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Button } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
-import { getMaxPrecision, numberWithCommas, queryParamUpdater } from '@pooltogether/utilities'
+import { getMaxPrecision, numberWithCommas } from '@pooltogether/utilities'
 import { useRouter } from 'next/router'
 import { parseUnits } from '@ethersproject/units'
 
@@ -9,6 +9,7 @@ import { ButtonDrawer } from 'lib/components/ButtonDrawer'
 import { ErrorsBox } from 'lib/components/ErrorsBox'
 import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { WithdrawAndDepositPaneTitle } from 'lib/components/WithdrawAndDepositPaneTitle'
+
 import WalletIcon from 'assets/images/icon-wallet.svg'
 
 export const WithdrawAmount = (props) => {

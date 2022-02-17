@@ -22,7 +22,7 @@ import { COOKIE_OPTIONS, SHOW_MANAGE_LINKS } from 'lib/constants'
 import { useEnvChainIds } from 'lib/hooks/chainId/useEnvChainIds'
 
 export const PageHeader = (props) => (
-  <PageHeaderContainer Link={Link} as='/' href='/'>
+  <PageHeaderContainer Link={Link} as='/pools' href='/pools'>
     <div className='flex space-x-2'>
       <UsersAccount />
       <Settings />
@@ -138,7 +138,9 @@ const UsersAccount = () => {
     return (
       <Button
         padding='px-4 sm:px-6 py-1'
-        onClick={() => connectWallet()}
+        onClick={() => {
+          connectWallet()
+        }}
         textSize='xxxs'
         className='mx-1 my-auto'
       >

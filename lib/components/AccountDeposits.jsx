@@ -14,6 +14,7 @@ import { PodTicket } from 'lib/components/Pods/PodTicket'
 import { useUsersPodTickets } from 'lib/hooks/useUsersPodTickets'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { useV2Balances } from 'lib/hooks/useV2Balances'
+
 import TicketIcon from 'assets/images/pt-depositing-2-simplified.svg'
 
 export const AccountDeposits = () => {
@@ -68,9 +69,8 @@ const NoTicketsState = (props) => {
 
   const { isTestnets } = useIsTestnets()
 
-  const { data: poolTickets, isFetched: isPlayerTicketsFetched } = useUserTicketsFormattedByPool(
-    usersAddress
-  )
+  const { data: poolTickets, isFetched: isPlayerTicketsFetched } =
+    useUserTicketsFormattedByPool(usersAddress)
   const { data: podTickets, isFetched: isPodTicketsFetched } = useUsersPodTickets(usersAddress)
   const { data: v2Tickets, isFetched: isV2BalancesFetched } = useV2Balances(usersAddress)
 
@@ -92,7 +92,7 @@ const NoTicketsState = (props) => {
           <br />
           {t('depositInAPoolNow')}
         </div>
-        <Link href='/' as='/'>
+        <Link href='/pools' as='/pools'>
           <a className='new-btn px-3 py-1 my-3 inline-block'>{t('viewPools')}</a>
         </Link>
       </Card>
@@ -105,10 +105,8 @@ const NoTicketsState = (props) => {
 const PoolDeposits = (props) => {
   const { usersAddress } = props
 
-  const {
-    data: playerDepositData,
-    isFetched: playerTicketsIsFetched
-  } = useUserTicketsFormattedByPool(usersAddress)
+  const { data: playerDepositData, isFetched: playerTicketsIsFetched } =
+    useUserTicketsFormattedByPool(usersAddress)
 
   if (!playerTicketsIsFetched) {
     return <TicketsUILoader />

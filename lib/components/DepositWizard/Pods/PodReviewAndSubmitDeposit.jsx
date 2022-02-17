@@ -7,10 +7,11 @@ import { numberWithCommas } from '@pooltogether/utilities'
 import { useTranslation } from 'react-i18next'
 
 import PodAbi from 'abis/PodAbi'
-import Bell from 'assets/images/bell-red@2x.png'
 import { ReviewAndSubmitDeposit } from 'lib/components/DepositWizard/ReviewAndSubmitDeposit'
 import { useAllUsersPodTickets } from 'lib/hooks/useAllUsersPodTickets'
 import { useSendTransactionWrapper } from 'lib/hooks/useSendTransactionWrapper'
+
+import Bell from 'assets/images/bell-red@2x.png'
 
 export const PodReviewAndSubmitDeposit = (props) => {
   const { pod, contractAddress, quantity, nextStep } = props

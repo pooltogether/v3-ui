@@ -4,9 +4,10 @@ import { useAtom } from 'jotai'
 import { useTranslation } from 'react-i18next'
 
 import { LootBoxWon } from 'lib/components/LootBoxWon'
-import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 import { isSelfAtom } from 'lib/components/AccountUI'
 import { useLootBoxesWon } from 'lib/hooks/useLootBoxesWon'
+
+import LootBoxIllustration from 'assets/images/lootbox-closed-halo@2x.png'
 
 // This component should only show up for the currentUser viewing their own account
 export const AccountLootBoxes = (props) => {

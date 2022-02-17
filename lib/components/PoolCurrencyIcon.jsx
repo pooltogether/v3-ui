@@ -106,9 +106,11 @@ export const PoolCurrencyIcon = (props) => {
     src = TOKEN_IMAGES_BY_ADDRESS[address?.toLowerCase()]
   }
 
-  return !src ? (
-    <CoingeckoOrPlaceholder address={address} className={classes} />
-  ) : (
-    <img src={src} className={classes} />
-  )
+  if (!src) {
+    return <CoingeckoOrPlaceholder address={address} className={classes} />
+  } else if (typeof src === 'string') {
+    return <img src={src} className={classes} />
+  } else {
+    return <img src={src.src} className={classes} />
+  }
 }

@@ -8,8 +8,9 @@ import { useTranslation } from 'react-i18next'
 
 import { DepositAmount } from 'lib/components/DepositWizard/DepositAmount'
 import { Odds } from 'lib/components/Odds'
-import IconTarget from 'assets/images/icon-target@2x.png'
 import { V4DepositFlowBanner } from 'lib/components/DepositWizard/V4DepositFlowBanner'
+
+import IconTarget from 'assets/images/icon-target@2x.png'
 
 export const PoolDepositAmount = (props) => {
   const { quantity: queryQuantity, pool, chainId, tokenAddress, nextStep, form } = props

@@ -1,6 +1,6 @@
 import React from 'react'
-
 import { useTranslation } from 'react-i18next'
+
 import { displayAmountInEther } from 'lib/utils/displayAmountInEther'
 
 import GiftIcon from 'assets/images/icon-gift@2x.png'

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import PoolTogetherTrophyDetailed from 'assets/images/pooltogether-trophy--detailed.svg'
 import PoolTogetherPOOLToken from 'assets/images/pool-icon.svg'
 
-export function SignInForm (props) {
+export function SignInForm(props) {
   const { descriptionClassName, hideImg, retroClaim, postSignInCallback } = props
 
   const { t } = useTranslation()

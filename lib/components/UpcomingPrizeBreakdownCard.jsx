@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
-
 import { useTranslation } from 'react-i18next'
+
 import { PoolNumber } from 'lib/components/PoolNumber'
 import { Card, CardDetailsList } from 'lib/components/Card'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -59,7 +59,9 @@ export const UpcomingPrizeBreakdownCard = (props) => {
               }
             )}
           >
-            <img src={PrizeIllustration} className='w-40 mx-auto' />
+            <div className='w-40 mx-auto'>
+              <img src={PrizeIllustration} />
+            </div>
 
             <div>
               <h4 className='text-xl xs:text-2xl sm:text-3xl lg:text-4xl'>{`$${totalInternalAwardsUsd}`}</h4>
@@ -74,7 +76,9 @@ export const UpcomingPrizeBreakdownCard = (props) => {
             </div>
 
             <div className='flex flex-col items-center justify-center text-center w-full xs:w-5/12 h-56 xs:h-64'>
-              <img src={LootBoxIllustration} className='w-40 mx-auto -mt-8' />
+              <div className='w-40 mx-auto'>
+                <img src={LootBoxIllustration} />
+              </div>
               <div
                 className='relative'
                 style={{

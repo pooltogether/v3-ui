@@ -62,7 +62,7 @@ const LootBoxWonTable = (props) => {
     tokenIds: [award.tokenId]
   }))
 
-  const { readProvider } = useReadProvider(pool.chainId)
+  const readProvider = useReadProvider(pool.chainId)
 
   const {
     data: erc20Balances,

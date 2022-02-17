@@ -427,7 +427,7 @@ const ReceivingMessage = (props) => {
   )
 }
 
-export function ClaimRetroactiveSignInStep (props) {
+export function ClaimRetroactiveSignInStep(props) {
   const { nextStep, isActive } = props
 
   const { t } = useTranslation()
@@ -557,7 +557,7 @@ const DelegateNow = (props) => {
       <p className='text-white -mt-2 mb-4 text-base sm:text-lg mx-auto' style={{ maxWidth: 400 }}>
         {t('activateYourVotesNow')}
       </p>
-      <img src={DelegateIllustration} className='mx-auto my-4' width='137' height='120' />
+      {/* <img src={DelegateIllustration} className='mx-auto my-4' width='137' height='120' /> */}
       <a
         href='https://sybil.org/#/delegates/pool'
         onClick={showOtherButtons}

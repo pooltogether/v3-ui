@@ -28,14 +28,10 @@ export const AccountSummary = () => {
   const playerAddress = router?.query?.playerAddress
   const address = playerAddress || usersAddress
 
-  const {
-    data: totalTicketValues,
-    isFetched: playerTicketsIsFetched
-  } = usePlayerTotalPoolDepositValue(address)
-  const {
-    data: totalPodTicketValues,
-    isFetched: podTicketsIsFetched
-  } = useUsersTotalPodDepositsValue(address)
+  const { data: totalTicketValues, isFetched: playerTicketsIsFetched } =
+    usePlayerTotalPoolDepositValue(address)
+  const { data: totalPodTicketValues, isFetched: podTicketsIsFetched } =
+    useUsersTotalPodDepositsValue(address)
 
   const isFetched = playerTicketsIsFetched && podTicketsIsFetched
   const totalTicketValueUsd = isFetched
@@ -68,17 +64,10 @@ export const AccountSummary = () => {
           )}
         </div>
 
-        <div>
+        <div className={classnames('w-32 xs:w-40 ml-auto -mr-8')}>
           <img
             src={isSelf ? ChillWalletIllustration : WaterslideIllustration}
             alt={`chillin' wallet illustration`}
-            className={classnames('w-32 xs:w-40 mx-auto relative mb-4', {
-              '-mr-4': isSelf
-            })}
-            style={{
-              right: isSelf && -28,
-              top: isSelf ? 17 : 7
-            }}
           />
         </div>
       </div>

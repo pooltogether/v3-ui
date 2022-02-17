@@ -122,8 +122,8 @@ export const PoolShow = (props) => {
               pool={pool}
               breadcrumbs={[
                 {
-                  href: '/',
-                  as: '/',
+                  href: '/pools',
+                  as: '/pools',
                   name: t('pools')
                 },
                 {
@@ -245,7 +245,7 @@ const RebasingWarning = (props) => {
     <div className='text-center bg-default rounded-lg mt-4 pt-4 pb-2 xs:py-4 px-4 text-orange'>
       <div className='flex flex-col xs:flex-row items-center justify-center'>
         <div className='mb-2 xs:mb-0 xs:mr-4'>
-          <img className='shake' src={Bell} style={{ maxWidth: 20 }} />
+          <img className='shake' src={Bell} width='20' height='20' />
         </div>
         {t('rebasingPoolWarning', 'This prize pool uses a rebasing token to generate the prize.')}
       </div>
@@ -279,7 +279,7 @@ const V3Warning = (props) => {
     <div className='text-center bg-default rounded-lg mt-4 pt-4 pb-2 xs:py-4 px-4 text-orange'>
       <div className='flex flex-col xs:flex-row items-center justify-center'>
         <div className='mb-2 xs:mb-0 xs:mr-4'>
-          <img className='shake' src={Bell} style={{ maxWidth: 20 }} />
+          <img className='shake' src={Bell} width='20' height='20' />
         </div>
 
         <span>
@@ -288,7 +288,7 @@ const V3Warning = (props) => {
             components={{
               a: (
                 <a
-                  href='http://v4.pooltogether.com'
+                  href='http://app.pooltogether.com'
                   className='underline text-xs'
                   target='_blank'
                   rel='noopener noreferrer'
