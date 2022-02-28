@@ -22,6 +22,7 @@ import { V4PoolCard } from 'lib/components/V4PoolCard'
 // but don't show up on the listing
 const BADGER_PRIZE_POOL_ADDRESS = '0xc2a7dfb76e93d12a1bb1fa151b9900158090395d'
 const SOHM_PRIZE_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'
+const LP_PRIZE_POOL_ADDRESS = '0x3af7072d29adde20fc7e173a7cb9e45307d2fb0a'
 
 /**
  * Displays a list of Pools.
@@ -168,7 +169,9 @@ const PoolList = (props) => {
         .filter((pool) => filterByChainId(pool, chainIdFilter))
         .filter(
           (pool) =>
-            ![BADGER_PRIZE_POOL_ADDRESS, SOHM_PRIZE_POOL_ADDRESS].includes(pool.prizePool?.address)
+            ![BADGER_PRIZE_POOL_ADDRESS, SOHM_PRIZE_POOL_ADDRESS, LP_PRIZE_POOL_ADDRESS].includes(
+              pool.prizePool?.address
+            )
         ) || []
 
     // reorderSohmPool(filteredPools)
