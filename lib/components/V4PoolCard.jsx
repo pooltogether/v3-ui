@@ -9,7 +9,7 @@ import {
   SquareButtonTheme,
   TokenIcon
 } from '@pooltogether/react-components'
-import { NETWORK, sToMs } from '@pooltogether/utilities'
+import { msToS, NETWORK, sToMs } from '@pooltogether/utilities'
 import classnames from 'classnames'
 import { BigNumber } from 'ethers'
 import { formatUnits } from 'ethers/lib/utils'
@@ -24,7 +24,7 @@ import { NewPrizeCountdown } from 'lib/components/NewPrizeCountdown'
 import { ThemedClipSpinner } from 'lib/components/loaders/ThemedClipSpinner'
 import PrizeTierHistoryAbi from 'abis/PrizeTierHistoryAbi'
 import DrawBeaconAbi from 'abis/DrawBeaconAbi'
-import ERC20Abi from 'abis/ERC20Abi'
+import V4TicketAbi from 'abis/V4TicketAbi'
 
 const ETHEREUM_TICKET = '0xdd4d117723C257CEe402285D3aCF218E9A8236E1'
 const POLYGON_TICKET = '0x6a304dFdb9f808741244b6bfEe65ca7B3b3A6076'
@@ -232,20 +232,21 @@ export const useV4Apr = () => {
 
 const getV4Apr = async (readProviders, dailyPrizeAmountUnformatted) => {
   const totalYearlyPrizesUnformatted = dailyPrizeAmountUnformatted.mul(365)
-  const ethereumTicket = contract(ETHEREUM_TICKET, ERC20Abi, ETHEREUM_TICKET)
-  const polygonTicket = contract(POLYGON_TICKET, ERC20Abi, POLYGON_TICKET)
-  const avalancheTicket = contract(AVALANCHE_TICKET, ERC20Abi, AVALANCHE_TICKET)
+  const ethereumTicket = contract(ETHEREUM_TICKET, V4TicketAbi, ETHEREUM_TICKET)
+  const polygonTicket = contract(POLYGON_TICKET, V4TicketAbi, POLYGON_TICKET)
+  const avalancheTicket = contract(AVALANCHE_TICKET, V4TicketAbi, AVALANCHE_TICKET)
 
-  const ethereumResponse = await batch(readProviders[NETWORK.mainnet], ethereumTicket.totalSupply())
-  const polygonResponse = await batch(readProviders[NETWORK.polygon], polygonTicket.totalSupply())
+  const timestamp = Math.round(msToS(Date.now()))
+  const ethereumResponse = await batch(readProviders[NETWORK.mainnet], ethereumTicket.getTotalSupplyAt(timestamp))
+  const polygonResponse = await batch(readProviders[NETWORK.polygon], polygonTicket.getTotalSupplyAt(timestamp))
   const avalancheResponse = await batch(
     readProviders[NETWORK.avalanche],
-    avalancheTicket.totalSupply()
+    avalancheTicket.getTotalSupplyAt(timestamp)
   )
 
-  const ethereumTotalSupplyUnformatted = ethereumResponse[ETHEREUM_TICKET].totalSupply[0]
-  const polygonTotalSupplyUnformatted = polygonResponse[POLYGON_TICKET].totalSupply[0]
-  const avalancheTotalSupplyUnformatted = avalancheResponse[AVALANCHE_TICKET].totalSupply[0]
+  const ethereumTotalSupplyUnformatted = ethereumResponse[ETHEREUM_TICKET].getTotalSupplyAt[0]
+  const polygonTotalSupplyUnformatted = polygonResponse[POLYGON_TICKET].getTotalSupplyAt[0]
+  const avalancheTotalSupplyUnformatted = avalancheResponse[AVALANCHE_TICKET].getTotalSupplyAt[0]
 
   const totalTotalSupplyUnformatted = ethereumTotalSupplyUnformatted
     .add(polygonTotalSupplyUnformatted)
