@@ -23,6 +23,15 @@ import { V4PoolCard } from 'lib/components/V4PoolCard'
 const BADGER_PRIZE_POOL_ADDRESS = '0xc2a7dfb76e93d12a1bb1fa151b9900158090395d'
 const SOHM_PRIZE_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'
 const LP_PRIZE_POOL_ADDRESS = '0x3af7072d29adde20fc7e173a7cb9e45307d2fb0a'
+const BINANCE_WBNB_PRIZE_POOL_ADDRESS = '0x2f4fc07e4bd097c68774e5bdaba98d948219f827'
+const BINANCE_CAKE_PRIZE_POOL_ADDRESS = '0x06d75eb5ca4da7f7c7a043714172cf109d07a5f8'
+const POOL_FILTER_LIST = [
+  BADGER_PRIZE_POOL_ADDRESS,
+  SOHM_PRIZE_POOL_ADDRESS,
+  LP_PRIZE_POOL_ADDRESS,
+  BINANCE_WBNB_PRIZE_POOL_ADDRESS,
+  BINANCE_CAKE_PRIZE_POOL_ADDRESS
+]
 
 /**
  * Displays a list of Pools.
@@ -167,12 +176,7 @@ const PoolList = (props) => {
       pools
         ?.sort((a, b) => b.prize.weeklyTotalValueUsdScaled.sub(a.prize.weeklyTotalValueUsdScaled))
         .filter((pool) => filterByChainId(pool, chainIdFilter))
-        .filter(
-          (pool) =>
-            ![BADGER_PRIZE_POOL_ADDRESS, SOHM_PRIZE_POOL_ADDRESS, LP_PRIZE_POOL_ADDRESS].includes(
-              pool.prizePool?.address
-            )
-        ) || []
+        .filter((pool) => !POOL_FILTER_LIST.includes(pool.prizePool?.address)) || []
 
     // reorderSohmPool(filteredPools)
 
