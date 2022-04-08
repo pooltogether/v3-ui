@@ -18,28 +18,9 @@ export const PoolRow = (props) => {
   const { pool } = props
 
   const { t } = useTranslation()
-  const router = useRouter()
 
   const symbol = pool.symbol
-
-  const ticker = pool.tokens.underlyingToken.symbol
-  const tickerUpcased = ticker?.toUpperCase()
   const networkNiceName = chainIdToNetworkName(Number(pool.chainId)).toLowerCase()
-
-  const handleGetTicketsClick = (e) => {
-    e.preventDefault()
-
-    Cookies.set(WIZARD_REFERRER_HREF, '/', COOKIE_OPTIONS)
-    Cookies.set(WIZARD_REFERRER_AS_PATH, `/`, COOKIE_OPTIONS)
-
-    router.push(
-      `/pools/[networkName]/[symbol]/deposit`,
-      `/pools/${pool.networkName}/${pool.symbol}/deposit`,
-      {
-        shallow: true
-      }
-    )
-  }
 
   const ViewPoolDetailsButton = (props) => (
     <button
@@ -110,16 +91,13 @@ export const PoolRow = (props) => {
               hoverBorder='green'
               hoverText='primary'
               hoverBg='green'
-              onClick={handleGetTicketsClick}
               width='w-full'
               textSize='xxxs'
               className='mt-3'
               padding='py-1'
               disabled={!Boolean(pool.symbol)}
             >
-              {t('depositTicker', {
-                ticker: tickerUpcased
-              })}
+              {t('viewPool')}
             </Button>
 
             {pool.tokenFaucets?.length === 0 && (

@@ -37,10 +37,18 @@ import { getNetworkNiceNameByChainId } from 'lib/utils/networks'
 
 import Bell from 'assets/images/bell-yellow@2x.png'
 import { PRIZE_POOL_TYPES } from '@pooltogether/current-pool-data'
+import { NETWORK } from '@pooltogether/utilities'
+import classNames from 'classnames'
 
 const SOHM_PRIZE_POOL_ADDRESS = '0xeab695a8f5a44f583003a8bc97d677880d528248'
 const ETH_POOL_PRIZE_POOL_ADDRESS = '0x396b4489da692788e327e2e4b2b0459a5ef26791'
 const POLYGON_POOL_PRIZE_POOL_ADDRESS = '0x2ac049f07d56ed04f84ff80022a71a1a2d8ce19b'
+
+const poolsToAllow = [
+  SOHM_PRIZE_POOL_ADDRESS,
+  ETH_POOL_PRIZE_POOL_ADDRESS,
+  POLYGON_POOL_PRIZE_POOL_ADDRESS
+]
 
 export const PoolShow = (props) => {
   const { t } = useTranslation()
@@ -78,6 +86,9 @@ export const PoolShow = (props) => {
       }
     )
   }
+
+  const isDepositsEnabled =
+    chainId === NETWORK.celo || poolsToAllow.includes(pool.prizePool?.address)
 
   return (
     <>
@@ -138,13 +149,18 @@ export const PoolShow = (props) => {
             />
           </div>
 
-          <div className='flex sm:w-3/12 lg:w-5/12 sm:justify-end items-start mt-4 sm:mt-0'>
+          <div
+            className={classNames(
+              'flex sm:w-3/12 lg:w-5/12 sm:justify-end items-start mt-4 sm:mt-0',
+              { 'cursor-not-allowed': !isDepositsEnabled }
+            )}
+          >
             <Button
               id='_getTickets'
               width='w-full sm:w-full lg:w-6/12'
               textSize='lg'
               onClick={handleGetTicketsClick}
-              disabled={!Boolean(pool.symbol)}
+              disabled={!Boolean(pool.symbol) || !isDepositsEnabled}
             >
               {t('deposit')}
             </Button>
@@ -153,7 +169,7 @@ export const PoolShow = (props) => {
 
         <RebasingWarning pool={pool} />
 
-        <V3Warning pool={pool} />
+        <V3Warning pool={pool} isDepositsEnabled={isDepositsEnabled} />
 
         <PoolPrizeCard pool={pool} />
 
@@ -263,15 +279,9 @@ const RebasingWarning = (props) => {
 }
 
 const V3Warning = (props) => {
-  const { pool } = props
+  const { isDepositsEnabled } = props
 
-  const poolsToHideBanner = [
-    SOHM_PRIZE_POOL_ADDRESS,
-    ETH_POOL_PRIZE_POOL_ADDRESS,
-    POLYGON_POOL_PRIZE_POOL_ADDRESS
-  ]
-
-  if (poolsToHideBanner.includes(pool.prizePool?.address)) {
+  if (isDepositsEnabled) {
     return null
   }
 
