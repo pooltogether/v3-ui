@@ -1,19 +1,23 @@
+/assets/images
+/public
+next.config.js
+postcss.config.js
+tailwind.config.js
+yarn.lock
+package.json
+_redirects
+.babelrc
+post-export.js
+postcss.config.js
+PT-Ref-Pool-UI.code-workspace
+tailwind.config.js
 
 *.md
 
-.circleci
 .next
+.envrc
 .nvmvrc
 .envrc.example
-
-/abis
-/assets/images
-/functions-out
-/i18n
-/node_modules
-/out
-/public
-/scripts
 
 # dependencies
 /node_modules
@@ -44,16 +48,3 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
-
-/public
-next.config.js
-postcss.config.js
-tailwind.config.js
-yarn.lock
-package.json
-_redirects
-.babelrc
-post-export.js
-postcss.config.js
-PT-Ref-Pool-UI.code-workspace
-tailwind.config.js

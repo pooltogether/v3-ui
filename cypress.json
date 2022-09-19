@@ -1,7 +1,0 @@
-{
-  "screenshotOnRunFailure": false,
-  "video": false,
-  "projectId": "o139xh",
-  "baseUrl": "http://localhost:3000",
-  "defaultCommandTimeout": 50000
-}
