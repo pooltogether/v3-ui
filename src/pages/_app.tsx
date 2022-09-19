@@ -10,8 +10,6 @@ import '@pooltogether/react-components/dist/globals.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-spring-bottom-sheet/dist/style.css'
 import '@styles/bottomSheet.css'
-import '@styles/tools.css'
-import '@styles/antd-custom.css'
 
 const App = (props: AppProps) => {
   return <AppContainer {...props} />
