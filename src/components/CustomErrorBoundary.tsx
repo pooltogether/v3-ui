@@ -1,7 +1,7 @@
 import { ErrorLinks } from '@pages/404'
 import { ErrorBoundary as SentryErrorBoundary } from '@sentry/react'
+import { useTranslation } from 'next-i18next'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 
 export function CustomErrorBoundary(props) {
   const { children } = props

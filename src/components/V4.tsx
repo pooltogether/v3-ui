@@ -1,9 +1,9 @@
 import { NetworkIcon } from '@pooltogether/react-components'
 import { CHAIN_ID } from '@pooltogether/wallet-connection'
+import { useTranslation } from 'next-i18next'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 
-export const V4 = (props) => {
+export const V4 = () => {
   const { t } = useTranslation()
 
   return (

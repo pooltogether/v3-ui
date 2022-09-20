@@ -1,7 +1,6 @@
 import { DeprecatedWarning } from '@components/DeprecatedWarning'
 import Layout from '@components/Layout'
 import { PagePadding } from '@components/Layout/PagePadding'
-import { Links } from '@components/Links'
 import { V4 } from '@components/V4'
 import { WhatsV4 } from '@components/WhatsV4'
 import { LoadingScreen } from '@pooltogether/react-components'
@@ -36,7 +35,6 @@ const Home: NextPage = () => {
             <V4 />
             <DeprecatedWarning />
             <WhatsV4 />
-            <Links />
           </PagePadding>
         </Layout>
       </Suspense>
