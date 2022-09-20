@@ -17,7 +17,7 @@ export const WhatsV4 = () => {
           </li>
           <li>
             <ExternalLink href='https://app.pooltogether.com/deposit'>
-              {t('depositIntoV4 ')}
+              {t('depositIntoV4')}
             </ExternalLink>
           </li>
         </ol>
