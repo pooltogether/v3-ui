@@ -31,29 +31,16 @@ export const DeprecatedWarning = () => {
           }}
         />
       </p>
-      <SquareLink href='https://app.pooltogether.com/account' className='mt-4'>
-        <span>{t('withdraw')}</span>
-        <FeatherIcon icon='external-link' className='ml-1 my-auto w-5 h-5' />
-      </SquareLink>
-      <SquareLink href='https://tools.pooltogether.com/token-faucet' className='mt-4'>
-        <span>{t('rewards')}</span>
-        <FeatherIcon icon='external-link' className='ml-1 my-auto w-5 h-5' />
-      </SquareLink>
-      <h4 className='mt-8'>{t('whyQuestion')}</h4>
-      <p>
-        <Trans
-          i18nKey={'v3DeprecationExplainer'}
-          components={{
-            link1: (
-              <ExternalLink
-                theme={LinkTheme.accent}
-                href='https://thegraph.com/blog/sunsetting-hosted-service'
-                children={undefined}
-              />
-            )
-          }}
-        />
-      </p>
+      <div className='grid sm:grid-cols-2 gap-x-4'>
+        <SquareLink href='https://app.pooltogether.com/account' className='mt-4'>
+          <span>{t('withdraw')}</span>
+          <FeatherIcon icon='external-link' className='ml-1 my-auto w-5 h-5' />
+        </SquareLink>
+        <SquareLink href='https://tools.pooltogether.com/token-faucet' className='mt-4'>
+          <span>{t('rewards')}</span>
+          <FeatherIcon icon='external-link' className='ml-1 my-auto w-5 h-5' />
+        </SquareLink>
+      </div>
     </div>
   )
 }

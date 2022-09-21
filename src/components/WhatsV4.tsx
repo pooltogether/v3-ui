@@ -11,12 +11,12 @@ export const WhatsV4 = () => {
       <p>
         <ol className='pl-8 list-decimal'>
           <li>
-            <ExternalLink href='https://app.pooltogether.com/account'>
+            <ExternalLink theme={LinkTheme.accent} href='https://app.pooltogether.com/account'>
               {t('withdrawFromV3')}
             </ExternalLink>
           </li>
           <li>
-            <ExternalLink href='https://app.pooltogether.com/deposit'>
+            <ExternalLink theme={LinkTheme.accent} href='https://app.pooltogether.com/deposit'>
               {t('depositIntoV4')}
             </ExternalLink>
           </li>
