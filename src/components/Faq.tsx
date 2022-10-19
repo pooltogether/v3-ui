@@ -18,6 +18,13 @@ export const Faq = () => {
                   href='https://pooltogether.com/discord'
                   children={undefined}
                 />
+              ),
+              link2: (
+                <ExternalLink
+                  theme={LinkTheme.accent}
+                  href='https://v3.docs.pooltogether.com'
+                  children={undefined}
+                />
               )
             }}
           />
