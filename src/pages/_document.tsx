@@ -4,7 +4,7 @@
 import { Html, Head, Main, NextScript } from 'next/document'
 
 export default function Document() {
-  const title = 'PoolTogether - v4'
+  const title = 'PoolTogether - v3'
   const url = `https://pooltogether.com`
   const description = `A new way to save money and have a chance to win every week.`
   const keywords = 'ethereum polygon avalanche prize savings win save protocol'

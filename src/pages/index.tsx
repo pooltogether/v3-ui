@@ -1,4 +1,6 @@
 import { DeprecatedWarning } from '@components/DeprecatedWarning'
+import { Faq } from '@components/Faq'
+import { Help } from '@components/Help'
 import Layout from '@components/Layout'
 import { PagePadding } from '@components/Layout/PagePadding'
 import { V4 } from '@components/V4'
@@ -35,6 +37,8 @@ const Home: NextPage = () => {
             <V4 />
             <DeprecatedWarning />
             <WhatsV4 />
+            <Help />
+            <Faq />
           </PagePadding>
         </Layout>
       </Suspense>
