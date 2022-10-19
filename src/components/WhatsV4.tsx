@@ -1,10 +1,16 @@
 import { ExternalLink, LinkTheme } from '@pooltogether/react-components'
+import classNames from 'classnames'
 import { useTranslation } from 'next-i18next'
 
-export const WhatsV4 = () => {
+export const WhatsV4 = (props: { className?: string }) => {
   const { t } = useTranslation()
   return (
-    <div className='rounded-xl bg-opacity-10 bg-actually-black p-4 space-y-4'>
+    <div
+      className={classNames(
+        'rounded-xl bg-opacity-10 bg-actually-black p-4 space-y-4',
+        props.className
+      )}
+    >
       {/* <h4>{t('whatIsV4Question')}</h4> */}
       <div>
         <h3>PoolTogether Version 4</h3>

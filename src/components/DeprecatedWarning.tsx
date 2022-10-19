@@ -1,11 +1,12 @@
 import { ExternalLink, LinkTheme, SquareLink } from '@pooltogether/react-components'
+import classNames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { Trans, useTranslation } from 'next-i18next'
 
-export const DeprecatedWarning = () => {
+export const DeprecatedWarning = (props: { className?: string }) => {
   const { t } = useTranslation()
   return (
-    <div className='rounded-xl bg-opacity-10 bg-actually-black p-4'>
+    <div className={classNames('rounded-xl bg-opacity-10 bg-actually-black p-4', props.className)}>
       <h3 className='items-center'>
         <FeatherIcon icon='alert-triangle' className='text-gradient-yellow inline-flex mb-1 mr-2' />
         <span>{t('v3InterfaceHasBeenDeprecated')}</span>

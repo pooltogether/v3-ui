@@ -33,12 +33,12 @@ const Home: NextPage = () => {
       </Head>
       <Suspense fallback={<LoadingScreen />}>
         <Layout>
-          <PagePadding className='flex flex-col space-y-8'>
+          <PagePadding className='flex flex-col'>
             <V4 />
-            <DeprecatedWarning />
-            <WhatsV4 />
-            <Help />
-            <Faq />
+            <DeprecatedWarning className='mt-8' />
+            <WhatsV4 className='mt-8' />
+            <Help className='mt-8' />
+            <Faq className='mt-20' />
           </PagePadding>
         </Layout>
       </Suspense>
