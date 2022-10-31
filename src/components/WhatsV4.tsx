@@ -25,12 +25,14 @@ export const WhatsV4 = (props: { className?: string }) => {
             </ExternalLink>
           </li>
           <li>
-            <ExternalLink
-              theme={LinkTheme.accent}
-              href='https://tools.pooltogether.com/token-faucet'
-            >
-              {t('claimV3Rewards')}
-            </ExternalLink>
+            <div className='flex'>
+              <ExternalLink
+                theme={LinkTheme.accent}
+                href='https://tools.pooltogether.com/token-faucet'
+              >
+                {t('claimV3Rewards')}
+              </ExternalLink>
+            </div>
           </li>
           <li>
             <ExternalLink theme={LinkTheme.accent} href='https://app.pooltogether.com/deposit'>
