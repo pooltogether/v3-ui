@@ -7,7 +7,7 @@ export const WhatsV4 = (props: { className?: string }) => {
   return (
     <div
       className={classNames(
-        'rounded-xl bg-opacity-10 bg-actually-black p-4 space-y-4',
+        'rounded-xl bg-white bg-opacity-100 dark:bg-opacity-10 dark:bg-actually-black p-4 space-y-4',
         props.className
       )}
     >
@@ -20,14 +20,17 @@ export const WhatsV4 = (props: { className?: string }) => {
         <span className=''>{t('v3MigrateQuestion')}</span>
         <ol className='pl-8 list-decimal'>
           <li>
-            <ExternalLink theme={LinkTheme.accent} href='https://app.pooltogether.com/account'>
+            <ExternalLink
+              colorClassName='transition-color text-pt-teal-dark dark:text-pt-teal hover:text-pt-purple-darkest dark:hover:text-white'
+              href='https://app.pooltogether.com/account'
+            >
               {t('withdrawFromV3')}
             </ExternalLink>
           </li>
           <li>
             <div className='flex'>
               <ExternalLink
-                theme={LinkTheme.accent}
+                colorClassName='transition-color text-pt-teal-dark dark:text-pt-teal hover:text-pt-purple-darkest dark:hover:text-white'
                 href='https://tools.pooltogether.com/token-faucet'
               >
                 {t('claimV3Rewards')}
@@ -35,7 +38,10 @@ export const WhatsV4 = (props: { className?: string }) => {
             </div>
           </li>
           <li>
-            <ExternalLink theme={LinkTheme.accent} href='https://app.pooltogether.com/deposit'>
+            <ExternalLink
+              colorClassName='transition-color text-pt-teal-dark dark:text-pt-teal hover:text-pt-purple-darkest dark:hover:text-white'
+              href='https://app.pooltogether.com/deposit'
+            >
               {t('depositIntoV4')}
             </ExternalLink>
           </li>

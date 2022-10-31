@@ -7,7 +7,7 @@ export const Faq = (props: { className?: string }) => {
   return (
     <div
       className={classNames(
-        'rounded-xl bg-opacity-10 bg-actually-black p-4 space-y-4',
+        'rounded-xl bg-white bg-opacity-100 dark:bg-opacity-10 dark:bg-actually-black p-4 space-y-4',
         props.className
       )}
     >

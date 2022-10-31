@@ -5,7 +5,12 @@ import { Trans, useTranslation } from 'next-i18next'
 export const Help = (props: { className?: string }) => {
   const { t } = useTranslation()
   return (
-    <div className={classNames('rounded-xl bg-opacity-10 bg-actually-black p-4', props.className)}>
+    <div
+      className={classNames(
+        'rounded-xl bg-white bg-opacity-100 dark:bg-opacity-10 dark:bg-actually-black p-4',
+        props.className
+      )}
+    >
       <h4>{t('needHelp')}</h4>
       <p>
         <Trans

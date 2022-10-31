@@ -6,7 +6,12 @@ import { Trans, useTranslation } from 'next-i18next'
 export const DeprecatedWarning = (props: { className?: string }) => {
   const { t } = useTranslation()
   return (
-    <div className={classNames('rounded-xl bg-opacity-10 bg-actually-black p-4', props.className)}>
+    <div
+      className={classNames(
+        'rounded-xl bg-white bg-opacity-100 dark:bg-opacity-10 dark:bg-actually-black p-4',
+        props.className
+      )}
+    >
       <h3 className='items-center'>
         <FeatherIcon icon='alert-triangle' className='text-gradient-yellow inline-flex mb-1 mr-2' />
         <span>{t('v3InterfaceHasBeenDeprecated')}</span>
