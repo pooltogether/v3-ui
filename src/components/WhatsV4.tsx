@@ -16,12 +16,20 @@ export const WhatsV4 = (props: { className?: string }) => {
         <h3>PoolTogether Version 4</h3>
         <p>{t('v4SimpleExplainer')}</p>
       </div>
-      <div className='text-2xl font-bold'>
+      <div className='text-xl font-bold'>
         <span className=''>{t('v3MigrateQuestion')}</span>
         <ol className='pl-8 list-decimal'>
           <li>
             <ExternalLink theme={LinkTheme.accent} href='https://app.pooltogether.com/account'>
               {t('withdrawFromV3')}
+            </ExternalLink>
+          </li>
+          <li>
+            <ExternalLink
+              theme={LinkTheme.accent}
+              href='https://tools.pooltogether.com/token-faucet'
+            >
+              {t('claimV3Rewards')}
             </ExternalLink>
           </li>
           <li>
