@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "paths": {
+      "@abis/*": ["./src/abis/*"],
+      "@components/*": ["./src/components/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@interfaces/*": ["./src/interfaces/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@atoms/*": ["./src/atoms/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@twabDelegator/*": ["./src/tools/TwabDelegator/*"],
+      "@twabRewards/*": ["./src/tools/TwabRewards/*"],
+      "@liquidator/*": ["./src/tools/Liquidator/*"],
+      "@tokenFaucet/*": ["./src/tools/TokenFaucet/*"]
+    }
+  },
+  "include": ["src", "next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+  "exclude": ["node_modules"]
+}

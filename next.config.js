@@ -1,56 +1,76 @@
-const chalk = require("chalk")
-const _ = require('lodash')
+const path = require('path');
+const { i18n } = require('./next-i18next.config');
+const { withSentryConfig } = require('@sentry/nextjs');
 
-const isProduction = process.env.NODE_ENV === 'production'
+const sentryWebpackPluginOptions = {
+  // Additional config options for the Sentry Webpack plugin. Keep in mind that
+  // the following options are set automatically, and overriding them is not
+  // recommended:
+  //   release, url, org, project, authToken, configFile, stripPrefix,
+  //   urlPrefix, include, ignore
+
+  silent: true, // Suppresses all logs
+  // For all available options, see:
+  // https://github.com/getsentry/sentry-webpack-plugin#options.
+};
 
 const nextConfig = {
-  generateEtags: false,
-  images: {
-    disableStaticImages: true, // disable next/image so images are imported properly for `next export`
-  },
+  i18n,
+  reactStrictMode: true,
+  productionBrowserSourceMaps: true,
   async redirects() {
     return [
       {
-        source: '/prizes',
-        destination: '/prizes/mainnet/PT-cDAI',
+        source: '/pools/:id*',
+        destination: '/',
         permanent: true,
       },
       {
-        source: '/',
-        destination: '/pools',
-        permanent: false,
-      }
+        source: '/account/:id*',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/players/:id*',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/prizes/:id*',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/pods/:id*',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/rewards/:id*',
+        destination: '/',
+        permanent: true,
+      },
     ]
   },
-  publicRuntimeConfig: {
-    locizeProjectId: process.env.NEXT_PUBLIC_LOCIZE_PROJECT_ID,
-    locizeApiKey: process.env.NEXT_PUBLIC_LOCIZE_DEV_API_KEY,
-    locizeVersion: process.env.NEXT_PUBLIC_LOCIZE_VERSION
-  },
   webpack(config, options) {
-    return {
-      ...config,
-      module: {
-        ...config.module,
-        rules: [
-          ...config.module.rules,
-          {
-            test: /\.png/,
-            type: 'asset/resource'
-          },
-          {
-            test: /\.svg/,
-            type: 'asset/resource'
-          }
-        ]
-      }
-    }
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@abis': path.resolve(__dirname, './src/abis'),
+      '@atoms': path.resolve(__dirname, './src/atoms'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@constants': path.resolve(__dirname, './src/constants'),
+      '@hooks': path.resolve(__dirname, './src/hooks'),
+      '@pages': path.resolve(__dirname, './src/pages'),
+      '@interfaces': path.resolve(__dirname, './src/interfaces'),
+      '@utils': path.resolve(__dirname, './src/utils'),
+      '@styles': path.resolve(__dirname, './src/styles'),
+      '@twabDelegator': path.resolve(__dirname, './src/tools/TwabDelegator'),
+      '@twabRewards': path.resolve(__dirname, './src/tools/TwabRewards'),
+      '@liquidator': path.resolve(__dirname, './src/tools/Liquidator'),
+      '@tokenFaucet': path.resolve(__dirname, './src/tools/TokenFaucet')
+    };
+    return config
   }
 }
 
-console.log('')
-console.log(chalk.green('Using next.js config options:'))
-console.log(nextConfig)
-console.log('')
-
-module.exports = nextConfig
+module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);

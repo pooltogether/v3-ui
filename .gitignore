@@ -1,5 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+.yalc/**
+yalc.lock
+
+/public/locales
+
 # dependencies
 .envrc
 /node_modules
@@ -37,13 +42,18 @@ yarn-error.log*
 dist
 out
 functions-out
-public/static/locales/*
-public/static/locales
 
-# cypress
-/cypress/screenshots/
-/cypress/videos/
+# Local Netlify folder
+.netlify
 
-# yalc
-yalc.lock
-.yalc
+# Sentry
+.sentryclirc
+
+# Sentry
+.sentryclirc
+
+# Sentry
+.sentryclirc
+
+# Sentry
+.sentryclirc
