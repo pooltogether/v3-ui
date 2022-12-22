@@ -21,7 +21,7 @@ export const Faq = (props: { className?: string }) => {
               link1: (
                 <ExternalLink
                   theme={LinkTheme.accent}
-                  href='https://pooltogether.com/discord'
+                  href='https://app.pooltogether.com/account'
                   children={undefined}
                 />
               ),
